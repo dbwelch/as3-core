@@ -30,7 +30,11 @@ package com.ffsys.utils.collections.strings {
 			return value;
 		}
 		
-		public function getStringById( id:String, list:String = null ):String
+		/**
+		*	@inheritDoc	
+		*/
+		public function findStringById(
+			id:String, list:String ):String
 		{
 			//deal with accessing specific lists
 			var value:String = null;
@@ -49,9 +53,7 @@ package com.ffsys.utils.collections.strings {
 					{
 						return value;
 					}
-					
 				}
-				
 			}
 			
 			if( _data[ id ] )
@@ -64,14 +66,36 @@ package com.ffsys.utils.collections.strings {
 				return this[ id ];
 			}
 			
-			//now try to see whether we can find it in any nested collections
-			for each( collection in _collections )
+			return value;	
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getStringById(
+			id:String, list:String = null ):String
+		{
+			var value:String = findStringById( id, list );
+
+			//look in child collections
+			if( !value )
 			{
-				value = collection.getStringById( id, list );
-				if( value )
+				var collection:IStringCollection = null;
+			
+				//now try to see whether we can find it in any nested collections
+				for( var i:int = 0;i < _collections.length;i++ )
 				{
-					return value;
+					collection = IStringCollection( _collections[ i ] );
+					value = collection.findStringById( id, list );
+					if( value )
+					{
+						return value;
+					}
 				}
+			
+			}else
+			{
+				return value;
 			}
 			
 			throw new Error( "StringCollection: could not locate string with id : " + id );
