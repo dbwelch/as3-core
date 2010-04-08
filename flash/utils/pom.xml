@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>flash</artifactId>
+		<groupId>com.ffsys</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.ffsys</groupId>
+	<artifactId>utils</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>utils</name>
+	<packaging>pom</packaging>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<modules>
+		<module>address</module>
+		<module>array</module>	
+		<module>assert</module>
+		<module>boolean</module>
+		<module>byte</module>
+		<module>collections</module>
+		<module>display</module>
+		<module>flex</module>
+		<module>history</module>
+		<module>identifier</module>
+		<module>inspector</module>
+		<module>locale</module>
+		<module>merge</module>
+		<module>number</module>
+		<module>object</module>
+		<module>random</module>
+		<module>regex</module>
+		<module>string</module>
+		<module>substitution</module>
+		<module>xml</module>
+	</modules>
+</project>

@@ -1,0 +1,254 @@
+package com.ffsys.utils.collections.data {
+	
+	import flash.utils.Dictionary;
+	import flash.utils.flash_proxy;
+	import flash.utils.Proxy;
+	
+	import com.ffsys.utils.string.ClassUtils;
+	
+	import com.ffsys.utils.locale.ILocale;	
+	
+	import com.ffsys.utils.inspector.IObjectInspector;
+	import com.ffsys.utils.inspector.ObjectInspector;
+	import com.ffsys.utils.inspector.ObjectInspectorOptions;
+	import com.ffsys.utils.inspector.IObjectInspectorClassName;
+	
+	/**
+	*	Represents a collection of Strings that behave
+	*	in a dynamic fashion.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  24.07.2007
+	*/
+	dynamic public class AbstractDataCollection extends Proxy
+		implements 	IDataCollection,
+					IObjectInspector,
+		 			IObjectInspectorClassName {
+			
+		//stores nested data collections
+		protected var _collections:Array;
+			
+		protected var _collection:IDataCollection;
+		
+		protected var _data:Dictionary;
+		
+		protected var _id:String;
+		
+		protected var _dataTypes:Array;
+		
+		private var _locale:ILocale;
+		
+		public function AbstractDataCollection( dataTypes:Array = null )
+		{
+			super();
+			_data = new Dictionary( true );
+			_collections = new Array();
+			
+			if( !dataTypes )
+			{
+				dataTypes = new Array();
+			}
+			
+			this.dataTypes = dataTypes;
+			
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get locale():ILocale
+		{
+			return _locale;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function set locale( locale:ILocale ):void
+		{
+			_locale = locale;
+		}
+		
+		public function set dataTypes( val:Array ):void
+		{	
+			_dataTypes = val;
+		}
+		
+		public function get dataTypes():Array
+		{
+			return _dataTypes;
+		}
+		
+		public function set id( val:String ):void
+		{
+			_id = val;
+		}
+		
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		
+		public function set collection( val:IDataCollection ):void
+		{
+			_collection = val;
+		}
+		
+		public function get collection():IDataCollection
+		{
+			return _collection;
+		}
+		
+		public function getCollectionById( id:String ):IDataCollection
+		{
+			var value:IDataCollection = null;
+			
+			for each( value in _collections )
+			{
+				if( value.id == id )
+				{
+					return value;
+				}
+			}
+			
+			//look in our parent collection
+			if( collection )
+			{
+				return collection.getCollectionById( id );
+			}
+			
+			return null;
+		}
+		
+	    override flash_proxy function hasProperty( name:* ):Boolean
+		{
+			return ( _data[ name ] != null );
+	    }
+		
+	    override flash_proxy function getProperty( name:* ):*
+		{
+			if( !_data[ name ] )
+			{
+				//we've got a collection with an id
+				//that matches the property name
+				//so we return that
+				var collection:IDataCollection = getCollectionById( name );
+				
+				if( collection )
+				{
+					return collection;
+				}
+				
+				throw new Error( "IDataCollection: could not locate property with id : " + name );
+			}
+			
+			return _data[ name ];
+	    }
+		
+	    override flash_proxy function setProperty( name:*, value:* ):void
+		{
+			if( !ClassUtils.isType( dataTypes, value ) )
+			{
+				throw new Error(
+					"IDataCollection: unacceptable data type '" +
+					value + "' must be one of " + dataTypes );
+			}
+			
+			if( value is IDataCollection )
+			{
+				( value as IDataCollection ).collection = this;
+				
+				_collections.push( value );
+				
+			}else
+			{
+				_data[ name ] = value;
+			}
+	    }
+		
+		override flash_proxy function callProperty( methodName:*, ...args ):*
+		{
+			//
+		}
+		
+		/*
+		*	IObjectInspector implementation.	
+		*/
+		
+		public function getOutputClassName():String
+		{
+			return "AbstractDataCollection";
+		}
+		
+		public function getCommonStringOutputMethods():Object
+		{
+			var output:Object = new Object();
+			return output;
+		}
+
+		public function getCommonStringOutputProperties():Object
+		{
+			var output:Object = new Object();
+			
+			var key:String;
+			var value:Object;
+			
+			for( key in _data )
+			{
+				value = _data[ key ];
+				
+				if( value is String )
+				{
+					output[ key ] = _data[ key ];
+				}
+			}
+			
+			return output;
+		}
+
+		public function getCommonStringOutputComposites():Array
+		{
+			return _collections;
+		}
+
+		public function getDefaultStringOutputOptions():ObjectInspectorOptions
+		{
+			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
+			return output;
+		}
+
+		public function toSimpleString():String
+		{
+			var output:ObjectInspector = new ObjectInspector(
+				this, getDefaultStringOutputOptions() );
+				
+			return output.getSimpleInspection();
+		}
+
+		public function toObjectString():String
+		{
+			var output:ObjectInspector = new ObjectInspector(
+				this, getDefaultStringOutputOptions() );
+			
+			//pass in the default methods, properties and composites
+			output.methods = getCommonStringOutputMethods();
+			output.properties = getCommonStringOutputProperties();
+			output.composites = getCommonStringOutputComposites();
+			return output.getComplexInspection();
+		}
+		
+		public function getObjectString( complex:Boolean = false ):String
+		{
+			return complex ? toObjectString() : toSimpleString();
+		}
+
+		public function toString():String
+		{
+			return getObjectString( true );
+		}
+	}
+}

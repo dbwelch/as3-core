@@ -1,0 +1,52 @@
+8
+
+dir
+647
+svn+ssh://cyberfunk@freeform.xcx.co.uk/home/svn/repos/as3_classes/trunk/resources/src/com/ffsys/io/xml/types
+svn+ssh://cyberfunk@freeform.xcx.co.uk/home/svn/repos/as3_classes
+
+
+
+2008-02-10T01:13:52.989291Z
+593
+cyberfunk
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+aeff1530-102a-db11-b867-00e08133539a
+
+CDataString.as
+file
+
+
+
+
+2008-02-09T19:28:11.000000Z
+438f3f0a83f0939712427f97794f9c8e
+2008-02-10T01:13:52.989291Z
+593
+cyberfunk
+
+XmlAttribute.as
+file
+
+
+
+
+2008-02-09T19:28:16.000000Z
+cab7d930dfd5ead149650ce291aa6f71
+2008-02-10T01:13:52.989291Z
+593
+cyberfunk
+
