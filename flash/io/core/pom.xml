@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>io</artifactId>
 		<groupId>com.ffsys</groupId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.io</groupId>
 	<artifactId>core</artifactId>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>core</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
