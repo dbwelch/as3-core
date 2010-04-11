@@ -35,8 +35,11 @@
 		<module>flash</module>
 	</modules>
 	<build>
-		<sourceDirectory>src/main/flash</sourceDirectory>
-		<testSourceDirectory>src/test/flash</testSourceDirectory>		
+		<!--
+		<sourceDirectory>src/main/flex</sourceDirectory>
+		<testSourceDirectory>src/test/flex</testSourceDirectory>
+		-->
+		
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -115,9 +118,13 @@
 					<locales>
 						<locale>en_US</locale>
 					</locales>
+					
+					<!--
 					<sourcePaths>
 						<path>${basedir}/src/main/flash</path>
 					</sourcePaths>
+					-->
+					
 					<headlessServer>true</headlessServer>
 					<incremental>true</incremental>
 					<linkReport>false</linkReport>
