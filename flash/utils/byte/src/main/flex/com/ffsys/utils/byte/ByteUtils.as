@@ -143,7 +143,7 @@ package com.ffsys.utils.byte {
 		*	the bit length of.
 		*	
 		*	@return The number of bits required to
-		*	represent <code>byte<code>.
+		*	represent <code>byte</code>.
 		*/
 		static public function getBitLength( byte:Number ):int
 		{

@@ -1,0 +1,45 @@
+h1. Freeform Systems Core Actionscript 3 Libraries
+
+These are the core Actionscript 3 libraries for Freeform Systems. All source code is distributed with a Creative Commons attribution and share-alike license:
+
+http://creativecommons.org/licenses/by-sa/2.0/uk/
+
+h2. Using the libraries
+
+If you simply want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on declaring the dependencies.
+
+h2. Forking
+
+For those that wish to fork the source tree some information on getting the source and compiling it is below.
+
+h3. Prerequisites
+
+You will need "maven":http://maven.apache.org installed. The project was built using version 2.2.1, your mileage may vary on earlier versions. The compiling and asdoc generation is handled by "flexmojos":http://flexmojos.sonatype.org/ we recommend reading the "flexmojos wiki":https://docs.sonatype.org/display/FLEXMOJOS/Home if you are not familiar with "flexmojos":http://flexmojos.sonatype.org/.
+
+Note that "maven":http://maven.apache.org will handle the "flexmojos":http://flexmojos.sonatype.org/ dependencies automatically so you should just need "maven":http://maven.apache.org installed in order to compile the project.
+
+h3. Getting the code
+
+Create a clone of the repository:
+
+git clone git@github.com:freeformsystems/as3-core.git
+
+h3. Compiling the code
+
+To compile all the modules for the project, change into the directory, for example:
+
+bc. cd ~/git/as3-core
+
+And run maven:
+
+bc. mvn install
+
+This will also go through the process of resolving all the projects dependencies and creating and installing the artifacts in your local repository.
+
+h3. Releasing the code
+
+We use:
+
+bc. mvn release:prepare && mvn release:perform
+
+To tag the source tree, create a release version and increment to the next snapshot, if you wish to do the same you will need to modify the POM to suit your release infrastructure and requirements.

@@ -12,9 +12,6 @@
 	<name>io</name>
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
-	<dependencies>
-
-	</dependencies>
 	<modules>
 		<module>connection</module>
 		<module>core</module>

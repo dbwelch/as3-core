@@ -10,7 +10,7 @@ package com.ffsys.io.loaders.message {
 	*	converts the camel case <code>id</code> into title
 	*	case when formatting load messages.
 	*	
-	*	After conversion of the <code>id<code> this method will
+	*	After conversion of the <code>id</code> this method will
 	*	substitute a <code>%s</code> value in the source
 	*	<code>message</code> with the converted <code>id</code>.
 	*	

@@ -150,7 +150,7 @@ package com.ffsys.utils.address {
 		*	The <code>String</code> delimiter to be used to determine
 		*	the elements of the path.
 		*	
-		*	Defaults to <code>AddressUtils.DELIMITER.
+		*	Defaults to <code>AddressUtils.DELIMITER</code>.
 		*/
 		public function set delimiter( val:String ):void
 		{

@@ -17,6 +17,16 @@
 		<flash.player.classifier>10</flash.player.classifier>
 	</properties>
 	
+	<!--
+	<modules>
+		<module>core</module>
+		<module>errors</module>
+		<module>events</module>
+		<module>io</module>
+		<module>utils</module>
+	</modules>
+	-->
+	
 	<dependencies>
 	    <dependency>
 	      <groupId>com.adobe.flexunit</groupId>

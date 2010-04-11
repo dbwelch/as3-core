@@ -29,7 +29,7 @@ package com.ffsys.utils.random {
 		*	@maximum A <code>Number</code> of the
 		*	maximum value range.
 		*
-		*	@return A floating point <code>Number<code>
+		*	@return A floating point <code>Number</code>
 		*	in the given range.
 		*/
 		static public function getRandom( minimum:Number, maximum:Number ):Number
