@@ -14,18 +14,11 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>flex-framework</artifactId>
 			<version>${flex_version}</version>
 			<type>pom</type>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>string</artifactId>
