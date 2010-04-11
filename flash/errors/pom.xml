@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>flex-framework</artifactId>
-			<version>${flex_version}</version>
+			<version>${flex.version}</version>
 			<type>pom</type>
 		</dependency>
 		
@@ -57,7 +57,7 @@
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 						<type>pom</type>
 					</dependency>					
 				</dependencies>

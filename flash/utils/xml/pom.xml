@@ -30,20 +30,20 @@
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>flex-framework</artifactId>
-			<version>${flex_version}</version>
+			<version>${flex.version}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>playerglobal</artifactId>
-			<version>${flex_version}</version>
+			<version>${flex.version}</version>
 			<classifier>10</classifier>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.adobe.flex.compiler</groupId>
 			<artifactId>asdoc</artifactId>
-			<version>${flex_version}</version>
+			<version>${flex.version}</version>
 			<classifier>template</classifier>
 			<type>zip</type>
 		</dependency>
@@ -67,7 +67,7 @@
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 						<type>pom</type>
 					</dependency>
 				</dependencies>
@@ -110,7 +110,7 @@
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 						<type>pom</type>
 					</dependency>
 				</dependencies>

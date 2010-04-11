@@ -9,9 +9,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 <!-- Flex 3 : 3.3.0.4852 -->
-		<flex_version>4.0.0.8811</flex_version>
+		<flex.version>4.0.0.8811</flex.version>
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
+		<flexmojos.version>3.4.2</flexmojos.version>
 	</properties>
 	<distributionManagement>
 		<snapshotRepository>
@@ -100,19 +101,19 @@
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 						<type>pom</type>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex.framework</groupId>
 						<artifactId>flex-framework</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 						<type>pom</type>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex.framework</groupId>
 						<artifactId>playerglobal</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 						<classifier>10</classifier>
 						<type>swc</type>
 					</dependency>
@@ -126,34 +127,34 @@
 					<dependency>
 						<groupId>com.adobe.flex.compiler</groupId>
 						<artifactId>asdoc</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 						<classifier>template</classifier>
 						<type>zip</type>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>flex-fontkit</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>license</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>afe</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>aglj40</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>rideau</artifactId>
-						<version>${flex_version}</version>
+						<version>${flex.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
