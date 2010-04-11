@@ -1,4 +1,4 @@
-h1. Freeform Systems Core Actionscript 3 Libraries
+h1. Freeform Systems -- Core Actionscript 3 Libraries
 
 These are the core Actionscript 3 libraries for Freeform Systems. All source code is distributed with a Creative Commons attribution and share-alike license:
 
