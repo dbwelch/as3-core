@@ -8,10 +8,25 @@
 	<name>as3 library super pom</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
-		<!-- Flex 3 : 3.3.0.4852 -->
+<!-- Flex 3 : 3.3.0.4852 -->
 		<flex_version>4.0.0.8811</flex_version>
 	</properties>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ffsys-repository</id>
+			<name>Freeform Systems Repository</name>
+			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ffsys-repository</id>
+			<name>Freeform Systems Repository</name>
+			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>
+		</repository>
+	</distributionManagement>
+	<scm>
+		<connection>scm:git:git@github.com:freeformsystems/as3-core.git</connection>
+		<developerConnection>scm:git:git@github.com:freeformsystems/as3-core.git</developerConnection>
+	</scm>
 	<modules>
 		<module>flash</module>
 	</modules>
@@ -49,13 +64,13 @@
 						<version>3.2.0</version>
 						<type>swc</type>
 						<scope>test</scope>
-					</dependency>					
+					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
 						<version>${flex_version}</version>
 						<type>pom</type>
-					</dependency>			
+					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex.framework</groupId>
 						<artifactId>flex-framework</artifactId>
@@ -68,14 +83,14 @@
 						<version>${flex_version}</version>
 						<classifier>10</classifier>
 						<type>swc</type>
-					</dependency>					
+					</dependency>
 					<dependency>
 						<groupId>com.adobe.flexunit</groupId>
 						<artifactId>flexunit</artifactId>
 						<version>0.85</version>
 						<type>swc</type>
 						<scope>test</scope>
-					</dependency>					
+					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex.compiler</groupId>
 						<artifactId>asdoc</artifactId>
@@ -107,7 +122,7 @@
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>rideau</artifactId>
 						<version>${flex_version}</version>
-					</dependency>					
+					</dependency>
 				</dependencies>
 			</plugin>
 			<plugin>
