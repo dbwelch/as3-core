@@ -11,9 +11,35 @@
 		<flex.version>4.0.0.8811</flex.version>
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
-		<flexmojos.version>3.4.2</flexmojos.version>
+		<flexmojos.version>3.6.1</flexmojos.version>
 		<flexbuilder.license>1377-4001-9730-1807-5718-5283</flexbuilder.license>
+		<flexunit.version>4.0-beta-2</flexunit.version>
+		<flash.player.classifier>10</flash.player.classifier>
 	</properties>
+	
+	<dependencies>
+	    <dependency>
+	      <groupId>com.adobe.flexunit</groupId>
+	      <artifactId>flexunit</artifactId>
+	      <version>${flexunit.version}</version>
+	      <type>swc</type>
+	      <scope>test</scope>
+	    </dependency>
+		<dependency>
+			<groupId>com.adobe.flex.framework</groupId>
+			<artifactId>flex-framework</artifactId>
+			<version>${flex.version}</version>
+			<type>pom</type>
+		</dependency>		
+		<dependency>
+			<groupId>com.adobe.flex.framework</groupId>
+			<artifactId>playerglobal</artifactId>
+			<version>${flex.version}</version>
+			<classifier>${flash.player.classifier}</classifier>
+			<type>swc</type>
+		</dependency>	
+	  </dependencies>
+		
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ffsys-repository</id>
@@ -35,11 +61,8 @@
 		<module>flash</module>
 	</modules>
 	<build>
-		<!--
 		<sourceDirectory>src/main/flex</sourceDirectory>
 		<testSourceDirectory>src/test/flex</testSourceDirectory>
-		-->
-		
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -71,16 +94,6 @@
 						</dependency>
 					</dependencies>
 				</plugin>
-				<plugin>
-					<groupId>org.sonatype.flexmojos</groupId>
-					<artifactId>flexmojos-maven-plugin</artifactId>
-					<version>${flexmojos.version}</version>
-					<configuration>
-						<licenses>
-							<flexbuilder3>${flexbuilder.license}</flexbuilder3>
-						</licenses>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -88,76 +101,7 @@
 				<groupId>org.sonatype.flexmojos</groupId>
 				<artifactId>flexmojos-maven-plugin</artifactId>
 				<version>${flexmojos.version}</version>
-				<executions>
-					<execution>
-						<id>package</id>
-						<phase>package</phase>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>info.flex-mojos</groupId>
-				<artifactId>asdoc-mojo</artifactId>
-				<version>2.0.1</version>
-			</plugin>			
-			<plugin>
-				<groupId>info.flex-mojos</groupId>
-				<artifactId>flex-compiler-mojo</artifactId>
-				<version>2.0.1</version>
 				<dependencies>
-					<dependency>
-						<groupId>com.adobe.flex</groupId>
-						<artifactId>compiler</artifactId>
-						<version>${flex.version}</version>
-						<type>pom</type>
-					</dependency>
-				</dependencies>
-				<extensions>true</extensions>
-				<configuration>
-					<debug>false</debug>
-					<locales>
-						<locale>en_US</locale>
-					</locales>
-					
-					<!--
-					<sourcePaths>
-						<path>${basedir}/src/main/flash</path>
-					</sourcePaths>
-					-->
-					
-					<headlessServer>true</headlessServer>
-					<incremental>true</incremental>
-					<linkReport>false</linkReport>
-					<configurationReport>false</configurationReport>
-					<licenses>
-						<flexbuilder3>${flexbuilder.license}</flexbuilder3>
-					</licenses>
-					<testRunner>
-						<launcher>
-							<flashplayerCommand>${flashPlayer.command}</flashplayerCommand>
-						</launcher>
-					</testRunner>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.flexmojos</groupId>
-				<artifactId>flexmojos-maven-plugin</artifactId>
-				<version>${flexmojos.version}</version>
-				<configuration>
-					<fonts>
-						<managers>
-							<manager>flash.fonts.AFEFontManager</manager>
-						</managers>
-					</fonts>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.sonatype.flexmojos</groupId>
-						<artifactId>flexmojos-unittest-support</artifactId>
-						<version>3.2.0</version>
-						<type>swc</type>
-						<scope>test</scope>
-					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
@@ -174,15 +118,8 @@
 						<groupId>com.adobe.flex.framework</groupId>
 						<artifactId>playerglobal</artifactId>
 						<version>${flex.version}</version>
-						<classifier>10</classifier>
+						<classifier>${flash.player.classifier}</classifier>
 						<type>swc</type>
-					</dependency>
-					<dependency>
-						<groupId>com.adobe.flexunit</groupId>
-						<artifactId>flexunit</artifactId>
-						<version>0.85</version>
-						<type>swc</type>
-						<scope>test</scope>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex.compiler</groupId>
@@ -217,6 +154,36 @@
 						<version>${flex.version}</version>
 					</dependency>
 				</dependencies>
+				<extensions>true</extensions>
+				<configuration>
+					<debug>false</debug>
+					<locales>
+						<locale>en_US</locale>
+					</locales>
+					<headlessServer>true</headlessServer>
+					<incremental>true</incremental>
+					<linkReport>false</linkReport>
+					<configurationReport>false</configurationReport>
+					<licenses>
+						<flexbuilder3>${flexbuilder.license}</flexbuilder3>
+					</licenses>
+					<testRunner>
+						<launcher>
+							<flashplayerCommand>${flashPlayer.command}</flashplayerCommand>
+						</launcher>
+					</testRunner>
+					<fonts>
+						<managers>
+							<manager>flash.fonts.AFEFontManager</manager>
+						</managers>
+					</fonts>					
+				</configuration>				
+				<executions>
+					<execution>
+						<id>package</id>
+						<phase>package</phase>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

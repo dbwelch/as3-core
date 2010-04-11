@@ -13,19 +13,7 @@
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-		<dependency>
-			<groupId>com.adobe.flex.framework</groupId>
-			<artifactId>flex-framework</artifactId>
-			<version>${flex.version}</version>
-			<type>pom</type>
-		</dependency>		
-		<dependency>
-			<groupId>com.adobe.flex.framework</groupId>
-			<artifactId>playerglobal</artifactId>
-			<version>${flex.version}</version>
-			<classifier>10</classifier>
-			<type>swc</type>
-		</dependency>
+
 	</dependencies>
 	<modules>
 		<module>connection</module>
