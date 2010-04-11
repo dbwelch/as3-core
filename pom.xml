@@ -8,11 +8,11 @@
 	<name>as3 library super pom</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<!-- Flex 3 : 3.3.0.4852 -->
 		<flex.version>4.0.0.8811</flex.version>
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
 		<flexmojos.version>3.4.2</flexmojos.version>
+		<flexbuilder.license>1377-4001-9730-1807-5718-5283</flexbuilder.license>
 	</properties>
 	<distributionManagement>
 		<snapshotRepository>
@@ -35,6 +35,8 @@
 		<module>flash</module>
 	</modules>
 	<build>
+		<sourceDirectory>src/main/flash</sourceDirectory>
+		<testSourceDirectory>src/test/flash</testSourceDirectory>		
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -69,10 +71,10 @@
 				<plugin>
 					<groupId>org.sonatype.flexmojos</groupId>
 					<artifactId>flexmojos-maven-plugin</artifactId>
-					<version>3.4.2</version>
+					<version>${flexmojos.version}</version>
 					<configuration>
 						<licenses>
-							<flexbuilder3>1377-4001-9730-1807-5718-5283</flexbuilder3>
+							<flexbuilder3>${flexbuilder.license}</flexbuilder3>
 						</licenses>
 					</configuration>
 				</plugin>
@@ -82,7 +84,58 @@
 			<plugin>
 				<groupId>org.sonatype.flexmojos</groupId>
 				<artifactId>flexmojos-maven-plugin</artifactId>
-				<version>3.4.2</version>
+				<version>${flexmojos.version}</version>
+				<executions>
+					<execution>
+						<id>package</id>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>info.flex-mojos</groupId>
+				<artifactId>asdoc-mojo</artifactId>
+				<version>2.0.1</version>
+			</plugin>			
+			<plugin>
+				<groupId>info.flex-mojos</groupId>
+				<artifactId>flex-compiler-mojo</artifactId>
+				<version>2.0.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.adobe.flex</groupId>
+						<artifactId>compiler</artifactId>
+						<version>${flex.version}</version>
+						<type>pom</type>
+					</dependency>
+				</dependencies>
+				<extensions>true</extensions>
+				<configuration>
+					<debug>false</debug>
+					<locales>
+						<locale>en_US</locale>
+					</locales>
+					<sourcePaths>
+						<path>${basedir}/src/main/flash</path>
+					</sourcePaths>
+					<headlessServer>true</headlessServer>
+					<incremental>true</incremental>
+					<linkReport>false</linkReport>
+					<configurationReport>false</configurationReport>
+					<licenses>
+						<flexbuilder3>${flexbuilder.license}</flexbuilder3>
+					</licenses>
+					<testRunner>
+						<launcher>
+							<flashplayerCommand>${flashPlayer.command}</flashplayerCommand>
+						</launcher>
+					</testRunner>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.flexmojos</groupId>
+				<artifactId>flexmojos-maven-plugin</artifactId>
+				<version>${flexmojos.version}</version>
 				<configuration>
 					<fonts>
 						<managers>
@@ -165,7 +218,7 @@
 			<plugin>
 				<groupId>org.sonatype.flexmojos</groupId>
 				<artifactId>flexmojos-maven-plugin</artifactId>
-				<version>3.4.2</version>
+				<version>${flexmojos.version}</version>
 			</plugin>
 		</plugins>
 	</reporting>

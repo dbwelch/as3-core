@@ -14,26 +14,12 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.adobe.flex.framework</groupId>
-			<artifactId>flex-framework</artifactId>
-			<version>${flex.version}</version>
-			<type>pom</type>
-		</dependency>
-		
-		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>array</artifactId>
@@ -41,58 +27,5 @@
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
-		
 	</dependencies>
-	<build>
-		<sourceDirectory>src/main/flash</sourceDirectory>
-		<testSourceDirectory>src/test/flash</testSourceDirectory>
-		<plugins>
-			<plugin>
-				<groupId>org.sonatype.flexmojos</groupId>
-				<artifactId>flexmojos-maven-plugin</artifactId>
-				<version>3.4.2</version>
-				<executions>
-					<execution>
-						<id>package</id>
-						<phase>package</phase>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>info.flex-mojos</groupId>
-				<artifactId>flex-compiler-mojo</artifactId>
-				<version>2.0.1</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.adobe.flex</groupId>
-						<artifactId>compiler</artifactId>
-						<version>${flex.version}</version>
-						<type>pom</type>
-					</dependency>					
-				</dependencies>
-				<extensions>true</extensions>
-				<configuration>
-					<debug>false</debug>
-					<locales>
-						<locale>en_US</locale>
-					</locales>
-					<sourcePaths>
-						<path>${basedir}/src/main/flash</path>
-					</sourcePaths>
-					<headlessServer>true</headlessServer>
-					<incremental>true</incremental>
-					<linkReport>true</linkReport>
-					<configurationReport>true</configurationReport>
-					<licenses>
-						<flexbuilder3>1377-4001-9730-1807-5718-5283</flexbuilder3>
-					</licenses>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>info.flex-mojos</groupId>
-				<artifactId>asdoc-mojo</artifactId>
-				<version>2.0.1</version>
-			</plugin>
-		</plugins>
-	</build>
 </project>
