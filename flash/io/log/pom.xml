@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>io</artifactId>
 		<groupId>com.ffsys</groupId>
-		<version>1.0</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.io</groupId>
 	<artifactId>log</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>log</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>inspector</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
