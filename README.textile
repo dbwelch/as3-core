@@ -8,6 +8,21 @@ h2. Using the libraries
 
 If you simply want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on declaring the dependencies.
 
+You simply need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved:
+
+bc. <repositories>
+	<snapshotRepository>
+		<id>ffsys-repository</id>
+		<name>Freeform Systems Snapahots Repository</name>
+		<url>http://mvn.freeformsystems.com/content/repositories/snapshots/</url>
+	</snapshotRepository>
+	<repository>
+		<id>ffsys-repository</id>
+		<name>Freeform Systems Repository</name>
+		<url>http://mvn.freeformsystems.com/content/repositories/releases/</url>
+	</repository>
+</repositories>
+
 h2. Forking
 
 For those that wish to fork the source tree some information on getting the source and compiling it is below.
@@ -22,7 +37,7 @@ h3. Getting the code
 
 Create a clone of the repository:
 
-git clone git@github.com:freeformsystems/as3-core.git
+bc. git clone git@github.com:freeformsystems/as3-core.git
 
 h3. Compiling the code
 
@@ -34,7 +49,7 @@ And run maven:
 
 bc. mvn install
 
-This will also go through the process of resolving all the projects dependencies and creating and installing the artifacts in your local repository.
+This will also go through the process of resolving all the project's dependencies and creating and installing the artifacts in your local repository.
 
 h3. Releasing the code
 
