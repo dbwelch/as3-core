@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>io</artifactId>
 		<groupId>com.ffsys</groupId>
-		<version>1.0</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.io</groupId>
 	<artifactId>connection</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>connection</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>core</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>events</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>	
@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>identifier</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>		
@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>string</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>	
@@ -83,7 +83,7 @@
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>inspector</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
@@ -91,7 +91,7 @@
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>core</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>				

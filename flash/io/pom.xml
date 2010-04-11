@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>as3-core</artifactId>
 		<groupId>com.ffsys</groupId>
-		<version>1.0</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys</groupId>
 	<artifactId>io</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>io</name>
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
