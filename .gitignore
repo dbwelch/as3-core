@@ -4,3 +4,6 @@ target
 build
 docs
 release.properties
+pom.xml.next
+pom.xml.tag
+pom.xml.releaseBackup
