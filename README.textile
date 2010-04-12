@@ -1,17 +1,19 @@
 h1. Freeform Systems -- Core Actionscript 3 Libraries
 
-These are the core Actionscript 3 libraries for Freeform Systems. All source code is distributed with a "Creative Commons attribution and share-alike license":http://creativecommons.org/licenses/by-sa/2.0/uk/.
+These are the core Actionscript 3 libraries by Freeform Systems.
+
+All source code is distributed with a "Creative Commons attribution and share-alike license":http://creativecommons.org/licenses/by-sa/2.0/uk/.
 
 h2. Using the libraries
 
-If you simply want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on declaring the dependencies.
+If you just want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on declaring the dependencies.
 
-You simply need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved:
+You need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved:
 
 bc. <repositories>
 	<snapshotRepository>
 		<id>ffsys-repository</id>
-		<name>Freeform Systems Snapahots Repository</name>
+		<name>Freeform Systems Snapshots Repository</name>
 		<url>http://mvn.freeformsystems.com/content/repositories/snapshots/</url>
 	</snapshotRepository>
 	<repository>
