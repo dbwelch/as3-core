@@ -35,6 +35,8 @@ package com.ffsys.utils.collections.data {
 		
 		protected var _data:Dictionary;
 		
+		protected var _elements:Array;
+		
 		protected var _id:String;
 		
 		protected var _dataTypes:Array;
@@ -46,6 +48,7 @@ package com.ffsys.utils.collections.data {
 			super();
 			_data = new Dictionary( true );
 			_collections = new Array();
+			_elements = new Array();
 			
 			if( !dataTypes )
 			{
@@ -124,6 +127,11 @@ package com.ffsys.utils.collections.data {
 			return null;
 		}
 		
+		public function getLength():int
+		{
+			return _elements.length;
+		}
+		
 	    override flash_proxy function hasProperty( name:* ):Boolean
 		{
 			return ( _data[ name ] != null );
@@ -168,11 +176,43 @@ package com.ffsys.utils.collections.data {
 			{
 				_data[ name ] = value;
 			}
+			
+			//add all elements to the array of elements
+			_elements.push( value );
 	    }
 		
 		override flash_proxy function callProperty( methodName:*, ...args ):*
 		{
 			//
+		}
+		
+		/**
+		*	@private	
+		*/
+		override flash_proxy function nextNameIndex( index:int ):int
+		{
+			if( index < getLength() )
+			{
+				return index + 1;
+			}
+		
+			return 0;
+		}
+	
+		/**
+		*	@private	
+		*/
+		override flash_proxy function nextName( index:int ):String
+		{
+			return ( index - 1 ).toString();
+		}
+		
+		/**
+		*	@private	
+		*/
+		override flash_proxy function nextValue( index:int ):*
+		{
+			return _elements[ index - 1 ];
 		}
 		
 		/*
