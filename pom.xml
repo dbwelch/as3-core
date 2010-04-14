@@ -55,6 +55,7 @@
 			<id>ffsys-repository</id>
 			<name>Freeform Systems Repository</name>
 			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 		<repository>
 			<id>ffsys-repository</id>
@@ -62,6 +63,7 @@
 			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>
 		</repository>
 	</distributionManagement>
+	
 	<scm>
 		<connection>scm:git:git@github.com:freeformsystems/as3-core.git</connection>
 		<developerConnection>scm:git:git@github.com:freeformsystems/as3-core.git</developerConnection>

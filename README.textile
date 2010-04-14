@@ -6,22 +6,54 @@ All source code is distributed with a "Creative Commons attribution and share-al
 
 h2. Using the libraries
 
-If you just want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on declaring the dependencies.
+If you just want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on repository configuration and declaring the dependencies.
 
-You need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved:
+You need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved. An example maven settings file:
 
-bc. <repositories>
-	<snapshotRepository>
-		<id>ffsys-repository</id>
-		<name>Freeform Systems Snapshots Repository</name>
-		<url>http://mvn.freeformsystems.com/content/repositories/snapshots/</url>
-	</snapshotRepository>
-	<repository>
-		<id>ffsys-repository</id>
-		<name>Freeform Systems Repository</name>
-		<url>http://mvn.freeformsystems.com/content/repositories/releases/</url>
-	</repository>
-</repositories>
+bc. <?xml version="1.0"?>
+<settings>
+	<profiles>
+		<profile>
+			<id>ffsys</id>
+			<repositories>
+				<repository>
+					<id>ffsys</id>
+					<url>http://mvn.freeformsystems.com/content/groups/ffsys</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>ffsys</id>
+					<url>http://mvn.freeformsystems.com/content/groups/ffsys</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+	<activeProfiles>
+		<activeProfile>ffsys</activeProfile>
+	</activeProfiles>
+</settings>
+
+Then you can declare dependencies in your *POM* as per normal:
+
+bc. <dependency>
+	<groupId>com.ffsys</groupId>
+	<artifactId>core</artifactId>
+	<version>1.1-SNAPSHOT</version>
+	<type>swc</type>
+</dependency>
 
 h2. Forking
 
