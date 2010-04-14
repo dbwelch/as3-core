@@ -12,7 +12,6 @@
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
 		<flexmojos.version>3.6.1</flexmojos.version>
-		<flexbuilder.license>1377-4001-9730-1807-5718-5283</flexbuilder.license>
 		<flexunit.version>4.0-beta-2</flexunit.version>
 		<flash.player.classifier>10</flash.player.classifier>
 	</properties>
@@ -176,9 +175,6 @@
 					<incremental>true</incremental>
 					<linkReport>false</linkReport>
 					<configurationReport>false</configurationReport>
-					<licenses>
-						<flexbuilder3>${flexbuilder.license}</flexbuilder3>
-					</licenses>
 					<testRunner>
 						<launcher>
 							<flashplayerCommand>${flashPlayer.command}</flashplayerCommand>
