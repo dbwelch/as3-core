@@ -18,28 +18,24 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>locale</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>inspector</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 	</dependencies>
 </project>

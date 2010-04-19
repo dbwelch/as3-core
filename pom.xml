@@ -11,6 +11,7 @@
 		<flex.version>4.0.0.8811</flex.version>
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
+		<!-- <flexmojos.version>4.0-SNAPSHOT</flexmojos.version> -->
 		<flexmojos.version>3.6.1</flexmojos.version>
 		<flexunit.version>4.0-beta-2</flexunit.version>
 		<flash.player.classifier>10</flash.player.classifier>

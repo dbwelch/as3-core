@@ -18,7 +18,6 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		
 		<dependency>
@@ -26,7 +25,6 @@
 			<artifactId>events</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		
 		<dependency>
@@ -34,7 +32,6 @@
 			<artifactId>identifier</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		
 		<dependency>
@@ -42,7 +39,6 @@
 			<artifactId>inspector</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		
 		<dependency>
@@ -50,7 +46,6 @@
 			<artifactId>address</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		
 		<dependency>
@@ -58,7 +53,6 @@
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		
 		<dependency>
@@ -66,7 +60,6 @@
 			<artifactId>flex</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		
 		<dependency>
@@ -74,7 +67,6 @@
 			<artifactId>array</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		
 		<dependency>
@@ -82,7 +74,6 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		
 		<dependency>
@@ -90,7 +81,6 @@
 			<artifactId>gateway</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		
 		<dependency>
@@ -98,7 +88,6 @@
 			<artifactId>http</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>			
 		
 		<dependency>
@@ -106,7 +95,6 @@
 			<artifactId>connection</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>			
 	</dependencies>
 </project>
