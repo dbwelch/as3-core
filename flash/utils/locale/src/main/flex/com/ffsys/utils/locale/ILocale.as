@@ -32,13 +32,6 @@ package com.ffsys.utils.locale {
 		*	
 		*	@return A boolean indicating whether they are equal.	
 		*/
-		function equals( locale:ILocale ):Boolean;	
-		
-		/**
-		*	The value to use when building
-		*	locale specific links.
-		*/
-		function set uriNode( val:String ):void;
-		function get uriNode():String;
+		function equals( locale:ILocale ):Boolean;
 	}
 }

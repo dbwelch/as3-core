@@ -115,6 +115,13 @@
 				<version>${flexmojos.version}</version>
 				<dependencies>
 					<dependency>
+				      <groupId>com.adobe.flexunit</groupId>
+				      <artifactId>flexunit</artifactId>
+				      <version>${flexunit.version}</version>
+				      <type>swc</type>
+				      <scope>test</scope>
+				    </dependency>
+					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
 						<version>${flex.version}</version>
@@ -176,11 +183,6 @@
 					<incremental>true</incremental>
 					<linkReport>false</linkReport>
 					<configurationReport>false</configurationReport>
-					<testRunner>
-						<launcher>
-							<flashplayerCommand>${flashPlayer.command}</flashplayerCommand>
-						</launcher>
-					</testRunner>
 					<fonts>
 						<managers>
 							<manager>flash.fonts.AFEFontManager</manager>

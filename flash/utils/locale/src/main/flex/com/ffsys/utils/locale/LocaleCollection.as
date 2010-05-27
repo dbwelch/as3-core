@@ -44,10 +44,38 @@ package com.ffsys.utils.locale {
 			}
 			
 			return null;
-		}		
+		}
+		
+		/**
+		*	Attempts to find a locale by language identifier and country.
+		*	
+		*	@param lang The language code.
+		*	@param country The country identifier.
+		*	
+		*	@return The locale if found otherwise null.
+		*/
+		public function getLocaleByLanguageAndCountry(
+			lang:String, country:String ):ILocale
+		{
+			var locale:ILocale = null;
+			for( var i:int = 0;i < _locales.length;i++ )
+			{
+				locale = ILocale( _locales[ i ] );
+				if( locale.lang == lang && locale.country == country )
+				{
+					return locale;
+				}
+			}
+			
+			return null;
+		}
 		
 		/**
 		*	Determines whether a locale is already stored in this collection.
+		*	
+		*	Note that this method does not compare on an instance level but
+		*	uses the <code>equals</code> method of <code>ILocale</code> for
+		*	comparison.
 		*	
 		*	@param locale The locale to test for existence.
 		*	
@@ -56,9 +84,11 @@ package com.ffsys.utils.locale {
 		*/
 		public function hasLocale( locale:ILocale ):Boolean
 		{
+			var stored:ILocale = null;
 			for( var i:int = 0;i < _locales.length;i++ )
 			{
-				if( locale === _locales[ i ] )
+				stored = ILocale( _locales[ i ] );
+				if( stored.equals( locale ) )
 				{
 					return true;
 				}
@@ -82,7 +112,7 @@ package com.ffsys.utils.locale {
 				_locales.push( locale );
 			}
 			
-			return getLength();
+			return length;
 		}
 		
 		/**
@@ -102,7 +132,7 @@ package com.ffsys.utils.locale {
 				}
 			}
 			
-			return getLength();
+			return length;
 		}
 		
 		/**
@@ -110,7 +140,7 @@ package com.ffsys.utils.locale {
 		*	
 		*	@return The number of locales in this collection.	
 		*/
-		public function getLength():int
+		public function get length():int
 		{
 			return _locales.length;
 		}

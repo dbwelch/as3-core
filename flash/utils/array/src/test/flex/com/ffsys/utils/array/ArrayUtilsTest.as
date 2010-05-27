@@ -1,4 +1,4 @@
-package com.ffsys.utils.test
+package com.ffsys.utils.array
 {
 	import org.flexunit.Assert;
 	

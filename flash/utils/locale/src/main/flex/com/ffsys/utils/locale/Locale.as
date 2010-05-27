@@ -1,7 +1,7 @@
 package com.ffsys.utils.locale {
 	
 	/**
-	*	Encapsulates information about the
+	*	Encapsulates information about
 	*	a locale.
 	*
 	*	@langversion ActionScript 3.0
@@ -12,28 +12,23 @@ package com.ffsys.utils.locale {
 	*/
 	public class Locale extends Object
 		implements ILocale {
-			
-		/**
-		*	@private
-		*/
+
 		private var _lang:String;
-		
-		/**
-		*	@private
-		*/
 		private var _country:String;
 		
 		/**
-		*	@private
-		*/
-		private var _uriNode:String;
-		
-		/**
 		*	Creates a <code>Locale</code> instance.
+		*	
+		*	@param lang The language code.
+		*	@param country The country code.
 		*/
-		public function Locale()
+		public function Locale(
+			lang:String = null,
+			country:String = null )
 		{
 			super();
+			this.lang = lang;
+			this.country = country;
 		}
 		
 		/**
@@ -69,18 +64,5 @@ package com.ffsys.utils.locale {
 		{
 			return ( this.lang == locale.lang ) && ( this.country == locale.country );
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set uriNode( val:String ):void
-		{
-			_uriNode = val;
-		}
-		
-		public function get uriNode():String
-		{
-			return _uriNode;
-		}			
 	}
 }
