@@ -16,35 +16,24 @@ package com.ffsys.utils.array
 			super();
 		}
 		
-		/*
-		*	
-		*	
-		[Test]
-		      public function testSampleFailure() : void {
-		         Assert.fail("FAIL! - This is a sample test that will fail.");
-		      }
-
-		      [Test]
-		      public function testSampleError() : void {
-		         throw new Error("ERROR! - This is an error");
-		      }
-
-		      [Ignore]
-		      [Test]
-		      public function testSampleIgnore() : void {
-
-		      }
-		      *	
-		 */	
-		
 		/**
 		*	Tests the <code>contains</code> method.
 		*/
 		[Test]
 		public function testArrayContains():void
 		{
+			var obj:Object = {};
+			var contents:Array = [ 1.1, "string", false, obj ];
 			
-			//assertTrue( broker.areMethodsCorrect() );
+			Assert.assertTrue( ArrayUtils.contains( contents, 1.1 ) );
+			Assert.assertTrue( ArrayUtils.contains( contents, "string" ) );
+			Assert.assertTrue( ArrayUtils.contains( contents, false ) );
+			Assert.assertTrue( ArrayUtils.contains( contents, obj ) );
+			
+			var test:Object = {};
+			Assert.assertTrue( !ArrayUtils.contains( contents, 3.14 ) );
+			Assert.assertTrue( !ArrayUtils.contains( contents, "nonexistent" ) );
+			Assert.assertTrue( !ArrayUtils.contains( contents, test ) );
 		}
 	}
 }

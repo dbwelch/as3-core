@@ -61,7 +61,7 @@ package com.ffsys.utils.array {
 			}
 			
 			return output;
-		}		
+		}
 		
 		/**
 		*	Determines whether an <code>Array</code>
