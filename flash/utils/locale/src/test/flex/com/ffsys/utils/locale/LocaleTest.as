@@ -38,6 +38,33 @@ package com.ffsys.utils.locale
 			collection.addLocale( en );
 			
 			Assert.assertEquals( 1, collection.length );
+			Assert.assertTrue( collection.hasLocale( en ) );
+			
+			//can't add the same language
+			var copy:ILocale = new Locale( "en", "GB" );
+			collection.addLocale( copy );
+			Assert.assertEquals( 1, collection.length );
+			
+			//can't add null values
+			collection.addLocale( null );
+			Assert.assertEquals( 1, collection.length );			
+			
+			Assert.assertEquals( en, collection.getLocaleByLanguage( "en" ) );
+			Assert.assertEquals( en, collection.getLocaleByLanguageAndCountry( "en", "GB" ) );
+			
+			var es:ILocale = new Locale( "es", "ES" );
+			
+			Assert.assertTrue( en.equals( en ) );
+			Assert.assertTrue( !en.equals( es ) );
+			
+			collection.addLocale( es );
+			Assert.assertEquals( 2, collection.length );
+			
+			collection.removeLocale( es );
+			Assert.assertEquals( 1, collection.length );
+			
+			collection.clear();
+			Assert.assertEquals( 0, collection.length );
 		}
 	}
 }

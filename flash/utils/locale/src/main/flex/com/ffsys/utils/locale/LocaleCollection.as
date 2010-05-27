@@ -136,6 +136,14 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
+		*	Clears all locales stored in this collection.	
+		*/
+		public function clear():void
+		{
+			_locales = new Array();
+		}
+		
+		/**
 		*	Gets the number of locales in this collection.
 		*	
 		*	@return The number of locales in this collection.	
