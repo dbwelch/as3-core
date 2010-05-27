@@ -56,7 +56,6 @@ package com.ffsys.utils.collections.data {
 			}
 			
 			this.dataTypes = dataTypes;
-			
 		}
 		
 		/**
@@ -204,7 +203,21 @@ package com.ffsys.utils.collections.data {
 		*/
 		override flash_proxy function nextName( index:int ):String
 		{
-			return ( index - 1 ).toString();
+			//return _data[ name ];
+			//return ( index - 1 ).toString();
+			
+			var value:* = _elements[ index - 1 ];
+			
+			var z:String = null;
+			for( z in _data )
+			{
+				if( _data[ z ] == value )
+				{
+					return z;
+				}
+			}
+			
+			return null;
 		}
 		
 		/**
