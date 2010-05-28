@@ -153,5 +153,19 @@ package com.ffsys.utils.page
 		* 	@return Whether the page was changed.
 		*/
 		function previous():Boolean;
+		
+		/**
+		* 	Attempts to navigate to the first page.
+		* 
+		* 	@return Whether the navigation request succeeded.
+		*/
+		function first():Boolean;
+		
+		/**
+		* 	Attempts to navigate to the last page.
+		* 
+		* 	@return Whether the navigation request succeeded.
+		*/
+		function last():Boolean;
 	}
 }

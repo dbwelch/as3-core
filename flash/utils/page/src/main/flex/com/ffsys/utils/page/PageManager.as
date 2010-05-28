@@ -241,6 +241,32 @@ package com.ffsys.utils.page
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function first():Boolean
+		{
+			if( hasPages() && !isFirstPage() )
+			{
+				this.index = 0;
+				return true;
+			}
+			return false;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function last():Boolean
+		{
+			if( hasPages() && !isLastPage() )
+			{
+				this.index = ( this.pages - 1 );
+				return true;
+			}
+			return false;
+		}
+		
+		/**
 		* 	@private
 		* 
 		* 	Constrains the index so it falls within the page range.

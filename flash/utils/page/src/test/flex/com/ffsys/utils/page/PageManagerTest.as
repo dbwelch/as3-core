@@ -37,6 +37,9 @@ package com.ffsys.utils.page
 			Assert.assertFalse( manager.hasPreviousPage() );
 			Assert.assertFalse( manager.next() );
 			Assert.assertFalse( manager.previous() );
+			
+			Assert.assertFalse( manager.first() );
+			Assert.assertFalse( manager.last() );
 		}
 		
 		[Test]
@@ -117,6 +120,9 @@ package com.ffsys.utils.page
 			Assert.assertTrue( manager.previous() );
 			Assert.assertEquals( 2, manager.index );
 			Assert.assertEquals( 3, manager.page );
-		}		
+			
+			Assert.assertTrue( manager.first() );
+			Assert.assertTrue( manager.last() );
+		}
 	}
 }
