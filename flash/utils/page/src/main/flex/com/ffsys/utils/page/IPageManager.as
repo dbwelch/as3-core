@@ -7,7 +7,7 @@ package com.ffsys.utils.page
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  27.05.2010
+	*	@since  28.05.2010
 	*/
 	public interface IPageManager
 	{
