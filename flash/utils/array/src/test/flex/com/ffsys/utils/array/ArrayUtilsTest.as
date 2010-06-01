@@ -29,7 +29,23 @@ package com.ffsys.utils.array
 			}
 			
 			return output;
-		}		
+		}
+		
+		[Test]
+		public function uniqueArrayTest():void
+		{
+			var arr:Array = "aaabbcccdef".split( "" );
+			var unique:Array = new UniqueArray().unique( arr );
+			
+			Assert.assertEquals( 6, unique.length );
+			
+			Assert.assertEquals( "a", unique[ 0 ] );
+			Assert.assertEquals( "b", unique[ 1 ] );
+			Assert.assertEquals( "c", unique[ 2 ] );
+			Assert.assertEquals( "d", unique[ 3 ] );
+			Assert.assertEquals( "e", unique[ 4 ] );
+			Assert.assertEquals( "f", unique[ 5 ] );
+		}
 		
 		[Test]
 		public function interleaveTest():void
