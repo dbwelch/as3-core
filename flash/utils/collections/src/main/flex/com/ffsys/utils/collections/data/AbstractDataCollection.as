@@ -228,6 +228,14 @@ package com.ffsys.utils.collections.data {
 			return _elements[ index - 1 ];
 		}
 		
+		/**
+		* 	@private
+		*/
+		override flash_proxy function deleteProperty( name:* ):Boolean
+		{
+			return delete _data[ name ];
+		}
+		
 		/*
 		*	IObjectInspector implementation.	
 		*/

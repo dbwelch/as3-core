@@ -48,6 +48,9 @@ package com.ffsys.utils.collections
 			{
 				Assert.assertEquals( "key", z );
 			}
+			
+			var deleted:Boolean = delete collection[ "key" ];
+			Assert.assertTrue( deleted );
 		}
 	}
 }
