@@ -18,5 +18,8 @@
 		<module>events</module>
 		<module>io</module>
 		<module>utils</module>
+		
+		<module>corelib</module>
+		<module>combined</module>
 	</modules>
 </project>
