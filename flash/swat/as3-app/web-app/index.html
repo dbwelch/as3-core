@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>WTG - Earth</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<script type="text/javascript" src="assets/js/swfobject.js"></script>
+		<script type="text/javascript">
+			swfobject.registerObject( "wtg-earth", "9.0.124", "assets/swf/expressInstall.swf" );
+		</script>
+		<style type="text/css" media="screen">
+			body {
+				margin: 15px 0px;
+				padding:0px;
+				text-align:center;
+				font-family: Helvetica, Georgia, sans-serif;
+				color: #ffffff;
+				background-color: #000000;
+			}
+
+			#wrapper {
+				width: 980px;
+				margin: 0px auto;
+				text-align: left;
+				padding: 0px 15px 15px 15px;
+				border: 1px dotted #333;
+				background-color: #030303;
+			}
+			
+			h1 {
+				color: #a9a9a9;
+				font-size: 1.6em;
+			}
+		
+			p.note, ul li {
+				color: #696969;
+				margin-bottom: 0.4em;
+				line-height: 1.4em;
+				font-size: 0.6em;
+			}
+			
+			a {
+				color: #a9a9a9;
+				text-decoration: none;
+			}
+
+			a:hover {
+				color: #696969;
+				border-bottom: 1px dotted #333;
+			}			
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>WTG Earth Application</h1>
+			<p class="note">Built for Flash Player <strong>10.0</strong> and later player versions using Actionscript 3.</p>
+			<div>
+				<object id="wtg-earth" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="980" height="365">
+					<param name="movie" value="swat-as3-app-1.0-SNAPSHOT.swf" />
+					<param name="menu" value="false" />
+					<param name="flashvars" value="main=com.ffsys.swat.as3.view.SwatActionscriptApplication&vars=com.ffsys.swat.as3.core.ApplicationFlashVariables&lang=en_GB&configuration=assets/xml/configuration.xml" />
+	        		<!--[if !IE]>-->
+					<object type="application/x-shockwave-flash" data="swat-as3-app-1.0-SNAPSHOT.swf" width="980" height="365">
+					<param name="flashvars" value="main=com.ffsys.swat.as3.view.SwatActionscriptApplication&vars=com.ffsys.swat.as3.core.ApplicationFlashVariables&lang=en_GB&configuration=assets/xml/configuration.xml" />
+					<!--<![endif]-->
+					<div>
+						<h1>Alternative content</h1>
+						<p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+					</div>
+					<!--[if !IE]>-->
+					</object>
+					<!--<![endif]-->
+				</object>
+			</div>
+			<p class="note">
+				This is an example of embedding the WTG Earth application within your hosting system.
+				
+				Embedding of the Flash movie is done using <a href="http://code.google.com/p/swfobject/" title="swfobject">swfobject</a> using the static publishing method. Therefore the flashvars passed into the movie need to be duplicated as there are two <strong>object</strong> tags. The outer tag is for Internet Explorer and the inner tag within conditionals is for all other browsers.
+			</p>
+			<p class="note">
+				You are free of course to change the method of embedding the Flash movie (although we think this is the best standards and browser compatible approach), <strong>but</strong> you must pass in the required flashvars to configure the application.
+			</p>
+			<ul>
+				<li><strong>lang</strong> - The <a href="http://en.wikipedia.org/wiki/ISO_639-1" title="ISO_639-1 information">ISO 639-1</a> language code and <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" title="ISO_3166-1_alpha-2 information">ISO_3166-1_alpha-2</a> country code that you want the application to run in. If this is not specified the default of <strong>en_GB</strong> is used. Available values are <strong>en_GB</strong>, <strong>fr_FR</strong>, <strong>es_ES</strong> and <strong>de_DE</strong>.</li>
+				<li><strong>mode</strong> - The application runtime mode, can be either <strong>auto</strong> or <strong>manual</strong>.</li>
+				<li><strong>configuration</strong> - An alternative path to the XML configuration file. The default value is <strong>assets/xml/configuration.xml</strong>.</li>
+			</ul>
+			<p class="note">Note that if an invalid language code is supplied the Flash movie will throw a runtime exception. Also if the mode value is not <strong>auto</strong> or <strong>manual</strong> a runtime exception will be thrown.</p>
+		</div>
+	</body>
+</html>
