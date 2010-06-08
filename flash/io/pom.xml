@@ -7,9 +7,9 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys</groupId>
-	<artifactId>io</artifactId>
+	<artifactId>io-parent</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>io</name>
+	<name>io-parent</name>
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
 	<modules>
@@ -19,6 +19,8 @@
 		<module>http</module>
 		<module>loaders</module>
 		<module>log</module>
-		<module>xml</module>		
+		<module>xml</module>
+		
+		<module>combined</module>
 	</modules>
 </project>

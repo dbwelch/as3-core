@@ -6,53 +6,61 @@
 		<groupId>com.ffsys</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.io</groupId>
-	<artifactId>connection</artifactId>
+	<groupId>com.ffsys</groupId>
+	<artifactId>io</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>connection</name>
+	<name>io</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
-	<dependencies>
+	<dependencies>		
 		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>core</artifactId>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>connection</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>internal</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>events</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>	
-		
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>identifier</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>		
-		
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>string</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>	
-		
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>inspector</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>				
+			<scope>internal</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>gateway</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+			<scope>internal</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>http</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+			<scope>internal</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>loaders</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+			<scope>internal</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>log</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+			<scope>internal</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>xml</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+			<scope>internal</scope>
+		</dependency>		
 	</dependencies>
 </project>
