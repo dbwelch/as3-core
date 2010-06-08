@@ -7,9 +7,9 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys</groupId>
-	<artifactId>utils</artifactId>
+	<artifactId>utils-parent</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>utils</name>
+	<name>utils-parent</name>
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
 	<modules>
@@ -28,10 +28,13 @@
 		<module>merge</module>
 		<module>number</module>
 		<module>object</module>
+		<module>page</module>
 		<module>random</module>
 		<module>regex</module>
 		<module>string</module>
 		<module>substitution</module>
 		<module>xml</module>
+		
+		<module>combined</module>
 	</modules>
 </project>
