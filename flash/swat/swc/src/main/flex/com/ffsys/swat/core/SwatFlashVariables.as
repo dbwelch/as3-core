@@ -3,6 +3,7 @@ package com.ffsys.swat.core {
 	import flash.display.DisplayObject;
 	
 	import com.ffsys.core.AbstractFlashVars;
+	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	
 	/**
 	*	Encapsulates the data passed in via flash variables
@@ -18,8 +19,8 @@ package com.ffsys.swat.core {
 		
 		private var _lang:String = "en_GB";
 		private var _configuration:String = "assets/xml/configuration.xml";
-		private var _main:String = null;
-		private var _preloader:String = null;
+		private var _classes:String = null;
+		private var _classPathConfiguration:IClassPathConfiguration;
 		
 		/**
 		*	Creates a <code>SwatFlashVariables</code> instance.
@@ -74,43 +75,44 @@ package com.ffsys.swat.core {
 		}
 		
 		/**
-		*	Gets the class path to the main application class.
+		*	Gets the class path to the class path configuration class.
 		*	
-		*	@return The main application class path.
+		*	@return The class path configuration class path.
 		*/
-		public function get main():String
+		public function get classes():String
 		{
-			return _main;
+			return _classes;
 		}
 		
 		/**
-		*	Sets the class path to the main application class.
+		*	Sets the class path to the class path configuration class.
 		*	
-		*	@param main The main application class path.
+		*	@param classes The class path configuration class path.
 		*/		
-		public function set main( main:String ):void
+		public function set classes( classes:String ):void
 		{
-			_main = main;
+			_classes = classes;
 		}
 		
 		/**
-		*	Gets the class path to the application preloader class.
+		*	Gets the class path configuration instance.
 		*	
-		*	@return The application preloader class path.
+		*	@return The class path configuration instance.
 		*/
-		public function get preloader():String
+		public function get classPathConfiguration():IClassPathConfiguration
 		{
-			return _preloader;
+			return _classPathConfiguration;
 		}
 		
 		/**
-		*	Sets the class path to the application preloader class.
+		*	Sets the class path configuration instance.
 		*	
-		*	@param preloader The application preloader class path.
-		*/		
-		public function set preloader( preloader:String ):void
+		*	@param classPathConfiguration The class path configuration instance.
+		*/
+		public function set classPathConfiguration(
+			classPathConfiguration:IClassPathConfiguration ):void
 		{
-			_preloader = preloader;
+			_classPathConfiguration = classPathConfiguration;
 		}
 	}
 }

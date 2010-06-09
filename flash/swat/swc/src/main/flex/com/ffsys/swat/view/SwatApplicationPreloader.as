@@ -30,9 +30,12 @@ package com.ffsys.swat.view {
 		{
 			super();
 			
-			_classes = getClassConfigurationInstance();
+			var classPathConfiguration:IClassPathConfiguration
+				= getClassConfigurationInstance();
+			
 			_flashvars = getFlashVariablesClassInstance(
-				_classes.getFlashVariablesClassPath() );
+				classPathConfiguration.getFlashVariablesClassPath() );
+			_flashvars.classPathConfiguration = classPathConfiguration;
 			
 			addEventListener( Event.ADDED_TO_STAGE, created );
 		}
@@ -138,7 +141,8 @@ package com.ffsys.swat.view {
 		*/
 		private function getMainClassInstance():IApplication
 		{
-			var classPath:String = _classes.getMainClassPath();
+			var classPath:String = _flashvars.classPathConfiguration.getMainClassPath();
+			
 			if( classPath == null )
 			{
 				throw new Error( "No main class has been specified." );
@@ -154,7 +158,7 @@ package com.ffsys.swat.view {
 			{
 				throw new Error(
 					"Could not locate main application class with class path '"
-					+ _flashvars.main + "'" );
+					+ classPath + "'" );
 			}
 			
 			var instance:Object = new clz( _flashvars );
