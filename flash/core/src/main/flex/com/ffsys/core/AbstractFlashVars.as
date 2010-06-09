@@ -20,6 +20,8 @@ package com.ffsys.core {
 	*/
 	public class AbstractFlashVars extends Object {
 		
+		private var _parameters:Object;
+		
 		/**
 		*	Creates a new instance with a <code>root</code>
 		*	<code>DisplayObject</code> which should contain
@@ -39,6 +41,17 @@ package com.ffsys.core {
 		}
 		
 		/**
+		* 	Gets an object containing the raw flash variable
+		* 	parameters passed into the movie.
+		* 
+		* 	@return The raw flash variable parameters.
+		*/
+		public function get parameters():Object
+		{
+			return _parameters;
+		}
+		
+		/**
 		*	Initializes all available flash variables
 		*	as properties of this instance if this instance
 		*	has a property that corresponds to the variable name.
@@ -51,9 +64,10 @@ package com.ffsys.core {
 
 			try {
 				parameters = LoaderInfo( root.loaderInfo ).parameters;
+				_parameters = parameters;
 			}catch( e:Error )
 			{
-				throw new Error( "Could not get FlashVars parameters from " + root );
+				throw new Error( "Could not get flash variables parameters from " + root );
 			}
 			
 		    var key:String;

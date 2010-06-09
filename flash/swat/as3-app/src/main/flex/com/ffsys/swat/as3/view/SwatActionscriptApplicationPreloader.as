@@ -1,6 +1,8 @@
 package com.ffsys.swat.as3.view
 {
 	import com.ffsys.swat.view.SwatApplicationPreloader;
+	
+	import com.ffsys.swat.as3.configuration.SwatActionscriptClassPathConfiguration;
 	import com.ffsys.swat.as3.core.ApplicationFlashVariables;
 	
 	/**
@@ -17,9 +19,10 @@ package com.ffsys.swat.as3.view
 		/**
 		*	@private
 		*	
-		*	Force compiling of dependent classes.	
-		*/		
+		*	Force compiling of dependent classes.
+		*/
 		static private var _vars:ApplicationFlashVariables;
+		static private var _classes:SwatActionscriptClassPathConfiguration;
 		
 		/**
 		* 	Creates a <code>SwatActionscriptApplicationPreloader</code> instance.

@@ -48,7 +48,7 @@
 			<version>${flex.version}</version>
 			<classifier>${flash.player.classifier}</classifier>
 			<type>swc</type>
-		</dependency>	
+		</dependency>
 	  </dependencies>
 		
 	<distributionManagement>

@@ -7,6 +7,7 @@ package com.ffsys.swat.view {
 	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	
 	/**
 	*	The main application preloader.
@@ -19,6 +20,7 @@ package com.ffsys.swat.view {
 	*/
 	public class SwatApplicationPreloader extends Sprite {
 		
+		private var _classes:IClassPathConfiguration;
 		private var _flashvars:SwatFlashVariables;
 		
 		/**
@@ -28,35 +30,59 @@ package com.ffsys.swat.view {
 		{
 			super();
 			
-			//TODO: make the flash variables configurable
-			_flashvars = getFlashVariablesClassInstance();
+			_classes = getClassConfigurationInstance();
+			_flashvars = getFlashVariablesClassInstance(
+				_classes.getFlashVariablesClassPath() );
 			
 			addEventListener( Event.ADDED_TO_STAGE, created );
 		}
 		
-		private function getFlashVariablesClassPath():String
+		/**
+		* 	@private
+		*/
+		private function getClassConfigurationInstance():IClassPathConfiguration
 		{
-			var classPath:String = "com.ffsys.swat.core.SwatFlashVariables";
+			var classPath:String = "com.ffsys.swat.configuration.ClassPathConfiguration";
 			var parameters:Object;
 
 			try {
 				parameters = LoaderInfo( this.loaderInfo ).parameters;
 				
-				if( parameters.vars )
+				if( parameters.classes )
 				{
-					classPath = parameters.vars;
+					classPath = parameters.classes;
 				}
 			}catch( e:Error )
 			{
 				//fail silently
 			}
 			
-			return classPath;
-		}
+			var clz:Class = null;
+			
+			try
+			{
+				clz = Class(
+					getDefinitionByName( classPath ) );
+			}catch( e:Error )
+			{
+				throw new Error(
+					"Could not locate class path configuration class with class path '"
+					+ classPath + "'" );
+			}
+			
+			var instance:Object = new clz();
+			
+			if( !( instance is IClassPathConfiguration ) )
+			{
+				throw new Error( "The class path configuration class does not adhere to the class path contract." );
+			}			
+			
+			return IClassPathConfiguration( instance );
+		}		
 		
-		private function getFlashVariablesClassInstance():SwatFlashVariables
+		private function getFlashVariablesClassInstance(
+			classPath:String ):SwatFlashVariables
 		{
-			var classPath:String = getFlashVariablesClassPath();
 			
 			var clz:Class = null;
 			
@@ -112,7 +138,8 @@ package com.ffsys.swat.view {
 		*/
 		private function getMainClassInstance():IApplication
 		{
-			if( _flashvars.main == null )
+			var classPath:String = _classes.getMainClassPath();
+			if( classPath == null )
 			{
 				throw new Error( "No main class has been specified." );
 			}
@@ -122,7 +149,7 @@ package com.ffsys.swat.view {
 			try
 			{
 				clz = Class(
-					getDefinitionByName( _flashvars.main ) );
+					getDefinitionByName( classPath ) );
 			}catch( e:Error )
 			{
 				throw new Error(
@@ -149,7 +176,6 @@ package com.ffsys.swat.view {
 				getMainClassInstance();
 			app.flashvars = _flashvars;
 			addChild( DisplayObject( app ) );
-			//app.createChildren();
 		}
 	}
 }

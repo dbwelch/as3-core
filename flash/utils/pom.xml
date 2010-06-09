@@ -21,6 +21,7 @@
 		<module>collections</module>
 		<module>display</module>
 		<module>flex</module>
+		<module>geo</module>
 		<module>history</module>
 		<module>identifier</module>
 		<module>inspector</module>
