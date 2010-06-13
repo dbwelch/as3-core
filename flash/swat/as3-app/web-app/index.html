@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<script type="text/javascript" src="assets/js/swfobject.js"></script>
 		<script type="text/javascript">
-			swfobject.registerObject( "wtg-earth", "9.0.124", "assets/swf/expressInstall.swf" );
+			swfobject.registerObject( "swat-as3", "10", "assets/swf/expressInstall.swf" );
 		</script>
 		<style type="text/css" media="screen">
 			body {
@@ -54,7 +54,7 @@
 			<h1>SWAT (Simple Web Application Template)</h1>
 			<p class="note">Built for Flash Player <strong>10.0</strong> and later player versions using Actionscript 3.</p>
 			<div>
-				<object id="wtg-earth" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="980" height="365">
+				<object id="swat-as3" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="980" height="365">
 					<param name="movie" value="swat-as3-app-1.1-SNAPSHOT.swf" />
 					<param name="menu" value="false" />
 					<param name="flashvars" value="classes=com.ffsys.swat.as3.configuration.SwatActionscriptClassPathConfiguration&lang=en_GB&configuration=assets/xml/configuration.xml" />
@@ -71,20 +71,6 @@
 					<!--<![endif]-->
 				</object>
 			</div>
-			<p class="note">
-				This is an example of embedding the WTG Earth application within your hosting system.
-				
-				Embedding of the Flash movie is done using <a href="http://code.google.com/p/swfobject/" title="swfobject">swfobject</a> using the static publishing method. Therefore the flashvars passed into the movie need to be duplicated as there are two <strong>object</strong> tags. The outer tag is for Internet Explorer and the inner tag within conditionals is for all other browsers.
-			</p>
-			<p class="note">
-				You are free of course to change the method of embedding the Flash movie (although we think this is the best standards and browser compatible approach), <strong>but</strong> you must pass in the required flashvars to configure the application.
-			</p>
-			<ul>
-				<li><strong>lang</strong> - The <a href="http://en.wikipedia.org/wiki/ISO_639-1" title="ISO_639-1 information">ISO 639-1</a> language code and <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" title="ISO_3166-1_alpha-2 information">ISO_3166-1_alpha-2</a> country code that you want the application to run in. If this is not specified the default of <strong>en_GB</strong> is used. Available values are <strong>en_GB</strong>, <strong>fr_FR</strong>, <strong>es_ES</strong> and <strong>de_DE</strong>.</li>
-				<li><strong>mode</strong> - The application runtime mode, can be either <strong>auto</strong> or <strong>manual</strong>.</li>
-				<li><strong>configuration</strong> - An alternative path to the XML configuration file. The default value is <strong>assets/xml/configuration.xml</strong>.</li>
-			</ul>
-			<p class="note">Note that if an invalid language code is supplied the Flash movie will throw a runtime exception. Also if the mode value is not <strong>auto</strong> or <strong>manual</strong> a runtime exception will be thrown.</p>
 		</div>
 	</body>
 </html>
