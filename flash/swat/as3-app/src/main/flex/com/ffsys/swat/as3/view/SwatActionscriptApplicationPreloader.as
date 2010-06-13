@@ -23,6 +23,7 @@ package com.ffsys.swat.as3.view
 		*/
 		static private var _vars:ApplicationFlashVariables;
 		static private var _classes:SwatActionscriptClassPathConfiguration;
+		static private var _view:SwatActionscriptApplicationPreloadView;
 		
 		/**
 		* 	Creates a <code>SwatActionscriptApplicationPreloader</code> instance.

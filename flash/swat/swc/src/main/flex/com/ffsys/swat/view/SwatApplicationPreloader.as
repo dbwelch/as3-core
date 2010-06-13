@@ -22,6 +22,7 @@ package com.ffsys.swat.view {
 		
 		private var _classes:IClassPathConfiguration;
 		private var _flashvars:SwatFlashVariables;
+		private var _view:IApplicationPreloadView;
 		
 		/**
 		*	Creates an <code>SwatApplicationPreloader</code> instance.	
@@ -32,10 +33,13 @@ package com.ffsys.swat.view {
 			
 			var classPathConfiguration:IClassPathConfiguration
 				= getClassConfigurationInstance();
-			
+				
 			_flashvars = getFlashVariablesClassInstance(
 				classPathConfiguration.getFlashVariablesClassPath() );
 			_flashvars.classPathConfiguration = classPathConfiguration;
+			
+			_view = getApplicationPreloadViewInstance(
+				classPathConfiguration.getPreloadViewClassPath() );
 			
 			addEventListener( Event.ADDED_TO_STAGE, created );
 		}
@@ -45,7 +49,7 @@ package com.ffsys.swat.view {
 		*/
 		private function getClassConfigurationInstance():IClassPathConfiguration
 		{
-			var classPath:String = "com.ffsys.swat.configuration.ClassPathConfiguration";
+			var classPath:String = null;
 			var parameters:Object;
 
 			try {
@@ -110,6 +114,34 @@ package com.ffsys.swat.view {
 			return SwatFlashVariables( instance );
 		}
 		
+		private function getApplicationPreloadViewInstance(
+			classPath:String ):IApplicationPreloadView
+		{
+			
+			var clz:Class = null;
+			
+			try
+			{
+				clz = Class(
+					getDefinitionByName( classPath ) );
+			}catch( e:Error )
+			{
+				throw new Error(
+					"Could not locate application preload view class with class path '"
+					+ classPath + "'" );
+			}
+			
+			var instance:Object = new clz();
+			
+			if( !( instance is IApplicationPreloadView ) )
+			{
+				throw new Error(
+					"The application preload view class does not adhere to the application preload contract." );
+			}
+			
+			return IApplicationPreloadView( instance );
+		}
+		
 		/**
 		*	@private
 		*/
@@ -119,6 +151,13 @@ package com.ffsys.swat.view {
 			addEventListener( Event.ENTER_FRAME, onEnterFrame );
 			
 			//TODO: inform the preload implementation of the created status
+			
+			if( _view )
+			{
+				addChild( DisplayObject( _view ) );
+				_view.created();
+			}
+			
 		}
 		
 		/**

@@ -109,5 +109,19 @@ package com.ffsys.swat.configuration {
 		*	@param assetManager The asset manager.	
 		*/
 		function set assetManager( assetManager:AssetManager ):void;
+		
+		/**
+		*	Gets the runtime shared library collection. 
+		*	
+		*	@return The runtime shared library collection
+		*/
+		function get rsls():RuntimeSharedLibraryCollection;
+	
+		/**
+		*	Sets the runtime shared library collection. 
+		*	
+		*	@param rsls The runtime shared library collection
+		*/
+		function set rsls( rsls:RuntimeSharedLibraryCollection ):void;		
 	}
 }

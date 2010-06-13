@@ -36,5 +36,13 @@ package com.ffsys.swat.configuration
 		{
 			return "com.ffsys.swat.core.SwatFlashVariables";
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getPreloadViewClassPath():String
+		{
+			return "com.ffsys.swat.view.ApplicationPreloadView";
+		}
 	}
 }

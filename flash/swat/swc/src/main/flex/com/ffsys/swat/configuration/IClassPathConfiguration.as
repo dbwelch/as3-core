@@ -25,5 +25,12 @@ package com.ffsys.swat.configuration
 		* 	@return The flash variables class path.
 		*/
 		function getFlashVariablesClassPath():String;
+		
+		/**
+		* 	Gets the class path to the view used during the application preload process.
+		* 
+		* 	@return The application preload view class path.
+		*/
+		function getPreloadViewClassPath():String;
 	}
 }

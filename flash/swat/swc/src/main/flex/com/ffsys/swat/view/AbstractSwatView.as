@@ -3,6 +3,13 @@ package com.ffsys.swat.view  {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	
+	import flash.text.Font;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
+	import flash.text.TextFieldAutoSize;
+	import flash.utils.getDefinitionByName;
+	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationAware;
@@ -122,6 +129,102 @@ package com.ffsys.swat.view  {
 			
 			this.mouseEnabled = enabled;
 			this.mouseChildren = enabled;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function createTextField(
+			text:String = "",
+			width:Number = 140,
+			height:Number = 80,
+			font:String = null,
+			size:Number = 12,
+			color:Number = 0xffffff ):TextField
+		{
+			var clz:Class = null;
+
+			try
+			{
+				clz = Class( getDefinitionByName( font ) );
+			}catch( e:Error )
+			{
+				throw new Error( "Could not find a class for font class '" + font + "'." );
+			}
+
+			Font.registerFont( clz );
+
+			var fnt:Font = Font( new clz() );
+
+			var format:TextFormat = new TextFormat();
+			format.font = fnt.fontName;
+			format.size = size;
+			format.color = color;
+			format.align = TextFormatAlign.LEFT;
+			format.leading = 0;
+
+			var txt:TextField = new TextField();
+			txt.width = width;
+			txt.height = height;
+			txt.autoSize = TextFieldAutoSize.LEFT;
+			txt.defaultTextFormat = format;
+			txt.embedFonts = true;
+			txt.text = text;
+			txt.selectable = false;
+			txt.wordWrap = true;
+
+			return txt;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function applyProperties(
+			target:Object, properties:Object ):void
+		{
+			if( target != null )
+			{
+				var z:String = null;
+				for( z in properties )
+				{
+					if( target.hasOwnProperty( z ) )
+					{
+						target[ z ] = properties[ z ];
+					}
+				}
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function applyTextFieldProperties(
+			txt:TextField, properties:Object ):void
+		{
+			if( txt != null )
+			{
+				applyProperties( txt, properties );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function applyTextFormatProperties(
+			txt:TextField, properties:Object ):void
+		{
+			if( txt != null )
+			{
+				var tf:TextFormat = txt.defaultTextFormat;
+				
+				if( tf != null )
+				{
+					applyProperties( tf, properties );
+				}
+				
+				txt.defaultTextFormat = tf;
+				txt.text = txt.text;
+			}
 		}
 		
 		/**

@@ -1,5 +1,7 @@
 package com.ffsys.swat.view
 {
+	import flash.text.TextField;
+	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.Settings;
@@ -56,5 +58,48 @@ package com.ffsys.swat.view
 		*	@return The application settings.
 		*/
 		function get settings():Settings;
+		
+		/**
+		* 	Creates a text field.
+		*/
+		function createTextField(
+			text:String = "",
+			width:Number = 140,
+			height:Number = 80,
+			font:String = null,
+			size:Number = 12,
+			color:Number = 0xffffff ):TextField;
+	
+		/**
+		* 	Applies a set of properties to an object
+		*	only if the <code>target</code> has the corresponding property
+		*	extracted from the source <code>properties</code> object.
+		*	
+		*	@param target The target to have the properties set.
+		*	@param properties The properties to set on the target.
+		*/
+		function applyProperties(
+			target:Object, properties:Object ):void;
+	
+		/**
+		* 	Applies source properties to a text field.
+		*	
+		*	@param txt The target text field.
+		*	@param properties The properties to set.
+		*/
+		function applyTextFieldProperties(
+			txt:TextField, properties:Object ):void;
+	
+		/**
+		* 	Applies text format properties to a text field.
+		*	
+		*	This operates on the <code>defaultTextFormat</code>
+		*	associated with the text field.
+		*	
+		*	@param txt The text field to format.
+		*	@param properties The properties to set on the text format.
+		*/
+		function applyTextFormatProperties(
+			txt:TextField, properties:Object ):void;	
 	}
 }

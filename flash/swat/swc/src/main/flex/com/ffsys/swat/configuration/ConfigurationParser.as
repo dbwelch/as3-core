@@ -54,6 +54,18 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const ASSETS_NAME:String =
 			"assets";
+			
+		/**
+		*	The node name for the rsl collection.
+		*/
+		static public const RSLS_NAME:String =
+			"rsls";
+			
+		/**
+		*	The node name for a rsl.
+		*/
+		static public const RSL_NAME:String =
+			"rsl";
 
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
@@ -115,7 +127,19 @@ package com.ffsys.swat.configuration {
 				StringCollection,
 				ASSETS_NAME,
 				ASSETS_NAME,
-				false );		
+				false );
+				
+			classNodeNameMap.add(
+				RuntimeSharedLibraryCollection,
+				RSLS_NAME,
+				RSLS_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				RuntimeSharedLibrary,
+				RSL_NAME,
+				RSL_NAME,
+				false );
 		}
 		
 		/**

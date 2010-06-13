@@ -23,6 +23,7 @@ package com.ffsys.swat.configuration {
 		private var _settings:Settings;
 		private var _assets:StringCollection;
 		private var _assetManager:AssetManager;
+		private var _rsls:RuntimeSharedLibraryCollection;
 		
 		/**
 		*	Create a <code>Configuration</code> instance.
@@ -183,6 +184,22 @@ package com.ffsys.swat.configuration {
 		public function set assetManager( assetManager:AssetManager ):void
 		{
 			_assetManager = assetManager;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get rsls():RuntimeSharedLibraryCollection
+		{
+			return _rsls;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function set rsls( rsls:RuntimeSharedLibraryCollection ):void
+		{
+			_rsls = rsls;
 		}
 	}
 }

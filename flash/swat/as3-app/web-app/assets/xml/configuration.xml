@@ -9,6 +9,13 @@
 		<locale lang="fr" country="FR" />
 	</locales>
 	
+	<rsls>
+		<rsl>
+			<trusted>true</trusted>
+			<url>assets/swf/application-assets.swf</url>
+		</rsl>
+	</rsls>
+	
 	<copy>
 		
 		<!-- the default locale to use -->
