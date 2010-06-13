@@ -115,13 +115,16 @@ package com.ffsys.swat.configuration {
 			return Sound( getAssetByClassPath( classPath ) );
 		}
 		
-		public function playSoundByClassPath( classPath:String ):SoundChannel
+		public function playSoundByClassPath(
+			classPath:String,
+			startTime:Number = 0,
+			loops:int = 0,
+			transform:SoundTransform = null ):SoundChannel
 		{
-			
 			var snd:Sound = getSoundByClassPath( classPath );
-			var channel:SoundChannel =	snd.play();
-			
+			var channel:SoundChannel =	snd.play(
+				startTime, loops, transform );
 			return channel;
-		}		
+		}
 	}
 }

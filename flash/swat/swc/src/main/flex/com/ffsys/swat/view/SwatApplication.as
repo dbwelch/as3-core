@@ -65,7 +65,6 @@ package com.ffsys.swat.view  {
 			_flashvars = flashvars;
 		}
 		
-		
 		/**
 		* 	@private
 		*/
