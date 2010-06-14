@@ -1,5 +1,6 @@
 package com.ffsys.swat.view
 {
+	import flash.text.Font;
 	import flash.text.TextField;
 	
 	import com.ffsys.swat.configuration.AssetManager;
@@ -58,6 +59,16 @@ package com.ffsys.swat.view
 		*	@return The application settings.
 		*/
 		function get settings():Settings;
+		
+		/**
+		* 	Registers a font from a class path and returns
+		* 	an instance of the font.
+		* 
+		* 	@param classPath The fully qualified class path to the font.
+		* 
+		* 	@return An instance of the font.
+		*/
+		function registerFont( classPath:String ):Font;
 		
 		/**
 		* 	Creates a text field.

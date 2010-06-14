@@ -66,6 +66,24 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const RSL_NAME:String =
 			"rsl";
+			
+		/**
+		*	The node name for an array of alphas.
+		*/
+		static public const ALPHAS_NAME:String =
+			"alphas";
+			
+		/**
+		*	The node name for an array of ratios.
+		*/
+		static public const RATIOS_NAME:String =
+			"ratios";
+			
+		/**
+		*	The node name for an array of colors.
+		*/
+		static public const COLORS_NAME:String =
+			"colors";
 
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
@@ -140,6 +158,24 @@ package com.ffsys.swat.configuration {
 				RSL_NAME,
 				RSL_NAME,
 				false );
+				
+			classNodeNameMap.add(
+				Array,
+				ALPHAS_NAME,
+				ALPHAS_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				Array,
+				RATIOS_NAME,
+				RATIOS_NAME,
+				false );				
+				
+			classNodeNameMap.add(
+				Array,
+				COLORS_NAME,
+				COLORS_NAME,
+				false );				
 		}
 		
 		/**

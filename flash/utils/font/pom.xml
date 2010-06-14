@@ -18,77 +18,66 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>errors</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>events</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>connection</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>gateway</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>loaders</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>						
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>xml</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>inspector</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>locale</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>substitution</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>				
 	</dependencies>
 </project>

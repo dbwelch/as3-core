@@ -10,6 +10,8 @@ package com.ffsys.swat.view  {
 	import flash.text.TextFieldAutoSize;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.utils.collections.strings.StringCollection;
+	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationAware;
@@ -91,6 +93,19 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function get assets():StringCollection
+		{
+			if( this.configuration == null )
+			{
+				throw new Error( "Cannot access the application assets with a null configuration." );
+			}
+			
+			return this.configuration.assets;
+		}
+		
+		/**
 		* 	Adds a child display list instance to this instance.
 		* 
 		* 	@param child The child display object.
@@ -134,6 +149,40 @@ package com.ffsys.swat.view  {
 		/**
 		* 	@inheritDoc
 		*/
+		public function registerFont( classPath:String ):Font
+		{
+			var instance:Object = null;
+			
+			var clz:Class = null;
+
+			try
+			{
+				clz = Class( getDefinitionByName( classPath ) );
+			}catch( e:Error )
+			{
+				throw new Error( "Could not find a class for font class '" + classPath + "'." );
+			}
+			
+			try
+			{
+				instance = new clz();
+			}catch( e:Error )
+			{
+				throw new Error( "Could not instantiate font instance with class path '" + classPath + "'." );
+			}
+			
+			if( !( instance is Font ) )
+			{
+				throw new Error( "Instantiated instance from class path '" + classPath + "' is not a font." );
+			}
+
+			Font.registerFont( clz );
+			return Font( instance );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function createTextField(
 			text:String = "",
 			width:Number = 140,
@@ -142,22 +191,8 @@ package com.ffsys.swat.view  {
 			size:Number = 12,
 			color:Number = 0xffffff ):TextField
 		{
-			var clz:Class = null;
-
-			try
-			{
-				clz = Class( getDefinitionByName( font ) );
-			}catch( e:Error )
-			{
-				throw new Error( "Could not find a class for font class '" + font + "'." );
-			}
-
-			Font.registerFont( clz );
-
-			var fnt:Font = Font( new clz() );
-
 			var format:TextFormat = new TextFormat();
-			format.font = fnt.fontName;
+			format.font = font;
 			format.size = size;
 			format.color = color;
 			format.align = TextFormatAlign.LEFT;
