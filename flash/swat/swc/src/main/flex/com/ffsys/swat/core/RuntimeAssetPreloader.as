@@ -3,12 +3,11 @@ package com.ffsys.swat.core {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
-	import com.ffsys.io.loaders.events.LoadCompleteEvent;
-	import com.ffsys.io.loaders.core.ILoaderQueue;
+	import com.ffsys.core.IFlashVariables;
+	
+	import com.ffsys.io.loaders.core.*;
+	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.loaders.types.*;
 	
 	import com.ffsys.swat.configuration.ConfigurationParser;
 	import com.ffsys.swat.configuration.ConfigurationLoader;
@@ -17,6 +16,8 @@ package com.ffsys.swat.core {
 	
 	import com.ffsys.swat.events.RslEvent;
 	import com.ffsys.swat.events.ConfigurationEvent;
+	
+	import com.ffsys.swat.view.IApplicationPreloadView;
 	
 	/**
 	*	Preloads the application configuration XML document
@@ -28,13 +29,21 @@ package com.ffsys.swat.core {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class RuntimeAssetPreloader extends EventDispatcher {
+	public class RuntimeAssetPreloader extends EventDispatcher
+		implements IRuntimeAssetPreloader {
 		
-		private var _flashvars:SwatFlashVariables;
+		public static const CODE_PHASE:String = "code";
+		public static const CONFIGURATION_PHASE:String = "configuration";
+		public static const FONTS_PHASE:String = "fonts";
+		public static const RSLS_PHASE:String = "rsls";
+		
+		private var _flashvars:IFlashVariables;
 		private var _assets:ILoaderQueue;
 		private var _configurationLoader:ConfigurationLoader;
-		
+		private var _view:IApplicationPreloadView;
 		private var _configuration:IConfiguration;
+		
+		private var _phase:String = CODE_PHASE;
 		
 		/**
 		*	Creates a <code>RuntimeAssetPreloader</code> instance.
@@ -42,21 +51,39 @@ package com.ffsys.swat.core {
 		* 	@param flashvars The flash variables for the application.
 		*/
 		public function RuntimeAssetPreloader(
-			flashvars:SwatFlashVariables )
+			flashvars:IFlashVariables )
 		{
 			super();
-			
 			_flashvars = flashvars;
-			
 			_configurationLoader = new ConfigurationLoader();
-			_configurationLoader.addEventListener(	
-				ConfigurationEvent.CONFIGURATION_AVAILABLE, loadComplete );
 		}
 		
 		/**
-		* 	Gets the runtime configuration.
-		* 
-		* 	@return The runtime configuration.
+		*	@inheritDoc	
+		*/
+		public function get phase():String
+		{
+			return _phase;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get view():IApplicationPreloadView
+		{
+			return _view;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function set view( view:IApplicationPreloadView ):void
+		{
+			_view = view;
+		}
+		
+		/**
+		* 	@inheritDoc
 		*/
 		public function get configuration():IConfiguration
 		{
@@ -64,30 +91,74 @@ package com.ffsys.swat.core {
 		}
 		
 		/**
-		*	Starts the preloading process.	
+		*	@inheritDoc
 		*/
 		public function load():void
-		{	
+		{					
+			_configurationLoader.addEventListener(
+				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				resourceNotFound, false, 0, false );
+			
+			_configurationLoader.addEventListener(
+				LoadStartEvent.LOAD_START,
+				loadStart, false, 0, false );
+				
+			_configurationLoader.addEventListener(
+				LoadProgressEvent.LOAD_PROGRESS,
+				loadProgress, false, 0, false );
+			
+			_configurationLoader.addEventListener(
+				LoadEvent.DATA,
+				configurationLoadComplete, false, 0, false );
+				
 			_configurationLoader.load(
-				_flashvars.configuration );
+				SwatFlashVariables( _flashvars ).configuration );			
+				
+			_phase = CONFIGURATION_PHASE;
 		}
 		
 		/**
 		*	@private
 		*/
-		private function loadComplete( 
-			event:ConfigurationEvent ):void
-		{
-			//update the selected locale
-			event.configuration.lang = _flashvars.lang;
-			
+		private function configurationLoadComplete( 
+			event:XmlLoadEvent ):void
+		{			
 			//keep a reference to the configuration
-			_configuration = event.configuration;
+			_configuration = _configurationLoader.configuration;
+			
+			//update the selected locale
+			_configuration.lang = SwatFlashVariables( _flashvars ).lang;
+			
+			_configurationLoader.removeEventListener(
+				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				resourceNotFound );
+			
+			_configurationLoader.removeEventListener(
+				LoadStartEvent.LOAD_START,
+				loadStart );
+				
+			_configurationLoader.removeEventListener(
+				LoadProgressEvent.LOAD_PROGRESS,
+				loadProgress );
+			
+			_configurationLoader.removeEventListener(
+				LoadEvent.DATA,
+				itemLoaded );
 
 			_configurationLoader.removeEventListener(
-				ConfigurationEvent.CONFIGURATION_AVAILABLE, loadComplete );
+				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, loadComplete );
 				
-			dispatchEvent( event.clone() );
+			this.view.configuration( new RslEvent(
+				RslEvent.LOADED,
+				this,
+				event ) );
+				
+			var evt:ConfigurationEvent = new ConfigurationEvent(
+				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
+				this,
+				event );
+			evt.configuration = _configurationLoader.configuration;
+			dispatchEvent( evt );
 			
 			//now load the assets rsls
 			loadAssets();
@@ -110,21 +181,23 @@ package com.ffsys.swat.core {
 				
 			_assets.addEventListener(
 				LoadStartEvent.LOAD_START,
-				assetsLoadStart, false, 0, false );
+				loadStart, false, 0, false );
 			
 			_assets.addEventListener(
 				LoadProgressEvent.LOAD_PROGRESS,
-				assetsLoadProgress, false, 0, false );
+				loadProgress, false, 0, false );
 			
 			_assets.addEventListener(
 				LoadEvent.DATA,
-				assetLoaded, false, 0, false );
+				itemLoaded, false, 0, false );
 				
 			_assets.addEventListener(
 				LoadCompleteEvent.LOAD_COMPLETE,
-				assetsLoadComplete, false, 0, false );
+				loadComplete, false, 0, false );
 			
 			_assets.load();
+			
+			_phase = RSLS_PHASE;
 		}
 		
 		/**
@@ -132,75 +205,145 @@ package com.ffsys.swat.core {
 		*/
 		private function resourceNotFound(
 			event:ResourceNotFoundEvent ):void
-		{
-			//fired if the assets movie could not be loaded
+		{	
+			var evt:RslEvent = null;
 			
-			trace("RuntimeAssetPreloader::resourceNotFound()");
+			if( this.view )
+			{
+				evt = new RslEvent(
+					RslEvent.RESOURCE_NOT_FOUND,
+					this,
+					event );
+				
+				this.view.resourceNotFound( evt );
+			}
 		}
 		
 		/**
 		*	@private
 		*/
-		private function assetsLoadStart( event:LoadStartEvent ):void
+		private function loadStart( event:LoadStartEvent ):void
 		{
-			//
-			trace("RuntimeAssetPreloader::assetsLoadStart()");
+			var evt:RslEvent = null;
+			
+			if( this.view )
+			{
+				evt = new RslEvent(
+					RslEvent.LOAD_START,
+					this,
+					event );
+				
+				switch( this.phase )
+				{
+					case CONFIGURATION_PHASE:
+						this.view.configuration( evt );
+						break;
+					case FONTS_PHASE:
+						this.view.font( evt );
+						break;
+					case RSLS_PHASE:
+						this.view.rsl( evt );
+						break;
+				}
+			}
 		}
 		
 		/**
 		*	@private
 		*/
-		private function assetsLoadProgress( 
+		private function loadProgress( 
 			event:LoadProgressEvent ):void
 		{
-			//
-			trace("RuntimeAssetPreloader::assetsLoadProgress()");
+			var evt:RslEvent = null;
+			
+			if( this.view )
+			{
+				evt = new RslEvent(
+					RslEvent.LOAD_PROGRESS,
+					this,
+					event );
+				evt.bytesLoaded = event.bytesLoaded;
+				evt.bytesTotal = event.bytesTotal;
+				
+				switch( this.phase )
+				{
+					case CONFIGURATION_PHASE:
+						this.view.configuration( evt );
+						break;
+					case FONTS_PHASE:
+						this.view.font( evt );
+						break;
+					case RSLS_PHASE:
+						this.view.rsl( evt );
+						break;
+				}
+			}			
 		}
 		
 		/**
 		*	@private
 		*/
-		private function assetLoaded( event:Event ):void
+		private function itemLoaded( event:LoadEvent ):void
 		{
-			//
-			trace("RuntimeAssetPreloader::assetLoaded()");
-		}		
+			var evt:RslEvent = null;
+			
+			if( this.view )
+			{
+				evt = new RslEvent(
+					RslEvent.LOADED,
+					this,
+					event );				
+				
+				switch( this.phase )
+				{
+					case CONFIGURATION_PHASE:
+						this.view.configuration( evt );
+						break;
+					case FONTS_PHASE:
+						this.view.font( evt );
+						break;
+					case RSLS_PHASE:
+						this.view.rsl( evt );
+						break;
+				}
+			}			
+		}
 		
 		/**
 		*	@private
 		*/
-		private function assetsLoadComplete( event:Event ):void
+		private function loadComplete( event:Event ):void
 		{
-			
-			trace("RuntimeAssetPreloader::assetsLoadComplete()");
-			
 			//cleanup
 			_assets.removeEventListener(
 				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound );
 			
 			_assets.removeEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound );
-			
-			_assets.removeEventListener(
 				LoadStartEvent.LOAD_START,
-				assetsLoadStart );
+				loadStart );
 			
 			_assets.removeEventListener(
-				LoadProgressEvent.LOAD_PROGRESS, assetsLoadProgress );
+				LoadProgressEvent.LOAD_PROGRESS,
+					loadProgress );
 				
 			_assets.removeEventListener(
-				LoadEvent.DATA, assetLoaded );
+				LoadEvent.DATA, itemLoaded );
 				
 			_assets.removeEventListener(
-				LoadCompleteEvent.LOAD_COMPLETE, assetsLoadComplete );		
+				LoadCompleteEvent.LOAD_COMPLETE, 
+				loadComplete );
 				
 			_assets = null;
 			
 			//now start the application rendering as we have all the runtime assets
 			var evt:RslEvent = new RslEvent(
-				RslEvent.LIBRARY_LOADED );
+				RslEvent.LOAD_COMPLETE,
+				this,
+				event );
+				
+			_view.complete( evt );
+				
 			dispatchEvent( evt );
 		}
 	}

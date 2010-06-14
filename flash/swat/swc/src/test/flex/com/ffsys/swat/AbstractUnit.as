@@ -44,7 +44,7 @@ package com.ffsys.swat
 		{
 			_configurationLoader = new ConfigurationLoader();
 			_configurationLoader.addEventListener(
-				ConfigurationEvent.CONFIGURATION_AVAILABLE,
+				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
 				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
 			_configurationLoader.load( TEST_XML_PATH );			
 		}

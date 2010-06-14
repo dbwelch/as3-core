@@ -26,24 +26,24 @@ package com.ffsys.io.loaders.events {
 			super( LOAD_PROGRESS, event, loader );
 		}
 		
-		public function get bytesLoaded():int
+		override public function get bytesLoaded():uint
 		{
 			if( event )
 			{
 				return event.bytesLoaded;
 			}
 			
-			return -1;
+			return 0;
 		}
 		
-		public function get bytesTotal():int
+		override public function get bytesTotal():uint
 		{
 			if( event )
 			{
 				return event.bytesTotal;
 			}
 			
-			return -1;
+			return 0;
 		}
 		
 		public function get normalized():Number
@@ -69,13 +69,11 @@ package com.ffsys.io.loaders.events {
 		override public function clone():Event
 		{
 			return new LoadProgressEvent( event, loader );
-		}		
+		}
 		
 		public function get event():ProgressEvent
 		{
 			return triggerEvent as ProgressEvent;
 		}
-		
 	}
-	
 }

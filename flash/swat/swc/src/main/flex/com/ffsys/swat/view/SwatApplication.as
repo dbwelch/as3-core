@@ -2,11 +2,15 @@ package com.ffsys.swat.view  {
 	
 	import flash.events.Event;
 	
+	import com.ffsys.core.IFlashVariables;
+	import com.ffsys.io.loaders.events.*;
+	
+	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.core.RuntimeAssetPreloader;
-	import com.ffsys.swat.core.SwatFlashVariables;
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;
+	import com.ffsys.swat.configuration.ConfigurationLoader;
 	
 	/**
 	*	Abstract super class for the application.
@@ -20,25 +24,33 @@ package com.ffsys.swat.view  {
 	public class SwatApplication extends AbstractSwatView
 		implements IApplication {
 		
-		private var _preloader:RuntimeAssetPreloader;
-		private var _flashvars:SwatFlashVariables;
+		private var _preloader:IRuntimeAssetPreloader;
+		private var _flashvars:IFlashVariables;
+		private var _configurationLoader:ConfigurationLoader;
 		
 		/**
 		*	Creates a <code>SwatApplication</code> instance.
 		*/
-		public function SwatApplication( flashvars:SwatFlashVariables )
+		public function SwatApplication()
 		{
 			super();
-			
-			_preloader = new RuntimeAssetPreloader( flashvars );
-
-			_preloader.addEventListener(
-				ConfigurationEvent.CONFIGURATION_AVAILABLE, configurationAvailable );
-				
-			_preloader.addEventListener(
-				RslEvent.LIBRARY_LOADED, assetsAvailable );
-			
 			addEventListener( Event.ADDED_TO_STAGE, created );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get preloader():IRuntimeAssetPreloader
+		{
+			return _preloader;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function set preloader( preloader:IRuntimeAssetPreloader ):void
+		{
+			_preloader = _preloader;
 		}
 		
 		/**
@@ -52,7 +64,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function get flashvars():SwatFlashVariables
+		public function get flashvars():IFlashVariables
 		{
 			return _flashvars;
 		}
@@ -60,9 +72,19 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function set flashvars( flashvars:SwatFlashVariables ):void
+		public function set flashvars( flashvars:IFlashVariables ):void
 		{
-			_flashvars = flashvars;
+			if( !_flashvars )
+			{
+				_flashvars = flashvars;
+				_preloader = new RuntimeAssetPreloader( _flashvars );
+			
+				preloader.addEventListener(
+					ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationAvailable );
+				
+				preloader.addEventListener(
+					RslEvent.LOAD_COMPLETE, assetsAvailable );
+			}
 		}
 		
 		/**
@@ -72,7 +94,7 @@ package com.ffsys.swat.view  {
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, created );
 			//start the load process
-			_preloader.load();
+			preloader.load();
 		}
 		
 		/**
@@ -80,7 +102,7 @@ package com.ffsys.swat.view  {
 		*/
 		protected function configurationAvailable( event:ConfigurationEvent ):void
 		{
-			removeEventListener( ConfigurationEvent.CONFIGURATION_AVAILABLE, configurationAvailable );
+			removeEventListener( ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationAvailable );
 			
 			//keep a reference to the configuration
 			this.configuration = event.configuration;
@@ -91,7 +113,7 @@ package com.ffsys.swat.view  {
 		*/
 		protected function assetsAvailable( event:RslEvent ):void
 		{
-			removeEventListener( RslEvent.LIBRARY_LOADED, assetsAvailable );
+			removeEventListener( RslEvent.LOAD_COMPLETE, assetsAvailable );
 			
 			//create the views
 			createChildren();

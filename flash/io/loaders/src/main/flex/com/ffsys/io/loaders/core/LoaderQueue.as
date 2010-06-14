@@ -862,6 +862,7 @@ package com.ffsys.io.loaders.core {
 		public function resourceLoadStart( event:LoadStartEvent ):void
 		{
 			//dispatchEvent( event as Event );
+			dispatchEvent( event.clone() );
 		}
 		
 		public function resourceLoadProgress( event:LoadProgressEvent ):void
@@ -870,19 +871,19 @@ package com.ffsys.io.loaders.core {
 			//trace( "bytesLoaded : " + this.bytesLoaded );
 			//trace( "bytesTotal : " + this.bytesTotal );
 			
-			var progressEvent:ProgressEvent = new ProgressEvent( ProgressEvent.PROGRESS );
-			progressEvent.bytesLoaded = this.bytesLoaded;
-			progressEvent.bytesTotal = this.bytesTotal;
+			//var progressEvent:ProgressEvent = new ProgressEvent( ProgressEvent.PROGRESS );
+			//progressEvent.bytesLoaded = this.bytesLoaded;
+			//progressEvent.bytesTotal = this.bytesTotal;
 			
 			//trace( "progressEvent bytesLoaded : " + progressEvent.bytesLoaded );
 			//trace( "progressEvent bytesTotal : " + progressEvent.bytesTotal );
 			
-			var evt:LoadProgressEvent =
-				new LoadProgressEvent( progressEvent, event.loader );
+			//var evt:LoadProgressEvent =
+			//	new LoadProgressEvent( progressEvent, event.loader );
 			
 			//trace( "percent : " + evt.percentLoaded );
 			
-			dispatchEvent( evt );
+			dispatchEvent( event.clone() );
 			
 			//dispatchEvent( event );
 		}

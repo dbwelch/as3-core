@@ -23,7 +23,8 @@ package com.ffsys.swat.configuration {
 	*/
 	public class ConfigurationLoader extends EventDispatcher {
 
-		private var _configuration:XmlLoader;
+		private var _loader:XmlLoader;
+		private var _configuration:IConfiguration;
 		
 		/**
 		*	Constructs an <code>ConfigurationLoader</code> instance.
@@ -31,7 +32,20 @@ package com.ffsys.swat.configuration {
 		public function ConfigurationLoader()
 		{
 			super();
-			_configuration = new XmlLoader();
+			_loader = new XmlLoader();
+		}
+		
+		public function get configuration():IConfiguration
+		{
+			return _configuration;
+		}
+		
+		/**
+		*	Gets the loader used to load and parse the XML document.	
+		*/
+		public function get loader():XmlLoader
+		{
+			return _loader;
 		}
 		
 		/**
@@ -52,31 +66,31 @@ package com.ffsys.swat.configuration {
 		private function loadConfiguration(
 			request:URLRequest = null ):void
 		{
-			if( _configuration )
+			if( _loader )
 			{
-				_configuration.close();
-				_configuration = null;
+				_loader.close();
+				_loader = null;
 			}
 			
-			_configuration = new XmlLoader();
+			_loader = new XmlLoader();
 			
-			_configuration.addEventListener(
+			_loader.addEventListener(
 				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound, false, 0, false );
 			
-			_configuration.addEventListener(
+			_loader.addEventListener(
 				LoadStartEvent.LOAD_START,
 				loadStart, false, 0, false );
 				
-			_configuration.addEventListener(
+			_loader.addEventListener(
 				LoadProgressEvent.LOAD_PROGRESS,
 				loadProgress, false, 0, false );
 			
-			_configuration.addEventListener(
+			_loader.addEventListener(
 				LoadEvent.DATA,
 				loadComplete, false, 0, false );
 			
-			_configuration.load( request );
+			_loader.load( request );
 		}
 		
 		/**
@@ -85,6 +99,7 @@ package com.ffsys.swat.configuration {
 		private function loadStart( event:LoadStartEvent ):void
 		{
 			// inform the system config loading has begun
+			dispatchEvent( event );
 		}
 		
 		/**
@@ -93,9 +108,7 @@ package com.ffsys.swat.configuration {
 		private function resourceNotFound(
 			event:ResourceNotFoundEvent ):void
 		{
-			//fired if the configuration xml could not be loaded
-			
-			throw new Error( "The requested document could not be loaded." );
+			dispatchEvent( event );
 		}
 		
 		/**
@@ -105,6 +118,7 @@ package com.ffsys.swat.configuration {
 			event:LoadProgressEvent ):void
 		{
 			//fired while the configuration xml is loading
+			dispatchEvent( event );
 		}
 		
 		/**
@@ -115,28 +129,25 @@ package com.ffsys.swat.configuration {
 		{
 			//configuration xml loaded successfully
 			
-			var configuration:IConfiguration = parse( event.xml );
+			_configuration = parse( event.xml );
 			
 			//cleanup
-			_configuration.removeEventListener(
+			_loader.removeEventListener(
 				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound );
 			
-			_configuration.removeEventListener(
+			_loader.removeEventListener(
 				LoadStartEvent.LOAD_START, loadStart );
 				
-			_configuration.removeEventListener(
+			_loader.removeEventListener(
 				LoadProgressEvent.LOAD_PROGRESS, loadProgress );
 			
-			_configuration.removeEventListener(
+			_loader.removeEventListener(
 				LoadEvent.DATA, loadComplete );
 				
-			_configuration = null;
+			_loader = null;
 			
-			var evt:ConfigurationEvent = new ConfigurationEvent(
-				ConfigurationEvent.CONFIGURATION_AVAILABLE );
-			evt.configuration = configuration;
-			dispatchEvent( evt );
+			dispatchEvent( event );
 		}
 		
 		/**

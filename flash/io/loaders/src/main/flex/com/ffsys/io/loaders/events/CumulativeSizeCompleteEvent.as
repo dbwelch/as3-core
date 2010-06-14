@@ -36,7 +36,7 @@ package com.ffsys.io.loaders.events {
 			_bytesTotal = val;
 		}
 		
-		public function get bytesTotal():uint
+		override public function get bytesTotal():uint
 		{
 			return _bytesTotal;
 		}
@@ -44,8 +44,6 @@ package com.ffsys.io.loaders.events {
 		override public function clone():Event
 		{
 			return new CumulativeSizeCompleteEvent( triggerEvent, loader, bytesTotal );
-		}				
-		
+		}
 	}
-	
 }

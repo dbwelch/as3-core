@@ -17,8 +17,10 @@ package com.ffsys.io.loaders.events {
 	*	@since  27.07.2007
 	*/
 	public interface ILoadEvent {
+		
 		function set triggerEvent( val:Event ):void;
 		function get triggerEvent():Event;
+		
 		function set loader( val:ILoader ):void;
 		function get loader():ILoader;
 		
@@ -29,6 +31,7 @@ package com.ffsys.io.loaders.events {
 		function set resource( val:IResourceElement ):void;
 		function get resource():IResourceElement;
 		
+		function get bytesLoaded():uint;
+		function get bytesTotal():uint;
 	}
-	
 }

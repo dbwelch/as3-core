@@ -57,6 +57,27 @@ package com.ffsys.io.loaders.events {
 			return _loader;
 		}
 		
+		
+		public function get bytesLoaded():uint
+		{
+			if( loader )
+			{
+				return loader.getBytesLoaded();
+			}
+			
+			return 0;
+		}
+		
+		public function get bytesTotal():uint
+		{
+			if( loader )
+			{
+				return loader.getBytesTotal();
+			}
+			
+			return 0;
+		}
+		
 		public function get request():URLRequest
 		{
 			if( _loader )

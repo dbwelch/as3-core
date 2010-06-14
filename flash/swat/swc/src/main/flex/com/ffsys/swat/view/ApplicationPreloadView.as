@@ -2,6 +2,8 @@ package com.ffsys.swat.view {
 	
 	import flash.display.Sprite;
 	
+	import com.ffsys.swat.events.RslEvent;
+	
 	/**
 	*	View for the application preload sequence.
 	*
@@ -27,7 +29,57 @@ package com.ffsys.swat.view {
 		*/	
 		public function created():void
 		{
-			trace("ApplicationPreloadView::created(), ", this, this.parent );
+			//
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function code( event:RslEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function resourceNotFound( event:RslEvent ):void
+		{
+			throw new Error(
+				"The requested runtime resource '" +
+			 	event.uri + "' could not be found." );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function configuration( event:RslEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function rsl( event:RslEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function font( event:RslEvent ):void
+		{
+			//
+		}	
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function complete( event:RslEvent ):void
+		{
+			//
 		}
 	}
 }

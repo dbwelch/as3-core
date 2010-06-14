@@ -17,9 +17,9 @@ package com.ffsys.swat.as3.view
 		/**
 		* 	Creates a SwatActionscriptApplication instance.
 		*/
-		public function SwatActionscriptApplication( flashvars:ApplicationFlashVariables )
+		public function SwatActionscriptApplication()
 		{
-			super( flashvars );
+			super();
 		}
 	}
 }

@@ -6,11 +6,20 @@ package com.ffsys.swat.view {
 	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.core.IFlashVariables;
+	import com.ffsys.swat.core.IRuntimeAssetPreloader;
+	import com.ffsys.swat.core.RuntimeAssetPreloader;
 	import com.ffsys.swat.core.SwatFlashVariables;
+	
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
+	import com.ffsys.swat.events.RslEvent;
 	
 	/**
 	*	The main application preloader.
+	*	
+	*	This handles loading of the main code base
+	*	and then differs to the runtime asset preloader
+	*	for the remaining assets.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -21,7 +30,7 @@ package com.ffsys.swat.view {
 	public class SwatApplicationPreloader extends Sprite {
 		
 		private var _classes:IClassPathConfiguration;
-		private var _flashvars:SwatFlashVariables;
+		private var _flashvars:IFlashVariables;
 		private var _view:IApplicationPreloadView;
 		
 		/**
@@ -36,7 +45,7 @@ package com.ffsys.swat.view {
 				
 			_flashvars = getFlashVariablesClassInstance(
 				classPathConfiguration.getFlashVariablesClassPath() );
-			_flashvars.classPathConfiguration = classPathConfiguration;
+			SwatFlashVariables( _flashvars ).classPathConfiguration = classPathConfiguration;
 			
 			_view = getApplicationPreloadViewInstance(
 				classPathConfiguration.getPreloadViewClassPath() );
@@ -82,13 +91,13 @@ package com.ffsys.swat.view {
 			if( !( instance is IClassPathConfiguration ) )
 			{
 				throw new Error( "The class path configuration class does not adhere to the class path contract." );
-			}			
+			}
 			
 			return IClassPathConfiguration( instance );
-		}		
+		}
 		
 		private function getFlashVariablesClassInstance(
-			classPath:String ):SwatFlashVariables
+			classPath:String ):IFlashVariables
 		{
 			
 			var clz:Class = null;
@@ -111,7 +120,7 @@ package com.ffsys.swat.view {
 				throw new Error( "The flash variables class does not adhere to the flash variables contract." );
 			}
 			
-			return SwatFlashVariables( instance );
+			return IFlashVariables( instance );
 		}
 		
 		private function getApplicationPreloadViewInstance(
@@ -150,14 +159,18 @@ package com.ffsys.swat.view {
 			removeEventListener( Event.ADDED_TO_STAGE, created );
 			addEventListener( Event.ENTER_FRAME, onEnterFrame );
 			
-			//TODO: inform the preload implementation of the created status
-			
+			var evt:RslEvent = null;
+
 			if( _view )
 			{
 				addChild( DisplayObject( _view ) );
 				_view.created();
+				
+				evt = new RslEvent(
+					RslEvent.LOAD_START, null, event );
+				evt.uri = LoaderInfo( this.loaderInfo ).loaderURL;
+				_view.code( evt );
 			}
-			
 		}
 		
 		/**
@@ -165,11 +178,27 @@ package com.ffsys.swat.view {
 		*/
 		private function onEnterFrame( event:Event ):void
 		{
+			var evt:RslEvent = null;
+			
 			var bl:Number = stage.loaderInfo.bytesLoaded;
 			var bt:Number = stage.loaderInfo.bytesTotal;
 			
+			evt = new RslEvent(
+				RslEvent.LOAD_PROGRESS, null, event );
+			evt.bytesTotal = bt;
+			evt.bytesLoaded = bl;
+			evt.uri = LoaderInfo( this.loaderInfo ).loaderURL;
+			_view.code( evt );
+			
 			if( bl >= bt )
 			{
+				evt = new RslEvent(
+					RslEvent.LOADED, null, event );
+				evt.bytesTotal = bt;
+				evt.bytesLoaded = bl;
+				evt.uri = LoaderInfo( this.loaderInfo ).loaderURL;
+				_view.code( evt );
+				
 				removeEventListener( Event.ENTER_FRAME, onEnterFrame );
 				init();
 			}
@@ -180,7 +209,8 @@ package com.ffsys.swat.view {
 		*/
 		private function getMainClassInstance():IApplication
 		{
-			var classPath:String = _flashvars.classPathConfiguration.getMainClassPath();
+			var classPath:String = SwatFlashVariables(
+				_flashvars ).classPathConfiguration.getMainClassPath();
 			
 			if( classPath == null )
 			{
@@ -200,7 +230,7 @@ package com.ffsys.swat.view {
 					+ classPath + "'" );
 			}
 			
-			var instance:Object = new clz( _flashvars );
+			var instance:Object = new clz();
 			
 			if( !( instance is IApplication ) )
 			{
@@ -218,6 +248,7 @@ package com.ffsys.swat.view {
 			var app:IApplication =
 				getMainClassInstance();
 			app.flashvars = _flashvars;
+			app.preloader.view = _view;
 			addChild( DisplayObject( app ) );
 		}
 	}

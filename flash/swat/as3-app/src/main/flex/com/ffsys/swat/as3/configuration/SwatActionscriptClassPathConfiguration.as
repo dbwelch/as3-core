@@ -43,6 +43,6 @@ package com.ffsys.swat.as3.configuration
 		override public function getPreloadViewClassPath():String
 		{
 			return "com.ffsys.swat.as3.view.SwatActionscriptApplicationPreloadView";
-		}		
+		}
 	}
 }

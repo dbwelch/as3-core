@@ -4,6 +4,7 @@ package com.ffsys.swat.events {
 	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationAware;
+	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	
 	/**
 	*	Encapsulates events dispatched related to the configuration
@@ -15,22 +16,24 @@ package com.ffsys.swat.events {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class ConfigurationEvent extends Event
+	public class ConfigurationEvent extends RslEvent
 		implements IConfigurationAware {
 		
 		/**
 		* 	Events dispatched when the configuration XML has
 		* 	been loaded and parsed.
 		*/
-		public static const CONFIGURATION_AVAILABLE:String = "configurationAvailable";
+		public static const CONFIGURATION_LOAD_COMPLETE:String = "configurationLoadComplete";
 		
 		/**
 		*	Creates a <code>ConfigurationEvent</code> instance.
 		*/
 		public function ConfigurationEvent(
-			type:String )
+			type:String,
+			preloader:IRuntimeAssetPreloader,
+			event:Event = null )
 		{
-			super( type );
+			super( type, preloader, event );
 		}
 		
 		private var _configuration:IConfiguration;
@@ -58,7 +61,8 @@ package com.ffsys.swat.events {
 		*/
 		override public function clone():Event
 		{
-			var event:ConfigurationEvent = new ConfigurationEvent( type );
+			var event:ConfigurationEvent = new ConfigurationEvent(
+				type, preloader, triggerEvent );
 			event.configuration = this.configuration;
 			return event;
 		}

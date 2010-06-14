@@ -65,8 +65,6 @@ package com.ffsys.swat.configuration {
 				}
 				
 				queue.addLoader( loader.request, loader );
-				
-				trace("RuntimeSharedLibraryCollection::setDeserializedProperty()", _queue.getLength() );
 			}
 		}
 	}
