@@ -1,20 +1,18 @@
 package com.ffsys.swat.core {
 
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
-	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadStartEvent;
 	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
-	import com.ffsys.io.loaders.events.MovieLoadEvent;
-	import com.ffsys.io.loaders.types.MovieLoader;
+	import com.ffsys.io.loaders.events.LoadCompleteEvent;
+	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
 	import com.ffsys.swat.configuration.ConfigurationParser;
 	import com.ffsys.swat.configuration.ConfigurationLoader;
+	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.Settings;
 	
 	import com.ffsys.swat.events.RslEvent;
@@ -33,13 +31,18 @@ package com.ffsys.swat.core {
 	public class RuntimeAssetPreloader extends EventDispatcher {
 		
 		private var _flashvars:SwatFlashVariables;
-		private var _assets:MovieLoader;
+		private var _assets:ILoaderQueue;
 		private var _configurationLoader:ConfigurationLoader;
+		
+		private var _configuration:IConfiguration;
 		
 		/**
 		*	Creates a <code>RuntimeAssetPreloader</code> instance.
+		* 
+		* 	@param flashvars The flash variables for the application.
 		*/
-		public function RuntimeAssetPreloader( flashvars:SwatFlashVariables )
+		public function RuntimeAssetPreloader(
+			flashvars:SwatFlashVariables )
 		{
 			super();
 			
@@ -48,6 +51,16 @@ package com.ffsys.swat.core {
 			_configurationLoader = new ConfigurationLoader();
 			_configurationLoader.addEventListener(	
 				ConfigurationEvent.CONFIGURATION_AVAILABLE, loadComplete );
+		}
+		
+		/**
+		* 	Gets the runtime configuration.
+		* 
+		* 	@return The runtime configuration.
+		*/
+		public function get configuration():IConfiguration
+		{
+			return _configuration;
 		}
 		
 		/**
@@ -67,21 +80,21 @@ package com.ffsys.swat.core {
 		{
 			//update the selected locale
 			event.configuration.lang = _flashvars.lang;
+			
+			//keep a reference to the configuration
+			_configuration = event.configuration;
 
 			_configurationLoader.removeEventListener(
 				ConfigurationEvent.CONFIGURATION_AVAILABLE, loadComplete );
 				
 			dispatchEvent( event.clone() );
 			
-			//now load the assets movie
-			loadAssets( new URLRequest(
-				event.configuration.settings.getStringById(
-					Settings.ASSETS_PATH ) ) );
+			//now load the assets rsls
+			loadAssets();
 		}
 		
 		
-		private function loadAssets(
-			request:URLRequest = null ):void
+		private function loadAssets():void
 		{
 			if( _assets )
 			{
@@ -89,10 +102,7 @@ package com.ffsys.swat.core {
 				_assets = null;
 			}
 			
-			_assets = new MovieLoader();
-			
-			_assets.context =
-				new LoaderContext( false, ApplicationDomain.currentDomain );
+			_assets = this.configuration.rsls.queue;
 			
 			_assets.addEventListener(
 				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
@@ -108,9 +118,13 @@ package com.ffsys.swat.core {
 			
 			_assets.addEventListener(
 				LoadEvent.DATA,
+				assetLoaded, false, 0, false );
+				
+			_assets.addEventListener(
+				LoadCompleteEvent.LOAD_COMPLETE,
 				assetsLoadComplete, false, 0, false );
 			
-			_assets.load( request );
+			_assets.load();
 		}
 		
 		/**
@@ -120,7 +134,9 @@ package com.ffsys.swat.core {
 			event:ResourceNotFoundEvent ):void
 		{
 			//fired if the assets movie could not be loaded
-		}		
+			
+			trace("RuntimeAssetPreloader::resourceNotFound()");
+		}
 		
 		/**
 		*	@private
@@ -128,7 +144,8 @@ package com.ffsys.swat.core {
 		private function assetsLoadStart( event:LoadStartEvent ):void
 		{
 			//
-		}		
+			trace("RuntimeAssetPreloader::assetsLoadStart()");
+		}
 		
 		/**
 		*	@private
@@ -137,14 +154,26 @@ package com.ffsys.swat.core {
 			event:LoadProgressEvent ):void
 		{
 			//
+			trace("RuntimeAssetPreloader::assetsLoadProgress()");
 		}
 		
 		/**
 		*	@private
 		*/
-		private function assetsLoadComplete( 
-			event:MovieLoadEvent ):void
+		private function assetLoaded( event:Event ):void
 		{
+			//
+			trace("RuntimeAssetPreloader::assetLoaded()");
+		}		
+		
+		/**
+		*	@private
+		*/
+		private function assetsLoadComplete( event:Event ):void
+		{
+			
+			trace("RuntimeAssetPreloader::assetsLoadComplete()");
+			
 			//cleanup
 			_assets.removeEventListener(
 				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
@@ -152,7 +181,7 @@ package com.ffsys.swat.core {
 			
 			_assets.removeEventListener(
 				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound );			
+				resourceNotFound );
 			
 			_assets.removeEventListener(
 				LoadStartEvent.LOAD_START,
@@ -162,7 +191,10 @@ package com.ffsys.swat.core {
 				LoadProgressEvent.LOAD_PROGRESS, assetsLoadProgress );
 				
 			_assets.removeEventListener(
-				LoadEvent.DATA, assetsLoadComplete );
+				LoadEvent.DATA, assetLoaded );
+				
+			_assets.removeEventListener(
+				LoadCompleteEvent.LOAD_COMPLETE, assetsLoadComplete );		
 				
 			_assets = null;
 			

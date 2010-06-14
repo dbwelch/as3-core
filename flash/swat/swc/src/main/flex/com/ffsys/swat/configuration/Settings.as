@@ -14,11 +14,6 @@ package com.ffsys.swat.configuration {
 	public class Settings extends PropertyCollection {
 		
 		/**
-		*	The path to the assets movie.
-		*/
-		public static const ASSETS_PATH:String = "assets-path";
-		
-		/**
 		*	Creates a <code>Settings</code> instance.
 		*/
 		public function Settings()

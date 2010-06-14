@@ -42,11 +42,21 @@ package com.ffsys.swat.configuration {
 			_url = url;
 		}
 		
+		/**
+		*	Gets whether the rsl is trusted.
+		* 
+		* 	@return Whether the rsl is trusted. 	
+		*/
 		public function get trusted():Boolean
 		{
 			return _trusted;
 		}
 		
+		/**
+		*	Sets whether the rsl is trusted.
+		* 
+		* 	@param trusted Whether the rsl is trusted. 	
+		*/
 		public function set trusted( trusted:Boolean ):void
 		{
 			_trusted = trusted;

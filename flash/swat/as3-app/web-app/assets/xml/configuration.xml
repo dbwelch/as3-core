@@ -13,7 +13,7 @@
 		<rsl>
 			<trusted>true</trusted>
 			<url>assets/swf/application-assets.swf</url>
-		</rsl>
+		</rsl>	
 	</rsls>
 	
 	<copy>
@@ -47,8 +47,6 @@
 	</copy>
 	
 	<settings>
-		<assets-path>assets/swf/application-assets.swf</assets-path>
-		
 		<!--
 		<default-group-icon-path>assets/images/icons/default-group-icon.png</default-group-icon-path>
 		
