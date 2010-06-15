@@ -35,6 +35,7 @@
 		<module>regex</module>
 		<module>string</module>
 		<module>substitution</module>
+		<module>text</module>
 		<module>xml</module>
 		
 		<module>combined</module>
