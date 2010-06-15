@@ -1,6 +1,9 @@
 package com.ffsys.swat.configuration {
 	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.geom.Matrix;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
@@ -73,6 +76,23 @@ package com.ffsys.swat.configuration {
 			}
 			
 			return DisplayObject( getAssetByClassPath( classPath ) );
+		}
+		
+		/**
+		*	Gets a bitmap grab of a runtime display object instance.
+		*	
+		*	@param id The identifier for the asset.
+		* 	@param list A particular list the class path should be located from.
+		*	
+		*	@return A bitmap of the display object.	
+		*/
+		public function getBitmapById( id:String, list:String = null ):Bitmap
+		{
+			var instance:DisplayObject = getAssetById( id, list );
+			var bitmapData:BitmapData = new BitmapData( instance.width, instance.height, true, 0x00ffffff );
+			var matrix:Matrix = new Matrix();
+			bitmapData.draw( instance, matrix );
+			return new Bitmap( bitmapData );
 		}
 		
 		/**
