@@ -1,5 +1,6 @@
 package com.ffsys.swat.core {
 
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
@@ -98,6 +99,16 @@ package com.ffsys.swat.core {
 		*/
 		public function set view( view:IApplicationPreloadView ):void
 		{
+			if( _view && !view )
+			{
+				var display:DisplayObject = _view as DisplayObject;
+				if( display && display.parent )
+				{
+					display.parent.removeChild( display );
+				}
+				
+			}
+			
 			_view = view;
 		}
 		

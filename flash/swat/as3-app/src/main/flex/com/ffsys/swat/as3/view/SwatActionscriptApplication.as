@@ -23,5 +23,11 @@ package com.ffsys.swat.as3.view
 		{
 			super();
 		}
+		
+		override protected function ready():void
+		{
+			this.preloader.view = null;
+			super.ready();
+		}
 	}
 }

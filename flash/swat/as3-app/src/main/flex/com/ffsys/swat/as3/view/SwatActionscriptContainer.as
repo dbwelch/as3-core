@@ -1,5 +1,7 @@
 package com.ffsys.swat.as3.view {
 	
+	import com.ffsys.ui.text.*;
+	
 	/**
 	*	The main view for the application.
 	*
@@ -24,6 +26,12 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{
+			var factory:TextFieldFactory = new TextFieldFactory();
+			var text:SingleLineTextField =
+				factory.single( "THIS IS SOME TEXT", null, { color: 0xff0000 } );
+				
+			addChild( text );
+			
 			//
 			trace("SwatActionscriptContainer::createChildren(), ", configuration );
 		}

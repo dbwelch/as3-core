@@ -27,5 +27,13 @@ package com.ffsys.swat.view {
 		{
 			super();
 		}
+		
+		public function getRuntimeClasses():Array
+		{
+			return [
+				SwatApplication,
+				SwatFlashVariables,
+				ApplicationPreloadView ];
+		}
 	}
 }

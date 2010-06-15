@@ -25,15 +25,22 @@ package com.ffsys.ui.text {
 		*	Creates a single line textfield.
 		*	
 		*	@param text The text to assign to the textfield.
-		*	@param enabled Whether the textfield received mouse events.
+		*	@param properties An object containing properties to
+		*	set on the textfield.
+		*	@param textformat An object containing textformat properties
+		*	to set on the default text format.
+		*	@param enabled Whether the textfield receives mouse events.
 		*	
 		*	@return The single line textfield.
 		*/
 		public function single(
 			text:String = "",
+			properties:Object = null,
+			textformat:Object = null,
 			enabled:Boolean = false ):SingleLineTextField
 		{
-			var txt:SingleLineTextField = new SingleLineTextField( text );
+			var txt:SingleLineTextField = new SingleLineTextField(
+				text, properties, textformat );
 			txt.enabled = enabled;
 			return txt;
 		}

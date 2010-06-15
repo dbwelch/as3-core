@@ -17,15 +17,23 @@ package com.ffsys.ui.text {
 		
 		/**
 		*	Creates a <code>SingleLineTextField</code> instance.
+		*	
+		*	@param text The text for the textfield.
+		*	@param properties An object containing properties to
+		*	set on this instance.
+		*	@param textformat An object containing textformat properties
+		*	to apply to the default text format.
 		*/
-		public function SingleLineTextField( text:String = "" )
+		public function SingleLineTextField(
+			text:String = "",
+			properties:Object = null,
+			textformat:Object = null )
 		{
-			super();
 			this.wordWrap = false;
 			this.enabled = false;
 			this.selectable = false;
 			this.autoSize = TextFieldAutoSize.LEFT;
-			this.text = text;
+			super( text, properties, textformat );
 		}
 	}
 }

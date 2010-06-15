@@ -1,6 +1,6 @@
 package com.ffsys.ui.text {
 	
-	import flash.text.TextField;
+	import flash.text.*;
 	
 	/**
 	*	Abstract super class for custom textfields.
@@ -18,9 +18,23 @@ package com.ffsys.ui.text {
 		/**
 		*	Creates an <code>AbstractTextField</code> instance.
 		*/
-		public function AbstractTextField()
+		public function AbstractTextField(
+			text:String = "",
+			properties:Object = null,
+			textformat:Object = null )
 		{
 			super();
+			this.text = text;
+			
+			if( properties )
+			{
+				applyTextFieldProperties( properties );
+			}
+			
+			if( textformat )
+			{
+				applyTextFormatProperties( textformat );
+			}
 		}
 		
 		public function get enabled():Boolean
@@ -32,6 +46,51 @@ package com.ffsys.ui.text {
 		{
 			mouseEnabled = enabled;
 			_enabled = enabled;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function applyProperties(
+			target:Object, properties:Object ):void
+		{
+			if( target != null )
+			{
+				var z:String = null;
+				for( z in properties )
+				{
+					if( target.hasOwnProperty( z ) )
+					{
+						target[ z ] = properties[ z ];
+					}
+				}
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function applyTextFieldProperties(
+			properties:Object ):void
+		{
+			applyProperties( this, properties );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function applyTextFormatProperties(
+			properties:Object ):void
+		{
+			var tf:TextFormat = this.defaultTextFormat;
+			
+			if( tf != null )
+			{
+				applyProperties( tf, properties );
+			}
+			
+			this.defaultTextFormat = tf;
+			this.text = this.text;
 		}
 	}
 }

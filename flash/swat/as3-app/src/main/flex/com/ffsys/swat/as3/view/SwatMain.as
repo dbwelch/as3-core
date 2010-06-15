@@ -23,11 +23,12 @@ package com.ffsys.swat.as3.view {
 			super();
 		}
 		
-		public function getRuntimeClasses():Array
+		override public function getRuntimeClasses():Array
 		{
-			return [
-				SwatActionscriptApplication,
-				SwatActionscriptContainer ];
+			var output:Array = new Array();
+			output.push( SwatActionscriptApplication );
+			output.push( SwatActionscriptContainer );
+			return output;
 		}
 	}
 }
