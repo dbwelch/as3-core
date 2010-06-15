@@ -126,7 +126,6 @@ package com.ffsys.swat.view {
 		private function getApplicationPreloadViewInstance(
 			classPath:String ):IApplicationPreloadView
 		{
-			
 			var clz:Class = null;
 			
 			try

@@ -69,9 +69,8 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function complete( event:RslEvent ):void
 		{
-			showLoadProgress( "complete", event );
 			setText( "ready." );
-		}		
+		}
 		
 		/**
 		* 	@private

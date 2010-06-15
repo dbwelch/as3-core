@@ -157,13 +157,13 @@ package com.ffsys.swat.core {
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
 				this,
 				event );
+			
 			evt.configuration = _configurationLoader.configuration;
 			dispatchEvent( evt );
 			
 			//now load the assets rsls
 			loadAssets();
 		}
-		
 		
 		private function loadAssets():void
 		{

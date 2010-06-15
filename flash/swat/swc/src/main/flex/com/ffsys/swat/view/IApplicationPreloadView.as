@@ -1,6 +1,7 @@
 package com.ffsys.swat.view {
 	
 	import com.ffsys.swat.events.RslEvent;
+	import com.ffsys.swat.configuration.IConfiguration;
 	
 	/**
 	*	Describes the contract for views that handle the application

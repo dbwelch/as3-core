@@ -47,7 +47,7 @@ package com.ffsys.swat.view {
 		{
 			throw new Error(
 				"The requested runtime resource '" +
-			 	event.uri + "' could not be found." );
+			 		event.uri + "' could not be found." );
 		}
 		
 		/**
@@ -72,7 +72,7 @@ package com.ffsys.swat.view {
 		public function font( event:RslEvent ):void
 		{
 			//
-		}	
+		}
 		
 		/**
 		*	@inheritDoc
