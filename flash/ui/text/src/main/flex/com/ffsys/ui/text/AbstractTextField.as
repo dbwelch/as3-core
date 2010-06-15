@@ -1,5 +1,7 @@
 package com.ffsys.ui.text {
 	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.text.*;
 	
 	/**
@@ -91,6 +93,17 @@ package com.ffsys.ui.text {
 			
 			this.defaultTextFormat = tf;
 			this.text = this.text;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getBitmap():Bitmap
+		{
+			var bitmapData:BitmapData = new BitmapData(
+				this.width, this.height, true, 0x00000000 );
+			bitmapData.draw( this );
+			return new Bitmap( bitmapData );
 		}
 	}
 }

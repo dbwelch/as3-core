@@ -2,6 +2,8 @@ package com.ffsys.swat.as3.view {
 	
 	import flash.text.*;
 	
+	import com.ffsys.ui.text.MultiLineTextField;	
+	
 	import com.ffsys.swat.events.RslEvent;
 	import com.ffsys.swat.view.ApplicationPreloadView;
 	
@@ -16,7 +18,7 @@ package com.ffsys.swat.as3.view {
 	*/
 	public class SwatActionscriptApplicationPreloadView extends ApplicationPreloadView {
 		
-		private var _txt:TextField;
+		private var _txt:MultiLineTextField;
 		
 		/**
 		*	Creates a <code>SwatActionscriptApplicationPreloadView</code> instance.
@@ -26,9 +28,18 @@ package com.ffsys.swat.as3.view {
 			super();
 		}
 		
+		public function getTextField():MultiLineTextField
+		{
+			return _txt;
+		}
+		
 		override public function created():void
 		{
-			_txt = createTextField( "", stage.stageWidth, stage.stageHeight );
+			_txt = new MultiLineTextField(
+				"",
+				{ width: stage.stageWidth, height: stage.stageHeight },
+				{ color: 0x666666, font: "Courier", size: 14 } );
+			
 			addChild( _txt );
 		}
 		
@@ -70,37 +81,6 @@ package com.ffsys.swat.as3.view {
 		override public function complete( event:RslEvent ):void
 		{
 			setText( "ready." );
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function createTextField(
-			text:String = "",
-			width:Number = 300,
-			height:Number = 80,
-			font:String = "Courier",
-			size:Number = 14,
-			color:Number = 0x666666 ):TextField
-		{
-			var format:TextFormat = new TextFormat();
-			format.font = font;
-			format.size = size;
-			format.color = color;
-			format.align = TextFormatAlign.LEFT;
-			format.leading = 0;
-
-			var txt:TextField = new TextField();
-			txt.width = width;
-			txt.height = height;
-			txt.autoSize = TextFieldAutoSize.LEFT;
-			txt.defaultTextFormat = format;
-			txt.embedFonts = false;
-			txt.text = text;
-			txt.selectable = false;
-			txt.wordWrap = true;
-
-			return txt;
 		}
 		
 		private function showLoadProgress(

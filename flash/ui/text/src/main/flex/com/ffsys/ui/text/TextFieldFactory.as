@@ -14,7 +14,7 @@ package com.ffsys.ui.text {
 	public class TextFieldFactory extends Object {
 		
 		/**
-		*	Creates a <code>TextFieldFactory<code> instance.	
+		*	Creates a <code>TextFieldFactory<code> instance.
 		*/
 		public function TextFieldFactory()
 		{

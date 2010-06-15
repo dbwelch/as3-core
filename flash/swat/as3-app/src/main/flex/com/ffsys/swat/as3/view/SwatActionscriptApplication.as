@@ -1,7 +1,10 @@
 package com.ffsys.swat.as3.view
 {
-	import com.ffsys.swat.view.SwatApplication;	
+	import flash.display.Bitmap;
+	
+	import com.ffsys.swat.view.SwatApplication;
 	import com.ffsys.swat.as3.core.ApplicationFlashVariables;
+	import com.ffsys.ui.text.MultiLineTextField;
 	
 	/**
 	*	Application entry point.
@@ -26,6 +29,11 @@ package com.ffsys.swat.as3.view
 		
 		override protected function ready():void
 		{
+			var view:SwatActionscriptApplicationPreloadView
+				= SwatActionscriptApplicationPreloadView( this.preloader.view );
+			var text:MultiLineTextField = view.getTextField();
+			var bitmap:Bitmap = text.getBitmap();
+			addChild( bitmap );
 			this.preloader.view = null;
 			super.ready();
 		}
