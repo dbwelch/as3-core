@@ -1,4 +1,4 @@
-package com.ffsys.utils.text {
+package com.ffsys.ui.text {
 	
 	import flash.text.*;
 	

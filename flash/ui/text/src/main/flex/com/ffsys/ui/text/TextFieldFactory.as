@@ -1,4 +1,4 @@
-package com.ffsys.utils.text {
+package com.ffsys.ui.text {
 	
 	import flash.text.*;
 	
@@ -29,7 +29,7 @@ package com.ffsys.utils.text {
 		*	
 		*	@return The single line textfield.
 		*/
-		public function single( 
+		public function single(
 			text:String = "",
 			enabled:Boolean = false ):SingleLineTextField
 		{

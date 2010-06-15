@@ -2,25 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>ffsys-as3-library</artifactId>
+		<artifactId>ui-parent</artifactId>
 		<groupId>com.ffsys</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys</groupId>
-	<artifactId>as3-core</artifactId>
-	<packaging>pom</packaging>
+	<groupId>com.ffsys.ui</groupId>
+	<artifactId>text</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>flash</name>
+	<name>text</name>
+	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
-	<modules>
-		<module>core</module>
-		<module>errors</module>
-		<module>events</module>
-		<module>io</module>
-		<module>utils</module>
-		<module>ui</module>
-		<module>corelib</module>
-		<module>combined</module>
-		<module>swat</module>
-	</modules>
 </project>
