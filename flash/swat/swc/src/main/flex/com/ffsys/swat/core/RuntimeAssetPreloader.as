@@ -18,6 +18,7 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.events.ConfigurationEvent;
 	
 	import com.ffsys.swat.view.IApplicationPreloadView;
+	import com.ffsys.swat.view.IApplicationPreloader;
 	
 	/**
 	*	Preloads the application configuration XML document
@@ -45,6 +46,8 @@ package com.ffsys.swat.core {
 		
 		private var _phase:String = CODE_PHASE;
 		
+		private var _main:IApplicationPreloader;
+		
 		/**
 		*	Creates a <code>RuntimeAssetPreloader</code> instance.
 		* 
@@ -56,6 +59,22 @@ package com.ffsys.swat.core {
 			super();
 			_flashvars = flashvars;
 			_configurationLoader = new ConfigurationLoader();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get main():IApplicationPreloader
+		{
+			return _main;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function set main( main:IApplicationPreloader ):void
+		{
+			_main = main;
 		}
 		
 		/**

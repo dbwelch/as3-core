@@ -14,6 +14,8 @@ package com.ffsys.swat.as3.view
 	*/
 	public class SwatActionscriptApplication extends SwatApplication
 	{
+		static private var _container:SwatActionscriptContainer;
+		
 		/**
 		* 	Creates a SwatActionscriptApplication instance.
 		*/

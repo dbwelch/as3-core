@@ -30,6 +30,5 @@ package com.ffsys.swat.view
 		function set flashvars( flashvars:IFlashVariables ):void;
 		
 		function get preloader():IRuntimeAssetPreloader;
-		function set preloader( preloader:IRuntimeAssetPreloader ):void;
 	}
 }

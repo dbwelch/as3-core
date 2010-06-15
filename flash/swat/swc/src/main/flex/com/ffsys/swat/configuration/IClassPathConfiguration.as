@@ -1,5 +1,12 @@
 package com.ffsys.swat.configuration
 {
+	import flash.display.DisplayObject;
+	
+	import com.ffsys.core.IFlashVariables;
+	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.view.IApplication;
+	import com.ffsys.swat.view.IApplicationPreloadView;
+	
 	/**
 	*	Describes the contract for instances that provide class
 	* 	path information used when the application boots.
@@ -32,5 +39,23 @@ package com.ffsys.swat.configuration
 		* 	@return The application preload view class path.
 		*/
 		function getPreloadViewClassPath():String;
+		
+		/**
+		* 	Gets the class path to the main application view.
+		* 
+		* 	@return The main application view class path.
+		*/
+		function getMainViewClassPath():String;
+		
+		/**
+		* 	Gets the main application class instance.
+		*/
+		function getMainClassInstance():IApplication;
+		
+		function getApplicationPreloadViewInstance():IApplicationPreloadView;
+		
+		function getFlashVariablesClassInstance( root:DisplayObject ):IFlashVariables;
+		
+		function getMainViewInstance():DisplayObject;
 	}
 }

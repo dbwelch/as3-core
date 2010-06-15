@@ -1,5 +1,6 @@
 package com.ffsys.swat.view  {
 	
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	
 	import com.ffsys.core.IFlashVariables;
@@ -10,7 +11,8 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;
-	import com.ffsys.swat.configuration.ConfigurationLoader;
+	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	
 	/**
 	*	Abstract super class for the application.
@@ -26,7 +28,6 @@ package com.ffsys.swat.view  {
 		
 		private var _preloader:IRuntimeAssetPreloader;
 		private var _flashvars:IFlashVariables;
-		private var _configurationLoader:ConfigurationLoader;
 		
 		/**
 		*	Creates a <code>SwatApplication</code> instance.
@@ -43,14 +44,6 @@ package com.ffsys.swat.view  {
 		public function get preloader():IRuntimeAssetPreloader
 		{
 			return _preloader;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function set preloader( preloader:IRuntimeAssetPreloader ):void
-		{
-			_preloader = _preloader;
 		}
 		
 		/**
@@ -77,13 +70,17 @@ package com.ffsys.swat.view  {
 			if( !_flashvars )
 			{
 				_flashvars = flashvars;
-				_preloader = new RuntimeAssetPreloader( _flashvars );
-			
-				preloader.addEventListener(
-					ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationAvailable );
 				
-				preloader.addEventListener(
-					RslEvent.LOAD_COMPLETE, assetsAvailable );
+				if( !_preloader )
+				{
+					_preloader = new RuntimeAssetPreloader( _flashvars );
+			
+					preloader.addEventListener(
+						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationLoadComplete );
+				
+					preloader.addEventListener(
+						RslEvent.LOAD_COMPLETE, rslLoadComplete );
+				}
 			}
 		}
 		
@@ -98,25 +95,69 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
-		* 	@private
+		* 	Invoked when the configuration has been loaded and parsed.
+		*	
+		*	The default behaviour is to assign a reference to the parsed
+		*	configuration object.
+		*	
+		*	@param event The configuration event.
 		*/
-		protected function configurationAvailable( event:ConfigurationEvent ):void
+		private function configurationLoadComplete(
+			event:ConfigurationEvent ):void
 		{
-			removeEventListener( ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationAvailable );
+			removeEventListener(
+				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
+				configurationLoadComplete );
 			
 			//keep a reference to the configuration
 			this.configuration = event.configuration;
+			
+			configure( this.configuration );
 		}
 		
 		/**
 		* 	@private
 		*/
-		protected function assetsAvailable( event:RslEvent ):void
+		private function rslLoadComplete( event:RslEvent ):void
 		{
-			removeEventListener( RslEvent.LOAD_COMPLETE, assetsAvailable );
-			
-			//create the views
-			createChildren();
+			removeEventListener( RslEvent.LOAD_COMPLETE, rslLoadComplete );
+			ready();
+		}
+		
+		/**
+		*	Invoked when the configuration is parsed and
+		*	available for use.
+		*	
+		*	The default behaviour is to do nothing you can
+		*	override this method to perform operations with
+		*	the configuration as soon as it is available.
+		*/
+		protected function configure(
+			configuration:IConfiguration ):void
+		{
+			//
+		}
+		
+		/**
+		*	Invoked when all runtime assets have been loaded and
+		*	the application is ready to start.
+		*	
+		*	The default behaviour is to create the main view and
+		*	add it to the display list.
+		*/
+		protected function ready():void
+		{
+			createMainView();
+		}
+		
+		/**
+		*	Creates the main view and adds it to the display list.	
+		*/
+		protected function createMainView():void
+		{
+			var config:IClassPathConfiguration = preloader.main.classes;
+			var view:DisplayObject = config.getMainViewInstance();
+			addChild( view );
 		}
 	}
 }

@@ -48,6 +48,6 @@ package com.ffsys.swat.view {
 		/**
 		*	Invoked when all runtime assets have been loaded.
 		*/
-		function complete( event:RslEvent ):void;		
+		function complete( event:RslEvent ):void;
 	}
 }

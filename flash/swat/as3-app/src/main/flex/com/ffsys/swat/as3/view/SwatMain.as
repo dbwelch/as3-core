@@ -16,18 +16,18 @@ package com.ffsys.swat.as3.view {
 	public class SwatMain extends SwatApplicationMain {
 		
 		/**
-		*	@private
-		*	
-		*	Force compiling of dependent classes.
-		*/
-		private static var _application:SwatActionscriptApplication;
-		
-		/**
 		*	Creates a <code>SwatMain</code> instance.
 		*/
 		public function SwatMain()
 		{
 			super();
+		}
+		
+		public function getRuntimeClasses():Array
+		{
+			return [
+				SwatActionscriptApplication,
+				SwatActionscriptContainer ];
 		}
 	}
 }

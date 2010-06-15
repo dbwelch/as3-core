@@ -30,7 +30,7 @@ package com.ffsys.swat.view
 		/**
 		*	Gets whether this view is enabled.
 		*	
-		*	@return Whether this view is enabled.	
+		*	@return Whether this view is enabled.
 		*/
 		function get enabled():Boolean;
 		
@@ -111,6 +111,6 @@ package com.ffsys.swat.view
 		*	@param properties The properties to set on the text format.
 		*/
 		function applyTextFormatProperties(
-			txt:TextField, properties:Object ):void;	
+			txt:TextField, properties:Object ):void;
 	}
 }

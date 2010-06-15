@@ -27,7 +27,8 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class SwatApplicationPreloader extends Sprite {
+	public class SwatApplicationPreloader extends Sprite
+		implements IApplicationPreloader {
 		
 		private var _classes:IClassPathConfiguration;
 		private var _flashvars:IFlashVariables;
@@ -39,18 +40,15 @@ package com.ffsys.swat.view {
 		public function SwatApplicationPreloader()
 		{
 			super();
-			
-			var classPathConfiguration:IClassPathConfiguration
-				= getClassConfigurationInstance();
-				
-			_flashvars = getFlashVariablesClassInstance(
-				classPathConfiguration.getFlashVariablesClassPath() );
-			SwatFlashVariables( _flashvars ).classPathConfiguration = classPathConfiguration;
-			
-			_view = getApplicationPreloadViewInstance(
-				classPathConfiguration.getPreloadViewClassPath() );
-			
+			_classes = getClassConfigurationInstance();
+			_flashvars = _classes.getFlashVariablesClassInstance( this );
+			_view = _classes.getApplicationPreloadViewInstance();
 			addEventListener( Event.ADDED_TO_STAGE, created );
+		}
+		
+		public function get classes():IClassPathConfiguration
+		{
+			return _classes;
 		}
 		
 		/**
@@ -70,7 +68,14 @@ package com.ffsys.swat.view {
 				}
 			}catch( e:Error )
 			{
-				//fail silently
+				//
+			}
+			
+ 			if( classPath == null )
+			{
+				throw new Error(
+					"The flash variable 'classes' containing"
+					+ " the qualified path to the class path configuration was not specified." );
 			}
 			
 			var clz:Class = null;
@@ -90,64 +95,11 @@ package com.ffsys.swat.view {
 			
 			if( !( instance is IClassPathConfiguration ) )
 			{
-				throw new Error( "The class path configuration class does not adhere to the class path contract." );
+				throw new Error( "The class path configuration class does"
+				+ " not adhere to the class path contract." );
 			}
 			
 			return IClassPathConfiguration( instance );
-		}
-		
-		private function getFlashVariablesClassInstance(
-			classPath:String ):IFlashVariables
-		{
-			
-			var clz:Class = null;
-			
-			try
-			{
-				clz = Class(
-					getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error(
-					"Could not locate flash variables application class with class path '"
-					+ classPath + "'" );
-			}
-			
-			var instance:Object = new clz( this );
-			
-			if( !( instance is SwatFlashVariables ) )
-			{
-				throw new Error( "The flash variables class does not adhere to the flash variables contract." );
-			}
-			
-			return IFlashVariables( instance );
-		}
-		
-		private function getApplicationPreloadViewInstance(
-			classPath:String ):IApplicationPreloadView
-		{
-			var clz:Class = null;
-			
-			try
-			{
-				clz = Class(
-					getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error(
-					"Could not locate application preload view class with class path '"
-					+ classPath + "'" );
-			}
-			
-			var instance:Object = new clz();
-			
-			if( !( instance is IApplicationPreloadView ) )
-			{
-				throw new Error(
-					"The application preload view class does not adhere to the application preload contract." );
-			}
-			
-			return IApplicationPreloadView( instance );
 		}
 		
 		/**
@@ -204,50 +156,15 @@ package com.ffsys.swat.view {
 		}
 		
 		/**
-		* 	@private
-		*/
-		private function getMainClassInstance():IApplication
-		{
-			var classPath:String = SwatFlashVariables(
-				_flashvars ).classPathConfiguration.getMainClassPath();
-			
-			if( classPath == null )
-			{
-				throw new Error( "No main class has been specified." );
-			}
-			
-			var clz:Class = null;
-			
-			try
-			{
-				clz = Class(
-					getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error(
-					"Could not locate main application class with class path '"
-					+ classPath + "'" );
-			}
-			
-			var instance:Object = new clz();
-			
-			if( !( instance is IApplication ) )
-			{
-				throw new Error( "The main class does not adhere to the application contract." );
-			}
-			
-			return IApplication( instance );
-		}
-		
-		/**
 		*	@private	
 		*/
 		private function init():void
 		{
 			var app:IApplication =
-				getMainClassInstance();
+				_classes.getMainClassInstance();
 			app.flashvars = _flashvars;
 			app.preloader.view = _view;
+			app.preloader.main = this;
 			addChild( DisplayObject( app ) );
 		}
 	}
