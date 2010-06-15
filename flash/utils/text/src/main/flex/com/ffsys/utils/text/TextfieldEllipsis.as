@@ -117,6 +117,11 @@ package com.ffsys.utils.text
 			var output:String = new String( value );
 			text.text = output;
 			
+			if( text.maxScrollH == 0 )
+			{
+				return value;
+			}
+			
 			while( text.maxScrollH > 0 )
 			{
 				output = output.substr( 0, output.length - 1 );
