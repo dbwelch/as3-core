@@ -157,6 +157,19 @@ package com.ffsys.swat.view  {
 		{
 			var config:IClassPathConfiguration = preloader.main.classes;
 			var view:DisplayObject = config.getMainViewInstance();
+			
+			if( !( view is IApplicationMainView ) )
+			{
+				throw new Error(
+					"The main application view does not"
+					+ " adhere to the application main view contract." );
+			}
+			
+			IApplicationMainView( view ).ready(
+				preloader.main,
+				preloader,
+				preloader.view );
+			
 			addChild( view );
 		}
 	}

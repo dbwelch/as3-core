@@ -26,16 +26,5 @@ package com.ffsys.swat.as3.view
 		{
 			super();
 		}
-		
-		override protected function ready():void
-		{
-			var view:SwatActionscriptApplicationPreloadView
-				= SwatActionscriptApplicationPreloadView( this.preloader.view );
-			var text:MultiLineTextField = view.getTextField();
-			var bitmap:Bitmap = text.getBitmap();
-			addChild( bitmap );
-			this.preloader.view = null;
-			super.ready();
-		}
 	}
 }
