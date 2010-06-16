@@ -17,6 +17,6 @@ package com.ffsys.ui.components.core
 		/**
 		* 	Draws the graphics for the component.
 		*/
-		function draw( width:Number, height:Number ):void;
+		function draw( width:Number = NaN, height:Number = NaN ):void;
 	}
 }

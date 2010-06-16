@@ -13,6 +13,19 @@ package com.ffsys.ui.components.graphics
 	*/
 	public interface IComponentGraphic extends IComponentDraw
 	{
+		
+		/**
+		* 	A target width to use when drawing the shape graphic.
+		*/
+		function get targetWidth():Number;
+		function set targetWidth( targetWidth:Number ):void;
+		
+		/**
+		* 	A target height to use when drawing the shape graphic.
+		*/		
+		function get targetHeight():Number;
+		function set targetHeight( targetHeight:Number ):void;
+			
 		/**
 		* 	The x translation when drawing the shape.
 		*/

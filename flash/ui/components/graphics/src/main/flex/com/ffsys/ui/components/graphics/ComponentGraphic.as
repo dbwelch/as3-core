@@ -14,6 +14,9 @@ package com.ffsys.ui.components.graphics
 	public class ComponentGraphic extends Shape
 		implements IComponentGraphic
 	{
+		private var _targetWidth:Number;
+		private var _targetHeight:Number;
+		
 		private var _tx:Number = 0;
 		private var _ty:Number = 0;
 		
@@ -25,10 +28,37 @@ package com.ffsys.ui.components.graphics
 		
 		/**
 		* 	Creates a <code>ComponentGraphic</code> instance.
+		* 
+		* 	@param targetWidth The target width to use when drawing.
+		* 	@param targetHeight The target height to use when drawing.
 		*/
-		public function ComponentGraphic()
+		public function ComponentGraphic(
+			targetWidth:Number = 25,
+			targetHeight:Number = 25 )
 		{
 			super();
+			this.targetWidth = targetWidth;
+			this.targetHeight = targetHeight;
+		}
+		
+		public function get targetWidth():Number
+		{
+			return _targetWidth;
+		}
+		
+		public function set targetWidth( targetWidth:Number ):void
+		{
+			_targetWidth = targetWidth;
+		}
+		
+		public function get targetHeight():Number
+		{
+			return _targetHeight;
+		}
+		
+		public function set targetHeight( targetHeight:Number ):void
+		{
+			_targetHeight = targetHeight;
 		}
 		
 		/**
@@ -146,8 +176,18 @@ package com.ffsys.ui.components.graphics
 		/**
 		* 	@inheritDoc
 		*/
-		public function draw( width:Number, height:Number ):void
+		public function draw( width:Number = NaN, height:Number = NaN ):void
 		{
+			if( isNaN( width ) )
+			{
+				width = targetWidth;
+			}
+			
+			if( isNaN( height ) )
+			{
+				height = targetHeight;
+			}
+			
 			beforeDraw( width, height );
 			doDraw( width, height );
 			afterDraw( width, height );

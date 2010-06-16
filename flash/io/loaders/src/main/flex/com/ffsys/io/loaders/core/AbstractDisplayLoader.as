@@ -52,9 +52,7 @@ package com.ffsys.io.loaders.core {
 			
 			_loader = new Loader();
 
-			_context =
-				new LoaderContext(
-					false, ApplicationDomain.currentDomain );
+			_context = new LoaderContext();
 		}
 		
         override protected function addListeners():void

@@ -13,10 +13,13 @@ package com.ffsys.ui.components.graphics
 	{
 		/**
 		* 	Creates a <code>EllipseGraphic</code> instance.
+		* 
+		* 	@param width The width of the ellipse.
+		* 	@param height The height of the ellipse.
 		*/
-		public function EllipseGraphic()
+		public function EllipseGraphic( width:Number, height:Number )
 		{
-			super();
+			super( width, height );
 		}
 		
 		/**

@@ -15,10 +15,15 @@ package com.ffsys.ui.components.graphics
 		
 		/**
 		* 	Creates a <code>RectangleGraphic</code> instance.
+		* 
+		* 	@param width The width of the rectangle.
+		* 	@param height The height of the rectangle.
 		*/
-		public function RectangleGraphic()
+		public function RectangleGraphic(
+			width:Number = 25,
+			height:Number = 25 )
 		{
-			super();
+			super( width, height );
 		}
 		
 		/**
