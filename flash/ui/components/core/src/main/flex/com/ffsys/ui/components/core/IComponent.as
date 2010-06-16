@@ -2,6 +2,7 @@ package com.ffsys.ui.components.core
 {
 	import flash.display.DisplayObject;
 	
+	import com.ffsys.core.IBitmapGrab;
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
 	
@@ -17,7 +18,8 @@ package com.ffsys.ui.components.core
 	*	@since  16.06.2010
 	*/
 	public interface IComponent
-		extends IEnabled,
+		extends IBitmapGrab,
+				IEnabled,
 				IDestroy
 	{
 		

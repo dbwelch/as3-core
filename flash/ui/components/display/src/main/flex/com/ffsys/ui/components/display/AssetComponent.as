@@ -33,6 +33,7 @@ package com.ffsys.ui.components.display
 		{
 			super();
 			this.classPath = classPath;
+			this.interactive = false;
 		}
 		
 		/**

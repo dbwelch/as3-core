@@ -1,7 +1,10 @@
 package com.ffsys.ui.components.core
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;	
 	
 	import com.ffsys.ui.text.TextFieldFactory;
@@ -112,6 +115,22 @@ package com.ffsys.ui.components.core
 		public function destroy():void
 		{
 			//
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getBitmap( matrix:Matrix = null ):Bitmap
+		{
+			if( matrix == null )
+			{
+				matrix = new Matrix();
+			}
+			
+			var bitmapData:BitmapData = new BitmapData(
+				this.width, this.height, true, 0x00000000 );
+			bitmapData.draw( this, matrix );
+			return new Bitmap( bitmapData );
 		}
 	}
 }

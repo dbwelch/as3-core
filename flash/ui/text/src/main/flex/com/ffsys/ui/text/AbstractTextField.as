@@ -14,7 +14,8 @@ package com.ffsys.ui.text {
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class AbstractTextField extends TextField {
+	public class AbstractTextField extends TextField
+		implements ITextField {
 		
 		private var _enabled:Boolean = false;
 		private var _html:Boolean = false;
