@@ -20,7 +20,6 @@ package com.ffsys.ui.components.core
 		{
 			super();
 			addEventListener( Event.ADDED, added );
-			addEventListener( Event.REMOVED, removed );
 		}
 		
 		/**
@@ -40,6 +39,8 @@ package com.ffsys.ui.components.core
 		*/
 		protected function added( event:Event ):void
 		{
+			removeEventListener( Event.ADDED, added );
+			addEventListener( Event.REMOVED, removed );
 			createChildren();
 		}
 		
@@ -50,6 +51,7 @@ package com.ffsys.ui.components.core
 		*/
 		protected function removed( event:Event ):void
 		{
+			removeEventListener( Event.REMOVED, removed );
 			destroy();
 		}
 	}

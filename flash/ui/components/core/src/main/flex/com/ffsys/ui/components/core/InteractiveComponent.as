@@ -21,6 +21,23 @@ package com.ffsys.ui.components.core
 		public function InteractiveComponent()
 		{
 			super();
+			this.interactive = true;
+		}
+		
+		/**
+		* 	Extends the enabled functionality to switch the hand cursor
+		* 	and button mode on when interactive is <code>true</code>.
+		*/
+		public function get interactive():Boolean
+		{
+			return enabled;
+		}
+		
+		public function set interactive( interactive:Boolean ):void
+		{
+			buttonMode = interactive;
+			useHandCursor = interactive;
+			enabled = interactive;
 		}
 		
 		/**
