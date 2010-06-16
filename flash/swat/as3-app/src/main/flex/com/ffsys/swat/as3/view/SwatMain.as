@@ -26,7 +26,6 @@ package com.ffsys.swat.as3.view {
 		override public function getRuntimeClasses():Array
 		{
 			var output:Array = new Array();
-			output.push( SwatActionscriptApplication );
 			output.push( SwatActionscriptContainer );
 			return output;
 		}

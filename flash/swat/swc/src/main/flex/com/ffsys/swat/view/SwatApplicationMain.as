@@ -16,10 +16,6 @@ package com.ffsys.swat.view {
 	*/
 	public class SwatApplicationMain extends Sprite {
 		
-		private static var _application:SwatApplication;
-		private static var _view:ApplicationPreloadView;
-		private static var _flashvars:SwatFlashVariables;
-		
 		/**
 		*	Creates a <code>SwatApplicationMain</code> instance.
 		*/

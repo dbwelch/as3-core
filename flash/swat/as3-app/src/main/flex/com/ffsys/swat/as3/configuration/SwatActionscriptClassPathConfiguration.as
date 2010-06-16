@@ -30,14 +30,6 @@ package com.ffsys.swat.as3.configuration
 		/**
 		* 	@inheritDoc
 		*/
-		override public function getMainClassPath():String
-		{
-			return "com.ffsys.swat.as3.view.SwatActionscriptApplication";
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		override public function getFlashVariablesClassPath():String
 		{
 			return "com.ffsys.swat.as3.core.ApplicationFlashVariables";

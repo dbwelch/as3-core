@@ -23,6 +23,5 @@ package com.ffsys.swat.as3.view {
 		{
 			super();
 		}
-		
 	}
 }

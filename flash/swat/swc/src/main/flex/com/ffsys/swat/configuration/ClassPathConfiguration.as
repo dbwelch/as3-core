@@ -35,8 +35,7 @@ package com.ffsys.swat.configuration
 		*/
 		public function getMainClassPath():String
 		{
-			throw new Error(
-				"You must specify the main application class path in your concrete class configuration." );
+			return "com.ffsys.swat.view.SwatApplication";
 		}
 		
 		/**
@@ -44,8 +43,7 @@ package com.ffsys.swat.configuration
 		*/
 		public function getFlashVariablesClassPath():String
 		{
-			throw new Error(
-				"You must specify the flash variables class path in your concrete class configuration." );
+			return "com.ffsys.swat.core.SwatFlashVariables";
 		}
 		
 		/**
