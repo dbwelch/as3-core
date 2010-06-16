@@ -83,6 +83,20 @@ package com.ffsys.swat.configuration {
 		function set settings( settings:Settings ):void;
 		
 		/**
+		*	Gets the application defaults.
+		*	
+		*	@return The application defaults.
+		*/
+		function get defaults():Defaults;
+
+		/**
+		*	Sets the application defaults.
+		*	
+		*	@param defaults The application defaults.
+		*/
+		function set defaults( defaults:Defaults ):void;		
+		
+		/**
 		*	Gets the lookup table mapping asset identifiers
 		*	to class paths.
 		*	

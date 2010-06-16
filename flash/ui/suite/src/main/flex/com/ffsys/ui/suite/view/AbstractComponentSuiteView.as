@@ -2,7 +2,8 @@ package com.ffsys.ui.suite.view {
 	
 	import flash.display.DisplayObjectContainer;
 	
-	import com.ffsys.ui.text.SingleLineTextField;
+	import com.ffsys.ui.components.containers.VerticalBox;
+	import com.ffsys.ui.components.text.Label;
 	
 	import com.ffsys.swat.view.AbstractSwatView;
 	
@@ -17,7 +18,8 @@ package com.ffsys.ui.suite.view {
 	*/
 	public class AbstractComponentSuiteView extends AbstractSwatView {
 		
-		public var heading:SingleLineTextField;
+		public var vbox:VerticalBox;
+		public var heading:Label;
 		
 		/**
 		*	Creates a <code>AbstractComponentSuiteView</code> instance.
@@ -33,8 +35,7 @@ package com.ffsys.ui.suite.view {
 			if( title && parent )
 			{
 				title = title.toUpperCase();
-				heading =
-					textFieldFactory.single( title, null, { color: 0xa9a9a9, bold: true, size: 18 } );
+				heading = new Label( title );
 				parent.addChild( heading );
 			}
 		}

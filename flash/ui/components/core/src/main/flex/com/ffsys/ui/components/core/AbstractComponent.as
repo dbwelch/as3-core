@@ -7,6 +7,7 @@ package com.ffsys.ui.components.core
 	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;	
 	
+	import com.ffsys.ui.text.ITextFieldFactory;
 	import com.ffsys.ui.text.TextFieldFactory;
 	import com.ffsys.ui.components.layout.ILayout;
 
@@ -22,7 +23,7 @@ package com.ffsys.ui.components.core
 	public class AbstractComponent extends Sprite
 		implements IComponent
 	{	
-		static private var _textFieldFactory:TextFieldFactory
+		static private var _textFieldFactory:ITextFieldFactory
 			= new TextFieldFactory();
 			
 		private var _layout:ILayout;
@@ -91,7 +92,7 @@ package com.ffsys.ui.components.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function get textFieldFactory():TextFieldFactory
+		public function get textFieldFactory():ITextFieldFactory
 		{
 			return _textFieldFactory;
 		}

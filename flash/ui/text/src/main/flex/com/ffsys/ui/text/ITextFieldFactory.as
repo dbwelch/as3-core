@@ -14,6 +14,18 @@ package com.ffsys.ui.text
 	{
 		
 		/**
+		*	The default properties to apply to the textfield.	
+		*/
+		function get defaultTextFieldProperties():Object;
+		function set defaultTextFieldProperties( properties:Object ):void;
+		
+		/**
+		*	The default properties to apply to the textformat.	
+		*/
+		function get defaultTextFormatProperties():Object;
+		function set defaultTextFormatProperties( properties:Object ):void;		
+		
+		/**
 		*	Creates a single line textfield.
 		*	
 		*	@param text The text to assign to the textfield.

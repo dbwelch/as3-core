@@ -34,5 +34,18 @@ package com.ffsys.ui.text
 		* 	Gets the text associated with this textfield.
 		*/
 		function getText():String;
+	
+		/**
+		* 	Applies a set of properties to this textfield.
+		*/
+		function applyTextFieldProperties(
+			properties:Object ):void;
+	
+		/**
+		* 	Applies a set of properties to the default text format
+		*	associated with this textfield.
+		*/
+		function applyTextFormatProperties(
+			properties:Object ):void;
 	}
 }

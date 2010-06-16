@@ -13,6 +13,9 @@ package com.ffsys.ui.text {
 	*/
 	public class TextFieldFactory extends Object
 		implements ITextFieldFactory {
+			
+		private var _defaultTextFieldProperties:Object;
+		private var _defaultTextFormatProperties:Object;
 		
 		/**
 		*	Creates a <code>TextFieldFactory<code> instance.
@@ -25,14 +28,44 @@ package com.ffsys.ui.text {
 		/**
 		*	@inheritDoc
 		*/
+		public function get defaultTextFieldProperties():Object
+		{
+			return _defaultTextFieldProperties;
+		}
+		
+		public function set defaultTextFieldProperties(
+			properties:Object ):void
+		{
+			_defaultTextFieldProperties = properties;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get defaultTextFormatProperties():Object
+		{
+			return _defaultTextFormatProperties;
+		}
+		
+		public function set defaultTextFormatProperties(
+			properties:Object ):void
+		{
+			_defaultTextFormatProperties = properties;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
 		public function single(
 			text:String = "",
 			properties:Object = null,
 			textformat:Object = null,
 			enabled:Boolean = false ):SingleLineTextField
 		{
-			var txt:SingleLineTextField = new SingleLineTextField(
-				text, properties, textformat );
+			var txt:SingleLineTextField =
+				new SingleLineTextField( text );
+			
+			applyProperties( txt, properties, textformat );
 			txt.enabled = enabled;
 			return txt;
 		}
@@ -46,8 +79,10 @@ package com.ffsys.ui.text {
 			textformat:Object = null,
 			enabled:Boolean = false ):ConstrainedSingleLineTextField
 		{
-			var txt:ConstrainedSingleLineTextField = new ConstrainedSingleLineTextField(
-				text, properties, textformat );
+			var txt:ConstrainedSingleLineTextField =
+				new ConstrainedSingleLineTextField( text );
+			
+			applyProperties( txt, properties, textformat );
 			txt.enabled = enabled;
 			return txt;
 		}
@@ -61,10 +96,42 @@ package com.ffsys.ui.text {
 			textformat:Object = null,
 			enabled:Boolean = false ):MultiLineTextField
 		{
-			var txt:MultiLineTextField = new MultiLineTextField(
-				text, properties, textformat );
+			var txt:MultiLineTextField =
+				new MultiLineTextField( text );
+			
+			applyProperties( txt, properties, textformat );
 			txt.enabled = enabled;
 			return txt;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function applyProperties(
+			txt:ITextField,
+			properties:Object,
+			textformat:Object ):void
+		{
+			
+			if( defaultTextFieldProperties )
+			{
+				txt.applyTextFieldProperties( defaultTextFieldProperties );
+			}
+			
+			if( properties )
+			{
+				txt.applyTextFieldProperties( properties );
+			}
+			
+			if( defaultTextFormatProperties )
+			{
+				txt.applyTextFormatProperties( defaultTextFormatProperties );
+			}
+			
+			if( textformat )
+			{
+				txt.applyTextFormatProperties( textformat );
+			}
 		}
 	}
 }

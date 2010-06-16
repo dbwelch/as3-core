@@ -2,9 +2,12 @@ package com.ffsys.swat.view  {
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.io.loaders.events.*;
+	
+	import com.ffsys.ui.text.ITextFieldFactory;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.core.RuntimeAssetPreloader;
@@ -114,6 +117,20 @@ package com.ffsys.swat.view  {
 			//keep a reference to the configuration
 			this.configuration = event.configuration;
 			
+			
+			if( this.configuration.defaults )
+			{
+				//update the text field defaults
+				if( textFieldFactory )
+				{
+					textFieldFactory.defaultTextFieldProperties =
+						this.configuration.defaults.textfield;
+						
+					textFieldFactory.defaultTextFormatProperties =
+						this.configuration.defaults.textformat;	
+				}
+			}
+			
 			//update the configuration with the flash variables
 			this.configuration.flashvars = this.flashvars;
 			
@@ -126,6 +143,7 @@ package com.ffsys.swat.view  {
 		private function rslLoadComplete( event:RslEvent ):void
 		{
 			removeEventListener( RslEvent.LOAD_COMPLETE, rslLoadComplete );
+			propagateComponentTextFactory();
 			ready();
 		}
 		
@@ -180,6 +198,51 @@ package com.ffsys.swat.view  {
 				preloader.view );
 			
 			addChild( view );
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Checks whether the component module is compiled in
+		*	and propagates the swat textfield factory to the component
+		*	textfield factory.
+		*/
+		private function propagateComponentTextFactory():void
+		{
+			var classPath:String = "com.ffsys.ui.components.core.UIComponent";
+			
+			var clz:Class = null;
+			var instance:Object = null;
+			
+			try
+			{
+				clz = Class(
+					getDefinitionByName( classPath ) );
+				instance = new clz();
+			}catch( e:Error )
+			{
+				//ignore if the components are not compiled or instantiation error
+			}
+			
+			var factory:ITextFieldFactory;
+
+			try
+			{
+				factory = ITextFieldFactory(
+					instance[ "textFieldFactory" ] );
+			}catch( e:Error )
+			{
+				//ignore if the property was not found
+			}
+			
+			if( factory )
+			{
+				factory.defaultTextFieldProperties =
+					textFieldFactory.defaultTextFieldProperties;					
+
+				factory.defaultTextFormatProperties =
+					textFieldFactory.defaultTextFormatProperties;			
+			}
 		}
 	}
 }

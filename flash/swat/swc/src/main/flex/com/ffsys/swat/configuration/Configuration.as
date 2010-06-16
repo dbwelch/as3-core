@@ -24,6 +24,7 @@ package com.ffsys.swat.configuration {
 		private var _locales:LocaleCollection;
 		private var _copy:LocaleAwareStringCollection;
 		private var _settings:Settings;
+		private var _defaults:Defaults;
 		private var _assets:StringCollection;
 		private var _assetManager:AssetManager;
 		private var _rsls:RuntimeSharedLibraryCollection;
@@ -172,6 +173,22 @@ package com.ffsys.swat.configuration {
 		{
 			_settings = settings;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get defaults():Defaults
+		{
+			return _defaults;
+		}
+
+		/**
+		*	@inheritDoc	
+		*/
+		public function set defaults( defaults:Defaults ):void
+		{
+			_defaults = defaults;
+		}		
 		
 		/**
 		*	@inheritDoc

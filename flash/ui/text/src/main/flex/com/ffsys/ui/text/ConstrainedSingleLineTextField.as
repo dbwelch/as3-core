@@ -47,6 +47,8 @@ package com.ffsys.ui.text {
 		public function set maximumWidth( maximumWidth:Number ):void
 		{
 			_maximumWidth = maximumWidth;
+			//force a redraw
+			setText( getText() );
 		}
 		
 		/**

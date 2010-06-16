@@ -14,8 +14,6 @@ package com.ffsys.ui.suite.view {
 	*/
 	public class TextSuite extends AbstractComponentSuiteView {
 		
-		public var vbox:VerticalBox;
-		
 		/**
 		*	Creates a <code>TextSuite</code> instance.	
 		*/
@@ -32,14 +30,19 @@ package com.ffsys.ui.suite.view {
 			vbox = new VerticalBox();
 			addChild( vbox );			
 			
-			createHeading( "Text Suite", vbox );
+			createHeading( "Text Suite (com.ffsys.ui.text)", vbox );
 			
-			var text:SingleLineTextField =
+			var single:SingleLineTextField =
 				textFieldFactory.single(
-					"This is some test text for a single line textfield...",
-					null, { color: 0xa9a9a9 } );
+					"This is some test text for a single line textfield..." );
+					
+			var constrained:ConstrainedSingleLineTextField =
+				textFieldFactory.constrained(
+					"This is some constrained test text for a single line textfield..." );
+			constrained.maximumWidth = 200;
 			
-			vbox.addChild( text );
+			vbox.addChild( single );
+			vbox.addChild( constrained );
 		}
 	}
 }

@@ -8,6 +8,8 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
+	import com.ffsys.ui.components.text.Label;
+	
 	/**
 	*	The main view for the application.
 	*
@@ -39,10 +41,12 @@ package com.ffsys.swat.as3.view {
 			var preloader:SwatActionscriptApplicationPreloadView
 				= SwatActionscriptApplicationPreloadView( view );
 				
+			/*
 			//get a bitmap grab of the preloader view
 			var text:MultiLineTextField = preloader.getTextField();
 			var bitmap:Bitmap = text.getBitmap();
 			addChild( bitmap );
+			*/
 			
 			//remove the preloader view from the display list
 			runtime.view = null;
@@ -53,13 +57,7 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{
-			var factory:TextFieldFactory = new TextFieldFactory();
-			var text:SingleLineTextField =
-				factory.single( "THIS IS SOME TEXT", null, { color: 0xff0000 } );
-				
-			addChild( text );
-			
-			//
+			addChild( new Label( "This is some test text..." ) );
 			trace("SwatActionscriptContainer::createChildren(), ", configuration );
 		}
 	}

@@ -84,6 +84,24 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const COLORS_NAME:String =
 			"colors";
+			
+		/**
+		*	The node name for a collection of default values.	
+		*/
+		static public const DEFAULTS_NAME:String =
+			"defaults";
+			
+		/**
+		*	The node name for a collection of default textfield properties.	
+		*/
+		static public const TEXTFIELD_DEFAULTS_NAME:String =
+			"textfield-defaults";
+			
+		/**
+		*	The node name for a collection of default textformat properties.	
+		*/
+		static public const TEXTFORMAT_DEFAULTS_NAME:String =
+			"textformat-defaults";
 
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
@@ -176,6 +194,24 @@ package com.ffsys.swat.configuration {
 				COLORS_NAME,
 				COLORS_NAME,
 				false );				
+				
+			classNodeNameMap.add(
+				Defaults,
+				DEFAULTS_NAME,
+				DEFAULTS_NAME,
+				false );			
+				
+			classNodeNameMap.add(
+				Object,
+				TEXTFIELD_DEFAULTS_NAME,
+				"textfield",
+				false );
+				
+			classNodeNameMap.add(
+				Object,
+				TEXTFORMAT_DEFAULTS_NAME,
+				"textformat",
+				false );
 		}
 		
 		/**

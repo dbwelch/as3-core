@@ -13,7 +13,7 @@
 		<rsl>
 			<trusted>true</trusted>
 			<url>assets/swf/application-assets.swf</url>
-		</rsl>	
+		</rsl>
 	</rsls>
 	
 	<copy>
@@ -152,4 +152,18 @@
 		-->
 		
 	</assets>
+	
+	<defaults>
+		<textfield-defaults>
+			<embedFonts>false</embedFonts>
+			<antiAliasType>advanced</antiAliasType>
+		</textfield-defaults>
+		
+		<textformat-defaults>
+			<font>Verdana</font>
+			<size>12</size>
+			<color>0xa9a9a9</color>
+		</textformat-defaults>
+	</defaults>
+	
 </configuration>

@@ -6,7 +6,7 @@ package com.ffsys.ui.components.core
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
 	
-	import com.ffsys.ui.text.TextFieldFactory;
+	import com.ffsys.ui.text.ITextFieldFactory;
 	import com.ffsys.ui.components.layout.ILayout;
 	
 	/**
@@ -33,7 +33,7 @@ package com.ffsys.ui.components.core
 		/**
 		* 	The text field factory used to create textfields.
 		*/
-		function get textFieldFactory():TextFieldFactory;
+		function get textFieldFactory():ITextFieldFactory;
 		
 		/**
 		* 	Gets a runtime asset by fully qualified class path.
