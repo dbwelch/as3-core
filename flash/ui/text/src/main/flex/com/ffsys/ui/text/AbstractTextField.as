@@ -16,6 +16,7 @@ package com.ffsys.ui.text {
 	public class AbstractTextField extends TextField {
 		
 		private var _enabled:Boolean = false;
+		private var _html:Boolean = false;
 		
 		/**
 		*	Creates an <code>AbstractTextField</code> instance.
@@ -26,7 +27,6 @@ package com.ffsys.ui.text {
 			textformat:Object = null )
 		{
 			super();
-			this.text = text;
 			
 			if( properties )
 			{
@@ -37,6 +37,77 @@ package com.ffsys.ui.text {
 			{
 				applyTextFormatProperties( textformat );
 			}
+			
+			setText( text );			
+		}
+		
+		public function get html():Boolean
+		{
+			return _html;
+		}
+		
+		public function set html( html:Boolean ):void
+		{
+			_html = html;
+		}
+		
+		override public function appendText( text:String ):void
+		{
+			beforeSetText( text );
+			super.appendText( text );
+			afterSetText( text );
+		}
+		
+		protected function beforeSetText( text:String ):void
+		{
+			//
+		}
+		
+		protected function afterSetText( text:String ):void
+		{
+			//
+		}		
+		
+		/**
+		* 	Sets the text of this textfield.
+		*/
+		public function setText( text:String ):void
+		{
+			trace("AbstractTextField::setText()", text );
+			
+			beforeSetText( text );
+			
+			if( html )
+			{
+				this.htmlText = text;
+			}else
+			{
+				this.text = text;
+			}
+			
+			afterSetText( text );
+		}
+		
+		/**
+		* 	Gets the text associated with this textfield.
+		*/
+		public function getText():String
+		{
+			return html ? htmlText : text;
+		}
+		
+		public function convertToSingleLine():void
+		{
+			wordWrap = false;
+			multiline = false;
+			autoSize = TextFieldAutoSize.LEFT;		
+		}
+		
+		public function convertToMultiLine():void
+		{
+			wordWrap = true;
+			multiline = true;
+			autoSize = TextFieldAutoSize.LEFT;			
 		}
 		
 		public function get enabled():Boolean

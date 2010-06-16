@@ -3,6 +3,8 @@ package com.ffsys.swat.view
 	import flash.text.Font;
 	import flash.text.TextField;
 	
+	import com.ffsys.core.IEnabled;
+	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.Settings;
@@ -17,7 +19,8 @@ package com.ffsys.swat.view
 	*	@since  08.06.2010
 	*/
 	public interface IApplicationView
-		extends IConfigurationAware
+		extends IConfigurationAware,
+				IEnabled
 	{
 		/**
 		* 	Creates child display list objects.
@@ -27,20 +30,6 @@ package com.ffsys.swat.view
 		* 	override and implement this method.
 		*/
 		function createChildren():void;
-		
-		/**
-		*	Gets whether this view is enabled.
-		*	
-		*	@return Whether this view is enabled.
-		*/
-		function get enabled():Boolean;
-		
-		/**
-		*	Sets whether this view is enabled.
-		*	
-		*	@param enabled Determines whether this view is enabled.
-		*/
-		function set enabled( enabled:Boolean ):void;
 		
 		/**
 		* 	Removes all child display list objects.

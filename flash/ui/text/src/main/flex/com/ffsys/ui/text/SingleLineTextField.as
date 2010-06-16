@@ -29,10 +29,8 @@ package com.ffsys.ui.text {
 			properties:Object = null,
 			textformat:Object = null )
 		{
-			this.wordWrap = false;
-			this.enabled = false;
 			this.selectable = false;
-			this.autoSize = TextFieldAutoSize.LEFT;
+			convertToSingleLine();
 			super( text, properties, textformat );
 		}
 	}
