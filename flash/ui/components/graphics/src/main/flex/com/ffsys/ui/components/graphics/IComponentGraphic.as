@@ -14,6 +14,18 @@ package com.ffsys.ui.components.graphics
 	public interface IComponentGraphic extends IComponentDraw
 	{
 		/**
+		* 	The x translation when drawing the shape.
+		*/
+		function get tx():Number;
+		function set tx( tx:Number ):void;
+
+		/**
+		* 	The y translation when drawing the shape.
+		*/
+		function get ty():Number;
+		function set ty( ty:Number ):void;
+		
+		/**
 		*	Determines whether a stroke should be drawn.
 		*/
 		function get stroke():Boolean;

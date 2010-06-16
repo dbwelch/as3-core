@@ -14,7 +14,10 @@ package com.ffsys.ui.components.graphics
 	public class ComponentGraphic extends Shape
 		implements IComponentGraphic
 	{
-		private var _stroke:Boolean = true;
+		private var _tx:Number = 0;
+		private var _ty:Number = 0;
+		
+		private var _stroke:Boolean = false;
 		private var _thickness:Number = 1;
 		private var _color:Number = 0xa9a9a9;
 		private var _opacity:Number = 1;
@@ -26,6 +29,38 @@ package com.ffsys.ui.components.graphics
 		public function ComponentGraphic()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get tx():Number
+		{
+			return _tx;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function set tx( tx:Number ):void
+		{
+			_tx = tx;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get ty():Number
+		{
+			return _ty;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function set ty( ty:Number ):void
+		{
+			_ty = ty;
 		}
 		
 		/**

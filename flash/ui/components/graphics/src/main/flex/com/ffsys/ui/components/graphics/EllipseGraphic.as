@@ -1,8 +1,7 @@
 package com.ffsys.ui.components.graphics
 {
-	
 	/**
-	*	Represents a rectangular component graphic.
+	*	Represents an elliptical component graphic.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -10,13 +9,12 @@ package com.ffsys.ui.components.graphics
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class RectangleGraphic extends ComponentGraphic
+	public class EllipseGraphic extends ComponentGraphic
 	{
-		
 		/**
-		* 	Creates a <code>RectangleGraphic</code> instance.
+		* 	Creates a <code>EllipseGraphic</code> instance.
 		*/
-		public function RectangleGraphic()
+		public function EllipseGraphic()
 		{
 			super();
 		}
@@ -26,7 +24,7 @@ package com.ffsys.ui.components.graphics
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			graphics.drawRect( tx, ty, width, height );
+			graphics.drawEllipse( tx, ty, width, height );
 		}
 	}
 }
