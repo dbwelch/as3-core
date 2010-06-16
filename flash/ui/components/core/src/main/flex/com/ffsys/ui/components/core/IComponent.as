@@ -1,5 +1,6 @@
-package com.ffsys.ui.core
+package com.ffsys.ui.components.core
 {
+	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
 	
 	import com.ffsys.ui.text.TextFieldFactory;
@@ -13,7 +14,9 @@ package com.ffsys.ui.core
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public interface IComponent extends IEnabled
+	public interface IComponent
+		extends IEnabled,
+				IDestroy
 	{
 		
 		/**

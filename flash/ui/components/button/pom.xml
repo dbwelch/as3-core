@@ -2,27 +2,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>as3-core</artifactId>
+		<artifactId>ui-components-parent</artifactId>
 		<groupId>com.ffsys</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys</groupId>
-	<artifactId>ui-parent</artifactId>
+	<groupId>com.ffsys.ui.components</groupId>
+	<artifactId>button</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>ui-parent</name>
-	<packaging>pom</packaging>
+	<name>button</name>
+	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
+	
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>corelib</artifactId>
+			<groupId>com.ffsys.ui.components</groupId>
+			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
-	</dependencies>	
-	<modules>
-		<module>text</module>
-		<module>components</module>
-		<module>combined</module>
-	</modules>
+		<dependency>
+			<groupId>com.ffsys.ui.components</groupId>
+			<artifactId>text</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>
+	</dependencies>
 </project>

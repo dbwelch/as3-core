@@ -1,6 +1,6 @@
 package com.ffsys.ui.components.text
 {
-	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.components.core.UIComponent;
 	import com.ffsys.ui.text.ConstrainedSingleLineTextField;
 
 	/**
@@ -32,7 +32,18 @@ package com.ffsys.ui.components.text
 			super();
 			_textfield = textFieldFactory.constrained(
 				text, properties, textformat );
+			this.enabled = true;
+				
 			addChild( _textfield );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function set enabled( enabled:Boolean ):void
+		{
+			super.enabled = enabled;
+			this.textfield.enabled = enabled;
 		}
 		
 		/**

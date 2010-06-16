@@ -1,4 +1,4 @@
-package com.ffsys.ui.core
+package com.ffsys.ui.components.core
 {
 	import flash.display.Sprite;
 	
@@ -50,6 +50,18 @@ package com.ffsys.ui.core
 		{
 			mouseEnabled = enabled;
 			mouseChildren = enabled;
+		}
+		
+		
+		/**
+		* 	Performs clean up of this instance.
+		* 
+		* 	The implementation of this method should clean any
+		* 	event listeners and null any references to complex objects.
+		*/
+		public function destroy():void
+		{
+			//
 		}
 	}
 }
