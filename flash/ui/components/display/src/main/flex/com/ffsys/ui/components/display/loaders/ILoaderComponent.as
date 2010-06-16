@@ -1,9 +1,23 @@
 package com.ffsys.ui.components.display.loaders
 {
 	import com.ffsys.io.loaders.core.ILoader;
+	
+	import com.ffsys.ui.components.core.IComponent;
+	import com.ffsys.ui.components.graphics.IComponentGraphic;
 
 	public interface ILoaderComponent
 	{
+		/**
+		* 	Gets the container that holds the loaded runtime asset.
+		*/
+		function get container():IComponent;
+		
+		/**
+		* 	A border graphic to place on top of the loaded asset.
+		*/
+		function get border():IComponentGraphic;
+		function set border( border:IComponentGraphic ):void;
+		
 		/**
 		*	The URI to load the runtime asset from.
 		*/

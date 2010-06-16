@@ -1,9 +1,14 @@
 package com.ffsys.ui.components.display.loaders
 {
+	import flash.display.DisplayObject;
+	
 	import com.ffsys.io.loaders.core.ILoader;
 	import com.ffsys.io.loaders.events.*;
 	
 	import com.ffsys.ui.components.core.InteractiveComponent;
+	import com.ffsys.ui.components.core.IComponent;
+	import com.ffsys.ui.components.core.UIComponent;
+	import com.ffsys.ui.components.graphics.IComponentGraphic;
 
 	/**
 	*	Abstract super class for instances that load visual assets
@@ -18,8 +23,10 @@ package com.ffsys.ui.components.display.loaders
 	public class AbstractLoaderComponent extends InteractiveComponent
 		implements ILoaderComponent
 	{
+		private var _container:IComponent;
 		private var _loader:ILoader;
 		private var _deferred:Boolean = false;
+		private var _border:IComponentGraphic;
 	
 		/**
 		* 	Creates an <code>AbstractLoaderComponent</code> instance.
@@ -34,8 +41,41 @@ package com.ffsys.ui.components.display.loaders
 			loader:ILoader, deferred:Boolean = false )
 		{
 			super();
+			_container = new UIComponent();
+			addChild( DisplayObject( _container ) );
 			_loader = loader;
+			
+			trace("AbstractLoaderComponent::()", this.loader );
+			
 			_deferred = deferred;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get container():IComponent
+		{
+			return _container;
+		}
+		
+		public function get border():IComponentGraphic
+		{
+			return _border;
+		}
+		
+		public function set border( border:IComponentGraphic ):void
+		{
+			if( this.border && contains( border as DisplayObject ) )
+			{
+				removeChild( DisplayObject( border ) );
+			}
+			
+			_border = border;
+			
+			if( this.border )
+			{
+				addChild( DisplayObject( this.border ) );
+			}
 		}
 		
 		/**
@@ -95,6 +135,8 @@ package com.ffsys.ui.components.display.loaders
 		*/
 		override protected function createChildren():void
 		{
+			trace("AbstractLoaderComponent::createChildren()", this.loader );
+			
 			if( !deferred && !loader.loading )
 			{
 				load();

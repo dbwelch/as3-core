@@ -1,6 +1,7 @@
 package com.ffsys.ui.components.display.loaders
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.core.ILoader;
@@ -51,7 +52,7 @@ package com.ffsys.ui.components.display.loaders
 		{
 			var evt:ImageLoadEvent = ImageLoadEvent( event );
 			var display:DisplayObject = DisplayObject( evt.image );
-			addChild( display );
+			DisplayObjectContainer( container ).addChild( display );
 		}
 	}
 }
