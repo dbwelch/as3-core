@@ -1,9 +1,11 @@
 package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.text.*;
+	import com.ffsys.ui.components.containers.HorizontalBox;
 	import com.ffsys.ui.components.containers.VerticalBox;
 	
 	import com.ffsys.ui.components.button.*;
+	import com.ffsys.ui.components.text.*;
 	
 	/**
 	*	Represents a view for the text functionality.
@@ -30,9 +32,20 @@ package com.ffsys.ui.suite.view {
 		override public function createChildren():void
 		{
 			vbox = new VerticalBox();
-			addChild( vbox );			
+			addChild( vbox );
 			
 			createHeading( "Button Suite (com.ffsys.ui.components.button)", vbox );
+			
+			var hbox:HorizontalBox = null;	
+			
+			hbox = new HorizontalBox();
+			hbox.addChild(
+				new Label( "TEXT BUTTON: " ) );
+			
+			hbox.addChild(
+				new TextButton( "A Text Button" ) );
+			
+			vbox.addChild( hbox );
 			
 			//vbox.addChild( single );
 			//vbox.addChild( constrained );

@@ -31,12 +31,7 @@ package com.ffsys.ui.text {
 		{
 			this.selectable = false;
 			convertToMultiLine();
-			
-			if( !properties.width )
-			{
-				this.width = 200;
-			}
-			
+			this.width = 150;
 			super( text, properties, textformat );
 		}
 	}

@@ -30,7 +30,7 @@ package com.ffsys.ui.suite.view {
 		}
 		
 		protected function createHeading(
-			title:String, parent:DisplayObjectContainer ):void
+			title:String, parent:DisplayObjectContainer ):Label
 		{
 			if( title && parent )
 			{
@@ -38,6 +38,7 @@ package com.ffsys.ui.suite.view {
 				heading = new Label( title );
 				parent.addChild( heading );
 			}
+			return heading;
 		}
 	}
 }

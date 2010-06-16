@@ -28,7 +28,7 @@ package com.ffsys.ui.suite.view {
 		override public function createChildren():void
 		{
 			vbox = new VerticalBox();
-			addChild( vbox );			
+			addChild( vbox );
 			
 			createHeading( "Text Suite (com.ffsys.ui.text)", vbox );
 			
@@ -38,11 +38,17 @@ package com.ffsys.ui.suite.view {
 					
 			var constrained:ConstrainedSingleLineTextField =
 				textFieldFactory.constrained(
-					"This is some constrained test text for a single line textfield..." );
+					"This is some test text for a single line textfield that wraps at 200 pixels..." );
 			constrained.maximumWidth = 200;
+			
+			var multi:MultiLineTextField =
+				textFieldFactory.multi(
+					"This is some test text for a multi line textfield which wraps at 200 pixels..." );
+			multi.width = 200;			
 			
 			vbox.addChild( single );
 			vbox.addChild( constrained );
+			vbox.addChild( multi );
 		}
 	}
 }

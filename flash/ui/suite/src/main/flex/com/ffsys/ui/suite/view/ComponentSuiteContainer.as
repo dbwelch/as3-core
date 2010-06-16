@@ -7,6 +7,8 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
+	import com.ffsys.ui.components.containers.VerticalBox;
+	
 	/**
 	*	The main view for the application.
 	*
@@ -54,11 +56,20 @@ package com.ffsys.ui.suite.view {
 		*/
 		override public function createChildren():void
 		{	
+			vbox = new VerticalBox();
+			addChild( vbox );
+			
 			var textSuite:TextSuite = new TextSuite();
-			addChild( textSuite );
+			vbox.addChild( textSuite );
+			textSuite.createChildren();
+			
+			var buttonSuite:ButtonSuite = new ButtonSuite();
+			vbox.addChild( buttonSuite );
+			buttonSuite.createChildren();
 			
 			//
-			trace("ComponentSuiteContainer::createChildren(), ", configuration );
+			trace("ComponentSuiteContainer::createChildren(), ",
+				vbox.width, vbox.height, textSuite, buttonSuite, vbox, vbox.numChildren, vbox.parent, vbox.stage );
 		}
 	}
 }
