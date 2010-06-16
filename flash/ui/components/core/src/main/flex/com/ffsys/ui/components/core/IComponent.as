@@ -7,6 +7,7 @@ package com.ffsys.ui.components.core
 	import com.ffsys.core.IEnabled;
 	
 	import com.ffsys.ui.text.TextFieldFactory;
+	import com.ffsys.ui.components.layout.ILayout;
 	
 	/**
 	*	Describes the contract for all components.
@@ -22,6 +23,12 @@ package com.ffsys.ui.components.core
 				IEnabled,
 				IDestroy
 	{
+		
+		/**
+		*	The layout implementation for the component.
+		*/
+		function get layout():ILayout;
+		function set layout( layout:ILayout ):void;
 		
 		/**
 		* 	The text field factory used to create textfields.

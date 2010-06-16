@@ -13,8 +13,9 @@
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
 	<modules>
-		<module>core</module>
 		<module>button</module>
+		<module>containers</module>
+		<module>core</module>
 		<module>display</module>
 		<module>graphics</module>
 		<module>text</module>

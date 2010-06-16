@@ -24,5 +24,6 @@
 		<module>text</module>
 		<module>components</module>
 		<module>combined</module>
+		<module>suite</module>
 	</modules>
 </project>

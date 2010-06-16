@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>swat-parent</artifactId>
+		<artifactId>ui-parent</artifactId>
 		<groupId>com.ffsys</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.swat</groupId>
+	<groupId>com.ffsys.ui</groupId>
 	<version>1.1-SNAPSHOT</version>
-	<artifactId>swat-as3-app</artifactId>
+	<artifactId>ui-components-suite</artifactId>
 	<packaging>swf</packaging>
-	<name>swat-as3-app</name>
+	<name>ui-components-suite</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys</groupId>
@@ -18,7 +18,6 @@
 			<version>${ffsys.lib.version}</version>
 			<type>swc</type>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ui</artifactId>
@@ -34,7 +33,7 @@
 				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/SwatMain.as</sourceFile>
+					<sourceFile>${project.build.sourceDirectory}/com/ffsys/ui/suite/view/ComponentSuiteMain.as</sourceFile>
 					<targetPlayer>10.0.0</targetPlayer>
 					<debug>false</debug>
 					<optimize>true</optimize>
@@ -43,7 +42,7 @@
 					<configurationReport>false</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
 					<defaultSizeWidth>980</defaultSizeWidth>
-					<defaultSizeHeight>480</defaultSizeHeight>
+					<defaultSizeHeight>365</defaultSizeHeight>
 					<defaultFrameRate>30</defaultFrameRate>
 					<fonts>
 						<managers>

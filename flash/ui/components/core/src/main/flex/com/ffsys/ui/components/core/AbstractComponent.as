@@ -8,6 +8,7 @@ package com.ffsys.ui.components.core
 	import flash.utils.getDefinitionByName;	
 	
 	import com.ffsys.ui.text.TextFieldFactory;
+	import com.ffsys.ui.components.layout.ILayout;
 
 	/**
 	*	Abstract super class for all components.
@@ -23,6 +24,8 @@ package com.ffsys.ui.components.core
 	{	
 		static private var _textFieldFactory:TextFieldFactory
 			= new TextFieldFactory();
+			
+		private var _layout:ILayout;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -31,6 +34,59 @@ package com.ffsys.ui.components.core
 		{
 			super();
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get layout():ILayout
+		{
+			return _layout;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function set layout( layout:ILayout ):void
+		{
+			_layout = layout;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function addChild(
+			child:DisplayObject ):DisplayObject
+		{
+			super.addChild( child );
+			
+			trace("AbstractComponent::addChild(), ", child );
+			
+			if( layout && child )
+			{
+				layout.added( child );
+			}
+			
+			return child;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function removeChild(
+			child:DisplayObject ):DisplayObject
+		{
+			
+			trace("AbstractComponent::removeChild(), ", child );
+			
+			if( layout && child )
+			{
+				layout.removed( child );
+			}
+			
+			super.removeChild( child );
+			
+			return child;
+		}		
 		
 		/**
 		* 	@inheritDoc

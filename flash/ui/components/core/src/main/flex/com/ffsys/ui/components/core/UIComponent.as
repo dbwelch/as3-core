@@ -19,7 +19,7 @@ package com.ffsys.ui.components.core
 		public function UIComponent()
 		{
 			super();
-			addEventListener( Event.ADDED, added );
+			addEventListener( Event.ADDED_TO_STAGE, added );
 		}
 		
 		/**
@@ -39,9 +39,10 @@ package com.ffsys.ui.components.core
 		*/
 		protected function added( event:Event ):void
 		{
-			removeEventListener( Event.ADDED, added );
-			addEventListener( Event.REMOVED, removed );
+			removeEventListener( Event.ADDED_TO_STAGE, added );
+			addEventListener( Event.REMOVED_FROM_STAGE, removed );
 			createChildren();
+			trace("UIComponent::added(), ", this, this.parent );
 		}
 		
 		/**
@@ -51,8 +52,9 @@ package com.ffsys.ui.components.core
 		*/
 		protected function removed( event:Event ):void
 		{
-			removeEventListener( Event.REMOVED, removed );
+			removeEventListener( Event.REMOVED_FROM_STAGE, removed );
 			destroy();
+			trace("UIComponent::removed(), ", this, this.parent );
 		}
 	}
 }
