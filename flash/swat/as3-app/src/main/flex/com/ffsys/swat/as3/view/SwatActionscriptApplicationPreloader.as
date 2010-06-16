@@ -4,6 +4,7 @@ package com.ffsys.swat.as3.view
 	
 	import com.ffsys.swat.as3.configuration.SwatActionscriptClassPathConfiguration;
 	import com.ffsys.swat.as3.core.ApplicationFlashVariables;
+	import com.ffsys.swat.as3.view.SwatActionscriptApplicationPreloadView;
 	
 	/**
 	*	Custom application preloader.
@@ -15,20 +16,22 @@ package com.ffsys.swat.as3.view
 	*	@since  08.06.2010
 	*/
 	public class SwatActionscriptApplicationPreloader extends SwatApplicationPreloader
-	{
-		/**
-		*	@private
-		*	
-		*	Force compiling of dependent classes.
-		*/
-		static private var _classes:SwatActionscriptClassPathConfiguration;
-		
+	{		
 		/**
 		* 	Creates a <code>SwatActionscriptApplicationPreloader</code> instance.
 		*/
 		public function SwatActionscriptApplicationPreloader()
 		{
 			super();
+		}
+		
+		override public function getRuntimeClasses():Array
+		{
+			var output:Array = super.getRuntimeClasses();
+			output.push( SwatActionscriptClassPathConfiguration );
+			output.push( ApplicationFlashVariables );
+			output.push( SwatActionscriptApplicationPreloadView );
+			return output;
 		}
 	}
 }

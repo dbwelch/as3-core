@@ -18,5 +18,11 @@ package com.ffsys.swat.view {
 		*	The class path configuration for the application.
 		*/
 		function get classes():IClassPathConfiguration;
+		
+		/**
+		* 	An array of classes that are created at runtime
+		* 	using reflection.
+		*/
+		function getRuntimeClasses():Array;
 	}
 }

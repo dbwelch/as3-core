@@ -1,5 +1,7 @@
 package com.ffsys.swat.configuration {
 	
+	import com.ffsys.core.IFlashVariables;
+	
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.ILocale;
@@ -17,6 +19,7 @@ package com.ffsys.swat.configuration {
 	public class Configuration extends Object 
 		implements IConfiguration {
 			
+		private var _flashvars:IFlashVariables;
 		private var _lang:String;
 		private var _locales:LocaleCollection;
 		private var _copy:LocaleAwareStringCollection;
@@ -32,6 +35,22 @@ package com.ffsys.swat.configuration {
 		{
 			super();
 			_assetManager = new AssetManager( this );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get flashvars():IFlashVariables
+		{
+			return _flashvars;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function set flashvars( flashvars:IFlashVariables ):void
+		{
+			_flashvars = flashvars;
 		}
 		
 		/**

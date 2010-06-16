@@ -46,10 +46,21 @@ package com.ffsys.swat.view {
 			addEventListener( Event.ADDED_TO_STAGE, created );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get classes():IClassPathConfiguration
 		{
 			return _classes;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getRuntimeClasses():Array
+		{
+			return new Array();
+		}		
 		
 		/**
 		* 	@private

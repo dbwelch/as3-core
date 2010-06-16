@@ -4,6 +4,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
+	import com.ffsys.swat.core.IFlashVariablesAware;
 	
 	/**
 	*	Describes the contract for objects that
@@ -15,7 +16,8 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public interface IConfiguration {
+	public interface IConfiguration
+		extends IFlashVariablesAware {
 		
 		/**
 		* 	Gets the currently selected locale.

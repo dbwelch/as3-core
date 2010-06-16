@@ -57,7 +57,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function get flashvars():IFlashVariables
+		override public function get flashvars():IFlashVariables
 		{
 			return _flashvars;
 		}
@@ -65,7 +65,8 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function set flashvars( flashvars:IFlashVariables ):void
+		public function set flashvars(
+			flashvars:IFlashVariables ):void
 		{
 			if( !_flashvars )
 			{
@@ -76,7 +77,8 @@ package com.ffsys.swat.view  {
 					_preloader = new RuntimeAssetPreloader( _flashvars );
 			
 					preloader.addEventListener(
-						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationLoadComplete );
+						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
+						configurationLoadComplete );
 				
 					preloader.addEventListener(
 						RslEvent.LOAD_COMPLETE, rslLoadComplete );
@@ -111,6 +113,9 @@ package com.ffsys.swat.view  {
 			
 			//keep a reference to the configuration
 			this.configuration = event.configuration;
+			
+			//update the configuration with the flash variables
+			this.configuration.flashvars = this.flashvars;
 			
 			configure( this.configuration );
 		}
@@ -165,6 +170,10 @@ package com.ffsys.swat.view  {
 					+ " adhere to the application main view contract." );
 			}
 			
+			//ensure the ready method has access to the configuration
+			IApplicationMainView( view ).configuration = this.configuration;
+			
+			//invoke the ready method
 			IApplicationMainView( view ).ready(
 				preloader.main,
 				preloader,

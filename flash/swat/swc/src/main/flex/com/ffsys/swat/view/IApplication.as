@@ -3,6 +3,7 @@ package com.ffsys.swat.view
 	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
+	import com.ffsys.swat.core.IFlashVariablesAware;
 	
 	/**
 	*	Describes the contract for the application view.
@@ -13,22 +14,10 @@ package com.ffsys.swat.view
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public interface IApplication extends IApplicationView
+	public interface IApplication
+		extends IApplicationView,
+				IFlashVariablesAware
 	{
-		/**
-		*	Gets the flash variables for the application.
-		* 
-		* 	@return The flash variables for the application.
-		*/
-		function get flashvars():IFlashVariables;
-		
-		/**
-		*	Sets the flash variables for the application.
-		* 
-		* 	@param flashvars The flash variables for the application.
-		*/
-		function set flashvars( flashvars:IFlashVariables ):void;
-		
 		function get preloader():IRuntimeAssetPreloader;
 	}
 }

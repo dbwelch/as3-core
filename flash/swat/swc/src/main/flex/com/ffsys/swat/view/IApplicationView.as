@@ -16,7 +16,8 @@ package com.ffsys.swat.view
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public interface IApplicationView extends IConfigurationAware
+	public interface IApplicationView
+		extends IConfigurationAware
 	{
 		/**
 		* 	Creates child display list objects.

@@ -16,7 +16,7 @@ package com.ffsys.ui.text
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class TextfieldEllipsis extends Object
+	public class TextFieldEllipsis extends Object
 	{
 		/**
 		*	Constant representing the forwards direction.
@@ -77,9 +77,9 @@ package com.ffsys.ui.text
 		private var _direction:String = BACKWARDS;
 		
 		/**
-		* 	Creates a <code>TextfieldEllipsis</code> instance.
+		* 	Creates a <code>TextFieldEllipsis</code> instance.
 		*/
-		public function TextfieldEllipsis()
+		public function TextFieldEllipsis()
 		{
 			super();
 		}

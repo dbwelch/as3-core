@@ -10,6 +10,7 @@ package com.ffsys.swat.view  {
 	import flash.text.TextFieldAutoSize;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.utils.collections.strings.StringCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
@@ -64,6 +65,19 @@ package com.ffsys.swat.view  {
 		public function set configuration( configuration:IConfiguration ):void
 		{
 			_configuration = configuration;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get flashvars():IFlashVariables
+		{
+			if( this.configuration == null )
+			{
+				throw new Error( "Cannot access the flash variables with a null configuration." );
+			}
+			
+			return this.configuration.flashvars;
 		}
 		
 		/**
@@ -125,7 +139,7 @@ package com.ffsys.swat.view  {
 			}
 			
 			return child;
-		}		
+		}
 		
 		/**
 		*	@inheritDoc	

@@ -13,7 +13,8 @@ package com.ffsys.swat.view {
 	*	@author 
 	*	@since  16.06.2010
 	*/
-	public interface IApplicationMainView {
+	public interface IApplicationMainView
+		extends IApplicationView {
 		
 		function ready(
 			main:IApplicationPreloader,
