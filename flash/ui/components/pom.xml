@@ -6,26 +6,19 @@
 		<groupId>com.ffsys</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.ui</groupId>
-	<artifactId>components</artifactId>
+	<groupId>com.ffsys</groupId>
+	<artifactId>ui-components-parent</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>components</name>
-	<packaging>swc</packaging>
+	<name>ui-components-parent</name>
+	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
-	
-	<dependencies>
-		<dependency>
-			<groupId>com.ffsys.ui</groupId>
-			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.ui</groupId>
-			<artifactId>text</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-	</dependencies>	
-	
+	<modules>
+		<module>text</module>
+		
+		<!--
+		<module>core</module>
+		<module>components</module>
+		<module>combined</module>
+		-->
+	</modules>
 </project>
