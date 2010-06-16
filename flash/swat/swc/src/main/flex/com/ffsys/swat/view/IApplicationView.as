@@ -4,7 +4,7 @@ package com.ffsys.swat.view
 	import flash.text.TextField;
 	
 	import com.ffsys.core.IEnabled;
-	
+	import com.ffsys.ui.text.TextFieldFactory;
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.Settings;
@@ -22,6 +22,12 @@ package com.ffsys.swat.view
 		extends IConfigurationAware,
 				IEnabled
 	{
+		/**
+		* 	The factory class used for creating and working
+		* 	with textfields.
+		*/
+		function get textFieldFactory():TextFieldFactory;
+		
 		/**
 		* 	Creates child display list objects.
 		* 

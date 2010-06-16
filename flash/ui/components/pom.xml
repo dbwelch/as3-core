@@ -15,6 +15,7 @@
 	<modules>
 		<module>core</module>
 		<module>button</module>
+		<module>display</module>
 		<module>text</module>
 		<module>combined</module>
 	</modules>

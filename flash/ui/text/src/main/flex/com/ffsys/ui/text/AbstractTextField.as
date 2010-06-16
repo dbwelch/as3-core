@@ -2,6 +2,7 @@ package com.ffsys.ui.text {
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.geom.Matrix;
 	import flash.text.*;
 	
 	/**
@@ -38,7 +39,7 @@ package com.ffsys.ui.text {
 				applyTextFormatProperties( textformat );
 			}
 			
-			setText( text );			
+			setText( text );
 		}
 		
 		public function get html():Boolean
@@ -124,6 +125,7 @@ package com.ffsys.ui.text {
 		/**
 		* 	@inheritDoc
 		*/
+		//TODO: move to property setter implementation
 		public function applyProperties(
 			target:Object, properties:Object ):void
 		{
@@ -163,17 +165,22 @@ package com.ffsys.ui.text {
 			}
 			
 			this.defaultTextFormat = tf;
-			this.text = this.text;
+			setText( this.text );
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		public function getBitmap():Bitmap
+		public function getBitmap( matrix:Matrix = null ):Bitmap
 		{
+			if( matrix == null )
+			{
+				matrix = new Matrix();
+			}
+			
 			var bitmapData:BitmapData = new BitmapData(
 				this.width, this.height, true, 0x00000000 );
-			bitmapData.draw( this );
+			bitmapData.draw( this, matrix );
 			return new Bitmap( bitmapData );
 		}
 	}

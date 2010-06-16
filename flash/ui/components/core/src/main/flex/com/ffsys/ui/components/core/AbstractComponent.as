@@ -1,6 +1,8 @@
 package com.ffsys.ui.components.core
 {
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.utils.getDefinitionByName;	
 	
 	import com.ffsys.ui.text.TextFieldFactory;
 
@@ -28,11 +30,60 @@ package com.ffsys.ui.components.core
 		}
 		
 		/**
-		* 	Gets the text field factory used by all components.
+		* 	@inheritDoc
 		*/
 		public function get textFieldFactory():TextFieldFactory
 		{
 			return _textFieldFactory;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getRuntimeAsset( classPath:String ):Object
+		{
+			var clz:Class = null;
+			
+			try
+			{
+				clz = Class(
+					getDefinitionByName( classPath ) );
+			}catch( e:Error )
+			{
+				throw new Error(
+					"Could not locate a class for a runtime asset with class path '"
+					+ classPath + "'." );
+			}
+			
+			var instance:Object = null;
+			
+			try
+			{
+				instance = new clz();
+			}catch( e:Error )
+			{
+				throw new Error(
+					"Could not instantiate runtime asset with class path '"
+					+ classPath + "'." );
+			}
+			
+			return instance;		
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getRuntimeDisplayObject( classPath:String ):DisplayObject
+		{
+			var instance:Object = getRuntimeAsset( classPath );
+			
+			if( !( instance is DisplayObject ) )
+			{
+				throw new Error(
+					"The runtime asset is not a display object." );
+			}
+			
+			return DisplayObject( instance );
 		}
 		
 		/**
@@ -51,7 +102,6 @@ package com.ffsys.ui.components.core
 			mouseEnabled = enabled;
 			mouseChildren = enabled;
 		}
-		
 		
 		/**
 		* 	Performs clean up of this instance.

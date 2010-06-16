@@ -11,6 +11,8 @@ package com.ffsys.swat.view  {
 	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.core.IFlashVariables;
+	import com.ffsys.ui.text.TextFieldFactory;
+	
 	import com.ffsys.utils.collections.strings.StringCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
@@ -29,6 +31,9 @@ package com.ffsys.swat.view  {
 	*/
 	public class AbstractSwatView extends Sprite
 		implements IApplicationView {
+			
+		static private var _textFieldFactory:TextFieldFactory
+			= new TextFieldFactory();		
 		
 		private var _configuration:IConfiguration;
 		private var _enabled:Boolean = true;
@@ -58,13 +63,19 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
-		* 	Sets the application configuration data.
-		* 
-		* 	@param configuration The configuration data.
+		* 	@inheritDoc
 		*/
 		public function set configuration( configuration:IConfiguration ):void
 		{
 			_configuration = configuration;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get textFieldFactory():TextFieldFactory
+		{
+			return _textFieldFactory;
 		}
 		
 		/**

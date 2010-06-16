@@ -29,10 +29,8 @@ package com.ffsys.ui.text {
 			properties:Object = null,
 			textformat:Object = null )
 		{
-			this.wordWrap = true;
-			this.enabled = false;
 			this.selectable = false;
-			this.autoSize = TextFieldAutoSize.LEFT;
+			convertToMultiLine();
 			
 			if( !properties.width )
 			{
