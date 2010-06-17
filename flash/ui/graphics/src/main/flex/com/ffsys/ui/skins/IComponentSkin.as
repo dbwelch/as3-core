@@ -18,6 +18,6 @@ package com.ffsys.ui.skins
 		* 	The set of states for the skin.
 		*/
 		function get states():ISkinStates;
-		function set states( states:ISkinStates ):void;		
+		function set states( states:ISkinStates ):void;
 	}
 }

@@ -45,10 +45,11 @@ package com.ffsys.ui.core
 		* 
 		* 	@return An instance of the class referenced by class path.
 		*/
-		function getRuntimeAsset( classPath:String ):Object;
+		function getRuntimeAsset(
+			classPath:String ):Object;
 		
 		/**
-		* 	Gets a runtime object as a display object.
+		* 	Gets a runtime asset as a display object.
 		* 
 		* 	@param classPath The fully qualified class path to the runtime
 		* 	asset.
@@ -56,6 +57,7 @@ package com.ffsys.ui.core
 		* 	@return An instance of the class referenced by class path as a
 		* 	display object.
 		*/
-		function getRuntimeDisplayObject( classPath:String ):DisplayObject;
+		function getRuntimeDisplayObject(
+			classPath:String ):DisplayObject;
 	}
 }
