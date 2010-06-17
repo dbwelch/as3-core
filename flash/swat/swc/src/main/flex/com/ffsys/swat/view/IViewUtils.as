@@ -1,5 +1,6 @@
 package com.ffsys.swat.view {
 	
+	import flash.filters.BitmapFilter;
 	import flash.text.Font;
 	
 	import com.ffsys.core.IFlashVariables;
@@ -7,6 +8,7 @@ package com.ffsys.swat.view {
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.Settings;
+	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	
 	/**
 	*	Describes the contract for an instance
@@ -58,5 +60,15 @@ package com.ffsys.swat.view {
 		* 	@return An instance of the font.
 		*/
 		function registerFont( classPath:String ):Font;
+		
+		/**
+		* 	Gets the application filters.
+		*/
+		function get filters():IFilterCollection;
+	
+		/**
+		*	Gets a bitmap filter by identifier.
+		*/
+		function getFilterById( id:String ):BitmapFilter;
 	}
 }

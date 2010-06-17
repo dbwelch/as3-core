@@ -169,12 +169,53 @@
 	<filters>
 		<bevel-filter>
 			<id>bevel</id>
-			<color>0x33CCFF</color>
-			<alpha>0.8</alpha>
-			<blurX>35</blurX>
-			<blurY>35</blurY>
-			<strength>2</strength>
+			<distance>1</distance>
+			<highlightColor>0xff0000</highlightColor>
+			<shadowColor>0x666666</shadowColor>
+			<shadowAlpha>0.6</shadowAlpha>
+			<knockout>true</knockout>
+			<blurX>1</blurX>
+			<blurY>1</blurY>
+			<strength>1</strength>
 		</bevel-filter>
-	</filters>	
+		
+		<drop-shadow-filter>
+			<id>drop-shadow</id>
+			<color>0x00ff00</color>
+			<angle>45</angle>
+			<strength>0.55</strength>
+			<alpha>0.5</alpha>
+			<blurX>3</blurX>
+			<blurY>3</blurY>
+			<distance>1</distance>
+		</drop-shadow-filter>
+		
+		<color-matrix-filter>
+			<id>color-matrix</id>
+			<matrix>
+				<a0>0</a0>
+				<a1>0</a1>
+				<a2>0</a2>
+				<a3>0</a3>
+				<a4>0</a4>
+				<a5>0</a5>
+				<a6>0</a6>
+				<a7>0</a7>
+				<a8>0</a8>
+				<a9>0</a9>
+				<a10>0</a10>
+				<a11>0</a11>
+				<a12>1</a12>
+				<a13>0</a13>
+				<a14>0</a14>
+				<a15>0</a15>
+				<a16>0</a16>
+				<a17>0</a17>
+				<a18>0.75</a18>
+				<a19>0</a19>
+			</matrix>
+		</color-matrix-filter>
+		
+	</filters>
 	
 </configuration>

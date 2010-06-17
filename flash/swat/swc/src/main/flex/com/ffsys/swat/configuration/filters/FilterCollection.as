@@ -22,7 +22,7 @@ package com.ffsys.swat.configuration.filters {
 		implements 	IFilterCollection,
 					IDeserializeProperty {
 						
-		private var _filters:Dictionary = new Dictionary();
+		private var _filters:Dictionary = new Dictionary( true );
 		
 		/**
 		*	Creates a <code>FilterCollection</code> instance.
@@ -34,12 +34,12 @@ package com.ffsys.swat.configuration.filters {
 		
 		public function removeFilterById( id:String ):Boolean
 		{
-			var z:String;
-			for( z in _filters )
+			var filter:IFilterConfiguration;
+			for each( filter in _filters )
 			{
-				if( z === id )
+				if( id === filter.id )
 				{
-					return delete _filters[ z ];
+					return delete _filters[ filter ];
 				}
 			}
 			
@@ -49,16 +49,33 @@ package com.ffsys.swat.configuration.filters {
 		public function getFilterById(
 			id:String ):BitmapFilter
 		{
-			var filter:IFilterConfiguration = _filters[ id ] as IFilterConfiguration;
-			return filter.clone();
+			var filter:IFilterConfiguration;
+			for each( filter in _filters )
+			{
+				trace("FilterCollection::getFilterById(), ", filter.id, id );
+				if( id === filter.id )
+				{
+					break;
+				}
+			}
+			
+			//var filter:IFilterConfiguration = _filters[ id ] as IFilterConfiguration;
+			
+			if( filter )
+			{
+				return filter.clone();
+			}
+			
+			return null;
 		}
 		
 		public function addFilter( filter:IFilterConfiguration ):Boolean
 		{
+			trace("FilterCollection::addFilter(), ", filter, filter.id );
 			//ignore filters with no id
-			if( filter && filter.id )
+			if( filter )
 			{
-				_filters[ filter.id ] = filter;
+				_filters[ filter ] = filter;
 				return true;
 			}
 			return false;

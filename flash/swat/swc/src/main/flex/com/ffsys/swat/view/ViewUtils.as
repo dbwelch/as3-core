@@ -1,5 +1,6 @@
 package com.ffsys.swat.view  {
 	
+	import flash.filters.BitmapFilter;
 	import flash.text.Font;
 	import flash.utils.getDefinitionByName;
 	
@@ -12,6 +13,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.Settings;
+	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	
 	/**
 	*	Encapsulates access to various commonly used configuration
@@ -114,6 +116,27 @@ package com.ffsys.swat.view  {
 			}
 			
 			return this.configuration.assets;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get filters():IFilterCollection
+		{
+			if( this.configuration == null )
+			{
+				throw new Error( "Cannot access the application filters with a null configuration." );
+			}
+			
+			return this.configuration.filters;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getFilterById( id:String ):BitmapFilter
+		{
+			return this.filters.getFilterById( id );
 		}
 		
 		/**

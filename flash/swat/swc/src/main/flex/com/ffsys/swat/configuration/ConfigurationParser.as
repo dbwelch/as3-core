@@ -98,6 +98,26 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const BEVEL_FILTER_NAME:String =
 			"bevel-filter";
+			
+		/**
+		*	The node name for a drop shadow filter.
+		*/
+		static public const DROP_SHADOW_FILTER_NAME:String =
+			"drop-shadow-filter";
+			
+		/**
+		*	The node name for a drop shadow filter.
+		*/
+		/*
+		static public const DROP_SHADOW_FILTER_NAME:String =
+			"drop-shadow-filter";
+		*/
+			
+		/**
+		*	The node name for a color matrix filter.
+		*/
+		static public const COLOR_MATRIX_FILTER_NAME:String =
+			"color-matrix-filter";
 
 		/**
 		*	The node name for an array of alphas.
@@ -115,7 +135,13 @@ package com.ffsys.swat.configuration {
 		*	The node name for an array of colors.
 		*/
 		static public const COLORS_NAME:String =
-			"colors";		
+			"colors";
+			
+		/**
+		*	The node name for an array of matrix values.
+		*/
+		static public const MATRIX_NAME:String =
+			"matrix";
 
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
@@ -220,7 +246,19 @@ package com.ffsys.swat.configuration {
 				BevelFilterConfiguration,
 				BEVEL_FILTER_NAME,
 				BEVEL_FILTER_NAME,
-				false );							
+				false );
+				
+			classNodeNameMap.add(
+				DropShadowFilterConfiguration,
+				DROP_SHADOW_FILTER_NAME,
+				DROP_SHADOW_FILTER_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				ColorMatrixFilterConfiguration,
+				COLOR_MATRIX_FILTER_NAME,
+				COLOR_MATRIX_FILTER_NAME,
+				false );														
 			
 			classNodeNameMap.add(
 				Array,
@@ -238,7 +276,13 @@ package com.ffsys.swat.configuration {
 				Array,
 				COLORS_NAME,
 				COLORS_NAME,
-				false );			
+				false );
+				
+			classNodeNameMap.add(
+				Array,
+				MATRIX_NAME,
+				MATRIX_NAME,
+				false );							
 		}
 		
 		/**

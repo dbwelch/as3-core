@@ -1,6 +1,7 @@
 package com.ffsys.swat.as3.view {
 	
 	import flash.display.Bitmap;
+	import flash.display.DisplayObject;
 	import com.ffsys.ui.text.*;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -8,6 +9,8 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
+	import com.ffsys.ui.graphics.*;
+	import com.ffsys.ui.containers.VerticalBox;
 	import com.ffsys.ui.components.text.Label;
 	
 	/**
@@ -21,6 +24,8 @@ package com.ffsys.swat.as3.view {
 	*/
 	public class SwatActionscriptContainer extends SwatActionscriptAbstractView
 		implements IApplicationMainView {
+			
+		public var vbox:VerticalBox;
 		
 		/**
 		*	Creates a <code>SwatActionscriptContainer</code> instance.
@@ -56,8 +61,24 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{
-			addChild( new Label( "This is some test text..." ) );
-			trace("SwatActionscriptContainer::createChildren(), ", utils.configuration );
+			vbox = new VerticalBox();
+			
+			var graphic:DisplayObject = new SquareGraphic( 50 );
+			IComponentGraphic( graphic ).draw();
+			graphic.filters = [ utils.getFilterById( "bevel" ) ];
+			vbox.addChild( graphic );
+			
+			graphic = new SquareGraphic( 50 );
+			IComponentGraphic( graphic ).draw();
+			graphic.filters = [ utils.getFilterById( "drop-shadow" ) ];
+			vbox.addChild( graphic );
+			
+			graphic = new SquareGraphic( 50 );
+			IComponentGraphic( graphic ).draw();
+			graphic.filters = [ utils.getFilterById( "color-matrix" ) ];
+			vbox.addChild( graphic );			
+			
+			addChild( vbox );
 		}
 	}
 }

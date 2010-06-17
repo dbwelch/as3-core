@@ -96,7 +96,13 @@ package com.ffsys.swat.configuration.filters {
 			name:String,
 			value:Object ):void
 		{
-			this.properties[ name ] = value;
+			if( this.hasOwnProperty( name ) )
+			{
+				this[ name ] = value;
+			}else
+			{
+				this.properties[ name ] = value;
+			}
 		}
 	}
 }
