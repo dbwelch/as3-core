@@ -2,17 +2,22 @@ package com.ffsys.swat.configuration.filters {
 	
 	import flash.filters.BitmapFilter;
 	
+	import com.ffsys.io.xml.IDeserializeProperty;
+	
+	import com.ffsys.utils.properties.PropertiesMerge;
+	
 	/**
 	*	Abstract super class for all filter configurations.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
-	*	@author 
+	*	@author Mischa Williamson
 	*	@since  17.06.2010
 	*/
 	public class AbstractFilterConfiguration extends Object
-		implements IFilterConfiguration {
+		implements  IFilterConfiguration,
+		 			IDeserializeProperty {
 		
 		private var _id:String;
 		private var _properties:Object;
@@ -78,9 +83,20 @@ package com.ffsys.swat.configuration.filters {
 				throw new Error( "Could not instantiate the target bitmap filter." );
 			}
 			
-			
+			var merger:PropertiesMerge = new PropertiesMerge();
+			merger.merge( filter, properties );
 			
 			return filter;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/		
+		public function setDeserializedProperty(
+			name:String,
+			value:Object ):void
+		{
+			this.properties[ name ] = value;
 		}
 	}
 }

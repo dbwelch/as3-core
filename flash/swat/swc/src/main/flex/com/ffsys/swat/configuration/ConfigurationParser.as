@@ -6,6 +6,8 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.Locale;
+	
+	import com.ffsys.swat.configuration.filters.*;
 
 	/**
 	*	The implementation of the parser for configuration data.
@@ -68,24 +70,6 @@ package com.ffsys.swat.configuration {
 			"rsl";
 			
 		/**
-		*	The node name for an array of alphas.
-		*/
-		static public const ALPHAS_NAME:String =
-			"alphas";
-			
-		/**
-		*	The node name for an array of ratios.
-		*/
-		static public const RATIOS_NAME:String =
-			"ratios";
-			
-		/**
-		*	The node name for an array of colors.
-		*/
-		static public const COLORS_NAME:String =
-			"colors";
-			
-		/**
 		*	The node name for a collection of default values.	
 		*/
 		static public const DEFAULTS_NAME:String =
@@ -102,6 +86,36 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const TEXTFORMAT_DEFAULTS_NAME:String =
 			"textformat-defaults";
+
+		/**
+		*	The node name for a collection of filters.
+		*/
+		static public const FILTERS_NAME:String =
+			"filters";
+			
+		/**
+		*	The node name for a bevel filter.
+		*/
+		static public const BEVEL_FILTER_NAME:String =
+			"bevel-filter";
+
+		/**
+		*	The node name for an array of alphas.
+		*/
+		static public const ALPHAS_NAME:String =
+			"alphas";
+
+		/**
+		*	The node name for an array of ratios.
+		*/
+		static public const RATIOS_NAME:String =
+			"ratios";
+
+		/**
+		*	The node name for an array of colors.
+		*/
+		static public const COLORS_NAME:String =
+			"colors";		
 
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
@@ -175,24 +189,6 @@ package com.ffsys.swat.configuration {
 				RuntimeSharedLibrary,
 				RSL_NAME,
 				RSL_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				Array,
-				ALPHAS_NAME,
-				ALPHAS_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				Array,
-				RATIOS_NAME,
-				RATIOS_NAME,
-				false );				
-				
-			classNodeNameMap.add(
-				Array,
-				COLORS_NAME,
-				COLORS_NAME,
 				false );				
 				
 			classNodeNameMap.add(
@@ -212,6 +208,37 @@ package com.ffsys.swat.configuration {
 				TEXTFORMAT_DEFAULTS_NAME,
 				"textformat",
 				false );
+				
+			//filters
+			classNodeNameMap.add(
+				FilterCollection,
+				FILTERS_NAME,
+				FILTERS_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				BevelFilterConfiguration,
+				BEVEL_FILTER_NAME,
+				BEVEL_FILTER_NAME,
+				false );							
+			
+			classNodeNameMap.add(
+				Array,
+				ALPHAS_NAME,
+				ALPHAS_NAME,
+				false );
+
+			classNodeNameMap.add(
+				Array,
+				RATIOS_NAME,
+				RATIOS_NAME,
+				false );				
+
+			classNodeNameMap.add(
+				Array,
+				COLORS_NAME,
+				COLORS_NAME,
+				false );			
 		}
 		
 		/**

@@ -4,7 +4,9 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
+	
 	import com.ffsys.swat.core.IFlashVariablesAware;
+	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	
 	/**
 	*	Describes the contract for objects that
@@ -80,21 +82,7 @@ package com.ffsys.swat.configuration {
 		*	
 		*	@param settings The application settings.
 		*/
-		function set settings( settings:Settings ):void;
-		
-		/**
-		*	Gets the application defaults.
-		*	
-		*	@return The application defaults.
-		*/
-		function get defaults():Defaults;
-
-		/**
-		*	Sets the application defaults.
-		*	
-		*	@param defaults The application defaults.
-		*/
-		function set defaults( defaults:Defaults ):void;		
+		function set settings( settings:Settings ):void;		
 		
 		/**
 		*	Gets the lookup table mapping asset identifiers
@@ -138,6 +126,35 @@ package com.ffsys.swat.configuration {
 		*	
 		*	@param rsls The runtime shared library collection
 		*/
-		function set rsls( rsls:RuntimeSharedLibraryCollection ):void;		
+		function set rsls( rsls:RuntimeSharedLibraryCollection ):void;
+		
+		
+		/**
+		*	Gets the application defaults.
+		*	
+		*	@return The application defaults.
+		*/
+		function get defaults():Defaults;
+
+		/**
+		*	Sets the application defaults.
+		*	
+		*	@param defaults The application defaults.
+		*/
+		function set defaults( defaults:Defaults ):void;
+		
+		/**
+		*	Gets the application filters.
+		*	
+		*	@return The application filters.
+		*/
+		function get filters():IFilterCollection;
+
+		/**
+		*	Sets the application filters.
+		*	
+		*	@param filters The application filters.
+		*/
+		function set filters( filters:IFilterCollection ):void;		
 	}
 }

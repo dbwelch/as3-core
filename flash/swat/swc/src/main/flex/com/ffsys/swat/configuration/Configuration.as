@@ -7,6 +7,8 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
 	
+	import com.ffsys.swat.configuration.filters.IFilterCollection;
+	
 	/**
 	*	Represents the application configuration.
 	*
@@ -28,6 +30,7 @@ package com.ffsys.swat.configuration {
 		private var _assets:StringCollection;
 		private var _assetManager:AssetManager;
 		private var _rsls:RuntimeSharedLibraryCollection;
+		private var _filters:IFilterCollection;
 		
 		/**
 		*	Create a <code>Configuration</code> instance.
@@ -236,6 +239,22 @@ package com.ffsys.swat.configuration {
 		public function set rsls( rsls:RuntimeSharedLibraryCollection ):void
 		{
 			_rsls = rsls;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get filters():IFilterCollection
+		{
+			return _filters;
+		}
+
+		/**
+		*	@inheritDoc
+		*/
+		public function set filters( filters:IFilterCollection ):void
+		{
+			_filters = filters;
 		}
 	}
 }

@@ -166,4 +166,15 @@
 		</textformat-defaults>
 	</defaults>
 	
+	<filters>
+		<bevel-filter>
+			<id>bevel</id>
+			<color>0x33CCFF</color>
+			<alpha>0.8</alpha>
+			<blurX>35</blurX>
+			<blurY>35</blurY>
+			<strength>2</strength>
+		</bevel-filter>
+	</filters>	
+	
 </configuration>
