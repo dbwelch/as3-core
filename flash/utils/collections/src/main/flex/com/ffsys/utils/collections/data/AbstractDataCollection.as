@@ -138,6 +138,11 @@ package com.ffsys.utils.collections.data {
 		
 	    override flash_proxy function getProperty( name:* ):*
 		{
+			if( name == null )
+			{
+				return null;
+			}
+			
 			if( !_data[ name ] )
 			{
 				//we've got a collection with an id
@@ -158,6 +163,11 @@ package com.ffsys.utils.collections.data {
 		
 	    override flash_proxy function setProperty( name:*, value:* ):void
 		{
+			if( name == null )
+			{
+				return;
+			}
+			
 			if( !ClassUtils.isType( dataTypes, value ) )
 			{
 				throw new Error(

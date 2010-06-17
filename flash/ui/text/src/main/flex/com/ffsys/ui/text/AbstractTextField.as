@@ -75,8 +75,6 @@ package com.ffsys.ui.text {
 		*/
 		public function setText( text:String ):void
 		{
-			trace("AbstractTextField::setText()", text );
-			
 			beforeSetText( text );
 			
 			if( html )
@@ -135,8 +133,6 @@ package com.ffsys.ui.text {
 				var z:String = null;
 				for( z in properties )
 				{
-					trace("AbstractTextField::applyProperties(), ", z, properties[ z ] );
-					
 					if( target.hasOwnProperty( z ) )
 					{
 						target[ z ] = properties[ z ];

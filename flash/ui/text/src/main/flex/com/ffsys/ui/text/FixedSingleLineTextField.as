@@ -32,16 +32,7 @@ package com.ffsys.ui.text
 		{
 			super( text, properties, textformat );
 			this.width = 120;
-		}
-	
-		/**
-		* 	@inheritDoc
-		*/
-		override protected function beforeSetText( text:String ):void
-		{
-			//make single line so we can automatically measure the height
-			convertToSingleLine();
-			_measuredHeight = this.height;
+			this.autoSize = TextFieldAutoSize.NONE;
 		}
 		
 		/**
@@ -49,9 +40,8 @@ package com.ffsys.ui.text
 		*/
 		override protected function afterSetText( text:String ):void
 		{
-			//switch off autoSize
-			autoSize = TextFieldAutoSize.NONE;
-			this.height = _measuredHeight;
+			var metrics:TextLineMetrics = getLineMetrics( 0 );
+			this.height = metrics.height + 4;
 		}
 	}
 }
