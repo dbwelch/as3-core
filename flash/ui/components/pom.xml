@@ -15,7 +15,8 @@
 	<modules>
 		<module>button</module>
 		<module>display</module>
+		<module>loaders</module>
 		<module>text</module>
 		<module>combined</module>
 	</modules>
-</project>		
+</project>

@@ -7,15 +7,27 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.ui.components</groupId>
-	<artifactId>display</artifactId>
+	<artifactId>loaders</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>display</name>
+	<name>loaders</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
 			<artifactId>core</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.ui</groupId>
+			<artifactId>graphics</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>		
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>loaders</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>

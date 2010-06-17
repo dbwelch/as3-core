@@ -1,4 +1,4 @@
-package com.ffsys.ui.components.display.loaders
+package com.ffsys.ui.components.loaders
 {
 	import com.ffsys.io.loaders.core.ILoader;
 	

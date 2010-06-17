@@ -1,4 +1,4 @@
-package com.ffsys.ui.components.display.loaders
+package com.ffsys.ui.components.loaders
 {
 	import flash.display.DisplayObject;
 	
@@ -38,7 +38,8 @@ package com.ffsys.ui.components.display.loaders
 		* 	process to start when the loader component is added to the display list.
 		*/
 		public function AbstractLoaderComponent(
-			loader:ILoader, deferred:Boolean = false )
+			loader:ILoader,
+			deferred:Boolean = false )
 		{
 			super();
 			_container = new UIComponent();
