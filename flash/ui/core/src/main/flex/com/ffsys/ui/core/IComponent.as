@@ -5,6 +5,7 @@ package com.ffsys.ui.core
 	import com.ffsys.core.IBitmapGrab;
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
+	import com.ffsys.core.IStringIdentifier;
 	
 	import com.ffsys.ui.text.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
@@ -20,8 +21,9 @@ package com.ffsys.ui.core
 	*/
 	public interface IComponent
 		extends IBitmapGrab,
+				IDestroy,
 				IEnabled,
-				IDestroy
+				IStringIdentifier
 	{
 		
 		/**

@@ -1,6 +1,7 @@
 package com.ffsys.ui.core
 {
 	import com.ffsys.ui.skins.IComponentSkin;
+	import com.ffsys.ui.skins.ISkinCollection;
 	
 	/**
 	*	Describes the contract for components that can be skinned.
@@ -18,5 +19,10 @@ package com.ffsys.ui.core
 		*/
 		function get skin():IComponentSkin;
 		function set skin( skin:IComponentSkin ):void;
+		
+		/**
+		* 	A reference to the collection of skins.
+		*/
+		function get skins():ISkinCollection;
 	}
 }

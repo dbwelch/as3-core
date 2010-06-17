@@ -27,6 +27,7 @@ package com.ffsys.ui.core
 			= new TextFieldFactory();
 			
 		private var _layout:ILayout;
+		private var _id:String;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -34,6 +35,22 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function set id( id:String ):void
+		{
+			_id = id;
 		}
 		
 		/**

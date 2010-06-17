@@ -27,7 +27,9 @@
 		<module>components</module>
 		<module>graphics</module>
 		<module>text</module>
-		
+		<module>skins</module>
+		<module>skins-core</module>
+		<module>default-skins</module>
 		<module>combined</module>
 		<module>suite</module>
 	</modules>

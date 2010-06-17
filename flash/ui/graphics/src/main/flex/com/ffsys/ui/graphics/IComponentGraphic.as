@@ -1,7 +1,5 @@
 package com.ffsys.ui.graphics
-{
-	import com.ffsys.ui.core.IComponentDraw;
-	
+{	
 	/**
 	*	Describes the contract for component graphics.
 	*

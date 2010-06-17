@@ -1,6 +1,7 @@
 package com.ffsys.ui.skins
 {
 	import com.ffsys.ui.states.ISkinStates;
+	import com.ffsys.ui.states.SkinStates;
 	
 	/**
 	*	Represents a component skin.
@@ -25,6 +26,7 @@ package com.ffsys.ui.skins
 		public function ComponentSkin()
 		{
 			super();
+			_states = new SkinStates();
 		}
 		
 		/**

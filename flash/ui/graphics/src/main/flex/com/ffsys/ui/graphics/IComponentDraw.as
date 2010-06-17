@@ -1,4 +1,4 @@
-package com.ffsys.ui.core
+package com.ffsys.ui.graphics
 {
 
 	/**
