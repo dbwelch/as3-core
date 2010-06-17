@@ -5,6 +5,8 @@ package com.ffsys.ui.text {
 	import flash.geom.Matrix;
 	import flash.text.*;
 	
+	import com.ffsys.utils.properties.PropertiesMerge;
+	
 	/**
 	*	Abstract super class for custom textfields.
 	*
@@ -68,7 +70,7 @@ package com.ffsys.ui.text {
 		protected function afterSetText( text:String ):void
 		{
 			//
-		}		
+		}
 		
 		/**
 		* 	Sets the text of this textfield.
@@ -100,7 +102,7 @@ package com.ffsys.ui.text {
 		{
 			wordWrap = false;
 			multiline = false;
-			autoSize = TextFieldAutoSize.LEFT;		
+			autoSize = TextFieldAutoSize.LEFT;
 		}
 		
 		public function convertToMultiLine():void
@@ -110,6 +112,9 @@ package com.ffsys.ui.text {
 			autoSize = TextFieldAutoSize.LEFT;			
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get enabled():Boolean
 		{
 			return _enabled;
@@ -124,21 +129,11 @@ package com.ffsys.ui.text {
 		/**
 		* 	@inheritDoc
 		*/
-		//TODO: move to property setter implementation
 		public function applyProperties(
 			target:Object, properties:Object ):void
 		{
-			if( target != null )
-			{
-				var z:String = null;
-				for( z in properties )
-				{
-					if( target.hasOwnProperty( z ) )
-					{
-						target[ z ] = properties[ z ];
-					}
-				}
-			}
+			var merger:PropertiesMerge = new PropertiesMerge();
+			merger.merge( target, properties );
 		}
 		
 		/**

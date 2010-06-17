@@ -60,7 +60,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		override public function get flashvars():IFlashVariables
+		public function get flashvars():IFlashVariables
 		{
 			return _flashvars;
 		}
@@ -115,26 +115,21 @@ package com.ffsys.swat.view  {
 				configurationLoadComplete );
 			
 			//keep a reference to the configuration
-			this.configuration = event.configuration;
+			utils.configuration = event.configuration;
 			
-			
-			if( this.configuration.defaults )
+			if( utils.configuration.defaults )
 			{
-				//update the text field defaults
-				if( textFieldFactory )
-				{
-					textFieldFactory.defaultTextFieldProperties =
-						this.configuration.defaults.textfield;
-						
-					textFieldFactory.defaultTextFormatProperties =
-						this.configuration.defaults.textformat;	
-				}
+				utils.textFieldFactory.defaultTextFieldProperties =
+					utils.configuration.defaults.textfield;
+					
+				utils.textFieldFactory.defaultTextFormatProperties =
+					utils.configuration.defaults.textformat;
 			}
 			
 			//update the configuration with the flash variables
-			this.configuration.flashvars = this.flashvars;
+			utils.configuration.flashvars = this.flashvars;
 			
-			configure( this.configuration );
+			configure( utils.configuration );
 		}
 		
 		/**
@@ -189,13 +184,19 @@ package com.ffsys.swat.view  {
 			}
 			
 			//ensure the ready method has access to the configuration
-			IApplicationMainView( view ).configuration = this.configuration;
+			IApplicationMainView( view ).utils.configuration = utils.configuration;
 			
 			//invoke the ready method
-			IApplicationMainView( view ).ready(
+			var cleanup:Boolean = IApplicationMainView( view ).ready(
 				preloader.main,
 				preloader,
 				preloader.view );
+				
+			if( cleanup )  
+			{
+				//remove the preloader view from the display list
+				preloader.view = null;
+			}
 			
 			addChild( view );
 		}
@@ -238,10 +239,10 @@ package com.ffsys.swat.view  {
 			if( factory )
 			{
 				factory.defaultTextFieldProperties =
-					textFieldFactory.defaultTextFieldProperties;					
+					utils.textFieldFactory.defaultTextFieldProperties;					
 
 				factory.defaultTextFormatProperties =
-					textFieldFactory.defaultTextFormatProperties;			
+					utils.textFieldFactory.defaultTextFormatProperties;			
 			}
 		}
 	}

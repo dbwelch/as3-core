@@ -14,7 +14,7 @@
 	<url>http://maven.apache.org</url>
 	<modules>
 		<module>address</module>
-		<module>array</module>	
+		<module>array</module>
 		<module>assert</module>
 		<module>boolean</module>
 		<module>byte</module>
@@ -31,6 +31,7 @@
 		<module>number</module>
 		<module>object</module>
 		<module>page</module>
+		<module>properties</module>
 		<module>random</module>
 		<module>regex</module>
 		<module>string</module>

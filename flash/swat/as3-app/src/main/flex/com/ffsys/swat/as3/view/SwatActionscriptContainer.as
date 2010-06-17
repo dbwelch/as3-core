@@ -36,7 +36,7 @@ package com.ffsys.swat.as3.view {
 		public function ready(
 			main:IApplicationPreloader,
 			runtime:IRuntimeAssetPreloader,
-			view:IApplicationPreloadView ):void
+			view:IApplicationPreloadView ):Boolean
 		{
 			var preloader:SwatActionscriptApplicationPreloadView
 				= SwatActionscriptApplicationPreloadView( view );
@@ -48,8 +48,7 @@ package com.ffsys.swat.as3.view {
 			addChild( bitmap );
 			*/
 			
-			//remove the preloader view from the display list
-			runtime.view = null;
+			return true;
 		}
 		
 		/**
@@ -58,7 +57,7 @@ package com.ffsys.swat.as3.view {
 		override public function createChildren():void
 		{
 			addChild( new Label( "This is some test text..." ) );
-			trace("SwatActionscriptContainer::createChildren(), ", configuration );
+			trace("SwatActionscriptContainer::createChildren(), ", utils.configuration );
 		}
 	}
 }

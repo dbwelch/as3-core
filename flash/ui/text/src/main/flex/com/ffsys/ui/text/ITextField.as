@@ -36,14 +36,22 @@ package com.ffsys.ui.text
 		function getText():String;
 	
 		/**
-		* 	Applies a set of properties to this textfield.
+		* 	Applies source properties to this text field.
+		*	
+		*	@param txt The target text field.
+		*	@param properties The properties to set on this textfield.
 		*/
 		function applyTextFieldProperties(
 			properties:Object ):void;
 	
 		/**
-		* 	Applies a set of properties to the default text format
-		*	associated with this textfield.
+		* 	Applies text format properties to a text field.
+		*	
+		*	This operates on the <code>defaultTextFormat</code>
+		*	associated with the text field.
+		*	
+		*	@param properties The properties to set on the default
+		*	text format of this textfield.
 		*/
 		function applyTextFormatProperties(
 			properties:Object ):void;

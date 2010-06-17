@@ -11,6 +11,7 @@ package com.ffsys.swat.view  {
 	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.core.IFlashVariables;
+	import com.ffsys.ui.text.ITextFieldFactory;
 	import com.ffsys.ui.text.TextFieldFactory;
 	
 	import com.ffsys.utils.collections.strings.StringCollection;
@@ -32,10 +33,9 @@ package com.ffsys.swat.view  {
 	public class AbstractSwatView extends Sprite
 		implements IApplicationView {
 			
-		static private var _textFieldFactory:TextFieldFactory
-			= new TextFieldFactory();		
+		static private var _utils:IViewUtils
+			= new ViewUtils();
 		
-		private var _configuration:IConfiguration;
 		private var _enabled:Boolean = true;
 		
 		/**
@@ -47,87 +47,19 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		public function get utils():IViewUtils
+		{
+			return _utils;
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function createChildren():void
 		{
 			//
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get configuration():IConfiguration
-		{
-			return _configuration;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function set configuration( configuration:IConfiguration ):void
-		{
-			_configuration = configuration;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get textFieldFactory():TextFieldFactory
-		{
-			return _textFieldFactory;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get flashvars():IFlashVariables
-		{
-			if( this.configuration == null )
-			{
-				throw new Error( "Cannot access the flash variables with a null configuration." );
-			}
-			
-			return this.configuration.flashvars;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get assetManager():AssetManager
-		{
-			if( this.configuration == null )
-			{
-				throw new Error( "Cannot access the asset manager with a null configuration." );
-			}
-			
-			return this.configuration.assetManager;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get settings():Settings
-		{
-			if( this.configuration == null )
-			{
-				throw new Error( "Cannot access the application settings with a null configuration." );
-			}
-			
-			return this.configuration.settings;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get assets():StringCollection
-		{
-			if( this.configuration == null )
-			{
-				throw new Error( "Cannot access the application assets with a null configuration." );
-			}
-			
-			return this.configuration.assets;
 		}
 		
 		/**
@@ -137,10 +69,13 @@ package com.ffsys.swat.view  {
 		*/
 		override public function addChild( child:DisplayObject ):DisplayObject
 		{
+			
+			/*
 			if( child is IConfigurationAware )
 			{
 				IConfigurationAware( child ).configuration = this.configuration;
 			}
+			*/
 			
 			super.addChild( child );
 			
@@ -169,122 +104,6 @@ package com.ffsys.swat.view  {
 			
 			this.mouseEnabled = enabled;
 			this.mouseChildren = enabled;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function registerFont( classPath:String ):Font
-		{
-			var instance:Object = null;
-			
-			var clz:Class = null;
-
-			try
-			{
-				clz = Class( getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error( "Could not find a class for font class '" + classPath + "'." );
-			}
-			
-			try
-			{
-				instance = new clz();
-			}catch( e:Error )
-			{
-				throw new Error( "Could not instantiate font instance with class path '" + classPath + "'." );
-			}
-			
-			if( !( instance is Font ) )
-			{
-				throw new Error( "Instantiated instance from class path '" + classPath + "' is not a font." );
-			}
-
-			Font.registerFont( clz );
-			return Font( instance );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function createTextField(
-			text:String = "",
-			width:Number = 140,
-			height:Number = 80,
-			font:String = null,
-			size:Number = 12,
-			color:Number = 0xffffff ):TextField
-		{
-			var format:TextFormat = new TextFormat();
-			format.font = font;
-			format.size = size;
-			format.color = color;
-			format.align = TextFormatAlign.LEFT;
-			format.leading = 0;
-
-			var txt:TextField = new TextField();
-			txt.width = width;
-			txt.height = height;
-			txt.autoSize = TextFieldAutoSize.LEFT;
-			txt.defaultTextFormat = format;
-			txt.embedFonts = true;
-			txt.text = text;
-			txt.selectable = false;
-			txt.wordWrap = true;
-
-			return txt;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function applyProperties(
-			target:Object, properties:Object ):void
-		{
-			if( target != null )
-			{
-				var z:String = null;
-				for( z in properties )
-				{
-					if( target.hasOwnProperty( z ) )
-					{
-						target[ z ] = properties[ z ];
-					}
-				}
-			}
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function applyTextFieldProperties(
-			txt:TextField, properties:Object ):void
-		{
-			if( txt != null )
-			{
-				applyProperties( txt, properties );
-			}
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function applyTextFormatProperties(
-			txt:TextField, properties:Object ):void
-		{
-			if( txt != null )
-			{
-				var tf:TextFormat = txt.defaultTextFormat;
-				
-				if( tf != null )
-				{
-					applyProperties( tf, properties );
-				}
-				
-				txt.defaultTextFormat = tf;
-				txt.text = txt.text;
-			}
 		}
 		
 		/**
