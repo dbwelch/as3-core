@@ -19,35 +19,14 @@
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>internal</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.ui.components</groupId>
-			<artifactId>containers</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>		
-		<dependency>
-			<groupId>com.ffsys.ui.components</groupId>
-			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-			<scope>internal</scope>
-		</dependency>
 		<dependency>
 			<groupId>com.ffsys.ui.components</groupId>
 			<artifactId>display</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 			<scope>internal</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.ui.components</groupId>
-			<artifactId>graphics</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-			<scope>internal</scope>
-		</dependency>		
+		</dependency>	
 		<dependency>
 			<groupId>com.ffsys.ui.components</groupId>
 			<artifactId>text</artifactId>

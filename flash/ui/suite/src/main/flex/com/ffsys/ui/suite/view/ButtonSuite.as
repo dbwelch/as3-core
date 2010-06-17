@@ -1,8 +1,8 @@
 package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.text.*;
-	import com.ffsys.ui.components.containers.HorizontalBox;
-	import com.ffsys.ui.components.containers.VerticalBox;
+	import com.ffsys.ui.containers.HorizontalBox;
+	import com.ffsys.ui.containers.VerticalBox;
 	
 	import com.ffsys.ui.components.button.*;
 	import com.ffsys.ui.components.text.*;

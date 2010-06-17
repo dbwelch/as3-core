@@ -1,7 +1,7 @@
 package com.ffsys.ui.components.button
 {
 	import flash.events.MouseEvent;
-	import com.ffsys.ui.components.core.InteractiveComponent;
+	import com.ffsys.ui.core.InteractiveComponent;
 	
 	/**
 	*	Abstract super class for all buttons.

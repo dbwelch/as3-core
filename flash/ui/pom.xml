@@ -21,8 +21,13 @@
 		</dependency>
 	</dependencies>	
 	<modules>
-		<module>text</module>
+
+		<module>containers</module>
+		<module>core</module>
 		<module>components</module>
+		<module>graphics</module>		
+		<module>text</module>
+		
 		<module>combined</module>
 		<module>suite</module>
 	</modules>

@@ -1,6 +1,6 @@
 package com.ffsys.ui.components.text
 {
-	import com.ffsys.ui.components.core.UIComponent;
+	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.text.ConstrainedSingleLineTextField;
 
 	/**

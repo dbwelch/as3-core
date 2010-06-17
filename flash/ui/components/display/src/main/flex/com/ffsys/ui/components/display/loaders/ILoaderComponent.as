@@ -2,8 +2,8 @@ package com.ffsys.ui.components.display.loaders
 {
 	import com.ffsys.io.loaders.core.ILoader;
 	
-	import com.ffsys.ui.components.core.IComponent;
-	import com.ffsys.ui.components.graphics.IComponentGraphic;
+	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.graphics.IComponentGraphic;
 
 	public interface ILoaderComponent
 	{

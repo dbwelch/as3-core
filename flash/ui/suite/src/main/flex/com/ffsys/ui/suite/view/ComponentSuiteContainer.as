@@ -7,7 +7,7 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
-	import com.ffsys.ui.components.containers.VerticalBox;
+	import com.ffsys.ui.containers.VerticalBox;
 	
 	/**
 	*	The main view for the application.

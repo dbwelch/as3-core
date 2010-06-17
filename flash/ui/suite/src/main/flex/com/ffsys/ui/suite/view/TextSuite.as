@@ -1,7 +1,7 @@
 package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.text.*;
-	import com.ffsys.ui.components.containers.VerticalBox;
+	import com.ffsys.ui.containers.VerticalBox;
 	
 	/**
 	*	Represents a view for the text functionality.

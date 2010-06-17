@@ -209,7 +209,7 @@ package com.ffsys.swat.view  {
 		*/
 		private function propagateComponentTextFactory():void
 		{
-			var classPath:String = "com.ffsys.ui.components.core.UIComponent";
+			var classPath:String = "com.ffsys.ui.core.UIComponent";
 			
 			var clz:Class = null;
 			var instance:Object = null;

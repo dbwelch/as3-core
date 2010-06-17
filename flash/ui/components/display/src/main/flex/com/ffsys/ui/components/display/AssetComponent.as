@@ -3,7 +3,7 @@ package com.ffsys.ui.components.display
 	import flash.display.DisplayObject;
 	import flash.utils.getQualifiedClassName;
 	
-	import com.ffsys.ui.components.core.InteractiveComponent;
+	import com.ffsys.ui.core.InteractiveComponent;
 	
 	/**
 	*	Represents a component that adds a display list object

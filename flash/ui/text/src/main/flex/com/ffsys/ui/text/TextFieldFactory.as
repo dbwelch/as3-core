@@ -105,6 +105,23 @@ package com.ffsys.ui.text {
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		public function fixed(
+			text:String = "",
+			properties:Object = null,
+			textformat:Object = null,
+			enabled:Boolean = false ):FixedSingleLineTextField
+		{
+			var txt:FixedSingleLineTextField =
+				new FixedSingleLineTextField( text );
+			
+			applyProperties( txt, properties, textformat );
+			txt.enabled = enabled;
+			return txt;
+		}
+		
+		/**
 		*	@private	
 		*/
 		private function applyProperties(
