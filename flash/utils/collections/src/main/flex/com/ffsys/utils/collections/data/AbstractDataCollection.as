@@ -175,6 +175,8 @@ package com.ffsys.utils.collections.data {
 					value + "' must be one of " + dataTypes );
 			}
 			
+			var hasProp:Boolean = ( _data[ name ] != null );
+			
 			if( value is IDataCollection )
 			{
 				( value as IDataCollection ).collection = this;
@@ -187,7 +189,10 @@ package com.ffsys.utils.collections.data {
 			}
 			
 			//add all elements to the array of elements
-			_elements.push( value );
+			if( !hasProp )
+			{
+				_elements.push( value );
+			}
 	    }
 		
 		override flash_proxy function callProperty( methodName:*, ...args ):*
@@ -200,6 +205,8 @@ package com.ffsys.utils.collections.data {
 		*/
 		override flash_proxy function nextNameIndex( index:int ):int
 		{
+			trace("AbstractDataCollection::nextNameIndex()", index );
+			
 			if( index < getLength() )
 			{
 				return index + 1;
@@ -216,7 +223,11 @@ package com.ffsys.utils.collections.data {
 			//return _data[ name ];
 			//return ( index - 1 ).toString();
 			
+			trace("AbstractDataCollection::nextName()", index, _elements.length, index - 1 );
+			
 			var value:* = _elements[ index - 1 ];
+			
+			trace("AbstractDataCollection::nextName() value", value );
 			
 			var z:String = null;
 			for( z in _data )
