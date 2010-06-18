@@ -8,6 +8,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.ui.text.ITextFieldFactory;
 	import com.ffsys.ui.text.TextFieldFactory;
 	
+	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.StringCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
@@ -129,6 +130,32 @@ package com.ffsys.swat.view  {
 			}
 			
 			return this.configuration.filters;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get copy():LocaleAwareStringCollection
+		{
+			if( this.configuration == null )
+			{
+				throw new Error( "Cannot access the application filters with a null configuration." );
+			}			
+			
+			return this.configuration.copy;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getCopyById( id:String ):String
+		{
+			if( id )
+			{
+				return this.copy.getStringById( id );
+			}
+			
+			return null;
 		}
 		
 		/**

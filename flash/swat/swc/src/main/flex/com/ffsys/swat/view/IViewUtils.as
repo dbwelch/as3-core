@@ -5,6 +5,10 @@ package com.ffsys.swat.view {
 	
 	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.ui.text.ITextFieldFactory;
+	
+	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
+	import com.ffsys.utils.collections.strings.StringCollection;
+	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.Settings;
@@ -65,6 +69,25 @@ package com.ffsys.swat.view {
 		* 	Gets the application filters.
 		*/
 		function get filters():IFilterCollection;
+		
+		/**
+		*	Gets the application copy collection.
+		*/
+		function get copy():LocaleAwareStringCollection;
+		
+		/**
+		* 	Gets the application assets map between identifiers
+		* 	and class paths.
+		*/
+		function get assets():StringCollection;
+		
+		/**
+		* 	Gets a copy by identifier selected from the current locale
+		* 	copy collection.
+		* 
+		* 	@param id The identifier for the copy string.
+		*/
+		function getCopyById( id:String ):String;
 	
 		/**
 		*	Gets a bitmap filter by identifier.

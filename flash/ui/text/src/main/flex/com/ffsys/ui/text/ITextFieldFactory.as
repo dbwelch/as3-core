@@ -77,6 +77,24 @@ package com.ffsys.ui.text
 			text:String = "",
 			properties:Object = null,
 			textformat:Object = null,
-			enabled:Boolean = false ):MultiLineTextField;		
+			enabled:Boolean = false ):MultiLineTextField;
+			
+		/**
+		*	Creates a fixed width single line text field.
+		* 
+		*	@param text The text to assign to the textfield.
+		*	@param properties An object containing properties to
+		*	set on the textfield.
+		*	@param textformat An object containing textformat properties
+		*	to set on the default text format.
+		*	@param enabled Whether the textfield receives mouse events.
+		*	
+		*	@return The fixed width single line textfield.
+		*/
+		function fixed(
+			text:String = "",
+			properties:Object = null,
+			textformat:Object = null,
+			enabled:Boolean = false ):FixedSingleLineTextField;
 	}
 }
