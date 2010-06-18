@@ -32,11 +32,19 @@ package com.ffsys.utils.collections.data {
 		private var _locale:ILocale;
 			
 		//stores nested data collections
-		protected var _collections:Array = new Array();
-		protected var _collection:IDataCollection = null;
-		protected var _data:Dictionary = new Dictionary( true );
-		protected var _elements:Array = new Array();
-		protected var _types:Array = new Array();;
+		private var _children:Array = new Array();
+		
+		//the parent collection
+		private var _collection:IDataCollection = null;
+		
+		//non-child collections stored by identifier as the key
+		private var _data:Dictionary = new Dictionary( true );
+		
+		//an array of the values
+		private var _elements:Array = new Array();
+		
+		//an array of classes representing the valid data types
+		protected var _types:Array = new Array();
 		
 		/**
 		*	Creates an <code>AbstractDataCollection</code> instance.
@@ -44,6 +52,22 @@ package com.ffsys.utils.collections.data {
 		public function AbstractDataCollection()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get children():Array
+		{
+			return _children;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get data():Dictionary
+		{
+			return _data;
 		}
 		
 		/**
@@ -115,7 +139,7 @@ package com.ffsys.utils.collections.data {
 		
 			var child:IDataCollection = null;
 			var nested:IDataCollection = null;
-			for each( child in _collections )
+			for each( child in _children )
 			{
 				nested = child.getCollectionById( id );
 				if( nested )
@@ -131,6 +155,44 @@ package com.ffsys.utils.collections.data {
 			}
 			
 			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function removeCollectionById( id:String ):IDataCollection
+		{
+			var child:IDataCollection = null;
+			for( var i:int = 0;i < _children.length;i++ )
+			{
+				child = IDataCollection( _children[ i ] );
+				if( id == child.id )
+				{
+					_children.splice( i, 1 );
+					return child;
+				}
+			}
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function addCollection( id:String, child:IDataCollection ):Boolean
+		{
+			trace("AbstractDataCollection::addCollection(), ",id,child );
+			if( id && child )
+			{
+				child.collection = this;
+			
+				if( !child.id )
+				{
+					child.id = id;
+				}
+				_children.push( child );
+				return true;
+			}
+			return false;
 		}
 		
 		/**
@@ -194,22 +256,14 @@ package com.ffsys.utils.collections.data {
 					value + "' must be one of " + types );
 			}
 			
-			var hasProp:Boolean = ( _data[ name ] != null );
-			
 			if( value is IDataCollection )
 			{
-				var child:IDataCollection = value as IDataCollection;
-				child.collection = this;
-				
-				if( !child.id )
-				{
-					child.id = name;
-				}
-				_collections.push( child );
-			}else
-			{
-				_data[ name ] = value;
+				addCollection( name, IDataCollection( value ) );
+				return;
 			}
+			
+			var hasProp:Boolean = ( _data[ name ] != null );
+			_data[ name ] = value;
 			
 			//add all elements to the array of elements
 			if( !hasProp )
@@ -270,6 +324,20 @@ package com.ffsys.utils.collections.data {
 		*/
 		override flash_proxy function deleteProperty( name:* ):Boolean
 		{
+			var value:* = _data[ name ];
+			
+			var collection:IDataCollection = getCollectionById( name );
+			if( !value && collection )
+			{
+				return ( removeCollectionById( name ) != null );
+			}
+			
+			var index:int = _elements.indexOf( value );
+			if( index > -1 )
+			{
+				_elements.splice( index, 1 );
+			}
+			
 			return delete _data[ name ];
 		}
 		
@@ -306,7 +374,7 @@ package com.ffsys.utils.collections.data {
 
 		public function getCommonStringOutputComposites():Array
 		{
-			return _collections;
+			return _children;
 		}
 
 		public function getDefaultStringOutputOptions():ObjectInspectorOptions

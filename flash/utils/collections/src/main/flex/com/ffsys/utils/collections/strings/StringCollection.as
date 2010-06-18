@@ -59,9 +59,9 @@ package com.ffsys.utils.collections.strings {
 				}
 			}
 			
-			if( _data[ id ] )
+			if( data[ id ] )
 			{
-				return _data[ id ];
+				return data[ id ];
 			}
 			
 			if( this.hasOwnProperty( id ) )
@@ -86,9 +86,9 @@ package com.ffsys.utils.collections.strings {
 				var collection:IStringCollection = null;
 			
 				//now try to see whether we can find it in any nested collections
-				for( var i:int = 0;i < _collections.length;i++ )
+				for( var i:int = 0;i < children.length;i++ )
 				{
-					collection = IStringCollection( _collections[ i ] );
+					collection = IStringCollection( children[ i ] );
 					value = collection.findStringById( id, list );
 					if( value )
 					{

@@ -75,9 +75,9 @@ package com.ffsys.utils.collections.strings {
 			
 			var child:IStringCollection = null;
 			
-			for( var i:int = 0;i < _collections.length;i++ )
+			for( var i:int = 0;i < children.length;i++ )
 			{
-				child = IStringCollection( _collections[ i ] );
+				child = IStringCollection( children[ i ] );
 				if( child.locale == locale || ( child.locale.equals( locale ) ) )
 				{
 					return child;

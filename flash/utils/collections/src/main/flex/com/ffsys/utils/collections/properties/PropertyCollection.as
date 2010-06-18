@@ -3,7 +3,7 @@ package com.ffsys.utils.collections.properties {
 	import com.ffsys.utils.collections.data.AbstractDataCollection;
 	
 	/**
-	*	Represents a collection of simple properties.
+	*	Represents a collection of properties.
 	*	
 	*	This collection supports strings, numbers, booleans
 	*	objects, arrays and nested property collections.
@@ -61,9 +61,9 @@ package com.ffsys.utils.collections.properties {
 				
 			}
 			
-			if( _data[ id ] != null )
+			if( data[ id ] != null )
 			{
-				return _data[ id ];
+				return data[ id ];
 			}
 			
 			if( Object( this ).hasOwnProperty( id ) )

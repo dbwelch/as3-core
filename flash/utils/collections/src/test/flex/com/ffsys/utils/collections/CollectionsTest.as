@@ -53,13 +53,25 @@ package com.ffsys.utils.collections
 				Assert.assertEquals( "key", z );
 			}
 			
-			var deleted:Boolean = delete collection[ "key" ];
+			var deleted:Boolean = delete collection.key;
 			Assert.assertTrue( deleted );
+			Assert.assertEquals( 0, collection.length );
 			
 			//API AND CHILD COLLECTIONS
 			collection.key = "test";
 			collection.child = new StringCollection();
+			Assert.assertEquals( 1, collection.children.length );
+			Assert.assertEquals( "child", collection.child.id );
+			Assert.assertTrue( collection == collection.child.collection );
+			
+			
 			Assert.assertNotNull( collection.getStringCollectionById( "child" ) );
+			
+			//deleting a child collection
+			deleted = delete collection.child;
+			Assert.assertTrue( deleted );
+			Assert.assertEquals( 0, collection.children.length );
+			
 		}
 		
 		/**

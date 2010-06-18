@@ -1,5 +1,7 @@
 package com.ffsys.utils.collections.data {
 	
+	import flash.utils.Dictionary;
+	
 	import com.ffsys.core.IStringIdentifier;
 	import com.ffsys.utils.locale.ILocale;
 	
@@ -54,12 +56,42 @@ package com.ffsys.utils.collections.data {
 		function set locale( locale:ILocale ):void;
 		
 		/**
+		*	An array of the child collections.
+		*/
+		function get children():Array;	
+	
+		/**
+		*	A dictionary of the properties assigned to this collection.
+		*/
+		function get data():Dictionary;
+		
+		/**
 		*	Gets a child collection by identifier.
 		*	
 		*	@param id The identifier for the child collection.
 		*	
-		*	@return The child collection of null if it could not be found.	
+		*	@return The child collection or null if it could not be found.	
 		*/
 		function getCollectionById( id:String ):IDataCollection;
+		
+		/**
+		*	Removes a child collection by identifier.
+		*	
+		*	@param id The identifier for the child collection.
+		*	
+		*	@return The deleted child collection or null if it could not be found.
+		*/
+		function removeCollectionById( id:String ):IDataCollection;
+		
+		/**
+		*	Adds a child collection by identifier.
+		*	
+		*	@param id The identifier for the child collection.
+		*	@param child The child collection.
+		*	
+		*	@return Wheter the collection was added, this will be false
+		*	if either id or child are null.
+		*/
+		function addCollection( id:String, child:IDataCollection ):Boolean;			
 	}
 }
