@@ -143,7 +143,7 @@ package com.ffsys.utils.collections.data {
 				return null;
 			}
 			
-			if( !_data[ name ] )
+			if( _data[ name ] == null )
 			{
 				//we've got a collection with an id
 				//that matches the property name
@@ -271,11 +271,7 @@ package com.ffsys.utils.collections.data {
 			for( key in _data )
 			{
 				value = _data[ key ];
-				
-				if( value is String )
-				{
-					output[ key ] = _data[ key ];
-				}
+				output[ key ] = value;
 			}
 			
 			return output;
