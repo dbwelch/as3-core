@@ -69,13 +69,10 @@ package com.ffsys.swat.view  {
 		*/
 		override public function addChild( child:DisplayObject ):DisplayObject
 		{
-			
-			/*
 			if( child is IConfigurationAware )
 			{
-				IConfigurationAware( child ).configuration = this.configuration;
+				IConfigurationAware( child ).configuration = utils.configuration;
 			}
-			*/
 			
 			super.addChild( child );
 			
