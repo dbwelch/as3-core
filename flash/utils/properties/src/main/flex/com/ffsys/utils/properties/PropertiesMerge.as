@@ -38,9 +38,11 @@ package com.ffsys.utils.properties {
 				var z:String = null;
 				for( z in source )
 				{
+					//trace("PropertiesMerge::merge()", z );
 					if( target.hasOwnProperty( z ) )
 					{
 						target[ z ] = source[ z ];
+						//trace("PropertiesMerge::merged()", z , target[z], target );
 					}
 				}
 			}

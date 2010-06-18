@@ -140,6 +140,12 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const ALPHAS_NAME:String =
 			"alphas";
+			
+		/**
+		*	The node name for an alpha value.
+		*/
+		static public const ALPHA_NAME:String =
+			"alpha";			
 
 		/**
 		*	The node name for an array of ratios.
@@ -305,7 +311,15 @@ package com.ffsys.swat.configuration {
 				ALPHAS_NAME,
 				ALPHAS_NAME,
 				false );
-
+			
+			/*
+			classNodeNameMap.add(
+				Number,
+				ALPHA_NAME,
+				ALPHA_NAME,
+				false );
+			*/
+			
 			classNodeNameMap.add(
 				Array,
 				RATIOS_NAME,

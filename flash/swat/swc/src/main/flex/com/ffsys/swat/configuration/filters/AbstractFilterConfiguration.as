@@ -6,6 +6,8 @@ package com.ffsys.swat.configuration.filters {
 	
 	import com.ffsys.utils.properties.PropertiesMerge;
 	
+	import flash.utils.getQualifiedClassName;
+	
 	/**
 	*	Abstract super class for all filter configurations.
 	*
@@ -83,8 +85,36 @@ package com.ffsys.swat.configuration.filters {
 				throw new Error( "Could not instantiate the target bitmap filter." );
 			}
 			
+			//var hasColours:Boolean = false;
+			
+			//TODO: refactor this so properties are set in the order they are declared
+			
+			
+			//ensure colors is set before alphas and ratios
+			if( properties.colors != null && filter.hasOwnProperty( "colors" ) )
+			{
+				//hasColours = true;
+				filter[ "colors" ] = properties.colors;
+			}
+			
 			var merger:PropertiesMerge = new PropertiesMerge();
 			merger.merge( filter, properties );
+			
+			
+			trace("AbstractFilterConfiguration::clone()");
+			
+			
+			
+			for( var z:String in properties )
+			{
+				
+				trace("AbstractFilterConfiguration::clone()", z, properties[ z ], filter[ z ], getQualifiedClassName( properties[ z ] ) );
+				
+				if( properties[ z ] is Array )
+				{
+					trace("AbstractFilterConfiguration::clone()", ( properties[ z ] as Array ).length );
+				}				
+			}
 			
 			return filter;
 		}
