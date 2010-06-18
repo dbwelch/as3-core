@@ -205,7 +205,7 @@ package com.ffsys.utils.collections.data {
 		*/
 		override flash_proxy function nextNameIndex( index:int ):int
 		{
-			trace("AbstractDataCollection::nextNameIndex()", index );
+			//trace("AbstractDataCollection::nextNameIndex()", index );
 			
 			if( index < getLength() )
 			{
@@ -223,11 +223,11 @@ package com.ffsys.utils.collections.data {
 			//return _data[ name ];
 			//return ( index - 1 ).toString();
 			
-			trace("AbstractDataCollection::nextName()", index, _elements.length, index - 1 );
+			//trace("AbstractDataCollection::nextName()", index, _elements.length, index - 1 );
 			
 			var value:* = _elements[ index - 1 ];
 			
-			trace("AbstractDataCollection::nextName() value", value );
+			//trace("AbstractDataCollection::nextName() value", value );
 			
 			var z:String = null;
 			for( z in _data )
