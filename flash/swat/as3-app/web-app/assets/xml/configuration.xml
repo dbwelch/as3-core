@@ -216,6 +216,75 @@
 			</matrix>
 		</color-matrix-filter>
 		
+		<glow-filter>
+			<id>glow</id>
+			<color>0x33CCFF</color>
+			<alpha>0.5</alpha>
+			<blurX>5</blurX>
+			<blurY>5</blurY>
+			<strength>2</strength>
+		</glow-filter>
+		
+		<gradient-glow-filter>
+			<id>gradient-glow</id>
+			<colors>
+				<color>0xa9a9a9</color>
+				<color>0xffcc33</color>
+			</colors>
+			<alphas>
+				<alpha>0.8</alpha>
+				<alpha>0</alpha>
+			</alphas>
+			<ratios>
+				<ratio>0</ratio>
+				<ratio>128</ratio>
+			</ratios>
+			
+			<distance>5</distance>
+			<blurX>5</blurX>
+			<blurY>5</blurY>
+			<strength>1</strength>
+		</gradient-glow-filter>
+		
+		<gradient-bevel-filter>
+			<id>gradient-bevel</id>
+			<colors>
+				<color>0x33CCFF</color>
+				<color>0xffcc33</color>
+			</colors>
+			<alphas>
+				<alpha>0.8</alpha>
+				<alpha>0.8</alpha>
+			</alphas>
+			<ratios>
+				<ratio>0</ratio>
+				<ratio>128</ratio>
+			</ratios>
+			
+			<distance>5</distance>
+			<blurX>5</blurX>
+			<blurY>5</blurY>
+			<strength>1</strength>
+		</gradient-bevel-filter>
+		
+		<convolution-filter>
+			<id>convolution</id>
+			<color>0xff0000</color>
+			<alpha>0.5</alpha>
+			<matrixX>3</matrixX>
+			<matrixY>3</matrixY>
+			<divisor>9</divisor>
+			<matrix>
+				<a0>5</a0>
+				<a1>5</a1>
+				<a2>5</a2>
+				<a3>5</a3>
+				<a4>0</a4>
+				<a5>5</a5>
+				<a6>5</a6>
+				<a7>5</a7>
+				<a8>5</a8>
+			</matrix>
+		</convolution-filter>
 	</filters>
-	
 </configuration>

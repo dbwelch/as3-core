@@ -106,18 +106,34 @@ package com.ffsys.swat.configuration {
 			"drop-shadow-filter";
 			
 		/**
-		*	The node name for a drop shadow filter.
-		*/
-		/*
-		static public const DROP_SHADOW_FILTER_NAME:String =
-			"drop-shadow-filter";
-		*/
-			
-		/**
 		*	The node name for a color matrix filter.
 		*/
 		static public const COLOR_MATRIX_FILTER_NAME:String =
 			"color-matrix-filter";
+			
+		/**
+		*	The node name for a glow filter.
+		*/
+		static public const GLOW_FILTER_NAME:String =
+			"glow-filter";
+			
+		/**
+		*	The node name for a gradient glow filter.
+		*/
+		static public const GRADIENT_GLOW_FILTER_NAME:String =
+			"gradient-glow-filter";
+			
+		/**
+		*	The node name for a gradient bevel filter.
+		*/
+		static public const GRADIENT_BEVEL_FILTER_NAME:String =
+			"gradient-bevel-filter";
+
+		/**
+		*	The node name for a convolution filter.
+		*/
+		static public const CONVOLUTION_FILTER_NAME:String =
+			"convolution-filter";
 
 		/**
 		*	The node name for an array of alphas.
@@ -258,7 +274,31 @@ package com.ffsys.swat.configuration {
 				ColorMatrixFilterConfiguration,
 				COLOR_MATRIX_FILTER_NAME,
 				COLOR_MATRIX_FILTER_NAME,
-				false );														
+				false );
+				
+			classNodeNameMap.add(
+				GlowFilterConfiguration,
+				GLOW_FILTER_NAME,
+				GLOW_FILTER_NAME,
+				false );				
+				
+			classNodeNameMap.add(
+				GradientGlowFilterConfiguration,
+				GRADIENT_GLOW_FILTER_NAME,
+				GRADIENT_GLOW_FILTER_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				GradientBevelFilterConfiguration,
+				GRADIENT_BEVEL_FILTER_NAME,
+				GRADIENT_BEVEL_FILTER_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				ConvolutionFilterConfiguration,
+				CONVOLUTION_FILTER_NAME,
+				CONVOLUTION_FILTER_NAME,
+				false );											
 			
 			classNodeNameMap.add(
 				Array,

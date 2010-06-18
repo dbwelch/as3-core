@@ -63,6 +63,8 @@ package com.ffsys.swat.as3.view {
 		{
 			vbox = new VerticalBox();
 			
+			vbox.x = vbox.y = 20;
+			
 			var graphic:DisplayObject = new SquareGraphic( 50 );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "bevel" ) ];
@@ -76,7 +78,22 @@ package com.ffsys.swat.as3.view {
 			graphic = new SquareGraphic( 50 );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "color-matrix" ) ];
-			vbox.addChild( graphic );			
+			vbox.addChild( graphic );
+			
+			graphic = new SquareGraphic( 50 );
+			IComponentGraphic( graphic ).draw();
+			graphic.filters = [ utils.getFilterById( "glow" ) ];
+			vbox.addChild( graphic );
+			
+			graphic = new SquareGraphic( 50 );
+			IComponentGraphic( graphic ).draw();
+			graphic.filters = [ utils.getFilterById( "gradient-glow" ) ];
+			vbox.addChild( graphic );
+			
+			graphic = new SquareGraphic( 50 );
+			IComponentGraphic( graphic ).draw();
+			graphic.filters = [ utils.getFilterById( "gradient-bevel" ) ];
+			vbox.addChild( graphic );												
 			
 			addChild( vbox );
 		}
