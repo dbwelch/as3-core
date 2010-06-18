@@ -33,16 +33,16 @@ package com.ffsys.ui.suite.view {
 			createHeading( "Text Suite (com.ffsys.ui.text)", vbox );
 			
 			var single:SingleLineTextField =
-				textFieldFactory.single(
+				utils.textFieldFactory.single(
 					"This is some test text for a single line textfield..." );
 					
 			var constrained:ConstrainedSingleLineTextField =
-				textFieldFactory.constrained(
+				utils.textFieldFactory.constrained(
 					"This is some test text for a single line textfield that wraps at 200 pixels..." );
 			constrained.maximumWidth = 200;
 			
 			var multi:MultiLineTextField =
-				textFieldFactory.multi(
+				utils.textFieldFactory.multi(
 					"This is some test text for a multi line textfield which wraps at 200 pixels..." );
 			multi.width = 200;			
 			

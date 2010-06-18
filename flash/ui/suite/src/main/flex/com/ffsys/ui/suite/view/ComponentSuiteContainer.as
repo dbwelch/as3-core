@@ -35,7 +35,7 @@ package com.ffsys.ui.suite.view {
 		public function ready(
 			main:IApplicationPreloader,
 			runtime:IRuntimeAssetPreloader,
-			view:IApplicationPreloadView ):void
+			view:IApplicationPreloadView ):Boolean
 		{
 			var preloader:ComponentSuitePreloadView
 				= ComponentSuitePreloadView( view );
@@ -48,7 +48,7 @@ package com.ffsys.ui.suite.view {
 			*/
 			
 			//remove the preloader view from the display list
-			runtime.view = null;
+			return true;
 		}
 		
 		/**
