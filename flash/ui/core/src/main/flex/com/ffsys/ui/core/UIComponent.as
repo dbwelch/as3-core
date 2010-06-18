@@ -42,7 +42,6 @@ package com.ffsys.ui.core
 			removeEventListener( Event.ADDED_TO_STAGE, added );
 			addEventListener( Event.REMOVED_FROM_STAGE, removed );
 			createChildren();
-			trace("UIComponent::added(), ", this, this.parent );
 		}
 		
 		/**

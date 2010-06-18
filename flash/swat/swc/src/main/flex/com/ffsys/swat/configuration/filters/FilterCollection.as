@@ -52,7 +52,6 @@ package com.ffsys.swat.configuration.filters {
 			var filter:IFilterConfiguration;
 			for each( filter in _filters )
 			{
-				trace("FilterCollection::getFilterById(), ", filter.id, id );
 				if( id === filter.id )
 				{
 					break;

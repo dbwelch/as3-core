@@ -77,7 +77,7 @@ package com.ffsys.ui.core
 		{
 			super.addChild( child );
 			
-			trace("AbstractComponent::addChild(), ", child );
+			//trace("AbstractComponent::addChild(), ", child );
 			
 			if( layout && child )
 			{
@@ -94,7 +94,7 @@ package com.ffsys.ui.core
 			child:DisplayObject ):DisplayObject
 		{
 			
-			trace("AbstractComponent::removeChild(), ", child );
+			//trace("AbstractComponent::removeChild(), ", child );
 			
 			if( layout && child )
 			{

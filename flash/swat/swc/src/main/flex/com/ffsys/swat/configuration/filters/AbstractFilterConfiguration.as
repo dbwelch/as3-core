@@ -100,10 +100,8 @@ package com.ffsys.swat.configuration.filters {
 			var merger:PropertiesMerge = new PropertiesMerge();
 			merger.merge( filter, properties );
 			
-			
+			/*
 			trace("AbstractFilterConfiguration::clone()");
-			
-			
 			
 			for( var z:String in properties )
 			{
@@ -115,6 +113,7 @@ package com.ffsys.swat.configuration.filters {
 					trace("AbstractFilterConfiguration::clone()", ( properties[ z ] as Array ).length );
 				}				
 			}
+			*/
 			
 			return filter;
 		}
