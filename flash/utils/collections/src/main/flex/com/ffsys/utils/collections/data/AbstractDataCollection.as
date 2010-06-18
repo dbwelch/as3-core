@@ -28,34 +28,22 @@ package com.ffsys.utils.collections.data {
 					IObjectInspector,
 		 			IObjectInspectorClassName {
 			
-		//stores nested data collections
-		protected var _collections:Array;
-			
-		protected var _collection:IDataCollection;
-		
-		protected var _data:Dictionary;
-		
-		protected var _elements:Array;
-		
-		protected var _id:String;
-		
-		protected var _dataTypes:Array;
-		
+		private var _id:String;
 		private var _locale:ILocale;
+			
+		//stores nested data collections
+		protected var _collections:Array = new Array();
+		protected var _collection:IDataCollection = null;
+		protected var _data:Dictionary = new Dictionary( true );
+		protected var _elements:Array = new Array();
+		protected var _types:Array = new Array();;
 		
-		public function AbstractDataCollection( dataTypes:Array = null )
+		/**
+		*	Creates an <code>AbstractDataCollection</code> instance.
+		*/
+		public function AbstractDataCollection()
 		{
 			super();
-			_data = new Dictionary( true );
-			_collections = new Array();
-			_elements = new Array();
-			
-			if( !dataTypes )
-			{
-				dataTypes = new Array();
-			}
-			
-			this.dataTypes = dataTypes;
 		}
 		
 		/**
@@ -74,46 +62,65 @@ package com.ffsys.utils.collections.data {
 			_locale = locale;
 		}
 		
-		public function set dataTypes( val:Array ):void
-		{	
-			_dataTypes = val;
-		}
-		
-		public function get dataTypes():Array
+		/**
+		*	@inheritDoc	
+		*/
+		public function get types():Array
 		{
-			return _dataTypes;
+			return _types;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function set id( val:String ):void
 		{
 			_id = val;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get id():String
 		{
 			return _id;
 		}
 		
-		
+		/**
+		*	@inheritDoc	
+		*/
 		public function set collection( val:IDataCollection ):void
 		{
 			_collection = val;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get collection():IDataCollection
 		{
 			return _collection;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function getCollectionById( id:String ):IDataCollection
 		{
-			var value:IDataCollection = null;
-			
-			for each( value in _collections )
+		
+			if( id == this.id )
 			{
-				if( value.id == id )
+				return this;
+			}
+		
+			var child:IDataCollection = null;
+			var nested:IDataCollection = null;
+			for each( child in _collections )
+			{
+				nested = child.getCollectionById( id );
+				if( nested )
 				{
-					return value;
+					return nested;
 				}
 			}
 			
@@ -126,16 +133,25 @@ package com.ffsys.utils.collections.data {
 			return null;
 		}
 		
-		public function getLength():int
+		/**
+		*	@inheritDoc	
+		*/
+		public function get length():int
 		{
 			return _elements.length;
 		}
 		
+		/**
+		*	@private	
+		*/
 	    override flash_proxy function hasProperty( name:* ):Boolean
 		{
 			return ( _data[ name ] != null );
 	    }
 		
+		/**
+		*	@private	
+		*/
 	    override flash_proxy function getProperty( name:* ):*
 		{
 			if( name == null )
@@ -161,6 +177,9 @@ package com.ffsys.utils.collections.data {
 			return _data[ name ];
 	    }
 		
+		/**
+		*	@private	
+		*/
 	    override flash_proxy function setProperty( name:*, value:* ):void
 		{
 			if( name == null )
@@ -168,21 +187,25 @@ package com.ffsys.utils.collections.data {
 				return;
 			}
 			
-			if( !ClassUtils.isType( dataTypes, value ) )
+			if( !ClassUtils.isType( types, value ) )
 			{
-				throw new Error(
+				throw new TypeError(
 					"IDataCollection: unacceptable data type '" +
-					value + "' must be one of " + dataTypes );
+					value + "' must be one of " + types );
 			}
 			
 			var hasProp:Boolean = ( _data[ name ] != null );
 			
 			if( value is IDataCollection )
 			{
-				( value as IDataCollection ).collection = this;
+				var child:IDataCollection = value as IDataCollection;
+				child.collection = this;
 				
-				_collections.push( value );
-				
+				if( !child.id )
+				{
+					child.id = name;
+				}
+				_collections.push( child );
 			}else
 			{
 				_data[ name ] = value;
@@ -195,6 +218,9 @@ package com.ffsys.utils.collections.data {
 			}
 	    }
 		
+		/**
+		*	@private	
+		*/
 		override flash_proxy function callProperty( methodName:*, ...args ):*
 		{
 			//
@@ -205,9 +231,7 @@ package com.ffsys.utils.collections.data {
 		*/
 		override flash_proxy function nextNameIndex( index:int ):int
 		{
-			//trace("AbstractDataCollection::nextNameIndex()", index );
-			
-			if( index < getLength() )
+			if( index < length )
 			{
 				return index + 1;
 			}
@@ -220,15 +244,7 @@ package com.ffsys.utils.collections.data {
 		*/
 		override flash_proxy function nextName( index:int ):String
 		{
-			//return _data[ name ];
-			//return ( index - 1 ).toString();
-			
-			//trace("AbstractDataCollection::nextName()", index, _elements.length, index - 1 );
-			
 			var value:* = _elements[ index - 1 ];
-			
-			//trace("AbstractDataCollection::nextName() value", value );
-			
 			var z:String = null;
 			for( z in _data )
 			{

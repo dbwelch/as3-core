@@ -17,7 +17,6 @@ package com.ffsys.utils.collections
 	*/
 	public class CollectionsTest
 	{
-		
 		/**
 		*	Creates a <code>CollectionsTest</code> instance.
 		*/ 
@@ -27,23 +26,28 @@ package com.ffsys.utils.collections
 		}
 		
 		/**
-		*	Tests the collections package.
+		*	Tests the string collection.
 		*/
 		[Test]
 		public function testStringCollection():void
 		{
 			var z:String = null;
 			
-			var collection:IStringCollection = new StringCollection();
-			collection[ "key" ] = "test";
+			var collection:StringCollection = new StringCollection();
 			
-			Assert.assertEquals( "test", collection[ "key" ] );
+			//DYNAMIC ACCESS AND ENUMERATION
+			collection.key = "test";
 			
+			Assert.assertEquals( 1, collection.length );
+			Assert.assertEquals( "test", collection.key );
+			
+			//test enumerating values
 			for each( z in collection )
 			{
 				Assert.assertEquals( "test", z );
 			}
 			
+			//test enumerating keys
 			for( z in collection )
 			{
 				Assert.assertEquals( "key", z );
@@ -51,6 +55,31 @@ package com.ffsys.utils.collections
 			
 			var deleted:Boolean = delete collection[ "key" ];
 			Assert.assertTrue( deleted );
+			
+			//API AND CHILD COLLECTIONS
+			collection.key = "test";
+			collection.child = new StringCollection();
+			Assert.assertNotNull( collection.getStringCollectionById( "child" ) );
 		}
+		
+		/**
+		*	Tests the string collection errors on invalid boolean type.
+		*/
+		[Test(expects="TypeError")]
+		public function testStringCollectionFailOnBoolean():void
+		{
+			var collection:StringCollection = new StringCollection();
+			collection.boolean = true;
+		}
+		
+		/**
+		*	Tests the string collection errors on invalid object type.
+		*/
+		[Test(expects="TypeError")]
+		public function testStringCollectionFailOnObject():void
+		{
+			var collection:StringCollection = new StringCollection();
+			collection.object = new Object();
+		}		
 	}
 }

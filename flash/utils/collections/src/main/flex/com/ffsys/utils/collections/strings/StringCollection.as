@@ -20,10 +20,13 @@ package com.ffsys.utils.collections.strings {
 		*/
 		public function StringCollection()
 		{
-			var dataTypes:Array = [ IStringCollection, String ];
-			super( dataTypes );
+			super();
+			_types = [ IStringCollection, String ];
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function getStringCollectionById( id:String ):IStringCollection
 		{
 			var value:IStringCollection = getCollectionById( id ) as IStringCollection;
@@ -61,12 +64,12 @@ package com.ffsys.utils.collections.strings {
 				return _data[ id ];
 			}
 			
-			if( Object( this ).hasOwnProperty( id ) )
+			if( this.hasOwnProperty( id ) )
 			{
 				return this[ id ];
 			}
 			
-			return value;	
+			return value;
 		}
 		
 		/**

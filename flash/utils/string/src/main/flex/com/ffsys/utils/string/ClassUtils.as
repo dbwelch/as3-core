@@ -299,7 +299,7 @@ package com.ffsys.utils.string {
 				c = getDefinitionByName( name ) as Class;
 			}catch( e:Error )
 			{
-				throw new new Error( 
+				throw new Error( 
 					"Possible attempt to access a private class with getDefinitionByName()" );
 			}
 			return c;
@@ -476,7 +476,7 @@ package com.ffsys.utils.string {
 		    myBA.writeObject(source);
 		    myBA.position = 0;
 		    return(myBA.readObject());
-		};
+		}
 		
 		/*
 		static public function clone( obj:* ):*

@@ -16,6 +16,12 @@ package com.ffsys.utils.collections.data {
 	*/
 	public interface IDataCollection
 		extends IStringIdentifier {
+			
+		/**
+		*	Gets an array of classes that are valid types to be stored
+		*	in this collection.
+		*/
+		function get types():Array;
 		
 		/**
 		*	Sets the parent collection for this collection.
@@ -54,6 +60,6 @@ package com.ffsys.utils.collections.data {
 		*	
 		*	@return The child collection of null if it could not be found.	
 		*/
-		function getCollectionById( id:String ):IDataCollection;	
+		function getCollectionById( id:String ):IDataCollection;
 	}
 }

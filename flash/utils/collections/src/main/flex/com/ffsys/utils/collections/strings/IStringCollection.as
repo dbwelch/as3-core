@@ -28,8 +28,12 @@ package com.ffsys.utils.collections.strings {
 		*	@return The string if found otherwise null.
 		*/
 		function findStringById(
-			id:String, list:String ):String;					
+			id:String, list:String ):String;
+					
 		
+		/**
+		*		
+		*/
 		function getStringCollectionById( id:String ):IStringCollection;
 	}
 }

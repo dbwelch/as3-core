@@ -31,9 +31,10 @@ package com.ffsys.utils.collections.strings {
 		/**
 		*	Overriden so that strings are always searched for in the appropriate
 		*	locale specific child collection. If no locale is assigned we will search
-		*	normally.	
+		*	normally.
 		*/
-		override public function getStringById( id:String, list:String = null ):String
+		override public function getStringById(
+			id:String, list:String = null ):String
 		{
 			if( this.locale )
 			{
@@ -42,7 +43,10 @@ package com.ffsys.utils.collections.strings {
 					
 				if( !child )
 				{
-					throw new Error( "Attempt to locate a locale specific string with no locale string collection defined." );
+					//this will happen if the locale assigned to this collection
+					//does not correspond to the locale of a child string collection
+					throw new Error( "Attempt to locate a locale specific"
+						+ " string with no locale string collection defined." );
 				}
 				
 				return child.getStringById( id, list );
