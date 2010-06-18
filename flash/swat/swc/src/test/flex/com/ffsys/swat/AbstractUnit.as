@@ -5,9 +5,11 @@ package com.ffsys.swat
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
+	import com.ffsys.io.loaders.events.*;
+	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.Locale;
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;	
+	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.ConfigurationLoader;
@@ -44,10 +46,11 @@ package com.ffsys.swat
 		{
 			_configurationLoader = new ConfigurationLoader();
 			_configurationLoader.addEventListener(
-				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
+				LoadEvent.DATA,
 				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
-			_configurationLoader.load( TEST_XML_PATH );			
-		}
+
+			_configurationLoader.load( TEST_XML_PATH );						
+		}		
 		
 		[After]
      	public function tearDown():void
@@ -57,11 +60,11 @@ package com.ffsys.swat
 		}
 		
 		private function assertLoadedConfiguration(
-			event:ConfigurationEvent,
+			event:XmlLoadEvent,
 			passThroughData:Object ):void
 		{
-			var configuration:IConfiguration = event.configuration;
-			
+			var configuration:IConfiguration = _configurationLoader.configuration;
+
 			var locale:ILocale = new Locale();
 			locale.lang = "en";
 			locale.country = "GB";

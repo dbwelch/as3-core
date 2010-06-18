@@ -180,7 +180,6 @@ package com.ffsys.utils.collections.data {
 		*/
 		public function addCollection( id:String, child:IDataCollection ):Boolean
 		{
-			trace("AbstractDataCollection::addCollection(), ",id,child );
 			if( id && child )
 			{
 				child.collection = this;

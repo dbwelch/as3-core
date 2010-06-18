@@ -173,10 +173,12 @@ package com.ffsys.swat.core {
 			
 			_configurationLoader.removeEventListener(
 				LoadEvent.DATA,
-				itemLoaded );
-
+				configurationLoadComplete );
+			
+			/*
 			_configurationLoader.removeEventListener(
-				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, loadComplete );
+				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationLoadComplete );
+			*/
 				
 			this.view.configuration( new RslEvent(
 				RslEvent.LOADED,

@@ -32,6 +32,7 @@ package com.ffsys.swat.configuration
 		public function loadConfiguration():void
 		{
 			var configuration:IConfiguration = this.configuration;
+			
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.copy );
