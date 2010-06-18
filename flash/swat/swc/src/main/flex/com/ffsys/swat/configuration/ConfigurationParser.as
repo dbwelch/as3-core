@@ -10,7 +10,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.configuration.filters.*;
 
 	/**
-	*	The implementation of the parser for configuration data.
+	*	A parser implementation for the application configuration.
 	*  
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
