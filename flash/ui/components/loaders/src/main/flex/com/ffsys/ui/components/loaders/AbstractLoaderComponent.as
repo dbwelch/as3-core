@@ -66,9 +66,9 @@ package com.ffsys.ui.components.loaders
 		
 		public function set border( border:IComponentGraphic ):void
 		{
-			if( this.border && contains( border as DisplayObject ) )
+			if( this.border && contains( this.border as DisplayObject ) )
 			{
-				removeChild( DisplayObject( border ) );
+				removeChild( DisplayObject( this.border ) );
 			}
 			
 			_border = border;

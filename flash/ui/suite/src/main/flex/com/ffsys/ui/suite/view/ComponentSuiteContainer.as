@@ -9,6 +9,9 @@ package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.containers.VerticalBox;
 	
+	import com.ffsys.ui.components.loaders.*;
+	import com.ffsys.ui.graphics.*;
+	
 	/**
 	*	The main view for the application.
 	*
@@ -66,6 +69,12 @@ package com.ffsys.ui.suite.view {
 			var buttonSuite:ButtonSuite = new ButtonSuite();
 			vbox.addChild( buttonSuite );
 			buttonSuite.createChildren();
+			
+			var loader:ImageLoaderComponent =
+				new ImageLoaderComponent( "assets/images/mock/amazon.jpg" );
+			loader.border = new BorderGraphic();
+			loader.border.thickness = 3;
+			vbox.addChild( loader );
 			
 			//
 			trace("ComponentSuiteContainer::createChildren(), ",

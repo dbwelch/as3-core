@@ -53,6 +53,11 @@ package com.ffsys.ui.components.loaders
 			var evt:ImageLoadEvent = ImageLoadEvent( event );
 			var display:DisplayObject = DisplayObject( evt.image );
 			DisplayObjectContainer( container ).addChild( display );
+			
+			if( this.border )
+			{
+				this.border.draw( this.width, this.height );
+			}
 		}
 	}
 }

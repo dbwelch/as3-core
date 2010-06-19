@@ -28,6 +28,8 @@ package com.ffsys.ui.graphics
 			height:Number = 25 )
 		{
 			super( width, height );
+			this.stroke = true;
+			this.sharp = true;
 		}
 		
 		/**
@@ -49,31 +51,25 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
-		* 	Overriden so that the fill is always null as
-		* 	border graphics do not have a fill.
-		*/
-		override public function get fill():IGraphicFill
-		{
-			return null;
-		}
-		
-		/**
 		*	@inheritDoc
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
+			trace("BorderGraphic::doDraw(), ", width, height, stroke, thickness, sharp );
+			
 			if( sharp && thickness > 0 )
 			{
-				//TODO: draw sharp borders
-				
 				//top
-				graphics.drawRect( tx + thickness, ty, width - ( thickness * 2 ), thickness );
+				graphics.drawRect( 
+					tx + thickness, ty, width - ( thickness * 2 ), thickness );
 				
 				//right
 				graphics.drawRect( tx + ( width - thickness ), ty, thickness, height );
 				
 				//bottom
-				graphics.drawRect( tx + thickness, ty - thickness, width - ( thickness * 2 ), thickness );
+				graphics.drawRect(
+					tx + thickness, ty + ( height - thickness ),
+					width - ( thickness * 2 ), thickness );
 				
 				//left
 				graphics.drawRect( tx, ty, thickness, height );
