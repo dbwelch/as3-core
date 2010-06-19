@@ -32,8 +32,8 @@ package com.ffsys.ui.components.text
 			super();
 			_textfield = textFieldFactory.constrained(
 				text, properties, textformat );
-			this.enabled = true;
-				
+			_textfield.enabled = false;
+			this.enabled = false;
 			addChild( _textfield );
 		}
 		

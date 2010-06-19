@@ -3,6 +3,7 @@ package com.ffsys.ui.suite.view {
 	import flash.display.Bitmap;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
+	import com.ffsys.swat.view.AbstractSwatView;	
 	import com.ffsys.swat.view.IApplicationMainView;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
@@ -20,8 +21,10 @@ package com.ffsys.ui.suite.view {
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class ComponentSuiteContainer extends AbstractComponentSuiteView
+	public class ComponentSuiteContainer extends AbstractSwatView
 		implements IApplicationMainView {
+			
+		public var vbox:VerticalBox;
 		
 		/**
 		*	Creates a <code>ComponentSuiteContainer</code> instance.
@@ -61,24 +64,26 @@ package com.ffsys.ui.suite.view {
 			vbox = new VerticalBox();
 			addChild( vbox );
 			
+			var graphicsSuite:GraphicsSuite = new GraphicsSuite();
+			vbox.addChild( graphicsSuite );
+			
 			var textSuite:TextSuite = new TextSuite();
 			vbox.addChild( textSuite );
-			textSuite.createChildren();
 			
 			var buttonSuite:ButtonSuite = new ButtonSuite();
 			vbox.addChild( buttonSuite );
-			buttonSuite.createChildren();
 			
 			var canvas:Canvas = new Canvas( 100, 100, true );
 			
 			var loader:ImageLoaderComponent =
 				new ImageLoaderComponent( "assets/images/mock/amazon.jpg" );
 			loader.border = new BorderGraphic();
-			loader.border.thickness = 3;
-			
+			loader.border.stroke.thickness = 5;
 			canvas.addChild( loader );
 			
 			vbox.addChild( canvas );
+			
+			canvas.clipped = false;
 			
 			//
 			trace("ComponentSuiteContainer::createChildren(), ",

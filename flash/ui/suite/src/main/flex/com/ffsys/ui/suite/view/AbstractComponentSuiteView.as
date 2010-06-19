@@ -16,9 +16,8 @@ package com.ffsys.ui.suite.view {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class AbstractComponentSuiteView extends AbstractSwatView {
-		
-		public var vbox:VerticalBox;
+	public class AbstractComponentSuiteView extends VerticalBox {
+
 		public var heading:Label;
 		
 		/**
@@ -30,13 +29,13 @@ package com.ffsys.ui.suite.view {
 		}
 		
 		protected function createHeading(
-			title:String, parent:DisplayObjectContainer ):Label
+			title:String ):Label
 		{
-			if( title && parent )
+			if( title )
 			{
 				title = title.toUpperCase();
 				heading = new Label( title );
-				parent.addChild( heading );
+				addChild( heading );
 			}
 			return heading;
 		}

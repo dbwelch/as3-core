@@ -5,13 +5,15 @@ package com.ffsys.ui.containers {
 	import com.ffsys.ui.core.MaskComponent;
 	import com.ffsys.ui.core.IMaskComponent;
 	import com.ffsys.ui.graphics.IComponentGraphic;
+	import com.ffsys.ui.layout.VerticalLayout;
 	
 	/**
 	*	A canvas is a container that supports
 	*	clipping it's content to the preferred dimensions
 	*	using a mask.
 	*	
-	*	By default a canvas is not clipped.
+	*	By default a canvas is not clipped and lays out it's
+	*	children in a vertical manner.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -41,6 +43,7 @@ package com.ffsys.ui.containers {
 			this.preferredWidth = width;
 			this.preferredHeight = height;
 			this.clipped = clipped;
+			this.layout = new VerticalLayout();
 		}
 		
 		/**
@@ -88,7 +91,7 @@ package com.ffsys.ui.containers {
 					{
 						_masker.graphic = graphic;
 					}
-					_masker.draw();					
+					_masker.draw();
 					addChild( DisplayObject( _masker ) );
 					this.mask = DisplayObject( _masker );
 				}

@@ -29,23 +29,21 @@ package com.ffsys.ui.suite.view {
 		/**
 		*	@inheritDoc	
 		*/
-		override public function createChildren():void
+		override protected function createChildren():void
 		{
-			vbox = new VerticalBox();
-			addChild( vbox );
+			createHeading( "Button Suite (com.ffsys.ui.components.button)" );
 			
-			createHeading( "Button Suite (com.ffsys.ui.components.button)", vbox );
-			
-			var hbox:HorizontalBox = null;	
+			var hbox:HorizontalBox = null;
 			
 			hbox = new HorizontalBox();
+			hbox.spacing = 100;
 			hbox.addChild(
 				new Label( "TEXT BUTTON: " ) );
 			
 			hbox.addChild(
 				new TextButton( "A Text Button" ) );
 			
-			vbox.addChild( hbox );
+			addChild( hbox );
 			
 			//vbox.addChild( single );
 			//vbox.addChild( constrained );

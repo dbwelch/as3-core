@@ -25,12 +25,10 @@ package com.ffsys.ui.suite.view {
 		/**
 		*	@inheritDoc	
 		*/
-		override public function createChildren():void
+		override protected function createChildren():void
 		{
-			vbox = new VerticalBox();
-			addChild( vbox );
-			
-			createHeading( "Text Suite (com.ffsys.ui.text)", vbox );
+			/*
+			createHeading( "Text Suite (com.ffsys.ui.text)" );
 			
 			var single:SingleLineTextField =
 				utils.textFieldFactory.single(
@@ -46,9 +44,10 @@ package com.ffsys.ui.suite.view {
 					"This is some test text for a multi line textfield which wraps at 200 pixels..." );
 			multi.width = 200;			
 			
-			vbox.addChild( single );
-			vbox.addChild( constrained );
-			vbox.addChild( multi );
+			addChild( single );
+			addChild( constrained );
+			addChild( multi );
+			*/
 		}
 	}
 }

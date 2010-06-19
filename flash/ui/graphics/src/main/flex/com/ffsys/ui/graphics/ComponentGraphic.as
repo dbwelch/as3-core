@@ -14,51 +14,75 @@ package com.ffsys.ui.graphics
 	public class ComponentGraphic extends Shape
 		implements IComponentGraphic
 	{
-		private var _targetWidth:Number;
-		private var _targetHeight:Number;
-		
+		private var _preferredWidth:Number;
+		private var _preferredHeight:Number;
 		private var _tx:Number = 0;
 		private var _ty:Number = 0;
-		
-		private var _stroke:Boolean = false;
-		private var _thickness:Number = 1;
-		private var _color:Number = 0xa9a9a9;
-		private var _opacity:Number = 1;
-		private var _fill:IGraphicFill = new SolidFill( 0x232021 );
+		private var _stroke:IStroke = null;
+		private var _fill:IFill = null;
 		
 		/**
 		* 	Creates a <code>ComponentGraphic</code> instance.
 		* 
-		* 	@param targetWidth The target width to use when drawing.
-		* 	@param targetHeight The target height to use when drawing.
+		* 	@param preferredWidth The preferred width to use when drawing.
+		* 	@param preferredHeight The preferred height to use when drawing.
+		*	@param stroke The stroke for the graphic.
+		*	@param fill The fill for the graphic.
+		*	@param tx The x translation.
+		*	@param ty The y translation.
 		*/
 		public function ComponentGraphic(
-			targetWidth:Number = 25,
-			targetHeight:Number = 25 )
+			preferredWidth:Number = 25,
+			preferredHeight:Number = 25,
+			stroke:IStroke = null,
+			fill:IFill = null,
+			tx:Number = 0,
+			ty:Number = 0 )
 		{
 			super();
-			this.targetWidth = targetWidth;
-			this.targetHeight = targetHeight;
+			
+			if( !stroke )
+			{
+				stroke = new Stroke();
+			}
+			
+			if( !fill )
+			{
+				fill = new Fill();
+			}			
+			
+			this.preferredWidth = preferredWidth;
+			this.preferredHeight = preferredHeight;
+			this.stroke = stroke;
+			this.fill = fill;
+			this.tx = tx;
+			this.ty = ty;
 		}
 		
-		public function get targetWidth():Number
+		/**
+		*	@inheritDoc 
+		*/		
+		public function get preferredWidth():Number
 		{
-			return _targetWidth;
+			return _preferredWidth;
 		}
 		
-		public function set targetWidth( targetWidth:Number ):void
+		public function set preferredWidth( preferredWidth:Number ):void
 		{
-			_targetWidth = targetWidth;
+			_preferredWidth = preferredWidth;
 		}
 		
-		public function get targetHeight():Number
+		/**
+		*	@inheritDoc 
+		*/
+		public function get preferredHeight():Number
 		{
-			return _targetHeight;
+			return _preferredHeight;
 		}
 		
-		public function set targetHeight( targetHeight:Number ):void
+		public function set preferredHeight( preferredHeight:Number ):void
 		{
-			_targetHeight = targetHeight;
+			_preferredHeight = preferredHeight;
 		}
 		
 		/**
@@ -96,7 +120,7 @@ package com.ffsys.ui.graphics
 		/**
 		*	@inheritDoc 
 		*/
-		public function get stroke():Boolean
+		public function get stroke():IStroke
 		{
 			return _stroke;
 		}
@@ -104,7 +128,7 @@ package com.ffsys.ui.graphics
 		/**
 		*	@inheritDoc 
 		*/
-		public function set stroke( stroke:Boolean ):void
+		public function set stroke( stroke:IStroke ):void
 		{
 			_stroke = stroke;
 		}
@@ -112,55 +136,7 @@ package com.ffsys.ui.graphics
 		/**
 		*	@inheritDoc 
 		*/
-		public function get thickness():Number
-		{
-			return _thickness;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function set thickness( thickness:Number ):void
-		{
-			_thickness = thickness;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function get color():Number
-		{
-			return _color;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function set color( color:Number ):void
-		{
-			_color = color;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get opacity():Number
-		{
-			return _opacity;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function set opacity( opacity:Number ):void
-		{
-			_opacity = opacity;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function get fill():IGraphicFill
+		public function get fill():IFill
 		{
 			return _fill;
 		}
@@ -168,7 +144,7 @@ package com.ffsys.ui.graphics
 		/**
 		*	@inheritDoc 
 		*/
-		public function set fill( fill:IGraphicFill ):void
+		public function set fill( fill:IFill ):void
 		{
 			_fill = fill;
 		}
@@ -180,12 +156,12 @@ package com.ffsys.ui.graphics
 		{
 			if( isNaN( width ) )
 			{
-				width = targetWidth;
+				width = preferredWidth;
 			}
 			
 			if( isNaN( height ) )
 			{
-				height = targetHeight;
+				height = preferredHeight;
 			}
 			
 			beforeDraw( width, height );
@@ -195,23 +171,18 @@ package com.ffsys.ui.graphics
 		
 		/**
 		*	Invoked before drawing occurs, used to set up the graphics
-		* 	stroke and fill. 
+		* 	stroke and fill.
 		*/
 		protected function beforeDraw( width:Number, height:Number ):void
 		{
-			if( stroke && thickness > 0 )
-			{
-				graphics.lineStyle( thickness, color, opacity );
-			}
-			
-			if( fill )
-			{
-				fill.apply( graphics );
-			}
+			applyStroke( width, height );
+			applyFill( width, height );
 		}
 		
 		/**
 		*	Performs the main drawing routine.
+		*	
+		*	Does nothing by default.
 		*/
 		protected function doDraw( width:Number, height:Number ):void
 		{
@@ -219,7 +190,10 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
-		*	Invoked after drawing occurs, used to end any fill.
+		*	Invoked after drawing occurs.
+		*	
+		*	By default this simply ends the fill to render
+		*	any fill.
 		*/
 		protected function afterDraw( width:Number, height:Number ):void
 		{
@@ -228,5 +202,27 @@ package com.ffsys.ui.graphics
 				graphics.endFill();
 			}
 		}
+		
+		/**
+		*	Applies the stroke for the shape.
+		*/		
+		protected function applyStroke( width:Number, height:Number ):void
+		{
+			if( stroke )
+			{
+				stroke.apply( graphics, this );
+			}
+		}
+		
+		/**
+		*	Applies the stroke for the shape.
+		*/		
+		protected function applyFill( width:Number, height:Number ):void
+		{
+			if( fill )
+			{
+				fill.apply( graphics, this );
+			}
+		}		
 	}
 }

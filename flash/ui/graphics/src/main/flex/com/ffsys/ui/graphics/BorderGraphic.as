@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics
 {
+	import flash.display.CapsStyle;
+	import flash.display.JointStyle;
 	
 	/**
 	*	Represents a rectangular graphic border.
@@ -22,22 +24,20 @@ package com.ffsys.ui.graphics
 		* 
 		* 	@param width The width of the rectangle.
 		* 	@param height The height of the rectangle.
+		*	@param sharp Whether sharp corner should be drawm.
 		*/
 		public function BorderGraphic(
 			width:Number = 25,
-			height:Number = 25 )
+			height:Number = 25,
+			sharp:Boolean = true )
 		{
 			super( width, height );
-			this.stroke = true;
-			this.sharp = true;
+			this.sharp = sharp;
 		}
 		
 		/**
 		* 	Determines whether the border should be drawn
-		* 	using a sharp method. The sharp method draws four
-		* 	rectangular fills for each border line.
-		* 
-		* 	When sharp is false the border is drawn using a stroke.
+		* 	using a sharp method.
 		*/
 		public function get sharp():Boolean
 		{
@@ -47,32 +47,45 @@ package com.ffsys.ui.graphics
 		public function set sharp( sharp:Boolean ):void
 		{
 			_sharp = sharp;
-			this.stroke = !sharp;
 		}
 		
+		/**
+		*	Prevents any stroke being applied for the border
+		*	as borders are always based on the fill.
+		*/		
+		override protected function applyStroke(
+			width:Number, height:Number ):void
+		{
+			//
+		}		
+
 		/**
 		*	@inheritDoc
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			trace("BorderGraphic::doDraw(), ", width, height, stroke, thickness, sharp );
-			
-			if( sharp && thickness > 0 )
+			if( sharp && stroke && stroke.thickness > 0 )
 			{
 				//top
 				graphics.drawRect( 
-					tx + thickness, ty, width - ( thickness * 2 ), thickness );
-				
+					tx, ty,
+					width, stroke.thickness );
+
 				//right
-				graphics.drawRect( tx + ( width - thickness ), ty, thickness, height );
-				
+				graphics.drawRect(
+					tx + ( width - stroke.thickness ),
+					ty + stroke.thickness,
+					stroke.thickness,
+					height - ( stroke.thickness * 2 ) );
+
 				//bottom
 				graphics.drawRect(
-					tx + thickness, ty + ( height - thickness ),
-					width - ( thickness * 2 ), thickness );
-				
+					tx, ty + ( height - stroke.thickness ),
+					width, stroke.thickness );
+
 				//left
-				graphics.drawRect( tx, ty, thickness, height );
+				graphics.drawRect( tx, ty + stroke.thickness,
+					stroke.thickness, height - ( stroke.thickness * 2 ) );
 			}else
 			{
 				graphics.drawRect( tx, ty, width, height );

@@ -44,15 +44,5 @@ package com.ffsys.core {
 		*	@return The cloned instance.
 		*/
 		function getCloneInstance():Object;
-		
-		/**
-		*	@private
-		*	
-		*	Declare this method with the correct return type
-		*	and any custom arguments required either in the
-		*	concrete <code>Class</code> implementation or in
-		*	an interface that extends this one.
-		*/
-		/* function clone():Object; */
 	}	
 }

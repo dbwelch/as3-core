@@ -11,18 +11,17 @@ package com.ffsys.ui.graphics
 	*/
 	public interface IComponentGraphic extends IComponentDraw
 	{
-		
 		/**
-		* 	A target width to use when drawing the shape graphic.
+		* 	A preferred width to use when drawing the graphic.
 		*/
-		function get targetWidth():Number;
-		function set targetWidth( targetWidth:Number ):void;
+		function get preferredWidth():Number;
+		function set preferredWidth( preferredWidth:Number ):void;
 		
 		/**
-		* 	A target height to use when drawing the shape graphic.
+		* 	A preferred height to use when drawing the graphic.
 		*/		
-		function get targetHeight():Number;
-		function set targetHeight( targetHeight:Number ):void;
+		function get preferredHeight():Number;
+		function set preferredHeight( preferredHeight:Number ):void;
 			
 		/**
 		* 	The x translation when drawing the shape.
@@ -37,33 +36,15 @@ package com.ffsys.ui.graphics
 		function set ty( ty:Number ):void;
 		
 		/**
-		*	Determines whether a stroke should be drawn.
+		*	The stroke for the graphic.
 		*/
-		function get stroke():Boolean;
-		function set stroke( stroke:Boolean ):void;
+		function get stroke():IStroke;
+		function set stroke( stroke:IStroke ):void;
 		
 		/**
-		* 	The thickness for the stroke.
+		*	The fill for the graphic.
 		*/
-		function get thickness():Number;
-		function set thickness( thickness:Number ):void;
-		
-		/**
-		* 	The color for the stroke.
-		*/
-		function get color():Number;
-		function set color( color:Number ):void;
-		
-		/**
-		* 	The opacity for the stroke.
-		*/
-		function get opacity():Number;
-		function set opacity( opacity:Number ):void;
-		
-		/**
-		*	The fill to use when creating this graphic.
-		*/
-		function get fill():IGraphicFill;
-		function set fill( fill:IGraphicFill ):void;	
+		function get fill():IFill;
+		function set fill( fill:IFill ):void;	
 	}
 }
