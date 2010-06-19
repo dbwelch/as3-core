@@ -2,9 +2,6 @@ package com.ffsys.ui.layout
 {
 	import flash.display.DisplayObject;
 	
-	import com.ffsys.ui.core.IComponent;
-	
-
 	/**
 	*	Handles laying out components in a vertical
 	*	manner.
@@ -15,7 +12,7 @@ package com.ffsys.ui.layout
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class VerticalLayout extends AbstractLayout
+	public class VerticalLayout extends SpacingAwareLayout
 	{	
 		/**
 		* 	Creates a <code>VerticalLayout</code> instance.
@@ -26,29 +23,39 @@ package com.ffsys.ui.layout
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		override public function set spacing( spacing:Number ):void
+		{
+			this.verticalSpacing = spacing;
+			super.spacing = spacing;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		override public function added( child:DisplayObject ):void
 		{
-			//TODO
-			trace("VerticalLayout::added(), ", child, child.parent );
-			
 			var y:Number = 0;
 			
 			var previous:DisplayObject = getPreviousDisplayObject(
 				child.parent, child );
 				
-			if( previous )
+			var spacing:Number = verticalSpacing;
+			
+			if( previous is IMarginAware )
 			{
-				y = previous.y + previous.height;
+				spacing += IMarginAware( previous ).margin.bottom;
 			}
 			
-			if( child is IComponent )
+			if( child is IMarginAware )
 			{
-				var component:IComponent = IComponent( child );
-				trace("VerticalLayout::added(), component: ", component );
+				spacing += IMarginAware( child ).margin.top;
+			}
 				
-				//TODO: add style additions here
+			if( previous )
+			{
+				y = previous.y + previous.height + spacing;
 			}
 			
 			child.y = y;
@@ -61,12 +68,6 @@ package com.ffsys.ui.layout
 		{
 			//TODO
 			trace("VerticalLayout::removed(), ", child, child.parent );
-			
-			if( child is IComponent )
-			{
-				var component:IComponent = IComponent( child );
-				trace("VerticalLayout::removed(), component: ", component );
-			}			
 		}
 	}
 }

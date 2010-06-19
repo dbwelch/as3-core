@@ -7,8 +7,7 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
-	import com.ffsys.ui.containers.VerticalBox;
-	
+	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.components.loaders.*;
 	import com.ffsys.ui.graphics.*;
 	
@@ -70,11 +69,16 @@ package com.ffsys.ui.suite.view {
 			vbox.addChild( buttonSuite );
 			buttonSuite.createChildren();
 			
+			var canvas:Canvas = new Canvas( 100, 100, true );
+			
 			var loader:ImageLoaderComponent =
 				new ImageLoaderComponent( "assets/images/mock/amazon.jpg" );
 			loader.border = new BorderGraphic();
 			loader.border.thickness = 3;
-			vbox.addChild( loader );
+			
+			canvas.addChild( loader );
+			
+			vbox.addChild( canvas );
 			
 			//
 			trace("ComponentSuiteContainer::createChildren(), ",

@@ -28,6 +28,8 @@ package com.ffsys.ui.core
 			
 		private var _layout:ILayout;
 		private var _id:String;
+		private var _preferredWidth:Number = 25;
+		private var _preferredHeight:Number = 25;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -35,6 +37,26 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
+		}
+		
+		public function get preferredWidth():Number
+		{
+			return _preferredWidth;
+		}
+		
+		public function set preferredWidth( val:Number ):void
+		{
+			_preferredWidth = val;
+		}
+		
+		public function get preferredHeight():Number
+		{
+			return _preferredHeight;
+		}
+		
+		public function set preferredHeight( val:Number ):void
+		{
+			_preferredHeight = val;
 		}
 		
 		/**
@@ -179,6 +201,15 @@ package com.ffsys.ui.core
 			mouseEnabled = enabled;
 			mouseChildren = enabled;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function draw(
+			width:Number = NaN, height:Number = NaN ):void
+		{
+			//
+		}		
 		
 		/**
 		* 	Performs clean up of this instance.

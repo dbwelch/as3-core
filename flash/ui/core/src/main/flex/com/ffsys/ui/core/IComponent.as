@@ -7,6 +7,7 @@ package com.ffsys.ui.core
 	import com.ffsys.core.IEnabled;
 	import com.ffsys.core.IStringIdentifier;
 	
+	import com.ffsys.ui.graphics.IComponentDraw;
 	import com.ffsys.ui.text.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
 	
@@ -20,7 +21,8 @@ package com.ffsys.ui.core
 	*	@since  16.06.2010
 	*/
 	public interface IComponent
-		extends IBitmapGrab,
+		extends IComponentDraw,
+				IBitmapGrab,
 				IDestroy,
 				IEnabled,
 				IStringIdentifier
