@@ -33,7 +33,7 @@ package com.ffsys.ui.graphics
 		{
 			super( width, height );
 			this.stroke = new Stroke();
-			this.fill = new Fill( stroke.color, stroke.alpha );
+			this.fill = new Fill( new SolidFill( stroke.color, stroke.alpha ) );
 			this.sharp = sharp;
 		}
 		
@@ -56,9 +56,9 @@ package com.ffsys.ui.graphics
 		*	as borders are always based on the fill.
 		*/		
 		override protected function applyStroke(
-			width:Number, height:Number ):void
+			width:Number, height:Number ):Boolean
 		{
-			//
+			return false;
 		}
 
 		/**

@@ -10,7 +10,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.ISprite;
 	
 	import com.ffsys.ui.graphics.IComponentDraw;
-	import com.ffsys.ui.text.ITextFieldFactory;
+	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
 	import com.ffsys.ui.layout.ILayoutWidth;
 	import com.ffsys.ui.layout.ILayoutHeight;

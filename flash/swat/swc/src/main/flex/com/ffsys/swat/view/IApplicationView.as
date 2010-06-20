@@ -4,8 +4,8 @@ package com.ffsys.swat.view
 	import flash.text.TextField;
 	
 	import com.ffsys.core.IEnabled;
-	import com.ffsys.ui.text.ITextFieldFactory;
-	import com.ffsys.ui.text.TextFieldFactory;
+	import com.ffsys.ui.text.core.ITextFieldFactory;
+	import com.ffsys.ui.text.core.TextFieldFactory;
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.Settings;
 	

@@ -7,7 +7,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.io.loaders.events.*;
 	
-	import com.ffsys.ui.text.ITextFieldFactory;
+	import com.ffsys.ui.text.core.ITextFieldFactory;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.core.RuntimeAssetPreloader;
@@ -226,23 +226,23 @@ package com.ffsys.swat.view  {
 			}
 			
 			var factory:ITextFieldFactory;
-
-			try
+			
+			if( !instance.hasOwnProperty( "textFieldFactory" ) )
 			{
+				throw new Error(
+					"Cannot propagate textfield factory defaults, missing factory on the ui component suite." );
+			}else{
 				factory = ITextFieldFactory(
-					instance[ "textFieldFactory" ] );
-			}catch( e:Error )
-			{
-				//ignore if the property was not found
+					instance.textFieldFactory );
 			}
 			
 			if( factory )
 			{
 				factory.defaultTextFieldProperties =
-					utils.textFieldFactory.defaultTextFieldProperties;					
+					utils.textFieldFactory.defaultTextFieldProperties;			
 
 				factory.defaultTextFormatProperties =
-					utils.textFieldFactory.defaultTextFormatProperties;			
+					utils.textFieldFactory.defaultTextFormatProperties;
 			}
 		}
 	}

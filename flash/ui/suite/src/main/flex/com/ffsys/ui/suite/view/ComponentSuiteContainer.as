@@ -9,8 +9,6 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
 	import com.ffsys.ui.containers.*;
-	import com.ffsys.ui.components.loaders.*;
-	import com.ffsys.ui.graphics.*;
 	
 	/**
 	*	The main view for the application.
@@ -64,6 +62,8 @@ package com.ffsys.ui.suite.view {
 			vbox = new VerticalBox();
 			addChild( vbox );
 			
+			vbox.spacing = 15;
+			
 			var graphicsSuite:GraphicsSuite = new GraphicsSuite();
 			vbox.addChild( graphicsSuite );
 			
@@ -73,21 +73,8 @@ package com.ffsys.ui.suite.view {
 			var buttonSuite:ButtonSuite = new ButtonSuite();
 			vbox.addChild( buttonSuite );
 			
-			var canvas:Canvas = new Canvas( 100, 100, true );
-			
-			var loader:ImageLoaderComponent =
-				new ImageLoaderComponent( "assets/images/mock/amazon.jpg" );
-			loader.border = new BorderGraphic();
-			loader.border.stroke.thickness = 5;
-			canvas.addChild( loader );
-			
-			vbox.addChild( canvas );
-			
-			canvas.clipped = false;
-			
-			//
-			trace("ComponentSuiteContainer::createChildren(), ",
-				vbox.width, vbox.height, textSuite, buttonSuite, vbox, vbox.numChildren, vbox.parent, vbox.stage );
+			var loadersSuite:LoadersSuite = new LoadersSuite();
+			vbox.addChild( loadersSuite );
 		}
 	}
 }

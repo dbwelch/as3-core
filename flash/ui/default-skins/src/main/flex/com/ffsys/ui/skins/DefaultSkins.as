@@ -3,7 +3,7 @@ package com.ffsys.ui.skins
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.skins.*;
 	import com.ffsys.ui.states.*;
-	import com.ffsys.ui.components.button.*;
+	import com.ffsys.ui.buttons.*;
 	
 	/**
 	*	Encapsulates the default skins.

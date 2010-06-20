@@ -53,7 +53,6 @@ package com.ffsys.ui.core
 		{
 			removeEventListener( Event.REMOVED_FROM_STAGE, removed );
 			destroy();
-			trace("UIComponent::removed(), ", this, this.parent );
 		}
 	}
 }

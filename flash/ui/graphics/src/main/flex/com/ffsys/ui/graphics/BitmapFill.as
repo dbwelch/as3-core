@@ -13,7 +13,8 @@ package com.ffsys.ui.graphics {
 	*	@author Mischa Williamson
 	*	@since  19.06.2010
 	*/
-	public class BitmapFill extends Object {
+	public class BitmapFill extends Object
+		implements IBitmapFill {
 			
 		private var _bitmap:BitmapData;
 		private var _matrix:Matrix;
@@ -42,7 +43,7 @@ package com.ffsys.ui.graphics {
 		}
 		
 		/**
-		*	The bitmap data for the fill.
+		*	@inheritDoc
 		*/
 		public function get bitmap():BitmapData
 		{
@@ -55,7 +56,7 @@ package com.ffsys.ui.graphics {
 		}
 		
 		/**
-		*	The matrix to use when appling the fill.
+		*	@inheritDoc
 		*/		
 		public function get matrix():Matrix
 		{
@@ -68,8 +69,7 @@ package com.ffsys.ui.graphics {
 		}
 		
 		/**
-		*	Whether the bitmap is repeated when applying
-		*	the fill.	
+		*	@inheritDoc
 		*/
 		public function get repeat():Boolean
 		{
@@ -82,7 +82,7 @@ package com.ffsys.ui.graphics {
 		}
 		
 		/**
-		*	Whether the bitmap is smoothed when it is up-scaled.	
+		*	@inheritDoc
 		*/
 		public function get smooth():Boolean
 		{
@@ -99,7 +99,9 @@ package com.ffsys.ui.graphics {
 		*/
 		public function apply(
 			graphics:Graphics,
-			component:IComponentGraphic ):void
+			component:IComponentGraphic,
+			width:Number,
+			height:Number ):void
 		{
 			if( graphics )
 			{

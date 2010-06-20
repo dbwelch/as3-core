@@ -57,15 +57,21 @@ package com.ffsys.ui.layout
 			{
 				var height:Number = previous.height;
 				
+				
 				if( previous is ILayoutHeight )
 				{
 					height = ILayoutHeight( previous ).layoutHeight;
 				}
 				
+				
+				//trace("VerticalLayout::added(), previous height: ", height );
+				
 				y = previous.y + height + spacing;
 			}
 			
 			child.y = y;
+			
+			//trace("VerticalLayout::added(), ", child, spacing, child.y );			
 		}
 		
 		/**

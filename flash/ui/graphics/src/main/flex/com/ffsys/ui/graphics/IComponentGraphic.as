@@ -49,6 +49,20 @@ package com.ffsys.ui.graphics
 		*	The fill for the graphic.
 		*/
 		function get fill():IFill;
-		function set fill( fill:IFill ):void;	
+		function set fill( fill:IFill ):void;
+		
+		/**
+		*	This forces a render of the main drawing routine.
+		*	
+		*	Note that this simply forces the main drawing routine
+		*	to run and does not start or end any stroke or fills.
+		*	
+		*	This allows for stroke and fill instances to invoke the
+		*	main drawing routine when necessary.
+		*	
+		*	@param width The width to draw the shape at.
+		*	@param height The height to draw the shape at.
+		*/
+		function render( width:Number, height:Number ):void;
 	}
 }

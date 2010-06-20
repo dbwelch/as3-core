@@ -4,7 +4,7 @@ package com.ffsys.swat.view {
 	import flash.text.Font;
 	
 	import com.ffsys.core.IFlashVariables;
-	import com.ffsys.ui.text.ITextFieldFactory;
+	import com.ffsys.ui.text.core.ITextFieldFactory;
 	
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.StringCollection;

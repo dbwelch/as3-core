@@ -21,17 +21,20 @@
 		</dependency>
 	</dependencies>	
 	<modules>
+		<module>buttons</module>
 		<module>common</module>
+		<module>combined</module>		
 		<module>containers</module>
 		<module>core</module>
-		<module>components</module>
+		<module>default-skins</module>
+		<module>display</module>
 		<module>graphics</module>
 		<module>layout</module>
-		<module>text</module>
+		<module>loaders</module>
 		<module>skins</module>
 		<module>skins-core</module>
-		<module>default-skins</module>
-		<module>combined</module>
 		<module>suite</module>
+		<module>text</module>
+		<module>text-core</module>
 	</modules>
 </project>

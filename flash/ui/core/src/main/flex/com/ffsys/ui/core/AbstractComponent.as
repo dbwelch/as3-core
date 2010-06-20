@@ -7,13 +7,16 @@ package com.ffsys.ui.core
 	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;	
 	
-	import com.ffsys.ui.text.ITextFieldFactory;
-	import com.ffsys.ui.text.TextFieldFactory;
+	import com.ffsys.ui.graphics.IComponentGraphic;
+	
 	import com.ffsys.ui.layout.ILayout;
 	import com.ffsys.ui.layout.IMargin;
 	import com.ffsys.ui.layout.IPadding;
 	import com.ffsys.ui.layout.Margin;
 	import com.ffsys.ui.layout.Padding;
+	
+	import com.ffsys.ui.text.core.ITextFieldFactory;
+	import com.ffsys.ui.text.core.TextFieldFactory;	
 
 	/**
 	*	Abstract super class for all components.
@@ -136,6 +139,14 @@ package com.ffsys.ui.core
 			child:DisplayObject ):DisplayObject
 		{
 			super.addChild( child );
+			
+			//graphics with no visible area should be drawn
+			//at the preferred dimensions
+			if( child is IComponentGraphic
+				&& ( child.width == 0 && child.height == 0 ) )
+			{
+				IComponentGraphic( child ).draw();
+			}
 			
 			//trace("AbstractComponent::addChild(), ", child );
 			

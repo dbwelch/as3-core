@@ -2,7 +2,7 @@ package com.ffsys.ui.suite.view {
 	
 	import flash.text.*;
 	
-	import com.ffsys.ui.text.MultiLineTextField;	
+	import com.ffsys.ui.text.core.MultiLineTextField;
 	
 	import com.ffsys.swat.events.RslEvent;
 	import com.ffsys.swat.view.ApplicationPreloadView;

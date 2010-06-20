@@ -2,7 +2,7 @@ package com.ffsys.swat.as3.view {
 	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
-	import com.ffsys.ui.text.*;
+	import com.ffsys.ui.text.core.*;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.view.IApplicationMainView;
@@ -11,7 +11,7 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.containers.VerticalBox;
-	import com.ffsys.ui.components.text.Label;
+	import com.ffsys.ui.text.Label;
 	
 	/**
 	*	The main view for the application.

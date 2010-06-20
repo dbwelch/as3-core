@@ -22,6 +22,8 @@ package com.ffsys.ui.graphics
 		*/
 		function apply(
 			graphics:Graphics,
-			component:IComponentGraphic ):void;
+			component:IComponentGraphic,
+			width:Number,
+			height:Number):void;
 	}
 }

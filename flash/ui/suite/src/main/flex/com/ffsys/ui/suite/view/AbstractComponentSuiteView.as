@@ -3,7 +3,7 @@ package com.ffsys.ui.suite.view {
 	import flash.display.DisplayObjectContainer;
 	
 	import com.ffsys.ui.containers.VerticalBox;
-	import com.ffsys.ui.components.text.Label;
+	import com.ffsys.ui.text.Label;
 	
 	import com.ffsys.swat.view.AbstractSwatView;
 	

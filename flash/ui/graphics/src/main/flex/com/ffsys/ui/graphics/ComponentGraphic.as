@@ -21,6 +21,9 @@ package com.ffsys.ui.graphics
 		private var _stroke:IStroke = null;
 		private var _fill:IFill = null;
 		
+		private var _strokeApplied:Boolean;
+		private var _fillApplied:Boolean;
+		
 		/**
 		* 	Creates a <code>ComponentGraphic</code> instance.
 		* 
@@ -143,6 +146,8 @@ package com.ffsys.ui.graphics
 		*/
 		public function draw( width:Number = NaN, height:Number = NaN ):void
 		{
+			graphics.clear();
+			
 			if( isNaN( width ) )
 			{
 				width = preferredWidth;
@@ -153,19 +158,30 @@ package com.ffsys.ui.graphics
 				height = preferredHeight;
 			}
 			
+			_strokeApplied = false;
+			_fillApplied = false;
+			
 			beforeDraw( width, height );
 			doDraw( width, height );
 			afterDraw( width, height );
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		public function render( width:Number, height:Number ):void
+		{
+			doDraw( width, height );
+		}		
+		
+		/**
 		*	Invoked before drawing occurs, used to set up the graphics
 		* 	stroke and fill.
 		*/
-		protected function beforeDraw( width:Number, height:Number ):void
+		private function beforeDraw( width:Number, height:Number ):void
 		{
-			applyStroke( width, height );
-			applyFill( width, height );
+			_strokeApplied = applyStroke( width, height );
+			_fillApplied = applyFill( width, height );
 		}
 		
 		/**
@@ -186,7 +202,7 @@ package com.ffsys.ui.graphics
 		*/
 		protected function afterDraw( width:Number, height:Number ):void
 		{
-			if( fill )
+			if( fill && _fillApplied )
 			{
 				graphics.endFill();
 			}
@@ -195,23 +211,27 @@ package com.ffsys.ui.graphics
 		/**
 		*	Applies the stroke for the shape.
 		*/		
-		protected function applyStroke( width:Number, height:Number ):void
+		protected function applyStroke( width:Number, height:Number ):Boolean
 		{
 			if( stroke )
 			{
-				stroke.apply( graphics, this );
+				stroke.apply( graphics, this, width, height );
+				return true;
 			}
+			return false;
 		}
 		
 		/**
 		*	Applies the stroke for the shape.
 		*/		
-		protected function applyFill( width:Number, height:Number ):void
+		protected function applyFill( width:Number, height:Number ):Boolean
 		{
 			if( fill )
 			{
-				fill.apply( graphics, this );
+				fill.apply( graphics, this, width, height );
+				return true;
 			}
-		}		
+			return false;
+		}
 	}
 }

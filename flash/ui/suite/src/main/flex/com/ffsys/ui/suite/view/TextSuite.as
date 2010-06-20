@@ -1,7 +1,6 @@
 package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.text.*;
-	import com.ffsys.ui.containers.VerticalBox;
 	
 	/**
 	*	Represents a view for the text functionality.
@@ -27,27 +26,11 @@ package com.ffsys.ui.suite.view {
 		*/
 		override protected function createChildren():void
 		{
-			/*
 			createHeading( "Text Suite (com.ffsys.ui.text)" );
 			
-			var single:SingleLineTextField =
-				utils.textFieldFactory.single(
-					"This is some test text for a single line textfield..." );
-					
-			var constrained:ConstrainedSingleLineTextField =
-				utils.textFieldFactory.constrained(
-					"This is some test text for a single line textfield that wraps at 200 pixels..." );
-			constrained.maximumWidth = 200;
+			var label:Label = new Label( "This is a test label..." );
 			
-			var multi:MultiLineTextField =
-				utils.textFieldFactory.multi(
-					"This is some test text for a multi line textfield which wraps at 200 pixels..." );
-			multi.width = 200;			
-			
-			addChild( single );
-			addChild( constrained );
-			addChild( multi );
-			*/
+			addChild( label );
 		}
 	}
 }

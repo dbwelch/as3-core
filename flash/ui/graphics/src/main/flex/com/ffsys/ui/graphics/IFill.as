@@ -12,17 +12,34 @@ package com.ffsys.ui.graphics {
 	public interface IFill
 		extends IGraphicElement,
 				IGradientAware {
+					
+		/**
+		*	A solid fill to apply.
+		*/
+		function get solid():ISolidFill;
+		function set solid( solid:ISolidFill ):void;
 		
 		/**
-		* 	The color for the fill.
+		*	A bitmap fill to apply.
 		*/
-		function get color():Number;
-		function set color( color:Number ):void;
+		function get bitmap():IBitmapFill;
+		function set bitmap( bitmap:IBitmapFill ):void;
 		
 		/**
-		* 	The alpha for the fill.
+		*	Whether this fill performs compositing.
 		*/
-		function get alpha():Number;
-		function set alpha( alpha:Number ):void;
+		function get composite():Boolean;
+		function set composite( composite:Boolean ):void;
+		
+		/**
+		*	The array of composite fills.
+		*	
+		*	If no custom composites have been defined then
+		*	this returns an array between zero and three
+		*	containing non-null solid, bitmap and gradient
+		*	property values.
+		*/
+		function get composites():Array;
+		function set composites( composites:Array ):void;
 	}
 }

@@ -197,7 +197,9 @@ package com.ffsys.ui.graphics {
 		*/
 		public function apply(
 			graphics:Graphics,
-			component:IComponentGraphic ):void
+			component:IComponentGraphic,
+			width:Number,
+			height:Number ):void
 		{
 			if( graphics )
 			{
