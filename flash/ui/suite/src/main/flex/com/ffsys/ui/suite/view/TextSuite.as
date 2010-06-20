@@ -14,7 +14,7 @@ package com.ffsys.ui.suite.view {
 	public class TextSuite extends AbstractComponentSuiteView {
 		
 		/**
-		*	Creates a <code>TextSuite</code> instance.	
+		*	Creates a <code>TextSuite</code> instance.
 		*/
 		public function TextSuite()
 		{
@@ -22,7 +22,7 @@ package com.ffsys.ui.suite.view {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		override protected function createChildren():void
 		{

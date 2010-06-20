@@ -1,6 +1,7 @@
 package com.ffsys.ui.layout
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 
 	/**
 	*	Describes the contract for all instances
@@ -29,11 +30,24 @@ package com.ffsys.ui.layout
 		function removed( child:DisplayObject ):void;
 		
 		/**
+		*	Perform a full layout update of the target display
+		*	object container.
+		*	
+		*	@param container The container to update with this layout.
+		*/
+		function update( container:DisplayObjectContainer ):void;		
+		
+		/**
 		*	A generic spacing value for the layout.	
 		*/
 		function get spacing():Number;
-		function set spacing(
-			spacing:Number ):void;
+		function set spacing( spacing:Number ):void;
+		
+		/**
+		*	A size for this layout.
+		*/
+		function get size():Number;
+		function set size( size:Number ):void;
 		
 		/**
 		*	The horizontal spacing for the layout.

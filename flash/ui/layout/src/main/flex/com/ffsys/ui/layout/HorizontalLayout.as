@@ -1,6 +1,7 @@
 package com.ffsys.ui.layout
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	
 	/**
 	*	Handles laying out components in a horizontal
@@ -32,14 +33,14 @@ package com.ffsys.ui.layout
 		}
 		
 		/**
-		*	@inheritDoc
+		*	@inheritDoc	
 		*/
-		override public function added( child:DisplayObject ):void
+		override protected function layoutChild(
+			parent:DisplayObjectContainer,
+			child:DisplayObject,
+			previous:DisplayObject = null ):void
 		{
 			var x:Number = 0;
-			
-			var previous:DisplayObject = getPreviousDisplayObject(
-				child.parent, child );
 				
 			var spacing:Number = horizontalSpacing;
 
@@ -56,25 +57,21 @@ package com.ffsys.ui.layout
 			if( previous )
 			{
 				var width:Number = previous.width;
+				var index:int = previous.parent.getChildIndex( previous );
 				
-				if( previous is ILayoutWidth )
+				if( !isNaN( size ) )
+				{
+					x = index * size;
+				}else if( previous is ILayoutWidth )
 				{
 					width = ILayoutWidth( previous ).layoutWidth;
+					x = previous.x + width + spacing;
+				}else{
+					x = previous.x + width + spacing;
 				}
-				
-				x = previous.x + width + spacing;
 			}
 			
 			child.x = x;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override public function removed( child:DisplayObject ):void
-		{
-			//TODO
-			trace("HorizontalLayout::removed(), ", child, child.parent );			
 		}
 	}
 }

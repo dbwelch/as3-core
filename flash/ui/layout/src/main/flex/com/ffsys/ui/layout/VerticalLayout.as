@@ -1,6 +1,7 @@
 package com.ffsys.ui.layout
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	
 	/**
 	*	Handles laying out components in a vertical
@@ -32,15 +33,15 @@ package com.ffsys.ui.layout
 		}
 		
 		/**
-		*	@inheritDoc
+		*	@inheritDoc	
 		*/
-		override public function added( child:DisplayObject ):void
+		override protected function layoutChild(
+			parent:DisplayObjectContainer,
+			child:DisplayObject,
+			previous:DisplayObject = null ):void
 		{
 			var y:Number = 0;
-			
-			var previous:DisplayObject = getPreviousDisplayObject(
-				child.parent, child );
-				
+
 			var spacing:Number = verticalSpacing;
 			
 			if( previous is IMarginAware )
@@ -57,30 +58,21 @@ package com.ffsys.ui.layout
 			{
 				var height:Number = previous.height;
 				
+				var index:int = previous.parent.getChildIndex( previous );
 				
-				if( previous is ILayoutHeight )
+				if( !isNaN( size ) )
+				{
+					y = index * size;
+				}else if( previous is ILayoutHeight )
 				{
 					height = ILayoutHeight( previous ).layoutHeight;
+					y = previous.y + height + spacing;
+				}else{
+					y = previous.y + height + spacing;
 				}
-				
-				
-				//trace("VerticalLayout::added(), previous height: ", height );
-				
-				y = previous.y + height + spacing;
 			}
 			
-			child.y = y;
-			
-			//trace("VerticalLayout::added(), ", child, spacing, child.y );			
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override public function removed( child:DisplayObject ):void
-		{
-			//TODO
-			trace("VerticalLayout::removed(), ", child, child.parent );
+			child.y = y;		
 		}
 	}
 }

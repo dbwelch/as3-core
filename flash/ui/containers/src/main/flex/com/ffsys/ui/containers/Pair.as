@@ -31,16 +31,40 @@ package com.ffsys.ui.containers {
 		*	
 		*	@param vertical Whether the child components
 		*	should be laid out vertically.
+		*	@param size A fixed size for the pair layout.
+		*	@param first The first component.
+		*	@param second The second component.
 		*/
 		public function Pair(
 			vertical:Boolean = false,
+			size:Number = NaN,
 			first:IComponent = null,
 			second:IComponent = null )
 		{
 			super();
-			//this.first = first;
-			//this.second = second;
+			this.first = first;
+			this.second = second;
 			this.vertical = vertical;
+		}
+		
+		public function get first():IComponent
+		{
+			return _first;
+		}
+		
+		public function set first( first:IComponent ):void
+		{
+			_first = first;
+		}
+		
+		public function get second():IComponent
+		{
+			return _second;
+		}
+		
+		public function set second( second:IComponent ):void
+		{
+			_second = second;
 		}
 		
 		/**

@@ -43,7 +43,6 @@ package com.ffsys.ui.containers {
 			this.preferredWidth = width;
 			this.preferredHeight = height;
 			this.clipped = clipped;
-			this.layout = new VerticalLayout();
 		}
 		
 		/**

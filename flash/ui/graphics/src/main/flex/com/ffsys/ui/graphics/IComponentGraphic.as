@@ -2,6 +2,12 @@ package com.ffsys.ui.graphics
 {	
 	import com.ffsys.ui.common.IShape;
 	
+	import com.ffsys.ui.layout.IMarginAware;
+	import com.ffsys.ui.layout.IPaddingAware;
+	import com.ffsys.ui.layout.ILayoutWidth;
+	import com.ffsys.ui.layout.ILayoutHeight;
+	
+	
 	/**
 	*	Describes the contract for component graphics.
 	*
@@ -13,6 +19,10 @@ package com.ffsys.ui.graphics
 	*/
 	public interface IComponentGraphic
 		extends IShape,
+				IMarginAware,
+				IPaddingAware,
+				ILayoutWidth,
+				ILayoutHeight,
 				IComponentDraw
 	{
 		/**

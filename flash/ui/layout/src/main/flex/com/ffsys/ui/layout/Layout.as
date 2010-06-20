@@ -18,6 +18,7 @@ package com.ffsys.ui.layout
 		private var _horizontalSpacing:Number = 0;
 		private var _verticalSpacing:Number = 0;
 		private var _spacing:Number = 0;
+		private var _size:Number = NaN;
 		
 		/**
 		* 	Creates an <code>Layout</code> instance.
@@ -28,32 +29,17 @@ package com.ffsys.ui.layout
 		}
 		
 		/**
-		*	Attempts to retrieve a display object at the
-		*	previous depth.
-		*	
-		*	@param parent The parent display object container.
-		*	@param child The display object.
-		*/
-		protected function getPreviousDisplayObject(
-			parent:DisplayObjectContainer,
-			child:DisplayObject ):DisplayObject
-		{
-			var index:int = parent.getChildIndex( child );
-			
-			if( index > 0 )
-			{
-				return parent.getChildAt( index - 1 );
-			}
-			
-			return null;
-		}
-		
-		/**
 		*	@inheritDoc
 		*/
 		public function added( child:DisplayObject ):void
 		{
-			//
+			layoutChildren( [ child ] );
+				
+			var next:Array = getNextDisplayObjects( child );
+			if( next.length > 0 )
+			{
+				layoutChildren( next );
+			}
 		}
 		
 		/**
@@ -61,7 +47,31 @@ package com.ffsys.ui.layout
 		*/
 		public function removed( child:DisplayObject ):void
 		{
-			//
+			var next:Array = getNextDisplayObjects( child );
+			if( next.length > 0 )
+			{
+				layoutChildren( next );
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function update( container:DisplayObjectContainer ):void
+		{
+			if( container )
+			{
+				var child:DisplayObject = null;
+				for( var i:int = 0;i < container.numChildren;i++ )
+				{
+					child = container.getChildAt( i );
+					
+					layoutChildren(
+						child.parent,
+						child,
+						getPreviousDisplayObject( child.parent, child ) );
+				}
+			}
 		}
 		
 		/**
@@ -72,10 +82,22 @@ package com.ffsys.ui.layout
 			return _spacing;
 		}
 		
-		public function set spacing(
-			spacing:Number ):void
+		public function set spacing( spacing:Number ):void
 		{
 			_spacing = spacing;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get size():Number
+		{
+			return _size;
+		}
+		
+		public function set size( size:Number ):void
+		{
+			_size = size;
 		}
 		
 		/**
@@ -104,6 +126,100 @@ package com.ffsys.ui.layout
 			verticalSpacing:Number ):void
 		{
 			_verticalSpacing = verticalSpacing;
-		}		
+		}
+		
+		/**
+		*	Performs layout on an individual child.
+		*/
+		protected function layoutChild(
+			parent:DisplayObjectContainer,
+			child:DisplayObject,
+			previous:DisplayObject = null ):void
+		{
+			//
+		}
+		
+		/**
+		*	Attempts to retrieve a display object at the
+		*	previous depth.
+		*	
+		*	@param parent The parent display object container.
+		*	@param child The display object.
+		*/
+		protected function getPreviousDisplayObject(
+			parent:DisplayObjectContainer,
+			child:DisplayObject ):DisplayObject
+		{
+			var index:int = parent.getChildIndex( child );
+			
+			if( index > 0 )
+			{
+				return parent.getChildAt( index - 1 );
+			}
+			
+			return null;
+		}
+		
+		/**
+		*	Attempts to retrieve a display object at the
+		*	next depth.
+		*	
+		*	@param parent The parent display object container.
+		*	@param child The display object.
+		*/
+		protected function getNextDisplayObject(
+			parent:DisplayObjectContainer,
+			child:DisplayObject ):DisplayObject
+		{
+			var index:int = parent.getChildIndex( child );
+			
+			if( index < ( parent.numChildren - 1 ) )
+			{
+				return parent.getChildAt( index + 1 );
+			}
+			
+			return null;
+		}
+		
+		protected function layoutChildren( children:Array ):void
+		{
+			var child:DisplayObject = null;
+			for( var i:int = 0;i < children.length;i++ )
+			{
+				child = DisplayObject( children[ i ] );
+				layoutChild(
+					child.parent,
+					child,
+					getPreviousDisplayObject( child.parent, child ) );		
+			}
+		}
+		
+		protected function getNextDisplayObjects( child:DisplayObject ):Array
+		{
+			var output:Array = new Array();
+			
+			var index:int = child.parent.getChildIndex( child ) + 1;
+			
+			for( ;index < child.parent.numChildren;index++ )
+			{
+				output.push( child.parent.getChildAt( index ) );
+			}
+			
+			return output;
+		}
+		
+		protected function getPreviousDisplayObjects( child:DisplayObject ):Array
+		{
+			var output:Array = new Array();
+			
+			var index:int = child.parent.getChildIndex( child ) - 1;
+			
+			for( ;index >= 0;index-- )
+			{
+				output.push( child.parent.getChildAt( index ) );
+			}
+			
+			return output;
+		}
 	}
 }

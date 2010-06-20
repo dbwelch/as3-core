@@ -34,26 +34,62 @@ package com.ffsys.ui.suite.view {
 			var hbox:HorizontalBox = null;
 			var graphic:IComponentGraphic = null;
 			
+			var stroke:IStroke = new Stroke( 3, 0xff0000, 1 );
+			var fill:IFill = new Fill(
+				new SolidFill( 0xff0000, 0.5 ) );
+			
 			hbox = new HorizontalBox();
 			hbox.spacing = 5;
 			
-			//
+			var width:Number = 25;
+			var height:Number = 25;
+			
 			graphic = new SquareGraphic(
-				10,
-				new Stroke( 1, 0xff0000, 1 ) );
+				width,
+				stroke );
 			hbox.addChild( DisplayObject( graphic ) );
 			
-			//
+			graphic = new RectangleGraphic(
+				width,
+				height / 2,
+				stroke );
+			hbox.addChild( DisplayObject( graphic ) );			
+
 			graphic = new CircleGraphic(
-				10,
-				new Stroke( 1, 0xff0000, 1 ) );
+				width,
+				stroke );
+			hbox.addChild( DisplayObject( graphic ) );
+
+			graphic = new EllipseGraphic(
+				width,
+				height / 2,
+				stroke );
 			hbox.addChild( DisplayObject( graphic ) );
 			
-			//
+			graphic = new SquareGraphic(
+				width,
+				stroke,
+				fill );
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new RectangleGraphic(
+				width,
+				height / 2,
+				stroke,
+				fill );
+			hbox.addChild( DisplayObject( graphic ) );	
+
+			graphic = new CircleGraphic(
+				width,
+				stroke,
+				fill );
+			hbox.addChild( DisplayObject( graphic ) );
+
 			graphic = new EllipseGraphic(
-				10,
-				5,
-				new Stroke( 1, 0xff0000, 1 ) );
+				width,
+				height / 2,
+				stroke,
+				fill );
 			hbox.addChild( DisplayObject( graphic ) );			
 						
 			addChild( hbox );

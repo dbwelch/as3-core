@@ -2,6 +2,11 @@ package com.ffsys.ui.graphics
 {
 	import flash.display.Shape;
 	
+	import com.ffsys.ui.layout.IMargin;
+	import com.ffsys.ui.layout.IPadding;	
+	import com.ffsys.ui.layout.Margin;
+	import com.ffsys.ui.layout.Padding;
+	
 	/**
 	*	Abstract super class for component graphics.
 	*
@@ -14,6 +19,8 @@ package com.ffsys.ui.graphics
 	public class ComponentGraphic extends Shape
 		implements IComponentGraphic
 	{
+		private var _margins:IMargin = new Margin();
+		private var _paddings:IPadding = new Padding();
 		private var _preferredWidth:Number;
 		private var _preferredHeight:Number;
 		private var _tx:Number = 0;
@@ -49,6 +56,38 @@ package com.ffsys.ui.graphics
 			this.fill = fill;
 			this.tx = tx;
 			this.ty = ty;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get margins():IMargin
+		{
+			return _margins;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get paddings():IPadding
+		{
+			return _paddings;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get layoutWidth():Number
+		{
+			return this.width;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get layoutHeight():Number
+		{
+			return this.height;
 		}
 		
 		/**
