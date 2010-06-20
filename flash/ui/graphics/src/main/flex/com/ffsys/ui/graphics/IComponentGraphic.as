@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics
 {	
+	import com.ffsys.ui.common.IShape;
+	
 	/**
 	*	Describes the contract for component graphics.
 	*
@@ -9,7 +11,9 @@ package com.ffsys.ui.graphics
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public interface IComponentGraphic extends IComponentDraw
+	public interface IComponentGraphic
+		extends IShape,
+				IComponentDraw
 	{
 		/**
 		* 	A preferred width to use when drawing the graphic.

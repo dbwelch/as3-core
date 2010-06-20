@@ -7,7 +7,7 @@ package com.ffsys.ui.core
 	import com.ffsys.core.IEnabled;
 	import com.ffsys.core.IStringIdentifier;
 	
-	import com.ffsys.ui.common.IDisplayObjectContainer;
+	import com.ffsys.ui.common.ISprite;
 	
 	import com.ffsys.ui.graphics.IComponentDraw;
 	import com.ffsys.ui.text.ITextFieldFactory;
@@ -27,7 +27,7 @@ package com.ffsys.ui.core
 	*	@since  16.06.2010
 	*/
 	public interface IComponent
-		extends IDisplayObjectContainer,
+		extends ISprite,
 				IComponentDraw,
 				ILayoutWidth,
 				ILayoutHeight,
