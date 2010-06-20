@@ -123,6 +123,13 @@ package com.ffsys.ui.suite.view {
 				stroke,
 				fill );
 			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			hbox.addChild( DisplayObject( graphic ) );
 
 			graphic = new CircleGraphic(
 				width,

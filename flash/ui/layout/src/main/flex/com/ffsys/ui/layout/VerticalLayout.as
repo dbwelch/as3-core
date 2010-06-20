@@ -72,7 +72,12 @@ package com.ffsys.ui.layout
 				}
 			}
 			
-			child.y = y;		
+			if( child is IMarginAware )
+			{
+				child.x = IMarginAware( child ).margins.left;
+			}
+			
+			child.y = y;
 		}
 	}
 }
