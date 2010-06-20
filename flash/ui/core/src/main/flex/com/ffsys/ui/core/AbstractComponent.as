@@ -10,6 +10,10 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.text.ITextFieldFactory;
 	import com.ffsys.ui.text.TextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
+	import com.ffsys.ui.layout.IMargin;
+	import com.ffsys.ui.layout.IPadding;
+	import com.ffsys.ui.layout.Margin;
+	import com.ffsys.ui.layout.Padding;
 
 	/**
 	*	Abstract super class for all components.
@@ -27,6 +31,8 @@ package com.ffsys.ui.core
 			= new TextFieldFactory();
 			
 		private var _layout:ILayout;
+		private var _margins:IMargin = new Margin();
+		private var _paddings:IPadding = new Padding();
 		private var _id:String;
 		private var _preferredWidth:Number = 25;
 		private var _preferredHeight:Number = 25;
@@ -89,6 +95,38 @@ package com.ffsys.ui.core
 		public function set layout( layout:ILayout ):void
 		{
 			_layout = layout;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get layoutWidth():Number
+		{
+			return this.width;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get layoutHeight():Number
+		{
+			return this.height;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get paddings():IPadding
+		{
+			return _paddings;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get margins():IMargin
+		{
+			return _margins;
 		}
 		
 		/**

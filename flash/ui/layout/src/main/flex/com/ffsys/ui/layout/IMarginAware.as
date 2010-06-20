@@ -13,9 +13,11 @@ package com.ffsys.ui.layout {
 	public interface IMarginAware {
 		
 		/**
-		*	The margin associated with this instance.
+		*	The margins associated with this display object.
+		*	
+		*	These are used when a layout handles a display
+		*	object that implements this interface.
 		*/
-		function get margin():IMargin;
-		function set margin( margin:IMargin ):void;
+		function get margins():IMargin;
 	}
 }

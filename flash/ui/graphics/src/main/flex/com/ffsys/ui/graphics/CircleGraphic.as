@@ -17,9 +17,14 @@ package com.ffsys.ui.graphics
 		* 
 		* 	@param diameter The diameter for the circle.
 		*/
-		public function CircleGraphic( diameter:Number = 25 )
+		public function CircleGraphic(
+			diameter:Number = 25,
+			stroke:IStroke = null,
+			fill:IFill = null )
 		{
 			super( diameter, diameter );
+			this.stroke = stroke;
+			this.fill = fill;
 		}
 	}
 }

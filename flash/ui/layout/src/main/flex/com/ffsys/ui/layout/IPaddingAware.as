@@ -13,9 +13,8 @@ package com.ffsys.ui.layout {
 	public interface IPaddingAware {
 		
 		/**
-		*	The padding associated with this instance.
+		*	The paddings associated with this instance.
 		*/
-		function get padding():IPadding;
-		function set padding( padding:IPadding ):void;
+		function get paddings():IPadding;
 	}
 }

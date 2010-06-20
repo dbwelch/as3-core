@@ -17,9 +17,13 @@ package com.ffsys.ui.graphics
 		* 	@param width The width of the ellipse.
 		* 	@param height The height of the ellipse.
 		*/
-		public function EllipseGraphic( width:Number, height:Number )
+		public function EllipseGraphic(
+			width:Number,
+			height:Number,
+			stroke:IStroke = null,
+			fill:IFill = null )
 		{
-			super( width, height );
+			super( width, height, stroke, fill );
 		}
 		
 		/**

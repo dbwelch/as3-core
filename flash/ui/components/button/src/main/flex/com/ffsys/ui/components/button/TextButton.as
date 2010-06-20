@@ -38,8 +38,6 @@ package com.ffsys.ui.components.button
 		*/
 		override protected function createChildren():void
 		{
-			trace( "TextButton::createChildren()", _label, _label.text );
-
 			addChild( _label );
 		}
 	}

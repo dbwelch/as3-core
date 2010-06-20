@@ -16,9 +16,12 @@ package com.ffsys.ui.graphics
 		* 
 		* 	@param size The size of the square.
 		*/
-		public function SquareGraphic( size:Number = 25 )
+		public function SquareGraphic(
+			size:Number = 25,
+			stroke:IStroke = null,
+			fill:IFill = null )
 		{
-			super( size, size );
+			super( size, size, stroke, fill );
 		}
 	}
 }

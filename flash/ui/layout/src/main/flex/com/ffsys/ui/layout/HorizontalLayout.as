@@ -3,7 +3,7 @@ package com.ffsys.ui.layout
 	import flash.display.DisplayObject;
 	
 	/**
-	*	Handles laying out components in a vertical
+	*	Handles laying out components in a horizontal
 	*	manner.
 	*
 	*	@langversion ActionScript 3.0
@@ -12,12 +12,12 @@ package com.ffsys.ui.layout
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class VerticalLayout extends SpacingAwareLayout
+	public class HorizontalLayout extends Layout
 	{	
 		/**
-		* 	Creates a <code>VerticalLayout</code> instance.
+		* 	Creates a <code>HorizontalLayout</code> instance.
 		*/
-		public function VerticalLayout()
+		public function HorizontalLayout()
 		{
 			super();
 		}
@@ -27,7 +27,7 @@ package com.ffsys.ui.layout
 		*/
 		override public function set spacing( spacing:Number ):void
 		{
-			this.verticalSpacing = spacing;
+			this.horizontalSpacing = spacing;
 			super.spacing = spacing;
 		}
 		
@@ -36,29 +36,36 @@ package com.ffsys.ui.layout
 		*/
 		override public function added( child:DisplayObject ):void
 		{
-			var y:Number = 0;
+			var x:Number = 0;
 			
 			var previous:DisplayObject = getPreviousDisplayObject(
 				child.parent, child );
 				
-			var spacing:Number = verticalSpacing;
-			
+			var spacing:Number = horizontalSpacing;
+
 			if( previous is IMarginAware )
 			{
-				spacing += IMarginAware( previous ).margin.bottom;
+				spacing += IMarginAware( previous ).margins.right;
 			}
-			
+
 			if( child is IMarginAware )
 			{
-				spacing += IMarginAware( child ).margin.top;
+				spacing += IMarginAware( child ).margins.left;
 			}
 				
 			if( previous )
 			{
-				y = previous.y + previous.height + spacing;
+				var width:Number = previous.width;
+				
+				if( previous is ILayoutWidth )
+				{
+					width = ILayoutWidth( previous ).layoutWidth;
+				}
+				
+				x = previous.x + width + spacing;
 			}
 			
-			child.y = y;
+			child.x = x;
 		}
 		
 		/**
@@ -67,7 +74,7 @@ package com.ffsys.ui.layout
 		override public function removed( child:DisplayObject ):void
 		{
 			//TODO
-			trace("VerticalLayout::removed(), ", child, child.parent );
+			trace("HorizontalLayout::removed(), ", child, child.parent );			
 		}
 	}
 }

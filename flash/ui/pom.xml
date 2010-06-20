@@ -21,11 +21,12 @@
 		</dependency>
 	</dependencies>	
 	<modules>
-
+		<module>common</module>
 		<module>containers</module>
 		<module>core</module>
 		<module>components</module>
 		<module>graphics</module>
+		<module>layout</module>
 		<module>text</module>
 		<module>skins</module>
 		<module>skins-core</module>

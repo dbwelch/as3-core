@@ -1,5 +1,6 @@
 package com.ffsys.ui.suite.view {
 	
+	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.graphics.*;
 	
 	/**
@@ -27,6 +28,15 @@ package com.ffsys.ui.suite.view {
 		override protected function createChildren():void
 		{
 			createHeading( "Graphics Suite (com.ffsys.ui.graphics)" );
+			
+			var hbox:HorizontalBox = null;
+			var square:SquareGraphic = null;
+			
+			hbox = new HorizontalBox();
+			square = new SquareGraphic( 10, null, new Fill( 0xa9a9a9, 1 ) );
+			hbox.addChild( square );
+			
+			addChild( hbox );
 		}
 	}
 }

@@ -24,7 +24,7 @@ package com.ffsys.ui.graphics
 		* 
 		* 	@param width The width of the rectangle.
 		* 	@param height The height of the rectangle.
-		*	@param sharp Whether sharp corner should be drawm.
+		*	@param sharp Whether sharp corners should be drawm.
 		*/
 		public function BorderGraphic(
 			width:Number = 25,
@@ -32,6 +32,8 @@ package com.ffsys.ui.graphics
 			sharp:Boolean = true )
 		{
 			super( width, height );
+			this.stroke = new Stroke();
+			this.fill = new Fill( stroke.color, stroke.alpha );
 			this.sharp = sharp;
 		}
 		
@@ -57,7 +59,7 @@ package com.ffsys.ui.graphics
 			width:Number, height:Number ):void
 		{
 			//
-		}		
+		}
 
 		/**
 		*	@inheritDoc

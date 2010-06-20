@@ -40,17 +40,6 @@ package com.ffsys.ui.graphics
 			ty:Number = 0 )
 		{
 			super();
-			
-			if( !stroke )
-			{
-				stroke = new Stroke();
-			}
-			
-			if( !fill )
-			{
-				fill = new Fill();
-			}			
-			
 			this.preferredWidth = preferredWidth;
 			this.preferredHeight = preferredHeight;
 			this.stroke = stroke;

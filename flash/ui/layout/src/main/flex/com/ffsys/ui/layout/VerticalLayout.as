@@ -3,7 +3,7 @@ package com.ffsys.ui.layout
 	import flash.display.DisplayObject;
 	
 	/**
-	*	Handles laying out components in a horizontal
+	*	Handles laying out components in a vertical
 	*	manner.
 	*
 	*	@langversion ActionScript 3.0
@@ -12,12 +12,12 @@ package com.ffsys.ui.layout
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class HorizontalLayout extends SpacingAwareLayout
+	public class VerticalLayout extends Layout
 	{	
 		/**
-		* 	Creates a <code>HorizontalLayout</code> instance.
+		* 	Creates a <code>VerticalLayout</code> instance.
 		*/
-		public function HorizontalLayout()
+		public function VerticalLayout()
 		{
 			super();
 		}
@@ -27,7 +27,7 @@ package com.ffsys.ui.layout
 		*/
 		override public function set spacing( spacing:Number ):void
 		{
-			this.horizontalSpacing = spacing;
+			this.verticalSpacing = spacing;
 			super.spacing = spacing;
 		}
 		
@@ -36,29 +36,36 @@ package com.ffsys.ui.layout
 		*/
 		override public function added( child:DisplayObject ):void
 		{
-			var x:Number = 0;
+			var y:Number = 0;
 			
 			var previous:DisplayObject = getPreviousDisplayObject(
 				child.parent, child );
 				
-			var spacing:Number = horizontalSpacing;
-
+			var spacing:Number = verticalSpacing;
+			
 			if( previous is IMarginAware )
 			{
-				spacing += IMarginAware( previous ).margin.right;
+				spacing += IMarginAware( previous ).margins.bottom;
 			}
-
+			
 			if( child is IMarginAware )
 			{
-				spacing += IMarginAware( child ).margin.left;
+				spacing += IMarginAware( child ).margins.top;
 			}
 				
 			if( previous )
 			{
-				x = previous.x + previous.width + spacing;
+				var height:Number = previous.height;
+				
+				if( previous is ILayoutHeight )
+				{
+					height = ILayoutHeight( previous ).layoutHeight;
+				}
+				
+				y = previous.y + height + spacing;
 			}
 			
-			child.x = x;
+			child.y = y;
 		}
 		
 		/**
@@ -67,7 +74,7 @@ package com.ffsys.ui.layout
 		override public function removed( child:DisplayObject ):void
 		{
 			//TODO
-			trace("HorizontalLayout::removed(), ", child, child.parent );			
+			trace("VerticalLayout::removed(), ", child, child.parent );
 		}
 	}
 }

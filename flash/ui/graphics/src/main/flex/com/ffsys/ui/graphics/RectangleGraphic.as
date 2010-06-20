@@ -21,9 +21,11 @@ package com.ffsys.ui.graphics
 		*/
 		public function RectangleGraphic(
 			width:Number = 25,
-			height:Number = 25 )
+			height:Number = 25,
+			stroke:IStroke = null,
+			fill:IFill = null )
 		{
-			super( width, height );
+			super( width, height, stroke, fill );
 		}
 		
 		/**

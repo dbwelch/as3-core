@@ -36,7 +36,6 @@ package com.ffsys.ui.suite.view {
 			var hbox:HorizontalBox = null;
 			
 			hbox = new HorizontalBox();
-			hbox.spacing = 100;
 			hbox.addChild(
 				new Label( "TEXT BUTTON: " ) );
 			

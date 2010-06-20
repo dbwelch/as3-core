@@ -45,9 +45,6 @@ package com.ffsys.ui.components.loaders
 			_container = new UIComponent();
 			addChild( DisplayObject( _container ) );
 			_loader = loader;
-			
-			trace("AbstractLoaderComponent::()", this.loader );
-			
 			_deferred = deferred;
 		}
 		
@@ -136,8 +133,6 @@ package com.ffsys.ui.components.loaders
 		*/
 		override protected function createChildren():void
 		{
-			trace("AbstractLoaderComponent::createChildren()", this.loader );
-			
 			if( !deferred && !loader.loading )
 			{
 				load();
