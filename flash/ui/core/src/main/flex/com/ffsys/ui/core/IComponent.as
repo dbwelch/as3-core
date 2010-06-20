@@ -1,6 +1,7 @@
 package com.ffsys.ui.core
 {
 	import flash.display.DisplayObject;
+	import flash.geom.Rectangle;
 	
 	import com.ffsys.core.IBitmapGrab;
 	import com.ffsys.core.IDestroy;
@@ -41,10 +42,16 @@ package com.ffsys.ui.core
 	{
 		
 		/**
-		*	The layout implementation for the component.
+		*	The preferred width for the component.	
 		*/
-		function get layout():ILayout;
-		function set layout( layout:ILayout ):void;
+		function get preferredWidth():Number;
+		function set preferredWidth( val:Number ):void;
+		
+		/**
+		*	The preferred height for the component.	
+		*/
+		function get preferredHeight():Number;
+		function set preferredHeight( val:Number ):void;		
 		
 		/**
 		* 	The text field factory used to create textfields.
@@ -61,7 +68,25 @@ package com.ffsys.ui.core
 		*	A background graphic for the component.
 		*/
 		function get background():IComponentGraphic;
-		function set background( background:IComponentGraphic ):void;		
+		function set background( background:IComponentGraphic ):void;
+		
+		/**
+		*	Gets a rectangle that represents the inner
+		*	area inside any padding settings.	
+		*/
+		function getPaddingRectangle():Rectangle;
+		
+		/**
+		*	Gets a rectangle that represents the dimensions
+		*	of this component.
+		*/
+		function getRectangle():Rectangle;	
+		
+		/**
+		*	Gets a rectangle that represents the outer
+		*	area outside any margin settings.
+		*/
+		function getMarginRectangle():Rectangle;
 		
 		/**
 		* 	Gets a runtime asset by fully qualified class path.

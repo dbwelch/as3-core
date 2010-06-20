@@ -53,11 +53,6 @@ package com.ffsys.ui.display
 			{
 				addChild( DisplayObject( this.graphic ) );
 			}
-			
-			if( this.layout )
-			{
-				this.layout.update( this );
-			}
 		}
 	}
 }

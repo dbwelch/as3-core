@@ -13,7 +13,7 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class VerticalBox extends UIComponent {
+	public class VerticalBox extends Container {
 		
 		/**
 		*	Creates a <code>VerticalBox</code> instance.

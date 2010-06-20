@@ -13,7 +13,7 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class HorizontalBox extends UIComponent {
+	public class HorizontalBox extends Container {
 		
 		/**
 		*	Creates a <code>HorizontalBox</code> instance.

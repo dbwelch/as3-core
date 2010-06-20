@@ -69,6 +69,13 @@ package com.ffsys.ui.layout
 				}else{
 					x = previous.x + width + spacing;
 				}
+			}else
+			{
+				//no previous element and not collapsed obey margins
+				if( !collapsed && ( child is IMarginAware ) )
+				{
+					x = IMarginAware( child ).margins.left;
+				}
 			}
 			
 			child.x = x;

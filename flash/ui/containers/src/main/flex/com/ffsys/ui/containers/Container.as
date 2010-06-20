@@ -1,6 +1,9 @@
 package com.ffsys.ui.containers {
 	
+	import flash.display.DisplayObject;
+	
 	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.layout.ILayout;	
 	
 	/**
 	*	Super class for all containers.
@@ -13,6 +16,8 @@ package com.ffsys.ui.containers {
 	*/
 	public class Container extends UIComponent {
 		
+		private var _layout:ILayout;
+		
 		/**
 		*	Creates a <code>Container</code> instance.
 		*/
@@ -22,29 +27,47 @@ package com.ffsys.ui.containers {
 		}
 		
 		/**
-		*	@inheritDoc	
+		* 	@inheritDoc
 		*/
-		override public function get layoutWidth():Number
+		public function get layout():ILayout
 		{
-			if( !isNaN( this.preferredWidth ) ) 
-			{
-				return this.preferredWidth;
-			}
-
-			return super.layoutWidth;
+			return _layout;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function set layout( layout:ILayout ):void
+		{
+			_layout = layout;
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		override public function get layoutHeight():Number
-		{
-			if( !isNaN( this.preferredHeight ) ) 
+		override protected function afterChildAdded(
+			child:DisplayObject,
+			index:int ):void
+		{	
+			super.afterChildAdded( child, index );
+			if( layout && child )
 			{
-				return this.preferredHeight;
+				layout.added( child, this, index );
+			}	
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function afterChildRemoved(
+			child:DisplayObject,
+			index:int ):void
+		{
+			super.afterChildRemoved( child, index );
+			if( layout && child )
+			{
+				layout.removed( child, this, index );
 			}
-
-			return super.layoutHeight;
 		}
 	}
 }

@@ -20,24 +20,22 @@ package com.ffsys.ui.text
 		* 	Creates a <code>Label</code> instance.
 		* 
 		* 	@param text The text for the label.
-		* 	@param properties Textfield properties to apply to the textfield.
-		* 	@param textfield Textformat properties to apply to the default text
-		* 	format.
+		* 	@param color The color for the text.
 		*/
 		public function Label(
 			text:String = "",
-			properties:Object = null,
-			textformat:Object = null )
+			color:Number = 0x999999 )
 		{
 			super();
 			_textfield = textFieldFactory.constrained(
-				text, properties, textformat );
+				text );
 			_textfield.enabled = false;
 			
 			//offset by the textfield gutter
 			_textfield.x = _textfield.y = -2;
 			
 			this.enabled = false;
+			this.color = color;
 			addChild( _textfield );
 		}
 		
@@ -88,6 +86,20 @@ package com.ffsys.ui.text
 		public function set text( text:String ):void
 		{
 			textfield.setText( text );
+		}
+		
+		/**
+		*	The color for the label.
+		*/
+		public function get color():Number
+		{
+			return Number( textfield.defaultTextFormat.color );
+		}
+		
+		public function set color( color:Number ):void
+		{
+			textfield.textColor = color;
+			textfield.applyTextFormatProperties( { color: color } );
 		}
 	}
 }

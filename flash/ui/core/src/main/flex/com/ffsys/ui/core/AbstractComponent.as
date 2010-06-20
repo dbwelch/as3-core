@@ -4,6 +4,7 @@ package com.ffsys.ui.core
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.geom.Rectangle;
 	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;	
 	
@@ -32,8 +33,7 @@ package com.ffsys.ui.core
 	{	
 		static private var _textFieldFactory:ITextFieldFactory
 			= new TextFieldFactory();
-			
-		private var _layout:ILayout;
+		
 		private var _margins:IMargin = new Margin();
 		private var _paddings:IPadding = new Padding();
 		private var _id:String;
@@ -51,6 +51,9 @@ package com.ffsys.ui.core
 			super();
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get preferredWidth():Number
 		{
 			return _preferredWidth;
@@ -61,6 +64,9 @@ package com.ffsys.ui.core
 			_preferredWidth = val;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get preferredHeight():Number
 		{
 			return _preferredHeight;
@@ -85,22 +91,6 @@ package com.ffsys.ui.core
 		public function set id( id:String ):void
 		{
 			_id = id;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get layout():ILayout
-		{
-			return _layout;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function set layout( layout:ILayout ):void
-		{
-			_layout = layout;
 		}
 		
 		/**
@@ -207,11 +197,6 @@ package com.ffsys.ui.core
 				graphic.draw( width, height );
 			}
 			
-			if( layout && child )
-			{
-				layout.added( child, this, index );
-			}
-			
 			//ensure the background is always the first child
 			if( this.background
 				&& this.contains( DisplayObject( this.background ) )
@@ -285,10 +270,7 @@ package com.ffsys.ui.core
 			child:DisplayObject,
 			index:int ):void
 		{
-			if( layout && child )
-			{
-				layout.removed( child, this, index );
-			}			
+			//
 		}
 		
 		/**
@@ -429,6 +411,38 @@ package com.ffsys.ui.core
 		public function destroy():void
 		{
 			//
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getPaddingRectangle():Rectangle
+		{
+			return new Rectangle(
+				paddings.left,
+				paddings.top,
+				preferredWidth - ( paddings.left + paddings.right ),
+				preferredHeight - ( paddings.top + paddings.bottom ) );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getRectangle():Rectangle
+		{
+			return new Rectangle( 0, 0, this.preferredWidth, this.preferredHeight );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getMarginRectangle():Rectangle
+		{
+			return new Rectangle(
+				-margins.left,
+				-margins.top,
+				preferredWidth + margins.left + margins.right,
+				preferredHeight + margins.top + margins.bottom );
 		}
 		
 		/**

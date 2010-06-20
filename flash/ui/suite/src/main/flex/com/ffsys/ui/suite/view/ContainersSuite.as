@@ -40,6 +40,17 @@ package com.ffsys.ui.suite.view {
 		{
 			createHeading( "Containers Suite (com.ffsys.ui.containers)" );
 			
+			var cell:Cell = new Cell( null, 80, 80 );
+			cell.paddings.padding = 5;
+			cell.margins.margin = 5;
+			cell.background = new RectangleGraphic(
+				cell.preferredWidth,
+				cell.preferredHeight,
+				null, new SolidFill( 0xa9a9a9 ) );
+			cell.addChild( new Label( "Box Model", 0x000000 ) );
+			cell.addChild( new BoxModelComponent() );			
+			addChild( cell );			
+			
 			var hbox:HorizontalBox = new HorizontalBox();
 			hbox.spacing = 10;
 			addChild( hbox );

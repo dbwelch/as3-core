@@ -1,6 +1,7 @@
 package com.ffsys.ui.core {
 	
 	import com.ffsys.ui.graphics.IComponentGraphic;
+	import com.ffsys.ui.layout.IFixedLayout;
 	
 	/**
 	*	Describes the contract for components that serve as a mask.
@@ -11,7 +12,9 @@ package com.ffsys.ui.core {
 	*	@author Mischa Williamson
 	*	@since  19.06.2010
 	*/
-	public interface IMaskComponent extends IComponent {
+	public interface IMaskComponent
+		extends IComponent,
+		 		IFixedLayout {
 		
 		/**
 		*	The graphic that serves as the mask when this

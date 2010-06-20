@@ -60,10 +60,12 @@ package com.ffsys.ui.core
 		*/
 		override public function toString():String
 		{
+			/*
 			if( this.name )
 			{
 				return this.name;
 			}
+			*/
 			
 			return super.toString();
 		}

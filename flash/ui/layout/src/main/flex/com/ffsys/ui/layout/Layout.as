@@ -19,6 +19,7 @@ package com.ffsys.ui.layout
 		private var _verticalSpacing:Number = 0;
 		private var _spacing:Number = 0;
 		private var _size:Number = NaN;
+		private var _collapsed:Boolean;
 		
 		/**
 		* 	Creates an <code>Layout</code> instance.
@@ -103,6 +104,19 @@ package com.ffsys.ui.layout
 		public function set size( size:Number ):void
 		{
 			_size = size;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get collapsed():Boolean
+		{
+			return _collapsed;
+		}
+
+		public function set collapsed( collapsed:Boolean ):void
+		{
+			_collapsed = collapsed;
 		}
 		
 		/**
@@ -230,6 +244,12 @@ package com.ffsys.ui.layout
 			parent:DisplayObjectContainer,
 			index:int ):void
 		{
+			//we never layout fixed layout items
+			if( child is IFixedLayout )
+			{
+				return;
+			}
+			
 			var previous:DisplayObject = getPreviousDisplayObject(
 				parent, index );
 

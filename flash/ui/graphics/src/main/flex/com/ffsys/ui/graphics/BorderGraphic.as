@@ -29,10 +29,16 @@ package com.ffsys.ui.graphics
 		public function BorderGraphic(
 			width:Number = 25,
 			height:Number = 25,
+			streok:IStroke = null,
 			sharp:Boolean = true )
 		{
 			super( width, height );
-			this.stroke = new Stroke();
+			
+			if( !this.stroke )
+			{
+				this.stroke = new Stroke();
+			}
+			
 			this.fill = new SolidFill( stroke.color, stroke.alpha );
 			this.sharp = sharp;
 		}

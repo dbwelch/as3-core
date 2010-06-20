@@ -72,5 +72,13 @@ package com.ffsys.ui.layout
 		function get verticalSpacing():Number;
 		function set verticalSpacing(
 			verticalSpacing:Number ):void;
+			
+		/**
+		*	Determines whether the layout should collapse
+		*	margins for the first and last child when laying
+		*	out child display objects.
+		*/
+		function get collapsed():Boolean;
+		function set collapsed( collapsed:Boolean ):void;
 	}
 }
