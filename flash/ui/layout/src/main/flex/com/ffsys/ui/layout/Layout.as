@@ -66,7 +66,7 @@ package com.ffsys.ui.layout
 				{
 					child = container.getChildAt( i );
 					
-					layoutChildren(
+					layoutChild(
 						child.parent,
 						child,
 						getPreviousDisplayObject( child.parent, child ) );

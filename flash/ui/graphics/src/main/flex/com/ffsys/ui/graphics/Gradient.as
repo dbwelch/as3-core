@@ -1,5 +1,6 @@
 package com.ffsys.ui.graphics {
 	
+	import flash.display.Graphics;
 	import flash.display.GradientType;
 	import flash.display.InterpolationMethod;
 	import flash.display.SpreadMethod;
@@ -25,6 +26,7 @@ package com.ffsys.ui.graphics {
 		private var _spreadMethod:String;
 		private var _interpolationMethod:String;
 		private var _focalPointRatio:Number = 0;
+		private var _angle:Number = 90;
 		
 		/**
 		*	Creates an <code>Gradient</code> instance.
@@ -54,13 +56,6 @@ package com.ffsys.ui.graphics {
 			if( !ratios )
 			{
 				ratios = [ 0, 255 ];
-			}
-			
-			if( !matrix )
-			{
-				matrix = new Matrix();
-				//TODO: implement default linear rotation
-				//matrix.rotate(  );
 			}
 			
 			this.type = type;
@@ -178,6 +173,87 @@ package com.ffsys.ui.graphics {
 			focalPointRatio:Number ):void
 		{
 			_focalPointRatio = focalPointRatio;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get angle():Number
+		{
+			return _angle;
+		}
+		
+		public function set angle( angle:Number ):void
+		{
+			_angle = angle;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function stroke(
+			graphics:Graphics,
+			width:Number,
+			height:Number ):void
+		{
+			if( graphics )
+			{
+				createGradientBox( width, height );
+				
+				graphics.lineGradientStyle(
+					type,
+					colors,
+					alphas,
+					ratios,
+					matrix,
+					spreadMethod,
+					interpolationMethod,
+					focalPointRatio );
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/	
+		public function fill(
+			graphics:Graphics,
+			width:Number,
+			height:Number ):void
+		{
+			if( graphics )
+			{
+				createGradientBox( width, height );
+				
+				graphics.beginGradientFill(
+					type,
+					colors,
+					alphas,
+					ratios,
+					matrix,
+					spreadMethod,
+					interpolationMethod,
+					focalPointRatio );
+			}
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function createGradientBox( width:Number, height:Number ):void
+		{
+			if( !matrix )
+			{
+				matrix = new Matrix();
+			}
+			
+			var radians:Number = 0;
+			
+			if( !isNaN( angle ) )
+			{
+				radians = angle * Math.PI / 180;
+			}
+			
+			matrix.createGradientBox( width, height, radians, 0, 0 );			
 		}
 	}
 }

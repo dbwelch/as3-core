@@ -16,6 +16,7 @@ package com.ffsys.ui.graphics {
 	public class BitmapFill extends Object
 		implements IBitmapFill {
 			
+		private var _angle:Number = 0;
 		private var _bitmap:BitmapData;
 		private var _matrix:Matrix;
 		private var _repeat:Boolean = true;
@@ -94,6 +95,16 @@ package com.ffsys.ui.graphics {
 			_smooth = smooth;
 		}
 		
+		public function get angle():Number
+		{
+			return _angle;
+		}
+		
+		public function set angle( angle:Number ):void
+		{
+			_angle = angle;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
@@ -110,6 +121,15 @@ package com.ffsys.ui.graphics {
 					throw new Error(
 						"Cannot apply a bitmap fill with null bitmap data." );
 				}
+				
+				var radians:Number = angle * Math.PI / 180;
+				
+				if( !matrix )
+				{
+					matrix = new Matrix();
+				}
+				
+				matrix.rotate( radians );
 				
 				graphics.beginBitmapFill(
 					bitmap, matrix, repeat, smooth );

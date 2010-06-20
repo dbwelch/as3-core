@@ -59,7 +59,7 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
-		*	@inheritDoc 
+		*	@inheritDoc
 		*/
 		public function get margins():IMargin
 		{
@@ -79,7 +79,7 @@ package com.ffsys.ui.graphics
 		*/
 		public function get layoutWidth():Number
 		{
-			return this.width;
+			return this.preferredWidth;
 		}
 		
 		/**
@@ -87,7 +87,7 @@ package com.ffsys.ui.graphics
 		*/
 		public function get layoutHeight():Number
 		{
-			return this.height;
+			return this.preferredHeight;
 		}
 		
 		/**

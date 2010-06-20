@@ -216,15 +216,7 @@ package com.ffsys.ui.graphics {
 				//override with the gradient if available
 				if( gradient )
 				{
-					graphics.lineGradientStyle(
-						gradient.type,
-						gradient.colors,
-						gradient.alphas,
-						gradient.ratios,
-						gradient.matrix,
-						gradient.spreadMethod,
-						gradient.interpolationMethod,
-						gradient.focalPointRatio );
+					gradient.stroke( graphics, width, height );
 				}
 			}
 		}

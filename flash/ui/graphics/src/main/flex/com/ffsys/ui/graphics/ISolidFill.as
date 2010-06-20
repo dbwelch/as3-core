@@ -10,7 +10,7 @@ package com.ffsys.ui.graphics {
 	*	@since  20.06.2010
 	*/
 	public interface ISolidFill
-		extends IGraphicElement {
+		extends IFill {
 		
 		/**
 		* 	The color for the fill.

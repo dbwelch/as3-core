@@ -33,7 +33,7 @@ package com.ffsys.ui.graphics
 		{
 			super( width, height );
 			this.stroke = new Stroke();
-			this.fill = new Fill( new SolidFill( stroke.color, stroke.alpha ) );
+			this.fill = new SolidFill( stroke.color, stroke.alpha );
 			this.sharp = sharp;
 		}
 		

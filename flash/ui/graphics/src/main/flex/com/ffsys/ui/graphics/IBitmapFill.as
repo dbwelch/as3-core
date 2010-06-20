@@ -13,7 +13,7 @@ package com.ffsys.ui.graphics {
 	*	@since  20.06.2010
 	*/
 	public interface IBitmapFill
-		extends IGraphicElement {
+		extends IFill {
 		
 		/**
 		*	The bitmap data for the fill.
@@ -39,5 +39,11 @@ package com.ffsys.ui.graphics {
 		*/
 		function get smooth():Boolean;
 		function set smooth( smooth:Boolean ):void;
+		
+		/**
+		*	The angle for the bitmap fill in degrees.	
+		*/
+		function get angle():Number;
+		function set angle( angle:Number ):void;		
 	}
 }

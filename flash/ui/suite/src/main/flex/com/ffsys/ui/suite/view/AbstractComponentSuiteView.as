@@ -26,6 +26,7 @@ package com.ffsys.ui.suite.view {
 		public function AbstractComponentSuiteView()
 		{
 			super();
+			this.spacing = 5;
 		}
 		
 		protected function createHeading(
@@ -35,6 +36,7 @@ package com.ffsys.ui.suite.view {
 			{
 				title = title.toUpperCase();
 				heading = new Label( title );
+				heading.margins.bottom = 10;
 				addChild( heading );
 			}
 			return heading;

@@ -1,5 +1,6 @@
 package com.ffsys.ui.graphics {
 	
+	import flash.display.Graphics;
 	import flash.geom.Matrix;
 	
 	/**
@@ -64,6 +65,38 @@ package com.ffsys.ui.graphics {
 		*/
 		function get focalPointRatio():Number;
 		function set focalPointRatio(
-			focalPointRatio:Number ):void;		
+			focalPointRatio:Number ):void;
+			
+		/**
+		*	The angle in degrees for the gradient.
+		*/
+		function get angle():Number;
+		function set angle( angle:Number ):void;
+		
+		/**
+		*	Applies this gradient as a stroke.
+		*	
+		*	@param graphics The graphics to apply the gradient
+		*	stroke to.
+		*	@param width The width of the shape.
+		*	@param height The height of the shape.	
+		*/
+		function stroke(
+			graphics:Graphics,
+			width:Number,
+			height:Number ):void;
+		
+		/**
+		*	Applies this gradient as a fill.
+		*	
+		*	@param graphics The graphics to apply the gradient
+		*	fill to.
+		*	@param width The width of the shape.
+		*	@param height The height of the shape.	
+		*/		
+		function fill(
+			graphics:Graphics,
+			width:Number,
+			height:Number ):void;		
 	}
 }

@@ -16,15 +16,15 @@ package com.ffsys.ui.graphics
 		* 	Creates a <code>CircleGraphic</code> instance.
 		* 
 		* 	@param diameter The diameter for the circle.
+		*	@param stroke A stroke to use when drawing.
+		*	@param fill A fill to use when drawing.
 		*/
 		public function CircleGraphic(
 			diameter:Number = 25,
 			stroke:IStroke = null,
 			fill:IFill = null )
 		{
-			super( diameter, diameter );
-			this.stroke = stroke;
-			this.fill = fill;
+			super( diameter, diameter, stroke, fill );
 		}
 	}
 }

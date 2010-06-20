@@ -20,5 +20,31 @@ package com.ffsys.ui.containers {
 		{
 			super();
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get layoutWidth():Number
+		{
+			if( !isNaN( this.preferredWidth ) ) 
+			{
+				return this.preferredWidth;
+			}
+
+			return super.layoutWidth;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get layoutHeight():Number
+		{
+			if( !isNaN( this.preferredHeight ) ) 
+			{
+				return this.preferredHeight;
+			}
+
+			return super.layoutHeight;
+		}
 	}
 }
