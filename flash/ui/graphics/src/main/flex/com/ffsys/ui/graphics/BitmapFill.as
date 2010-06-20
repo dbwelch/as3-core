@@ -95,6 +95,9 @@ package com.ffsys.ui.graphics {
 			_smooth = smooth;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function get angle():Number
 		{
 			return _angle;

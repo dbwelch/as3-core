@@ -63,6 +63,9 @@ package com.ffsys.ui.suite.view {
 			addChild( vbox );
 			
 			vbox.spacing = 15;
+
+			var containersSuite:ContainersSuite = new ContainersSuite();
+			vbox.addChild( containersSuite );
 			
 			var graphicsSuite:GraphicsSuite = new GraphicsSuite();
 			vbox.addChild( graphicsSuite );

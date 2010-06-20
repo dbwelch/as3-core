@@ -31,26 +31,35 @@ package com.ffsys.ui.layout
 		/**
 		*	@inheritDoc
 		*/
-		public function added( child:DisplayObject ):void
+		public function added(
+			child:DisplayObject,
+			parent:DisplayObjectContainer,
+			index:int ):void
 		{
-			layoutChildren( [ child ] );
+			dolayoutChild( child, parent, index );
 				
-			var next:Array = getNextDisplayObjects( child );
+			var next:Array = getNextDisplayObjects( parent, index );
 			if( next.length > 0 )
 			{
-				layoutChildren( next );
+				layoutChildren( next, parent, index );
 			}
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function removed( child:DisplayObject ):void
+		public function removed(
+			child:DisplayObject,
+			parent:DisplayObjectContainer,
+			index:int ):void
 		{
-			var next:Array = getNextDisplayObjects( child );
+			var next:Array = getNextDisplayObjects( parent, index > 0 ? index - 1 : index );
+			
+			trace("Layout::removed(), index/numChildren/next/next length: ", index, parent.numChildren, next, next.length );
+			
 			if( next.length > 0 )
 			{
-				layoutChildren( next );
+				layoutChildren( next, parent, index + 1 );
 			}
 		}
 		
@@ -65,11 +74,7 @@ package com.ffsys.ui.layout
 				for( var i:int = 0;i < container.numChildren;i++ )
 				{
 					child = container.getChildAt( i );
-					
-					layoutChild(
-						child.parent,
-						child,
-						getPreviousDisplayObject( child.parent, child ) );
+					dolayoutChild( child, container, i );
 				}
 			}
 		}
@@ -148,10 +153,8 @@ package com.ffsys.ui.layout
 		*/
 		protected function getPreviousDisplayObject(
 			parent:DisplayObjectContainer,
-			child:DisplayObject ):DisplayObject
+			index:int ):DisplayObject
 		{
-			var index:int = parent.getChildIndex( child );
-			
 			if( index > 0 )
 			{
 				return parent.getChildAt( index - 1 );
@@ -169,10 +172,8 @@ package com.ffsys.ui.layout
 		*/
 		protected function getNextDisplayObject(
 			parent:DisplayObjectContainer,
-			child:DisplayObject ):DisplayObject
+			index:int ):DisplayObject
 		{
-			var index:int = parent.getChildIndex( child );
-			
 			if( index < ( parent.numChildren - 1 ) )
 			{
 				return parent.getChildAt( index + 1 );
@@ -181,45 +182,69 @@ package com.ffsys.ui.layout
 			return null;
 		}
 		
-		protected function layoutChildren( children:Array ):void
+		protected function layoutChildren(
+			children:Array,
+			parent:DisplayObjectContainer,
+			index:int ):void
 		{
 			var child:DisplayObject = null;
 			for( var i:int = 0;i < children.length;i++ )
 			{
 				child = DisplayObject( children[ i ] );
-				layoutChild(
-					child.parent,
-					child,
-					getPreviousDisplayObject( child.parent, child ) );		
+				dolayoutChild( child, parent, index );
 			}
 		}
 		
-		protected function getNextDisplayObjects( child:DisplayObject ):Array
+		protected function getNextDisplayObjects(
+			parent:DisplayObjectContainer, index:int ):Array
 		{
 			var output:Array = new Array();
 			
-			var index:int = child.parent.getChildIndex( child ) + 1;
+			index++;
 			
-			for( ;index < child.parent.numChildren;index++ )
+			for( ;index < parent.numChildren;index++ )
 			{
-				output.push( child.parent.getChildAt( index ) );
+				output.push( parent.getChildAt( index ) );
 			}
 			
 			return output;
 		}
 		
-		protected function getPreviousDisplayObjects( child:DisplayObject ):Array
+		protected function getPreviousDisplayObjects(
+			parent:DisplayObjectContainer, index:int ):Array
 		{
 			var output:Array = new Array();
 			
-			var index:int = child.parent.getChildIndex( child ) - 1;
+			index--;
 			
 			for( ;index >= 0;index-- )
 			{
-				output.push( child.parent.getChildAt( index ) );
+				output.push( parent.getChildAt( index ) );
 			}
 			
 			return output;
+		}
+		
+		private function dolayoutChild(
+			child:DisplayObject,
+			parent:DisplayObjectContainer,
+			index:int ):void
+		{
+			var previous:DisplayObject = getPreviousDisplayObject(
+				parent, index );
+
+			trace("Layout::dolayoutChild(), parent/child/previous ", parent, child, previous );
+			
+			if( previous )
+			{
+				trace("Layout::dolayoutChild(), ", previous.x, previous.y,
+					previous.parent.getChildIndex( previous ) );
+			}
+			
+			layoutChild(
+				parent,
+				child,
+				previous );
 		}
 	}
 }

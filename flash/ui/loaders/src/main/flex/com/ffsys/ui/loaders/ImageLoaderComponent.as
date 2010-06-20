@@ -54,10 +54,7 @@ package com.ffsys.ui.loaders
 			var display:DisplayObject = DisplayObject( evt.image );
 			DisplayObjectContainer( container ).addChild( display );
 			
-			if( this.border )
-			{
-				this.border.draw( this.width, this.height );
-			}
+			super.loadComplete( event );
 		}
 	}
 }

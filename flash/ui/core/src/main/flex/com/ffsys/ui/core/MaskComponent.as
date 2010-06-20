@@ -5,6 +5,11 @@ package com.ffsys.ui.core {
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.graphics.RectangleGraphic;
 	
+	import com.ffsys.ui.layout.IMargin;
+	import com.ffsys.ui.layout.IPadding;
+	import com.ffsys.ui.layout.Margin;
+	import com.ffsys.ui.layout.Padding;
+	
 	/**
 	*	A component to serve specifically to be used as a mask.
 	*	
@@ -39,6 +44,38 @@ package com.ffsys.ui.core {
 			_graphic = new RectangleGraphic( width, height );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
+		}
+		
+		/**
+		*	Overriden to prevent inclusion in layouts.	
+		*/
+		override public function get layoutWidth():Number
+		{
+			return 0;
+		}
+		
+		/**
+		*	Overriden to prevent inclusion in layouts.	
+		*/
+		override public function get layoutHeight():Number
+		{
+			return 0;
+		}
+		
+		/**
+		*	Overriden to always have zero margins.	
+		*/
+		override public function get margins():IMargin
+		{
+			return new Margin();
+		}
+		
+		/**
+		*	Overriden to always have zero paddings.	
+		*/
+		override public function get paddings():IPadding
+		{
+			return new Padding();
 		}
 		
 		/**

@@ -54,5 +54,18 @@ package com.ffsys.ui.core
 			removeEventListener( Event.REMOVED_FROM_STAGE, removed );
 			destroy();
 		}
+		
+		/**
+		*	Gets a string representation of this component.	
+		*/
+		override public function toString():String
+		{
+			if( this.name )
+			{
+				return this.name;
+			}
+			
+			return super.toString();
+		}
 	}
 }

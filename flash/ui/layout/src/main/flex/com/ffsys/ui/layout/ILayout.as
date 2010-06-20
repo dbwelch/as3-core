@@ -19,15 +19,25 @@ package com.ffsys.ui.layout
 		*	Invoked when a child is added.
 		*	
 		*	@param child The display object that was added.
+		*	@param parent The parent display object container.
+		*	@param index The child index.
 		*/
-		function added( child:DisplayObject ):void;
+		function added(
+			child:DisplayObject,
+			parent:DisplayObjectContainer,
+			index:int ):void;
 		
 		/**
 		*	Invoked when a child is removed.
 		*	
 		*	@param child The display object that was removed.
+		*	@param parent The parent display object container.
+		*	@param index The child index.
 		*/
-		function removed( child:DisplayObject ):void;
+		function removed(
+			child:DisplayObject,
+			parent:DisplayObjectContainer,
+			index:int ):void;
 		
 		/**
 		*	Perform a full layout update of the target display

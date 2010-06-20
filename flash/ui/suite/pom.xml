@@ -23,7 +23,7 @@
 			<artifactId>ui</artifactId>
 			<version>${ffsys.lib.version}</version>
 			<type>swc</type>
-		</dependency>
+		</dependency>		
 	</dependencies>
 	<build>
 		<plugins>

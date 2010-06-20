@@ -10,6 +10,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.ISprite;
 	
 	import com.ffsys.ui.graphics.IComponentDraw;
+	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
 	import com.ffsys.ui.layout.ILayoutWidth;
@@ -49,6 +50,18 @@ package com.ffsys.ui.core
 		* 	The text field factory used to create textfields.
 		*/
 		function get textFieldFactory():ITextFieldFactory;
+	
+		/**
+		*	A border graphic for the component.
+		*/
+		function get border():IComponentGraphic;
+		function set border( border:IComponentGraphic ):void;
+	
+		/**
+		*	A background graphic for the component.
+		*/
+		function get background():IComponentGraphic;
+		function set background( background:IComponentGraphic ):void;		
 		
 		/**
 		* 	Gets a runtime asset by fully qualified class path.

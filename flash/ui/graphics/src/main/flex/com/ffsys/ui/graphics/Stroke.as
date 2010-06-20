@@ -32,7 +32,7 @@ package com.ffsys.ui.graphics {
 		*/
 		public function Stroke(
 			thickness:Number = 1,
-			color:uint = 0x999999,
+			color:uint = 0xffffff,
 			alpha:Number = 1,
 			pixelHinting:Boolean = false,
 			scaleMode:String = LineScaleMode.NORMAL,

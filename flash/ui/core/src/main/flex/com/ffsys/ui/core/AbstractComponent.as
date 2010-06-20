@@ -40,6 +40,9 @@ package com.ffsys.ui.core
 		private var _preferredWidth:Number = 25;
 		private var _preferredHeight:Number = 25;
 		
+		private var _border:IComponentGraphic;
+		private var _background:IComponentGraphic;
+		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
 		*/
@@ -138,24 +141,92 @@ package com.ffsys.ui.core
 		override public function addChild(
 			child:DisplayObject ):DisplayObject
 		{
-			super.addChild( child );
+			var shouldAdd:Boolean = beforeChildAdded( child, numChildren );
+			if( shouldAdd )
+			{
+				super.addChild( child );
+				afterChildAdded( child, numChildren - 1 );
+			}
+			return child;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function addChildAt(
+			child:DisplayObject, index:int ):DisplayObject
+		{
+			var shouldAdd:Boolean = beforeChildAdded( child, index );
+			if( shouldAdd )
+			{
+				super.addChildAt( child, index );
+				afterChildAdded( child, index );
+			}			
 			
+			return child;
+		}
+		
+		/**
+		*	Invoked before a child is added.
+		*	
+		*	@param child The child to be added.
+		*	@param index The index the child will be 
+		*	added at.
+		*	
+		*	@return Whether the child should be added.
+		*/
+		protected function beforeChildAdded(
+			child:DisplayObject, index:int ):Boolean
+		{
+			return true;
+		}
+		
+		/**
+		*	Invoked after a child has been added.
+		*	
+		*	@param child The child that was added.	
+		*	@param index The index of the child.
+		*/
+		protected function afterChildAdded(
+			child:DisplayObject,
+			index:int ):void
+		{
 			//graphics with no visible area should be drawn
 			//at the preferred dimensions
 			if( child is IComponentGraphic
 				&& ( child.width == 0 && child.height == 0 ) )
 			{
-				IComponentGraphic( child ).draw();
+				var graphic:IComponentGraphic = IComponentGraphic( child );
+				
+				var width:Number = isNaN( graphic.preferredWidth )
+					? this.preferredWidth : graphic.preferredWidth;
+					
+				var height:Number = isNaN( graphic.preferredHeight )
+					? this.preferredHeight : graphic.preferredHeight;
+					
+				graphic.draw( width, height );
 			}
-			
-			//trace("AbstractComponent::addChild(), ", child );
 			
 			if( layout && child )
 			{
-				layout.added( child );
+				layout.added( child, this, index );
 			}
 			
-			return child;
+			//ensure the background is always the first child
+			if( this.background
+				&& this.contains( DisplayObject( this.background ) )
+				&& numChildren > 1 )
+			{
+				this.setChildIndex( DisplayObject( this.background ), 0 );
+			}
+			
+			//ensure the border is always the last child
+			if( this.border
+				&& this.contains( DisplayObject( this.border ) )
+				&& numChildren > 1 )
+			{
+				this.setChildIndex( DisplayObject( this.border ), this.numChildren - 1 );
+			}
 		}
 		
 		/**
@@ -164,18 +235,61 @@ package com.ffsys.ui.core
 		override public function removeChild(
 			child:DisplayObject ):DisplayObject
 		{
+			var index:int = this.getChildIndex( child );
+			var shouldRemove:Boolean = beforeChildRemoved( child, index );
 			
-			//trace("AbstractComponent::removeChild(), ", child );
-			
+			if( shouldRemove )
+			{
+				super.removeChild( child );
+				afterChildRemoved( child, index );
+			}
+			return child;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function removeChildAt(
+			index:int ):DisplayObject
+		{
+			var child:DisplayObject = getChildAt( index );
+			var shouldRemove:Boolean = beforeChildRemoved( child, index );
+			if( shouldRemove )
+			{			
+				super.removeChildAt( index );
+				afterChildRemoved( child, index );
+			}
+			return child;
+		}
+		
+		/**
+		*	Invoked before a child is removed.
+		*	
+		*	@param child The child to be removed.
+		*	@param index The index of the child.
+		*	
+		*	@return Whether the child should be added.
+		*/
+		protected function beforeChildRemoved(
+			child:DisplayObject, index:int ):Boolean
+		{
+			return true;
+		}
+		
+		/**
+		*	Invoked after a child has been added.
+		*	
+		*	@param child The child that was added.	
+		*/
+		protected function afterChildRemoved(
+			child:DisplayObject,
+			index:int ):void
+		{
 			if( layout && child )
 			{
-				layout.removed( child );
-			}
-			
-			super.removeChild( child );
-			
-			return child;
-		}		
+				layout.removed( child, this, index );
+			}			
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -183,6 +297,52 @@ package com.ffsys.ui.core
 		public function get textFieldFactory():ITextFieldFactory
 		{
 			return _textFieldFactory;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get border():IComponentGraphic
+		{
+			return _border;
+		}
+		
+		public function set border( border:IComponentGraphic ):void
+		{
+			if( this.border && contains( this.border as DisplayObject ) )
+			{
+				removeChild( DisplayObject( this.border ) );
+			}
+			
+			_border = border;
+			
+			if( this.border )
+			{
+				addChild( DisplayObject( this.border ) );
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get background():IComponentGraphic
+		{
+			return _background;
+		}
+
+		public function set background( background:IComponentGraphic ):void
+		{
+			if( this.background && contains( this.background as DisplayObject ) )
+			{
+				removeChild( DisplayObject( this.background ) );
+			}
+
+			_background = background;
+
+			if( this.background )
+			{
+				addChild( DisplayObject( this.background ) );
+			}
 		}
 		
 		/**

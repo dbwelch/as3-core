@@ -8,7 +8,7 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.ui.text.*;
 	
 	/**
-	*	Represents a view for the text functionality.
+	*	Represents a view for the buttons.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -43,9 +43,6 @@ package com.ffsys.ui.suite.view {
 				new TextButton( "A Text Button" ) );
 			
 			addChild( hbox );
-			
-			//vbox.addChild( single );
-			//vbox.addChild( constrained );
 		}
 	}
 }

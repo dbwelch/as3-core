@@ -26,7 +26,6 @@ package com.ffsys.ui.loaders
 		private var _container:IComponent;
 		private var _loader:ILoader;
 		private var _deferred:Boolean = false;
-		private var _border:IComponentGraphic;
 	
 		/**
 		* 	Creates an <code>AbstractLoaderComponent</code> instance.
@@ -54,26 +53,6 @@ package com.ffsys.ui.loaders
 		public function get container():IComponent
 		{
 			return _container;
-		}
-		
-		public function get border():IComponentGraphic
-		{
-			return _border;
-		}
-		
-		public function set border( border:IComponentGraphic ):void
-		{
-			if( this.border && contains( this.border as DisplayObject ) )
-			{
-				removeChild( DisplayObject( this.border ) );
-			}
-			
-			_border = border;
-			
-			if( this.border )
-			{
-				addChild( DisplayObject( this.border ) );
-			}
 		}
 		
 		/**
@@ -223,6 +202,16 @@ package com.ffsys.ui.loaders
 			
 			//cleanup the listeners
 			removeLoaderListeners();
+			
+			if( this.border )
+			{
+				this.border.draw( this.width, this.height );
+			}
+		
+			if( this.background )
+			{
+				this.background.draw( this.width, this.height );
+			}
 		}
 		
 	}

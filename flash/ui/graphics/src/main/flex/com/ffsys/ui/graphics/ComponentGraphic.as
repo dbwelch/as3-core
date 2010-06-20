@@ -79,7 +79,9 @@ package com.ffsys.ui.graphics
 		*/
 		public function get layoutWidth():Number
 		{
-			return this.preferredWidth;
+			//return this.preferredWidth;
+			
+			return this.getRect( this.parent ).width;
 		}
 		
 		/**
@@ -87,7 +89,9 @@ package com.ffsys.ui.graphics
 		*/
 		public function get layoutHeight():Number
 		{
-			return this.preferredHeight;
+			//return this.preferredHeight;
+			
+			return this.getRect( this.parent ).height;
 		}
 		
 		/**

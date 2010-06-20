@@ -28,8 +28,7 @@ package com.ffsys.ui.buttons
 		override protected function onMouseDown(
 			event:MouseEvent ):void
 		{
-			trace( "AbstractButton::onMouseDown()",
-				interactive, buttonMode, mouseEnabled, mouseChildren, useHandCursor );
+			//
 		}
 		
 		/**

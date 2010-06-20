@@ -35,12 +35,16 @@ package com.ffsys.ui.suite.view {
 			
 			var loader:ImageLoaderComponent =
 				new ImageLoaderComponent( "assets/images/mock/amazon.jpg" );
+			loader.preferredWidth = 192;
+			loader.preferredHeight = 112;
 			loader.border = new BorderGraphic();
 			loader.border.stroke.thickness = 5;
+			loader.background = new RectangleGraphic(
+				loader.preferredWidth,
+				loader.preferredHeight,
+				null, new SolidFill( 0xa9a9a9 ) );
 			canvas.addChild( loader );
-			
 			addChild( canvas );
-			
 			canvas.clipped = false;			
 		}
 	}
