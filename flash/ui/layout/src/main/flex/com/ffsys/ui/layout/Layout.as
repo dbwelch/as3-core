@@ -17,6 +17,8 @@ package com.ffsys.ui.layout
 	{
 		private var _horizontalSpacing:Number = 0;
 		private var _verticalSpacing:Number = 0;
+		private var _horizontalAlign:String;
+		private var _verticalAlign:String;	
 		private var _spacing:Number = 0;
 		private var _size:Number = NaN;
 		private var _collapsed:Boolean;
@@ -28,6 +30,32 @@ package com.ffsys.ui.layout
 		{
 			super();
 		}
+		
+		/**
+		*	Horizontal alignment associated with this layout.
+		*/
+		public function get horizontalAlign():String
+		{
+			return _horizontalAlign;
+		}
+		
+		public function set horizontalAlign( value:String ):void
+		{
+			_horizontalAlign = value;
+		}
+		
+		/**
+		*	Vertical alignment associated with this layout.
+		*/
+		public function get verticalAlign():String
+		{
+			return _verticalAlign;
+		}
+		
+		public function set verticalAlign( value:String ):void
+		{
+			_verticalAlign = value;
+		}		
 		
 		/**
 		*	@inheritDoc

@@ -1,6 +1,7 @@
 package com.ffsys.ui.graphics
 {
 	import flash.display.Shape;
+	import flash.geom.Point;
 	
 	import com.ffsys.ui.common.IMargin;
 	import com.ffsys.ui.common.IPadding;	
@@ -276,5 +277,29 @@ package com.ffsys.ui.graphics
 			}
 			return false;
 		}
+		
+		/**
+		*	Draws a line to the point in the
+		*	graphics of this shape.
+		*/
+		protected function lineTo( point:Point ):void
+		{
+			if( point )
+			{
+				graphics.lineTo( point.x, point.y );
+			}
+		}
+		
+		/**
+		*	Moves drawing to the point specified in the
+		*	graphics of this shape.
+		*/
+		protected function moveTo( point:Point ):void
+		{
+			if( point )
+			{
+				graphics.moveTo( point.x, point.y );
+			}
+		}		
 	}
 }

@@ -2,8 +2,19 @@ package com.ffsys.ui.graphics
 {
 	/**
 	*	Draws a rounded rectangle using the standard
-	*	drawing api when no corners have been omitted
-	*	.
+	*	drawing api when no corners have been specified
+	*	otherwise uses a custom drawing routine to enable
+	*	the ability to only draw certain corners.
+	*	
+	*	This class implementation first checks for any
+	*	custom corners, if so a custom drawing routine is
+	*	used, otherwise if the corner width and height have been
+	*	specified to non-zero values the usual flash
+	*	drawing API method is invoked with the corner
+	*	width and height used as the ellipse width and height.
+	*	
+	*	Finally, if no valid corner values are found a plain
+	*	rectangle will be drawn.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -11,11 +22,8 @@ package com.ffsys.ui.graphics
 	*	@author Mischa Williamson
 	*	@since  21.06.2010
 	*/
-	public class RoundedRectangleGraphic extends RectangleGraphic
+	public class RoundedRectangleGraphic extends CornerAwareRectangleGraphic
 	{
-		private var _ellipseWidth:Number;
-		private var _ellipseHeight:Number;
-		
 		/**
 		* 	Creates a <code>RoundedRectangleGraphic</code> instance.
 		* 
@@ -23,46 +31,18 @@ package com.ffsys.ui.graphics
 		* 	@param height The height of the rectangle.
 		*	@param stroke The stroke for the rectangle.
 		*	@param fill The fill for the stroke.
+		*	@param cornerWidth The width of the corner.
+		*	@param cornerHeight The height of the corner.
 		*/
 		public function RoundedRectangleGraphic(
 			width:Number = 25,
 			height:Number = 25,
 			stroke:IStroke = null,
 			fill:IFill = null,
-			ellipseWidth:Number = 2,
-			ellipseHeight:Number = NaN )
+			cornerWidth:Number = 2,
+			cornerHeight:Number = NaN )
 		{
-			super( width, height, stroke, fill );
-			this.ellipseWidth = ellipseWidth;
-			this.ellipseHeight = ellipseHeight;
-		}
-		
-		/**
-		*	The width of the ellipse to use when drawing
-		*	the rounded corners.	
-		*/
-		public function get ellipseWidth():Number
-		{
-			return _ellipseWidth;
-		}
-		
-		public function set ellipseWidth( value:Number ):void
-		{
-			_ellipseWidth = value;
-		}
-		
-		/**
-		*	The height of the ellipse to use when drawing
-		*	the rounded corners.
-		*/
-		public function get ellipseHeight():Number
-		{
-			return _ellipseHeight;
-		}
-		
-		public function set ellipseHeight( value:Number ):void
-		{
-			_ellipseHeight = value;
+			super( width, height, stroke, fill, cornerWidth, cornerWidth );
 		}
 		
 		/**
@@ -70,7 +50,10 @@ package com.ffsys.ui.graphics
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			graphics.drawRoundRect( tx, ty, width, height, ellipseWidth, ellipseHeight );
+			if( hasCorners() )
+			{
+				//TODO: implement
+			}
 		}
 	}
 }

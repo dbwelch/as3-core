@@ -50,9 +50,14 @@ package com.ffsys.ui.suite.view {
 			
 			//stroke but no fill
 			layoutGraphics( hbox, width, height, stroke, null );
+
 			
 			//stroke and fill
 			layoutGraphics( hbox, width, height, stroke, fill );
+			
+			hbox = new HorizontalBox();
+			hbox.spacing = 10;
+			addChild( hbox );
 			
 			//fill but no stroke
 			layoutGraphics( hbox, width, height, null, fill );
@@ -86,6 +91,10 @@ package com.ffsys.ui.suite.view {
 			layoutGraphics( hbox, width, height, null, composite );
 			
 			composite.bitmap = bitmap;
+			
+			hbox = new HorizontalBox();
+			hbox.spacing = 10;
+			addChild( hbox );
 			
 			//composite all default layers
 			layoutGraphics( hbox, width, height, null, composite );
@@ -131,14 +140,129 @@ package com.ffsys.ui.suite.view {
 				fill );
 			hbox.addChild( DisplayObject( graphic ) );
 			
-			graphic = new RoundedRectangleGraphic(
+			
+			var bevel:BevelRectangleGraphic = null;
+			
+			//straight bevel
+			graphic = new BevelRectangleGraphic(
 				width,
 				height,
 				stroke,
 				fill,
-				10,
-				10 );
+				4,
+				4 );
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//top left only
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				6,
+				6 );
+				
+			bevel = BevelRectangleGraphic( graphic );
+			bevel.solo( 0 );
+			
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//top right only
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				6,
+				6 );
+				
+			bevel = BevelRectangleGraphic( graphic );
+			bevel.solo( 1 );
+			
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//bottom right only
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				6,
+				6 );
+				
+			bevel = BevelRectangleGraphic( graphic );
+			bevel.solo( 2 );
+			
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//bottom left only
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				6,
+				6 );
+				
+			bevel = BevelRectangleGraphic( graphic );
+			bevel.solo( 3 );									
+				
 			hbox.addChild( DisplayObject( graphic ) );			
+			
+			//top corners only
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				6,
+				6 );
+				
+			bevel = BevelRectangleGraphic( graphic );
+			bevel.corners[ 2 ].reset();									
+			bevel.corners[ 3 ].reset();
+			
+			hbox.addChild( DisplayObject( graphic ) );	
+			
+			//bottom corners only
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				6,
+				6 );
+				
+			bevel = BevelRectangleGraphic( graphic );
+			bevel.corners[ 0 ].reset();					
+			bevel.corners[ 1 ].reset();
+			
+			hbox.addChild( DisplayObject( graphic ) );	
+			
+			//opposite corners only
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				6,
+				6 );
+				
+			bevel = BevelRectangleGraphic( graphic );
+			bevel.corners[ 1 ].reset();					
+			bevel.corners[ 3 ].reset();
+				
+			hbox.addChild( DisplayObject( graphic ) );			
+			
+			//make a bevel appear as a diamond shape
+			graphic = new BevelRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				width / 2,
+				height / 2 );
+			hbox.addChild( DisplayObject( graphic ) );				
 
 			graphic = new CircleGraphic(
 				width,
@@ -152,7 +276,7 @@ package com.ffsys.ui.suite.view {
 				stroke,
 				fill );
 			cell = new Cell( new Graphic( graphic ), width, height );
-			hbox.addChild( cell );
+			hbox.addChild( cell );	
 		}
 	}
 }

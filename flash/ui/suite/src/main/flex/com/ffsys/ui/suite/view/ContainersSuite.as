@@ -5,6 +5,7 @@ package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.buttons.*;	
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.display.*;
@@ -40,7 +41,75 @@ package com.ffsys.ui.suite.view {
 		{
 			createHeading( "Containers Suite (com.ffsys.ui.containers)" );
 			
+			var hbox:HorizontalBox = new HorizontalBox();
+			hbox.spacing = 10;
+			addChild( hbox );	
+			
+			var lbl:Label = null;	
+			
 			var cell:Cell = new Cell( null, 80, 80 );
+			cell.paddings.padding = 5;
+			cell.margins.margin = 5;
+			cell.background = new RectangleGraphic(
+				cell.preferredWidth,
+				cell.preferredHeight,
+				null, new SolidFill( 0xa9a9a9 ) );
+				
+			lbl = new Label( "Box Model" );
+			lbl.color = 0x000000;
+			cell.addChild( lbl );
+			cell.addChild( new BoxModelComponent() );
+			hbox.addChild( cell );
+			
+			cell = new Cell( null, 80, 80 );
+			cell.paddings.padding = 5;
+			cell.margins.margin = 5;
+			cell.background = new RectangleGraphic(
+				cell.preferredWidth,
+				cell.preferredHeight,
+				null, new SolidFill( 0xa9a9a9 ) );
+				
+			lbl = new Label( "Box Model" );
+			lbl.color = 0x000000;
+			cell.layout.horizontalAlign = Edges.LEFT;
+			cell.layout.verticalAlign = Edges.TOP;
+			cell.addChild( lbl );
+			cell.addChild( new BoxModelComponent() );
+			hbox.addChild( cell );
+			
+			cell = new Cell( null, 80, 80 );
+			cell.paddings.padding = 5;
+			cell.margins.margin = 5;
+			cell.background = new RectangleGraphic(
+				cell.preferredWidth,
+				cell.preferredHeight,
+				null, new SolidFill( 0xa9a9a9 ) );
+				
+			lbl = new Label( "Box Model" );
+			lbl.color = 0x000000;
+			cell.layout.horizontalAlign = Edges.RIGHT;
+			cell.layout.verticalAlign = Edges.TOP;
+			cell.addChild( lbl );
+			cell.addChild( new BoxModelComponent() );
+			hbox.addChild( cell );
+			
+			cell = new Cell( null, 80, 80 );
+			cell.paddings.padding = 5;
+			cell.margins.margin = 5;
+			cell.background = new RectangleGraphic(
+				cell.preferredWidth,
+				cell.preferredHeight,
+				null, new SolidFill( 0xa9a9a9 ) );
+				
+			lbl = new Label( "Box Model" );
+			lbl.color = 0x000000;
+			cell.layout.horizontalAlign = Edges.RIGHT;
+			cell.layout.verticalAlign = Edges.BOTTOM;
+			cell.addChild( lbl );
+			cell.addChild( new BoxModelComponent() );
+			hbox.addChild( cell );
+			
+			cell = new Cell( null, 80, 80 );
 			cell.paddings.padding = 5;
 			cell.margins.margin = 5;
 			cell.background = new RectangleGraphic(
@@ -50,11 +119,13 @@ package com.ffsys.ui.suite.view {
 				
 			var lbl:Label = new Label( "Box Model" );
 			lbl.color = 0x000000;
+			cell.layout.horizontalAlign = Edges.LEFT;
+			cell.layout.verticalAlign = Edges.BOTTOM;
 			cell.addChild( lbl );
-			cell.addChild( new BoxModelComponent() );			
-			addChild( cell );			
+			cell.addChild( new BoxModelComponent() );
+			hbox.addChild( cell );			
 			
-			var hbox:HorizontalBox = new HorizontalBox();
+			hbox = new HorizontalBox();
 			hbox.spacing = 10;
 			addChild( hbox );
 			

@@ -60,6 +60,18 @@ package com.ffsys.ui.layout
 		function set size( size:Number ):void;
 		
 		/**
+		*	Horizontal alignment associated with this layout.
+		*/
+		function get horizontalAlign():String;
+		function set horizontalAlign( value:String ):void;
+		
+		/**
+		*	Vertical alignment associated with this layout.
+		*/
+		function get verticalAlign():String;
+		function set verticalAlign( value:String ):void;
+		
+		/**
 		*	The horizontal spacing for the layout.
 		*/
 		function get horizontalSpacing():Number;

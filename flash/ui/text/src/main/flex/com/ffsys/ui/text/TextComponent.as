@@ -122,7 +122,7 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutWidth():Number
 		{
-			if( textfield )
+			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
 				return textfield.textWidth;
 			}
@@ -135,7 +135,7 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutHeight():Number
 		{
-			if( textfield )
+			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
 				return textfield.textHeight;
 			}			

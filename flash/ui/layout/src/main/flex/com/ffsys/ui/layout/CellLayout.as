@@ -4,6 +4,7 @@ package com.ffsys.ui.layout
 	import flash.display.DisplayObjectContainer;
 	
 	import com.ffsys.ui.common.Edges;
+	import com.ffsys.ui.common.IPaddingAware;
 	
 	/**
 	*	Handles laying out the content of a cell.
@@ -19,9 +20,6 @@ package com.ffsys.ui.layout
 	*/
 	public class CellLayout extends Layout
 	{	
-		private var _horizontalAlign:String;
-		private var _verticalAlign:String;	
-		
 		/**
 		* 	Creates a <code>CellLayout</code> instance.
 		*	
@@ -38,32 +36,6 @@ package com.ffsys.ui.layout
 		}
 		
 		/**
-		*	The horizontal alignment for the cell.
-		*/
-		public function get horizontalAlign():String
-		{
-			return _horizontalAlign;
-		}
-		
-		public function set horizontalAlign( value:String ):void
-		{
-			_horizontalAlign = value;
-		}
-		
-		/**
-		*	The vertical alignment for the cell.	
-		*/
-		public function get verticalAlign():String
-		{
-			return _verticalAlign;
-		}
-		
-		public function set verticalAlign( value:String ):void
-		{
-			_verticalAlign = value;
-		}
-		
-		/**
 		*	@inheritDoc	
 		*/
 		override protected function layoutChild(
@@ -76,6 +48,24 @@ package com.ffsys.ui.layout
 			
 			var parentWidth:Number = parent.width;
 			var parentHeight:Number = parent.height;
+			
+			var padded:IPaddingAware = parent as IPaddingAware;
+			
+			var pl:Number = 0;			
+			var pt:Number = 0;
+			var pr:Number = 0;
+			var pb:Number = 0;
+			
+			if( padded )
+			{
+				pl = padded.paddings.left;
+				pt = padded.paddings.top;
+				pr = padded.paddings.right;
+				pb = padded.paddings.bottom;
+			}
+			
+			x = pl;
+			y = pt;			
 			
 			var childWidth:Number = child.width;
 			var childHeight:Number = child.height;
@@ -103,11 +93,17 @@ package com.ffsys.ui.layout
 			if( this.horizontalAlign == Edges.CENTER )
 			{
 				x = ( parentWidth / 2 ) - ( childWidth / 2 );
+			}else if( this.horizontalAlign == Edges.RIGHT )
+			{
+				x = parentWidth - ( childWidth + pr );
 			}
 			
 			if( this.verticalAlign == Edges.CENTER )
 			{
 				y = ( parentHeight / 2 ) - ( childHeight / 2 );
+			}else if( this.verticalAlign == Edges.BOTTOM )
+			{
+				y = parentHeight - ( childHeight + pb );
 			}
 			
 			child.x = x;
