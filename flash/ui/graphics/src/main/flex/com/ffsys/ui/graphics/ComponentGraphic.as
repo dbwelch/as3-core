@@ -2,10 +2,10 @@ package com.ffsys.ui.graphics
 {
 	import flash.display.Shape;
 	
-	import com.ffsys.ui.layout.IMargin;
-	import com.ffsys.ui.layout.IPadding;	
-	import com.ffsys.ui.layout.Margin;
-	import com.ffsys.ui.layout.Padding;
+	import com.ffsys.ui.common.IMargin;
+	import com.ffsys.ui.common.IPadding;	
+	import com.ffsys.ui.common.Margin;
+	import com.ffsys.ui.common.Padding;
 	
 	/**
 	*	Abstract super class for component graphics.

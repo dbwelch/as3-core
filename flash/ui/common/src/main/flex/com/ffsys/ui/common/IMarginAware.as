@@ -1,4 +1,4 @@
-package com.ffsys.ui.layout {
+package com.ffsys.ui.common {
 	
 	/**
 	*	Describes the contract for a component that

@@ -11,10 +11,11 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	
 	import com.ffsys.ui.layout.ILayout;
-	import com.ffsys.ui.layout.IMargin;
-	import com.ffsys.ui.layout.IPadding;
-	import com.ffsys.ui.layout.Margin;
-	import com.ffsys.ui.layout.Padding;
+	
+	import com.ffsys.ui.common.IMargin;
+	import com.ffsys.ui.common.IPadding;
+	import com.ffsys.ui.common.Margin;
+	import com.ffsys.ui.common.Padding;
 	
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;	

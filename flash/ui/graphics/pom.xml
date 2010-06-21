@@ -12,7 +12,6 @@
 	<name>graphics</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
-	
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
@@ -25,6 +24,6 @@
 			<artifactId>layout</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>
+		</dependency>		
 	</dependencies>
 </project>

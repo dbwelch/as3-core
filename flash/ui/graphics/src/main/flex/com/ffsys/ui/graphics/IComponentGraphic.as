@@ -2,8 +2,9 @@ package com.ffsys.ui.graphics
 {	
 	import com.ffsys.ui.common.flash.IShape;
 	
-	import com.ffsys.ui.layout.IMarginAware;
-	import com.ffsys.ui.layout.IPaddingAware;
+	import com.ffsys.ui.common.IMarginAware;
+	import com.ffsys.ui.common.IPaddingAware;
+	
 	import com.ffsys.ui.layout.ILayoutWidth;
 	import com.ffsys.ui.layout.ILayoutHeight;
 	

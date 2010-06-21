@@ -1,4 +1,4 @@
-package com.ffsys.ui.layout {
+package com.ffsys.ui.common {
 	
 	import flash.events.EventDispatcher;
 	
@@ -13,6 +13,31 @@ package com.ffsys.ui.layout {
 	*/
 	public class Edges extends EventDispatcher
 		implements IEdges {
+			
+		/**
+		*	Represents a left edge.	
+		*/
+		public static const LEFT:String = "left";
+		
+		/**
+		*	Represents a top edge.	
+		*/
+		public static const TOP:String = "top";	
+
+		/**
+		*	Represents a right edge.	
+		*/
+		public static const RIGHT:String = "right";
+		
+		/**
+		*	Represents a bottom edge.
+		*/
+		public static const BOTTOM:String = "bottom";
+		
+		/**
+		*	Represents the center point of an edge.
+		*/
+		public static const CENTER:String = "center";
 		
 		protected var _left:Number = 0;
 		protected var _top:Number = 0;

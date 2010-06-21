@@ -16,8 +16,8 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.layout.ILayout;
 	import com.ffsys.ui.layout.ILayoutWidth;
 	import com.ffsys.ui.layout.ILayoutHeight;
-	import com.ffsys.ui.layout.IMarginAware;
-	import com.ffsys.ui.layout.IPaddingAware;
+	import com.ffsys.ui.common.IMarginAware;
+	import com.ffsys.ui.common.IPaddingAware;
 	
 	/**
 	*	Describes the contract for all components.

@@ -3,6 +3,8 @@ package com.ffsys.ui.layout
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
+	import com.ffsys.ui.common.IMarginAware;
+	
 	/**
 	*	Handles laying out components in a vertical
 	*	manner.

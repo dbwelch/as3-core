@@ -3,6 +3,8 @@ package com.ffsys.ui.layout
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
+	import com.ffsys.ui.common.Edges;
+	
 	/**
 	*	Handles laying out the content of a cell.
 	*	
@@ -27,8 +29,8 @@ package com.ffsys.ui.layout
 		*	@param verticalAlign The vertical alignment.
 		*/
 		public function CellLayout(
-			horizontalAlign:String = Align.CENTER,
-			verticalAlign:String = Align.CENTER )
+			horizontalAlign:String = Edges.CENTER,
+			verticalAlign:String = Edges.CENTER )
 		{
 			super();
 			this.horizontalAlign = horizontalAlign;
@@ -92,12 +94,12 @@ package com.ffsys.ui.layout
 				childHeight = ILayoutHeight( child ).layoutHeight;
 			}
 			
-			if( this.horizontalAlign == Align.CENTER )
+			if( this.horizontalAlign == Edges.CENTER )
 			{
 				x = ( parentWidth / 2 ) - ( childWidth / 2 );
 			}
 			
-			if( this.verticalAlign == Align.CENTER )
+			if( this.verticalAlign == Edges.CENTER )
 			{
 				y = ( parentHeight / 2 ) - ( childHeight / 2 );
 			}
