@@ -39,7 +39,7 @@ package com.ffsys.ui.core
 		private var _id:String;
 		private var _preferredWidth:Number = 25;
 		private var _preferredHeight:Number = 25;
-		
+		private var _extra:Object;
 		private var _border:IComponentGraphic;
 		private var _background:IComponentGraphic;
 		
@@ -49,6 +49,19 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get extra():Object
+		{
+			return _extra;
+		}
+		
+		public function set extra( extra:Object ):void
+		{
+			_extra = extra;
 		}
 		
 		/**

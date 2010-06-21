@@ -71,6 +71,12 @@ package com.ffsys.ui.core
 		function set background( background:IComponentGraphic ):void;
 		
 		/**
+		* 	Extra custom data to associate with the component.
+		*/
+		function get extra():Object;
+		function set extra( extra:Object ):void;
+		
+		/**
 		*	Gets a rectangle that represents the inner
 		*	area inside any padding settings.	
 		*/

@@ -36,12 +36,38 @@ package com.ffsys.ui.text
 			this.maximumHeight = maximumHeight;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override protected function createChildren():void
 		{
 			if( textfield )
 			{
 				addChild( DisplayObject( textfield ) );
 			}
+		}
+		
+		/**
+		* 	Determines whether this text component is interactive.
+		* 
+		* 	When a text component is interactive it behaves as a
+		* 	button.
+		*/
+		public function get interactive():Boolean
+		{
+			return this.enabled;
+		}
+		
+		public function set interactive( interactive:Boolean ):void
+		{
+			enabled = interactive;
+			buttonMode = interactive;
+			useHandCursor = interactive;
+			mouseEnabled = interactive;
+			
+			//we never mouse children to prevent the textfield
+			//capturing events
+			mouseChildren = false;
 		}
 		
 		/**

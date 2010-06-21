@@ -33,17 +33,28 @@ package com.ffsys.ui.graphics
 			stroke:IStroke = null,
 			sharp:Boolean = true )
 		{
-			super( width, height, stroke );
-			
-			if( !this.stroke )
+			if( !stroke )
 			{
-				this.stroke = new Stroke();
+				stroke = new Stroke();
 			}
 			
-			this.fill = new SolidFill(
-				this.stroke.color,
-				this.stroke.alpha );
+			super( width, height, stroke );
 			this.sharp = sharp;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function set stroke( stroke:IStroke ):void
+		{
+			super.stroke = stroke;
+			
+			if( this.stroke )
+			{
+				this.fill = new SolidFill(
+					this.stroke.color,
+					this.stroke.alpha );
+			}
 		}
 		
 		/**
