@@ -1,6 +1,6 @@
 package com.ffsys.ui.loaders
 {
-	import flash.display.DisplayObject;
+	import flash.display.Sprite;
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	
@@ -56,7 +56,11 @@ package com.ffsys.ui.loaders
 			event:ILoadEvent ):void
 		{
 			var evt:ImageLoadEvent = ImageLoadEvent( event );
-			var display:DisplayObject = DisplayObject( evt.image );
+			var display:Sprite = Sprite( evt.image );
+			
+			display.mouseEnabled = false;
+			mouseChildren = false;
+			
 			DisplayObjectContainer( container ).addChild( display );
 			
 			super.loadComplete( event );

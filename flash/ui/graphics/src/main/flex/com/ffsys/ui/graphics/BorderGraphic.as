@@ -31,6 +31,7 @@ package com.ffsys.ui.graphics
 			width:Number = 25,
 			height:Number = 25,
 			stroke:IStroke = null,
+			fill:IFill = null,
 			sharp:Boolean = true )
 		{
 			if( !stroke )
@@ -38,7 +39,7 @@ package com.ffsys.ui.graphics
 				stroke = new Stroke();
 			}
 			
-			super( width, height, stroke );
+			super( width, height, stroke, fill );
 			this.sharp = sharp;
 		}
 		
@@ -49,7 +50,7 @@ package com.ffsys.ui.graphics
 		{
 			super.stroke = stroke;
 			
-			if( this.stroke )
+			if( sharp && this.stroke && !this.fill )
 			{
 				this.fill = new SolidFill(
 					this.stroke.color,
@@ -86,28 +87,36 @@ package com.ffsys.ui.graphics
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			if( sharp && stroke && stroke.thickness > 0 )
+			if( sharp && stroke )
 			{
+				var thickness:Number = stroke.thickness;
+				
+				//handle hairline strokes
+				if( thickness == 0 )
+				{
+					thickness = 0.5;
+				}
+				
 				//top
 				graphics.drawRect( 
 					tx, ty,
-					width, stroke.thickness );
+					width, thickness );
 
 				//right
 				graphics.drawRect(
-					tx + ( width - stroke.thickness ),
-					ty + stroke.thickness,
-					stroke.thickness,
-					height - ( stroke.thickness * 2 ) );
+					tx + ( width - thickness ),
+					ty + thickness,
+					thickness,
+					height - ( thickness * 2 ) );
 
 				//bottom
 				graphics.drawRect(
-					tx, ty + ( height - stroke.thickness ),
-					width, stroke.thickness );
+					tx, ty + ( height - thickness ),
+					width, thickness );
 
 				//left
-				graphics.drawRect( tx, ty + stroke.thickness,
-					stroke.thickness, height - ( stroke.thickness * 2 ) );
+				graphics.drawRect( tx, ty + thickness,
+					thickness, height - ( thickness * 2 ) );
 			}else
 			{
 				graphics.drawRect( tx, ty, width, height );
