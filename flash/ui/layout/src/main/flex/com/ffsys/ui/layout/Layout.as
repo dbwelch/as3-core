@@ -253,12 +253,15 @@ package com.ffsys.ui.layout
 			var previous:DisplayObject = getPreviousDisplayObject(
 				parent, index );
 
-			trace("Layout::dolayoutChild(), parent/child/previous ", parent, child, previous );
+			//trace("Layout::dolayoutChild(), parent/child/previous ", parent, child, previous );
 			
 			if( previous )
 			{
+				
+				/*
 				trace("Layout::dolayoutChild(), ", previous.x, previous.y,
 					previous.parent.getChildIndex( previous ) );
+				*/
 			}
 			
 			layoutChild(

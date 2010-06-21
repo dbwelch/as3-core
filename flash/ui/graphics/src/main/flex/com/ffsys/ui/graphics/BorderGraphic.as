@@ -24,22 +24,25 @@ package com.ffsys.ui.graphics
 		* 
 		* 	@param width The width of the rectangle.
 		* 	@param height The height of the rectangle.
+		* 	@param stroke The stroke for the border.
 		*	@param sharp Whether sharp corners should be drawm.
 		*/
 		public function BorderGraphic(
 			width:Number = 25,
 			height:Number = 25,
-			streok:IStroke = null,
+			stroke:IStroke = null,
 			sharp:Boolean = true )
 		{
-			super( width, height );
+			super( width, height, stroke );
 			
 			if( !this.stroke )
 			{
 				this.stroke = new Stroke();
 			}
 			
-			this.fill = new SolidFill( stroke.color, stroke.alpha );
+			this.fill = new SolidFill(
+				this.stroke.color,
+				this.stroke.alpha );
 			this.sharp = sharp;
 		}
 		

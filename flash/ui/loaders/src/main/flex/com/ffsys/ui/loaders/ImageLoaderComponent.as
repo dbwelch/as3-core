@@ -31,17 +31,22 @@ package com.ffsys.ui.loaders
 		/**
 		* 	Creates an <code>ImageLoaderComponent</code> instance.
 		* 
-		* 	@param uri The URI to the image to load.
+		* 	@param urls An array of images to load into the image loader.
 		* 	@param deferred Whether the load operation should be
 		* 	deferred until the load method is invoked manually.
 		*/
 		public function ImageLoaderComponent(
-			uri:String,
-			deferred:Boolean = false )
+			urls:Array )
 		{
-			var loader:ILoader = new ImageLoader(
-				new URLRequest( uri ) );
-			super( loader, deferred );
+			super( urls );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function getLoader( url:String ):ILoader
+		{
+			return new ImageLoader( new URLRequest( url ) );
 		}
 		
 		/**

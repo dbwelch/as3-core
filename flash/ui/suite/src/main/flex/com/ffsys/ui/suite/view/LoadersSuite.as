@@ -34,7 +34,7 @@ package com.ffsys.ui.suite.view {
 			var canvas:Canvas = new Canvas( 100, 100, true );
 			
 			var loader:ImageLoaderComponent =
-				new ImageLoaderComponent( "assets/images/mock/amazon.jpg" );
+				new ImageLoaderComponent( [ "assets/images/mock/amazon.jpg" ] );
 			loader.preferredWidth = 192;
 			loader.preferredHeight = 112;
 			loader.border = new BorderGraphic();
@@ -45,7 +45,12 @@ package com.ffsys.ui.suite.view {
 				null, new SolidFill( 0xa9a9a9 ) );
 			canvas.addChild( loader );
 			addChild( canvas );
-			canvas.clipped = false;			
+			
+			//test switching off canvas clipping
+			canvas.clipped = false;	
+			
+			//load the first url
+			loader.load();
 		}
 	}
 }

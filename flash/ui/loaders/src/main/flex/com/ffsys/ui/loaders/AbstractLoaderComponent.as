@@ -25,26 +25,28 @@ package com.ffsys.ui.loaders
 	{
 		private var _container:IComponent;
 		private var _loader:ILoader;
-		private var _deferred:Boolean = false;
+		private var _urls:Array;
+		private var _deferred:Boolean = true;
 	
 		/**
 		* 	Creates an <code>AbstractLoaderComponent</code> instance.
 		* 
-		* 	@param loader The loader responsible for loading the runtime
-		* 	asset.
-		* 	@param deferred Whether the load process is deferred until the
-		* 	user calls the load method. The default behaviour is for the load
-		* 	process to start when the loader component is added to the display list.
+		* 	@param urls An array of urls to load.
 		*/
-		public function AbstractLoaderComponent(
-			loader:ILoader,
-			deferred:Boolean = false )
+		public function AbstractLoaderComponent( urls:Array = null )
 		{
 			super();
-			_container = new UIComponent();
-			addChild( DisplayObject( _container ) );
-			_loader = loader;
-			_deferred = deferred;
+			this.urls = urls;
+		}
+		
+		public function get urls():Array
+		{
+			return _urls;
+		}
+		
+		public function set urls( urls:Array ):void
+		{
+			_urls = urls;
 		}
 		
 		/**
@@ -76,15 +78,12 @@ package com.ffsys.ui.loaders
 		*/
 		public function get uri():String
 		{
-			return loader.uri;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function set uri( uri:String ):void
-		{
-			loader.uri = uri;
+			if( loader )
+			{
+				return loader.uri;
+			}
+			
+			return null;
 		}
 		
 		/**
@@ -95,11 +94,42 @@ package com.ffsys.ui.loaders
 			return _loader;
 		}
 		
+		public function hasUrls():Boolean
+		{
+			return ( this.urls != null ) && ( this.urls.length > 0 );
+		}
+		
+		/**
+		* 	Gets the loader used to load the runtime asset.
+		* 
+		* 	@param url The url to load.
+		* 
+		*	@return The loader that is responsible for loading
+		* 	the asset.
+		*/
+		protected function getLoader( url:String ):ILoader
+		{
+			throw new Error( "You must implement the get loader method in your concrete implementation." );
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
 		public function load():void
 		{
+			if( !hasUrls() )
+			{
+				throw new Error( "Cannot load with no urls." );
+			}
+			
+			//TODO: update this to be based on current index
+			var url:String = this.urls[ 0 ];
+			
+			if( !loader )
+			{
+				_loader = getLoader( url );
+			}
+			
 			removeLoaderListeners();
 			addLoaderListeners();
 				
@@ -112,7 +142,10 @@ package com.ffsys.ui.loaders
 		*/
 		override protected function createChildren():void
 		{
-			if( !deferred && !loader.loading )
+			_container = new UIComponent();
+			addChild( DisplayObject( _container ) );			
+			
+			if( !deferred )
 			{
 				load();
 			}

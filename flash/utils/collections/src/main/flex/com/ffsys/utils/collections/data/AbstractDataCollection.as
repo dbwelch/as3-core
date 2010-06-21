@@ -131,12 +131,22 @@ package com.ffsys.utils.collections.data {
 		*/
 		public function getCollectionById( id:String ):IDataCollection
 		{
-		
 			if( id == this.id )
 			{
 				return this;
 			}
-		
+			
+			
+			//look in our parent collection
+			
+			/*
+			if( collection )
+			{
+				return collection.getCollectionById( id );
+			}			
+			*/
+			
+			//look in child collections
 			var child:IDataCollection = null;
 			var nested:IDataCollection = null;
 			for each( child in _children )
@@ -146,12 +156,6 @@ package com.ffsys.utils.collections.data {
 				{
 					return nested;
 				}
-			}
-			
-			//look in our parent collection
-			if( collection )
-			{
-				return collection.getCollectionById( id );
 			}
 			
 			return null;

@@ -15,9 +15,6 @@ package com.ffsys.ui.text.core {
 	*/
 	public class ConstrainedSingleLineTextField extends SingleLineTextField {
 		
-		private var _maximumWidth:Number;
-		private var _maximumHeight:Number;
-		
 		/**
 		*	Creates a <code>ConstrainedSingleLineTextField</code> instance.
 		*	
@@ -33,39 +30,6 @@ package com.ffsys.ui.text.core {
 			textformat:Object = null )
 		{
 			super( text, properties, textformat );
-		}
-		
-		/**
-		* 	The maximum number of pixels wide this textfield
-		* 	can be before it is converted to a multiline textfield.
-		*/
-		public function get maximumWidth():Number
-		{
-			return _maximumWidth;
-		}
-		
-		public function set maximumWidth( maximumWidth:Number ):void
-		{
-			_maximumWidth = maximumWidth;
-			//force a redraw
-			setText( getText() );
-		}
-		
-		/**
-		* 	The maximum number of pixels high this textfield
-		* 	can be before it stops automatically resizing vertically.
-		* 
-		* 	This only applies after the maximum width has been reached
-		* 	and the textfield has been converted to multiline.
-		*/
-		public function get maximumHeight():Number
-		{
-			return _maximumHeight;
-		}
-		
-		public function set maximumHeight( maximumHeight:Number ):void
-		{
-			_maximumHeight = maximumHeight;
 		}
 		
 		/**

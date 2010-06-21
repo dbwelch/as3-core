@@ -47,7 +47,10 @@ package com.ffsys.ui.suite.view {
 				cell.preferredWidth,
 				cell.preferredHeight,
 				null, new SolidFill( 0xa9a9a9 ) );
-			cell.addChild( new Label( "Box Model", 0x000000 ) );
+				
+			var lbl:Label = new Label( "Box Model" );
+			lbl.color = 0x000000;
+			cell.addChild( lbl );
 			cell.addChild( new BoxModelComponent() );			
 			addChild( cell );			
 			

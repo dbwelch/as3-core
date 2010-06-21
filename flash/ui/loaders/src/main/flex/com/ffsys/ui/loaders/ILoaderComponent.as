@@ -3,7 +3,6 @@ package com.ffsys.ui.loaders
 	import com.ffsys.io.loaders.core.ILoader;
 	
 	import com.ffsys.ui.core.IComponent;
-	import com.ffsys.ui.graphics.IComponentGraphic;
 
 	public interface ILoaderComponent
 	{
@@ -13,16 +12,10 @@ package com.ffsys.ui.loaders
 		function get container():IComponent;
 		
 		/**
-		* 	A border graphic to place on top of the loaded asset.
+		*	The an array of URLs to load the runtime assets from.
 		*/
-		function get border():IComponentGraphic;
-		function set border( border:IComponentGraphic ):void;
-		
-		/**
-		*	The URI to load the runtime asset from.
-		*/
-		function get uri():String;
-		function set uri( uri:String ):void;
+		function get urls():Array;
+		function set urls( urls:Array ):void;
 		
 		/**
 		* 	Determines whether the load process has been deferred

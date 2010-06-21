@@ -122,10 +122,50 @@ package com.ffsys.ui.text.core {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getTextFieldByClass(
+			clazz:Class,
+			text:String = "",
+			properties:Object = null,
+			textformat:Object = null ):ITypedTextField
+		{
+			var textfield:ITypedTextField = getTextFieldInstance( clazz, text );
+			applyProperties( textfield, properties, textformat );
+			return textfield;
+		}
+		
+		private function getTextFieldInstance( clazz:Class, text:String = "" ):ITypedTextField
+		{
+			var instance:Object = null;
+			
+			if( clazz == null )
+			{
+				throw new Error( "Cannot instantiate a factory textfield with a null class." );
+			}
+			
+			try
+			{
+				instance = new clazz( text );
+			}catch( e:Error )
+			{
+				throw new Error( "Could not instantiate a factory textfield from class '"
+				 	+ clazz + "'." );
+			}
+			
+			if( !( instance is ITypedTextField ) )
+			{
+				throw new Error( "Textfield instance does not adhere to the textfield contract." );
+			}
+			
+			return ITypedTextField( instance );
+		}
+		
+		/**
 		*	@private	
 		*/
 		private function applyProperties(
-			txt:ITextField,
+			txt:ITypedTextField,
 			properties:Object,
 			textformat:Object ):void
 		{

@@ -23,7 +23,25 @@ package com.ffsys.ui.text.core
 		*	The default properties to apply to the textformat.	
 		*/
 		function get defaultTextFormatProperties():Object;
-		function set defaultTextFormatProperties( properties:Object ):void;		
+		function set defaultTextFormatProperties( properties:Object ):void;
+		
+		/**
+		* 	Gets a textfield implmentation based on the class
+		* 	of the textfield.
+		* 
+		* 	@param clazz The class of textfield to instantiate.
+		* 	@param text The text for the textfield.
+		* 	@param properties Properties to apply to the textfield.
+		* 	@param textformat Properties to apply to the default text
+		* 	format of the textfield.
+		* 
+		* 	@return The textfield instance.
+		*/
+		function getTextFieldByClass(
+			clazz:Class,
+			text:String = "",
+			properties:Object = null,
+			textformat:Object = null ):ITypedTextField;
 		
 		/**
 		*	Creates a single line textfield.

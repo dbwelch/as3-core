@@ -1,6 +1,5 @@
 package com.ffsys.ui.text
 {
-	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.text.core.ConstrainedSingleLineTextField;
 
 	/**
@@ -12,94 +11,29 @@ package com.ffsys.ui.text
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class Label extends UIComponent
-	{
-		private var _textfield:ConstrainedSingleLineTextField;
-		
+	public class Label extends TextComponent
+	{		
 		/**
 		* 	Creates a <code>Label</code> instance.
 		* 
-		* 	@param text The text for the label.
-		* 	@param color The color for the text.
+		* 	@param text The text for the textfield.
+		* 	@param maximumWidth The maximum width for the textfield.
+		* 	@param maximumHeight The maximum height for the textfield.
 		*/
 		public function Label(
 			text:String = "",
-			color:Number = 0x999999 )
+			maximumWidth:Number = NaN,
+			maximumHeight:Number = NaN )
 		{
-			super();
-			_textfield = textFieldFactory.constrained(
-				text );
-			_textfield.enabled = false;
-			
-			//offset by the textfield gutter
-			_textfield.x = _textfield.y = -2;
-			
-			this.enabled = false;
-			this.color = color;
-			addChild( _textfield );
+			super( text, maximumWidth, maximumHeight );
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		override public function get layoutWidth():Number
+		override protected function getTextFieldClass():Class
 		{
-			return this.width - 4;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function get layoutHeight():Number
-		{
-			return this.height - 4;
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function set enabled( enabled:Boolean ):void
-		{
-			super.enabled = enabled;
-			this.textfield.enabled = enabled;
-		}
-		
-		/**
-		* 	Gets the textfield this label is using to render text.
-		*/
-		public function get textfield():ConstrainedSingleLineTextField
-		{
-			return _textfield;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get text():String
-		{
-			return textfield.getText();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function set text( text:String ):void
-		{
-			textfield.setText( text );
-		}
-		
-		/**
-		*	The color for the label.
-		*/
-		public function get color():Number
-		{
-			return Number( textfield.defaultTextFormat.color );
-		}
-		
-		public function set color( color:Number ):void
-		{
-			textfield.textColor = color;
-			textfield.applyTextFormatProperties( { color: color } );
+			return ConstrainedSingleLineTextField;
 		}
 	}
 }

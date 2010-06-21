@@ -1,8 +1,9 @@
 package com.ffsys.ui.text.core
 {
-	
 	import com.ffsys.core.IBitmapGrab;
 	import com.ffsys.core.IEnabled;
+	
+	import com.ffsys.ui.common.ITextField;
 	
 	/**
 	*	Describes the contract for textfield sub classes.
@@ -13,8 +14,9 @@ package com.ffsys.ui.text.core
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public interface ITextField
-		extends IBitmapGrab,
+	public interface ITypedTextField
+		extends ITextField,
+				IBitmapGrab,
 				IEnabled
 	{
 		/**
@@ -22,6 +24,23 @@ package com.ffsys.ui.text.core
 		*/
 		function get html():Boolean;
 		function set html( html:Boolean ):void;
+		
+		/**
+		* 	The maximum number of pixels wide this textfield
+		* 	can be before it is converted to a multiline textfield.
+		*/
+		function get maximumWidth():Number;
+		function set maximumWidth( maximumWidth:Number ):void;
+		
+		/**
+		* 	The maximum number of pixels high this textfield
+		* 	can be before it stops automatically resizing vertically.
+		* 
+		* 	This only applies after the maximum width has been reached
+		* 	and the textfield has been converted to multiline.
+		*/
+		function get maximumHeight():Number;
+		function set maximumHeight( maximumHeight:Number ):void;
 		
 		/**
 		* 	Sets the text of this textfield.

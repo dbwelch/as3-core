@@ -17,7 +17,7 @@ package com.ffsys.ui.common {
 	*	@author Mischa Williamson
 	*	@since  20.06.2010
 	*/
-	public interface IDisplayObjectContainer extends IDisplayObject {
+	public interface IDisplayObjectContainer extends IInteractiveObject {
 		
 		function get mouseChildren():Boolean;
 		function set mouseChildren(value:Boolean):void;

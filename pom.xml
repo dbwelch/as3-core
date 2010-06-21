@@ -176,6 +176,7 @@
 				</dependencies>
 				<extensions>true</extensions>
 				<configuration>
+					<targetPlayer>10</targetPlayer>
 					<debug>false</debug>
 					<locales>
 						<locale>en_US</locale>
