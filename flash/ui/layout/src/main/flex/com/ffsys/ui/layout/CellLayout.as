@@ -20,7 +20,7 @@ package com.ffsys.ui.layout
 	public class CellLayout extends Layout
 	{	
 		private var _horizontalAlign:String;
-		private var _verticalAlign:String;
+		private var _verticalAlign:String;	
 		
 		/**
 		* 	Creates a <code>CellLayout</code> instance.
@@ -37,6 +37,9 @@ package com.ffsys.ui.layout
 			this.verticalAlign = verticalAlign;
 		}
 		
+		/**
+		*	The horizontal alignment for the cell.
+		*/
 		public function get horizontalAlign():String
 		{
 			return _horizontalAlign;
@@ -47,6 +50,9 @@ package com.ffsys.ui.layout
 			_horizontalAlign = value;
 		}
 		
+		/**
+		*	The vertical alignment for the cell.	
+		*/
 		public function get verticalAlign():String
 		{
 			return _verticalAlign;
@@ -106,6 +112,9 @@ package com.ffsys.ui.layout
 			
 			child.x = x;
 			child.y = y;
+			
+			trace("CellLayout::layoutChild(), ",
+				child, parentWidth, parentHeight, childWidth, childHeight, x, y );
 		}
 	}
 }

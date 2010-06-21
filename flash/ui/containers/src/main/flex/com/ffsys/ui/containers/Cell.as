@@ -7,8 +7,13 @@ package com.ffsys.ui.containers {
 	
 	/**
 	*	Represents a cell that can position
-	*	a single child component to the center or
+	*	a child components to the center or
 	*	to an edge.
+	*	
+	*	Typically this would be used with a single
+	*	component although if you add more children
+	*	to this container they will also obey this
+	*	cell's layout.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -23,7 +28,7 @@ package com.ffsys.ui.containers {
 		/**
 		*	Creates a <code>Cell</code> instance.
 		*	
-		*	@param content The cell contents.
+		*	@param content The initial content for the cell.
 		*	@param width The preferred width of the cell.
 		*	@param height The preferred height of the cell.
 		*/

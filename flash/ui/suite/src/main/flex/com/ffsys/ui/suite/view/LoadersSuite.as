@@ -37,14 +37,25 @@ package com.ffsys.ui.suite.view {
 				new ImageLoaderComponent( [ "assets/images/mock/amazon.jpg" ] );
 			loader.preferredWidth = 192;
 			loader.preferredHeight = 112;
-			loader.border = new BorderGraphic();
-			loader.border.stroke.thickness = 5;
+			loader.border = new BorderGraphic(
+				loader.preferredWidth,
+				loader.preferredHeight,
+				new Stroke( 2, 0xa9a9a9 ),
+				new SolidFill( 0xa9a9a9, 1 ) );
 			loader.background = new RectangleGraphic(
 				loader.preferredWidth,
 				loader.preferredHeight,
 				null, new SolidFill( 0xa9a9a9 ) );
 			canvas.addChild( loader );
 			addChild( canvas );
+			
+			/*
+			loader.border = new BorderGraphic(
+				loader.preferredWidth,
+				loader.preferredHeight,
+				new Stroke( 2, 0x958e6c ),
+				new SolidFill( 0x958e6c, 1 ) );
+			*/
 			
 			//test switching off canvas clipping
 			canvas.clipped = false;	

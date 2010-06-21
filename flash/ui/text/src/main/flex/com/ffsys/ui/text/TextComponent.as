@@ -16,7 +16,7 @@ package com.ffsys.ui.text
 	*/
 	public class TextComponent extends UIComponent
 	{
-		private var _textfield:ITypedTextField;		
+		private var _textfield:ITypedTextField;
 		
 		/**
 		*	Creates a <code>TextComponent</code> instance.
@@ -32,6 +32,7 @@ package com.ffsys.ui.text
 		{
 			super();
 			createTextField( text );
+			addChild( DisplayObject( _textfield ) );
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
 		}
@@ -41,10 +42,12 @@ package com.ffsys.ui.text
 		*/
 		override protected function createChildren():void
 		{
-			if( textfield )
+			/*
+			if( textfield && !contains( DisplayObject( textfield ) ) )
 			{
 				addChild( DisplayObject( textfield ) );
 			}
+			*/
 		}
 		
 		/**
@@ -119,7 +122,12 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutWidth():Number
 		{
-			return this.width - 4;
+			if( textfield )
+			{
+				return textfield.textWidth;
+			}
+			
+			return this.width == 0 ? 0 : this.width - 4;
 		}
 		
 		/**
@@ -127,7 +135,12 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutHeight():Number
 		{
-			return this.height - 4;
+			if( textfield )
+			{
+				return textfield.textHeight;
+			}			
+			
+			return this.height == 0 ? 0 : this.height - 4;
 		}		
 		
 		/**
@@ -186,7 +199,6 @@ package com.ffsys.ui.text
 		*/
 		protected function createTextField( text:String ):ITypedTextField
 		{
-			
 			_textfield = textFieldFactory.getTextFieldByClass(
 				getTextFieldClass(), text );
 			_textfield.enabled = false;
@@ -194,8 +206,8 @@ package com.ffsys.ui.text
 			//offset by the textfield gutter
 			_textfield.x = _textfield.y = -2;
 			
-			return _textfield;			
-		}		
+			return _textfield;
+		}
 		
 		/**
 		* 	Gets the class of textfield to instantiate.
@@ -204,7 +216,8 @@ package com.ffsys.ui.text
 		*/
 		protected function getTextFieldClass():Class
 		{
-			throw new Error( "You must specify the textfield class in your concrete implementation." );
+			throw new Error(
+				"You must specify the textfield class in your concrete implementation." );
 		}
 	}
 }

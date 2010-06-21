@@ -138,6 +138,8 @@ package com.ffsys.ui.layout
 		*/
 		public function get verticalSpacing():Number
 		{
+			//TODO: remove debug
+			//return 0;
 			return _verticalSpacing;
 		}
 		

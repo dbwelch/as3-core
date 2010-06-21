@@ -34,11 +34,6 @@ package com.ffsys.ui.graphics
 			fill:IFill = null,
 			sharp:Boolean = true )
 		{
-			if( !stroke )
-			{
-				stroke = new Stroke();
-			}
-			
 			super( width, height, stroke, fill );
 			this.sharp = sharp;
 		}
@@ -49,6 +44,8 @@ package com.ffsys.ui.graphics
 		override public function set stroke( stroke:IStroke ):void
 		{
 			super.stroke = stroke;
+			
+			trace("BorderGraphic::stroke(), ", stroke );
 			
 			if( sharp && this.stroke && !this.fill )
 			{
@@ -97,6 +94,8 @@ package com.ffsys.ui.graphics
 					thickness = 0.5;
 				}
 				
+				trace("BorderGraphic::doDraw(), ", tx, ty, width, thickness );
+				
 				//top
 				graphics.drawRect( 
 					tx, ty,
@@ -108,7 +107,6 @@ package com.ffsys.ui.graphics
 					ty + thickness,
 					thickness,
 					height - ( thickness * 2 ) );
-
 				//bottom
 				graphics.drawRect(
 					tx, ty + ( height - thickness ),
