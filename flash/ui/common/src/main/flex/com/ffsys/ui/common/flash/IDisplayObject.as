@@ -1,4 +1,4 @@
-package com.ffsys.ui.common {
+package com.ffsys.ui.common.flash {
 	
 	import flash.accessibility.AccessibilityProperties;
 	import flash.display.DisplayObject;

@@ -8,7 +8,7 @@ package com.ffsys.ui.core
 	import com.ffsys.core.IEnabled;
 	import com.ffsys.core.IStringIdentifier;
 	
-	import com.ffsys.ui.common.ISprite;
+	import com.ffsys.ui.common.flash.ISprite;
 	
 	import com.ffsys.ui.graphics.IComponentDraw;
 	import com.ffsys.ui.graphics.IComponentGraphic;

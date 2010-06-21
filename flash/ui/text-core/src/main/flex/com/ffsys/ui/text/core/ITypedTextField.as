@@ -3,7 +3,7 @@ package com.ffsys.ui.text.core
 	import com.ffsys.core.IBitmapGrab;
 	import com.ffsys.core.IEnabled;
 	
-	import com.ffsys.ui.common.ITextField;
+	import com.ffsys.ui.common.flash.ITextField;
 	
 	/**
 	*	Describes the contract for textfield sub classes.
