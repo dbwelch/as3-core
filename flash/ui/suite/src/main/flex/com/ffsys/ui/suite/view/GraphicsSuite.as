@@ -34,8 +34,8 @@ package com.ffsys.ui.suite.view {
 		{
 			createHeading( "Graphics Suite (com.ffsys.ui.graphics)" );
 			
-			var width:Number = 25;
-			var height:Number = 25;			
+			var width:Number = 32;
+			var height:Number = 32;			
 			
 			var hbox:HorizontalBox = new HorizontalBox();
 			hbox.spacing = 10;
@@ -364,6 +364,16 @@ package com.ffsys.ui.suite.view {
 			cornerAware = CornerAwareRectangleGraphic( graphic );
 			cornerAware.corners[ 1 ].reset();					
 			cornerAware.corners[ 3 ].reset();
+			hbox.addChild( DisplayObject( graphic ) );	
+			
+			//make nearly circular
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill,
+				width * 0.5,
+				height * 0.5 );
 			hbox.addChild( DisplayObject( graphic ) );							
 		}
 	}

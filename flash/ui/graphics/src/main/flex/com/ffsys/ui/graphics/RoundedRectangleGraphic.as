@@ -44,6 +44,7 @@ package com.ffsys.ui.graphics
 			cornerWidth:Number = 4,
 			cornerHeight:Number = 4 )
 		{
+			trace("RoundedRectangleGraphic::init(), ", cornerWidth, cornerHeight );
 			super( width, height, stroke, fill, cornerWidth, cornerWidth );
 		}
 		
