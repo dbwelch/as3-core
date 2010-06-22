@@ -195,6 +195,7 @@ package com.ffsys.ui.core
 			child:DisplayObject,
 			index:int ):void
 		{
+			
 			//graphics with no visible area should be drawn
 			//at the preferred dimensions
 			if( child is IComponentGraphic
@@ -226,7 +227,7 @@ package com.ffsys.ui.core
 			{
 				this.setChildIndex( DisplayObject( this.border ), this.numChildren - 1 );
 			}
-		}
+		}	
 		
 		/**
 		*	@inheritDoc	

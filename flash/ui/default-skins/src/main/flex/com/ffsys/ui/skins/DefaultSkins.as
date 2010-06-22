@@ -26,6 +26,7 @@ package com.ffsys.ui.skins
 			var main:IViewState = null;
 			var skin:IComponentSkin = null;
 			
+			/*
 			skin = new ComponentSkin();
 			main = new IconBackgroundState();
 			IconBackgroundState( main ).background = new RectangleGraphic();
@@ -33,6 +34,7 @@ package com.ffsys.ui.skins
 			skin.states.main = main;
 			
 			addComponentClassSkin( IconButton, skin );
+			*/
 		}
 	}
 }

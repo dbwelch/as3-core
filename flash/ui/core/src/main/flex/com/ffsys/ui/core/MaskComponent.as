@@ -49,16 +49,16 @@ package com.ffsys.ui.core {
 			return _graphic;
 		}
 		
-		public function set graphic( graphic:IComponentGraphic ):void
+		public function set graphic( value:IComponentGraphic ):void
 		{
 			var recreate:Boolean = false;
 			if( this.graphic && this.contains( DisplayObject( this.graphic ) ) )
 			{
-				removeChild( DisplayObject( graphic ) );
-				recreate = graphic != null;
+				removeChild( DisplayObject( this.graphic ) );
+				recreate = value != null;
 			}
 			
-			_graphic = graphic;
+			_graphic = value;
 			
 			if( recreate )
 			{

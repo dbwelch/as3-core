@@ -2,7 +2,7 @@ package com.ffsys.ui.core
 {	
 	import com.ffsys.ui.skins.IComponentSkin;
 	import com.ffsys.ui.skins.ISkinCollection;
-	//import com.ffsys.ui.skins.DefaultSkins;
+	import com.ffsys.ui.skins.SkinCollection;
 
 	/**
 	*	Represents a component that is aware of an associated skin.
@@ -17,10 +17,10 @@ package com.ffsys.ui.core
 	*	@author Mischa Williamson
 	*	@since  17.06.2010
 	*/
-	public class SkinAwareComponent extends UIComponent
+	public class SkinAwareComponent extends InteractiveComponent
 		implements ISkinAwareComponent
 	{
-		static private var _skins:ISkinCollection = null; //new DefaultSkins();
+		static private var _skins:ISkinCollection = new SkinCollection();
 		private var _skin:IComponentSkin;
 		
 		/**

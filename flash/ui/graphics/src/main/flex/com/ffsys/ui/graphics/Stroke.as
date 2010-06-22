@@ -34,7 +34,7 @@ package com.ffsys.ui.graphics {
 			thickness:Number = 1,
 			color:uint = 0xffffff,
 			alpha:Number = 1,
-			pixelHinting:Boolean = false,
+			pixelHinting:Boolean = true,
 			scaleMode:String = LineScaleMode.NORMAL,
 			caps:String = null,
 			joints:String = null,

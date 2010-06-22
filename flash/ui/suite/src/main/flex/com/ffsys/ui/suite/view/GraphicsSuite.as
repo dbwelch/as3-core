@@ -133,6 +133,13 @@ package com.ffsys.ui.suite.view {
 				fill );
 			hbox.addChild( DisplayObject( graphic ) );
 			
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			hbox.addChild( DisplayObject( graphic ) );			
+			
 			graphic = new ArrowGraphic(
 				width / 2,
 				height / 2,

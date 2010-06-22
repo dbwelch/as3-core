@@ -12,7 +12,7 @@ package com.ffsys.ui.buttons
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class TextButton extends AbstractButton
+	public class TextButton extends ButtonComponent
 	{
 		private var _label:Label;
 		

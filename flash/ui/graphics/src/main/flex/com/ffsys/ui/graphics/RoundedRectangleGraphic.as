@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics
 {
+	import flash.geom.Point;
+	
 	/**
 	*	Draws a rounded rectangle using the standard
 	*	drawing api when no corners have been specified
@@ -39,8 +41,8 @@ package com.ffsys.ui.graphics
 			height:Number = 25,
 			stroke:IStroke = null,
 			fill:IFill = null,
-			cornerWidth:Number = 2,
-			cornerHeight:Number = NaN )
+			cornerWidth:Number = 4,
+			cornerHeight:Number = 4 )
 		{
 			super( width, height, stroke, fill, cornerWidth, cornerWidth );
 		}
@@ -52,7 +54,26 @@ package com.ffsys.ui.graphics
 		{
 			if( hasCorners() )
 			{
-				//TODO: implement
+				var topLeft:ICorner = corners[ 0 ];
+				var topRight:ICorner = corners[ 1 ];
+				var bottomRight:ICorner = corners[ 2 ];
+				var bottomLeft:ICorner = corners[ 3 ];
+				
+				moveTo( new Point( topLeft.width, 0 ) );
+				lineTo( new Point( width - topRight.width, 0 ) );
+				curveTo( new Point( width, 0 ), new Point( width, topRight.height ) );
+				lineTo( new Point( width, height - bottomRight.height ) );
+				curveTo( new Point( width, height ),
+					new Point( width - bottomRight.width, height ) );
+				lineTo( new Point( bottomLeft.width, height ) );
+				curveTo( new Point( 0, height ),
+					new Point( 0, height - bottomLeft.height ) );
+				lineTo( new Point( 0, topLeft.height ) );
+				curveTo( new Point( 0, 0 ),
+					new Point( topLeft.width, 0 ) );
+			}else
+			{
+				super.doDraw( width, height );
 			}
 		}
 	}

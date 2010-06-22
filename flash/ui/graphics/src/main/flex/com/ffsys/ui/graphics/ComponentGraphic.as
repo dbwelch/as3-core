@@ -300,6 +300,17 @@ package com.ffsys.ui.graphics
 			{
 				graphics.moveTo( point.x, point.y );
 			}
-		}		
+		}
+		
+		/**
+		*	Draws a curve to the anchor point using the control point.
+		*/
+		protected function curveTo( control:Point, anchor:Point ):void
+		{
+			if( control && anchor )
+			{
+				graphics.curveTo( control.x, control.y, anchor.x, anchor.y );
+			}
+		}				
 	}
 }

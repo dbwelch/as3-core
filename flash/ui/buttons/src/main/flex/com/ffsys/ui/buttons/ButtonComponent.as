@@ -1,7 +1,7 @@
 package com.ffsys.ui.buttons
 {
 	import flash.events.MouseEvent;
-	import com.ffsys.ui.core.InteractiveComponent;
+	import com.ffsys.ui.core.SkinAwareComponent;
 	
 	/**
 	*	Abstract super class for all buttons.
@@ -12,12 +12,12 @@ package com.ffsys.ui.buttons
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class AbstractButton extends InteractiveComponent
+	public class ButtonComponent extends SkinAwareComponent
 	{
 		/**
-		* 	Creates an AbstractButton instance.
+		* 	Creates an ButtonComponent instance.
 		*/
-		public function AbstractButton()
+		public function ButtonComponent()
 		{
 			super();
 		}

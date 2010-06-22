@@ -42,7 +42,7 @@
 					<configurationReport>false</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
 					<defaultSizeWidth>980</defaultSizeWidth>
-					<defaultSizeHeight>365</defaultSizeHeight>
+					<defaultSizeHeight>1024</defaultSizeHeight>
 					<defaultFrameRate>30</defaultFrameRate>
 					<fonts>
 						<managers>

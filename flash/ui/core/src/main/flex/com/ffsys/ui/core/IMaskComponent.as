@@ -21,6 +21,6 @@ package com.ffsys.ui.core {
 		*	component is applied as a mask.
 		*/
 		function get graphic():IComponentGraphic;
-		function set graphic( graphic:IComponentGraphic ):void;
+		function set graphic( value:IComponentGraphic ):void;
 	}
 }
