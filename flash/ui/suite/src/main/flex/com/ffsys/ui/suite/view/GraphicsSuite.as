@@ -50,7 +50,10 @@ package com.ffsys.ui.suite.view {
 			
 			//stroke but no fill
 			layoutGraphics( hbox, width, height, stroke, null );
-
+			
+			hbox = new HorizontalBox();
+			hbox.spacing = 10;
+			addChild( hbox );
 			
 			//stroke and fill
 			layoutGraphics( hbox, width, height, stroke, fill );
@@ -61,6 +64,10 @@ package com.ffsys.ui.suite.view {
 			
 			//fill but no stroke
 			layoutGraphics( hbox, width, height, null, fill );
+			
+			hbox = new HorizontalBox();
+			hbox.spacing = 10;
+			addChild( hbox );			
 			
 			//gradient fill test
 			layoutGraphics( hbox, width, height, null, gradient );
@@ -81,6 +88,10 @@ package com.ffsys.ui.suite.view {
 			//composite - solid color only
 			layoutGraphics( hbox, width, height, null, composite );
 			
+			hbox = new HorizontalBox();
+			hbox.spacing = 10;
+			addChild( hbox );			
+			
 			composite.gradient = new GradientFill(
 				new Gradient(
 					GradientType.LINEAR,
@@ -98,6 +109,10 @@ package com.ffsys.ui.suite.view {
 			
 			//composite all default layers
 			layoutGraphics( hbox, width, height, null, composite );
+			
+			hbox = new HorizontalBox();
+			hbox.spacing = 10;
+			addChild( hbox );			
 			
 			//custom composite layers - adds an extra top gradient
 			composite.gradient.gradient.colors.reverse();
@@ -131,14 +146,21 @@ package com.ffsys.ui.suite.view {
 				height / 2,
 				stroke,
 				fill );
-			hbox.addChild( DisplayObject( graphic ) );
+			hbox.addChild( DisplayObject( graphic ) );	
 			
-			graphic = new RoundedRectangleGraphic(
+			graphic = new CircleGraphic(
 				width,
-				height,
 				stroke,
 				fill );
-			hbox.addChild( DisplayObject( graphic ) );			
+			hbox.addChild( DisplayObject( graphic ) );
+
+			graphic = new EllipseGraphic(
+				width,
+				height / 2,
+				stroke,
+				fill );
+			cell = new Cell( width, height, new Graphic( graphic ) );
+			hbox.addChild( cell );				
 			
 			graphic = new ArrowGraphic(
 				width / 2,
@@ -147,8 +169,7 @@ package com.ffsys.ui.suite.view {
 				fill );
 			hbox.addChild( DisplayObject( graphic ) );
 			
-			
-			var bevel:BevelRectangleGraphic = null;
+			var cornerAware:CornerAwareRectangleGraphic = null;
 			
 			//straight bevel
 			graphic = new BevelRectangleGraphic(
@@ -169,8 +190,8 @@ package com.ffsys.ui.suite.view {
 				6,
 				6 );
 				
-			bevel = BevelRectangleGraphic( graphic );
-			bevel.solo( 0 );
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 0 );
 			
 			hbox.addChild( DisplayObject( graphic ) );
 			
@@ -183,8 +204,8 @@ package com.ffsys.ui.suite.view {
 				6,
 				6 );
 				
-			bevel = BevelRectangleGraphic( graphic );
-			bevel.solo( 1 );
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 1 );
 			
 			hbox.addChild( DisplayObject( graphic ) );
 			
@@ -197,8 +218,8 @@ package com.ffsys.ui.suite.view {
 				6,
 				6 );
 				
-			bevel = BevelRectangleGraphic( graphic );
-			bevel.solo( 2 );
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 2 );
 			
 			hbox.addChild( DisplayObject( graphic ) );
 			
@@ -211,8 +232,8 @@ package com.ffsys.ui.suite.view {
 				6,
 				6 );
 				
-			bevel = BevelRectangleGraphic( graphic );
-			bevel.solo( 3 );									
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 3 );									
 				
 			hbox.addChild( DisplayObject( graphic ) );			
 			
@@ -225,9 +246,9 @@ package com.ffsys.ui.suite.view {
 				6,
 				6 );
 				
-			bevel = BevelRectangleGraphic( graphic );
-			bevel.corners[ 2 ].reset();									
-			bevel.corners[ 3 ].reset();
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.corners[ 2 ].reset();									
+			cornerAware.corners[ 3 ].reset();
 			
 			hbox.addChild( DisplayObject( graphic ) );	
 			
@@ -240,9 +261,9 @@ package com.ffsys.ui.suite.view {
 				6,
 				6 );
 				
-			bevel = BevelRectangleGraphic( graphic );
-			bevel.corners[ 0 ].reset();					
-			bevel.corners[ 1 ].reset();
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.corners[ 0 ].reset();					
+			cornerAware.corners[ 1 ].reset();
 			
 			hbox.addChild( DisplayObject( graphic ) );	
 			
@@ -255,9 +276,9 @@ package com.ffsys.ui.suite.view {
 				6,
 				6 );
 				
-			bevel = BevelRectangleGraphic( graphic );
-			bevel.corners[ 1 ].reset();					
-			bevel.corners[ 3 ].reset();
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.corners[ 1 ].reset();					
+			cornerAware.corners[ 3 ].reset();
 				
 			hbox.addChild( DisplayObject( graphic ) );			
 			
@@ -269,21 +290,81 @@ package com.ffsys.ui.suite.view {
 				fill,
 				width / 2,
 				height / 2 );
-			hbox.addChild( DisplayObject( graphic ) );				
-
-			graphic = new CircleGraphic(
-				width,
-				stroke,
-				fill );
 			hbox.addChild( DisplayObject( graphic ) );
-
-			graphic = new EllipseGraphic(
+			
+			
+			//normal rounded rectangle
+			graphic = new RoundedRectangleGraphic(
 				width,
-				height / 2,
+				height,
 				stroke,
 				fill );
-			cell = new Cell( width, height, new Graphic( graphic ) );
-			hbox.addChild( cell );	
+				
+			hbox.addChild( DisplayObject( graphic ) );			
+			
+			//top left only
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 0 );
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//top right only
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 1 );
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//bottom right only
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 2 );
+			hbox.addChild( DisplayObject( graphic ) );						
+			
+			//bottom left only
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.solo( 3 );
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//top corners only
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+				
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.corners[ 2 ].reset();									
+			cornerAware.corners[ 3 ].reset();
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			//opposite corners only
+			graphic = new RoundedRectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+				
+			cornerAware = CornerAwareRectangleGraphic( graphic );
+			cornerAware.corners[ 1 ].reset();					
+			cornerAware.corners[ 3 ].reset();
+			hbox.addChild( DisplayObject( graphic ) );							
 		}
 	}
 }

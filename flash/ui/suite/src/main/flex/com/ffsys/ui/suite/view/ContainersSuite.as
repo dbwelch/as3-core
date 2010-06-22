@@ -117,7 +117,7 @@ package com.ffsys.ui.suite.view {
 				cell.preferredHeight,
 				null, new SolidFill( 0xa9a9a9 ) );
 				
-			var lbl:Label = new Label( "Box Model" );
+			lbl = new Label( "Box Model" );
 			lbl.color = 0x000000;
 			cell.layout.horizontalAlign = Edges.LEFT;
 			cell.layout.verticalAlign = Edges.BOTTOM;
