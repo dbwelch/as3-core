@@ -28,6 +28,7 @@
 		<module>core</module>
 		<module>default-skins</module>
 		<module>display</module>
+		<module>events</module>
 		<module>graphics</module>
 		<module>layout</module>
 		<module>loaders</module>

@@ -5,6 +5,7 @@ package com.ffsys.ui.containers
 	
 	import com.ffsys.ui.layout.HorizontalLayout;
 	import com.ffsys.ui.common.ISelectable;
+	import com.ffsys.ui.events.SelectionEvent;
 	
 	/**
 	*	Represents a container for menu tabs.
@@ -110,6 +111,8 @@ package com.ffsys.ui.containers
 				{
 					ISelectable( child ).selected = true;
 				}
+				
+				dispatchEvent( new SelectionEvent( SelectionEvent.CHANGED ) );
 			}
 		}
 		

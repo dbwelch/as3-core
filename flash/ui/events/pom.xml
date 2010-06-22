@@ -7,37 +7,17 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.ui</groupId>
-	<artifactId>containers</artifactId>
+	<artifactId>events</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>containers</name>
+	<name>events</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
-	
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
-			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.ui</groupId>
-			<artifactId>common</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys</groupId>
 			<artifactId>events</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
-		<dependency>
-			<groupId>com.ffsys.ui</groupId>
-			<artifactId>layout</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
 	</dependencies>
-	
 </project>
