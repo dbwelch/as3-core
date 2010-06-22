@@ -57,6 +57,8 @@ package com.ffsys.ui.graphics
 				lineTo( new Point( 0, height - bottomLeft.height ) );
 				lineTo( new Point( 0, topLeft.height ) );
 				lineTo( new Point( topLeft.width, 0 ) );
+			}else{
+				super.doDraw( width, height );
 			}
 		}
 	}

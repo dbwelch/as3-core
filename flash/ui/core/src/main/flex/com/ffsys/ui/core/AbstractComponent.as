@@ -474,5 +474,19 @@ package com.ffsys.ui.core
 			bitmapData.draw( this, matrix );
 			return new Bitmap( bitmapData );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function removeAllChildren():void
+		{
+			var child:DisplayObject = null;
+			for( var i:int = 0;i < numChildren;i++ )
+			{
+				child = getChildAt( i );
+				removeChild( child );
+				i--;
+			}
+		}		
 	}
 }

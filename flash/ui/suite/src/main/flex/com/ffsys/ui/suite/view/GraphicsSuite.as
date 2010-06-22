@@ -275,7 +275,7 @@ package com.ffsys.ui.suite.view {
 				height / 2,
 				stroke,
 				fill );
-			cell = new Cell( new Graphic( graphic ), width, height );
+			cell = new Cell( width, height, new Graphic( graphic ) );
 			hbox.addChild( cell );	
 		}
 	}

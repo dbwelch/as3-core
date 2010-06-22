@@ -56,6 +56,22 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
+		*	Resets all corners to be empty. 
+		*/
+		public function reset():void
+		{
+			var corner:ICorner = null;
+  			for( var i:int = 0;i < corners.length;i++ )
+			{
+				corner = corners[ i ];
+				if( corner )
+				{
+					corner.reset();
+				}
+			}
+		}
+		
+		/**
 		*	Performs a solo operation on the corner at
 		*	the specified index by resetting all other corners.
 		*	

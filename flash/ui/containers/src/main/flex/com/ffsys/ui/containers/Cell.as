@@ -28,20 +28,20 @@ package com.ffsys.ui.containers {
 		/**
 		*	Creates a <code>Cell</code> instance.
 		*	
-		*	@param content The initial content for the cell.
 		*	@param width The preferred width of the cell.
 		*	@param height The preferred height of the cell.
+		*	@param content The initial content for the cell.
 		*/
 		public function Cell(
-			content:IComponent = null,
 			width:Number = NaN,
-			height:Number = NaN )
+			height:Number = NaN,
+			content:IComponent = null )
 		{
 			super();
 			this.layout = new CellLayout();
 			this.preferredWidth = width;
 			this.preferredHeight = height;
-			this.content = content;			
+			this.content = content;
 		}
 		
 		/**

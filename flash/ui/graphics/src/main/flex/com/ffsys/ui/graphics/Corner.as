@@ -56,6 +56,22 @@ package com.ffsys.ui.graphics {
 		}
 		
 		/**
+		*	@inheritDoc 
+		*/
+		public function update(
+			width:Number = 5,
+			height:Number = NaN ):void
+		{
+			if( isNaN( height ) )
+			{
+				height = width;
+			}
+			
+			_width = width;
+			_height = height;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function reset():void

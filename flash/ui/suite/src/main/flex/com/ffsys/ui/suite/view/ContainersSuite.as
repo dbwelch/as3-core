@@ -47,7 +47,7 @@ package com.ffsys.ui.suite.view {
 			
 			var lbl:Label = null;	
 			
-			var cell:Cell = new Cell( null, 80, 80 );
+			var cell:Cell = new Cell( 80, 80 );
 			cell.paddings.padding = 5;
 			cell.margins.margin = 5;
 			cell.background = new RectangleGraphic(
@@ -61,7 +61,7 @@ package com.ffsys.ui.suite.view {
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );
 			
-			cell = new Cell( null, 80, 80 );
+			cell = new Cell( 80, 80 );
 			cell.paddings.padding = 5;
 			cell.margins.margin = 5;
 			cell.background = new RectangleGraphic(
@@ -77,7 +77,7 @@ package com.ffsys.ui.suite.view {
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );
 			
-			cell = new Cell( null, 80, 80 );
+			cell = new Cell( 80, 80 );
 			cell.paddings.padding = 5;
 			cell.margins.margin = 5;
 			cell.background = new RectangleGraphic(
@@ -93,7 +93,7 @@ package com.ffsys.ui.suite.view {
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );
 			
-			cell = new Cell( null, 80, 80 );
+			cell = new Cell( 80, 80 );
 			cell.paddings.padding = 5;
 			cell.margins.margin = 5;
 			cell.background = new RectangleGraphic(
@@ -109,7 +109,7 @@ package com.ffsys.ui.suite.view {
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );
 			
-			cell = new Cell( null, 80, 80 );
+			cell = new Cell( 80, 80 );
 			cell.paddings.padding = 5;
 			cell.margins.margin = 5;
 			cell.background = new RectangleGraphic(

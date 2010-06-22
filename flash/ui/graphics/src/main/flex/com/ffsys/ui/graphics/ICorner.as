@@ -25,6 +25,13 @@ package com.ffsys.ui.graphics {
 		function set height( value:Number ):void;
 		
 		/**
+		* 	Updates the width and height of this corner.
+		*/
+		function update(
+			width:Number = 5,
+			height:Number = NaN ):void;
+		
+		/**
 		*	Resets this corner to zero values.	
 		*/
 		function reset():void;
