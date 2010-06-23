@@ -40,7 +40,10 @@ package com.ffsys.ui.suite.view {
 				new Label( "TEXT BUTTON: " ) );
 			
 			hbox.addChild(
-				new TextButton( "A Text Button" ) );
+				new TextButton( "Simple Text Button" ) );
+				
+			hbox.addChild(
+				new Button( "A GRAPHICAL BUTTON" ) );
 			
 			addChild( hbox );
 		}

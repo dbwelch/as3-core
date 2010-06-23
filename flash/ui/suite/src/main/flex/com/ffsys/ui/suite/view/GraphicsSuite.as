@@ -374,7 +374,7 @@ package com.ffsys.ui.suite.view {
 				fill,
 				width * 0.5,
 				height * 0.5 );
-			hbox.addChild( DisplayObject( graphic ) );							
+			hbox.addChild( DisplayObject( graphic ) );					
 		}
 	}
 }

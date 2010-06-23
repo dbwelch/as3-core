@@ -63,6 +63,9 @@ package com.ffsys.ui.suite.view {
 			addChild( vbox );
 			
 			vbox.spacing = 15;
+			
+			var buttonSuite:ButtonSuite = new ButtonSuite();
+			vbox.addChild( buttonSuite );			
 
 			var containersSuite:ContainersSuite = new ContainersSuite();
 			vbox.addChild( containersSuite );
@@ -75,9 +78,6 @@ package com.ffsys.ui.suite.view {
 			
 			var textSuite:TextSuite = new TextSuite();
 			vbox.addChild( textSuite );
-			
-			var buttonSuite:ButtonSuite = new ButtonSuite();
-			vbox.addChild( buttonSuite );
 		}
 	}
 }

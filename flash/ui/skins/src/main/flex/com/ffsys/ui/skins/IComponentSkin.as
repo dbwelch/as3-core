@@ -1,6 +1,6 @@
 package com.ffsys.ui.skins
 {
-	import com.ffsys.ui.states.ISkinStates;
+	import com.ffsys.ui.states.IViewState;
 	
 	/**
 	*	Describes the contract for instances that
@@ -15,9 +15,45 @@ package com.ffsys.ui.skins
 	public interface IComponentSkin
 	{
 		/**
-		* 	The set of states for the skin.
+		*	Adds a state using the identifier assigned to the state.
+		*	
+		*	This method will throw an exception if state
+		*	is null or has a null identifier.
+		*	
+		*	@param state The state to add.
+		*	
+		*	@return Whether the state was added.
 		*/
-		function get states():ISkinStates;
-		function set states( states:ISkinStates ):void;
+		function addState( state:IViewState ):Boolean;
+		
+		/**
+		*	Gets a state by identifier.
+		*	
+		*	@param id The identifier for the state.
+		*	
+		*	@return The state or null if it could not be found.
+		*/
+		function getStateById( id:String ):IViewState;
+		
+		/**
+		*	Adds a state by identifier.
+		*	
+		*	@param id The state identifier.
+		*	@param state The state for the skin.
+		*	
+		*	The state will not be added if either
+		*	the id or state parameters are null or if
+		*	the state or id are already stored in this
+		*	skin.
+		*	
+		*	@return Whether the state was added.	
+		*/
+		function addStateById(
+			id:String, state:IViewState ):Boolean;
+			
+		/**
+		*	The number of states in this skin.	
+		*/
+		function get length():uint;		
 	}
 }

@@ -1,9 +1,14 @@
 package com.ffsys.ui.states
 {
 	import com.ffsys.ui.graphics.IComponentGraphic;
+	import com.ffsys.ui.graphics.IFill;
+	import com.ffsys.ui.graphics.IStroke;
+	import com.ffsys.ui.styles.IStyleCollection;
+	import com.ffsys.ui.styles.StyleCollection;
 	
 	/**
-	*	Represents the graphical components for a single state.
+	*	Represents the style information associated with a single
+	*	state.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -14,23 +19,92 @@ package com.ffsys.ui.states
 	public class ViewState extends Object
 		implements IViewState
 	{
-		private var _graphics:Vector.<IComponentGraphic>;
+		public static const DEFAULT_STATE_ID:String = "main";
+		
+		private var _id:String;
+		private var _styles:IStyleCollection = new StyleCollection();
+		private var _graphics:Vector.<IComponentGraphic>
+			= new Vector.<IComponentGraphic>();
+		private var _fills:Vector.<IFill> = new Vector.<IFill>();
+		private var _strokes:Vector.<IStroke> = new Vector.<IStroke>();
+		private var _classPath:String;
+		private var _blendMode:String;
 		
 		/**
 		* 	Creates a <code>ViewState</code> instance.
+		*	
+		*	@param id The identifier for the state.
 		*/
-		public function ViewState()
+		public function ViewState(
+			id:String = DEFAULT_STATE_ID )
 		{
 			super();
-			_graphics = new Vector.<IComponentGraphic>();
+			this.id = id;
 		}
 		
 		/**
-		*	A vector of graphics associated with the state.	
+		*	@inheritDoc	
+		*/
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id( id:String ):void
+		{
+			_id = id;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get styles():IStyleCollection
+		{
+			return _styles;
+		}
+		
+		public function set styles( styles:IStyleCollection ):void
+		{
+			_styles = styles;
+		}
+		
+		/**
+		*	@inheritDoc	
 		*/
 		public function get graphics():Vector.<IComponentGraphic>
 		{
 			return _graphics;
+		}
+		
+		public function set graphics( graphics:Vector.<IComponentGraphic> ):void
+		{
+			_graphics = graphics;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get fills():Vector.<IFill>
+		{
+			return _fills;
+		}
+		
+		public function set fills( fills:Vector.<IFill> ):void
+		{
+			_fills = fills;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get strokes():Vector.<IStroke>
+		{
+			return _strokes;
+		}
+
+		public function set strokes( strokes:Vector.<IStroke> ):void
+		{
+			_strokes = strokes;
 		}
 	}
 }

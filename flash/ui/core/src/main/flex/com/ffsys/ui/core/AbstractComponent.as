@@ -4,6 +4,7 @@ package com.ffsys.ui.core
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.geom.Rectangle;
 	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;	
@@ -32,6 +33,8 @@ package com.ffsys.ui.core
 	public class AbstractComponent extends Sprite
 		implements IComponent
 	{	
+		static private var _initialized:Boolean = false;
+		
 		static private var _textFieldFactory:ITextFieldFactory
 			= new TextFieldFactory();
 		
@@ -50,6 +53,11 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
+			
+			if( !_initialized )
+			{
+				//addEventListener( Event.ADDED_TO_STAGE, initialize );
+			}
 		}
 		
 		/**
@@ -171,6 +179,32 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	Invoked when this instance is added to the display list.
+		* 
+		* 	The default behaviour is to invoke <code>createChildren</code>.
+		*/
+		private function initialize( event:Event ):void
+		{
+			trace("AbstractComponent::initialize(), ",event );
+			if( !_initialized  )
+			{
+				removeEventListener( Event.ADDED_TO_STAGE, initialize );
+				createChildren();
+				_initialized = true;
+			}
+		}		
+		
+		/**
+		* 	Invoked when this instance is added to the display list.
+		* 
+		* 	This method does nothing by default.
+		*/
+		protected function createChildren():void
+		{
+			//
+		}
+		
+		/**
 		*	Invoked before a child is added.
 		*	
 		*	@param child The child to be added.
@@ -182,6 +216,7 @@ package com.ffsys.ui.core
 		protected function beforeChildAdded(
 			child:DisplayObject, index:int ):Boolean
 		{
+			//createChildren();
 			return true;
 		}
 		

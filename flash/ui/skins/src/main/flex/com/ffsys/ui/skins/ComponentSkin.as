@@ -1,7 +1,8 @@
 package com.ffsys.ui.skins
 {
-	import com.ffsys.ui.states.ISkinStates;
-	import com.ffsys.ui.states.SkinStates;
+	import flash.utils.Dictionary;
+	
+	import com.ffsys.ui.states.IViewState;
 	
 	/**
 	*	Represents a component skin.
@@ -18,7 +19,8 @@ package com.ffsys.ui.skins
 	public class ComponentSkin extends Object
 		implements IComponentSkin
 	{
-		private var _states:ISkinStates;
+		private var _states:Vector.<IViewState> = new Vector.<IViewState>;
+		private var _indexes:Dictionary = new Dictionary();
 		
 		/**
 		* 	Creates a <code>ComponentSkin</code> instance.
@@ -26,20 +28,59 @@ package com.ffsys.ui.skins
 		public function ComponentSkin()
 		{
 			super();
-			_states = new SkinStates();
 		}
 		
 		/**
-		* 	@inheritDoc
+		*	@inheritDoc	
 		*/
-		public function get states():ISkinStates
+		public function getStateById( id:String ):IViewState
 		{
-			return _states;
+			if( id )
+			{
+				var index:uint = _indexes[ id ];
+				if( index is Number )
+				{
+					return _states[ index ];
+				}
+			}
+			return null;
 		}
 		
-		public function set states( states:ISkinStates ):void
+		/**
+		*	@inheritDoc	
+		*/
+		public function addState( state:IViewState ):Boolean
 		{
-			_states = states;
+			if( !state || !state.id )
+			{
+				throw new Error( "Cannot add a null state or a state with no identfier." );
+			}
+			return addStateById( state.id, state );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function addStateById(
+			id:String, state:IViewState ):Boolean
+		{
+			if( id && state
+				&& _states.indexOf( state ) == -1
+				&& !_indexes[ id ] )
+			{
+				_indexes[ id ] = ( _states.push( state ) - 1 );
+				trace("SkinStates::addStateById(), ", state, _indexes[ id ] );
+				return true;
+			}
+			return false;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get length():uint
+		{
+			return _states.length;
 		}
 	}
 }

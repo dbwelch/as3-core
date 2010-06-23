@@ -1,5 +1,10 @@
 package com.ffsys.ui.buttons {
 	
+	import com.ffsys.ui.graphics.*;
+	import com.ffsys.ui.skins.ComponentSkin;
+	import com.ffsys.ui.states.IViewState;
+	import com.ffsys.ui.states.ViewState;
+	
 	/**
 	*	Represents a standard button.
 	*
@@ -20,14 +25,20 @@ package com.ffsys.ui.buttons {
 			text:String = "" )
 		{
 			super( text );
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override protected function createChildren():void
-		{
-			//
+
+			//default skin for this component
+			this.skin = new ComponentSkin();
+			var main:IViewState = new ViewState();
+			
+			main.graphics.push(
+				new RoundedRectangleGraphic(
+					width,
+					height ) );
+					
+			main.fills.push(
+				new SolidFill( 0xff0000, 0.5 ) );
+			
+			this.skin.addState( main );
 		}
 	}
 }

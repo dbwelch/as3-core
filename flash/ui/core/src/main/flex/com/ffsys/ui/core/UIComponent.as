@@ -27,7 +27,7 @@ package com.ffsys.ui.core
 		* 
 		* 	This method does nothing by default.
 		*/
-		protected function createChildren():void
+		override protected function createChildren():void
 		{
 			//
 		}

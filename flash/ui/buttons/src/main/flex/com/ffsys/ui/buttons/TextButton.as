@@ -23,6 +23,7 @@ package com.ffsys.ui.buttons
 		{
 			super();
 			_label = new Label( text );
+			addChild( _label );
 		}
 		
 		/**
@@ -38,7 +39,7 @@ package com.ffsys.ui.buttons
 		*/
 		override protected function createChildren():void
 		{
-			addChild( _label );
+			//
 		}
 	}
 }
