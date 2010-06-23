@@ -39,7 +39,7 @@ package com.ffsys.ui.graphics
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			trace("BevelRectangleGraphic::doDraw(), ", hasCorners() );
+			//trace("BevelRectangleGraphic::doDraw(), ", hasCorners() );
 			
 			if( hasCorners() )
 			{

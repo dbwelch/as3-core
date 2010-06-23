@@ -94,7 +94,7 @@ package com.ffsys.ui.graphics
 					thickness = 0.5;
 				}
 				
-				trace("BorderGraphic::doDraw(), ", tx, ty, width, thickness );
+				//trace("BorderGraphic::doDraw(), ", tx, ty, width, thickness );
 				
 				//top
 				graphics.drawRect( 

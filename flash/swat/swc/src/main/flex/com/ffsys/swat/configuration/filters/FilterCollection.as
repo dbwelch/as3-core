@@ -70,7 +70,8 @@ package com.ffsys.swat.configuration.filters {
 		
 		public function addFilter( filter:IFilterConfiguration ):Boolean
 		{
-			trace("FilterCollection::addFilter(), ", filter, filter.id );
+			//trace("FilterCollection::addFilter(), ", filter, filter.id );
+			
 			//ignore filters with no id
 			if( filter )
 			{

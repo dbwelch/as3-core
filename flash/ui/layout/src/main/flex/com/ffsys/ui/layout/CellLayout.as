@@ -109,8 +109,10 @@ package com.ffsys.ui.layout
 			child.x = x;
 			child.y = y;
 			
+			/*
 			trace("CellLayout::layoutChild(), ",
 				child, parentWidth, parentHeight, childWidth, childHeight, x, y );
+			*/
 		}
 	}
 }

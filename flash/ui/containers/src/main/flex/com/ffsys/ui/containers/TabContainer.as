@@ -143,6 +143,12 @@ package com.ffsys.ui.containers
 				child.removeEventListener( MouseEvent.MOUSE_UP, childSelected );
 			}
 			
+			//constrain the selected index as children are removed
+			if( _selectedIndex >= numChildren )
+			{
+				this.selectedIndex = numChildren - 1;
+			}
+			
 			return super.beforeChildRemoved( child, index );
 		}
 			
