@@ -45,7 +45,7 @@ package com.ffsys.ui.graphics
 		{
 			super.stroke = stroke;
 			
-			trace("BorderGraphic::stroke(), ", stroke );
+			//trace("BorderGraphic::stroke(), ", stroke );
 			
 			if( sharp && this.stroke && !this.fill )
 			{

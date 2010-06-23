@@ -84,7 +84,7 @@ package com.ffsys.ui.layout
 		{
 			var next:Array = getNextDisplayObjects( parent, index > 0 ? index - 1 : index );
 			
-			trace("Layout::removed(), index/numChildren/next/next length: ", index, parent.numChildren, next, next.length );
+			//trace("Layout::removed(), index/numChildren/next/next length: ", index, parent.numChildren, next, next.length );
 			
 			if( next.length > 0 )
 			{
