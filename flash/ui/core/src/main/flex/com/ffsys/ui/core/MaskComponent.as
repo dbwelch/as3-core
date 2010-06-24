@@ -4,6 +4,7 @@ package com.ffsys.ui.core {
 	
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.graphics.RectangleGraphic;
+	import com.ffsys.ui.graphics.SolidFill;
 	
 	/**
 	*	A component to serve specifically to be used as a mask.
@@ -29,16 +30,18 @@ package com.ffsys.ui.core {
 		/**
 		*	Creats a <code>MaskComponent</code> instance.
 		*	
-		*	@param width The preferred width of the graphic graphic.
-		*	@param height The preferred height of the graphic graphic.
+		*	@param width The preferred width of the mask.
+		*	@param height The preferred height of the mask.
 		*/
 		public function MaskComponent(
 			width:Number = 100, height:Number = 100 )
 		{
 			super();
-			_graphic = new RectangleGraphic( width, height );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
+			_graphic = new RectangleGraphic( width, height );
+			_graphic.fill = new SolidFill( 0x000000, 0.5 );
+			addChild( DisplayObject( this.graphic ) );
 		}
 		
 		/**
@@ -71,13 +74,18 @@ package com.ffsys.ui.core {
 		*/
 		override protected function createChildren():void
 		{
+			
+			/*
 			if( !this.graphic )
 			{
 				this.graphic = new RectangleGraphic(
 					preferredWidth, preferredHeight );
 			}
 			
+			trace("MaskComponent::createChildren()", this.preferredWidth, this.preferredHeight );
+			
 			addChild( DisplayObject( this.graphic ) );
+			*/
 		}
 		
 		/**

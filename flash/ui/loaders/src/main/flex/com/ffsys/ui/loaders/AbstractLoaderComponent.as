@@ -76,9 +76,9 @@ package com.ffsys.ui.loaders
 		
 		public function set masked( masked:Boolean ):void
 		{
-			if( _masker && contains( DisplayObject( _masker ) ) )
+			if( this.masker && contains( DisplayObject( this.masker ) ) )
 			{
-				removeChild( DisplayObject( _masker ) );
+				removeChild( DisplayObject( this.masker ) );
 				_container.mask = null;
 			}
 			
@@ -86,9 +86,12 @@ package com.ffsys.ui.loaders
 			
 			if( this.masked )
 			{
-				_masker = new MaskComponent(
-					this.preferredWidth,
-					this.preferredHeight );
+				if( !_masker )
+				{
+					_masker = new MaskComponent(
+						this.preferredWidth, this.preferredHeight );
+				}
+				
 				addChild( DisplayObject( _masker ) );
 				_container.mask = DisplayObject( _masker );
 			}
@@ -334,6 +337,9 @@ package com.ffsys.ui.loaders
 				}
 				
 				_container.addChild( item );
+				
+				trace("AbstractLoaderComponent::revealItemAtIndex()",
+					_container.mask, _container.width, _container.height, _masker.width, _masker.height );
 			}
 		}
 		
@@ -668,14 +674,17 @@ package com.ffsys.ui.loaders
 				next();
 			}
 			
+			var w:Number = this.preferredWidth;
+			var h:Number = this.preferredHeight;
+			
 			if( this.border )
 			{
-				this.border.draw( this.width, this.height );
+				this.border.draw( w, h );
 			}
 		
 			if( this.background )
 			{
-				this.background.draw( this.width, this.height );
+				this.background.draw( w, h );
 			}
 		}
 		
