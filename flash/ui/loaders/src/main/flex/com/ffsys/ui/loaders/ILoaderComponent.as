@@ -16,6 +16,13 @@ package com.ffsys.ui.loaders
 		extends ITransitionAwareSlideShow
 	{
 		/**
+		* 	A preloader implementation that responds to load
+		* 	events.
+		*/
+		function get preloader():IPreloader;
+		function set preloader( preloader:IPreloader ):void;		
+		
+		/**
 		* 	Gets the container that holds the loaded runtime asset(s).
 		*/
 		function get container():IComponent;

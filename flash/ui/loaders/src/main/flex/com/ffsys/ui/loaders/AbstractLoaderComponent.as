@@ -36,10 +36,10 @@ package com.ffsys.ui.loaders
 	{	
 		private var _queue:ILoaderQueue = new LoaderQueue();
 		private var _container:IComponent;
-		private var _loader:ILoader;
 		private var _urls:Array;
 		private var _masked:Boolean;
 		private var _masker:IMaskComponent;
+		private var _preloader:IPreloader;
 		
 		private var _reveal:ITween;
 		private var _hide:ITween;
@@ -69,6 +69,24 @@ package com.ffsys.ui.loaders
 		/**
 		* 	@inheritDoc
 		*/
+		public function get preloader():IPreloader
+		{
+			return _preloader;
+		}
+		
+		public function set preloader( preloader:IPreloader ):void
+		{
+			_preloader = preloader;
+			
+			if( this.preloader && ( this.preloader is ILoaderComponentAware ) )
+			{
+				ILoaderComponentAware( this.preloader ).loader = this;
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get masked():Boolean
 		{
 			return _masked;
@@ -80,6 +98,7 @@ package com.ffsys.ui.loaders
 			{
 				removeChild( DisplayObject( this.masker ) );
 				_container.mask = null;
+				_masker = null;
 			}
 			
 			_masked = masked;
@@ -177,6 +196,11 @@ package com.ffsys.ui.loaders
 			{
 				return;
 			}
+			
+			if( _preloader )
+			{
+				_preloader.started();
+			}
 
 			revealItemAtIndex( index );
 			
@@ -196,13 +220,25 @@ package com.ffsys.ui.loaders
 			
 			//TODO: stop any running reveal/hide effects.
 			
+			stopTimer();
+			
+			_playing = false;
+		}
+		
+		/**
+		* 	@private
+		* 	
+		* 	Stops an existing timer from running.
+		*/
+		private function stopTimer():void
+		{
 			if( _timer )
 			{
 				_timer.stop();
+				_timer.removeEventListener(
+					TimerEvent.TIMER_COMPLETE, pauseTimerComplete );
 				_timer = null;
-			}
-			
-			_playing = false;
+			}			
 		}
 		
 		/**
@@ -234,19 +270,12 @@ package com.ffsys.ui.loaders
 		*/
 		public function next():void
 		{
-			trace("AbstractLoaderComponent::next()", hasNextItem() );
-			
 			if( !hasNextItem() )
 			{
 				return;
 			}
 			
-			trace("AbstractLoaderComponent::next()", this.index );
-			
 			_index = getConstrainedIndex( this.index + 1 );
-			
-			trace("AbstractLoaderComponent::next() after constrain: ", this.index );
-			
 			revealItemAtIndex( _index );
 		}
 		
@@ -308,9 +337,7 @@ package com.ffsys.ui.loaders
 		private function revealItemAtIndex( index:uint ):void
 		{
 			var item:DisplayObject = getSlideShowItemAtIndex( index );
-			
-			trace("AbstractLoaderComponent::revealItemAtIndex()", item, reveal );
-			
+
 			_pauseTimeElapsed = false;
 			
 			if( item )
@@ -328,8 +355,6 @@ package com.ffsys.ui.loaders
 					//start the effect
 					effect.addEventListener( TweenEvent.COLLECTION_COMPLETE, revealComplete );
 					effect.start();
-					
-					trace("AbstractLoaderComponent::revealItemAtIndex()", "STARTING REVEAL EFFECT" );
 				}else{
 					
 					removePreviousItem( getCurrentItem() );
@@ -337,9 +362,6 @@ package com.ffsys.ui.loaders
 				}
 				
 				_container.addChild( item );
-				
-				trace("AbstractLoaderComponent::revealItemAtIndex()",
-					_container.mask, _container.width, _container.height, _masker.width, _masker.height );
 			}
 		}
 		
@@ -376,7 +398,6 @@ package com.ffsys.ui.loaders
 				if( index > 0 )
 				{
 					var previous:DisplayObject = item.parent.getChildAt( index - 1 );
-					trace("AbstractLoaderComponent::removePreviousItem()", item, previous );
 					return item.parent.removeChild( previous );
 				}
 			}
@@ -389,8 +410,6 @@ package com.ffsys.ui.loaders
 		*/
 		private function revealComplete( event:ITweenEvent ):void
 		{
-			trace("AbstractLoaderComponent::revealComplete()", this );
-			
 			Event( event ).target.removeEventListener(
 				Event( event ).type, arguments.callee );
 				
@@ -409,21 +428,7 @@ package com.ffsys.ui.loaders
 		*/
 		private function startPauseTimer():void
 		{
-			//TODO: implement the timer logic
-			
-			//_pauseTimeElapsed = true;
-			
-			/*
-			removePreviousItem( getCurrentItem() );
-			next();
-			*/
-			
-			trace("AbstractLoaderComponent::startPauseTimer()", _pauseTime );
-			
-			if( _timer )
-			{
-				_timer.stop();
-			}
+			stopTimer();
 			
 			_timer = new Timer( _pauseTime, 1 );
 			_timer.addEventListener( TimerEvent.TIMER_COMPLETE, pauseTimerComplete );
@@ -435,8 +440,6 @@ package com.ffsys.ui.loaders
 		*/
 		private function pauseTimerComplete( event:TimerEvent ):void
 		{
-			trace("AbstractLoaderComponent::pauseTimerComplete()");
-			
 			_timer.removeEventListener(
 				TimerEvent.TIMER_COMPLETE, pauseTimerComplete );
 			_timer.stop();
@@ -497,27 +500,6 @@ package com.ffsys.ui.loaders
 			return _container;
 		}
 		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get uri():String
-		{
-			if( loader )
-			{
-				return loader.uri;
-			}
-			
-			return null;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get loader():ILoader
-		{
-			return _loader;
-		}
-		
 		public function hasUrls():Boolean
 		{
 			return ( this.urls != null ) && ( this.urls.length > 0 );
@@ -545,8 +527,6 @@ package com.ffsys.ui.loaders
 			{
 				throw new Error( "Cannot load with no urls." );
 			}
-			
-			trace("AbstractLoaderComponent::load()", this.urls );
 			
 			var loader:ILoader = null;
 			for( var i:int = 0;i < this.urls.length;i++ )
@@ -637,6 +617,11 @@ package com.ffsys.ui.loaders
 		{
 			//TODO: wrap these in a custom event
 			//trace("AbstractLoaderComponent::loadStart()");
+			
+			if( _preloader )
+			{
+				_preloader.start();
+			}
 		}
 		
 		/**
@@ -647,16 +632,26 @@ package com.ffsys.ui.loaders
 		{
 			//TODO: wrap these in a custom event
 			//trace("AbstractLoaderComponent::resourceNotFound()");
+			
+			if( _preloader )
+			{
+				_preloader.error();
+			}
 		}
 		
 		/**
 		*	@private
 		*/
 		protected function loadProgress( 
-			event:ILoadEvent ):void
+			event:LoadProgressEvent ):void
 		{
 			//TODO: wrap these in a custom event
 			//trace("AbstractLoaderComponent::loadProgress()");
+			
+			if( _preloader )
+			{
+				_preloader.progress( event.bytesLoaded, event.bytesTotal );
+			}
 		}
 		
 		/**
@@ -665,6 +660,11 @@ package com.ffsys.ui.loaders
 		protected function loadComplete( 
 			event:ILoadEvent ):void
 		{
+  			if( _preloader )
+			{
+				_preloader.loaded( event.resource );
+			}
+			
 			//set to start automatically and not playing
 			if( automatic && !started )
 			{
@@ -694,11 +694,57 @@ package com.ffsys.ui.loaders
 		protected function completed( 
 			event:ILoadEvent ):void
 		{
+			if( _preloader )
+			{
+				_preloader.completed();
+			}
+			
 			//TODO: wrap these in a custom event	
 			//trace("AbstractLoaderComponent::loadComplete()");
 			
 			//cleanup the listeners
 			removeLoaderListeners();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			
+			//stop any pause timer from running.
+			stopTimer();
+			
+			//close any open load process
+			if( _queue )
+			{
+				_queue.close();
+			}
+			
+			if( _preloader )
+			{
+				_preloader.destroyed();
+				_preloader = null;
+			}
+			
+			//remove any mask
+			this.masked = false;
+			this.urls = null;
+			
+			//stop any running tweens
+			if( _reveal )
+			{
+				_reveal.stop();
+			}
+			
+			if( _hide )
+			{
+				_hide.stop();
+			}
+			
+			_reveal = null;
+			_hide = null;
 		}
 	}
 }

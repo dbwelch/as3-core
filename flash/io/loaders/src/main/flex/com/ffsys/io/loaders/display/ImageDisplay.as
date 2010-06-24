@@ -48,6 +48,11 @@ package com.ffsys.io.loaders.display {
 		*/
 		override public function destroy():void
 		{
+			if( _bitmapData )
+			{
+				_bitmapData.dispose();
+			}
+			
 			_bitmapData = null;
 			_asset = null;
 			

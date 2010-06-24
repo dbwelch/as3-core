@@ -252,7 +252,6 @@ package com.ffsys.ui.core
 				&& this.contains( DisplayObject( this.background ) )
 				&& numChildren > 1 )
 			{
-				trace("AbstractComponent::createChildren()", "MOVING BACKGROUND TO THE BACK" );
 				this.setChildIndex( DisplayObject( this.background ), 0 );
 			}
 			
@@ -374,7 +373,6 @@ package com.ffsys.ui.core
 
 			if( this.background )
 			{
-				trace("AbstractComponent::set background()", "CREATING BACKGROUND AT DEPTH 0" );
 				addChildAt( DisplayObject( this.background ), 0 );
 			}
 		}

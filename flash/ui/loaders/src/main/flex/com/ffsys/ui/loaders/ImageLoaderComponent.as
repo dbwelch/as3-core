@@ -83,17 +83,27 @@ package com.ffsys.ui.loaders
 			
 			if( display )
 			{
-				trace("ImageLoaderComponent::loadComplete()", display );
-				
 				display.mouseEnabled = false;
-				mouseChildren = false;
-				
-				//DisplayObjectContainer( container ).addChild( display );
-				
+				mouseChildren = false;	
 				_sprites.push( display );
 			}
 			
 			super.loadComplete( event );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			
+			var display:ImageDisplay = null;
+			for( var i:int = 0;i < _sprites.length;i++ )
+			{
+				display = ImageDisplay( _sprites[ i ] );
+				display.destroy();
+			}
 		}
 	}
 }

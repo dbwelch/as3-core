@@ -77,6 +77,7 @@ package com.ffsys.ui.containers {
 						graphic = this.masker.graphic;
 						removeChild( DisplayObject( this.masker ) );
 						this.mask = null;
+						_masker = null;
 					}
 				}
 			
