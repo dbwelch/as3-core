@@ -36,6 +36,8 @@ package com.ffsys.ui.loaders
 		
 		/**
 		* 	Invoked when a runtime resource has completed loading.
+		* 
+		* 	@param data The data encapsulating the loaded resource.
 		*/
 		function loaded( data:Object ):void;
 		
