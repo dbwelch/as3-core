@@ -1,13 +1,22 @@
 package com.ffsys.ui.loaders
 {
-	import com.ffsys.io.loaders.core.ILoader;
-	
 	import com.ffsys.ui.core.IComponent;
-
+	import com.ffsys.ui.core.IMaskComponent;
+	
+	/**
+	*	Describes the contract for loader components.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  16.06.2010
+	*/
 	public interface ILoaderComponent
+		extends ITransitionAwareSlideShow
 	{
 		/**
-		* 	Gets the container that holds the loaded runtime asset.
+		* 	Gets the container that holds the loaded runtime asset(s).
 		*/
 		function get container():IComponent;
 		
@@ -18,25 +27,21 @@ package com.ffsys.ui.loaders
 		function set urls( urls:Array ):void;
 		
 		/**
-		* 	Determines whether the load process has been deferred
-		* 	until the load method is manually invoked.
-		*/
-		function get deferred():Boolean;
-		function set deferred( deferred:Boolean ):void;
-		
-		/**
-		* 	Gets the loader used to load the runtime asset.
-		*/
-		function get loader():ILoader;
-		
-		/**
 		* 	Starts the load process.
-		* 
-		* 	By default the load process will start when the loader
-		* 	is added to the display list unless it is configured to
-		* 	be deferred in which case the load process does not start
-		* 	until this method is invoked.
 		*/
 		function load():void;
+		
+		/**
+		* 	Determines whether the contents of this loader
+		* 	are masked at the preferred dimensions.
+		*/
+		function get masked():Boolean;
+		function set masked( masked:Boolean ):void;
+		
+		/**
+		* 	Gets the mask component used for the mask
+		* 	when this component is configured to be masked.
+		*/
+		function get masker():IMaskComponent;		
 	}
 }

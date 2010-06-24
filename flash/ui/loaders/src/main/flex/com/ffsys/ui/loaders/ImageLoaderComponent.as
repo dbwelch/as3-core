@@ -1,7 +1,8 @@
 package com.ffsys.ui.loaders
 {
-	import flash.display.Sprite;
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.core.ILoader;
@@ -28,17 +29,39 @@ package com.ffsys.ui.loaders
 		*/
 		static private var _display:ImageDisplay;
 		
+		private var _sprites:Vector.<Sprite> = new Vector.<Sprite>();
+		
 		/**
 		* 	Creates an <code>ImageLoaderComponent</code> instance.
 		* 
 		* 	@param urls An array of images to load into the image loader.
-		* 	@param deferred Whether the load operation should be
-		* 	deferred until the load method is invoked manually.
 		*/
 		public function ImageLoaderComponent(
 			urls:Array )
 		{
 			super( urls );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get length():uint
+		{
+			return _sprites.length;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function getSlideShowItemAtIndex(
+			index:uint ):DisplayObject
+		{
+			if( index >= 0 && index < _sprites.length )
+			{
+				return _sprites[ index ];
+			}
+			
+			return null;
 		}
 		
 		/**
@@ -58,10 +81,17 @@ package com.ffsys.ui.loaders
 			var evt:ImageLoadEvent = ImageLoadEvent( event );
 			var display:Sprite = Sprite( evt.image );
 			
-			display.mouseEnabled = false;
-			mouseChildren = false;
-			
-			DisplayObjectContainer( container ).addChild( display );
+			if( display )
+			{
+				trace("ImageLoaderComponent::loadComplete()", display );
+				
+				display.mouseEnabled = false;
+				mouseChildren = false;
+				
+				//DisplayObjectContainer( container ).addChild( display );
+				
+				_sprites.push( display );
+			}
 			
 			super.loadComplete( event );
 		}
