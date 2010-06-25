@@ -33,7 +33,7 @@ package com.ffsys.ui.core
 	public class AbstractComponent extends Sprite
 		implements IComponent
 	{	
-		static private var _initialized:Boolean = false;
+		static private var _utils:IComponentViewUtils;
 		
 		static private var _textFieldFactory:ITextFieldFactory
 			= new TextFieldFactory();
@@ -53,11 +53,18 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
-			
-			if( !_initialized )
+			if( !_utils && !( this is IComponentRootLayer ) )
 			{
-				//addEventListener( Event.ADDED_TO_STAGE, initialize );
+				_utils = new ComponentViewUtils();
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get utils():IComponentViewUtils
+		{
+			return _utils;
 		}
 		
 		/**
@@ -177,22 +184,6 @@ package com.ffsys.ui.core
 			
 			return child;
 		}
-		
-		/**
-		* 	Invoked when this instance is added to the display list.
-		* 
-		* 	The default behaviour is to invoke <code>createChildren</code>.
-		*/
-		private function initialize( event:Event ):void
-		{
-			trace("AbstractComponent::initialize(), ",event );
-			if( !_initialized  )
-			{
-				removeEventListener( Event.ADDED_TO_STAGE, initialize );
-				createChildren();
-				_initialized = true;
-			}
-		}		
 		
 		/**
 		* 	Invoked when this instance is added to the display list.

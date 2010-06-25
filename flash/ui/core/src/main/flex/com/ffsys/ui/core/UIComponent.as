@@ -25,22 +25,40 @@ package com.ffsys.ui.core
 		/**
 		* 	Invoked when this instance is added to the display list.
 		* 
-		* 	This method does nothing by default.
-		*/
-		override protected function createChildren():void
-		{
-			//
-		}
-		
-		/**
-		* 	Invoked when this instance is added to the display list.
-		* 
 		* 	The default behaviour is to invoke <code>createChildren</code>.
 		*/
 		protected function added( event:Event ):void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, added );
 			addEventListener( Event.REMOVED_FROM_STAGE, removed );
+			
+			//trace("UIComponent::added()", this, root, utils, utils.layer );
+			
+			//initialize the root component layer
+			if( root
+				&& utils
+				&& utils.layer
+				&& !utils.layer.initialized
+				&& !( this is IComponentRootLayer ) )
+			{
+				utils.layer.initialize( root );
+			}
+			
+			//ensure the component view utils have the root and stage references
+			if( root && stage && utils )
+			{
+				var concrete:ComponentViewUtils = ComponentViewUtils( utils );
+				if( !concrete._root )
+				{
+					concrete._root = root;
+				}
+				
+				if( !concrete._stage )
+				{
+					concrete._stage = stage;
+				}
+			}
+			
 			createChildren();
 		}
 		

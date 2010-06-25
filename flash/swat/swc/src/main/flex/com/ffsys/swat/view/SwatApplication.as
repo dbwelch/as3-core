@@ -223,6 +223,8 @@ package com.ffsys.swat.view  {
 			}catch( e:Error )
 			{
 				//ignore if the components are not compiled or instantiation error
+				
+				throw e;
 			}
 			
 			var factory:ITextFieldFactory;

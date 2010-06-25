@@ -42,6 +42,11 @@ package com.ffsys.ui.core
 	{
 		
 		/**
+		* 	Gets the utility methods and properties available to all components.
+		*/
+		function get utils():IComponentViewUtils;
+		
+		/**
 		*	The preferred width for the component.	
 		*/
 		function get preferredWidth():Number;

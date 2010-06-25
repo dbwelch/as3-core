@@ -69,7 +69,6 @@ package com.ffsys.ui.skins
 				&& !_indexes[ id ] )
 			{
 				_indexes[ id ] = ( _states.push( state ) - 1 );
-				trace("SkinStates::addStateById(), ", state, _indexes[ id ] );
 				return true;
 			}
 			return false;

@@ -1,6 +1,8 @@
 package com.ffsys.ui.suite.view {
 	
 	import flash.display.Bitmap;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.view.AbstractSwatView;	
@@ -65,8 +67,8 @@ package com.ffsys.ui.suite.view {
 			vbox.spacing = 15;
 			
 			var buttonSuite:ButtonSuite = new ButtonSuite();
-			vbox.addChild( buttonSuite );			
-
+			vbox.addChild( buttonSuite );
+	
 			var containersSuite:ContainersSuite = new ContainersSuite();
 			vbox.addChild( containersSuite );
 			
@@ -78,6 +80,18 @@ package com.ffsys.ui.suite.view {
 			
 			var textSuite:TextSuite = new TextSuite();
 			vbox.addChild( textSuite );
+			
+			//test adding a new sibling - to check the root layer
+			//swaps itself to the top depth
+			var sp:Sprite = new Sprite();
+			
+			/*
+			sp.graphics.beginFill( 0xff0000, 1 );
+			sp.graphics.drawRect( 0, 0, 100, 100 );
+			sp.graphics.endFill();
+			*/
+			
+			DisplayObjectContainer( this.root ).addChild( sp );
 		}
 	}
 }
