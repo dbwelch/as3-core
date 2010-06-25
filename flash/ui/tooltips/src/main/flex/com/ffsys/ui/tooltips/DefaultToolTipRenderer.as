@@ -29,7 +29,7 @@ package com.ffsys.ui.tooltips
 		public function DefaultToolTipRenderer()
 		{
 			super();
-			this.paddings.padding = 2;
+			this.paddings.padding = 4;
 		}
 		
 		/**
@@ -62,10 +62,10 @@ package com.ffsys.ui.tooltips
 		override public function show( text:String ):void
 		{
 			label = new Label( text );
-			var w:Number = label.layoutWidth + paddings.left + paddings.right;
+			var w:Number = label.layoutWidth + paddings.left + paddings.right + 2;
 			var h:Number = label.layoutHeight + paddings.top + paddings.bottom;
 			background = getBackgroundGraphic( w, h );
-			label.x = paddings.left;
+			label.x = paddings.left + 1;
 			label.y = paddings.top;
 		}
 		

@@ -87,5 +87,14 @@ package com.ffsys.ui.core
 			
 			return super.toString();
 		}
+		
+		/**
+		*	Provides static access to the utilities exposed
+		*	to all components.
+		*/
+		public static function get utilities():IComponentViewUtils
+		{
+			return _utils;
+		}
 	}
 }

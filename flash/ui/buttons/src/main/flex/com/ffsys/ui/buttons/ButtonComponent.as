@@ -14,12 +14,27 @@ package com.ffsys.ui.buttons
 	*/
 	public class ButtonComponent extends SkinAwareComponent
 	{
+		private var _tooltip:String;
+		
 		/**
 		* 	Creates an ButtonComponent instance.
 		*/
 		public function ButtonComponent()
 		{
 			super();
+		}
+		
+		/**
+		*	A tooltip this button should show on rollover.
+		*/
+		public function get tooltip():String
+		{
+			return _tooltip;
+		}
+		
+		public function set tooltip( tooltip:String ):void
+		{
+			_tooltip = tooltip;
 		}
 		
 		/**
@@ -46,7 +61,10 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOver(
 			event:MouseEvent ):void
 		{
-			//
+			if( tooltip != null )
+			{
+				utils.layer.tooltips.show( tooltip );
+			}
 		}
 		
 		/**
@@ -55,7 +73,10 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOut(
 			event:MouseEvent ):void
 		{
-			//
+			if( tooltip != null )
+			{
+				utils.layer.tooltips.hide();
+			}
 		}
 	}
 }

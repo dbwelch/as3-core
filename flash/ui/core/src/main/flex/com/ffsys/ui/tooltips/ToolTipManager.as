@@ -3,7 +3,7 @@ package com.ffsys.ui.tooltips
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	
-	import com.ffsys.ui.common.Edges;
+	import com.ffsys.ui.common.Orientation;
 	import com.ffsys.ui.core.UIComponent;
 	
 	/**
@@ -22,7 +22,7 @@ package com.ffsys.ui.tooltips
 		implements IToolTipManager
 	{
 		private var _renderer:IToolTipRenderer;
-		private var _align:String = Edges.TOP;
+		private var _align:String = Orientation.TOP;
 		
 		/**
 		* 	Creates a <code>ToolTipManager</code> instance.
@@ -137,7 +137,7 @@ package com.ffsys.ui.tooltips
 			
 			switch( align )
 			{
-				case Edges.TOP:
+				case Orientation.TOP:
 					x -= ( w * 0.5 );
 					y -= ( h + margins.top );
 					break;

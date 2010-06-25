@@ -1,5 +1,7 @@
 package com.ffsys.ui.suite.view {
 	
+	import flash.events.MouseEvent;
+	
 	import com.ffsys.ui.text.core.*;
 	import com.ffsys.ui.containers.HorizontalBox;
 	import com.ffsys.ui.containers.VerticalBox;
@@ -38,12 +40,15 @@ package com.ffsys.ui.suite.view {
 			hbox = new HorizontalBox();
 			hbox.addChild(
 				new Label( "TEXT BUTTON: " ) );
-			
-			hbox.addChild(
-				new TextButton( "Simple Text Button" ) );
 				
-			hbox.addChild(
-				new Button( "A GRAPHICAL BUTTON" ) );
+			var btn:ButtonComponent =
+				new TextButton( "Simple Text Button" );
+			
+			hbox.addChild( btn );
+			
+			btn = new Button( "A GRAPHICAL BUTTON" );
+			btn.tooltip = "this is a test with descenders for you";
+			hbox.addChild( btn );
 			
 			addChild( hbox );
 		}

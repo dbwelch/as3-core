@@ -20,8 +20,5 @@ package com.ffsys.ui.tooltips
 		{
 			super();
 		}
-	
 	}
-
 }
-

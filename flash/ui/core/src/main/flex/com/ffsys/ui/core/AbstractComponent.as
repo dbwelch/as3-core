@@ -33,7 +33,10 @@ package com.ffsys.ui.core
 	public class AbstractComponent extends Sprite
 		implements IComponent
 	{	
-		static private var _utils:IComponentViewUtils;
+		/**
+		*	@private	
+		*/
+		static protected var _utils:IComponentViewUtils;
 		
 		static private var _textFieldFactory:ITextFieldFactory
 			= new TextFieldFactory();
@@ -514,6 +517,6 @@ package com.ffsys.ui.core
 				removeChild( child );
 				i--;
 			}
-		}		
+		}
 	}
 }

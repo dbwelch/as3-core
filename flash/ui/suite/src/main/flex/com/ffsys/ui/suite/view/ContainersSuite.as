@@ -71,8 +71,8 @@ package com.ffsys.ui.suite.view {
 				
 			lbl = new Label( "Box Model" );
 			lbl.color = 0x000000;
-			cell.layout.horizontalAlign = Edges.LEFT;
-			cell.layout.verticalAlign = Edges.TOP;
+			cell.layout.horizontalAlign = Orientation.LEFT;
+			cell.layout.verticalAlign = Orientation.TOP;
 			cell.addChild( lbl );
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );
@@ -87,8 +87,8 @@ package com.ffsys.ui.suite.view {
 				
 			lbl = new Label( "Box Model" );
 			lbl.color = 0x000000;
-			cell.layout.horizontalAlign = Edges.RIGHT;
-			cell.layout.verticalAlign = Edges.TOP;
+			cell.layout.horizontalAlign = Orientation.RIGHT;
+			cell.layout.verticalAlign = Orientation.TOP;
 			cell.addChild( lbl );
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );
@@ -103,8 +103,8 @@ package com.ffsys.ui.suite.view {
 				
 			lbl = new Label( "Box Model" );
 			lbl.color = 0x000000;
-			cell.layout.horizontalAlign = Edges.RIGHT;
-			cell.layout.verticalAlign = Edges.BOTTOM;
+			cell.layout.horizontalAlign = Orientation.RIGHT;
+			cell.layout.verticalAlign = Orientation.BOTTOM;
 			cell.addChild( lbl );
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );
@@ -119,8 +119,8 @@ package com.ffsys.ui.suite.view {
 				
 			lbl = new Label( "Box Model" );
 			lbl.color = 0x000000;
-			cell.layout.horizontalAlign = Edges.LEFT;
-			cell.layout.verticalAlign = Edges.BOTTOM;
+			cell.layout.horizontalAlign = Orientation.LEFT;
+			cell.layout.verticalAlign = Orientation.BOTTOM;
 			cell.addChild( lbl );
 			cell.addChild( new BoxModelComponent() );
 			hbox.addChild( cell );			

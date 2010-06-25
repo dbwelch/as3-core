@@ -10,7 +10,9 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
+	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.tooltips.*;
 	
 	/**
 	*	The main view for the application.
@@ -63,6 +65,10 @@ package com.ffsys.ui.suite.view {
 		{	
 			vbox = new VerticalBox();
 			addChild( vbox );
+			
+			//initialize the tooltip renderer
+			UIComponent.utilities.layer.tooltips.renderer = 
+				new DefaultToolTipRenderer();
 			
 			vbox.spacing = 15;
 			

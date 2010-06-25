@@ -2,6 +2,8 @@ package com.ffsys.ui.graphics {
 	
 	import flash.geom.Point;
 	
+	import com.ffsys.ui.common.Orientation;
+	
 	/**
 	*	Represents an arrow.
 	*
@@ -12,6 +14,8 @@ package com.ffsys.ui.graphics {
 	*	@since  20.06.2010
 	*/
 	public class ArrowGraphic extends TriangleGraphic {
+		
+		private var _orientation:String;
 		
 		/**
 		*	Creates an <code>ArrowGraphic</code> instance.
@@ -25,11 +29,28 @@ package com.ffsys.ui.graphics {
 			width:Number = 10,
 			height:Number = 10,
 			stroke:IStroke = null,
-			fill:IFill = null )
+			fill:IFill = null,
+			orientation:String = Orientation.RIGHT )
 		{
 			super( stroke, fill );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
+			this.orientation = orientation;
+		}
+		
+		/**
+		*	Determines the orientation of the arrow.
+		*	
+		*	This is the direction that the arrow points to.
+		*/
+		public function get orientation():String
+		{
+			return _orientation;
+		}
+		
+		public function set orientation( orientation:String ):void
+		{
+			_orientation = orientation;
 		}
 		
 		/**
@@ -37,9 +58,16 @@ package com.ffsys.ui.graphics {
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			this.point1 = new Point();
-			this.point2 = new Point( width, height / 2 );
-			this.point3 = new Point( 0, height );
+			switch( orientation )
+			{
+				case Orientation.RIGHT:
+					this.point1 = new Point();
+					this.point2 = new Point( width, height / 2 );
+					this.point3 = new Point( 0, height );
+					break;
+				default:
+					throw new Error( "Arrow graphic encountered an invalid orientation." );
+			}
 			
 			super.doDraw( width, height );
 		}
