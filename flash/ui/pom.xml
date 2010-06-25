@@ -35,6 +35,7 @@
 		<module>skins</module>
 		<module>skins-core</module>
 		<module>suite</module>
+		<module>tooltips</module>
 		<module>text</module>
 		<module>text-core</module>
 	</modules>
