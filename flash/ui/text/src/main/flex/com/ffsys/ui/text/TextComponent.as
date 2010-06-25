@@ -124,7 +124,7 @@ package com.ffsys.ui.text
 		{
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return textfield.textWidth;
+				return Math.ceil( textfield.textWidth );
 			}
 			
 			return this.width == 0 ? 0 : this.width - 4;
