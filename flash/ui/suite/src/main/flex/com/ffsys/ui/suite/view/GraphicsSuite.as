@@ -4,6 +4,7 @@ package com.ffsys.ui.suite.view {
 	import flash.display.Bitmap;
 	import flash.display.GradientType;
 	
+	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.display.*;
 	import com.ffsys.ui.graphics.*;
@@ -168,6 +169,30 @@ package com.ffsys.ui.suite.view {
 				stroke,
 				fill );
 			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			ArrowGraphic( graphic ).orientation = Orientation.LEFT;
+			hbox.addChild( DisplayObject( graphic ) );	
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			ArrowGraphic( graphic ).orientation = Orientation.TOP;
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			ArrowGraphic( graphic ).orientation = Orientation.BOTTOM;
+			hbox.addChild( DisplayObject( graphic ) );				
 			
 			var cornerAware:CornerAwareRectangleGraphic = null;
 			

@@ -65,6 +65,21 @@ package com.ffsys.ui.graphics {
 					this.point2 = new Point( width, height / 2 );
 					this.point3 = new Point( 0, height );
 					break;
+				case Orientation.LEFT:
+					this.point1 = new Point( 0, height / 2 );
+					this.point2 = new Point( width, 0 );
+					this.point3 = new Point( width, height );
+					break;
+				case Orientation.TOP:
+					this.point1 = new Point( width / 2, 0 );
+					this.point2 = new Point( width, height );
+					this.point3 = new Point( 0, height );
+					break;					
+				case Orientation.BOTTOM:
+					this.point1 = new Point( 0, 0 );
+					this.point2 = new Point( width, 0 );
+					this.point3 = new Point( width / 2, height );
+					break;
 				default:
 					throw new Error( "Arrow graphic encountered an invalid orientation." );
 			}
