@@ -192,7 +192,41 @@ package com.ffsys.ui.suite.view {
 				stroke,
 				fill );
 			ArrowGraphic( graphic ).orientation = Orientation.BOTTOM;
-			hbox.addChild( DisplayObject( graphic ) );				
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			ArrowGraphic( graphic ).orientation = Orientation.TOP_LEFT;
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			ArrowGraphic( graphic ).orientation = Orientation.TOP_RIGHT;
+			hbox.addChild( DisplayObject( graphic ) );	
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			ArrowGraphic( graphic ).orientation = Orientation.BOTTOM_RIGHT;
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new ArrowGraphic(
+				width / 2,
+				height / 2,
+				stroke,
+				fill );
+			ArrowGraphic( graphic ).orientation = Orientation.BOTTOM_LEFT;
+			hbox.addChild( DisplayObject( graphic ) );							
 			
 			var cornerAware:CornerAwareRectangleGraphic = null;
 			
