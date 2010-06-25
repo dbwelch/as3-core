@@ -2,6 +2,8 @@ package com.ffsys.ui.core
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	
 	import com.ffsys.ui.tooltips.IToolTipManager;
@@ -40,6 +42,16 @@ package com.ffsys.ui.core
 			this.parent.addEventListener( Event.ADDED, checkSiblingAdded );
 			_tooltips = new ToolTipManager();
 			addChild( DisplayObject( _tooltips ) );
+			
+			//setup sensible defaults for the stage
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			
+			//hook into the resize event to keep preferred dimensions in sync
+			stage.addEventListener( Event.RESIZE, resize );
+			
+			//invoke resize immediately
+			resize();
 		}
 		
 		/**
@@ -81,6 +93,19 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	Provides static access to tooltip manager for the application.
+		* 
+		* 	The return value of this method will be null if no components
+		* 	have been added to the display list.
+		* 
+		* 	@return The tool tip manager implementation.
+		*/
+		public static function getToolTipManager():IToolTipManager
+		{
+			return _tooltips;
+		}
+		
+		/**
 		* 	@private
 		* 
 		* 	Handles ensuring this display object is always at the highest depth
@@ -97,6 +122,28 @@ package com.ffsys.ui.core
 				var index:uint = this.parent.getChildIndex( this );
 				var sibling:uint = this.parent.getChildIndex( display );
 				this.parent.setChildIndex( this, sibling );
+			}
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Handles the event dispatched when the stage resizes,
+		* 	this method simply keeps the preferred dimensions to
+		* 	match the stage dimensions.
+		*/
+		private function resize( event:Event = null ):void
+		{
+			if( stage )
+			{
+				this.preferredWidth = stage.stageWidth;
+				this.preferredHeight = stage.stageHeight;
+				
+				if( tooltips )
+				{
+					tooltips.preferredWidth = stage.stageWidth;
+					tooltips.preferredHeight = stage.stageHeight;
+				}
 			}
 		}
 	}
