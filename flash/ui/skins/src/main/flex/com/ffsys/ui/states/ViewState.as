@@ -18,9 +18,7 @@ package com.ffsys.ui.states
 	*/
 	public class ViewState extends Object
 		implements IViewState
-	{
-		public static const DEFAULT_STATE_ID:String = "main";
-		
+	{	
 		private var _id:String;
 		private var _styles:IStyleCollection = new StyleCollection();
 		private var _graphics:Vector.<IComponentGraphic>
@@ -36,7 +34,7 @@ package com.ffsys.ui.states
 		*	@param id The identifier for the state.
 		*/
 		public function ViewState(
-			id:String = DEFAULT_STATE_ID )
+			id:String = State.MAIN )
 		{
 			super();
 			this.id = id;

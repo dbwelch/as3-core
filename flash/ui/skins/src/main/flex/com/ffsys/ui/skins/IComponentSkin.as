@@ -52,6 +52,16 @@ package com.ffsys.ui.skins
 			id:String, state:IViewState ):Boolean;
 			
 		/**
+		*	Determines whether a state of the specified
+		*	identifier exists in this skin.
+		*	
+		*	@param id The identifier for the state.
+		*	
+		*	@return Whether the state exists in this skin.
+		*/
+		function hasState( id:String ):Boolean;			
+			
+		/**
 		*	The number of states in this skin.	
 		*/
 		function get length():uint;		

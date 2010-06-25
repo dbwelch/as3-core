@@ -4,6 +4,7 @@ package com.ffsys.ui.buttons {
 	import com.ffsys.ui.skins.ComponentSkin;
 	import com.ffsys.ui.states.IViewState;
 	import com.ffsys.ui.states.ViewState;
+	import com.ffsys.ui.states.State;
 	
 	/**
 	*	Represents a standard button.
@@ -25,9 +26,48 @@ package com.ffsys.ui.buttons {
 			text:String = "" )
 		{
 			super( text );
-
-			//default skin for this component
-			this.skin = new ComponentSkin();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get preferredWidth():Number
+		{
+			var width:Number = super.preferredWidth;
+			
+			/*
+			if( label )
+			{
+				width = label.layoutWidth + paddings.left + paddings.right;
+			}
+			*/
+			
+			return width;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get preferredHeight():Number
+		{
+			var height:Number = super.preferredHeight;
+			
+			/*
+			if( label )
+			{
+				height = label.layoutHeight + paddings.left + paddings.right;
+			}
+			*/
+			
+			return height;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function configureDefaultSkin():void
+		{
+			//main state for this component
 			var main:IViewState = new ViewState();
 			
 			main.graphics.push(
@@ -39,6 +79,16 @@ package com.ffsys.ui.buttons {
 				new SolidFill( 0xff0000, 0.5 ) );
 			
 			this.skin.addState( main );
+			
+			var over:IViewState = new ViewState( 
+			 	State.OVER );
+					
+			over.fills.push(
+				new SolidFill( 0x00ff00, 0.5 ) );
+			
+			this.skin.addState( over );
+	
+			trace("Button::configureDefaultSkin(), ", "CONFIGURING DEFAULT SKIN", this.skin.length );			
 		}
 	}
 }

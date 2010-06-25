@@ -27,19 +27,39 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		override public function get preferredWidth():Number
+		{
+			var width:Number = super.preferredWidth;
+			if( label )
+			{
+				width = label.layoutWidth + paddings.left + paddings.right;
+			}
+			
+			return width;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get preferredHeight():Number
+		{
+			var height:Number = super.preferredHeight;
+			if( label )
+			{
+				height = label.layoutHeight + paddings.left + paddings.right;
+			}
+			
+			return height;
+		}
+		
+		/**
 		* 	The label being used to render the text for this button.
 		*/
 		public function get label():Label
 		{
 			return _label;
-		}
-		
-		/**
-		* 	@inheritDic
-		*/
-		override protected function createChildren():void
-		{
-			//
 		}
 	}
 }

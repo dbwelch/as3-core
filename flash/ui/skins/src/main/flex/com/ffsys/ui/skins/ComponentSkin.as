@@ -38,8 +38,14 @@ package com.ffsys.ui.skins
 			if( id )
 			{
 				var index:uint = _indexes[ id ];
-				if( index is Number )
+				if( index is uint )
 				{
+					trace("ComponentSkin::getStateById(), ", index, _states.length );
+					if( index >= _states.length )
+					{
+						throw new Error( "Could not locate a state at index " + index );
+					}
+					
 					return _states[ index ];
 				}
 			}
@@ -61,6 +67,14 @@ package com.ffsys.ui.skins
 		/**
 		*	@inheritDoc	
 		*/
+		public function hasState( id:String ):Boolean
+		{
+			return ( _indexes[ id ] is Number );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function addStateById(
 			id:String, state:IViewState ):Boolean
 		{
@@ -68,7 +82,9 @@ package com.ffsys.ui.skins
 				&& _states.indexOf( state ) == -1
 				&& !_indexes[ id ] )
 			{
-				_indexes[ id ] = ( _states.push( state ) - 1 );
+				var length:uint = _states.push( state );
+				_indexes[ id ] = ( length - 1 );
+				trace("ComponentSkin::addStateById(), ", id, length -1, _states[ length-1 ] );
 				return true;
 			}
 			return false;

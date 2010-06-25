@@ -29,6 +29,13 @@
 			<type>swc</type>
 		</dependency>
 		-->
+		
+		<dependency>
+			<groupId>com.ffsys.ui</groupId>
+			<artifactId>graphics</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
 			<artifactId>skins</artifactId>

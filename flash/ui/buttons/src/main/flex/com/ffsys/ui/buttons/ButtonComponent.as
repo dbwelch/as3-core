@@ -2,6 +2,7 @@ package com.ffsys.ui.buttons
 {
 	import flash.events.MouseEvent;
 	import com.ffsys.ui.core.SkinAwareComponent;
+	import com.ffsys.ui.states.State;
 	
 	/**
 	*	Abstract super class for all buttons.
@@ -43,7 +44,10 @@ package com.ffsys.ui.buttons
 		override protected function onMouseDown(
 			event:MouseEvent ):void
 		{
-			//
+			if( this.skin && this.skin.hasState( State.DOWN ) )
+			{
+				this.state = State.DOWN;
+			}
 		}
 		
 		/**
@@ -52,7 +56,10 @@ package com.ffsys.ui.buttons
 		override protected function onMouseUp(
 			event:MouseEvent ):void
 		{
-			//
+			if( this.skin && this.skin.hasState( State.MAIN ) )
+			{
+				this.state = State.MAIN;
+			}
 		}
 		
 		/**
@@ -61,6 +68,11 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOver(
 			event:MouseEvent ):void
 		{
+			if( this.skin && this.skin.hasState( State.OVER ) )
+			{
+				this.state = State.OVER;
+			}			
+			
 			if( tooltip != null )
 			{
 				utils.layer.tooltips.show( tooltip );
@@ -73,10 +85,15 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOut(
 			event:MouseEvent ):void
 		{
+			if( this.skin && this.skin.hasState( State.MAIN ) )
+			{
+				this.state = State.MAIN;
+			}			
+			
 			if( tooltip != null )
 			{
 				utils.layer.tooltips.hide();
 			}
-		}
+		}		
 	}
 }
