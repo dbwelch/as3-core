@@ -70,30 +70,21 @@ package com.ffsys.ui.containers {
 			}
 		}
 		
+		
 		/**
-		*	@inheritDoc	
+		* 	@inheritDoc
 		*/
 		override public function get layoutWidth():Number
 		{
-			if( isNaN( this.preferredWidth ) && content ) 
-			{
-				return content.width;
-			}
-
-			return super.layoutWidth;
+			return preferredWidth;
 		}
 		
 		/**
-		*	@inheritDoc	
+		* 	@inheritDoc
 		*/
 		override public function get layoutHeight():Number
 		{
-			if( isNaN( this.preferredHeight ) && content ) 
-			{
-				return content.height;
-			}
-
-			return super.layoutHeight;
+			return preferredHeight;
 		}
 	}
 }

@@ -10,9 +10,9 @@ package com.ffsys.ui.loaders
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	import com.ffsys.io.loaders.events.*;
 	
+	import com.ffsys.ui.containers.Cell;
 	import com.ffsys.ui.core.InteractiveComponent;
 	import com.ffsys.ui.core.IComponent;
-	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.core.IMaskComponent;
 	import com.ffsys.ui.core.MaskComponent;
 	import com.ffsys.ui.graphics.IComponentGraphic;
@@ -35,7 +35,7 @@ package com.ffsys.ui.loaders
 		implements ILoaderComponent
 	{	
 		private var _queue:ILoaderQueue = new LoaderQueue();
-		private var _container:IComponent;
+		private var _container:Cell;
 		private var _urls:Array;
 		private var _masked:Boolean;
 		private var _masker:IMaskComponent;
@@ -62,8 +62,42 @@ package com.ffsys.ui.loaders
 		{
 			super();
 			this.urls = urls;
-			_container = new UIComponent();
-			addChild( DisplayObject( _container ) );			
+			_container = new Cell();
+			addChild( DisplayObject( _container ) );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function set preferredWidth( value:Number ):void
+		{
+			super.preferredWidth = value;
+			_container.preferredWidth = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function set preferredHeight( value:Number ):void
+		{
+			super.preferredHeight = value;
+			_container.preferredHeight = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutWidth():Number
+		{
+			return preferredWidth;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutHeight():Number
+		{
+			return preferredHeight;
 		}
 		
 		/**
@@ -337,31 +371,50 @@ package com.ffsys.ui.loaders
 		private function revealItemAtIndex( index:uint ):void
 		{
 			var item:DisplayObject = getSlideShowItemAtIndex( index );
+			_container.addChild( item );
 
 			_pauseTimeElapsed = false;
 			
 			if( item )
 			{
-				if( reveal )
+				if( reveal || hide )
 				{
-					var effect:ITween = reveal;
+					if( reveal )
+					{
+						var revealEffect:ITween = reveal;
 					
-					//update the target for the effect
-					effect.target = item;
+						//update the target for the effect
+						revealEffect.target = item;
 					
-					//initialize all property values to the start values
-					effect.initialize();
+						//initialize all property values to the start values
+						revealEffect.initialize();
 					
-					//start the effect
-					effect.addEventListener( TweenEvent.COLLECTION_COMPLETE, revealComplete );
-					effect.start();
+						//start the effect
+						revealEffect.addEventListener( TweenEvent.COLLECTION_COMPLETE, revealComplete );
+						revealEffect.start();
+					}
+					
+					var previous:DisplayObject = getPreviousItem( item );
+					
+					if( hide && previous )
+					{
+						var hideEffect:ITween = hide;
+					
+						//update the target for the effect
+						hideEffect.target = previous;
+					
+						//initialize all property values to the start values
+						hideEffect.initialize();
+					
+						//start the effect
+						hideEffect.addEventListener( TweenEvent.COLLECTION_COMPLETE, hideComplete );
+						hideEffect.start();
+					}
 				}else{
 					
 					removePreviousItem( getCurrentItem() );
 					startPauseTimer();
 				}
-				
-				_container.addChild( item );
 			}
 		}
 		
@@ -389,24 +442,43 @@ package com.ffsys.ui.loaders
 		* 
 		* 	@return The display object that was removed.
 		*/
-		protected function removePreviousItem( item:DisplayObject ):DisplayObject
+		protected function getPreviousItem( item:DisplayObject ):DisplayObject
 		{
 			if( item && item.parent )
 			{
 				var index:uint = item.parent.getChildIndex( item );
-				
+
 				if( index > 0 )
 				{
-					var previous:DisplayObject = item.parent.getChildAt( index - 1 );
-					return item.parent.removeChild( previous );
+					return item.parent.getChildAt( index - 1 );
 				}
+			}
+			
+			return null;
+		}		
+		
+		/**
+		* 	Removes the previous slideshow display object now that
+		* 	the current slide show item has hidden it.
+		* 
+		* 	@param item The current slideshow item.
+		* 
+		* 	@return The display object that was removed.
+		*/
+		protected function removePreviousItem( item:DisplayObject ):DisplayObject
+		{
+			var previous:DisplayObject = getPreviousItem( item );
+
+			if( previous )
+			{
+				return previous.parent.removeChild( previous );
 			}
 			
 			return null;
 		}
 		
 		/**
-		* 	Invoked when the reveal is complete.
+		* 	Invoked when the reveal animation is complete.
 		*/
 		private function revealComplete( event:ITweenEvent ):void
 		{
@@ -419,6 +491,21 @@ package com.ffsys.ui.loaders
 			}
 				
 			startPauseTimer();
+		}
+		
+		/**
+		* 	Invoked when the hide animation is complete.
+		*/
+		private function hideComplete( event:ITweenEvent ):void
+		{
+			Event( event ).target.removeEventListener(
+				Event( event ).type, arguments.callee );
+				
+			if( reveal == null )
+			{
+				removePreviousItem( getCurrentItem() );
+				startPauseTimer();
+			}
 		}
 		
 		/**
