@@ -84,6 +84,8 @@ package com.ffsys.ui.tooltips
 				renderer.manager = this;
 				addChild( DisplayObject( renderer ) );
 				renderer.show( text );
+				//position immediately
+				position();
 			}
 			
 			removeEventListener( Event.ENTER_FRAME, position );
