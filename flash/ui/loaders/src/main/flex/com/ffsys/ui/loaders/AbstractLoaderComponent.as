@@ -41,6 +41,7 @@ package com.ffsys.ui.loaders
 		private var _masker:IMaskComponent;
 		private var _preloader:IPreloader;
 		
+		private var _scaleMode:String = LoaderScaleMode.NO_SCALE;
 		private var _reveal:ITween;
 		private var _hide:ITween;
 		private var _automatic:Boolean;
@@ -64,6 +65,19 @@ package com.ffsys.ui.loaders
 			this.urls = urls;
 			_container = new Cell();
 			addChild( DisplayObject( _container ) );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get scaleMode():String
+		{
+			return _scaleMode;
+		}
+		
+		public function set scaleMode( value:String ):void
+		{
+			_scaleMode = value;
 		}
 		
 		/**
@@ -367,11 +381,62 @@ package com.ffsys.ui.loaders
 		
 		/**
 		* 	@private
+		* 
+		* 	Handles responding to an item and scaling either the content
+		* 	or resizing the loader depending upon the scale mode of this loader.
+		*/
+		private function handleScaleMode( item:DisplayObject ):void
+		{
+			switch( scaleMode )
+			{
+				case LoaderScaleMode.SCALE_TO_FIT:
+					
+					//over the preferred dimensions
+					if( item.width > preferredWidth || item.height > preferredHeight )
+					{
+						var isLandscape:Boolean = ( item.width >= item.height );
+						
+						var scaleXAmount:Number = 1;
+						var scaleYAmount:Number = 1;
+						
+						if( isLandscape )
+						{
+							scaleXAmount = preferredWidth / item.width;
+							scaleYAmount = scaleXAmount;
+						}else{
+							scaleYAmount = preferredHeight / item.height;
+							scaleXAmount = scaleYAmount;
+						}
+						
+						trace("AbstractLoaderComponent::handleScaleMode()",
+							isLandscape, item.width, this.preferredWidth, scaleXAmount, scaleYAmount );
+						
+						//only perform the scaling first time around
+						if( item.scaleX == 1 && item.scaleY == 1 )
+						{
+							item.scaleX = scaleXAmount;
+							item.scaleY = scaleYAmount;
+							
+							trace("AbstractLoaderComponent::handleScaleMode() AFTER SCALE APPLIED", item.width, item.height );
+						}
+					}
+				
+					break;
+				case LoaderScaleMode.RESIZE_TO_FIT:
+					//TODO: implement resizing loader to fit content
+					break;
+			}
+		}
+		
+		/**
+		* 	@private
 		*/
 		private function revealItemAtIndex( index:uint ):void
 		{
 			var item:DisplayObject = getSlideShowItemAtIndex( index );
 			_container.addChild( item );
+			
+			handleScaleMode( item );
 
 			_pauseTimeElapsed = false;
 			

@@ -16,6 +16,13 @@ package com.ffsys.ui.loaders
 		extends ITransitionAwareSlideShow
 	{
 		/**
+		* 	Determines how the loader should respond to content
+		* 	that exceeds the preferred dimensions of the loader.
+		*/
+		function get scaleMode():String;
+		function set scaleMode( value:String ):void;
+		
+		/**
 		* 	A preloader implementation that responds to load
 		* 	events.
 		*/
