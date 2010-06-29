@@ -39,6 +39,7 @@ package com.ffsys.ui.suite.view {
 			
 			hbox = new HorizontalBox();
 			hbox.spacing = 10;
+			
 			hbox.addChild(
 				new IconButton() );
 				
@@ -53,6 +54,9 @@ package com.ffsys.ui.suite.view {
 				
 			hbox.addChild(
 				new DownButton() );
+				
+			hbox.addChild(
+				new BackButton( null, null, 25, 25 ) );
 				
 			hbox.addChild(
 				new BackButton( null, "Previous" ) );

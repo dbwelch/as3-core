@@ -44,6 +44,18 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		override public function set text( text:String ):void
+		{
+			super.text = text;
+			if( label )
+			{
+				position();
+			}
+		}
+		
+		/**
 		*	The spacing between the icon and the label.	
 		*/
 		public function get spacing():Number
@@ -80,8 +92,7 @@ package com.ffsys.ui.buttons
 				trace("IconButton::icon(), ", "ADDING THE ICON TO THE DISPLAY LIST",
 					icon.width, icon.height );
 				addChild( this.icon );
-				icon.x = paddings.left;
-				icon.y = paddings.top;
+				position();
 			}
 		}
 		
@@ -176,6 +187,56 @@ package com.ffsys.ui.buttons
 			this.skin.addState( over );		
 	
 			trace("IconButton::configureDefaultSkin(), ", "CONFIGURING DEFAULT SKIN", this.skin.length );			
+		}
+		
+		/**
+		*	Positions the icon and label.
+		*/
+		protected function position():void
+		{
+			var hasIcon:Boolean = ( icon != null ) && contains( icon );
+			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			
+			var ix:Number = paddings.left;
+			var iy:Number = paddings.top;
+			
+			var lx:Number = paddings.left;
+			var ly:Number = paddings.top;
+			
+			if( hasIcon )
+			{
+				//default to centring the icon if
+				//we have preferred dimensions
+				if( !isNaN( _preferredWidth ) )
+				{
+					ix = Math.round(
+						( _preferredWidth * 0.5 ) - ( icon.width * 0.5 ) );
+				}
+				
+				if( !isNaN( _preferredHeight ) )
+				{
+					iy = Math.round(
+						( _preferredHeight * 0.5 ) - ( icon.height * 0.5 ) );
+				}
+				
+				if( hasLabel )
+				{
+					//default label positions when an icon is specified
+					lx = ix + icon.width + spacing;
+					ly = iy + ( icon.height * 0.5 ) - ( label.layoutHeight * 0.5 );
+				}
+				
+				icon.x = ix;
+				icon.y = iy;
+				
+				
+			}
+			
+			if( hasLabel )
+			{
+				label.x = lx;
+				label.y = ly;	
+			}
 		}		
 	}
 }
