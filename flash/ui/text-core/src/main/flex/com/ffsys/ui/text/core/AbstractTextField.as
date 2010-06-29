@@ -110,11 +110,27 @@ package com.ffsys.ui.text.core {
 		}
 		
 		/**
+		*	Override to update the textfield contents when the
+		* 	maxChars property is set.
+		*/
+		override public function set maxChars(value:int):void
+		{
+			super.maxChars = value;
+			setText( getText() );
+		}
+		
+		/**
 		* 	Sets the text of this textfield.
 		*/
 		public function setText( text:String ):void
 		{
 			beforeSetText( text );
+			
+			//respect maxChars when the text is set with code
+			if( maxChars > 0 && text && text.length > maxChars )
+			{
+				text = text.substr( 0, maxChars );
+			}
 			
 			if( html )
 			{
