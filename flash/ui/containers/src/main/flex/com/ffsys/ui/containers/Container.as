@@ -14,7 +14,8 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class Container extends UIComponent {
+	public class Container extends UIComponent
+		implements IContainer {
 		
 		private var _layout:ILayout;
 		
@@ -68,6 +69,6 @@ package com.ffsys.ui.containers {
 			{
 				layout.removed( child, this, index );
 			}
-		}
+		}		 
 	}
 }

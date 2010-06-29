@@ -9,6 +9,7 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.display.*;
+	import com.ffsys.ui.scrollbars.*;
 	import com.ffsys.ui.text.*;
 	
 	import com.ffsys.utils.random.RandomUtils;
@@ -44,6 +45,19 @@ package com.ffsys.ui.suite.view {
 			var hbox:HorizontalBox = new HorizontalBox();
 			hbox.spacing = 10;
 			addChild( hbox );	
+			
+			var vscrollTarget:Graphic =
+				new Graphic(
+					new RectangleGraphic(
+						100, 400,
+						null,
+						new SolidFill( 0xff6600 ) ) );
+			
+			hbox.addChild( vscrollTarget );
+				
+			var vscroll:VerticalScrollBar = new VerticalScrollBar(
+				vscrollTarget );
+			hbox.addChild( vscroll );
 			
 			var lbl:Label = null;	
 			

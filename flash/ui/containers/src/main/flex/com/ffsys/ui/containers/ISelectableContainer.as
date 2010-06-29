@@ -12,7 +12,7 @@ package com.ffsys.ui.containers
 	*	@author Mischa Williamson
 	*	@since  22.06.2010
 	*/
-	public interface ISelectableContainer
+	public interface ISelectableContainer extends IContainer
 	{
 		/**
 		* 	Gets the currently selected item.
@@ -20,7 +20,7 @@ package com.ffsys.ui.containers
 		function get selectedItem():DisplayObject;
 		
 		/**
-		* 	Sets the currently selected item.	
+		* 	Sets the currently selected item.
 		*/
 		function set selectedItem( item:DisplayObject ):void;
 		
@@ -32,6 +32,6 @@ package com.ffsys.ui.containers
 		/**
 		* 	Sets the currently selected index.
 		*/
-		function set selectedIndex( index:int ):void;	
+		function set selectedIndex( index:int ):void;
 	}
 }

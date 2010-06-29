@@ -60,6 +60,8 @@ package com.ffsys.ui.core
 			}
 			
 			createChildren();
+			
+			
 		}
 		
 		/**

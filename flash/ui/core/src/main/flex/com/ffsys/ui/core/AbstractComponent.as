@@ -40,12 +40,13 @@ package com.ffsys.ui.core
 		
 		static private var _textFieldFactory:ITextFieldFactory
 			= new TextFieldFactory();
+			
+		protected var _preferredWidth:Number = NaN;
+		protected var _preferredHeight:Number = NaN;
 		
 		private var _margins:IMargin = new Margin();
 		private var _paddings:IPadding = new Padding();
 		private var _id:String;
-		private var _preferredWidth:Number = 25;
-		private var _preferredHeight:Number = 25;
 		private var _extra:Object;
 		private var _border:IComponentGraphic;
 		private var _background:IComponentGraphic;
@@ -56,10 +57,16 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
+			created();
 			if( !_utils && !( this is IComponentRootLayer ) )
 			{
 				_utils = new ComponentViewUtils();
 			}
+		}
+		
+		protected function created():void
+		{
+			//
 		}
 		
 		/**
@@ -130,6 +137,11 @@ package com.ffsys.ui.core
 		*/
 		public function get layoutWidth():Number
 		{
+			if( !isNaN( preferredWidth ) )
+			{
+				return preferredWidth;
+			}
+			
 			return this.width;
 		}
 		
@@ -138,6 +150,11 @@ package com.ffsys.ui.core
 		*/
 		public function get layoutHeight():Number
 		{
+			if( !isNaN( preferredHeight ) )
+			{
+				return preferredHeight;
+			}
+			
 			return this.height;
 		}
 		
@@ -389,19 +406,27 @@ package com.ffsys.ui.core
 					+ classPath + "'." );
 			}
 			
+			return getRuntimeInstance( clz );		
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getRuntimeInstance( clazz:Class ):Object
+		{
 			var instance:Object = null;
 			
 			try
 			{
-				instance = new clz();
+				instance = new clazz();
 			}catch( e:Error )
 			{
 				throw new Error(
-					"Could not instantiate runtime asset with class path '"
-					+ classPath + "'." );
+					"Could not instantiate runtime instance with class '"
+					+ clazz + "'." );
 			}
 			
-			return instance;		
+			return instance;
 		}
 		
 		/**

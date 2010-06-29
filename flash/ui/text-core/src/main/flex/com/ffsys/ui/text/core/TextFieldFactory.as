@@ -56,6 +56,8 @@ package com.ffsys.ui.text.core {
 		/**
 		*	@inheritDoc
 		*/
+		
+		/*
 		public function single(
 			text:String = "",
 			properties:Object = null,
@@ -69,10 +71,13 @@ package com.ffsys.ui.text.core {
 			txt.enabled = enabled;
 			return txt;
 		}
+		*/
 		
 		/**
 		*	@inheritDoc
 		*/
+		
+		/*
 		public function constrained(
 			text:String = "",
 			properties:Object = null,
@@ -86,10 +91,13 @@ package com.ffsys.ui.text.core {
 			txt.enabled = enabled;
 			return txt;
 		}
+		*/
 		
 		/**
 		*	@inheritDoc
 		*/
+		
+		/*
 		public function multi(
 			text:String = "",
 			properties:Object = null,
@@ -103,10 +111,13 @@ package com.ffsys.ui.text.core {
 			txt.enabled = enabled;
 			return txt;
 		}
+		*/
 		
 		/**
 		*	@inheritDoc
 		*/
+		
+		/*
 		public function fixed(
 			text:String = "",
 			properties:Object = null,
@@ -120,6 +131,7 @@ package com.ffsys.ui.text.core {
 			txt.enabled = enabled;
 			return txt;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
@@ -149,8 +161,12 @@ package com.ffsys.ui.text.core {
 				instance = new clazz( text );
 			}catch( e:Error )
 			{
+				throw e;
+				
+				/*
 				throw new Error( "Could not instantiate a factory textfield from class '"
 				 	+ clazz + "'." );
+				 */
 			}
 			
 			if( !( instance is ITypedTextField ) )

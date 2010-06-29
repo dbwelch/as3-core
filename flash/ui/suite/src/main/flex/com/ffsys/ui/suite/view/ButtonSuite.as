@@ -38,8 +38,12 @@ package com.ffsys.ui.suite.view {
 			var hbox:HorizontalBox = null;
 			
 			hbox = new HorizontalBox();
+			hbox.spacing = 10;
 			hbox.addChild(
-				new Label( "TEXT BUTTON: " ) );
+				new IconButton() );
+				
+			hbox.addChild(
+				new ForwardButton() );
 				
 			var btn:ButtonComponent =
 				new TextButton( "Simple Text Button" );

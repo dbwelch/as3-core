@@ -32,6 +32,7 @@
 		<module>graphics</module>
 		<module>layout</module>
 		<module>loaders</module>
+		<module>scrollbars</module>
 		<module>skins</module>
 		<module>skins-core</module>
 		<module>suite</module>

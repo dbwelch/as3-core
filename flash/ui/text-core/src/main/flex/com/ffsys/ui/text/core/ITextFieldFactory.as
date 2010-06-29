@@ -55,11 +55,14 @@ package com.ffsys.ui.text.core
 		*	
 		*	@return The single line textfield.
 		*/
+		
+		/*
 		function single(
 			text:String = "",
 			properties:Object = null,
 			textformat:Object = null,
 			enabled:Boolean = false ):SingleLineTextField;
+		*/
 			
 		/**
 		*	Creates a constrained single line textfield.
@@ -73,11 +76,14 @@ package com.ffsys.ui.text.core
 		*	
 		*	@return The single line textfield.
 		*/
+		
+		/*
 		function constrained(
 			text:String = "",
 			properties:Object = null,
 			textformat:Object = null,
 			enabled:Boolean = false ):ConstrainedSingleLineTextField;
+		*/
 		
 		/**
 		*	Creates a multi line textfield.
@@ -91,11 +97,14 @@ package com.ffsys.ui.text.core
 		*	
 		*	@return The multi line textfield.
 		*/
+		
+		/*
 		function multi(
 			text:String = "",
 			properties:Object = null,
 			textformat:Object = null,
 			enabled:Boolean = false ):MultiLineTextField;
+		*/
 			
 		/**
 		*	Creates a fixed width single line text field.
@@ -109,10 +118,13 @@ package com.ffsys.ui.text.core
 		*	
 		*	@return The fixed width single line textfield.
 		*/
+		
+		/*
 		function fixed(
 			text:String = "",
 			properties:Object = null,
 			textformat:Object = null,
 			enabled:Boolean = false ):FixedSingleLineTextField;
+		*/
 	}
 }

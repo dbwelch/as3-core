@@ -69,22 +69,5 @@ package com.ffsys.ui.containers {
 				addChild( DisplayObject( this.content ) );
 			}
 		}
-		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function get layoutWidth():Number
-		{
-			return preferredWidth;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function get layoutHeight():Number
-		{
-			return preferredHeight;
-		}
 	}
 }

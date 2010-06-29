@@ -123,5 +123,14 @@ package com.ffsys.ui.core
 		*/
 		function getRuntimeDisplayObject(
 			classPath:String ):DisplayObject;
+			
+		/**
+		* 	Gets a runtime instance by class.
+		*	
+		*	@param clazz The class of the instance.
+		*	
+		*	@return An instance of the class.
+		*/
+		function getRuntimeInstance( clazz:Class ):Object;			
 	}
 }

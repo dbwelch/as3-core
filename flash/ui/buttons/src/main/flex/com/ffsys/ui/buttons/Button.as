@@ -21,11 +21,23 @@ package com.ffsys.ui.buttons {
 		*	Creates a <code>Button</code> instance.
 		*	
 		*	@param text The text for the button label.
+		*	@param width The preferred width of the button.
+		*	@param height The preferred height of the button.
 		*/
 		public function Button(
-			text:String = "" )
+			text:String = "",
+			width:Number = NaN,
+			height:Number = NaN )
 		{
-			super( text );
+			super( text, width, height );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function created():void
+		{
+			this.paddings.padding = 4;
 		}
 		
 		/**
@@ -34,13 +46,10 @@ package com.ffsys.ui.buttons {
 		override public function get preferredWidth():Number
 		{
 			var width:Number = super.preferredWidth;
-			
-			/*
 			if( label )
 			{
 				width = label.layoutWidth + paddings.left + paddings.right;
 			}
-			*/
 			
 			return width;
 		}
@@ -51,16 +60,13 @@ package com.ffsys.ui.buttons {
 		override public function get preferredHeight():Number
 		{
 			var height:Number = super.preferredHeight;
-			
-			/*
 			if( label )
 			{
 				height = label.layoutHeight + paddings.left + paddings.right;
 			}
-			*/
 			
 			return height;
-		}
+		}		
 		
 		/**
 		*	@inheritDoc	
@@ -71,12 +77,12 @@ package com.ffsys.ui.buttons {
 			var main:IViewState = new ViewState();
 			
 			main.graphics.push(
-				new RoundedRectangleGraphic(
+				new RectangleGraphic(
 					width,
 					height ) );
 					
 			main.fills.push(
-				new SolidFill( 0xff0000, 0.5 ) );
+				new SolidFill( 0x212121 ) );
 			
 			this.skin.addState( main );
 			
@@ -84,7 +90,7 @@ package com.ffsys.ui.buttons {
 			 	State.OVER );
 					
 			over.fills.push(
-				new SolidFill( 0x00ff00, 0.5 ) );
+				new SolidFill( 0x62592e ) );
 			
 			this.skin.addState( over );
 	

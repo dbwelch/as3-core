@@ -1,7 +1,10 @@
 package com.ffsys.ui.core
 {	
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	
+	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.skins.ComponentSkin;
 	import com.ffsys.ui.skins.IComponentSkin;
@@ -30,6 +33,7 @@ package com.ffsys.ui.core
 		private var _skin:IComponentSkin = new ComponentSkin();
 		private var _state:String;
 		private var _current:IViewState;
+		private var _graphicsLayer:IComponent;
 		
 		/**
 		* 	Creates an <code>SkinAwareComponent</code> instance.
@@ -38,6 +42,17 @@ package com.ffsys.ui.core
 		{
 			super();
 			configureDefaultSkin();
+			_graphicsLayer = new UIComponent();
+			addChild( DisplayObject( _graphicsLayer ) );
+		}
+		
+		/**
+		*	The component layer that skin graphics
+		*	are drawn in.
+		*/
+		public function get graphicsLayer():IComponent
+		{
+			return _graphicsLayer;
 		}
 		
 		/**
@@ -167,10 +182,12 @@ package com.ffsys.ui.core
 				
 					graphic.draw();
 					
-					if( !this.contains( DisplayObject( graphic ) ) )
+					/*
+					if( !graphicsLayer.contains( DisplayObject( graphic ) ) )
 					{
-						addChild( DisplayObject( graphic ) );
+						graphicsLayer.addChild( DisplayObject( graphic ) );
 					}
+					*/
 				}
 			}
 		}
@@ -189,7 +206,8 @@ package com.ffsys.ui.core
 				{
 					graphic = current.graphics[ i ];
 					trace("SkinAwareComponent::adding graphic(), ", graphic );
-					addChild( DisplayObject( graphic ) );
+					DisplayObjectContainer( graphicsLayer ).addChild(
+						DisplayObject( graphic ) );
 				}
 			}
 		}

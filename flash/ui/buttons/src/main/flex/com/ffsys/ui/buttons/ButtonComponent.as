@@ -19,10 +19,17 @@ package com.ffsys.ui.buttons
 		
 		/**
 		* 	Creates an ButtonComponent instance.
+		*	
+		*	@param width The preferred width of the button.
+		*	@param height The preferred height of the button.
 		*/
-		public function ButtonComponent()
+		public function ButtonComponent(
+			width:Number = NaN,
+			height:Number = NaN )
 		{
 			super();
+			this.preferredWidth = width;
+			this.preferredHeight = height;
 		}
 		
 		/**
