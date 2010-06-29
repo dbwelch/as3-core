@@ -61,6 +61,17 @@ package com.ffsys.utils.number {
 		public function get end():Number
 		{
 			return _end;
-		}		
+		}
+		
+		/**
+		* 	Inverts the start and end values for this numeric range.
+		*/
+		public function invert():void
+		{
+			//store the start value
+			var startValue:Number = _start;
+			_start = this.end;
+			_end = startValue;
+		}
 	}
 }
