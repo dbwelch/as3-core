@@ -417,7 +417,8 @@ package com.ffsys.ui.loaders
 							item.scaleX = scaleXAmount;
 							item.scaleY = scaleYAmount;
 							
-							trace("AbstractLoaderComponent::handleScaleMode() AFTER SCALE APPLIED", item.width, item.height );
+							trace("AbstractLoaderComponent::handleScaleMode() AFTER SCALE APPLIED",
+								scaleXAmount, scaleYAmount, item.width, item.height );
 						}
 					}
 				
@@ -434,9 +435,8 @@ package com.ffsys.ui.loaders
 		private function revealItemAtIndex( index:uint ):void
 		{
 			var item:DisplayObject = getSlideShowItemAtIndex( index );
-			_container.addChild( item );
-			
 			handleScaleMode( item );
+			_container.addChild( item );
 
 			_pauseTimeElapsed = false;
 			
