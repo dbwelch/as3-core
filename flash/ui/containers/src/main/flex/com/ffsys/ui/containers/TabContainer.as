@@ -97,7 +97,10 @@ package com.ffsys.ui.containers
 		{
 			trace("TabContainer::set selectedIndex()", index, _selectedIndex, ( index != _selectedIndex ) );
 			
-			if( index != _selectedIndex && index >= 0 && index < numChildren )
+			if( index == -1 )
+			{
+				_selectedIndex = index;
+			}else if( index != _selectedIndex && index >= 0 && index < numChildren )
 			{
 				if( this.selectedItem
 					&& ( this.selectedItem is ISelectable ) )
@@ -127,7 +130,7 @@ package com.ffsys.ui.containers
 		{
 			super.afterChildAdded( child, index );
 			
-			if( child && ( child is ISelectable ) )
+			if( child && ( child is ISelectable ) && enabled )
 			{
 				child.addEventListener( MouseEvent.MOUSE_UP, childSelected );
 			}
