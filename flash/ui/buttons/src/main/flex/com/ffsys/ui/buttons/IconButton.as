@@ -20,6 +20,7 @@ package com.ffsys.ui.buttons
 	public class IconButton extends Button
 	{
 		private var _icon:DisplayObject;
+		private var _spacing:Number = 5;
 		
 		/**
 		* 	Creates an <code>IconButton</code> instance.
@@ -40,7 +41,20 @@ package com.ffsys.ui.buttons
 			{
 				this.icon = icon;
 			}
-		}	
+		}
+		
+		/**
+		*	The spacing between the icon and the label.	
+		*/
+		public function get spacing():Number
+		{
+			return _spacing;
+		}
+		
+		public function set spacing( spacing:Number ):void
+		{
+			_spacing = spacing;
+		}
 		
 		/**
 		*	The icon for this button.	
@@ -78,13 +92,26 @@ package com.ffsys.ui.buttons
 		{
 			var width:Number = super.preferredWidth;
 			
+			var hasIcon:Boolean = ( icon != null ) && contains( icon );
+			var hasLabel:Boolean = ( label != null ) && contains( label );
+			
 			if( isNaN( _preferredWidth ) )
 			{
 				//a default width if no icon and label
-				width = 18;
-				if( icon && contains( icon ) )
+				if( !hasIcon && !hasLabel )
+				{
+					width = 18;
+				}
+				
+				if( hasIcon && !hasLabel )
 				{
 					width = icon.width + paddings.left + paddings.right;
+				}else if( hasIcon && hasLabel )
+				{
+					width = icon.width
+						+ paddings.left
+						+ paddings.right
+						+ label.layoutWidth;
 				}
 			}
 			
@@ -98,13 +125,26 @@ package com.ffsys.ui.buttons
 		{
 			var height:Number = super.preferredHeight;
 			
+			var hasIcon:Boolean = ( icon != null ) && contains( icon );
+			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			
 			if( isNaN( _preferredHeight ) )
 			{
 				//a default height if no icon and label
-				height = 18;
-				if( icon && contains( icon ) )
+				if( !hasIcon && !hasLabel )
+				{
+					height = 18;
+				}
+
+				if( hasIcon && !hasLabel )
 				{
 					height = icon.height + paddings.top + paddings.bottom;
+				}else if( hasIcon && hasLabel )
+				{
+					height = icon.height
+						+ paddings.top
+						+ paddings.bottom
+						+ label.layoutHeight;
 				}
 			}
 			
@@ -126,7 +166,6 @@ package com.ffsys.ui.buttons
 					
 			main.fills.push(
 				new SolidFill( 0x212121 ) );
-			
 			this.skin.addState( main );
 			
 			var over:IViewState = new ViewState( 
@@ -134,8 +173,7 @@ package com.ffsys.ui.buttons
 					
 			over.fills.push(
 				new SolidFill( 0x62592e ) );
-			
-			this.skin.addState( over );
+			this.skin.addState( over );		
 	
 			trace("IconButton::configureDefaultSkin(), ", "CONFIGURING DEFAULT SKIN", this.skin.length );			
 		}		

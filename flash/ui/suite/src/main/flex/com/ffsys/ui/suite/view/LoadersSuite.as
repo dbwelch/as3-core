@@ -42,10 +42,12 @@ package com.ffsys.ui.suite.view {
 				loader.preferredHeight,
 				new Stroke( 2, 0xa9a9a9 ),
 				new SolidFill( 0xa9a9a9, 1 ) );
+			/*
 			loader.background = new RectangleGraphic(
 				loader.preferredWidth,
 				loader.preferredHeight,
 				null, new SolidFill( 0xa9a9a9 ) );
+			*/
 			canvas.addChild( loader );
 			addChild( canvas );
 			

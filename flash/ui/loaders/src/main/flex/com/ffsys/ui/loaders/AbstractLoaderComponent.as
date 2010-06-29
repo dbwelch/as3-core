@@ -44,7 +44,7 @@ package com.ffsys.ui.loaders
 		private var _scaleMode:String = LoaderScaleMode.NO_SCALE;
 		private var _reveal:ITween;
 		private var _hide:ITween;
-		private var _automatic:Boolean;
+		private var _automatic:Boolean = true;
 		private var _pauseTime:Number = 5000;
 		private var _playing:Boolean;
 		private var _started:Boolean;
@@ -437,6 +437,8 @@ package com.ffsys.ui.loaders
 			var item:DisplayObject = getSlideShowItemAtIndex( index );
 			handleScaleMode( item );
 			_container.addChild( item );
+			
+			trace("AbstractLoaderComponent::revealItemAtIndex(), ", "REVEALING ITEM", item );
 
 			_pauseTimeElapsed = false;
 			

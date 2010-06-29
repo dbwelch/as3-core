@@ -15,6 +15,9 @@ package com.ffsys.ui.buttons
 	*/
 	public class ButtonComponent extends SkinAwareComponent
 	{
+		private var _selectable:Boolean;
+		private var _selected:Boolean;
+		private var _mouseDown:Boolean;
 		private var _tooltip:String;
 		
 		/**
@@ -33,6 +36,23 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		*	Determines whether this button is selectable.
+		*	
+		*	When a button is selected it behaves as a toggle button.
+		*	Changing between a main and selected state depending upon
+		*	it's selected value.
+		*/
+		public function get selectable():Boolean
+		{
+			return _selectable;
+		}
+		
+		public function set selectable( selectable:Boolean ):void
+		{
+			_selectable = selectable;
+		}
+		
+		/**
 		*	A tooltip this button should show on rollover.
 		*/
 		public function get tooltip():String
@@ -46,11 +66,34 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		*	If this button is selectable this value
+		*		
+		*/
+		public function get selected():Boolean
+		{
+			return _selected;
+		}
+		
+		public function set selected( selected:Boolean ):void
+		{
+			_selected = selected;
+			
+			if( selectable
+				&& this.selected
+				&& this.skin
+			 	&& this.skin.hasState( State.SELECTED ) )
+			{
+				state = State.SELECTED;
+			}
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		override protected function onMouseDown(
 			event:MouseEvent ):void
 		{
+			_mouseDown = true;
 			if( this.skin && this.skin.hasState( State.DOWN ) )
 			{
 				this.state = State.DOWN;
@@ -63,10 +106,22 @@ package com.ffsys.ui.buttons
 		override protected function onMouseUp(
 			event:MouseEvent ):void
 		{
-			if( this.skin && this.skin.hasState( State.MAIN ) )
+			
+			if( selectable )
 			{
-				this.state = State.MAIN;
+				_selected = !_selected;
 			}
+			
+			//revert from down state to over
+			if( _mouseDown
+				&& this.skin
+				&& this.skin.hasState( State.DOWN )
+				&& this.skin.hasState( State.OVER ) )
+			{
+				this.state = State.OVER;
+			}
+			
+			_mouseDown = false;
 		}
 		
 		/**
@@ -92,15 +147,29 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOut(
 			event:MouseEvent ):void
 		{
-			if( this.skin && this.skin.hasState( State.MAIN ) )
+			var state:String = null;
+			
+			if( this.skin )
 			{
-				this.state = State.MAIN;
-			}			
+				if( this.skin.hasState( State.MAIN ) )
+				{
+					state = State.MAIN;
+				}
+				
+				if( selectable
+					&& selected
+				 	&& this.skin.hasState( State.SELECTED ) )
+				{
+					state = State.SELECTED;
+				}
+			}
+			
+			this.state = state;
 			
 			if( tooltip != null )
 			{
 				utils.layer.tooltips.hide();
 			}
-		}		
+		}
 	}
 }

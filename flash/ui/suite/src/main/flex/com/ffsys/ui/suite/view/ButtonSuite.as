@@ -43,7 +43,19 @@ package com.ffsys.ui.suite.view {
 				new IconButton() );
 				
 			hbox.addChild(
+				new BackButton() );
+				
+			hbox.addChild(
 				new ForwardButton() );
+				
+			hbox.addChild(
+				new UpButton() );
+				
+			hbox.addChild(
+				new DownButton() );
+				
+			hbox.addChild(
+				new BackButton( null, "Previous" ) );
 				
 			var btn:ButtonComponent =
 				new TextButton( "Simple Text Button" );

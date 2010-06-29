@@ -132,6 +132,11 @@ package com.ffsys.ui.core
 			return _current;
 		}
 		
+		public function get main():IViewState
+		{
+			return this.skin.getStateById( State.MAIN );
+		}
+		
 		/**
 		*	Applies all styles for the current state.
 		*	
@@ -148,12 +153,20 @@ package com.ffsys.ui.core
 		*/
 		protected function applyGraphicStyles():void
 		{
+			//trace("SkinAwareComponent::applyGraphicStyles(), current ", current );
+			
 			if( current )
 			{
-				var graphic:IComponentGraphic = null;
-				for( var i:int = 0;i < current.graphics.length;i++ )
+				var g:Vector.<IComponentGraphic> = current.graphics;
+				if( g.length == 0 )
 				{
-					graphic = current.graphics[ i ];
+					g = main.graphics;
+				}
+				
+				var graphic:IComponentGraphic = null;
+				for( var i:int = 0;i < g.length;i++ )
+				{
+					graphic = g[ i ];
 				
 					if( i < current.strokes.length )
 					{
@@ -163,6 +176,11 @@ package com.ffsys.ui.core
 					if( i < current.fills.length )
 					{
 						graphic.fill = current.fills[ i ];
+						
+						/*
+						trace("SkinAwareComponent::applyGraphicStyles(), assigning fill:",
+							graphic.fill );
+						*/
 					}
 					
 					if( isNaN( graphic.preferredWidth )
@@ -177,9 +195,11 @@ package com.ffsys.ui.core
 						graphic.preferredHeight = this.preferredHeight;
 					}
 					
+					/*
 					trace("SkinAwareComponent::applyGraphicStyles(), ",
 						graphic.preferredWidth, graphic.preferredHeight );
-				
+					*/
+					
 					graphic.draw();
 					
 					/*
@@ -205,7 +225,7 @@ package com.ffsys.ui.core
 				for( var i:int = 0;i < current.graphics.length;i++ )
 				{
 					graphic = current.graphics[ i ];
-					trace("SkinAwareComponent::adding graphic(), ", graphic );
+					//trace("SkinAwareComponent::adding graphic(), ", graphic );
 					DisplayObjectContainer( graphicsLayer ).addChild(
 						DisplayObject( graphic ) );
 				}
