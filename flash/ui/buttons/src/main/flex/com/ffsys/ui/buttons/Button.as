@@ -93,8 +93,6 @@ package com.ffsys.ui.buttons {
 				new SolidFill( 0x62592e ) );
 			
 			this.skin.addState( over );
-	
-			trace("Button::configureDefaultSkin(), ", "CONFIGURING DEFAULT SKIN", this.skin.length );			
 		}
 	}
 }

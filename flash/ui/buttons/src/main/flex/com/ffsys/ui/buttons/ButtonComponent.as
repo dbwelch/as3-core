@@ -1,5 +1,6 @@
 package com.ffsys.ui.buttons
 {
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import com.ffsys.ui.core.SkinAwareComponent;
 	import com.ffsys.ui.states.State;
@@ -14,7 +15,9 @@ package com.ffsys.ui.buttons
 	*	@since  16.06.2010
 	*/
 	public class ButtonComponent extends SkinAwareComponent
+		implements IButton
 	{
+		private var _loop:String;
 		private var _selectable:Boolean;
 		private var _selected:Boolean;
 		private var _mouseDown:Boolean;
@@ -36,11 +39,27 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		*	Determines whether this button is selectable.
-		*	
-		*	When a button is selected it behaves as a toggle button.
-		*	Changing between a main and selected state depending upon
-		*	it's selected value.
+		*	@inheritDoc
+		*/
+		public function get loop():String
+		{
+			return _loop;
+		}
+		
+		public function set loop( value:String ):void
+		{
+			if( value
+			 	&& ( value != ButtonLoopMode.OVER && value != ButtonLoopMode.DOWN ) )
+			{
+				throw new Error(
+					"Invalid button loop mode '" + value + "'." );
+			}
+			
+			_loop = value;
+		}
+		
+		/**
+		*	@inheritDoc
 		*/
 		public function get selectable():Boolean
 		{
@@ -53,7 +72,7 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		*	A tooltip this button should show on rollover.
+		*	@inheritDoc
 		*/
 		public function get tooltip():String
 		{
@@ -66,8 +85,7 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		*	If this button is selectable this value
-		*		
+		*	@inheritDoc
 		*/
 		public function get selected():Boolean
 		{
@@ -88,6 +106,27 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		*	@private
+		*/
+		private function dispatchLoopEvent( event:Event ):void
+		{
+			var evt:MouseEvent = null;
+			
+			if( loop == ButtonLoopMode.DOWN )
+			{
+				evt = new MouseEvent( MouseEvent.MOUSE_DOWN );
+			}else if( loop == ButtonLoopMode.OVER )
+			{
+				evt = new MouseEvent( MouseEvent.MOUSE_OVER );
+			}
+			
+			if( evt )
+			{
+				dispatchEvent( evt );
+			}
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		override protected function onMouseDown(
@@ -97,6 +136,11 @@ package com.ffsys.ui.buttons
 			if( this.skin && this.skin.hasState( State.DOWN ) )
 			{
 				this.state = State.DOWN;
+			}
+			
+			if( loop && loop == ButtonLoopMode.DOWN )
+			{
+				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
 		}
 		
@@ -121,6 +165,7 @@ package com.ffsys.ui.buttons
 				this.state = State.OVER;
 			}
 			
+			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			_mouseDown = false;
 		}
 		
@@ -138,6 +183,11 @@ package com.ffsys.ui.buttons
 			if( tooltip != null )
 			{
 				utils.layer.tooltips.show( tooltip );
+			}
+			
+			if( loop && loop == ButtonLoopMode.OVER )
+			{
+				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
 		}
 		
@@ -170,6 +220,19 @@ package com.ffsys.ui.buttons
 			{
 				utils.layer.tooltips.hide();
 			}
+			
+			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function destroy():void
+		{
+			_loop = null;
+			_tooltip = null;
+			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+			super.destroy();
 		}
 	}
 }

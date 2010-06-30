@@ -25,11 +25,14 @@ package com.ffsys.ui.display
 		* 
 		* 	@param graphic The graphical shape.
 		*/
-		public function Graphic( graphic:IComponentGraphic )
+		public function Graphic( graphic:IComponentGraphic = null )
 		{
 			super();
 			this.interactive = false;
-			this.graphic = graphic;
+			if( graphic )
+			{
+				this.graphic = graphic;
+			}
 		}
 		
 		/**
@@ -51,6 +54,16 @@ package com.ffsys.ui.display
 			
 			if( this.graphic )
 			{
+				if( isNaN( this.graphic.preferredWidth ) )
+				{
+					this.graphic.preferredWidth = preferredWidth;
+				}
+				
+				if( isNaN( this.graphic.preferredHeight ) )
+				{
+					this.graphic.preferredHeight = preferredHeight;
+				}
+				
 				addChild( DisplayObject( this.graphic ) );
 			}
 		}

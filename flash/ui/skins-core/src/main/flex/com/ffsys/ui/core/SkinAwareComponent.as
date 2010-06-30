@@ -60,7 +60,6 @@ package com.ffsys.ui.core
 		*/
 		override protected function createChildren():void 
 		{
-			trace("SkinAwareComponent::createChildren(), ", "CREATING CHILDREN", this );
 			if( this.skin && this.skin.hasState( State.MAIN ) )
 			{
 				this.state = State.MAIN;
@@ -105,8 +104,6 @@ package com.ffsys.ui.core
 			}
 			
 			_state = state;
-			
-			trace("SkinAwareComponent::set stae(), ", this.state );
 			
 			if( this.state )
 			{
@@ -201,13 +198,6 @@ package com.ffsys.ui.core
 					*/
 					
 					graphic.draw();
-					
-					/*
-					if( !graphicsLayer.contains( DisplayObject( graphic ) ) )
-					{
-						graphicsLayer.addChild( DisplayObject( graphic ) );
-					}
-					*/
 				}
 			}
 		}
@@ -217,15 +207,12 @@ package com.ffsys.ui.core
 		*/
 		protected function createGraphics():void
 		{
-			trace("SkinAwareComponent::createGraphics(), ", current );
 			if( current )
 			{
-				
 				var graphic:IComponentGraphic = null;
 				for( var i:int = 0;i < current.graphics.length;i++ )
 				{
 					graphic = current.graphics[ i ];
-					//trace("SkinAwareComponent::adding graphic(), ", graphic );
 					DisplayObjectContainer( graphicsLayer ).addChild(
 						DisplayObject( graphic ) );
 				}

@@ -40,7 +40,6 @@ package com.ffsys.ui.skins
 				var index:uint = _indexes[ id ];
 				if( index is uint )
 				{
-					trace("ComponentSkin::getStateById(), ", index, _states.length );
 					if( index >= _states.length )
 					{
 						throw new Error( "Could not locate a state at index " + index );
@@ -84,7 +83,6 @@ package com.ffsys.ui.skins
 			{
 				var length:uint = _states.push( state );
 				_indexes[ id ] = ( length - 1 );
-				trace("ComponentSkin::addStateById(), ", id, length -1, _states[ length-1 ] );
 				return true;
 			}
 			return false;

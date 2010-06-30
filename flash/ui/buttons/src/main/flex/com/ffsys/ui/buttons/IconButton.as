@@ -85,12 +85,8 @@ package com.ffsys.ui.buttons
 			
 			_icon = icon;
 			
-			trace("IconButton::icon setter(), ", "SETTING ICON ", icon );
-			
 			if( this.icon && !this.contains( this.icon ) )
 			{
-				trace("IconButton::icon(), ", "ADDING THE ICON TO THE DISPLAY LIST",
-					icon.width, icon.height );
 				addChild( this.icon );
 				position();
 			}
@@ -184,9 +180,7 @@ package com.ffsys.ui.buttons
 					
 			over.fills.push(
 				new SolidFill( 0x62592e ) );
-			this.skin.addState( over );		
-	
-			trace("IconButton::configureDefaultSkin(), ", "CONFIGURING DEFAULT SKIN", this.skin.length );			
+			this.skin.addState( over );
 		}
 		
 		/**

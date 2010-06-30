@@ -25,12 +25,12 @@ package com.ffsys.ui.scrollbars {
 		public function HorizontalScrollBar(
 			target:DisplayObject = null,
 			width:Number = 100,
-			height:Number = 12 )
+			height:Number = 14 )
 		{
 			_direction = Direction.HORIZONTAL;
+			super( target, width );
 			this.preferredWidth = width;
 			this.preferredHeight = height;		
-			super( target, width );
 		}
 	}
 }

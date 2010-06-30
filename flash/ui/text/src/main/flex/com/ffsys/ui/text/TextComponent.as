@@ -31,10 +31,9 @@ package com.ffsys.ui.text
 			maximumHeight:Number = NaN )
 		{
 			super();
-			createTextField( text );
-			addChild( DisplayObject( _textfield ) );
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
+			createTextField( text );
 		}
 		
 		/**
@@ -42,12 +41,11 @@ package com.ffsys.ui.text
 		*/
 		override protected function createChildren():void
 		{
-			/*
-			if( textfield && !contains( DisplayObject( textfield ) ) )
+			if( _textfield
+				&& !contains( DisplayObject( _textfield ) ) )
 			{
-				addChild( DisplayObject( textfield ) );
+				addChild( DisplayObject( _textfield ) );
 			}
-			*/
 		}
 		
 		/**

@@ -5,6 +5,7 @@ package com.ffsys.ui.common.flash {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.LoaderInfo;
 	import flash.display.Stage;
+	import flash.events.IEventDispatcher;
 	
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -23,7 +24,7 @@ package com.ffsys.ui.common.flash {
 	*	@author Mischa Williamson
 	*	@since  20.06.2010
 	*/
-	public interface IDisplayObject {
+	public interface IDisplayObject extends IEventDispatcher {
 		
 		function get accessibilityProperties():AccessibilityProperties;
 		function set accessibilityProperties(value:AccessibilityProperties):void;

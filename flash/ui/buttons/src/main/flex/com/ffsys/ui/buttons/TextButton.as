@@ -53,10 +53,23 @@ package com.ffsys.ui.buttons
 			if( this.text && this.text != "" )
 			{
 				_label = new Label( text );
-				addChild( _label );
 				_label.x = paddings.left;
 				_label.y = paddings.top;
 			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function createChildren():void
+		{
+			if( _label 
+				&& !contains( _label ) )
+			{
+				addChild( _label );
+			}
+			
+			super.createChildren();			
 		}
 		
 		/**
