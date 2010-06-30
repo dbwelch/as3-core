@@ -95,8 +95,6 @@ package com.ffsys.ui.containers
 		*/
 		public function set selectedIndex( index:int ):void
 		{
-			trace("TabContainer::set selectedIndex()", index, _selectedIndex, ( index != _selectedIndex ) );
-			
 			if( index == -1 )
 			{
 				_selectedIndex = index;
