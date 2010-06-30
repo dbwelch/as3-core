@@ -24,7 +24,7 @@ package com.ffsys.ui.core
 		/**
 		* 	@private
 		*/
-		internal var _root:DisplayObject;		
+		internal var _root:DisplayObject;
 		
 		/**
 		* 	@private

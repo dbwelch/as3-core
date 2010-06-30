@@ -49,12 +49,12 @@ package com.ffsys.ui.containers {
 		override protected function afterChildAdded(
 			child:DisplayObject,
 			index:int ):void
-		{	
+		{
 			super.afterChildAdded( child, index );
 			if( layout && child )
 			{
 				layout.added( child, this, index );
-			}	
+			}
 		}
 		
 		/**

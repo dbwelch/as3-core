@@ -46,6 +46,8 @@ package com.ffsys.ui.suite.view {
 		{
 			var preloader:ComponentSuitePreloadView
 				= ComponentSuitePreloadView( view );
+				
+			trace("ComponentSuiteContainer::ready(), ", this );
 			
 			/*	
 			//get a bitmap grab of the preloader view
@@ -63,6 +65,8 @@ package com.ffsys.ui.suite.view {
 		*/
 		override public function createChildren():void
 		{	
+			trace("ComponentSuiteContainer::createChildren(), creating initial vertical box: ",
+				this, UIComponent.utilities, UIComponent.utilities.layer, UIComponent.utilities.layer.tooltips );
 			vbox = new VerticalBox();
 			addChild( vbox );
 			

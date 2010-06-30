@@ -220,10 +220,15 @@ package com.ffsys.swat.view  {
 				clz = Class(
 					getDefinitionByName( classPath ) );
 				instance = new clz();
+				
+				//add and remove the component so that
+				//components are pre-initialized before the
+				//main application view is instantiated
+				addChild( DisplayObject( instance ) );
+				removeChild( DisplayObject( instance ) );
 			}catch( e:Error )
 			{
 				//ignore if the components are not compiled or instantiation error
-				
 				throw e;
 			}
 			

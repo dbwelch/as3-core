@@ -37,28 +37,15 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
-		override protected function createChildren():void
-		{
-			this.parent.addEventListener( Event.ADDED, checkSiblingAdded );
-			_tooltips = new ToolTipManager();
-			addChild( DisplayObject( _tooltips ) );
-			
-			//setup sensible defaults for the stage
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
-			
-			//hook into the resize event to keep preferred dimensions in sync
-			stage.addEventListener( Event.RESIZE, resize );
-			
-			//invoke resize immediately
-			resize();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function get tooltips():IToolTipManager
 		{
+			//child components of the root layer must be
+			//added lazily
+			if( !contains( DisplayObject( _tooltips ) ) )
+			{
+				addChild( DisplayObject( _tooltips ) );
+			}
+			
 			return _tooltips;
 		}
 		
@@ -85,7 +72,27 @@ package com.ffsys.ui.core
 
 			if( initializable )
 			{
+				//add this instance to the root of the display list hierarchy
 				container.addChild( this );
+				
+				//setup sensible defaults for the stage
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+		
+				//hook into the resize event to keep preferred dimensions in sync
+				stage.addEventListener( Event.RESIZE, resize );
+		
+				//invoke resize immediately
+				resize();	
+				
+				//hook into find out when siblings are added
+				//to ensure this root layer remains at the highest depth
+				this.parent.addEventListener( Event.ADDED, checkSiblingAdded );
+				
+				_tooltips = new ToolTipManager();
+				_tooltips.preferredWidth = stage.stageWidth;
+				_tooltips.preferredHeight = stage.stageHeight;				
+				
 				_initialized = true;
 			}
 			
@@ -139,10 +146,10 @@ package com.ffsys.ui.core
 				this.preferredWidth = stage.stageWidth;
 				this.preferredHeight = stage.stageHeight;
 				
-				if( tooltips )
+				if( _tooltips )
 				{
-					tooltips.preferredWidth = stage.stageWidth;
-					tooltips.preferredHeight = stage.stageHeight;
+					_tooltips.preferredWidth = stage.stageWidth;
+					_tooltips.preferredHeight = stage.stageHeight;
 				}
 			}
 		}

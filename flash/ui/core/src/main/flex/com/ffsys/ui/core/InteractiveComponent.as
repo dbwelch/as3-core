@@ -38,32 +38,30 @@ package com.ffsys.ui.core
 			buttonMode = interactive;
 			useHandCursor = interactive;
 			enabled = interactive;
+			
+			interactive ? addMouseListeners() : removeMouseListeners();
 		}
 		
 		/**
-		*	@inheritDoc 	
+		*	Adds mouse listeners to this component.	
 		*/
-		override protected function added( event:Event ):void
+		protected function addMouseListeners():void
 		{
 			addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
 			addEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			addEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
-			
-			super.added( event );
 		}
 		
 		/**
-		*	@inheritDoc 	
+		*	Removes mouse listeners from this component.	
 		*/
-		override protected function removed( event:Event ):void
+		protected function removeMouseListeners():void
 		{
 			removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
 			removeEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			removeEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			removeEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
-			
-			super.removed( event );
 		}
 		
 		/**

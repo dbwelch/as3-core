@@ -57,13 +57,24 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
-			created();
 			if( !_utils && !( this is IComponentRootLayer ) )
 			{
 				_utils = new ComponentViewUtils();
 			}
+			created();
+			
+			if( utils && utils.layer && !utils.layer.initialized )
+			{
+				addEventListener( Event.ADDED_TO_STAGE, __initialize );
+			}
 		}
 		
+		/**
+		*	Invoked when the component is instantiated.
+		*	
+		*	This is a useful place to set default properties
+		*	for the component such as margins or paddings.	
+		*/
 		protected function created():void
 		{
 			//
@@ -206,13 +217,34 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Invoked when this instance is added to the display list.
+		* 	Invoked when this instance is added to the
+		*	display list of a parent component.
 		* 
-		* 	This method does nothing by default.
+		* 	By default this method does nothing.
+		*	
+		*	Concrete component implementations should
+		*	override this method and create child
+		*	components when this method is invoked.
 		*/
 		protected function createChildren():void
 		{
 			//
+		}
+		
+		/**
+		* 	Invoked when this instance is removed from the
+		*	display list of a parent component.
+		* 
+		* 	By default this method removes all child display objects
+		*	and calls destroy on this instance.
+		*	
+		*	Concrete component implementations can change
+		*	the default behaviour by overriding this method.
+		*/
+		protected function removeChildren():void
+		{
+			removeAllChildren();
+			destroy();
 		}
 		
 		/**
@@ -241,6 +273,14 @@ package com.ffsys.ui.core
 			child:DisplayObject,
 			index:int ):void
 		{
+			
+			var component:UIComponent = child as UIComponent;
+			if( component )
+			{
+				//invoke the internal added method on the child
+				//component to get it to create it's children
+				component.added();
+			}
 			
 			//graphics with no visible area should be drawn
 			//at the preferred dimensions
@@ -325,13 +365,19 @@ package com.ffsys.ui.core
 		/**
 		*	Invoked after a child has been added.
 		*	
-		*	@param child The child that was added.	
+		*	@param child The child that was added.
 		*/
 		protected function afterChildRemoved(
 			child:DisplayObject,
 			index:int ):void
 		{
-			//
+			var component:UIComponent = child as UIComponent;
+			if( component )
+			{
+				//invoke the internal removed method on the child
+				//component to get it to remove it's children
+				component.removed();
+			}
 		}
 		
 		/**
@@ -543,5 +589,65 @@ package com.ffsys.ui.core
 				i--;
 			}
 		}
+		
+		/**
+		*	Invoked when a component is added to the display list
+		*	of a parent component.
+		*	
+		*	By default this implemention creates the children
+		*	for the component.
+		*/
+		internal function added():void
+		{
+			createChildren();
+		}
+		
+		/**
+		*	Invoked when a component is removed from the display list
+		*	of a parent component.
+		*	
+		*	By default this implemention removes child display objects.
+		*/
+		internal function removed():void
+		{
+			removeChildren();
+		}
+		
+		
+		/**
+		*	@private
+		*	
+		* 	Performs intialization of the component root layer
+		*	the first time a component is added to the stage.
+		*/
+		private function __initialize( event:Event ):void
+		{
+			removeEventListener( Event.ADDED_TO_STAGE, __initialize );
+
+			//initialize the root component layer
+			if( root
+				&& utils
+				&& utils.layer
+				&& !utils.layer.initialized
+				&& !( this is IComponentRootLayer ) )
+			{
+				utils.layer.initialize( root );
+			}
+		
+			//ensure the component view utils have the root and stage references
+			if( root && stage && utils )
+			{
+				var concrete:ComponentViewUtils = ComponentViewUtils( utils );
+				if( !concrete._root )
+				{
+					concrete._root = root;
+				}
+			
+				if( !concrete._stage )
+				{
+					concrete._stage = stage;
+				}
+			}
+		}		
 	}
 }
