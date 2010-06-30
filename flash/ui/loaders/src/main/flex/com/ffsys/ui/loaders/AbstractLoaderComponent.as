@@ -408,8 +408,10 @@ package com.ffsys.ui.loaders
 							scaleXAmount = scaleYAmount;
 						}
 						
+						/*
 						trace("AbstractLoaderComponent::handleScaleMode()",
 							isLandscape, item.width, this.preferredWidth, scaleXAmount, scaleYAmount );
+						*/
 						
 						//only perform the scaling first time around
 						if( item.scaleX == 1 && item.scaleY == 1 )
@@ -417,8 +419,10 @@ package com.ffsys.ui.loaders
 							item.scaleX = scaleXAmount;
 							item.scaleY = scaleYAmount;
 							
+							/*
 							trace("AbstractLoaderComponent::handleScaleMode() AFTER SCALE APPLIED",
 								scaleXAmount, scaleYAmount, item.width, item.height );
+							*/
 						}
 					}
 				
@@ -438,7 +442,7 @@ package com.ffsys.ui.loaders
 			handleScaleMode( item );
 			_container.addChild( item );
 			
-			trace("AbstractLoaderComponent::revealItemAtIndex(), ", "REVEALING ITEM", item );
+			//trace("AbstractLoaderComponent::revealItemAtIndex(), ", "REVEALING ITEM", item );
 
 			_pauseTimeElapsed = false;
 			
