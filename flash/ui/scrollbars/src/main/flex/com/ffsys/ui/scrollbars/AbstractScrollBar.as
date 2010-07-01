@@ -34,6 +34,7 @@ package com.ffsys.ui.scrollbars {
 		
 		private var _target:DisplayObject;
 		private var _scrollTrack:IScrollTrack;
+		private var _scrollDrag:IScrollDrag;
 		private var _negativeScrollButton:IButton;
 		private var _positiveScrollButton:IButton;
 		private var _scrollAmount:Number = 5;
@@ -211,6 +212,41 @@ package com.ffsys.ui.scrollbars {
 				addChild( DisplayObject( scrollTrack ) );
 			}
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get scrollDrag():IScrollDrag
+		{
+			return _scrollDrag;
+		}
+
+		public function set scrollDrag( value:IScrollDrag ):void
+		{
+			if( scrollDrag
+			 	&& contains( DisplayObject( scrollDrag ) ) )
+			{
+				
+				/*
+				scrollDrag.removeEventListener(
+					MouseEvent.CLICK, onScrollDragClick );
+				*/
+				
+				removeChild( DisplayObject( scrollDrag ) );
+			}
+
+			_scrollDrag = value;
+
+			if( scrollDrag )
+			{
+				/*
+				scrollDrag.addEventListener(
+					MouseEvent.CLICK, onScrollDragClick );
+				*/
+				
+				addChild( DisplayObject( scrollDrag ) );
+			}
+		}		
 		
 		/**
 		*	@inheritDoc

@@ -3,6 +3,7 @@ package com.ffsys.ui.scrollbars {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
 	
 	import com.ffsys.ui.common.Direction;
 	import com.ffsys.ui.buttons.ButtonLoopMode;
@@ -75,6 +76,9 @@ package com.ffsys.ui.scrollbars {
 			
 			positiveScrollButton = new ForwardButton(
 				null, null, buttonSize, buttonSize );
+				
+			scrollDrag = new ScrollDrag(
+				buttonSize, buttonSize );
 		}
 		
 		/**
@@ -88,6 +92,14 @@ package com.ffsys.ui.scrollbars {
 			{
 				positiveScrollButton.x =
 					size - positiveScrollButton.preferredWidth;
+			}
+			
+			if( scrollDrag && scrollDrag.drag )
+			{
+				scrollDrag.x = scrollTrackPosition;
+				scrollDrag.drag.bounds = new Rectangle(
+					scrollTrackPosition, 0,
+					scrollTrackSize - scrollDrag.preferredWidth, 0 );
 			}
 		}
 		

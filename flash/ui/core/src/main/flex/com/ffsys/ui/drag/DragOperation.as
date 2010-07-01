@@ -1,6 +1,9 @@
 package com.ffsys.ui.drag {
 	
+	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	
 	import com.ffsys.ui.core.IInteractiveComponent;
 	
 	/**
@@ -18,6 +21,7 @@ package com.ffsys.ui.drag {
 		private var _bounds:Rectangle;
 		private var _locked:Boolean;
 		private var _source:IInteractiveComponent;
+		private var _target:Sprite;
 		
 		/**
 		*	Creates a <code>DragOperation</code> instance.
@@ -25,6 +29,14 @@ package com.ffsys.ui.drag {
 		public function DragOperation()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get target():Sprite
+		{
+			return _target;
 		}
 		
 		/**
@@ -66,8 +78,24 @@ package com.ffsys.ui.drag {
 		*/
 		public function start( source:IInteractiveComponent ):void
 		{
-			_source = source;
-			source.startDrag( locked, bounds );
+			if( source )
+			{
+				_source = source;
+				
+				if( !source.stage )
+				{
+					throw new Error(
+						"Cannot start a drag operation on a component that"
+						+ " is not on the display list." );
+				}
+				
+				_target = Sprite( source );
+				
+				source.stage.addEventListener(
+					MouseEvent.MOUSE_UP, onMouseUp );
+				
+				target.startDrag( locked, bounds );
+			}
 		}
 		
 		/**
@@ -75,9 +103,30 @@ package com.ffsys.ui.drag {
 		*/
 		public function stop():void
 		{
-			source.stopDrag();
+			if( target )
+			{
+				target.stopDrag();
+			
+				if( target.parent
+					&& target != source )
+				{
+					target.parent.removeChild( target );
+				}
+			}
 			
 			_source = null;
+			_target = null;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function onMouseUp( event:MouseEvent ):void
+		{
+			source.stage.removeEventListener(
+				MouseEvent.MOUSE_UP, onMouseUp );
+			
+			stop();
 		}
 	}
 }

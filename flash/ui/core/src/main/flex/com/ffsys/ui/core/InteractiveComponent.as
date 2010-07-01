@@ -38,14 +38,12 @@ package com.ffsys.ui.core
 		public function set drag( drag:IDragOperation ):void
 		{
 			removeEventListener( MouseEvent.MOUSE_DOWN, onDragMouseDown );
-			removeEventListener( MouseEvent.MOUSE_UP, onDragMouseUp );
 			
 			_drag = drag;
 
 			if( drag )
 			{
 				addEventListener( MouseEvent.MOUSE_DOWN, onDragMouseDown );
-				addEventListener( MouseEvent.MOUSE_UP, onDragMouseUp );
 			}
 		}
 		
@@ -91,7 +89,7 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Invoked when the mouse is pressed on this instance.
+		* 	Invoked when the mouse is pressed to start a drag operation.
 		* 
 		* 	@param event The mouse event.
 		*/
@@ -101,20 +99,6 @@ package com.ffsys.ui.core
 			if( drag )
 			{
 				drag.start( this );
-			}
-		}
-		
-		/**
-		* 	Invoked when the mouse is released on this instance.
-		* 
-		* 	@param event The mouse event.
-		*/
-		private function onDragMouseUp(
-			event:MouseEvent ):void
-		{
-			if( drag )
-			{
-				drag.stop();
 			}
 		}
 		

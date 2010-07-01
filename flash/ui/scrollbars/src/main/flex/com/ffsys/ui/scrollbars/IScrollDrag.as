@@ -11,7 +11,7 @@ package com.ffsys.ui.scrollbars {
 	*	@author Mischa Williamson
 	*	@since  01.07.2010
 	*/
-	public interface IScrollTrack extends IGraphic {
+	public interface IScrollDrag extends IGraphic {
 		
 	}
 }

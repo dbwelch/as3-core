@@ -1,5 +1,6 @@
 package com.ffsys.ui.drag {
 	
+	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 	import com.ffsys.ui.core.IInteractiveComponent;
 	
@@ -14,6 +15,19 @@ package com.ffsys.ui.drag {
 	*	@since  01.07.2010
 	*/
 	public interface IDragOperation {
+		
+		/**
+		*	The source component being dragged.
+		*	
+		*	If no drag operation is taking place
+		*	this property will be null.
+		*/
+		function get source():IInteractiveComponent;
+		
+		/**
+		*	The target sprite being dragged.
+		*/
+		function get target():Sprite;
 		
 		/**
 		*	A rectangle that defines the drag bounds.
@@ -39,6 +53,6 @@ package com.ffsys.ui.drag {
 		/**
 		*	Stops the drag operation.	
 		*/
-		function stop():void;		
+		function stop():void;
 	}
 }
