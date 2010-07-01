@@ -2,6 +2,8 @@ package com.ffsys.ui.tooltips
 {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	
 	import com.ffsys.ui.common.Orientation;
 	import com.ffsys.ui.core.UIComponent;
@@ -21,8 +23,10 @@ package com.ffsys.ui.tooltips
 	public class ToolTipManager extends UIComponent
 		implements IToolTipManager
 	{
+		private var _timer:Timer;
 		private var _renderer:IToolTipRenderer;
 		private var _align:String = Orientation.TOP;
+		private var _delay:Number;
 		
 		/**
 		* 	Creates a <code>ToolTipManager</code> instance.
@@ -31,6 +35,19 @@ package com.ffsys.ui.tooltips
 		{
 			super();
 			this.margins.margin = 10;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get delay():Number
+		{
+			return _delay;
+		}
+		
+		public function set delay( delay:Number ):void
+		{
+			_delay = delay;
 		}
 		
 		/**
@@ -61,6 +78,11 @@ package com.ffsys.ui.tooltips
 		}
 		
 		/**
+		*	@private	
+		*/
+		protected var text:String;
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function show( text:String ):void
@@ -74,6 +96,32 @@ package com.ffsys.ui.tooltips
 			{
 				throw new Error( "Cannot show a tooltip with null text." );
 			}
+			
+			this.text = text;
+			
+			if( _timer )
+			{
+				_timer.stop();
+				_timer = null;
+			}
+			
+			if( !isNaN( delay ) )
+			{
+				_timer = new Timer( delay, 1 );
+				_timer.addEventListener( TimerEvent.TIMER_COMPLETE, showTooltip );
+				_timer.start();
+			}else{
+				showTooltip();
+			}
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Handles displaying the tool	
+		*/
+		private function showTooltip( event:TimerEvent = null ):void
+		{
 
 			if( contains( DisplayObject( renderer ) ) )
 			{
@@ -89,7 +137,7 @@ package com.ffsys.ui.tooltips
 			}
 			
 			removeEventListener( Event.ENTER_FRAME, position );
-			addEventListener( Event.ENTER_FRAME, position );
+			addEventListener( Event.ENTER_FRAME, position );			
 		}
 		
 		/**
@@ -97,6 +145,12 @@ package com.ffsys.ui.tooltips
 		*/
 		public function hide():void
 		{
+			if( _timer )
+			{
+				_timer.stop();
+				_timer = null;
+			}
+			
 			if( renderer && contains( DisplayObject( renderer ) ) )
 			{
 				renderer.hide();

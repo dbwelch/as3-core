@@ -71,7 +71,8 @@ package com.ffsys.ui.suite.view {
 			vbox = new VerticalBox();
 			addChild( vbox );
 			
-			//initialize the tooltip renderer
+			//initialize the tooltips
+			UIComponent.utilities.layer.tooltips.delay = 1000;
 			UIComponent.utilities.layer.tooltips.renderer = 
 				new DefaultToolTipRenderer();
 			

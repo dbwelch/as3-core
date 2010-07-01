@@ -15,6 +15,13 @@ package com.ffsys.ui.tooltips
 	public interface IToolTipManager extends IComponent
 	{
 		/**
+		*	A delay in milliseconds before the tooltip
+		*	is shown.
+		*/
+		function get delay():Number;
+		function set delay( delay:Number ):void;
+		
+		/**
 		* 	The renderer instance to use when rendering tooltips.
 		*/
 		function get renderer():IToolTipRenderer;
