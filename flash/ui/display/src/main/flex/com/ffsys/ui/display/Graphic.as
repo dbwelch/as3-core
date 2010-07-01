@@ -17,6 +17,7 @@ package com.ffsys.ui.display
 	*	@since  20.06.2010
 	*/
 	public class Graphic extends InteractiveComponent
+		implements IGraphic
 	{
 		private var _graphic:IComponentGraphic;
 		
@@ -65,6 +66,22 @@ package com.ffsys.ui.display
 				}
 				
 				addChild( DisplayObject( this.graphic ) );
+			}
+		}
+		
+		/**
+		* 	Proxies drawing to the encapsulated graphic
+		*	if it exists.
+		*
+		*	@param width The width of the graphic.
+		*	@param height The height of the graphic.
+		*/
+		public function draw(
+			width:Number = NaN, height:Number = NaN ):void
+		{
+			if( graphic )
+			{
+				graphic.draw( width, height );
 			}
 		}
 	}

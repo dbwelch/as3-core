@@ -83,6 +83,7 @@ package com.ffsys.ui.scrollbars {
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{
+			super.layoutChildren( width, height );
 			if( positiveScrollButton )
 			{
 				positiveScrollButton.x =

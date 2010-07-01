@@ -10,7 +10,6 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.common.flash.ISprite;
 	
-	import com.ffsys.ui.graphics.IComponentDraw;
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
@@ -30,7 +29,6 @@ package com.ffsys.ui.core
 	*/
 	public interface IComponent
 		extends ISprite,
-				IComponentDraw,
 				ILayoutWidth,
 				ILayoutHeight,
 				IMarginAware,
@@ -65,12 +63,22 @@ package com.ffsys.ui.core
 	
 		/**
 		*	A border graphic for the component.
+		*	
+		*	A border component graphic is special in
+		*	that it's depth is maintained at the top
+		*	of the display hierarchy as child display
+		*	objects are added to this component.
 		*/
 		function get border():IComponentGraphic;
 		function set border( border:IComponentGraphic ):void;
 	
 		/**
 		*	A background graphic for the component.
+		*	
+		*	A background component graphic is special in
+		*	that it's depth is maintained at the bottom
+		*	of the display hierarchy as child display
+		*	objects are added to this component.
 		*/
 		function get background():IComponentGraphic;
 		function set background( background:IComponentGraphic ):void;
@@ -98,6 +106,15 @@ package com.ffsys.ui.core
 		*	area outside any margin settings.
 		*/
 		function getMarginRectangle():Rectangle;
+		
+		/**
+		*	Sets the size of this component.
+		*	
+		*	@param width The preferred width for the component.
+		*	@param height The preferred height for the component.	
+		*/
+		function setSize(
+			width:Number, height:Number ):void;
 		
 		/**
 		* 	Gets a runtime asset by fully qualified class path.

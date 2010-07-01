@@ -204,11 +204,6 @@ package com.ffsys.ui.scrollbars {
 			
 			if( scrollTrack )
 			{
-				//TOOD: assign preferred size in concrete implementations
-				
-				scrollTrack.preferredWidth = preferredWidth;
-				scrollTrack.preferredHeight = preferredHeight;
-				
 				addChild( DisplayObject( scrollTrack ) );
 			}
 		}
@@ -401,5 +396,70 @@ package com.ffsys.ui.scrollbars {
 		{
 			//
 		}
+		
+		/**
+		*	@private
+		*	
+		*	Gets the size of the scroll track.
+		*/
+		protected function get scrollTrackSize():Number
+		{
+			var size:Number = this.size;
+			
+			if( negativeScrollButton )
+			{
+				size -=
+					( direction == Direction.HORIZONTAL )
+					? negativeScrollButton.layoutWidth
+					: negativeScrollButton.layoutHeight;
+			}
+			
+			if( positiveScrollButton )
+			{
+				size -=
+					( direction == Direction.HORIZONTAL )
+					? positiveScrollButton.layoutWidth
+					: positiveScrollButton.layoutHeight;
+			}
+			
+			return size;
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Gets the position of the scroll track.
+		*/
+		protected function get scrollTrackPosition():Number
+		{
+			var position:Number = 0;
+
+			if( positiveScrollButton )
+			{
+				position +=
+					( direction == Direction.HORIZONTAL )
+					? positiveScrollButton.layoutWidth
+					: positiveScrollButton.layoutHeight;
+			}
+			
+			return position;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override protected function layoutChildren(
+			width:Number, height:Number ):void
+		{
+			super.layoutChildren( width, height );
+			
+			if( scrollTrack )
+			{
+				/*
+				scrollTrack.preferredWidth = preferredWidth;
+				scrollTrack.preferredHeight = preferredHeight;
+				*/
+			}
+		}				
 	}
 }

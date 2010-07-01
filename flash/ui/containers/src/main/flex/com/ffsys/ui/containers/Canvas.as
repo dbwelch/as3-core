@@ -91,7 +91,6 @@ package com.ffsys.ui.containers {
 					{
 						_masker.graphic = graphic;
 					}
-					_masker.draw();
 					addChild( DisplayObject( _masker ) );
 					this.mask = DisplayObject( _masker );
 				}

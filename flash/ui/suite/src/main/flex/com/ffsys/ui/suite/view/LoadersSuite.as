@@ -60,7 +60,7 @@ package com.ffsys.ui.suite.view {
 			*/
 			
 			//test switching off canvas clipping
-			canvas.clipped = false;	
+			//canvas.clipped = false;	
 			
 			//load the first url
 			loader.load();

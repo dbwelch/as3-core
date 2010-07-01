@@ -13,6 +13,7 @@ package com.ffsys.ui.core
 	*	@since  16.06.2010
 	*/
 	public class InteractiveComponent extends UIComponent
+		implements IInteractiveComponent
 	{
 		
 		/**
@@ -25,8 +26,7 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Extends the enabled functionality to switch the hand cursor
-		* 	and button mode on when interactive is <code>true</code>.
+		* 	@inheritDoc
 		*/
 		public function get interactive():Boolean
 		{
@@ -51,10 +51,11 @@ package com.ffsys.ui.core
 			addEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			addEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
+			addEventListener( MouseEvent.CLICK, onMouseClick );
 		}
 		
 		/**
-		*	Removes mouse listeners from this component.	
+		*	Removes mouse listeners from this component.
 		*/
 		protected function removeMouseListeners():void
 		{
@@ -62,6 +63,7 @@ package com.ffsys.ui.core
 			removeEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			removeEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			removeEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
+			removeEventListener( MouseEvent.CLICK, onMouseClick );
 		}
 		
 		/**
@@ -106,6 +108,17 @@ package com.ffsys.ui.core
 			event:MouseEvent ):void
 		{
 			//
-		}	
+		}
+		
+		/**
+		* 	Invoked when the mouse is clicked on this instance.
+		* 
+		* 	@param event The mouse event.
+		*/
+		protected function onMouseClick(
+			event:MouseEvent ):void
+		{
+			//
+		}
 	}
 }

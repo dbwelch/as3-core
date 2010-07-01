@@ -3,8 +3,8 @@ package com.ffsys.ui.graphics
 
 	/**
 	*	Describes the contract for instances that provide
-	* 	a method to draw graphics or layout child components
-	* 	based on a specified width and height.
+	* 	a method to draw graphics based on a specified
+	*	width and height.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -15,8 +15,12 @@ package com.ffsys.ui.graphics
 	public interface IComponentDraw
 	{
 		/**
-		* 	Draws the graphics for the component.
+		* 	Draws the graphics.
+		*	
+		*	@param width The width of the graphic.
+		*	@param height The height of the graphic.
 		*/
-		function draw( width:Number = NaN, height:Number = NaN ):void;
+		function draw(
+			width:Number = NaN, height:Number = NaN ):void;
 	}
 }

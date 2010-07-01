@@ -10,7 +10,7 @@ package com.ffsys.ui.core {
 	*	A component to serve specifically to be used as a mask.
 	*	
 	*	This component simply encapsulates a graphic and
-	*	proxies it's draw method to the referenced graphic.
+	*	resizes the graphic when necessary.
 	*	
 	*	This allows for mask shapes to be switched easily on
 	*	the fly, the default shape used for the graphic is a
@@ -34,14 +34,21 @@ package com.ffsys.ui.core {
 		*	@param height The preferred height of the mask.
 		*/
 		public function MaskComponent(
-			width:Number = 100, height:Number = 100 )
+			width:Number = 100,
+			height:Number = 100,
+			graphic:IComponentGraphic = null )
 		{
 			super();
 			this.preferredWidth = width;
 			this.preferredHeight = height;
-			_graphic = new RectangleGraphic( width, height );
-			_graphic.fill = new SolidFill( 0x000000, 0.5 );
-			addChild( DisplayObject( this.graphic ) );
+			
+			if( graphic == null )
+			{
+				graphic =
+					new RectangleGraphic( width, height );
+				graphic.fill = new SolidFill( 0x000000, 0.5 );
+			}
+			this.graphic = graphic;
 		}
 		
 		/**
@@ -54,56 +61,26 @@ package com.ffsys.ui.core {
 		
 		public function set graphic( value:IComponentGraphic ):void
 		{
-			var recreate:Boolean = false;
-			if( this.graphic && this.contains( DisplayObject( this.graphic ) ) )
+			if( this.graphic
+				&& contains( DisplayObject( this.graphic ) ) )
 			{
 				removeChild( DisplayObject( this.graphic ) );
-				recreate = value != null;
 			}
 			
 			_graphic = value;
 			
-			if( recreate )
+			if( this.graphic )
 			{
-				createChildren();
+				addChild( DisplayObject( this.graphic ) );
 			}
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		override protected function createChildren():void
-		{
-			
-			/*
-			if( !this.graphic )
-			{
-				this.graphic = new RectangleGraphic(
-					preferredWidth, preferredHeight );
-			}
-			
-			trace("MaskComponent::createChildren()", this.preferredWidth, this.preferredHeight );
-			
-			addChild( DisplayObject( this.graphic ) );
-			*/
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override public function draw(
-			width:Number = NaN, height:Number = NaN ):void
-		{
-			if( isNaN( width ) )
-			{
-				width = this.preferredWidth;
-			}
-			
-			if( isNaN( height ) )
-			{
-				height = preferredHeight;
-			}
-			
+		override protected function layoutChildren(
+			width:Number, height:Number ):void
+		{			
 			if( this.graphic )
 			{
 				this.graphic.draw( width, height );

@@ -232,6 +232,27 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		public function setSize(
+			width:Number, height:Number ):void
+		{
+			if( isNaN( width ) || width <= 0 )
+			{
+				throw new Error( "The component width parameter must be valid." );
+			}
+			
+			if( isNaN( height ) || height <= 0 )
+			{
+				throw new Error( "The component height parameter must be valid." );
+			}
+			
+			preferredWidth = width;
+			preferredHeight = height;
+			layoutChildren( width, height );
+		}
+		
+		/**
 		*	Invoked after the children have been created
 		*	to perform positioning of the child components
 		*	and when this component is resized.
@@ -526,16 +547,7 @@ package com.ffsys.ui.core
 		{
 			mouseEnabled = enabled;
 			mouseChildren = enabled;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function draw(
-			width:Number = NaN, height:Number = NaN ):void
-		{
-			//
-		}		
+		}	
 		
 		/**
 		* 	Performs clean up of this instance.
