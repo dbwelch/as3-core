@@ -2,6 +2,7 @@ package com.ffsys.ui.core
 {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import com.ffsys.ui.drag.IDragOperation;
 	
 	/**
 	*	Represents a component that is configured to receive mouse events.
@@ -15,6 +16,7 @@ package com.ffsys.ui.core
 	public class InteractiveComponent extends UIComponent
 		implements IInteractiveComponent
 	{
+		private var _drag:IDragOperation;
 		
 		/**
 		* 	Creates an <code>InteractiveComponent</code> instance.
@@ -23,6 +25,28 @@ package com.ffsys.ui.core
 		{
 			super();
 			this.interactive = true;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get drag():IDragOperation
+		{
+			return _drag;
+		}
+		
+		public function set drag( drag:IDragOperation ):void
+		{
+			removeEventListener( MouseEvent.MOUSE_DOWN, onDragMouseDown );
+			removeEventListener( MouseEvent.MOUSE_UP, onDragMouseUp );
+			
+			_drag = drag;
+
+			if( drag )
+			{
+				addEventListener( MouseEvent.MOUSE_DOWN, onDragMouseDown );
+				addEventListener( MouseEvent.MOUSE_UP, onDragMouseUp );
+			}
 		}
 		
 		/**
@@ -58,12 +82,40 @@ package com.ffsys.ui.core
 		*	Removes mouse listeners from this component.
 		*/
 		protected function removeMouseListeners():void
-		{
+		{			
 			removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
 			removeEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			removeEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			removeEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
 			removeEventListener( MouseEvent.CLICK, onMouseClick );
+		}
+		
+		/**
+		* 	Invoked when the mouse is pressed on this instance.
+		* 
+		* 	@param event The mouse event.
+		*/
+		private function onDragMouseDown(
+			event:MouseEvent ):void
+		{
+			if( drag )
+			{
+				drag.start( this );
+			}
+		}
+		
+		/**
+		* 	Invoked when the mouse is released on this instance.
+		* 
+		* 	@param event The mouse event.
+		*/
+		private function onDragMouseUp(
+			event:MouseEvent ):void
+		{
+			if( drag )
+			{
+				drag.stop();
+			}
 		}
 		
 		/**

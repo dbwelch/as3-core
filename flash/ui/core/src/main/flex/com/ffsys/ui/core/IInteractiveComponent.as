@@ -1,5 +1,8 @@
 package com.ffsys.ui.core {
 	
+	import com.ffsys.ui.drag.IDraggable;
+	import com.ffsys.ui.drag.IDragOperation;
+	
 	/**
 	*	Describes the contract for interactive components.
 	*
@@ -10,7 +13,8 @@ package com.ffsys.ui.core {
 	*	@since  01.07.2010
 	*/
 	public interface IInteractiveComponent
-		extends IComponent {
+		extends IComponent,
+		 		IDraggable {
 		
 		/**
 		* 	Extends the enabled functionality to switch the hand cursor
@@ -18,5 +22,12 @@ package com.ffsys.ui.core {
 		*/
 		function get interactive():Boolean;
 		function set interactive( interactive:Boolean ):void;
+		
+		/**
+		*	A drag operation associated with this component
+		*	that indicates this component is draggable.
+		*/
+		function get drag():IDragOperation;
+		function set drag( drag:IDragOperation ):void;		
 	}
 }
