@@ -26,7 +26,7 @@ package com.ffsys.ui.tooltips
 		private var _timer:Timer;
 		private var _renderer:IToolTipRenderer;
 		private var _align:String = Orientation.TOP;
-		private var _delay:Number = NaN;
+		private var _delay:Number;
 		
 		/**
 		* 	Creates a <code>ToolTipManager</code> instance.
@@ -101,6 +101,8 @@ package com.ffsys.ui.tooltips
 			
 			if( _timer )
 			{
+				_timer.removeEventListener(
+					TimerEvent.TIMER_COMPLETE, showTooltip );
 				_timer.stop();
 				_timer = null;
 			}
@@ -122,6 +124,12 @@ package com.ffsys.ui.tooltips
 		*/
 		private function showTooltip( event:TimerEvent = null ):void
 		{
+			if( _timer )
+			{
+				_timer.removeEventListener(
+					TimerEvent.TIMER_COMPLETE, showTooltip );
+			}
+			
 			if( contains( DisplayObject( renderer ) ) )
 			{
 				renderer.update( text );
@@ -146,6 +154,8 @@ package com.ffsys.ui.tooltips
 		{
 			if( _timer )
 			{
+				_timer.removeEventListener(
+					TimerEvent.TIMER_COMPLETE, showTooltip );
 				_timer.stop();
 				_timer = null;
 			}
