@@ -31,9 +31,14 @@ package com.ffsys.ui.text
 			maximumHeight:Number = NaN )
 		{
 			super();
+			createTextField( text );
+			//TODO: investigate removing this and still
+			//allowing components to be added to non-component parent
+			//display objects
+			addChild( DisplayObject( _textfield ) );
+			
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
-			createTextField( text );
 		}
 		
 		/**

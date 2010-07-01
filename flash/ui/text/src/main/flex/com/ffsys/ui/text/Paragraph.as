@@ -33,9 +33,9 @@ package com.ffsys.ui.text
 		*/
 		override public function set maximumWidth( maximumWidth:Number ):void
 		{
-			if( !isNaN( maximumWidth ) )
+			super.maximumWidth = maximumWidth;
+			if( !isNaN( maximumWidth ) && textfield )
 			{
-				super.maximumWidth = maximumWidth;
 				textfield.width = maximumWidth;
 			}
 		}
@@ -45,9 +45,9 @@ package com.ffsys.ui.text
 		*/
 		override public function set maximumHeight( maximumHeight:Number ):void
 		{
-			if( !isNaN( maximumHeight ) )
+			super.maximumHeight = maximumHeight;
+			if( !isNaN( maximumHeight ) && textfield )
 			{
-				super.maximumHeight = maximumHeight;
 				textfield.height = maximumHeight;
 			}
 		}
