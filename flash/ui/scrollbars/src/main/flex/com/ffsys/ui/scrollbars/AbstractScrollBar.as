@@ -5,7 +5,7 @@ package com.ffsys.ui.scrollbars {
 	
 	import com.ffsys.ui.common.Direction;
 	import com.ffsys.ui.buttons.IButton;
-	import com.ffsys.ui.containers.Container;
+	import com.ffsys.ui.core.UIComponent;
 	
 	/**
 	*	Abstract super class for scroll bar implementations.
@@ -16,7 +16,8 @@ package com.ffsys.ui.scrollbars {
 	*	@author Mischa Williamson
 	*	@since  29.06.2010
 	*/
-	public class AbstractScrollBar extends Container {
+	public class AbstractScrollBar extends UIComponent
+		implements IScrollBar {
 		
 		/**
 		*	@private
@@ -29,7 +30,7 @@ package com.ffsys.ui.scrollbars {
 		protected var _size:Number;
 		
 		private var _target:DisplayObject;
-		private var _scrollTrack:ScrollTrack;
+		private var _scrollTrack:IScrollTrack;
 		private var _negativeScrollButton:IButton;
 		private var _positiveScrollButton:IButton;
 		private var _scrollAmount:Number = 5;
@@ -58,17 +59,21 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	The size of the visible display area for the
-		*	scroll target.	
+		*	@inheritDoc
 		*/
 		public function get size():Number
 		{
 			return _size;
 		}
 		
+		public function set size( size:Number ):void
+		{
+			_size = size;
+			updateScrollProperties();
+		}
+		
 		/**
-		*	The amount to scroll the target when the scroll
-		*	buttons are used.
+		*	@inheritDoc
 		*/
 		public function get scrollAmount():Number
 		{
@@ -81,10 +86,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	The button that scrolls the target in a negative direction.
-		*	
-		*	For a horizontal scroll bar this is the left scroll button and
-		*	for a vertical scroll bar this is the up scroll button.
+		*	@inheritDoc
 		*/
 		public function get negativeScrollButton():IButton
 		{
@@ -108,10 +110,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	The button that scrolls the target in a positive direction.
-		*	
-		*	For a horizontal scroll bar this is the right scroll button and
-		*	for a vertical scroll bar this is the bottom scroll button.
+		*	@inheritDoc
 		*/		
 		public function get positiveScrollButton():IButton
 		{
@@ -131,37 +130,40 @@ package com.ffsys.ui.scrollbars {
 			if( positiveScrollButton )
 			{
 				addChild( DisplayObject( positiveScrollButton ) );
-			}			
+			}
 		}
 		
 		/**
-		*	A scroll track for the scroll bar.	
+		*	@inheritDoc
 		*/
-		public function get scrollTrack():ScrollTrack
+		public function get scrollTrack():IScrollTrack
 		{
 			return _scrollTrack;
 		}
 		
-		public function set scrollTrack( value:ScrollTrack ):void
+		public function set scrollTrack( value:IScrollTrack ):void
 		{
 			if( scrollTrack
-			 	&& contains( scrollTrack ) )
+			 	&& contains( DisplayObject( scrollTrack ) ) )
 			{
-				removeChild( scrollTrack );
+				removeChild( DisplayObject( scrollTrack ) );
 			}
 			
 			_scrollTrack = value;
 			
 			if( scrollTrack )
 			{
+				//TOOD: assign preferred size in concrete implementations
+				
 				scrollTrack.preferredWidth = preferredWidth;
 				scrollTrack.preferredHeight = preferredHeight;
-				addChild( scrollTrack );
+				
+				addChild( DisplayObject( scrollTrack ) );
 			}
 		}
 		
 		/**
-		*	The target being scrolled.	
+		*	@inheritDoc
 		*/
 		public function get target():DisplayObject
 		{
@@ -179,8 +181,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Inspects the scroll target and updates the distance
-		*	and minimum and maximum scroll positions.	
+		*	@inheritDoc
 		*/
 		public function updateScrollProperties():void
 		{
@@ -198,7 +199,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	The direction this scroll bar is operating in.	
+		*	@inheritDoc
 		*/
 		public function get direction():String
 		{
@@ -248,7 +249,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Gets the measured position of the target.
+		*	@inheritDoc
 		*/
 		public function get measuredPosition():Number
 		{
@@ -256,7 +257,7 @@ package com.ffsys.ui.scrollbars {
 		}		
 		
 		/**
-		*	Gets the measured size of the target.
+		*	@inheritDoc
 		*/
 		public function get measuredSize():Number
 		{
@@ -264,7 +265,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Gets the distance that the target will be scrolled.	
+		*	@inheritDoc
 		*/
 		public function get scrollDistance():Number
 		{
@@ -272,7 +273,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Determines whether the target needs scrolling.	
+		*	@inheritDoc
 		*/
 		public function isScrollable():Boolean
 		{
@@ -280,7 +281,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Gets the minimum scroll position.
+		*	@inheritDoc
 		*/
 		public function get minimumScrollPosition():Number
 		{
@@ -288,7 +289,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Gets the maximum scroll position.
+		*	@inheritDoc
 		*/
 		public function get maximumScrollPosition():Number
 		{
@@ -296,7 +297,7 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Determines the scroll position for this scroll bar.	
+		*	@inheritDoc
 		*/
 		public function get scrollPosition():Number
 		{

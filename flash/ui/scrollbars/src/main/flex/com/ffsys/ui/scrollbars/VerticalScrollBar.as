@@ -63,20 +63,23 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
+			//set up the scroll track
 			this.scrollTrack = new ScrollTrack(
 				preferredWidth, preferredHeight );
-			this.negativeScrollButton = new UpButton(
+			
+			this.negativeScrollButton = new DownButton(
 				null, null, preferredWidth, preferredWidth );
 			this.negativeScrollButton.loop = ButtonLoopMode.DOWN;
-			this.positiveScrollButton = new DownButton(
+			
+			this.negativeScrollButton.y =
+				size - negativeScrollButton.preferredHeight;	
+			
+			negativeScrollButton.addEventListener(
+				MouseEvent.MOUSE_DOWN, negativeScroll );	
+			
+			this.positiveScrollButton = new UpButton(
 				null, null, preferredWidth, preferredWidth );
 			this.positiveScrollButton.loop = ButtonLoopMode.DOWN;
-			
-			this.positiveScrollButton.y =
-				size - positiveScrollButton.preferredHeight;
-				
-			negativeScrollButton.addEventListener(
-				MouseEvent.MOUSE_DOWN, negativeScroll );
 				
 			positiveScrollButton.addEventListener(
 				MouseEvent.MOUSE_DOWN, positiveScroll );
@@ -89,7 +92,7 @@ package com.ffsys.ui.scrollbars {
 		*/
 		private function negativeScroll( event:Event ):void
 		{
-			scrollUp();
+			scrollDown();
 		}
 		
 		/**
@@ -99,7 +102,7 @@ package com.ffsys.ui.scrollbars {
 		*/
 		private function positiveScroll( event:Event ):void
 		{
-			scrollDown();
+			scrollUp();
 		}
 	}
 }

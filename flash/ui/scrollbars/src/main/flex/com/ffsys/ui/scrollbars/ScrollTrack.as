@@ -12,7 +12,8 @@ package com.ffsys.ui.scrollbars {
 	*	@author Mischa Williamson
 	*	@since  30.06.2010
 	*/
-	public class ScrollTrack extends Graphic {
+	public class ScrollTrack extends Graphic
+		implements IScrollTrack {
 		
 		/**
 		*	Creates a <code>ScrollTrack</code> instance.
