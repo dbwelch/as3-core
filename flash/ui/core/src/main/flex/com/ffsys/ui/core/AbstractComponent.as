@@ -232,6 +232,27 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		*	Invoked after the children have been created
+		*	to perform positioning of the child components
+		*	and when this component is resized.
+		*	
+		*	When invoked the width and height passed as
+		*	parameters will equal the preferred width and height
+		*	for this component.
+		*	
+		*	@param width The target width for this component
+		*	that should constrain the child layout.
+		*	
+		*	@param height The target height for this component
+		*	that should constrain the child layout.
+		*/
+		protected function layoutChildren(
+			width:Number, height:Number ):void
+		{
+			//
+		}
+		
+		/**
 		* 	Invoked when this instance is removed from the
 		*	display list of a parent component.
 		* 
@@ -259,7 +280,6 @@ package com.ffsys.ui.core
 		protected function beforeChildAdded(
 			child:DisplayObject, index:int ):Boolean
 		{
-			//createChildren();
 			return true;
 		}
 		
@@ -600,6 +620,7 @@ package com.ffsys.ui.core
 		internal function added():void
 		{
 			createChildren();
+			layoutChildren( preferredWidth, preferredHeight );
 		}
 		
 		/**

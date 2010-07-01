@@ -49,7 +49,7 @@ package com.ffsys.ui.suite.view {
 			var vscrollTarget:Graphic =
 				new Graphic(
 					new RectangleGraphic(
-						100, 400,
+						100, 200,
 						null,
 						new SolidFill( 0xff6600 ) ) );
 			
@@ -58,6 +58,22 @@ package com.ffsys.ui.suite.view {
 			var vscroll:VerticalScrollBar = new VerticalScrollBar(
 				vscrollTarget );
 			hbox.addChild( vscroll );
+			
+			var scrollVBox:VerticalBox = new VerticalBox();
+			hbox.addChild( scrollVBox );
+			
+			var hscrollTarget:Graphic =
+				new Graphic(
+					new RectangleGraphic(
+						200, 100,
+						null,
+						new SolidFill( 0xff0066 ) ) );
+			
+			scrollVBox.addChild( hscrollTarget );
+				
+			var hscroll:HorizontalScrollBar = new HorizontalScrollBar(
+				hscrollTarget );
+			scrollVBox.addChild( hscroll );
 			
 			var lbl:Label = null;	
 			

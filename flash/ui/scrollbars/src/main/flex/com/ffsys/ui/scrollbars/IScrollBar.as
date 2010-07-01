@@ -121,5 +121,12 @@ package com.ffsys.ui.scrollbars {
 		*/
 		function get scrollPosition():Number;
 		function set scrollPosition( position:Number ):void;
+		
+		/**
+		*	A button loop mode that is proxied to the buttons
+		*	used to scroll in either direction.
+		*/
+		function get loop():String;
+		function set loop( value:String ):void;		
 	}
 }

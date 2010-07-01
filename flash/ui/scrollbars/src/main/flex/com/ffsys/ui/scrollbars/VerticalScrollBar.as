@@ -2,7 +2,6 @@ package com.ffsys.ui.scrollbars {
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	
 	import com.ffsys.ui.common.Direction;
 	import com.ffsys.ui.buttons.ButtonLoopMode;
@@ -66,41 +65,41 @@ package com.ffsys.ui.scrollbars {
 			//set up the scroll track
 			this.scrollTrack = new ScrollTrack(
 				preferredWidth, preferredHeight );
-			
-			this.negativeScrollButton = new DownButton(
-				null, null, preferredWidth, preferredWidth );
-			this.negativeScrollButton.loop = ButtonLoopMode.DOWN;
-			
-			this.negativeScrollButton.y =
-				size - negativeScrollButton.preferredHeight;	
-			
-			negativeScrollButton.addEventListener(
-				MouseEvent.MOUSE_DOWN, negativeScroll );	
-			
-			this.positiveScrollButton = new UpButton(
-				null, null, preferredWidth, preferredWidth );
-			this.positiveScrollButton.loop = ButtonLoopMode.DOWN;
 				
-			positiveScrollButton.addEventListener(
-				MouseEvent.MOUSE_DOWN, positiveScroll );
+			var buttonSize:Number = preferredWidth;
+			
+			negativeScrollButton = new DownButton(
+				null, null, buttonSize, buttonSize );
+			
+			positiveScrollButton = new UpButton(
+				null, null, buttonSize, buttonSize );
 		}
 		
 		/**
-		*	@private
-		*	
-		*	Performs scrolling in a negative direction.
+		*	@inheritDoc	
 		*/
-		private function negativeScroll( event:Event ):void
+		override protected function layoutChildren(
+			width:Number, height:Number ):void
+		{
+			if( negativeScrollButton )
+			{
+				negativeScrollButton.y =
+					size - negativeScrollButton.preferredHeight;
+			}
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override protected function negativeScroll( event:Event ):void
 		{
 			scrollDown();
 		}
 		
 		/**
-		*	@private
-		*	
-		*	Performs scrolling in a positive direction.
+		*	@inheritDoc
 		*/
-		private function positiveScroll( event:Event ):void
+		override protected function positiveScroll( event:Event ):void
 		{
 			scrollUp();
 		}

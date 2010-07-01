@@ -1,10 +1,13 @@
 package com.ffsys.ui.scrollbars {
 	
 	import flash.display.DisplayObject;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	
 	import com.ffsys.ui.common.Direction;
 	import com.ffsys.ui.buttons.IButton;
+	import com.ffsys.ui.buttons.ButtonLoopMode;
 	import com.ffsys.ui.core.UIComponent;
 	
 	/**
@@ -40,6 +43,8 @@ package com.ffsys.ui.scrollbars {
 		private var _maximumScrollPosition:Number;
 		private var _scrollDistance:Number = 0;
 		
+		private var _loop:String = ButtonLoopMode.DOWN;
+		
 		/**
 		*	Creates an <code>AbstractScrollBar</code> instance.
 		*	
@@ -56,6 +61,36 @@ package com.ffsys.ui.scrollbars {
 			{
 				this.target = target;
 			}			
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get loop():String
+		{
+			return _loop;
+		}
+		
+		public function set loop( value:String ):void
+		{
+			if( value
+			 	&& ( value != ButtonLoopMode.OVER && value != ButtonLoopMode.DOWN ) )
+			{
+				throw new Error(
+					"Invalid button loop mode '" + value + "'." );
+			}
+			
+			_loop = value;
+			
+			if( negativeScrollButton )
+			{
+				negativeScrollButton.loop = value;
+			}
+			
+			if( positiveScrollButton )
+			{
+				positiveScrollButton.loop = value;
+			}
 		}
 		
 		/**
@@ -98,6 +133,9 @@ package com.ffsys.ui.scrollbars {
 			if( negativeScrollButton
 				&& contains( DisplayObject( negativeScrollButton ) ) )
 			{
+				negativeScrollButton.removeEventListener(
+					MouseEvent.MOUSE_DOWN, negativeScroll );
+				
 				removeChild( DisplayObject( negativeScrollButton ) );
 			}
 			
@@ -105,6 +143,11 @@ package com.ffsys.ui.scrollbars {
 			
 			if( negativeScrollButton )
 			{
+				negativeScrollButton.loop = this.loop;
+				
+				negativeScrollButton.addEventListener(
+					MouseEvent.MOUSE_DOWN, negativeScroll );				
+				
 				addChild( DisplayObject( negativeScrollButton ) );
 			}
 		}
@@ -122,6 +165,9 @@ package com.ffsys.ui.scrollbars {
 			if( positiveScrollButton
 				&& contains( DisplayObject( positiveScrollButton ) ) )
 			{
+				positiveScrollButton.removeEventListener(
+					MouseEvent.MOUSE_DOWN, positiveScroll );
+				
 				removeChild( DisplayObject( positiveScrollButton ) );
 			}
 			
@@ -129,6 +175,11 @@ package com.ffsys.ui.scrollbars {
 			
 			if( positiveScrollButton )
 			{
+				positiveScrollButton.loop = this.loop;
+				
+				positiveScrollButton.addEventListener(
+					MouseEvent.MOUSE_DOWN, positiveScroll );
+				
 				addChild( DisplayObject( positiveScrollButton ) );
 			}
 		}
@@ -329,6 +380,26 @@ package com.ffsys.ui.scrollbars {
 				
 				target[ property ] = position;
 			}
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Performs scrolling in a negative direction.
+		*/
+		protected function negativeScroll( event:Event ):void
+		{
+			//
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Performs scrolling in a positive direction.
+		*/
+		protected function positiveScroll( event:Event ):void
+		{
+			//
 		}
 	}
 }
