@@ -2,6 +2,7 @@ package com.ffsys.ui.scrollbars {
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import com.ffsys.ui.common.Direction;
 	import com.ffsys.ui.buttons.ButtonLoopMode;
@@ -63,8 +64,7 @@ package com.ffsys.ui.scrollbars {
 			super.createChildren();
 			
 			//set up the scroll track
-			this.scrollTrack = new ScrollTrack(
-				preferredWidth, preferredHeight );
+			this.scrollTrack = new ScrollTrack();
 				
 			var buttonSize:Number = preferredWidth;
 			
@@ -104,5 +104,18 @@ package com.ffsys.ui.scrollbars {
 		{
 			scrollUp();
 		}
+		
+		/**
+		*	Handles the scroll track click and updates
+		*	the scroll position.
+		*	
+		*	@param event The mouse event.	
+		*/
+		override protected function onScrollTrackClick(
+			event:MouseEvent ):void
+		{		
+			setScrollByRange(
+				event.localY, 0, scrollTrack.preferredHeight );
+		}				
 	}
 }

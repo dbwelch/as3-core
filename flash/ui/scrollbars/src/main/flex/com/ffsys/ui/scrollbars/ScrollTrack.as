@@ -22,12 +22,23 @@ package com.ffsys.ui.scrollbars {
 		*	@param height The preferred height for the scroll track.
 		*/
 		public function ScrollTrack(
-			width:Number = NaN,
-			height:Number = NaN )
+			width:Number = 10,
+			height:Number = 10 )
 		{
 			super();
 			this.preferredWidth = width;
 			this.preferredHeight = height;
+			this.interactive = true;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function set interactive(
+			value:Boolean ):void
+		{
+			super.interactive = value;
+			useHandCursor = false;
 		}
 		
 		/**

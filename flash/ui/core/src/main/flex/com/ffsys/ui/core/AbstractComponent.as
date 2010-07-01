@@ -646,7 +646,6 @@ package com.ffsys.ui.core
 			removeChildren();
 		}
 		
-		
 		/**
 		*	@private
 		*	

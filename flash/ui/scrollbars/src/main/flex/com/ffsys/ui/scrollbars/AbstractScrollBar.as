@@ -197,6 +197,8 @@ package com.ffsys.ui.scrollbars {
 			if( scrollTrack
 			 	&& contains( DisplayObject( scrollTrack ) ) )
 			{
+				scrollTrack.removeEventListener(
+					MouseEvent.CLICK, onScrollTrackClick );
 				removeChild( DisplayObject( scrollTrack ) );
 			}
 			
@@ -204,6 +206,8 @@ package com.ffsys.ui.scrollbars {
 			
 			if( scrollTrack )
 			{
+				scrollTrack.addEventListener(
+					MouseEvent.CLICK, onScrollTrackClick );				
 				addChild( DisplayObject( scrollTrack ) );
 			}
 		}
@@ -378,6 +382,53 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
+		*	The normalized scroll position between zero and one.
+		*	
+		*	A zero value indicates the minimum scroll position
+		*	(no scroll) while a value of one indicates the
+		*	maximum scroll position.
+		*/
+		public function get normalizedPosition():Number
+		{
+			return Math.abs( scrollPosition ) / Math.abs( scrollDistance );
+		}
+		
+		public function set normalizedPosition( value:Number ):void
+		{
+			if( value < 0 || value > 1 )
+			{
+				throw new Error(
+					"The normalized scroll postion must be between zero and one." );
+			}
+			
+			var scaled:Number = value * Math.abs( scrollDistance );
+			scrollPosition = maximumScrollPosition - scaled;
+		}
+		
+		/**
+		*	Converts a numeric value that falls between a given
+		*	range into a valid scroll position.
+		*	
+		*	@param value The value that falls within the start and
+		*	end range.
+		*	@param start The start value for the range.
+		*	@param end The end value for the range.
+		*/
+		public function setScrollByRange(
+			value:Number, start:Number, end:Number ):void
+		{
+			//constrain value to range
+			value = Math.max( value, start );
+			value = Math.min( value, end );
+			
+			//convert to a normalized value and
+			//set the scroll position
+			var diff:Number = end - start;
+			var normalized:Number = value / diff;
+			normalizedPosition = normalized;
+		}
+		
+		/**
 		*	@private
 		*	
 		*	Performs scrolling in a negative direction.
@@ -455,11 +506,41 @@ package com.ffsys.ui.scrollbars {
 			
 			if( scrollTrack )
 			{
-				/*
-				scrollTrack.preferredWidth = preferredWidth;
-				scrollTrack.preferredHeight = preferredHeight;
-				*/
+				scrollTrack.preferredWidth =
+					( direction == Direction.HORIZONTAL )
+					? scrollTrackSize
+					: preferredWidth;
+				scrollTrack.preferredHeight = 
+					( direction == Direction.HORIZONTAL )
+					? preferredHeight
+					: scrollTrackSize;
+					
+				//force a redraw of the scroll track
+				scrollTrack.setSize(
+					scrollTrack.preferredWidth,
+					scrollTrack.preferredHeight );
+					
+				if( direction == Direction.HORIZONTAL )
+				{
+					scrollTrack.x = scrollTrackPosition;
+				}else{
+					scrollTrack.y = scrollTrackPosition;
+				}
 			}
-		}				
+		}
+		
+		/**
+		*	Handles the scroll track click event.
+		*	
+		*	This method should be implemented by
+		*	concrete scroll bar implementations.
+		*	
+		*	@param event The mouse event.
+		*/
+		protected function onScrollTrackClick(
+			event:MouseEvent ):void
+		{
+			//
+		}
 	}
 }

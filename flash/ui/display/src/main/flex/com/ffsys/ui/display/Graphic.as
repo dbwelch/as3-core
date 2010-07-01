@@ -84,5 +84,15 @@ package com.ffsys.ui.display
 				graphic.draw( width, height );
 			}
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function layoutChildren(
+			width:Number,
+			height:Number ):void
+		{
+			draw( width, height );
+		}
 	}
 }
