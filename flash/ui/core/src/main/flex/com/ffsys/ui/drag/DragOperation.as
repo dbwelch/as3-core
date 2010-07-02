@@ -2,7 +2,9 @@ package com.ffsys.ui.drag {
 	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
+	import flash.utils.Timer;
 	
 	import com.ffsys.ui.core.IInteractiveComponent;
 	
@@ -18,6 +20,9 @@ package com.ffsys.ui.drag {
 	public class DragOperation extends Object
 		implements IDragOperation {
 			
+		//approximately 30fps
+		private var _delay:Number = 33;
+		private var _timer:Timer;
 		private var _bounds:Rectangle;
 		private var _locked:Boolean;
 		private var _source:IInteractiveComponent;
@@ -29,6 +34,19 @@ package com.ffsys.ui.drag {
 		public function DragOperation()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get delay():Number
+		{
+			return _delay;
+		}
+		
+		public function set delay( delay:Number ):void
+		{
+			_delay = delay;
 		}
 		
 		/**
@@ -103,6 +121,8 @@ package com.ffsys.ui.drag {
 					MouseEvent.MOUSE_UP, onMouseUp );
 				
 				target.startDrag( locked, bounds );
+				
+				startTimer();
 			}
 		}
 		
@@ -121,9 +141,47 @@ package com.ffsys.ui.drag {
 					target.parent.removeChild( target );
 				}
 			}
-			
+			stopTimer();
 			_source = null;
 			_target = null;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function stopTimer():void
+		{
+			if( _timer )
+			{
+				_timer.removeEventListener( TimerEvent.TIMER, tick );
+				_timer.stop();
+			}
+			
+			_timer = null;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function startTimer():void
+		{
+			stopTimer();
+			_timer = new Timer( delay, 0 );
+			_timer.addEventListener( TimerEvent.TIMER, tick );
+			_timer.start();
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Invoked while the timer is running.	
+		*/
+		private function tick( event:TimerEvent ):void
+		{
+			if( source is IDraggable )
+			{
+				source.dragUpdate( this );
+			}
 		}
 		
 		/**

@@ -11,5 +11,12 @@ package com.ffsys.ui.drag {
 	*/
 	public interface IDraggable {
 		
+		/**
+		*	Invoked by the drag operation while this
+		*	draggable is being dragged.
+		*	
+		*	@param drag The drag operation performing the drag.
+		*/
+		function dragUpdate( drag:IDragOperation ):void;
 	}
 }

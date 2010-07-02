@@ -151,5 +151,14 @@ package com.ffsys.ui.scrollbars {
 					+ ( normalizedPosition * _scrollDragDistance );
 			}
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override internal function dragged( scrollDrag:IScrollDrag ):void
+		{
+			var position:Number = ( scrollDrag.x - scrollTrackPosition ) / _scrollDragDistance;
+			normalizedPosition = position;
+		}
 	}
 }

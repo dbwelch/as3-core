@@ -61,5 +61,12 @@ package com.ffsys.ui.drag {
 		*	Stops the drag operation.	
 		*/
 		function stop():void;
+		
+		/**
+		*	The delay in milliseconds between when this
+		*	drag operation will send drag notifications.
+		*/
+		function get delay():Number;
+		function set delay( delay:Number ):void;
 	}
 }

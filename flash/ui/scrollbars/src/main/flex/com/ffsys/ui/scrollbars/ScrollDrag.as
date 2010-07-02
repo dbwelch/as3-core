@@ -4,6 +4,7 @@ package com.ffsys.ui.scrollbars {
 	import com.ffsys.ui.graphics.*;
 	
 	import com.ffsys.ui.drag.DragOperation;
+	import com.ffsys.ui.drag.IDragOperation;
 	
 	/**
 	*	Represents the draggable scroll thumb
@@ -17,6 +18,8 @@ package com.ffsys.ui.scrollbars {
 	*/
 	public class ScrollDrag extends Graphic
 		implements IScrollDrag {
+			
+		private var _scrollBar:IScrollBar;
 		
 		/**
 		*	Creates a <code>ScrollDrag</code> instance.
@@ -33,6 +36,30 @@ package com.ffsys.ui.scrollbars {
 			this.preferredHeight = height;
 			this.interactive = true;
 			this.drag = new DragOperation();
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get scrollBar():IScrollBar
+		{
+			return _scrollBar;
+		}
+		
+		public function set scrollBar( scrollBar:IScrollBar ):void
+		{
+			_scrollBar = scrollBar;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function dragUpdate( drag:IDragOperation ):void
+		{
+			if( scrollBar )
+			{
+				AbstractScrollBar( scrollBar ).dragged( this );
+			}
 		}
 		
 		/**

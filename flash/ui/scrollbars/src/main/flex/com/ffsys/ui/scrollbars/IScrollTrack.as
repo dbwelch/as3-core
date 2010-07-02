@@ -13,5 +13,10 @@ package com.ffsys.ui.scrollbars {
 	*/
 	public interface IScrollTrack extends IGraphic {
 		
+		/**
+		*	The scroll bar that owns this scroll track.
+		*/
+		function get scrollBar():IScrollBar;
+		function set scrollBar( scrollBar:IScrollBar ):void;		
 	}
 }

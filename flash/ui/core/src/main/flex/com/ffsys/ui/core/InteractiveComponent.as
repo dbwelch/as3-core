@@ -103,6 +103,14 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		public function dragUpdate( drag:IDragOperation ):void
+		{
+			//
+		}
+		
+		/**
 		* 	Invoked when the mouse is pressed on this instance.
 		* 
 		* 	@param event The mouse event.

@@ -14,6 +14,8 @@ package com.ffsys.ui.scrollbars {
 	*/
 	public class ScrollTrack extends Graphic
 		implements IScrollTrack {
+			
+		private var _scrollBar:IScrollBar;
 		
 		/**
 		*	Creates a <code>ScrollTrack</code> instance.
@@ -29,6 +31,19 @@ package com.ffsys.ui.scrollbars {
 			this.preferredWidth = width;
 			this.preferredHeight = height;
 			this.interactive = true;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get scrollBar():IScrollBar
+		{
+			return _scrollBar;
+		}
+		
+		public function set scrollBar( scrollBar:IScrollBar ):void
+		{
+			_scrollBar = scrollBar;
 		}
 		
 		/**

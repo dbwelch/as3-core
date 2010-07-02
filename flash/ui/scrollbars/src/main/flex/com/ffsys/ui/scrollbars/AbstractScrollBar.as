@@ -209,6 +209,7 @@ package com.ffsys.ui.scrollbars {
 			if( scrollTrack
 			 	&& contains( DisplayObject( scrollTrack ) ) )
 			{
+				scrollTrack.scrollBar = null;
 				scrollTrack.removeEventListener(
 					MouseEvent.CLICK, onScrollTrackClick );
 				removeChild( DisplayObject( scrollTrack ) );
@@ -218,8 +219,9 @@ package com.ffsys.ui.scrollbars {
 			
 			if( scrollTrack )
 			{
+				scrollTrack.scrollBar = this;
 				scrollTrack.addEventListener(
-					MouseEvent.CLICK, onScrollTrackClick );				
+					MouseEvent.CLICK, onScrollTrackClick );		
 				addChild( DisplayObject( scrollTrack ) );
 			}
 		}
@@ -243,6 +245,7 @@ package com.ffsys.ui.scrollbars {
 					MouseEvent.CLICK, onScrollDragClick );
 				*/
 				
+				scrollDrag.scrollBar = null;
 				removeChild( DisplayObject( scrollDrag ) );
 			}
 
@@ -255,6 +258,7 @@ package com.ffsys.ui.scrollbars {
 					MouseEvent.CLICK, onScrollDragClick );
 				*/
 				
+				scrollDrag.scrollBar = this;
 				addChild( DisplayObject( scrollDrag ) );
 			}
 		}		
@@ -596,6 +600,17 @@ package com.ffsys.ui.scrollbars {
 		*	Invoked after a scroll operation has taken place.	
 		*/
 		protected function afterScroll():void
+		{
+			//
+		}
+		
+		/**
+		*	Invoked while the scroll drag is being dragged.
+		*	
+		*	@param scrollDrag The scroll drag that triggered the
+		*	drag operation.
+		*/
+		internal function dragged( scrollDrag:IScrollDrag ):void
 		{
 			//
 		}
