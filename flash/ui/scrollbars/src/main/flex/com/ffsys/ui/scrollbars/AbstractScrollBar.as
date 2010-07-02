@@ -3,6 +3,7 @@ package com.ffsys.ui.scrollbars {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	
 	import com.ffsys.ui.common.Direction;
@@ -31,6 +32,16 @@ package com.ffsys.ui.scrollbars {
 		*	@private	
 		*/
 		protected var _size:Number;
+		
+		/**
+		*	@private	
+		*/
+		protected var _scrollDragBounds:Rectangle;
+		
+		/**
+		*	@private
+		*/
+		protected var _scrollDragDistance:Number;
 		
 		private var _target:DisplayObject;
 		private var _scrollTrack:IScrollTrack;
@@ -415,6 +426,8 @@ package com.ffsys.ui.scrollbars {
 				
 				target[ property ] = position;
 			}
+			
+			afterScroll();
 		}
 		
 		/**
@@ -575,6 +588,14 @@ package com.ffsys.ui.scrollbars {
 		*/
 		protected function onScrollTrackClick(
 			event:MouseEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	Invoked after a scroll operation has taken place.	
+		*/
+		protected function afterScroll():void
 		{
 			//
 		}

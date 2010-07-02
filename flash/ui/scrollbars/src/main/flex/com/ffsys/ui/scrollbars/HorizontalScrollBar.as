@@ -97,9 +97,12 @@ package com.ffsys.ui.scrollbars {
 			if( scrollDrag && scrollDrag.drag )
 			{
 				scrollDrag.x = scrollTrackPosition;
-				scrollDrag.drag.bounds = new Rectangle(
+				_scrollDragBounds = new Rectangle(
 					scrollTrackPosition, 0,
 					scrollTrackSize - scrollDrag.preferredWidth, 0 );
+				_scrollDragDistance =
+					( scrollTrackSize - scrollDrag.preferredWidth );
+				scrollDrag.drag.bounds = _scrollDragBounds;
 			}
 		}
 		
@@ -130,6 +133,23 @@ package com.ffsys.ui.scrollbars {
 		{
 			setScrollByRange(
 				event.localX, 0, scrollTrack.preferredWidth );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override protected function afterScroll():void
+		{
+			//scroll was triggered from something
+			//other than the scroll drag so set the
+			//drag position
+			if( scrollDrag
+			 	&& scrollDrag.drag
+				&& !scrollDrag.drag.dragging )
+			{
+				scrollDrag.x = scrollTrackPosition
+					+ ( normalizedPosition * _scrollDragDistance );
+			}
 		}
 	}
 }

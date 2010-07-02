@@ -74,6 +74,14 @@ package com.ffsys.ui.drag {
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		public function get dragging():Boolean
+		{
+			return ( _source != null );
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function start( source:IInteractiveComponent ):void

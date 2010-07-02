@@ -7,11 +7,9 @@ package com.ffsys.ui.core
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 	import flash.geom.Matrix;
-	import flash.utils.getDefinitionByName;	
+	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.ui.graphics.IComponentGraphic;
-	
-	import com.ffsys.ui.layout.ILayout;
 	
 	import com.ffsys.ui.common.IMargin;
 	import com.ffsys.ui.common.IPadding;
@@ -19,7 +17,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.Padding;
 	
 	import com.ffsys.ui.text.core.ITextFieldFactory;
-	import com.ffsys.ui.text.core.TextFieldFactory;	
+	import com.ffsys.ui.text.core.TextFieldFactory;
 
 	/**
 	*	Abstract super class for all components.
@@ -57,10 +55,12 @@ package com.ffsys.ui.core
 		public function AbstractComponent()
 		{
 			super();
+			
 			if( !_utils && !( this is IComponentRootLayer ) )
 			{
 				_utils = new ComponentViewUtils();
 			}
+			
 			created();
 			
 			if( utils && utils.layer && !utils.layer.initialized )

@@ -43,6 +43,13 @@ package com.ffsys.ui.drag {
 		function set locked( locked:Boolean ):void;
 		
 		/**
+		*	Determines whether this drag operation is currently dragging.
+		*	
+		*	@return Whether this drag operation is dragging.
+		*/
+		function get dragging():Boolean;
+		
+		/**
 		*	Starts the drag operation.
 		*	
 		*	@param source The source component initiating
