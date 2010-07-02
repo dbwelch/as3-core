@@ -49,10 +49,22 @@ package com.ffsys.ui.scrollbars {
 		function set positiveScrollButton( button:IButton ):void;
 		
 		/**
-		*	A scroll track for the scroll bar.	
+		*	A scroll track for the scroll bar.
 		*/
 		function get scrollTrack():IScrollTrack;
 		function set scrollTrack( value:IScrollTrack ):void;
+		
+		/**
+		*	A scroll drag for the scroll bar.
+		*/
+		function get scrollDrag():IScrollDrag;
+		function set scrollDrag( value:IScrollDrag ):void;
+		
+		/**
+		*	The minimum size for the scroll drag component.
+		*/
+		function get minimumScrollDragSize():Number;
+		function set minimumScrollDragSize( value:Number ):void;
 		
 		/**
 		*	The target being scrolled.	

@@ -80,21 +80,12 @@ package com.ffsys.ui.text
 		* 	The maximum width before the label wraps to a
 		* 	multiline textfield.
 		*/
-		public function get maximumWidth():Number
+		override public function set maximumWidth( value:Number ):void
 		{
-			if( textfield )
+			super.maximumWidth = value
+			if( !isNaN( value ) && textfield )
 			{
-				return textfield.maximumWidth;
-			}
-			
-			return NaN;
-		}
-		
-		public function set maximumWidth( maximumWidth:Number ):void
-		{
-			if( !isNaN( maximumWidth ) && textfield )
-			{
-				textfield.maximumWidth = maximumWidth;
+				textfield.maximumWidth = value;
 			}
 		}
 		
@@ -102,21 +93,11 @@ package com.ffsys.ui.text
 		* 	The maximum height that a multiline textfield
 		* 	will resize before it becomes a fixed size.
 		*/
-		public function get maximumHeight():Number
+		override public function set maximumHeight( value:Number ):void
 		{
-			if( textfield )
+			if( !isNaN( value ) && textfield )
 			{
-				return textfield.maximumHeight;
-			}
-			
-			return NaN;
-		}
-		
-		public function set maximumHeight( maximumHeight:Number ):void
-		{
-			if( !isNaN( maximumHeight ) && textfield )
-			{
-				textfield.maximumHeight = maximumHeight;
+				textfield.maximumHeight = value;
 			}
 		}
 		

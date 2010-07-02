@@ -36,9 +36,21 @@ package com.ffsys.ui.scrollbars {
 			_direction = Direction.HORIZONTAL;
 			super( target, width );
 			this.preferredWidth = width;
-			this.preferredHeight = height;		
+			this.preferredHeight = height;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function set scrollDrag( value:IScrollDrag ):void
+		{
+			super.scrollDrag = value;
+
+			if( scrollDrag )
+			{
+				scrollDrag.minimumWidth = minimumScrollDragSize;
+			}
+		}
 		
 		/**
 		*	Scrolls the target left by the current scroll amount.

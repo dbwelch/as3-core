@@ -40,6 +40,21 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		override public function set scrollDrag( value:IScrollDrag ):void
+		{
+			super.scrollDrag = value;
+
+			if( scrollDrag )
+			{
+				trace("VerticalScrollBar::set scrollDrag(), ", minimumScrollDragSize );
+				
+				scrollDrag.minimumHeight = minimumScrollDragSize;
+			}
+		}
+		
+		/**
 		*	Scrolls the target up by the current scroll amount.
 		*/
 		public function scrollUp():void

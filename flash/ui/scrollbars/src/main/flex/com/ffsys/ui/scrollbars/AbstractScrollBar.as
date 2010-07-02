@@ -56,6 +56,7 @@ package com.ffsys.ui.scrollbars {
 		private var _scrollDistance:Number = 0;
 		
 		private var _loop:String = ButtonLoopMode.DOWN;
+		private var _minimumScrollDragSize:Number = 5;
 		
 		/**
 		*	Creates an <code>AbstractScrollBar</code> instance.
@@ -73,6 +74,19 @@ package com.ffsys.ui.scrollbars {
 			{
 				this.target = target;
 			}			
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get minimumScrollDragSize():Number
+		{
+			return _minimumScrollDragSize;
+		}
+		
+		public function set minimumScrollDragSize( value:Number ):void
+		{
+			_minimumScrollDragSize = value;
 		}
 		
 		/**
@@ -290,6 +304,9 @@ package com.ffsys.ui.scrollbars {
 			{
 				_scrollDistance = measuredSize - size;
 				_minimumScrollPosition = -Math.abs( _scrollDistance );
+				
+				trace("AbstractScrollBar::updateScrollProperties(), ",
+					scrollDrag, _scrollDistance );
 				
 				/*
 				trace("AbstractScrollBar::updateScrollProperties(), ",

@@ -42,6 +42,12 @@ package com.ffsys.ui.core
 		protected var _preferredWidth:Number = NaN;
 		protected var _preferredHeight:Number = NaN;
 		
+		protected var _minimumWidth:Number = NaN;
+		protected var _minimumHeight:Number = NaN;
+		
+		protected var _maximumWidth:Number = NaN;
+		protected var _maximumHeight:Number = NaN;
+		
 		private var _margins:IMargin = new Margin();
 		private var _paddings:IPadding = new Padding();
 		private var _id:String;
@@ -109,9 +115,9 @@ package com.ffsys.ui.core
 			return _preferredWidth;
 		}
 		
-		public function set preferredWidth( val:Number ):void
+		public function set preferredWidth( value:Number ):void
 		{
-			_preferredWidth = val;
+			_preferredWidth = value;
 		}
 		
 		/**
@@ -122,10 +128,62 @@ package com.ffsys.ui.core
 			return _preferredHeight;
 		}
 		
-		public function set preferredHeight( val:Number ):void
+		public function set preferredHeight( value:Number ):void
 		{
-			_preferredHeight = val;
+			_preferredHeight = value;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get minimumWidth():Number
+		{
+			return _minimumWidth;
+		}
+
+		public function set minimumWidth( value:Number ):void
+		{
+			_minimumWidth = value;
+		}
+
+		/**
+		*	@inheritDoc	
+		*/
+		public function get minimumHeight():Number
+		{
+			return _minimumHeight;
+		}
+
+		public function set minimumHeight( value:Number ):void
+		{
+			_minimumHeight = value;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get maximumWidth():Number
+		{
+			return _maximumWidth;
+		}
+
+		public function set maximumWidth( value:Number ):void
+		{
+			_maximumWidth = value;
+		}
+
+		/**
+		*	@inheritDoc	
+		*/
+		public function get maximumHeight():Number
+		{
+			return _maximumHeight;
+		}
+
+		public function set maximumHeight( value:Number ):void
+		{
+			_maximumHeight = value;
+		}				
 		
 		/**
 		* 	@inheritDoc

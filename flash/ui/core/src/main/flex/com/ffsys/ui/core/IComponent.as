@@ -48,13 +48,37 @@ package com.ffsys.ui.core
 		*	The preferred width for the component.	
 		*/
 		function get preferredWidth():Number;
-		function set preferredWidth( val:Number ):void;
+		function set preferredWidth( value:Number ):void;
 		
 		/**
 		*	The preferred height for the component.	
 		*/
 		function get preferredHeight():Number;
-		function set preferredHeight( val:Number ):void;		
+		function set preferredHeight( value:Number ):void;		
+		
+		/**
+		*	A minimum width for the component.
+		*/
+		function get minimumWidth():Number;
+		function set minimumWidth( value:Number ):void;
+
+		/**
+		*	A minimum height for the component.
+		*/
+		function get minimumHeight():Number;
+		function set minimumHeight( value:Number ):void;
+		
+		/**
+		*	A maximum width for the component.
+		*/
+		function get maximumWidth():Number;
+		function set maximumWidth( value:Number ):void;
+
+		/**
+		*	A maximum height for the component.
+		*/
+		function get maximumHeight():Number;
+		function set maximumHeight( value:Number ):void;						
 		
 		/**
 		* 	The text field factory used to create textfields.
