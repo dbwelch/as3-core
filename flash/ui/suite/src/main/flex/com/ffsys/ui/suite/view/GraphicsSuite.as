@@ -182,6 +182,16 @@ package com.ffsys.ui.suite.view {
 			pointer.edge = Orientation.RIGHT;
 			RectangleGraphic( graphic ).pointer = pointer;
 			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new RectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			pointer = new ArrowPointer();
+			pointer.inside = false;
+			RectangleGraphic( graphic ).pointer = pointer;
+			hbox.addChild( DisplayObject( graphic ) );
 						
 			graphic = new RectangleGraphic(
 				width,

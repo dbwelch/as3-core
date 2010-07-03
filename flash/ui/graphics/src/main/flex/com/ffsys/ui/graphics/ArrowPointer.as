@@ -16,6 +16,7 @@ package com.ffsys.ui.graphics {
 	public class ArrowPointer extends ArrowGraphic
 		implements IPointer {
 			
+		private var _inside:Boolean = true;
 		private var _offset:Number = NaN;
 		private var _edge:String;
 		
@@ -97,6 +98,19 @@ package com.ffsys.ui.graphics {
 		public function set edge( value:String ):void
 		{
 			_edge = value;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get inside():Boolean
+		{
+			return _inside;
+		}
+		
+		public function set inside( value:Boolean ):void
+		{
+			_inside = value;
 		}
 	}
 }

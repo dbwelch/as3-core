@@ -84,29 +84,29 @@ package com.ffsys.ui.graphics
 				var w:Number = width;
 				var h:Number = height;
 				
-				//TODO: make these adjusts to draw the pointer inside adjustable
-				if( pointer.edge == Orientation.TOP
-				 	|| pointer.edge == Orientation.BOTTOM )
+				if( pointer.inside )
 				{
-					h -= pointer.preferredHeight;
-				}else if(
-					pointer.edge == Orientation.LEFT
-					|| pointer.edge == Orientation.RIGHT )
-				{
-					w -= pointer.preferredHeight;
-				}
+					if( pointer.edge == Orientation.TOP
+					 	|| pointer.edge == Orientation.BOTTOM )
+					{
+						h -= pointer.preferredHeight;
+					}else if(
+						pointer.edge == Orientation.LEFT
+						|| pointer.edge == Orientation.RIGHT )
+					{
+						w -= pointer.preferredHeight;
+					}
 				
-				if( pointer.edge == Orientation.TOP )
-				{
-					sy += pointer.preferredHeight;
-				}
+					if( pointer.edge == Orientation.TOP )
+					{
+						sy += pointer.preferredHeight;
+					}
 				
-				if( pointer.edge == Orientation.LEFT )
-				{
-					sx += pointer.preferredHeight;
+					if( pointer.edge == Orientation.LEFT )
+					{
+						sx += pointer.preferredHeight;
+					}
 				}
-				
-				//trace("RectangleGraphic::doDraw(), ", pointer.offset, height );
 				
 				drawPointerEdge(
 					Orientation.TOP,

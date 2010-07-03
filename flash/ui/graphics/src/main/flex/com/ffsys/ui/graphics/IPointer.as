@@ -49,6 +49,14 @@ package com.ffsys.ui.graphics {
 		*	An edge this pointer is aligned to.
 		*/
 		function get edge():String;
-		function set edge( value:String ):void;		
+		function set edge( value:String ):void;
+		
+		/**
+		*	Determines whether the pointer should be drawn
+		*	inside the bounds of the component graphic it
+		*	is associated with. The default value is true.
+		*/
+		function get inside():Boolean;
+		function set inside( value:Boolean ):void;				
 	}
 }
