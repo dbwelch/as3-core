@@ -5,6 +5,7 @@ package com.ffsys.ui.core
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.events.FocusEvent;
 	
 	import com.ffsys.ui.tooltips.IToolTipManager;
 	import com.ffsys.ui.tooltips.ToolTipManager;
@@ -78,12 +79,16 @@ package com.ffsys.ui.core
 				//setup sensible defaults for the stage
 				stage.scaleMode = StageScaleMode.NO_SCALE;
 				stage.align = StageAlign.TOP_LEFT;
+				stage.stageFocusRect = false;
 		
 				//hook into the resize event to keep preferred dimensions in sync
 				stage.addEventListener( Event.RESIZE, resize );
+				
+				stage.addEventListener( FocusEvent.FOCUS_IN, stageFocusIn );
+				stage.addEventListener( FocusEvent.FOCUS_OUT, stageFocusOut );
 		
 				//invoke resize immediately
-				resize();	
+				resize();
 				
 				//hook into find out when siblings are added
 				//to ensure this root layer remains at the highest depth
@@ -150,6 +155,50 @@ package com.ffsys.ui.core
 				{
 					_tooltips.preferredWidth = stage.stageWidth;
 					_tooltips.preferredHeight = stage.stageHeight;
+				}
+			}
+		}
+		
+		/**
+		* 	@private
+		* 	
+		*	Handles the focus in event.
+		*/
+		private function stageFocusIn( event:FocusEvent ):void
+		{
+			if( stage )
+			{
+				var component:UIComponent = event.target as UIComponent;
+				
+				if( component )
+				{
+					component.focusIn( event );
+				}
+			}
+		}
+		
+		/**
+		* 	@private
+		* 	
+		*	Handles the focus out event.
+		*/
+		private function stageFocusOut( event:FocusEvent ):void
+		{
+			if( stage )
+			{
+				var component:UIComponent = event.target as UIComponent;
+				
+				/*
+				trace("ComponentRootLayer::stageFocusOut(), ",
+					event.target,
+					event.currentTarget,
+					event.relatedObject,
+					component );
+				*/
+				
+				if( component )
+				{
+					component.focusOut( event );
 				}
 			}
 		}

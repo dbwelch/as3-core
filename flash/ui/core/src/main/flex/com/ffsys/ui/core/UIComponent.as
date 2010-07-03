@@ -1,6 +1,6 @@
 package com.ffsys.ui.core
 {
-	import flash.events.Event;
+	import flash.events.FocusEvent;
 	
 	/**
 	*	The default component implementation.
@@ -19,6 +19,26 @@ package com.ffsys.ui.core
 		public function UIComponent()
 		{
 			super();
+		}
+		
+		/**
+		*	Invoked when this component receives focus.	
+		*	
+		*	@param event The focus event.
+		*/
+		internal function focusIn( event:FocusEvent ):void
+		{
+			trace("UIComponent::focusIn(), ", this );
+		}
+		
+		/**
+		*	Invoked when this component loses focus.
+		*	
+		*	@param event The focus event.
+		*/
+		internal function focusOut( event:FocusEvent ):void
+		{
+			trace("UIComponent::focusOut(), ", this );
 		}
 		
 		/**

@@ -75,6 +75,8 @@ package com.ffsys.ui.suite.view {
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
 			UIComponent.utilities.layer.tooltips.renderer = 
 				new DefaultToolTipRenderer();
+				
+			//UIComponent.utilities.layer.tooltips.renderer
 			
 			vbox.spacing = 15;
 			
