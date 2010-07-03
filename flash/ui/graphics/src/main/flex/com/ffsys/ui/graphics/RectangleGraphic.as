@@ -12,6 +12,7 @@ package com.ffsys.ui.graphics
 	*/
 	public class RectangleGraphic extends ComponentGraphic
 	{
+		private var _pointer:IPointer;
 		
 		/**
 		* 	Creates a <code>RectangleGraphic</code> instance.
@@ -28,12 +29,27 @@ package com.ffsys.ui.graphics
 			super( width, height, stroke, fill );
 		}
 		
+		public function get pointer():IPointer
+		{
+			return _pointer;
+		}
+		
+		public function set pointer( value:IPointer ):void
+		{
+			_pointer = value;
+		}
+		
 		/**
 		*	@inheritDoc
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			graphics.drawRect( tx, ty, width, height );
+			if( pointer == null )
+			{
+				graphics.drawRect( tx, ty, width, height );
+			}else{
+				//TODO: implement pointer drawing
+			}
 		}
 	}
 }

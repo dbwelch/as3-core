@@ -54,9 +54,9 @@ package com.ffsys.ui.graphics {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@private	
 		*/
-		override protected function doDraw( width:Number, height:Number ):void
+		protected function setTrianglePointsFromOrientation():void
 		{
 			switch( orientation )
 			{
@@ -102,8 +102,15 @@ package com.ffsys.ui.graphics {
 					break;						
 				default:
 					throw new Error( "Arrow graphic encountered an invalid orientation." );
-			}
-			
+			}		
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function doDraw( width:Number, height:Number ):void
+		{
+			setTrianglePointsFromOrientation();
 			super.doDraw( width, height );
 		}
 	}

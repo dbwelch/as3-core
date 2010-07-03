@@ -48,8 +48,6 @@ package com.ffsys.ui.scrollbars {
 
 			if( scrollDrag )
 			{
-				trace("VerticalScrollBar::set scrollDrag(), ", minimumScrollDragSize );
-				
 				scrollDrag.minimumHeight = minimumScrollDragSize;
 			}
 		}
