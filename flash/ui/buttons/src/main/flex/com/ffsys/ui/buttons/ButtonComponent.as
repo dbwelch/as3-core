@@ -20,8 +20,6 @@ package com.ffsys.ui.buttons
 		private var _loop:String;
 		private var _selectable:Boolean;
 		private var _selected:Boolean;
-		private var _mouseDown:Boolean;
-		private var _tooltip:String;
 		
 		/**
 		* 	Creates an ButtonComponent instance.
@@ -74,19 +72,6 @@ package com.ffsys.ui.buttons
 		/**
 		*	@inheritDoc
 		*/
-		public function get tooltip():String
-		{
-			return _tooltip;
-		}
-		
-		public function set tooltip( tooltip:String ):void
-		{
-			_tooltip = tooltip;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
 		public function get selected():Boolean
 		{
 			return _selected;
@@ -132,7 +117,6 @@ package com.ffsys.ui.buttons
 		override protected function onMouseDown(
 			event:MouseEvent ):void
 		{
-			_mouseDown = true;
 			if( this.skin && this.skin.hasState( State.DOWN ) )
 			{
 				this.state = State.DOWN;
@@ -142,23 +126,22 @@ package com.ffsys.ui.buttons
 			{
 				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
+			
+			super.onMouseDown( event );
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		override protected function onMouseUp(
+		override protected function onMouseClick(
 			event:MouseEvent ):void
 		{
-			
 			if( selectable )
 			{
 				_selected = !_selected;
-			}
+			}			
 			
-			//revert from down state to over
-			if( _mouseDown
-				&& this.skin
+			if( this.skin
 				&& this.skin.hasState( State.DOWN )
 				&& this.skin.hasState( State.OVER ) )
 			{
@@ -166,7 +149,8 @@ package com.ffsys.ui.buttons
 			}
 			
 			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
-			_mouseDown = false;
+			
+			super.onMouseClick( event );			
 		}
 		
 		/**
@@ -182,16 +166,13 @@ package com.ffsys.ui.buttons
 					this.state = State.OVER;
 				}
 			
-				if( tooltip != null )
-				{
-					utils.layer.tooltips.show( tooltip );
-				}
-			
 				if( loop && loop == ButtonLoopMode.OVER )
 				{
 					addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 				}
 			}
+			
+			super.onMouseOver( event );	
 		}
 		
 		/**
@@ -221,13 +202,10 @@ package com.ffsys.ui.buttons
 			
 				this.state = state;
 			
-				if( tooltip != null )
-				{
-					utils.layer.tooltips.hide();
-				}
-			
 				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
+			
+			super.onMouseOut( event );
 		}
 		
 		/**
@@ -236,7 +214,6 @@ package com.ffsys.ui.buttons
 		override public function destroy():void
 		{
 			_loop = null;
-			_tooltip = null;
 			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			super.destroy();
 		}

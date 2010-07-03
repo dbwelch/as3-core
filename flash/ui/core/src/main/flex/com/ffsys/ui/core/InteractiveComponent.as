@@ -17,6 +17,7 @@ package com.ffsys.ui.core
 		implements IInteractiveComponent
 	{
 		private var _drag:IDragOperation;
+		private var _tooltip:String;
 		
 		/**
 		* 	Creates an <code>InteractiveComponent</code> instance.
@@ -63,6 +64,19 @@ package com.ffsys.ui.core
 			
 			interactive ? addMouseListeners() : removeMouseListeners();
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get tooltip():String
+		{
+			return _tooltip;
+		}
+		
+		public function set tooltip( tooltip:String ):void
+		{
+			_tooltip = tooltip;
+		}		
 		
 		/**
 		*	Adds mouse listeners to this component.	
@@ -140,7 +154,13 @@ package com.ffsys.ui.core
 		protected function onMouseOver(
 			event:MouseEvent ):void
 		{
-			//
+			if( !event.buttonDown )
+			{
+				if( tooltip != null )
+				{
+					utils.layer.tooltips.show( tooltip );
+				}
+			}			
 		}
 		
 		/**
@@ -151,7 +171,13 @@ package com.ffsys.ui.core
 		protected function onMouseOut(
 			event:MouseEvent ):void
 		{
-			//
+			if( !event.buttonDown )
+			{
+				if( tooltip != null )
+				{
+					utils.layer.tooltips.hide();
+				}
+			}			
 		}
 		
 		/**
@@ -163,6 +189,16 @@ package com.ffsys.ui.core
 			event:MouseEvent ):void
 		{
 			//
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function destroy():void
+		{
+			_drag = null;
+			_tooltip = null;
+			super.destroy();
 		}
 	}
 }

@@ -36,12 +36,6 @@ package com.ffsys.ui.buttons {
 		function set selectable( selectable:Boolean ):void;
 		
 		/**
-		*	A tooltip this button should show on rollover.
-		*/
-		function get tooltip():String;
-		function set tooltip( tooltip:String ):void;
-		
-		/**
 		*	Determines whether this button is currently selected.
 		*	
 		*	If this button is not selectable then this value will

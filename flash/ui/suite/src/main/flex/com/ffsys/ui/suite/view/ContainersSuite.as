@@ -60,6 +60,7 @@ package com.ffsys.ui.suite.view {
 			hbox.addChild( vscroll );
 			
 			var scrollVBox:VerticalBox = new VerticalBox();
+			scrollVBox.spacing = 10;
 			hbox.addChild( scrollVBox );
 			
 			var hscrollTarget:Graphic =

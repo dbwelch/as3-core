@@ -1,6 +1,6 @@
 package com.ffsys.ui.scrollbars {
 	
-	import com.ffsys.ui.display.Graphic;
+	import com.ffsys.ui.core.Graphic;
 	import com.ffsys.ui.graphics.*;
 	
 	/**

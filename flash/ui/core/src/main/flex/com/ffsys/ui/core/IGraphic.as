@@ -1,4 +1,4 @@
-package com.ffsys.ui.display {
+package com.ffsys.ui.core {
 	
 	import com.ffsys.ui.core.IInteractiveComponent;
 	import com.ffsys.ui.graphics.IComponentDraw;

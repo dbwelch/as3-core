@@ -15,6 +15,12 @@ package com.ffsys.ui.core {
 	public interface IInteractiveComponent
 		extends IComponent,
 		 		IDraggable {
+			
+		/**
+		*	A tooltip this component should show on rollover.
+		*/
+		function get tooltip():String;
+		function set tooltip( tooltip:String ):void;	
 		
 		/**
 		* 	Extends the enabled functionality to switch the hand cursor

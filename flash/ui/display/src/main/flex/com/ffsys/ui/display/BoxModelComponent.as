@@ -5,6 +5,7 @@ package com.ffsys.ui.display {
 	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.core.Graphic;
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.graphics.RectangleGraphic;
 	import com.ffsys.ui.graphics.Stroke;

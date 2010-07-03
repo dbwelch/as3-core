@@ -1,4 +1,4 @@
-package com.ffsys.ui.display
+package com.ffsys.ui.core
 {
 	import flash.display.DisplayObject;
 	

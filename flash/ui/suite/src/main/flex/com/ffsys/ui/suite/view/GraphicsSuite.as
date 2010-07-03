@@ -6,6 +6,7 @@ package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.display.*;
 	import com.ffsys.ui.graphics.*;
 	
