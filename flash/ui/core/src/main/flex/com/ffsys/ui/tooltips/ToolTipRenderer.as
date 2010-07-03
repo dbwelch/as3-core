@@ -1,6 +1,8 @@
 package com.ffsys.ui.tooltips
 {
 	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.graphics.IPointer;
+	import com.ffsys.ui.graphics.IPointerAwareGraphic;
 	
 	/**
 	*	Default tooltip renderer implementation this
@@ -19,6 +21,8 @@ package com.ffsys.ui.tooltips
 	{
 		private var _manager:IToolTipManager;
 		private var _text:String;
+		private var _pointer:IPointer;
+		private var _graphic:IPointerAwareGraphic;
 		
 		/**
 		*	Creates a <code>ToolTipRenderer</code> instance.
@@ -26,6 +30,47 @@ package com.ffsys.ui.tooltips
 		public function ToolTipRenderer()
 		{
 			super();
+			enabled = false;
+			mouseEnabled = false;
+			mouseChildren = false;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get pointer():IPointer
+		{
+			return _pointer;
+		}
+		
+		public function set pointer( value:IPointer ):void
+		{
+			_pointer = value;
+			
+			//we always draw pointers outside the bounds
+			//of the graphic
+			if( this.pointer )
+			{
+				this.pointer.inside = false;
+				
+				if( graphic )
+				{
+					graphic.pointer = pointer;
+				}
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get graphic():IPointerAwareGraphic
+		{
+			return _graphic;
+		}
+		
+		public function set graphic( value:IPointerAwareGraphic ):void
+		{
+			_graphic = value;
 		}
 		
 		/**

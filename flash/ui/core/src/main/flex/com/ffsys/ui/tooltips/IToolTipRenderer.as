@@ -1,6 +1,8 @@
 package com.ffsys.ui.tooltips
 {
 	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.graphics.IPointer;
+	import com.ffsys.ui.graphics.IPointerAwareGraphic;
 	
 	/**
 	*	Describes the contract for tooltip renderers.
@@ -13,6 +15,17 @@ package com.ffsys.ui.tooltips
 	*/
 	public interface IToolTipRenderer extends IComponent
 	{
+		/**
+		*	A pointer to associate with the tooltip.	
+		*/
+		function get pointer():IPointer;
+		function set pointer( value:IPointer ):void;
+		
+		/**
+		*	The graphic to use for the tooltip background.
+		*/
+		function get graphic():IPointerAwareGraphic;
+		function set graphic( value:IPointerAwareGraphic ):void;
 		
 		/**
 		*	The tooltip manager responsbile for showing and

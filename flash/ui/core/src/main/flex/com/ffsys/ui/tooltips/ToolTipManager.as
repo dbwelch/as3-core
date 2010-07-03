@@ -3,6 +3,7 @@ package com.ffsys.ui.tooltips
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
+	import flash.geom.Point;
 	import flash.utils.Timer;
 	
 	import com.ffsys.ui.common.Orientation;
@@ -13,6 +14,10 @@ package com.ffsys.ui.tooltips
 	* 
 	* 	This component is responsible for creating and managing
 	* 	tooltips and positioning them while they are visible.
+	*	
+	*	The margins assigned to this component represent the
+	*	distances between the mouse position and the tooltip
+	*	renderer.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -34,7 +39,8 @@ package com.ffsys.ui.tooltips
 		public function ToolTipManager()
 		{
 			super();
-			this.margins.margin = 10;
+			this.margins.margin = 5;
+			this.margins.bottom = 25;
 		}
 		
 		/**
@@ -78,7 +84,7 @@ package com.ffsys.ui.tooltips
 		}
 		
 		/**
-		*	@private	
+		*	@private
 		*/
 		protected var text:String;
 		
@@ -189,30 +195,88 @@ package com.ffsys.ui.tooltips
 		*/
 		private function position( event:Event = null ):void
 		{
-			//TODO: implement and add alignment option to determine how the tooltip
-			//is aligned to the mouse
+			var p:Point = new Point( mouseX, mouseY );
 			
-			var x:Number = mouseX;
-			var y:Number = mouseY;
+			var display:DisplayObject = renderer as DisplayObject;
+			
+			var alignment:String = this.align;
+			
+			//try preferred alignment first
+			p = getPositionFromAlignment( alignment );
+			
+			//off the top of the stage
+			if( p.y < 0 )
+			{
+				alignment = Orientation.BOTTOM;
+				//force the alignment to be bottom
+				p = getPositionFromAlignment( alignment );
+			}
+			
+			//determines whether the tooltip graphic requires redrawing
+			var redraw:Boolean = false;
+			
+			//adjust pointer edges based on our alignment
+			//to the mouse
+			if( alignment && renderer && renderer.pointer )
+			{
+				var edge:String = renderer.pointer.edge;
+				switch( alignment )
+				{
+					case Orientation.TOP:
+						renderer.pointer.edge = Orientation.BOTTOM;
+						break;
+					case Orientation.BOTTOM:
+						renderer.pointer.edge = Orientation.TOP;
+						break;
+					case Orientation.LEFT:
+						renderer.pointer.edge = Orientation.RIGHT;
+						break;
+					case Orientation.RIGHT:
+						renderer.pointer.edge = Orientation.LEFT;
+						break;
+				}
+				
+				//redraw if the pointer edge has changed
+				redraw = ( renderer.pointer.edge != edge )
+			}
+			
+			if( redraw )
+			{
+				renderer.graphic.redraw();
+			}
+			
+			if( display )
+			{
+				display.x = p.x;
+				display.y = p.y;
+			}
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function getPositionFromAlignment( alignment:String ):Point
+		{
+			var p:Point = new Point( mouseX, mouseY );
 			
 			var display:DisplayObject = renderer as DisplayObject;
 			
 			var w:Number = renderer.width;
 			var h:Number = renderer.height;
 			
-			switch( align )
+			switch( alignment )
 			{
 				case Orientation.TOP:
-					x -= ( w * 0.5 );
-					y -= ( h + margins.top );
+					p.x -= ( w * 0.5 );
+					p.y -= ( h + margins.top );
+					break;
+				case Orientation.BOTTOM:
+					p.x -= ( w * 0.5 );
+					p.y += ( margins.bottom );
 					break;
 			}
 			
-			if( display )
-			{
-				display.x = x;
-				display.y = y;
-			}
+			return p;
 		}
 	}
 }

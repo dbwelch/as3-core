@@ -30,7 +30,7 @@ package com.ffsys.ui.graphics {
 		*	@param offset An offset for the pointer.
 		*/
 		public function ArrowPointer(
-			width:Number = 9,
+			width:Number = 8,
 			height:Number = 6,
 			edge:String = Orientation.BOTTOM,
 			orientation:String = Orientation.BOTTOM,

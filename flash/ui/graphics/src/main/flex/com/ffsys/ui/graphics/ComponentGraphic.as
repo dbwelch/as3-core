@@ -186,6 +186,14 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		public function redraw():void
+		{
+			draw( preferredWidth, preferredHeight );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function draw( width:Number = NaN, height:Number = NaN ):void
@@ -208,6 +216,17 @@ package com.ffsys.ui.graphics
 			beforeDraw( width, height );
 			doDraw( width, height );
 			afterDraw( width, height );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function setSize(
+			width:Number, height:Number ):void
+		{
+			preferredWidth = width;
+			preferredHeight = height;
+			draw( width, height );
 		}
 		
 		/**

@@ -93,6 +93,24 @@ package com.ffsys.ui.graphics
 		/**
 		*	Draws a curve to the anchor point using the control point.
 		*/
-		function curveTo( control:Point, anchor:Point ):void;		
+		function curveTo( control:Point, anchor:Point ):void;
+		
+		/**
+		*	Sets the size of this graphic.
+		*	
+		*	This method updates the preferred dimensions for
+		*	the graphic and forces a redraw.
+		*	
+		*	@param width The width of the graphic.
+		*	@param height The height of the graphic.
+		*/
+		function setSize(
+			width:Number, height:Number ):void;
+		
+		/**
+		*	Forces a redraw of this graphic component at the current
+		*	preferred dimensions.	
+		*/
+		function redraw():void;	
 	}
 }

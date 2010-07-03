@@ -30,30 +30,16 @@ package com.ffsys.ui.tooltips
 		{
 			super();
 			this.paddings.padding = 4;
-		}
-		
-		/**
-		* 	Gets the background graphic that will be assigned to the
-		* 	background of this component.
-		* 
-		* 	@param width The width for the background graphic.
-		* 	@param height The height for the background graphic.
-		* 
-		* 	@return The graphic to use as the background for this tooltip.
-		* 	
-		*/
-		protected function getBackgroundGraphic(
-			width:Number, height:Number ):IComponentGraphic
-		{
+			
 			var fill:IFill = new GradientFill( new Gradient(
 				GradientType.LINEAR, [ 0x121212, 0x232021 ] ) );
 			var stroke:IStroke = new Stroke( 1, 0x00ff00, 1 );
 			stroke.gradient = new Gradient(
 				GradientType.LINEAR, [ 0x242424, 0x333333 ] );
-				
-			var graphic:RectangleGraphic = new RectangleGraphic(
-				width, height, stroke, fill );
-			return graphic;
+			
+			graphic = new RectangleGraphic(
+					NaN, NaN, stroke, fill );
+			this.pointer = new ArrowPointer();
 		}
 		
 		/**
@@ -64,7 +50,13 @@ package com.ffsys.ui.tooltips
 			label = new Label( text );
 			var w:Number = label.layoutWidth + paddings.left + paddings.right + 2;
 			var h:Number = label.layoutHeight + paddings.top + paddings.bottom;
-			background = getBackgroundGraphic( w, h );
+			
+			if( graphic )
+			{
+				graphic.setSize( w, h );
+				background = graphic;
+			}
+			
 			label.x = paddings.left + 1;
 			label.y = paddings.top;
 		}
@@ -74,7 +66,8 @@ package com.ffsys.ui.tooltips
 		*/
 		override public function hide():void
 		{
-			if( this.parent && this.parent.contains( this ) )
+			if( this.parent
+				&& this.parent.contains( this ) )
 			{
 				this.parent.removeChild( this );
 			}

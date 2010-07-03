@@ -12,6 +12,7 @@ package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.tooltips.*;
 	
 	/**
@@ -72,11 +73,10 @@ package com.ffsys.ui.suite.view {
 			addChild( vbox );
 			
 			//initialize the tooltips
+			var tooltip:DefaultToolTipRenderer = new DefaultToolTipRenderer()
+			
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
-			UIComponent.utilities.layer.tooltips.renderer = 
-				new DefaultToolTipRenderer();
-				
-			//UIComponent.utilities.layer.tooltips.renderer
+			UIComponent.utilities.layer.tooltips.renderer = tooltip;
 			
 			vbox.spacing = 15;
 			

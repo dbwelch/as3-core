@@ -178,7 +178,7 @@ package com.ffsys.ui.buttons
 			if( this.skin && this.skin.hasState( State.OVER ) )
 			{
 				this.state = State.OVER;
-			}			
+			}
 			
 			if( tooltip != null )
 			{

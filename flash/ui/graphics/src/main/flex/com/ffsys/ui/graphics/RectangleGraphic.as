@@ -14,6 +14,7 @@ package com.ffsys.ui.graphics
 	*	@since  16.06.2010
 	*/
 	public class RectangleGraphic extends ComponentGraphic
+		implements IPointerAwareGraphic
 	{
 		private var _pointer:IPointer;
 		
@@ -33,7 +34,7 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
-		*	A pointer associated with this rectangle.	
+		*	@inheritDoc
 		*/
 		public function get pointer():IPointer
 		{
