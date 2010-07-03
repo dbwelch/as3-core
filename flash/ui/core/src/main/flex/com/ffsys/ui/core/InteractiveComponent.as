@@ -132,7 +132,10 @@ package com.ffsys.ui.core
 		protected function onMouseDown(
 			event:MouseEvent ):void
 		{
-			//
+			if( tooltip != null )
+			{
+				utils.layer.tooltips.hide();
+			}
 		}
 		
 		/**
