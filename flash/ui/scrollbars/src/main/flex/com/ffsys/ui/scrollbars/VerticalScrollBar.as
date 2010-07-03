@@ -33,7 +33,7 @@ package com.ffsys.ui.scrollbars {
 		*/
 		public function VerticalScrollBar(
 			target:DisplayObject = null,
-			width:Number = 9,
+			width:Number = 12,
 			height:Number = 100 )
 		{
 			_direction = Direction.VERTICAL;
