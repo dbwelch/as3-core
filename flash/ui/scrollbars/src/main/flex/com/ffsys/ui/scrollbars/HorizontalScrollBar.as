@@ -31,7 +31,7 @@ package com.ffsys.ui.scrollbars {
 		public function HorizontalScrollBar(
 			target:DisplayObject = null,
 			width:Number = 100,
-			height:Number = 14 )
+			height:Number = 9 )
 		{
 			_direction = Direction.HORIZONTAL;
 			super( target, width );

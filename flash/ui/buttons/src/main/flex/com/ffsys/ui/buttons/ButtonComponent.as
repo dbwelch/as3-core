@@ -175,19 +175,22 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOver(
 			event:MouseEvent ):void
 		{
-			if( this.skin && this.skin.hasState( State.OVER ) )
+			if( !event.buttonDown )
 			{
-				this.state = State.OVER;
-			}
+				if( this.skin && this.skin.hasState( State.OVER ) )
+				{
+					this.state = State.OVER;
+				}
 			
-			if( tooltip != null )
-			{
-				utils.layer.tooltips.show( tooltip );
-			}
+				if( tooltip != null )
+				{
+					utils.layer.tooltips.show( tooltip );
+				}
 			
-			if( loop && loop == ButtonLoopMode.OVER )
-			{
-				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+				if( loop && loop == ButtonLoopMode.OVER )
+				{
+					addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+				}
 			}
 		}
 		
@@ -199,29 +202,32 @@ package com.ffsys.ui.buttons
 		{
 			var state:String = null;
 			
-			if( this.skin )
+			if( !event.buttonDown )
 			{
-				if( this.skin.hasState( State.MAIN ) )
+				if( this.skin )
 				{
-					state = State.MAIN;
-				}
+					if( this.skin.hasState( State.MAIN ) )
+					{
+						state = State.MAIN;
+					}
 				
-				if( selectable
-					&& selected
-				 	&& this.skin.hasState( State.SELECTED ) )
-				{
-					state = State.SELECTED;
+					if( selectable
+						&& selected
+					 	&& this.skin.hasState( State.SELECTED ) )
+					{
+						state = State.SELECTED;
+					}
 				}
+			
+				this.state = state;
+			
+				if( tooltip != null )
+				{
+					utils.layer.tooltips.hide();
+				}
+			
+				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
-			
-			this.state = state;
-			
-			if( tooltip != null )
-			{
-				utils.layer.tooltips.hide();
-			}
-			
-			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 		}
 		
 		/**
