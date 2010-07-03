@@ -32,6 +32,7 @@ package com.ffsys.ui.text
 		{
 			super();
 			createTextField( text );
+			
 			//TODO: investigate removing this and still
 			//allowing components to be added to non-component parent
 			//display objects
@@ -108,7 +109,7 @@ package com.ffsys.ui.text
 		{
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return Math.ceil( textfield.textWidth );
+				return Math.ceil( textfield.textWidth ) - 2;
 			}
 			
 			return this.width == 0 ? 0 : this.width - 4;
@@ -122,10 +123,10 @@ package com.ffsys.ui.text
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
 				return textfield.textHeight;
-			}			
+			}
 			
 			return this.height == 0 ? 0 : this.height - 4;
-		}		
+		}
 		
 		/**
 		* 	@inheritDoc

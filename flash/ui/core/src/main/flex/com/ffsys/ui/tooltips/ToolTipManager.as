@@ -39,7 +39,7 @@ package com.ffsys.ui.tooltips
 		public function ToolTipManager()
 		{
 			super();
-			this.margins.margin = 5;
+			this.margins.margin = 15;
 			this.margins.bottom = 25;
 		}
 		
@@ -261,8 +261,21 @@ package com.ffsys.ui.tooltips
 			
 			var display:DisplayObject = renderer as DisplayObject;
 			
-			var w:Number = renderer.width;
-			var h:Number = renderer.height;
+			var w:Number = renderer.preferredWidth;
+			var h:Number = renderer.preferredHeight;
+
+			if( renderer.pointer )
+			{
+				if( alignment == Orientation.TOP
+				 	|| alignment == Orientation.BOTTOM )
+				{
+					h += renderer.pointer.height;
+				}else if( alignment == Orientation.LEFT
+					|| alignment == Orientation.RIGHT )
+				{
+					w += renderer.pointer.height;
+				}
+			}
 			
 			switch( alignment )
 			{

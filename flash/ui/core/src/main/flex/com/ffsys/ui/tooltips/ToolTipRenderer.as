@@ -23,6 +23,8 @@ package com.ffsys.ui.tooltips
 		private var _text:String;
 		private var _pointer:IPointer;
 		private var _graphic:IPointerAwareGraphic;
+		private var _maximumTextWidth:Number = NaN;
+		private var _maximumTextHeight:Number = NaN;
 		
 		/**
 		*	Creates a <code>ToolTipRenderer</code> instance.
@@ -33,6 +35,32 @@ package com.ffsys.ui.tooltips
 			enabled = false;
 			mouseEnabled = false;
 			mouseChildren = false;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get maximumTextWidth():Number
+		{
+			return _maximumTextWidth;
+		}
+		
+		public function set maximumTextWidth( value:Number ):void
+		{
+			_maximumTextWidth = value;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get maximumTextHeight():Number
+		{
+			return _maximumTextHeight;
+		}
+		
+		public function set maximumTextHeight( value:Number ):void
+		{
+			_maximumTextHeight = value;
 		}
 		
 		/**

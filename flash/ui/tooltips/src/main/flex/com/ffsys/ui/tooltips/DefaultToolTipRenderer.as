@@ -47,14 +47,22 @@ package com.ffsys.ui.tooltips
 		*/
 		override public function show( text:String ):void
 		{
-			label = new Label( text );
-			var w:Number = label.layoutWidth + paddings.left + paddings.right + 2;
+			label = new Label( text, maximumTextWidth, maximumTextHeight );
+			var w:Number = label.layoutWidth + paddings.left + paddings.right;
 			var h:Number = label.layoutHeight + paddings.top + paddings.bottom;
+			
+			if( !label.textfield.multiline )
+			{
+				w += 2;
+			}
 			
 			if( graphic )
 			{
 				graphic.setSize( w, h );
 				background = graphic;
+				
+				this.preferredWidth = w;
+				this.preferredHeight = h;
 			}
 			
 			label.x = paddings.left + 1;

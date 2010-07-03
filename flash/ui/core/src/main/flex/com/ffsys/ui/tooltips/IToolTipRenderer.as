@@ -41,6 +41,18 @@ package com.ffsys.ui.tooltips
 		function set text( text:String ):void;
 		
 		/**
+		*	A maximum width for the text in the tooltip.
+		*/
+		function get maximumTextWidth():Number;
+		function set maximumTextWidth( value:Number ):void;
+		
+		/**
+		*	A maximum height for the text in the tooltip.
+		*/
+		function get maximumTextHeight():Number;
+		function set maximumTextHeight( value:Number ):void;		
+		
+		/**
 		* 	Display this tooltip.
 		* 
 		* 	@param text The text to display for the tooltip.

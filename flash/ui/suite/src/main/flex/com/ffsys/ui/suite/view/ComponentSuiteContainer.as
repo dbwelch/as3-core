@@ -74,6 +74,7 @@ package com.ffsys.ui.suite.view {
 			
 			//initialize the tooltips
 			var tooltip:DefaultToolTipRenderer = new DefaultToolTipRenderer()
+			tooltip.maximumTextWidth = 200;
 			
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
 			UIComponent.utilities.layer.tooltips.renderer = tooltip;
