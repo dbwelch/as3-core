@@ -142,12 +142,53 @@ package com.ffsys.ui.suite.view {
 				fill );
 			hbox.addChild( DisplayObject( graphic ) );
 			
+			var pointer:IPointer = null;
+			
+			graphic = new RectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			pointer = new ArrowPointer();
+			RectangleGraphic( graphic ).pointer = pointer;
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new RectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			pointer = new ArrowPointer();
+			pointer.edge = Orientation.TOP;
+			RectangleGraphic( graphic ).pointer = pointer;
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new RectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			pointer = new ArrowPointer();
+			pointer.edge = Orientation.LEFT;
+			RectangleGraphic( graphic ).pointer = pointer;
+			hbox.addChild( DisplayObject( graphic ) );
+			
+			graphic = new RectangleGraphic(
+				width,
+				height,
+				stroke,
+				fill );
+			pointer = new ArrowPointer();
+			pointer.edge = Orientation.RIGHT;
+			RectangleGraphic( graphic ).pointer = pointer;
+			hbox.addChild( DisplayObject( graphic ) );
+						
 			graphic = new RectangleGraphic(
 				width,
 				height / 2,
 				stroke,
 				fill );
-			hbox.addChild( DisplayObject( graphic ) );	
+			hbox.addChild( DisplayObject( graphic ) );
 			
 			graphic = new CircleGraphic(
 				width,

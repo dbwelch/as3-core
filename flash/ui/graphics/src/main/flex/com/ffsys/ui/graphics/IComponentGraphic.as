@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics
 {	
+	import flash.geom.Point;
+	
 	import com.ffsys.ui.common.flash.IShape;
 	
 	import com.ffsys.ui.common.IMarginAware;
@@ -75,5 +77,22 @@ package com.ffsys.ui.graphics
 		*	@param height The height to draw the shape at.
 		*/
 		function render( width:Number, height:Number ):void;
+		
+		/**
+		*	Draws a line to the point in the
+		*	graphics of this shape.
+		*/
+		function lineTo( point:Point ):void;
+	
+		/**
+		*	Moves drawing to the point specified in the
+		*	graphics of this shape.
+		*/
+		function moveTo( point:Point ):void;
+	
+		/**
+		*	Draws a curve to the anchor point using the control point.
+		*/
+		function curveTo( control:Point, anchor:Point ):void;		
 	}
 }

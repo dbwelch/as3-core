@@ -13,7 +13,8 @@ package com.ffsys.ui.graphics {
 	*	@author Mischa Williamson
 	*	@since  20.06.2010
 	*/
-	public class ArrowGraphic extends TriangleGraphic {
+	public class ArrowGraphic extends TriangleGraphic
+		implements IOrientationAware {
 		
 		private var _orientation:String;
 		
@@ -24,6 +25,7 @@ package com.ffsys.ui.graphics {
 		*	@param height The height of the arrow.
 		*	@param stroke A stroke for the graphic.
 		*	@param fill A fill for the graphic.
+		*	@param orientation The orientation for the arrow.
 		*/
 		public function ArrowGraphic(
 			width:Number = 10,
@@ -56,7 +58,8 @@ package com.ffsys.ui.graphics {
 		/**
 		*	@private	
 		*/
-		protected function setTrianglePointsFromOrientation():void
+		protected function setTrianglePointsFromOrientation(
+			width:Number, height:Number ):void
 		{
 			switch( orientation )
 			{
@@ -99,18 +102,18 @@ package com.ffsys.ui.graphics {
 					this.point1 = new Point( 0, 0 );
 					this.point2 = new Point( width, height );
 					this.point3 = new Point( 0, height );
-					break;						
+					break;
 				default:
 					throw new Error( "Arrow graphic encountered an invalid orientation." );
-			}		
-		}
+			}	
+		}		
 		
 		/**
 		*	@inheritDoc	
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			setTrianglePointsFromOrientation();
+			setTrianglePointsFromOrientation( width, height );
 			super.doDraw( width, height );
 		}
 	}

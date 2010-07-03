@@ -279,10 +279,9 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
-		*	Draws a line to the point in the
-		*	graphics of this shape.
+		*	@inheritDoc
 		*/
-		protected function lineTo( point:Point ):void
+		public function lineTo( point:Point ):void
 		{
 			if( point )
 			{
@@ -291,10 +290,9 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
-		*	Moves drawing to the point specified in the
-		*	graphics of this shape.
+		*	@inheritDoc
 		*/
-		protected function moveTo( point:Point ):void
+		public function moveTo( point:Point ):void
 		{
 			if( point )
 			{
@@ -303,14 +301,14 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
-		*	Draws a curve to the anchor point using the control point.
+		*	@inheritDoc
 		*/
-		protected function curveTo( control:Point, anchor:Point ):void
+		public function curveTo( control:Point, anchor:Point ):void
 		{
 			if( control && anchor )
 			{
 				graphics.curveTo( control.x, control.y, anchor.x, anchor.y );
 			}
-		}				
+		}
 	}
 }

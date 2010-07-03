@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics {
 	
+	import flash.geom.Point;
+	
 	import com.ffsys.ui.common.Orientation;
 	
 	/**
@@ -14,26 +16,62 @@ package com.ffsys.ui.graphics {
 	public class ArrowPointer extends ArrowGraphic
 		implements IPointer {
 			
-		private var _offset:Number;
-		private var _edge:String = Orientation.BOTTOM;
+		private var _offset:Number = NaN;
+		private var _edge:String;
 		
 		/**
 		*	Creates an <code>ArrowPointer</code> instance.
 		*	
-		*	@param width The width of the arrow.
-		*	@param height The height of the arrow.
-		*	@param stroke A stroke for the graphic.
-		*	@param fill A fill for the graphic.
+		*	@param width The width of the pointer.
+		*	@param height The height of the pointer.
+		*	@param orientation The orientation for the pointer.
+		*	@param edge An edge this pointer should be aligned to.
+		*	@param offset An offset for the pointer.
 		*/
 		public function ArrowPointer(
 			width:Number = 9,
 			height:Number = 6,
-			stroke:IStroke = null,
-			fill:IFill = null,
-			orientation:String = Orientation.RIGHT )
+			edge:String = Orientation.BOTTOM,
+			orientation:String = Orientation.BOTTOM,
+			offset:Number = NaN )
 		{
-			super();
+			super( width, height, null, null, orientation );
+			this.edge = edge;
+			this.offset = offset;
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function drawPointer(
+			graphic:IComponentGraphic, start:Point, end:Point ):void
+		{
+			var target:Point = null;
+			
+			//trace("ArrowPointer::drawPointer(), ", edge );
+			
+			switch( edge )
+			{
+				case Orientation.TOP:
+					target = new Point(
+						start.x + ( preferredWidth / 2 ), start.y - preferredHeight );
+					break;
+				case Orientation.RIGHT:
+					target = new Point(
+						start.x + preferredHeight, start.y + ( preferredWidth / 2 ) );
+					break;
+				case Orientation.BOTTOM:
+					target = new Point(
+						start.x - ( preferredWidth / 2 ), start.y + preferredHeight );
+					break;
+				case Orientation.LEFT:
+					target = new Point(
+						start.x - preferredHeight, start.y - ( preferredWidth / 2 ) );
+					break;
+			}
+			graphic.lineTo( target );
+			graphic.lineTo( end );
+		}		
 		
 		/**
 		*	@inheritDoc	
