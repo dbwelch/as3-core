@@ -10,6 +10,9 @@ package com.ffsys.ui.scrollbars {
 	import com.ffsys.ui.buttons.BackButton;
 	import com.ffsys.ui.buttons.ForwardButton;
 	
+	import com.ffsys.ui.graphics.RectangleGraphic;
+	import com.ffsys.ui.graphics.SolidFill;
+	
 	/**
 	*	A scroll bar for scrolling a target in a horizontal direction.
 	*
@@ -37,6 +40,7 @@ package com.ffsys.ui.scrollbars {
 			super( target, width );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
+			this.paddings.padding = 1;
 		}
 		
 		/**
@@ -77,10 +81,16 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
+			background = new RectangleGraphic(
+				preferredWidth,
+				preferredHeight,
+				null,
+				new SolidFill( 0xffffff, 1 ) );
+			
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
 				
-			var buttonSize:Number = preferredHeight;
+			var buttonSize:Number = preferredHeight - paddings.top - paddings.bottom;
 			
 			//set up the scroll buttons
 			negativeScrollButton = new BackButton(
@@ -100,20 +110,34 @@ package com.ffsys.ui.scrollbars {
 			width:Number, height:Number ):void
 		{
 			super.layoutChildren( width, height );
+			
+			if( negativeScrollButton )
+			{
+				negativeScrollButton.x = paddings.left;
+				negativeScrollButton.y = paddings.top;
+			}
+			
 			if( positiveScrollButton )
 			{
 				positiveScrollButton.x =
-					size - positiveScrollButton.preferredWidth;
+					size - ( positiveScrollButton.preferredWidth + paddings.right );
+				positiveScrollButton.y = paddings.top;
 			}
 			
 			if( scrollDrag && scrollDrag.drag )
 			{
 				scrollDrag.x = scrollTrackPosition;
+				scrollDrag.y = paddings.top;
+				
 				_scrollDragBounds = new Rectangle(
-					scrollTrackPosition, 0,
+					scrollTrackPosition, scrollDrag.y,
 					scrollTrackSize - scrollDrag.preferredWidth, 0 );
+					
+				//trace("HorizontalScrollBar::layoutChildren(), ", _scrollDragBounds );
+			
 				_scrollDragDistance =
 					( scrollTrackSize - scrollDrag.preferredWidth );
+					
 				scrollDrag.drag.bounds = _scrollDragBounds;
 			}
 		}

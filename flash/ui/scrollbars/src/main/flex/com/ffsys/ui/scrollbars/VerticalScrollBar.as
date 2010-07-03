@@ -10,6 +10,9 @@ package com.ffsys.ui.scrollbars {
 	import com.ffsys.ui.buttons.DownButton;
 	import com.ffsys.ui.buttons.UpButton;
 	
+	import com.ffsys.ui.graphics.RectangleGraphic;
+	import com.ffsys.ui.graphics.SolidFill;
+	
 	/**
 	*	A scroll bar for scrolling a target in a vertical direction.
 	*
@@ -37,6 +40,7 @@ package com.ffsys.ui.scrollbars {
 			super( target, height );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
+			this.paddings.padding = 1;
 		}
 		
 		/**
@@ -77,10 +81,16 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
+			background = new RectangleGraphic(
+				preferredWidth,
+				preferredHeight,
+				null,
+				new SolidFill( 0xffffff, 1 ) );	
+			
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
 				
-			var buttonSize:Number = preferredWidth;
+			var buttonSize:Number = preferredWidth - paddings.left - paddings.right;
 			
 			negativeScrollButton = new DownButton(
 				null, null, buttonSize, buttonSize );
@@ -92,6 +102,7 @@ package com.ffsys.ui.scrollbars {
 				buttonSize, buttonSize );
 		}
 		
+
 		/**
 		*	@inheritDoc	
 		*/
@@ -99,20 +110,34 @@ package com.ffsys.ui.scrollbars {
 			width:Number, height:Number ):void
 		{
 			super.layoutChildren( width, height );
+			
+			if( positiveScrollButton )
+			{
+				positiveScrollButton.x = paddings.left;
+				positiveScrollButton.y = paddings.top;
+			}
+			
 			if( negativeScrollButton )
 			{
+				negativeScrollButton.x = paddings.left;
 				negativeScrollButton.y =
-					size - negativeScrollButton.preferredHeight;
+					size - ( negativeScrollButton.preferredHeight + paddings.bottom );
 			}
 			
 			if( scrollDrag && scrollDrag.drag )
 			{
+				scrollDrag.x = paddings.left;
 				scrollDrag.y = scrollTrackPosition;
+				
 				_scrollDragBounds = new Rectangle(
-					0, scrollTrackPosition,
+					scrollDrag.x, scrollTrackPosition,
 					0, scrollTrackSize - scrollDrag.preferredHeight );
+					
+				//trace("VerticalScrollBar::layoutChildren(), ", _scrollDragBounds );
+				
 				_scrollDragDistance =
 					( scrollTrackSize - scrollDrag.preferredHeight );
+				
 				scrollDrag.drag.bounds = _scrollDragBounds;
 			}
 		}

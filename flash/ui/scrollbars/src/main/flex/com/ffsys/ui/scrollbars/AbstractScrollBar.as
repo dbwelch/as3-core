@@ -531,16 +531,16 @@ package com.ffsys.ui.scrollbars {
 			{
 				size -=
 					( direction == Direction.HORIZONTAL )
-					? negativeScrollButton.layoutWidth
-					: negativeScrollButton.layoutHeight;
+					? negativeScrollButton.layoutWidth + paddings.left
+					: negativeScrollButton.layoutHeight + paddings.top;
 			}
 			
 			if( positiveScrollButton )
 			{
 				size -=
 					( direction == Direction.HORIZONTAL )
-					? positiveScrollButton.layoutWidth
-					: positiveScrollButton.layoutHeight;
+					? positiveScrollButton.layoutWidth + paddings.right
+					: positiveScrollButton.layoutHeight + paddings.bottom;
 			}
 			
 			return size;
@@ -559,8 +559,8 @@ package com.ffsys.ui.scrollbars {
 			{
 				position +=
 					( direction == Direction.HORIZONTAL )
-					? positiveScrollButton.layoutWidth
-					: positiveScrollButton.layoutHeight;
+					? paddings.left + positiveScrollButton.layoutWidth
+					: paddings.top + positiveScrollButton.layoutHeight;
 			}
 			
 			return position;
@@ -579,10 +579,10 @@ package com.ffsys.ui.scrollbars {
 				scrollTrack.preferredWidth =
 					( direction == Direction.HORIZONTAL )
 					? scrollTrackSize
-					: preferredWidth;
+					: preferredWidth - ( paddings.left + paddings.right );
 				scrollTrack.preferredHeight = 
 					( direction == Direction.HORIZONTAL )
-					? preferredHeight
+					? preferredHeight - ( paddings.top + paddings.bottom )
 					: scrollTrackSize;
 					
 				//force a redraw of the scroll track
