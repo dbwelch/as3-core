@@ -67,7 +67,7 @@ package com.ffsys.ui.scrollbars {
 				this.preferredWidth,
 				this.preferredHeight,
 				null,
-				new SolidFill( 0x999999, 0.5 ) );
+				new SolidFill( 0x000000, 0.5 ) );
 		}
 	}
 }

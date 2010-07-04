@@ -100,21 +100,6 @@ package com.ffsys.ui.buttons
 				var evt:MouseEvent = new MouseEvent( loop );
 				dispatchEvent( evt );
 			}
-			
-			/*
-			if( loop == ButtonLoopMode.DOWN )
-			{
-				evt = new MouseEvent( MouseEvent.MOUSE_DOWN );
-			}else if( loop == ButtonLoopMode.OVER )
-			{
-				evt = new MouseEvent( MouseEvent.MOUSE_OVER );
-			}
-			
-			if( evt )
-			{
-				dispatchEvent( evt );
-			}
-			*/
 		}
 		
 		/**
@@ -139,6 +124,20 @@ package com.ffsys.ui.buttons
 		/**
 		* 	@inheritDoc
 		*/
+		override protected function onMouseUp(
+			event:MouseEvent ):void
+		{
+			if( loop && loop == ButtonLoopMode.DOWN )
+			{
+				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+			}
+			
+			super.onMouseUp( event );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		override protected function onMouseClick(
 			event:MouseEvent ):void
 		{
@@ -154,7 +153,10 @@ package com.ffsys.ui.buttons
 				this.state = State.OVER;
 			}
 			
-			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+			if( loop && loop == ButtonLoopMode.DOWN )
+			{
+				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+			}
 			
 			super.onMouseClick( event );			
 		}
@@ -207,11 +209,27 @@ package com.ffsys.ui.buttons
 				}
 			
 				this.state = state;
-			
-				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
 			
+			if( loop && loop == ButtonLoopMode.OVER )
+			{
+				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+			}			
+			
 			super.onMouseOut( event );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/		
+		override protected function onStageMouseUp( event:MouseEvent ):void
+		{
+			super.onStageMouseUp( event );
+			
+			if( loop && loop == ButtonLoopMode.DOWN )
+			{
+				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+			}
 		}
 		
 		/**

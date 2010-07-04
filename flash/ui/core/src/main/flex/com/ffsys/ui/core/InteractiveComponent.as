@@ -136,6 +136,8 @@ package com.ffsys.ui.core
 			{
 				utils.layer.tooltips.hide();
 			}
+			
+			stage.addEventListener( MouseEvent.MOUSE_UP, onStageMouseUp );
 		}
 		
 		/**
@@ -192,6 +194,16 @@ package com.ffsys.ui.core
 			event:MouseEvent ):void
 		{
 			//
+		}
+		
+		/**
+		* 	Handles a stage mouse up event.
+		* 
+		* 	@param event The mouse event.
+		*/		
+		protected function onStageMouseUp( event:MouseEvent ):void
+		{
+			stage.removeEventListener( MouseEvent.MOUSE_UP, onStageMouseUp );
 		}
 		
 		/**

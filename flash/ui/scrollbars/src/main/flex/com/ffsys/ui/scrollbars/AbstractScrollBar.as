@@ -543,6 +543,8 @@ package com.ffsys.ui.scrollbars {
 					: positiveScrollButton.layoutHeight + paddings.bottom;
 			}
 			
+			trace("AbstractScrollBar::scrollTrackSize(), ", this, size );
+			
 			return size;
 		}
 		
@@ -593,7 +595,9 @@ package com.ffsys.ui.scrollbars {
 				if( direction == Direction.HORIZONTAL )
 				{
 					scrollTrack.x = scrollTrackPosition;
+					scrollTrack.y = paddings.top;
 				}else{
+					scrollTrack.x = paddings.left;
 					scrollTrack.y = scrollTrackPosition;
 				}
 			}
