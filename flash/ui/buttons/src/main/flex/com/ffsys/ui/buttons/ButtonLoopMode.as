@@ -18,7 +18,7 @@ package com.ffsys.ui.buttons {
 		*	events continuously while the mouse is over
 		*	the button.
 		*/
-		public static const OVER:String = "mouseLoopOver";
+		public static const OVER:String = "mouseOver";
 		
 		/**
 		*	Represents a loop mode for a button which
@@ -26,6 +26,6 @@ package com.ffsys.ui.buttons {
 		*	events continuously while the mouse is pressed
 		*	on the button.
 		*/
-		public static const DOWN:String = "mouseLoopDown";
+		public static const DOWN:String = "mouseDown";
 	}
 }

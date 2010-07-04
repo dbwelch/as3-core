@@ -95,8 +95,13 @@ package com.ffsys.ui.buttons
 		*/
 		private function dispatchLoopEvent( event:Event ):void
 		{
-			var evt:MouseEvent = null;
+			if( loop != null )
+			{
+				var evt:MouseEvent = new MouseEvent( loop );
+				dispatchEvent( evt );
+			}
 			
+			/*
 			if( loop == ButtonLoopMode.DOWN )
 			{
 				evt = new MouseEvent( MouseEvent.MOUSE_DOWN );
@@ -109,6 +114,7 @@ package com.ffsys.ui.buttons
 			{
 				dispatchEvent( evt );
 			}
+			*/
 		}
 		
 		/**
