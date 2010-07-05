@@ -1,6 +1,7 @@
 package com.ffsys.ui.drag {
 	
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
@@ -119,6 +120,9 @@ package com.ffsys.ui.drag {
 				
 				source.stage.addEventListener(
 					MouseEvent.MOUSE_UP, onMouseUp );
+					
+				source.stage.addEventListener(
+					Event.MOUSE_LEAVE, onMouseLeave );
 				
 				target.startDrag( locked, bounds );
 				
@@ -174,7 +178,7 @@ package com.ffsys.ui.drag {
 		/**
 		*	@private
 		*	
-		*	Invoked while the timer is running.	
+		*	Invoked while the timer is running.
 		*/
 		private function tick( event:TimerEvent ):void
 		{
@@ -192,6 +196,19 @@ package com.ffsys.ui.drag {
 			source.stage.removeEventListener(
 				MouseEvent.MOUSE_UP, onMouseUp );
 			
+			stop();
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function onMouseLeave( event:Event ):void
+		{
+			if( event && event.target )
+			{
+				event.target.removeEventListener(
+					Event.MOUSE_LEAVE, onMouseLeave );
+			}
 			stop();
 		}
 	}

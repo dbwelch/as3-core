@@ -59,7 +59,7 @@ package com.ffsys.ui.suite.view {
 				vscrollTarget );
 			hbox.addChild( vscroll );
 			
-			vscroll.setSize( 12, 150 );
+			vscroll.setSize( 9, 150 );
 			
 			var scrollVBox:VerticalBox = new VerticalBox();
 			scrollVBox.spacing = 10;
@@ -78,7 +78,7 @@ package com.ffsys.ui.suite.view {
 				hscrollTarget );
 			scrollVBox.addChild( hscroll );
 			
-			hscroll.setSize( 150, 12 );
+			hscroll.setSize( 150, 9 );
 			
 			var lbl:Label = null;	
 			

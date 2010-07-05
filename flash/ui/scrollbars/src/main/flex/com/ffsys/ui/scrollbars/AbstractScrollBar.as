@@ -298,18 +298,8 @@ package com.ffsys.ui.scrollbars {
 			if( this.target )
 			{
 				_maximumScrollPosition = measuredPosition;
-				
 				_scrollDistance = measuredSize - size;
 				_minimumScrollPosition = -Math.abs( _scrollDistance );
-				
-				trace("AbstractScrollBar::updateScrollProperties(), ",
-					scrollDrag, _scrollDistance );
-				
-				/*
-				trace("AbstractScrollBar::updateScrollProperties(), ",
-					measuredSize, size, _scrollDistance,
-					_minimumScrollPosition, _maximumScrollPosition );
-				*/
 			}
 		}
 		

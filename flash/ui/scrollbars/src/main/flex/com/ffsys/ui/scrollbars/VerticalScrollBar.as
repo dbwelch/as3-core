@@ -118,19 +118,24 @@ package com.ffsys.ui.scrollbars {
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{
-			super.layoutChildren( width, height );
+			var buttonSize:Number = preferredWidth
+				- paddings.top - paddings.bottom;			
 			
 			if( positiveScrollButton )
 			{
 				positiveScrollButton.x = paddings.left;
 				positiveScrollButton.y = paddings.top;
+				
+				positiveScrollButton.setSize( buttonSize, buttonSize );
 			}
 			
 			if( negativeScrollButton )
 			{
 				negativeScrollButton.x = paddings.left;
 				negativeScrollButton.y =
-					size - ( negativeScrollButton.preferredHeight + paddings.bottom );
+					size - ( buttonSize + paddings.bottom );
+					
+				negativeScrollButton.setSize( buttonSize, buttonSize );
 			}
 			
 			if( scrollDrag && scrollDrag.drag )
@@ -148,7 +153,11 @@ package com.ffsys.ui.scrollbars {
 					( scrollTrackSize - scrollDrag.preferredHeight );
 				
 				scrollDrag.drag.bounds = _scrollDragBounds;
+				
+				scrollDrag.setSize( buttonSize, buttonSize );
 			}
+			
+			super.layoutChildren( width, height );
 		}
 		
 		/**

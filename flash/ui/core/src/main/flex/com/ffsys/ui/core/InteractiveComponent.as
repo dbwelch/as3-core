@@ -87,6 +87,8 @@ package com.ffsys.ui.core
 			addEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			addEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
+			addEventListener( MouseEvent.ROLL_OVER, onRollOver );
+			addEventListener( MouseEvent.ROLL_OUT, onRollOut );			
 			addEventListener( MouseEvent.CLICK, onMouseClick );
 		}
 		
@@ -99,6 +101,8 @@ package com.ffsys.ui.core
 			removeEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			removeEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			removeEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
+			removeEventListener( MouseEvent.ROLL_OVER, onRollOver );
+			removeEventListener( MouseEvent.ROLL_OUT, onRollOut );
 			removeEventListener( MouseEvent.CLICK, onMouseClick );
 		}
 		
@@ -159,6 +163,28 @@ package com.ffsys.ui.core
 		protected function onMouseOver(
 			event:MouseEvent ):void
 		{
+			//		
+		}
+		
+		/**
+		* 	Invoked when the mouse is moved out of this instance.
+		* 
+		* 	@param event The mouse event.
+		*/
+		protected function onMouseOut(
+			event:MouseEvent ):void
+		{
+			//			
+		}
+		
+		/**
+		* 	Invoked when the mouse is moved over this instance.
+		* 
+		* 	@param event The mouse event.
+		*/
+		protected function onRollOver(
+			event:MouseEvent ):void
+		{
 			if( !event.buttonDown )
 			{
 				if( tooltip != null )
@@ -173,7 +199,7 @@ package com.ffsys.ui.core
 		* 
 		* 	@param event The mouse event.
 		*/
-		protected function onMouseOut(
+		protected function onRollOut(
 			event:MouseEvent ):void
 		{
 			if( !event.buttonDown )
@@ -183,7 +209,7 @@ package com.ffsys.ui.core
 					utils.layer.tooltips.hide();
 				}
 			}			
-		}
+		}		
 		
 		/**
 		* 	Invoked when the mouse is clicked on this instance.

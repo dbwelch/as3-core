@@ -146,12 +146,14 @@ package com.ffsys.ui.buttons
 				_selected = !_selected;
 			}			
 			
+			/*
 			if( this.skin
 				&& this.skin.hasState( State.DOWN )
 				&& this.skin.hasState( State.OVER ) )
 			{
 				this.state = State.OVER;
 			}
+			*/
 			
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
@@ -167,6 +169,8 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOver(
 			event:MouseEvent ):void
 		{
+			//trace("ButtonComponent::onMouseOver(), ", this );
+			
 			if( !event.buttonDown )
 			{
 				if( this.skin && this.skin.hasState( State.OVER ) )
@@ -180,7 +184,7 @@ package com.ffsys.ui.buttons
 				}
 			}
 			
-			super.onMouseOver( event );	
+			super.onMouseOver( event );
 		}
 		
 		/**

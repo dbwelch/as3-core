@@ -1,8 +1,10 @@
 package com.ffsys.ui.scrollbars {
 	
 	import com.ffsys.ui.buttons.GraphicButton;
-	
 	import com.ffsys.ui.graphics.*;
+	import com.ffsys.ui.states.IViewState;
+	import com.ffsys.ui.states.ViewState;
+	import com.ffsys.ui.states.State;
 	
 	import com.ffsys.ui.drag.DragOperation;
 	import com.ffsys.ui.drag.IDragOperation;
@@ -72,5 +74,32 @@ package com.ffsys.ui.scrollbars {
 			super.interactive = value;
 			useHandCursor = false;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function configureDefaultSkin():void
+		{
+			//main state for this component
+			var main:IViewState = new ViewState();
+			
+			main.graphics.push(
+				new RectangleGraphic(
+					width,
+					height ) );
+					
+			main.fills.push(
+				new SolidFill( 0x212121 ) );
+			
+			this.skin.addState( main );
+			
+			var over:IViewState = new ViewState( 
+			 	State.OVER );
+					
+			over.fills.push(
+				new SolidFill( 0x62592e ) );
+			
+			this.skin.addState( over );
+		}		
 	}
 }
