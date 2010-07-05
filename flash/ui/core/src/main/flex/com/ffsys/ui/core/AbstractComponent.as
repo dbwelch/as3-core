@@ -307,6 +307,17 @@ package com.ffsys.ui.core
 			
 			preferredWidth = width;
 			preferredHeight = height;
+			
+			if( background )
+			{
+				background.setSize( width, height );
+			}
+			
+			if( border )
+			{
+				border.setSize( width, height );
+			}	
+			
 			layoutChildren( width, height );
 		}
 		

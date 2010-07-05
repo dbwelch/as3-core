@@ -31,6 +31,7 @@ package com.ffsys.ui.scrollbars {
 			height:Number = 10 )
 		{
 			super();
+			margins.margin = 1;
 			this.preferredWidth = width;
 			this.preferredHeight = height;
 			this.interactive = true;
@@ -58,22 +59,6 @@ package com.ffsys.ui.scrollbars {
 			super.interactive = value;
 			useHandCursor = false;
 			buttonMode = false;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			
-			/*
-			this.graphic = new RectangleGraphic(
-				this.preferredWidth,
-				this.preferredHeight,
-				null,
-				new SolidFill( 0x000000, 0.5 ) );
-			*/
 		}
 		
 		/**

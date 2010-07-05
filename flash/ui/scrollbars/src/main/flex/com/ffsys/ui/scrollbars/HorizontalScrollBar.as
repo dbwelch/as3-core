@@ -44,6 +44,15 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		override public function set preferredWidth( width:Number ):void
+		{
+			super.preferredWidth = width;
+			_size = width;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		override public function set scrollDrag( value:IScrollDrag ):void

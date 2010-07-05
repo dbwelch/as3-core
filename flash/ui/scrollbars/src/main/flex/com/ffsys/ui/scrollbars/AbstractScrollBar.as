@@ -288,11 +288,6 @@ package com.ffsys.ui.scrollbars {
 		public function set target( target:DisplayObject ):void
 		{
 			_target = target;
-			if( this.target )
-			{
-				_maximumScrollPosition = measuredPosition;
-			}
-			updateScrollProperties();
 		}
 		
 		/**
@@ -302,6 +297,8 @@ package com.ffsys.ui.scrollbars {
 		{
 			if( this.target )
 			{
+				_maximumScrollPosition = measuredPosition;
+				
 				_scrollDistance = measuredSize - size;
 				_minimumScrollPosition = -Math.abs( _scrollDistance );
 				
@@ -543,7 +540,14 @@ package com.ffsys.ui.scrollbars {
 					: positiveScrollButton.layoutHeight + paddings.bottom;
 			}
 			
-			trace("AbstractScrollBar::scrollTrackSize(), ", this, size );
+			//trace("AbstractScrollBar::scrollTrackSize(), ", this, size );
+			
+			if( scrollTrack )
+			{
+				size -= ( direction == Direction.HORIZONTAL )
+				? scrollTrack.margins.left + scrollTrack.margins.right
+				: scrollTrack.margins.top + scrollTrack.margins.bottom;
+			}
 			
 			return size;
 		}
@@ -565,6 +569,13 @@ package com.ffsys.ui.scrollbars {
 					: paddings.top + positiveScrollButton.layoutHeight;
 			}
 			
+			if( scrollTrack )
+			{
+				position += ( direction == Direction.HORIZONTAL )
+				? scrollTrack.margins.left
+				: scrollTrack.margins.top;
+			}
+			
 			return position;
 		}
 		
@@ -575,6 +586,8 @@ package com.ffsys.ui.scrollbars {
 			width:Number, height:Number ):void
 		{
 			super.layoutChildren( width, height );
+			
+			updateScrollProperties();
 			
 			if( scrollTrack )
 			{

@@ -72,21 +72,5 @@ package com.ffsys.ui.scrollbars {
 			super.interactive = value;
 			useHandCursor = false;
 		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			
-			/*
-			this.graphic = new RectangleGraphic(
-				this.preferredWidth,
-				this.preferredHeight,
-				null,
-				new SolidFill( 0x000000, 0.75 ) );
-			*/
-		}
 	}
 }
