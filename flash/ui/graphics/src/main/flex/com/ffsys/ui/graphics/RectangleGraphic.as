@@ -58,6 +58,7 @@ package com.ffsys.ui.graphics
 				//set up the default offset (centred) depending upon edge
 				if( isNaN( pointer.offset ) )
 				{
+					
 					/*
 					trace("RectangleGraphic::doDraw(), setting default pointer offset: ",
 						this, width, height, pointer.edge );

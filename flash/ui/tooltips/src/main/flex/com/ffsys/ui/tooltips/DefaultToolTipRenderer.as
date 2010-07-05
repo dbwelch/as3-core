@@ -2,6 +2,7 @@ package com.ffsys.ui.tooltips
 {
 	import flash.display.GradientType;
 	
+	import com.ffsys.ui.common.Orientation;
 	import com.ffsys.ui.text.Label;
 	import com.ffsys.ui.graphics.*;
 	
@@ -58,11 +59,33 @@ package com.ffsys.ui.tooltips
 			
 			if( graphic )
 			{
+				graphic.preferredWidth = w;
+				graphic.preferredHeight = h;
+				
+				if( graphic.pointer )
+				{
+					if( graphic.pointer.edge == Orientation.TOP
+					 	|| graphic.pointer.edge == Orientation.BOTTOM )
+					{
+						graphic.pointer.offset = w / 2;
+					}else if(
+						graphic.pointer.edge == Orientation.LEFT
+						|| graphic.pointer.edge == Orientation.RIGHT )
+					{
+						graphic.pointer.offset = h / 2;
+						
+						/*
+						trace("RectangleGraphic::doDraw(), setting vertical offset: ",
+							pointer.offset, height );
+						*/
+					}					
+				}
+				
 				graphic.setSize( w, h );
 				background = graphic;
 				
-				this.preferredWidth = w;
-				this.preferredHeight = h;
+				preferredWidth = w;
+				preferredHeight = h;
 			}
 			
 			label.x = paddings.left + 1;
