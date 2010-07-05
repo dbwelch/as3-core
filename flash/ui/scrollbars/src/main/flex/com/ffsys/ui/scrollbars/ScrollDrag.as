@@ -1,6 +1,7 @@
 package com.ffsys.ui.scrollbars {
 	
-	import com.ffsys.ui.core.Graphic;
+	import com.ffsys.ui.buttons.GraphicButton;
+	
 	import com.ffsys.ui.graphics.*;
 	
 	import com.ffsys.ui.drag.DragOperation;
@@ -16,7 +17,7 @@ package com.ffsys.ui.scrollbars {
 	*	@author Mischa Williamson
 	*	@since  01.07.2010
 	*/
-	public class ScrollDrag extends Graphic
+	public class ScrollDrag extends GraphicButton
 		implements IScrollDrag {
 			
 		private var _scrollBar:IScrollBar;
@@ -79,11 +80,13 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
+			/*
 			this.graphic = new RectangleGraphic(
 				this.preferredWidth,
 				this.preferredHeight,
 				null,
 				new SolidFill( 0x000000, 0.75 ) );
+			*/
 		}
 	}
 }

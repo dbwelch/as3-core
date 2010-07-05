@@ -1,6 +1,6 @@
 package com.ffsys.ui.buttons {
 	
-	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.core.IInteractiveComponent;
 	
 	/**
 	*	Describes the contract for button components.
@@ -11,7 +11,7 @@ package com.ffsys.ui.buttons {
 	*	@author Mischa Williamson
 	*	@since  30.06.2010
 	*/
-	public interface IButton extends IComponent {
+	public interface IButton extends IInteractiveComponent {
 		
 		/**
 		*	Determines whether this button dispatches

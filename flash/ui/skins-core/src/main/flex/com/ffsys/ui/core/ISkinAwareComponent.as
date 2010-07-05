@@ -12,7 +12,7 @@ package com.ffsys.ui.core
 	*	@author Mischa Williamson
 	*	@since  17.06.2010
 	*/
-	public interface ISkinAwareComponent extends IComponent
+	public interface ISkinAwareComponent extends IInteractiveComponent
 	{
 		/**
 		* 	The skin associated with this component.

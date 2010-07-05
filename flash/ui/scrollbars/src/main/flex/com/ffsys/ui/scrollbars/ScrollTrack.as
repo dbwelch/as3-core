@@ -1,7 +1,10 @@
 package com.ffsys.ui.scrollbars {
 	
-	import com.ffsys.ui.core.Graphic;
+	import com.ffsys.ui.buttons.GraphicButton;
 	import com.ffsys.ui.graphics.*;
+	import com.ffsys.ui.states.IViewState;
+	import com.ffsys.ui.states.ViewState;
+	import com.ffsys.ui.states.State;	
 	
 	/**
 	*	Represents the scroll track for a scroll bar.
@@ -12,7 +15,7 @@ package com.ffsys.ui.scrollbars {
 	*	@author Mischa Williamson
 	*	@since  30.06.2010
 	*/
-	public class ScrollTrack extends Graphic
+	public class ScrollTrack extends GraphicButton
 		implements IScrollTrack {
 			
 		private var _scrollBar:IScrollBar;
@@ -54,6 +57,7 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.interactive = value;
 			useHandCursor = false;
+			buttonMode = false;
 		}
 		
 		/**
@@ -63,11 +67,32 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
+			/*
 			this.graphic = new RectangleGraphic(
 				this.preferredWidth,
 				this.preferredHeight,
 				null,
 				new SolidFill( 0x000000, 0.5 ) );
+			*/
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function configureDefaultSkin():void
+		{
+			//main state for this component
+			var main:IViewState = new ViewState();
+			
+			main.graphics.push(
+				new RectangleGraphic(
+					width,
+					height ) );
+					
+			main.fills.push(
+				new SolidFill( 0x212121, .5 ) );
+			
+			this.skin.addState( main );
+		}		
 	}
 }

@@ -191,25 +191,22 @@ package com.ffsys.ui.buttons
 		{
 			var state:String = null;
 			
-			if( !event.buttonDown )
+			if( this.skin )
 			{
-				if( this.skin )
+				if( this.skin.hasState( State.MAIN ) )
 				{
-					if( this.skin.hasState( State.MAIN ) )
-					{
-						state = State.MAIN;
-					}
-				
-					if( selectable
-						&& selected
-					 	&& this.skin.hasState( State.SELECTED ) )
-					{
-						state = State.SELECTED;
-					}
+					state = State.MAIN;
 				}
 			
-				this.state = state;
+				if( selectable
+					&& selected
+				 	&& this.skin.hasState( State.SELECTED ) )
+				{
+					state = State.SELECTED;
+				}
 			}
+		
+			this.state = state;
 			
 			if( loop && loop == ButtonLoopMode.OVER )
 			{

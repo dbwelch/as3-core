@@ -142,13 +142,15 @@ package com.ffsys.ui.core
 		*/
 		protected function applyStyles():void
 		{
-			applyGraphicStyles();
+			applyGraphicStyles( preferredWidth, preferredHeight );
 		}
 		
 		/**
 		*	Applies the graphic styles for the current state.
 		*/
-		protected function applyGraphicStyles():void
+		protected function applyGraphicStyles(
+			width:Number = NaN,
+			height:Number = NaN ):void
 		{
 			//trace("SkinAwareComponent::applyGraphicStyles(), current ", current );
 			
@@ -192,6 +194,16 @@ package com.ffsys.ui.core
 						graphic.preferredHeight = this.preferredHeight;
 					}
 					
+					if( !isNaN( width ) )
+					{
+						graphic.preferredWidth = width;
+					}
+					
+					if( !isNaN( height ) )
+					{
+						graphic.preferredHeight = height;
+					}
+					
 					/*
 					trace("SkinAwareComponent::applyGraphicStyles(), ",
 						graphic.preferredWidth, graphic.preferredHeight );
@@ -225,6 +237,17 @@ package com.ffsys.ui.core
 		protected function configureDefaultSkin():void
 		{
 			//
-		}		
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function setSize(
+			width:Number,
+			height:Number ):void
+		{
+			super.setSize( width, height );
+			applyStyles();
+		}
 	}
 }
