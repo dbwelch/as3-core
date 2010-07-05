@@ -73,11 +73,6 @@ package com.ffsys.ui.tooltips
 						|| graphic.pointer.edge == Orientation.RIGHT )
 					{
 						graphic.pointer.offset = h / 2;
-						
-						/*
-						trace("RectangleGraphic::doDraw(), setting vertical offset: ",
-							pointer.offset, height );
-						*/
 					}					
 				}
 				
