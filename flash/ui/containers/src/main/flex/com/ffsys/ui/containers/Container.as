@@ -6,7 +6,8 @@ package com.ffsys.ui.containers {
 	import com.ffsys.ui.layout.ILayout;	
 	
 	/**
-	*	Super class for all containers.
+	*	Component implementation that is aware of a layout,
+	*	this is the super class for all containers.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

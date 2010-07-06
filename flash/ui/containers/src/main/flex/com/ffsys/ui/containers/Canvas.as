@@ -5,7 +5,6 @@ package com.ffsys.ui.containers {
 	import com.ffsys.ui.core.MaskComponent;
 	import com.ffsys.ui.core.IMaskComponent;
 	import com.ffsys.ui.graphics.IComponentGraphic;
-	import com.ffsys.ui.layout.VerticalLayout;
 	
 	/**
 	*	A canvas is a container that supports
@@ -21,10 +20,12 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  19.06.2010
 	*/
-	public class Canvas extends Container {
+	public class Canvas extends Container
+		implements ICanvas {
 		
 		private var _masker:IMaskComponent;
 		private var _clipped:Boolean = false;
+		private var _scroller:IScroller;
 		
 		/**
 		*	Creates a <code>Canvas</code> instance.	
@@ -46,7 +47,7 @@ package com.ffsys.ui.containers {
 		}
 		
 		/**
-		*	Gets the component used as a mask.	
+		*	@inheritDoc
 		*/
 		public function get masker():IMaskComponent
 		{
@@ -54,10 +55,7 @@ package com.ffsys.ui.containers {
 		}
 		
 		/**
-		*	Determines whethe this canvas contents are clipped.
-		*	
-		*	When this canvas is clipped a mask is applied
-		*	to this container at the preferred with and height.
+		*	@inheritDoc
 		*/
 		public function get clipped():Boolean
 		{
@@ -95,6 +93,19 @@ package com.ffsys.ui.containers {
 					this.mask = DisplayObject( _masker );
 				}
 			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get scroller():IScroller
+		{
+			return _scroller;
+		}
+		
+		public function set scroller( scroller:IScroller ):void
+		{
+			_scroller = scroller;
 		}
 	}
 }
