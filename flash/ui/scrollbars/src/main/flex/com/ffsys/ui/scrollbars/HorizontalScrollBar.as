@@ -93,18 +93,15 @@ package com.ffsys.ui.scrollbars {
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
 				
-			var buttonSize:Number = preferredHeight
-				- paddings.top - paddings.bottom;
-							
 			//set up the scroll buttons
 			negativeScrollButton = new BackButton(
-				null, null, buttonSize, buttonSize );
+				null, null, fixedSize, fixedSize );
 			
 			positiveScrollButton = new ForwardButton(
-				null, null, buttonSize, buttonSize );
+				null, null, fixedSize, fixedSize );
 				
 			scrollDrag = new ScrollDrag(
-				buttonSize, buttonSize );
+				fixedSize, fixedSize );
 				
 			background = new RectangleGraphic(
 				preferredWidth,
@@ -119,24 +116,23 @@ package com.ffsys.ui.scrollbars {
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{			
-			var buttonSize:Number = preferredHeight
-				- paddings.top - paddings.bottom;
+			measure();
 			
 			if( negativeScrollButton )
 			{
 				negativeScrollButton.x = paddings.left;
 				negativeScrollButton.y = paddings.top;
 				
-				negativeScrollButton.setSize( buttonSize, buttonSize );
+				negativeScrollButton.setSize( fixedSize, fixedSize );
 			}
 			
 			if( positiveScrollButton )
 			{
 				positiveScrollButton.x =
-					size - ( buttonSize + paddings.right );
+					size - ( fixedSize + paddings.right );
 				positiveScrollButton.y = paddings.top;
 				
-				positiveScrollButton.setSize( buttonSize, buttonSize );
+				positiveScrollButton.setSize( fixedSize, fixedSize );
 			}
 			
 			if( scrollDrag && scrollDrag.drag )
@@ -155,7 +151,7 @@ package com.ffsys.ui.scrollbars {
 					
 				scrollDrag.drag.bounds = _scrollDragBounds;
 				
-				scrollDrag.setSize( buttonSize, buttonSize );
+				//scrollDrag.setSize( fixedSize, fixedSize );
 			}
 			
 			super.layoutChildren( width, height );
@@ -205,6 +201,25 @@ package com.ffsys.ui.scrollbars {
 				scrollDrag.x = scrollTrackPosition
 					+ ( normalizedPosition * _scrollDragDistance );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function updateScrollDragSize():void
+		{
+			if( scrollDrag )
+			{
+				scrollDrag.setSize( scrollDragSize, scrollDrag.preferredHeight );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function get fixedSize():Number
+		{
+			return preferredHeight - paddings.top - paddings.bottom;
 		}
 		
 		/**

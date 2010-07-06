@@ -28,7 +28,7 @@ package com.ffsys.ui.core
 		*/
 		internal function focusIn( event:FocusEvent ):void
 		{
-			trace("UIComponent::focusIn(), ", this );
+			//trace("UIComponent::focusIn(), ", this );
 		}
 		
 		/**
@@ -38,7 +38,7 @@ package com.ffsys.ui.core
 		*/
 		internal function focusOut( event:FocusEvent ):void
 		{
-			trace("UIComponent::focusOut(), ", this );
+			//trace("UIComponent::focusOut(), ", this );
 		}
 		
 		/**

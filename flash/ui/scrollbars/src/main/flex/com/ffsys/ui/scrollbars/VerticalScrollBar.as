@@ -92,17 +92,15 @@ package com.ffsys.ui.scrollbars {
 			
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
-				
-			var buttonSize:Number = preferredWidth - paddings.left - paddings.right;
 			
 			negativeScrollButton = new DownButton(
-				null, null, buttonSize, buttonSize );
+				null, null, fixedSize, fixedSize );
 			
 			positiveScrollButton = new UpButton(
-				null, null, buttonSize, buttonSize );
+				null, null, fixedSize, fixedSize );
 				
 			scrollDrag = new ScrollDrag(
-				buttonSize, buttonSize );
+				fixedSize, fixedSize );
 				
 			background = new RectangleGraphic(
 				preferredWidth,
@@ -117,24 +115,23 @@ package com.ffsys.ui.scrollbars {
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{
-			var buttonSize:Number = preferredWidth
-				- paddings.top - paddings.bottom;			
+			measure();					
 			
 			if( positiveScrollButton )
 			{
 				positiveScrollButton.x = paddings.left;
 				positiveScrollButton.y = paddings.top;
 				
-				positiveScrollButton.setSize( buttonSize, buttonSize );
+				positiveScrollButton.setSize( fixedSize, fixedSize );
 			}
 			
 			if( negativeScrollButton )
 			{
 				negativeScrollButton.x = paddings.left;
 				negativeScrollButton.y =
-					size - ( buttonSize + paddings.bottom );
+					size - ( fixedSize + paddings.bottom );
 					
-				negativeScrollButton.setSize( buttonSize, buttonSize );
+				negativeScrollButton.setSize( fixedSize, fixedSize );
 			}
 			
 			if( scrollDrag && scrollDrag.drag )
@@ -153,7 +150,7 @@ package com.ffsys.ui.scrollbars {
 				
 				scrollDrag.drag.bounds = _scrollDragBounds;
 				
-				scrollDrag.setSize( buttonSize, buttonSize );
+				//scrollDrag.setSize( fixedSize, fixedSize );
 			}
 			
 			super.layoutChildren( width, height );
@@ -203,6 +200,25 @@ package com.ffsys.ui.scrollbars {
 				scrollDrag.y = scrollTrackPosition
 					+ ( normalizedPosition * _scrollDragDistance );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function updateScrollDragSize():void
+		{
+			if( scrollDrag )
+			{
+				scrollDrag.setSize( scrollDrag.preferredWidth, scrollDragSize );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function get fixedSize():Number
+		{
+			return preferredWidth - paddings.left - paddings.right;
 		}
 		
 		/**

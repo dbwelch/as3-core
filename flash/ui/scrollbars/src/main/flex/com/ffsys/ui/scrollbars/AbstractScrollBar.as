@@ -358,6 +358,32 @@ package com.ffsys.ui.scrollbars {
 		public function measure():void
 		{
 			updateScrollProperties();
+			updateScrollDragSize();
+		}
+		
+		/**
+		* 	Gets the size for the scroll drag based on the scroll
+		* 	distance.
+		*/
+		protected function get scrollDragSize():Number
+		{
+			var ratio:Number = Math.abs( measuredSize / size );
+			
+			if( ratio <= 1 )
+			{
+				return scrollTrackSize;
+			}
+			
+			return Math.max( minimumScrollDragSize, scrollTrackSize / ratio );
+		}
+		
+		/**
+		* 	Updates the size of the scroll drag to reflect the scroll
+		* 	distance.
+		*/
+		protected function updateScrollDragSize():void
+		{
+			//
 		}
 		
 		/**
@@ -634,8 +660,6 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.layoutChildren( width, height );
 			
-			updateScrollProperties();
-			
 			if( scrollTrack )
 			{
 				scrollTrack.preferredWidth =
@@ -681,6 +705,14 @@ package com.ffsys.ui.scrollbars {
 		protected function afterScroll():void
 		{
 			//
+		}
+		
+		/**
+		* 	Gets the fixed size for scroll bar component elements.
+		*/
+		protected function get fixedSize():Number
+		{
+			return NaN;
 		}
 		
 		/**
