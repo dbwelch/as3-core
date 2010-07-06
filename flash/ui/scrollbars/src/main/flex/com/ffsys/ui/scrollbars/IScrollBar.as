@@ -73,17 +73,14 @@ package com.ffsys.ui.scrollbars {
 		function set target( target:DisplayObject ):void;
 		
 		/**
-		*	Inspects the scroll target and updates the distance
-		*	and minimum and maximum scroll positions.
-		*	
-		*	Note that the maximmum scroll position is determined when
-		*	the scroll target is assigned and equates to the measured
-		*	position at the time the scroll target is assigned.
-		*	
-		*	Invoke this method after the size of the target has
-		*	changed so that the scroll bar scrolls correctly.
+		* 	Scrolls to the start position (no scroll)
 		*/
-		//function updateScrollProperties():void;
+		function scrollToStart():void;
+		
+		/**
+		* 	Scrolls to the end position (scroll limit).
+		*/
+		function scrollToEnd():void;
 		
 		/**
 		*	Inspects the scroll target and updates the distance

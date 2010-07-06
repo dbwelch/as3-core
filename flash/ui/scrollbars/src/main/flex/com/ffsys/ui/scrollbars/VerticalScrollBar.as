@@ -138,19 +138,6 @@ package com.ffsys.ui.scrollbars {
 			{
 				scrollDrag.x = paddings.left;
 				scrollDrag.y = scrollTrackPosition;
-				
-				_scrollDragBounds = new Rectangle(
-					scrollDrag.x, scrollTrackPosition,
-					0, scrollTrackSize - scrollDrag.preferredHeight );
-					
-				//trace("VerticalScrollBar::layoutChildren(), ", _scrollDragBounds );
-				
-				_scrollDragDistance =
-					( scrollTrackSize - scrollDrag.preferredHeight );
-				
-				scrollDrag.drag.bounds = _scrollDragBounds;
-				
-				//scrollDrag.setSize( fixedSize, fixedSize );
 			}
 			
 			super.layoutChildren( width, height );
@@ -197,10 +184,21 @@ package com.ffsys.ui.scrollbars {
 			 	&& scrollDrag.drag
 				&& !scrollDrag.drag.dragging )
 			{	
-				scrollDrag.y = scrollTrackPosition
-					+ ( normalizedPosition * _scrollDragDistance );
+				updateScrollDragPosition();
 			}
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function updateScrollDragPosition():void
+		{
+			if( scrollDrag )
+			{
+				scrollDrag.y = scrollTrackPosition
+					+ ( normalizedPosition * _scrollDragDistance );			
+			}
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -210,6 +208,24 @@ package com.ffsys.ui.scrollbars {
 			if( scrollDrag )
 			{
 				scrollDrag.setSize( scrollDrag.preferredWidth, scrollDragSize );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function updateScrollDragBounds():void
+		{
+  			if( scrollDrag )
+			{
+				_scrollDragBounds = new Rectangle(
+					scrollDrag.x, scrollTrackPosition,
+					0, scrollTrackSize - scrollDrag.preferredHeight );
+				
+				_scrollDragDistance =
+					( scrollTrackSize - scrollDrag.preferredHeight );
+				
+				scrollDrag.drag.bounds = _scrollDragBounds;				
 			}
 		}
 		

@@ -359,6 +359,8 @@ package com.ffsys.ui.scrollbars {
 		{
 			updateScrollProperties();
 			updateScrollDragSize();
+			updateScrollDragPosition();
+			updateScrollDragBounds();
 		}
 		
 		/**
@@ -482,6 +484,22 @@ package com.ffsys.ui.scrollbars {
 		public function get maximumScrollPosition():Number
 		{
 			return _maximumScrollPosition;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function scrollToStart():void
+		{
+			scrollPosition = maximumScrollPosition;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function scrollToEnd():void
+		{
+			scrollPosition = minimumScrollPosition;
 		}
 		
 		/**
@@ -706,6 +724,22 @@ package com.ffsys.ui.scrollbars {
 		{
 			//
 		}
+		
+		/**
+		* 	Invoked to update the position of the scroll drag.
+		*/
+		protected function updateScrollDragPosition():void
+		{
+			
+		}
+		
+		/**
+		* 	Invoked to update the drag bounds of the scroll drag.
+		*/
+		protected function updateScrollDragBounds():void
+		{
+			
+		}		
 		
 		/**
 		* 	Gets the fixed size for scroll bar component elements.
