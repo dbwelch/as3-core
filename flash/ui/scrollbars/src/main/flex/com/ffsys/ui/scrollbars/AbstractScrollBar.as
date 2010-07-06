@@ -376,7 +376,8 @@ package com.ffsys.ui.scrollbars {
 				return scrollTrackSize;
 			}
 			
-			return Math.max( minimumScrollDragSize, scrollTrackSize / ratio );
+			var dragSize:Number = Math.round( scrollTrackSize / ratio );
+			return Math.max( minimumScrollDragSize, dragSize );
 		}
 		
 		/**

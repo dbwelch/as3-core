@@ -219,13 +219,14 @@ package com.ffsys.ui.scrollbars {
 		{
   			if( scrollDrag )
 			{
+				
 				_scrollDragBounds = new Rectangle(
 					scrollDrag.x, scrollTrackPosition,
 					0, scrollTrackSize - scrollDrag.preferredHeight );
 				
 				_scrollDragDistance =
 					( scrollTrackSize - scrollDrag.preferredHeight );
-				
+
 				scrollDrag.drag.bounds = _scrollDragBounds;
 			}
 		}
