@@ -6,9 +6,6 @@ package com.ffsys.ui.scrollbars {
 	import flash.geom.Rectangle;
 	
 	import com.ffsys.ui.common.Direction;
-	import com.ffsys.ui.buttons.ButtonLoopMode;
-	import com.ffsys.ui.buttons.BackButton;
-	import com.ffsys.ui.buttons.ForwardButton;
 	
 	import com.ffsys.ui.graphics.RectangleGraphic;
 	import com.ffsys.ui.graphics.SolidFill;
@@ -94,10 +91,10 @@ package com.ffsys.ui.scrollbars {
 			scrollTrack = new ScrollTrack();
 				
 			//set up the scroll buttons
-			negativeScrollButton = new BackButton(
+			negativeScrollButton = new ScrollLeftButton(
 				null, null, fixedSize, fixedSize );
 			
-			positiveScrollButton = new ForwardButton(
+			positiveScrollButton = new ScrollRightButton(
 				null, null, fixedSize, fixedSize );
 				
 			scrollDrag = new ScrollDrag(
