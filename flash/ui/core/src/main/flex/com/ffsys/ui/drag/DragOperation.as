@@ -123,6 +123,11 @@ package com.ffsys.ui.drag {
 					
 				source.stage.addEventListener(
 					Event.MOUSE_LEAVE, onMouseLeave );
+					
+				/*
+				source.stage.addEventListener(
+					MouseEvent.MOUSE_MOVE, onMouseMove );
+				*/
 				
 				target.startDrag( locked, bounds );
 				
@@ -145,6 +150,7 @@ package com.ffsys.ui.drag {
 					target.parent.removeChild( target );
 				}
 			}
+			
 			stopTimer();
 			_source = null;
 			_target = null;
@@ -214,6 +220,17 @@ package com.ffsys.ui.drag {
 			}
 			
 			stop();
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function onMouseMove( event:Event ):void
+		{
+			if( source )
+			{
+				//trace("DragOperation::onMouseMove()", source.stage.mouseX, source.stage.mouseY );
+			}
 		}
 	}
 }

@@ -87,6 +87,8 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
+			measure();
+			
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
 				
@@ -112,9 +114,7 @@ package com.ffsys.ui.scrollbars {
 		*/
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
-		{			
-			measure();
-			
+		{
 			if( negativeScrollButton )
 			{
 				negativeScrollButton.x = paddings.left;
@@ -137,6 +137,8 @@ package com.ffsys.ui.scrollbars {
 				scrollDrag.x = scrollTrackPosition;
 				scrollDrag.y = paddings.top;
 			}
+			
+			measure();
 			
 			super.layoutChildren( width, height );
 		}
@@ -205,7 +207,7 @@ package com.ffsys.ui.scrollbars {
 		{
 			if( scrollDrag )
 			{
-				scrollDrag.setSize( scrollDragSize, scrollDrag.preferredHeight );
+				scrollDrag.setSize( scrollDragSize, fixedSize );
 			}
 		}
 		
@@ -223,7 +225,7 @@ package com.ffsys.ui.scrollbars {
 				_scrollDragDistance =
 					( scrollTrackSize - scrollDrag.preferredWidth );
 					
-				scrollDrag.drag.bounds = _scrollDragBounds;			
+				scrollDrag.drag.bounds = _scrollDragBounds;
 			}
 		}		
 		

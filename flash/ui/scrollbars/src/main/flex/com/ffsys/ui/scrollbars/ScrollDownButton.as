@@ -14,6 +14,9 @@ package com.ffsys.ui.scrollbars
 	*/
 	public class ScrollDownButton extends DownButton
 	{
+		[Embed(source="../../../../../resources/scroll-down.png")]
+		static private var _defaultIconClass:Class;
+				
 		/**
 		* 	Creates a <code>ScrollDownButton</code> instance.
 		* 
@@ -28,6 +31,11 @@ package com.ffsys.ui.scrollbars
 			width:Number = NaN,
 			height:Number = NaN )
 		{
+			if( icon == null )
+			{
+				icon = DisplayObject( getRuntimeInstance( _defaultIconClass ) );
+			}
+						
 			super( icon, text, width, height );
 		}
 		

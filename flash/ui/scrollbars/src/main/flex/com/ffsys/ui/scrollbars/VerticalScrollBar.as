@@ -87,6 +87,8 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
+			measure();
+			
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
 			
@@ -111,9 +113,7 @@ package com.ffsys.ui.scrollbars {
 		*/
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
-		{
-			measure();					
-			
+		{	
 			if( positiveScrollButton )
 			{
 				positiveScrollButton.x = paddings.left;
@@ -136,6 +136,8 @@ package com.ffsys.ui.scrollbars {
 				scrollDrag.x = paddings.left;
 				scrollDrag.y = scrollTrackPosition;
 			}
+			
+			measure();
 			
 			super.layoutChildren( width, height );
 		}
@@ -204,7 +206,7 @@ package com.ffsys.ui.scrollbars {
 		{
 			if( scrollDrag )
 			{
-				scrollDrag.setSize( scrollDrag.preferredWidth, scrollDragSize );
+				scrollDrag.setSize( fixedSize, scrollDragSize );
 			}
 		}
 		
@@ -222,7 +224,7 @@ package com.ffsys.ui.scrollbars {
 				_scrollDragDistance =
 					( scrollTrackSize - scrollDrag.preferredHeight );
 				
-				scrollDrag.drag.bounds = _scrollDragBounds;				
+				scrollDrag.drag.bounds = _scrollDragBounds;
 			}
 		}
 		
@@ -241,6 +243,6 @@ package com.ffsys.ui.scrollbars {
 		{
 			var position:Number = ( scrollDrag.y - scrollTrackPosition ) / _scrollDragDistance;
 			normalizedPosition = position;
-		}							
+		}
 	}
 }

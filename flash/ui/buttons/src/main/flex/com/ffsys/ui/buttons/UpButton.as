@@ -2,6 +2,11 @@ package com.ffsys.ui.buttons {
 	
 	import flash.display.DisplayObject;
 	
+	/*
+	import com.ffsys.ui.common.Orientation;
+	import com.ffsys.ui.graphics.ArowGraphic;
+	*/
+	
 	/**
 	*	Represents an up button.
 	*	

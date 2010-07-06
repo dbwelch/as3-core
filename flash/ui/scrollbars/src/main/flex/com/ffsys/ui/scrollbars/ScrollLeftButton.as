@@ -14,6 +14,9 @@ package com.ffsys.ui.scrollbars
 	*/
 	public class ScrollLeftButton extends BackButton
 	{
+		[Embed(source="../../../../../resources/scroll-left.png")]
+		static private var _defaultIconClass:Class;
+				
 		/**
 		* 	Creates a <code>ScrollLeftButton</code> instance.
 		* 
@@ -28,6 +31,11 @@ package com.ffsys.ui.scrollbars
 			width:Number = NaN,
 			height:Number = NaN )		
 		{
+			if( icon == null )
+			{
+				icon = DisplayObject( getRuntimeInstance( _defaultIconClass ) );
+			}
+						
 			super( icon, text, width, height );
 		}
 		

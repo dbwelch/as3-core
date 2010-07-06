@@ -184,6 +184,15 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override protected function layoutChildren(
+			width:Number, height:Number ):void
+		{
+			position();
+		}
+		
+		/**
 		*	Positions the icon and label.
 		*/
 		protected function position():void
