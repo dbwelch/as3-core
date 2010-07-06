@@ -97,9 +97,20 @@ package com.ffsys.ui.buttons
 		{
 			if( loop != null )
 			{
-				var evt:MouseEvent = new MouseEvent( loop );
+				var evt:MouseEvent = new MouseEvent(
+					loop, true, false, mouseX, mouseY );
 				dispatchEvent( evt );
+				looping( evt );
 			}
+		}
+		
+		/**
+		*	Invoked while this button component is operating in a
+		*	continuous loop.
+		*/
+		protected function looping( event:MouseEvent ):void
+		{
+			//
 		}
 		
 		/**

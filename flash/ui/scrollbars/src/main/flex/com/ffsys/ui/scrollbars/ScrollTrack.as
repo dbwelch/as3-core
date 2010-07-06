@@ -2,6 +2,7 @@ package com.ffsys.ui.scrollbars {
 	
 	import flash.events.MouseEvent;
 	
+	import com.ffsys.ui.buttons.ButtonLoopMode;
 	import com.ffsys.ui.buttons.GraphicButton;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.states.IViewState;
@@ -50,10 +51,16 @@ package com.ffsys.ui.scrollbars {
 		
 		public function set mode( mode:String ):void
 		{
-			_mode = mode;
+			if( !mode || mode == ScrollTrackMode.NONE )
+			{
+				removeEventListener(
+					MouseEvent.CLICK, onScrollTrackClick );				
+				
+				//clear any loop
+				loop = null;
+			}
 			
-			removeEventListener(
-				MouseEvent.CLICK, onScrollTrackClick );		
+			_mode = mode;	
 			
 			if( this.mode && this.scrollBar )
 			{
@@ -61,8 +68,21 @@ package com.ffsys.ui.scrollbars {
 				{
 					addEventListener(
 						MouseEvent.CLICK, onScrollTrackClick );
+				}else if( this.mode == ScrollTrackMode.LOOP_SCROLL )
+				{
+					loop = ButtonLoopMode.DOWN;
 				}
 			}
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override protected function looping( event:MouseEvent ):void
+		{
+			//trace("ScrollTrack::looping(), ", event );
+			
+			//TODO: implement scroll track looping
 		}
 		
 		/**

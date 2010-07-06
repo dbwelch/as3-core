@@ -13,11 +13,8 @@ package com.ffsys.ui.scrollbars
 	public class ScrollTrackMode extends Object
 	{
 		/**
-		* 	Represents the default scroll track mode.
-		* 
-		* 	In this mode the scroll track is not interactive
-		* 	and no scrolling is performed when the user interacts
-		* 	with the scroll track.
+		* 	Represents a scroll track mode where no scrolling
+		*	is performed when interacting with the scroll track.
 		*/
 		public static const NONE:String = "noneScrollTrackMode";
 		

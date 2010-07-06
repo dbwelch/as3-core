@@ -58,6 +58,8 @@ package com.ffsys.ui.scrollbars {
 		private var _loop:String = ButtonLoopMode.DOWN;
 		private var _minimumScrollDragSize:Number = 5;
 		
+		private var _scrollTrackMode:String = ScrollTrackMode.LOOP_SCROLL;
+		
 		/**
 		*	Creates an <code>AbstractScrollBar</code> instance.
 		*	
@@ -74,6 +76,19 @@ package com.ffsys.ui.scrollbars {
 			{
 				this.target = target;
 			}			
+		}
+		
+		/**
+		*	The mode the scroll track should operate in.	
+		*/
+		public function get scrollTrackMode():String
+		{
+			return _scrollTrackMode;
+		}
+		
+		public function set scrollTrackMode( value:String ):void
+		{
+			_scrollTrackMode = value;
 		}
 		
 		/**
@@ -262,6 +277,7 @@ package com.ffsys.ui.scrollbars {
 			if( scrollTrack )
 			{
 				scrollTrack.scrollBar = this;
+				scrollTrack.mode = scrollTrackMode;
 				addChild( DisplayObject( scrollTrack ) );
 			}
 		}
