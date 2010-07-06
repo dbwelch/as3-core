@@ -2,6 +2,7 @@ package com.ffsys.ui.core
 {	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.BlendMode;
 	
 	import com.ffsys.ui.core.IComponent;
 	import com.ffsys.ui.core.UIComponent;
@@ -11,6 +12,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.skins.ISkinCollection;
 	import com.ffsys.ui.skins.SkinCollection;
 	import com.ffsys.ui.states.IViewState;
+	import com.ffsys.ui.states.ViewState;	
 	import com.ffsys.ui.states.State;
 
 	/**
@@ -44,6 +46,30 @@ package com.ffsys.ui.core
 			configureDefaultSkin();
 			_graphicsLayer = new UIComponent();
 			addChild( DisplayObject( _graphicsLayer ) );
+		}
+		
+		/**
+		*	Adds the logic to set the disabled state for the component
+		*	when not enabled. When enabled the main state is set by default.
+		*/
+		override public function set enabled( value:Boolean ):void
+		{
+			super.enabled = value;
+			
+			if( !this.enabled )
+			{
+				if( this.skin
+					&& this.skin.hasState( State.DISABLED ) )
+				{
+					this.state = State.DISABLED;
+				}
+			}else{
+				if( this.skin
+					&& this.skin.hasState( State.MAIN ) )
+				{
+					this.state = State.MAIN;
+				}
+			}
 		}
 		
 		/**
@@ -103,25 +129,26 @@ package com.ffsys.ui.core
 				throw new Error( "Cannot set a skin aware component state with no skin." );
 			}
 			
-			_state = state;
-			
-			if( this.state )
+			if( _state != state )
 			{
-				var current:IViewState = this.skin.getStateById(
-					this.state );
-
-				if( !current )
-				{
-					throw new Error( "Could not locate a skin state for '"
-						+ this.state + "'." );
-				}
-				
-				_current = current;
-				
-				applyStyles();
-			}
+				_state = state;
 			
-			//TOOD:investigate resetting to main when state is null
+				if( this.state )
+				{
+					var current:IViewState = this.skin.getStateById(
+						this.state );
+
+					if( !current )
+					{
+						throw new Error( "Could not locate a skin state for '"
+							+ this.state + "'." );
+					}
+				
+					_current = current;
+				
+					applyStyles();
+				}
+			}
 		}
 		
 		public function get current():IViewState
@@ -143,6 +170,40 @@ package com.ffsys.ui.core
 		protected function applyStyles():void
 		{
 			applyGraphicStyles( preferredWidth, preferredHeight );
+			applyAlpha();
+			applyBlendMode();
+		}
+		
+		/**
+		*	Applies alpha properties for the current state.	
+		*/
+		protected function applyAlpha():void
+		{
+			if( current )
+			{
+				if( !isNaN( current.alpha ) )
+				{
+					this.alpha = current.alpha;
+				}else{
+					this.alpha = 1;
+				}
+			}
+		}
+		
+		/**
+		*	Applies the blend mode for the current state.
+		*/
+		protected function applyBlendMode():void
+		{
+			if( current )
+			{
+				if( current.blendMode )
+				{
+					this.blendMode = current.blendMode;
+				}else{
+					this.blendMode = BlendMode.NORMAL;
+				}
+			}
 		}
 		
 		/**
@@ -236,7 +297,11 @@ package com.ffsys.ui.core
 		*/
 		protected function configureDefaultSkin():void
 		{
-			//
+			//set up the default disabled state
+			var disabled:IViewState = new ViewState(
+			 	State.DISABLED );
+			disabled.alpha = .25;
+			this.skin.addState( disabled );
 		}
 		
 		/**

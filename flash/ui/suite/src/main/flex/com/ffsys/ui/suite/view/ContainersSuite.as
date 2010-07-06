@@ -80,6 +80,8 @@ package com.ffsys.ui.suite.view {
 			
 			hscroll.setSize( 150, 16 );
 			
+			hscroll.enabled = false;
+			
 			var lbl:Label = null;	
 			
 			var cell:Cell = new Cell( 80, 80 );

@@ -27,6 +27,7 @@ package com.ffsys.ui.states
 		private var _strokes:Vector.<IStroke> = new Vector.<IStroke>();
 		private var _classPath:String;
 		private var _blendMode:String;
+		private var _alpha:Number;
 		
 		/**
 		* 	Creates a <code>ViewState</code> instance.
@@ -51,6 +52,32 @@ package com.ffsys.ui.states
 		public function set id( id:String ):void
 		{
 			_id = id;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get alpha():Number
+		{
+			return _alpha;
+		}
+		
+		public function set alpha( alpha:Number ):void
+		{
+			_alpha = alpha;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get blendMode():String
+		{
+			return _blendMode;
+		}
+		
+		public function set blendMode( blendMode:String ):void
+		{
+			_blendMode = blendMode;
 		}
 		
 		/**

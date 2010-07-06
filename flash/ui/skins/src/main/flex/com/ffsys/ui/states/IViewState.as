@@ -44,6 +44,18 @@ package com.ffsys.ui.states
 		*	each graphic in the graphics vector.	
 		*/
 		function get strokes():Vector.<IStroke>;
-		function set strokes( strokes:Vector.<IStroke> ):void;	
+		function set strokes( strokes:Vector.<IStroke> ):void;
+		
+		/**
+		*	An alpha value for this view state.
+		*/
+		function get alpha():Number;
+		function set alpha( alpha:Number ):void;
+		
+		/**
+		*	A blend mode for this view state.
+		*/
+		function get blendMode():String;
+		function set blendMode( blendMode:String ):void;		
 	}
 }

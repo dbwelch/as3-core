@@ -163,6 +163,8 @@ package com.ffsys.ui.buttons
 		*/
 		override protected function configureDefaultSkin():void
 		{
+			super.configureDefaultSkin();
+			
 			//main state for this component
 			var main:IViewState = new ViewState();
 			
