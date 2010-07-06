@@ -80,7 +80,7 @@ package com.ffsys.ui.scrollbars {
 			if( target )
 			{
 				this.target = target;
-			}			
+			}
 		}
 		
 		/**
@@ -118,6 +118,9 @@ package com.ffsys.ui.scrollbars {
 			if( scrollDrag )
 			{
 				scrollDrag.enabled = enabled;
+				
+				//the scroll drag is hidden when disabled
+				scrollDrag.visible = enabled;
 			}
 			
 			if( scrollTrack )
@@ -392,6 +395,11 @@ package com.ffsys.ui.scrollbars {
 		{
 			var ratio:Number = Math.abs( measuredSize / size );
 			
+			if( measuredSize == 0 )
+			{
+				return minimumScrollDragSize;
+			}
+			
 			if( ratio <= 1 )
 			{
 				return scrollTrackSize;
@@ -465,15 +473,25 @@ package com.ffsys.ui.scrollbars {
 		*/
 		public function get measuredPosition():Number
 		{
-			return target[ targetScrollProperty ];
-		}		
+			if( target )
+			{
+				return target[ targetScrollProperty ];
+			}
+			
+			return 0;
+		}
 		
 		/**
 		*	@inheritDoc
 		*/
 		public function get measuredSize():Number
 		{
-			return target[ targetMeasureProperty ];
+			if( target )
+			{
+				return target[ targetMeasureProperty ];
+			}
+			
+			return 0;
 		}
 		
 		/**
@@ -712,9 +730,13 @@ package com.ffsys.ui.scrollbars {
 					: scrollTrackSize;
 					
 				//force a redraw of the scroll track
-				scrollTrack.setSize(
-					scrollTrack.preferredWidth,
-					scrollTrack.preferredHeight );
+				if( scrollTrack.preferredWidth > 0
+					&& scrollTrack.preferredHeight > 0 )
+				{
+					scrollTrack.setSize(
+						scrollTrack.preferredWidth,
+						scrollTrack.preferredHeight );
+				}
 					
 				if( direction == Direction.HORIZONTAL )
 				{

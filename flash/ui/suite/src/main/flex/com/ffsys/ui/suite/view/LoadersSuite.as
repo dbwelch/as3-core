@@ -32,6 +32,7 @@ package com.ffsys.ui.suite.view {
 			createHeading( "Loaders Suite (com.ffsys.ui.loaders)" );
 
 			var canvas:Canvas = new Canvas( 100, 100, true );
+			canvas.scroller = new Scroller();
 			
 			var loader:ImageLoaderComponent =
 				new ImageLoaderComponent( [ "assets/images/mock/amazon.jpg" ] );
@@ -42,25 +43,9 @@ package com.ffsys.ui.suite.view {
 				loader.preferredHeight,
 				new Stroke( 2, 0xa9a9a9 ),
 				new SolidFill( 0xa9a9a9, 1 ) );
-			/*
-			loader.background = new RectangleGraphic(
-				loader.preferredWidth,
-				loader.preferredHeight,
-				null, new SolidFill( 0xa9a9a9 ) );
-			*/
+
 			canvas.addChild( loader );
 			addChild( canvas );
-			
-			/*
-			loader.border = new BorderGraphic(
-				loader.preferredWidth,
-				loader.preferredHeight,
-				new Stroke( 2, 0x958e6c ),
-				new SolidFill( 0x958e6c, 1 ) );
-			*/
-			
-			//test switching off canvas clipping
-			//canvas.clipped = false;	
 			
 			//load the first url
 			loader.load();

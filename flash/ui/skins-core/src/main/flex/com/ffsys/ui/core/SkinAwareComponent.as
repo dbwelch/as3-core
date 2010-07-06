@@ -300,7 +300,7 @@ package com.ffsys.ui.core
 			//set up the default disabled state
 			var disabled:IViewState = new ViewState(
 			 	State.DISABLED );
-			disabled.alpha = .25;
+			disabled.alpha = .5;
 			this.skin.addState( disabled );
 		}
 		

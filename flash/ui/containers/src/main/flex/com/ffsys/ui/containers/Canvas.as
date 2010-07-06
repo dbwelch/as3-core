@@ -105,7 +105,19 @@ package com.ffsys.ui.containers {
 		
 		public function set scroller( scroller:IScroller ):void
 		{
+			if( this.scroller && contains( DisplayObject( this.scroller ) ) )
+			{
+				removeChild( DisplayObject( this.scroller ) );
+			}
+			
 			_scroller = scroller;
+			
+			if( this.scroller )
+			{
+				this.scroller.preferredWidth = preferredWidth - paddings.right;
+				this.scroller.preferredHeight = preferredHeight - paddings.bottom;
+				addChild( DisplayObject( this.scroller ) );
+			}
 		}
 	}
 }

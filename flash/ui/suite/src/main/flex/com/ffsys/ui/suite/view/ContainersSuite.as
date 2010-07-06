@@ -80,7 +80,7 @@ package com.ffsys.ui.suite.view {
 			
 			hscroll.setSize( 150, 16 );
 			
-			hscroll.enabled = false;
+			//hscroll.enabled = false;
 			
 			var lbl:Label = null;	
 			
