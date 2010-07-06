@@ -115,6 +115,11 @@ package com.ffsys.ui.buttons
 			
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
+				//trace("ButtonComponent::dispatchLoopEvent()", "STARTING BUTTON DOWN LOOP" );
+				
+				//we need to remove this listener while looping
+				removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
+				
 				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
@@ -130,6 +135,9 @@ package com.ffsys.ui.buttons
 		{
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
+				//add back our mouse down listener
+				addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
+				
 				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
 			
@@ -156,10 +164,12 @@ package com.ffsys.ui.buttons
 			}
 			*/
 			
+			/*
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
 				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
+			*/
 			
 			super.onMouseClick( event );			
 		}
@@ -181,6 +191,9 @@ package com.ffsys.ui.buttons
 			
 				if( loop && loop == ButtonLoopMode.OVER )
 				{
+					//remove our listener
+					removeEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
+					
 					removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 					addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 				}
@@ -216,6 +229,9 @@ package com.ffsys.ui.buttons
 			
 			if( loop && loop == ButtonLoopMode.OVER )
 			{
+				//add our listener back
+				addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
+				
 				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}			
 			
@@ -231,6 +247,9 @@ package com.ffsys.ui.buttons
 			
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
+				//add back our mouse down listener
+				addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
+				
 				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
 		}
