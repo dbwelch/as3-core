@@ -51,6 +51,18 @@ package com.ffsys.ui.scrollbars {
 		public function set mode( mode:String ):void
 		{
 			_mode = mode;
+			
+			removeEventListener(
+				MouseEvent.CLICK, onScrollTrackClick );		
+			
+			if( this.mode && this.scrollBar )
+			{
+				if( this.mode == ScrollTrackMode.JUMP_SCROLL )
+				{
+					addEventListener(
+						MouseEvent.CLICK, onScrollTrackClick );
+				}
+			}
 		}
 		
 		/**
@@ -61,15 +73,15 @@ package com.ffsys.ui.scrollbars {
 			return _scrollBar;
 		}
 		
-		public function set scrollBar( scrollBar:IScrollBar ):void
+		public function set scrollBar( scroller:IScrollBar ):void
 		{
-			if( this.scrollBar && !scrollBar )
+			if( this.scrollBar && !scroller )
 			{
 				removeEventListener(
-					MouseEvent.CLICK, onScrollTrackClick );				
+					MouseEvent.CLICK, onScrollTrackClick );	
 			}
 			
-			_scrollBar = scrollBar;
+			_scrollBar = scroller;
 			
 			if( this.scrollBar )
 			{

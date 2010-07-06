@@ -49,9 +49,9 @@ package com.ffsys.ui.scrollbars {
 			return _scrollBar;
 		}
 		
-		public function set scrollBar( scrollBar:IScrollBar ):void
+		public function set scrollBar( scroller:IScrollBar ):void
 		{
-			_scrollBar = scrollBar;
+			_scrollBar = scroller;
 		}
 		
 		/**
