@@ -1,5 +1,7 @@
 package com.ffsys.ui.scrollbars {
 	
+	import flash.events.MouseEvent;
+	
 	import com.ffsys.ui.buttons.GraphicButton;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.states.IViewState;
@@ -19,6 +21,7 @@ package com.ffsys.ui.scrollbars {
 		implements IScrollTrack {
 			
 		private var _scrollBar:IScrollBar;
+		private var _mode:String = ScrollTrackMode.NONE;
 		
 		/**
 		*	Creates a <code>ScrollTrack</code> instance.
@@ -36,6 +39,19 @@ package com.ffsys.ui.scrollbars {
 			this.preferredHeight = height;
 			this.interactive = true;
 		}
+	
+		/**
+		* 	@inheritDoc
+		*/
+		public function get mode():String
+		{
+			return _mode;
+		}
+		
+		public function set mode( mode:String ):void
+		{
+			_mode = mode;
+		}
 		
 		/**
 		*	@inheritDoc
@@ -47,7 +63,19 @@ package com.ffsys.ui.scrollbars {
 		
 		public function set scrollBar( scrollBar:IScrollBar ):void
 		{
+			if( this.scrollBar && !scrollBar )
+			{
+				removeEventListener(
+					MouseEvent.CLICK, onScrollTrackClick );				
+			}
+			
 			_scrollBar = scrollBar;
+			
+			if( this.scrollBar )
+			{
+				addEventListener(
+					MouseEvent.CLICK, onScrollTrackClick );
+			}
 		}
 		
 		/**
@@ -59,6 +87,21 @@ package com.ffsys.ui.scrollbars {
 			super.interactive = value;
 			useHandCursor = false;
 			buttonMode = false;
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function onScrollTrackClick(
+			event:MouseEvent ):void
+		{
+			if( scrollBar )
+			{
+				if( mode == ScrollTrackMode.JUMP_SCROLL )
+				{
+					AbstractScrollBar( scrollBar ).scrollTrackJump( event );
+				}
+			}
 		}
 		
 		/**
@@ -75,7 +118,7 @@ package com.ffsys.ui.scrollbars {
 					height ) );
 					
 			main.fills.push(
-				new SolidFill( 0x212121, .5 ) );
+				new SolidFill( 0x3d3c3c, 1 ) );
 			
 			this.skin.addState( main );
 		}		

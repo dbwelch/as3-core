@@ -73,6 +73,7 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.interactive = value;
 			useHandCursor = false;
+			buttonMode = false;
 		}
 		
 		/**

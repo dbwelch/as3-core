@@ -193,8 +193,11 @@ package com.ffsys.ui.drag {
 		*/
 		private function onMouseUp( event:MouseEvent ):void
 		{
-			source.stage.removeEventListener(
-				MouseEvent.MOUSE_UP, onMouseUp );
+			if( source && source.stage )
+			{
+				source.stage.removeEventListener(
+					MouseEvent.MOUSE_UP, onMouseUp );
+			}
 			
 			stop();
 		}
@@ -209,6 +212,7 @@ package com.ffsys.ui.drag {
 				event.target.removeEventListener(
 					Event.MOUSE_LEAVE, onMouseLeave );
 			}
+			
 			stop();
 		}
 	}

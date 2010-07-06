@@ -77,6 +77,36 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function set enabled( enabled:Boolean ):void
+		{
+			super.enabled = enabled;
+			
+			//proxy the enabled setting to child components
+			//so that they can update their state
+			if( positiveScrollButton )
+			{
+				positiveScrollButton.enabled = enabled;
+			}
+			
+			if( negativeScrollButton )
+			{
+				negativeScrollButton.enabled = enabled;
+			}
+			
+			if( scrollDrag )
+			{
+				scrollDrag.enabled = enabled;
+			}
+			
+			if( scrollTrack )
+			{
+				scrollTrack.enabled = enabled;
+			}
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function get minimumScrollDragSize():Number
@@ -224,8 +254,6 @@ package com.ffsys.ui.scrollbars {
 			 	&& contains( DisplayObject( scrollTrack ) ) )
 			{
 				scrollTrack.scrollBar = null;
-				scrollTrack.removeEventListener(
-					MouseEvent.CLICK, onScrollTrackClick );
 				removeChild( DisplayObject( scrollTrack ) );
 			}
 			
@@ -234,8 +262,6 @@ package com.ffsys.ui.scrollbars {
 			if( scrollTrack )
 			{
 				scrollTrack.scrollBar = this;
-				scrollTrack.addEventListener(
-					MouseEvent.CLICK, onScrollTrackClick );		
 				addChild( DisplayObject( scrollTrack ) );
 			}
 		}
@@ -288,19 +314,42 @@ package com.ffsys.ui.scrollbars {
 		public function set target( target:DisplayObject ):void
 		{
 			_target = target;
+			
+			if( this.target )
+			{
+				_maximumScrollPosition = measuredPosition;
+			}
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function updateScrollProperties():void
+		protected function updateScrollProperties():void
 		{
-			if( this.target )
+
+			//trace("AbstractScrollBar::updateScrollProperties()", target );			
+			
+			if( target )
 			{
-				_maximumScrollPosition = measuredPosition;
 				_scrollDistance = measuredSize - size;
 				_minimumScrollPosition = -Math.abs( _scrollDistance );
+				
+				/*
+				trace("AbstractScrollBar::updateScrollProperties()",
+					_maximumScrollPosition, _scrollDistance, _minimumScrollPosition );
+				*/
 			}
+			
+			//update whether we are enabled
+			enabled = isScrollable();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function measure():void
+		{
+			updateScrollProperties();
 		}
 		
 		/**
@@ -607,16 +656,14 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	Handles the scroll track click event.
+		*	Handles the scroll track jump click and updates
+		*	the scroll position.
 		*	
-		*	This method should be implemented by
-		*	concrete scroll bar implementations.
-		*	
-		*	@param event The mouse event.
+		*	@param event The mouse event.	
 		*/
-		protected function onScrollTrackClick(
+		internal function scrollTrackJump(
 			event:MouseEvent ):void
-		{
+		{	
 			//
 		}
 		

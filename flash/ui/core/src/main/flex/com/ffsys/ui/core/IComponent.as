@@ -139,6 +139,12 @@ package com.ffsys.ui.core
 		*/
 		function setSize(
 			width:Number, height:Number ):void;
+			
+		/**
+		* 	Forces a redraw of this component at the current preferred
+		* 	dimensions.
+		*/
+		function redraw():void;
 		
 		/**
 		* 	Gets a runtime asset by fully qualified class path.

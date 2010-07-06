@@ -115,6 +115,7 @@ package com.ffsys.ui.buttons
 			
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
+				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
 			
@@ -180,6 +181,7 @@ package com.ffsys.ui.buttons
 			
 				if( loop && loop == ButtonLoopMode.OVER )
 				{
+					removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 					addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 				}
 			}

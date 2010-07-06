@@ -59,7 +59,17 @@ package com.ffsys.ui.skins
 		*	
 		*	@return Whether the state exists in this skin.
 		*/
-		function hasState( id:String ):Boolean;			
+		function hasState( id:String ):Boolean;	
+		
+		
+		/**
+		* 	Removes a state by identifier.
+		* 
+		* 	@param id The identifier for the state.
+		* 
+		* 	@return Whether the state was removed or not.
+		*/
+		function removeStateById( id:String ):Boolean;
 			
 		/**
 		*	The number of states in this skin.	

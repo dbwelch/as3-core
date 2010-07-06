@@ -90,12 +90,6 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
-			background = new RectangleGraphic(
-				preferredWidth,
-				preferredHeight,
-				null,
-				new SolidFill( 0xffffff, 1 ) );
-			
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
 				
@@ -111,6 +105,12 @@ package com.ffsys.ui.scrollbars {
 				
 			scrollDrag = new ScrollDrag(
 				buttonSize, buttonSize );
+				
+			background = new RectangleGraphic(
+				preferredWidth,
+				preferredHeight,
+				null,
+				new SolidFill( 0x3d3c3c, 1 ) );				
 		}
 		
 		/**
@@ -183,7 +183,7 @@ package com.ffsys.ui.scrollbars {
 		*	
 		*	@param event The mouse event.	
 		*/
-		override protected function onScrollTrackClick(
+		override internal function scrollTrackJump(
 			event:MouseEvent ):void
 		{
 			setScrollByRange(

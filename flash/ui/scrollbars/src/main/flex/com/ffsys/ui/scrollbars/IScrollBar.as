@@ -74,7 +74,7 @@ package com.ffsys.ui.scrollbars {
 		
 		/**
 		*	Inspects the scroll target and updates the distance
-		*	and minimum scroll positions.
+		*	and minimum and maximum scroll positions.
 		*	
 		*	Note that the maximmum scroll position is determined when
 		*	the scroll target is assigned and equates to the measured
@@ -83,7 +83,20 @@ package com.ffsys.ui.scrollbars {
 		*	Invoke this method after the size of the target has
 		*	changed so that the scroll bar scrolls correctly.
 		*/
-		function updateScrollProperties():void;
+		//function updateScrollProperties():void;
+		
+		/**
+		*	Inspects the scroll target and updates the distance
+		*	and minimum and maximum scroll positions.
+		*	
+		*	Note that the maximmum scroll position is determined when
+		*	the scroll target is assigned and equates to the measured
+		*	position at the time the scroll target is assigned.
+		*	
+		*	Invoke this method after the size of the target has
+		*	changed so that the scroll bar updates it's properties.
+		*/
+		function measure():void;
 		
 		/**
 		*	The direction this scroll bar is operating in.	

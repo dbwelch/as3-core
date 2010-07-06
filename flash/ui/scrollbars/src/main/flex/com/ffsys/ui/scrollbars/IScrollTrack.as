@@ -14,6 +14,12 @@ package com.ffsys.ui.scrollbars {
 	public interface IScrollTrack extends IButton {
 		
 		/**
+		* 	The mode that this scroll track is operating in.
+		*/
+		function get mode():String;
+		function set mode( mode:String ):void;
+		
+		/**
 		*	The scroll bar that owns this scroll track.
 		*/
 		function get scrollBar():IScrollBar;

@@ -322,6 +322,14 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function redraw():void
+		{
+			setSize( preferredWidth, preferredHeight );
+		}
+		
+		/**
 		*	Invoked after the children have been created
 		*	to perform positioning of the child components
 		*	and when this component is resized.

@@ -31,6 +31,33 @@ package com.ffsys.ui.skins
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function removeStateById( id:String ):Boolean
+		{
+			var state:IViewState = null;
+			try
+			{
+				var index:uint = _indexes[ id ];
+				state = getStateById( id );
+				
+				if( state )
+				{
+					//remove the state
+					_states.splice( index, 1 );
+					
+					//clean the index
+					return ( delete _indexes[ id ] );
+				}
+			}catch( e:Error )
+			{
+				//fail silently as we return false
+			}
+			
+			return false;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function getStateById( id:String ):IViewState
