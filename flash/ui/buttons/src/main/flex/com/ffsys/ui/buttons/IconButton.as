@@ -212,14 +212,12 @@ package com.ffsys.ui.buttons
 				//we have preferred dimensions
 				if( !isNaN( _preferredWidth ) )
 				{
-					ix = Math.round(
-						( _preferredWidth * 0.5 ) - ( icon.width * 0.5 ) );
+					ix = ( _preferredWidth * 0.5 ) - ( icon.width * 0.5 );
 				}
 				
 				if( !isNaN( _preferredHeight ) )
 				{
-					iy = Math.round(
-						( _preferredHeight * 0.5 ) - ( icon.height * 0.5 ) );
+					iy = ( _preferredHeight * 0.5 ) - ( icon.height * 0.5 );
 				}
 				
 				if( hasLabel )
@@ -231,8 +229,6 @@ package com.ffsys.ui.buttons
 				
 				icon.x = ix;
 				icon.y = iy;
-				
-				
 			}
 			
 			if( hasLabel )

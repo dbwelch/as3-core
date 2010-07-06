@@ -87,8 +87,6 @@ package com.ffsys.ui.scrollbars {
 		{
 			super.createChildren();
 			
-			measure();
-			
 			//set up the scroll track
 			scrollTrack = new ScrollTrack();
 				
@@ -106,7 +104,7 @@ package com.ffsys.ui.scrollbars {
 				preferredWidth,
 				preferredHeight,
 				null,
-				new SolidFill( 0x3d3c3c, 1 ) );				
+				new SolidFill( 0x3d3c3c, 1 ) );	
 		}
 		
 		/**
@@ -132,13 +130,17 @@ package com.ffsys.ui.scrollbars {
 				positiveScrollButton.setSize( fixedSize, fixedSize );
 			}
 			
-			if( scrollDrag && scrollDrag.drag )
+			if( scrollDrag )
 			{
-				scrollDrag.x = scrollTrackPosition;
 				scrollDrag.y = paddings.top;
 			}
 			
 			measure();
+			
+			if( scrollDrag )
+			{
+				scrollDrag.x = scrollTrackPosition;
+			}
 			
 			super.layoutChildren( width, height );
 		}

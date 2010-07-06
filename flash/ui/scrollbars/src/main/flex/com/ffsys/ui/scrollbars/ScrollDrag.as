@@ -93,14 +93,6 @@ package com.ffsys.ui.scrollbars {
 				new SolidFill( 0x212121 ) );
 			
 			this.skin.addState( main );
-			
-			var over:IViewState = new ViewState( 
-			 	State.OVER );
-					
-			over.fills.push(
-				new SolidFill( 0x62592e ) );
-			
-			this.skin.addState( over );
-		}		
+		}
 	}
 }
