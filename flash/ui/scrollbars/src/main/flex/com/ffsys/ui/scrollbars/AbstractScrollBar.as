@@ -342,6 +342,14 @@ package com.ffsys.ui.scrollbars {
 			
 			//update whether we are enabled
 			enabled = isScrollable();
+			
+			//ensure that when we're disabled the scroll position
+			//is reset so that content is not cut off and unreachable
+			//if the content is masked
+			if( !isScrollable() )
+			{
+				scrollPosition = _maximumScrollPosition;
+			}
 		}
 		
 		/**
