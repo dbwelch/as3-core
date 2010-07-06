@@ -43,6 +43,11 @@ package com.ffsys.ui.scrollbars {
 		*/
 		protected var _scrollDragDistance:Number;
 		
+		/**
+		*	@private
+		*/
+		protected var _scrollTrackLoopComparePosition:Number;
+		
 		private var _target:DisplayObject;
 		private var _scrollTrack:IScrollTrack;
 		private var _scrollDrag:IScrollDrag;
@@ -733,6 +738,27 @@ package com.ffsys.ui.scrollbars {
 		{	
 			//
 		}
+		
+		/**
+		*	Invoked when the scroll track starts looping.
+		*/
+		internal function scrollTrackLoopStart(
+			event:MouseEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	Handles the scroll track loop and updates
+		*	the scroll position.
+		*	
+		*	@param event The mouse event.	
+		*/
+		internal function scrollTrackLoop(
+			event:MouseEvent ):void
+		{	
+			//
+		}		
 		
 		/**
 		*	Invoked after a scroll operation has taken place.	

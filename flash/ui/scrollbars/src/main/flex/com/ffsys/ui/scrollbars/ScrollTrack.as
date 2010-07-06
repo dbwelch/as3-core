@@ -78,11 +78,17 @@ package com.ffsys.ui.scrollbars {
 		/**
 		*	@inheritDoc
 		*/
+		override protected function loopStarted( event:MouseEvent ):void
+		{
+			AbstractScrollBar( scrollBar ).scrollTrackLoopStart( event );
+		}		
+		
+		/**
+		*	@inheritDoc
+		*/
 		override protected function looping( event:MouseEvent ):void
 		{
-			//trace("ScrollTrack::looping(), ", event );
-			
-			//TODO: implement scroll track looping
+			AbstractScrollBar( scrollBar ).scrollTrackLoop( event );
 		}
 		
 		/**

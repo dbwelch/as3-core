@@ -174,6 +174,29 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		override internal function scrollTrackLoopStart(
+			event:MouseEvent ):void
+		{
+			_scrollTrackLoopComparePosition = scrollTrackSize / 2;
+			
+			if( scrollDrag )
+			{
+				_scrollTrackLoopComparePosition = scrollDrag.y - scrollTrackPosition;
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override internal function scrollTrackLoop(
+			event:MouseEvent ):void
+		{	
+			event.localY < _scrollTrackLoopComparePosition ? scrollUp() : scrollDown();
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		override protected function afterScroll():void

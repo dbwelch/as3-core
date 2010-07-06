@@ -130,9 +130,7 @@ package com.ffsys.ui.buttons
 				
 				//we need to remove this listener while looping
 				removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
-				
-				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
-				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+				startLoop( loop, event );
 			}
 			
 			super.onMouseDown( event );
@@ -148,8 +146,7 @@ package com.ffsys.ui.buttons
 			{
 				//add back our mouse down listener
 				addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
-				
-				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+				stopLoop( loop, event );
 			}
 			
 			super.onMouseUp( event );
@@ -204,9 +201,7 @@ package com.ffsys.ui.buttons
 				{
 					//remove our listener
 					removeEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
-					
-					removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
-					addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+					startLoop( loop, event );
 				}
 			}
 			
@@ -242,9 +237,8 @@ package com.ffsys.ui.buttons
 			{
 				//add our listener back
 				addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
-				
-				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
-			}			
+				stopLoop( loop, event );
+			}
 			
 			super.onMouseOut( event );
 		}
@@ -260,8 +254,7 @@ package com.ffsys.ui.buttons
 			{
 				//add back our mouse down listener
 				addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
-				
-				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+				stopLoop( loop, event );
 			}
 		}
 		
@@ -273,6 +266,47 @@ package com.ffsys.ui.buttons
 			_loop = null;
 			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			super.destroy();
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function startLoop( mode:String, event:MouseEvent ):void
+		{
+			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+			if( loop && mode == loop )
+			{
+				addEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+				loopStarted( event );
+			}
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function stopLoop( mode:String, event:MouseEvent ):void
+		{
+			if( !mode || ( loop && loop == mode ) )
+			{
+				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
+				loopStopped( event );
+			}
+		}
+		
+		/**
+		*	Invoked when button looping starts.	
+		*/
+		protected function loopStarted( event:MouseEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	Invoked when button looping stops.	
+		*/
+		protected function loopStopped( event:MouseEvent ):void
+		{
+			//
 		}
 	}
 }
