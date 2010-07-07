@@ -32,6 +32,18 @@ package com.ffsys.ui.display
 		* 	is removed from the display list and destroyed.
 		*/
 		function get timeout():Number;
-		function set timeout( timeout:Number ):void;		
+		function set timeout( timeout:Number ):void;
+		
+		/**
+		* 	Invoked to inform this instance that the timeout has
+		* 	been completed.
+		*/
+		function hidden():void;
+		
+		/**
+		* 	Invoked to inform this instance that the timeout should
+		* 	start.
+		*/
+		function shown():void;
 	}
 }

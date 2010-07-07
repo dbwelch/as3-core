@@ -77,8 +77,18 @@ package com.ffsys.ui.display
 			{
 				target.parent.removeChild( target );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function hidden():void
+		{
+			//remove the target display object
+			remove();
 			
-			trace("DisplayObjectTimeout::remove()", target );
+			//clean our references
+			destroy();
 		}
 		
 		/**
@@ -94,6 +104,23 @@ package com.ffsys.ui.display
 				throw new Error( "Cannot start a display object timeout with a null target." );
 			}
 			
+			if( target is IDisplayObjectTimeoutShow )
+			{
+				IDisplayObjectTimeoutShow( target ).show();
+			}else if( this is IDisplayObjectTimeoutShow )
+			{
+				IDisplayObjectTimeoutShow( this ).show();
+			}else
+			{
+				shown();
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function shown():void
+		{
 			startTimer();
 		}
 		
@@ -122,13 +149,16 @@ package com.ffsys.ui.display
 		*/
 		private function complete( event:TimerEvent ):void
 		{
-			trace("DisplayObjectTimeout::complete()", event );
-			
-			//remove the target display object
-			remove();
-			
-			//clean our references
-			destroy();
+			if( target is IDisplayObjectTimeoutHide )
+			{
+				IDisplayObjectTimeoutHide( target ).hide();
+			}else if( this is IDisplayObjectTimeoutHide )
+			{
+				IDisplayObjectTimeoutHide( this ).hide();
+			}else
+			{
+				hidden();
+			}
 		}
 		
 		/**
