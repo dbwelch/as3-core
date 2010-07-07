@@ -177,10 +177,10 @@ package com.ffsys.ui.scrollbars {
 			
 			if( isScrollable() )
 			{
-				//get the position of the child
-				var position:Number = Math.abs( child[ targetScrollProperty ] );
-				var normalized:Number = position / measuredSize;
-				normalizedPosition = normalized;
+				//get the position of the child and invert the sign to negative to get
+				//the scroll position
+				var position:Number = -Math.abs( child[ targetScrollProperty ] );
+				scrollPosition = position;
 				return true;
 			}
 			
