@@ -1,6 +1,7 @@
 package com.ffsys.ui.scrollbars {
 	
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
@@ -140,6 +141,50 @@ package com.ffsys.ui.scrollbars {
 		public function set minimumScrollDragSize( value:Number ):void
 		{
 			_minimumScrollDragSize = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function scrollTo( child:DisplayObject ):Boolean
+		{
+			if( child == null )
+			{
+				throw new Error( "Cannot scroll to a null target display object." );
+			}
+			
+			if( !this.target )
+			{
+				throw new Error( "Cannot scroll to when the scroll target is null." );
+			}
+			
+			var container:DisplayObjectContainer = this.target as DisplayObjectContainer;
+			
+			if( !container )
+			{
+				throw new Error( "The scroll target must be a display object container to scroll to a child." );
+			}
+			
+			if( !container.contains( child ) )
+			{
+				throw new Error( "The scroll to target must be a child of the scroll target." );
+			}
+			
+			//TODO: allow targeting of nested child display objects
+			//and to the co-ordinate space conversion
+			//requires testing the target is in the parent hierarchy of the
+			//child
+			
+			if( isScrollable() )
+			{
+				//get the position of the child
+				var position:Number = Math.abs( child[ targetScrollProperty ] );
+				var normalized:Number = position / measuredSize;
+				normalizedPosition = normalized;
+				return true;
+			}
+			
+			return false;
 		}
 		
 		/**

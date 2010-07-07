@@ -83,6 +83,16 @@ package com.ffsys.ui.scrollbars {
 		function scrollToEnd():void;
 		
 		/**
+		* 	Attempts to scroll to a child of the scroll target.
+		* 
+		* 	@param child The scroll target child display object to
+		* 	scroll to.
+		* 
+		* 	@return Whether the scroll position was set. 
+		*/
+		function scrollTo( child:DisplayObject ):Boolean;
+		
+		/**
 		*	Inspects the scroll target and updates the distance
 		*	and minimum and maximum scroll positions.
 		*	
