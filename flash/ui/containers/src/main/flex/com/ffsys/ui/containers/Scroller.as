@@ -5,6 +5,8 @@ package com.ffsys.ui.containers {
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.scrollbars.HorizontalScrollBar;
 	import com.ffsys.ui.scrollbars.IScrollBar;
+	import com.ffsys.ui.scrollbars.IScrollTarget;
+	import com.ffsys.ui.scrollbars.ScrollTarget;
 	import com.ffsys.ui.scrollbars.VerticalScrollBar;
 	
 	/**
@@ -28,6 +30,8 @@ package com.ffsys.ui.containers {
 		private var _verticalScrollBar:IScrollBar;
 		private var _horizontalScrollBar:IScrollBar;
 		
+		private var _scrollTarget:IScrollTarget;
+		
 		/**
 		*	Creates a <code>Scroller</code> instance.
 		*	
@@ -46,14 +50,19 @@ package com.ffsys.ui.containers {
 		/**
 		*	@inheritDoc	
 		*/
+		public function get scrollTarget():IScrollTarget
+		{
+			return _scrollTarget;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get target():DisplayObject
 		{
-			if( _verticalScrollBar )
+			if( _scrollTarget )
 			{
-				return _verticalScrollBar.target;
-			}else if( _horizontalScrollBar )
-			{
-				return _horizontalScrollBar.target;
+				return _scrollTarget.target;
 			}
 			
 			return null;
@@ -61,10 +70,24 @@ package com.ffsys.ui.containers {
 		
 		public function set target( target:DisplayObject ):void
 		{
-			if( target && !target.parent )
+			if( _scrollTarget
+				&& contains( DisplayObject( _scrollTarget ) ) )
 			{
-				addChildAt( target, 0 );
-			}			
+				removeChild( DisplayObject( _scrollTarget ) );
+			}
+			
+			_scrollTarget = null;
+			
+			if( target )
+			{
+				_scrollTarget = new ScrollTarget(
+					scrollTargetWidth, scrollTargetHeight, target );
+					
+				_scrollTarget.x = paddings.left;
+				_scrollTarget.y = paddings.top;
+				
+				addChild( DisplayObject( _scrollTarget ) );
+			}
 			
 			if( _verticalScrollBar )
 			{
@@ -90,12 +113,42 @@ package com.ffsys.ui.containers {
 		/**
 		*	@inheritDoc	
 		*/
+		public function get scrollTargetWidth():Number
+		{
+			var w:Number = preferredWidth;
+			
+			if( _verticalScrollBar )
+			{
+				w -= ( _verticalScrollBar.preferredWidth
+					+ _verticalScrollBar.margins.left );
+			}
+			
+			return w;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get scrollTargetHeight():Number
+		{
+			var h:Number = preferredHeight;
+			
+			if( _horizontalScrollBar )
+			{
+				h -= ( _horizontalScrollBar.preferredHeight
+					+ _horizontalScrollBar.margins.top );
+			}
+			
+			return h;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		override protected function layoutChildren(
 			width:Number,
 			height:Number ):void
 		{
-			trace("Scroller::layoutChildren(), ", width, height );
-			
 			var w:Number = preferredWidth;
 			var h:Number = preferredHeight;
 			
@@ -108,8 +161,6 @@ package com.ffsys.ui.containers {
 			{
 				h -= _horizontalScrollBar.preferredHeight;
 			}
-			
-			trace("Scroller::layoutChildren(), w/h: ", w, h );
 			
 			if( _verticalScrollBar )
 			{

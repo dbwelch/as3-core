@@ -4,6 +4,7 @@ package com.ffsys.ui.containers {
 	
 	import com.ffsys.ui.core.IComponent;
 	import com.ffsys.ui.scrollbars.IScrollBar;
+	import com.ffsys.ui.scrollbars.IScrollTarget;
 	
 	/**
 	*	Describes the contract for a component
@@ -19,11 +20,17 @@ package com.ffsys.ui.containers {
 	public interface IScroller extends IComponent {
 		
 		/**
-		*	Proxies the scroll target to the scroll bars
-		*	encapsulated by this scroller.
+		*	Proxies the scroll target to the scroll target
+		*	implementation encapsulated by this scroller.
 		*/
 		function get target():DisplayObject;
 		function set target( target:DisplayObject ):void;
+		
+		/**
+		*	Gets the scroll target implementation that wraps
+		*	the target display object.
+		*/
+		function get scrollTarget():IScrollTarget;
 		
 		/**
 		*	The vertical scroll bar encapsulated by this scroller.
