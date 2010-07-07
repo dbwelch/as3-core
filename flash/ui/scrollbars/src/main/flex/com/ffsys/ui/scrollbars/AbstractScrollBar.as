@@ -698,7 +698,9 @@ package com.ffsys.ui.scrollbars {
 		*/
 		protected function get scrollTrackSize():Number
 		{
-			var size:Number = this.size;
+			var size:Number = ( direction == Direction.HORIZONTAL )
+				? preferredWidth
+				: preferredHeight;
 			
 			if( negativeScrollButton )
 			{

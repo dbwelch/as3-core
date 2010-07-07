@@ -95,6 +95,7 @@ package com.ffsys.ui.containers {
 				
 				if( target )
 				{
+					_verticalScrollBar.size = scrollTargetWidth;
 					_verticalScrollBar.measure();
 				}
 			}
@@ -105,6 +106,7 @@ package com.ffsys.ui.containers {
 				
 				if( target )
 				{
+					_horizontalScrollBar.size = scrollTargetHeight;
 					_horizontalScrollBar.measure();
 				}
 			}
@@ -117,7 +119,8 @@ package com.ffsys.ui.containers {
 		{
 			var w:Number = preferredWidth;
 			
-			if( _verticalScrollBar )
+			if( _verticalScrollBar
+			 	&& _verticalScrollBar.visible )
 			{
 				w -= ( _verticalScrollBar.preferredWidth
 					+ _verticalScrollBar.margins.left );
@@ -133,7 +136,8 @@ package com.ffsys.ui.containers {
 		{
 			var h:Number = preferredHeight;
 			
-			if( _horizontalScrollBar )
+			if( _horizontalScrollBar
+			 	&& _horizontalScrollBar.visible )
 			{
 				h -= ( _horizontalScrollBar.preferredHeight
 					+ _horizontalScrollBar.margins.top );
@@ -185,12 +189,14 @@ package com.ffsys.ui.containers {
 			if( _verticalScrollEnabled )
 			{
 				_verticalScrollBar = new VerticalScrollBar();
+				_verticalScrollBar.margins.left = 5;
 				addChild( DisplayObject( _verticalScrollBar ) );
 			}
 			
 			if( _horizontalScrollEnabled )
 			{
 				_horizontalScrollBar = new HorizontalScrollBar();
+				_horizontalScrollBar.margins.top = 5;
 				addChild( DisplayObject( _horizontalScrollBar ) );
 			}
 		}
