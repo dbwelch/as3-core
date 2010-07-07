@@ -1,6 +1,9 @@
 package com.ffsys.ui.containers {
 	
+	import flash.display.DisplayObject;
+	
 	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.scrollbars.IScrollBar;
 	
 	/**
 	*	Describes the contract for a component
@@ -15,5 +18,51 @@ package com.ffsys.ui.containers {
 	*/
 	public interface IScroller extends IComponent {
 		
+		/**
+		*	Proxies the scroll target to the scroll bars
+		*	encapsulated by this scroller.
+		*/
+		function get target():DisplayObject;
+		function set target( target:DisplayObject ):void;
+		
+		/**
+		*	The vertical scroll bar encapsulated by this scroller.
+		*/
+		function get verticalScrollBar():IScrollBar;
+		
+		/**
+		*	The horizontal scroll bar encapsulated by this scroller.
+		*/
+		function get horizontalScrollBar():IScrollBar;
+		
+		/**
+		*	Determines whether vertical scrolling is enabled.
+		*	
+		*	When this value is false no vertical scroll bar is shown.
+		*/
+		function get verticalScrollEnabled():Boolean;
+		function set verticalScrollEnabled( enabled:Boolean ):void;
+		
+		/**
+		*	Determines whether horizontal scrolling is enabled.
+		*	
+		*	When this value is false no horizontal scroll bar is shown.
+		*/
+		function get horizontalScrollEnabled():Boolean;
+		function set horizontalScrollEnabled( enabled:Boolean ):void;
+		
+		/**
+		*	Determines whether the vertical scroll bar should
+		*	still be visible when there is no vertical scroll.
+		*/
+		function get alwaysShowVerticalScrollBar():Boolean;
+		function set alwaysShowVerticalScrollBar( value:Boolean ):void;
+		
+		/**
+		*	Determines whether the horizontal scroll bar should
+		*	still be visible when there is no horizontal scroll.
+		*/
+		function get alwaysShowHorizontalScrollBar():Boolean;
+		function set alwaysShowHorizontalScrollBar( value:Boolean ):void;
 	}
 }

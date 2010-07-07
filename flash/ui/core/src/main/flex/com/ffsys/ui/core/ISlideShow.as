@@ -65,6 +65,6 @@ package com.ffsys.ui.core
 		/**
 		* 	Move to the previous item in the slideshow.
 		*/
-		function previous():void;		
+		function previous():void;
 	}
 }

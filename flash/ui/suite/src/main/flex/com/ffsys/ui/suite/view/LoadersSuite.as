@@ -44,7 +44,7 @@ package com.ffsys.ui.suite.view {
 				new Stroke( 2, 0xa9a9a9 ),
 				new SolidFill( 0xa9a9a9, 1 ) );
 
-			canvas.addChild( loader );
+			canvas.scroller.target = loader;
 			addChild( canvas );
 			
 			//load the first url

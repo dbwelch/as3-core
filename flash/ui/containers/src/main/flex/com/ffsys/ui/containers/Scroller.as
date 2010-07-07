@@ -22,8 +22,8 @@ package com.ffsys.ui.containers {
 		private var _alwaysShowVerticalScrollBar:Boolean;
 		private var _alwaysShowHorizontalScrollBar:Boolean;
 		
-		private var _verticalScrollBarEnabled:Boolean = true;
-		private var _horizontalScrollBarEnabled:Boolean = true;
+		private var _verticalScrollEnabled:Boolean = true;
+		private var _horizontalScrollEnabled:Boolean = true;
 		
 		private var _verticalScrollBar:IScrollBar;
 		private var _horizontalScrollBar:IScrollBar;
@@ -41,6 +41,50 @@ package com.ffsys.ui.containers {
 			super();
 			preferredWidth = width;
 			preferredHeight = height;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get target():DisplayObject
+		{
+			if( _verticalScrollBar )
+			{
+				return _verticalScrollBar.target;
+			}else if( _horizontalScrollBar )
+			{
+				return _horizontalScrollBar.target;
+			}
+			
+			return null;
+		}
+		
+		public function set target( target:DisplayObject ):void
+		{
+			if( target && !target.parent )
+			{
+				addChildAt( target, 0 );
+			}			
+			
+			if( _verticalScrollBar )
+			{
+				_verticalScrollBar.target = target;
+				
+				if( target )
+				{
+					_verticalScrollBar.measure();
+				}
+			}
+			
+			if( _horizontalScrollBar )
+			{
+				_horizontalScrollBar.target = target;
+				
+				if( target )
+				{
+					_horizontalScrollBar.measure();
+				}
+			}
 		}
 		
 		/**
@@ -65,20 +109,20 @@ package com.ffsys.ui.containers {
 				h -= _horizontalScrollBar.preferredHeight;
 			}
 			
+			trace("Scroller::layoutChildren(), w/h: ", w, h );
+			
 			if( _verticalScrollBar )
 			{
 				_verticalScrollBar.setSize(
 					_verticalScrollBar.preferredWidth, h );
-				_verticalScrollBar.x = 
-					preferredWidth - _verticalScrollBar.preferredWidth;
+				_verticalScrollBar.x = w;
 			}
 			
 			if( _horizontalScrollBar )
 			{
-				_verticalScrollBar.setSize(
+				_horizontalScrollBar.setSize(
 					w, _horizontalScrollBar.preferredHeight );
-				_horizontalScrollBar.y =
-					preferredHeight - _verticalScrollBar.preferredHeight;
+				_horizontalScrollBar.y = h;
 			}
 		}
 		
@@ -87,17 +131,85 @@ package com.ffsys.ui.containers {
 		*/
 		override protected function createChildren():void
 		{
-			if( _verticalScrollBarEnabled )
+			if( _verticalScrollEnabled )
 			{
 				_verticalScrollBar = new VerticalScrollBar();
 				addChild( DisplayObject( _verticalScrollBar ) );
 			}
 			
-			if( _horizontalScrollBarEnabled )
+			if( _horizontalScrollEnabled )
 			{
 				_horizontalScrollBar = new HorizontalScrollBar();
 				addChild( DisplayObject( _horizontalScrollBar ) );
 			}
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get verticalScrollBar():IScrollBar
+		{
+			return _verticalScrollBar;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get horizontalScrollBar():IScrollBar
+		{
+			return _horizontalScrollBar;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get verticalScrollEnabled():Boolean
+		{
+			return _verticalScrollEnabled;
+		}	
+		
+		public function set verticalScrollEnabled( enabled:Boolean ):void
+		{
+			_verticalScrollEnabled = enabled;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get horizontalScrollEnabled():Boolean
+		{
+			return _horizontalScrollEnabled;
+		}
+		
+		public function set horizontalScrollEnabled( enabled:Boolean ):void
+		{
+			_horizontalScrollEnabled = enabled;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get alwaysShowVerticalScrollBar():Boolean
+		{
+			return _alwaysShowVerticalScrollBar;
+		}
+		
+		public function set alwaysShowVerticalScrollBar( value:Boolean ):void
+		{
+			_alwaysShowVerticalScrollBar = value;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get alwaysShowHorizontalScrollBar():Boolean
+		{
+			return _alwaysShowHorizontalScrollBar;
+		}
+		
+		public function set alwaysShowHorizontalScrollBar( value:Boolean ):void
+		{
+			_alwaysShowHorizontalScrollBar = value;
 		}
 	}
 }
