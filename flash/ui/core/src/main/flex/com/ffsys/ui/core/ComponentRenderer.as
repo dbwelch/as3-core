@@ -56,9 +56,25 @@ package com.ffsys.ui.core {
 			trace("ComponentRenderer::invalidate(), ",
 				renderer, stage.hasEventListener( Event.RENDER ) );
 			*/
+			var existing:IComponentRender = null;
+			var target:IComponentRender = null;
 			
-				
-			_targets.push( renderer );
+			for each( target in _targets )
+			{
+				if( target.component == renderer.component
+				 	&& target.phase == renderer.phase )
+				{
+					existing = target;
+					break;
+				}
+			}
+			
+			if( !existing )
+			{
+				_targets.push( renderer );
+			}else{
+				//TODO: copy properties into existing render routine
+			}
 		}
 		
 		/**

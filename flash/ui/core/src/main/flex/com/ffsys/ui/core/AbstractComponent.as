@@ -694,6 +694,39 @@ package com.ffsys.ui.core
 			return new Bitmap( bitmapData );
 		}
 		
+		
+		public function getVisibleBounds(
+			target:DisplayObject = null ):Rectangle 
+		{ 
+			if( target == null )
+			{
+				target = this;
+			}
+			
+			var currentBounds:Rectangle = target.getBounds( target );
+			
+			var matrix:Matrix = new Matrix();
+			matrix.translate( Math.abs( currentBounds.left ), Math.abs( currentBounds.top ) );
+		
+			var radians:Number = target.rotation * Math.PI / 180;
+			matrix.rotate( radians );
+			matrix.scale( Math.abs( target.scaleX ), Math.abs( target.scaleY ) );
+		
+			var bitmapData:BitmapData = new BitmapData(
+				target.width, target.height, true, 0x00000000 );
+			bitmapData.draw( target, matrix );
+			var bounds:Rectangle = bitmapData.getColorBoundsRect( 0xFF000000, 0, false );
+			bitmapData.dispose();
+			
+			var output:Rectangle = new Rectangle(
+				currentBounds.left,
+				currentBounds.top,
+				bounds.width,
+				bounds.height );
+		
+			return output;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/

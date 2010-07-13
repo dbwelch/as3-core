@@ -74,5 +74,15 @@ package com.ffsys.ui.text.core
 		*/
 		function applyTextFormatProperties(
 			properties:Object ):void;
+			
+		/**
+		*	The measured width of the textfield.	
+		*/
+		function get measuredWidth():Number;
+		
+		/**
+		*	The measured height of the textfield.	
+		*/
+		function get measuredHeight():Number;			
 	}
 }

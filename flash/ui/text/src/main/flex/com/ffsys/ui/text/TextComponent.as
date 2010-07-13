@@ -1,6 +1,7 @@
 package com.ffsys.ui.text
 {
 	import flash.display.DisplayObject;
+	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.text.core.ITypedTextField;
@@ -33,11 +34,6 @@ package com.ffsys.ui.text
 		{
 			super();
 			createTextField( text );
-			
-			//TODO: investigate removing this and still
-			//allowing components to be added to non-component parent
-			//display objects
-			addChild( DisplayObject( _textfield ) );
 			
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
@@ -126,9 +122,17 @@ package com.ffsys.ui.text
 			}
 			*/
 			
+			/*
+				
+			if( textfield && !isNaN( textfield.measuredWidth ) )
+			{
+				return textfield.measuredWidth;
+			}
+			*/
+			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				trace("TextComponent::layoutWidth(), returning text width:", textfield.textWidth );
+				//trace("TextComponent::layoutWidth(), returning text width:", textfield.textWidth );
 				return textfield.textWidth;
 			}
 			
@@ -154,6 +158,13 @@ package com.ffsys.ui.text
 			if( metrics )
 			{
 				return metrics.height;
+			}
+			*/
+			
+			/*
+			if( textfield && !isNaN( textfield.measuredHeight ) )
+			{
+				return textfield.measuredHeight;
 			}
 			*/
 			
@@ -197,9 +208,8 @@ package com.ffsys.ui.text
 		{
 			textfield.setText( text );
 			
-			//TODO: remove this debug drawing
-			
 			/*
+			//TODO: remove this debug drawing
 			graphics.clear();
 			graphics.lineStyle( 0, 0xff6600 );
 			graphics.drawRect( textfield.x, textfield.y, textfield.width, textfield.height );
@@ -241,8 +251,10 @@ package com.ffsys.ui.text
 			//offset by the textfield gutter
 			_textfield.x = _textfield.y = -2;
 			
-			//TODO: remove this duplicate call to set text
-			//this.text = text;
+			//TODO: investigate removing this and still
+			//allowing components to be added to non-component parent
+			//display objects
+			addChild( DisplayObject( _textfield ) );
 			
 			return _textfield;
 		}

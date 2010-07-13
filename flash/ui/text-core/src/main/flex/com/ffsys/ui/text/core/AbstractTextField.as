@@ -2,7 +2,9 @@ package com.ffsys.ui.text.core {
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	import flash.text.*;
 	
 	import com.ffsys.utils.properties.PropertiesMerge;
@@ -24,6 +26,10 @@ package com.ffsys.ui.text.core {
 		
 		private var _maximumWidth:Number;
 		private var _maximumHeight:Number;		
+		
+		
+		private var _measuredWidth:Number;
+		private var _measuredHeight:Number;		
 		
 		/**
 		*	Creates an <code>AbstractTextField</code> instance.
@@ -140,6 +146,8 @@ package com.ffsys.ui.text.core {
 				this.text = text;
 			}
 			
+			//measure();
+			
 			afterSetText( text );
 		}
 		
@@ -229,6 +237,62 @@ package com.ffsys.ui.text.core {
 				this.width, this.height, true, 0x00000000 );
 			bitmapData.draw( this, matrix );
 			return new Bitmap( bitmapData );
+		}
+		
+		
+		
+		public function getVisibleBounds(
+			target:DisplayObject = null ):Rectangle 
+		{ 
+			if( target == null )
+			{
+				target = this;
+			}
+			
+			var currentBounds:Rectangle = target.getBounds( target );
+			
+			var matrix:Matrix = new Matrix();
+			matrix.translate( Math.abs( currentBounds.left ), Math.abs( currentBounds.top ) );
+		
+			var radians:Number = target.rotation * Math.PI / 180;
+			matrix.rotate( radians );
+			matrix.scale( Math.abs( target.scaleX ), Math.abs( target.scaleY ) );
+		
+			var bitmapData:BitmapData = new BitmapData(
+				target.width, target.height, true, 0x00000000 );
+			bitmapData.draw( target, matrix );
+			var bounds:Rectangle = bitmapData.getColorBoundsRect( 0xFF000000, 0, false );
+			bitmapData.dispose();
+			
+			var output:Rectangle = new Rectangle(
+				currentBounds.left,
+				currentBounds.top,
+				bounds.width,
+				bounds.height );
+		
+			return output;
+		}
+		
+		
+		protected function measure():void
+		{
+			trace("TextComponent::measure(), ", this.width, this.height );
+			if( this.width > 0 && this.height > 0 )
+			{
+				var bounds:Rectangle = getVisibleBounds();
+				_measuredWidth = bounds.width;
+				_measuredHeight = bounds.height;
+			}
+		}	
+		
+		public function get measuredWidth():Number
+		{
+			return _measuredWidth;
+		}	
+		
+		public function get measuredHeight():Number
+		{
+			return _measuredHeight;
 		}
 	}
 }

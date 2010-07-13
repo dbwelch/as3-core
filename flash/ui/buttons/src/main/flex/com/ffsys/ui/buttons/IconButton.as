@@ -256,6 +256,8 @@ package com.ffsys.ui.buttons
 				label.y = ly;
 			}
 			
+			trace("IconButton::positions(), ", this, preferredWidth, preferredHeight );
+			
 			if( icon ){
 				trace("IconButton::positions(), ", this, text, icon.width, icon.x );
 			}
