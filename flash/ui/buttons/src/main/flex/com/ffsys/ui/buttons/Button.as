@@ -27,7 +27,8 @@ package com.ffsys.ui.buttons {
 			text:String = "",
 			width:Number = NaN,
 			height:Number = NaN )
-		{
+		{	
+			//paddings.padding = 4
 			super( text, width, height );
 		}
 		

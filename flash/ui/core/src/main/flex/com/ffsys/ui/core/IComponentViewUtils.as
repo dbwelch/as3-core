@@ -37,5 +37,11 @@ package com.ffsys.ui.core
 		* 	list objects.
 		*/
 		function get layer():IComponentRootLayer;
+		
+		/**
+		*	The renderer used to defer component drawing routines
+		*	until the render method of the stage is invoked.
+		*/
+		function get renderer():IComponentRenderer;		
 	}
 }

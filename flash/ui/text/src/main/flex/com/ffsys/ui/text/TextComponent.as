@@ -1,6 +1,7 @@
 package com.ffsys.ui.text
 {
 	import flash.display.DisplayObject;
+	import flash.text.TextLineMetrics;
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.text.core.ITypedTextField;
 	
@@ -107,9 +108,28 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutWidth():Number
 		{
+			/*
+			var metrics:TextLineMetrics = null;
+			
+			try
+			{
+				metrics = textfield.getLineMetrics( 0 );
+			}catch( e:Error )
+			{
+				throw e;
+			}
+			
+			if( metrics )
+			{
+				trace("TextComponent::layoutWidth(), ", metrics.width - metrics.x, metrics.width, metrics.x );
+				return metrics.width;
+			}
+			*/
+			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return Math.ceil( textfield.textWidth );
+				trace("TextComponent::layoutWidth(), returning text width:", textfield.textWidth );
+				return textfield.textWidth;
 			}
 			
 			return this.width == 0 ? 0 : this.width - 4;
@@ -120,6 +140,23 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutHeight():Number
 		{
+			/*
+			var metrics:TextLineMetrics = null;
+			
+			try
+			{
+				metrics = textfield.getLineMetrics( 0 );
+			}catch( e:Error )
+			{
+				throw e;
+			}
+			
+			if( metrics )
+			{
+				return metrics.height;
+			}
+			*/
+			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
 				return textfield.textHeight;
@@ -159,6 +196,19 @@ package com.ffsys.ui.text
 		public function set text( text:String ):void
 		{
 			textfield.setText( text );
+			
+			//TODO: remove this debug drawing
+			
+			/*
+			graphics.clear();
+			graphics.lineStyle( 0, 0xff6600 );
+			graphics.drawRect( textfield.x, textfield.y, textfield.width, textfield.height );
+			
+			graphics.lineStyle( 0, 0x0066ff );
+			graphics.drawRect( 0, 0, textfield.textWidth, textfield.textHeight );
+			
+			graphics.endFill();
+			*/
 		}
 		
 		/**
@@ -190,6 +240,9 @@ package com.ffsys.ui.text
 			
 			//offset by the textfield gutter
 			_textfield.x = _textfield.y = -2;
+			
+			//TODO: remove this duplicate call to set text
+			//this.text = text;
 			
 			return _textfield;
 		}

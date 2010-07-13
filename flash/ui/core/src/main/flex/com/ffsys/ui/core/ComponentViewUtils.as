@@ -27,6 +27,11 @@ package com.ffsys.ui.core
 		internal var _root:DisplayObject;
 		
 		/**
+		*	@private	
+		*/
+		internal var _renderer:IComponentRenderer;		
+		
+		/**
 		* 	@private
 		*/
 		private static var _layer:IComponentRootLayer = new ComponentRootLayer();
@@ -61,6 +66,14 @@ package com.ffsys.ui.core
 		public function get layer():IComponentRootLayer
 		{
 			return _layer;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get renderer():IComponentRenderer
+		{
+			return _renderer;
 		}
 	}
 }

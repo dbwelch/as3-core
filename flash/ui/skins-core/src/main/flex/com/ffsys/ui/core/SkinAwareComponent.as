@@ -12,7 +12,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.skins.ISkinCollection;
 	import com.ffsys.ui.skins.SkinCollection;
 	import com.ffsys.ui.states.IViewState;
-	import com.ffsys.ui.states.ViewState;	
+	import com.ffsys.ui.states.ViewState;
 	import com.ffsys.ui.states.State;
 
 	/**

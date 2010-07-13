@@ -290,6 +290,15 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		*	Invoked automatically after child components have been
+		*	created and positioned during the layout phase.
+		*/
+		protected function childrenCreated():void
+		{
+			//
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function setSize(
@@ -710,6 +719,7 @@ package com.ffsys.ui.core
 		{
 			createChildren();
 			layoutChildren( preferredWidth, preferredHeight );
+			childrenCreated();
 		}
 		
 		/**
@@ -755,6 +765,11 @@ package com.ffsys.ui.core
 				if( !concrete._stage )
 				{
 					concrete._stage = stage;
+					
+					if( !concrete._renderer && stage )
+					{
+						concrete._renderer = new ComponentRenderer( stage );
+					}
 				}
 			}
 		}		

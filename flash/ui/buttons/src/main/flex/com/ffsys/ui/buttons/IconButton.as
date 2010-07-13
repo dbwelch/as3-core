@@ -2,6 +2,7 @@ package com.ffsys.ui.buttons
 {
 	import flash.display.DisplayObject;
 	
+	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.states.IViewState;
 	import com.ffsys.ui.states.ViewState;
@@ -51,7 +52,8 @@ package com.ffsys.ui.buttons
 			super.text = text;
 			if( label )
 			{
-				position();
+				utils.renderer.invalidate(
+					new ComponentRender( this, RenderPhase.REDRAW ) );
 			}
 		}
 		
@@ -88,7 +90,9 @@ package com.ffsys.ui.buttons
 			if( this.icon && !this.contains( this.icon ) )
 			{
 				addChild( this.icon );
-				position();
+				
+				utils.renderer.invalidate(
+					new ComponentRender( this, RenderPhase.REDRAW ) );
 			}
 		}
 		
@@ -118,7 +122,8 @@ package com.ffsys.ui.buttons
 					width = icon.width
 						+ paddings.left
 						+ paddings.right
-						+ label.layoutWidth;
+						+ label.layoutWidth
+						+ spacing;
 				}
 			}
 			
@@ -133,7 +138,7 @@ package com.ffsys.ui.buttons
 			var height:Number = super.preferredHeight;
 			
 			var hasIcon:Boolean = ( icon != null ) && contains( icon );
-			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			var hasLabel:Boolean = ( label != null ) && contains( label );
 			
 			if( isNaN( _preferredHeight ) )
 			{
@@ -148,10 +153,11 @@ package com.ffsys.ui.buttons
 					height = icon.height + paddings.top + paddings.bottom;
 				}else if( hasIcon && hasLabel )
 				{
-					height = icon.height
+					var maximum:Number = Math.max(
+						icon.height, label.layoutHeight );
+					height = maximum
 						+ paddings.top
-						+ paddings.bottom
-						+ label.layoutHeight;
+						+ paddings.bottom;
 				}
 			}
 			
@@ -208,8 +214,14 @@ package com.ffsys.ui.buttons
 			var lx:Number = paddings.left;
 			var ly:Number = paddings.top;
 			
+			//var w:Number = preferredWidth;
+			//var h:Number = preferredHeight;
+			
 			if( hasIcon )
 			{
+				//w = icon.width + paddings.left + paddings.right;
+				//h = icon.height + paddings.top + paddings.bottom;
+				
 				//default to centring the icon if
 				//we have preferred dimensions
 				if( !isNaN( _preferredWidth ) )
@@ -224,6 +236,11 @@ package com.ffsys.ui.buttons
 				
 				if( hasLabel )
 				{
+					//ix -= Math.floor( label.layoutWidth / 2 );
+					
+					ix = ( preferredWidth * 0.5 ) -
+						( ( icon.width + spacing + label.layoutWidth ) * 0.5 );
+					
 					//default label positions when an icon is specified
 					lx = ix + icon.width + spacing;
 					ly = iy + ( icon.height * 0.5 ) - ( label.layoutHeight * 0.5 );
@@ -236,8 +253,17 @@ package com.ffsys.ui.buttons
 			if( hasLabel )
 			{
 				label.x = lx;
-				label.y = ly;	
+				label.y = ly;
 			}
-		}		
+			
+			if( icon ){
+				trace("IconButton::positions(), ", this, text, icon.width, icon.x );
+			}
+			
+			if( label )
+			{
+				trace("IconButton::positions(), ", this, text, label.layoutWidth );
+			}
+		}
 	}
 }
