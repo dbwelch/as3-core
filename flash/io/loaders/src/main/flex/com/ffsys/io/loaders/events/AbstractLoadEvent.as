@@ -106,8 +106,6 @@ package com.ffsys.io.loaders.events {
 			}
 			
 			return null;
-		}											
-		
+		}
 	}
-	
 }
