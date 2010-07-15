@@ -3,10 +3,23 @@
 	
 	<!-- available locales -->
 	<locales>
-		<locale lang="en" country="GB" />
-		<locale lang="es" country="ES" />
-		<locale lang="de" country="DE" />
-		<locale lang="fr" country="FR" />
+		
+		<locale lang="en" country="GB">
+			<messages>assets/properties/messages-en_GB.properties</messages>
+		</locale>
+		
+		<locale lang="es" country="ES">
+			<messages>assets/properties/messages-es_ES.properties</messages>
+		</locale>
+		
+		<locale lang="de" country="DE">
+			<messages>assets/properties/messages-de_DE.properties</messages>
+		</locale>
+					
+		<locale lang="fr" country="FR">
+			<messages>assets/properties/messages-fr_FR.properties</messages>
+		</locale>
+		
 	</locales>
 	
 	<rsls>
@@ -27,7 +40,7 @@
 			<test><![CDATA[This is some test english.]]></test>
 		</copy-collection>
 
-		<!-- Spanish text -->		
+		<!-- Spanish text -->
 		<copy-collection>
 			<locale lang="es" country="ES" />
 			<test><![CDATA[Esto es algo de español de prueba.]]></test>

@@ -8,6 +8,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.locale.Locale;
 	
 	import com.ffsys.swat.configuration.filters.*;
+	import com.ffsys.swat.configuration.locale.*;
 
 	/**
 	*	A parser implementation for the application configuration.
@@ -192,13 +193,13 @@ package com.ffsys.swat.configuration {
 			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
 			
 			classNodeNameMap.add(
-				LocaleSet,
+				LocaleManager,
 				LOCALES_NAME,
 				LOCALES_NAME,
 				false );
 				
 			classNodeNameMap.add(
-				Locale,
+				ConfigurationLocale,
 				LOCALE_NAME,
 				LOCALE_NAME,
 				false );

@@ -5,9 +5,9 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.ILocale;
-	import com.ffsys.utils.locale.LocaleCollection;
 	
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
+	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	
 	/**
 	*	Represents the application configuration.
@@ -23,7 +23,7 @@ package com.ffsys.swat.configuration {
 			
 		private var _flashvars:IFlashVariables;
 		private var _lang:String;
-		private var _locales:LocaleCollection;
+		private var _locales:ILocaleManager;
 		private var _copy:LocaleAwareStringCollection;
 		private var _settings:Settings;
 		private var _defaults:Defaults;
@@ -132,7 +132,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function get locales():LocaleCollection
+		public function get locales():ILocaleManager
 		{
 			return _locales;
 		}
@@ -140,7 +140,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function set locales( locales:LocaleCollection ):void
+		public function set locales( locales:ILocaleManager ):void
 		{
 			_locales = locales;
 		}
@@ -191,7 +191,7 @@ package com.ffsys.swat.configuration {
 		public function set defaults( defaults:Defaults ):void
 		{
 			_defaults = defaults;
-		}		
+		}
 		
 		/**
 		*	@inheritDoc

@@ -1,26 +1,25 @@
-package com.ffsys.swat.configuration {
-	
-	import com.ffsys.io.xml.IDeserializeProperty;
+package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
 	
 	/**
-	*	Encapsulates the collection of locales for the application.
+	*	Manages all the runtime assets for a collection
+	*	of locales.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  08.06.2010
+	*	@since  15.07.2010
 	*/
-	public class LocaleSet extends LocaleCollection
-		implements IDeserializeProperty {
+	public class LocaleManager extends LocaleCollection
+		implements ILocaleManager {
 		
 		/**
-		*	Creates a <code>LocaleSet</code> instance.	
+		*	Creates a <code>LocaleManager</code> instance.
 		*/
-		public function LocaleSet()
+		public function LocaleManager()
 		{
 			super();
 		}
@@ -35,6 +34,6 @@ package com.ffsys.swat.configuration {
 			{
 				addLocale( ILocale( value ) );
 			}
-		}
+		}		
 	}
 }

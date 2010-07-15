@@ -70,7 +70,7 @@ package com.ffsys.io.loaders.types {
 				if( queue )
 				{
 					queue.addResource( this );
-				}				
+				}
 				
 				dispatchEvent( evt );
 				
@@ -78,8 +78,6 @@ package com.ffsys.io.loaders.types {
 			}
 			
 			dispatchLoadCompleteEvent();
-        }				
-		
+        }
 	}
-	
 }

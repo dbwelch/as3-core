@@ -35,8 +35,6 @@ package com.ffsys.io.loaders.events {
 		override public function clone():Event
 		{
 			return new TextLoadEvent( triggerEvent, loader, TextResource( resource ) );
-		}		
-		
+		}
 	}
-	
 }

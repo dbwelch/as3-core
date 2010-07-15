@@ -11,7 +11,8 @@ package com.ffsys.utils.locale {
 	*	@author Mischa Williamson
 	*	@since  07.04.2010
 	*/
-	public class LocaleCollection extends Object {
+	public class LocaleCollection extends Object
+		implements ILocaleCollection {
 		
 		private var _locales:Array;
 		
@@ -25,11 +26,7 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
-		*	Attempts to find a locale by language identifier.
-		*	
-		*	@param lang The language code.
-		*	
-		*	@return The locale if found otherwise null.
+		*	@inheritDoc
 		*/
 		public function getLocaleByLanguage( lang:String ):ILocale
 		{
@@ -47,12 +44,7 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
-		*	Attempts to find a locale by language identifier and country.
-		*	
-		*	@param lang The language code.
-		*	@param country The country identifier.
-		*	
-		*	@return The locale if found otherwise null.
+		*	@inheritDoc
 		*/
 		public function getLocaleByLanguageAndCountry(
 			lang:String, country:String ):ILocale
@@ -71,16 +63,7 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
-		*	Determines whether a locale is already stored in this collection.
-		*	
-		*	Note that this method does not compare on an instance level but
-		*	uses the <code>equals</code> method of <code>ILocale</code> for
-		*	comparison.
-		*	
-		*	@param locale The locale to test for existence.
-		*	
-		*	@return A boolean indicating whether the locale exists in this
-		*	collection.
+		*	@inheritDoc
 		*/
 		public function hasLocale( locale:ILocale ):Boolean
 		{
@@ -98,12 +81,7 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
-		*	Adds a locale to this collection. If the locale is already
-		*	present in the collection it will not be added.
-		*	
-		*	@param locale The locale to add.
-		*	
-		*	@return The number of locales in the collection.
+		*	@inheritDoc
 		*/
 		public function addLocale( locale:ILocale ):int
 		{
@@ -116,11 +94,7 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
-		*	Removes a locale from this collection.
-		*	
-		*	@param locale The locale to remove.
-		*	
-		*	@return The number of locales in the collection.	
+		*	@inheritDoc
 		*/
 		public function removeLocale( locale:ILocale ):int
 		{
@@ -136,7 +110,7 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
-		*	Clears all locales stored in this collection.	
+		*	@inheritDoc	
 		*/
 		public function clear():void
 		{
@@ -144,9 +118,7 @@ package com.ffsys.utils.locale {
 		}
 		
 		/**
-		*	Gets the number of locales in this collection.
-		*	
-		*	@return The number of locales in this collection.	
+		*	@inheritDoc
 		*/
 		public function get length():int
 		{

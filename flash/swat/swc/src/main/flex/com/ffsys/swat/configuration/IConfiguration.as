@@ -7,6 +7,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
+	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	
 	/**
 	*	Describes the contract for objects that
@@ -47,14 +48,14 @@ package com.ffsys.swat.configuration {
 		*	
 		*	@return The locales collection.	
 		*/
-		function get locales():LocaleCollection;
+		function get locales():ILocaleManager;
 		
 		/**
 		*	Sets the locales collection.
 		*	
 		*	@param locales The collection of locales.
 		*/
-		function set locales( locales:LocaleCollection ):void;
+		function set locales( locales:ILocaleManager ):void;
 		
 		/**
 		*	Gets the main locale aware string collection.
