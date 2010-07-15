@@ -16,8 +16,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.core.IDisplayLoader;
 	import com.ffsys.io.loaders.core.ILoadOptions;
 	
-	import com.ffsys.io.gateway.ExternalGatewayManager;
-	
 	import com.ffsys.io.loaders.core.LoadManager;
 	
 	/**
@@ -127,22 +125,14 @@ package com.ffsys.io.loaders.core {
 		
 		/**
 		*	@inheritDoc	
-		*/		
+		*/	
+		
+		/*	
 		override public function invoke( ...args:Array ):*
 		{
-			removeListeners();
-			
-			_loading = true;
-			_loaded = false;
-			_complete = false;
-			
-			//
-			if( loader )
-			{
-				addListeners();
-				loader.load( request, context );
-			}
+
 		}
+		*/
 		
 		/**
 		*	@inheritDoc	
@@ -194,7 +184,18 @@ package com.ffsys.io.loaders.core {
 			
 			this.request = request;
 			
-			ExternalGatewayManager.invoke( this, arguments );
+			removeListeners();
+			
+			_loading = true;
+			_loaded = false;
+			_complete = false;
+			
+			//
+			if( loader )
+			{
+				addListeners();
+				loader.load( request, context );
+			}
 		}
 	}
 }

@@ -24,9 +24,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
-	import com.ffsys.io.gateway.IExternalGateway;
-	import com.ffsys.io.gateway.ExternalGatewayManager;	
-	
 	import com.ffsys.utils.address.AddressUtils;
 	import com.ffsys.utils.identifier.IdentifierUtils;
 	import com.ffsys.utils.string.StringUtils;
@@ -47,8 +44,7 @@ package com.ffsys.io.loaders.core {
 	*	@since  07.07.2007
 	*/
 	public class AbstractLoader extends URLLoader
-		implements 	ILoader,
-					IExternalGateway {
+		implements 	ILoader {
 		
 		/**
 		*	@private	
@@ -247,17 +243,6 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@private
 		*/
-		public function invoke( ...args:Array ):*
-		{
-			removeListeners();
-			addListeners();
-				
-			_loading = true;
-			_loaded = false;
-			_complete = false;
-			
-			super.load( request );
-		}
 		
 		override public function load( request:URLRequest ):void
 		{
@@ -269,7 +254,14 @@ package com.ffsys.io.loaders.core {
 			
 			this.request = request;
 			
-			ExternalGatewayManager.invoke( this, arguments );
+			removeListeners();
+			addListeners();
+				
+			_loading = true;
+			_loaded = false;
+			_complete = false;
+			
+			super.load( request );			
 		}
 
 		/**

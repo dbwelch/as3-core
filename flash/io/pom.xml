@@ -15,7 +15,6 @@
 	<modules>
 		<module>connection</module>
 		<module>core</module>
-		<module>gateway</module>
 		<module>loaders</module>
 		<module>log</module>
 		<module>xml</module>

@@ -7,7 +7,6 @@ package com.ffsys.io.loaders.responder {
 	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	import com.ffsys.io.loaders.events.LoadStartEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.HeaderLoadEvent;	
 	
 	/**
 	*	Describes the contract for Objects that respond
@@ -27,44 +26,5 @@ package com.ffsys.io.loaders.responder {
 		function resourceLoadStart( event:LoadStartEvent ):void;
 		function resourceLoadProgress( event:LoadProgressEvent ):void;
 		function resourceLoaded( event:ILoadEvent ):void;
-		
-		/*
-			//import com.ffsys.io.loaders.events.ILoadEvent;
-			//import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
-			//import com.ffsys.io.loaders.events.LoadStartEvent;
-			//import com.ffsys.io.loaders.events.LoadProgressEvent;
-			//import com.ffsys.io.loaders.events.LoadCompleteEvent;
-			
-			public function resourceNotFoundHandler( event:ResourceNotFoundEvent ):void
-			{
-				//
-			}
-
-			public function resourceLoadStart( event:LoadStartEvent ):void
-			{
-				//
-			}
-
-			public function resourceLoadProgress( event:LoadProgressEvent ):void
-			{
-				//
-			}
-
-			public function resourceLoaded( event:ILoadEvent ):void
-			{
-				//
-			}
-
-			public function resourceLoadComplete( event:LoadCompleteEvent ):void
-			{
-				//
-			}
-			public function cumulativeResourceLoadProgress( event:LoadProgressEvent ):void
-			{
-				//
-			}
-		*/
-		
 	}
-	
 }
