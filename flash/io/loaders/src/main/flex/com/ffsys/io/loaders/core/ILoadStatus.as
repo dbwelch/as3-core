@@ -34,5 +34,4 @@ package com.ffsys.io.loaders.core {
 		*/
 		function get complete():Boolean;
 	}
-	
 }

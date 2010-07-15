@@ -19,8 +19,7 @@ package com.ffsys.io.loaders.core {
 	*	@since  03.09.2007
 	*/
 	public interface ILoaderParameters
-		extends ILoadOptionsReference,
-				ILoaderQueueReference,
+		extends ILoaderQueueReference,
 				IStringIdentifier {
 		
 		/**
@@ -65,6 +64,12 @@ package com.ffsys.io.loaders.core {
 		function set uri( val:String ):void;
 		function get uri():String;
 		
+		
+		/**
+		*	The <code>ILoadOptions</code> implementation
+		*	associated with this instance.
+		*/
+		function set options( val:ILoadOptions ):void;
+		function get options():ILoadOptions;		
 	}
-	
 }

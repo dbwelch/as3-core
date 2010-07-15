@@ -16,8 +16,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.core.IDisplayLoader;
 	import com.ffsys.io.loaders.core.ILoadOptions;
 	
-	import com.ffsys.io.loaders.core.LoadManager;
-	
 	/**
 	*	Abstract super class for loaders that load data
 	*	that can be added to the display list. These instances
@@ -176,11 +174,6 @@ package com.ffsys.io.loaders.core {
 			}
 			
 			_loader = new Loader();	
-			
-			if( LoadManager.getGlobalCachePrevention() )
-			{
-				request.url += LoadManager.getGlobalCachePreventionString();
-			}
 			
 			this.request = request;
 			

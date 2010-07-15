@@ -11,7 +11,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.core.IBytesLoaded;
 	
 	import com.ffsys.io.loaders.responder.ILoadResponderDecorator;
-	import com.ffsys.io.loaders.responder.ILoadCompleteResponder;
 	import com.ffsys.io.loaders.resources.IResourceAccess;
 	import com.ffsys.io.loaders.message.ILoadMessageFormatter;
 	

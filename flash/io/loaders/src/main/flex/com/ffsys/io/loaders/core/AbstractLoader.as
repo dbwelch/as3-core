@@ -246,12 +246,6 @@ package com.ffsys.io.loaders.core {
 		
 		override public function load( request:URLRequest ):void
 		{
-			
-			if( LoadManager.getGlobalCachePrevention() )
-			{
-				request.url += LoadManager.getGlobalCachePreventionString();
-			}
-			
 			this.request = request;
 			
 			removeListeners();

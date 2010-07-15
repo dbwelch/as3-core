@@ -5,6 +5,7 @@ package com.ffsys.io.loaders.responder {
 	
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
+	import com.ffsys.io.loaders.events.LoadCompleteEvent;
 	import com.ffsys.io.loaders.events.LoadStartEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	
@@ -19,9 +20,9 @@ package com.ffsys.io.loaders.responder {
 	*	@since  08.09.2007
 	*/
 	public interface ILoadResponder
-		extends IEventDispatcher,
-				ILoadCompleteResponder {
+		extends IEventDispatcher {
 		
+		function resourceLoadComplete( event:LoadCompleteEvent ):void;
 		function resourceNotFoundHandler( event:ResourceNotFoundEvent ):void;
 		function resourceLoadStart( event:LoadStartEvent ):void;
 		function resourceLoadProgress( event:LoadProgressEvent ):void;
