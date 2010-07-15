@@ -171,8 +171,8 @@ package com.ffsys.utils.flex {
 					getDefinitionByName( MOVIE_DISPLAY_CLASS_PATH ) as Class;
 			}
 			
-			return new classReference as Object;	
-		}		
+			return new classReference as Object;
+		}
 		
 		/**
 		*	Gets the appropriate type of display instance

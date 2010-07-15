@@ -76,8 +76,6 @@ package com.ffsys.io.loaders.types {
 			//want the BitmapData
 			unload();
 			_loader = null;
-        }
-	
+        }	
 	}
-	
 }
