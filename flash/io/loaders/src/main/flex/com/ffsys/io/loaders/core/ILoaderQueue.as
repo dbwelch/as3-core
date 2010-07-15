@@ -45,8 +45,7 @@ package com.ffsys.io.loaders.core {
 		function getAllLoaders():Array;
 		
 		function addLoader(
-			request:URLRequest,
-			loader:ILoader = null,
+			loader:ILoader,
 			options:ILoadOptions = null ):ILoader;
 			
 		function set delay( val:int ):void;

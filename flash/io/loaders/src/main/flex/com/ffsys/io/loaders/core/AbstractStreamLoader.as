@@ -29,7 +29,7 @@ package com.ffsys.io.loaders.core {
 		*	as soon as possible so that the entire stream can be loaded
 		*	prior to playback starting.
 		*/
-		protected var _streaming:Boolean;		
+		protected var _streaming:Boolean;
 		
 		public function AbstractStreamLoader(
 			request:URLRequest = null,

@@ -58,44 +58,6 @@ package com.ffsys.io.loaders.resources {
 			return display;	
 		}
 		
-		public function duplicate( duplicates:int = 0 ):ILoaderQueue
-		{
-			
-			//--! loader is null but data is ok - WTF
-			//--! the conditional below must test against data
-			
-			/*
-			trace("MovieResource::duplicate(), " + loader );
-			trace("MovieResource::duplicate(), " + data );
-			*/
-			
-			//if we are using duplicates
-			//the original becomes invalid
-			//and needs to be unloaded
-			if( data )
-			{
-				trace("MovieResource::duplicate(), unload original Loader" );
-				Loader( data ).unload();
-				data = null;
-			}
-			
-			var queue:ILoaderQueue = new LoaderQueue();
-			
-			var i:int = 0;
-			
-			var request:URLRequest;
-			var loader:MovieLoader;
-			
-			for( ;i < duplicates;i++ )
-			{
-				request = new URLRequest( uri );
-				loader = new MovieLoader( request );
-				queue.addLoader( request, loader );
-			}
-			
-			return queue;
-		}
-		
 	}
 	
 }

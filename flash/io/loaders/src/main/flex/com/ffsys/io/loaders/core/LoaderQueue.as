@@ -89,11 +89,6 @@ package com.ffsys.io.loaders.core {
 		*/
 		protected var _bytesLoaded:uint;
 		
-		/**
-		*	@private	
-		*/
-		protected var _bytesTotalStorage:IBytesTotal;
-		
 		protected var _responderDecorator:ILoadResponderDecorator;
 		protected var _loadOptionsDecorator:ILoadOptionsDecorator;
 		
@@ -122,7 +117,6 @@ package com.ffsys.io.loaders.core {
 			clear();
 			
 			this.bytesTotal = 0;
-			this.bytesTotalStorage = this;
 		}
 		
 		public function flushResources():void
@@ -156,16 +150,6 @@ package com.ffsys.io.loaders.core {
 		public function get id():String
 		{
 			return _id;
-		}
-		
-		public function set bytesTotalStorage( val:IBytesTotal ):void
-		{
-			_bytesTotalStorage = val;
-		}
-		
-		public function get bytesTotalStorage():IBytesTotal
-		{
-			return _bytesTotalStorage;
 		}		
 		
 		public function set bytesTotal( val:uint ):void
@@ -255,36 +239,26 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	Adds a URLRequest to the queue.
+		*	Adds a loader to this queue.
 		*
-		*	By default if the second argument is omitted we try to
-		*	determine the Class using the FileTypeRegistry.
-		*
-		*	@param request the URLRequest to add to the queue
+		*	@param loader The loader to add to the queue.
 		*	@param loader an optional ILoader instance to use for loading this request 
 		*/
 		public function addLoader(
-			request:URLRequest,
-			loader:ILoader = null,
+			loader:ILoader,
 			options:ILoadOptions = null ):ILoader
 		{
-			
-			if( !loader )
+			if( loader )
 			{
-				loader = LoaderFactory.create( request.url );
-			}else{
-				loader.uri = request.url;
+				if( options )
+				{
+					loader.options = options;
+				}
+			
+				loader.queue = this;
+			
+				_items.push( loader );
 			}
-			
-			if( options )
-			{
-				loader.options = options;
-			}
-			
-			loader.request = request;
-			loader.queue = this;
-			
-			_items.push( loader );
 			
 			return loader;
 		}
@@ -432,9 +406,8 @@ package com.ffsys.io.loaders.core {
 			for( ;i < l;i++ )
 			{
 				loader = loaders[ i ];
-				addLoader( loader.request, loader, loader.options );
+				addLoader( loader, loader.options );
 			}
-			
 		}
 		
 		public function get item():ILoaderElement
