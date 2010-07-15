@@ -21,7 +21,7 @@ package com.ffsys.io.loaders.responder {
 	*/
 	public interface ILoadResponder
 		extends IEventDispatcher,
-		ILoadCompleteResponder {
+				ILoadCompleteResponder {
 		
 		function resourceNotFoundHandler( event:ResourceNotFoundEvent ):void;
 		function resourceLoadStart( event:LoadStartEvent ):void;

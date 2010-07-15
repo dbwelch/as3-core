@@ -34,7 +34,7 @@ package com.ffsys.io.loaders.responder {
 		*/
 		function removeResponderListeners(
 			dispatcher:IEventDispatcher,
-			responder:ILoadResponder = null ):void;		
+			responder:ILoadResponder = null ):void;
 	}
 	
 }

@@ -34,10 +34,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
-	//-->
-	//import com.ffsys.io.loaders.calculator.CumulativeSizeCalculator;
-	//import com.ffsys.io.loaders.events.CumulativeSizeCompleteEvent;
-	
 	/* BEGIN OBJECT_INSPECTOR REMOVAL */
 	import com.ffsys.utils.inspector.IObjectInspector;
 	import com.ffsys.utils.inspector.ObjectInspector;
@@ -449,17 +445,6 @@ package com.ffsys.io.loaders.core {
 		private function bytesTotalAvailable( event:LoadCompleteEvent ):void
 		{
 			event.target.removeEventListener( event.type, bytesTotalAvailable );
-		}
-		
-		private function dispatchCumulativeSizeComplete( event:LoadCompleteEvent ):void
-		{
-			/*
-			var evt:CumulativeSizeCompleteEvent =
-				new CumulativeSizeCompleteEvent( event, event.loader, this.bytesTotal );
-			
-			dispatchEvent( evt );
-			*/
-				
 		}
 		
 		protected function dispatchLoadCompleteEvent():void
@@ -936,14 +921,6 @@ package com.ffsys.io.loaders.core {
 		public function resourceLoadComplete( event:LoadCompleteEvent ):void
 		{
 			//dispatchEvent( event );
-		}
-		
-		/*
-		*	ILoadCumulativeResponder implementation.
-		*/
-		public function cumulativeResourceLoadProgress( event:LoadProgressEvent ):void
-		{
-			dispatchEvent( event as Event );
 		}
 		
 		public function set formatter( val:ILoadMessageFormatter ):void

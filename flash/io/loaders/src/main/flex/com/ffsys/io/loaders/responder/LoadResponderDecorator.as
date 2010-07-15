@@ -185,17 +185,5 @@ package com.ffsys.io.loaders.responder {
 			//
 			_decorated.dispatchEvent( event as Event );
 		}
-		
-		/*
-		*	ILoadCumulativeResponder implementation.
-		*/
-		
-		public function cumulativeResourceLoadProgress( event:LoadProgressEvent ):void
-		{
-			//
-			_decorated.dispatchEvent( event as Event );
-		}
-		
 	}
-	
 }

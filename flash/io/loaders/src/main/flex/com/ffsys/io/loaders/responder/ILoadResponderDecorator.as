@@ -18,12 +18,10 @@ package com.ffsys.io.loaders.responder {
 	*	@since  08.09.2007
 	*/
 	public interface ILoadResponderDecorator
-		extends ILoadCumulativeResponder,
-		 		ILoadResponderReference,
+		extends ILoadResponder,
+				ILoadResponderReference,
 		 		ILoadResponderListenerHook {
 			
 		function cleanupResponderListeners( event:ILoadEvent ):void;
-		
 	}
-	
 }

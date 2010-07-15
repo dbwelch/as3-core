@@ -27,7 +27,5 @@ package com.ffsys.io.loaders.resources {
 		{
 			return XML( this.data );
 		}
-		
 	}
-	
 }
