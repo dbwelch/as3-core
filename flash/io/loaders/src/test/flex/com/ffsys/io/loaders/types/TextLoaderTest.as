@@ -1,0 +1,70 @@
+package com.ffsys.io.loaders.types {
+	
+	import flash.net.URLRequest;
+	
+	import org.flexunit.Assert;
+	
+	import com.ffsys.io.loaders.AbstractLoaderUnit;
+
+	import com.ffsys.io.loaders.core.*;
+	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.loaders.resources.*;
+	
+	/**
+	*	Unit test for loading text files.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  15.07.2010
+	*/
+	public class TextLoaderTest extends AbstractLoaderUnit {
+		
+		/**
+		*	Creates a <code>TextLoaderTest</code> instance.
+		*/
+		public function TextLoaderTest()
+		{
+			super();
+		}
+		
+		/**
+		*	Gets the loader used for the test.
+		*/
+		override protected function getLoader():ILoader
+		{
+			return new TextLoader();
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override protected function getLoadRequest():URLRequest
+		{
+			return new URLRequest( "assets/test.txt" );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override protected function assertLoadedAsset(
+			event:LoadEvent,
+			passThroughData:Object ):void
+		{
+			Assert.assertTrue(
+				event is TextLoadEvent );
+			Assert.assertNotNull( event.resource );	
+			Assert.assertTrue( event.resource is TextResource );
+			//Assert.assertTrue( TextResource( event.resource ).bytesTotal > 0 );
+			Assert.assertEquals(
+				"this is some test text.", TextLoadEvent( event ).text );
+		}
+		
+		[Test(async)]
+		public function loadFile():void
+		{
+			//start the load process
+		}
+	}
+}

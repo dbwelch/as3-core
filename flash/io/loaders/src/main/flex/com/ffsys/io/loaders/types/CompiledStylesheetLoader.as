@@ -49,7 +49,8 @@ package com.ffsys.io.loaders.types {
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-			var evt:CompiledStylesheetLoadEvent = new CompiledStylesheetLoadEvent( event, this );
+			var evt:CompiledStylesheetLoadEvent =
+				new CompiledStylesheetLoadEvent( event, this );
 			dispatchEvent( evt );
 			
 			Notifier.dispatchEvent( evt );

@@ -28,7 +28,5 @@ package com.ffsys.io.loaders.resources {
 		{
 			return ByteArray( this.data );
 		}
-		
 	}
-	
 }

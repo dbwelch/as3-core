@@ -18,5 +18,4 @@ package com.ffsys.io.loaders.resources {
 				IStringIdentifier {
 
 	}
-	
 }
