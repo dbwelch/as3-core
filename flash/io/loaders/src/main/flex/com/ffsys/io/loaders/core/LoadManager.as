@@ -36,7 +36,5 @@ package com.ffsys.io.loaders.core {
 			var date:Date = new Date();
 			return "?unix=" + date.getTime();
 		}
-		
 	}
-	
 }

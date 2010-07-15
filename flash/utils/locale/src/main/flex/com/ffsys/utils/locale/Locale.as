@@ -12,6 +12,16 @@ package com.ffsys.utils.locale {
 	*/
 	public class Locale extends Object
 		implements ILocale {
+			
+		/**
+		*	The English (British) locale.	
+		*/
+		public static const EN_GB:ILocale = new Locale( "en", "GB" );
+		
+		/**
+		*	The English (United States) locale. 	
+		*/
+		public static const EN_US:ILocale = new Locale( "en", "US" );
 
 		private var _lang:String;
 		private var _country:String;
