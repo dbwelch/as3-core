@@ -50,7 +50,7 @@ package com.ffsys.io.loaders.core {
 		*	
 		*	@return A <code>type</code> identifier.
 		*/
-		function get type():String;
+		//function get type():String;
 	
 		/**
 		*	Starts a load operation on this

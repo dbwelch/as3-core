@@ -4,7 +4,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.io.loaders.core.AbstractLoader;
 	import com.ffsys.io.loaders.core.ILoadOptions;
-	import com.ffsys.io.loaders.core.LoaderClassType;
 	
 	/**
 	*	Abstract super class for instances that can playback a stream

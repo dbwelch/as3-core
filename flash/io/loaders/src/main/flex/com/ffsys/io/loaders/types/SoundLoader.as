@@ -12,8 +12,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.core.AbstractStreamLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;
-	import com.ffsys.io.loaders.core.LoaderClassType;	
+	import com.ffsys.io.loaders.core.LoadOptions;	
 	
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadStartEvent;
@@ -45,11 +44,6 @@ package com.ffsys.io.loaders.types {
 			//_context = new SoundLoaderContext();
 			
 			super( request, options );
-		}
-		
-		override public function get type():String
-		{
-			return LoaderClassType.SOUND_TYPE;
 		}
 		
 		override protected function addListeners():void

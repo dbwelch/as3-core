@@ -134,11 +134,6 @@ package com.ffsys.io.loaders.core {
 		}		
 		*/
 		
-		override public function get type():String
-		{
-			return LoaderClassType.SOCKET_TYPE;
-		}
-		
 		override public function load( request:URLRequest ):void
 		{
 			this.request = request;

@@ -83,12 +83,15 @@ package com.ffsys.io.loaders.core {
 		
 		/**
 		*	@inheritDoc	
-		*/		
+		*/	
+		
+		/*	
 		public function get type():String
 		{
 			throw new Error(
 			 	"You must override AbstractLoader.type in your concrete implementation." );
 		}
+		*/
 		
 		/**
 		*	@private	

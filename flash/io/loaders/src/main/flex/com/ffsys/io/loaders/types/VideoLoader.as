@@ -29,7 +29,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.io.loaders.core.AbstractStreamLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
-	import com.ffsys.io.loaders.core.LoaderClassType;
 	
 	import com.ffsys.io.loaders.resources.VideoResource;
 	import com.ffsys.io.loaders.core.ILoadOptions;
@@ -73,12 +72,7 @@ package com.ffsys.io.loaders.types {
 		public function get display():IDisplayVideo
 		{
 			return _display;
-		}		
-		
-		override public function get type():String
-		{
-			return LoaderClassType.VIDEO_TYPE;
-		}	
+		}
 		
 		public function get duration():Number
 		{

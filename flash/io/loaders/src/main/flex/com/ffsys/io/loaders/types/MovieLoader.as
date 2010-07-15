@@ -12,7 +12,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.io.loaders.core.AbstractDisplayLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
-	import com.ffsys.io.loaders.core.LoaderClassType;
 	
 	import com.ffsys.io.loaders.display.IDisplayMovie;
 	
@@ -39,11 +38,6 @@ package com.ffsys.io.loaders.types {
 		{
 			super( request, options );
 			dataFormat = URLLoaderDataFormat.BINARY;
-		}
-		
-		override public function get type():String
-		{
-			return LoaderClassType.MOVIE_TYPE;
 		}
 		
         override protected function completeHandler(

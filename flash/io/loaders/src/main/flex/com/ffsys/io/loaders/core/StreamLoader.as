@@ -92,11 +92,6 @@ package com.ffsys.io.loaders.core {
 			return _bytes;
 		}
 		
-		public function get type():String
-		{
-			return LoaderClassType.BINARY_TYPE;
-		}
-		
         protected function addListeners():void
 		{
             addEventListener(

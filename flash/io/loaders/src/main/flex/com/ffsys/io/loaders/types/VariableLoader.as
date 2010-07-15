@@ -10,7 +10,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.io.loaders.core.AbstractLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
-	import com.ffsys.io.loaders.core.LoaderClassType;
 	
 	import com.ffsys.io.loaders.events.VariableLoadEvent;
 	
@@ -35,12 +34,7 @@ package com.ffsys.io.loaders.types {
 		{
 			super( request, options );
 			dataFormat = URLLoaderDataFormat.VARIABLES;
-		}
-		
-		override public function get type():String
-		{
-			return LoaderClassType.VARIABLE_TYPE;
-		}		
+		}	
 		
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
