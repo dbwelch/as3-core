@@ -27,8 +27,6 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.display.IDisplayVideo;
 	import com.ffsys.io.loaders.display.VideoDisplay;
 	
-	import com.ffsys.utils.flex.FlexUtils;
-	
 	import com.ffsys.io.loaders.core.AbstractStreamLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
 	import com.ffsys.io.loaders.core.LoaderClassType;
@@ -103,7 +101,7 @@ package com.ffsys.io.loaders.types {
 
 			_netStream.client = this;
 			
-			_display = IDisplayVideo( FlexUtils.getVideoDisplay() );
+			_display = new VideoDisplay();
 			
 			_display.netStream = _netStream;
 			_display.netConnection = _netConnection;

@@ -9,9 +9,8 @@ package com.ffsys.io.loaders.resources {
 	import com.ffsys.io.loaders.types.MovieLoader;
 	
 	import com.ffsys.io.loaders.display.IDisplayMovie;
+	import com.ffsys.io.loaders.display.MovieDisplay;
 	import com.ffsys.io.loaders.types.IMovieAccess;
-	
-	import com.ffsys.utils.flex.FlexUtils;
 	
 	/**
 	*	Represents a remote resource that encapsulates
@@ -51,7 +50,7 @@ package com.ffsys.io.loaders.resources {
 			
 			var display:IDisplayMovie;
 			
-			display = IDisplayMovie( FlexUtils.getMovieDisplay() );
+			display = new MovieDisplay();
 			display.uri = uri;
 			display.loader = loader;
 			display.bytesTotal = bytesTotal;

@@ -16,12 +16,10 @@ package com.ffsys.io.loaders.core {
 	*/
 	public class LoaderClassType extends Object {
 		
-		static public const REDIRECT_TYPE:String = "redirect";
 		static public const XML_TYPE:String = "xml";
 		static public const BINARY_TYPE:String = "binary";
 		static public const TEXT_TYPE:String = "text";
 		static public const CSS_TYPE:String = "css";
-		static public const COMPILED_CSS_TYPE:String = "compiledCss";
 		static public const VARIABLE_TYPE:String = "variable";
 		static public const IMAGE_TYPE:String = "image";
 		static public const MOVIE_TYPE:String = "movie";
@@ -30,12 +28,10 @@ package com.ffsys.io.loaders.core {
 		static public const SOCKET_TYPE:String = "socket";
 		
 		static public const VALID_TYPES:Array = [
-			REDIRECT_TYPE,
 			XML_TYPE,
 			BINARY_TYPE,
 			TEXT_TYPE,
 			CSS_TYPE,
-			COMPILED_CSS_TYPE,
 			VARIABLE_TYPE,
 			IMAGE_TYPE,
 			MOVIE_TYPE,
@@ -82,7 +78,6 @@ package com.ffsys.io.loaders.core {
 			_typeClassLookup[ BINARY_TYPE ] = BinaryLoader;
 			_typeClassLookup[ TEXT_TYPE ] = TextLoader;
 			_typeClassLookup[ CSS_TYPE ] = StylesheetLoader;
-			_typeClassLookup[ COMPILED_CSS_TYPE ] = CompiledStylesheetLoader;
 			_typeClassLookup[ VARIABLE_TYPE ] = VariableLoader;
 			_typeClassLookup[ IMAGE_TYPE ] = ImageLoader;
 			_typeClassLookup[ MOVIE_TYPE ] = MovieLoader;
@@ -92,8 +87,6 @@ package com.ffsys.io.loaders.core {
 			return true;
 		}
 		
-		static private var _initialized:Boolean = initialize();				
-		
+		static private var _initialized:Boolean = initialize();
 	}
-	
 }

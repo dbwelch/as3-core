@@ -10,8 +10,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.events.Notifier;
 	
-	import com.ffsys.utils.flex.FlexUtils;
-	
 	import com.ffsys.io.loaders.core.AbstractDisplayLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
 	import com.ffsys.io.loaders.core.LoaderClassType;

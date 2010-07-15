@@ -7,9 +7,7 @@ package com.ffsys.io.loaders.resources {
 	
 	import com.ffsys.io.loaders.display.IDisplayImage;
 	import com.ffsys.io.loaders.display.ImageDisplay;
-	import com.ffsys.io.loaders.types.IImageAccess;	
-	
-	import com.ffsys.utils.flex.FlexUtils;
+	import com.ffsys.io.loaders.types.IImageAccess;
 	
 	/**
 	*	Represents a remote resource that encapsulates Bitmap data
@@ -68,7 +66,7 @@ package com.ffsys.io.loaders.resources {
 			}
 			
 			var display:IDisplayImage;
-			display = IDisplayImage( FlexUtils.getImageDisplay() );
+			display = new ImageDisplay();
 			display.bitmapData = bitmapData;
 			return display;
 		}
