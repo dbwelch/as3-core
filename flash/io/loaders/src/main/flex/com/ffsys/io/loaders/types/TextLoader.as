@@ -59,7 +59,7 @@ package com.ffsys.io.loaders.types {
 			
 			if( txt )
 			{
-				resource = new TextResource( txt, uri );				
+				resource = new TextResource( txt, uri );
 				
 				var evt:TextLoadEvent = new TextLoadEvent(
 					event,

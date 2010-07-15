@@ -42,7 +42,7 @@ package com.ffsys.io.loaders.types {
 			options:ILoadOptions = null )
 		{
 			_sound = new Sound();
-			_context = new SoundLoaderContext();
+			//_context = new SoundLoaderContext();
 			
 			super( request, options );
 		}
@@ -93,6 +93,8 @@ package com.ffsys.io.loaders.types {
 		
 		override public function load( request:URLRequest ):void
 		{
+			removeListeners();
+			addListeners();
 			this.request = request;
 			_sound.load( request, _context );
 		}
@@ -121,7 +123,7 @@ package com.ffsys.io.loaders.types {
 			if( queue )
 			{
 				queue.addResource( this );
-			}					
+			}
 			
 			dispatchEvent( evt );
 			

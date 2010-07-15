@@ -23,7 +23,7 @@ package com.ffsys.io.loaders {
 	public class AbstractLoaderUnit extends Object {
 		
 		/**
-		*	The timeout before the load operation fails.	
+		*	The timeout before the load operation fails.
 		*/
 		public static const TIMEOUT:Number = 5000;
 		

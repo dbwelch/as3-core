@@ -85,8 +85,6 @@ package com.ffsys.io.loaders.types {
 			}
 			
 			dispatchLoadCompleteEvent();
-        }				
-		
+        }
 	}
-	
 }
