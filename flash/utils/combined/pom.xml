@@ -57,13 +57,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
-			<artifactId>flex</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-			<scope>internal</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
 			<artifactId>font</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
