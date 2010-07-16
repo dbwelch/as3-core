@@ -72,7 +72,7 @@ package com.ffsys.io.loaders.core {
 					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler, false, 0, true );
 				
 	            loader.contentLoaderInfo.addEventListener(
-					IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );	
+					IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
 			}
         }
 

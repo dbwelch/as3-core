@@ -1,9 +1,6 @@
 package com.ffsys.io.loaders.responder {
 	
-	import flash.events.Event;
 	import flash.events.IEventDispatcher;
-	
-	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	/**

@@ -28,24 +28,29 @@ package com.ffsys.io.loaders.core {
 		*	as soon as possible so that the entire stream can be loaded
 		*	prior to playback starting.
 		*/
-		protected var _streaming:Boolean;
+		private var _streaming:Boolean = false;
 		
 		public function AbstractStreamLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
 		{
 			super( request, options );
-			this.streaming = true;
 		}
 		
-		public function set streaming( val:Boolean ):void
-		{
-			_streaming = val;
-		}
-		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get streaming():Boolean
 		{
 			return _streaming;
+		}		
+		
+		/**
+		*	@private	
+		*/
+		public function set streaming( val:Boolean ):void
+		{
+			_streaming = val;
 		}
 	}
 }

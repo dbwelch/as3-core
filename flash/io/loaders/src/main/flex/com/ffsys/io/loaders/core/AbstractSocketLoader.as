@@ -99,61 +99,18 @@ package com.ffsys.io.loaders.core {
 		
 		public function connect():void
 		{
-		
 			try
 			{
 				socket.connect( domain, port );
 			}catch( e:Error )
 			{
-				throw new Error( "Could not create Socket connection to '" + domain + "' on port " + port );
+				throw new Error(
+					"Could not create Socket connection to '"
+						+ domain + "' on port " + port );
 			}
 			
 			trace( "Connect : " + domain );
-			
 			trace( "Connect : " + socket.connected );
-		}
-		
-		static public const DELIMITER:String = "\r\n";
-		
-		private function getCustomHeaders():String
-		{
-			var requestHeaders:Array = this.request.requestHeaders;
-			var header:URLRequestHeader;
-			
-			var output:String = "";
-			
-			if( requestHeaders.length > 0 )
-			{
-				for each( header in requestHeaders )
-				{
-					output += header.name + ":" + header.value + DELIMITER;
-				}
-			}
-			
-			return output;
-		}
-		
-		private function getHeadRequest():String
-		{
-			var output:String = "HEAD " + relative + " HTTP/1.1" + DELIMITER;
-			output += "Host: " + domain + DELIMITER;
-			output += getCustomHeaders();
-			return output;
-		}
-		
-		public function head():void
-		{
-			var headRequest:String = getHeadRequest();
-			trace( "Head request socket : " + socket );
-			
-			trace( "Head request : " + headRequest );
-			
-			if( socket )
-			{
-			
-				socket.writeUTFBytes( headRequest + DELIMITER + DELIMITER );
-				socket.flush();
-			}
 		}
 		
 		public function set socket( val:Socket ):void
@@ -203,8 +160,5 @@ package com.ffsys.io.loaders.core {
 				socket.close();
 			}
 		}
-		
 	}
-	
 }
-
