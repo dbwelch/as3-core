@@ -2,10 +2,8 @@ package com.ffsys.io.loaders.resources {
 	
 	import flash.utils.ByteArray;
 	
-	import com.ffsys.io.loaders.types.IBinaryAccess;
-	
 	/**
-	*	Represents a loaded resource that is ByteArray data.
+	*	Represents a loaded resource that is binary data.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -13,8 +11,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  03.09.2007
 	*/
-	public class BinaryResource extends AbstractResource
-		implements IBinaryAccess {
+	public class BinaryResource extends AbstractResource {
 		
 		public function BinaryResource(
 			data:Object = null,

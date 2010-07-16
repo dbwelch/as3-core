@@ -7,7 +7,6 @@ package com.ffsys.io.loaders.resources {
 	
 	import com.ffsys.io.loaders.display.IDisplayImage;
 	import com.ffsys.io.loaders.display.ImageDisplay;
-	import com.ffsys.io.loaders.types.IImageAccess;
 	
 	/**
 	*	Represents a remote resource that encapsulates Bitmap data
@@ -20,10 +19,7 @@ package com.ffsys.io.loaders.resources {
 	*	@since  03.09.2007
 	*/
 	public class ImageResource extends AbstractResource
-		implements 	IImageAccess,
-		 			IDispose {
-			
-		private var _accessed:Boolean;
+		implements 	IDispose {
 		
 		public function ImageResource(
 			data:Object = null,

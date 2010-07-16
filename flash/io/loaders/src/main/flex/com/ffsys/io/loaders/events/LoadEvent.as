@@ -46,7 +46,5 @@ package com.ffsys.io.loaders.events {
 		{
 			return new LoadEvent( type, triggerEvent, loader, resource );
 		}
-		
 	}
-	
 }

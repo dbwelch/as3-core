@@ -22,10 +22,13 @@ package com.ffsys.io.loaders.events {
 		implements ILoadEvent {
 		
 		/**
-		*	The ILoader instance that was handling the loading.
+		*	@private
 		*/
 		private var _loader:ILoader;
 		
+		/**
+		*	@private	
+		*/
 		private var _resource:IResourceElement;
 		
 		public function AbstractLoadEvent(

@@ -14,7 +14,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.AbstractDisplayLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
 	
-	import com.ffsys.io.loaders.events.ImageLoadEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.resources.ImageResource;
 	
@@ -47,7 +47,8 @@ package com.ffsys.io.loaders.types {
 			
 			resource = new ImageResource( bitmapData, uri );			
 			
-			var evt:ImageLoadEvent = new ImageLoadEvent(
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.DATA,
 				event,
 				this,
 				resource as ImageResource

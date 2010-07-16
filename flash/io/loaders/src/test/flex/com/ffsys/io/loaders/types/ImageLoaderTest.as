@@ -53,7 +53,7 @@ package com.ffsys.io.loaders.types {
 			passThroughData:Object ):void
 		{
 			Assert.assertTrue(
-				event is ImageLoadEvent );
+				event is LoadEvent );
 			Assert.assertNotNull( event.resource );	
 			Assert.assertTrue( event.resource is ImageResource );
 			//Assert.assertTrue( ImageResource( event.resource ).bytesTotal > 0 );

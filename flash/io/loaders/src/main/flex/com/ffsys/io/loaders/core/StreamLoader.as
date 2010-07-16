@@ -23,7 +23,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.message.ILoadMessage;
 	
 	import com.ffsys.io.loaders.resources.BinaryResource;
-	import com.ffsys.io.loaders.events.BinaryLoadEvent;
 	
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
@@ -270,7 +269,8 @@ package com.ffsys.io.loaders.core {
 			{
 				resource = new BinaryResource( bytes );
 				
-				var evt:BinaryLoadEvent = new BinaryLoadEvent(
+				var evt:LoadEvent = new LoadEvent(
+					LoadEvent.DATA,
 					event,
 					this,
 					resource as BinaryResource

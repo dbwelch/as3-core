@@ -53,7 +53,7 @@ package com.ffsys.io.loaders.types {
 			passThroughData:Object ):void
 		{
 			Assert.assertTrue(
-				event is BinaryLoadEvent );
+				event is LoadEvent );
 			Assert.assertNotNull( event.resource );	
 			Assert.assertTrue( event.resource is BinaryResource );
 			//Assert.assertTrue( BinaryResource( event.resource ).bytesTotal > 0 );
