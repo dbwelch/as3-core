@@ -5,7 +5,6 @@ package com.ffsys.io.loaders.responder {
 	
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	
 	/**
 	*	Describes the contract for Objects that respond
@@ -20,10 +19,10 @@ package com.ffsys.io.loaders.responder {
 	public interface ILoadResponder
 		extends IEventDispatcher {
 		
-		function resourceLoadComplete( event:LoadEvent ):void;
-		function resourceNotFoundHandler( event:LoadEvent ):void;
 		function resourceLoadStart( event:LoadEvent ):void;
-		function resourceLoadProgress( event:LoadProgressEvent ):void;
-		function resourceLoaded( event:ILoadEvent ):void;
+		function resourceLoadProgress( event:LoadEvent ):void;
+		function resourceLoaded( event:LoadEvent ):void;
+		function resourceLoadComplete( event:LoadEvent ):void;
+		function resourceNotFoundHandler( event:LoadEvent ):void;		
 	}
 }

@@ -69,7 +69,5 @@ package com.ffsys.io.loaders.events {
 		{
 			return _info;
 		}
-		
 	}
-	
 }

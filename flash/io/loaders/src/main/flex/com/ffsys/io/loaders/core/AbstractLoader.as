@@ -14,7 +14,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.message.ILoadMessage;
@@ -161,7 +160,7 @@ package com.ffsys.io.loaders.core {
 			if( progressMethod != null )
 			{
 				addEventListener(
-					LoadProgressEvent.LOAD_PROGRESS, progressMethod, false, 0, true );
+					LoadEvent.LOAD_PROGRESS, progressMethod, false, 0, true );
 			}			
 			
 			if( loadedMethod != null )
@@ -198,7 +197,7 @@ package com.ffsys.io.loaders.core {
 			
 			if( progressMethod != null )
 			{
-				removeEventListener( LoadProgressEvent.LOAD_PROGRESS, progressMethod );
+				removeEventListener( LoadEvent.LOAD_PROGRESS, progressMethod );
 			}			
 			
 			if( loadedMethod != null )
@@ -298,7 +297,8 @@ package com.ffsys.io.loaders.core {
 			bytesLoaded = event.bytesLoaded;
 			bytesTotal = event.bytesTotal;
 			
-			var evt:LoadProgressEvent = new LoadProgressEvent( event, this );
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.LOAD_PROGRESS, event, this );
 			dispatchEvent( evt as Event );
 			Notifier.dispatchEvent( evt as Event );
         }

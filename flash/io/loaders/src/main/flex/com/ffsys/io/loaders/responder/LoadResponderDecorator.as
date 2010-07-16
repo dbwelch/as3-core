@@ -9,7 +9,6 @@ package com.ffsys.io.loaders.responder {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.events.ILoadEvent;
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.utils.array.ArrayUtils;
@@ -84,10 +83,10 @@ package com.ffsys.io.loaders.responder {
 					
 					
 					if( !filters ||
-						filters && !( ArrayUtils.contains( filters, LoadProgressEvent.LOAD_PROGRESS ) ) )
+						filters && !( ArrayUtils.contains( filters, LoadEvent.LOAD_PROGRESS ) ) )
 					{
 						dispatcher.addEventListener(
-							LoadProgressEvent.LOAD_PROGRESS, responder.resourceLoadProgress, false, 0, true );
+							LoadEvent.LOAD_PROGRESS, responder.resourceLoadProgress, false, 0, true );
 					}
 					
 					if( !filters ||
@@ -131,7 +130,7 @@ package com.ffsys.io.loaders.responder {
 				if( responder )
 				{
 					dispatcher.removeEventListener( LoadEvent.LOAD_START, responder.resourceLoadStart );
-					dispatcher.removeEventListener( LoadProgressEvent.LOAD_PROGRESS, responder.resourceLoadProgress );
+					dispatcher.removeEventListener( LoadEvent.LOAD_PROGRESS, responder.resourceLoadProgress );
 					dispatcher.removeEventListener( LoadEvent.DATA, responder.resourceLoaded );
 					dispatcher.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, responder.resourceNotFoundHandler );
 				}
@@ -166,13 +165,13 @@ package com.ffsys.io.loaders.responder {
 			_decorated.dispatchEvent( event as Event );
 		}
 		
-		public function resourceLoadProgress( event:LoadProgressEvent ):void
+		public function resourceLoadProgress( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );
 		}
 		
-		public function resourceLoaded( event:ILoadEvent ):void
+		public function resourceLoaded( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );

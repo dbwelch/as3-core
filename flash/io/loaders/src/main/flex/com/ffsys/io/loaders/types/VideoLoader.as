@@ -19,7 +19,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.events.Notifier;
 	
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.VideoStatusEvent;
 	
@@ -222,7 +221,8 @@ package com.ffsys.io.loaders.types {
 			progressEvent.bytesLoaded = bytesLoaded;
 			progressEvent.bytesTotal = bytesTotal;
 			
-			var loadProgressEvent:LoadProgressEvent = new LoadProgressEvent( progressEvent, this );
+			var loadProgressEvent:LoadEvent = new LoadEvent(
+				LoadEvent.LOAD_PROGRESS, progressEvent, this );
 			dispatchEvent( loadProgressEvent );
 			
 			if( bytesLoaded >= bytesTotal )
@@ -359,7 +359,5 @@ package com.ffsys.io.loaders.types {
 				
 			dispatchEvent( event );
         }
-		
 	}
-	
 }

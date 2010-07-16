@@ -1,34 +1,44 @@
 package com.ffsys.io.loaders.events {
 	
 	import flash.events.Event;
+	import flash.events.ProgressEvent;	
+	import flash.net.URLRequest;
+	
+	import com.ffsys.events.AbstractEvent;
 	
 	import com.ffsys.io.loaders.core.ILoader;
 	
 	import com.ffsys.io.loaders.resources.IResourceElement;
 	
 	/**
-	*	Super class for all load events.
+	*	Abstract base class for all load related events.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  10.09.2007
+	*	@since  29.07.2007
 	*/
-	public class LoadEvent extends AbstractLoadEvent {
-		
+	public class LoadEvent extends AbstractEvent
+		implements ILoadEvent {
+			
 		/**
 		*	Event dispatched when a runtime asset starts loading.	
 		*/
 		static public const LOAD_START:String = "loadStart";
 		
 		/**
-		*	Event dispatched when the data for a runtime asset is available.	
+		*	Event dispatched while a runtime asset is loading.
+		*/
+		static public const LOAD_PROGRESS:String = "loadProgress";
+		
+		/**
+		*	Event dispatched when the data for a runtime asset is available.
 		*/
 		static public const DATA:String = "dataLoaded";
 		
 		/**
-		*	Event dispatched when a load process is complete.	
+		*	Event dispatched when a load process is complete.
 		*/
 		static public const LOAD_COMPLETE:String = "loadComplete";
 		
@@ -41,7 +51,17 @@ package com.ffsys.io.loaders.events {
 		/**
 		*	Event dispatched when a runtime asset could not be found.	
 		*/
-		static public const RESOURCE_NOT_FOUND:String = "resourceNotFound";	
+		static public const RESOURCE_NOT_FOUND:String = "resourceNotFound";			
+		
+		/**
+		*	@private
+		*/
+		private var _loader:ILoader;
+		
+		/**
+		*	@private	
+		*/
+		private var _resource:IResourceElement;
 		
 		public function LoadEvent(
 			type:String,
@@ -49,13 +69,132 @@ package com.ffsys.io.loaders.events {
 			loader:ILoader,
 			resource:IResourceElement = null )
 		{
-			super( type, triggerEvent, loader );
+			super( type, triggerEvent );
+			this.loader = loader;
 			this.resource = resource;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get resource():IResourceElement
+		{
+			return _resource;
+		}
+				
+		public function set resource( value:IResourceElement ):void
+		{
+			_resource = value;
+		}		
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get loader():ILoader
+		{
+			return _loader;
+		}		
+		
+		public function set loader( value:ILoader ):void
+		{
+			_loader = value;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get bytesLoaded():uint
+		{
+			if( triggerEvent && ( triggerEvent is ProgressEvent ) )
+			{
+				return ProgressEvent( triggerEvent ).bytesLoaded;
+			}
+			
+			if( loader )
+			{
+				return loader.getBytesLoaded();
+			}
+			
+			return 0;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get bytesTotal():uint
+		{
+			if( triggerEvent && ( triggerEvent is ProgressEvent ) )
+			{
+				return ProgressEvent( triggerEvent ).bytesTotal;
+			}
+			
+			if( loader )
+			{
+				return loader.getBytesTotal();
+			}
+			
+			return 0;
+		}
+		
+		
+		public function get normalized():Number
+		{
+			return ( bytesLoaded / bytesTotal ) * 1;
+		}
+		
+		public function get percentLoaded():int
+		{
+			return Math.floor( ( bytesLoaded / bytesTotal ) * 100 );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get request():URLRequest
+		{
+			if( _loader )
+			{
+				return _loader.request;
+			}
+			
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get uri():String
+		{
+			if( _loader )
+			{
+				return _loader.uri;
+			}
+			
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get id():String
+		{
+			if( _loader )
+			{
+				return _loader.id;
+			}
+			
+			return null;
+		}
+		
+		/**
+		*	Creates a clone of this event.
+		*	
+		*	@return The cloned event.	
+		*/
 		override public function clone():Event
 		{
-			return new LoadEvent( type, triggerEvent, loader, resource );
+			return new LoadEvent(
+				type, triggerEvent, loader, resource );
 		}
 	}
 }

@@ -20,7 +20,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.io.core.IBytesTotal;
 	import com.ffsys.io.loaders.events.ILoadEvent;
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.message.ILoadMessageFormatter;
 	import com.ffsys.io.loaders.responder.ILoadResponder;
@@ -818,27 +817,9 @@ package com.ffsys.io.loaders.core {
 			dispatchEvent( event.clone() );
 		}
 		
-		public function resourceLoadProgress( event:LoadProgressEvent ):void
+		public function resourceLoadProgress( event:LoadEvent ):void
 		{
-			
-			//trace( "bytesLoaded : " + this.bytesLoaded );
-			//trace( "bytesTotal : " + this.bytesTotal );
-			
-			//var progressEvent:ProgressEvent = new ProgressEvent( ProgressEvent.PROGRESS );
-			//progressEvent.bytesLoaded = this.bytesLoaded;
-			//progressEvent.bytesTotal = this.bytesTotal;
-			
-			//trace( "progressEvent bytesLoaded : " + progressEvent.bytesLoaded );
-			//trace( "progressEvent bytesTotal : " + progressEvent.bytesTotal );
-			
-			//var evt:LoadProgressEvent =
-			//	new LoadProgressEvent( progressEvent, event.loader );
-			
-			//trace( "percent : " + evt.percentLoaded );
-			
 			dispatchEvent( event.clone() );
-			
-			//dispatchEvent( event );
 		}
 		
 		public function addResource( loader:ILoader ):void
@@ -877,7 +858,7 @@ package com.ffsys.io.loaders.core {
 			}			
 		}
 		
-		public function resourceLoaded( event:ILoadEvent ):void
+		public function resourceLoaded( event:LoadEvent ):void
 		{
 			
 			//trace("LoaderQueue::resourceLoaded(), " + event.loader.id );
