@@ -2,15 +2,8 @@ package com.ffsys.io.loaders.resources {
 	
 	import flash.display.Loader;
 	
-	import flash.net.URLRequest;
-	
-	import com.ffsys.io.loaders.core.ILoaderQueue;
-	import com.ffsys.io.loaders.core.LoaderQueue;
-	import com.ffsys.io.loaders.types.MovieLoader;
-	
 	import com.ffsys.io.loaders.display.IDisplayMovie;
 	import com.ffsys.io.loaders.display.MovieDisplay;
-	import com.ffsys.io.loaders.types.IMovieAccess;
 	
 	/**
 	*	Represents a remote resource that encapsulates
@@ -22,10 +15,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  03.09.2007
 	*/
-	public class MovieResource extends AbstractResource
-		implements IMovieAccess {
-			
-		protected var _accessed:Boolean;
+	public class MovieResource extends AbstractResource {
 		
 		public function MovieResource(
 			data:Object = null,
@@ -55,9 +45,7 @@ package com.ffsys.io.loaders.resources {
 			display.loader = loader;
 			display.bytesTotal = bytesTotal;
 
-			return display;	
+			return display;
 		}
-		
 	}
-	
 }

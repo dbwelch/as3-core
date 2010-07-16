@@ -53,7 +53,7 @@ package com.ffsys.io.loaders.types {
 			passThroughData:Object ):void
 		{
 			Assert.assertTrue(
-				event is SoundLoadEvent );
+				event is LoadEvent );
 			Assert.assertNotNull( event.resource );	
 			Assert.assertTrue( event.resource is SoundResource );
 			//Assert.assertTrue( SoundResource( event.resource ).bytesTotal > 0 );

@@ -15,7 +15,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.LoadOptions;	
 	
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.SoundLoadEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.resources.SoundResource;
 	
@@ -107,7 +107,8 @@ package com.ffsys.io.loaders.types {
 		{
 			resource = new SoundResource( _sound, uri );		
 			
-			var evt:SoundLoadEvent = new SoundLoadEvent(
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.DATA,
 				event,
 				this,
 				resource as SoundResource

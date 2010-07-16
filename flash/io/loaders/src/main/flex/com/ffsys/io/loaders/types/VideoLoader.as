@@ -21,7 +21,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.VideoLoadEvent;
 	import com.ffsys.io.loaders.events.VideoStatusEvent;
 	
 	import com.ffsys.io.loaders.display.IDisplayVideo;
@@ -246,8 +245,9 @@ package com.ffsys.io.loaders.types {
 			
 			resource = new VideoResource( _display, uri );		
 			
-			var evt:VideoLoadEvent =
-				new VideoLoadEvent(
+			var evt:LoadEvent =
+				new LoadEvent(
+					LoadEvent.DATA,
 					completeEvent,
 					this,
 					resource as VideoResource

@@ -1,8 +1,5 @@
 package com.ffsys.io.loaders.resources {
-	
-	import com.ffsys.io.loaders.types.IXmlAccess;
 
-	
 	/**
 	*	Represents a loaded resource that is XML data.
 	*
@@ -12,8 +9,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  03.09.2007
 	*/
-	public class XmlResource extends AbstractResource
-		implements IXmlAccess {
+	public class XmlResource extends AbstractResource {
 		
 		public function XmlResource(
 			data:Object = null,

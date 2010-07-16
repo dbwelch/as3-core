@@ -2,8 +2,6 @@ package com.ffsys.io.loaders.resources {
 	
 	import flash.text.StyleSheet;
 	
-	import com.ffsys.io.loaders.types.IStylesheetAccess;
-	
 	/**
 	*	Represents a loaded resource that is StyleSheet data.
 	*
@@ -13,8 +11,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  03.09.2007
 	*/
-	public class StylesheetResource extends AbstractResource
-		implements IStylesheetAccess {
+	public class StylesheetResource extends AbstractResource {
 		
 		public function StylesheetResource(
 			data:Object = null,

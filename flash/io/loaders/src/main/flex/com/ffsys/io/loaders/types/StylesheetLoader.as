@@ -11,7 +11,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.AbstractLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
 	
-	import com.ffsys.io.loaders.events.StylesheetLoadEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.resources.StylesheetResource;
 	
@@ -62,7 +62,8 @@ package com.ffsys.io.loaders.types {
 			{
 				resource = new StylesheetResource( sheet, uri );			
 				
-				var evt:StylesheetLoadEvent = new StylesheetLoadEvent(
+				var evt:LoadEvent = new LoadEvent(
+					LoadEvent.DATA,
 					event,
 					this,
 					resource as StylesheetResource

@@ -53,7 +53,7 @@ package com.ffsys.io.loaders.types {
 			passThroughData:Object ):void
 		{
 			Assert.assertTrue(
-				event is MovieLoadEvent );
+				event is LoadEvent );
 			Assert.assertNotNull( event.resource );	
 			Assert.assertTrue( event.resource is MovieResource );
 			//Assert.assertTrue( MovieResource( event.resource ).bytesTotal > 0 );

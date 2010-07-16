@@ -1,7 +1,6 @@
 package com.ffsys.io.loaders.resources {
 	
 	import com.ffsys.io.loaders.display.IDisplayVideo;
-	import com.ffsys.io.loaders.types.IVideoAccess;
 	
 	/**
 	*	Represents a remote resource that encapsulates Bitmap data
@@ -13,8 +12,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  03.09.2007
 	*/
-	public class VideoResource extends AbstractResource
-		implements IVideoAccess {
+	public class VideoResource extends AbstractResource {
 		
 		public function VideoResource(
 			data:Object = null,

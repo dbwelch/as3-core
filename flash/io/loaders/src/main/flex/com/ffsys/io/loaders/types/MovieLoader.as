@@ -15,7 +15,7 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.io.loaders.display.IDisplayMovie;
 	
-	import com.ffsys.io.loaders.events.MovieLoadEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.resources.MovieResource;
 	
@@ -46,7 +46,8 @@ package com.ffsys.io.loaders.types {
 				
 			resource = new MovieResource( loader, uri, bytesTotal );
 			
-			var evt:MovieLoadEvent = new MovieLoadEvent(
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.DATA,
 				event,
 				this,
 				resource as MovieResource

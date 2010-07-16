@@ -2,8 +2,6 @@ package com.ffsys.io.loaders.resources {
 	
 	import flash.media.Sound;
 	
-	import com.ffsys.io.loaders.types.ISoundAccess;
-	
 	/**
 	*	Represents a loaded resource that is Sound data.
 	*
@@ -13,8 +11,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  03.09.2007
 	*/
-	public class SoundResource extends AbstractResource
-		implements ISoundAccess {
+	public class SoundResource extends AbstractResource {
 		
 		public function SoundResource(
 			data:Object = null,

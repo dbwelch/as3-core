@@ -9,7 +9,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.AbstractLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
 	
-	import com.ffsys.io.loaders.events.XmlLoadEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.resources.XmlResource;
 	import com.ffsys.io.loaders.core.ILoadOptions;
@@ -54,7 +54,8 @@ package com.ffsys.io.loaders.types {
 			{
 				resource = new XmlResource( x, uri );
 				
-				var evt:XmlLoadEvent = new XmlLoadEvent(
+				var evt:LoadEvent = new LoadEvent(
+					LoadEvent.DATA,
 					event,
 					this, 
 					resource as XmlResource );
