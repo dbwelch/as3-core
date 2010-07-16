@@ -25,13 +25,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
-	import com.ffsys.utils.identifier.IdentifierUtils;
-	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;	
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Represents a loader that loads arbritrary binary
 	*	streams.
@@ -577,19 +570,6 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@inheritDoc	
 		*/		
-		public function set callback( val:String ):void
-		{
-			_decorator.callback = val;
-		}
-		
-		public function get callback():String
-		{
-			return _decorator.callback;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
 		public function set forceLoad( val:Boolean ):void
 		{
 			_decorator.forceLoad = val;
@@ -598,14 +578,6 @@ package com.ffsys.io.loaders.core {
 		public function get forceLoad():Boolean
 		{
 			return _decorator.forceLoad;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function getParentId():String
-		{
-			return IdentifierUtils.getParentId( uri );
 		}					
 		
 		/**
@@ -639,95 +611,5 @@ package com.ffsys.io.loaders.core {
 				//with no open stream
 			}
 		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		
-		/**
-		*	@private	
-		*/		
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			output.customData = customData;
-			output.message = message;
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputComposites():Array
-		{
-			var output:Array = new Array();
-			output.push( options );
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-
-			return output.getSimpleInspection();
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-
-			output.detail = uri;
-
-			//pass in the default methods, properties and composites
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		/**
-		*	Gets a <code>String</code> representation
-		*	of this instance.
-		*	
-		*	@return The <code>String</code> representation
-		*	of this instance.
-		*/
-		override public function toString():String
-		{
-			return getObjectString( true );
-		}		
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
 }

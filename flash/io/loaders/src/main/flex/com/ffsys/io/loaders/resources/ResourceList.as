@@ -2,12 +2,6 @@ package com.ffsys.io.loaders.resources {
 	
 	import com.ffsys.core.Destroyer;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.IObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Encapsulates a list of available resources.
 	*
@@ -18,8 +12,7 @@ package com.ffsys.io.loaders.resources {
 	*	@since  03.09.2007
 	*/
 	public class ResourceList extends Object
-		implements 	IResourceList,
-		 			IObjectInspector {
+		implements 	IResourceList {
 			
 		private var _id:String;
 		private var _resources:Array;
@@ -325,61 +318,5 @@ package com.ffsys.io.loaders.resources {
 			
 			return null;			
 		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-		
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object
-			return output;
-		}
-		
-		public function getCommonStringOutputComposites():Array
-		{
-			return _resources;
-		}
-		
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-		
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-		
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			output.detail = getLength();
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		public function toString():String
-		{
-			return getObjectString( true );
-		}
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
-	
 }

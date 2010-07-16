@@ -18,7 +18,7 @@ package com.ffsys.io.loaders.resources {
 	
 		function addResource( val:IResourceElement ):int;
 		function removeResource( val:IResourceElement ):Boolean;
-		function getResourceAt( index:int ):IResourceElement;	
+		function getResourceAt( index:int ):IResourceElement;
 		function removeResourceAt( index:int ):IResourceElement;
 		function getLength():int;
 		function last():IResourceElement;
@@ -40,5 +40,4 @@ package com.ffsys.io.loaders.resources {
 		*/
 		function flatten():IResourceList;
 	}
-	
 }

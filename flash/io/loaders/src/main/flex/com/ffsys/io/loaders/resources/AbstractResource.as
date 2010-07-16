@@ -2,14 +2,6 @@ package com.ffsys.io.loaders.resources {
 	
 	import flash.events.EventDispatcher;
 	
-	import com.ffsys.core.Destroyer;
-	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.IObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Abstract super class for all loaded resources.
 	*
@@ -20,12 +12,12 @@ package com.ffsys.io.loaders.resources {
 	*	@since  03.09.2007
 	*/
 	public class AbstractResource extends EventDispatcher
-		implements  IResource,
-		 			IObjectInspector {
+		implements IResource {
 			
 		private var _id:String;
 		private var _data:Object;
 		private var _uri:String;
+		private var _bytesTotal:uint;
 		
 		public function AbstractResource(
 			data:Object = null,
@@ -38,17 +30,9 @@ package com.ffsys.io.loaders.resources {
 			this.bytesTotal = bytesTotal;
 		}
 		
-		public function destroy():void
+		public function set bytesTotal( value:uint ):void
 		{
-			_data = null;
-			_uri = null;
-			_id = null;
-		}
-		
-		protected var _bytesTotal:uint;
-		public function set bytesTotal( val:uint ):void
-		{
-			_bytesTotal = val;
+			_bytesTotal = value;
 		}
 		
 		public function get bytesTotal():uint
@@ -56,11 +40,9 @@ package com.ffsys.io.loaders.resources {
 			return _bytesTotal;
 		}
 		
-		public function set data( val:Object ):void
+		public function set data( value:Object ):void
 		{
-			_data = val;
-			
-			//dispatchEvent(  );
+			_data = value;
 		}		
 		
 		public function get data():Object
@@ -88,62 +70,14 @@ package com.ffsys.io.loaders.resources {
 			return _id;
 		}
 		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		public function getCommonStringOutputMethods():Object
+		/**
+		*	@inheritDoc	
+		*/
+		public function destroy():void
 		{
-			var output:Object = new Object();
-			return output;
+			_data = null;
+			_uri = null;
+			_id = null;
 		}
-		
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-		
-		public function getCommonStringOutputComposites():Array
-		{
-			var output:Array = new Array();
-			return output;
-		}
-		
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-		
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-		
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			output.detail = uri;
-			
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		override public function toString():String
-		{
-			return getObjectString( true );
-		}
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
-	
 }

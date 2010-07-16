@@ -29,12 +29,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.ResourceList;
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
-	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.IObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;	
-	/* END OBJECT_INSPECTOR REMOVAL */
 
 	/**
 	*	Handles loading a queue of external assets.
@@ -47,8 +41,7 @@ package com.ffsys.io.loaders.core {
 	*/
 	public class LoaderQueue extends EventDispatcher
 		implements	ILoaderQueue,
-					IBytesTotal,
-					IObjectInspector {
+					IBytesTotal {
 				
 		/**
 		*	@private	
@@ -1087,88 +1080,5 @@ package com.ffsys.io.loaders.core {
 			
 			return false;
 		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputComposites():Array
-		{
-			return _items;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-			
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		/**
-		*	@private	
-		*/		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		/**
-		*	Gets a <code>String</code> representation
-		*	of this instance.
-		*	
-		*	@return The <code>String</code>
-		*	representation of this instance.
-		*/
-		override public function toString():String
-		{
-			return getObjectString( true );
-		}
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}	
 }

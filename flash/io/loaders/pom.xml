@@ -32,14 +32,7 @@
 			<artifactId>identifier</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>inspector</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>		
+		</dependency>	
 		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
@@ -51,13 +44,6 @@
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>string</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>flex</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
@@ -72,20 +58,6 @@
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.ffsys.io</groupId>
-			<artifactId>gateway</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.ffsys.io</groupId>
-			<artifactId>http</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>			

@@ -16,5 +16,4 @@ package com.ffsys.io.loaders.core {
 		function prioritizeById( id:String, priority:int ):Boolean;
 		
 	}
-	
 }

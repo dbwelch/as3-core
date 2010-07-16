@@ -118,7 +118,6 @@ package com.ffsys.io.loaders.message {
 			return output;
 		}
 		
-		//--> move to IObjectInspector implementation
 		public function toString():String
 		{
 			return "[object LoadMessage][" + message + "][" + id + "]";

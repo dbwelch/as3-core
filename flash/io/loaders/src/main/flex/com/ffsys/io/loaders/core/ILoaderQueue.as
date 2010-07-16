@@ -33,10 +33,14 @@ package com.ffsys.io.loaders.core {
 				IBytesLoaded,
 				IResourceAccess,
 				IPriorityQueue,
-				IFlushResources,
 				ISilent,
 				IFatal,
 				IEventDispatcher {
+					
+		/**
+		*	Flushes any loaded resources.
+		*/
+		function flushResources():void;
 					
 		function set formatter( val:ILoadMessageFormatter ):void;
 		function get formatter():ILoadMessageFormatter;					

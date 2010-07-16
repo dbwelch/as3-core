@@ -19,8 +19,14 @@ package com.ffsys.io.loaders.core {
 	*	@since  03.09.2007
 	*/
 	public interface ILoaderParameters
-		extends ILoaderQueueReference,
-				IStringIdentifier {
+		extends IStringIdentifier {
+		
+		/**
+		*	The <code>ILoaderQueue</code> implementation
+		*	associated with this instance.	
+		*/
+		function set queue( val:ILoaderQueue ):void;
+		function get queue():ILoaderQueue;					
 		
 		/**
 		*	A composite <code>IResourceList</code>.	
@@ -63,7 +69,6 @@ package com.ffsys.io.loaders.core {
 		*/
 		function set uri( val:String ):void;
 		function get uri():String;
-		
 		
 		/**
 		*	The <code>ILoadOptions</code> implementation

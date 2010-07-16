@@ -13,26 +13,12 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	
 	import com.ffsys.io.loaders.message.ILoadMessage;
-	
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
-	import com.ffsys.utils.address.AddressUtils;
-	import com.ffsys.utils.identifier.IdentifierUtils;
-	import com.ffsys.utils.string.StringUtils;
-	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
-	*	Abstract super class for <code>ILoader</code>
-	*	implementations.
+	*	Abstract super class for loader implementations.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -77,18 +63,6 @@ package com.ffsys.io.loaders.core {
 			//immediately - this behaviour is *very* undesirable 
 			super();
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/	
-		
-		/*	
-		public function get type():String
-		{
-			throw new Error(
-			 	"You must override AbstractLoader.type in your concrete implementation." );
-		}
-		*/
 		
 		/**
 		*	@private	
@@ -279,11 +253,17 @@ package com.ffsys.io.loaders.core {
 			Notifier.dispatchEvent( evt as Event );
         }
 
+		/**
+		*	@inheritDoc	
+		*/
 		public function getBytesLoaded():uint
 		{
 			return bytesLoaded;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function getBytesTotal():uint
 		{
 			return bytesTotal;
@@ -555,19 +535,6 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@inheritDoc	
 		*/		
-		public function set callback( val:String ):void
-		{
-			_decorator.callback = val;
-		}
-		
-		public function get callback():String
-		{
-			return _decorator.callback;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
 		public function set forceLoad( val:Boolean ):void
 		{
 			_decorator.forceLoad = val;
@@ -577,14 +544,6 @@ package com.ffsys.io.loaders.core {
 		{
 			return _decorator.forceLoad;
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function getParentId():String
-		{
-			return IdentifierUtils.getParentId( uri );
-		}					
 		
 		/**
 		*	@inheritDoc	
@@ -617,95 +576,5 @@ package com.ffsys.io.loaders.core {
 				//with no open stream
 			}
 		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			output.customData = customData;
-			output.message = message;
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputComposites():Array
-		{
-			var output:Array = new Array();
-			output.push( options );
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-
-			return output.getSimpleInspection();
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-
-			output.detail = uri;
-
-			//pass in the default methods, properties and composites
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		/**
-		*	Gets a <code>String</code> representation
-		*	of this instance.
-		*	
-		*	@return The <code>String</code> representation
-		*	of this instance.
-		*/
-		override public function toString():String
-		{
-			return getObjectString( true );
-		}		
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
 }

@@ -45,7 +45,7 @@ package com.ffsys.io.loaders.core {
 
 		/**
 		*	@private	
-		*/	
+		*/
 		protected var _resource:IResource;
 
 		/**
@@ -67,11 +67,6 @@ package com.ffsys.io.loaders.core {
 		*	@private	
 		*/	
 		protected var _queue:ILoaderQueue;
-
-		/**
-		*	@private	
-		*/	
-		protected var _callback:String;
 
 		/**
 		*	@private	
@@ -222,19 +217,6 @@ package com.ffsys.io.loaders.core {
 		public function get request():URLRequest
 		{
 			return _request;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set callback( val:String ):void
-		{
-			_callback = val;
-		}
-		
-		public function get callback():String
-		{
-			return _callback;
 		}
 		
 		/**

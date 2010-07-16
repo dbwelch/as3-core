@@ -21,7 +21,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.utils.address.AddressUtils;
-	import com.ffsys.utils.identifier.IdentifierUtils;
 	
 	/**
 	*	Abstract super class for Objects that load data via
