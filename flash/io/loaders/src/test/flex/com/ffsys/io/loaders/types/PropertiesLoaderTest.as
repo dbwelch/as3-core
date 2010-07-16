@@ -11,6 +11,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.utils.properties.IProperties;
+	import com.ffsys.utils.properties.Properties;
 	
 	/**
 	*	Unit test for loading properties files.
@@ -59,8 +60,30 @@ package com.ffsys.io.loaders.types {
 			Assert.assertNotNull( event.resource );	
 			Assert.assertTrue( event.resource is PropertiesResource );
 			
+			var properties:Properties = Properties(
+				PropertiesResource( event.resource ).properties );
+			Assert.assertTrue( properties is IProperties );
+			
+			Assert.assertEquals( "a test top level string", properties.toplevel );
+			Assert.assertEquals( "abc", properties.group.a );
+			Assert.assertEquals( "bcd", properties.group.b );
+			
+			Assert.assertEquals( "abcdef", properties.group.nested.a );
+			Assert.assertEquals( "bcdefg", properties.group.nested.b );	
+			
+			Assert.assertTrue( properties.group is IProperties );
+			Assert.assertTrue( properties.group.nested is IProperties );
 			Assert.assertTrue(
-				PropertiesResource( event.resource ).properties is IProperties );
+				properties.getPropertiesById( "group" ) is IProperties );
+			
+			//
+			Assert.assertEquals(
+				"An error of type {0} occured", properties.group.err );
+			
+			//	
+			Assert.assertEquals(
+				"An error of type critical occured", properties.group.substitute(
+					"err", [ "critical" ] ) );			
 		}
 		
 		[Test(async)]
