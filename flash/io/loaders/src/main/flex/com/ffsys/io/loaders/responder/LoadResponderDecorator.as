@@ -11,7 +11,6 @@ package com.ffsys.io.loaders.responder {
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	
 	import com.ffsys.utils.array.ArrayUtils;
 	
@@ -99,20 +98,20 @@ package com.ffsys.io.loaders.responder {
 					}
 					
 					if( !filters ||
-						filters && !( ArrayUtils.contains( filters, ResourceNotFoundEvent.RESOURCE_NOT_FOUND ) ) )
+						filters && !( ArrayUtils.contains( filters, LoadEvent.RESOURCE_NOT_FOUND ) ) )
 					{					
 						dispatcher.addEventListener(
-							ResourceNotFoundEvent.RESOURCE_NOT_FOUND, responder.resourceNotFoundHandler, false, 0, true );
+							LoadEvent.RESOURCE_NOT_FOUND, responder.resourceNotFoundHandler, false, 0, true );
 					}
 				}
 			
 				dispatcher.addEventListener(
-					ResourceNotFoundEvent.RESOURCE_NOT_FOUND, cleanupResponderListeners, false, 0, true );
+					LoadEvent.RESOURCE_NOT_FOUND, cleanupResponderListeners, false, 0, true );
 				dispatcher.addEventListener(
 					LoadEvent.DATA, cleanupResponderListeners, false, 0, true );
 				
 				dispatcher.addEventListener(
-					ResourceNotFoundEvent.RESOURCE_NOT_FOUND, _decorated.cleanupResponderListeners, false, 0, true );
+					LoadEvent.RESOURCE_NOT_FOUND, _decorated.cleanupResponderListeners, false, 0, true );
 				dispatcher.addEventListener(
 					LoadEvent.DATA, _decorated.cleanupResponderListeners, false, 0, true );				
 			}
@@ -134,13 +133,13 @@ package com.ffsys.io.loaders.responder {
 					dispatcher.removeEventListener( LoadEvent.LOAD_START, responder.resourceLoadStart );
 					dispatcher.removeEventListener( LoadProgressEvent.LOAD_PROGRESS, responder.resourceLoadProgress );
 					dispatcher.removeEventListener( LoadEvent.DATA, responder.resourceLoaded );
-					dispatcher.removeEventListener( ResourceNotFoundEvent.RESOURCE_NOT_FOUND, responder.resourceNotFoundHandler );
+					dispatcher.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, responder.resourceNotFoundHandler );
 				}
 			
-				dispatcher.removeEventListener( ResourceNotFoundEvent.RESOURCE_NOT_FOUND, cleanupResponderListeners );
+				dispatcher.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, cleanupResponderListeners );
 				dispatcher.removeEventListener( LoadEvent.DATA, cleanupResponderListeners );
 				
-				dispatcher.removeEventListener( ResourceNotFoundEvent.RESOURCE_NOT_FOUND, _decorated.cleanupResponderListeners );
+				dispatcher.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, _decorated.cleanupResponderListeners );
 				dispatcher.removeEventListener( LoadEvent.DATA, _decorated.cleanupResponderListeners );				
 			}
 		}
@@ -155,7 +154,7 @@ package com.ffsys.io.loaders.responder {
 		*	ILoadResponder implementation	
 		*/
 		
-		public function resourceNotFoundHandler( event:ResourceNotFoundEvent ):void
+		public function resourceNotFoundHandler( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );

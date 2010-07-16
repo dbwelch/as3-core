@@ -36,7 +36,12 @@ package com.ffsys.io.loaders.events {
 		*	Event dispatched by a loader queue prior to loading
 		*	an item in the queue.	
 		*/
-		static public const LOAD_ITEM_START:String = "loadItemStart";		
+		static public const LOAD_ITEM_START:String = "loadItemStart";
+		
+		/**
+		*	Event dispatched when a runtime asset could not be found.	
+		*/
+		static public const RESOURCE_NOT_FOUND:String = "resourceNotFound";	
 		
 		public function LoadEvent(
 			type:String,

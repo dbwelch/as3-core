@@ -18,7 +18,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	
 	import com.ffsys.io.loaders.message.ILoadMessage;
 	
@@ -166,7 +165,7 @@ package com.ffsys.io.loaders.core {
 			if( resourceNotFoundMethod != null )
 			{
 				addEventListener(
-					ResourceNotFoundEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod, false, 0, true );
+					LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod, false, 0, true );
 			}
 
 		}
@@ -201,7 +200,7 @@ package com.ffsys.io.loaders.core {
 			
 			if( resourceNotFoundMethod != null )
 			{
-				removeEventListener( ResourceNotFoundEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod );
+				removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod );
 			}
 
 		}
@@ -436,8 +435,9 @@ package com.ffsys.io.loaders.core {
 					"ILoader fatal resource not found error: " + this.uri );
 			}
 			
-			var evt:ResourceNotFoundEvent =
-				new ResourceNotFoundEvent( event as Event, loader );
+			var evt:LoadEvent =
+				new LoadEvent(
+					LoadEvent.RESOURCE_NOT_FOUND ,event as Event, loader );
 			
 			//ensure a queue always receives the ResourceNotFoundEvent
 			if( queue )

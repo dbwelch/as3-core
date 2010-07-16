@@ -4,7 +4,6 @@ package com.ffsys.io.loaders.responder {
 	import flash.events.IEventDispatcher;
 	
 	import com.ffsys.io.loaders.events.ILoadEvent;
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	
@@ -22,7 +21,7 @@ package com.ffsys.io.loaders.responder {
 		extends IEventDispatcher {
 		
 		function resourceLoadComplete( event:LoadEvent ):void;
-		function resourceNotFoundHandler( event:ResourceNotFoundEvent ):void;
+		function resourceNotFoundHandler( event:LoadEvent ):void;
 		function resourceLoadStart( event:LoadEvent ):void;
 		function resourceLoadProgress( event:LoadProgressEvent ):void;
 		function resourceLoaded( event:ILoadEvent ):void;

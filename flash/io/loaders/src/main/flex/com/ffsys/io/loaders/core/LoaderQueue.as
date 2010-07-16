@@ -20,7 +20,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.io.core.IBytesTotal;
 	import com.ffsys.io.loaders.events.ILoadEvent;
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.message.ILoadMessageFormatter;
@@ -764,7 +763,7 @@ package com.ffsys.io.loaders.core {
 		*	ILoadResponder implementation	
 		*/
 		
-		public function resourceNotFoundHandler( event:ResourceNotFoundEvent ):void
+		public function resourceNotFoundHandler( event:LoadEvent ):void
 		{
 			var loader:ILoader = event.loader;
 

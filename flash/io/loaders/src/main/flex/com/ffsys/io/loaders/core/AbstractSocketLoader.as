@@ -20,7 +20,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	
 	import com.ffsys.utils.address.AddressUtils;
 	import com.ffsys.utils.identifier.IdentifierUtils;
