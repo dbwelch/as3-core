@@ -8,6 +8,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
+	import com.ffsys.swat.configuration.rsls.RuntimeSharedLibraryCollection;
 	
 	/**
 	*	Describes the contract for objects that
@@ -128,7 +129,6 @@ package com.ffsys.swat.configuration {
 		*	@param rsls The runtime shared library collection
 		*/
 		function set rsls( rsls:RuntimeSharedLibraryCollection ):void;
-		
 		
 		/**
 		*	Gets the application defaults.

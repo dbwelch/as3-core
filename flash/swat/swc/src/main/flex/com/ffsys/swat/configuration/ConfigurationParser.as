@@ -9,6 +9,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.swat.configuration.filters.*;
 	import com.ffsys.swat.configuration.locale.*;
+	import com.ffsys.swat.configuration.rsls.*;
 
 	/**
 	*	A parser implementation for the application configuration.

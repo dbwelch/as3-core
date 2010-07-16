@@ -14,7 +14,7 @@ package com.ffsys.utils.locale {
 	public class LocaleCollection extends Object
 		implements ILocaleCollection {
 		
-		private var _locales:Array;
+		private var _locales:Vector.<ILocale>;
 		
 		/**
 		*	Creates a <code>LocaleCollection</code> instance.	
@@ -22,7 +22,7 @@ package com.ffsys.utils.locale {
 		public function LocaleCollection()
 		{
 			super();
-			_locales = new Array();
+			_locales = new Vector.<ILocale>();
 		}
 		
 		/**
@@ -114,7 +114,15 @@ package com.ffsys.utils.locale {
 		*/
 		public function clear():void
 		{
-			_locales = new Array();
+			_locales = new Vector.<ILocale>();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get locales():Vector.<ILocale>
+		{
+			return _locales;
 		}
 		
 		/**

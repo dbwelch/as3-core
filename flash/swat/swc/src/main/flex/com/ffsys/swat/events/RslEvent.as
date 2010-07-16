@@ -9,7 +9,8 @@ package com.ffsys.swat.events {
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	
 	/**
-	*	Represents an event dispatched when runtime assets are available.
+	*	Represents events dispatched while runtime assets
+	*	are loading.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -55,7 +56,6 @@ package com.ffsys.swat.events {
 		public var bytesLoaded:int = 0;
 		
 		private var _preloader:IRuntimeAssetPreloader;
-		
 		private var _uri:String;
 		
 		/**

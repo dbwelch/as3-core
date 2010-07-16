@@ -16,7 +16,7 @@ package com.ffsys.swat.configuration.locale {
 	public interface IConfigurationLocale extends ILocale {
 		
 		/**
-		*	The path to the messages file for the locale.	
+		*	The path to the messages file for the locale.
 		*/
 		function get messages():String;
 		function set messages( value:String ):void;
@@ -25,7 +25,12 @@ package com.ffsys.swat.configuration.locale {
 		*	The path to the errors file for the locale.
 		*/
 		function get errors():String;
-		function set errors( value:String ):void;		
+		function set errors( value:String ):void;
 		
+		/**
+		*	The path to the fonts file for the locale.
+		*/
+		function get fonts():String;
+		function set fonts( value:String ):void;
 	}
 }

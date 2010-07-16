@@ -1,4 +1,4 @@
-package com.ffsys.swat.configuration {
+package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;

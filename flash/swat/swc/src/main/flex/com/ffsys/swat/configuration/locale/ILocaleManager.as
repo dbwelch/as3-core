@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocaleCollection;
+	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
 	
 	/**
@@ -17,5 +18,20 @@ package com.ffsys.swat.configuration.locale {
 		extends ILocaleCollection,
 		 		IDeserializeProperty {
 		
+		/**
+		*	Gets the loader queue used to load properties
+		*	files for the application.
+		*	
+		*	@return The properties loader queue.
+		*/
+		function getPropertiesQueue():ILoaderQueue;	
+		
+		/**
+		*	Gets the loader queue used to load font
+		*	files for the application.
+		*	
+		*	@return The fonts loader queue.
+		*/
+		function getFontsQueue():ILoaderQueue;
 	}
 }

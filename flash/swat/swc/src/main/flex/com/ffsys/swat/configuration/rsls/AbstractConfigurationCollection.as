@@ -1,4 +1,4 @@
-package com.ffsys.swat.configuration {
+package com.ffsys.swat.configuration.rsls {
 	
 	/**
 	*	Abstract super class for configuration collections.

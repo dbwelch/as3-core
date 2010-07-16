@@ -75,5 +75,10 @@ package com.ffsys.utils.locale {
 		*	@return The number of locales in this collection.	
 		*/
 		function get length():int;
+		
+		/**
+		*	Gets the underlying vector of locales.
+		*/
+		function get locales():Vector.<ILocale>;		
 	}
 }

@@ -6,6 +6,7 @@
 		
 		<locale lang="en" country="GB">
 			<messages>assets/properties/messages-en_GB.properties</messages>
+			<fonts>assets/fonts/fonts-en_GB.swf</fonts>
 		</locale>
 		
 		<locale lang="es" country="ES">
@@ -180,6 +181,7 @@
 	</defaults>
 	
 	<filters>
+		
 		<bevel-filter>
 			<id>bevel</id>
 			<distance>1</distance>

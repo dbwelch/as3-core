@@ -11,6 +11,6 @@ package com.ffsys.swat.fonts {
 	*/
 	public class Fonts_en_gb extends Object {
 		[Embed(mimeType="application/x-font",source="../../../../../resources/arial.ttf",fontName="Main")]
-		private var mainClass:Class;
+		static public var mainClass:Class;
 	}
 }

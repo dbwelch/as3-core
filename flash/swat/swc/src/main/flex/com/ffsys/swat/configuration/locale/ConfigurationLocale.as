@@ -17,6 +17,7 @@ package com.ffsys.swat.configuration.locale {
 			
 		private var _messages:String;
 		private var _errors:String;
+		private var _fonts:String;
 		
 		/**
 		*	Creates a <code>ConfigurationLocale</code> instance.
@@ -50,6 +51,19 @@ package com.ffsys.swat.configuration.locale {
 		public function set errors( value:String ):void
 		{
 			_errors = value;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get fonts():String
+		{
+			return _fonts;
+		}
+		
+		public function set fonts( value:String ):void
+		{
+			_fonts = value;
 		}
 	}
 }
