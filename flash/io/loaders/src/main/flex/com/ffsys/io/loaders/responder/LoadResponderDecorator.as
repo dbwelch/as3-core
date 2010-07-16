@@ -11,8 +11,6 @@ package com.ffsys.io.loaders.responder {
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
-	import com.ffsys.utils.array.ArrayUtils;
-	
 	/**
 	*	Decorates classes that respond to ILoader events.
 	*
@@ -74,7 +72,7 @@ package com.ffsys.io.loaders.responder {
 					//trace( "Add responder listeners to responder : " + responder );
 					
 					if( !filters ||
-						filters && !( ArrayUtils.contains( filters, LoadEvent.LOAD_START ) ) )
+						filters && !( contains( filters, LoadEvent.LOAD_START ) ) )
 					{
 						//trace( "Add load start responder" );
 						dispatcher.addEventListener(
@@ -83,21 +81,21 @@ package com.ffsys.io.loaders.responder {
 					
 					
 					if( !filters ||
-						filters && !( ArrayUtils.contains( filters, LoadEvent.LOAD_PROGRESS ) ) )
+						filters && !( contains( filters, LoadEvent.LOAD_PROGRESS ) ) )
 					{
 						dispatcher.addEventListener(
 							LoadEvent.LOAD_PROGRESS, responder.resourceLoadProgress, false, 0, true );
 					}
 					
 					if( !filters ||
-					 	filters && !( ArrayUtils.contains( filters, LoadEvent.DATA ) ) )
+					 	filters && !( contains( filters, LoadEvent.DATA ) ) )
 					{
 						dispatcher.addEventListener(
 							LoadEvent.DATA, responder.resourceLoaded, false, 0, true );
 					}
 					
 					if( !filters ||
-						filters && !( ArrayUtils.contains( filters, LoadEvent.RESOURCE_NOT_FOUND ) ) )
+						filters && !( contains( filters, LoadEvent.RESOURCE_NOT_FOUND ) ) )
 					{					
 						dispatcher.addEventListener(
 							LoadEvent.RESOURCE_NOT_FOUND, responder.resourceNotFoundHandler, false, 0, true );
@@ -181,6 +179,21 @@ package com.ffsys.io.loaders.responder {
 		{
 			//
 			_decorated.dispatchEvent( event as Event );
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Determines whether an array contains an event type.	
+		*	
+		*	@param source The source array.
+		*	@param type The event type.
+		*	
+		*	@return Whether the source array contains the event type.
+		*/
+		private function contains( source:Array, type:String ):Boolean
+		{
+			return source.indexOf( type ) > -1;
 		}
 	}
 }
