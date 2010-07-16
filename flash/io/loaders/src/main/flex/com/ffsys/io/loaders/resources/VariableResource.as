@@ -1,10 +1,9 @@
 package com.ffsys.io.loaders.resources {
 	
 	import flash.net.URLVariables;
-	import com.ffsys.io.loaders.types.IVariableAccess;
 	
 	/**
-	*	Represents a remote resource that encapsulates URLVariables data.
+	*	Represents a remote resource that encapsulates variables.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -12,8 +11,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  10.09.2007
 	*/
-	public class VariableResource extends AbstractResource
-		implements IVariableAccess {
+	public class VariableResource extends AbstractResource {
 		
 		public function VariableResource(
 			data:Object = null,
@@ -23,11 +21,9 @@ package com.ffsys.io.loaders.resources {
 			super( data, uri, bytesTotal );
 		}
 		
-		public function get vars():URLVariables
+		public function get variables():URLVariables
 		{
 			return URLVariables( this.data );
 		}
-		
 	}
-	
 }

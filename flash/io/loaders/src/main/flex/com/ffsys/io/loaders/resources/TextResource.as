@@ -1,7 +1,5 @@
 package com.ffsys.io.loaders.resources {
 	
-	import com.ffsys.io.loaders.types.ITextAccess;
-	
 	/**
 	*	Represents a loaded resource that is String data.
 	*
@@ -11,8 +9,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  03.09.2007
 	*/
-	public class TextResource extends AbstractResource
-		implements ITextAccess {
+	public class TextResource extends AbstractResource {
 		
 		public function TextResource(
 			data:Object = null,

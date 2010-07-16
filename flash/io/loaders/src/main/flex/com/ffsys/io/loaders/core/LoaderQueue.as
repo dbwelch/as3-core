@@ -25,7 +25,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.message.ILoadMessageFormatter;
 	import com.ffsys.io.loaders.responder.ILoadResponder;
-	import com.ffsys.io.loaders.events.LoaderQueueStartEvent;
 	import com.ffsys.io.loaders.responder.ILoadResponderDecorator;
 	import com.ffsys.io.loaders.responder.LoadResponderDecorator;
 	
@@ -487,7 +486,8 @@ package com.ffsys.io.loaders.core {
 				}
 			}
 			
-			var evt:LoaderQueueStartEvent = new LoaderQueueStartEvent( null, loader );
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.LOAD_ITEM_START ,null, loader );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
 			

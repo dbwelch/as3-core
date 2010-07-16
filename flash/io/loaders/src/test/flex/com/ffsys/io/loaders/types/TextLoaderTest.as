@@ -53,12 +53,12 @@ package com.ffsys.io.loaders.types {
 			passThroughData:Object ):void
 		{
 			Assert.assertTrue(
-				event is TextLoadEvent );
+				event is LoadEvent );
 			Assert.assertNotNull( event.resource );	
 			Assert.assertTrue( event.resource is TextResource );
 			//Assert.assertTrue( TextResource( event.resource ).bytesTotal > 0 );
 			Assert.assertEquals(
-				"this is some test text.", TextLoadEvent( event ).text );
+				"this is some test text.", TextResource( event.resource ).text );
 		}
 		
 		[Test(async)]

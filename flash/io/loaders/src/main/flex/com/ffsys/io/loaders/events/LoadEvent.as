@@ -32,6 +32,12 @@ package com.ffsys.io.loaders.events {
 		*/
 		static public const LOAD_COMPLETE:String = "loadComplete";
 		
+		/**
+		*	Event dispatched by a loader queue prior to loading
+		*	an item in the queue.	
+		*/
+		static public const LOAD_ITEM_START:String = "loadItemStart";		
+		
 		public function LoadEvent(
 			type:String,
 			triggerEvent:Event,

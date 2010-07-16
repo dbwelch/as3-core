@@ -9,7 +9,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.AbstractLoader;
 	import com.ffsys.io.loaders.core.LoadOptions;
 	
-	import com.ffsys.io.loaders.events.TextLoadEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.resources.TextResource;
 	
@@ -55,7 +55,8 @@ package com.ffsys.io.loaders.types {
 			{
 				resource = new TextResource( txt, uri );
 				
-				var evt:TextLoadEvent = new TextLoadEvent(
+				var evt:LoadEvent = new LoadEvent(
+					LoadEvent.DATA,
 					event,
 					this,
 					resource as TextResource
