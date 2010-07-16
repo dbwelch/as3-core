@@ -8,7 +8,7 @@ package com.ffsys.ui.loaders
 	import com.ffsys.io.loaders.core.ILoader;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.LoaderQueue;
-	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.ui.containers.Cell;
 	import com.ffsys.ui.core.InteractiveComponent;
@@ -690,7 +690,7 @@ package com.ffsys.ui.loaders
 			for( var i:int = 0;i < this.urls.length;i++ )
 			{
 				loader = getLoader( this.urls[ i ] );
-				_queue.addLoader( loader.request, loader );
+				_queue.addLoader( loader );
 			}
 			
 			removeLoaderListeners();
@@ -722,15 +722,15 @@ package com.ffsys.ui.loaders
 		private function addLoaderListeners():void
 		{
 			_queue.addEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound, false, 0, false );
 			
 			_queue.addEventListener(
-				LoadStartEvent.LOAD_START,
+				LoadEvent.LOAD_START,
 				loadStart, false, 0, false );
 				
 			_queue.addEventListener(
-				LoadProgressEvent.LOAD_PROGRESS,
+				LoadEvent.LOAD_PROGRESS,
 				loadProgress, false, 0, false );
 			
 			_queue.addEventListener(
@@ -738,7 +738,7 @@ package com.ffsys.ui.loaders
 				loadComplete, false, 0, false );
 				
 			_queue.addEventListener(
-				LoadCompleteEvent.LOAD_COMPLETE,
+				LoadEvent.LOAD_COMPLETE,
 				completed, false, 0, false );
 		}
 		
@@ -748,15 +748,15 @@ package com.ffsys.ui.loaders
 		private function removeLoaderListeners():void
 		{
 			_queue.removeEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound );
 			
 			_queue.removeEventListener(
-				LoadStartEvent.LOAD_START,
+				LoadEvent.LOAD_START,
 				loadStart );
 				
 			_queue.removeEventListener(
-				LoadProgressEvent.LOAD_PROGRESS,
+				LoadEvent.LOAD_PROGRESS,
 				loadProgress );
 			
 			_queue.removeEventListener(
@@ -764,14 +764,14 @@ package com.ffsys.ui.loaders
 				loadComplete );
 				
 			_queue.addEventListener(
-				LoadCompleteEvent.LOAD_COMPLETE,
+				LoadEvent.LOAD_COMPLETE,
 				completed );
 		}
 		
 		/**
 		*	@private
 		*/
-		protected function loadStart( event:ILoadEvent ):void
+		protected function loadStart( event:LoadEvent ):void
 		{
 			//TODO: wrap these in a custom event
 			//trace("AbstractLoaderComponent::loadStart()");
@@ -786,7 +786,7 @@ package com.ffsys.ui.loaders
 		*	@private
 		*/
 		protected function resourceNotFound(
-			event:ILoadEvent ):void
+			event:LoadEvent ):void
 		{
 			//TODO: wrap these in a custom event
 			//trace("AbstractLoaderComponent::resourceNotFound()");
@@ -801,7 +801,7 @@ package com.ffsys.ui.loaders
 		*	@private
 		*/
 		protected function loadProgress( 
-			event:LoadProgressEvent ):void
+			event:LoadEvent ):void
 		{
 			//TODO: wrap these in a custom event
 			//trace("AbstractLoaderComponent::loadProgress()");
@@ -816,7 +816,7 @@ package com.ffsys.ui.loaders
 		*	@private
 		*/
 		protected function loadComplete( 
-			event:ILoadEvent ):void
+			event:LoadEvent ):void
 		{
   			if( _preloader )
 			{
@@ -850,7 +850,7 @@ package com.ffsys.ui.loaders
 		*	@private
 		*/
 		protected function completed( 
-			event:ILoadEvent ):void
+			event:LoadEvent ):void
 		{
 			if( _preloader )
 			{

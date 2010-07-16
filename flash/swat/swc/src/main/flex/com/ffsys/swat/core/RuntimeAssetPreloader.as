@@ -7,7 +7,7 @@ package com.ffsys.swat.core {
 	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.io.loaders.core.*;
-	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.types.*;
 	
 	import com.ffsys.swat.configuration.ConfigurationParser;
@@ -126,15 +126,15 @@ package com.ffsys.swat.core {
 		public function load():void
 		{					
 			_configurationLoader.addEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound, false, 0, false );
 			
 			_configurationLoader.addEventListener(
-				LoadStartEvent.LOAD_START,
+				LoadEvent.LOAD_START,
 				loadStart, false, 0, false );
 				
 			_configurationLoader.addEventListener(
-				LoadProgressEvent.LOAD_PROGRESS,
+				LoadEvent.LOAD_PROGRESS,
 				loadProgress, false, 0, false );
 			
 			_configurationLoader.addEventListener(
@@ -151,7 +151,7 @@ package com.ffsys.swat.core {
 		*	@private
 		*/
 		private function configurationLoadComplete( 
-			event:XmlLoadEvent ):void
+			event:LoadEvent ):void
 		{			
 			//keep a reference to the configuration
 			_configuration = _configurationLoader.configuration;
@@ -160,15 +160,15 @@ package com.ffsys.swat.core {
 			_configuration.lang = SwatFlashVariables( _flashvars ).lang;
 			
 			_configurationLoader.removeEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound );
 			
 			_configurationLoader.removeEventListener(
-				LoadStartEvent.LOAD_START,
+				LoadEvent.LOAD_START,
 				loadStart );
 				
 			_configurationLoader.removeEventListener(
-				LoadProgressEvent.LOAD_PROGRESS,
+				LoadEvent.LOAD_PROGRESS,
 				loadProgress );
 			
 			_configurationLoader.removeEventListener(
@@ -208,15 +208,15 @@ package com.ffsys.swat.core {
 			_assets = this.configuration.rsls.queue;
 			
 			_assets.addEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound, false, 0, false );
 				
 			_assets.addEventListener(
-				LoadStartEvent.LOAD_START,
+				LoadEvent.LOAD_START,
 				loadStart, false, 0, false );
 			
 			_assets.addEventListener(
-				LoadProgressEvent.LOAD_PROGRESS,
+				LoadEvent.LOAD_PROGRESS,
 				loadProgress, false, 0, false );
 			
 			_assets.addEventListener(
@@ -224,7 +224,7 @@ package com.ffsys.swat.core {
 				itemLoaded, false, 0, false );
 				
 			_assets.addEventListener(
-				LoadCompleteEvent.LOAD_COMPLETE,
+				LoadEvent.LOAD_COMPLETE,
 				loadComplete, false, 0, false );
 			
 			_assets.load();
@@ -236,7 +236,7 @@ package com.ffsys.swat.core {
 		*	@private	
 		*/
 		private function resourceNotFound(
-			event:ResourceNotFoundEvent ):void
+			event:LoadEvent ):void
 		{	
 			var evt:RslEvent = null;
 			
@@ -254,7 +254,7 @@ package com.ffsys.swat.core {
 		/**
 		*	@private
 		*/
-		private function loadStart( event:LoadStartEvent ):void
+		private function loadStart( event:LoadEvent ):void
 		{
 			var evt:RslEvent = null;
 			
@@ -284,7 +284,7 @@ package com.ffsys.swat.core {
 		*	@private
 		*/
 		private function loadProgress( 
-			event:LoadProgressEvent ):void
+			event:LoadEvent ):void
 		{
 			var evt:RslEvent = null;
 			
@@ -344,26 +344,26 @@ package com.ffsys.swat.core {
 		/**
 		*	@private
 		*/
-		private function loadComplete( event:Event ):void
+		private function loadComplete( event:LoadEvent ):void
 		{
 			//cleanup
 			_assets.removeEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound );
 			
 			_assets.removeEventListener(
-				LoadStartEvent.LOAD_START,
+				LoadEvent.LOAD_START,
 				loadStart );
 			
 			_assets.removeEventListener(
-				LoadProgressEvent.LOAD_PROGRESS,
+				LoadEvent.LOAD_PROGRESS,
 					loadProgress );
 				
 			_assets.removeEventListener(
 				LoadEvent.DATA, itemLoaded );
 				
 			_assets.removeEventListener(
-				LoadCompleteEvent.LOAD_COMPLETE, 
+				LoadEvent.LOAD_COMPLETE, 
 				loadComplete );
 				
 			_assets = null;

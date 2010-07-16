@@ -64,7 +64,7 @@ package com.ffsys.swat.configuration {
 						new LoaderContext( false, ApplicationDomain.currentDomain );
 				}
 				
-				queue.addLoader( loader.request, loader );
+				queue.addLoader( loader );
 			}
 		}
 	}

@@ -5,7 +5,7 @@ package com.ffsys.swat
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.Locale;
@@ -60,7 +60,7 @@ package com.ffsys.swat
 		}
 		
 		private function assertLoadedConfiguration(
-			event:XmlLoadEvent,
+			event:LoadEvent,
 			passThroughData:Object ):void
 		{
 			var configuration:IConfiguration = _configurationLoader.configuration;

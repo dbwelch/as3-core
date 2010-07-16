@@ -26,7 +26,6 @@
 		<module>combined</module>		
 		<module>containers</module>
 		<module>core</module>
-		<module>default-skins</module>
 		<module>display</module>
 		<module>events</module>
 		<module>graphics</module>

@@ -4,10 +4,7 @@ package com.ffsys.swat.configuration {
 	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
-	import com.ffsys.io.loaders.events.XmlLoadEvent;
+	import com.ffsys.io.loaders.resources.XmlResource;
 	import com.ffsys.io.loaders.types.XmlLoader;
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
@@ -75,15 +72,15 @@ package com.ffsys.swat.configuration {
 			_loader = new XmlLoader();
 			
 			_loader.addEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound, false, 0, false );
 			
 			_loader.addEventListener(
-				LoadStartEvent.LOAD_START,
+				LoadEvent.LOAD_START,
 				loadStart, false, 0, false );
 				
 			_loader.addEventListener(
-				LoadProgressEvent.LOAD_PROGRESS,
+				LoadEvent.LOAD_PROGRESS,
 				loadProgress, false, 0, false );
 			
 			_loader.addEventListener(
@@ -96,7 +93,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@private
 		*/
-		private function loadStart( event:LoadStartEvent ):void
+		private function loadStart( event:LoadEvent ):void
 		{
 			// inform the system config loading has begun
 			dispatchEvent( event );
@@ -106,7 +103,7 @@ package com.ffsys.swat.configuration {
 		*	@private	
 		*/
 		private function resourceNotFound(
-			event:ResourceNotFoundEvent ):void
+			event:LoadEvent ):void
 		{
 			dispatchEvent( event );
 		}
@@ -115,7 +112,7 @@ package com.ffsys.swat.configuration {
 		*	@private
 		*/
 		private function loadProgress( 
-			event:LoadProgressEvent ):void
+			event:LoadEvent ):void
 		{
 			//fired while the configuration xml is loading
 			dispatchEvent( event );
@@ -125,22 +122,22 @@ package com.ffsys.swat.configuration {
 		*	@private
 		*/
 		private function loadComplete( 
-			event:XmlLoadEvent ):void
+			event:LoadEvent ):void
 		{
 			//configuration xml loaded successfully
 			
-			_configuration = parse( event.xml );
+			_configuration = parse( XmlResource( event.resource ).xml );
 			
 			//cleanup
 			_loader.removeEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound );
 			
 			_loader.removeEventListener(
-				LoadStartEvent.LOAD_START, loadStart );
+				LoadEvent.LOAD_START, loadStart );
 				
 			_loader.removeEventListener(
-				LoadProgressEvent.LOAD_PROGRESS, loadProgress );
+				LoadEvent.LOAD_PROGRESS, loadProgress );
 			
 			_loader.removeEventListener(
 				LoadEvent.DATA, loadComplete );

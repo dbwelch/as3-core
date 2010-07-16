@@ -13,16 +13,10 @@ package com.ffsys.utils.font {
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	
-	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
-	import com.ffsys.io.loaders.events.LoaderQueueStartEvent;
-	import com.ffsys.io.loaders.events.LoadCompleteEvent;
-	import com.ffsys.io.loaders.events.MovieLoadEvent;
-	import com.ffsys.io.loaders.events.XmlLoadEvent;
 	import com.ffsys.io.loaders.types.XmlLoader;
 	import com.ffsys.io.loaders.types.MovieLoader;
+	import com.ffsys.io.loaders.resources.XmlResource;
 	
 	import com.ffsys.utils.locale.ILocale;
 	
@@ -245,14 +239,14 @@ package com.ffsys.utils.font {
 			}
 			
 			_loader.addEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND,
+				LoadEvent.RESOURCE_NOT_FOUND,
 				definitionResourceNotFound, false, 0, true );
 			
 			_loader.addEventListener(
-				LoadStartEvent.LOAD_START, definitionLoadStart, false, 0, true );
+				LoadEvent.LOAD_START, definitionLoadStart, false, 0, true );
 				
 			_loader.addEventListener(
-				LoadProgressEvent.LOAD_PROGRESS, definitionLoadProgress, false, 0, true );
+				LoadEvent.LOAD_PROGRESS, definitionLoadProgress, false, 0, true );
 			
 			_loader.addEventListener(
 				LoadEvent.DATA, definitionLoadComplete, false, 0, true );
@@ -265,12 +259,12 @@ package com.ffsys.utils.font {
 		*	@private
 		*/
 		private function definitionResourceNotFound(
-			event:ResourceNotFoundEvent ):void
+			event:LoadEvent ):void
 		{
 			//explicitly clone so that the default
 			//behaviour can be cancelled
-			var evt:ResourceNotFoundEvent =
-				ResourceNotFoundEvent( event.clone() );
+			var evt:LoadEvent =
+				LoadEvent( event.clone() );
 			dispatchEvent( evt );
 			
 			//the user can listen for this event
@@ -286,7 +280,7 @@ package com.ffsys.utils.font {
 		/**
 		*	@private
 		*/
-		private function definitionLoadStart( event:LoadStartEvent ):void
+		private function definitionLoadStart( event:LoadEvent ):void
 		{
 			dispatchEvent( event );
 		}
@@ -294,7 +288,7 @@ package com.ffsys.utils.font {
 		/**
 		*	@private
 		*/		
-		private function definitionLoadProgress( event:LoadProgressEvent ):void
+		private function definitionLoadProgress( event:LoadEvent ):void
 		{
 			dispatchEvent( event );
 		}
@@ -302,23 +296,23 @@ package com.ffsys.utils.font {
 		/**
 		*	@private
 		*/		
-		private function definitionLoadComplete( event:XmlLoadEvent ):void
+		private function definitionLoadComplete( event:LoadEvent ):void
 		{	
 			
 			var parser:ITypeFaceParser =
 				new TypeFaceParser();
 				
-			parser.parse( event.xml, this );
+			parser.parse( XmlResource( event.resource ).xml, this );
 			
 			//cleanup
 			_loader.removeEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND, definitionResourceNotFound );			
+				LoadEvent.RESOURCE_NOT_FOUND, definitionResourceNotFound );			
 			
 			_loader.removeEventListener(
-				LoadStartEvent.LOAD_START, definitionLoadStart );
+				LoadEvent.LOAD_START, definitionLoadStart );
 			
 			_loader.removeEventListener(
-				LoadProgressEvent.LOAD_PROGRESS, definitionLoadProgress );
+				LoadEvent.LOAD_PROGRESS, definitionLoadProgress );
 			
 			_loader.removeEventListener(
 				LoadEvent.DATA, definitionLoadComplete );
@@ -361,23 +355,23 @@ package com.ffsys.utils.font {
 			{
 				path = paths[ i ];
 				loader = new MovieLoader( new URLRequest( path ) );
-				_queue.addLoader( loader.request, loader );
+				_queue.addLoader( loader );
 			}
 			
 			_queue.addEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND, libraryResourceNotFound, false, 0, true );
+				LoadEvent.RESOURCE_NOT_FOUND, libraryResourceNotFound, false, 0, true );
 			
 			_queue.addEventListener(
-				LoaderQueueStartEvent.LOAD_ITEM_START, libraryLoadStart, false, 0, true );
+				LoadEvent.LOAD_ITEM_START, libraryLoadStart, false, 0, true );
 				
 			_queue.addEventListener(
-				LoadProgressEvent.LOAD_PROGRESS, libraryLoadProgress, false, 0, true );
+				LoadEvent.LOAD_PROGRESS, libraryLoadProgress, false, 0, true );
 				
 			_queue.addEventListener(
 				LoadEvent.DATA, libraryLoaded, false, 0, true );
 				
 			_queue.addEventListener(
-				LoadCompleteEvent.LOAD_COMPLETE, libraryLoadComplete, false, 0, true );
+				LoadEvent.LOAD_COMPLETE, libraryLoadComplete, false, 0, true );
 			
 			_queue.load();
 		}
@@ -385,12 +379,12 @@ package com.ffsys.utils.font {
 		/**
 		*	@private	
 		*/
-		private function libraryResourceNotFound( event:ResourceNotFoundEvent ):void
+		private function libraryResourceNotFound( event:LoadEvent ):void
 		{
 			//explicitly clone so that the default
 			//behaviour can be cancelled
-			var evt:ResourceNotFoundEvent =
-				ResourceNotFoundEvent( event.clone() );
+			var evt:LoadEvent =
+				LoadEvent( event.clone() );
 			dispatchEvent( evt );
 			
 			//the user can listen for this event
@@ -406,7 +400,7 @@ package com.ffsys.utils.font {
 		/**
 		*	@private	
 		*/
-		private function libraryLoadStart( event:LoaderQueueStartEvent ):void
+		private function libraryLoadStart( event:LoadEvent ):void
 		{
 			//trace("TypeFaceManager::libraryLoadStart(), " + event );
 			dispatchEvent( event );
@@ -415,7 +409,7 @@ package com.ffsys.utils.font {
 		/**
 		*	@private	
 		*/		
-		private function libraryLoadProgress( event:LoadProgressEvent ):void
+		private function libraryLoadProgress( event:LoadEvent ):void
 		{
 			//trace("TypeFaceManager::libraryLoadProgress(), " + event );
 			dispatchEvent( event );
@@ -424,7 +418,7 @@ package com.ffsys.utils.font {
 		/**
 		*	@private	
 		*/		
-		private function libraryLoaded( event:MovieLoadEvent ):void
+		private function libraryLoaded( event:LoadEvent ):void
 		{
 			//trace("TypeFaceManager::libraryLoaded(), " + event );
 			dispatchEvent( event );
@@ -433,7 +427,7 @@ package com.ffsys.utils.font {
 		/**
 		*	@private	
 		*/		
-		private function libraryLoadComplete( event:LoadCompleteEvent ):void
+		private function libraryLoadComplete( event:LoadEvent ):void
 		{
 			//trace("TypeFaceManager::libraryLoadComplete(), " + event );
 
@@ -441,19 +435,19 @@ package com.ffsys.utils.font {
 			
 			//cleanup the listeners
 			_queue.removeEventListener(
-				ResourceNotFoundEvent.RESOURCE_NOT_FOUND, libraryResourceNotFound );
+				LoadEvent.RESOURCE_NOT_FOUND, libraryResourceNotFound );
 			
 			_queue.removeEventListener(
-				LoaderQueueStartEvent.LOAD_ITEM_START, libraryLoadStart );
+				LoadEvent.LOAD_ITEM_START, libraryLoadStart );
 				
 			_queue.removeEventListener(
-				LoadProgressEvent.LOAD_PROGRESS, libraryLoadProgress );
+				LoadEvent.LOAD_PROGRESS, libraryLoadProgress );
 				
 			_queue.removeEventListener(
 				LoadEvent.DATA, libraryLoaded );
 				
 			_queue.removeEventListener(
-				LoadCompleteEvent.LOAD_COMPLETE, libraryLoadComplete );
+				LoadEvent.LOAD_COMPLETE, libraryLoadComplete );
 				
 			_queue = null;
 			

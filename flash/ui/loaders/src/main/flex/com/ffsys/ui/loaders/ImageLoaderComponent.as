@@ -6,8 +6,8 @@ package com.ffsys.ui.loaders
 	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.core.ILoader;
-	import com.ffsys.io.loaders.events.ILoadEvent;
-	import com.ffsys.io.loaders.events.ImageLoadEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.resources.ImageResource;
 	import com.ffsys.io.loaders.types.ImageLoader;
 	import com.ffsys.io.loaders.display.ImageDisplay;
 	
@@ -22,13 +22,6 @@ package com.ffsys.ui.loaders
 	*/
 	public class ImageLoaderComponent extends AbstractLoaderComponent
 	{
-		/**
-		* 	@private
-		* 
-		* 	Force compilation of the image display class.
-		*/
-		static private var _display:ImageDisplay;
-		
 		private var _sprites:Vector.<Sprite> = new Vector.<Sprite>();
 		
 		/**
@@ -76,10 +69,9 @@ package com.ffsys.ui.loaders
 		*	@private
 		*/
 		override protected function loadComplete(
-			event:ILoadEvent ):void
+			event:LoadEvent ):void
 		{
-			var evt:ImageLoadEvent = ImageLoadEvent( event );
-			var display:Sprite = Sprite( evt.image );
+			var display:Sprite = Sprite( ImageResource( event.resource ).image );
 			
 			if( display )
 			{
