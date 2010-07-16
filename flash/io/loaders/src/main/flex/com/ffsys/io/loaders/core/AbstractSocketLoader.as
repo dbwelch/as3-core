@@ -13,7 +13,6 @@ package com.ffsys.io.loaders.core {
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
-	import com.ffsys.io.loaders.message.ILoadMessage;
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	

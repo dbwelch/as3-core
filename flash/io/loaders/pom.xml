@@ -28,11 +28,18 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>identifier</artifactId>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>	
+		</dependency>		
+		
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>connection</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
@@ -43,30 +50,10 @@
 		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
-			<artifactId>string</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>		
-		
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
 			<artifactId>array</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>		
-		
-		<dependency>
-			<groupId>com.ffsys.io</groupId>
-			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>			
-		
-		<dependency>
-			<groupId>com.ffsys.io</groupId>
-			<artifactId>connection</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>			
+		</dependency>
+	
 	</dependencies>
 </project>

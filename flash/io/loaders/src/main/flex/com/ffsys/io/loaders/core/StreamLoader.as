@@ -18,8 +18,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
-	import com.ffsys.io.loaders.message.ILoadMessage;
-	
 	import com.ffsys.io.loaders.resources.BinaryResource;
 	
 	import com.ffsys.io.loaders.resources.IResource;
@@ -474,19 +472,6 @@ package com.ffsys.io.loaders.core {
 		public function get customData():Object
 		{
 			return _decorator.customData;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set message( val:ILoadMessage ):void
-		{
-			_decorator.message = val;
-		}
-		
-		public function get message():ILoadMessage
-		{
-			return _decorator.message;
 		}
 		
 		/**

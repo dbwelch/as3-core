@@ -12,7 +12,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.io.loaders.responder.ILoadResponderDecorator;
 	import com.ffsys.io.loaders.resources.IResourceAccess;
-	import com.ffsys.io.loaders.message.ILoadMessageFormatter;
 	
 	/**
 	*	Describes the contract for instances that contain
@@ -41,9 +40,6 @@ package com.ffsys.io.loaders.core {
 		*	Flushes any loaded resources.
 		*/
 		function flushResources():void;
-					
-		function set formatter( val:ILoadMessageFormatter ):void;
-		function get formatter():ILoadMessageFormatter;					
 		
 		function getAllLoaders():Array;
 		

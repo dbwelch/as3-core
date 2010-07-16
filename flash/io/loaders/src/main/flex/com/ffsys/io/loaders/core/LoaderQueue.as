@@ -14,14 +14,11 @@ package com.ffsys.io.loaders.core {
 	
 	import flash.utils.Timer;
 	
-	import com.ffsys.utils.string.StringUtils;
-	
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.core.IBytesTotal;
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.message.ILoadMessageFormatter;
 	import com.ffsys.io.loaders.responder.ILoadResponder;
 	import com.ffsys.io.loaders.responder.ILoadResponderDecorator;
 	import com.ffsys.io.loaders.responder.LoadResponderDecorator;
@@ -82,7 +79,6 @@ package com.ffsys.io.loaders.core {
 		protected var _loadOptionsDecorator:ILoadOptionsDecorator;
 		
 		protected var _resources:ResourceList;
-		protected var _formatter:ILoadMessageFormatter;
 		
 		/**
 		*	@private	
@@ -863,16 +859,6 @@ package com.ffsys.io.loaders.core {
 		public function resourceLoadComplete( event:LoadEvent ):void
 		{
 			//dispatchEvent( event );
-		}
-		
-		public function set formatter( val:ILoadMessageFormatter ):void
-		{
-			_formatter = val;
-		}
-		
-		public function get formatter():ILoadMessageFormatter
-		{
-			return _formatter;
 		}
 		
 		/*

@@ -1,8 +1,8 @@
 package com.ffsys.io.core {
 	
 	/**
-	*	Describes the contract for instances that
-	*	can <code>close</code> an open connection.
+	*	Describes the contract for implementations that
+	*	can close an open connection.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -13,7 +13,7 @@ package com.ffsys.io.core {
 	public interface IClose {
 		
 		/**
-		*	Closes any open connection(s).
+		*	Closes all open connections.
 		*/
 		function close():void;
 	}

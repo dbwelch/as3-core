@@ -2,7 +2,6 @@ package com.ffsys.io.loaders.core {
 	
 	import flash.net.URLRequest;
 	
-	import com.ffsys.io.loaders.message.ILoadMessage;
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
@@ -40,14 +39,6 @@ package com.ffsys.io.loaders.core {
 		*/
 		function set customData( val:Object ):void;
 		function get customData():Object;
-		
-		/**
-		*	An <code>ILoadMessage</code> that can
-		*	be used to display a message to the user
-		*	while a resource is loading.	
-		*/
-		function set message( val:ILoadMessage ):void;
-		function get message():ILoadMessage;
 		
 		/**
 		*	An <code>IResource</code> implementation

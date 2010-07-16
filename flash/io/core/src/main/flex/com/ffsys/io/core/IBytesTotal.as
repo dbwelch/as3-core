@@ -1,8 +1,8 @@
 package com.ffsys.io.core {
 	
 	/**
-	*	Describes the contract for instances that have a 
-	*	<code>bytesTotal</code> property.
+	*	Describes the contract for implementations that expose 
+	*	the total number of bytes.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

@@ -2,12 +2,10 @@ package com.ffsys.io.loaders.core {
 	
 	import flash.net.URLRequest;
 	
-	import com.ffsys.io.loaders.message.ILoadMessage;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	import com.ffsys.io.loaders.resources.IResource;
 	
 	import com.ffsys.utils.identifier.IdentifierUtils;
-	import com.ffsys.utils.string.StringUtils;
 	
 	/**
 	*	Decorates classes that implement the
@@ -37,11 +35,6 @@ package com.ffsys.io.loaders.core {
 		*	@private	
 		*/	
 		protected var _list:IResourceList;
-
-		/**
-		*	@private	
-		*/	
-		protected var _message:ILoadMessage;
 
 		/**
 		*	@private	
@@ -112,25 +105,6 @@ package com.ffsys.io.loaders.core {
 		public function get customData():Object
 		{
 			return _customData;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set message( val:ILoadMessage ):void
-		{
-			_message = val;
-			
-			//pass our id into the message
-			if( val && id )
-			{
-				val.id = id;
-			}
-		}
-		
-		public function get message():ILoadMessage
-		{
-			return _message;
 		}
 		
 		/**

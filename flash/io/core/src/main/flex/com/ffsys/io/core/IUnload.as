@@ -1,8 +1,8 @@
 package com.ffsys.io.core {
 	
 	/**
-	*	Describes the contract for instances that can
-	*	<code>unload</code> loaded content.
+	*	Describes the contract for implementations that can
+	*	unload loaded content.
 	*	
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
