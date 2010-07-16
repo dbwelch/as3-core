@@ -114,8 +114,6 @@ package com.ffsys.swat.configuration.locale {
 				throw new Error( "Cannot update the language with null locales data." );
 			}
 			
-			trace("LocaleManager::set lang(), ", lang );
-			
 			if( lang )
 			{
 				var selected:ILocale = null;
@@ -134,8 +132,6 @@ package com.ffsys.swat.configuration.locale {
 						break;
 					}
 				}
-				
-				trace("LocaleManager::set lang(), ", selected, this.locales, this.length );
 				
 				if( !hasDelimiter )
 				{
@@ -260,7 +256,6 @@ package com.ffsys.swat.configuration.locale {
 		{
 			if( value is ILocale )
 			{
-				trace("LocaleManager::adding locale(), ", value, ILocale( value ).lang, this.length );
 				addLocale( ILocale( value ) );
 			}else if( hasOwnProperty( name ) )
 			{

@@ -30,7 +30,7 @@ package com.ffsys.io.loaders.types {
 		}
 		
 		/**
-		*	Gets the loader used for the test.
+		*	@inheritDoc
 		*/
 		override protected function getLoader():ILoader
 		{

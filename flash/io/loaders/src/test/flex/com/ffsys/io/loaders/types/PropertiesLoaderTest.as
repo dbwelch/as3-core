@@ -10,21 +10,23 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.events.*;
 	import com.ffsys.io.loaders.resources.*;
 	
+	import com.ffsys.utils.properties.IProperties;
+	
 	/**
-	*	Unit test for loading sound files.
+	*	Unit test for loading properties files.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  15.07.2010
+	*	@since  16.07.2010
 	*/
-	public class SoundLoaderTest extends AbstractLoaderUnit {
+	public class PropertiesLoaderTest extends AbstractLoaderUnit {
 		
 		/**
-		*	Creates a <code>SoundLoaderTest</code> instance.
+		*	Creates a <code>PropertiesLoaderTest</code> instance.
 		*/
-		public function SoundLoaderTest()
+		public function PropertiesLoaderTest()
 		{
 			super();
 		}
@@ -34,7 +36,7 @@ package com.ffsys.io.loaders.types {
 		*/
 		override protected function getLoader():ILoader
 		{
-			return new SoundLoader();
+			return new PropertiesLoader();
 		}
 		
 		/**
@@ -42,7 +44,7 @@ package com.ffsys.io.loaders.types {
 		*/
 		override protected function getLoadRequest():URLRequest
 		{
-			return new URLRequest( "assets/test.mp3" );
+			return new URLRequest( "assets/test.properties" );
 		}
 		
 		/**
@@ -55,8 +57,10 @@ package com.ffsys.io.loaders.types {
 			Assert.assertTrue(
 				event is LoadEvent );
 			Assert.assertNotNull( event.resource );	
-			Assert.assertTrue( event.resource is SoundResource );
-			//Assert.assertTrue( SoundResource( event.resource ).bytesTotal > 0 );
+			Assert.assertTrue( event.resource is PropertiesResource );
+			
+			Assert.assertTrue(
+				PropertiesResource( event.resource ).properties is IProperties );
 		}
 		
 		[Test(async)]

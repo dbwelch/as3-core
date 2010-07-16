@@ -66,8 +66,6 @@ package com.ffsys.swat.configuration {
 		public function set locales( locales:ILocaleManager ):void
 		{
 			_locales = locales;
-			
-			trace("Configuration::set locales(), ", locales.length );
 		}
 		
 		/**

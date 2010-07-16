@@ -85,10 +85,8 @@ package com.ffsys.utils.locale {
 		*/
 		public function addLocale( locale:ILocale ):int
 		{
-			trace("LocaleCollection::addLocale(), ", locale, hasLocale( locale ) );
 			if( locale != null && !hasLocale( locale ) )
 			{
-				trace("LocaleCollection::addLocale(), ADDING LOCALE", locale );
 				_locales.push( locale );
 			}
 			
