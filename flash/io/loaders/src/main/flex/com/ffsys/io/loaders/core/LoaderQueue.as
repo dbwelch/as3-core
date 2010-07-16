@@ -22,10 +22,9 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadCompleteEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.message.ILoadMessageFormatter;
 	import com.ffsys.io.loaders.responder.ILoadResponder;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
 	import com.ffsys.io.loaders.events.LoaderQueueStartEvent;
 	import com.ffsys.io.loaders.responder.ILoadResponderDecorator;
 	import com.ffsys.io.loaders.responder.LoadResponderDecorator;
@@ -415,11 +414,6 @@ package com.ffsys.io.loaders.core {
 			return _item;
 		}
 		
-		private function bytesTotalAvailable( event:LoadCompleteEvent ):void
-		{
-			event.target.removeEventListener( event.type, bytesTotalAvailable );
-		}
-		
 		protected function dispatchLoadCompleteEvent():void
 		{
 			
@@ -428,8 +422,10 @@ package com.ffsys.io.loaders.core {
 			_complete = true;
 			
 			var evt:Event = new Event( Event.COMPLETE );
-			var event:LoadCompleteEvent =
-				new LoadCompleteEvent( evt, ILoader( _item ), resources );
+			
+			var event:LoadEvent =
+				new LoadEvent(
+					LoadEvent.LOAD_COMPLETE, evt, ILoader( _item ), resources );
 				
 			dispatchEvent( event );
 		}
@@ -724,7 +720,7 @@ package com.ffsys.io.loaders.core {
 			if( responder )
 			{
 				this.removeEventListener(
-					LoadCompleteEvent.LOAD_COMPLETE,
+					LoadEvent.LOAD_COMPLETE,
 					responder.resourceLoadComplete );
 			}
 			
@@ -734,7 +730,7 @@ package com.ffsys.io.loaders.core {
 			if( val )
 			{
 				this.addEventListener(
-					LoadCompleteEvent.LOAD_COMPLETE,
+					LoadEvent.LOAD_COMPLETE,
 					val.resourceLoadComplete, false, 0, true );
 			}
 		}
@@ -817,7 +813,7 @@ package com.ffsys.io.loaders.core {
 			
 		}
 		
-		public function resourceLoadStart( event:LoadStartEvent ):void
+		public function resourceLoadStart( event:LoadEvent ):void
 		{
 			//dispatchEvent( event as Event );
 			dispatchEvent( event.clone() );
@@ -891,7 +887,7 @@ package com.ffsys.io.loaders.core {
 			next();
 		}
 		
-		public function resourceLoadComplete( event:LoadCompleteEvent ):void
+		public function resourceLoadComplete( event:LoadEvent ):void
 		{
 			//dispatchEvent( event );
 		}

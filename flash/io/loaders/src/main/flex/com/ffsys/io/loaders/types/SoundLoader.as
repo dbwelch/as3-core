@@ -15,7 +15,6 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.LoadOptions;	
 	
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
 	import com.ffsys.io.loaders.events.SoundLoadEvent;
 	
 	import com.ffsys.io.loaders.resources.SoundResource;

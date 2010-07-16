@@ -10,9 +10,8 @@ package com.ffsys.io.loaders.responder {
 	
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
-	import com.ffsys.io.loaders.events.LoadCompleteEvent;
 	
 	import com.ffsys.utils.array.ArrayUtils;
 	
@@ -77,11 +76,11 @@ package com.ffsys.io.loaders.responder {
 					//trace( "Add responder listeners to responder : " + responder );
 					
 					if( !filters ||
-						filters && !( ArrayUtils.contains( filters, LoadStartEvent.LOAD_START ) ) )
+						filters && !( ArrayUtils.contains( filters, LoadEvent.LOAD_START ) ) )
 					{
 						//trace( "Add load start responder" );
 						dispatcher.addEventListener(
-							LoadStartEvent.LOAD_START, responder.resourceLoadStart, false, 0, true );
+							LoadEvent.LOAD_START, responder.resourceLoadStart, false, 0, true );
 					}
 					
 					
@@ -132,7 +131,7 @@ package com.ffsys.io.loaders.responder {
 			{
 				if( responder )
 				{
-					dispatcher.removeEventListener( LoadStartEvent.LOAD_START, responder.resourceLoadStart );
+					dispatcher.removeEventListener( LoadEvent.LOAD_START, responder.resourceLoadStart );
 					dispatcher.removeEventListener( LoadProgressEvent.LOAD_PROGRESS, responder.resourceLoadProgress );
 					dispatcher.removeEventListener( LoadEvent.DATA, responder.resourceLoaded );
 					dispatcher.removeEventListener( ResourceNotFoundEvent.RESOURCE_NOT_FOUND, responder.resourceNotFoundHandler );
@@ -162,7 +161,7 @@ package com.ffsys.io.loaders.responder {
 			_decorated.dispatchEvent( event as Event );
 		}
 		
-		public function resourceLoadStart( event:LoadStartEvent ):void
+		public function resourceLoadStart( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );
@@ -180,7 +179,7 @@ package com.ffsys.io.loaders.responder {
 			_decorated.dispatchEvent( event as Event );
 		}
 		
-		public function resourceLoadComplete( event:LoadCompleteEvent ):void
+		public function resourceLoadComplete( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );

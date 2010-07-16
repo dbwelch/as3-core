@@ -15,8 +15,7 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
-	import com.ffsys.io.loaders.events.LoadCompleteEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
 	
 	import com.ffsys.io.loaders.message.ILoadMessage;
@@ -157,7 +156,7 @@ package com.ffsys.io.loaders.core {
 			if( startMethod != null )
 			{
 				addEventListener(
-					LoadStartEvent.LOAD_START, startMethod, false, 0, true );
+					LoadEvent.LOAD_START, startMethod, false, 0, true );
 			}
 			
 			if( progressMethod != null )
@@ -195,7 +194,7 @@ package com.ffsys.io.loaders.core {
 			
 			if( startMethod != null )
 			{
-				removeEventListener( LoadStartEvent.LOAD_START, startMethod );
+				removeEventListener( LoadEvent.LOAD_START, startMethod );
 			}
 			
 			if( progressMethod != null )
@@ -276,7 +275,8 @@ package com.ffsys.io.loaders.core {
 		*/
         protected function openHandler( event:Event ):void
 		{
-			var evt:LoadStartEvent = new LoadStartEvent( event, this );
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.LOAD_START, event, this );
 			dispatchEvent( evt as Event );
 			Notifier.dispatchEvent( evt as Event );
         }
@@ -379,7 +379,8 @@ package com.ffsys.io.loaders.core {
 			removeListeners();
 			
 			var event:Event = new Event( Event.COMPLETE );
-			var evt:LoadCompleteEvent = new LoadCompleteEvent( event, this );
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.LOAD_COMPLETE, event, this );
 			
 			dispatchEvent( evt );
 			

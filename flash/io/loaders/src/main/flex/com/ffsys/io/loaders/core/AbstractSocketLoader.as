@@ -18,7 +18,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
 	import com.ffsys.io.loaders.events.ILoadEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.ResourceNotFoundEvent;
@@ -56,83 +55,6 @@ package com.ffsys.io.loaders.core {
 			
 			//_decorator = new LoaderDecorator( request, options );
 		}
-		
-		/*
-		public function getParentId():String
-		{
-			return IdentifierUtils.getParentId( uri );
-		}		
-		
-		public function addResponderListeners(
-			target:IEventDispatcher,
-			startMethod:Function = null,
-			progressMethod:Function = null,			
-			loadedMethod:Function = null,
-			resourceNotFoundMethod:Function = null ):void
-		{
-			
-			if( !target )
-			{
-				throw new Error( "ILoader: cannot modify responder listeners on a null target." );
-			}
-			
-			if( startMethod != null )
-			{
-				addEventListener( LoadStartEvent.LOAD_START, startMethod, false, 0, true );
-			}
-			
-			if( progressMethod != null )
-			{
-				addEventListener( LoadProgressEvent.LOAD_PROGRESS, progressMethod, false, 0, true );
-			}			
-			
-			if( loadedMethod != null )
-			{
-				addEventListener( LoadEvent.DATA, loadedMethod, false, 0, true );
-			}
-			
-			if( resourceNotFoundMethod != null )
-			{
-				addEventListener( ResourceNotFoundEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod, false, 0, true );
-			}
-
-		}
-		
-		public function removeResponderListeners(
-			target:IEventDispatcher,
-			startMethod:Function = null,
-			progressMethod:Function = null,			
-			loadedMethod:Function = null,
-			resourceNotFoundMethod:Function = null ):void
-		{
-			
-			if( !target )
-			{
-				throw new Error( "ILoader: cannot modify responder listeners on a null target." );
-			}
-			
-			if( startMethod != null )
-			{
-				removeEventListener( LoadStartEvent.LOAD_START, startMethod );
-			}
-			
-			if( progressMethod != null )
-			{
-				removeEventListener( LoadProgressEvent.LOAD_PROGRESS, progressMethod );
-			}			
-			
-			if( loadedMethod != null )
-			{
-				removeEventListener( LoadEvent.DATA, loadedMethod );
-			}
-			
-			if( resourceNotFoundMethod != null )
-			{
-				removeEventListener( ResourceNotFoundEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod );
-			}
-
-		}		
-		*/
 		
 		override public function load( request:URLRequest ):void
 		{

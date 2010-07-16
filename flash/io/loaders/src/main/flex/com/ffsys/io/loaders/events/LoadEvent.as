@@ -17,7 +17,20 @@ package com.ffsys.io.loaders.events {
 	*/
 	public class LoadEvent extends AbstractLoadEvent {
 		
-		static public const DATA:String = "data";
+		/**
+		*	Event dispatched when a runtime asset starts loading.	
+		*/
+		static public const LOAD_START:String = "loadStart";
+		
+		/**
+		*	Event dispatched when the data for a runtime asset is available.	
+		*/
+		static public const DATA:String = "dataLoaded";
+		
+		/**
+		*	Event dispatched when a load process is complete.	
+		*/
+		static public const LOAD_COMPLETE:String = "loadComplete";
 		
 		public function LoadEvent(
 			type:String,

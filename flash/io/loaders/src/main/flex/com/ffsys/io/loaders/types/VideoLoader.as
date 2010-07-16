@@ -20,7 +20,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.events.LoadProgressEvent;
-	import com.ffsys.io.loaders.events.LoadStartEvent;
+	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.VideoLoadEvent;
 	import com.ffsys.io.loaders.events.VideoStatusEvent;
 	
@@ -193,7 +193,8 @@ package com.ffsys.io.loaders.types {
 				var event:Event = new Event( Event.OPEN );
 				//dispatchEvent( event );
 				
-				var evt:LoadStartEvent = new LoadStartEvent( event, this );
+				var evt:LoadEvent = new LoadEvent(
+					LoadEvent.LOAD_START, event, this );
 				dispatchEvent( evt );
 			
 				_timer = new Timer( 50 );
