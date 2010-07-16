@@ -24,7 +24,7 @@ package com.ffsys.swat.configuration.rsls {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		public function get id():String
 		{

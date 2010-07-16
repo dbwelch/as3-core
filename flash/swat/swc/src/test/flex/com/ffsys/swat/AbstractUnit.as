@@ -69,6 +69,15 @@ package com.ffsys.swat
 			locale.lang = "en";
 			locale.country = "GB";
 			
+			/*
+			trace("ConfigurationLoadTest::assertLoadedConfiguration(), ",
+				configuration,
+				configuration.locales,
+				configuration.copy,
+				configuration.settings,
+				configuration.assets );
+			*/
+			
 			configuration.copy.locale = locale;
 			
 			Assert.assertNotNull( configuration );

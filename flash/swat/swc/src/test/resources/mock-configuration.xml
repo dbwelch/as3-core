@@ -3,148 +3,47 @@
 	
 	<!-- available locales -->
 	<locales>
+
+		<copy>
+		
+			<!-- the default locale to use -->
+			<locale lang="en" country="GB" />
+		
+			<!-- English text -->
+			<copy-collection>
+				<locale lang="en" country="GB" />
+				<test><![CDATA[This is some test english.]]></test>
+			</copy-collection>
+
+			<!-- Spanish text -->		
+			<copy-collection>
+				<locale lang="es" country="ES" />
+				<test><![CDATA[Esto es algo de español de prueba.]]></test>
+			</copy-collection>
+
+			<!-- German text -->
+			<copy-collection>
+				<locale lang="de" country="DE" />
+				<test><![CDATA[Dies ist ein Test Deutsch.]]></test>
+			</copy-collection>
+		
+			<!-- French text -->
+			<copy-collection>
+				<locale lang="fr" country="FR" />
+				<test><![CDATA[Ceci est un test de français.]]></test>
+			</copy-collection>
+		</copy>
+	
+		<settings>
+			<assets-path>assets/swf/application-assets.swf</assets-path>
+		</settings>
+	
+		<assets id="main">
+		</assets>
+		
 		<locale lang="en" country="GB" />
 		<locale lang="es" country="ES" />
 		<locale lang="de" country="DE" />
 		<locale lang="fr" country="FR" />
 	</locales>
-	
-	<copy>
-		
-		<!-- the default locale to use -->
-		<locale lang="en" country="GB" />
-		
-		<!-- English text -->
-		<copy-collection>
-			<locale lang="en" country="GB" />
-			<test><![CDATA[This is some test english.]]></test>
-		</copy-collection>
-
-		<!-- Spanish text -->		
-		<copy-collection>
-			<locale lang="es" country="ES" />
-			<test><![CDATA[Esto es algo de español de prueba.]]></test>
-		</copy-collection>
-
-		<!-- German text -->
-		<copy-collection>
-			<locale lang="de" country="DE" />
-			<test><![CDATA[Dies ist ein Test Deutsch.]]></test>
-		</copy-collection>
-		
-		<!-- French text -->
-		<copy-collection>
-			<locale lang="fr" country="FR" />
-			<test><![CDATA[Ceci est un test de français.]]></test>
-		</copy-collection>
-	</copy>
-	
-	<settings>
-		<assets-path>assets/swf/application-assets.swf</assets-path>
-		
-		<!--
-		<default-group-icon-path>assets/images/icons/default-group-icon.png</default-group-icon-path>
-		
-		<earth-radius>150</earth-radius>
-		<earth-spin-damping>2</earth-spin-damping>
-		
-		<initial-camera-focus>10</initial-camera-focus>
-		<initial-camera-zoom>60</initial-camera-zoom>
-		<camera-distance>600</camera-distance>
-		
-		<maximum-mapped-markers>50</maximum-mapped-markers>
-		<locations-page-maximum>200</locations-page-maximum>
-		
-		<drawer-width>220</drawer-width>
-		
-		<data-load-mode>local</data-load-mode>
-		<data-base-path>assets/xml/mock/</data-base-path>
-		<data-groups-path>groups.xml</data-groups-path>
-		<data-locations-path>locations.xml</data-locations-path>
-		<data-auto-path>auto-mode.xml</data-auto-path>
-		
-		<default-group-colour>0xff0000</default-group-colour>
-		
-		<auto-rotation-amount>-0.25</auto-rotation-amount>
-		
-		<manual-rotation-left>0.75</manual-rotation-left>
-		<manual-rotation-right>-0.75</manual-rotation-right>
-		
-		<auto-carousel-pause-time>2000</auto-carousel-pause-time>
-		<auto-carousel-focus-time>3000</auto-carousel-focus-time>
-		
-		<manual-mode-timeout-seconds>10</manual-mode-timeout-seconds>
-		<manual-mode-threshold-seconds>5</manual-mode-threshold-seconds>
-		
-		<mode-revert-left-margin>10</mode-revert-left-margin>
-		<mode-revert-bottom-margin>8</mode-revert-bottom-margin>
-		
-		<panel-text-width>220</panel-text-width>
-		<panel-horizontal-margin>15</panel-horizontal-margin>		
-		<panel-padding>15</panel-padding>
-		<panel-vertical-spacing>6</panel-vertical-spacing>		
-		
-		<panel-background-line-thickness>2</panel-background-line-thickness>
-		<panel-background-line-colour>0x999999</panel-background-line-colour>
-		<panel-background-line-alpha>0.75</panel-background-line-alpha>
-		
-		<panel-background-fill-colour>0xa9a9a9a</panel-background-fill-colour>
-		<panel-background-fill-alpha>0.75</panel-background-fill-alpha>
-		
-		<panel-background-corner-radius>6</panel-background-corner-radius>
-		
-		<panel-background-pointer-width>16</panel-background-pointer-width>
-		<panel-background-pointer-height>12</panel-background-pointer-height>
-		
-		<panel-shadow-enabled>true</panel-shadow-enabled>
-		<panel-shadow-angle>45</panel-shadow-angle>
-		<panel-shadow-strength>0.55</panel-shadow-strength>
-		<panel-shadow-alpha>0.75</panel-shadow-alpha>
-		<panel-shadow-blur-x>6</panel-shadow-blur-x>
-		<panel-shadow-blur-y>6</panel-shadow-blur-y>
-		<panel-shadow-distance>6</panel-shadow-distance>
-		
-		<settings id="panel-title-textformat">
-			<color>0x333333</color>
-		</settings>
-		
-		<settings id="panel-description-textformat">
-			<color>0x343434</color>
-			<leading>4</leading>
-		</settings>
-		
-		<settings id="group-list-textformat">
-			<color>0x333333</color>
-		</settings>
-		
-		<settings id="location-list-textformat">
-			<color>0x666666</color>
-		</settings>		
-		
-		<settings id="auto-mode-revert-textformat">
-			<color>0xa9a9a9</color>
-		</settings>		
-		
-		<settings id="globe-glow">
-			<color>0x33CCFF</color>
-			<alpha>0.8</alpha>
-			<blurX>35</blurX>
-			<blurY>35</blurY>
-			<strength>2</strength>
-		</settings>
-		-->
-		
-	</settings>
-	
-	<assets id="main">
-		
-		<!--
-		<earth-texture>com.wtg.earth.textures.EarthTexture</earth-texture>
-		<previous-button-icon>com.wtg.earth.controls.PreviousButtonIcon</previous-button-icon>
-		<next-button-icon>com.wtg.earth.controls.NextButtonIcon</next-button-icon>
-		<pause-button-icon>com.wtg.earth.controls.PauseButtonIcon</pause-button-icon>
-		<play-button-icon>com.wtg.earth.controls.PlayButtonIcon</play-button-icon>
-		-->
-		
-	</assets>
 </configuration>

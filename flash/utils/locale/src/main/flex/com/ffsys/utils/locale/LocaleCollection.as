@@ -14,7 +14,7 @@ package com.ffsys.utils.locale {
 	public class LocaleCollection extends Object
 		implements ILocaleCollection {
 		
-		private var _locales:Vector.<ILocale>;
+		private var _locales:Array;
 		
 		/**
 		*	Creates a <code>LocaleCollection</code> instance.	
@@ -22,7 +22,7 @@ package com.ffsys.utils.locale {
 		public function LocaleCollection()
 		{
 			super();
-			_locales = new Vector.<ILocale>();
+			_locales = new Array();
 		}
 		
 		/**
@@ -85,8 +85,10 @@ package com.ffsys.utils.locale {
 		*/
 		public function addLocale( locale:ILocale ):int
 		{
+			trace("LocaleCollection::addLocale(), ", locale, hasLocale( locale ) );
 			if( locale != null && !hasLocale( locale ) )
 			{
+				trace("LocaleCollection::addLocale(), ADDING LOCALE", locale );
 				_locales.push( locale );
 			}
 			
@@ -114,13 +116,13 @@ package com.ffsys.utils.locale {
 		*/
 		public function clear():void
 		{
-			_locales = new Vector.<ILocale>();
+			_locales = new Array();
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		public function get locales():Vector.<ILocale>
+		public function get locales():Array
 		{
 			return _locales;
 		}

@@ -157,7 +157,7 @@ package com.ffsys.swat.core {
 			_configuration = _configurationLoader.configuration;
 			
 			//update the selected locale
-			_configuration.lang = SwatFlashVariables( _flashvars ).lang;
+			_configuration.locales.lang = SwatFlashVariables( _flashvars ).lang;
 			
 			_configurationLoader.removeEventListener(
 				LoadEvent.RESOURCE_NOT_FOUND,

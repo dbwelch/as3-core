@@ -8,6 +8,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
+	import com.ffsys.swat.configuration.locale.LocaleManager;
 	import com.ffsys.swat.configuration.rsls.RuntimeSharedLibraryCollection;
 	
 	/**
@@ -23,15 +24,8 @@ package com.ffsys.swat.configuration {
 		implements IConfiguration {
 			
 		private var _flashvars:IFlashVariables;
-		private var _lang:String;
 		private var _locales:ILocaleManager;
-		private var _copy:LocaleAwareStringCollection;
-		private var _settings:Settings;
-		private var _defaults:Defaults;
-		private var _assets:StringCollection;
 		private var _assetManager:AssetManager;
-		private var _rsls:RuntimeSharedLibraryCollection;
-		private var _filters:IFilterCollection;
 		
 		/**
 		*	Create a <code>Configuration</code> instance.
@@ -59,78 +53,6 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		* 	@inheritDoc
-		*/
-		public function get locale():ILocale
-		{
-			return copy.locale;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get lang():String
-		{
-			return _lang;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function set lang( lang:String ):void
-		{
-			_lang = lang;
-			
-			var parts:Array = null;
-			var delimiters:Array = [ "_", "-" ];
-			var delimiter:String = null;
-			var country:String = null;
-			
-			if( !locales )
-			{
-				throw new Error( "Cannot update the language with null locales data." );
-			}
-			
-			if( lang )
-			{
-				var selected:ILocale = null;
-				
-				var hasDelimiter:Boolean = false;
-				
-				for( var i:int = 0;i < delimiters.length;i++ )
-				{
-					delimiter = delimiters[ i ];
-					
-					hasDelimiter = ( lang.indexOf( delimiter ) > -1 );
-					
-					if( hasDelimiter )
-					{
-						parts = lang.split( delimiter );
-						selected = locales.getLocaleByLanguageAndCountry( parts[ 0 ], parts[ 1 ] );
-						break;
-					}
-				}
-				
-				if( !hasDelimiter )
-				{
-					selected = locales.getLocaleByLanguage( lang );
-				}
-
-				if( copy )
-				{
-					if( selected )
-					{
-						copy.locale = selected;
-					}else{
-						throw new Error( "Could not locate locale for language code '" + lang + "'" );
-					}
-				}else{
-					throw new Error( "Cannot update the language with null copy data." );
-				}
-			}
-		}
-		
-		/**
 		*	@inheritDoc
 		*/
 		public function get locales():ILocaleManager
@@ -144,70 +66,8 @@ package com.ffsys.swat.configuration {
 		public function set locales( locales:ILocaleManager ):void
 		{
 			_locales = locales;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get copy():LocaleAwareStringCollection
-		{
-			return _copy;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/		
-		public function set copy( copy:LocaleAwareStringCollection ):void
-		{
-			_copy = copy;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get settings():Settings
-		{
-			return _settings;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function set settings( settings:Settings ):void
-		{
-			_settings = settings;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get defaults():Defaults
-		{
-			return _defaults;
-		}
-
-		/**
-		*	@inheritDoc	
-		*/
-		public function set defaults( defaults:Defaults ):void
-		{
-			_defaults = defaults;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get assets():StringCollection
-		{
-			return _assets;
-		}
-
-		/**
-		*	@inheritDoc
-		*/		
-		public function set assets( assets:StringCollection ):void
-		{
-			_assets = assets;
+			
+			trace("Configuration::set locales(), ", locales.length );
 		}
 		
 		/**
@@ -224,6 +84,70 @@ package com.ffsys.swat.configuration {
 		public function set assetManager( assetManager:AssetManager ):void
 		{
 			_assetManager = assetManager;
+		}		
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get copy():LocaleAwareStringCollection
+		{
+			return _locales.copy;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/		
+		public function set copy( copy:LocaleAwareStringCollection ):void
+		{
+			_locales.copy = copy;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get settings():Settings
+		{
+			return _locales.settings;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function set settings( settings:Settings ):void
+		{
+			_locales.settings = settings;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get defaults():Defaults
+		{
+			return _locales.defaults;
+		}
+
+		/**
+		*	@inheritDoc	
+		*/
+		public function set defaults( defaults:Defaults ):void
+		{
+			_locales.defaults = defaults;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get assets():StringCollection
+		{
+			return _locales.assets;
+		}
+
+		/**
+		*	@inheritDoc
+		*/		
+		public function set assets( assets:StringCollection ):void
+		{
+			_locales.assets = assets;
 		}
 		
 		/**
@@ -231,7 +155,7 @@ package com.ffsys.swat.configuration {
 		*/
 		public function get rsls():RuntimeSharedLibraryCollection
 		{
-			return _rsls;
+			return _locales.rsls;
 		}
 		
 		/**
@@ -239,7 +163,7 @@ package com.ffsys.swat.configuration {
 		*/
 		public function set rsls( rsls:RuntimeSharedLibraryCollection ):void
 		{
-			_rsls = rsls;
+			_locales.rsls = rsls;
 		}
 		
 		/**
@@ -247,7 +171,7 @@ package com.ffsys.swat.configuration {
 		*/
 		public function get filters():IFilterCollection
 		{
-			return _filters;
+			return _locales.filters;
 		}
 
 		/**
@@ -255,7 +179,7 @@ package com.ffsys.swat.configuration {
 		*/
 		public function set filters( filters:IFilterCollection ):void
 		{
-			_filters = filters;
+			_locales.filters = filters;
 		}
 	}
 }

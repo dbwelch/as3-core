@@ -79,6 +79,6 @@ package com.ffsys.utils.locale {
 		/**
 		*	Gets the underlying vector of locales.
 		*/
-		function get locales():Vector.<ILocale>;		
+		function get locales():Array;		
 	}
 }

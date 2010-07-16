@@ -72,7 +72,8 @@ package com.ffsys.utils.locale {
 		*/
 		public function equals( locale:ILocale ):Boolean
 		{
-			return ( this.lang == locale.lang ) && ( this.country == locale.country );
+			return ( locale != null ) &&
+				( this.lang == locale.lang ) && ( this.country == locale.country );
 		}
 	}
 }

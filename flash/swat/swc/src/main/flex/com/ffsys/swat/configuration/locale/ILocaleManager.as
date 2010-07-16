@@ -1,8 +1,11 @@
 package com.ffsys.swat.configuration.locale {
 	
+	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.ILocaleCollection;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
+	
+	import com.ffsys.swat.configuration.IConfigurationProperties;
 	
 	/**
 	*	Describes the contract for implementations
@@ -16,7 +19,19 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public interface ILocaleManager
 		extends ILocaleCollection,
+				IConfigurationProperties,
 		 		IDeserializeProperty {
+		
+		/**
+		* 	The currently selected locale.
+		*/
+		//function get locale():ILocale;
+		
+		/**
+		*	The language the application should run in.
+		*/
+		function get lang():String;
+		function set lang( lang:String ):void;
 		
 		/**
 		*	Gets the loader queue used to load properties
@@ -24,7 +39,7 @@ package com.ffsys.swat.configuration.locale {
 		*	
 		*	@return The properties loader queue.
 		*/
-		function getPropertiesQueue():ILoaderQueue;	
+		function getPropertiesQueue():ILoaderQueue;
 		
 		/**
 		*	Gets the loader queue used to load font

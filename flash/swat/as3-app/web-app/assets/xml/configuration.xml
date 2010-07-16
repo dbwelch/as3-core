@@ -1,305 +1,188 @@
 <?xml version="1.0"?>
 <configuration>
-	
-	<!-- available locales -->
 	<locales>
 		
+		<!-- applies to all locales -->
+		
+		<rsls>
+			<rsl>
+				<trusted>true</trusted>
+				<url>assets/swf/application-assets.swf</url>
+			</rsl>
+		</rsls>
+		
+		<copy>
+<!-- the default locale to use -->
+			<locale lang="en" country="GB"/>
+<!-- English text -->
+			<copy-collection>
+				<locale lang="en" country="GB"/>
+				<test><![CDATA[This is some test english.]]></test>
+			</copy-collection>
+<!-- Spanish text -->
+			<copy-collection>
+				<locale lang="es" country="ES"/>
+				<test><![CDATA[Esto es algo de español de prueba.]]></test>
+			</copy-collection>
+<!-- German text -->
+			<copy-collection>
+				<locale lang="de" country="DE"/>
+				<test><![CDATA[Dies ist ein Test Deutsch.]]></test>
+			</copy-collection>
+<!-- French text -->
+			<copy-collection>
+				<locale lang="fr" country="FR"/>
+				<test><![CDATA[Ceci est un test de français.]]></test>
+			</copy-collection>
+		</copy>
+		
+		<settings>
+
+		</settings>
+		
+		<assets id="main">
+			
+		</assets>
+		
+		<defaults>
+			<textfield-defaults>
+				<embedFonts>false</embedFonts>
+				<antiAliasType>advanced</antiAliasType>
+			</textfield-defaults>
+			<textformat-defaults>
+				<font>Verdana</font>
+				<size>12</size>
+				<color>0xa9a9a9</color>
+			</textformat-defaults>
+		</defaults>
+		
+		<filters>
+			<bevel-filter>
+				<id>bevel</id>
+				<distance>1</distance>
+				<highlightColor>0xff0000</highlightColor>
+				<shadowColor>0x666666</shadowColor>
+				<shadowAlpha>0.6</shadowAlpha>
+				<knockout>true</knockout>
+				<blurX>1</blurX>
+				<blurY>1</blurY>
+				<strength>1</strength>
+			</bevel-filter>
+			<drop-shadow-filter>
+				<id>drop-shadow</id>
+				<color>0x00ff00</color>
+				<angle>45</angle>
+				<strength>0.55</strength>
+				<alpha>0.5</alpha>
+				<blurX>3</blurX>
+				<blurY>3</blurY>
+				<distance>1</distance>
+			</drop-shadow-filter>
+			<color-matrix-filter>
+				<id>color-matrix</id>
+				<matrix>
+					<a0>0</a0>
+					<a1>0</a1>
+					<a2>0</a2>
+					<a3>0</a3>
+					<a4>0</a4>
+					<a5>0</a5>
+					<a6>0</a6>
+					<a7>0</a7>
+					<a8>0</a8>
+					<a9>0</a9>
+					<a10>0</a10>
+					<a11>0</a11>
+					<a12>1</a12>
+					<a13>0</a13>
+					<a14>0</a14>
+					<a15>0</a15>
+					<a16>0</a16>
+					<a17>0</a17>
+					<a18>0.75</a18>
+					<a19>0</a19>
+				</matrix>
+			</color-matrix-filter>
+			<glow-filter>
+				<id>glow</id>
+				<color>0x33CCFF</color>
+				<alpha>0.5</alpha>
+				<blurX>5</blurX>
+				<blurY>5</blurY>
+				<strength>2</strength>
+			</glow-filter>
+			<gradient-glow-filter>
+				<id>gradient-glow</id>
+				<colors>
+					<color>0xa9a9a9</color>
+					<color>0xffcc33</color>
+				</colors>
+				<alphas>
+					<alpha>0.8</alpha>
+					<alpha>0</alpha>
+				</alphas>
+				<ratios>
+					<ratio>0</ratio>
+					<ratio>128</ratio>
+				</ratios>
+				<distance>5</distance>
+				<blurX>5</blurX>
+				<blurY>5</blurY>
+				<strength>1</strength>
+			</gradient-glow-filter>
+			<gradient-bevel-filter>
+				<id>gradient-bevel</id>
+				<colors>
+					<color>0x33CCFF</color>
+					<color>0xffcc33</color>
+				</colors>
+				<alphas>
+					<alpha>0.8</alpha>
+					<alpha>0.8</alpha>
+				</alphas>
+				<ratios>
+					<ratio>0</ratio>
+					<ratio>128</ratio>
+				</ratios>
+				<distance>5</distance>
+				<blurX>5</blurX>
+				<blurY>5</blurY>
+				<strength>1</strength>
+			</gradient-bevel-filter>
+			<convolution-filter>
+				<id>convolution</id>
+				<color>0xff0000</color>
+				<alpha>0.5</alpha>
+				<matrixX>3</matrixX>
+				<matrixY>3</matrixY>
+				<divisor>9</divisor>
+				<matrix>
+					<a0>5</a0>
+					<a1>5</a1>
+					<a2>5</a2>
+					<a3>5</a3>
+					<a4>0</a4>
+					<a5>5</a5>
+					<a6>5</a6>
+					<a7>5</a7>
+					<a8>5</a8>
+				</matrix>
+			</convolution-filter>
+		</filters>
+		
+		<!-- Locale specific settings -->
 		<locale lang="en" country="GB">
 			<messages>assets/properties/messages-en_GB.properties</messages>
 			<fonts>assets/fonts/fonts-en_GB.swf</fonts>
 		</locale>
-		
 		<locale lang="es" country="ES">
 			<messages>assets/properties/messages-es_ES.properties</messages>
 		</locale>
-		
 		<locale lang="de" country="DE">
 			<messages>assets/properties/messages-de_DE.properties</messages>
 		</locale>
-					
 		<locale lang="fr" country="FR">
 			<messages>assets/properties/messages-fr_FR.properties</messages>
 		</locale>
-		
 	</locales>
-	
-	<rsls>
-		<rsl>
-			<trusted>true</trusted>
-			<url>assets/swf/application-assets.swf</url>
-		</rsl>
-	</rsls>
-	
-	<copy>
-		
-		<!-- the default locale to use -->
-		<locale lang="en" country="GB" />
-		
-		<!-- English text -->
-		<copy-collection>
-			<locale lang="en" country="GB" />
-			<test><![CDATA[This is some test english.]]></test>
-		</copy-collection>
-
-		<!-- Spanish text -->
-		<copy-collection>
-			<locale lang="es" country="ES" />
-			<test><![CDATA[Esto es algo de español de prueba.]]></test>
-		</copy-collection>
-
-		<!-- German text -->
-		<copy-collection>
-			<locale lang="de" country="DE" />
-			<test><![CDATA[Dies ist ein Test Deutsch.]]></test>
-		</copy-collection>
-		
-		<!-- French text -->
-		<copy-collection>
-			<locale lang="fr" country="FR" />
-			<test><![CDATA[Ceci est un test de français.]]></test>
-		</copy-collection>
-	</copy>
-	
-	<settings>
-		<!--
-		<default-group-icon-path>assets/images/icons/default-group-icon.png</default-group-icon-path>
-		
-		<earth-radius>150</earth-radius>
-		<earth-spin-damping>2</earth-spin-damping>
-		
-		<initial-camera-focus>10</initial-camera-focus>
-		<initial-camera-zoom>60</initial-camera-zoom>
-		<camera-distance>600</camera-distance>
-		
-		<maximum-mapped-markers>50</maximum-mapped-markers>
-		<locations-page-maximum>200</locations-page-maximum>
-		
-		<drawer-width>220</drawer-width>
-		
-		<data-load-mode>local</data-load-mode>
-		<data-base-path>assets/xml/mock/</data-base-path>
-		<data-groups-path>groups.xml</data-groups-path>
-		<data-locations-path>locations.xml</data-locations-path>
-		<data-auto-path>auto-mode.xml</data-auto-path>
-		
-		<default-group-colour>0xff0000</default-group-colour>
-		
-		<auto-rotation-amount>-0.25</auto-rotation-amount>
-		
-		<manual-rotation-left>0.75</manual-rotation-left>
-		<manual-rotation-right>-0.75</manual-rotation-right>
-		
-		<auto-carousel-pause-time>2000</auto-carousel-pause-time>
-		<auto-carousel-focus-time>3000</auto-carousel-focus-time>
-		
-		<manual-mode-timeout-seconds>10</manual-mode-timeout-seconds>
-		<manual-mode-threshold-seconds>5</manual-mode-threshold-seconds>
-		
-		<mode-revert-left-margin>10</mode-revert-left-margin>
-		<mode-revert-bottom-margin>8</mode-revert-bottom-margin>
-		
-		<panel-text-width>220</panel-text-width>
-		<panel-horizontal-margin>15</panel-horizontal-margin>		
-		<panel-padding>15</panel-padding>
-		<panel-vertical-spacing>6</panel-vertical-spacing>		
-		
-		<panel-background-line-thickness>2</panel-background-line-thickness>
-		<panel-background-line-colour>0x999999</panel-background-line-colour>
-		<panel-background-line-alpha>0.75</panel-background-line-alpha>
-		
-		<panel-background-fill-colour>0xa9a9a9a</panel-background-fill-colour>
-		<panel-background-fill-alpha>0.75</panel-background-fill-alpha>
-		
-		<panel-background-corner-radius>6</panel-background-corner-radius>
-		
-		<panel-background-pointer-width>16</panel-background-pointer-width>
-		<panel-background-pointer-height>12</panel-background-pointer-height>
-		
-		<panel-shadow-enabled>true</panel-shadow-enabled>
-		<panel-shadow-angle>45</panel-shadow-angle>
-		<panel-shadow-strength>0.55</panel-shadow-strength>
-		<panel-shadow-alpha>0.75</panel-shadow-alpha>
-		<panel-shadow-blur-x>6</panel-shadow-blur-x>
-		<panel-shadow-blur-y>6</panel-shadow-blur-y>
-		<panel-shadow-distance>6</panel-shadow-distance>
-		
-		<settings id="panel-title-textformat">
-			<color>0x333333</color>
-		</settings>
-		
-		<settings id="panel-description-textformat">
-			<color>0x343434</color>
-			<leading>4</leading>
-		</settings>
-		
-		<settings id="group-list-textformat">
-			<color>0x333333</color>
-		</settings>
-		
-		<settings id="location-list-textformat">
-			<color>0x666666</color>
-		</settings>		
-		
-		<settings id="auto-mode-revert-textformat">
-			<color>0xa9a9a9</color>
-		</settings>		
-		
-		<settings id="globe-glow">
-			<color>0x33CCFF</color>
-			<alpha>0.8</alpha>
-			<blurX>35</blurX>
-			<blurY>35</blurY>
-			<strength>2</strength>
-		</settings>
-		-->
-		
-	</settings>
-	
-	<assets id="main">
-		
-		<!--
-		<earth-texture>com.wtg.earth.textures.EarthTexture</earth-texture>
-		<previous-button-icon>com.wtg.earth.controls.PreviousButtonIcon</previous-button-icon>
-		<next-button-icon>com.wtg.earth.controls.NextButtonIcon</next-button-icon>
-		<pause-button-icon>com.wtg.earth.controls.PauseButtonIcon</pause-button-icon>
-		<play-button-icon>com.wtg.earth.controls.PlayButtonIcon</play-button-icon>
-		-->
-		
-	</assets>
-	
-	<defaults>
-		<textfield-defaults>
-			<embedFonts>false</embedFonts>
-			<antiAliasType>advanced</antiAliasType>
-		</textfield-defaults>
-		
-		<textformat-defaults>
-			<font>Verdana</font>
-			<size>12</size>
-			<color>0xa9a9a9</color>
-		</textformat-defaults>
-	</defaults>
-	
-	<filters>
-		
-		<bevel-filter>
-			<id>bevel</id>
-			<distance>1</distance>
-			<highlightColor>0xff0000</highlightColor>
-			<shadowColor>0x666666</shadowColor>
-			<shadowAlpha>0.6</shadowAlpha>
-			<knockout>true</knockout>
-			<blurX>1</blurX>
-			<blurY>1</blurY>
-			<strength>1</strength>
-		</bevel-filter>
-		
-		<drop-shadow-filter>
-			<id>drop-shadow</id>
-			<color>0x00ff00</color>
-			<angle>45</angle>
-			<strength>0.55</strength>
-			<alpha>0.5</alpha>
-			<blurX>3</blurX>
-			<blurY>3</blurY>
-			<distance>1</distance>
-		</drop-shadow-filter>
-		
-		<color-matrix-filter>
-			<id>color-matrix</id>
-			<matrix>
-				<a0>0</a0>
-				<a1>0</a1>
-				<a2>0</a2>
-				<a3>0</a3>
-				<a4>0</a4>
-				<a5>0</a5>
-				<a6>0</a6>
-				<a7>0</a7>
-				<a8>0</a8>
-				<a9>0</a9>
-				<a10>0</a10>
-				<a11>0</a11>
-				<a12>1</a12>
-				<a13>0</a13>
-				<a14>0</a14>
-				<a15>0</a15>
-				<a16>0</a16>
-				<a17>0</a17>
-				<a18>0.75</a18>
-				<a19>0</a19>
-			</matrix>
-		</color-matrix-filter>
-		
-		<glow-filter>
-			<id>glow</id>
-			<color>0x33CCFF</color>
-			<alpha>0.5</alpha>
-			<blurX>5</blurX>
-			<blurY>5</blurY>
-			<strength>2</strength>
-		</glow-filter>
-		
-		<gradient-glow-filter>
-			<id>gradient-glow</id>
-			<colors>
-				<color>0xa9a9a9</color>
-				<color>0xffcc33</color>
-			</colors>
-			<alphas>
-				<alpha>0.8</alpha>
-				<alpha>0</alpha>
-			</alphas>
-			<ratios>
-				<ratio>0</ratio>
-				<ratio>128</ratio>
-			</ratios>
-			
-			<distance>5</distance>
-			<blurX>5</blurX>
-			<blurY>5</blurY>
-			<strength>1</strength>
-		</gradient-glow-filter>
-		
-		<gradient-bevel-filter>
-			<id>gradient-bevel</id>
-			<colors>
-				<color>0x33CCFF</color>
-				<color>0xffcc33</color>
-			</colors>
-			<alphas>
-				<alpha>0.8</alpha>
-				<alpha>0.8</alpha>
-			</alphas>
-			<ratios>
-				<ratio>0</ratio>
-				<ratio>128</ratio>
-			</ratios>
-			
-			<distance>5</distance>
-			<blurX>5</blurX>
-			<blurY>5</blurY>
-			<strength>1</strength>
-		</gradient-bevel-filter>
-		
-		<convolution-filter>
-			<id>convolution</id>
-			<color>0xff0000</color>
-			<alpha>0.5</alpha>
-			<matrixX>3</matrixX>
-			<matrixY>3</matrixY>
-			<divisor>9</divisor>
-			<matrix>
-				<a0>5</a0>
-				<a1>5</a1>
-				<a2>5</a2>
-				<a3>5</a3>
-				<a4>0</a4>
-				<a5>5</a5>
-				<a6>5</a6>
-				<a7>5</a7>
-				<a8>5</a8>
-			</matrix>
-		</convolution-filter>
-	</filters>
 </configuration>
