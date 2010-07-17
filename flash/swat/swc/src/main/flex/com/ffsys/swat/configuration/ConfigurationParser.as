@@ -166,6 +166,36 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const MATRIX_NAME:String =
 			"matrix";
+			
+		/**
+		*	The node name for application messages.
+		*/
+		static public const MESSAGES_NAME:String =
+			"messages";
+			
+		/**
+		*	The node name for application error messages.
+		*/
+		static public const ERRORS_NAME:String =
+			"errors";
+			
+		/**
+		*	The node name for application fonts.
+		*/
+		static public const FONTS_NAME:String =
+			"fonts";
+			
+		/**
+		*	The node name for a font resource definition.
+		*/
+		static public const FONT_NAME:String =
+			"font";
+			
+		/**
+		*	The node name for a properties resource definition.
+		*/
+		static public const PROPERTIES_NAME:String =
+			"properties";			
 
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
@@ -230,16 +260,46 @@ package com.ffsys.swat.configuration {
 				false );
 				
 			classNodeNameMap.add(
-				RuntimeSharedLibraryCollection,
+				RslCollection,
 				RSLS_NAME,
 				RSLS_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				PropertiesCollection,
+				MESSAGES_NAME,
+				MESSAGES_NAME,
+				false );
+
+			classNodeNameMap.add(
+				PropertiesCollection,
+				ERRORS_NAME,
+				ERRORS_NAME,
+				false );
+
+			classNodeNameMap.add(
+				FontCollection,
+				FONTS_NAME,
+				FONTS_NAME,
 				false );
 				
 			classNodeNameMap.add(
 				RuntimeSharedLibrary,
 				RSL_NAME,
 				RSL_NAME,
-				false );				
+				false );
+				
+			classNodeNameMap.add(
+				RuntimeResource,
+				PROPERTIES_NAME,
+				PROPERTIES_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				RuntimeResource,
+				FONT_NAME,
+				FONT_NAME,
+				false );												
 				
 			classNodeNameMap.add(
 				Defaults,
@@ -338,7 +398,7 @@ package com.ffsys.swat.configuration {
 				Array,
 				MATRIX_NAME,
 				MATRIX_NAME,
-				false );							
+				false );								
 		}
 		
 		/**

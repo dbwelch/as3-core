@@ -8,7 +8,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
-	import com.ffsys.swat.configuration.rsls.RuntimeSharedLibraryCollection;
+	import com.ffsys.swat.configuration.rsls.RuntimeResourceCollection;
 	
 	/**
 	*	Describes the contract for objects that

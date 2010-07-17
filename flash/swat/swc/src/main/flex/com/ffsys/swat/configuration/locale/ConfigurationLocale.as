@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.Locale;
+	import com.ffsys.swat.configuration.rsls.IRuntimeResourceCollection;
 	
 	/**
 	*	Represents a locale with additional configuration
@@ -15,9 +16,9 @@ package com.ffsys.swat.configuration.locale {
 	public class ConfigurationLocale extends Locale
 		implements IConfigurationLocale {
 			
-		private var _messages:String;
-		private var _errors:String;
-		private var _fonts:String;
+		private var _messages:IRuntimeResourceCollection;
+		private var _errors:IRuntimeResourceCollection;
+		private var _fonts:IRuntimeResourceCollection;
 		
 		/**
 		*	Creates a <code>ConfigurationLocale</code> instance.
@@ -30,12 +31,12 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/
-		public function get messages():String
+		public function get messages():IRuntimeResourceCollection
 		{
 			return _messages;
 		}
 		
-		public function set messages( value:String ):void
+		public function set messages( value:IRuntimeResourceCollection ):void
 		{
 			_messages = value;
 		}
@@ -43,12 +44,12 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/
-		public function get errors():String
+		public function get errors():IRuntimeResourceCollection
 		{
 			return _errors;
 		}
 		
-		public function set errors( value:String ):void
+		public function set errors( value:IRuntimeResourceCollection ):void
 		{
 			_errors = value;
 		}
@@ -56,12 +57,12 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/
-		public function get fonts():String
+		public function get fonts():IRuntimeResourceCollection
 		{
 			return _fonts;
 		}
 		
-		public function set fonts( value:String ):void
+		public function set fonts( value:IRuntimeResourceCollection ):void
 		{
 			_fonts = value;
 		}

@@ -25,7 +25,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		* 	The currently selected locale.
 		*/
-		//function get locale():ILocale;
+		function get current():IConfigurationLocale;
 		
 		/**
 		*	The language the application should run in.

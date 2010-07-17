@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocale;
+	import com.ffsys.swat.configuration.rsls.IRuntimeResourceCollection;
 	
 	/**
 	*	Describes the contract for implementations
@@ -16,21 +17,21 @@ package com.ffsys.swat.configuration.locale {
 	public interface IConfigurationLocale extends ILocale {
 		
 		/**
-		*	The path to the messages file for the locale.
+		*	The collection of message properties files for the locale.
 		*/
-		function get messages():String;
-		function set messages( value:String ):void;
+		function get messages():IRuntimeResourceCollection;
+		function set messages( value:IRuntimeResourceCollection ):void;
 		
 		/**
-		*	The path to the errors file for the locale.
+		*	The collection of error properties files for the locale.
 		*/
-		function get errors():String;
-		function set errors( value:String ):void;
+		function get errors():IRuntimeResourceCollection;
+		function set errors( value:IRuntimeResourceCollection ):void;
 		
 		/**
 		*	The path to the fonts file for the locale.
 		*/
-		function get fonts():String;
-		function set fonts( value:String ):void;
+		function get fonts():IRuntimeResourceCollection;
+		function set fonts( value:IRuntimeResourceCollection ):void;
 	}
 }

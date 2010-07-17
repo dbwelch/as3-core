@@ -11,7 +11,8 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class Settings extends PropertyCollection {
+	public class Settings extends PropertyCollection
+		implements ISettings {
 		
 		/**
 		*	Creates a <code>Settings</code> instance.

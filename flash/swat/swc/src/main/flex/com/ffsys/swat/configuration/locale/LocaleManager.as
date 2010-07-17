@@ -1,7 +1,7 @@
 package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
-	import com.ffsys.utils.collections.strings.StringCollection;
+	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
@@ -26,14 +26,15 @@ package com.ffsys.swat.configuration.locale {
 	public class LocaleManager extends LocaleCollection
 		implements ILocaleManager {
 			
-		private var _lang:String;			
+		private var _current:IConfigurationLocale;
+		private var _lang:String;
 			
 		private var _copy:LocaleAwareStringCollection;
 		
-		private var _settings:Settings;
-		private var _defaults:Defaults;
-		private var _assets:StringCollection;
-		private var _rsls:RuntimeSharedLibraryCollection;
+		private var _settings:ISettings;
+		private var _defaults:IDefaults;
+		private var _assets:IStringCollection;
+		private var _rsls:IRuntimeResourceCollection;
 		private var _filters:IFilterCollection;
 			
 		private var _propertiesQueue:ILoaderQueue;
@@ -50,11 +51,22 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
+		public function get current():IConfigurationLocale
+		{
+			return _current;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function getPropertiesQueue():ILoaderQueue
 		{
+			//TODO: add support for loading default messages
+			//TODO: add support for concatentating the errors files
+			
 			if( !_propertiesQueue )
 			{
-				_propertiesQueue = new LoaderQueue();
+				_propertiesQueue = _current.messages.getLoaderQueue();
 			}
 			
 			return _propertiesQueue;
@@ -72,22 +84,6 @@ package com.ffsys.swat.configuration.locale {
 			
 			return _fontsQueue;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		
-		/*
-		public function get locale():ILocale
-		{
-			if( copy )
-			{
-				return copy.locale;
-			}
-			
-			return null;
-		}
-		*/
 		
 		/**
 		*	@inheritDoc	
@@ -142,6 +138,7 @@ package com.ffsys.swat.configuration.locale {
 				{
 					if( selected )
 					{
+						_current = IConfigurationLocale( selected );
 						copy.locale = selected;
 					}else{
 						throw new Error( "Could not locate locale for language code '" + lang + "'" );
@@ -171,7 +168,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get settings():Settings
+		public function get settings():ISettings
 		{
 			return _settings;
 		}
@@ -179,7 +176,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function set settings( settings:Settings ):void
+		public function set settings( settings:ISettings ):void
 		{
 			_settings = settings;
 		}
@@ -187,7 +184,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get defaults():Defaults
+		public function get defaults():IDefaults
 		{
 			return _defaults;
 		}
@@ -195,7 +192,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function set defaults( defaults:Defaults ):void
+		public function set defaults( defaults:IDefaults ):void
 		{
 			_defaults = defaults;
 		}
@@ -203,7 +200,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/
-		public function get assets():StringCollection
+		public function get assets():IStringCollection
 		{
 			return _assets;
 		}
@@ -211,7 +208,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/		
-		public function set assets( assets:StringCollection ):void
+		public function set assets( assets:IStringCollection ):void
 		{
 			_assets = assets;
 		}
@@ -219,7 +216,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/
-		public function get rsls():RuntimeSharedLibraryCollection
+		public function get rsls():IRuntimeResourceCollection
 		{
 			return _rsls;
 		}
@@ -227,7 +224,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/
-		public function set rsls( rsls:RuntimeSharedLibraryCollection ):void
+		public function set rsls( rsls:IRuntimeResourceCollection ):void
 		{
 			_rsls = rsls;
 		}

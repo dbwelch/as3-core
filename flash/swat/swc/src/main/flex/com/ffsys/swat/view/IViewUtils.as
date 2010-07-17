@@ -7,11 +7,11 @@ package com.ffsys.swat.view {
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
-	import com.ffsys.utils.collections.strings.StringCollection;
+	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfigurationAware;
-	import com.ffsys.swat.configuration.Settings;
+	import com.ffsys.swat.configuration.ISettings;
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	
 	/**
@@ -46,7 +46,7 @@ package com.ffsys.swat.view {
 		*
 		*	@return The application settings.
 		*/
-		function get settings():Settings;
+		function get settings():ISettings;
 		
 		/**
 		* 	Gets the application flash variables.
@@ -79,7 +79,7 @@ package com.ffsys.swat.view {
 		* 	Gets the application assets map between identifiers
 		* 	and class paths.
 		*/
-		function get assets():StringCollection;
+		function get assets():IStringCollection;
 		
 		/**
 		* 	Gets a copy by identifier selected from the current locale

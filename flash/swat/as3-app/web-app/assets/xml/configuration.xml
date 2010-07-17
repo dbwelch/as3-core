@@ -172,17 +172,41 @@
 		
 		<!-- Locale specific settings -->
 		<locale lang="en" country="GB">
-			<messages>assets/properties/messages-en_GB.properties</messages>
-			<fonts>assets/fonts/fonts-en_GB.swf</fonts>
+			
+			<messages>
+				<properties>
+					<url>assets/properties/messages-en_GB.properties</url>
+				</properties>
+			</messages>
+			
+			<fonts>
+				<font>
+					<url>assets/fonts/fonts-en_GB.swf</url>
+				</font>
+			</fonts>
+			
 		</locale>
 		<locale lang="es" country="ES">
-			<messages>assets/properties/messages-es_ES.properties</messages>
+			<messages>
+				<properties>
+					<url>assets/properties/messages-es_ES.properties</url>
+				</properties>
+			</messages>
 		</locale>
 		<locale lang="de" country="DE">
-			<messages>assets/properties/messages-de_DE.properties</messages>
+			<messages>
+				<properties>
+					<url>assets/properties/messages-de_DE.properties</url>
+				</properties>
+			</messages>
 		</locale>
 		<locale lang="fr" country="FR">
-			<messages>assets/properties/messages-fr_FR.properties</messages>
+			<messages>
+				<properties>
+					<url>assets/properties/messages-fr_FR.properties</url>
+				</properties>
+			</messages>
 		</locale>
+		
 	</locales>
 </configuration>

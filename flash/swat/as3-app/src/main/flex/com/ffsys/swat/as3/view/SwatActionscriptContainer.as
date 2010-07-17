@@ -53,7 +53,7 @@ package com.ffsys.swat.as3.view {
 			addChild( bitmap );
 			*/
 			
-			return true;
+			return false;
 		}
 		
 		/**

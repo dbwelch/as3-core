@@ -10,7 +10,8 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class Defaults extends Object {
+	public class Defaults extends Object
+		implements IDefaults {
 		
 		private var _textfield:Object;
 		private var _textformat:Object;
@@ -24,8 +25,7 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		*	A set of default properties to apply to
-		*	textfields when they are created.	
+		*	@inheritDoc
 		*/
 		public function get textfield():Object
 		{
@@ -38,8 +38,7 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		*	A set of default properties to apply to
-		*	textformats when textfields are created.
+		*	@inheritDoc
 		*/		
 		public function get textformat():Object
 		{

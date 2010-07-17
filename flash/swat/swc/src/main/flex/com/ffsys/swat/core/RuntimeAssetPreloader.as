@@ -34,9 +34,29 @@ package com.ffsys.swat.core {
 	public class RuntimeAssetPreloader extends EventDispatcher
 		implements IRuntimeAssetPreloader {
 		
+		/**
+		*	Represents the preload phase for the main application code.	
+		*/
 		public static const CODE_PHASE:String = "code";
+		
+		/**
+		*	Represents the preload phase for configuration data.	
+		*/
 		public static const CONFIGURATION_PHASE:String = "configuration";
+		
+		/**
+		*	Represents the preload phase for properties files.
+		*/
+		public static const PROPERTIES_PHASE:String = "properties";
+		
+		/**
+		*	Represents the preload phase for font files.	
+		*/
 		public static const FONTS_PHASE:String = "fonts";
+		
+		/**
+		*	Represents the preload phase for runtime shared libraries.	
+		*/
 		public static const RSLS_PHASE:String = "rsls";
 		
 		private var _flashvars:IFlashVariables;
@@ -174,11 +194,6 @@ package com.ffsys.swat.core {
 			_configurationLoader.removeEventListener(
 				LoadEvent.DATA,
 				configurationLoadComplete );
-			
-			/*
-			_configurationLoader.removeEventListener(
-				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE, configurationLoadComplete );
-			*/
 				
 			this.view.configuration( new RslEvent(
 				RslEvent.LOADED,
@@ -193,10 +208,34 @@ package com.ffsys.swat.core {
 			evt.configuration = _configurationLoader.configuration;
 			dispatchEvent( evt );
 			
-			//now load the assets rsls
-			loadAssets();
+			//load the properties files
+			loadProperties();
 		}
 		
+		/**
+		*	@private
+		*	
+		*	Starts loading the runtime shared library assets.	
+		*/
+		private function loadProperties():void
+		{
+			if( _assets )
+			{
+				_assets.close();
+				_assets = null;
+			}
+			
+			_assets = this.configuration.locales.getPropertiesQueue();
+			addQueueListeners( propertiesLoadComplete );
+			_assets.load();
+			_phase = PROPERTIES_PHASE;
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Starts loading the runtime shared library assets.	
+		*/
 		private function loadAssets():void
 		{
 			if( _assets )
@@ -205,30 +244,9 @@ package com.ffsys.swat.core {
 				_assets = null;
 			}
 			
-			_assets = this.configuration.rsls.queue;
-			
-			_assets.addEventListener(
-				LoadEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound, false, 0, false );
-				
-			_assets.addEventListener(
-				LoadEvent.LOAD_START,
-				loadStart, false, 0, false );
-			
-			_assets.addEventListener(
-				LoadEvent.LOAD_PROGRESS,
-				loadProgress, false, 0, false );
-			
-			_assets.addEventListener(
-				LoadEvent.DATA,
-				itemLoaded, false, 0, false );
-				
-			_assets.addEventListener(
-				LoadEvent.LOAD_COMPLETE,
-				loadComplete, false, 0, false );
-			
+			_assets = this.configuration.rsls.getLoaderQueue();
+			addQueueListeners();
 			_assets.load();
-			
 			_phase = RSLS_PHASE;
 		}
 		
@@ -270,6 +288,9 @@ package com.ffsys.swat.core {
 					case CONFIGURATION_PHASE:
 						this.view.configuration( evt );
 						break;
+					case PROPERTIES_PHASE:
+						this.view.properties( evt );
+						break;						
 					case FONTS_PHASE:
 						this.view.font( evt );
 						break;
@@ -302,6 +323,9 @@ package com.ffsys.swat.core {
 					case CONFIGURATION_PHASE:
 						this.view.configuration( evt );
 						break;
+					case PROPERTIES_PHASE:
+						this.view.properties( evt );
+						break;						
 					case FONTS_PHASE:
 						this.view.font( evt );
 						break;
@@ -331,6 +355,9 @@ package com.ffsys.swat.core {
 					case CONFIGURATION_PHASE:
 						this.view.configuration( evt );
 						break;
+					case PROPERTIES_PHASE:
+						this.view.properties( evt );
+						break;						
 					case FONTS_PHASE:
 						this.view.font( evt );
 						break;
@@ -342,29 +369,87 @@ package com.ffsys.swat.core {
 		}
 		
 		/**
+		*	@private	
+		*/
+		private function addQueueListeners( complete:Function = null ):void
+		{
+			if( complete == null )
+			{
+				complete = loadComplete;
+			}
+			
+			_assets.addEventListener(
+				LoadEvent.RESOURCE_NOT_FOUND,
+				resourceNotFound, false, 0, false );
+				
+			_assets.addEventListener(
+				LoadEvent.LOAD_START,
+				loadStart, false, 0, false );
+			
+			_assets.addEventListener(
+				LoadEvent.LOAD_PROGRESS,
+				loadProgress, false, 0, false );
+			
+			_assets.addEventListener(
+				LoadEvent.DATA,
+				itemLoaded, false, 0, false );
+				
+			_assets.addEventListener(
+				LoadEvent.LOAD_COMPLETE,
+				complete, false, 0, false );
+		}
+		
+		/**
+		*	@private
+		*/
+		private function removeQueueListeners( complete:Function = null ):void
+		{
+			if( complete == null )
+			{
+				complete = loadComplete;
+			}			
+			
+			if( _assets )
+			{
+				_assets.removeEventListener(
+					LoadEvent.RESOURCE_NOT_FOUND,
+					resourceNotFound );
+			
+				_assets.removeEventListener(
+					LoadEvent.LOAD_START,
+					loadStart );
+			
+				_assets.removeEventListener(
+					LoadEvent.LOAD_PROGRESS,
+						loadProgress );
+				
+				_assets.removeEventListener(
+					LoadEvent.DATA, itemLoaded );
+				
+				_assets.removeEventListener(
+					LoadEvent.LOAD_COMPLETE, 
+					complete );		
+			}
+		}
+		
+		/**
+		*	@private
+		*/
+		private function propertiesLoadComplete( event:LoadEvent ):void
+		{
+			//cleanup
+			removeQueueListeners( propertiesLoadComplete );
+			_assets = null;
+			loadAssets();
+		}
+		
+		/**
 		*	@private
 		*/
 		private function loadComplete( event:LoadEvent ):void
 		{
 			//cleanup
-			_assets.removeEventListener(
-				LoadEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound );
-			
-			_assets.removeEventListener(
-				LoadEvent.LOAD_START,
-				loadStart );
-			
-			_assets.removeEventListener(
-				LoadEvent.LOAD_PROGRESS,
-					loadProgress );
-				
-			_assets.removeEventListener(
-				LoadEvent.DATA, itemLoaded );
-				
-			_assets.removeEventListener(
-				LoadEvent.LOAD_COMPLETE, 
-				loadComplete );
+			removeQueueListeners();
 				
 			_assets = null;
 			

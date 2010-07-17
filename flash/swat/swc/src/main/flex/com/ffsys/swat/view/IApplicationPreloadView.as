@@ -36,6 +36,12 @@ package com.ffsys.swat.view {
 		function configuration( event:RslEvent ):void;
 		
 		/**
+		*	Invoked with events related to the properties file
+		*	load process.
+		*/
+		function properties( event:RslEvent ):void;
+		
+		/**
 		*	Invoked with events related to the rsl load process.
 		*/
 		function rsl( event:RslEvent ):void;

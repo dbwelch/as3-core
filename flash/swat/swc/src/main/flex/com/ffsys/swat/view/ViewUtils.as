@@ -9,11 +9,11 @@ package com.ffsys.swat.view  {
 	import com.ffsys.ui.text.core.TextFieldFactory;
 	
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
-	import com.ffsys.utils.collections.strings.StringCollection;
+	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.configuration.Settings;
+	import com.ffsys.swat.configuration.ISettings;
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	
 	/**
@@ -96,7 +96,7 @@ package com.ffsys.swat.view  {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get settings():Settings
+		public function get settings():ISettings
 		{
 			if( this.configuration == null )
 			{
@@ -109,7 +109,7 @@ package com.ffsys.swat.view  {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get assets():StringCollection
+		public function get assets():IStringCollection
 		{
 			if( this.configuration == null )
 			{

@@ -3,13 +3,13 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
-	import com.ffsys.utils.collections.strings.StringCollection;
+	import com.ffsys.utils.collections.strings.IStringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.locale.LocaleManager;
-	import com.ffsys.swat.configuration.rsls.RuntimeSharedLibraryCollection;
+	import com.ffsys.swat.configuration.rsls.IRuntimeResourceCollection;
 	
 	/**
 	*	Represents the application configuration.
@@ -103,7 +103,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get settings():Settings
+		public function get settings():ISettings
 		{
 			return _locales.settings;
 		}
@@ -111,7 +111,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
-		public function set settings( settings:Settings ):void
+		public function set settings( settings:ISettings ):void
 		{
 			_locales.settings = settings;
 		}
@@ -119,7 +119,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get defaults():Defaults
+		public function get defaults():IDefaults
 		{
 			return _locales.defaults;
 		}
@@ -127,7 +127,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
-		public function set defaults( defaults:Defaults ):void
+		public function set defaults( defaults:IDefaults ):void
 		{
 			_locales.defaults = defaults;
 		}
@@ -135,7 +135,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function get assets():StringCollection
+		public function get assets():IStringCollection
 		{
 			return _locales.assets;
 		}
@@ -143,7 +143,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/		
-		public function set assets( assets:StringCollection ):void
+		public function set assets( assets:IStringCollection ):void
 		{
 			_locales.assets = assets;
 		}
@@ -151,7 +151,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function get rsls():RuntimeSharedLibraryCollection
+		public function get rsls():IRuntimeResourceCollection
 		{
 			return _locales.rsls;
 		}
@@ -159,7 +159,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function set rsls( rsls:RuntimeSharedLibraryCollection ):void
+		public function set rsls( rsls:IRuntimeResourceCollection ):void
 		{
 			_locales.rsls = rsls;
 		}
