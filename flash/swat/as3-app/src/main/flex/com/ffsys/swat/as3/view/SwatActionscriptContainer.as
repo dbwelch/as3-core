@@ -55,7 +55,7 @@ package com.ffsys.swat.as3.view {
 			addChild( bitmap );
 			*/
 			
-			return false;
+			return true;
 		}
 		
 		/**
@@ -63,42 +63,60 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{
+			var fonts:Array = Font.enumerateFonts();
+			var font:Font = null;
+			for each( font in fonts )
+			{
+				trace("SwatActionscriptContainer::createChildren(), ", font.fontName );
+			}			
+						
 			trace("SwatActionscriptContainer::createChildren(), ", this );
-			trace("SwatActionscriptContainer::createChildren(), ", Font.enumerateFonts() );
+			trace("SwatActionscriptContainer::createChildren(), ", fonts );
 			
 			vbox = new VerticalBox();
 			
 			vbox.x = vbox.y = 20;
 			
-			var graphic:DisplayObject = new SquareGraphic( 50 );
+			var lbl:Label = new Label( "This is a title..." );
+			
+			trace("SwatActionscriptContainer::createChildren(), ",
+				lbl, lbl.textfield,
+				lbl.textfield.embedFonts,
+				lbl.textfield.defaultTextFormat.font );
+			
+			vbox.addChild( lbl );
+			
+			var fill:IFill = new SolidFill( 0xff0000, 0.5 );
+			
+			var graphic:DisplayObject = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "bevel" ) ];
 			vbox.addChild( graphic );
 			
-			graphic = new SquareGraphic( 50 );
+			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "drop-shadow" ) ];
 			vbox.addChild( graphic );
 			
-			graphic = new SquareGraphic( 50 );
+			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "color-matrix" ) ];
 			vbox.addChild( graphic );
 			
-			graphic = new SquareGraphic( 50 );
+			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "glow" ) ];
 			vbox.addChild( graphic );
 			
-			graphic = new SquareGraphic( 50 );
+			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "gradient-glow" ) ];
 			vbox.addChild( graphic );
 			
-			graphic = new SquareGraphic( 50 );
+			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "gradient-bevel" ) ];
-			vbox.addChild( graphic );												
+			vbox.addChild( graphic );							
 			
 			addChild( vbox );
 		}

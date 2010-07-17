@@ -7,7 +7,7 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.ILoader;
-	import com.ffsys.io.loaders.types.MovieLoader;	
+	import com.ffsys.io.loaders.types.FontLoader;	
 	
 	/**
 	*	Encapsulates a collection of font files.
@@ -27,14 +27,13 @@ package com.ffsys.swat.configuration.rsls {
 		{
 			super();
 		}
-		
 
 		/**
 		*	@inheritDoc
 		*/
 		override public function getLoader( request:URLRequest ):ILoader
 		{
-			return new MovieLoader( request );
+			return new FontLoader( request );
 		}
 
 		/**
@@ -53,14 +52,8 @@ package com.ffsys.swat.configuration.rsls {
 				for( var i:int = 0;i < this.length;i++ )
 				{
 					lib = IRuntimeResource( this[ i ] );
-
 					request = new URLRequest( lib.url );
 					loader = getLoader( request );
-					
-					//always trust font resources
-					MovieLoader( loader ).context =
-						new LoaderContext( false, ApplicationDomain.currentDomain );
-
 					_queue.addLoader( loader );
 				}
 			}

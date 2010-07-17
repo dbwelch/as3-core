@@ -188,7 +188,7 @@ package com.ffsys.swat.configuration {
 		*	The node name for a font resource definition.
 		*/
 		static public const FONT_NAME:String =
-			"font";
+			"font-library";
 			
 		/**
 		*	The node name for a properties resource definition.

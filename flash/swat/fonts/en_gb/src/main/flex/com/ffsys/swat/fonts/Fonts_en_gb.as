@@ -12,7 +12,7 @@ package com.ffsys.swat.fonts {
 	*	@since  16.07.2010
 	*/
 	public class Fonts_en_gb extends Sprite {
-		[Embed(mimeType="application/x-font",source="../../../../../resources/arial.ttf",fontName="Main")]
-		static public var mainClass:Class;
+		[Embed(mimeType="application/x-font",source="../../../../../resources/arial.ttf",fontName="main")]
+		static public var mainFontClass:Class;
 	}
 }
