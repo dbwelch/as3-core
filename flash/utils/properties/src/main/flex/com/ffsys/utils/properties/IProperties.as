@@ -24,6 +24,19 @@ package com.ffsys.utils.properties {
 		function parse( data:String ):void;
 		
 		/**
+		*	Gets a property by full path identifier.
+		*	
+		*	@param id The fully qualified path to the property.
+		*	@param replacements Replacement values
+		*	to use when performing substitution.
+		*	
+		*	@return The string property or null if no matching
+		*	property could be found.
+		*/
+		function getProperty(
+			id:String, ... replacements ):String;
+		
+		/**
 		*	Gets a properties collection by identifier.
 		*	
 		*	@param id The identifier for the properties collection.

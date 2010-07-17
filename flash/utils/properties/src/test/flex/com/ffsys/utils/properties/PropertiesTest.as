@@ -56,7 +56,32 @@ package com.ffsys.utils.properties
 			//	
 			Assert.assertEquals(
 				"An error of type critical occured", properties.group.substitute(
-					"err", [ "critical" ] ) );			
+					"err", [ "critical" ] ) );
+			
+			//assert on fully qualified path lookup
+			Assert.assertEquals(
+				"a test top level string",
+				properties.getProperty( "toplevel" ) );
+				
+			Assert.assertEquals(
+				"abc",
+				properties.getProperty( "group.a" ) );					
+				
+			Assert.assertEquals(
+				"bcd",
+				properties.getProperty( "group.b" ) );				
+				
+			Assert.assertEquals(
+				"abcdef",
+				properties.getProperty( "group.nested.a" ) );
+				
+			Assert.assertEquals(
+				"bcdefg",
+				properties.getProperty( "group.nested.b" ) );
+				
+			Assert.assertEquals(
+				"An error of type critical occured",
+				properties.getProperty( "group.err", "critical" ) );
 		}
 	}
 }

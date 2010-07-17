@@ -50,6 +50,66 @@ package com.ffsys.utils.properties {
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		public function getProperty(
+			id:String, ... replacements ):String
+		{
+			var output:String = null;
+			if( id )
+			{
+				var index:int = id.indexOf( PATH_DELIMITER );
+				
+				if( index == -1 )
+				{
+					//lookup the property on this instance
+					
+					if( replacements == null || replacements.length == 0 )
+					{
+						output = this[ id ];
+					}else
+					{
+						output = substitute( id, replacements );
+					}
+				}else{
+					//find the parent properties collection
+					var enumerator:IAddressPath = new AddressPath(
+						id, PATH_DELIMITER );
+				
+					//get the id of the target property
+					var last:String =
+						enumerator.removeLastPathElement();
+	
+					var target:IProperties = this;
+					var element:String = null;
+					var l:int = enumerator.getLength();
+					for( var i:int = 0;i < l;i++ )
+					{
+						element = enumerator.getPathElementAt( i );
+						target = target.getPropertiesById( element );
+						
+						if( !target )
+						{
+							break;
+						}
+					}
+
+					if( target && ( i == l ) )
+					{
+						if( replacements == null || replacements.length == 0 )
+						{
+							output = target[ last ];
+						}else
+						{
+							output = target.substitute( last, replacements );
+						}
+					}
+				}
+			}
+			return output;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getPropertiesById( id:String ):IProperties
