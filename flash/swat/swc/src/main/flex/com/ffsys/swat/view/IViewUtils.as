@@ -6,7 +6,6 @@ package com.ffsys.swat.view {
 	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
@@ -69,11 +68,6 @@ package com.ffsys.swat.view {
 		* 	Gets the application filters.
 		*/
 		function get filters():IFilterCollection;
-		
-		/**
-		*	Gets the application copy collection.
-		*/
-		function get copy():LocaleAwareStringCollection;
 		
 		/**
 		* 	Gets the application assets map between identifiers

@@ -8,7 +8,6 @@ package com.ffsys.swat.view  {
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
 	
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
@@ -74,7 +73,8 @@ package com.ffsys.swat.view  {
 		{
 			if( this.configuration == null )
 			{
-				throw new Error( "Cannot access the flash variables with a null configuration." );
+				throw new Error(
+					"Cannot access the flash variables with a null configuration." );
 			}
 			
 			return this.configuration.flashvars;
@@ -87,7 +87,8 @@ package com.ffsys.swat.view  {
 		{
 			if( this.configuration == null )
 			{
-				throw new Error( "Cannot access the asset manager with a null configuration." );
+				throw new Error(
+					"Cannot access the asset manager with a null configuration." );
 			}
 			
 			return this.configuration.assetManager;
@@ -100,7 +101,8 @@ package com.ffsys.swat.view  {
 		{
 			if( this.configuration == null )
 			{
-				throw new Error( "Cannot access the application settings with a null configuration." );
+				throw new Error(
+					"Cannot access the application settings with a null configuration." );
 			}
 			
 			return this.configuration.settings;
@@ -113,7 +115,8 @@ package com.ffsys.swat.view  {
 		{
 			if( this.configuration == null )
 			{
-				throw new Error( "Cannot access the application assets with a null configuration." );
+				throw new Error(
+					"Cannot access the application assets with a null configuration." );
 			}
 			
 			return this.configuration.assets;
@@ -126,23 +129,11 @@ package com.ffsys.swat.view  {
 		{
 			if( this.configuration == null )
 			{
-				throw new Error( "Cannot access the application filters with a null configuration." );
+				throw new Error(
+					"Cannot access the application filters with a null configuration." );
 			}
 			
 			return this.configuration.filters;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get copy():LocaleAwareStringCollection
-		{
-			if( this.configuration == null )
-			{
-				throw new Error( "Cannot access the application filters with a null configuration." );
-			}			
-			
-			return this.configuration.copy;
 		}
 		
 		/**
@@ -152,7 +143,7 @@ package com.ffsys.swat.view  {
 		{
 			if( id )
 			{
-				return this.copy.getStringById( id );
+				//TODO: re-implement with properties
 			}
 			
 			return null;

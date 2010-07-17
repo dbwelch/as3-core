@@ -26,6 +26,16 @@ package com.ffsys.utils.locale {
 		function get country():String;
 		
 		/**
+		*	Gets the language string consisting of concatenating
+		*	the language with the country.
+		*	
+		*	@param delimiter The delimiter to use when concatenating.
+		*	
+		*	@return The language string representation of this locale.
+		*/
+		function getLanguage( delimiter:String = "_" ):String;		
+		
+		/**
 		*	Determines whether two locales are equal.
 		*	
 		*	@param locale The locale to compare against.

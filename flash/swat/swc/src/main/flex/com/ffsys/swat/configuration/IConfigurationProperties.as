@@ -1,6 +1,5 @@
 package com.ffsys.swat.configuration {
 	
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;	
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
@@ -20,12 +19,6 @@ package com.ffsys.swat.configuration {
 	*	@since  16.07.2010
 	*/
 	public interface IConfigurationProperties {
-		
-		/**
-		*	The main locale aware string collection.
-		*/
-		function get copy():LocaleAwareStringCollection;
-		function set copy( copy:LocaleAwareStringCollection ):void;
 		
 		/**
 		*	The application settings.

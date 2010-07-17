@@ -2,7 +2,6 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.core.IFlashVariables;
 	
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	
@@ -82,22 +81,6 @@ package com.ffsys.swat.configuration {
 		public function set assetManager( assetManager:AssetManager ):void
 		{
 			_assetManager = assetManager;
-		}		
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get copy():LocaleAwareStringCollection
-		{
-			return _locales.copy;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/		
-		public function set copy( copy:LocaleAwareStringCollection ):void
-		{
-			_locales.copy = copy;
 		}
 		
 		/**

@@ -9,7 +9,6 @@ package com.ffsys.swat
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.Locale;
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.ConfigurationLoader;
@@ -65,24 +64,20 @@ package com.ffsys.swat
 		{
 			var configuration:IConfiguration = _configurationLoader.configuration;
 
-			var locale:ILocale = new Locale();
-			locale.lang = "en";
-			locale.country = "GB";
+			var locale:ILocale = Locale.EN_GB;
 			
 			/*
 			trace("ConfigurationLoadTest::assertLoadedConfiguration(), ",
 				configuration,
 				configuration.locales,
-				configuration.copy,
 				configuration.settings,
 				configuration.assets );
 			*/
 			
-			configuration.copy.locale = locale;
+			configuration.locales.lang = locale.getLanguage();
 			
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
-			Assert.assertNotNull( configuration.copy );
 			Assert.assertNotNull( configuration.settings );
 			Assert.assertNotNull( configuration.assets );
 			

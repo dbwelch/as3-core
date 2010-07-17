@@ -1,6 +1,5 @@
 package com.ffsys.swat.configuration {
 	
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;	
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;

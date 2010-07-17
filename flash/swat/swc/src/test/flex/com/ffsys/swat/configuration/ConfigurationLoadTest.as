@@ -35,7 +35,6 @@ package com.ffsys.swat.configuration
 			
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
-			Assert.assertNotNull( configuration.copy );
 			Assert.assertNotNull( configuration.settings );
 			Assert.assertNotNull( configuration.assets );
 		}

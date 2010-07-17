@@ -1,6 +1,5 @@
 package com.ffsys.swat.configuration.locale {
 	
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.utils.locale.ILocale;
@@ -28,8 +27,6 @@ package com.ffsys.swat.configuration.locale {
 			
 		private var _current:IConfigurationLocale;
 		private var _lang:String;
-			
-		private var _copy:LocaleAwareStringCollection;
 		
 		private var _settings:ISettings;
 		private var _defaults:IDefaults;
@@ -134,35 +131,13 @@ package com.ffsys.swat.configuration.locale {
 					selected = getLocaleByLanguage( lang );
 				}
 
-				if( copy )
+				if( selected )
 				{
-					if( selected )
-					{
-						_current = IConfigurationLocale( selected );
-						copy.locale = selected;
-					}else{
-						throw new Error( "Could not locate locale for language code '" + lang + "'" );
-					}
+					_current = IConfigurationLocale( selected );
 				}else{
-					throw new Error( "Cannot update the language with null copy data." );
+					throw new Error( "Could not locate locale for language code '" + lang + "'" );
 				}
 			}
-		}		
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get copy():LocaleAwareStringCollection
-		{
-			return _copy;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/		
-		public function set copy( value:LocaleAwareStringCollection ):void
-		{
-			_copy = value;
 		}
 		
 		/**

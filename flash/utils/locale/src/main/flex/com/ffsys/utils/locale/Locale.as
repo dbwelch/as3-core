@@ -70,6 +70,14 @@ package com.ffsys.utils.locale {
 		/**
 		*	@inheritDoc	
 		*/
+		public function getLanguage( delimiter:String = "_" ):String
+		{
+			return this.lang + delimiter + this.country;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function equals( locale:ILocale ):Boolean
 		{
 			return ( locale != null ) &&

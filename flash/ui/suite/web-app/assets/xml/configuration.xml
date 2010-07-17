@@ -16,36 +16,6 @@
 		</rsl>
 	</rsls>
 	
-	<copy>
-		
-		<!-- the default locale to use -->
-		<locale lang="en" country="GB" />
-		
-		<!-- English text -->
-		<copy-collection>
-			<locale lang="en" country="GB" />
-			<test><![CDATA[This is some test english.]]></test>
-		</copy-collection>
-
-		<!-- Spanish text -->		
-		<copy-collection>
-			<locale lang="es" country="ES" />
-			<test><![CDATA[Esto es algo de español de prueba.]]></test>
-		</copy-collection>
-
-		<!-- German text -->
-		<copy-collection>
-			<locale lang="de" country="DE" />
-			<test><![CDATA[Dies ist ein Test Deutsch.]]></test>
-		</copy-collection>
-		
-		<!-- French text -->
-		<copy-collection>
-			<locale lang="fr" country="FR" />
-			<test><![CDATA[Ceci est un test de français.]]></test>
-		</copy-collection>
-	</copy>
-	
 	<settings>
 	</settings>
 	

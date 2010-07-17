@@ -3,7 +3,6 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.io.xml.DeserializationMode;
 	import com.ffsys.io.xml.Parser;
 
-	import com.ffsys.utils.collections.strings.LocaleAwareStringCollection;
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.Locale;
 	
@@ -233,12 +232,6 @@ package com.ffsys.swat.configuration {
 				ConfigurationLocale,
 				LOCALE_NAME,
 				LOCALE_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				LocaleAwareStringCollection,
-				COPY_NAME,
-				COPY_NAME,
 				false );
 				
 			classNodeNameMap.add(
