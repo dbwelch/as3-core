@@ -24,18 +24,24 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public class LocaleManager extends LocaleCollection
 		implements ILocaleManager {
-			
+		
 		private var _current:IConfigurationLocale;
 		private var _lang:String;
+			
+		private var _messages:IRuntimeResourceCollection;
+		private var _errors:IRuntimeResourceCollection;
+		private var _fonts:IRuntimeResourceCollection;
+		private var _rsls:IRuntimeResourceCollection;
 		
 		private var _settings:ISettings;
 		private var _defaults:IDefaults;
 		private var _assets:IStringCollection;
-		private var _rsls:IRuntimeResourceCollection;
 		private var _filters:IFilterCollection;
 			
+		//
 		private var _propertiesQueue:ILoaderQueue;
 		private var _fontsQueue:ILoaderQueue;
+		private var _rslsQueue:ILoaderQueue;
 		
 		/**
 		*	Creates a <code>LocaleManager</code> instance.
@@ -43,6 +49,58 @@ package com.ffsys.swat.configuration.locale {
 		public function LocaleManager()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get messages():IRuntimeResourceCollection
+		{
+			return _messages;
+		}
+		
+		public function set messages( value:IRuntimeResourceCollection ):void
+		{
+			_messages = value;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get errors():IRuntimeResourceCollection
+		{
+			return _errors;
+		}
+		
+		public function set errors( value:IRuntimeResourceCollection ):void
+		{
+			_errors = value;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get fonts():IRuntimeResourceCollection
+		{
+			return _fonts;
+		}
+		
+		public function set fonts( value:IRuntimeResourceCollection ):void
+		{
+			_fonts = value;
+		}	
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get rsls():IRuntimeResourceCollection
+		{
+			return _rsls;
+		}
+		
+		public function set rsls( rsls:IRuntimeResourceCollection ):void
+		{
+			_rsls = rsls;
 		}
 		
 		/**
@@ -54,16 +112,56 @@ package com.ffsys.swat.configuration.locale {
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		public function getRslQueue():ILoaderQueue
+		{
+			if( !_rslsQueue )
+			{
+				_rslsQueue = new LoaderQueue();
+				
+				if( this.rsls )
+				{
+					_rslsQueue.append( this.rsls.getLoaderQueue() );
+				}
+				
+				if( _current && _current.rsls )
+				{
+					_rslsQueue.append( _current.rsls.getLoaderQueue() );
+				}
+			}
+			
+			return _rslsQueue;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function getPropertiesQueue():ILoaderQueue
 		{
-			//TODO: add support for loading default messages
-			//TODO: add support for concatentating the errors files
-			
 			if( !_propertiesQueue )
 			{
-				_propertiesQueue = _current.messages.getLoaderQueue();
+				_propertiesQueue = new LoaderQueue();
+				
+				if( this.messages )
+				{
+					_propertiesQueue.append( this.messages.getLoaderQueue() );
+				}
+				
+				if( this.errors )
+				{
+					_propertiesQueue.append( this.errors.getLoaderQueue() );
+				}
+				
+				if( _current && _current.messages )
+				{
+					_propertiesQueue.append( _current.messages.getLoaderQueue() );
+				}
+				
+				if( _current && _current.errors )
+				{
+					_propertiesQueue.append( _current.errors.getLoaderQueue() );
+				}
 			}
 			
 			return _propertiesQueue;
@@ -77,7 +175,17 @@ package com.ffsys.swat.configuration.locale {
 			if( !_fontsQueue )
 			{
 				_fontsQueue = new LoaderQueue();
-			}
+				
+				if( this.fonts )
+				{
+					_fontsQueue.append( this.fonts.getLoaderQueue() );
+				}
+				
+				if( _current && _current.fonts )
+				{
+					_fontsQueue.append( _current.fonts.getLoaderQueue() );
+				}
+			}			
 			
 			return _fontsQueue;
 		}
@@ -186,22 +294,6 @@ package com.ffsys.swat.configuration.locale {
 		public function set assets( assets:IStringCollection ):void
 		{
 			_assets = assets;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get rsls():IRuntimeResourceCollection
-		{
-			return _rsls;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function set rsls( rsls:IRuntimeResourceCollection ):void
-		{
-			_rsls = rsls;
 		}
 		
 		/**

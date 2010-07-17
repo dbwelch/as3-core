@@ -42,10 +42,7 @@ package com.ffsys.swat.configuration {
 		{
 			return _flashvars;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
+
 		public function set flashvars( flashvars:IFlashVariables ):void
 		{
 			_flashvars = flashvars;
@@ -58,10 +55,7 @@ package com.ffsys.swat.configuration {
 		{
 			return _locales;
 		}
-		
-		/**
-		*	@inheritDoc
-		*/
+
 		public function set locales( locales:ILocaleManager ):void
 		{
 			_locales = locales;
@@ -74,10 +68,7 @@ package com.ffsys.swat.configuration {
 		{
 			return _assetManager;
 		}
-		
-		/**
-		*	@inheritDoc
-		*/
+
 		public function set assetManager( assetManager:AssetManager ):void
 		{
 			_assetManager = assetManager;
@@ -90,10 +81,7 @@ package com.ffsys.swat.configuration {
 		{
 			return _locales.settings;
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/
+
 		public function set settings( settings:ISettings ):void
 		{
 			_locales.settings = settings;
@@ -106,10 +94,7 @@ package com.ffsys.swat.configuration {
 		{
 			return _locales.defaults;
 		}
-
-		/**
-		*	@inheritDoc	
-		*/
+		
 		public function set defaults( defaults:IDefaults ):void
 		{
 			_locales.defaults = defaults;
@@ -122,29 +107,10 @@ package com.ffsys.swat.configuration {
 		{
 			return _locales.assets;
 		}
-
-		/**
-		*	@inheritDoc
-		*/		
+	
 		public function set assets( assets:IStringCollection ):void
 		{
 			_locales.assets = assets;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get rsls():IRuntimeResourceCollection
-		{
-			return _locales.rsls;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function set rsls( rsls:IRuntimeResourceCollection ):void
-		{
-			_locales.rsls = rsls;
 		}
 		
 		/**

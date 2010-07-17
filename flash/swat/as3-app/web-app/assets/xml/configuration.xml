@@ -144,6 +144,12 @@
 			</convolution-filter>
 		</filters>
 		
+		<messages>
+			<properties>
+				<url>assets/properties/messages-common.properties</url>
+			</properties>
+		</messages>
+		
 		<!-- Locale specific settings -->
 		<locale lang="en" country="GB">
 			

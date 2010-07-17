@@ -395,6 +395,21 @@ package com.ffsys.io.loaders.core {
 			}
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
+		public function append( source:ILoaderQueue ):void
+		{
+			if( source )
+			{
+				var loaders:Array = source.getAllLoaders();
+				for( var i:int = 0;i < loaders.length;i++ )
+				{
+					addLoader( loaders[ i ] );
+				}
+			}
+		}
+		
 		public function get item():ILoaderElement
 		{
 			return _item;

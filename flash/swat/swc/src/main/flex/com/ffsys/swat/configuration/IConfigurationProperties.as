@@ -33,12 +33,6 @@ package com.ffsys.swat.configuration {
 		function set assets( assets:IStringCollection ):void;
 		
 		/**
-		*	The runtime shared library collection. 
-		*/
-		function get rsls():IRuntimeResourceCollection;
-		function set rsls( rsls:IRuntimeResourceCollection ):void;
-		
-		/**
 		*	The application defaults.
 		*/
 		function get defaults():IDefaults;

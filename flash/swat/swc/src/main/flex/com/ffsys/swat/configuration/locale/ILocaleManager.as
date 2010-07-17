@@ -20,6 +20,7 @@ package com.ffsys.swat.configuration.locale {
 	public interface ILocaleManager
 		extends ILocaleCollection,
 				IConfigurationProperties,
+				IResourceCollectionAware,
 		 		IDeserializeProperty {
 		
 		/**
@@ -48,5 +49,13 @@ package com.ffsys.swat.configuration.locale {
 		*	@return The fonts loader queue.
 		*/
 		function getFontsQueue():ILoaderQueue;
+		
+		/**
+		*	Gets the loader queue used to load runtime
+		*	shared libraries.
+		*	
+		*	@return The rsl loader queue.
+		*/
+		function getRslQueue():ILoaderQueue;
 	}
 }

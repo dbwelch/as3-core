@@ -2,6 +2,8 @@ package com.ffsys.swat.as3.view {
 	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
+	import flash.text.Font;
+	
 	import com.ffsys.ui.text.core.*;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -61,6 +63,9 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{
+			trace("SwatActionscriptContainer::createChildren(), ", this );
+			trace("SwatActionscriptContainer::createChildren(), ", Font.enumerateFonts() );
+			
 			vbox = new VerticalBox();
 			
 			vbox.x = vbox.y = 20;

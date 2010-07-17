@@ -215,7 +215,7 @@ package com.ffsys.swat.core {
 		/**
 		*	@private
 		*	
-		*	Starts loading the runtime shared library assets.	
+		*	Starts loading the properties files.
 		*/
 		private function loadProperties():void
 		{
@@ -234,6 +234,25 @@ package com.ffsys.swat.core {
 		/**
 		*	@private
 		*	
+		*	Starts loading the font files.
+		*/
+		private function loadFonts():void
+		{
+			if( _assets )
+			{
+				_assets.close();
+				_assets = null;
+			}
+			
+			_assets = this.configuration.locales.getFontsQueue();
+			addQueueListeners( fontsLoadComplete );
+			_assets.load();
+			_phase = FONTS_PHASE;
+		}		
+		
+		/**
+		*	@private
+		*	
 		*	Starts loading the runtime shared library assets.	
 		*/
 		private function loadAssets():void
@@ -244,7 +263,7 @@ package com.ffsys.swat.core {
 				_assets = null;
 			}
 			
-			_assets = this.configuration.rsls.getLoaderQueue();
+			_assets = this.configuration.locales.getRslQueue();
 			addQueueListeners();
 			_assets.load();
 			_phase = RSLS_PHASE;
@@ -439,6 +458,17 @@ package com.ffsys.swat.core {
 		{
 			//cleanup
 			removeQueueListeners( propertiesLoadComplete );
+			_assets = null;
+			loadFonts();
+		}
+		
+		/**
+		*	@private
+		*/
+		private function fontsLoadComplete( event:LoadEvent ):void
+		{
+			//cleanup
+			removeQueueListeners( fontsLoadComplete );
 			_assets = null;
 			loadAssets();
 		}

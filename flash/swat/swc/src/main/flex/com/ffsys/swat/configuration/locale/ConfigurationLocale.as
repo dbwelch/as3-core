@@ -19,6 +19,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _messages:IRuntimeResourceCollection;
 		private var _errors:IRuntimeResourceCollection;
 		private var _fonts:IRuntimeResourceCollection;
+		private var _rsls:IRuntimeResourceCollection;
 		
 		/**
 		*	Creates a <code>ConfigurationLocale</code> instance.
@@ -65,6 +66,19 @@ package com.ffsys.swat.configuration.locale {
 		public function set fonts( value:IRuntimeResourceCollection ):void
 		{
 			_fonts = value;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get rsls():IRuntimeResourceCollection
+		{
+			return _rsls;
+		}
+		
+		public function set rsls( rsls:IRuntimeResourceCollection ):void
+		{
+			_rsls = rsls;
 		}
 	}
 }

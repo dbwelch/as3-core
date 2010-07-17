@@ -87,7 +87,7 @@ package com.ffsys.io.loaders.core {
 		
 		//-->refactor getLastLoader/getFirstLoader
 		function last():ILoaderElement;
-		function first():ILoaderElement;	
+		function first():ILoaderElement;
 		
 		//
 		function reset():void;
@@ -98,5 +98,13 @@ package com.ffsys.io.loaders.core {
 		
 		function willReload():Boolean;
 		function reload():void;
+		
+		/**
+		*	Appends all the loaders in the source queue
+		*	to this queue.
+		*	
+		*	@param source The source loader queue.	
+		*/
+		function append( source:ILoaderQueue ):void;
 	}
 }
