@@ -12,6 +12,11 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.swat.configuration.filters.*;
 	import com.ffsys.swat.configuration.rsls.*;
 	
+	import com.ffsys.io.loaders.resources.IResourceList;
+	import com.ffsys.io.loaders.resources.PropertiesResource;
+	
+	import com.ffsys.utils.properties.IProperties;
+	
 	/**
 	*	Manages all the runtime assets for a collection
 	*	of locales.
@@ -112,29 +117,6 @@ package com.ffsys.swat.configuration.locale {
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		public function getRslQueue():ILoaderQueue
-		{
-			if( !_rslsQueue )
-			{
-				_rslsQueue = new LoaderQueue();
-				
-				if( this.rsls )
-				{
-					_rslsQueue.append( this.rsls.getLoaderQueue() );
-				}
-				
-				if( _current && _current.rsls )
-				{
-					_rslsQueue.append( _current.rsls.getLoaderQueue() );
-				}
-			}
-			
-			return _rslsQueue;
-		}
-		
-		/**
 		*	@inheritDoc	
 		*/
 		public function getPropertiesQueue():ILoaderQueue
@@ -142,6 +124,18 @@ package com.ffsys.swat.configuration.locale {
 			if( !_propertiesQueue )
 			{
 				_propertiesQueue = new LoaderQueue();
+				
+				//add current properties first
+				//so they are retrieved first when locating properties
+				if( _current && _current.messages )
+				{
+					_propertiesQueue.append( _current.messages.getLoaderQueue() );
+				}
+				
+				if( _current && _current.errors )
+				{
+					_propertiesQueue.append( _current.errors.getLoaderQueue() );
+				}
 				
 				if( this.messages )
 				{
@@ -152,19 +146,42 @@ package com.ffsys.swat.configuration.locale {
 				{
 					_propertiesQueue.append( this.errors.getLoaderQueue() );
 				}
-				
-				if( _current && _current.messages )
-				{
-					_propertiesQueue.append( _current.messages.getLoaderQueue() );
-				}
-				
-				if( _current && _current.errors )
-				{
-					_propertiesQueue.append( _current.errors.getLoaderQueue() );
-				}
 			}
 			
 			return _propertiesQueue;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getMessage( id:String, ... replacements ):String
+		{
+			var output:String = null;
+			var queue:ILoaderQueue = getPropertiesQueue();
+			var list:IResourceList = queue.resources;
+			var resource:PropertiesResource = null;
+			var properties:IProperties = null;
+			
+			replacements.unshift( id );
+			
+			for( var i:int = 0;i < list.getLength();i++ )
+			{
+				resource = PropertiesResource( list.getResourceAt( i ) );
+				properties = resource.properties;
+				
+				if( properties )
+				{
+					output = properties.getProperty.apply(
+						properties, replacements );
+				
+					if( output )
+					{
+						return output;
+					}
+				}
+			}
+			
+			return output;
 		}
 		
 		/**
@@ -189,6 +206,30 @@ package com.ffsys.swat.configuration.locale {
 			
 			return _fontsQueue;
 		}
+		
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getRslQueue():ILoaderQueue
+		{
+			if( !_rslsQueue )
+			{
+				_rslsQueue = new LoaderQueue();
+				
+				if( this.rsls )
+				{
+					_rslsQueue.append( this.rsls.getLoaderQueue() );
+				}
+				
+				if( _current && _current.rsls )
+				{
+					_rslsQueue.append( _current.rsls.getLoaderQueue() );
+				}
+			}
+			
+			return _rslsQueue;
+		}		
 		
 		/**
 		*	@inheritDoc	

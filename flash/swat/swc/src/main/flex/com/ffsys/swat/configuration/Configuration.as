@@ -64,6 +64,15 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
+		public function getMessage( id:String, ... replacements ):String
+		{
+			replacements.unshift( id );
+			return _locales.getMessage.apply( _locales, replacements );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get assetManager():AssetManager
 		{
 			return _assetManager;

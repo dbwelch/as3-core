@@ -59,31 +59,16 @@ package com.ffsys.swat.as3.view {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		override public function createChildren():void
 		{
-			var fonts:Array = Font.enumerateFonts();
-			var font:Font = null;
-			for each( font in fonts )
-			{
-				trace("SwatActionscriptContainer::createChildren(), ", font.fontName );
-			}			
-						
-			trace("SwatActionscriptContainer::createChildren(), ", this );
-			trace("SwatActionscriptContainer::createChildren(), ", fonts );
-			
 			vbox = new VerticalBox();
 			
 			vbox.x = vbox.y = 20;
 			
-			var lbl:Label = new Label( "This is a title..." );
-			
-			trace("SwatActionscriptContainer::createChildren(), ",
-				lbl, lbl.textfield,
-				lbl.textfield.embedFonts,
-				lbl.textfield.defaultTextFormat.font );
-			
+			var lbl:Label = new Label(
+				utils.configuration.getMessage( "common.message" ) );
 			vbox.addChild( lbl );
 			
 			var fill:IFill = new SolidFill( 0xff0000, 0.5 );
@@ -116,7 +101,7 @@ package com.ffsys.swat.as3.view {
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
 			graphic.filters = [ utils.getFilterById( "gradient-bevel" ) ];
-			vbox.addChild( graphic );							
+			vbox.addChild( graphic );
 			
 			addChild( vbox );
 		}
