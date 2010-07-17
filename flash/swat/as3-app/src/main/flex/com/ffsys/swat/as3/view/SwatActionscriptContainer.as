@@ -67,11 +67,27 @@ package com.ffsys.swat.as3.view {
 			
 			vbox.x = vbox.y = 20;
 			
+			trace("SwatActionscriptContainer::message(), ",
+				utils.configuration.getMessage( "common.message" ) );
+			
 			trace("SwatActionscriptContainer::error(), ",
-				utils.configuration.getError( "general" ) );
+				utils.configuration.getError( "general", "warning" ) );
 			
 			var lbl:Label = new Label(
 				utils.configuration.getMessage( "common.message" ) );
+				
+			trace("SwatActionscriptContainer::createChildren(), ", Font.enumerateFonts() );
+				
+			trace("SwatActionscriptContainer::createChildren(), ",
+			 	lbl,
+				lbl.text,
+				lbl.textfield,
+				lbl.textfield.embedFonts,
+				lbl.textfield.defaultTextFormat.font,
+				lbl.visible,
+				lbl.width,
+				lbl.height );
+				
 			vbox.addChild( lbl );
 			
 			var fill:IFill = new SolidFill( 0xff0000, 0.5 );

@@ -4,6 +4,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.locale.ILocaleCollection;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
+	import com.ffsys.io.xml.IDeserializeComplete;
 	
 	import com.ffsys.swat.configuration.IConfigurationProperties;
 	
@@ -21,12 +22,20 @@ package com.ffsys.swat.configuration.locale {
 		extends ILocaleCollection,
 				IConfigurationProperties,
 				IResourceCollectionAware,
-		 		IDeserializeProperty {
+		 		IDeserializeProperty,
+				IDeserializeComplete {
 		
 		/**
 		* 	The currently selected locale.
 		*/
 		function get current():IConfigurationLocale;
+		
+		/**
+		*	A default locale to use when extracting
+		*	message and error strings.
+		*/		
+		function get defaultLocale():IConfigurationLocale;
+		function set defaultLocale( value:IConfigurationLocale ):void;
 		
 		/**
 		*	The language the application should run in.

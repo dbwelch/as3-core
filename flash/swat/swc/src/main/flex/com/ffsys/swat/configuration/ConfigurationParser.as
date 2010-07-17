@@ -23,7 +23,7 @@ package com.ffsys.swat.configuration {
 		implements IConfigurationParser {
 		
 		/**
-		*	The node name for a collection of locales.	
+		*	The node name for a collection of locales.
 		*/
 		static public const LOCALES_NAME:String =
 			"locales";
@@ -33,18 +33,18 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const LOCALE_NAME:String =
 			"locale";
+
+		/**
+		*	The node name for the fallback locale.
+		*/
+		static public const DEFAULT_LOCALE_NAME:String =
+			"default-locale";
 			
 		/**
-		*	The node name for the main string collection.
+		*	The property name for the fallback locale.
 		*/
-		static public const COPY_NAME:String =
-			"copy";
-			
-		/**
-		*	The node name for locale specific copy.
-		*/
-		static public const COPY_COLLECTION_NAME:String =
-			"copy-collection";
+		static public const DEFAULT_LOCALE_PROPERTY_NAME:String =
+			"defaultLocale";
 			
 		/**
 		*	The node name for arbritrary settings.
@@ -235,9 +235,9 @@ package com.ffsys.swat.configuration {
 				false );
 				
 			classNodeNameMap.add(
-				StringCollection,
-				COPY_COLLECTION_NAME,
-				COPY_COLLECTION_NAME,
+				ConfigurationLocale,
+				DEFAULT_LOCALE_NAME,
+				DEFAULT_LOCALE_PROPERTY_NAME,
 				false );
 				
 			classNodeNameMap.add(

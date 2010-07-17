@@ -30,8 +30,9 @@ package com.ffsys.swat.configuration.locale {
 	public class LocaleManager extends LocaleCollection
 		implements ILocaleManager {
 		
-		private var _current:IConfigurationLocale;
 		private var _lang:String;
+		private var _defaultLocale:IConfigurationLocale;
+		private var _current:IConfigurationLocale;
 			
 		private var _messages:IRuntimeResourceCollection;
 		private var _errors:IRuntimeResourceCollection;
@@ -115,6 +116,19 @@ package com.ffsys.swat.configuration.locale {
 		public function get current():IConfigurationLocale
 		{
 			return _current;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/		
+		public function get defaultLocale():IConfigurationLocale
+		{
+			return _defaultLocale;
+		}
+		
+		public function set defaultLocale( value:IConfigurationLocale ):void
+		{
+			_defaultLocale = value;
 		}
 		
 		/**
@@ -207,7 +221,6 @@ package com.ffsys.swat.configuration.locale {
 			
 			return _fontsQueue;
 		}
-		
 		
 		/**
 		*	@inheritDoc
@@ -360,12 +373,36 @@ package com.ffsys.swat.configuration.locale {
 		public function setDeserializedProperty(
 			name:String, value:Object ):void
 		{
-			if( value is ILocale )
-			{
-				addLocale( ILocale( value ) );
-			}else if( hasOwnProperty( name ) )
+			if( hasOwnProperty( name ) )
 			{
 				this[ name ] = value;
+			}else if( value is ILocale )
+			{
+				addLocale( ILocale( value ) );
+			}
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function deserialized():void
+		{
+			trace("LocaleManager::deserialized(), ", defaultLocale );
+			
+			if( defaultLocale )
+			{
+				var exists:Boolean = hasLocale( defaultLocale );
+				
+				if( !exists )
+				{
+					throw new Error(
+						"The default locale does not exist in the available locales." );
+				}
+				
+				//override the default locale with the loaded locale
+				defaultLocale = IConfigurationLocale( getLocaleByLanguageAndCountry(
+					defaultLocale.lang,
+					defaultLocale.country ) );
 			}
 		}
 		

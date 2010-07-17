@@ -62,7 +62,7 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		public function getMessage( id:String, ... replacements ):String
 		{
@@ -71,7 +71,7 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		public function getError( id:String, ... replacements ):String
 		{
