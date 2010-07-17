@@ -150,6 +150,12 @@
 			</properties>
 		</messages>
 		
+		<errors>
+			<properties>
+				<url>assets/properties/errors-common.properties</url>
+			</properties>
+		</errors>
+		
 		<!-- Locale specific settings -->
 		<locale lang="en" country="GB">
 			

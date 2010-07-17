@@ -73,6 +73,15 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
+		public function getError( id:String, ... replacements ):String
+		{
+			replacements.unshift( id );
+			return _locales.getError.apply( _locales, replacements );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get assetManager():AssetManager
 		{
 			return _assetManager;

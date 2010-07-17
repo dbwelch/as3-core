@@ -22,8 +22,17 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	
 	/**
-	*	Preloads the application configuration XML document
-	* 	and runtime shared libraries.
+	*	Preloads the application runtime resources.
+	*	
+	*	By default the runtime preload logic starts by loading the
+	*	configuration XML document for the application followed by
+	*	the declared messages and error properties files.
+	*	
+	*	Once the properties files that represent the localized application
+	*	text are loaded the application fonts are loaded.
+	*	
+	*	After the fonts are loaded the runtime shared libraries
+	*	are loaded.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -40,7 +49,7 @@ package com.ffsys.swat.core {
 		public static const CODE_PHASE:String = "code";
 		
 		/**
-		*	Represents the preload phase for configuration data.	
+		*	Represents the preload phase for the configuration XML document.
 		*/
 		public static const CONFIGURATION_PHASE:String = "configuration";
 		
@@ -50,7 +59,7 @@ package com.ffsys.swat.core {
 		public static const PROPERTIES_PHASE:String = "properties";
 		
 		/**
-		*	Represents the preload phase for font files.	
+		*	Represents the preload phase for font files.
 		*/
 		public static const FONTS_PHASE:String = "fonts";
 		
@@ -64,9 +73,7 @@ package com.ffsys.swat.core {
 		private var _configurationLoader:ConfigurationLoader;
 		private var _view:IApplicationPreloadView;
 		private var _configuration:IConfiguration;
-		
 		private var _phase:String = CODE_PHASE;
-		
 		private var _main:IApplicationPreloader;
 		
 		/**
@@ -162,7 +169,7 @@ package com.ffsys.swat.core {
 				configurationLoadComplete, false, 0, false );
 				
 			_configurationLoader.load(
-				SwatFlashVariables( _flashvars ).configuration );			
+				SwatFlashVariables( _flashvars ).configuration );	
 				
 			_phase = CONFIGURATION_PHASE;
 		}
@@ -208,25 +215,34 @@ package com.ffsys.swat.core {
 			evt.configuration = _configurationLoader.configuration;
 			dispatchEvent( evt );
 			
-			//load the properties files
-			loadProperties();
+			//load the application messages
+			loadMessages();
 		}
 		
 		/**
 		*	@private
 		*	
-		*	Starts loading the properties files.
+		*	Starts loading the message properties files.
 		*/
-		private function loadProperties():void
+		private function loadMessages():void
 		{
-			if( _assets )
-			{
-				_assets.close();
-				_assets = null;
-			}
-			
-			_assets = this.configuration.locales.getPropertiesQueue();
-			addQueueListeners( propertiesLoadComplete );
+			closeAssetsQueue();
+			_assets = this.configuration.locales.getMessagesQueue();
+			addQueueListeners( messagesLoadComplete );
+			_assets.load();
+			_phase = PROPERTIES_PHASE;
+		}
+		
+		/**
+		*	@private
+		*	
+		*	Starts loading the error properties files.
+		*/
+		private function loadErrors():void
+		{
+			closeAssetsQueue();
+			_assets = this.configuration.locales.getErrorsQueue();
+			addQueueListeners( errorsLoadComplete );
 			_assets.load();
 			_phase = PROPERTIES_PHASE;
 		}
@@ -238,17 +254,12 @@ package com.ffsys.swat.core {
 		*/
 		private function loadFonts():void
 		{
-			if( _assets )
-			{
-				_assets.close();
-				_assets = null;
-			}
-			
+			closeAssetsQueue();
 			_assets = this.configuration.locales.getFontsQueue();
 			addQueueListeners( fontsLoadComplete );
 			_assets.load();
 			_phase = FONTS_PHASE;
-		}		
+		}
 		
 		/**
 		*	@private
@@ -257,13 +268,8 @@ package com.ffsys.swat.core {
 		*/
 		private function loadAssets():void
 		{
-			if( _assets )
-			{
-				_assets.close();
-				_assets = null;
-			}
-			
-			_assets = this.configuration.locales.getRslQueue();
+			closeAssetsQueue();
+			_assets = this.configuration.locales.getRslsQueue();
 			addQueueListeners();
 			_assets.load();
 			_phase = RSLS_PHASE;
@@ -352,7 +358,7 @@ package com.ffsys.swat.core {
 						this.view.rsl( evt );
 						break;
 				}
-			}			
+			}
 		}
 		
 		/**
@@ -426,7 +432,7 @@ package com.ffsys.swat.core {
 			if( complete == null )
 			{
 				complete = loadComplete;
-			}			
+			}
 			
 			if( _assets )
 			{
@@ -440,24 +446,36 @@ package com.ffsys.swat.core {
 			
 				_assets.removeEventListener(
 					LoadEvent.LOAD_PROGRESS,
-						loadProgress );
+					loadProgress );
 				
 				_assets.removeEventListener(
-					LoadEvent.DATA, itemLoaded );
+					LoadEvent.DATA,
+					itemLoaded );
 				
 				_assets.removeEventListener(
-					LoadEvent.LOAD_COMPLETE, 
-					complete );		
+					LoadEvent.LOAD_COMPLETE,
+					complete );
 			}
 		}
 		
 		/**
 		*	@private
 		*/
-		private function propertiesLoadComplete( event:LoadEvent ):void
+		private function messagesLoadComplete( event:LoadEvent ):void
 		{
 			//cleanup
-			removeQueueListeners( propertiesLoadComplete );
+			removeQueueListeners( messagesLoadComplete );
+			_assets = null;
+			loadErrors();
+		}
+		
+		/**
+		*	@private
+		*/
+		private function errorsLoadComplete( event:LoadEvent ):void
+		{
+			//cleanup
+			removeQueueListeners( errorsLoadComplete );
 			_assets = null;
 			loadFonts();
 		}
@@ -492,6 +510,18 @@ package com.ffsys.swat.core {
 			_view.complete( evt );
 				
 			dispatchEvent( evt );
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function closeAssetsQueue():void
+		{
+			if( _assets )
+			{
+				_assets.close();
+				_assets = null;
+			}			
 		}
 	}
 }

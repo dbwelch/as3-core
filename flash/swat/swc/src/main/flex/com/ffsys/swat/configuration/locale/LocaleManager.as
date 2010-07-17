@@ -44,7 +44,8 @@ package com.ffsys.swat.configuration.locale {
 		private var _filters:IFilterCollection;
 			
 		//
-		private var _propertiesQueue:ILoaderQueue;
+		private var _messagesQueue:ILoaderQueue;
+		private var _errorsQueue:ILoaderQueue;
 		private var _fontsQueue:ILoaderQueue;
 		private var _rslsQueue:ILoaderQueue;
 		
@@ -119,69 +120,69 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function getPropertiesQueue():ILoaderQueue
+		public function getMessagesQueue():ILoaderQueue
 		{
-			if( !_propertiesQueue )
+			if( !_messagesQueue )
 			{
-				_propertiesQueue = new LoaderQueue();
+				_messagesQueue = new LoaderQueue();
 				
 				//add current properties first
 				//so they are retrieved first when locating properties
 				if( _current && _current.messages )
 				{
-					_propertiesQueue.append( _current.messages.getLoaderQueue() );
-				}
-				
-				if( _current && _current.errors )
-				{
-					_propertiesQueue.append( _current.errors.getLoaderQueue() );
+					_messagesQueue.append( _current.messages.getLoaderQueue() );
 				}
 				
 				if( this.messages )
 				{
-					_propertiesQueue.append( this.messages.getLoaderQueue() );
+					_messagesQueue.append( this.messages.getLoaderQueue() );
+				}
+			}
+			
+			return _messagesQueue;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getErrorsQueue():ILoaderQueue
+		{
+			if( !_errorsQueue )
+			{
+				_errorsQueue = new LoaderQueue();
+				
+				//add current properties first
+				//so they are retrieved first when locating properties
+				if( _current && _current.errors )
+				{
+					_errorsQueue.append( _current.errors.getLoaderQueue() );
 				}
 				
 				if( this.errors )
 				{
-					_propertiesQueue.append( this.errors.getLoaderQueue() );
+					_errorsQueue.append( this.errors.getLoaderQueue() );
 				}
 			}
 			
-			return _propertiesQueue;
-		}
+			return _errorsQueue;
+		}		
 		
 		/**
 		*	@inheritDoc	
 		*/
 		public function getMessage( id:String, ... replacements ):String
 		{
-			var output:String = null;
-			var queue:ILoaderQueue = getPropertiesQueue();
-			var list:IResourceList = queue.resources;
-			var resource:PropertiesResource = null;
-			var properties:IProperties = null;
-			
-			replacements.unshift( id );
-			
-			for( var i:int = 0;i < list.getLength();i++ )
-			{
-				resource = PropertiesResource( list.getResourceAt( i ) );
-				properties = resource.properties;
-				
-				if( properties )
-				{
-					output = properties.getProperty.apply(
-						properties, replacements );
-				
-					if( output )
-					{
-						return output;
-					}
-				}
-			}
-			
-			return output;
+			return getMessageFromQueue(
+				getMessagesQueue(), id, replacements );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getError( id:String, ... replacements ):String
+		{
+			return getMessageFromQueue(
+				getErrorsQueue(), id, replacements );
 		}
 		
 		/**
@@ -211,7 +212,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc
 		*/
-		public function getRslQueue():ILoaderQueue
+		public function getRslsQueue():ILoaderQueue
 		{
 			if( !_rslsQueue )
 			{
@@ -351,7 +352,7 @@ package com.ffsys.swat.configuration.locale {
 		public function set filters( filters:IFilterCollection ):void
 		{
 			_filters = filters;
-		}		
+		}	
 		
 		/**
 		*	@inheritDoc
@@ -366,6 +367,39 @@ package com.ffsys.swat.configuration.locale {
 			{
 				this[ name ] = value;
 			}
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getMessageFromQueue(
+			queue:ILoaderQueue, id:String, replacements:Array ):String
+		{
+			var output:String = null;
+			var list:IResourceList = queue.resources;
+			var resource:PropertiesResource = null;
+			var properties:IProperties = null;
+			
+			replacements.unshift( id );
+			
+			for( var i:int = 0;i < list.getLength();i++ )
+			{
+				resource = PropertiesResource( list.getResourceAt( i ) );
+				properties = resource.properties;
+				
+				if( properties )
+				{
+					output = properties.getProperty.apply(
+						properties, replacements );
+				
+					if( output )
+					{
+						return output;
+					}
+				}
+			}
+			
+			return output;
 		}
 	}
 }

@@ -35,12 +35,20 @@ package com.ffsys.swat.configuration.locale {
 		function set lang( lang:String ):void;
 		
 		/**
-		*	Gets the loader queue used to load properties
-		*	files for the application.
+		*	Gets the loader queue used to load message
+		*	properties files for the application.
 		*	
-		*	@return The properties loader queue.
+		*	@return The messages loader queue.
 		*/
-		function getPropertiesQueue():ILoaderQueue;
+		function getMessagesQueue():ILoaderQueue;
+		
+		/**
+		*	Gets the loader queue used to load error
+		*	properties files for the application.
+		*	
+		*	@return The errors loader queue.
+		*/
+		function getErrorsQueue():ILoaderQueue;
 		
 		/**
 		*	Gets the loader queue used to load font
@@ -56,6 +64,6 @@ package com.ffsys.swat.configuration.locale {
 		*	
 		*	@return The rsl loader queue.
 		*/
-		function getRslQueue():ILoaderQueue;
+		function getRslsQueue():ILoaderQueue;
 	}
 }

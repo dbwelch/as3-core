@@ -67,6 +67,9 @@ package com.ffsys.swat.as3.view {
 			
 			vbox.x = vbox.y = 20;
 			
+			trace("SwatActionscriptContainer::error(), ",
+				utils.configuration.getError( "general" ) );
+			
 			var lbl:Label = new Label(
 				utils.configuration.getMessage( "common.message" ) );
 			vbox.addChild( lbl );
