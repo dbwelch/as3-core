@@ -1,6 +1,8 @@
 package com.ffsys.swat.view  {
 	
+	import flash.display.Bitmap;
 	import flash.filters.BitmapFilter;
+	import flash.media.Sound;
 	import flash.text.Font;
 	import flash.utils.getDefinitionByName;
 	
@@ -30,7 +32,7 @@ package com.ffsys.swat.view  {
 		implements IViewUtils {
 			
 		static private var _textFieldFactory:ITextFieldFactory
-			= new TextFieldFactory();		
+			= new TextFieldFactory();
 		
 		private var _configuration:IConfiguration;
 		
@@ -71,12 +73,7 @@ package com.ffsys.swat.view  {
 		*/
 		public function get flashvars():IFlashVariables
 		{
-			if( this.configuration == null )
-			{
-				throw new Error(
-					"Cannot access the flash variables with a null configuration." );
-			}
-			
+			verifyConfiguration();
 			return this.configuration.flashvars;
 		}
 		
@@ -85,12 +82,7 @@ package com.ffsys.swat.view  {
 		*/
 		public function get assetManager():AssetManager
 		{
-			if( this.configuration == null )
-			{
-				throw new Error(
-					"Cannot access the asset manager with a null configuration." );
-			}
-			
+			verifyConfiguration();
 			return this.configuration.assetManager;
 		}
 		
@@ -99,12 +91,7 @@ package com.ffsys.swat.view  {
 		*/
 		public function get settings():ISettings
 		{
-			if( this.configuration == null )
-			{
-				throw new Error(
-					"Cannot access the application settings with a null configuration." );
-			}
-			
+			verifyConfiguration();
 			return this.configuration.settings;
 		}
 		
@@ -113,12 +100,7 @@ package com.ffsys.swat.view  {
 		*/
 		public function get assets():IStringCollection
 		{
-			if( this.configuration == null )
-			{
-				throw new Error(
-					"Cannot access the application assets with a null configuration." );
-			}
-			
+			verifyConfiguration();
 			return this.configuration.assets;
 		}
 		
@@ -127,34 +109,57 @@ package com.ffsys.swat.view  {
 		*/
 		public function get filters():IFilterCollection
 		{
-			if( this.configuration == null )
-			{
-				throw new Error(
-					"Cannot access the application filters with a null configuration." );
-			}
-			
+			verifyConfiguration();
 			return this.configuration.filters;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function getCopyById( id:String ):String
-		{
-			if( id )
-			{
-				//TODO: re-implement with properties
-			}
-			
-			return null;
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		public function getFilterById( id:String ):BitmapFilter
+		public function getFilter( id:String ):BitmapFilter
 		{
-			return this.filters.getFilterById( id );
+			verifyConfiguration();
+			return this.configuration.getFilter( id );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getMessage( id:String, ... replacements ):String
+		{
+			verifyConfiguration();
+			replacements.unshift( id );
+			return this.configuration.getMessage.apply(
+				this.configuration, replacements );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getError( id:String, ... replacements ):String
+		{
+			verifyConfiguration();
+			replacements.unshift( id );
+			return this.configuration.getError.apply(
+				this.configuration, replacements );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getImage( id:String ):Bitmap
+		{
+			verifyConfiguration();
+			return this.configuration.getImage( id );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getSound( id:String ):Sound
+		{
+			verifyConfiguration();
+			return this.configuration.getSound( id );
 		}
 		
 		/**
@@ -171,7 +176,9 @@ package com.ffsys.swat.view  {
 				clz = Class( getDefinitionByName( classPath ) );
 			}catch( e:Error )
 			{
-				throw new Error( "Could not find a class for font class '" + classPath + "'." );
+				throw new Error(
+					"Could not find a class for font class '"
+						+ classPath + "'." );
 			}
 			
 			try
@@ -179,16 +186,32 @@ package com.ffsys.swat.view  {
 				instance = new clz();
 			}catch( e:Error )
 			{
-				throw new Error( "Could not instantiate font instance with class path '" + classPath + "'." );
+				throw new Error(
+					"Could not instantiate font instance with class path '"
+						+ classPath + "'." );
 			}
 			
 			if( !( instance is Font ) )
 			{
-				throw new Error( "Instantiated instance from class path '" + classPath + "' is not a font." );
+				throw new Error(
+					"Instantiated instance from class path '"
+						+ classPath + "' is not a font." );
 			}
 
 			Font.registerFont( clz );
 			return Font( instance );
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function verifyConfiguration():void
+		{
+			if( this.configuration == null )
+			{
+				throw new Error(
+					"Cannot access view utilities with a null configuration." );
+			}
 		}
 	}
 }

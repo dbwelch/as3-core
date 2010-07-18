@@ -18,23 +18,7 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  16.07.2010
 	*/
-	public interface IConfigurationProperties {
-		
-		/**
-		*	Gets a message from the loaded properties files.
-		*	
-		*	@param id The fully qualified identifier for the property.
-		*	@param replacements Replacement values for the located property.
-		*/
-		function getMessage( id:String, ... replacements ):String;
-		
-		/**
-		*	Gets an error message from the loaded properties files.
-		*	
-		*	@param id The fully qualified identifier for the property.
-		*	@param replacements Replacement values for the located property.
-		*/
-		function getError( id:String, ... replacements ):String;		
+	public interface IConfigurationProperties {		
 		
 		/**
 		*	The application settings.

@@ -1,5 +1,9 @@
 package com.ffsys.swat.configuration.locale {
 	
+	import flash.display.Bitmap;
+	import flash.filters.BitmapFilter;
+	import flash.media.Sound;	
+	
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.utils.locale.ILocale;
@@ -12,8 +16,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.swat.configuration.filters.*;
 	import com.ffsys.swat.configuration.rsls.*;
 	
-	import com.ffsys.io.loaders.resources.IResourceList;
-	import com.ffsys.io.loaders.resources.PropertiesResource;
+	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.utils.properties.IProperties;
 	
@@ -48,6 +51,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _rslsQueue:ILoaderQueue;
 		private var _imagesQueue:ILoaderQueue;
 		private var _soundsQueue:ILoaderQueue;
+		
 		
 		/**
 		*	Creates a <code>LocaleManager</code> instance.
@@ -167,7 +171,6 @@ package com.ffsys.swat.configuration.locale {
 			return _errorsQueue;
 		}
 		
-		
 		/**
 		*	@inheritDoc
 		*/
@@ -240,19 +243,19 @@ package com.ffsys.swat.configuration.locale {
 			{
 				_imagesQueue = new LoaderQueue();
 				
-				if( this.resources
-					&& this.resources.images )
-				{
-					_imagesQueue.append(
-						this.resources.images.getLoaderQueue() );
-				}
-				
 				if( _current
 					&& _current.resources
 					&& _current.resources.images )
 				{
 					_imagesQueue.append(
 						_current.resources.images.getLoaderQueue() );
+				}				
+				
+				if( this.resources
+					&& this.resources.images )
+				{
+					_imagesQueue.append(
+						this.resources.images.getLoaderQueue() );
 				}
 			}
 			
@@ -268,18 +271,18 @@ package com.ffsys.swat.configuration.locale {
 			{
 				_soundsQueue = new LoaderQueue();
 				
-				if( this.resources && this.resources.sounds )
-				{
-					_soundsQueue.append(
-						this.resources.sounds.getLoaderQueue() );
-				}
-				
 				if( _current
 					&& _current.resources
 					&& _current.resources.sounds )
 				{
 					_soundsQueue.append(
 						_current.resources.sounds.getLoaderQueue() );
+				}				
+				
+				if( this.resources && this.resources.sounds )
+				{
+					_soundsQueue.append(
+						this.resources.sounds.getLoaderQueue() );
 				}
 			}
 			
@@ -302,7 +305,73 @@ package com.ffsys.swat.configuration.locale {
 		{
 			return getMessageFromQueue(
 				getErrorsQueue(), id, replacements );
-		}	
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getImage( id:String ):Bitmap
+		{
+			var resource:IResource = getResourceById(
+				_imagesQueue, id, ImageResource );
+			
+			if( resource )
+			{
+				return new Bitmap(
+					ImageResource( resource ).bitmapData );
+			}
+			
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getSound( id:String ):Sound
+		{
+			var resource:IResource = getResourceById(
+				_soundsQueue, id, SoundResource );
+			
+			if( resource )
+			{
+				return SoundResource( resource ).sound;
+			}
+			
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getFilter( id:String ):BitmapFilter
+		{
+			var filter:BitmapFilter = null;
+			
+			//TODO: re-integrate this when filters can be locale specific
+			
+			/*
+			if( _current
+			 	&& _current.filters )
+			{
+				filter = _current.filters.getFilterById( id );
+			}
+			
+			if( defaultLocale
+				&& ( defaultLocale != current )
+				&& defaultLocale.filters
+				&& !filter )
+			{
+				filter = defaultLocale.filters.getFilterById( id );
+			}
+			*/
+			
+			if( this.filters && !filter )
+			{
+				filter = this.filters.getFilterById( id );
+			}
+			
+			return filter;
+		}		
 		
 		/**
 		*	@inheritDoc	
@@ -326,7 +395,8 @@ package com.ffsys.swat.configuration.locale {
 			
 			if( !locales )
 			{
-				throw new Error( "Cannot update the language with null locales data." );
+				throw new Error(
+					"Cannot update the language with null locales data." );
 			}
 			
 			if( lang )
@@ -343,7 +413,8 @@ package com.ffsys.swat.configuration.locale {
 					if( hasDelimiter )
 					{
 						parts = lang.split( delimiter );
-						selected = getLocaleByLanguageAndCountry( parts[ 0 ], parts[ 1 ] );
+						selected = getLocaleByLanguageAndCountry(
+							parts[ 0 ], parts[ 1 ] );
 						break;
 					}
 				}
@@ -424,10 +495,10 @@ package com.ffsys.swat.configuration.locale {
 		public function set filters( filters:IFilterCollection ):void
 		{
 			_filters = filters;
-		}	
+		}
 		
 		/**
-		*	@inheritDoc
+		*	@private
 		*/
 		public function setDeserializedProperty(
 			name:String, value:Object ):void
@@ -442,12 +513,10 @@ package com.ffsys.swat.configuration.locale {
 		}
 		
 		/**
-		*	@inheritDoc
+		*	@private
 		*/
 		public function deserialized():void
 		{
-			trace("LocaleManager::deserialized(), ", defaultLocale );
-			
 			if( defaultLocale )
 			{
 				var exists:Boolean = hasLocale( defaultLocale );
@@ -459,9 +528,10 @@ package com.ffsys.swat.configuration.locale {
 				}
 				
 				//override the default locale with the loaded locale
-				defaultLocale = IConfigurationLocale( getLocaleByLanguageAndCountry(
-					defaultLocale.lang,
-					defaultLocale.country ) );
+				defaultLocale = IConfigurationLocale(
+					getLocaleByLanguageAndCountry(
+						defaultLocale.lang,
+						defaultLocale.country ) );
 			}
 		}
 		
@@ -493,6 +563,29 @@ package com.ffsys.swat.configuration.locale {
 						return output;
 					}
 				}
+			}
+			
+			return output;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function getResourceById(
+			queue:ILoaderQueue, id:String, type:Class ):IResource
+		{
+			var output:IResource = null;
+			var list:IResourceList = null;
+			
+			if( queue )
+			{
+				list = queue.resources;
+			}
+			
+			if( list )
+			{
+				list = list.getResourcesByType( type );
+				output = list.getResourceById( id );
 			}
 			
 			return output;

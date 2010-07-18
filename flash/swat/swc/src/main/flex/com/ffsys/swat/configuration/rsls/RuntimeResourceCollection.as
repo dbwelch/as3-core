@@ -50,6 +50,7 @@ package com.ffsys.swat.configuration.rsls {
 					lib = IRuntimeResource( this[ i ] );
 					request = new URLRequest( lib.url );
 					loader = getLoader( request );
+					initializeLoader( loader, lib );
 					_queue.addLoader( loader );
 				}
 			}
@@ -67,7 +68,19 @@ package com.ffsys.swat.configuration.rsls {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	Performs initialization of loaders as they are
+		*	created.
+		*	
+		*	@param loader The loader to initialize from 	
+		*/
+		protected function initializeLoader(
+			loader:ILoader, resource:IRuntimeResource ):void
+		{
+			loader.id = resource.id;
+		}
+		
+		/**
+		*	@private
 		*/
 		public function setDeserializedProperty(
 			name:String, value:Object ):void

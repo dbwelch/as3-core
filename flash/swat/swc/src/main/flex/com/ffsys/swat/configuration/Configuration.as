@@ -1,5 +1,9 @@
 package com.ffsys.swat.configuration {
 	
+	import flash.display.Bitmap;
+	import flash.filters.BitmapFilter;
+	import flash.media.Sound;	
+	
 	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
@@ -77,6 +81,30 @@ package com.ffsys.swat.configuration {
 		{
 			replacements.unshift( id );
 			return _locales.getError.apply( _locales, replacements );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getImage( id:String ):Bitmap
+		{
+			return _locales.getImage( id );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getSound( id:String ):Sound
+		{
+			return _locales.getSound( id );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getFilter( id:String ):BitmapFilter
+		{
+			return _locales.getFilter( id );
 		}
 		
 		/**

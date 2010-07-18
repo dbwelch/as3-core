@@ -21,6 +21,8 @@ package com.ffsys.swat.configuration {
 	*/
 	public interface IConfiguration
 		extends IFlashVariablesAware,
+				IMessageAccess,
+				IMediaAccess,
 				IConfigurationProperties {
 		
 		/**

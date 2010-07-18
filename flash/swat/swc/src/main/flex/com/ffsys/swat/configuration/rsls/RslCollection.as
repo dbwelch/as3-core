@@ -61,7 +61,8 @@ package com.ffsys.swat.configuration.rsls {
 						MovieLoader( loader ).context =
 							new LoaderContext( false, ApplicationDomain.currentDomain );
 					}
-
+					
+					initializeLoader( loader, lib );
 					_queue.addLoader( loader );
 				}
 			}

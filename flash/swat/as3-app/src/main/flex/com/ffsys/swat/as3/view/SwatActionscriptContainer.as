@@ -55,7 +55,7 @@ package com.ffsys.swat.as3.view {
 			addChild( bitmap );
 			*/
 			
-			return false;
+			return true;
 		}
 		
 		/**
@@ -66,15 +66,18 @@ package com.ffsys.swat.as3.view {
 			vbox = new VerticalBox();
 			vbox.spacing = 10;
 			
+			/*
 			trace("SwatActionscriptContainer::message(), ",
-				utils.configuration.getMessage( "common.message" ) );
+				utils.getMessage( "common.message" ) );
 			
 			trace("SwatActionscriptContainer::error(), ",
-				utils.configuration.getError( "general", "warning" ) );
+				utils.getError( "general", "warning" ) );
+			*/
 			
 			var lbl:Label = new Label(
-				utils.configuration.getMessage( "common.message" ) );
+				utils.getMessage( "common.message" ) );
 				
+			/*
 			trace("SwatActionscriptContainer::createChildren(), ", Font.enumerateFonts() );
 				
 			trace("SwatActionscriptContainer::createChildren(), ",
@@ -86,45 +89,52 @@ package com.ffsys.swat.as3.view {
 				lbl.visible,
 				lbl.width,
 				lbl.height );
+			*/
 				
 			vbox.addChild( lbl );
 			
-			lbl = new Label( utils.configuration.getMessage( "test.message" ) );
+			lbl = new Label( utils.getMessage( "test.message" ) );
 			vbox.addChild( lbl );
 			
 			var fill:IFill = new SolidFill( 0xff0000, 0.5 );
 			
 			var graphic:DisplayObject = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilterById( "bevel" ) ];
+			graphic.filters = [ utils.getFilter( "bevel" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilterById( "drop-shadow" ) ];
+			graphic.filters = [ utils.getFilter( "drop-shadow" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilterById( "color-matrix" ) ];
+			graphic.filters = [ utils.getFilter( "color-matrix" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilterById( "glow" ) ];
+			graphic.filters = [ utils.getFilter( "glow" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilterById( "gradient-glow" ) ];
+			graphic.filters = [ utils.getFilter( "gradient-glow" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilterById( "gradient-bevel" ) ];
+			graphic.filters = [ utils.getFilter( "gradient-bevel" ) ];
 			vbox.addChild( graphic );
 			
 			addChild( vbox );
+			
+			/*
+			var image:Bitmap = utils.getImage( "garden-001" );
+			image.scaleX = image.scaleY = .1;
+			addChild( image );
+			*/
 		}
 	}
 }

@@ -7,6 +7,8 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.xml.IDeserializeComplete;
 	
 	import com.ffsys.swat.configuration.IConfigurationProperties;
+	import com.ffsys.swat.configuration.IMessageAccess;
+	import com.ffsys.swat.configuration.IMediaAccess;
 	
 	/**
 	*	Describes the contract for implementations
@@ -21,6 +23,8 @@ package com.ffsys.swat.configuration.locale {
 	public interface ILocaleManager
 		extends ILocaleCollection,
 				IConfigurationProperties,
+				IMessageAccess,
+				IMediaAccess,
 		 		IDeserializeProperty,
 				IDeserializeComplete {
 					

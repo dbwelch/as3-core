@@ -12,6 +12,8 @@ package com.ffsys.swat.view {
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.ISettings;
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
+	import com.ffsys.swat.configuration.IMessageAccess;
+	import com.ffsys.swat.configuration.IMediaAccess;
 	
 	/**
 	*	Describes the contract for an instance
@@ -25,7 +27,9 @@ package com.ffsys.swat.view {
 	*	@since  17.06.2010
 	*/
 	public interface IViewUtils
-		extends IConfigurationAware {
+		extends IConfigurationAware,
+		 		IMessageAccess,
+		 		IMediaAccess {
 		
 		/**
 		* 	The factory class used for creating and working
@@ -74,18 +78,5 @@ package com.ffsys.swat.view {
 		* 	and class paths.
 		*/
 		function get assets():IStringCollection;
-		
-		/**
-		* 	Gets a copy by identifier selected from the current locale
-		* 	copy collection.
-		* 
-		* 	@param id The identifier for the copy string.
-		*/
-		function getCopyById( id:String ):String;
-	
-		/**
-		*	Gets a bitmap filter by identifier.
-		*/
-		function getFilterById( id:String ):BitmapFilter;
 	}
 }

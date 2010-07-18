@@ -159,9 +159,11 @@
 			
 			<images>
 				<resource>
+					<id>garden-001</id>
 					<url>assets/images/garden-001.jpg</url>
 				</resource>
 				<resource>
+					<id>garden-002</id>
 					<url>assets/images/garden-002.jpg</url>
 				</resource>
 			</images>
