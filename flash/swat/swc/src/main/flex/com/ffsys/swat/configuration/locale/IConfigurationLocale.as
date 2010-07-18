@@ -14,8 +14,13 @@ package com.ffsys.swat.configuration.locale {
 	*	@since  15.07.2010
 	*/
 	public interface IConfigurationLocale
-		extends ILocale,
-				IResourceCollectionAware {
+		extends ILocale {
+			
+		/**
+		*	The resources for the locale.
+		*/
+		function get resources():ILocaleResources;
+		function set resources( value:ILocaleResources ):void;			
 
 	}
 }

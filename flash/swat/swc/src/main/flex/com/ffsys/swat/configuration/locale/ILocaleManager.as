@@ -21,9 +21,14 @@ package com.ffsys.swat.configuration.locale {
 	public interface ILocaleManager
 		extends ILocaleCollection,
 				IConfigurationProperties,
-				IResourceCollectionAware,
 		 		IDeserializeProperty,
 				IDeserializeComplete {
+					
+		/**
+		*	The resources for all locales.
+		*/
+		function get resources():ILocaleResources;
+		function set resources( value:ILocaleResources ):void;
 		
 		/**
 		* 	The currently selected locale.

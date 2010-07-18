@@ -1,7 +1,6 @@
 package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.Locale;
-	import com.ffsys.swat.configuration.rsls.IRuntimeResourceCollection;
 	
 	/**
 	*	Represents a locale with additional configuration
@@ -16,10 +15,7 @@ package com.ffsys.swat.configuration.locale {
 	public class ConfigurationLocale extends Locale
 		implements IConfigurationLocale {
 			
-		private var _messages:IRuntimeResourceCollection;
-		private var _errors:IRuntimeResourceCollection;
-		private var _fonts:IRuntimeResourceCollection;
-		private var _rsls:IRuntimeResourceCollection;
+		private var _resources:ILocaleResources;
 		
 		/**
 		*	Creates a <code>ConfigurationLocale</code> instance.
@@ -30,55 +26,16 @@ package com.ffsys.swat.configuration.locale {
 		}
 		
 		/**
-		*	@inheritDoc
+		*	@inheritDoc	
 		*/
-		public function get messages():IRuntimeResourceCollection
+		public function get resources():ILocaleResources
 		{
-			return _messages;
+			return _resources;
 		}
 		
-		public function set messages( value:IRuntimeResourceCollection ):void
+		public function set resources( value:ILocaleResources ):void
 		{
-			_messages = value;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get errors():IRuntimeResourceCollection
-		{
-			return _errors;
-		}
-		
-		public function set errors( value:IRuntimeResourceCollection ):void
-		{
-			_errors = value;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get fonts():IRuntimeResourceCollection
-		{
-			return _fonts;
-		}
-		
-		public function set fonts( value:IRuntimeResourceCollection ):void
-		{
-			_fonts = value;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get rsls():IRuntimeResourceCollection
-		{
-			return _rsls;
-		}
-		
-		public function set rsls( rsls:IRuntimeResourceCollection ):void
-		{
-			_rsls = rsls;
+			_resources = value;
 		}
 	}
 }

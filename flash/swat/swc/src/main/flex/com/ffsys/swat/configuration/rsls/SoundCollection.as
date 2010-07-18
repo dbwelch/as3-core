@@ -5,33 +5,33 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.ILoader;
-	import com.ffsys.io.loaders.types.PropertiesLoader;
+	import com.ffsys.io.loaders.types.SoundLoader;
 	
 	/**
-	*	Encapsulates a collection of property files.
+	*	Encapsulates a collection of sound files.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  17.06.2010
+	*	@since  17.07.2010
 	*/
-	dynamic public class PropertiesCollection extends RuntimeResourceCollection {
+	dynamic public class SoundCollection extends RuntimeResourceCollection {
 		
 		/**
-		*	Creates a <code>PropertiesCollection</code> instance.
+		*	Creates a <code>SoundCollection</code> instance.
 		*/
-		public function PropertiesCollection()
+		public function SoundCollection()
 		{
 			super();
 		}
-		
+
 		/**
 		*	@inheritDoc
 		*/
 		override public function getLoader( request:URLRequest ):ILoader
 		{
-			return new PropertiesLoader( request );
+			return new SoundLoader( request );
 		}
 	}
 }

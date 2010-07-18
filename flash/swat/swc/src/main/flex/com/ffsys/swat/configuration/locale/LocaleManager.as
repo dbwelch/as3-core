@@ -34,10 +34,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _defaultLocale:IConfigurationLocale;
 		private var _current:IConfigurationLocale;
 			
-		private var _messages:IRuntimeResourceCollection;
-		private var _errors:IRuntimeResourceCollection;
-		private var _fonts:IRuntimeResourceCollection;
-		private var _rsls:IRuntimeResourceCollection;
+		private var _resources:ILocaleResources;
 		
 		private var _settings:ISettings;
 		private var _defaults:IDefaults;
@@ -57,59 +54,20 @@ package com.ffsys.swat.configuration.locale {
 		{
 			super();
 		}
-		
+
 		/**
-		*	@inheritDoc
+		*	@inheritDoc	
 		*/
-		public function get messages():IRuntimeResourceCollection
+		public function get resources():ILocaleResources
 		{
-			return _messages;
+			return _resources;
 		}
 		
-		public function set messages( value:IRuntimeResourceCollection ):void
+		public function set resources( value:ILocaleResources ):void
 		{
-			_messages = value;
+			_resources = value;
 		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get errors():IRuntimeResourceCollection
-		{
-			return _errors;
-		}
-		
-		public function set errors( value:IRuntimeResourceCollection ):void
-		{
-			_errors = value;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get fonts():IRuntimeResourceCollection
-		{
-			return _fonts;
-		}
-		
-		public function set fonts( value:IRuntimeResourceCollection ):void
-		{
-			_fonts = value;
-		}	
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get rsls():IRuntimeResourceCollection
-		{
-			return _rsls;
-		}
-		
-		public function set rsls( rsls:IRuntimeResourceCollection ):void
-		{
-			_rsls = rsls;
-		}
-		
+
 		/**
 		*	@inheritDoc	
 		*/
@@ -142,22 +100,27 @@ package com.ffsys.swat.configuration.locale {
 				
 				//add current properties first
 				//so they are retrieved first when locating properties
-				if( _current && _current.messages )
+				if( _current 
+					&& _current.resources
+					&& _current.resources.messages )
 				{
-					_messagesQueue.append( _current.messages.getLoaderQueue() );
+					_messagesQueue.append(
+						_current.resources.messages.getLoaderQueue() );
 				}
 				
 				if( defaultLocale
 					&& ( defaultLocale != current )
-					&& defaultLocale.messages )
+					&& defaultLocale.resources
+					&& defaultLocale.resources.messages )
 				{
 					_messagesQueue.append(
-						defaultLocale.messages.getLoaderQueue() );
+						defaultLocale.resources.messages.getLoaderQueue() );
 				}
 				
-				if( this.messages )
+				if( this.resources && this.resources.messages )
 				{
-					_messagesQueue.append( this.messages.getLoaderQueue() );
+					_messagesQueue.append(
+						this.resources.messages.getLoaderQueue() );
 				}
 			}
 			
@@ -175,22 +138,27 @@ package com.ffsys.swat.configuration.locale {
 				
 				//add current properties first
 				//so they are retrieved first when locating properties
-				if( _current && _current.errors )
+				if( _current
+					&& _current.resources
+					&& _current.resources.errors )
 				{
-					_errorsQueue.append( _current.errors.getLoaderQueue() );
+					_errorsQueue.append(
+						_current.resources.errors.getLoaderQueue() );
 				}
 				
 				if( defaultLocale
 					&& ( defaultLocale != current )
-					&& defaultLocale.errors )
+					&& defaultLocale.resources
+					&& defaultLocale.resources.errors )
 				{
 					_errorsQueue.append(
-						defaultLocale.errors.getLoaderQueue() );
+						defaultLocale.resources.errors.getLoaderQueue() );
 				}
 				
-				if( this.errors )
+				if( this.resources && this.resources.errors )
 				{
-					_errorsQueue.append( this.errors.getLoaderQueue() );
+					_errorsQueue.append(
+						this.resources.errors.getLoaderQueue() );
 				}
 			}
 			
@@ -207,22 +175,27 @@ package com.ffsys.swat.configuration.locale {
 			{
 				_fontsQueue = new LoaderQueue();
 				
-				if( this.fonts )
+				if( this.resources && this.resources.fonts )
 				{
-					_fontsQueue.append( this.fonts.getLoaderQueue() );
+					_fontsQueue.append(
+						this.resources.fonts.getLoaderQueue() );
 				}
 				
 				if( defaultLocale
 					&& ( defaultLocale != current )
-					&& defaultLocale.fonts )
+					&& defaultLocale.resources
+					&& defaultLocale.resources.fonts )
 				{
 					_fontsQueue.append(
-						defaultLocale.fonts.getLoaderQueue() );
+						defaultLocale.resources.fonts.getLoaderQueue() );
 				}
 				
-				if( _current && _current.fonts )
+				if( _current
+					&& _current.resources
+					&& _current.resources.fonts )
 				{
-					_fontsQueue.append( _current.fonts.getLoaderQueue() );
+					_fontsQueue.append(
+						_current.resources.fonts.getLoaderQueue() );
 				}
 			}
 			
@@ -238,14 +211,18 @@ package com.ffsys.swat.configuration.locale {
 			{
 				_rslsQueue = new LoaderQueue();
 				
-				if( this.rsls )
+				if( this.resources && this.resources.rsls )
 				{
-					_rslsQueue.append( this.rsls.getLoaderQueue() );
+					_rslsQueue.append(
+						this.resources.rsls.getLoaderQueue() );
 				}
 				
-				if( _current && _current.rsls )
+				if( _current
+					&& _current.resources
+					&& _current.resources.rsls )
 				{
-					_rslsQueue.append( _current.rsls.getLoaderQueue() );
+					_rslsQueue.append(
+						_current.resources.rsls.getLoaderQueue() );
 				}
 			}
 			

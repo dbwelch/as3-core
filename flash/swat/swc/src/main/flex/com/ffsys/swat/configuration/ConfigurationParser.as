@@ -185,16 +185,28 @@ package com.ffsys.swat.configuration {
 			"fonts";
 			
 		/**
-		*	The node name for a font resource definition.
+		*	The node name for application images.
 		*/
-		static public const FONT_NAME:String =
-			"font-library";
+		static public const IMAGES_NAME:String =
+			"images";	
 			
 		/**
-		*	The node name for a properties resource definition.
+		*	The node name for application sounds.
 		*/
-		static public const PROPERTIES_NAME:String =
-			"properties";			
+		static public const SOUNDS_NAME:String =
+			"sounds";
+
+		/**
+		*	The node name for a collection of resources.
+		*/
+		static public const RESOURCES_NAME:String =
+			"resources";
+			
+		/**
+		*	The node name for a resource definition.
+		*/
+		static public const RESOURCE_NAME:String =
+			"resource";			
 
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
@@ -283,22 +295,22 @@ package com.ffsys.swat.configuration {
 				false );
 				
 			classNodeNameMap.add(
-				RuntimeResource,
-				PROPERTIES_NAME,
-				PROPERTIES_NAME,
-				false );
+				LocaleResources,
+				RESOURCES_NAME,
+				RESOURCES_NAME,
+				false );				
 				
 			classNodeNameMap.add(
 				RuntimeResource,
-				FONT_NAME,
-				FONT_NAME,
-				false );												
+				RESOURCE_NAME,
+				RESOURCE_NAME,
+				false );
 				
 			classNodeNameMap.add(
 				Defaults,
 				DEFAULTS_NAME,
 				DEFAULTS_NAME,
-				false );			
+				false );
 				
 			classNodeNameMap.add(
 				Object,

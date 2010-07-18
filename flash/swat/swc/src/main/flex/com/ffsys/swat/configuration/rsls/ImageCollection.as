@@ -5,33 +5,33 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.ILoader;
-	import com.ffsys.io.loaders.types.PropertiesLoader;
+	import com.ffsys.io.loaders.types.ImageLoader;	
 	
 	/**
-	*	Encapsulates a collection of property files.
+	*	Encapsulates a collection of image files.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  17.06.2010
+	*	@since  17.07.2010
 	*/
-	dynamic public class PropertiesCollection extends RuntimeResourceCollection {
+	dynamic public class ImageCollection extends RuntimeResourceCollection {
 		
 		/**
-		*	Creates a <code>PropertiesCollection</code> instance.
+		*	Creates a <code>ImageCollection</code> instance.
 		*/
-		public function PropertiesCollection()
+		public function ImageCollection()
 		{
 			super();
 		}
-		
+
 		/**
 		*	@inheritDoc
 		*/
 		override public function getLoader( request:URLRequest ):ILoader
 		{
-			return new PropertiesLoader( request );
+			return new ImageLoader( request );
 		}
 	}
 }

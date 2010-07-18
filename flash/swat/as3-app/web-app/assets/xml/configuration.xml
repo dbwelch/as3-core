@@ -144,66 +144,75 @@
 			</convolution-filter>
 		</filters>
 		
-		<messages>
-			<properties>
-				<url>assets/properties/messages-common.properties</url>
-			</properties>
-		</messages>
+		<resources>
+			<messages>
+				<resource>
+					<url>assets/properties/messages-common.properties</url>
+				</resource>
+			</messages>
 		
-		<errors>
-			<properties>
-				<url>assets/properties/errors-common.properties</url>
-			</properties>
-		</errors>
+			<errors>
+				<resource>
+					<url>assets/properties/errors-common.properties</url>
+				</resource>
+			</errors>
+		</resources>
 		
 		<!-- The default fallback locale -->
 		<default-locale lang="en" country="GB" />
 		
-		<!-- Locale specific settings -->
+		<!-- Locale definitions -->
 		<locale lang="en" country="GB">
 			
-			<messages>
-				<properties>
-					<url>assets/properties/messages-en_GB.properties</url>
-				</properties>
-			</messages>
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-en_GB.properties</url>
+					</resource>
+				</messages>
 			
-			<errors>
-				<properties>
-					<url>assets/properties/errors-en_GB.properties</url>
-				</properties>
-			</errors>
+				<errors>
+					<resource>
+						<url>assets/properties/errors-en_GB.properties</url>
+					</resource>
+				</errors>
 			
-			<fonts>
-				<font-library>
-					<url>assets/fonts/fonts-en_GB.swf</url>
-				</font-library>
-			</fonts>
-			
+				<fonts>
+					<resource>
+						<url>assets/fonts/fonts-en_GB.swf</url>
+					</resource>
+				</fonts>
+			</resources>
 		</locale>
 		
 		<locale lang="es" country="ES">
-			<messages>
-				<properties>
-					<url>assets/properties/messages-es_ES.properties</url>
-				</properties>
-			</messages>
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-es_ES.properties</url>
+					</resource>
+				</messages>
+			</resources>
 		</locale>
 		
 		<locale lang="de" country="DE">
-			<messages>
-				<properties>
-					<url>assets/properties/messages-de_DE.properties</url>
-				</properties>
-			</messages>
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-de_DE.properties</url>
+					</resource>
+				</messages>
+			</resources>
 		</locale>
 		
 		<locale lang="fr" country="FR">
-			<messages>
-				<properties>
-					<url>assets/properties/messages-fr_FR.properties</url>
-				</properties>
-			</messages>
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-fr_FR.properties</url>
+					</resource>
+				</messages>
+			</resources>
 		</locale>
 		
 	</locales>

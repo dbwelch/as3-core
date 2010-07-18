@@ -4,6 +4,7 @@ package com.ffsys.swat.configuration.rsls {
 	
 	import com.ffsys.io.loaders.core.ILoader;	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
+	import com.ffsys.io.loaders.core.LoaderQueue;
 	
 	/**
 	*	Abstract super class for configuration collections
@@ -36,6 +37,23 @@ package com.ffsys.swat.configuration.rsls {
 		*/
 		public function getLoaderQueue():ILoaderQueue
 		{
+			if( !_queue )
+			{
+				_queue = new LoaderQueue();
+
+				var lib:IRuntimeResource = null;
+				var request:URLRequest = null;
+				var loader:ILoader = null;
+
+				for( var i:int = 0;i < this.length;i++ )
+				{
+					lib = IRuntimeResource( this[ i ] );
+					request = new URLRequest( lib.url );
+					loader = getLoader( request );
+					_queue.addLoader( loader );
+				}
+			}
+			
 			return _queue;
 		}
 		
