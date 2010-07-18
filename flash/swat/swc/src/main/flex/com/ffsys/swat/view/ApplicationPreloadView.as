@@ -61,7 +61,15 @@ package com.ffsys.swat.view {
 		/**
 		*	@inheritDoc
 		*/
-		public function properties( event:RslEvent ):void
+		public function message( event:RslEvent ):void
+		{
+			//
+		}		
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function error( event:RslEvent ):void
 		{
 			//
 		}		
@@ -78,6 +86,22 @@ package com.ffsys.swat.view {
 		*	@inheritDoc
 		*/
 		public function font( event:RslEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function image( event:RslEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function sound( event:RslEvent ):void
 		{
 			//
 		}

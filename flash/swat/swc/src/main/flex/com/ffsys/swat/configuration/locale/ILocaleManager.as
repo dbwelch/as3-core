@@ -52,7 +52,7 @@ package com.ffsys.swat.configuration.locale {
 		*	Gets the loader queue used to load message
 		*	properties files for the application.
 		*	
-		*	@return The messages loader queue.
+		*	@return The message loader queue.
 		*/
 		function getMessagesQueue():ILoaderQueue;
 		
@@ -60,7 +60,7 @@ package com.ffsys.swat.configuration.locale {
 		*	Gets the loader queue used to load error
 		*	properties files for the application.
 		*	
-		*	@return The errors loader queue.
+		*	@return The error loader queue.
 		*/
 		function getErrorsQueue():ILoaderQueue;
 		
@@ -68,7 +68,7 @@ package com.ffsys.swat.configuration.locale {
 		*	Gets the loader queue used to load font
 		*	files for the application.
 		*	
-		*	@return The fonts loader queue.
+		*	@return The font loader queue.
 		*/
 		function getFontsQueue():ILoaderQueue;
 		
@@ -79,5 +79,21 @@ package com.ffsys.swat.configuration.locale {
 		*	@return The rsl loader queue.
 		*/
 		function getRslsQueue():ILoaderQueue;
+		
+		/**
+		*	Gets the loader queue used to load image
+		*	resources.
+		*	
+		*	@return The image loader queue.
+		*/
+		function getImagesQueue():ILoaderQueue;
+		
+		/**
+		*	Gets the loader queue used to load sound
+		*	resources.
+		*	
+		*	@return The sound loader queue.
+		*/
+		function getSoundsQueue():ILoaderQueue;
 	}
 }

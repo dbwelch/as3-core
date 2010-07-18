@@ -62,7 +62,15 @@ package com.ffsys.swat.as3.view {
 		/**
 		*	@inheritDoc
 		*/
-		override public function properties( event:RslEvent ):void
+		override public function message( event:RslEvent ):void
+		{
+			showLoadProgress( event.preloader.phase, event );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function error( event:RslEvent ):void
 		{
 			showLoadProgress( event.preloader.phase, event );
 		}
@@ -79,6 +87,22 @@ package com.ffsys.swat.as3.view {
 		*	@inheritDoc
 		*/
 		override public function font( event:RslEvent ):void
+		{
+			showLoadProgress( event.preloader.phase, event );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function image( event:RslEvent ):void
+		{
+			showLoadProgress( event.preloader.phase, event );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function sound( event:RslEvent ):void
 		{
 			showLoadProgress( event.preloader.phase, event );
 		}

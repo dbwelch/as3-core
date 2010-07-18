@@ -156,6 +156,15 @@
 					<url>assets/properties/errors-common.properties</url>
 				</resource>
 			</errors>
+			
+			<images>
+				<resource>
+					<url>assets/images/garden-001.jpg</url>
+				</resource>
+				<resource>
+					<url>assets/images/garden-002.jpg</url>
+				</resource>
+			</images>
 		</resources>
 		
 		<!-- The default fallback locale -->

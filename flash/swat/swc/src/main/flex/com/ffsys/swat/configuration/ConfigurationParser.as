@@ -289,6 +289,18 @@ package com.ffsys.swat.configuration {
 				false );
 				
 			classNodeNameMap.add(
+				ImageCollection,
+				IMAGES_NAME,
+				IMAGES_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				SoundCollection,
+				SOUNDS_NAME,
+				SOUNDS_NAME,
+				false );						
+				
+			classNodeNameMap.add(
 				RuntimeSharedLibrary,
 				RSL_NAME,
 				RSL_NAME,

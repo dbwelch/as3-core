@@ -36,10 +36,16 @@ package com.ffsys.swat.view {
 		function configuration( event:RslEvent ):void;
 		
 		/**
-		*	Invoked with events related to the properties file
+		*	Invoked with events related to the messages file
 		*	load process.
 		*/
-		function properties( event:RslEvent ):void;
+		function message( event:RslEvent ):void;
+		
+		/**
+		*	Invoked with events related to the errors file
+		*	load process.
+		*/
+		function error( event:RslEvent ):void;
 		
 		/**
 		*	Invoked with events related to the rsl load process.
@@ -50,6 +56,16 @@ package com.ffsys.swat.view {
 		*	Invoked with events related to the font load process.
 		*/
 		function font( event:RslEvent ):void;
+		
+		/**
+		*	Invoked with events related to the image load process.
+		*/
+		function image( event:RslEvent ):void;
+		
+		/**
+		*	Invoked with events related to the sound load process.
+		*/
+		function sound( event:RslEvent ):void;
 		
 		/**
 		*	Invoked when all runtime assets have been loaded.

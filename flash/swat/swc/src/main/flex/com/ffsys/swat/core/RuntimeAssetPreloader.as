@@ -54,14 +54,29 @@ package com.ffsys.swat.core {
 		public static const CONFIGURATION_PHASE:String = "configuration";
 		
 		/**
-		*	Represents the preload phase for properties files.
+		*	Represents the preload phase for message files.
 		*/
-		public static const PROPERTIES_PHASE:String = "properties";
+		public static const MESSAGES_PHASE:String = "messages";
+		
+		/**
+		*	Represents the preload phase for error files.
+		*/
+		public static const ERRORS_PHASE:String = "errors";
 		
 		/**
 		*	Represents the preload phase for font files.
 		*/
 		public static const FONTS_PHASE:String = "fonts";
+		
+		/**
+		*	Represents the preload phase for image files.
+		*/
+		public static const IMAGES_PHASE:String = "images";
+		
+		/**
+		*	Represents the preload phase for sound files.
+		*/
+		public static const SOUNDS_PHASE:String = "sounds";
 		
 		/**
 		*	Represents the preload phase for runtime shared libraries.	
@@ -76,6 +91,15 @@ package com.ffsys.swat.core {
 		private var _phase:String = CODE_PHASE;
 		private var _main:IApplicationPreloader;
 		
+		private var _phaseIndex:int = -1;
+		private var _phases:Array = [
+			MESSAGES_PHASE,
+			ERRORS_PHASE,
+			FONTS_PHASE,
+			RSLS_PHASE,
+			IMAGES_PHASE,
+			SOUNDS_PHASE ];
+		
 		/**
 		*	Creates a <code>RuntimeAssetPreloader</code> instance.
 		* 
@@ -87,6 +111,14 @@ package com.ffsys.swat.core {
 			super();
 			_flashvars = flashvars;
 			_configurationLoader = new ConfigurationLoader();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get phases():Array
+		{
+			return _phases
 		}
 		
 		/**
@@ -179,7 +211,7 @@ package com.ffsys.swat.core {
 		*/
 		private function configurationLoadComplete( 
 			event:LoadEvent ):void
-		{			
+		{
 			//keep a reference to the configuration
 			_configuration = _configurationLoader.configuration;
 			
@@ -214,65 +246,8 @@ package com.ffsys.swat.core {
 			
 			evt.configuration = _configurationLoader.configuration;
 			dispatchEvent( evt );
-			
-			//load the application messages
-			loadMessages();
-		}
-		
-		/**
-		*	@private
-		*	
-		*	Starts loading the message properties files.
-		*/
-		private function loadMessages():void
-		{
-			closeAssetsQueue();
-			_assets = this.configuration.locales.getMessagesQueue();
-			addQueueListeners( messagesLoadComplete );
-			_assets.load();
-			_phase = PROPERTIES_PHASE;
-		}
-		
-		/**
-		*	@private
-		*	
-		*	Starts loading the error properties files.
-		*/
-		private function loadErrors():void
-		{
-			closeAssetsQueue();
-			_assets = this.configuration.locales.getErrorsQueue();
-			addQueueListeners( errorsLoadComplete );
-			_assets.load();
-			_phase = PROPERTIES_PHASE;
-		}
-		
-		/**
-		*	@private
-		*	
-		*	Starts loading the font files.
-		*/
-		private function loadFonts():void
-		{
-			closeAssetsQueue();
-			_assets = this.configuration.locales.getFontsQueue();
-			addQueueListeners( fontsLoadComplete );
-			_assets.load();
-			_phase = FONTS_PHASE;
-		}
-		
-		/**
-		*	@private
-		*	
-		*	Starts loading the runtime shared library assets.	
-		*/
-		private function loadAssets():void
-		{
-			closeAssetsQueue();
-			_assets = this.configuration.locales.getRslsQueue();
-			addQueueListeners();
-			_assets.load();
-			_phase = RSLS_PHASE;
+
+			next();
 		}
 		
 		/**
@@ -313,15 +288,24 @@ package com.ffsys.swat.core {
 					case CONFIGURATION_PHASE:
 						this.view.configuration( evt );
 						break;
-					case PROPERTIES_PHASE:
-						this.view.properties( evt );
-						break;						
+					case MESSAGES_PHASE:
+						this.view.message( evt );
+						break;
+					case ERRORS_PHASE:
+						this.view.error( evt );
+						break;			
 					case FONTS_PHASE:
 						this.view.font( evt );
 						break;
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case IMAGES_PHASE:
+						this.view.image( evt );
+						break;
+					case SOUNDS_PHASE:
+						this.view.sound( evt );
+						break;											
 				}
 			}
 		}
@@ -348,18 +332,27 @@ package com.ffsys.swat.core {
 					case CONFIGURATION_PHASE:
 						this.view.configuration( evt );
 						break;
-					case PROPERTIES_PHASE:
-						this.view.properties( evt );
-						break;						
+					case MESSAGES_PHASE:
+						this.view.message( evt );
+						break;	
+					case ERRORS_PHASE:
+						this.view.error( evt );
+						break;
 					case FONTS_PHASE:
 						this.view.font( evt );
 						break;
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case IMAGES_PHASE:
+						this.view.image( evt );
+						break;
+					case SOUNDS_PHASE:
+						this.view.sound( evt );
+						break;
 				}
 			}
-		}
+		}	
 		
 		/**
 		*	@private
@@ -373,22 +366,31 @@ package com.ffsys.swat.core {
 				evt = new RslEvent(
 					RslEvent.LOADED,
 					this,
-					event );				
+					event );	
 				
 				switch( this.phase )
 				{
 					case CONFIGURATION_PHASE:
 						this.view.configuration( evt );
 						break;
-					case PROPERTIES_PHASE:
-						this.view.properties( evt );
-						break;						
+					case MESSAGES_PHASE:
+						this.view.message( evt );
+						break;
+					case ERRORS_PHASE:
+						this.view.error( evt );
+						break;												
 					case FONTS_PHASE:
 						this.view.font( evt );
 						break;
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case IMAGES_PHASE:
+						this.view.image( evt );
+						break;
+					case SOUNDS_PHASE:
+						this.view.sound( evt );
+						break;						
 				}
 			}			
 		}
@@ -459,36 +461,68 @@ package com.ffsys.swat.core {
 		}
 		
 		/**
-		*	@private
+		*	Moves on to the next load phase.
 		*/
-		private function messagesLoadComplete( event:LoadEvent ):void
+		private function next( event:LoadEvent = null ):void
 		{
-			//cleanup
-			removeQueueListeners( messagesLoadComplete );
-			_assets = null;
-			loadErrors();
-		}
-		
-		/**
-		*	@private
-		*/
-		private function errorsLoadComplete( event:LoadEvent ):void
-		{
-			//cleanup
-			removeQueueListeners( errorsLoadComplete );
-			_assets = null;
-			loadFonts();
-		}
-		
-		/**
-		*	@private
-		*/
-		private function fontsLoadComplete( event:LoadEvent ):void
-		{
-			//cleanup
-			removeQueueListeners( fontsLoadComplete );
-			_assets = null;
-			loadAssets();
+			_phaseIndex++;
+			
+			removeQueueListeners( next );
+			
+			//out of index so complete
+			if( _phaseIndex >= this.phases.length )
+			{
+				complete();
+				return;
+			}
+			
+			closeAssetsQueue();
+			
+			var queue:ILoaderQueue = null;
+			var phase:String = this.phases[ _phaseIndex ];
+			
+			switch( phase )
+			{
+				case MESSAGES_PHASE:
+					queue = this.configuration.locales.getMessagesQueue();
+					break;
+				case ERRORS_PHASE:
+					queue = this.configuration.locales.getErrorsQueue();
+					break;	
+				case FONTS_PHASE:
+					queue = this.configuration.locales.getFontsQueue();
+					break;	
+				case RSLS_PHASE:
+					queue = this.configuration.locales.getRslsQueue();
+					break;
+				case IMAGES_PHASE:
+					queue = this.configuration.locales.getImagesQueue();
+					break;
+				case SOUNDS_PHASE:
+					queue = this.configuration.locales.getSoundsQueue();
+					break;
+			}
+			
+			//trace("RuntimeAssetPreloader::next(), ", phase, queue );
+			
+			if( queue )
+			{
+				//trace("RuntimeAssetPreloader::next(), ", queue.getLength() );
+				
+				//empty queue move on to the next phase
+				if( queue.isEmpty() )
+				{
+					next();
+					return;
+				}
+				
+				var lastPhase:Boolean = ( _phaseIndex == ( this.phases.length - 1 ) );
+				
+				_assets = queue;
+				addQueueListeners( lastPhase ? loadComplete : next );
+				_phase = phase;
+				_assets.load();
+			}
 		}
 		
 		/**
@@ -496,6 +530,17 @@ package com.ffsys.swat.core {
 		*/
 		private function loadComplete( event:LoadEvent ):void
 		{
+			complete();
+		}	
+		
+		/**
+		*	@private
+		*/
+		private function complete():void
+		{
+			//reset the phase index
+			_phaseIndex = -1;
+			
 			//cleanup
 			removeQueueListeners();
 				
@@ -504,8 +549,7 @@ package com.ffsys.swat.core {
 			//now start the application rendering as we have all the runtime assets
 			var evt:RslEvent = new RslEvent(
 				RslEvent.LOAD_COMPLETE,
-				this,
-				event );
+				this );
 				
 			_view.complete( evt );
 				
@@ -521,7 +565,7 @@ package com.ffsys.swat.core {
 			{
 				_assets.close();
 				_assets = null;
-			}			
+			}
 		}
 	}
 }

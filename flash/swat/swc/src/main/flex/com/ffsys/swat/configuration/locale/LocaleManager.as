@@ -46,6 +46,8 @@ package com.ffsys.swat.configuration.locale {
 		private var _errorsQueue:ILoaderQueue;
 		private var _fontsQueue:ILoaderQueue;
 		private var _rslsQueue:ILoaderQueue;
+		private var _imagesQueue:ILoaderQueue;
+		private var _soundsQueue:ILoaderQueue;
 		
 		/**
 		*	Creates a <code>LocaleManager</code> instance.
@@ -227,7 +229,62 @@ package com.ffsys.swat.configuration.locale {
 			}
 			
 			return _rslsQueue;
-		}					
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getImagesQueue():ILoaderQueue
+		{
+			if( !_imagesQueue )
+			{
+				_imagesQueue = new LoaderQueue();
+				
+				if( this.resources
+					&& this.resources.images )
+				{
+					_imagesQueue.append(
+						this.resources.images.getLoaderQueue() );
+				}
+				
+				if( _current
+					&& _current.resources
+					&& _current.resources.images )
+				{
+					_imagesQueue.append(
+						_current.resources.images.getLoaderQueue() );
+				}
+			}
+			
+			return _imagesQueue;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getSoundsQueue():ILoaderQueue
+		{
+			if( !_soundsQueue )
+			{
+				_soundsQueue = new LoaderQueue();
+				
+				if( this.resources && this.resources.sounds )
+				{
+					_soundsQueue.append(
+						this.resources.sounds.getLoaderQueue() );
+				}
+				
+				if( _current
+					&& _current.resources
+					&& _current.resources.sounds )
+				{
+					_soundsQueue.append(
+						_current.resources.sounds.getLoaderQueue() );
+				}
+			}
+			
+			return _soundsQueue;
+		}								
 		
 		/**
 		*	@inheritDoc	
