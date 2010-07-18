@@ -64,8 +64,7 @@ package com.ffsys.swat.as3.view {
 		override public function createChildren():void
 		{
 			vbox = new VerticalBox();
-			
-			vbox.x = vbox.y = 20;
+			vbox.spacing = 10;
 			
 			trace("SwatActionscriptContainer::message(), ",
 				utils.configuration.getMessage( "common.message" ) );
@@ -88,6 +87,9 @@ package com.ffsys.swat.as3.view {
 				lbl.width,
 				lbl.height );
 				
+			vbox.addChild( lbl );
+			
+			lbl = new Label( utils.configuration.getMessage( "test.message" ) );
 			vbox.addChild( lbl );
 			
 			var fill:IFill = new SolidFill( 0xff0000, 0.5 );

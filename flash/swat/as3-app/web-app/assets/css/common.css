@@ -1,0 +1,39 @@
+body {
+	margin: 15px 0px;
+	padding:0px;
+	text-align:center;
+	font-family: Helvetica, Georgia, sans-serif;
+	color: #ffffff;
+	background-color: #000000;
+}
+
+#wrapper {
+	width: 980px;
+	margin: 0px auto;
+	text-align: left;
+	padding: 0px 15px 15px 15px;
+	border: 1px dotted #333;
+	background-color: #030303;
+}
+
+h1 {
+	color: #a9a9a9;
+	font-size: 1.6em;
+}
+
+p.note, ul li {
+	color: #696969;
+	margin-bottom: 0.4em;
+	line-height: 1.4em;
+	font-size: 0.6em;
+}
+
+a {
+	color: #a9a9a9;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #696969;
+	border-bottom: 1px dotted #333;
+}

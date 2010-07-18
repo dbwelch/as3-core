@@ -147,6 +147,14 @@ package com.ffsys.swat.configuration.locale {
 					_messagesQueue.append( _current.messages.getLoaderQueue() );
 				}
 				
+				if( defaultLocale
+					&& ( defaultLocale != current )
+					&& defaultLocale.messages )
+				{
+					_messagesQueue.append(
+						defaultLocale.messages.getLoaderQueue() );
+				}
+				
 				if( this.messages )
 				{
 					_messagesQueue.append( this.messages.getLoaderQueue() );
@@ -172,6 +180,14 @@ package com.ffsys.swat.configuration.locale {
 					_errorsQueue.append( _current.errors.getLoaderQueue() );
 				}
 				
+				if( defaultLocale
+					&& ( defaultLocale != current )
+					&& defaultLocale.errors )
+				{
+					_errorsQueue.append(
+						defaultLocale.errors.getLoaderQueue() );
+				}
+				
 				if( this.errors )
 				{
 					_errorsQueue.append( this.errors.getLoaderQueue() );
@@ -179,25 +195,8 @@ package com.ffsys.swat.configuration.locale {
 			}
 			
 			return _errorsQueue;
-		}		
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getMessage( id:String, ... replacements ):String
-		{
-			return getMessageFromQueue(
-				getMessagesQueue(), id, replacements );
 		}
 		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getError( id:String, ... replacements ):String
-		{
-			return getMessageFromQueue(
-				getErrorsQueue(), id, replacements );
-		}
 		
 		/**
 		*	@inheritDoc
@@ -213,11 +212,19 @@ package com.ffsys.swat.configuration.locale {
 					_fontsQueue.append( this.fonts.getLoaderQueue() );
 				}
 				
+				if( defaultLocale
+					&& ( defaultLocale != current )
+					&& defaultLocale.fonts )
+				{
+					_fontsQueue.append(
+						defaultLocale.fonts.getLoaderQueue() );
+				}
+				
 				if( _current && _current.fonts )
 				{
 					_fontsQueue.append( _current.fonts.getLoaderQueue() );
 				}
-			}			
+			}
 			
 			return _fontsQueue;
 		}
@@ -243,7 +250,25 @@ package com.ffsys.swat.configuration.locale {
 			}
 			
 			return _rslsQueue;
-		}		
+		}					
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getMessage( id:String, ... replacements ):String
+		{
+			return getMessageFromQueue(
+				getMessagesQueue(), id, replacements );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getError( id:String, ... replacements ):String
+		{
+			return getMessageFromQueue(
+				getErrorsQueue(), id, replacements );
+		}	
 		
 		/**
 		*	@inheritDoc	
