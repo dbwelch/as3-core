@@ -481,6 +481,8 @@ package com.ffsys.swat.core {
 			var queue:ILoaderQueue = null;
 			var phase:String = this.phases[ _phaseIndex ];
 			
+			//trace("RuntimeAssetPreloader::next(), ", phase );
+			
 			switch( phase )
 			{
 				case MESSAGES_PHASE:

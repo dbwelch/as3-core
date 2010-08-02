@@ -3,12 +3,6 @@
 	<locales>
 		
 		<!-- applies to all locales -->
-		<rsls>
-			<rsl>
-				<trusted>true</trusted>
-				<url>assets/swf/application-assets.swf</url>
-			</rsl>
-		</rsls>
 		
 		<settings>
 
@@ -145,6 +139,14 @@
 		</filters>
 		
 		<resources>
+			
+			<rsls>
+				<rsl>
+					<trusted>true</trusted>
+					<url>assets/swf/application-assets.swf</url>
+				</rsl>
+			</rsls>			
+			
 			<messages>
 				<resource>
 					<url>assets/properties/messages-common.properties</url>
