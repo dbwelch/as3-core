@@ -19,6 +19,7 @@ package com.ffsys.utils.properties
 		private function getTestProperties():String
 		{
 			var properties:String = "";
+			properties += "		" + "\n";
 			properties += "#this is a comment" + "\n";
 			properties += "	#this is another comment with leading whitespace" + "\n";
 			properties += "toplevel=a test top level string" + "\n";

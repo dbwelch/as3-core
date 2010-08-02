@@ -163,14 +163,17 @@ package com.ffsys.utils.properties {
 			var path:String = null;
 			var value:String = null;
 			
-			var re:RegExp = 
+			var comment:RegExp = 
 				new RegExp( "\\s*" + COMMENT_DELIMITER + ".*" );
+				
+			var whitespace:RegExp = 
+				new RegExp( "^\\s*$");				
 			
 			for( var i:int = 0;i < lines.length;i++ )
 			{
 				line = lines[ i ];
 				
-				if( re.test( line ) )
+				if( comment.test( line ) || whitespace.test( line ) )
 				{
 					continue;
 				}
