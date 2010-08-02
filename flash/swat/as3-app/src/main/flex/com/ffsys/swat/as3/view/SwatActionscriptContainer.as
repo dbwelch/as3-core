@@ -63,8 +63,6 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{
-			return;
-			
 			vbox = new VerticalBox();
 			vbox.spacing = 10;
 			
