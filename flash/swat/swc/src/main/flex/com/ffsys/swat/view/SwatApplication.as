@@ -229,27 +229,31 @@ package com.ffsys.swat.view  {
 			}catch( e:Error )
 			{
 				//ignore if the components are not compiled or instantiation error
-				throw e;
+				//throw e;
 			}
 			
-			var factory:ITextFieldFactory;
-			
-			if( !instance.hasOwnProperty( "textFieldFactory" ) )
+			if( instance != null )
 			{
-				throw new Error(
-					"Cannot propagate textfield factory defaults, missing factory on the ui component suite." );
-			}else{
-				factory = ITextFieldFactory(
-					instance.textFieldFactory );
-			}
+				var factory:ITextFieldFactory;				
 			
-			if( factory )
-			{
-				factory.defaultTextFieldProperties =
-					utils.textFieldFactory.defaultTextFieldProperties;			
+				if( !instance.hasOwnProperty( "textFieldFactory" ) )
+				{
+					throw new Error(
+						"Cannot propagate textfield factory defaults, missing factory on the ui component suite." );
+				}else{
+					factory = ITextFieldFactory(
+						instance.textFieldFactory );
+				}
+			
+				if( factory )
+				{
+					factory.defaultTextFieldProperties =
+						utils.textFieldFactory.defaultTextFieldProperties;			
 
-				factory.defaultTextFormatProperties =
-					utils.textFieldFactory.defaultTextFormatProperties;
+					factory.defaultTextFormatProperties =
+						utils.textFieldFactory.defaultTextFormatProperties;
+				}
+			
 			}
 		}
 	}
