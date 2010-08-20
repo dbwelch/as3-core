@@ -53,13 +53,13 @@
 		
 	<distributionManagement>
 		<snapshotRepository>
-			<id>ffsys-repository</id>
+			<id>ffsys-mvn</id>
 			<name>Freeform Systems Repository</name>
 			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 		<repository>
-			<id>ffsys-repository</id>
+			<id>ffsys-mvn</id>
 			<name>Freeform Systems Repository</name>
 			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>
 		</repository>
