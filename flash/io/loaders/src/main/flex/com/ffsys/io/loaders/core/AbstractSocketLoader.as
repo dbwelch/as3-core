@@ -19,7 +19,7 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
-	import com.ffsys.utils.address.AddressUtils;
+	//import com.ffsys.utils.address.AddressUtils;
 	
 	/**
 	*	Abstract super class for Objects that load data via
@@ -54,6 +54,8 @@ package com.ffsys.io.loaders.core {
 		
 		override public function load( request:URLRequest ):void
 		{
+			
+			/*
 			this.request = request;
 			
 			//domain with protocol
@@ -82,6 +84,7 @@ package com.ffsys.io.loaders.core {
 			//_timer = new Timer( 2000 );
 			//_timer.addEventListener( TimerEvent.TIMER, onTimer );
 			//_timer.start();
+			*/
 		}
 		
 		private var _timer:Timer;
