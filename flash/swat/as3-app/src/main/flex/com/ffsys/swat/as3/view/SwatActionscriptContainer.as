@@ -2,7 +2,7 @@ package com.ffsys.swat.as3.view {
 	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
-	import flash.text.Font;
+	import flash.text.*;
 	
 	import com.ffsys.ui.text.core.*;
 	
@@ -62,8 +62,25 @@ package com.ffsys.swat.as3.view {
 		*	@inheritDoc
 		*/
 		override public function createChildren():void
-		{
+		{	
+			//test manually creating a textfield
+			var tf:TextFormat = new TextFormat();
+			tf.font = "main";
+			tf.size = 12;
+				
+			var txt:TextField = new TextField();
+			txt.defaultTextFormat = tf;
+			txt.text = "This is a text field created manually using an embedded font";
+			txt.textColor = 0xa9a9a9;
+			txt.embedFonts = true;
+			txt.autoSize = TextFieldAutoSize.LEFT;
+			txt.antiAliasType = AntiAliasType.ADVANCED;
+			txt.x = -2;
+			addChild( txt );
+			
+			//set up the component tests
 			vbox = new VerticalBox();
+			vbox.y = txt.y + txt.textHeight + 12;
 			vbox.spacing = 10;
 			
 			/*
@@ -77,8 +94,17 @@ package com.ffsys.swat.as3.view {
 			var lbl:Label = new Label(
 				utils.getMessage( "common.message" ) );
 				
+			var fonts:Array = Font.enumerateFonts();
+			
+			trace("SwatActionscriptContainer::createChildren(), ", 
+				fonts );
+				
+			for each( var f:Font in fonts )
+			{
+				trace("SwatActionscriptContainer::createChildren(), ", f, f.fontName );
+			}
+			
 			/*
-			trace("SwatActionscriptContainer::createChildren(), ", Font.enumerateFonts() );
 				
 			trace("SwatActionscriptContainer::createChildren(), ",
 			 	lbl,

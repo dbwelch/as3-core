@@ -34,7 +34,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/ui/suite/view/ComponentSuiteMain.as</sourceFile>
-					<targetPlayer>10.0.0</targetPlayer>
+					<targetPlayer>${target.player}</targetPlayer>
 					<debug>true</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>

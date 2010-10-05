@@ -21,7 +21,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/fonts/Fonts_en_gb.as</sourceFile>
-					<targetPlayer>10.0.0</targetPlayer>
+					<targetPlayer>${target.player}</targetPlayer>
 					<debug>false</debug>
 					<warn>false</warn>
 					<optimize>true</optimize>

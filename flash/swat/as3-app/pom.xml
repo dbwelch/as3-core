@@ -35,8 +35,8 @@
 				<extensions>true</extensions>
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/SwatMain.as</sourceFile>
-					<targetPlayer>10.0.0</targetPlayer>
-					<debug>false</debug>
+					<targetPlayer>${target.player}</targetPlayer>
+					<debug>true</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>
 					<linkReport>false</linkReport>
