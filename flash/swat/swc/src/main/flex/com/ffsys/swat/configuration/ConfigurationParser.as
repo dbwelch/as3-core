@@ -188,7 +188,13 @@ package com.ffsys.swat.configuration {
 		*	The node name for application images.
 		*/
 		static public const IMAGES_NAME:String =
-			"images";	
+			"images";
+			
+		/**
+		*	The node name for application XML documents.
+		*/
+		static public const XML_NAME:String =
+			"xml";
 			
 		/**
 		*	The node name for application sounds.
@@ -293,6 +299,12 @@ package com.ffsys.swat.configuration {
 				IMAGES_NAME,
 				IMAGES_NAME,
 				false );
+				
+			classNodeNameMap.add(
+				XmlCollection,
+				XML_NAME,
+				XML_NAME,
+				false );	
 				
 			classNodeNameMap.add(
 				SoundCollection,

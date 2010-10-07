@@ -85,6 +85,13 @@ package com.ffsys.swat.configuration.locale {
 		function getRslsQueue():ILoaderQueue;
 		
 		/**
+		*	Gets the loader queue used to load XML documents.
+		*	
+		*	@return The XML loader queue.
+		*/
+		function getXmlQueue():ILoaderQueue;
+		
+		/**
 		*	Gets the loader queue used to load image
 		*	resources.
 		*	

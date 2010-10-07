@@ -62,7 +62,7 @@ package com.ffsys.swat.as3.view {
 		*	@inheritDoc
 		*/
 		override public function createChildren():void
-		{	
+		{
 			//test manually creating a textfield
 			var tf:TextFormat = new TextFormat();
 			tf.font = "main";

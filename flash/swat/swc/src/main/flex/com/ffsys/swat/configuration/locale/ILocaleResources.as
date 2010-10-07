@@ -45,6 +45,12 @@ package com.ffsys.swat.configuration.locale {
 		function set images( rsls:IRuntimeResourceCollection ):void;
 		
 		/**
+		*	The collection of XML resources.
+		*/
+		function get xml():IRuntimeResourceCollection;
+		function set xml( rsls:IRuntimeResourceCollection ):void;
+		
+		/**
 		*	The collection of sound resources.
 		*/
 		function get sounds():IRuntimeResourceCollection;

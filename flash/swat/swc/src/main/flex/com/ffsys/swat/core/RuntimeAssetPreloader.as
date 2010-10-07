@@ -83,6 +83,11 @@ package com.ffsys.swat.core {
 		*/
 		public static const RSLS_PHASE:String = "rsls";
 		
+		/**
+		*	Represents the preload phase for XML documents.	
+		*/
+		public static const XML_PHASE:String = "xml";
+		
 		private var _flashvars:IFlashVariables;
 		private var _assets:ILoaderQueue;
 		private var _configurationLoader:ConfigurationLoader;
@@ -97,6 +102,7 @@ package com.ffsys.swat.core {
 			ERRORS_PHASE,
 			FONTS_PHASE,
 			RSLS_PHASE,
+			XML_PHASE,
 			IMAGES_PHASE,
 			SOUNDS_PHASE ];
 		
@@ -300,6 +306,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case XML_PHASE:
+						this.view.xml( evt );
+						break;						
 					case IMAGES_PHASE:
 						this.view.image( evt );
 						break;
@@ -344,6 +353,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case XML_PHASE:
+						this.view.xml( evt );
+						break;						
 					case IMAGES_PHASE:
 						this.view.image( evt );
 						break;
@@ -385,6 +397,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case XML_PHASE:
+						this.view.xml( evt );
+						break;						
 					case IMAGES_PHASE:
 						this.view.image( evt );
 						break;
@@ -481,7 +496,7 @@ package com.ffsys.swat.core {
 			var queue:ILoaderQueue = null;
 			var phase:String = this.phases[ _phaseIndex ];
 			
-			//trace("RuntimeAssetPreloader::next(), ", phase );
+			trace("RuntimeAssetPreloader::next(), ", _phaseIndex, phase );
 			
 			switch( phase )
 			{
@@ -497,6 +512,9 @@ package com.ffsys.swat.core {
 				case RSLS_PHASE:
 					queue = this.configuration.locales.getRslsQueue();
 					break;
+				case XML_PHASE:
+					queue = this.configuration.locales.getXmlQueue();
+					break;					
 				case IMAGES_PHASE:
 					queue = this.configuration.locales.getImagesQueue();
 					break;

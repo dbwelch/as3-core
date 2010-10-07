@@ -195,6 +195,13 @@
 						<url>assets/fonts/fonts-en_GB.swf</url>
 					</resource>
 				</fonts>
+				
+				<xml>
+					<resource>
+						<url>assets/xml/test.xml</url>
+					</resource>
+				</xml>
+				
 			</resources>
 		</locale>
 		

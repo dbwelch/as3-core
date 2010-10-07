@@ -85,6 +85,14 @@ package com.ffsys.swat.view {
 		/**
 		*	@inheritDoc
 		*/
+		public function xml( event:RslEvent ):void
+		{
+			//
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
 		public function font( event:RslEvent ):void
 		{
 			//
