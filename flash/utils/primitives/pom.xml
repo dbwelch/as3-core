@@ -7,29 +7,24 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.utils</groupId>
-	<artifactId>css</artifactId>
+	<artifactId>primitives</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>css</name>
+	<name>primitives</name>
 	<packaging>swc</packaging>
 	<url>http://maven.apache.org</url>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
-			<artifactId>primitives</artifactId>
+			<artifactId>boolean</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>properties</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
-	</dependencies>	
+	</dependencies>
 </project>

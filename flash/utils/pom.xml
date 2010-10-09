@@ -17,6 +17,7 @@
 		<module>assert</module>
 		<module>boolean</module>
 		<module>byte</module>
+		<module>css</module>		
 		<module>collections</module>
 		<module>display</module>
 		<module>font</module>
@@ -29,6 +30,7 @@
 		<module>number</module>
 		<module>object</module>
 		<module>page</module>
+		<module>primitives</module>
 		<module>properties</module>
 		<module>random</module>
 		<module>regex</module>

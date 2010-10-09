@@ -22,8 +22,15 @@ package com.ffsys.utils.css
 			var out:String = "test-style {";
 			out += "property-string: a test string;";
 			out += "property-number: 10;";
+			out += "property-float: 1.67;";
+			out += "property-true: true;";
+			out += "property-false: false;";
+			out += "property-null: null;";
+			out += "property-undefined: undefined;";
+			out += "property-nan: NaN;";
+			out += "property-array: apples, 10, 3.14, true;";
+			out += "property-class: class ( flash.display.Sprite );";
 			out += "}";
-			
 			return out;
 		}
 		
@@ -32,22 +39,30 @@ package com.ffsys.utils.css
 		{
 			var collection:CssStyleCollection = 
 				new CssStyleCollection();
-				
-			trace("CssUtilsTest::cssParseTest(), ", collection );
-				
+					
 			collection.parseCSS( getTestCss() );
 			
 			var style:Object = collection.getStyle( "test-style" );
 			
-			trace("CssUtilsTest::cssParseTest(), ", collection.styleNames );
-			trace("CssUtilsTest::cssParseTest(), ", style );
-			
 			for( var z:String in style )
 			{
-				trace("CssUtilsTest::cssParseTest(), ", z + " || " + style[ z ] );
-				trace("CssUtilsTest::cssParseTest(), ", getQualifiedClassName( style[ z ] ) );
+				trace( "Style: "
+					+ z + " || " + style[ z ],
+					getQualifiedClassName( style[ z ] ) );
 			}
 			
+			Assert.assertEquals( "test-style", collection.styleNames[ 0 ] );
+			Assert.assertEquals( "a test string", style.propertyString );
+			Assert.assertEquals( 10, style.propertyNumber );
+			Assert.assertEquals( 1.67, style.propertyFloat );
+			Assert.assertTrue( style.propertyTrue );
+			Assert.assertFalse( style.propertyFalse );
+			Assert.assertNull( style.propertyNull );
+			Assert.assertTrue( style.propertyUndefined == undefined );
+			Assert.assertTrue( isNaN( style.propertyNan ) );
+			Assert.assertTrue( style.propertyArray is Array );
+			Assert.assertEquals( 4, style.propertyArray.length );
+			Assert.assertTrue( style.propertyClass is Class );
 		}
 	}
 }
