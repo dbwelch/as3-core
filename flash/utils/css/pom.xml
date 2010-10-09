@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>utils-parent</artifactId>
+		<groupId>com.ffsys</groupId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.ffsys.utils</groupId>
+	<artifactId>css</artifactId>
+	<version>1.1-SNAPSHOT</version>
+	<name>css</name>
+	<packaging>swc</packaging>
+	<url>http://maven.apache.org</url>
+	
+	<build>
+	<plugins>
+		<plugin>
+			<groupId>org.sonatype.flexmojos</groupId>
+			<artifactId>flexmojos-maven-plugin</artifactId>
+			<version>${flexmojos.version}</version>
+			<extensions>true</extensions>		
+			<executions>
+				<execution>
+					<id>test-compile</id>
+					<phase>test-compile</phase>
+					<configuration>
+						<debug>true</debug>
+					</configuration>						
+					<goals>
+						<goal>test-compile</goal>
+					</goals>
+				</execution>					
+			</executions>
+		</plugin>
+	</plugins>
+	</build>
+	
+</project>
