@@ -22,6 +22,9 @@ package com.ffsys.utils.css {
 	*	the <code>class(flash.display.Sprite)</code>
 	*	syntax are resolved. If the class is not available when
 	*	the CSS is parsed a runtime exception will be thrown.
+	*	
+	*	The extended parsing capability also supports hexadecimal
+	*	numbers using the notation <code>#ffffff</code>.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -37,6 +40,11 @@ package com.ffsys.utils.css {
 		*	Represents a CSS class reference declaration.
 		*/
 		public static const CLASS_REFERENCE:String = "class";
+		
+		/**
+		*	Represents a hexadecimal number notation.
+		*/
+		public static const HEX_NUMBER:String = "#";
 		
 		/**
 		*	Creates a <code>CssStyleCollection</code> instance.
@@ -92,6 +100,7 @@ package com.ffsys.utils.css {
 			var parser:PrimitiveParser = new PrimitiveParser();
 			var value:*;
 			var clazz:Class = null;
+			var re:RegExp = null;
 			for( var i:int = 0;i < styleNames.length;i++ )
 			{
 				styleName = styleNames[ i ];
@@ -103,10 +112,17 @@ package com.ffsys.utils.css {
 					
 					if( value is String )
 					{
-						clazz = parseClassReference( value );
-						if( clazz != null )
+						re = /^#[0-9a-fA-F]{2,6}$/
+						if( re.test( value ) )
 						{
-							value = clazz;
+							value = parseHexNumber( value );
+						}else
+						{
+							clazz = parseClassReference( value );
+							if( clazz != null )
+							{
+								value = clazz;
+							}
 						}
 					}
 					
@@ -115,6 +131,15 @@ package com.ffsys.utils.css {
 				
 				setStyle( styleName, style );
 			}
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function parseHexNumber( candidate:String ):Number
+		{
+			candidate = candidate.replace( "#", "0x" );
+			return parseInt( candidate, 16 );
 		}
 		
 		/**
