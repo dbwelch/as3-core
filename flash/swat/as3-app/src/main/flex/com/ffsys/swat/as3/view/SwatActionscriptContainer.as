@@ -2,6 +2,7 @@ package com.ffsys.swat.as3.view {
 	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
+	import flash.filters.BitmapFilter;
 	import flash.text.*;
 	
 	import com.ffsys.utils.css.CssStyleCollection;
@@ -75,11 +76,19 @@ package com.ffsys.swat.as3.view {
 			var tf:TextFormat = new TextFormat();
 			tf.font = "main";
 			tf.size = 12;
+			
+			var filters:CssStyleCollection = utils.getStyleSheet(
+				"test-filters" );
+			var filter:BitmapFilter = filters.getFilter( "bevel" );
+			
+			trace("SwatActionscriptContainer::createChildren(), ", filter );
 				
 			var txt:TextField = new TextField();
 			css.apply( "test-text", txt );	
 			txt.text = "This is a text field created manually using"
-			+" an embedded font and a css declaration.";
+				+ " an embedded font and a css declaration.";
+				
+			//txt.filters = [ filter ];
 			
 			/*
 			trace("SwatActionscriptContainer::creating(), ",

@@ -160,6 +160,10 @@
 					<id>test-css</id>
 					<url>assets/css/test.css</url>
 				</resource>
+				<resource>
+					<id>test-filters</id>
+					<url>assets/css/filters.css</url>
+				</resource>
 			</css>
 			
 			<messages>

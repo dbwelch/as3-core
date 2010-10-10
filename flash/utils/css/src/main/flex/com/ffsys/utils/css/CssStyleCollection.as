@@ -1,5 +1,6 @@
 package com.ffsys.utils.css {
 	
+	import flash.filters.BitmapFilter;
 	import flash.text.StyleSheet;
 	import flash.text.TextField;
 	import flash.text.TextFormat;	
@@ -83,6 +84,33 @@ package com.ffsys.utils.css {
 			return tf;
 		}
 		
+		public function getFilter( styleName:String ):BitmapFilter
+		{
+			var filter:BitmapFilter = null;
+			var style:Object = getStyle( styleName );
+			
+			if( !style || !( style.filterClass is Class ) )
+			{
+				throw new Error( "Could not find a valid filter class"
+					+ " reference when attempting to get a filter with styleName '"
+					+ styleName + "'" );
+			}
+			
+			try
+			{
+				filter = new style.filterClass();
+			}catch( e:Error )
+			{
+				throw new Error( "Could not instantiate filter with class '"
+					+ style.filterClass + "'." );
+			}
+			
+			var merger:PropertiesMerge = new PropertiesMerge();
+			merger.merge( filter, style );
+			
+			return filter;
+		}
+		
 		/**
 		*	Applies a style to a target object.
 		*	
@@ -132,7 +160,7 @@ package com.ffsys.utils.css {
 					//now deal with css specific parsing
 					if( value is String )
 					{
-						re = /^#[0-9a-fA-F]{2,6}$/
+						re = /^#[0-9a-fA-F]{2,6}$/;
 						if( re.test( value ) )
 						{
 							value = parseHexNumber( value );
