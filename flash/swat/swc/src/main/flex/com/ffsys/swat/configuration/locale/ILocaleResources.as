@@ -39,6 +39,12 @@ package com.ffsys.swat.configuration.locale {
 		function set rsls( rsls:IRuntimeResourceCollection ):void;
 		
 		/**
+		*	The collection of CSS resources.
+		*/
+		function get css():IRuntimeResourceCollection;
+		function set css( css:IRuntimeResourceCollection ):void;		
+		
+		/**
 		*	The collection of image resources.
 		*/
 		function get images():IRuntimeResourceCollection;

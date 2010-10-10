@@ -84,9 +84,14 @@ package com.ffsys.swat.core {
 		public static const RSLS_PHASE:String = "rsls";
 		
 		/**
-		*	Represents the preload phase for XML documents.	
+		*	Represents the preload phase for XML documents.
 		*/
 		public static const XML_PHASE:String = "xml";
+		
+		/**
+		*	Represents the preload phase for CSS documents.	
+		*/
+		public static const CSS_PHASE:String = "css";
 		
 		private var _flashvars:IFlashVariables;
 		private var _assets:ILoaderQueue;
@@ -102,6 +107,7 @@ package com.ffsys.swat.core {
 			ERRORS_PHASE,
 			FONTS_PHASE,
 			RSLS_PHASE,
+			CSS_PHASE,
 			XML_PHASE,
 			IMAGES_PHASE,
 			SOUNDS_PHASE ];
@@ -306,6 +312,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case CSS_PHASE:
+						this.view.css( evt );
+						break;
 					case XML_PHASE:
 						this.view.xml( evt );
 						break;						
@@ -353,6 +362,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case CSS_PHASE:
+						this.view.css( evt );
+						break;
 					case XML_PHASE:
 						this.view.xml( evt );
 						break;						
@@ -397,6 +409,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case CSS_PHASE:
+						this.view.css( evt );
+						break;					
 					case XML_PHASE:
 						this.view.xml( evt );
 						break;						
@@ -512,9 +527,12 @@ package com.ffsys.swat.core {
 				case RSLS_PHASE:
 					queue = this.configuration.locales.getRslsQueue();
 					break;
+				case CSS_PHASE:
+					queue = this.configuration.locales.getCssQueue();
+					break;
 				case XML_PHASE:
 					queue = this.configuration.locales.getXmlQueue();
-					break;					
+					break;
 				case IMAGES_PHASE:
 					queue = this.configuration.locales.getImagesQueue();
 					break;

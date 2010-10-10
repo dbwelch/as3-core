@@ -138,6 +138,7 @@
 			</convolution-filter>
 		</filters>
 		
+		<!-- resources for all locales -->
 		<resources>
 			
 			<rsls>
@@ -145,7 +146,20 @@
 					<trusted>true</trusted>
 					<url>assets/swf/application-assets.swf</url>
 				</rsl>
-			</rsls>			
+			</rsls>	
+			
+				
+			<xml>
+				<resource>
+					<url>assets/xml/test.xml</url>
+				</resource>
+			</xml>
+			
+			<css>
+				<resource>
+					<url>assets/css/test.css</url>
+				</resource>
+			</css>
 			
 			<messages>
 				<resource>
@@ -195,12 +209,6 @@
 						<url>assets/fonts/fonts-en_GB.swf</url>
 					</resource>
 				</fonts>
-				
-				<xml>
-					<resource>
-						<url>assets/xml/test.xml</url>
-					</resource>
-				</xml>
 				
 			</resources>
 		</locale>

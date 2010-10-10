@@ -53,6 +53,11 @@ package com.ffsys.swat.view {
 		function rsl( event:RslEvent ):void;
 		
 		/**
+		*	Invoked with events related to the css load process.
+		*/
+		function css( event:RslEvent ):void;		
+		
+		/**
 		*	Invoked with events related to the XML load process.
 		*/
 		function xml( event:RslEvent ):void;		

@@ -85,6 +85,14 @@ package com.ffsys.swat.configuration.locale {
 		function getRslsQueue():ILoaderQueue;
 		
 		/**
+		*	Gets the loader queue used to load runtime
+		*	CSS files.
+		*	
+		*	@return The css loader queue.
+		*/
+		function getCssQueue():ILoaderQueue;		
+		
+		/**
 		*	Gets the loader queue used to load XML documents.
 		*	
 		*	@return The XML loader queue.

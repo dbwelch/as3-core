@@ -18,6 +18,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _errors:IRuntimeResourceCollection;
 		private var _fonts:IRuntimeResourceCollection;
 		private var _rsls:IRuntimeResourceCollection;
+		private var _css:IRuntimeResourceCollection;
 		private var _xml:IRuntimeResourceCollection;
 		private var _images:IRuntimeResourceCollection;
 		private var _sounds:IRuntimeResourceCollection;
@@ -80,6 +81,19 @@ package com.ffsys.swat.configuration.locale {
 		public function set rsls( rsls:IRuntimeResourceCollection ):void
 		{
 			_rsls = rsls;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get css():IRuntimeResourceCollection
+		{
+			return _css;
+		}
+
+		public function set css( css:IRuntimeResourceCollection ):void
+		{
+			_css = css;
 		}
 		
 		/**

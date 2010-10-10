@@ -197,6 +197,12 @@ package com.ffsys.swat.configuration {
 			"xml";
 			
 		/**
+		*	The node name for application CSS documents.
+		*/
+		static public const CSS_NAME:String =
+			"css";			
+			
+		/**
 		*	The node name for application sounds.
 		*/
 		static public const SOUNDS_NAME:String =
@@ -305,6 +311,12 @@ package com.ffsys.swat.configuration {
 				XML_NAME,
 				XML_NAME,
 				false );	
+				
+			classNodeNameMap.add(
+				CssCollection,
+				CSS_NAME,
+				CSS_NAME,
+				false );				
 				
 			classNodeNameMap.add(
 				SoundCollection,

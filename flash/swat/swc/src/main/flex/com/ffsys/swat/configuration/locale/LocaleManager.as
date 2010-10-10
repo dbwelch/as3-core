@@ -49,6 +49,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _errorsQueue:ILoaderQueue;
 		private var _fontsQueue:ILoaderQueue;
 		private var _rslsQueue:ILoaderQueue;
+		private var _cssQueue:ILoaderQueue;
 		private var _xmlQueue:ILoaderQueue;
 		private var _imagesQueue:ILoaderQueue;
 		private var _soundsQueue:ILoaderQueue;
@@ -261,6 +262,33 @@ package com.ffsys.swat.configuration.locale {
 
 			return _xmlQueue;
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getCssQueue():ILoaderQueue
+		{
+			if( !_cssQueue )
+			{
+				_cssQueue = new LoaderQueue();
+
+				if( this.resources && this.resources.css )
+				{
+					_cssQueue.append(
+						this.resources.css.getLoaderQueue() );
+				}
+
+				if( _current
+					&& _current.resources
+					&& _current.resources.css )
+				{
+					_cssQueue.append(
+						_current.resources.css.getLoaderQueue() );
+				}
+			}
+
+			return _cssQueue;
+		}		
 		
 		/**
 		*	@inheritDoc
