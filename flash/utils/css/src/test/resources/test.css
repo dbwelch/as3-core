@@ -1,0 +1,20 @@
+test-style {
+	property-string: a test string;
+	property-number: 10;
+	property-float: 1.67;
+	property-true: true;
+	property-false: false;
+	property-null: null;
+	property-undefined: undefined;
+	property-nan: NaN;
+	property-array: apples, 10, 3.14, true;
+	property-class: class ( flash.display.Sprite );
+}
+
+.bluetext {
+	color: #ffffff;
+}
+
+#ident {
+	color: #ff6600;
+}
