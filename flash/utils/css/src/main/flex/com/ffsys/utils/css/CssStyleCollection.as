@@ -110,6 +110,8 @@ package com.ffsys.utils.css {
 					value = style[ z ];
 					value = parser.parse( value, true );
 					
+					//we've parsed the primitives
+					//now deal with css specific parsing
 					if( value is String )
 					{
 						re = /^#[0-9a-fA-F]{2,6}$/
