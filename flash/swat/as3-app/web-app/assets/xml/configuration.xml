@@ -157,6 +157,7 @@
 			
 			<css>
 				<resource>
+					<id>test-css</id>
 					<url>assets/css/test.css</url>
 				</resource>
 			</css>

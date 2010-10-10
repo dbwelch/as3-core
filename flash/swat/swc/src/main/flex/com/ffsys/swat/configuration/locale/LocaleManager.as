@@ -18,6 +18,7 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.io.loaders.resources.*;
 	
+	import com.ffsys.utils.css.CssStyleCollection;
 	import com.ffsys.utils.properties.IProperties;
 	
 	/**
@@ -378,6 +379,23 @@ package com.ffsys.swat.configuration.locale {
 			}
 			
 			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getStyleSheet( id:String ):CssStyleCollection
+		{
+			var resource:IResource = getResourceById(
+				_cssQueue, id, TextResource );
+			
+			var css:CssStyleCollection = null;
+			if( resource )
+			{
+				css = new CssStyleCollection();
+				css.parseCSS( TextResource( resource ).text );
+			}
+			return css;
 		}
 		
 		/**

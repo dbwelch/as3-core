@@ -317,7 +317,7 @@ package com.ffsys.swat.core {
 						break;
 					case XML_PHASE:
 						this.view.xml( evt );
-						break;						
+						break;
 					case IMAGES_PHASE:
 						this.view.image( evt );
 						break;
@@ -410,6 +410,9 @@ package com.ffsys.swat.core {
 						this.view.rsl( evt );
 						break;
 					case CSS_PHASE:
+						
+						
+					
 						this.view.css( evt );
 						break;					
 					case XML_PHASE:

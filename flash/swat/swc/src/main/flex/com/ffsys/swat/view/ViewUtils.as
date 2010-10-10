@@ -11,6 +11,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.ui.text.core.TextFieldFactory;
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
+	import com.ffsys.utils.css.CssStyleCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
@@ -151,6 +152,15 @@ package com.ffsys.swat.view  {
 		{
 			verifyConfiguration();
 			return this.configuration.getImage( id );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getStyleSheet( id:String ):CssStyleCollection
+		{
+			verifyConfiguration();
+			return this.configuration.getStyleSheet( id );
 		}
 		
 		/**

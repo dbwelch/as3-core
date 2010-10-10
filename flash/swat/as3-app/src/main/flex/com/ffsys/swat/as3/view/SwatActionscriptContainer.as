@@ -4,6 +4,7 @@ package com.ffsys.swat.as3.view {
 	import flash.display.DisplayObject;
 	import flash.text.*;
 	
+	import com.ffsys.utils.css.CssStyleCollection;
 	import com.ffsys.ui.text.core.*;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -63,19 +64,37 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{
+			var css:CssStyleCollection = utils.getStyleSheet( "test-css" );
+			
+			/*
+			trace("SwatActionscriptContainer::creating(), ",
+				css, css.getStyle( "test-text" ) );
+			*/
+			
 			//test manually creating a textfield
 			var tf:TextFormat = new TextFormat();
 			tf.font = "main";
 			tf.size = 12;
 				
 			var txt:TextField = new TextField();
-			txt.defaultTextFormat = tf;
-			txt.text = "This is a text field created manually using an embedded font";
+			css.apply( "test-text", txt );	
+			txt.text = "This is a text field created manually using"
+			+" an embedded font and a css declaration.";
+			
+			/*
+			trace("SwatActionscriptContainer::creating(), ",
+				txt, txt.embedFonts, txt.defaultTextFormat,
+				txt.defaultTextFormat.font, txt.defaultTextFormat.color );
+			*/
+			
+			/*
 			txt.textColor = 0xa9a9a9;
 			txt.embedFonts = true;
 			txt.autoSize = TextFieldAutoSize.LEFT;
 			txt.antiAliasType = AntiAliasType.ADVANCED;
 			txt.x = -2;
+			*/
+			
 			addChild( txt );
 			
 			//set up the component tests

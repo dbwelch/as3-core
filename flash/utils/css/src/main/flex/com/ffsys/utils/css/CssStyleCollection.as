@@ -66,6 +66,24 @@ package com.ffsys.utils.css {
 		}
 		
 		/**
+		*	Overrides the default text format tranform ability.	
+		*	
+		*	@param style The style object to transform to a text format.
+		*	
+		*	@return The transformed text format.
+		*/
+		override public function transform( style:Object ):TextFormat
+		{
+			var tf:TextFormat = new TextFormat();
+			if( style )
+			{
+				var merger:PropertiesMerge = new PropertiesMerge();
+				merger.merge( tf, style );
+			}
+			return tf;
+		}
+		
+		/**
 		*	Applies a style to a target object.
 		*	
 		*	@param styleName The name of the style to apply.
