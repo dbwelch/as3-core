@@ -119,6 +119,18 @@ package com.ffsys.utils.css {
 		*/
 		public function apply( styleName:String, target:Object ):void
 		{
+			//deal with multiple style names separated by spaces
+			if( styleName.indexOf( " " ) > -1 )
+			{
+				var styleNames:Array = styleName.split( " " );
+				for( var i:int = 0;i < styleNames.length;i++ )
+				{
+					apply( styleNames[ i ], target );
+				}
+				return;
+			}
+			
+			//apply an individual style
 			var source:Object = getStyle( styleName );
 			
 			if( source && target )
@@ -201,6 +213,8 @@ package com.ffsys.utils.css {
 			}
 			
 			var clazz:Class = null;
+			
+			trace("CssStyleCollection::parseClassReference()", candidate );
 			
 			var classPath:String = candidate.replace(
 				/^class\s*\(\s*([a-zA-Z0-9\.]+)\s*\)$/, "$1" );

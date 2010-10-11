@@ -89,14 +89,12 @@ package com.ffsys.utils.css
 			var style:Object = collection.getStyle( "test-style" );
 			var ident:Object = collection.getStyle( "#ident" );
 			
-			/*
 			for( var z:String in style )
 			{
 				trace( "Style: "
 					+ z + " || " + style[ z ],
 					getQualifiedClassName( style[ z ] ) );
 			}
-			*/
 			
 			Assert.assertEquals( "a test string", style.propertyString );
 			Assert.assertEquals( 10, style.propertyNumber );

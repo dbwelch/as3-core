@@ -239,8 +239,6 @@ package com.ffsys.ui.text.core {
 			return new Bitmap( bitmapData );
 		}
 		
-		
-		
 		public function getVisibleBounds(
 			target:DisplayObject = null ):Rectangle 
 		{ 

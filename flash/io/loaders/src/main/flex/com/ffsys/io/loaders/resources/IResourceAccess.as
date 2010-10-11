@@ -16,5 +16,4 @@ package com.ffsys.io.loaders.resources {
 		function getAllResources():Array;
 		function get resources():IResourceList;
 	}
-	
 }
