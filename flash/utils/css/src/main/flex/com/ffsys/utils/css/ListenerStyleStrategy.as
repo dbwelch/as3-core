@@ -13,10 +13,7 @@ package com.ffsys.utils.css {
 	*	@author Mischa Williamson
 	*	@since  11.10.2010
 	*/
-	public class ListenerStyleStrategy extends Object
-		implements IStyleStrategy {
-			
-		private var _styleSheet:CssStyleCollection;
+	public class ListenerStyleStrategy extends AbstractStyleStrategy {
 		
 		/**
 		*	The stage used to hook into added events.	
@@ -29,19 +26,6 @@ package com.ffsys.utils.css {
 		public function ListenerStyleStrategy()
 		{
 			super();
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get styleSheet():CssStyleCollection
-		{
-			return _styleSheet;
-		}
-		
-		public function set styleSheet( styleSheet:CssStyleCollection ):void
-		{
-			_styleSheet = styleSheet;
 		}
 		
 		/**
@@ -74,19 +58,16 @@ package com.ffsys.utils.css {
 
 			if( target is IStyleAware )
 			{
-				if( styleSheet )
-				{
-					var styles:Array = styleSheet.apply(
-						IStyleAware( target ).styles, target );
-				}
+				applyStyles( IStyleAware( target ) );
 			}
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		public function destroy():void
+		override public function destroy():void
 		{
+			super.destroy();
 			if( stage )
 			{
 				stage.removeEventListener( Event.ADDED, added );
