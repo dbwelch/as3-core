@@ -1,5 +1,7 @@
 package com.ffsys.utils.css {
 	
+	import com.ffsys.core.IDestroy;
+	
 	/**
 	*	Describes the contract for objects that represent
 	*	a strategy for applying styles to objects.
@@ -10,7 +12,8 @@ package com.ffsys.utils.css {
 	*	@author Mischa Williamson
 	*	@since  11.10.2010
 	*/
-	public interface IStyleStrategy {
+	public interface IStyleStrategy 
+		extends IDestroy {
 		
 		/**
 		*	The stylesheet being applied by this strategy.	

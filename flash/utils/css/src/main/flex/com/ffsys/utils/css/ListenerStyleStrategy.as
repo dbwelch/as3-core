@@ -19,6 +19,11 @@ package com.ffsys.utils.css {
 		private var _styleSheet:CssStyleCollection;
 		
 		/**
+		*	The stage used to hook into added events.	
+		*/
+		public var stage:Stage;
+		
+		/**
 		*	Creates a <code>ListenerStyleStrategy</code> instance.
 		*/
 		public function ListenerStyleStrategy()
@@ -54,6 +59,8 @@ package com.ffsys.utils.css {
 			
 			stage.removeEventListener( Event.ADDED, added );
 			stage.addEventListener( Event.ADDED, added );
+			
+			this.stage = stage;
 		}
 		
 		/**
@@ -69,9 +76,20 @@ package com.ffsys.utils.css {
 			{
 				if( styleSheet )
 				{
-					styleSheet.apply( 
+					var styles:Array = styleSheet.apply(
 						IStyleAware( target ).styles, target );
 				}
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function destroy():void
+		{
+			if( stage )
+			{
+				stage.removeEventListener( Event.ADDED, added );
 			}
 		}
 	}
