@@ -3,11 +3,15 @@ package com.ffsys.swat.view
 	import flash.text.Font;
 	import flash.text.TextField;
 	
+	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.Settings;
+	
+	import com.ffsys.utils.css.IStyleAware;
+	import com.ffsys.utils.css.IStyleStrategy;
 	
 	/**
 	*	Describes the contract for application views.
@@ -19,8 +23,16 @@ package com.ffsys.swat.view
 	*	@since  08.06.2010
 	*/
 	public interface IApplicationView
-		extends IEnabled
+		extends IEnabled,
+				IDestroy,
+				IStyleAware
 	{
+		/**
+		*	The strategy used to apply styles.
+		*/
+		function get strategy():IStyleStrategy;
+		function set strategy( strategy:IStyleStrategy ):void;
+		
 		/**
 		*	Gets the utility configuration properties
 		*	and functionality exposed to all views.

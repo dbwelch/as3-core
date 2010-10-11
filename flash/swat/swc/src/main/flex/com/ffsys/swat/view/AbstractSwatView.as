@@ -3,23 +3,9 @@ package com.ffsys.swat.view  {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	
-	import flash.text.Font;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
-	import flash.text.TextFormatAlign;
-	import flash.text.TextFieldAutoSize;
-	import flash.utils.getDefinitionByName;
-	
-	import com.ffsys.core.IFlashVariables;
-	import com.ffsys.ui.text.core.ITextFieldFactory;
-	import com.ffsys.ui.text.core.TextFieldFactory;
-	
-	import com.ffsys.utils.collections.strings.StringCollection;
-	
-	import com.ffsys.swat.configuration.AssetManager;
-	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationAware;
-	import com.ffsys.swat.configuration.Settings;
+	
+	import com.ffsys.utils.css.IStyleStrategy;
 	
 	/**
 	*	Abstract super class for application views.
@@ -35,8 +21,11 @@ package com.ffsys.swat.view  {
 			
 		static private var _utils:IViewUtils
 			= new ViewUtils();
+			
+		static private var _strategy:IStyleStrategy;
 		
 		private var _enabled:Boolean = true;
+		private var _styles:String;
 		
 		/**
 		*	Creates an <code>AbstractSwatView</code> instance.
@@ -44,6 +33,32 @@ package com.ffsys.swat.view  {
 		public function AbstractSwatView()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get strategy():IStyleStrategy
+		{
+			return _strategy;
+		}
+		
+		public function set strategy( strategy:IStyleStrategy ):void
+		{
+			_strategy = strategy;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get styles():String
+		{
+			return _styles;
+		}
+		
+		public function set styles( styles:String ):void
+		{
+			_styles = styles;
 		}
 		
 		/**
@@ -115,6 +130,14 @@ package com.ffsys.swat.view  {
 				removeChild( child );
 				i--;
 			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function destroy():void
+		{
+			_styles = null;
 		}
 	}
 }

@@ -86,6 +86,9 @@ package com.ffsys.utils.css
 					
 			collection.parseCSS( text );
 			
+			trace("CssUtilsTest::assertLoadedAsset(), ",
+				collection.styleNames );
+			
 			var style:Object = collection.getStyle( "test-style" );
 			var ident:Object = collection.getStyle( "#ident" );
 			

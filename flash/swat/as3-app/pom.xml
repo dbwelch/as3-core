@@ -25,6 +25,14 @@
 			<version>${ffsys.lib.version}</version>
 			<type>swc</type>
 		</dependency>
+		
+		<!-- TODO: remove this dependency -->
+		<dependency>
+			<groupId>com.ffsys.utils</groupId>
+			<artifactId>css</artifactId>
+			<version>${ffsys.lib.version}</version>
+			<type>swc</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

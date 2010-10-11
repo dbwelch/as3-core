@@ -17,6 +17,8 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.ui.containers.VerticalBox;
 	import com.ffsys.ui.text.Label;
 	
+	import com.ffsys.utils.css.ListenerStyleStrategy;
+	
 	/**
 	*	The main view for the application.
 	*
@@ -64,8 +66,21 @@ package com.ffsys.swat.as3.view {
 		*	@inheritDoc
 		*/
 		override public function createChildren():void
-		{
+		{	
 			var css:CssStyleCollection = utils.getStyleSheet( "test-css" );
+			
+			//initialize the listener strategy and assign the stylesheet
+			strategy = new ListenerStyleStrategy();
+			ListenerStyleStrategy( strategy ).initialize( stage );
+			strategy.styleSheet = css;
+			
+			//test applying styles using the listener strategy
+			var container:ContainerView = new ContainerView();
+			container.styles = "container-view";
+			container.graphics.beginFill( 0xff0000, 1 );
+			container.graphics.drawRect( 0, 0, 20, 20 );
+			container.graphics.endFill();
+			addChild( container );
 			
 			/*
 			trace("SwatActionscriptContainer::creating(), ",

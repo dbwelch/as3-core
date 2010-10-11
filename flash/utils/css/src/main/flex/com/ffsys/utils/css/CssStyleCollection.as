@@ -116,35 +116,49 @@ package com.ffsys.utils.css {
 		*	
 		*	@param styleName The name of the style to apply.
 		*	@param target The target object to apply the style to.
+		*	@param styles An array to place the applied style objects into.
+		*	
+		*	@return An array of the style objects that were applied.
 		*/
-		public function apply( styleName:String, target:Object ):void
+		public function apply(
+			styleName:String,
+			target:Object,
+			styles:Array = null ):Array
 		{
+			if( styles == null )
+			{
+				styles = new Array();
+			}
+			
 			//deal with multiple style names separated by spaces
 			if( styleName.indexOf( " " ) > -1 )
 			{
 				var styleNames:Array = styleName.split( " " );
 				for( var i:int = 0;i < styleNames.length;i++ )
 				{
-					apply( styleNames[ i ], target );
+					apply( styleNames[ i ], target, styles );
 				}
-				return;
+				return styles;
 			}
 			
 			//apply an individual style
-			var source:Object = getStyle( styleName );
+			var style:Object = getStyle( styleName );
 			
-			if( source && target )
+			if( style && target )
 			{
 				if( target is TextField )
 				{
 					var format:TextFormat = new TextFormat();
-					format = transform( source );
+					format = transform( style );
 					TextField( target ).defaultTextFormat = format;
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( target, source );
+				merger.merge( target, style );
+				styles.push( style );
 			}
+			
+			return styles;
 		}
 		
 		/**
@@ -203,7 +217,7 @@ package com.ffsys.utils.css {
 		}
 		
 		/**
-		*	@private	
+		*	@private
 		*/
 		private function parseClassReference( candidate:String ):Class
 		{
@@ -213,8 +227,6 @@ package com.ffsys.utils.css {
 			}
 			
 			var clazz:Class = null;
-			
-			trace("CssStyleCollection::parseClassReference()", candidate );
 			
 			var classPath:String = candidate.replace(
 				/^class\s*\(\s*([a-zA-Z0-9\.]+)\s*\)$/, "$1" );

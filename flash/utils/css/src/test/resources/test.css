@@ -18,3 +18,7 @@ test-style {
 #ident {
 	color: #ff6600;
 }
+
+one, two {
+	font: Arial;
+}

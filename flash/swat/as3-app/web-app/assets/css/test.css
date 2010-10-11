@@ -21,4 +21,10 @@ test-text {
 	word-wrap: true;
 	mutiline: true;
 	width: 250;
+	/* selectable: false; */
+}
+
+container-view {
+	x: 250;
+	y: 100;
 }
