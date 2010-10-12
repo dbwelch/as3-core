@@ -8,11 +8,12 @@
 	<name>as3 library super pom</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- <flex.version>4.5.0.17855</flex.version> -->
 		<flex.version>4.1.0.16248</flex.version>
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
-		<!-- <flexmojos.version>4.0-SNAPSHOT</flexmojos.version> -->
-		<flexmojos.version>3.6.1</flexmojos.version>
+		<!-- <flexmojos.version>4.0-alpha-5</flexmojos.version> -->
+		<flexmojos.version>3.8</flexmojos.version>
 		<flexunit.version>4.0-beta-2</flexunit.version>
 		<flash.player.classifier>10.0</flash.player.classifier>
 		<ffsys.lib.version>1.1-SNAPSHOT</ffsys.lib.version>
