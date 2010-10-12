@@ -8,8 +8,8 @@
 	<name>as3 library super pom</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- <flex.version>4.5.0.17855</flex.version> -->
-		<flex.version>4.1.0.16248</flex.version>
+		<flex.version>4.5.0.17855</flex.version>
+		<!-- <flex.version>4.1.0.16248</flex.version> -->
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
 		<!-- <flexmojos.version>4.0-alpha-5</flexmojos.version> -->
@@ -33,13 +33,6 @@
 			<version>${flex.version}</version>
 			<type>pom</type>
 		</dependency>		
-		<dependency>
-			<groupId>com.adobe.flex.framework</groupId>
-			<artifactId>playerglobal</artifactId>
-			<version>${flex.version}</version>
-			<classifier>${flash.player.classifier}</classifier>
-			<type>swc</type>
-		</dependency>
 	  </dependencies>
 		
 	<distributionManagement>
@@ -111,19 +104,6 @@
 						<artifactId>compiler</artifactId>
 						<version>${flex.version}</version>
 						<type>pom</type>
-					</dependency>
-					<dependency>
-						<groupId>com.adobe.flex.framework</groupId>
-						<artifactId>flex-framework</artifactId>
-						<version>${flex.version}</version>
-						<type>pom</type>
-					</dependency>
-					<dependency>
-						<groupId>com.adobe.flex.framework</groupId>
-						<artifactId>playerglobal</artifactId>
-						<version>${flex.version}</version>
-						<classifier>${flash.player.classifier}</classifier>
-						<type>swc</type>
 					</dependency>
 					<dependency>
 						<groupId>com.adobe.flex.compiler</groupId>
