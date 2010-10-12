@@ -213,7 +213,8 @@ package com.ffsys.utils.css {
 		private function parseHexNumber( candidate:String ):Number
 		{
 			candidate = candidate.replace( "#", "0x" );
-			return parseInt( candidate, 16 );
+			//return parseInt( candidate, 16 );
+			return Number( candidate );
 		}
 		
 		/**
