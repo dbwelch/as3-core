@@ -25,7 +25,6 @@
 	      <artifactId>flexunit</artifactId>
 	      <version>${flexunit.version}</version>
 	      <type>swc</type>
-	      <scope>test</scope>
 	    </dependency>
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
@@ -106,13 +105,6 @@
 				<artifactId>flexmojos-maven-plugin</artifactId>
 				<version>${flexmojos.version}</version>
 				<dependencies>
-					<dependency>
-				      <groupId>com.adobe.flexunit</groupId>
-				      <artifactId>flexunit</artifactId>
-				      <version>${flexunit.version}</version>
-				      <type>swc</type>
-				      <scope>test</scope>
-				    </dependency>
 					<dependency>
 						<groupId>com.adobe.flex</groupId>
 						<artifactId>compiler</artifactId>
