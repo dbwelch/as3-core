@@ -1,37 +1,49 @@
 <?xml version="1.0"?>
 <configuration>
-	
-	<!-- available locales -->
 	<locales>
-		<locale lang="en" country="GB" />
-		<locale lang="es" country="ES" />
-		<locale lang="de" country="DE" />
-		<locale lang="fr" country="FR" />
+		
+		<!-- applies to all locales -->
+		
+		<settings>
+			
+		</settings>
+		
+		<assets id="main">
+			
+		</assets>
+		
+		<defaults>
+			<textfield-defaults>
+				<embedFonts>false</embedFonts>
+				<antiAliasType>advanced</antiAliasType>
+			</textfield-defaults>
+
+			<textformat-defaults>
+				<font>Verdana</font>
+				<size>10</size>
+				<color>0xa9a9a9</color>
+			</textformat-defaults>
+		</defaults>
+		
+		<!-- resources for all locales -->
+		<resources>
+			
+			<rsls>
+				<rsl>
+					<trusted>true</trusted>
+					<url>assets/swf/application-assets.swf</url>
+				</rsl>
+			</rsls>
+		</resources>
+		
+		<!-- The default fallback locale -->
+		<default-locale lang="en" country="GB" />
+		
+		<!-- Locale definitions -->
+		<locale lang="en" country="GB">
+
+		</locale>
+		
 	</locales>
 	
-	<rsls>
-		<rsl>
-			<trusted>true</trusted>
-			<url>assets/swf/application-assets.swf</url>
-		</rsl>
-	</rsls>
-	
-	<settings>
-	</settings>
-	
-	<assets id="main">
-	</assets>
-	
-	<defaults>
-		<textfield-defaults>
-			<embedFonts>false</embedFonts>
-			<antiAliasType>advanced</antiAliasType>
-		</textfield-defaults>
-		
-		<textformat-defaults>
-			<font>Verdana</font>
-			<size>10</size>
-			<color>0xa9a9a9</color>
-		</textformat-defaults>
-	</defaults>
 </configuration>
