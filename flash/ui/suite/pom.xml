@@ -41,8 +41,11 @@
 					<linkReport>false</linkReport>
 					<configurationReport>false</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
-					<defaultSizeWidth>980</defaultSizeWidth>
-					<defaultSizeHeight>1024</defaultSizeHeight>
+					<defaultSize>
+						<width>980</width>
+						<height>1024</height>
+					</defaultSize>					
+					
 					<defaultFrameRate>30</defaultFrameRate>
 					<fonts>
 						<managers>

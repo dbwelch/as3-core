@@ -155,6 +155,25 @@ package com.ffsys.utils.css {
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
 				merger.merge( target, style );
+				
+				//we cannot guarantee the order that styles will
+				//be applied so we need to ensure that any width/height
+				//are applied after other properties such as autoSize
+				//for the textfield to render correctly
+				if( target is TextField )
+				{
+					if( style.hasOwnProperty( "width" ) )
+					{
+						trace("CssStyleCollection::applied(), ", style.width );
+						target.width = style.width;
+					}
+					
+					if( style.hasOwnProperty( "height" ) )
+					{
+						target.height = style.height;
+					}					
+				}
+				
 				styles.push( style );
 			}
 			
@@ -173,20 +192,30 @@ package com.ffsys.utils.css {
 			var value:*;
 			var clazz:Class = null;
 			var re:RegExp = null;
+			
+			trace("CssStyleCollection::postProcessCss(), ", styleNames );
+			
 			for( var i:int = 0;i < styleNames.length;i++ )
 			{
 				styleName = styleNames[ i ];
+				trace("*** Parsing style name :", styleName );
 				style = getStyle( styleName );
 				for( z in style )
 				{
+					trace("*** Parsing property :", z );
 					value = style[ z ];
+					
+					trace("CssStyleCollection::postProcessCss(), pre-parsing: ", value  );
 					value = parser.parse( value, true );
+					trace("CssStyleCollection::postProcessCss(), post-parsing: ", value, ( value is String ) );
 					
 					//we've parsed the primitives
 					//now deal with css specific parsing
 					if( value is String )
 					{
 						re = /^#[0-9a-fA-F]{2,6}$/;
+						trace("CssStyleCollection::test RegExp(), ",
+							"'" + value + "'", re.test( value ) );
 						if( re.test( value ) )
 						{
 							value = parseHexNumber( value );
@@ -212,9 +241,11 @@ package com.ffsys.utils.css {
 		*/
 		private function parseHexNumber( candidate:String ):Number
 		{
-			candidate = candidate.replace( "#", "0x" );
-			//return parseInt( candidate, 16 );
-			return Number( candidate );
+			candidate = candidate.replace( "#", "" );
+			var parsed:Number = parseInt( candidate, 16 );
+			//var parsed:Number = Number( candidate );
+			trace("CssStyleCollection::parseHexNumber(), ", candidate, parsed );
+			return parsed;
 		}
 		
 		/**

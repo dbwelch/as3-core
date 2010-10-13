@@ -99,9 +99,13 @@ package com.ffsys.swat.as3.view {
 			trace("SwatActionscriptContainer::createChildren(), ", filter );
 				
 			var txt:TextField = new TextField();
-			css.apply( "test-text", txt );	
+			css.apply( "test-text", txt );
+			//txt.width = 250;
 			txt.text = "This is a text field created manually using"
 				+ " an embedded font and a css declaration.";
+				
+			trace("SwatActionscriptContainer::createChildren(), ",
+				txt, txt.width, txt.height, txt.autoSize, txt.defaultTextFormat.color );
 				
 			//txt.filters = [ filter ];
 			

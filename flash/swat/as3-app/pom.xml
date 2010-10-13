@@ -50,8 +50,11 @@
 					<linkReport>false</linkReport>
 					<configurationReport>false</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
-					<defaultSizeWidth>980</defaultSizeWidth>
-					<defaultSizeHeight>480</defaultSizeHeight>
+					<defaultSize>
+						<width>980</width>
+						<height>480</height>
+					</defaultSize>
+					
 					<defaultFrameRate>30</defaultFrameRate>
 					<fonts>
 						<managers>
@@ -65,7 +68,7 @@
 						<path>${project.basedir}/src/main/resources</path>
 						<path>${project.build.sourceDirectory}</path>
 					</sourcePaths>
-				</configuration>
+				</configuration>				
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
