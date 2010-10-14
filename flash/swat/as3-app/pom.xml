@@ -12,27 +12,29 @@
 	<packaging>swf</packaging>
 	<name>swat-as3-app</name>
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.adobe.flex.framework</groupId>
+			<artifactId>framework</artifactId>
+			<version>${flex.version}</version>
+			<type>swc</type>
+			<scope>external</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>swat</artifactId>
-			<version>${ffsys.lib.version}</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ui</artifactId>
-			<version>${ffsys.lib.version}</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>
-		
-		<!-- TODO: remove this dependency -->
-		<dependency>
-			<groupId>com.ffsys.utils</groupId>
-			<artifactId>css</artifactId>
-			<version>${ffsys.lib.version}</version>
-			<type>swc</type>
-		</dependency>
+		</dependency>	
 	</dependencies>
 	<build>
 		<plugins>
@@ -44,12 +46,16 @@
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/SwatMain.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
-					<debug>true</debug>
+					<debug>false</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>
-					<linkReport>false</linkReport>
-					<configurationReport>false</configurationReport>
-					<defaultBackgroundColor>000000</defaultBackgroundColor>
+					<linkReport>true</linkReport>
+					<configurationReport>true</configurationReport>
+					<defaultBackgroundColor>0</defaultBackgroundColor>
+					
+					<defaultSizeWidth>980</defaultSizeWidth>
+					<defaultSizeHeight>480</defaultSizeHeight>
+					
 					<defaultSize>
 						<width>980</width>
 						<height>480</height>
@@ -68,7 +74,7 @@
 						<path>${project.basedir}/src/main/resources</path>
 						<path>${project.build.sourceDirectory}</path>
 					</sourcePaths>
-				</configuration>				
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
