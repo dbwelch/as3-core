@@ -15,27 +15,38 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys</groupId>
+			<artifactId>core</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+			<scope>merged</scope>
+		</dependency>		
+		<dependency>
+			<groupId>com.ffsys</groupId>
 			<artifactId>events</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>collections</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>locale</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>substitution</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 	</dependencies>
 </project>

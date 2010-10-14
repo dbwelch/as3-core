@@ -18,13 +18,15 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>xml</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>		
+			<scope>merged</scope>
+		</dependency>
 				
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>

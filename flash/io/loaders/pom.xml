@@ -18,6 +18,7 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		
 		<dependency>
@@ -25,6 +26,7 @@
 			<artifactId>events</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		
 		<dependency>
@@ -32,6 +34,7 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		
 		<dependency>
@@ -39,6 +42,7 @@
 			<artifactId>connection</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>
 		
 		<dependency>
@@ -46,6 +50,7 @@
 			<artifactId>properties</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
+			<scope>merged</scope>
 		</dependency>		
 	
 	</dependencies>
