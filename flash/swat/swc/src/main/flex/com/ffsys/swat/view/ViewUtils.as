@@ -7,8 +7,11 @@ package com.ffsys.swat.view  {
 	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.core.IFlashVariables;
+	
+	/*
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
+	*/
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	import com.ffsys.utils.css.CssStyleCollection;
@@ -31,9 +34,11 @@ package com.ffsys.swat.view  {
 	*/
 	public class ViewUtils extends Object
 		implements IViewUtils {
-			
+		
+		/*	
 		static private var _textFieldFactory:ITextFieldFactory
 			= new TextFieldFactory();
+		*/
 		
 		private var _configuration:IConfiguration;
 		
@@ -64,10 +69,13 @@ package com.ffsys.swat.view  {
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		public function get textFieldFactory():ITextFieldFactory
 		{
 			return _textFieldFactory;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc

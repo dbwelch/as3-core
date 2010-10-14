@@ -7,7 +7,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.io.loaders.events.*;
 	
-	import com.ffsys.ui.text.core.ITextFieldFactory;
+	//import com.ffsys.ui.text.core.ITextFieldFactory;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.core.RuntimeAssetPreloader;
@@ -117,6 +117,7 @@ package com.ffsys.swat.view  {
 			//keep a reference to the configuration
 			utils.configuration = event.configuration;
 			
+			/*
 			if( utils.configuration.defaults )
 			{
 				utils.textFieldFactory.defaultTextFieldProperties =
@@ -125,6 +126,7 @@ package com.ffsys.swat.view  {
 				utils.textFieldFactory.defaultTextFormatProperties =
 					utils.configuration.defaults.textformat;
 			}
+			*/
 			
 			//update the configuration with the flash variables
 			utils.configuration.flashvars = this.flashvars;
@@ -138,7 +140,7 @@ package com.ffsys.swat.view  {
 		private function rslLoadComplete( event:RslEvent ):void
 		{
 			removeEventListener( RslEvent.LOAD_COMPLETE, rslLoadComplete );
-			propagateComponentTextFactory();
+			//propagateComponentTextFactory();
 			ready();
 		}
 		
@@ -208,6 +210,8 @@ package com.ffsys.swat.view  {
 		*	and propagates the swat textfield factory to the component
 		*	textfield factory.
 		*/
+		
+		/*
 		private function propagateComponentTextFactory():void
 		{
 			var classPath:String = "com.ffsys.ui.core.UIComponent";
@@ -256,5 +260,6 @@ package com.ffsys.swat.view  {
 			
 			}
 		}
+		*/
 	}
 }

@@ -5,8 +5,7 @@ package com.ffsys.swat.view
 	
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
-	import com.ffsys.ui.text.core.ITextFieldFactory;
-	import com.ffsys.ui.text.core.TextFieldFactory;
+	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.Settings;
 	

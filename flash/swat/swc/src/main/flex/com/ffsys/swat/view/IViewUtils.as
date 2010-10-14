@@ -4,7 +4,7 @@ package com.ffsys.swat.view {
 	import flash.text.Font;
 	
 	import com.ffsys.core.IFlashVariables;
-	import com.ffsys.ui.text.core.ITextFieldFactory;
+	//import com.ffsys.ui.text.core.ITextFieldFactory;
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
@@ -35,7 +35,7 @@ package com.ffsys.swat.view {
 		* 	The factory class used for creating and working
 		* 	with textfields.
 		*/
-		function get textFieldFactory():ITextFieldFactory;
+		//function get textFieldFactory():ITextFieldFactory;
 		
 		/**
 		* 	Gets the application asset manager.
