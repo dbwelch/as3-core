@@ -4,7 +4,7 @@ package com.ffsys.utils.collections.data {
 	import flash.utils.flash_proxy;
 	import flash.utils.Proxy;
 	
-	import com.ffsys.utils.string.ClassUtils;
+	import com.ffsys.utils.object.ClassUtils;
 	
 	import com.ffsys.utils.locale.ILocale;	
 	

@@ -1,6 +1,6 @@
 package com.ffsys.utils.inspector {
 	
-	import com.ffsys.utils.string.ClassUtils;
+	import com.ffsys.utils.object.ClassUtils;
 	import com.ffsys.utils.identifier.IdentifierUtils;
 	import com.ffsys.utils.string.StringUtils;
 	

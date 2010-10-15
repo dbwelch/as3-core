@@ -5,8 +5,8 @@ package com.ffsys.io.xml {
 	
 	import com.ffsys.core.IStringIdentifier;
 	
-	import com.ffsys.utils.string.ClassUtils;
-	import com.ffsys.utils.string.TypeRegistry;
+	import com.ffsys.utils.object.ClassUtils;
+	import com.ffsys.utils.object.TypeRegistry;
 	import com.ffsys.utils.xml.XmlUtils;
 	
 	/**

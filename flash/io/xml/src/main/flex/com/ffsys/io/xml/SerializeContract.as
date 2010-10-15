@@ -5,8 +5,8 @@ package com.ffsys.io.xml {
 	import com.ffsys.io.xml.SerializeOptions;
 	import com.ffsys.io.xml.types.CDataString;
 	import com.ffsys.io.xml.types.XmlAttribute;
-	import com.ffsys.utils.string.ClassUtils;
-	import com.ffsys.utils.string.TypeRegistry;
+	import com.ffsys.utils.object.ClassUtils;
+	import com.ffsys.utils.object.TypeRegistry;
 	
 	/**
 	*	Base class for XML serialization description contracts.
@@ -207,8 +207,6 @@ package com.ffsys.io.xml {
 			}
 			
 			return out;
-		}
-		
+		}	
 	}
-	
 }

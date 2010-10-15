@@ -3,7 +3,7 @@ package com.ffsys.io.xml {
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 	
-	import com.ffsys.utils.string.ClassUtils;
+	import com.ffsys.utils.object.ClassUtils;
 	import com.ffsys.utils.string.StringUtils;
 		
 	/**

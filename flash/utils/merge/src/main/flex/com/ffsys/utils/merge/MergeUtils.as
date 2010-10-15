@@ -1,7 +1,7 @@
 package com.ffsys.utils.merge {
 	
 	import com.ffsys.utils.array.ArrayUtils;
-	import com.ffsys.utils.string.ClassUtils;
+	import com.ffsys.utils.object.ClassUtils;
 	
 	/**
 	*	Utility methods for merging

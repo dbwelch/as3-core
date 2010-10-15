@@ -1,4 +1,4 @@
-package com.ffsys.utils.string {
+package com.ffsys.utils.object {
 	
 	import flash.utils.Dictionary;
 	import flash.utils.describeType;

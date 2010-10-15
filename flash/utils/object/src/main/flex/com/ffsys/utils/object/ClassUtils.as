@@ -1,10 +1,12 @@
-package com.ffsys.utils.string {
+package com.ffsys.utils.object {
 	
 	import flash.utils.ByteArray;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.describeType;
 	import flash.net.registerClassAlias;
+	
+	import com.ffsys.utils.string.StringUtils;
 	
 	/**
 	*	Utility methods for inspecting and manipulating

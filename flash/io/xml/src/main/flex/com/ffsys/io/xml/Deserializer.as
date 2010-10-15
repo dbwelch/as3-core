@@ -6,7 +6,7 @@ package com.ffsys.io.xml {
 	
 	import com.ffsys.utils.array.ArrayUtils;
 	import com.ffsys.utils.boolean.BooleanUtils;
-	import com.ffsys.utils.string.ClassUtils;
+	import com.ffsys.utils.object.ClassUtils;
 	import com.ffsys.utils.xml.XmlUtils;
 	
 	import com.ffsys.utils.substitution.ISubstitutionNamespaceCollection;
