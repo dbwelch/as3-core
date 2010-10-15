@@ -56,7 +56,12 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@private	
 		*/		
-		protected var _complete:Boolean;		
+		protected var _complete:Boolean;
+		
+		/**
+		*	@private	
+		*/
+		private var _callback:String;		
 		
 		/**
 		*	@private	
@@ -92,7 +97,20 @@ package com.ffsys.io.loaders.core {
 		public function set message( message:ILoadMessage ):void
 		{
 			_message = message;
-		}		
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get callback():String
+		{
+			return _callback;
+		}
+
+		public function set callback( callback:String ):void
+		{
+			_callback = callback;
+		}				
 		
 		public function get bytes():ByteArray
 		{

@@ -4,6 +4,7 @@ package com.ffsys.io.loaders.core {
 	import flash.events.IEventDispatcher;
 	
 	import com.ffsys.io.loaders.message.ILoadMessage;
+	import com.ffsys.io.loaders.resources.IResourceCallback;	
 	
 	/**
 	*	Defines the contract for instances that
@@ -18,6 +19,7 @@ package com.ffsys.io.loaders.core {
 	public interface ILoader
 		extends ILoaderElement,
 				ILoaderParameters,
+				IResourceCallback,
 				ILoadStatus,
 				IForceLoad {
 			

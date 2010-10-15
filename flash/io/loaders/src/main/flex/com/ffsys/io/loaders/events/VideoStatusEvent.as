@@ -16,7 +16,7 @@ package com.ffsys.io.loaders.events {
 	public class VideoStatusEvent extends AbstractEvent {
 		
 		/**
-		*	Event dispatched when the video receives a cue point.	
+		*	Event dispatched when the video receives a cue point.
 		*/
 		static public const CUE_POINT:String = "cuePoint";
 		

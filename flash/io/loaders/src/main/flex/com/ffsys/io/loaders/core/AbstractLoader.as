@@ -41,6 +41,11 @@ package com.ffsys.io.loaders.core {
 		
 		/**
 		*	@private	
+		*/
+		private var _callback:String;
+		
+		/**
+		*	@private	
 		*/		
 		protected var _loading:Boolean;
 		
@@ -81,6 +86,19 @@ package com.ffsys.io.loaders.core {
 		{
 			_message = message;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get callback():String
+		{
+			return _callback;
+		}
+
+		public function set callback( callback:String ):void
+		{
+			_callback = callback;
+		}		
 		
 		/**
 		*	@private	
