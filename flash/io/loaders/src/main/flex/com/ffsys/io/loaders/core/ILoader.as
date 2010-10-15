@@ -3,6 +3,8 @@ package com.ffsys.io.loaders.core {
 	import flash.net.URLRequest;
 	import flash.events.IEventDispatcher;
 	
+	import com.ffsys.io.loaders.message.ILoadMessage;
+	
 	/**
 	*	Defines the contract for instances that
 	*	load external resources.
@@ -18,6 +20,12 @@ package com.ffsys.io.loaders.core {
 				ILoaderParameters,
 				ILoadStatus,
 				IForceLoad {
+			
+		/**
+		*	The load message associated with the loader.
+		*/
+		function get message():ILoadMessage;
+		function set message( message:ILoadMessage ):void;
 					
 		/*
 		*	We can't implement IBytesTotal/IBytesLoaded

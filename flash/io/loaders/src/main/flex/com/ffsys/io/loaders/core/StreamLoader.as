@@ -23,6 +23,8 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
+	import com.ffsys.io.loaders.message.ILoadMessage;
+	
 	/**
 	*	Represents a loader that loads arbritrary binary
 	*	streams.
@@ -61,6 +63,11 @@ package com.ffsys.io.loaders.core {
 		*/		
 		private var _decorator:LoaderDecorator;
 		
+		/**
+		*	@private
+		*/
+		private var _message:ILoadMessage;		
+		
 		//declared to match the behaviour of URLLoader
 		public var bytesLoaded:uint;
 		public var bytesTotal:uint;		
@@ -73,6 +80,19 @@ package com.ffsys.io.loaders.core {
 			
 			super();
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get message():ILoadMessage
+		{
+			return _message;
+		}
+		
+		public function set message( message:ILoadMessage ):void
+		{
+			_message = message;
+		}		
 		
 		public function get bytes():ByteArray
 		{

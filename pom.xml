@@ -116,22 +116,30 @@
 				<extensions>true</extensions>
 				<configuration>
 					<targetPlayer>${target.player}</targetPlayer>
-					<!-- TODO: move debug configuration to maven profiles -->
+					<!-- TODO: move debug configuration to maven profiles? -->
 					<debug>true</debug>
 					<locales>
 						<locale>en_US</locale>
 					</locales>
 					<headlessServer>true</headlessServer>
 					<incremental>true</incremental>
-					<linkReport>false</linkReport>
-					<configurationReport>false</configurationReport>					
+					<linkReport>true</linkReport>
+					<configurationReport>true</configurationReport>
 				</configuration>
+				
+				<!--
 				<executions>
 					<execution>
-						<id>package</id>
-						<phase>package</phase>
+						<phase>install</phase>
+						<configuration>
+							<aggregate>true</aggregate>
+						</configuration>
+						<goals>
+							<goal>asdoc</goal>
+						</goals>
 					</execution>
 				</executions>
+				-->
 			</plugin>
 		</plugins>
 	</build>

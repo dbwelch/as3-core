@@ -13,6 +13,7 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.message.ILoadMessage;
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
@@ -32,6 +33,11 @@ package com.ffsys.io.loaders.core {
 		*	@private	
 		*/
 		private var _decorator:LoaderDecorator;
+		
+		/**
+		*	@private
+		*/
+		private var _message:ILoadMessage;
 		
 		/**
 		*	@private	
@@ -61,6 +67,19 @@ package com.ffsys.io.loaders.core {
 			//instantiating otherwise the URLLoader calls load()
 			//immediately - this behaviour is *very* undesirable 
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get message():ILoadMessage
+		{
+			return _message;
+		}
+		
+		public function set message( message:ILoadMessage ):void
+		{
+			_message = message;
 		}
 		
 		/**
