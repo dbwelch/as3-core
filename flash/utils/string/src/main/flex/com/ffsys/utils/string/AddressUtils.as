@@ -100,7 +100,11 @@ package com.ffsys.utils.string {
 			trailingSlash:Boolean = false ):String
 		{
 			
-			//remove any trailing slashes from the base
+			trace("AddressUtils::concatenate(), ", base, relative, trailingSlash );
+			
+			//remove any trailing slashes from the base and whitespace
+			base = base.replace( new RegExp( "\\s+$" ), "" );
+			base = base.replace( new RegExp( "^\\s+" ), "" );
 			base = base.replace( new RegExp( "/*$" ), "" );
 			
 			//remove any leading slashes from the relative portion
@@ -108,12 +112,16 @@ package com.ffsys.utils.string {
 			relative = relative.replace( /^\/+/, "" );
 			relative = relative.replace( /\/+$/, "" );
 			
-			//add the single slash delimiter
-			base += AddressUtils.DELIMITER;
+			if( base.length > 0 )
+			{
+				//add the single slash delimiter
+				base += AddressUtils.DELIMITER;
+			}
 			
 			//only add a trailing slash if there is no file extension
 			//and no existing trailing slash
-			if( trailingSlash && !relative.match( /\.[a-zA-Z0-9]+|\/$/ ) )
+			if( trailingSlash
+				&& !relative.match( /\.[a-zA-Z0-9]+|\/$/ ) )
 			{
 				relative += AddressUtils.DELIMITER;
 			}
@@ -127,6 +135,8 @@ package com.ffsys.utils.string {
 			
 			//remove any double slashes
 			output = output.replace( /([^:])\/\//g, "$1" + AddressUtils.DELIMITER );
+			
+			trace("AddressUtils::concatenate(), output: ", output );
 			
 			return output;
 		}		
