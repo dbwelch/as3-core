@@ -99,9 +99,6 @@ package com.ffsys.utils.string {
 			relative:String,
 			trailingSlash:Boolean = false ):String
 		{
-			
-			trace("AddressUtils::concatenate(), ", base, relative, trailingSlash );
-			
 			//remove any trailing slashes from the base and whitespace
 			base = base.replace( new RegExp( "\\s+$" ), "" );
 			base = base.replace( new RegExp( "^\\s+" ), "" );
@@ -135,9 +132,7 @@ package com.ffsys.utils.string {
 			
 			//remove any double slashes
 			output = output.replace( /([^:])\/\//g, "$1" + AddressUtils.DELIMITER );
-			
-			trace("AddressUtils::concatenate(), output: ", output );
-			
+
 			return output;
 		}		
 		
