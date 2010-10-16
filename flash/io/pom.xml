@@ -24,6 +24,7 @@
 		<module>connection</module>
 		<module>core</module>
 		<module>loaders</module>
+		<module>loaders-flex-support</module>
 		<module>log</module>
 		<module>xml</module>
 		
