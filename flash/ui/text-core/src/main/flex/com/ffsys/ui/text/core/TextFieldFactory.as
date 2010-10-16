@@ -18,7 +18,7 @@ package com.ffsys.ui.text.core {
 		private var _defaultTextFormatProperties:Object;
 		
 		/**
-		*	Creates a <code>TextFieldFactory<code> instance.
+		*	Creates a <code>TextFieldFactory</code> instance.
 		*/
 		public function TextFieldFactory()
 		{

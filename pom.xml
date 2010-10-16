@@ -12,29 +12,27 @@
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
 		<flexmojos.version>4.0-alpha-5</flexmojos.version>
-		<!-- <flexmojos.version>3.8</flexmojos.version> -->
-		<!-- 4.0-SNAPSHOT -->
-		<!-- <flexmojos.version>3.6.1</flexmojos.version> -->
+<!-- <flexmojos.version>3.8</flexmojos.version> -->
+<!-- 4.0-SNAPSHOT -->
+<!-- <flexmojos.version>3.6.1</flexmojos.version> -->
 		<flexunit.version>4.0-rc-1</flexunit.version>
 		<ffsys.lib.version>1.1-SNAPSHOT</ffsys.lib.version>
 		<target.player>10.0.0</target.player>
 	</properties>
-
 	<dependencies>
-	    <dependency>
-	      <groupId>com.adobe.flexunit</groupId>
-	      <artifactId>flexunit</artifactId>
-	      <version>${flexunit.version}</version>
-	      <type>swc</type>
-	    </dependency>
+		<dependency>
+			<groupId>com.adobe.flexunit</groupId>
+			<artifactId>flexunit</artifactId>
+			<version>${flexunit.version}</version>
+			<type>swc</type>
+		</dependency>
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>flex-framework</artifactId>
 			<version>${flex.version}</version>
 			<type>pom</type>
-		</dependency>		
-	  </dependencies>
-		
+		</dependency>
+	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ffsys-mvn</id>
@@ -48,7 +46,6 @@
 			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>
 		</repository>
 	</distributionManagement>
-	
 	<scm>
 		<connection>scm:git:git@github.com:freeformsystems/as3-core.git</connection>
 		<developerConnection>scm:git:git@github.com:freeformsystems/as3-core.git</developerConnection>
@@ -116,7 +113,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<targetPlayer>${target.player}</targetPlayer>
-					<!-- TODO: move debug configuration to maven profiles? -->
+<!-- TODO: move debug configuration to maven profiles? -->
 					<debug>true</debug>
 					<locales>
 						<locale>en_US</locale>
@@ -126,8 +123,27 @@
 					<linkReport>true</linkReport>
 					<configurationReport>true</configurationReport>
 				</configuration>
-				
-				<!--
+				<executions>
+				<execution>
+					<id>generate-asdoc</id>
+					<phase>asdoc</phase>
+					<goals>
+						<goal>asdoc</goal>
+					</goals>
+					<configuration>
+						<aggregate>true</aggregate>
+						<outputDirectory>${project.build.directory}/asdoc</outputDirectory>
+						<sourcePaths>
+							<path>${project.build.sourceDirectory}</path>
+							<path>${project.build.testSourceDirectory}</path>
+						</sourcePaths>
+						<excludeClasses>
+							<class>TestRunner</class>
+						</excludeClasses>
+					</configuration>
+				</execution>
+				</executions>
+<!--
 				<executions>
 					<execution>
 						<phase>install</phase>
