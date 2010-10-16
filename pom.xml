@@ -124,11 +124,13 @@
 					<configurationReport>true</configurationReport>
 				</configuration>
 				<executions>
+					
+					<!--
 				<execution>
 					<id>generate-asdoc</id>
-					<phase>asdoc</phase>
+					<phase>install</phase>
 					<goals>
-						<goal>asdoc</goal>
+						<goal>flexmojos:asdoc</goal>
 					</goals>
 					<configuration>
 						<aggregate>true</aggregate>
@@ -142,20 +144,9 @@
 						</excludeClasses>
 					</configuration>
 				</execution>
+				
+					-->
 				</executions>
-<!--
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<configuration>
-							<aggregate>true</aggregate>
-						</configuration>
-						<goals>
-							<goal>asdoc</goal>
-						</goals>
-					</execution>
-				</executions>
-				-->
 			</plugin>
 		</plugins>
 	</build>
