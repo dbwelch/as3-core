@@ -118,13 +118,19 @@ package com.ffsys.utils.css {
 		*	@param target The target object to apply the style to.
 		*	@param styles An array to place the applied style objects into.
 		*	
-		*	@return An array of the style objects that were applied.
+		*	@return An array of the style objects that were applied or an empty
+		*	array if no styles were applied.
 		*/
 		public function apply(
 			styleName:String,
 			target:Object,
 			styles:Array = null ):Array
 		{
+			if( styleName == null )
+			{
+				return new Array();
+			}
+			
 			if( styles == null )
 			{
 				styles = new Array();
