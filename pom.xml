@@ -114,7 +114,7 @@
 				<configuration>
 					<targetPlayer>${target.player}</targetPlayer>
 <!-- TODO: move debug configuration to maven profiles? -->
-					<debug>true</debug>
+					<debug>false</debug>
 					<locales>
 						<locale>en_US</locale>
 					</locales>

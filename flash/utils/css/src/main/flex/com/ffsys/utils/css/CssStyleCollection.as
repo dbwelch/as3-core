@@ -170,7 +170,7 @@ package com.ffsys.utils.css {
 				{
 					if( style.hasOwnProperty( "width" ) )
 					{
-						trace("CssStyleCollection::applied(), ", style.width );
+						//trace("CssStyleCollection::applied(), ", style.width );
 						target.width = style.width;
 					}
 					
@@ -199,29 +199,33 @@ package com.ffsys.utils.css {
 			var clazz:Class = null;
 			var re:RegExp = null;
 			
-			trace("CssStyleCollection::postProcessCss(), ", styleNames );
+			//trace("CssStyleCollection::postProcessCss(), ", styleNames );
 			
 			for( var i:int = 0;i < styleNames.length;i++ )
 			{
 				styleName = styleNames[ i ];
-				trace("*** Parsing style name :", styleName );
+				//trace("*** Parsing style name :", styleName );
 				style = getStyle( styleName );
 				for( z in style )
 				{
-					trace("*** Parsing property :", z );
+					//trace("*** Parsing property :", z );
 					value = style[ z ];
 					
-					trace("CssStyleCollection::postProcessCss(), pre-parsing: ", value  );
+					//trace("CssStyleCollection::postProcessCss(), pre-parsing: ", value  );
 					value = parser.parse( value, true );
-					trace("CssStyleCollection::postProcessCss(), post-parsing: ", value, ( value is String ) );
+					//trace("CssStyleCollection::postProcessCss(), post-parsing: ", value, ( value is String ) );
 					
 					//we've parsed the primitives
 					//now deal with css specific parsing
 					if( value is String )
 					{
 						re = /^#[0-9a-fA-F]{2,6}$/;
+						
+						/*
 						trace("CssStyleCollection::test RegExp(), ",
 							"'" + value + "'", re.test( value ) );
+						*/
+						
 						if( re.test( value ) )
 						{
 							value = parseHexNumber( value );
@@ -250,7 +254,7 @@ package com.ffsys.utils.css {
 			candidate = candidate.replace( "#", "" );
 			var parsed:Number = parseInt( candidate, 16 );
 			//var parsed:Number = Number( candidate );
-			trace("CssStyleCollection::parseHexNumber(), ", candidate, parsed );
+			//trace("CssStyleCollection::parseHexNumber(), ", candidate, parsed );
 			return parsed;
 		}
 		
