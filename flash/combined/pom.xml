@@ -10,7 +10,7 @@
 	<artifactId>ffsys-core-all</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>ffsys-core-all</name>
-	<packaging>swc</packaging>
+	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -18,21 +18,18 @@
 			<artifactId>corelib</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>io</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>utils</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -10,7 +10,7 @@
 	<artifactId>utils</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>utils</name>
-	<packaging>swc</packaging>
+	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -18,14 +18,12 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>xml</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 				
 		<dependency>
@@ -33,168 +31,144 @@
 			<artifactId>array</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>assert</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>boolean</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>byte</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>css</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>collections</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>display</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>font</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>geo</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>history</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>identifier</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>inspector</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>locale</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>merge</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>number</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>object</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>page</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>primitives</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>properties</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>random</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>regex</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>substitution</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>xml</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>internal</scope>
 		</dependency>
 	</dependencies>
 </project>
