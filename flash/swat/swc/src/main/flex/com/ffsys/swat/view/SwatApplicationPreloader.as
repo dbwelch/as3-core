@@ -44,9 +44,6 @@ package com.ffsys.swat.view {
 			super();
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
-			
-			trace("SwatApplicationPreloader::init(), ", stage.scaleMode, stage.align );
-			
 			_classes = getClassConfigurationInstance();
 			_flashvars = _classes.getFlashVariablesClassInstance( this );
 			_view = _classes.getApplicationPreloadViewInstance();
