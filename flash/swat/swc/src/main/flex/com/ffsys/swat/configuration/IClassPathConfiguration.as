@@ -48,6 +48,13 @@ package com.ffsys.swat.configuration
 		function getMainViewClassPath():String;
 		
 		/**
+		* 	Gets the class path to the configuration parser.
+		* 
+		* 	@return The configuration parser class path.
+		*/
+		function getConfigurationParserClassPath():String;		
+		
+		/**
 		* 	Gets the main application class instance.
 		*/
 		function getMainClassInstance():IApplication;
@@ -57,5 +64,10 @@ package com.ffsys.swat.configuration
 		function getFlashVariablesClassInstance( root:DisplayObject ):IFlashVariables;
 		
 		function getMainViewInstance():DisplayObject;
+		
+		/**
+		*	
+		*/
+		function getConfigurationParserInstance():IConfigurationParser;
 	}
 }

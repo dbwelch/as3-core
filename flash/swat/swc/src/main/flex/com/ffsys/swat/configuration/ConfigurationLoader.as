@@ -22,6 +22,7 @@ package com.ffsys.swat.configuration {
 
 		private var _loader:XmlLoader;
 		private var _configuration:IConfiguration;
+		private var _parser:IConfigurationParser = new ConfigurationParser();
 		
 		/**
 		*	Constructs an <code>ConfigurationLoader</code> instance.
@@ -30,6 +31,20 @@ package com.ffsys.swat.configuration {
 		{
 			super();
 			_loader = new XmlLoader();
+		}
+		
+		/**
+		*	The parser implementation to use when deserializing
+		*	configuration data.	
+		*/
+		public function get parser():IConfigurationParser
+		{
+			return _parser;
+		}
+		
+		public function set parser( parser:IConfigurationParser ):void
+		{
+			_parser = parser;
 		}
 		
 		public function get configuration():IConfiguration
@@ -128,6 +143,8 @@ package com.ffsys.swat.configuration {
 			
 			_configuration = parse( XmlResource( event.resource ).xml );
 			
+			trace("ConfigurationLoader::loadComplete(), ", _configuration );
+			
 			//cleanup
 			_loader.removeEventListener(
 				LoadEvent.RESOURCE_NOT_FOUND,
@@ -155,11 +172,13 @@ package com.ffsys.swat.configuration {
 		*/
 		private function parse( x:XML ):IConfiguration
 		{
-			var parser:ConfigurationParser =
-				new ConfigurationParser();
-			var configuration:IConfiguration = new Configuration();
-			configuration = parser.parse( x , configuration );
-			return configuration;
+			if( parser == null )
+			{
+				throw new Error( "Cannot parse a configuration document with a null parser." );
+			}
+			
+			_configuration = parser.parse( x );
+			return _configuration;
 		}
 	}
 }

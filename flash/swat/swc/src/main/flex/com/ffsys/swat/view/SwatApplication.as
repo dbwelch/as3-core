@@ -16,6 +16,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.events.RslEvent;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
+	import com.ffsys.swat.core.SwatFlashVariables;
 	
 	/**
 	*	Abstract super class for the application.
@@ -77,7 +78,10 @@ package com.ffsys.swat.view  {
 				
 				if( !_preloader )
 				{
-					_preloader = new RuntimeAssetPreloader( _flashvars );
+					_preloader = new RuntimeAssetPreloader(
+						_flashvars,
+						SwatFlashVariables(
+							_flashvars ).classPathConfiguration.getConfigurationParserInstance() );
 			
 					preloader.addEventListener(
 						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,

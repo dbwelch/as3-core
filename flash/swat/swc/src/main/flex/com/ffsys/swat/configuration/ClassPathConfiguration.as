@@ -67,6 +67,14 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@inheritDoc
 		*/
+		public function getConfigurationParserClassPath():String
+		{
+			return "com.ffsys.swat.configuration.ConfigurationParser";
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getMainClassInstance():IApplication
 		{
 			var classPath:String = getMainClassPath();
@@ -94,6 +102,9 @@ package com.ffsys.swat.configuration
 			return IApplication( instance );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getApplicationPreloadViewInstance():IApplicationPreloadView
 		{
 			var classPath:String = getPreloadViewClassPath();
@@ -121,6 +132,9 @@ package com.ffsys.swat.configuration
 			return IApplicationPreloadView( instance );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getFlashVariablesClassInstance(
 			root:DisplayObject ):IFlashVariables
 		{
@@ -148,6 +162,9 @@ package com.ffsys.swat.configuration
 			return IFlashVariables( instance );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getMainViewInstance():DisplayObject
 		{
 			var classPath:String = getMainViewClassPath();
@@ -173,6 +190,36 @@ package com.ffsys.swat.configuration
 			}
 			
 			return DisplayObject( instance );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getConfigurationParserInstance():IConfigurationParser
+		{
+			var classPath:String = getConfigurationParserClassPath();
+			var clz:Class = null;
+			
+			try
+			{
+				clz = Class(
+					getDefinitionByName( classPath ) );
+			}catch( e:Error )
+			{
+				throw new Error(
+					"Could not locate main view class with class path '"
+					+ classPath + "'" );
+			}
+			
+			var instance:Object = new clz();
+			
+			if( !( instance is IConfigurationParser ) )
+			{
+				throw new Error(
+					"The specified configuration parser is not valid." );
+			}
+			
+			return IConfigurationParser( instance );
 		}
 	}
 }

@@ -63,6 +63,8 @@ package com.ffsys.swat
 			passThroughData:Object ):void
 		{
 			var configuration:IConfiguration = _configurationLoader.configuration;
+			
+			trace("AbstractUnit::configuration(), ", configuration);
 
 			var locale:ILocale = Locale.EN_GB;
 			

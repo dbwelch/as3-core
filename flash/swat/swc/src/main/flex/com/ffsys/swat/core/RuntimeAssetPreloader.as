@@ -11,6 +11,7 @@ package com.ffsys.swat.core {
 	import com.ffsys.io.loaders.types.*;
 	
 	import com.ffsys.swat.configuration.ConfigurationLoader;
+	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.Settings;
 	
@@ -119,11 +120,16 @@ package com.ffsys.swat.core {
 		*	configuration.
 		*/
 		public function RuntimeAssetPreloader(
-			flashvars:IFlashVariables, parser:IConfigurationParser = null )
+			flashvars:IFlashVariables,
+			parser:IConfigurationParser = null )
 		{
 			super();
 			_flashvars = flashvars;
 			_configurationLoader = new ConfigurationLoader();
+			if( parser != null )
+			{
+				_configurationLoader.parser = parser;
+			}
 		}
 		
 		/**
