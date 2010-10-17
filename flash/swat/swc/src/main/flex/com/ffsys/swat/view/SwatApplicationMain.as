@@ -1,5 +1,6 @@
 package com.ffsys.swat.view {
 	
+	import flash.events.Event;
 	import flash.display.Sprite;
 	
 	import com.ffsys.swat.core.SwatFlashVariables;
@@ -24,6 +25,17 @@ package com.ffsys.swat.view {
 			super();
 		}
 		
+		/**
+		*	Gets the classes that will be linked
+		*	during the application code preload phase.
+		*	
+		*	These are the classes that the compiler will link
+		*	to the first frame to handle the preloading of the
+		*	code on the second frame.
+		*	
+		*	@return The classes	that will be linked on the
+		*	first frame of the generated movie.
+		*/
 		public function getRuntimeClasses():Array
 		{
 			return [

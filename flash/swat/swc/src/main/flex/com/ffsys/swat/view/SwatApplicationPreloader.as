@@ -3,6 +3,8 @@ package com.ffsys.swat.view {
 	import flash.display.DisplayObject;
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;	
 	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
 	
@@ -35,11 +37,16 @@ package com.ffsys.swat.view {
 		private var _view:IApplicationPreloadView;
 		
 		/**
-		*	Creates an <code>SwatApplicationPreloader</code> instance.	
+		*	Creates a <code>SwatApplicationPreloader</code> instance.	
 		*/
 		public function SwatApplicationPreloader()
 		{
 			super();
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			
+			trace("SwatApplicationPreloader::init(), ", stage.scaleMode, stage.align );
+			
 			_classes = getClassConfigurationInstance();
 			_flashvars = _classes.getFlashVariablesClassInstance( this );
 			_view = _classes.getApplicationPreloadViewInstance();

@@ -1,6 +1,6 @@
 package com.ffsys.swat.view {
 	
-	import flash.display.Sprite;
+	import flash.display.Sprite;	
 	
 	import com.ffsys.swat.events.RslEvent;
 	
@@ -21,7 +21,7 @@ package com.ffsys.swat.view {
 		*/
 		public function ApplicationPreloadView()
 		{
-			super();
+			super();			
 		}
 		
 		/**
