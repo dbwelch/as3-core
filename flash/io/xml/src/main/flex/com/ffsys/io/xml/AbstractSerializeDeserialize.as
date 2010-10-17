@@ -1,5 +1,7 @@
 package com.ffsys.io.xml {
 	
+	import flash.events.EventDispatcher;
+	
 	import com.ffsys.io.xml.Deserializer;
 	import com.ffsys.io.xml.ISerializeContract;	
 	import com.ffsys.io.xml.ISerializeDeserialize;
@@ -26,7 +28,7 @@ package com.ffsys.io.xml {
 	*	@author Mischa Williamson
 	*	@since  29.05.2007
 	*/
-	public class AbstractSerializeDeserialize extends Object
+	public class AbstractSerializeDeserialize extends EventDispatcher
 		implements ISerializeDeserialize {
 		
 		public function AbstractSerializeDeserialize()

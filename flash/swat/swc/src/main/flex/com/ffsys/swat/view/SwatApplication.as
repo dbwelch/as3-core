@@ -194,7 +194,7 @@ package com.ffsys.swat.view  {
 				preloader,
 				preloader.view );
 				
-			if( cleanup )  
+			if( cleanup ) 
 			{
 				//remove the preloader view from the display list
 				preloader.view = null;

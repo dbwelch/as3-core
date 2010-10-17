@@ -10,7 +10,6 @@ package com.ffsys.swat.core {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.types.*;
 	
-	import com.ffsys.swat.configuration.ConfigurationParser;
 	import com.ffsys.swat.configuration.ConfigurationLoader;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.Settings;
@@ -116,9 +115,11 @@ package com.ffsys.swat.core {
 		*	Creates a <code>RuntimeAssetPreloader</code> instance.
 		* 
 		* 	@param flashvars The flash variables for the application.
+		*	@param parser A parser implementation to use when parsing the
+		*	configuration.
 		*/
 		public function RuntimeAssetPreloader(
-			flashvars:IFlashVariables )
+			flashvars:IFlashVariables, parser:IConfigurationParser = null )
 		{
 			super();
 			_flashvars = flashvars;
