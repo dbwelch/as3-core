@@ -1,5 +1,7 @@
 package com.ffsys.swat.configuration {
 	
+	import flash.events.IEventDispatcher;
+	
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
@@ -23,7 +25,8 @@ package com.ffsys.swat.configuration {
 		extends IFlashVariablesAware,
 				IMessageAccess,
 				IMediaAccess,
-				IConfigurationProperties {
+				IConfigurationProperties,
+				IEventDispatcher {
 		
 		/**
 		*	The locale manager.

@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration {
 	
 	import flash.display.Bitmap;
+	import flash.events.EventDispatcher;
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;	
 	
@@ -24,7 +25,7 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class Configuration extends Object 
+	public class Configuration extends EventDispatcher 
 		implements IConfiguration {
 			
 		private var _flashvars:IFlashVariables;
