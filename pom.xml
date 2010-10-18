@@ -125,12 +125,11 @@
 				</configuration>
 				<executions>
 					
-					<!--
 				<execution>
 					<id>generate-asdoc</id>
-					<phase>install</phase>
+					<phase>asdoc</phase>
 					<goals>
-						<goal>flexmojos:asdoc</goal>
+						<goal>asdoc</goal>
 					</goals>
 					<configuration>
 						<aggregate>true</aggregate>
@@ -145,7 +144,6 @@
 					</configuration>
 				</execution>
 				
-					-->
 				</executions>
 			</plugin>
 		</plugins>
