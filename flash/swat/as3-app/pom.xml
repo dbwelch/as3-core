@@ -53,7 +53,7 @@
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/SwatMain.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
-					<debug>false</debug>
+					<debug>true</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>
 					<linkReport>true</linkReport>

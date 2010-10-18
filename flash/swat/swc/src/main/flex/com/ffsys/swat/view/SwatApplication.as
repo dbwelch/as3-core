@@ -75,7 +75,7 @@ package com.ffsys.swat.view  {
 			if( !_flashvars )
 			{
 				_flashvars = flashvars;
-				
+
 				if( !_preloader )
 				{
 					_preloader = new RuntimeAssetPreloader(

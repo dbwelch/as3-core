@@ -479,16 +479,16 @@ package com.ffsys.io.loaders.core {
 		
 		/**
 		*	@inheritDoc	
-		*/		
-		public function set resource( val:IResource ):void
-		{
-			_decorator.resource = val;
-		}
-		
+		*/				
 		public function get resource():IResource
 		{
 			return _decorator.resource;
 		}
+		
+		public function set resource( val:IResource ):void
+		{
+			_decorator.resource = val;
+		}		
 		
 		/**
 		*	@inheritDoc	

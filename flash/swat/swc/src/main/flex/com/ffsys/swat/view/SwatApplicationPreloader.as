@@ -177,6 +177,8 @@ package com.ffsys.swat.view {
 		{
 			var app:IApplication =
 				_classes.getMainClassInstance();
+			SwatFlashVariables(
+				_flashvars ).classPathConfiguration = _classes;
 			app.flashvars = _flashvars;
 			app.preloader.view = _view;
 			app.preloader.main = this;

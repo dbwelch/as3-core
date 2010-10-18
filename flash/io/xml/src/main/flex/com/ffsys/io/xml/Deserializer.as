@@ -275,10 +275,12 @@ package com.ffsys.io.xml {
 		public function setProperty(
 			obj:*, prop:String, val:*, rawStringValue:String = null ):void
 		{
+			/*
 			trace( "setProperty obj : " + obj );
 			trace( "setProperty prop : " + prop );
 			trace( "setProperty value : " + val, getQualifiedClassName( val ) );
 			trace( "setProperty rawStringValue : " + rawStringValue );
+			*/
 			
 			if( obj is IDeserializeProperty )
 			{
@@ -424,9 +426,7 @@ package com.ffsys.io.xml {
 			
 				}
 			}
-			
-			trace("Deserializer::getPrimitiveValue(), ", inputValue, propertyValue, getQualifiedClassName( propertyValue ) );
-			
+
 			return propertyValue;			
 		}
 		
@@ -528,9 +528,6 @@ package com.ffsys.io.xml {
 					_interpreter.postProcessPrimitive( obj, name, propertyValue );
 				}
 			}
-			
-			trace("Deserializer::deserializePrimitive(), ",
-				propertyValue, getQualifiedClassName( propertyValue ) );
 			
 			return propertyValue;
 		}

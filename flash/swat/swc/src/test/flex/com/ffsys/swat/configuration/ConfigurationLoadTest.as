@@ -5,6 +5,8 @@ package com.ffsys.swat.configuration
 	
 	import com.ffsys.swat.AbstractUnit;
 	
+	import com.ffsys.io.loaders.events.LoadEvent;
+	
 	import com.ffsys.swat.configuration.IConfiguration;
 	
 	/**
@@ -27,16 +29,30 @@ package com.ffsys.swat.configuration
 		{
 			super();
 		}
-	
-		[Test(async)]
-		public function loadConfiguration():void
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override protected function assertLoadedConfiguration(
+			event:LoadEvent,
+			passThroughData:Object ):void
 		{
+			super.assertLoadedConfiguration( event, passThroughData );
+			
+			/*
 			var configuration:IConfiguration = this.configuration;
 			
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.settings );
 			Assert.assertNotNull( configuration.assets );
+			*/			
+		}
+	
+		[Test(async)]
+		public function loadConfiguration():void
+		{
+			//
 		}
 	}
 }

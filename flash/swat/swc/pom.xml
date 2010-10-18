@@ -20,4 +20,17 @@
 			<type>swc</type>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.flexmojos</groupId>
+				<artifactId>flexmojos-maven-plugin</artifactId>
+				<version>${flexmojos.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<debug>true</debug>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>	
 </project>

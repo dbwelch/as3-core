@@ -1,6 +1,7 @@
 package com.ffsys.swat
 {
 	import flash.events.Event;
+	import flash.net.URLRequest;
 	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
@@ -48,7 +49,7 @@ package com.ffsys.swat
 				LoadEvent.DATA,
 				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
 
-			_configurationLoader.load( TEST_XML_PATH );						
+			_configurationLoader.load( new URLRequest( TEST_XML_PATH ) );						
 		}		
 		
 		[After]
@@ -58,27 +59,33 @@ package com.ffsys.swat
 			_configuration = null;
 		}
 		
-		private function assertLoadedConfiguration(
+		/**
+		*	Performs assertions once the configuration data has been
+		*	loaded.
+		*/
+		protected function assertLoadedConfiguration(
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			var configuration:IConfiguration = _configurationLoader.configuration;
-			
 			trace("AbstractUnit::configuration(), ", configuration);
+						
+			var configuration:IConfiguration = _configurationLoader.configuration;	
+			
+			Assert.assertNotNull( configuration );
 
 			var locale:ILocale = Locale.EN_GB;
 			
-			/*
+			
 			trace("ConfigurationLoadTest::assertLoadedConfiguration(), ",
 				configuration,
 				configuration.locales,
 				configuration.settings,
 				configuration.assets );
-			*/
+			
 			
 			configuration.locales.lang = locale.getLanguage();
 			
-			Assert.assertNotNull( configuration );
+			
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.settings );
 			Assert.assertNotNull( configuration.assets );

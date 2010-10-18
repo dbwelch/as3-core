@@ -122,8 +122,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<targetPlayer>${target.player}</targetPlayer>
-<!-- TODO: move debug configuration to maven profiles? -->
-					<debug>false</debug>
+					<debug>true</debug>
 					<locales>
 						<locale>en_US</locale>
 					</locales>

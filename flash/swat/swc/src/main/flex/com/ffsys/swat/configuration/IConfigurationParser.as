@@ -1,5 +1,7 @@
 package com.ffsys.swat.configuration
 {
+	import com.ffsys.io.xml.IParser;
+	
 	/**
 	*  	Describes the contract for the configuration
 	*	xml parser.
@@ -10,7 +12,7 @@ package com.ffsys.swat.configuration
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public interface IConfigurationParser 
+	public interface IConfigurationParser extends IParser
 	{
 		/**
 		*	Parses the configuration data into an object structure.

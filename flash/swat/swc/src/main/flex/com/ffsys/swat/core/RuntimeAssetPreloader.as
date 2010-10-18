@@ -3,6 +3,7 @@ package com.ffsys.swat.core {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.net.URLRequest;
 	
 	import com.ffsys.core.IFlashVariables;
 	
@@ -220,7 +221,7 @@ package com.ffsys.swat.core {
 				configurationLoadComplete, false, 0, false );
 				
 			_configurationLoader.load(
-				SwatFlashVariables( _flashvars ).configuration );	
+				new URLRequest( SwatFlashVariables( _flashvars ).configuration ) );
 				
 			_phase = CONFIGURATION_PHASE;
 		}
@@ -233,7 +234,7 @@ package com.ffsys.swat.core {
 		{
 			//keep a reference to the configuration
 			_configuration = _configurationLoader.configuration;
-			
+
 			//update the selected locale
 			_configuration.locales.lang = SwatFlashVariables( _flashvars ).lang;
 			

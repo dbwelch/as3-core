@@ -21,6 +21,12 @@ package com.ffsys.swat.configuration {
 	*/
 	public class ConfigurationParser extends Parser
 		implements IConfigurationParser {
+			
+		/**
+		*	The node name for a configuration.
+		*/
+		static public const CONFIGURATION_NAME:String =
+			"configuration";
 		
 		/**
 		*	The node name for a collection of locales.
@@ -245,6 +251,12 @@ package com.ffsys.swat.configuration {
 			super.initialize();
 			
 			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
+			
+			classNodeNameMap.add(
+				Configuration,
+				CONFIGURATION_NAME,
+				CONFIGURATION_NAME,
+				false );
 			
 			classNodeNameMap.add(
 				LocaleManager,

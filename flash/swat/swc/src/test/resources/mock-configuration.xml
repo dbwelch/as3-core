@@ -1,19 +1,127 @@
 <?xml version="1.0"?>
 <configuration>
-	
-	<!-- available locales -->
 	<locales>
-	
-		<settings>
-			<assets-path>assets/swf/application-assets.swf</assets-path>
-		</settings>
-	
-		<assets id="main">
-		</assets>
 		
-		<locale lang="en" country="GB" />
-		<locale lang="es" country="ES" />
-		<locale lang="de" country="DE" />
-		<locale lang="fr" country="FR" />
+		<!-- applies to all locales -->
+		
+		<settings>
+			
+		</settings>
+		
+		<assets id="main">
+			
+		</assets>
+
+		<!-- resources for all locales -->
+		<resources>
+			
+			<rsls>
+				<rsl>
+					<trusted>true</trusted>
+					<url>assets/swf/application-assets.swf</url>
+				</rsl>
+			</rsls>
+			
+				
+			<xml>
+				<resource>
+					<url>assets/xml/test.xml</url>
+				</resource>
+			</xml>
+			
+			<css>
+				<resource>
+					<id>test-css</id>
+					<url>assets/css/test.css</url>
+				</resource>
+				<resource>
+					<id>test-filters</id>
+					<url>assets/css/filters.css</url>
+				</resource>
+			</css>
+			
+			<messages>
+				<resource>
+					<url>assets/properties/messages-common.properties</url>
+				</resource>
+			</messages>
+		
+			<errors>
+				<resource>
+					<url>assets/properties/errors-common.properties</url>
+				</resource>
+			</errors>
+			
+			<images>
+				<resource>
+					<id>garden-001</id>
+					<url>assets/images/garden-001.jpg</url>
+				</resource>
+				<resource>
+					<id>garden-002</id>
+					<url>assets/images/garden-002.jpg</url>
+				</resource>
+			</images>
+		</resources>
+		
+		<!-- The default fallback locale -->
+		<default-locale lang="en" country="GB" />
+		
+		<!-- Locale definitions -->
+		<locale lang="en" country="GB">
+			
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-en_GB.properties</url>
+					</resource>
+				</messages>
+			
+				<errors>
+					<resource>
+						<url>assets/properties/errors-en_GB.properties</url>
+					</resource>
+				</errors>
+			
+				<fonts>
+					<resource>
+						<url>assets/fonts/fonts-en_GB.swf</url>
+					</resource>
+				</fonts>
+				
+			</resources>
+		</locale>
+		
+		<locale lang="es" country="ES">
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-es_ES.properties</url>
+					</resource>
+				</messages>
+			</resources>
+		</locale>
+		
+		<locale lang="de" country="DE">
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-de_DE.properties</url>
+					</resource>
+				</messages>
+			</resources>
+		</locale>
+		
+		<locale lang="fr" country="FR">
+			<resources>
+				<messages>
+					<resource>
+						<url>assets/properties/messages-fr_FR.properties</url>
+					</resource>
+				</messages>
+			</resources>
+		</locale>
+		
 	</locales>
+	
 </configuration>
