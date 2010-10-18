@@ -73,9 +73,35 @@ package com.ffsys.core {
 		        
 				if( this.hasOwnProperty( key ) )
 				{
-					this[ key ] = value;
+					value = convert( key, value );
+					try
+					{
+						this[ key ] = value;
+					}catch( e:Error )
+					{
+						throw new Error( "Could not assign flash variable "
+							+ "'" + key + "', with value '" + value + "'." );
+					}
 				}
 		    }
+		}
+		
+		/**
+		*	Allows the string property values to be converted prior
+		*	to attempting to set the property on this instance.
+		*	
+		*	The default implementation simply returns the value intact,
+		*	sub-classes can override this method to perform type conversion
+		*	prior to setting the property.
+		*	
+		*	@param name The name of the property about to be set.
+		*	@param value The value for the property.
+		*	
+		*	@return The converted value of the original value.
+		*/
+		protected function convert( name:String, value:String ):*
+		{
+			return value;
 		}
 	}
 }

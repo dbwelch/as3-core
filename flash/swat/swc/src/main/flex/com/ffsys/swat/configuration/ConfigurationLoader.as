@@ -30,7 +30,6 @@ package com.ffsys.swat.configuration {
 		{
 			super();
 			this.parser = new ConfigurationParser();
-			this.root = new Configuration();
 		}
 		
 		/**

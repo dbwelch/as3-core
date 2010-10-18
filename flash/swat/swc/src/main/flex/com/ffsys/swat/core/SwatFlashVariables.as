@@ -2,6 +2,8 @@ package com.ffsys.swat.core {
 	
 	import flash.display.DisplayObject;
 	
+	import com.ffsys.utils.primitives.PrimitiveParser;
+	
 	import com.ffsys.core.AbstractFlashVars;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	
@@ -17,7 +19,7 @@ package com.ffsys.swat.core {
 	*/
 	public class SwatFlashVariables extends AbstractFlashVars {
 		
-		private var _lang:String = "en_GB";
+		private var _lang:String = "en-GB";
 		private var _configuration:String = "assets/xml/configuration.xml";
 		private var _classes:String = null;
 		private var _classPathConfiguration:IClassPathConfiguration;
@@ -113,6 +115,17 @@ package com.ffsys.swat.core {
 			classPathConfiguration:IClassPathConfiguration ):void
 		{
 			_classPathConfiguration = classPathConfiguration;
+		}
+		
+		/**
+		*	Converts the value to a primitive value.
+		*	
+		*	@inheritDoc
+		*/
+		override protected function convert( name:String, value:String ):*
+		{
+			var parser:PrimitiveParser = new PrimitiveParser();
+			return parser.parse( value );
 		}
 	}
 }

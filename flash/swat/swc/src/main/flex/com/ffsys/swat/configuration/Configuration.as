@@ -3,7 +3,7 @@ package com.ffsys.swat.configuration {
 	import flash.display.Bitmap;
 	import flash.events.EventDispatcher;
 	import flash.filters.BitmapFilter;
-	import flash.media.Sound;	
+	import flash.media.Sound;
 	
 	import com.ffsys.core.IFlashVariables;
 	

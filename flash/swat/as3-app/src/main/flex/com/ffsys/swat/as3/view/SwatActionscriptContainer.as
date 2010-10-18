@@ -173,32 +173,32 @@ package com.ffsys.swat.as3.view {
 			
 			var graphic:DisplayObject = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilter( "bevel" ) ];
+			//graphic.filters = [ utils.getFilter( "bevel" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilter( "drop-shadow" ) ];
+			//graphic.filters = [ utils.getFilter( "drop-shadow" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilter( "color-matrix" ) ];
+			//graphic.filters = [ utils.getFilter( "color-matrix" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilter( "glow" ) ];
+			//graphic.filters = [ utils.getFilter( "glow" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilter( "gradient-glow" ) ];
+			//graphic.filters = [ utils.getFilter( "gradient-glow" ) ];
 			vbox.addChild( graphic );
 			
 			graphic = new SquareGraphic( 50, null, fill );
 			IComponentGraphic( graphic ).draw();
-			graphic.filters = [ utils.getFilter( "gradient-bevel" ) ];
+			//graphic.filters = [ utils.getFilter( "gradient-bevel" ) ];
 			vbox.addChild( graphic );
 			
 			addChild( vbox );

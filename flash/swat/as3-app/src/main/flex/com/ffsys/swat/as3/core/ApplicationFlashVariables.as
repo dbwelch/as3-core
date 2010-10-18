@@ -17,6 +17,9 @@ package com.ffsys.swat.as3.core {
 	public class ApplicationFlashVariables extends SwatFlashVariables {
 		
 		private var _mode:String = "auto";
+		
+		private var _test:Boolean;
+		
 		/**
 		*	Creates a <code>ApplicationFlashVariables</code> instance.
 		*	
@@ -45,6 +48,17 @@ package com.ffsys.swat.as3.core {
 		public function set mode( mode:String ):void
 		{
 			_mode = mode;
+		}
+		
+		public function get test():Boolean
+		{
+			return _test;
+		}
+		
+		public function set test( val:Boolean ):void
+		{
+			_test = val;
+			trace("ApplicationFlashVariables::test(), TEST VALUE: ", test );
 		}
 	}
 }
