@@ -1096,6 +1096,13 @@ package com.ffsys.io.xml {
 				return deserializePrimitive( x, null, name );
 			}
 			
+			//no default object specified and the class node name
+			//map has an instance assigned to use as the root
+			if( !obj && ( nodeNameMap.rootInstance != null ) )
+			{
+				obj = nodeNameMap.rootInstance;
+			}
+			
 			if( !obj )
 			{
 				//create the root instance if we are not deserializing into

@@ -25,8 +25,11 @@ package com.ffsys.swat.configuration {
 		/**
 		*	The node name for a configuration.
 		*/
+		
+		/*
 		static public const CONFIGURATION_NAME:String =
 			"configuration";
+		*/
 		
 		/**
 		*	The node name for a collection of locales.
@@ -75,102 +78,6 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const RSL_NAME:String =
 			"rsl";
-			
-		/**
-		*	The node name for a collection of default values.	
-		*/
-		static public const DEFAULTS_NAME:String =
-			"defaults";
-			
-		/**
-		*	The node name for a collection of default textfield properties.	
-		*/
-		static public const TEXTFIELD_DEFAULTS_NAME:String =
-			"textfield-defaults";
-			
-		/**
-		*	The node name for a collection of default textformat properties.	
-		*/
-		static public const TEXTFORMAT_DEFAULTS_NAME:String =
-			"textformat-defaults";
-
-		/**
-		*	The node name for a collection of filters.
-		*/
-		static public const FILTERS_NAME:String =
-			"filters";
-			
-		/**
-		*	The node name for a bevel filter.
-		*/
-		static public const BEVEL_FILTER_NAME:String =
-			"bevel-filter";
-			
-		/**
-		*	The node name for a drop shadow filter.
-		*/
-		static public const DROP_SHADOW_FILTER_NAME:String =
-			"drop-shadow-filter";
-			
-		/**
-		*	The node name for a color matrix filter.
-		*/
-		static public const COLOR_MATRIX_FILTER_NAME:String =
-			"color-matrix-filter";
-			
-		/**
-		*	The node name for a glow filter.
-		*/
-		static public const GLOW_FILTER_NAME:String =
-			"glow-filter";
-			
-		/**
-		*	The node name for a gradient glow filter.
-		*/
-		static public const GRADIENT_GLOW_FILTER_NAME:String =
-			"gradient-glow-filter";
-			
-		/**
-		*	The node name for a gradient bevel filter.
-		*/
-		static public const GRADIENT_BEVEL_FILTER_NAME:String =
-			"gradient-bevel-filter";
-
-		/**
-		*	The node name for a convolution filter.
-		*/
-		static public const CONVOLUTION_FILTER_NAME:String =
-			"convolution-filter";
-
-		/**
-		*	The node name for an array of alphas.
-		*/
-		static public const ALPHAS_NAME:String =
-			"alphas";
-			
-		/**
-		*	The node name for an alpha value.
-		*/
-		static public const ALPHA_NAME:String =
-			"alpha";			
-
-		/**
-		*	The node name for an array of ratios.
-		*/
-		static public const RATIOS_NAME:String =
-			"ratios";
-
-		/**
-		*	The node name for an array of colors.
-		*/
-		static public const COLORS_NAME:String =
-			"colors";
-			
-		/**
-		*	The node name for an array of matrix values.
-		*/
-		static public const MATRIX_NAME:String =
-			"matrix";
 			
 		/**
 		*	The node name for application messages.
@@ -252,11 +159,15 @@ package com.ffsys.swat.configuration {
 			
 			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
 			
+			/*
 			classNodeNameMap.add(
 				Configuration,
 				CONFIGURATION_NAME,
 				CONFIGURATION_NAME,
 				false );
+			*/
+			
+			classNodeNameMap.rootInstance = new Configuration();
 			
 			classNodeNameMap.add(
 				LocaleManager,
@@ -352,106 +263,7 @@ package com.ffsys.swat.configuration {
 				RuntimeResource,
 				RESOURCE_NAME,
 				RESOURCE_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				Defaults,
-				DEFAULTS_NAME,
-				DEFAULTS_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				Object,
-				TEXTFIELD_DEFAULTS_NAME,
-				"textfield",
-				false );
-				
-			classNodeNameMap.add(
-				Object,
-				TEXTFORMAT_DEFAULTS_NAME,
-				"textformat",
-				false );
-				
-			//filters
-			classNodeNameMap.add(
-				FilterCollection,
-				FILTERS_NAME,
-				FILTERS_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				BevelFilterConfiguration,
-				BEVEL_FILTER_NAME,
-				BEVEL_FILTER_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				DropShadowFilterConfiguration,
-				DROP_SHADOW_FILTER_NAME,
-				DROP_SHADOW_FILTER_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				ColorMatrixFilterConfiguration,
-				COLOR_MATRIX_FILTER_NAME,
-				COLOR_MATRIX_FILTER_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				GlowFilterConfiguration,
-				GLOW_FILTER_NAME,
-				GLOW_FILTER_NAME,
-				false );				
-				
-			classNodeNameMap.add(
-				GradientGlowFilterConfiguration,
-				GRADIENT_GLOW_FILTER_NAME,
-				GRADIENT_GLOW_FILTER_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				GradientBevelFilterConfiguration,
-				GRADIENT_BEVEL_FILTER_NAME,
-				GRADIENT_BEVEL_FILTER_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				ConvolutionFilterConfiguration,
-				CONVOLUTION_FILTER_NAME,
-				CONVOLUTION_FILTER_NAME,
-				false );											
-			
-			classNodeNameMap.add(
-				Array,
-				ALPHAS_NAME,
-				ALPHAS_NAME,
-				false );
-			
-			/*
-			classNodeNameMap.add(
-				Number,
-				ALPHA_NAME,
-				ALPHA_NAME,
-				false );
-			*/
-			
-			classNodeNameMap.add(
-				Array,
-				RATIOS_NAME,
-				RATIOS_NAME,
-				false );				
-
-			classNodeNameMap.add(
-				Array,
-				COLORS_NAME,
-				COLORS_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				Array,
-				MATRIX_NAME,
-				MATRIX_NAME,
-				false );								
+				false );			
 		}
 		
 		/**

@@ -24,6 +24,11 @@ package com.ffsys.io.xml {
 	public class ClassNodeNameMap extends Object {
 		
 		/**
+		*	@private	
+		*/
+		private var _rootInstance:Object;
+		
+		/**
 		*	@private
 		*	
 		*	The default class to use if no mapping
@@ -55,7 +60,7 @@ package com.ffsys.io.xml {
 		*	@param defaultClass The default <code>Class</code>
 		*	to use when deserializing XML elements.
 		*/
-		public function ClassNodeNameMap( defaultClass:Class )
+		public function ClassNodeNameMap( defaultClass:Class = null )
 		{
 			super();
 			
@@ -67,12 +72,23 @@ package com.ffsys.io.xml {
 				
 			_propertyNameDictionary =
 				new Dictionary( true );
-			
-			if( defaultClass )
-			{
-				_default = defaultClass;
-				add( defaultClass );
-			}
+				
+			this.defaultClass = defaultClass;
+		}
+		
+		/**
+		*	An instance to use as the root of the object
+		*	graph if none is specified when the deserialization
+		*	was started.	
+		*/
+		public function get rootInstance():Object
+		{
+			return _rootInstance;
+		}
+		
+		public function set rootInstance( value:Object ):void
+		{
+			_rootInstance = value;
 		}
 		
 		/**

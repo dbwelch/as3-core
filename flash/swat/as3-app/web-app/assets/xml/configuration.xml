@@ -12,6 +12,7 @@
 			
 		</assets>
 		
+		<!--
 		<defaults>
 			<textfield-defaults>
 				<embedFonts>true</embedFonts>
@@ -137,6 +138,7 @@
 				</matrix>
 			</convolution-filter>
 		</filters>
+		-->
 		
 		<!-- resources for all locales -->
 		<resources>

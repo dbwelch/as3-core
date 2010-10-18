@@ -53,16 +53,13 @@
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/SwatMain.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
-					<debug>true</debug>
+					<debug>false</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>
 					<linkReport>true</linkReport>
 					<configurationReport>true</configurationReport>
 					<defaultBackgroundColor>0</defaultBackgroundColor>
-					
-					<defaultSizeWidth>980</defaultSizeWidth>
-					<defaultSizeHeight>480</defaultSizeHeight>
-					
+
 					<defaultSize>
 						<width>980</width>
 						<height>480</height>
