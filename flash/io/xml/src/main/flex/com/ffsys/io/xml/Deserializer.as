@@ -2,6 +2,9 @@ package com.ffsys.io.xml {
 	
 	import flash.utils.getDefinitionByName;
 	
+	//-->
+	import flash.utils.getQualifiedClassName;
+	
 	import com.ffsys.io.xml.DeserializeError;
 	
 	import com.ffsys.utils.array.ArrayUtils;
@@ -272,24 +275,10 @@ package com.ffsys.io.xml {
 		public function setProperty(
 			obj:*, prop:String, val:*, rawStringValue:String = null ):void
 		{
-			/*
-			trace( "setProperty : " + obj );
-			trace( "setProperty : " + prop );
-			trace( "setProperty : " + val );
-			*/
-			/*
-			if( prop == "price" )
-			{
-				trace("Deserializer::setProperty(), price is " + val );
-			}
-			*/
-			
-			/*
-			if( prop == "price" && ( val == 0 ) )
-			{
-				trace("Deserializer::setProperty(), zero price found on Object " + obj );
-			}
-			*/
+			trace( "setProperty obj : " + obj );
+			trace( "setProperty prop : " + prop );
+			trace( "setProperty value : " + val, getQualifiedClassName( val ) );
+			trace( "setProperty rawStringValue : " + rawStringValue );
 			
 			if( obj is IDeserializeProperty )
 			{
@@ -436,6 +425,8 @@ package com.ffsys.io.xml {
 				}
 			}
 			
+			trace("Deserializer::getPrimitiveValue(), ", inputValue, propertyValue, getQualifiedClassName( propertyValue ) );
+			
 			return propertyValue;			
 		}
 		
@@ -524,7 +515,9 @@ package com.ffsys.io.xml {
 				//if we're not parsing from an attribute
 				if( !attribute )
 				{
-					setProperty( obj, name, propertyValue, getNodeTextValue( node ) );
+					//setProperty( obj, name, propertyValue, getNodeTextValue( node ) );
+					
+					setProperty( obj, name, propertyValue );
 				}
 			}
 			
@@ -534,7 +527,10 @@ package com.ffsys.io.xml {
 				{
 					_interpreter.postProcessPrimitive( obj, name, propertyValue );
 				}
-			}			
+			}
+			
+			trace("Deserializer::deserializePrimitive(), ",
+				propertyValue, getQualifiedClassName( propertyValue ) );
 			
 			return propertyValue;
 		}

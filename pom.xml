@@ -32,6 +32,15 @@
 			<version>${flex.version}</version>
 			<type>pom</type>
 		</dependency>
+		
+		<!-- declared to prevent compiler style warnings when compiling unit tests -->
+		<dependency>
+		    <groupId>com.adobe.flex.framework</groupId>
+		    <artifactId>spark</artifactId>
+		    <type>swc</type>
+		    <version>${flex.version}</version>
+		    <scope>theme</scope>
+		</dependency>		
 	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
@@ -125,29 +134,44 @@
 				</configuration>
 				<executions>
 					
-				<execution>
-					<id>generate-asdoc</id>
-					<phase>asdoc</phase>
-					<goals>
-						<goal>asdoc</goal>
-					</goals>
-					<configuration>
-						<aggregate>true</aggregate>
-						<outputDirectory>${project.build.directory}/asdoc</outputDirectory>
-						<sourcePaths>
-							<path>${project.build.sourceDirectory}</path>
-							<path>${project.build.testSourceDirectory}</path>
-						</sourcePaths>
-						<excludeClasses>
-							<class>TestRunner</class>
-						</excludeClasses>
-					</configuration>
-				</execution>
+					<!--
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+						<configuration>
+							
+						</configuration>
+					</execution>					
+					-->
+					
+					<execution>
+						<id>generate-asdoc</id>
+						<phase>asdoc</phase>
+						<goals>
+							<goal>asdoc</goal>
+						</goals>
+						<configuration>
+							<aggregate>true</aggregate>
+							<outputDirectory>${project.build.directory}/asdoc</outputDirectory>
+							<sourcePaths>
+								<path>${project.build.sourceDirectory}</path>
+								<path>${project.build.testSourceDirectory}</path>
+							</sourcePaths>
+							<excludeClasses>
+								<class>TestRunner</class>
+							</excludeClasses>
+						</configuration>
+					</execution>
 				
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+	
+	<!--
 	<reporting>
 		<plugins>
 			<plugin>
@@ -157,4 +181,6 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	-->
+	
 </project>

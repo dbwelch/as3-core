@@ -16,6 +16,5 @@ package com.ffsys.io.loaders.resources {
 	public interface IResourceElement
 		extends IDestroy,
 				IStringIdentifier {
-
 	}
 }

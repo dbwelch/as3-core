@@ -32,6 +32,9 @@ package com.ffsys.io.loaders.types {
 			super( request, options );
 		}		
 		
+		/**
+		*	@inheritDoc	
+		*/
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{

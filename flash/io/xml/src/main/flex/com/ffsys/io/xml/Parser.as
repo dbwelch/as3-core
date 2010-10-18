@@ -211,5 +211,11 @@ package com.ffsys.io.xml {
 			//--> node is deserialized to
 			_classNodeNameMap.add( _root );
 		}
+		
+
+		public function deserialize( x:XML, target:Object = null ):Object
+		{
+			return _deserializer.deserialize( x, target );
+		}
 	}
 }

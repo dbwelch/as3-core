@@ -30,44 +30,56 @@ package com.ffsys.io.loaders.resources {
 			this.bytesTotal = bytesTotal;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get bytesTotal():uint
+		{
+			return _bytesTotal;
+		}		
+		
 		public function set bytesTotal( value:uint ):void
 		{
 			_bytesTotal = value;
 		}
 		
-		public function get bytesTotal():uint
+		/**
+		*	@inheritDoc	
+		*/
+		public function get data():Object
 		{
-			return _bytesTotal;
-		}
+			return _data;
+		}		
 		
 		public function set data( value:Object ):void
 		{
 			_data = value;
-		}		
-		
-		public function get data():Object
-		{
-			return _data;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get uri():String
+		{
+			return _uri;
+		}				
 		
 		public function set uri( val:String ):void
 		{
 			_uri = val;
-		}		
-		
-		public function get uri():String
-		{
-			return _uri;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get id():String
+		{
+			return _id;
+		}		
 		
 		public function set id( val:String ):void
 		{
 			_id = val;
-		}		
-		
-		public function get id():String
-		{
-			return _id;
 		}
 		
 		/**

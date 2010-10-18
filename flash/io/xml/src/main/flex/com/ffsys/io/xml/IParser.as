@@ -69,5 +69,16 @@ package com.ffsys.io.xml {
 		*/		
 		function set node( val:Class ):void;
 		function get node():Class;	
+		
+		/**
+		*	Proxies the deserialization logic to the encapsulated deserializer
+		*	and returns the deserialized object.
+		*	
+		*	@param x The XML document.
+		*	@param target A target object to deserialize into.
+		*	
+		*	@return The deserialized object.
+		*/
+		function deserialize( x:XML, target:Object = null ):Object;
 	}
 }
