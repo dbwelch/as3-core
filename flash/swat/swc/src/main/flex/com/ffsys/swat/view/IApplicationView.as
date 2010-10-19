@@ -26,6 +26,7 @@ package com.ffsys.swat.view
 				IDestroy,
 				IStyleAware
 	{
+		
 		/**
 		*	The strategy used to apply styles.
 		*/

@@ -29,7 +29,6 @@ package com.ffsys.swat.configuration {
 		public function ConfigurationLoader()
 		{
 			super();
-			this.parser = new ConfigurationParser();
 		}
 		
 		/**

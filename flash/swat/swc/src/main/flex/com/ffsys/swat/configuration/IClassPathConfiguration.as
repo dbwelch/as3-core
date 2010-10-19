@@ -85,7 +85,7 @@ package com.ffsys.swat.configuration
 		/**
 		*	Gets the main view instance.
 		*	
-		*	@return The main view instance.	
+		*	@return The main view instance.
 		*/
 		function getMainViewInstance():DisplayObject;
 		

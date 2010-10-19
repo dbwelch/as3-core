@@ -87,9 +87,6 @@ package com.ffsys.swat.view  {
 					
 					parser.classNodeNameMap.rootInstance =
 						classPathConfiguration.getConfigurationInstance();
-						
-					trace("SwatApplication::flashvars(), ASSIGNED ROOT INSTANCE: ",
-						parser.classNodeNameMap.rootInstance );
 					
 					_preloader = new RuntimeAssetPreloader(
 						_flashvars,
