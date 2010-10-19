@@ -75,6 +75,8 @@ package com.ffsys.io.xml
 			Assert.assertTrue( resource.data.integerValue is int );
 			Assert.assertEquals( 1.67, resource.data.floatValue );
 			Assert.assertTrue( resource.data.floatValue is Number );
+			
+			Assert.assertEquals( 100, resource.data.hyphenTest );
 						
 			//trace("PrimitiveDocumentTest::assertLoadedDocument(), ", resource.data.floatValue );
 		}

@@ -8,4 +8,5 @@
 	<nullValue>null</nullValue>
 	<integerValue>10</integerValue>
 	<floatValue>1.67</floatValue>
+	<hyphen-test>100</hyphen-test>
 </object>
