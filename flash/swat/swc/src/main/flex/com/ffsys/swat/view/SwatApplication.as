@@ -14,8 +14,9 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;
-	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
+	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.core.SwatFlashVariables;
 	
 	/**
@@ -78,10 +79,21 @@ package com.ffsys.swat.view  {
 
 				if( !_preloader )
 				{
+					var classPathConfiguration:IClassPathConfiguration = 
+						SwatFlashVariables( _flashvars ).classPathConfiguration;
+					
+					var parser:IConfigurationParser = 
+						classPathConfiguration.getConfigurationParserInstance();
+					
+					parser.classNodeNameMap.rootInstance =
+						classPathConfiguration.getConfigurationInstance();
+						
+					trace("SwatApplication::flashvars(), ASSIGNED ROOT INSTANCE: ",
+						parser.classNodeNameMap.rootInstance );
+					
 					_preloader = new RuntimeAssetPreloader(
 						_flashvars,
-						SwatFlashVariables(
-							_flashvars ).classPathConfiguration.getConfigurationParserInstance() );
+						parser );
 			
 					preloader.addEventListener(
 						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,

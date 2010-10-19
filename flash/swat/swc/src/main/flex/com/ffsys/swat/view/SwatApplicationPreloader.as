@@ -4,7 +4,7 @@ package com.ffsys.swat.view {
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;	
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
 	
@@ -20,7 +20,7 @@ package com.ffsys.swat.view {
 	*	The main application preloader.
 	*	
 	*	This handles loading of the main code base
-	*	and then differs to the runtime asset preloader
+	*	and then defers to the runtime asset preloader
 	*	for the remaining assets.
 	*
 	*	@langversion ActionScript 3.0
@@ -45,7 +45,7 @@ package com.ffsys.swat.view {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			_classes = getClassConfigurationInstance();
-			_flashvars = _classes.getFlashVariablesClassInstance( this );
+			_flashvars = _classes.getFlashVariablesInstance( this );
 			_view = _classes.getApplicationPreloadViewInstance();
 			addEventListener( Event.ADDED_TO_STAGE, created );
 		}

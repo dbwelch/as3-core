@@ -75,6 +75,14 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@inheritDoc
 		*/
+		public function getConfigurationClassPath():String
+		{
+			return "com.ffsys.swat.configuration.Configuration";
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getMainClassInstance():IApplication
 		{
 			var classPath:String = getMainClassPath();
@@ -117,7 +125,7 @@ package com.ffsys.swat.configuration
 			}catch( e:Error )
 			{
 				throw new Error(
-					"Could not locate application preload view class with class path '"
+					"Could not locate application preload view with class path '"
 					+ classPath + "'" );
 			}
 			
@@ -135,7 +143,7 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@inheritDoc
 		*/
-		public function getFlashVariablesClassInstance(
+		public function getFlashVariablesInstance(
 			root:DisplayObject ):IFlashVariables
 		{
 			var classPath:String = getFlashVariablesClassPath();
@@ -148,7 +156,7 @@ package com.ffsys.swat.configuration
 			}catch( e:Error )
 			{
 				throw new Error(
-					"Could not locate flash variables application class with class path '"
+					"Could not locate flash variables with class path '"
 					+ classPath + "'" );
 			}
 			
@@ -156,7 +164,7 @@ package com.ffsys.swat.configuration
 			
 			if( !( instance is SwatFlashVariables ) )
 			{
-				throw new Error( "The flash variables class does not adhere to the flash variables contract." );
+				throw new Error( "The flash variables class is not valid, interface implementation is incorrect." );
 			}
 			
 			return IFlashVariables( instance );
@@ -177,7 +185,7 @@ package com.ffsys.swat.configuration
 			}catch( e:Error )
 			{
 				throw new Error(
-					"Could not locate main view class with class path '"
+					"Could not locate main view with class path '"
 					+ classPath + "'" );
 			}
 			
@@ -207,7 +215,7 @@ package com.ffsys.swat.configuration
 			}catch( e:Error )
 			{
 				throw new Error(
-					"Could not locate main view class with class path '"
+					"Could not configuration parser with class path '"
 					+ classPath + "'" );
 			}
 			
@@ -216,10 +224,40 @@ package com.ffsys.swat.configuration
 			if( !( instance is IConfigurationParser ) )
 			{
 				throw new Error(
-					"The specified configuration parser is not valid." );
+					"The specified configuration parser is not valid, interface implementation is incorrect." );
 			}
 			
 			return IConfigurationParser( instance );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/		
+		public function getConfigurationInstance():IConfiguration
+		{
+			var classPath:String = getConfigurationClassPath();
+			var clz:Class = null;
+			
+			try
+			{
+				clz = Class(
+					getDefinitionByName( classPath ) );
+			}catch( e:Error )
+			{
+				throw new Error(
+					"Could not locate configuration with class path '"
+					+ classPath + "'" );
+			}
+			
+			var instance:Object = new clz();
+			
+			if( !( instance is IConfiguration ) )
+			{
+				throw new Error(
+					"The specified configuration is not valid, interface implementation is incorrect." );
+			}
+			
+			return IConfiguration( instance );
 		}
 	}
 }

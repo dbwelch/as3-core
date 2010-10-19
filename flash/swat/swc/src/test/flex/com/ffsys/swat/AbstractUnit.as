@@ -12,7 +12,9 @@ package com.ffsys.swat
 	import com.ffsys.utils.locale.Locale;
 	
 	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.Configuration;
 	import com.ffsys.swat.configuration.ConfigurationLoader;
+	import com.ffsys.swat.configuration.ConfigurationParser;
 	import com.ffsys.swat.events.ConfigurationEvent;
 	
 	/**
@@ -45,6 +47,10 @@ package com.ffsys.swat
      	public function setUp():void
 		{
 			_configurationLoader = new ConfigurationLoader();
+			_configurationLoader.parser = new ConfigurationParser();
+			_configurationLoader.parser.classNodeNameMap.rootInstance =
+				new Configuration();
+
 			_configurationLoader.addEventListener(
 				LoadEvent.DATA,
 				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
@@ -67,7 +73,7 @@ package com.ffsys.swat
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			trace("AbstractUnit::configuration(), ", configuration);
+			//trace("AbstractUnit::configuration(), ", configuration);
 						
 			var configuration:IConfiguration = _configurationLoader.configuration;	
 			
@@ -75,13 +81,13 @@ package com.ffsys.swat
 
 			var locale:ILocale = Locale.EN_GB;
 			
-			
-			trace("ConfigurationLoadTest::assertLoadedConfiguration(), ",
+			/*
+			trace("AbstractUnit::assertLoadedConfiguration(), ",
 				configuration,
 				configuration.locales,
 				configuration.settings,
 				configuration.assets );
-			
+			*/
 			
 			configuration.locales.lang = locale.getLanguage();
 			

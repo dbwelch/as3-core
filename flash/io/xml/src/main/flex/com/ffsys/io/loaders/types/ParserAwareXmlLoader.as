@@ -119,15 +119,15 @@ package com.ffsys.io.loaders.types {
 			if( x )
 			{
 				var parsed:Object = this.parser.deserialize( x, root );
-				
-				resource = getResource( parsed, uri, bytesTotal );
+
+				this.resource = getResource( parsed, uri, bytesTotal );
 				
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.DATA,
 					event,
 					this,
 					ObjectResource( resource ) );
-					
+				
 				if( queue )
 				{
 					queue.addResource( this );

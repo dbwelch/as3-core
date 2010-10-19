@@ -167,7 +167,7 @@ package com.ffsys.swat.configuration {
 				false );
 			*/
 			
-			classNodeNameMap.rootInstance = new Configuration();
+			//classNodeNameMap.rootInstance = new Configuration();
 			
 			classNodeNameMap.add(
 				LocaleManager,
