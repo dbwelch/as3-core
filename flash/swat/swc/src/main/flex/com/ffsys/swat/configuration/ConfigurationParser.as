@@ -21,15 +21,12 @@ package com.ffsys.swat.configuration {
 	*/
 	public class ConfigurationParser extends Parser
 		implements IConfigurationParser {
-			
-		/**
-		*	The node name for a configuration.
-		*/
 		
-		/*
-		static public const CONFIGURATION_NAME:String =
-			"configuration";
+		/**
+		*	The node name for the application meta data.
 		*/
+		static public const META_NAME:String =
+			"meta";
 		
 		/**
 		*	The node name for a collection of locales.
@@ -168,6 +165,12 @@ package com.ffsys.swat.configuration {
 			*/
 			
 			//classNodeNameMap.rootInstance = new Configuration();
+			
+			classNodeNameMap.add(
+				ApplicationMeta,
+				META_NAME,
+				META_NAME,
+				false );
 			
 			classNodeNameMap.add(
 				LocaleManager,

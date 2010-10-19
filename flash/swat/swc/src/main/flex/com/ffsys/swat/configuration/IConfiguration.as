@@ -35,6 +35,12 @@ package com.ffsys.swat.configuration {
 		function set locales( locales:ILocaleManager ):void;
 		
 		/**
+		*	@inheritDoc	
+		*/
+		function set meta( val:ApplicationMeta ):void;
+		function get meta():ApplicationMeta;
+		
+		/**
 		*	The asset manager for the application.
 		*/
 		function get assetManager():AssetManager;

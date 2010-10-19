@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <configuration>
+	
+	<meta>
+		<name>swat - application framework</name>
+		<version>0.4a</version>
+	</meta>
+	
 	<locales>
 		
 		<!-- applies to all locales -->
@@ -148,8 +154,7 @@
 					<trusted>true</trusted>
 					<url>assets/swf/application-assets.swf</url>
 				</rsl>
-			</rsls>	
-			
+			</rsls>
 				
 			<xml>
 				<resource>

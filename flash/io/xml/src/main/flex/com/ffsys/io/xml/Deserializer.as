@@ -282,6 +282,13 @@ package com.ffsys.io.xml {
 			trace( "setProperty rawStringValue : " + rawStringValue );
 			*/
 			
+			/*
+			if( prop.indexOf(  ) )
+			{
+				
+			}
+			*/
+			
 			if( obj is IDeserializeProperty )
 			{
 				obj.setDeserializedProperty( prop, val );

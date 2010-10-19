@@ -25,12 +25,13 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class Configuration extends EventDispatcher 
+	public class Configuration extends EventDispatcher
 		implements IConfiguration {
 			
 		private var _flashvars:IFlashVariables;
 		private var _locales:ILocaleManager;
 		private var _assetManager:AssetManager;
+		private var _meta:ApplicationMeta;
 		
 		/**
 		*	Create a <code>Configuration</code> instance.
@@ -129,6 +130,24 @@ package com.ffsys.swat.configuration {
 		{
 			_assetManager = assetManager;
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function set meta( val:ApplicationMeta ):void
+		{
+			_meta = val;
+		}
+		
+		public function get meta():ApplicationMeta
+		{
+			if( !_meta )
+			{
+				_meta = new ApplicationMeta();
+			}
+			
+			return _meta;
+		}		
 		
 		/**
 		*	@inheritDoc	
