@@ -13,6 +13,6 @@
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
 	<modules>
-		<module>en_gb</module>
+		<module>common</module>
 	</modules>
 </project>

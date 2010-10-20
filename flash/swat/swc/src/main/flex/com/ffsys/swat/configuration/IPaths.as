@@ -1,5 +1,6 @@
 package com.ffsys.swat.configuration
 {
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	import com.ffsys.swat.configuration.rsls.IRuntimeResource;
 
 	/**
@@ -51,7 +52,25 @@ package com.ffsys.swat.configuration
 		* 	when loading resources for a specific locale.
 		*/
 		function get locales():String;
-		function set locales( locales:String ):void;	
+		function set locales( locales:String ):void;
+		
+		/**
+		* 	The full path to the current locale.
+		*	
+		*	This is null until the configuration has been loaded
+		*	at which point this is updated as we know then which
+		*	locale the application is running in.
+		*/
+		function get locale():String;
+		function set locale( locale:String ):void;
+		
+		/**
+		*	Gets a clone of this instance with it's paths
+		*	modified to include the base and prefix values.
+		*	
+		*	@return A clone with fully qualified paths.
+		*/
+		function translate():IPaths;
 		
 		/**
 		* 	Gets the translated path to a resource.
@@ -61,5 +80,19 @@ package com.ffsys.swat.configuration
 		* 	@return The translated path.
 		*/
 		function getTranslatedPath( resource:IRuntimeResource ):String;
+		
+		/**
+		*	Gets the full path to the locale specific directory.
+		*	
+		*	@param locale The locale to extract the path for.
+		*	
+		*	@return The full path to the locale.
+		*/
+		function getLocalePath( locale:IConfigurationLocale ):String;
+		
+		/**
+		*	Creates a clone of this set of paths.
+		*/
+		function clone():IPaths;		
 	}
 }

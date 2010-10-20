@@ -2,16 +2,16 @@
 <configuration>
 	
 	<meta>
-		<name>swat - mock document</name>
+		<name>mock configuration document</name>
 		<version>0.4a</version>
 	</meta>
 	
 	<paths>
 		<absolute>false</absolute>
 		<base></base>
-		<prefix>assets/</prefix>
-		<common>common/</common>
-		<locales>locales/</locales>
+		<prefix>assets</prefix>
+		<common>common</common>
+		<locales>locales</locales>
 	</paths>
 	
 	<locales>
@@ -32,48 +32,48 @@
 			<rsls>
 				<rsl>
 					<trusted>true</trusted>
-					<url>swf/application-assets.swf</url>
+					<url>/////swf/application-assets.swf</url>
 				</rsl>
 			</rsls>
 			
 				
 			<xml>
 				<resource>
-					<url>xml/test.xml</url>
+					<url>/xml/test.xml</url>
 				</resource>
 			</xml>
 			
 			<css>
 				<resource>
 					<id>test-css</id>
-					<url>css/test.css</url>
+					<url>/css/test.css</url>
 				</resource>
 				<resource>
 					<id>test-filters</id>
-					<url>css/filters.css</url>
+					<url>/css/filters.css</url>
 				</resource>
 			</css>
 			
 			<messages>
 				<resource>
-					<url>properties/messages-common.properties</url>
+					<url>/properties/messages-common.properties</url>
 				</resource>
 			</messages>
 		
 			<errors>
 				<resource>
-					<url>properties/errors-common.properties</url>
+					<url>/properties/errors-common.properties</url>
 				</resource>
 			</errors>
 			
 			<images>
 				<resource>
 					<id>garden-001</id>
-					<url>images/garden-001.jpg</url>
+					<url>/images/garden-001.jpg</url>
 				</resource>
 				<resource>
 					<id>garden-002</id>
-					<url>images/garden-002.jpg</url>
+					<url>/images/garden-002.jpg</url>
 				</resource>
 			</images>
 		</resources>
@@ -87,19 +87,19 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>properties/messages.properties</url>
+						<url>/properties/messages.properties</url>
 					</resource>
 				</messages>
 			
 				<errors>
 					<resource>
-						<url>properties/errors.properties</url>
+						<url>/properties/errors.properties</url>
 					</resource>
 				</errors>
 			
 				<fonts>
 					<resource>
-						<url>fonts/fonts.swf</url>
+						<url>/fonts/fonts.swf</url>
 					</resource>
 				</fonts>
 				
@@ -110,7 +110,7 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>properties/messages.properties</url>
+						<url>/properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>
@@ -120,7 +120,7 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>properties/messages.properties</url>
+						<url>/properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>
@@ -130,7 +130,7 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>properties/messages.properties</url>
+						<url>/properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>

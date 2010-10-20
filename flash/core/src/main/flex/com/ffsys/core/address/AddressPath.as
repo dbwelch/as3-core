@@ -456,7 +456,7 @@ package com.ffsys.core.address {
 			}
 			
 			return elements.join( delimiter );
-		}		
+		}
 		
 		/**
 		*	@inheritDoc

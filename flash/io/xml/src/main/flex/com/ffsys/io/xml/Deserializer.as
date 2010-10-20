@@ -273,8 +273,11 @@ package com.ffsys.io.xml {
 		*	@param prop the String name of the property to set
 		*	@param val the value to set the property to
 		*/
+		
+		//TODO: remove the rawStringValue parameter
 		public function setProperty(
-			obj:*, prop:String, val:*, rawStringValue:String = null ):void
+			obj:*, prop:String, val:*,
+			rawStringValue:String = null ):void
 		{
 			/*
 			trace( "setProperty obj : " + obj );

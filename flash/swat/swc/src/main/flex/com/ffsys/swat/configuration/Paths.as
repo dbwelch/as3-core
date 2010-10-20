@@ -1,5 +1,8 @@
 package com.ffsys.swat.configuration
 {
+	import com.ffsys.core.address.*;
+	import com.ffsys.utils.string.AddressUtils;
+	
 	import com.ffsys.swat.configuration.rsls.IRuntimeResource;
 	import com.ffsys.swat.configuration.rsls.IResourceManagerAware;
 	
@@ -20,10 +23,12 @@ package com.ffsys.swat.configuration
 	{
 		private var _parent:IConfiguration;
 		private var _absolute:Boolean = false;
+		
 		private var _base:String = "";
-		private var _prefix:String = "assets/";
-		private var _common:String = "common/";
-		private var _locales:String = "locales/";
+		private var _prefix:String = "assets";
+		private var _common:String = "common";
+		private var _locales:String = "locales";
+		private var _locale:String;
 		
 		//private var _extensions:Object = new Object();
 		
@@ -111,7 +116,20 @@ package com.ffsys.swat.configuration
 		public function set locales( locales:String ):void
 		{
 			_locales = locales;
-		}			
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get locale():String
+		{
+			return _locale;
+		}
+
+		public function set locale( locale:String ):void
+		{
+			_locale = locale;
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -123,28 +141,107 @@ package com.ffsys.swat.configuration
 				throw new Error( "Cannot get the translated path from a null resource." );
 			}
 			
-			var output:String = base + prefix;
+			var parts:Array = [ base, prefix ];
+			var output:String = join( parts );
 			
 			//if we are globally or individually flagged as absolute
 			//we always load using the raw url
 			if( this.absolute || resource.absolute )
 			{
-				return base + resource.url;
+				return join( [ base ], resource.url );
 			}
 			
 			var manager:IResourceManagerAware = getResourceManagerAware( resource );
-
+			
+			//global resources for all locales
 			if( manager is ILocaleManager )
 			{
-				output += common;
+				parts.push( common );
+			//locale specific resources
 			}else if( manager is IConfigurationLocale )
 			{
-				output += locales + IConfigurationLocale( manager ).prefix + "/";
+				return join( [ getLocalePath( IConfigurationLocale( manager ) ) ], resource.url )
 			}
 			
-			output += resource.url;
+			return join( parts, resource.url );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getLocalePath( locale:IConfigurationLocale ):String
+		{
+			return join( [ base, prefix, locales, locale.prefix ] );
+		}
+		
+		/**
+		*	Joins the parts of a path together using the standard
+		*	delimiter and optionally concatentes a file at the end.
+		*	
+		*	@param parts The path parts to join.
+		*	@param file A file path to concatenate.	
+		*/
+		public function join( parts:Array, file:String = null ):String
+		{
+			if( parts == null )
+			{
+				throw new Error( "Cannot join a path with no path elements." );
+			}
 			
+			parts = parts.filter( filter, null );
+			var address:IAddressPath = new AddressPath(
+				null, AddressUtils.DELIMITER );
+				
+			var output:String = address.join( parts );
+			
+			if( file )
+			{
+				output += AddressUtils.DELIMITER + file;
+			}
+			
+			output = output.replace( /\/{2,}/g, AddressUtils.DELIMITER );
 			return output;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function translate():IPaths
+		{
+			var paths:IPaths = clone();
+			paths.prefix = join( [ base, prefix ] );
+			paths.common = join( [ base, prefix, common ] );
+			paths.locales = join( [ base, prefix, locales ] );
+			return paths;
+		}
+		
+		/**
+		*	Gets the implementation that this object will be cloned to.
+		*	
+		*	Allows sub-classes to override this method and return
+		*	the correct implementation to clone into.
+		*	
+		*	@return The instance to clone into.
+		*/
+		protected function getCloneInstance():IPaths
+		{
+			return new Paths();
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function clone():IPaths
+		{
+			var paths:IPaths = getCloneInstance();
+			paths.parent = this.parent;
+			paths.absolute = this.absolute;
+			paths.base = this.base;
+			paths.prefix = this.prefix;
+			paths.common = this.common;
+			paths.locales = this.locales;
+			paths.locale = this.locale;
+			return paths;
 		}
 
 		/**
@@ -164,5 +261,22 @@ package com.ffsys.swat.configuration
 			
 			return manager;
 		}
+		
+		/**
+		*	@private
+		*	
+		*	Performs filtering of array values on the array
+		*	passed to join to ignore empty strings.	
+		*/
+		private function filter( element:*, index:int, arr:Array ):Boolean
+		{
+			if( element is String
+				&& ( element as String ).length > 0 )
+			{
+				return true;
+			}
+			
+			return false;
+		}		
 	}
 }

@@ -107,8 +107,6 @@ package com.ffsys.swat.configuration.rsls {
 				config = IConfigurationLocale( manager ).parent.parent;
 			}
 			
-			trace("RuntimeResource::get configuration()", config );
-			
 			return config;
 		}
 		

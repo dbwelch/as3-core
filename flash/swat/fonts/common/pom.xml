@@ -8,11 +8,11 @@
 	</parent>
 	<groupId>com.ffsys.swat</groupId>
 	<version>1.1-SNAPSHOT</version>
-	<artifactId>swat-fonts-en-gb</artifactId>
+	<artifactId>swat-fonts-common</artifactId>
 	<packaging>swf</packaging>
-	<name>swat-fonts-en-gb</name>
+	<name>swat-fonts-common</name>
 	<build>
-		<finalName>fonts-en_GB</finalName>
+		<finalName>fonts</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.sonatype.flexmojos</groupId>
@@ -20,7 +20,7 @@
 				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/fonts/Fonts_en_gb.as</sourceFile>
+					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/fonts/FontsCommon.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
 					<debug>false</debug>
 					<warn>false</warn>
@@ -55,7 +55,7 @@
 							<tasks>
 								<copy
 									file="${project.build.directory}/${project.build.finalName}.swf"
-									toDir="${project.basedir}/../../as3-app/web-app/assets/fonts"
+									toDir="${project.basedir}/../../as3-app/web-app/assets/common/fonts"
 									overwrite="true"
 									verbose="true"/>
 							</tasks>

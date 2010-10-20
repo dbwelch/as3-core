@@ -6,6 +6,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.utils.substitution.SubstitutionNamespace;
 	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
 	/**
 	*	Interpreter for the configuration parser.
@@ -53,6 +54,8 @@ package com.ffsys.swat.configuration {
 				throw new Error( "The locales element was not specified." );
 			}
 			
+			trace("ConfigurationInterpreter::COMPLETE(), DESERIALIZATION COMPLETE", instance );
+			
 			//update the selected locale
 			configuration.locales.lang = flashvars.lang;
 			
@@ -68,7 +71,7 @@ package com.ffsys.swat.configuration {
 				new SubstitutionNamespace(
 					"configuration",
 					configuration )
-			);
+			);			
 			
 			//ensure we always have some path information
 			//even if none is declared in the config
@@ -76,6 +79,27 @@ package com.ffsys.swat.configuration {
 			{
 				configuration.paths = new Paths();
 			}
+			
+			//assign the path to the current locale
+			configuration.paths.locale = configuration.paths.getLocalePath(
+				IConfigurationLocale( configuration.locales.current ) );
+			
+			//massage the paths so they are all resolved absolutely
+			var paths:IPaths = configuration.paths.translate();
+			
+			trace("ConfigurationInterpreter::original(): ",
+				configuration.paths.prefix, configuration.paths.common,
+				configuration.paths.locales, configuration.paths.locale );
+				
+			trace("ConfigurationInterpreter::massaged(), massaging paths: ",
+				paths.prefix, paths.common, paths.locales, paths.locale );				
+			
+			//add the paths as a default binding
+			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
+				new SubstitutionNamespace(
+					"paths",
+					paths )
+			);
 			
 			super.complete( instance );
 		}
