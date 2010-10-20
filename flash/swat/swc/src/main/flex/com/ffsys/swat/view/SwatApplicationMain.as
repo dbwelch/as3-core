@@ -4,7 +4,7 @@ package com.ffsys.swat.view {
 	import flash.display.Sprite;
 	
 	import com.ffsys.swat.core.SwatFlashVariables;
-	
+	import com.ffsys.swat.configuration.ConfigurationParser;
 	
 	/**
 	*	Main entry point for the application.
@@ -30,17 +30,17 @@ package com.ffsys.swat.view {
 		*	during the application code preload phase.
 		*	
 		*	These are the classes that the compiler will link
-		*	to the first frame to handle the preloading of the
-		*	code on the second frame.
+		*	to the second frame.
 		*	
 		*	@return The classes	that will be linked on the
-		*	first frame of the generated movie.
+		*	second frame of the generated movie.
 		*/
 		public function getRuntimeClasses():Array
 		{
 			return [
 				SwatApplication,
 				SwatFlashVariables,
+				ConfigurationParser,
 				ApplicationPreloadView ];
 		}
 	}
