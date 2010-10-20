@@ -18,21 +18,18 @@
 			<artifactId>array</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>inspector</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>external</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>number</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 	</dependencies>
 </project>

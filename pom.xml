@@ -135,7 +135,7 @@
 						<artifactId>compiler</artifactId>
 						<version>${flex.version}</version>
 						<type>pom</type>
-					</dependency>
+					</dependency>				
 					<dependency>
 						<groupId>com.adobe.flex.compiler</groupId>
 						<artifactId>asdoc</artifactId>
