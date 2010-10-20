@@ -28,8 +28,8 @@
 			<groupId>com.ffsys</groupId>
 			<artifactId>ui</artifactId>
 			<version>${ffsys.lib.version}</version>
-			<type>swc</type>
-		</dependency>		
+			<type>pom</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

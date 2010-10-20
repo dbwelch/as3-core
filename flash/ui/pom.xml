@@ -12,14 +12,6 @@
 	<name>ui-parent</name>
 	<packaging>pom</packaging>
 	<url>http://maven.apache.org</url>
-	<dependencies>
-		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>corelib</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-	</dependencies>	
 	<modules>
 		<module>buttons</module>
 		<module>common</module>

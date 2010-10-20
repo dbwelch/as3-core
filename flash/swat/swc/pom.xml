@@ -17,7 +17,7 @@
 			<groupId>com.ffsys</groupId>
 			<artifactId>ffsys-core-all</artifactId>
 			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
+			<type>pom</type>
 		</dependency>
 	</dependencies>
 	
