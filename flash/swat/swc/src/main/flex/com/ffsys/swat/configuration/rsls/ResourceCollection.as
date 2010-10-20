@@ -16,20 +16,35 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  13.06.2010
 	*/
-	dynamic public class RuntimeResourceCollection extends Array
-		implements IRuntimeResourceCollection {
+	dynamic public class ResourceCollection extends Array
+		implements IResourceCollection {
 			
 		/**
 		*	@private	
 		*/
 		protected var _queue:ILoaderQueue;
 		
+		private var _parent:IResourceManager;
+		
 		/**
-		*	Creates an <code>RuntimeResourceCollection</code> instance.
+		*	Creates an <code>ResourceCollection</code> instance.
 		*/
-		public function RuntimeResourceCollection()
+		public function ResourceCollection()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get parent():IResourceManager
+		{
+			return _parent;
+		}
+		
+		public function set parent( manager:IResourceManager ):void
+		{
+			_parent = manager;
 		}
 		
 		/**
@@ -48,7 +63,7 @@ package com.ffsys.swat.configuration.rsls {
 				for( var i:int = 0;i < this.length;i++ )
 				{
 					lib = IRuntimeResource( this[ i ] );
-					request = new URLRequest( lib.url );
+					request = new URLRequest( lib.getTranslatedPath() );
 					loader = getLoader( request );
 					initializeLoader( loader, lib );
 					_queue.addLoader( loader );

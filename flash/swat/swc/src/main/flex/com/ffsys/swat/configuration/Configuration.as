@@ -14,7 +14,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.locale.LocaleManager;
-	import com.ffsys.swat.configuration.rsls.IRuntimeResourceCollection;
+	import com.ffsys.swat.configuration.rsls.IResourceCollection;
 	
 	/**
 	*	Represents the application configuration.
@@ -30,6 +30,8 @@ package com.ffsys.swat.configuration {
 			
 		private var _flashvars:IFlashVariables;
 		private var _locales:ILocaleManager;
+		private var _paths:IPaths;
+		
 		private var _assetManager:AssetManager;
 		private var _meta:ApplicationMeta;
 		
@@ -53,6 +55,19 @@ package com.ffsys.swat.configuration {
 		public function set flashvars( flashvars:IFlashVariables ):void
 		{
 			_flashvars = flashvars;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get paths():IPaths
+		{
+			return _paths;
+		}
+		
+		public function set paths( paths:IPaths ):void
+		{
+			_paths = paths;
 		}
 		
 		/**

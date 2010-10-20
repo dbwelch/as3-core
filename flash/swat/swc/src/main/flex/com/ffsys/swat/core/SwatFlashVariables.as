@@ -20,7 +20,7 @@ package com.ffsys.swat.core {
 	public class SwatFlashVariables extends AbstractFlashVars {
 		
 		private var _lang:String = "en-GB";
-		private var _configuration:String = "assets/xml/configuration.xml";
+		private var _configuration:String = "assets/common/xml/configuration.xml";
 		private var _classes:String = null;
 		private var _classPathConfiguration:IClassPathConfiguration;
 		

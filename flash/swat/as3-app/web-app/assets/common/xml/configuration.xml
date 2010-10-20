@@ -152,49 +152,55 @@
 			<rsls>
 				<rsl>
 					<trusted>true</trusted>
-					<url>assets/swf/application-assets.swf</url>
+					<url>swf/application-assets.swf</url>
 				</rsl>
 			</rsls>
 				
 			<xml>
 				<resource>
-					<url>assets/xml/test.xml</url>
+					<url>xml/test.xml</url>
 				</resource>
 			</xml>
 			
 			<css>
 				<resource>
 					<id>test-css</id>
-					<url>assets/css/test.css</url>
+					<url>css/test.css</url>
 				</resource>
 				<resource>
 					<id>test-filters</id>
-					<url>assets/css/filters.css</url>
+					<url>css/filters.css</url>
 				</resource>
 			</css>
 			
 			<messages>
 				<resource>
-					<url>assets/properties/messages-common.properties</url>
+					<url>properties/messages.properties</url>
 				</resource>
 			</messages>
 		
 			<errors>
 				<resource>
-					<url>assets/properties/errors-common.properties</url>
+					<url>properties/errors.properties</url>
 				</resource>
 			</errors>
 			
 			<images>
 				<resource>
 					<id>garden-001</id>
-					<url>assets/images/garden-001.jpg</url>
+					<url>images/garden-001.jpg</url>
 				</resource>
 				<resource>
 					<id>garden-002</id>
-					<url>assets/images/garden-002.jpg</url>
+					<url>images/garden-002.jpg</url>
 				</resource>
 			</images>
+			
+			<fonts>
+				<resource>
+					<url>fonts/fonts.swf</url>
+				</resource>
+			</fonts>			
 		</resources>
 		
 		<!-- The default fallback locale -->
@@ -206,21 +212,15 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>assets/properties/messages-en_GB.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			
 				<errors>
 					<resource>
-						<url>assets/properties/errors-en_GB.properties</url>
+						<url>properties/errors.properties</url>
 					</resource>
 				</errors>
-			
-				<fonts>
-					<resource>
-						<url>assets/fonts/fonts-en_GB.swf</url>
-					</resource>
-				</fonts>
 				
 			</resources>
 		</locale>
@@ -229,7 +229,7 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>assets/properties/messages-es_ES.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>
@@ -239,7 +239,7 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>assets/properties/messages-de_DE.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>
@@ -249,7 +249,7 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>assets/properties/messages-fr_FR.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>

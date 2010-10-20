@@ -16,7 +16,7 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  17.07.2010
 	*/
-	dynamic public class SoundCollection extends RuntimeResourceCollection {
+	dynamic public class SoundCollection extends ResourceCollection {
 		
 		/**
 		*	Creates a <code>SoundCollection</code> instance.

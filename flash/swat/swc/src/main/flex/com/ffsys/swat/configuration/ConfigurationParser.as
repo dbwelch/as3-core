@@ -21,12 +21,25 @@ package com.ffsys.swat.configuration {
 	*/
 	public class ConfigurationParser extends Parser
 		implements IConfigurationParser {
+			
+
+		/**
+		*	The name of the property to set on deserialized opjects
+		*	that refers to their parent.
+		*/
+		static public const PARENT_FIELD:String = "parent";	
 		
 		/**
 		*	The node name for the application meta data.
 		*/
 		static public const META_NAME:String =
 			"meta";
+			
+		/**
+		*	The node name for the application path.
+		*/
+		static public const PATHS_NAME:String =
+			"paths";
 		
 		/**
 		*	The node name for a collection of locales.
@@ -156,10 +169,18 @@ package com.ffsys.swat.configuration {
 			
 			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
 			
+			this.deserializer.parentField = PARENT_FIELD;
+			
 			classNodeNameMap.add(
 				ApplicationMeta,
 				META_NAME,
 				META_NAME,
+				false );
+				
+			classNodeNameMap.add(
+				Paths,
+				PATHS_NAME,
+				PATHS_NAME,
 				false );
 			
 			classNodeNameMap.add(
@@ -247,7 +268,7 @@ package com.ffsys.swat.configuration {
 				false );
 				
 			classNodeNameMap.add(
-				LocaleResources,
+				ResourceManager,
 				RESOURCES_NAME,
 				RESOURCES_NAME,
 				false );

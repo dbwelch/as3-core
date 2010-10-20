@@ -120,9 +120,9 @@ package com.ffsys.utils.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get locales():Array
+		public function getLocales():Array
 		{
-			return _locales;
+			return _locales.slice();
 		}
 		
 		/**

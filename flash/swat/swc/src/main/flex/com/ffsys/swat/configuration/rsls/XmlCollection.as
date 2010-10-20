@@ -18,7 +18,7 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  07.10.2010
 	*/
-	dynamic public class XmlCollection extends RuntimeResourceCollection {
+	dynamic public class XmlCollection extends ResourceCollection {
 		
 		/**
 		*	Creates a <code>XmlCollection</code> instance.

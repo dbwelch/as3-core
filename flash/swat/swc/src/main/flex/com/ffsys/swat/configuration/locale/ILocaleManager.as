@@ -6,9 +6,13 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.xml.IDeserializeProperty;
 	import com.ffsys.io.xml.IDeserializeComplete;
 	
+	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationProperties;
 	import com.ffsys.swat.configuration.IMessageAccess;
 	import com.ffsys.swat.configuration.IMediaAccess;
+	
+	import com.ffsys.swat.configuration.rsls.IResourceManager;
+	import com.ffsys.swat.configuration.rsls.IResourceManagerAware;
 	
 	/**
 	*	Describes the contract for implementations
@@ -26,13 +30,14 @@ package com.ffsys.swat.configuration.locale {
 				IMessageAccess,
 				IMediaAccess,
 		 		IDeserializeProperty,
-				IDeserializeComplete {
-					
+				IDeserializeComplete,
+				IResourceManagerAware {
+		
 		/**
-		*	The resources for all locales.
+		* 	The parent configuration.
 		*/
-		function get resources():ILocaleResources;
-		function set resources( value:ILocaleResources ):void;
+		function get parent():IConfiguration;
+		function set parent( parent:IConfiguration ):void;
 		
 		/**
 		* 	The currently selected locale.

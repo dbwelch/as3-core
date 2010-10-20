@@ -9,7 +9,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
-	import com.ffsys.swat.configuration.rsls.RuntimeResourceCollection;
+	import com.ffsys.swat.configuration.rsls.ResourceCollection;
 	
 	/**
 	*	Describes the contract for objects that
@@ -44,6 +44,12 @@ package com.ffsys.swat.configuration {
 		*	The asset manager for the application.
 		*/
 		function get assetManager():AssetManager;
-		function set assetManager( assetManager:AssetManager ):void;		
+		function set assetManager( assetManager:AssetManager ):void;
+		
+		/**
+		* 	The path settings used by the application.
+		*/
+		function get paths():IPaths;
+		function set paths( paths:IPaths ):void;
 	}
 }

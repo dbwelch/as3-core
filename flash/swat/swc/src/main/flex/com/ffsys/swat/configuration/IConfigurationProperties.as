@@ -6,7 +6,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
-	import com.ffsys.swat.configuration.rsls.IRuntimeResourceCollection;
+	import com.ffsys.swat.configuration.rsls.IResourceCollection;
 	
 	/**
 	*	Describes the contract for implementations that

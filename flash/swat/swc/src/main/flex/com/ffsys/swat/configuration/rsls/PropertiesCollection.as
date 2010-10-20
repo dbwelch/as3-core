@@ -16,7 +16,7 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  17.06.2010
 	*/
-	dynamic public class PropertiesCollection extends RuntimeResourceCollection {
+	dynamic public class PropertiesCollection extends ResourceCollection {
 		
 		/**
 		*	Creates a <code>PropertiesCollection</code> instance.

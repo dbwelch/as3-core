@@ -18,7 +18,7 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  13.06.2010
 	*/
-	dynamic public class RslCollection extends RuntimeResourceCollection {
+	dynamic public class RslCollection extends ResourceCollection {
 		
 		/**
 		*	Creates a <code>RslCollection</code> instance.
@@ -53,7 +53,7 @@ package com.ffsys.swat.configuration.rsls {
 				{
 					lib = RuntimeSharedLibrary( this[ i ] );
 					
-					request = new URLRequest( lib.url );
+					request = new URLRequest( lib.getTranslatedPath() );
 					loader = getLoader( request );
 
 					if( lib.trusted )

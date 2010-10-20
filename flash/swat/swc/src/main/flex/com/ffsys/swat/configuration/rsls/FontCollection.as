@@ -16,7 +16,7 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  17.07.2010
 	*/
-	dynamic public class FontCollection extends RuntimeResourceCollection {
+	dynamic public class FontCollection extends ResourceCollection {
 		
 		/**
 		*	Creates a <code>FontCollection</code> instance.

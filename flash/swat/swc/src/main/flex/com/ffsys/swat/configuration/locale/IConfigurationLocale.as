@@ -2,6 +2,8 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocale;
 	
+	import com.ffsys.swat.configuration.rsls.IResourceManagerAware;
+	
 	/**
 	*	Describes the contract for implementations
 	*	that extend the default locale data and encapsulate
@@ -14,13 +16,24 @@ package com.ffsys.swat.configuration.locale {
 	*	@since  15.07.2010
 	*/
 	public interface IConfigurationLocale
-		extends ILocale {
+		extends ILocale,
+				IResourceManagerAware {
 			
 		/**
-		*	The resources for the locale.
+		* 	The parent locale manager.
 		*/
-		function get resources():ILocaleResources;
-		function set resources( value:ILocaleResources ):void;	
-
+		function get parent():ILocaleManager;
+		function set parent( manager:ILocaleManager ):void;
+		
+		/**
+		* 	Gets the prefix to use when loading locale specific
+		* 	resources.
+		* 
+		* 	If no prefix is specified the <code>lang</code> and
+		* 	<code>country</code> codes are returned concatenated
+		* 	by a hyphen.
+		*/
+		function get prefix():String;
+		function set prefix( prefix:String ):void;
 	}
 }

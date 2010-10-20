@@ -77,8 +77,8 @@ package com.ffsys.utils.locale {
 		function get length():int;
 		
 		/**
-		*	Gets the underlying vector of locales.
+		*	Gets a copy of the underlying array of locales.
 		*/
-		function get locales():Array;		
+		function getLocales():Array;
 	}
 }

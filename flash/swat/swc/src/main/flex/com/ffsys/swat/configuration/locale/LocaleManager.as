@@ -21,6 +21,8 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.css.CssStyleCollection;
 	import com.ffsys.utils.properties.IProperties;
 	
+	import com.ffsys.swat.configuration.rsls.IResourceManager;
+	
 	/**
 	*	Manages all the runtime assets for a collection
 	*	of locales.
@@ -38,7 +40,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _defaultLocale:IConfigurationLocale;
 		private var _current:IConfigurationLocale;
 			
-		private var _resources:ILocaleResources;
+		private var _resources:IResourceManager;
 		
 		private var _settings:ISettings;
 		private var _defaults:IDefaults;
@@ -55,6 +57,9 @@ package com.ffsys.swat.configuration.locale {
 		private var _imagesQueue:ILoaderQueue;
 		private var _soundsQueue:ILoaderQueue;
 		
+		private	var _parent:IConfiguration;
+		
+		private var _paths:IPaths;
 		
 		/**
 		*	Creates a <code>LocaleManager</code> instance.
@@ -63,16 +68,29 @@ package com.ffsys.swat.configuration.locale {
 		{
 			super();
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get parent():IConfiguration
+		{
+			return _parent;
+		}
+		
+		public function set parent( parent:IConfiguration ):void
+		{
+			_parent = parent;
+		}
 
 		/**
 		*	@inheritDoc	
 		*/
-		public function get resources():ILocaleResources
+		public function get resources():IResourceManager
 		{
 			return _resources;
 		}
 		
-		public function set resources( value:ILocaleResources ):void
+		public function set resources( value:IResourceManager ):void
 		{
 			_resources = value;
 		}
@@ -467,10 +485,10 @@ package com.ffsys.swat.configuration.locale {
 			var delimiter:String = null;
 			var country:String = null;
 			
-			if( !locales )
+			if( length == 0 )
 			{
 				throw new Error(
-					"Cannot update the language with null locales data." );
+					"Cannot update the language with no locale data." );
 			}
 			
 			if( lang )

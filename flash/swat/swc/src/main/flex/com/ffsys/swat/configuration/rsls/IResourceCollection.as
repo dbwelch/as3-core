@@ -16,7 +16,7 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  17.07.2010
 	*/
-	public interface IRuntimeResourceCollection extends IDeserializeProperty {
+	public interface IResourceCollection extends IDeserializeProperty {
 		
 		/**
 		*	Gets the loader used to load runtime resources for this collection.
@@ -33,5 +33,11 @@ package com.ffsys.swat.configuration.rsls {
 		* 	@return The runtime resource loader queue.
 		*/
 		function getLoaderQueue():ILoaderQueue;
+		
+		/**
+		* 	The parent resource manager for this collection.
+		*/
+		function get parent():IResourceManager;
+		function set parent( manager:IResourceManager ):void;
 	}
 }

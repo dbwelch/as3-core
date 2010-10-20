@@ -70,6 +70,13 @@ package com.ffsys.swat.configuration {
 					configuration )
 			);
 			
+			//ensure we always have some path information
+			//even if none is declared in the config
+			if( configuration.paths == null )
+			{
+				configuration.paths = new Paths();
+			}
+			
 			super.complete( instance );
 		}
 	}

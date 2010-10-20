@@ -232,10 +232,10 @@ package com.ffsys.swat.core {
 				LoadEvent.DATA,
 				configurationLoadComplete, false, 0, false );
 				
-			_configurationLoader.load(
-				new URLRequest( SwatFlashVariables( _flashvars ).configuration ) );
-				
 			_phase = CONFIGURATION_PHASE;
+				
+			var path:String = SwatFlashVariables( _flashvars ).configuration;
+			_configurationLoader.load( new URLRequest( path ) );
 		}
 		
 		/**
