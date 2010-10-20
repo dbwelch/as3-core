@@ -118,6 +118,7 @@ package com.ffsys.io.loaders.types {
 				
 			if( x )
 			{
+				trace("ParserAwareXmlLoader::deserialize(), ", root );
 				var parsed:Object = this.parser.deserialize( x, root );
 
 				this.resource = getResource( parsed, uri, bytesTotal );

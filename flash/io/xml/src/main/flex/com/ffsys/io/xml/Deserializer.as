@@ -1069,6 +1069,11 @@ package com.ffsys.io.xml {
 		
 			var output:Object = parse( node, obj, ignoreISerializeDeserialize );
 			
+			if( output == null && obj )
+			{
+				output = obj;
+			}
+			
 			if( hasInterpreter() )
 			{
 				_interpreter.complete( output );

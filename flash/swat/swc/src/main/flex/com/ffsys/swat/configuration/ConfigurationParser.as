@@ -156,16 +156,6 @@ package com.ffsys.swat.configuration {
 			
 			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
 			
-			/*
-			classNodeNameMap.add(
-				Configuration,
-				CONFIGURATION_NAME,
-				CONFIGURATION_NAME,
-				false );
-			*/
-			
-			//classNodeNameMap.rootInstance = new Configuration();
-			
 			classNodeNameMap.add(
 				ApplicationMeta,
 				META_NAME,
@@ -260,13 +250,13 @@ package com.ffsys.swat.configuration {
 				LocaleResources,
 				RESOURCES_NAME,
 				RESOURCES_NAME,
-				false );				
+				false );
 				
 			classNodeNameMap.add(
 				RuntimeResource,
 				RESOURCE_NAME,
 				RESOURCE_NAME,
-				false );			
+				false );
 		}
 		
 		/**
@@ -275,7 +265,7 @@ package com.ffsys.swat.configuration {
 		public function parse(
 			x:XML, target:IConfiguration = null ):IConfiguration
 		{
-			return _deserializer.deserialize( x, target ) as IConfiguration;
+			return deserialize( x, target ) as IConfiguration;
 		}
 	}
 }

@@ -20,7 +20,7 @@ package com.ffsys.swat.configuration.locale {
 		*	The resources for the locale.
 		*/
 		function get resources():ILocaleResources;
-		function set resources( value:ILocaleResources ):void;			
+		function set resources( value:ILocaleResources ):void;	
 
 	}
 }

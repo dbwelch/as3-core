@@ -82,11 +82,13 @@ package com.ffsys.swat.view  {
 					var classPathConfiguration:IClassPathConfiguration = 
 						SwatFlashVariables( _flashvars ).classPathConfiguration;
 					
+					
 					var parser:IConfigurationParser = 
 						classPathConfiguration.getConfigurationParserInstance();
-					
-					parser.classNodeNameMap.rootInstance =
-						classPathConfiguration.getConfigurationInstance();
+					/*
+					parser.interpreter.stringSubstitutions.addSubstitutionNamespace(
+						new SubstitutionNamespace() );
+					*/
 					
 					_preloader = new RuntimeAssetPreloader(
 						_flashvars,

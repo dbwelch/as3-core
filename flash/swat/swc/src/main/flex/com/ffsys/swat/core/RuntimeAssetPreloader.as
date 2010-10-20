@@ -22,6 +22,8 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	
+	import com.ffsys.swat.configuration.ConfigurationInterpreter;
+	
 	/**
 	*	Preloads the application runtime resources.
 	*	
@@ -122,7 +124,7 @@ package com.ffsys.swat.core {
 		*/
 		public function RuntimeAssetPreloader(
 			flashvars:IFlashVariables,
-			parser:IConfigurationParser = null )
+			parser:IConfigurationParser )
 		{
 			super();
 			_flashvars = flashvars;
@@ -166,7 +168,7 @@ package com.ffsys.swat.core {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		public function get view():IApplicationPreloadView
 		{
@@ -185,7 +187,6 @@ package com.ffsys.swat.core {
 				{
 					display.parent.removeChild( display );
 				}
-				
 			}
 			
 			_view = view;
@@ -203,7 +204,18 @@ package com.ffsys.swat.core {
 		*	@inheritDoc
 		*/
 		public function load():void
-		{					
+		{
+			//should definitely have a parser assigned by now
+			var interpreter:ConfigurationInterpreter = new ConfigurationInterpreter();
+			interpreter.flashvars = SwatFlashVariables( _flashvars );
+			_configurationLoader.parser.interpreter = interpreter;
+			
+			trace("RuntimeAssetPreloader::load(), ",
+				_configurationLoader.parser, interpreter, _flashvars );
+				
+			_configurationLoader.root =
+				SwatFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
+					
 			_configurationLoader.addEventListener(
 				LoadEvent.RESOURCE_NOT_FOUND,
 				resourceNotFound, false, 0, false );
@@ -236,7 +248,7 @@ package com.ffsys.swat.core {
 			_configuration = _configurationLoader.configuration;
 
 			//update the selected locale
-			_configuration.locales.lang = SwatFlashVariables( _flashvars ).lang;
+			//_configuration.locales.lang = SwatFlashVariables( _flashvars ).lang;
 			
 			_configurationLoader.removeEventListener(
 				LoadEvent.RESOURCE_NOT_FOUND,
