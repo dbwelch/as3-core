@@ -11,11 +11,17 @@
 	<version>1.1-SNAPSHOT</version>
 	<name>ffsys-core-all</name>
 	<packaging>pom</packaging>
-	<url>http://maven.apache.org</url>
+	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>core</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys</groupId>
+			<artifactId>effects</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>

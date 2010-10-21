@@ -11,7 +11,7 @@
 	<version>1.1-SNAPSHOT</version>
 	<name>utils</name>
 	<packaging>pom</packaging>
-	<url>http://maven.apache.org</url>
+	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys</groupId>
