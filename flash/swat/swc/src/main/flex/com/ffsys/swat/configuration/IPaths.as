@@ -1,5 +1,7 @@
 package com.ffsys.swat.configuration
 {
+	import com.ffsys.utils.substitution.ISubstitutionLookup;
+	
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	import com.ffsys.swat.configuration.rsls.IRuntimeResource;
 
@@ -14,6 +16,7 @@ package com.ffsys.swat.configuration
 	*	@since  20.10.2010
 	*/
 	public interface IPaths
+		//extends ISubstitutionLookup
 	{
 		/**
 		* 	The parent configuration.
@@ -33,12 +36,6 @@ package com.ffsys.swat.configuration
 		*/
 		function get base():String;
 		function set base( base:String ):void;
-		
-		/**
-		* 	The prefix used when creating paths.
-		*/
-		function get prefix():String;
-		function set prefix( prefix:String ):void;
 		
 		/**
 		* 	A path to concatenate to the base and prefix

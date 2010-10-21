@@ -11,7 +11,14 @@ package com.ffsys.utils.substitution {
 	*	@since  09.09.2007
 	*/
 	public interface ISubstitutionLookup {
+		
+		/**
+		* 	Gets a substitution property by identifier.
+		* 
+		* 	@param id The property identifier.
+		* 
+		* 	@return An object or null if the property is invalid.
+		*/
 		function getSubstitutionLookup( id:String ):Object;
 	}
-	
 }

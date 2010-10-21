@@ -1,6 +1,7 @@
 package com.ffsys.utils.substitution {
 	
 	import com.ffsys.utils.regex.RegexUtils;
+	import com.ffsys.utils.string.PropertyNameConverter;
 	
 	/**
 	*	Handles performing String substitution of the form:
@@ -255,8 +256,14 @@ package com.ffsys.utils.substitution {
 				target,
 				matches,
 				source ) as Object;
-				
-			//trace("Substitutor::substitute(), replaced is " + replaced );
+			
+			//massage the name to deal with hyphenated values
+			//quick fix for hyphenated property names
+			if( name.indexOf( "-" ) > -1 )
+			{
+				var converter:PropertyNameConverter = new PropertyNameConverter();
+				name = converter.convert( name );
+			}
 			
 			//we always try to set the property silently
 			if( parent

@@ -8,8 +8,7 @@
 	
 	<paths>
 		<absolute>false</absolute>
-		<base></base>
-		<prefix>assets</prefix>
+		<base>assets</base>
 		<common>common</common>
 		<locales>locales</locales>
 	</paths>

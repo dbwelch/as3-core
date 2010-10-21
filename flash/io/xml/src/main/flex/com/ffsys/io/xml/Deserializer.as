@@ -10,6 +10,7 @@ package com.ffsys.io.xml {
 	import com.ffsys.utils.array.ArrayUtils;
 	import com.ffsys.utils.boolean.BooleanUtils;
 	import com.ffsys.utils.object.ClassUtils;
+	import com.ffsys.utils.string.PropertyNameConverter;
 	import com.ffsys.utils.string.StringUtils;
 	import com.ffsys.utils.xml.XmlUtils;
 	
@@ -291,13 +292,8 @@ package com.ffsys.io.xml {
 			//associated with the class node name map
 			if( prop.indexOf( "-" ) > -1 )
 			{
-				var parts:Array = prop.split( "-" );
-				var output:String = "";
-				for( var i:int = 0;i < parts.length;i++ )
-				{
-					output += StringUtils.firstCharToUpperCase( parts[ i ] );
-				}
-				prop = StringUtils.firstCharToLowerCase( output );
+				var converter:PropertyNameConverter = new PropertyNameConverter();
+				prop = converter.convert( prop );
 			}
 			
 			if( obj is IDeserializeProperty )

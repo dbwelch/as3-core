@@ -54,8 +54,6 @@ package com.ffsys.swat.configuration {
 				throw new Error( "The locales element was not specified." );
 			}
 			
-			trace("ConfigurationInterpreter::COMPLETE(), DESERIALIZATION COMPLETE", instance );
-			
 			//update the selected locale
 			configuration.locales.lang = flashvars.lang;
 			
@@ -84,21 +82,11 @@ package com.ffsys.swat.configuration {
 			configuration.paths.locale = configuration.paths.getLocalePath(
 				IConfigurationLocale( configuration.locales.current ) );
 			
-			//massage the paths so they are all resolved absolutely
-			var paths:IPaths = configuration.paths.translate();
-			
-			trace("ConfigurationInterpreter::original(): ",
-				configuration.paths.prefix, configuration.paths.common,
-				configuration.paths.locales, configuration.paths.locale );
-				
-			trace("ConfigurationInterpreter::massaged(), massaging paths: ",
-				paths.prefix, paths.common, paths.locales, paths.locale );				
-			
 			//add the paths as a default binding
 			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
 				new SubstitutionNamespace(
 					"paths",
-					paths )
+					configuration.paths )
 			);
 			
 			super.complete( instance );

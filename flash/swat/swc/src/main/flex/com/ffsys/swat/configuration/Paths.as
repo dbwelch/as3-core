@@ -24,8 +24,7 @@ package com.ffsys.swat.configuration
 		private var _parent:IConfiguration;
 		private var _absolute:Boolean = false;
 		
-		private var _base:String = "";
-		private var _prefix:String = "assets";
+		private var _base:String = "assets";
 		private var _common:String = "common";
 		private var _locales:String = "locales";
 		private var _locale:String;
@@ -82,19 +81,6 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@inheritDoc
 		*/
-		public function get prefix():String
-		{
-			return _prefix;
-		}
-
-		public function set prefix( prefix:String ):void
-		{
-			_prefix = prefix;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function get common():String
 		{
 			return _common;
@@ -141,8 +127,7 @@ package com.ffsys.swat.configuration
 				throw new Error( "Cannot get the translated path from a null resource." );
 			}
 			
-			var parts:Array = [ base, prefix ];
-			var output:String = join( parts );
+			var parts:Array = [ base ];
 			
 			//if we are globally or individually flagged as absolute
 			//we always load using the raw url
@@ -171,7 +156,7 @@ package com.ffsys.swat.configuration
 		*/
 		public function getLocalePath( locale:IConfigurationLocale ):String
 		{
-			return join( [ base, prefix, locales, locale.prefix ] );
+			return join( [ base, locales, locale.prefix ] );
 		}
 		
 		/**
@@ -209,9 +194,8 @@ package com.ffsys.swat.configuration
 		public function translate():IPaths
 		{
 			var paths:IPaths = clone();
-			paths.prefix = join( [ base, prefix ] );
-			paths.common = join( [ base, prefix, common ] );
-			paths.locales = join( [ base, prefix, locales ] );
+			paths.common = join( [ base, common ] );
+			paths.locales = join( [ base, locales ] );
 			return paths;
 		}
 		
@@ -237,13 +221,27 @@ package com.ffsys.swat.configuration
 			paths.parent = this.parent;
 			paths.absolute = this.absolute;
 			paths.base = this.base;
-			paths.prefix = this.prefix;
 			paths.common = this.common;
 			paths.locales = this.locales;
 			paths.locale = this.locale;
 			return paths;
 		}
-
+		
+		/**
+		* 	@inheritDoc
+		*/
+		
+		/*
+		public function getSubstitutionLookup( id:String ):Object
+		{
+			trace("Paths::getSubstitutionLookup()", id );
+			
+			
+			
+			return null;
+		}
+		*/
+		
 		/**
 		* 	@private
 		*/
