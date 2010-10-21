@@ -14,39 +14,56 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
+			<groupId>com.ffsys</groupId>
+			<artifactId>core</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>		
+		
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>connection</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>		
+		
+		
+		<dependency>
+			<groupId>com.ffsys.io</groupId>
+			<artifactId>core</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>		
+		
+		<dependency>
 			<groupId>com.ffsys.ui</groupId>
 			<artifactId>containers</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
 			<artifactId>graphics</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
 			<artifactId>skins-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>loaders</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 		
 		<dependency>
@@ -54,7 +71,13 @@
 			<artifactId>effects</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
+		</dependency>		
+		
+		<dependency>
+			<groupId>com.ffsys.utils</groupId>
+			<artifactId>inspector</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
 		</dependency>		
 	</dependencies>
 </project>

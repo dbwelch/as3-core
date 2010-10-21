@@ -18,28 +18,24 @@
 			<artifactId>array</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>object</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.utils</groupId>
 			<artifactId>identifier</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-			<scope>merged</scope>
 		</dependency>	
 	</dependencies>
 </project>

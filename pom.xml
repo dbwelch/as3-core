@@ -12,9 +12,6 @@
 		<scm.version>1.2</scm.version>
 		<maven.release.version>2.0-beta-9</maven.release.version>
 		<flexmojos.version>4.0-beta-1</flexmojos.version>
-<!-- <flexmojos.version>3.8</flexmojos.version> -->
-<!-- 4.0-SNAPSHOT -->
-<!-- <flexmojos.version>3.6.1</flexmojos.version> -->
 		<flexunit.version>4.0-rc-1</flexunit.version>
 		<ffsys.lib.version>1.1-SNAPSHOT</ffsys.lib.version>
 		<target.player>10.0.0</target.player>
@@ -104,24 +101,7 @@
 							<version>${scm.version}</version>
 						</dependency>	
 					</dependencies>				
-				</plugin>
-				
-				<!--
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.5</version>
-					<dependencies>
-						<dependency>
-						  <groupId>org.apache.maven.wagon</groupId>
-						  <artifactId>wagon</artifactId>
-						  <version>1.0-beta-6</version>
-						  <type>pom</type>
-						</dependency>
-					</dependencies>				
-				</plugin>
-				-->
-								
+				</plugin>				
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -157,20 +137,6 @@
 					<configurationReport>true</configurationReport>
 				</configuration>
 				<executions>
-					
-					<!--
-					<execution>
-						<id>test-compile</id>
-						<phase>test-compile</phase>
-						<goals>
-							<goal>test-compile</goal>
-						</goals>
-						<configuration>
-							
-						</configuration>
-					</execution>					
-					-->
-					
 					<execution>
 						<id>generate-asdoc</id>
 						<phase>asdoc</phase>
@@ -194,17 +160,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	<!--
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.sonatype.flexmojos</groupId>
-				<artifactId>flexmojos-maven-plugin</artifactId>
-				<version>${flexmojos.version}</version>
-			</plugin>
-		</plugins>
-	</reporting>
-	-->
-	
 </project>
