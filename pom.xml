@@ -101,7 +101,7 @@
 							<version>${scm.version}</version>
 						</dependency>	
 					</dependencies>				
-				</plugin>				
+				</plugin>			
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -158,6 +158,18 @@
 				
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>			
 		</plugins>
 	</build>
 </project>
