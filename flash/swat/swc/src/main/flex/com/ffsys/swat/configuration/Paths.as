@@ -160,11 +160,7 @@ package com.ffsys.swat.configuration
 		}
 		
 		/**
-		*	Joins the parts of a path together using the standard
-		*	delimiter and optionally concatentes a file at the end.
-		*	
-		*	@param parts The path parts to join.
-		*	@param file A file path to concatenate.	
+		*	@inheritDoc
 		*/
 		public function join( parts:Array, file:String = null ):String
 		{

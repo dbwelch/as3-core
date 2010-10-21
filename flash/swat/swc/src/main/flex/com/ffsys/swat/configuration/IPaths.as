@@ -62,6 +62,15 @@ package com.ffsys.swat.configuration
 		function set locale( locale:String ):void;
 		
 		/**
+		*	Joins the parts of a path together using the standard
+		*	delimiter and optionally concatentes a file at the end.
+		*	
+		*	@param parts The path parts to join.
+		*	@param file A file path to concatenate.	
+		*/
+		function join( parts:Array, file:String = null ):String;
+		
+		/**
 		*	Gets a clone of this instance with it's paths
 		*	modified to include the base and prefix values.
 		*	

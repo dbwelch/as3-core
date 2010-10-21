@@ -678,7 +678,7 @@ package com.ffsys.io.xml {
 				
 				//trace( "Has existing instance : " + classInstance );
 			}
-			
+
 			if( mode == DeserializationMode.PRE_PROPERTY_SET )
 			{
 				if( obj )
@@ -747,7 +747,7 @@ package com.ffsys.io.xml {
 			{
 				_interpreter.postProcessClass( classInstance, obj );
 			}
-			
+
 			if( classInstance is IDeserializeComplete )
 			{
 				classInstance.deserialized();
@@ -1076,6 +1076,11 @@ package com.ffsys.io.xml {
 			if( hasInterpreter() )
 			{
 				_interpreter.complete( output );
+			}
+			
+			if( obj && ( obj is IDeserializeComplete ) )
+			{
+				IDeserializeComplete( obj ).deserialized();
 			}
 			
 			return output;
