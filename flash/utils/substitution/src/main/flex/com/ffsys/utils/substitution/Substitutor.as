@@ -259,7 +259,7 @@ package com.ffsys.utils.substitution {
 			
 			//massage the name to deal with hyphenated values
 			//quick fix for hyphenated property names
-			if( name.indexOf( "-" ) > -1 )
+			if( name && name.indexOf( "-" ) > -1 )
 			{
 				var converter:PropertyNameConverter = new PropertyNameConverter();
 				name = converter.convert( name );

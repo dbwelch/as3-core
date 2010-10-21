@@ -140,9 +140,14 @@ package com.ffsys.utils.properties {
 				output = String( substitutor.substitute() );
 			}catch( e:Error )
 			{
+				
+				/*
 				throw new Error(
 					"Error encountered while performing property substitution with identifier '"
-					+ id + "' and source '" + source + "'." );
+					+ id + "' and source '" + source + "': " + e.message );
+				*/
+				
+				throw e;
 			}
 			
 			return output;
