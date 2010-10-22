@@ -143,6 +143,15 @@ package com.ffsys.io.xml {
 			return _strictStringReplacement;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
+		public function shouldSetProperty(
+			parent:Object, name:String, value:* ):Boolean
+		{
+			return true;
+		}
+		
 		public function shouldPostProcessPrimitive( parent:Object, name:String, value:Object ):Boolean
 		{
 			if( useStringReplacement && ( value is String ) )

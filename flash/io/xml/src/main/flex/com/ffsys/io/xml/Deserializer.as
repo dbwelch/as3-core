@@ -103,7 +103,7 @@ package com.ffsys.io.xml {
 			_propertyField = Serializer.DEFAULT_PROPERTY_FIELD;
 			_propertyFieldType = Serializer.DEFAULT_PROPERTY_FIELD_TYPE;
 			
-			_mode = DeserializationMode.PRE_PROPERTY_SET;
+			_mode = DeserializationMode.POST_PROPERTY_SET;
 			
 			if( defaultStringSubstitutions && ( defaultStringSubstitutions.getLength() > 0 ) )
 			{
@@ -276,6 +276,7 @@ package com.ffsys.io.xml {
 		*/
 		
 		//TODO: remove the rawStringValue parameter
+		//TODO: make this private
 		public function setProperty(
 			obj:*, prop:String, val:*,
 			rawStringValue:String = null ):void
@@ -286,6 +287,12 @@ package com.ffsys.io.xml {
 			trace( "setProperty value : " + val, getQualifiedClassName( val ) );
 			trace( "setProperty rawStringValue : " + rawStringValue );
 			*/
+			
+			if( hasInterpreter()
+				&& !_interpreter.shouldSetProperty( obj, prop, val ) )
+			{
+				return;
+			}
 			
 			//quick fix for hyphenated property names
 			//should be moved to a property converter implementation

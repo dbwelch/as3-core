@@ -73,7 +73,7 @@ package com.ffsys.io.xml {
 		*	Allows post processing of the deserialized object.
 		*
 		*	@param obj the new deserialized instance
-		*	@param parent the parent instance is available
+		*	@param parent the parent instance if available
 		*/
 		function postProcess( node:XML, instance:Object, parent:Object ):void;
 		
@@ -111,6 +111,18 @@ package com.ffsys.io.xml {
 		function processAttribute( target:Object, name:String, value:Object ):Boolean;
 		
 		function complete( instance:Object ):void;
+		
+		/**
+		*	Determines whether a property should be set on a parent instance.
+		*	
+		*	@param parent The parent object the property will be assigned to.
+		*	@param name The name of the property being set.
+		*	@param value The value the property will be set to.
+		*	
+		*	@return A boolean indicating whether the property should be
+		*	set by the deserializer.
+		*/
+		function shouldSetProperty( parent:Object, name:String, value:* ):Boolean;
 	}
 	
 }

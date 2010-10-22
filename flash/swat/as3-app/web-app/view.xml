@@ -1,7 +1,24 @@
 <?xml version="1.0"?>
 <document>
-	<label>
-		<text>this is some test</text>
-		<color>0xff6600</color>
-	</label>
+	<canvas>
+		<vbox>
+			<label>
+				<text>this is some text</text>
+				<color>0xff6600</color>
+			</label>
+			<label>
+				<text>this is some text</text>
+				<color>0xff6600</color>
+			</label>
+			
+			<rect>
+				<preferred-width>25</preferred-width>
+				<preferred-height>25</preferred-height>
+				<fill>
+					<color>0xff6600</color>
+					<alpha>.5</alpha>
+				</fill>
+			</rect>
+		</vbox>
+	</canvas>
 </document>

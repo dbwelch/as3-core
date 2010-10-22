@@ -1,9 +1,5 @@
 package com.ffsys.ui.runtime {
-	
-	import flash.display.DisplayObject;
-	
-	import com.ffsys.io.xml.IDeserializeProperty;
-	
+
 	import com.ffsys.ui.containers.Canvas;
 	
 	/**
@@ -21,8 +17,7 @@ package com.ffsys.ui.runtime {
 	*	@since  22.10.2010
 	*/
 	public class Document extends Canvas
-		implements 	IDocument,
-		 			IDeserializeProperty {
+		implements 	IDocument {
 		
 		/**
 		*	Creates a <code>Document</code> instance.
@@ -30,20 +25,6 @@ package com.ffsys.ui.runtime {
 		public function Document()
 		{
 			super();
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function setDeserializedProperty(
-			name:String, value:Object ):void
-		{
-			if( value is DisplayObject )
-			{
-				var child:DisplayObject = DisplayObject( value );
-				trace("Document::setDeserializedProperty(), adding child: ", child );
-				addChild( child );
-			}
 		}
 	}
 }
