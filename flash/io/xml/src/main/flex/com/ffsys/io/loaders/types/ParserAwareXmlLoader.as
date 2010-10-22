@@ -30,7 +30,8 @@ package com.ffsys.io.loaders.types {
 	*	@author Mischa Williamson
 	*	@since  18.10.2010
 	*/
-	public class ParserAwareXmlLoader extends XmlLoader {
+	public class ParserAwareXmlLoader extends XmlLoader
+		implements IParserAwareXmlLoader {
 		
 		private var _parser:IParser;
 		private var _root:Object;
@@ -44,7 +45,7 @@ package com.ffsys.io.loaders.types {
 		}
 		
 		/**
-		*	The parser associated with this loader.	
+		*	@inheritDoc
 		*/
 		public function get parser():IParser
 		{
@@ -57,10 +58,7 @@ package com.ffsys.io.loaders.types {
 		}
 		
 		/**
-		*	A root object that the XML document will be parsed into.
-		*	
-		*	If this is null then the default root object declared by
-		*	the parser will be used.	
+		*	@inheritDoc
 		*/
 		public function get root():Object
 		{
@@ -118,7 +116,7 @@ package com.ffsys.io.loaders.types {
 				
 			if( x )
 			{
-				trace("ParserAwareXmlLoader::deserialize(), ", root );
+				//trace("ParserAwareXmlLoader::deserialize(), ", root );
 				var parsed:Object = this.parser.deserialize( x, root );
 
 				this.resource = getResource( parsed, uri, bytesTotal );

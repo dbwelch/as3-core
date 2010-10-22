@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <configuration>
+	
+	<paths>
+		<absolute>true</absolute>
+	</paths>
+	
 	<locales>
 		
 		<!-- applies to all locales -->
@@ -12,26 +17,13 @@
 			
 		</assets>
 		
-		<defaults>
-			<textfield-defaults>
-				<embedFonts>false</embedFonts>
-				<antiAliasType>advanced</antiAliasType>
-			</textfield-defaults>
-
-			<textformat-defaults>
-				<font>Verdana</font>
-				<size>10</size>
-				<color>0xa9a9a9</color>
-			</textformat-defaults>
-		</defaults>
-		
 		<!-- resources for all locales -->
 		<resources>
 			
 			<rsls>
 				<rsl>
 					<trusted>true</trusted>
-					<url>assets/swf/application-assets.swf</url>
+					<url>swf/application-assets.swf</url>
 				</rsl>
 			</rsls>
 		</resources>

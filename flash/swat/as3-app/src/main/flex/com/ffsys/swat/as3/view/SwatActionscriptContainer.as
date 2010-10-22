@@ -3,6 +3,7 @@ package com.ffsys.swat.as3.view {
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.filters.BitmapFilter;
+	import flash.net.URLRequest;
 	import flash.text.*;
 	
 	import com.ffsys.utils.css.CssStyleCollection;
@@ -16,6 +17,8 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.containers.VerticalBox;
 	import com.ffsys.ui.text.Label;
+	
+	import com.ffsys.ui.runtime.*;
 	
 	import com.ffsys.utils.css.ListenerStyleStrategy;
 	
@@ -67,6 +70,12 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{	
+			
+			var loader:IRuntimeLoader =
+				Runtime.load( new URLRequest( "view.xml" ), this );
+				
+			trace("SwatActionscriptContainer::createChildren(), ", loader );
+			
 			var css:CssStyleCollection = utils.getStyleSheet( "test-css" );
 			
 			//initialize the listener strategy and assign the stylesheet

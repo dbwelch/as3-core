@@ -40,7 +40,7 @@
 			<artifactId>ui</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>pom</type>
-		</dependency>	
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
