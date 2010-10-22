@@ -1,9 +1,13 @@
 <?xml version="1.0"?>
 <document>
+	<css>
+		<file>view-common.css</file>
+	</css>
 	<canvas>
 		<vbox>
 			<label>
-				<text>this is some text</text>
+				<styles>test-text</styles>
+				<text>this is some text {paths:locale}</text>
 				<color>0xff6600</color>
 			</label>
 			<label>

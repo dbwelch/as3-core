@@ -1,4 +1,4 @@
-package com.ffsys.utils.css
+package com.ffsys.ui.css
 {
 	import flash.events.Event;
 	import flash.net.URLRequest;

@@ -5,7 +5,7 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	
-	import com.ffsys.utils.css.IStyleStrategy;
+	import com.ffsys.ui.css.IStyleStrategy;
 	
 	/**
 	*	Abstract super class for application views.

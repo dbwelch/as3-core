@@ -1,4 +1,4 @@
-package com.ffsys.utils.css {
+package com.ffsys.ui.css {
 	
 	import com.ffsys.core.IDestroy;
 	

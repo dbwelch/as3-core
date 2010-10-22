@@ -128,7 +128,7 @@ package com.ffsys.ui.runtime {
 				
 				if( parent is DisplayObjectContainer )
 				{
-					trace("Document::setDeserializedProperty(), adding child: ", child );
+					trace("RuntimeInterpreter::postProcessClass(), adding child: ", child );
 					DisplayObjectContainer( parent ).addChild( child );
 				}
 			}

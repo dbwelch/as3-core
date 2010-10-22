@@ -1,4 +1,4 @@
-package com.ffsys.utils.css {
+package com.ffsys.ui.css {
 	
 	/**
 	*	Represents a style strategy where the styles are applied manually.

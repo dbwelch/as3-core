@@ -18,6 +18,8 @@ package com.ffsys.ui.runtime {
 	*/
 	public class Document extends Canvas
 		implements 	IDocument {
+			
+		private var _css:Array;
 		
 		/**
 		*	Creates a <code>Document</code> instance.
@@ -25,6 +27,19 @@ package com.ffsys.ui.runtime {
 		public function Document()
 		{
 			super();
+		}
+		
+		/**
+		*	List of css files to load.
+		*/
+		public function get css():Array
+		{
+			return _css;
+		}
+		
+		public function set css( val:Array ):void
+		{
+			_css = val;
 		}
 	}
 }

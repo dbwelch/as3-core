@@ -54,6 +54,7 @@ package com.ffsys.ui.core
 		private var _extra:Object;
 		private var _border:IComponentGraphic;
 		private var _background:IComponentGraphic;
+		private var _styles:String;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -74,6 +75,19 @@ package com.ffsys.ui.core
 				addEventListener( Event.ADDED_TO_STAGE, __initialize );
 			}
 		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get styles():String
+		{
+			return _styles;
+		}
+		
+		public function set styles( styles:String ):void
+		{
+			_styles = styles;
+		}		
 		
 		/**
 		*	Invoked when the component is instantiated.

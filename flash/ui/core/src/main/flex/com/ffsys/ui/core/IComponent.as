@@ -18,6 +18,8 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.IMarginAware;
 	import com.ffsys.ui.common.IPaddingAware;
 	
+	import com.ffsys.ui.css.IStyleAware;
+	
 	/**
 	*	Describes the contract for all components.
 	*
@@ -29,6 +31,7 @@ package com.ffsys.ui.core
 	*/
 	public interface IComponent
 		extends ISprite,
+				IStyleAware,
 				ILayoutWidth,
 				ILayoutHeight,
 				IMarginAware,

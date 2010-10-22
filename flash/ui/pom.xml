@@ -15,9 +15,10 @@
 	<modules>
 		<module>buttons</module>
 		<module>common</module>
-		<module>combined</module>		
+		<module>combined</module>
 		<module>containers</module>
 		<module>core</module>
+		<module>css</module>
 		<module>display</module>
 		<module>events</module>
 		<module>graphics</module>

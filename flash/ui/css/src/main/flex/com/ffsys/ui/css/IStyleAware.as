@@ -1,4 +1,4 @@
-package com.ffsys.utils.css {
+package com.ffsys.ui.css {
 	
 	/**
 	*	Describes the contract for objects that are aware

@@ -18,7 +18,7 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.io.loaders.resources.*;
 	
-	import com.ffsys.utils.css.CssStyleCollection;
+	import com.ffsys.ui.css.CssStyleCollection;
 	import com.ffsys.utils.properties.IProperties;
 	
 	import com.ffsys.swat.configuration.rsls.IResourceManager;

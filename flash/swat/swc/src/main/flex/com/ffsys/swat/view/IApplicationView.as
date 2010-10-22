@@ -9,8 +9,8 @@ package com.ffsys.swat.view
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.Settings;
 	
-	import com.ffsys.utils.css.IStyleAware;
-	import com.ffsys.utils.css.IStyleStrategy;
+	import com.ffsys.ui.css.IStyleAware;
+	import com.ffsys.ui.css.IStyleStrategy;
 	
 	/**
 	*	Describes the contract for application views.

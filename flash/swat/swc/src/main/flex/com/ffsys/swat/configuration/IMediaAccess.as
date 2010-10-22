@@ -4,7 +4,7 @@ package com.ffsys.swat.configuration {
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
 	
-	import com.ffsys.utils.css.CssStyleCollection;
+	import com.ffsys.ui.css.CssStyleCollection;
 	
 	/**
 	*	Describes the contract for implementations

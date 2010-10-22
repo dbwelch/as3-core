@@ -6,7 +6,7 @@ package com.ffsys.swat.as3.view {
 	import flash.net.URLRequest;
 	import flash.text.*;
 	
-	import com.ffsys.utils.css.CssStyleCollection;
+	import com.ffsys.ui.css.CssStyleCollection;
 	import com.ffsys.ui.text.core.*;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -20,7 +20,7 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.ui.runtime.*;
 	
-	import com.ffsys.utils.css.ListenerStyleStrategy;
+	import com.ffsys.ui.css.ListenerStyleStrategy;
 	
 	/**
 	*	The main view for the application.
@@ -70,9 +70,6 @@ package com.ffsys.swat.as3.view {
 		*/
 		override public function createChildren():void
 		{	
-			
-			var loader:IRuntimeLoader =
-				Runtime.load( new URLRequest( "view.xml" ), this );
 				
 			trace("SwatActionscriptContainer::createChildren(), ", loader );
 			
@@ -84,6 +81,10 @@ package com.ffsys.swat.as3.view {
 			strategy.styleSheet = css;
 			
 			//test applying styles using the listener strategy
+			var loader:IRuntimeLoader =
+				Runtime.load( new URLRequest( "view.xml" ), this );			
+			
+			
 			var container:ContainerView = new ContainerView();
 			container.styles = "container-view";
 			container.graphics.beginFill( 0xff0000, 1 );
@@ -106,7 +107,6 @@ package com.ffsys.swat.as3.view {
 			var filter:BitmapFilter = filters.getFilter( "bevel" );
 			
 			trace("SwatActionscriptContainer::createChildren(), ", filter );
-				
 			var txt:TextField = new TextField();
 			css.apply( "test-text", txt );
 			//txt.width = 250;
@@ -115,6 +115,8 @@ package com.ffsys.swat.as3.view {
 				
 			trace("SwatActionscriptContainer::createChildren(), ",
 				txt, txt.width, txt.height, txt.autoSize, txt.defaultTextFormat.color );
+			
+			txt.y = 200;
 				
 			//txt.filters = [ filter ];
 			

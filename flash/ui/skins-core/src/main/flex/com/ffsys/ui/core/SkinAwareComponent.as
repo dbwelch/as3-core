@@ -29,7 +29,7 @@ package com.ffsys.ui.core
 	*	@since  17.06.2010
 	*/
 	public class SkinAwareComponent extends InteractiveComponent
-		implements ISkinAwareComponent
+		implements 	ISkinAwareComponent
 	{
 		static private var _skins:ISkinCollection = new SkinCollection();
 		private var _skin:IComponentSkin = new ComponentSkin();

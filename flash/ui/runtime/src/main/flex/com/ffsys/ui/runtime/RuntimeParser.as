@@ -38,6 +38,13 @@ package com.ffsys.ui.runtime {
 			
 			//this.deserializer.parentField = PARENT_FIELD;
 			
+			//document	
+			classNodeNameMap.add(
+				Array,
+				"css",
+				null,
+				false );
+			
 			//containers			
 			classNodeNameMap.add(
 				Canvas,

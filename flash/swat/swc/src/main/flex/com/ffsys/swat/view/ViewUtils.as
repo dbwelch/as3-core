@@ -14,7 +14,7 @@ package com.ffsys.swat.view  {
 	*/
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
-	import com.ffsys.utils.css.CssStyleCollection;
+	import com.ffsys.ui.css.CssStyleCollection;
 	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
