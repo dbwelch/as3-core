@@ -152,20 +152,72 @@ package com.ffsys.ui.css {
 			
 			if( style && target )
 			{
+				var txt:TextField = null;
+				var format:TextFormat = null;
+
+				var targets:Vector.<TextField> = new Vector.<TextField>(); 
+				
 				if( target is TextField )
 				{
-					var format:TextFormat = new TextFormat();
-					format = transform( style );
-					TextField( target ).defaultTextFormat = format;
+					targets.push( TextField( target ) );				
+				}
+				
+				trace("CssStyleCollection::apply(), ", target, ( target is ICssTextFieldProxy ) );
+				
+				if( target is ICssTextFieldProxy )
+				{
+					targets = ICssTextFieldProxy( target ).getProxyTextFields();
+					
+					trace("CssStyleCollection::applied(), got proxy targets: ", target, targets );
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
 				merger.merge( target, style );
 				
+				trace("CssStyleCollection::applied(), EMBED FONTS: ", style.embedFonts );
+				
 				//we cannot guarantee the order that styles will
 				//be applied so we need to ensure that any width/height
 				//are applied after other properties such as autoSize
 				//for the textfield to render correctly
+				
+				if( targets.length )
+				{
+				
+					format = new TextFormat();
+					format = transform( style );
+				
+					for each( txt in targets )
+					{
+						trace("CssStyleCollection::apply(), apply textformat to : ", txt );
+					
+						txt.defaultTextFormat = format;
+					
+						if( style.hasOwnProperty( "width" ) )
+						{
+							//trace("CssStyleCollection::applied(), ", style.width );
+							target.width = style.width;
+						}
+					
+						if( style.hasOwnProperty( "height" ) )
+						{
+							target.height = style.height;
+						}
+					
+						trace("CssStyleCollection::apply(), txt text: ", txt.text );
+					
+						if( txt.text )
+						{
+							txt.text = txt.text;
+						}
+					
+						trace("CssStyleCollection::apply(), ",
+							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font );
+					}
+				
+				}
+				
+				/*
 				if( target is TextField )
 				{
 					if( style.hasOwnProperty( "width" ) )
@@ -177,8 +229,16 @@ package com.ffsys.ui.css {
 					if( style.hasOwnProperty( "height" ) )
 					{
 						target.height = style.height;
-					}					
+					}
+					
+					trace("CssStyleCollection::apply(), txt text: ", txt.text );
+					
+					if( txt.text )
+					{
+						txt.text = txt.text;
+					}									
 				}
+				*/
 				
 				styles.push( style );
 			}

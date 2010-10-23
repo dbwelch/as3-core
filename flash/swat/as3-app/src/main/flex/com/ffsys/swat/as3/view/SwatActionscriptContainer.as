@@ -14,6 +14,7 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
+	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.containers.VerticalBox;
 	import com.ffsys.ui.text.Label;
@@ -80,9 +81,11 @@ package com.ffsys.swat.as3.view {
 			ListenerStyleStrategy( strategy ).initialize( stage );
 			strategy.styleSheet = css;
 			
+			UIComponent.css.push( css );
+			
 			//test applying styles using the listener strategy
 			var loader:IRuntimeLoader =
-				Runtime.load( new URLRequest( "view.xml" ), this );			
+				Runtime.load( new URLRequest( "view.xml" ), this );
 			
 			
 			var container:ContainerView = new ContainerView();

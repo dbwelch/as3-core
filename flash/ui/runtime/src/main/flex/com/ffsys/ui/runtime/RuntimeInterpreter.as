@@ -4,6 +4,7 @@ package com.ffsys.ui.runtime {
 	import flash.display.DisplayObjectContainer;
 	
 	import com.ffsys.ui.graphics.IComponentGraphic;
+	import com.ffsys.ui.css.IStyleAware;
 	
 	//import com.ffsys.io.xml.Deserializer;
 	import com.ffsys.io.xml.DeserializeInterpreter;
@@ -105,6 +106,25 @@ package com.ffsys.ui.runtime {
 				return false;
 			}
 			
+			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value );
+			
+			return true;
+		}
+		
+		private var _styles:String;
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function shouldProcessAttribute(
+			parent:Object, name:String, value:Object ):Boolean
+		{
+			if( name == "styles" )
+			{
+				_styles = String( value );
+				return false;
+			}
+			
 			return true;
 		}		
 		
@@ -128,10 +148,18 @@ package com.ffsys.ui.runtime {
 				
 				if( parent is DisplayObjectContainer )
 				{
-					trace("RuntimeInterpreter::postProcessClass(), adding child: ", child );
+					trace("RuntimeInterpreter::postProcessClass(), adding child: ", child, ( child is IStyleAware ), _styles );
 					DisplayObjectContainer( parent ).addChild( child );
+					
+					//set the styles property after all other deserialization
+					if( _styles && child is IStyleAware )
+					{
+						trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES: ", child, _styles );
+						IStyleAware( child ).styles = _styles;
+						_styles = null;
+					}
 				}
 			}
-		}		
+		}
 	}
 }

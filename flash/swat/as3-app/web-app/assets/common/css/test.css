@@ -1,14 +1,22 @@
 test-text {
 	color: #a9a9a9;
 	font: main;
+	size: 16;
+	embed-fonts: true;
+	auto-size: left;
+	anti-alias-type: advanced;
+	word-wrap: true;
+	mutiline: true;
+	width: 250;
+}
+
+copy {
+	color: #a9a9a9;
+	font: main;
 	size: 12;
 	embed-fonts: true;
 	auto-size: left;
 	anti-alias-type: advanced;
-	x: -2;
-	word-wrap: true;
-	mutiline: true;
-	width: 250;
 }
 
 container-view {

@@ -5,14 +5,15 @@
 	</css>
 	<canvas>
 		<vbox>
-			<label>
-				<styles>test-text</styles>
+			<!-- <spacing>10</spacing> -->
+			<label styles="test-text">
 				<text>this is some text {paths:locale}</text>
 				<color>0xff6600</color>
+				<!-- <selectable>true</selectable> -->				
 			</label>
-			<label>
+			<label styles="copy">
 				<text>this is some text</text>
-				<color>0xff6600</color>
+				<color>0x336699</color>
 			</label>
 			
 			<rect>
@@ -22,6 +23,10 @@
 					<color>0xff6600</color>
 					<alpha>.5</alpha>
 				</fill>
+				<stroke>
+					<thickness>1</thickness>
+					<color>0xff0000</color>
+				</stroke>
 			</rect>
 		</vbox>
 	</canvas>

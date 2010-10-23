@@ -12,7 +12,8 @@ package com.ffsys.ui.text
 	*	@since  16.06.2010
 	*/
 	public class Label extends TextComponent
-	{		
+	{	
+		
 		/**
 		* 	Creates a <code>Label</code> instance.
 		* 

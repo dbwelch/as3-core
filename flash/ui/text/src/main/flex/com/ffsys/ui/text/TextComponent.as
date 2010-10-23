@@ -1,10 +1,14 @@
 package com.ffsys.ui.text
 {
+	import flash.text.TextField;
+	
 	import flash.display.DisplayObject;
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.text.core.ITypedTextField;
+	
+	import com.ffsys.ui.css.ICssTextFieldProxy;
 	
 	/**
 	*	Abstract super class for all components
@@ -17,6 +21,7 @@ package com.ffsys.ui.text
 	*	@since  21.06.2010
 	*/
 	public class TextComponent extends UIComponent
+		implements ICssTextFieldProxy
 	{
 		private var _textfield:ITypedTextField;
 		
@@ -37,6 +42,16 @@ package com.ffsys.ui.text
 			
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getProxyTextFields():Vector.<TextField>
+		{
+			var output:Vector.<TextField> = new Vector.<TextField>();
+			output.push( TextField( _textfield ) );
+			return output;
 		}
 		
 		/**
@@ -258,6 +273,71 @@ package com.ffsys.ui.text
 			
 			return _textfield;
 		}
+		
+		/**
+		*		
+		*/
+		public function get embedFonts():Boolean
+		{
+			return _textfield.embedFonts;
+		}
+		
+		public function set embedFonts( embedFonts:Boolean ):void
+		{
+			_textfield.embedFonts = embedFonts;
+		}
+		
+		public function get wordWrap():Boolean
+		{
+			return _textfield.wordWrap;
+		}
+
+		public function set wordWrap( wordWrap:Boolean ):void
+		{
+			_textfield.wordWrap = wordWrap;
+		}
+		
+		public function get multiline():Boolean
+		{
+			return _textfield.multiline;
+		}
+
+		public function set multiline( multiline:Boolean ):void
+		{
+			_textfield.multiline = multiline;
+		}				
+		
+		override public function set width( width:Number ):void
+		{
+			_textfield.width = width;
+			super.width = width;
+		}
+		
+		override public function set height( height:Number ):void
+		{
+			_textfield.height = height;
+			super.height = height;
+		}
+		
+		public function get autoSize():String
+		{
+			return _textfield.autoSize;
+		}
+		
+		public function set autoSize( autoSize:String ):void
+		{
+			_textfield.autoSize = autoSize;
+		}
+		
+		public function get antiAliasType():String
+		{
+			return _textfield.antiAliasType;
+		}
+
+		public function set antiAliasType( antiAliasType:String ):void
+		{
+			_textfield.antiAliasType = antiAliasType;
+		}		
 		
 		/**
 		* 	Gets the class of textfield to instantiate.

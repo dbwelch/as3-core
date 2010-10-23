@@ -52,23 +52,27 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		*	@inheritDoc
+		*	@inheritDoc	
 		*/
-		override protected function beforeChildAdded(
-			child:DisplayObject, index:int ):Boolean
+		override public function set styles( value:String ):void
 		{
-			trace("UIComponent::beforeChildAdded(), ", styles );
-			if( styles && styles.length > 0 )
-			{
-				var sheet:CssStyleCollection = null;
-				for each( sheet in css )
-				{
-					trace("UIComponent::beforeChildAdded(), APPLYING STYLES: ", styles );
-					sheet.apply( styles, child );
-				}
-			}
+			trace("UIComponent::styles(), ", value, this.styles );
 			
-			return true;
+			//if( value != this.styles )
+			//{
+				super.styles = value;
+				
+				if( this.styles && this.styles.length > 0 )
+				{
+					trace("UIComponent::has styles(), ", styles, css, css.length );
+					var sheet:CssStyleCollection = null;
+					for each( sheet in css )
+					{
+						trace("UIComponent::styles(), APPLYING STYLES: ", styles, sheet );
+						sheet.apply( styles, this );
+					}
+				}
+			//}
 		}
 		
 		/**
