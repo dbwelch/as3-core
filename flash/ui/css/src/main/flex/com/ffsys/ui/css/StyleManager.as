@@ -69,9 +69,17 @@ package com.ffsys.ui.css {
 				style = css.getStyle( styleName );
 				if( style )
 				{
+					trace("StyleManager::getStyle(), returning style: ",
+						styleName, style, URLRequest( _styleSheets[ obj ] ).url );
+					
+					for( var z:String in style )
+					{
+						trace("StyleManager::getStyle(), ", z, style[ z ] );
+					}
+					
 					return style;
 				}
-			}			
+			}
 			
 			return super.getStyle( styleName );
 		}
@@ -153,36 +161,25 @@ package com.ffsys.ui.css {
 		*/
 		private function itemLoaded( event:LoadEvent ):void
 		{
-			trace("StyleManager::itemLoaded(), LOADED STYLE SHEET: ", this, event, event.resource );
-			
 			_current = ICssStyleCollection(
 				StylesheetResource( event.resource ).styleSheet );
 				
 			if( _current.dependencies && _current.dependencies.getLength() > 0 )
 			{
 				_queue.paused = true;
-				trace("StyleManager::itemLoaded(), FOUND DEPENDENCIES", _current.dependencies );
-				
 				_current.dependencies.addEventListener( LoadEvent.DATA, dependencyLoaded );
+				_current.dependencies.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyResourceNotFound );
 				_current.dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
 				_current.dependencies.load();
 			}
-			
-			trace("StyleManager::css(), ", _current,
-				_current.dependencies, _current.dependencies.getLength() );
 		}
 		
 		/**
 		*	@private	
 		*/
-		private function dependenciesLoaded( event:LoadEvent ):void
+		override protected function dependenciesLoaded( event:LoadEvent ):void
 		{
-			trace("StyleManager::dependenciesLoaded(), RESUMING: ", this );
 			_queue.resume();
-			
-			//TODO: merge loaded resources into the css collection
-			trace("StyleManager::merging dependency resources(), ", _current );
-			
 			_current = null;
 		}
 		
@@ -192,6 +189,11 @@ package com.ffsys.ui.css {
 		private function dependencyLoaded( event:LoadEvent ):void
 		{
 			trace("StyleManager::dependencyLoaded(): ", event.resource );
+		}
+		
+		private function dependencyResourceNotFound( event:LoadEvent ):void
+		{
+			trace("StyleManager::dependencyResourceNotFound(), ", this, event.loader, event.uri );
 		}
 	}
 }

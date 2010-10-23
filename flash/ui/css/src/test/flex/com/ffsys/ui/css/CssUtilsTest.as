@@ -1,6 +1,10 @@
 package com.ffsys.ui.css
 {
+	import flash.display.BitmapData;
+	import flash.display.Loader;
+	import flash.filters.BitmapFilter;
 	import flash.events.Event;
+	import flash.media.Sound;
 	import flash.net.URLRequest;
 	
 	import org.flexunit.Assert;
@@ -58,7 +62,6 @@ package com.ffsys.ui.css
 		{
 			manager.addStyleSheet( new URLRequest( "mock-css.css" ),
 				new CssStyleCollection() );
-				
 			manager.addStyleSheet( new URLRequest( "mock-filters.css" ),
 				new CssStyleCollection() );
 		}
@@ -74,7 +77,7 @@ package com.ffsys.ui.css
 			
 			
 			trace("CssUtilsTest::assertStyleManagerAssets(), ",
-				_styleManager.styleNames );
+				_styleManager.styleNames, style, ident );
 			
 			for( var z:String in style )
 			{
@@ -82,7 +85,6 @@ package com.ffsys.ui.css
 					+ z + " || " + style[ z ],
 					getQualifiedClassName( style[ z ] ) );
 			}
-			
 			
 			Assert.assertEquals( "a test string", style.propertyString );
 			Assert.assertEquals( 10, style.propertyNumber );
@@ -94,8 +96,15 @@ package com.ffsys.ui.css
 			Assert.assertTrue( isNaN( style.propertyNan ) );
 			Assert.assertTrue( style.propertyArray is Array );
 			Assert.assertEquals( 4, style.propertyArray.length );
+			Assert.assertEquals( "apples", style.propertyArray[ 0 ] );
+			Assert.assertEquals( 10, style.propertyArray[ 1 ] );
+			Assert.assertEquals( 3.14, style.propertyArray[ 2 ] );
+			Assert.assertEquals( true, style.propertyArray[ 3 ] );
 			Assert.assertTrue( style.propertyClass is Class );
-			Assert.assertTrue( style.propertyUrl is URLRequest );				
+			Assert.assertTrue( style.propertyUrl is URLRequest );
+			Assert.assertTrue( style.propertyBitmap is BitmapData );
+			Assert.assertTrue( style.propertySound is Sound );
+			Assert.assertTrue( style.propertyMovie is Loader );
 		}
 		
 		[Test(async)]

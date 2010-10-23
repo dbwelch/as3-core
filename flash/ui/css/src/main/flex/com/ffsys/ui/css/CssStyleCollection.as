@@ -6,10 +6,13 @@ package com.ffsys.ui.css {
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
+	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.io.loaders.core.*;
+	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.resources.*;
 	import com.ffsys.io.loaders.types.ImageLoader;
 	import com.ffsys.io.loaders.types.MovieLoader;
 	import com.ffsys.io.loaders.types.SoundLoader;
@@ -44,14 +47,16 @@ package com.ffsys.ui.css {
 	public class CssStyleCollection extends StyleSheet
 		implements ICssStyleCollection {
 		
+		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
 		private var _dependencies:ILoaderQueue;
+		private var _cache:Dictionary;
 		
 		private static var extensions:Object = {
 			"class": Class,
-			url: URLRequest,
-			img: ImageLoader,
-			sound: SoundLoader,
-			swf: MovieLoader
+			"url": URLRequest,
+			"img": ImageLoader,
+			"sound": SoundLoader,
+			"swf": MovieLoader
 		};
 		
 		/**
@@ -116,12 +121,25 @@ package com.ffsys.ui.css {
 				_dependencies.destroy();
 			}
 			
+			_cache = new Dictionary();
 			_dependencies = new LoaderQueue();
+			_dependencies.addEventListener(
+				LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
 			parseCSS( text );
-			
-			trace("CssStyleCollection::parse(),  PARSING CSS: ", _dependencies.getLength() );
-			
 			return _dependencies;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function getStyle( styleName:String ):Object
+		{
+			//the default behaviour of returning an empty
+			//object when the style does not exist is undesirable
+			//so we test for existence of at least one property
+			var style:Object = super.getStyle( styleName );
+			for( var z:String in style ){ break; };
+			return z ? style : null;
 		}
 		
 		/**
@@ -160,16 +178,7 @@ package com.ffsys.ui.css {
 		{
 			var filter:BitmapFilter = null;
 			var style:Object = getStyle( styleName );
-			
-			/*
-			if( !style || !( style.filterClass is Class ) )
-			{
-				throw new Error( "Could not find a valid filter class"
-					+ " reference when attempting to get a filter with style name '"
-					+ styleName + "'" );
-			}
-			*/
-			
+
 			if( style && ( style.filterClass is Class ) )
 			{
 				try
@@ -242,13 +251,9 @@ package com.ffsys.ui.css {
 					targets.push( TextField( target ) );				
 				}
 				
-				//trace("CssStyleCollection::apply(), ", target, ( target is ICssTextFieldProxy ) );
-				
 				if( target is ICssTextFieldProxy )
 				{
 					targets = ICssTextFieldProxy( target ).getProxyTextFields();
-					
-					//trace("CssStyleCollection::applied(), got proxy targets: ", target, targets );
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
@@ -266,13 +271,10 @@ package com.ffsys.ui.css {
 				
 					for each( txt in targets )
 					{
-						//trace("CssStyleCollection::apply(), apply textformat to : ", txt );
-					
 						txt.defaultTextFormat = format;
 					
 						if( style.hasOwnProperty( "width" ) )
 						{
-							//trace("CssStyleCollection::applied(), ", style.width );
 							target.width = style.width;
 						}
 					
@@ -296,32 +298,8 @@ package com.ffsys.ui.css {
 							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
 						*/
 					}
-				
 				}
-				
-				/*
-				if( target is TextField )
-				{
-					if( style.hasOwnProperty( "width" ) )
-					{
-						//trace("CssStyleCollection::applied(), ", style.width );
-						target.width = style.width;
-					}
-					
-					if( style.hasOwnProperty( "height" ) )
-					{
-						target.height = style.height;
-					}
-					
-					trace("CssStyleCollection::apply(), txt text: ", txt.text );
-					
-					if( txt.text )
-					{
-						txt.text = txt.text;
-					}									
-				}
-				*/
-				
+
 				styles.push( style );
 			}
 			
@@ -340,47 +318,32 @@ package com.ffsys.ui.css {
 			var value:*;
 			var extension:Object = null;
 			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
-			var extensionExpression:RegExp = /^[a-zA-Z]+\s*\(\s*([^)]+)\s*\)$/;
 			
 			var styles:Array = styleNames;
 			
-			//trace("CssStyleCollection::postProcessCss(), STYLE NAMES: ", styles );
-			
+			//trace("********************** CssStyleCollection::postProcessCss(), " );
+
 			for( var i:int = 0;i < styles.length;i++ )
 			{
 				styleName = styles[ i ];
-				//trace("*** >>>>>>> Parsing style name :", i, styleName );
 				style = getStyle( styleName );
+				//trace("CssStyleCollection::postProcessCss(), ", styleName, style );
 				for( z in style )
 				{
-					//trace("*** Parsing property :", z );
-					
 					value = style[ z ];
-					
-					//trace("CssStyleCollection::postProcessCss(), pre-parsing: ", value  );
 					value = parser.parse( value, true );
+					//trace("CssStyleCollection::postProcessCss(), ", value );
 
 					//we've parsed the primitives
 					//now deal with css specific parsing
 					if( value is String )
 					{
-
-						/*
-						trace("CssStyleCollection::test RegExp(), ",
-							"'" + value + "'", re.test( value ) );
-						*/
-						
-						trace("CssStyleCollection::postProcessCss(), testing extension : ",
-							"'" + value + "'",
-							extensionExpression.test( value ), extensionExpression );
-						
 						if( hexExpression.test( value ) )
 						{
 							value = parseHexNumber( value );
-						}else if( extensionExpression.test( value ) )
+						}else if( _extensionExpression.test( value ) )
 						{
-							trace("CssStyleCollection::postProcessCss(), FOUND CLASS REFERENCE: ", value );
-							extension = parseExtension( value );
+							extension = parseExtension( value, styleName, z );
 							if( extension != null )
 							{
 								value = extension;
@@ -390,6 +353,8 @@ package com.ffsys.ui.css {
 					
 					style[ z ] = value;
 				}
+				
+				//trace("********************** CssStyleCollection::postProcessCss(), setting style: ", styleName, style );
 
 				setStyle( styleName, style );
 			}
@@ -429,7 +394,10 @@ package com.ffsys.ui.css {
 		/**
 		*	@private
 		*/
-		private function parseExtension( candidate:String ):Object
+		private function parseExtension(
+			candidate:String,
+			styleName:String,
+			styleProperty:String ):Object
 		{
 			if( !isValidExtension( candidate ) )
 			{
@@ -437,15 +405,11 @@ package com.ffsys.ui.css {
 			}
 			
 			var extension:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
-			extension
-			
-			trace("CssStyleCollection::parseExtension(), ", "'" + extension + "'" );
-			
 			var output:Object = null;
 			
-			var value:String = candidate.replace(
-				/^class\s*\(\s*([a-zA-Z0-9\.]+)\s*\)$/, "$1" );
-				
+			//var valueExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([a-zA-Z0-9\.]+)\s*\)$/;
+			var value:String = candidate.replace( _extensionExpression, "$1" );
+	
 			//is this necessary, the css parsing of StyleSheet seems to strip
 			//leading white space - verify trailing is also removed
 			value = new StringTrim().trim( value );
@@ -476,14 +440,47 @@ package com.ffsys.ui.css {
 					break;
 			}
 			
-			trace("CssStyleCollection::parseExtension(), ", output );
+			//trace("CssStyleCollection::parseExtension(), ", output );
 			
 			if( _dependencies && ( output is ILoader ) )
 			{
 				_dependencies.addLoader( ILoader( output ) );
+				_cache[ output ] = { styleName: styleName, styleProperty: styleProperty };
 			}
 			
 			return output;
+		}
+		
+		/**
+		*	@private	
+		*/
+		protected function dependenciesLoaded( event:LoadEvent ):void
+		{
+			_dependencies.removeEventListener(
+				LoadEvent.LOAD_COMPLETE, dependenciesLoaded );			
+
+			var loader:ILoader = null;
+			var cached:Object = null;
+			var style:Object = null;
+			for( var i:int = 0;i < _dependencies.getLength();i++ )
+			{
+				loader = _dependencies.getLoaderAt( i ) as ILoader;
+				
+				//resource not founds won't have a resource
+				if( loader && loader.resource )
+				{
+					cached = _cache[ loader ];
+					if( cached )
+					{
+						style = getStyle( cached.styleName );
+						style[ cached.styleProperty ] = loader.resource.data;
+						setStyle( cached.styleName, style );
+					}
+				}
+			}
+			
+			_cache = null;
+			_dependencies = null;
 		}
 	}
 }

@@ -9,10 +9,10 @@ test-style {
 	property-nan: NaN;
 	property-array: apples, 10, 3.14, true;
 	property-class: class ( flash.display.Sprite );
-	property-url: url ( /assets/file.css );
-	property-bitmap: img( mock-css-image.jpg );
-	property-sound: sound( mock-css-sound.mp3 );
-	property-movie: swf( mock-css-movie.swf );
+	property-url: url ( assets/file.css );
+	property-bitmap: img( assets/mock-css-image.jpg );
+	property-sound: sound( assets/mock-css-sound.mp3 );
+	property-movie: swf( assets/mock-css-movie.swf );
 }
 
 .bluetext {
