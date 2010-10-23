@@ -50,7 +50,7 @@ package com.ffsys.ui.css
 		*/
 		protected function getLoadRequest():URLRequest
 		{
-			return new URLRequest( "test.css" );
+			return new URLRequest( "mock-css.css" );
 		}
 		
 		[Before( async )]
@@ -110,6 +110,7 @@ package com.ffsys.ui.css
 			Assert.assertTrue( style.propertyArray is Array );
 			Assert.assertEquals( 4, style.propertyArray.length );
 			Assert.assertTrue( style.propertyClass is Class );
+			Assert.assertTrue( style.propertyUrl is URLRequest );
 		}
 		
 		[Test(async)]

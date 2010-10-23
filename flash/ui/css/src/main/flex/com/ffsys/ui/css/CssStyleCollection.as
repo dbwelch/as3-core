@@ -1,12 +1,17 @@
 package com.ffsys.ui.css {
 	
 	import flash.filters.BitmapFilter;
+	import flash.net.URLRequest;
 	import flash.text.StyleSheet;
 	import flash.text.TextField;
-	import flash.text.TextFormat;	
+	import flash.text.TextFormat;
 	
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
+	
+	import com.ffsys.io.loaders.types.ImageLoader;
+	import com.ffsys.io.loaders.types.MovieLoader;
+	import com.ffsys.io.loaders.types.SoundLoader;
 	
 	import com.ffsys.utils.primitives.PrimitiveParser;
 	import com.ffsys.utils.properties.PropertiesMerge;
@@ -37,10 +42,31 @@ package com.ffsys.ui.css {
 	*/
 	public class CssStyleCollection extends StyleSheet {
 		
+		private static var extensions:Object = {
+			"class": Class,
+			url: URLRequest,
+			bitmap: ImageLoader,
+			sound: SoundLoader,
+			swf: MovieLoader
+		};
+		
 		/**
-		*	Represents a CSS class reference declaration.
+		*	Represents a css extension that references a class.
+		*	
+		*	The class must be available when the css document is
+		*	parsed.
 		*/
-		public static const CLASS_REFERENCE:String = "class";
+		public static const CLASS:String = "class";
+		
+		/**
+		*	Represents an external css url extension.
+		*/
+		public static const URL:String = "url";
+		
+		/**
+		*	Represents an external css bitmap extension.
+		*/
+		public static const BITMAP:String = "bitmap";
 		
 		/**
 		*	Represents a hexadecimal number notation.
@@ -92,7 +118,7 @@ package com.ffsys.ui.css {
 			if( !style || !( style.filterClass is Class ) )
 			{
 				throw new Error( "Could not find a valid filter class"
-					+ " reference when attempting to get a filter with styleName '"
+					+ " reference when attempting to get a filter with style name '"
 					+ styleName + "'" );
 			}
 			
@@ -258,8 +284,9 @@ package com.ffsys.ui.css {
 			var styleName:String = null;
 			var parser:PrimitiveParser = new PrimitiveParser();
 			var value:*;
-			var clazz:Class = null;
-			var re:RegExp = null;
+			var extension:Object = null;
+			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
+			var extensionExpression:RegExp = /^[a-zA-Z]+\s*\(\s*([^)]+)\s*\)$/;
 			
 			var styles:Array = styleNames;
 			
@@ -283,22 +310,26 @@ package com.ffsys.ui.css {
 					//now deal with css specific parsing
 					if( value is String )
 					{
-						re = /^#[0-9a-fA-F]{2,6}$/;
 
 						/*
 						trace("CssStyleCollection::test RegExp(), ",
 							"'" + value + "'", re.test( value ) );
 						*/
 						
-						if( re.test( value ) )
+						trace("CssStyleCollection::postProcessCss(), testing extension : ",
+							"'" + value + "'",
+							extensionExpression.test( value ), extensionExpression );
+						
+						if( hexExpression.test( value ) )
 						{
 							value = parseHexNumber( value );
-						}else
+						}else if( extensionExpression.test( value ) )
 						{
-							clazz = parseClassReference( value );
-							if( clazz != null )
+							trace("CssStyleCollection::postProcessCss(), FOUND CLASS REFERENCE: ", value );
+							extension = parseExtension( value );
+							if( extension != null )
 							{
-								value = clazz;
+								value = extension;
 							}
 						}
 					}
@@ -321,30 +352,67 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		*	Determines whether an extension is valid.
+		*	
+		*	@param candidate The string candidate.
+		*	
+		*	@return Whether the extension candidate represents a
+		*	valid extension.
+		*/
+		private function isValidExtension( candidate:String ):Boolean
+		{
+			for( var z:String in extensions )
+			{
+				if( candidate.indexOf( z ) > -1 )
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		/**
 		*	@private
 		*/
-		private function parseClassReference( candidate:String ):Class
+		private function parseExtension( candidate:String ):Object
 		{
-			if( candidate.indexOf( CLASS_REFERENCE ) == -1 )
+			if( !isValidExtension( candidate ) )
 			{
 				return null;
 			}
 			
-			var clazz:Class = null;
+			var extension:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
 			
-			var classPath:String = candidate.replace(
+			trace("CssStyleCollection::parseExtension(), ", extension );
+			
+			var output:Object = null;
+			
+			var value:String = candidate.replace(
 				/^class\s*\(\s*([a-zA-Z0-9\.]+)\s*\)$/, "$1" );
-			classPath = new StringTrim().trim( classPath );
-			try
+				
+			//is this necessary, the css parsing of StyleSheet seems to strip
+			//leading white space - verify trailing is also removed
+			value = new StringTrim().trim( value );
+			
+			switch( extension )
 			{
-				clazz = Class( getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error( "Could not locate css class reference '"
-					+ classPath + "'." );
+				case CLASS:				
+					try
+					{
+						output = Class( getDefinitionByName( value ) );
+					}catch( e:Error )
+					{
+						throw new Error( "Could not locate css class reference with class path '"
+							+ value + "'." );
+					}
+					break;
+				case URL:
+					output = new URLRequest( value );
+					break;
 			}
 			
-			return clazz;
+			return output;
 		}
 	}
 }
