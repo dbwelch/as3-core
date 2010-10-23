@@ -9,6 +9,7 @@ package com.ffsys.ui.css {
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.types.ImageLoader;
 	import com.ffsys.io.loaders.types.MovieLoader;
 	import com.ffsys.io.loaders.types.SoundLoader;
@@ -40,12 +41,15 @@ package com.ffsys.ui.css {
 	*	
 	*	@see com.ffsys.utils.primitives.PrimitiveParser
 	*/
-	public class CssStyleCollection extends StyleSheet {
+	public class CssStyleCollection extends StyleSheet
+		implements ICssStyleCollection {
+		
+		private var _queue:ILoaderQueue;
 		
 		private static var extensions:Object = {
 			"class": Class,
 			url: URLRequest,
-			bitmap: ImageLoader,
+			img: ImageLoader,
 			sound: SoundLoader,
 			swf: MovieLoader
 		};
@@ -66,7 +70,17 @@ package com.ffsys.ui.css {
 		/**
 		*	Represents an external css bitmap extension.
 		*/
-		public static const BITMAP:String = "bitmap";
+		public static const BITMAP:String = "img";
+		
+		/**
+		*	Represents an external css sound extension.
+		*/
+		public static const SOUND:String = "sound";
+		
+		/**
+		*	Represents an external css swf movie extension.
+		*/
+		public static const SWF:String = "swf";
 		
 		/**
 		*	Represents a hexadecimal number notation.
@@ -79,6 +93,34 @@ package com.ffsys.ui.css {
 		public function CssStyleCollection()
 		{
 			super();
+		}
+		
+		/*
+		public function load( request:URLRequest ):ILoader
+		{
+			
+		}
+		*/
+		
+		/**
+		*	Parses the css text into this instance
+		*	and returns a loader queue implementation
+		*	responsible for loading any external dependencies
+		*	declared in the css.
+		*/
+		public function parse( text:String ):ILoaderQueue
+		{
+			if( _queue )
+			{
+				_queue.destroy();
+			}
+			
+			_queue = new LoaderQueue();
+			parseCSS( text );
+			
+			trace("CssStyleCollection::parse(),  PARSING CSS: ", _queue.getLength() );
+			
+			return _queue;
 		}
 		
 		/**
@@ -383,8 +425,9 @@ package com.ffsys.ui.css {
 			}
 			
 			var extension:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
+			extension
 			
-			trace("CssStyleCollection::parseExtension(), ", extension );
+			trace("CssStyleCollection::parseExtension(), ", "'" + extension + "'" );
 			
 			var output:Object = null;
 			
@@ -397,7 +440,7 @@ package com.ffsys.ui.css {
 			
 			switch( extension )
 			{
-				case CLASS:				
+				case CLASS:
 					try
 					{
 						output = Class( getDefinitionByName( value ) );
@@ -409,7 +452,23 @@ package com.ffsys.ui.css {
 					break;
 				case URL:
 					output = new URLRequest( value );
+					break;			
+				case BITMAP:
+					output = new ImageLoader( new URLRequest( value ) );
 					break;
+				case SOUND:
+					output = new SoundLoader( new URLRequest( value ) );
+					break;
+				case SWF:
+					output = new MovieLoader( new URLRequest( value ) );
+					break;
+			}
+			
+			trace("CssStyleCollection::parseExtension(), ", output );
+			
+			if( _queue && ( output is ILoader ) )
+			{
+				_queue.addLoader( ILoader( output ) );
 			}
 			
 			return output;

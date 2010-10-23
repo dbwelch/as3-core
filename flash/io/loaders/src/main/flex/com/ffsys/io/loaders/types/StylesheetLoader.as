@@ -18,7 +18,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.ILoadOptions;
 	
 	/**
-	*	Represents a loader for CSS stylesheet data.
+	*	Represents a loader for css text files.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -28,27 +28,59 @@ package com.ffsys.io.loaders.types {
 	*/
 	public class StylesheetLoader extends AbstractLoader {
 		
+		/**
+		*	Creates a <code>StylesheetLoader</code> instance.
+		*	
+		*	@param request The url request.
+		*	@param options The load options.
+		*/
 		public function StylesheetLoader(	
 			request:URLRequest = null,
 			options:ILoadOptions = null )
 		{
 			super( request, options );
-		}		
+		}
 		
+		/**
+		*	Parses the loaded text data to a style sheet.
+		*	
+		*	@param text The loaded css text data.
+		*	
+		*	@return The style sheet the text was parsed into.
+		*/
+		protected function parse( text:String ):StyleSheet
+		{
+			var sheet:StyleSheet = getStyleSheet();
+			sheet.parseCSS( text );
+			return sheet;
+		}
+		
+		/**
+		*	Gets an instance of the style sheet to parse
+		*	the loaded text data into.	
+		*/
+		protected function getStyleSheet():StyleSheet
+		{
+			return new StyleSheet();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-		
-			var css:String;
-			var sheet:StyleSheet;
+			var loader:URLLoader = URLLoader( event.target );
+			var sheet:StyleSheet = parse( String( loader.data ) );
 			
+			/*
 			if( !data )
 			{
 				var loader:URLLoader = URLLoader( event.target );
 				
 				if( loader.data )
 				{	
-					sheet = new StyleSheet();		
+					sheet = getStyleSheet();
 					css = new String( loader.data );
 					sheet.parseCSS( css );
 					
@@ -57,6 +89,7 @@ package com.ffsys.io.loaders.types {
 			}else{
 				sheet = data as StyleSheet;
 			}
+			*/
 			
 			if( sheet )
 			{
@@ -72,7 +105,7 @@ package com.ffsys.io.loaders.types {
 				if( queue )
 				{
 					queue.addResource( this );
-				}					
+				}
 				
 				dispatchEvent( evt );
 				

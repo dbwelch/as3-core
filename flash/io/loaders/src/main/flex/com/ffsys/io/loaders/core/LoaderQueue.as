@@ -539,9 +539,11 @@ package com.ffsys.io.loaders.core {
 				//instances are not loaded
 				if( !output )
 				{
+					/*
 					trace("LoaderQueue::loaded(), not loaded: " + loader );
 					trace("LoaderQueue::loaded(), not loaded: " + loader.getBytesLoaded() );
 					trace("LoaderQueue::loaded(), not loaded: " + loader.getBytesTotal() );
+					*/
 					return output;
 				}
 			}
@@ -618,6 +620,29 @@ package com.ffsys.io.loaders.core {
 				
 				_item.close();
 			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+
+		public function destroy():void
+		{
+			close();
+			
+			if( _resources )
+			{
+				_resources.destroy();
+			}
+			
+			_resources = null;
+			_id = null;
+			_items = null;
+			_item = null;
+			
+			//TODO: call destroy on these composite instances
+			_responderDecorator = null;
+			_loadOptionsDecorator = null;
 		}
 		
 		public function get index():int

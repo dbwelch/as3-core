@@ -27,7 +27,12 @@ package com.ffsys.ui.css
 		/**
 		*	@private	
 		*/
-		private var _loader:ILoader;	
+		private var _loader:ILoader;
+		
+		/**
+		*	@private	
+		*/
+		private var _styleManager:IStyleManager;
 		
 		/**
 		*	Creates a <code>CssUtilsTest</code> instance.
@@ -56,17 +61,39 @@ package com.ffsys.ui.css
 		[Before( async )]
      	public function setUp():void
 		{
+			/*
 			_loader = getLoader();
 			_loader.addEventListener(
 				LoadEvent.DATA,
 				Async.asyncHandler( this, assertLoadedAsset, TIMEOUT, null, fail ) );
 			_loader.load( getLoadRequest() );
+			*/
+			
+			_styleManager = new StyleManager();
+			addRequests( _styleManager );
+			var queue:ILoaderQueue = _styleManager.load();
+			queue.addEventListener(
+				LoadEvent.LOAD_COMPLETE,
+				Async.asyncHandler( this, assertStyleManagerAssets, TIMEOUT, null, fail ) );
 		}
 		
 		[After]
      	public function tearDown():void
 		{
 			_loader = null;
+		}
+		
+		protected function addRequests( manager:IStyleManager ):void
+		{
+			manager.addStyleSheet( new URLRequest( "mock-css.css" ),
+				new CssStyleCollection() );
+		}
+		
+		protected function assertStyleManagerAssets(
+			event:LoadEvent,
+			passThroughData:Object ):void
+		{
+			trace("CssUtilsTest::assertStyleManagerAssets(), ", this );
 		}
 		
 		/**
@@ -81,10 +108,10 @@ package com.ffsys.ui.css
 		{
 			var text:String = TextResource( event.resource ).text;
 			
-			var collection:CssStyleCollection = 
+			var collection:ICssStyleCollection = 
 				new CssStyleCollection();
 					
-			collection.parseCSS( text );
+			collection.parse( text );
 			
 			trace("CssUtilsTest::assertLoadedAsset(), ",
 				collection.styleNames );

@@ -6,6 +6,7 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.core.ISilent;
 	import com.ffsys.core.IFatal;
+	import com.ffsys.core.IDestroy;
 	
 	import com.ffsys.io.core.IBytesTotal;
 	import com.ffsys.io.core.IBytesLoaded;
@@ -34,6 +35,7 @@ package com.ffsys.io.loaders.core {
 				IPriorityQueue,
 				ISilent,
 				IFatal,
+				IDestroy,
 				IEventDispatcher {
 					
 		/**
