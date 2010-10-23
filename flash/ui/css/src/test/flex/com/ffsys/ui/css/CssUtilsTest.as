@@ -27,11 +27,6 @@ package com.ffsys.ui.css
 		/**
 		*	@private	
 		*/
-		private var _loader:ILoader;
-		
-		/**
-		*	@private	
-		*/
 		private var _styleManager:IStyleManager;
 		
 		/**
@@ -42,33 +37,9 @@ package com.ffsys.ui.css
 			super();
 		}
 		
-		/**
-		*	Gets the loader used for the test.	
-		*/
-		protected function getLoader():ILoader
-		{
-			return new TextLoader();
-		}
-		
-		/**
-		*	Gets the request used to perform the loading of the asset.
-		*/
-		protected function getLoadRequest():URLRequest
-		{
-			return new URLRequest( "mock-css.css" );
-		}
-		
 		[Before( async )]
      	public function setUp():void
 		{
-			/*
-			_loader = getLoader();
-			_loader.addEventListener(
-				LoadEvent.DATA,
-				Async.asyncHandler( this, assertLoadedAsset, TIMEOUT, null, fail ) );
-			_loader.load( getLoadRequest() );
-			*/
-			
 			_styleManager = new StyleManager();
 			addRequests( _styleManager );
 			var queue:ILoaderQueue = _styleManager.load();
@@ -80,12 +51,15 @@ package com.ffsys.ui.css
 		[After]
      	public function tearDown():void
 		{
-			_loader = null;
+			//_styleManager.close = null;
 		}
 		
 		protected function addRequests( manager:IStyleManager ):void
 		{
 			manager.addStyleSheet( new URLRequest( "mock-css.css" ),
+				new CssStyleCollection() );
+				
+			manager.addStyleSheet( new URLRequest( "mock-filters.css" ),
 				new CssStyleCollection() );
 		}
 		
@@ -94,30 +68,13 @@ package com.ffsys.ui.css
 			passThroughData:Object ):void
 		{
 			trace("CssUtilsTest::assertStyleManagerAssets(), ", this );
-		}
-		
-		/**
-		*	Performs assertions when the asset is loaded.
-		*	
-		*	@param event The event that loaded the asset.
-		*	@param passThroughData The custom pass through data.
-		*/
-		protected function assertLoadedAsset(
-			event:LoadEvent,
-			passThroughData:Object ):void
-		{
-			var text:String = TextResource( event.resource ).text;
 			
-			var collection:ICssStyleCollection = 
-				new CssStyleCollection();
-					
-			collection.parse( text );
+			var style:Object = _styleManager.getStyle( "test-style" );
+			var ident:Object = _styleManager.getStyle( "#ident" );
 			
-			trace("CssUtilsTest::assertLoadedAsset(), ",
-				collection.styleNames );
 			
-			var style:Object = collection.getStyle( "test-style" );
-			var ident:Object = collection.getStyle( "#ident" );
+			trace("CssUtilsTest::assertStyleManagerAssets(), ",
+				_styleManager.styleNames );
 			
 			for( var z:String in style )
 			{
@@ -125,6 +82,7 @@ package com.ffsys.ui.css
 					+ z + " || " + style[ z ],
 					getQualifiedClassName( style[ z ] ) );
 			}
+			
 			
 			Assert.assertEquals( "a test string", style.propertyString );
 			Assert.assertEquals( 10, style.propertyNumber );
@@ -137,7 +95,7 @@ package com.ffsys.ui.css
 			Assert.assertTrue( style.propertyArray is Array );
 			Assert.assertEquals( 4, style.propertyArray.length );
 			Assert.assertTrue( style.propertyClass is Class );
-			Assert.assertTrue( style.propertyUrl is URLRequest );
+			Assert.assertTrue( style.propertyUrl is URLRequest );				
 		}
 		
 		[Test(async)]

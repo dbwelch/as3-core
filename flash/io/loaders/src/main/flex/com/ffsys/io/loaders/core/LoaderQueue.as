@@ -602,7 +602,7 @@ package com.ffsys.io.loaders.core {
 			_loading = false;
 			_force = false;
 			_complete = true;
-			//_closed = true;				
+			//_closed = true;
 			
 			/*
 			if( _calculator )
@@ -665,8 +665,41 @@ package com.ffsys.io.loaders.core {
 		
 		protected function proceed( event:TimerEvent ):void
 		{
-			loadItemAtIndex( index + 1 );
 			stopDelay();
+			loadItemAtIndex( index + 1 );
+		}
+		
+		private var _paused:Boolean;
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get paused():Boolean
+		{
+			return _paused;
+		}
+		
+		public function set paused( paused:Boolean ):void
+		{
+			_paused = paused;
+			
+			//stop any delay when set to pause
+			if( _paused )
+			{
+				stopDelay();
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function resume():void
+		{
+			if( this.paused )
+			{
+				_paused = false;
+				next();
+			}
 		}
 		
 		protected function next():void
@@ -681,9 +714,15 @@ package com.ffsys.io.loaders.core {
 			}
 			*/
 			
+			//nothing to do if we are paused
+			if( this.paused )
+			{
+				return;
+			}
+			
 			//loadItemAtIndex( this.index + 1 );
 			
-			//only use the dealy if we have a delay set
+			//only use the delay if we have a delay set
 			//and are not the first item to load
 			if( delay && index )
 			{

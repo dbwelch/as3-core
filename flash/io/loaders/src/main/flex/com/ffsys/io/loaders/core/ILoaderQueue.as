@@ -39,6 +39,24 @@ package com.ffsys.io.loaders.core {
 				IEventDispatcher {
 					
 		/**
+		*	Indicates whether this queue should pause.
+		*	
+		*	Setting this property does not close any
+		*	existing load operation it merely prevents
+		*	the queue from proceeding to the next item
+		*	until the resume method is called.
+		*/
+		function get paused():Boolean;
+		function set paused( paused:Boolean ):void
+		
+		/**
+		*	Instructs this queue if it is paused to
+		*	resume it's load operations from the next
+		*	index.
+		*/
+		function resume():void;
+					
+		/**
 		*	Flushes any loaded resources.
 		*/
 		function flushResources():void;

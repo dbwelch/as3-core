@@ -50,7 +50,7 @@ package com.ffsys.io.loaders.types {
 		*/
 		protected function parse( text:String ):StyleSheet
 		{
-			var sheet:StyleSheet = getStyleSheet();
+			var sheet:StyleSheet = StyleSheet();
 			sheet.parseCSS( text );
 			return sheet;
 		}

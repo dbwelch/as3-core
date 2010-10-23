@@ -44,7 +44,7 @@ package com.ffsys.ui.css {
 	public class CssStyleCollection extends StyleSheet
 		implements ICssStyleCollection {
 		
-		private var _queue:ILoaderQueue;
+		private var _dependencies:ILoaderQueue;
 		
 		private static var extensions:Object = {
 			"class": Class,
@@ -95,12 +95,13 @@ package com.ffsys.ui.css {
 			super();
 		}
 		
-		/*
-		public function load( request:URLRequest ):ILoader
-		{
-			
-		}
+		/**
+		*	@inheritDoc
 		*/
+		public function get dependencies():ILoaderQueue
+		{
+			return _dependencies;
+		}
 		
 		/**
 		*	Parses the css text into this instance
@@ -110,17 +111,17 @@ package com.ffsys.ui.css {
 		*/
 		public function parse( text:String ):ILoaderQueue
 		{
-			if( _queue )
+			if( _dependencies )
 			{
-				_queue.destroy();
+				_dependencies.destroy();
 			}
 			
-			_queue = new LoaderQueue();
+			_dependencies = new LoaderQueue();
 			parseCSS( text );
 			
-			trace("CssStyleCollection::parse(),  PARSING CSS: ", _queue.getLength() );
+			trace("CssStyleCollection::parse(),  PARSING CSS: ", _dependencies.getLength() );
 			
-			return _queue;
+			return _dependencies;
 		}
 		
 		/**
@@ -152,29 +153,40 @@ package com.ffsys.ui.css {
 			return tf;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
 		public function getFilter( styleName:String ):BitmapFilter
 		{
 			var filter:BitmapFilter = null;
 			var style:Object = getStyle( styleName );
 			
+			/*
 			if( !style || !( style.filterClass is Class ) )
 			{
 				throw new Error( "Could not find a valid filter class"
 					+ " reference when attempting to get a filter with style name '"
 					+ styleName + "'" );
 			}
+			*/
 			
-			try
+			if( style && ( style.filterClass is Class ) )
 			{
-				filter = new style.filterClass();
-			}catch( e:Error )
-			{
-				throw new Error( "Could not instantiate filter with class '"
-					+ style.filterClass + "'." );
+				try
+				{
+					filter = new style.filterClass();
+				}catch( e:Error )
+				{
+					throw new Error( "Could not instantiate filter with class '"
+						+ style.filterClass + "'." );
+				}
+				
+				if( filter )
+				{
+					var merger:PropertiesMerge = new PropertiesMerge();
+					merger.merge( filter, style );
+				}
 			}
-			
-			var merger:PropertiesMerge = new PropertiesMerge();
-			merger.merge( filter, style );
 			
 			return filter;
 		}
@@ -466,9 +478,9 @@ package com.ffsys.ui.css {
 			
 			trace("CssStyleCollection::parseExtension(), ", output );
 			
-			if( _queue && ( output is ILoader ) )
+			if( _dependencies && ( output is ILoader ) )
 			{
-				_queue.addLoader( ILoader( output ) );
+				_dependencies.addLoader( ILoader( output ) );
 			}
 			
 			return output;

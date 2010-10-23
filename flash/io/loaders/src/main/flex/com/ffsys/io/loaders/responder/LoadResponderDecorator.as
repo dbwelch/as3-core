@@ -58,7 +58,7 @@ package com.ffsys.io.loaders.responder {
 			if( !responder )
 			{
 				responder = this.responder;
-			}			
+			}
 			
 			if( dispatcher )
 			{
@@ -112,7 +112,7 @@ package com.ffsys.io.loaders.responder {
 				dispatcher.addEventListener(
 					LoadEvent.DATA, _decorated.cleanupResponderListeners, false, 0, true );				
 			}
-		}		
+		}
 		
 		public function removeResponderListeners(
 			dispatcher:IEventDispatcher,

@@ -32,7 +32,7 @@ package com.ffsys.io.loaders.resources {
 		*	Gets the style sheet associated with
 		*	this resource.	
 		*/
-		public function get stylesheet():StyleSheet
+		public function get styleSheet():StyleSheet
 		{
 			return StyleSheet( this.data );
 		}

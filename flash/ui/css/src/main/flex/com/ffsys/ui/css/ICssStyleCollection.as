@@ -1,6 +1,7 @@
 package com.ffsys.ui.css {
-
+	
 	import flash.events.IEventDispatcher;
+	import flash.filters.BitmapFilter;
 	import flash.text.TextFormat;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
@@ -15,6 +16,12 @@ package com.ffsys.ui.css {
 	*	@since  23.10.2010
 	*/
 	public interface ICssStyleCollection extends IEventDispatcher {
+		
+		/**
+		*	A queue that represents the dependencies that
+		*	were found when the css was parsed.
+		*/
+		function get dependencies():ILoaderQueue;
 		
 		/**
 		*	Parses the css text into this instance
@@ -90,5 +97,13 @@ package com.ffsys.ui.css {
 		*	Removes all styles from this style collection.	
 		*/
 		function clear():void;
+		
+		/**
+		*	Attempts to retrieve a style as a bitmap filter.
+		*	
+		*	The style must have a filter-class declaration
+		*	that indicates the type of filter to instantiate.
+		*/
+		function getFilter( styleName:String ):BitmapFilter;		
 	}
 }

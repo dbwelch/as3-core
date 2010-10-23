@@ -1,10 +1,13 @@
 package com.ffsys.ui.css {
 	
 	import flash.events.EventDispatcher;
+	import flash.filters.BitmapFilter;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	
 	import com.ffsys.io.loaders.core.*;	
+	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.resources.StylesheetResource;
 	
 	/**
 	*	Responsible for managing a collection of style sheets.
@@ -51,6 +54,69 @@ package com.ffsys.ui.css {
 			delete _styleSheets[ sheet ];
 			return ( sheet && _styleSheets[ sheet ] == null );
 		}
+		
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function getStyle( styleName:String ):Object
+		{
+			var css:ICssStyleCollection = null;
+			var style:Object = null;
+			for( var obj:Object in _styleSheets )
+			{
+				css = ICssStyleCollection( obj );
+				style = css.getStyle( styleName );
+				if( style )
+				{
+					return style;
+				}
+			}			
+			
+			return super.getStyle( styleName );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get styleNames():Array
+		{
+			var output:Array = super.styleNames;
+			
+			var css:ICssStyleCollection = null;
+			var styles:Array = null;
+			for( var obj:Object in _styleSheets )
+			{
+				css = ICssStyleCollection( obj );
+				styles = css.styleNames;
+				if( styles )
+				{
+					output = output.concat( styles );
+				}
+			}
+			
+			return output;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function getFilter( styleName:String ):BitmapFilter
+		{
+			var css:ICssStyleCollection = null;
+			var filter:BitmapFilter = null;
+			for( var obj:Object in _styleSheets )
+			{
+				css = ICssStyleCollection( obj );
+				filter = css.getFilter( styleName );
+				if( filter )
+				{
+					return filter;
+				}
+			}
+			
+			return super.getFilter( styleName );
+		}		
 
 		/**
 		*	@inheritDoc
@@ -69,15 +135,63 @@ package com.ffsys.ui.css {
 			for( var obj:Object in _styleSheets )
 			{
 				css = ICssStyleCollection( obj );
-				trace("StyleManager::load(), ", css, URLRequest( _styleSheets[ obj ] ) );
 				loader = new CssLoader( URLRequest( _styleSheets[ obj ] ) );
 				loader.css = css;
+				loader.addEventListener( LoadEvent.DATA, itemLoaded );
 				_queue.addLoader( loader );
 			}
 			
 			_queue.load();
 			
 			return _queue;
+		}
+		
+		private var _current:ICssStyleCollection;
+		
+		/**
+		*	@private
+		*/
+		private function itemLoaded( event:LoadEvent ):void
+		{
+			trace("StyleManager::itemLoaded(), LOADED STYLE SHEET: ", this, event, event.resource );
+			
+			_current = ICssStyleCollection(
+				StylesheetResource( event.resource ).styleSheet );
+				
+			if( _current.dependencies && _current.dependencies.getLength() > 0 )
+			{
+				_queue.paused = true;
+				trace("StyleManager::itemLoaded(), FOUND DEPENDENCIES", _current.dependencies );
+				
+				_current.dependencies.addEventListener( LoadEvent.DATA, dependencyLoaded );
+				_current.dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
+				_current.dependencies.load();
+			}
+			
+			trace("StyleManager::css(), ", _current,
+				_current.dependencies, _current.dependencies.getLength() );
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function dependenciesLoaded( event:LoadEvent ):void
+		{
+			trace("StyleManager::dependenciesLoaded(), RESUMING: ", this );
+			_queue.resume();
+			
+			//TODO: merge loaded resources into the css collection
+			trace("StyleManager::merging dependency resources(), ", _current );
+			
+			_current = null;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function dependencyLoaded( event:LoadEvent ):void
+		{
+			trace("StyleManager::dependencyLoaded(): ", event.resource );
 		}
 	}
 }
