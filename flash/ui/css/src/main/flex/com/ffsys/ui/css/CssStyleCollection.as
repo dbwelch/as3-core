@@ -261,7 +261,7 @@ package com.ffsys.ui.css {
 			var clazz:Class = null;
 			var re:RegExp = null;
 			
-			var styles:Array = styleNames.slice();
+			var styles:Array = styleNames;
 			
 			//trace("CssStyleCollection::postProcessCss(), STYLE NAMES: ", styles );
 			
