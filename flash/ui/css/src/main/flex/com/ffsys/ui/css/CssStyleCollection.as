@@ -162,13 +162,13 @@ package com.ffsys.ui.css {
 					targets.push( TextField( target ) );				
 				}
 				
-				trace("CssStyleCollection::apply(), ", target, ( target is ICssTextFieldProxy ) );
+				//trace("CssStyleCollection::apply(), ", target, ( target is ICssTextFieldProxy ) );
 				
 				if( target is ICssTextFieldProxy )
 				{
 					targets = ICssTextFieldProxy( target ).getProxyTextFields();
 					
-					trace("CssStyleCollection::applied(), got proxy targets: ", target, targets );
+					//trace("CssStyleCollection::applied(), got proxy targets: ", target, targets );
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
@@ -186,7 +186,7 @@ package com.ffsys.ui.css {
 				
 					for each( txt in targets )
 					{
-						trace("CssStyleCollection::apply(), apply textformat to : ", txt );
+						//trace("CssStyleCollection::apply(), apply textformat to : ", txt );
 					
 						txt.defaultTextFormat = format;
 					
@@ -201,18 +201,20 @@ package com.ffsys.ui.css {
 							target.height = style.height;
 						}
 					
-						trace("CssStyleCollection::apply(), txt text: ", txt.text );
+						//trace("CssStyleCollection::apply(), txt text: ", txt.text );
 					
 						if( txt.text )
 						{
 							txt.text = txt.text;
 						}
 						
-						txt.border = true;
-						txt.background = true;
-					
+						//txt.border = true;
+						//txt.background = true;
+						
+						/*
 						trace("CssStyleCollection::apply(), ",
 							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
+						*/
 					}
 				
 				}
@@ -259,31 +261,30 @@ package com.ffsys.ui.css {
 			var clazz:Class = null;
 			var re:RegExp = null;
 			
-			trace("CssStyleCollection::postProcessCss(), STYLE NAMES: ", styleNames );
+			var styles:Array = styleNames.slice();
 			
-			for( var i:int = 0;i < styleNames.length;i++ )
+			//trace("CssStyleCollection::postProcessCss(), STYLE NAMES: ", styles );
+			
+			for( var i:int = 0;i < styles.length;i++ )
 			{
-				styleName = styleNames[ i ];
-				trace("*** >>>>>>> Parsing style name :", styleName );
+				styleName = styles[ i ];
+				//trace("*** >>>>>>> Parsing style name :", i, styleName );
 				style = getStyle( styleName );
 				for( z in style )
 				{
-					trace("*** Parsing property :", z );
+					//trace("*** Parsing property :", z );
+					
 					value = style[ z ];
 					
 					//trace("CssStyleCollection::postProcessCss(), pre-parsing: ", value  );
 					value = parser.parse( value, true );
-					
-					trace("CssStyleCollection::postProcessCss(), post-parsing: ", z, value, ( value is String ) );
-					
+
 					//we've parsed the primitives
 					//now deal with css specific parsing
 					if( value is String )
 					{
 						re = /^#[0-9a-fA-F]{2,6}$/;
-						
-						trace("CssStyleCollection::testing re(), ", value, re, re.test( value ) );
-						
+
 						/*
 						trace("CssStyleCollection::test RegExp(), ",
 							"'" + value + "'", re.test( value ) );
@@ -304,7 +305,7 @@ package com.ffsys.ui.css {
 					
 					style[ z ] = value;
 				}
-				
+
 				setStyle( styleName, style );
 			}
 		}
@@ -315,12 +316,7 @@ package com.ffsys.ui.css {
 		private function parseHexNumber( candidate:String ):Number
 		{
 			candidate = candidate.replace( /^#/, "0x" );
-			
-			var parsed:Number = Number( candidate )
-			
-			//var parsed:Number = parseInt( candidate, 16 );
-			//var parsed:Number = Number( candidate );
-			trace("CssStyleCollection::parseHexNumber(), ", candidate, parsed );
+			var parsed:Number = Number( candidate );
 			return parsed;
 		}
 		

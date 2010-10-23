@@ -105,11 +105,14 @@ package com.ffsys.swat.as3.view {
 			tf.font = "main";
 			tf.size = 12;
 			
+			/*
 			var filters:CssStyleCollection = utils.getStyleSheet(
 				"test-filters" );
 			var filter:BitmapFilter = filters.getFilter( "bevel" );
 			
 			trace("SwatActionscriptContainer::createChildren(), ", filter );
+			*/
+			
 			var txt:TextField = new TextField();
 			css.apply( "test-text", txt );
 			//txt.width = 250;
