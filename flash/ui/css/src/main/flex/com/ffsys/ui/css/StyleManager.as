@@ -69,14 +69,6 @@ package com.ffsys.ui.css {
 				style = css.getStyle( styleName );
 				if( style )
 				{
-					trace("StyleManager::getStyle(), returning style: ",
-						styleName, style, URLRequest( _styleSheets[ obj ] ).url );
-					
-					for( var z:String in style )
-					{
-						trace("StyleManager::getStyle(), ", z, style[ z ] );
-					}
-					
 					return style;
 				}
 			}
@@ -188,12 +180,12 @@ package com.ffsys.ui.css {
 		*/
 		private function dependencyLoaded( event:LoadEvent ):void
 		{
-			trace("StyleManager::dependencyLoaded(): ", event.resource );
+			//trace("StyleManager::dependencyLoaded(): ", event.resource );
 		}
 		
 		private function dependencyResourceNotFound( event:LoadEvent ):void
 		{
-			trace("StyleManager::dependencyResourceNotFound(), ", this, event.loader, event.uri );
+			//trace("StyleManager::dependencyResourceNotFound(), ", this, event.loader, event.uri );
 		}
 	}
 }

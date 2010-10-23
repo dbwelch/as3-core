@@ -105,6 +105,7 @@ package com.ffsys.ui.css
 			Assert.assertTrue( style.propertyBitmap is BitmapData );
 			Assert.assertTrue( style.propertySound is Sound );
 			Assert.assertTrue( style.propertyMovie is Loader );
+			Assert.assertTrue( _styleManager.getFilter( "bevel" ) is BitmapFilter );
 		}
 		
 		[Test(async)]
