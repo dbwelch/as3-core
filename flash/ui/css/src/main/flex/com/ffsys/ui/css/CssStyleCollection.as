@@ -174,8 +174,6 @@ package com.ffsys.ui.css {
 				var merger:PropertiesMerge = new PropertiesMerge();
 				merger.merge( target, style );
 				
-				trace("CssStyleCollection::applied(), EMBED FONTS: ", style.embedFonts );
-				
 				//we cannot guarantee the order that styles will
 				//be applied so we need to ensure that any width/height
 				//are applied after other properties such as autoSize
@@ -183,7 +181,6 @@ package com.ffsys.ui.css {
 				
 				if( targets.length )
 				{
-				
 					format = new TextFormat();
 					format = transform( style );
 				
@@ -210,9 +207,12 @@ package com.ffsys.ui.css {
 						{
 							txt.text = txt.text;
 						}
+						
+						txt.border = true;
+						txt.background = true;
 					
 						trace("CssStyleCollection::apply(), ",
-							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font );
+							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
 					}
 				
 				}
@@ -259,27 +259,30 @@ package com.ffsys.ui.css {
 			var clazz:Class = null;
 			var re:RegExp = null;
 			
-			//trace("CssStyleCollection::postProcessCss(), ", styleNames );
+			trace("CssStyleCollection::postProcessCss(), STYLE NAMES: ", styleNames );
 			
 			for( var i:int = 0;i < styleNames.length;i++ )
 			{
 				styleName = styleNames[ i ];
-				//trace("*** Parsing style name :", styleName );
+				trace("*** >>>>>>> Parsing style name :", styleName );
 				style = getStyle( styleName );
 				for( z in style )
 				{
-					//trace("*** Parsing property :", z );
+					trace("*** Parsing property :", z );
 					value = style[ z ];
 					
 					//trace("CssStyleCollection::postProcessCss(), pre-parsing: ", value  );
 					value = parser.parse( value, true );
-					//trace("CssStyleCollection::postProcessCss(), post-parsing: ", value, ( value is String ) );
+					
+					trace("CssStyleCollection::postProcessCss(), post-parsing: ", z, value, ( value is String ) );
 					
 					//we've parsed the primitives
 					//now deal with css specific parsing
 					if( value is String )
 					{
 						re = /^#[0-9a-fA-F]{2,6}$/;
+						
+						trace("CssStyleCollection::testing re(), ", value, re, re.test( value ) );
 						
 						/*
 						trace("CssStyleCollection::test RegExp(), ",
@@ -311,10 +314,13 @@ package com.ffsys.ui.css {
 		*/
 		private function parseHexNumber( candidate:String ):Number
 		{
-			candidate = candidate.replace( "#", "" );
-			var parsed:Number = parseInt( candidate, 16 );
+			candidate = candidate.replace( /^#/, "0x" );
+			
+			var parsed:Number = Number( candidate )
+			
+			//var parsed:Number = parseInt( candidate, 16 );
 			//var parsed:Number = Number( candidate );
-			//trace("CssStyleCollection::parseHexNumber(), ", candidate, parsed );
+			trace("CssStyleCollection::parseHexNumber(), ", candidate, parsed );
 			return parsed;
 		}
 		
