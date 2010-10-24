@@ -4,7 +4,7 @@ package com.ffsys.swat.configuration {
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
 	
-	import com.ffsys.ui.css.CssStyleCollection;
+	import com.ffsys.ui.css.ICssStyleCollection;
 	
 	/**
 	*	Describes the contract for implementations
@@ -20,14 +20,14 @@ package com.ffsys.swat.configuration {
 		
 		
 		/**
-		*	Gets a parsed CSS style document.
+		*	Gets a style sheet by identifier.
 		*	
-		*	@param id The identifier for the loaded
-		*	resource.
+		*	@param id The identifier for the style sheet.
 		*	
-		*	@return The parsed style collection.
+		*	@return The style sheet with the specified identifier
+		*	or null if no corresponding style sheet could be located.
 		*/
-		function getStyleSheet( id:String ):CssStyleCollection;
+		function getStyleSheet( id:String ):ICssStyleCollection;
 		
 		/**
 		*	Gets a loaded image bitmap.

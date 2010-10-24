@@ -12,7 +12,7 @@ package com.ffsys.ui.css {
 	public class AbstractStyleStrategy extends Object
 		implements IStyleStrategy {
 			
-		private var _styleSheet:CssStyleCollection;			
+		private var _styleSheet:ICssStyleCollection;			
 		
 		/**
 		*	Creates an <code>AbstractStyleStrategy</code> instance.	
@@ -47,12 +47,12 @@ package com.ffsys.ui.css {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get styleSheet():CssStyleCollection
+		public function get styleSheet():ICssStyleCollection
 		{
 			return _styleSheet;
 		}
 		
-		public function set styleSheet( styleSheet:CssStyleCollection ):void
+		public function set styleSheet( styleSheet:ICssStyleCollection ):void
 		{
 			_styleSheet = styleSheet;
 		}

@@ -91,7 +91,10 @@ package com.ffsys.swat.configuration.rsls {
 		protected function initializeLoader(
 			loader:ILoader, resource:IRuntimeResource ):void
 		{
-			loader.id = resource.id;
+			if( resource.id )
+			{
+				loader.id = resource.id;
+			}
 		}
 		
 		/**

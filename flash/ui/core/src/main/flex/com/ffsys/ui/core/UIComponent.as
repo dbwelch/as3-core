@@ -66,10 +66,12 @@ package com.ffsys.ui.core
 			
 			//if( value != this.styles )
 			//{
+				
 				super.styles = value;
 				
-				if( this.styles && this.styles.length > 0 )
+				if( this.styles && this.styles.length > 0 && styleManager )
 				{
+					/*
 					trace("UIComponent::has styles(), ", styles, css, css.length );
 					var sheet:CssStyleCollection = null;
 					for each( sheet in css )
@@ -77,7 +79,13 @@ package com.ffsys.ui.core
 						trace("UIComponent::styles(), APPLYING STYLES: ", styles, sheet );
 						sheet.apply( styles, this );
 					}
+					*/
+					
+					trace("UIComponent::styles(), APPLYING STYLES: ", styles, this );
+					
+					styleManager.apply( styles, this );
 				}
+				
 			//}
 		}
 		

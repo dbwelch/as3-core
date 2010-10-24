@@ -62,7 +62,7 @@ package com.ffsys.swat.configuration.rsls {
 							new LoaderContext( false, ApplicationDomain.currentDomain );
 					}
 					
-					initializeLoader( loader, lib );
+					initializeLoader( loader, lib );				
 					_queue.addLoader( loader );
 				}
 			}

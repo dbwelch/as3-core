@@ -103,6 +103,21 @@ package com.ffsys.ui.css {
 		function clear():void;
 		
 		/**
+		*	Applies a style to a target object.
+		*	
+		*	@param styleName The name of the style to apply.
+		*	@param target The target object to apply the style to.
+		*	@param styles An array to place the applied style objects into.
+		*	
+		*	@return An array of the style objects that were applied or an empty
+		*	array if no styles were applied.
+		*/
+		function apply(
+			styleName:String,
+			target:Object,
+			styles:Array = null ):Array;
+		
+		/**
 		*	Attempts to retrieve a style as a bitmap filter.
 		*	
 		*	The style must have a filter-class declaration

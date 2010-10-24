@@ -6,7 +6,6 @@ package com.ffsys.swat.as3.view {
 	import flash.net.URLRequest;
 	import flash.text.*;
 	
-	import com.ffsys.ui.css.CssStyleCollection;
 	import com.ffsys.ui.text.core.*;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -21,6 +20,7 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.ui.runtime.*;
 	
+	import com.ffsys.ui.css.ICssStyleCollection;
 	import com.ffsys.ui.css.ListenerStyleStrategy;
 	
 	/**
@@ -72,21 +72,32 @@ package com.ffsys.swat.as3.view {
 		override public function createChildren():void
 		{	
 				
-			trace("SwatActionscriptContainer::createChildren(), ", loader );
+			//trace("SwatActionscriptContainer::createChildren(), ", loader );
 			
-			var css:CssStyleCollection = utils.getStyleSheet( "test-css" );
+			//update the style manager reference
+			UIComponent.styleManager = utils.configuration.locales.styleManager;
+			
+			var dependencyStyle:Object = UIComponent.styleManager.getStyle( "dependency-test-style" );
+			
+			trace("SwatActionscriptContainer::createChildren(), ",
+				UIComponent.styleManager,
+				dependencyStyle,
+				dependencyStyle.propertyBitmap );
+				
+			addChild( dependencyStyle.propertyBitmap );
+			
+			var css:ICssStyleCollection = utils.getStyleSheet( "test-css" );
 			
 			//initialize the listener strategy and assign the stylesheet
 			strategy = new ListenerStyleStrategy();
 			ListenerStyleStrategy( strategy ).initialize( stage );
-			strategy.styleSheet = css;
+			strategy.styleSheet = css;	
 			
-			UIComponent.css.push( css );
+			//UIComponent.css.push( css );
 			
 			//test applying styles using the listener strategy
 			var loader:IRuntimeLoader =
 				Runtime.load( new URLRequest( "view.xml" ), this );
-			
 			
 			var container:ContainerView = new ContainerView();
 			container.styles = "container-view";

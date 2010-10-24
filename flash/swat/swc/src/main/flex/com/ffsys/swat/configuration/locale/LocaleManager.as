@@ -8,9 +8,10 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
-	
-	import com.ffsys.io.loaders.core.LoaderQueue;
+
+	import com.ffsys.io.loaders.core.ILoader;
 	import com.ffsys.io.loaders.core.ILoaderQueue;	
+	import com.ffsys.io.loaders.core.LoaderQueue;
 	
 	import com.ffsys.swat.configuration.*;
 	import com.ffsys.swat.configuration.filters.*;
@@ -19,6 +20,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.ui.css.CssStyleCollection;
+	import com.ffsys.ui.css.ICssStyleCollection;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.StyleManager;
 	
@@ -318,12 +320,27 @@ package com.ffsys.swat.configuration.locale {
 					_cssQueue.append(
 						_current.resources.css.getLoaderQueue() );
 				}
+				
+			
+				//massage the css queue so that it uses the style manager
+				//for loading, ensuring that style dependencies are resolved
+				var loader:ILoader = null;
+				var css:ICssStyleCollection = null;
+				for( var i:int = 0;i < _cssQueue.getLength();i++ )
+				{
+					loader = ILoader( _cssQueue.getLoaderAt( i ) );
+					css = new CssStyleCollection();
+					if( loader.id )
+					{
+						css.id = loader.id;
+					}
+					_styleManager.addStyleSheet( loader.request, css );
+				}
+				
+				//update our queue with the queue that the
+				//style manager will use
+				_cssQueue = _styleManager.load();
 			}
-			
-			//massage the css queue so that it uses the style manager
-			//for loading, ensuring that style dependencies are resolved
-			
-			//TODO
 
 			return _cssQueue;
 		}
@@ -421,18 +438,9 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function getStyleSheet( id:String ):CssStyleCollection
+		public function getStyleSheet( id:String ):ICssStyleCollection
 		{
-			var resource:IResource = getResourceById(
-				_cssQueue, id, TextResource );
-			
-			var css:CssStyleCollection = null;
-			if( resource )
-			{
-				css = new CssStyleCollection();
-				css.parseCSS( TextResource( resource ).text );
-			}
-			return css;
+			return _styleManager.getStyleSheet( id );
 		}
 		
 		/**

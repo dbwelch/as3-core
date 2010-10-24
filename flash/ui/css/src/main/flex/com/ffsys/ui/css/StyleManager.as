@@ -96,6 +96,29 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		override public function apply(
+			styleName:String,
+			target:Object,
+			styles:Array = null ):Array
+		{
+			var css:ICssStyleCollection = null;
+			var styles:Array = null;
+			for( var obj:Object in _styleSheets )
+			{
+				css = ICssStyleCollection( obj );
+				styles = css.apply( styleName, target, styles );
+				if( styles && styles.length > 0 )
+				{
+					return styles;
+				}
+			}
+			
+			return super.apply( styleName, target, styles );
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		override public function get styleNames():Array
@@ -175,7 +198,7 @@ package com.ffsys.ui.css {
 			_current = ICssStyleCollection(
 				StylesheetResource( event.resource ).styleSheet );
 				
-			trace("StyleManager::itemLoaded(), ", event.loader, event.loader.id, _current );
+			//trace("StyleManager::itemLoaded(), ", event.loader, event.loader.id, _current );
 			
 			if( _current )
 			{

@@ -18,7 +18,7 @@ package com.ffsys.ui.css {
 		/**
 		*	The stylesheet being applied by this strategy.	
 		*/
-		function get styleSheet():CssStyleCollection;
-		function set styleSheet( styleSheet:CssStyleCollection ):void;
+		function get styleSheet():ICssStyleCollection;
+		function set styleSheet( styleSheet:ICssStyleCollection ):void;
 	}
 }

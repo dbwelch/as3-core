@@ -1,5 +1,7 @@
 package com.ffsys.ui.css {
 	
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.filters.BitmapFilter;
 	import flash.net.URLRequest;
 	import flash.text.StyleSheet;
@@ -123,10 +125,7 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	Parses the css text into this instance
-		*	and returns a loader queue implementation
-		*	responsible for loading any external dependencies
-		*	declared in the css.
+		*	@inheritDoc
 		*/
 		public function parse( text:String ):ILoaderQueue
 		{
@@ -157,9 +156,7 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	Extends the native style sheet parsing capability.
-		*	
-		*	@param text The CSS text to parse.
+		*	@inheritDoc
 		*/
 		override public function parseCSS( text:String ):void
 		{
@@ -168,11 +165,7 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	Overrides the default text format tranform ability.	
-		*	
-		*	@param style The style object to transform to a text format.
-		*	
-		*	@return The transformed text format.
+		*	@inheritDoc
 		*/
 		override public function transform( style:Object ):TextFormat
 		{
@@ -215,14 +208,7 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	Applies a style to a target object.
-		*	
-		*	@param styleName The name of the style to apply.
-		*	@param target The target object to apply the style to.
-		*	@param styles An array to place the applied style objects into.
-		*	
-		*	@return An array of the style objects that were applied or an empty
-		*	array if no styles were applied.
+		*	@inheritDoc
 		*/
 		public function apply(
 			styleName:String,
@@ -476,6 +462,7 @@ package com.ffsys.ui.css {
 			var loader:ILoader = null;
 			var cached:Object = null;
 			var style:Object = null;
+			var data:Object = null;
 			for( var i:int = 0;i < _dependencies.getLength();i++ )
 			{
 				loader = _dependencies.getLoaderAt( i ) as ILoader;
@@ -487,7 +474,15 @@ package com.ffsys.ui.css {
 					if( cached )
 					{
 						style = getStyle( cached.styleName );
-						style[ cached.styleProperty ] = loader.resource.data;
+						data = loader.resource.data;
+						
+						//wrap bitmap data as bitmap display objects
+						if( data is BitmapData )
+						{
+							data = new Bitmap( BitmapData( data ) );
+						}
+						
+						style[ cached.styleProperty ] = data;
 						setStyle( cached.styleName, style );
 					}
 				}

@@ -1,6 +1,6 @@
 package com.ffsys.ui.css
 {
-	import flash.display.BitmapData;
+	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.filters.BitmapFilter;
 	import flash.events.Event;
@@ -22,7 +22,6 @@ package com.ffsys.ui.css
 	*/ 
 	public class CssUtilsTest
 	{
-		
 		/**
 		*	The timeout before the load operation fails.
 		*/
@@ -113,7 +112,7 @@ package com.ffsys.ui.css
 			Assert.assertEquals( true, style.propertyArray[ 3 ] );
 			Assert.assertTrue( style.propertyClass is Class );
 			Assert.assertTrue( style.propertyUrl is URLRequest );
-			Assert.assertTrue( style.propertyBitmap is BitmapData );
+			Assert.assertTrue( style.propertyBitmap is Bitmap );
 			Assert.assertTrue( style.propertySound is Sound );
 			Assert.assertTrue( style.propertyMovie is Loader );
 			Assert.assertTrue( _styleManager.getFilter( "bevel" ) is BitmapFilter );
