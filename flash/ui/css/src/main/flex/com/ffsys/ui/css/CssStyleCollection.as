@@ -12,6 +12,8 @@ package com.ffsys.ui.css {
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.core.IStringIdentifier;
+	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.*;
@@ -212,17 +214,20 @@ package com.ffsys.ui.css {
 		*/
 		public function getStyles( styleName:String ):Array
 		{
+			trace("*** CssStyleCollection::getStyles(), GETTING STYLES FOR: ", styleName );
+			
 			var output:Array = new Array();
 			var style:Object = null;
 			if( styleName.indexOf( " " ) > -1 )
 			{
 				var styleNames:Array = styleName.split( " " );
+				var styles:Array = null;
 				for( var i:int = 0;i < styleNames.length;i++ )
 				{
-					style = getStyles( styleNames[ i ] );
-					if( style )
+					styles = getStyles( styleNames[ i ] );
+					if( styles )
 					{
-						output.push( style );
+						output = output.concat( styles );
 					}
 				}
 			}
@@ -234,7 +239,49 @@ package com.ffsys.ui.css {
 				output.push( style );
 			}
 			
+			trace("*** CssStyleCollection::getStyles(), RETURNING STYLES FOR: ", styleName, output );
+			
 			return output;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function style( target:IStyleAware ):void
+		{
+			if( target )
+			{
+				var styleParts:Array = target.styles ? target.styles.split( " " ) : new Array();
+				
+				//add identifier style access
+				if( target is IStringIdentifier
+					&& IStringIdentifier( target ).id )
+				{
+					styleParts.unshift( "#" + IStringIdentifier( target ).id );
+				}
+	
+				var className:String = getQualifiedClassName( target );
+				className = className.substr( className.indexOf( "::" ) + 2 );
+		
+				//trace("CssStyleCollection::className(), ", className );
+				
+				if( className )
+				{
+					styleParts.unshift( className );
+				}
+				
+				var styleName:String = styleParts.join( " " );
+				
+				if( styleName && styleName.length > 0 )
+				{
+					var styles:Array = getStyles( styleName );
+				
+					trace("CssStyleCollection::style(), ",
+						styleParts, styleName, styles, styles.length );
+			
+					applyStyles( target, styles );
+				}
+			}
 		}
 		
 		/**
@@ -248,42 +295,26 @@ package com.ffsys.ui.css {
 			{
 				return new Array();
 			}
-			
-			/*
-			if( styles == null )
-			{
-				styles = new Array();
-			}
-			*/
-			
-			/*
-			//deal with multiple style names separated by spaces
-			if( styleName.indexOf( " " ) > -1 )
-			{
-				var styleNames:Array = styleName.split( " " );
-				for( var i:int = 0;i < styleNames.length;i++ )
-				{
-					apply( styleNames[ i ], target, styles );
-				}
-				return styles;
-			}
-			*/
-			
-			var styles:Array = getStyles( styleName );
-			
-			trace("CssStyleCollection::apply(), ", styles );
-			
-			for( var i:int = 0;i < styles.length;i++ )
-			{
-				applyStyle( target, styles[ i ] );
-			}
-			
-			//apply an individual style
-			//var style:Object = getStyle( styleName );
-			
 
-			
+			var styles:Array = getStyles( styleName );
+			applyStyles( target, styles );
 			return styles;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function applyStyles( target:Object, styles:Array ):void
+		{
+			if( target && styles )
+			{
+				trace("****** CssStyleCollection::applyStyles(), ", target, styles, styles.length );
+				for( var i:int = 0;i < styles.length;i++ )
+				{
+					trace("CssStyleCollection::applyStyles(), ", target, styles[ i ] );
+					applyStyle( target, styles[ i ] );
+				}
+			}
 		}
 		
 		/**
@@ -291,9 +322,14 @@ package com.ffsys.ui.css {
 		*/
 		private function applyStyle( target:Object, style:Object ):void
 		{
-			trace("CssStyleCollection::applyStyle(), ", target, style );
+			trace("CssStyleCollection::applyStyle(), ", target, style, style is Array );
 			if( style && target )
 			{
+				for( var z:String in style )
+				{
+					trace("CssStyleCollection::applyStyle(), ", z, " || ", style[ z ] );
+				}
+				
 				var txt:TextField = null;
 				var format:TextFormat = null;
 
@@ -301,7 +337,7 @@ package com.ffsys.ui.css {
 				
 				if( target is TextField )
 				{
-					targets.push( TextField( target ) );				
+					targets.push( TextField( target ) );			
 				}
 				
 				if( target is ICssTextFieldProxy )
@@ -336,19 +372,18 @@ package com.ffsys.ui.css {
 							target.height = style.height;
 						}
 					
-						//trace("CssStyleCollection::apply(), txt text: ", txt.text );
+						trace("CssStyleCollection::apply(), txt text: ", txt.text );
 					
 						if( txt.text )
 						{
 							txt.text = txt.text;
 						}
 						
-						//txt.border = true;
-						//txt.background = true;
+						txt.border = true;
+						txt.background = true;
 						
-						
-						//trace("CssStyleCollection::apply(), ",
-						//	txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
+						trace("CssStyleCollection::apply(), ",
+							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
 						
 					}
 				}

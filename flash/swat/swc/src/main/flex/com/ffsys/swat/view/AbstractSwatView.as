@@ -64,6 +64,14 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc	
 		*/
+		public function applyStyles():void
+		{
+			//do nothing at the moment
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get utils():IViewUtils
 		{
 			return _utils;

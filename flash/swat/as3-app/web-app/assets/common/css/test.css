@@ -1,3 +1,16 @@
+Label {
+	color: #a9a9a9;
+	font: main;
+	size: 12;
+	embed-fonts: true;
+	auto-size: left;
+	anti-alias-type: advanced;
+}
+
+test-label {
+	color: #ff6600;
+}
+
 test-text {
 	color: #a9a9a9;
 	font: main;
@@ -10,6 +23,10 @@ test-text {
 	width: 250;
 }
 
+#vbox {
+	x: 200;
+}
+
 dependency-test-style {
 	property-bitmap: img( assets/common/images/mock-css-image.jpg );
 	property-sound: sound( assets/common/sounds/mock-css-sound.mp3 );
@@ -17,12 +34,8 @@ dependency-test-style {
 }
 
 copy {
-	color: #a9a9a9;
-	font: main;
-	size: 12;
-	embed-fonts: true;
-	auto-size: left;
-	anti-alias-type: advanced;
+	color: #ff0000;
+	size: 22;
 }
 
 container-view {

@@ -96,9 +96,6 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		/**
 		*	@inheritDoc	
 		*/
 		override public function getStyles( styleName:String ):Array
@@ -124,27 +121,6 @@ package com.ffsys.ui.css {
 			
 			return output;
 		}
-		
-		/*
-		override public function apply(
-			target:Object,
-			styleName:String ):Array
-		{
-			var css:ICssStyleCollection = null;
-			var styles:Array = null;
-			for( var obj:Object in _styleSheets )
-			{
-				css = ICssStyleCollection( obj );
-				styles = css.apply( target, styleName );
-				if( styles && styles.length > 0 )
-				{
-					return styles;
-				}
-			}
-			
-			return super.apply( target, styleName );
-		}
-		*/
 		
 		/**
 		*	@inheritDoc	

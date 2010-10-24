@@ -17,5 +17,11 @@ package com.ffsys.ui.css {
 		*/
 		function get styles():String;
 		function set styles( styles:String ):void;
+		
+		/**
+		*	Invoked to apply the styles associated with
+		*	this style aware implementation.
+		*/
+		function applyStyles():void;
 	}
 }

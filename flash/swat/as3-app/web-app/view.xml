@@ -5,8 +5,10 @@
 	</css>
 	<canvas>
 		<vbox>
+			<id>vbox</id>
 			<spacing>10</spacing>
-			<label styles="test-text">
+			
+			<label>
 				<text>this is some funky text {paths:locale}</text>
 				<!-- <selectable>true</selectable> -->				
 			</label>

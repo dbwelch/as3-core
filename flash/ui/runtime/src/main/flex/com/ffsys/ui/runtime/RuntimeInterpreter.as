@@ -111,7 +111,7 @@ package com.ffsys.ui.runtime {
 			return true;
 		}
 		
-		private var _styles:String;
+		//private var _styles:String;
 		
 		/**
 		*	@inheritDoc	
@@ -119,11 +119,14 @@ package com.ffsys.ui.runtime {
 		override public function shouldProcessAttribute(
 			parent:Object, name:String, value:Object ):Boolean
 		{
+			
+			/*
 			if( name == "styles" )
 			{
 				_styles = String( value );
 				return false;
 			}
+			*/
 			
 			return true;
 		}		
@@ -134,7 +137,7 @@ package com.ffsys.ui.runtime {
 		override public function postProcessClass(
 			instance:Object, parent:Object ):void
 		{
-			trace("RuntimeInterpreter::postProcessClass(), ", instance, parent );
+			//trace("RuntimeInterpreter::postProcessClass(), ", instance, parent );
 			if( instance is DisplayObject )
 			{
 				var child:DisplayObject = DisplayObject( instance );
@@ -148,15 +151,24 @@ package com.ffsys.ui.runtime {
 				
 				if( parent is DisplayObjectContainer )
 				{
-					trace("RuntimeInterpreter::postProcessClass(), adding child: ", child, ( child is IStyleAware ), _styles );
+					//trace("RuntimeInterpreter::postProcessClass(), adding child: ", child, ( child is IStyleAware ), _styles );
 					DisplayObjectContainer( parent ).addChild( child );
 					
 					//set the styles property after all other deserialization
-					if( _styles && child is IStyleAware )
+					if( child is IStyleAware )
 					{
-						trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES: ", child, _styles );
-						IStyleAware( child ).styles = _styles;
-						_styles = null;
+						/*
+						if( IStyleAware( child ).styles )
+						{
+							trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES: ", child, _styles );
+							IStyleAware( child ).styles = _styles;
+							_styles = null;
+						}
+						*/
+						
+						trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES TO: ", child );
+						
+						IStyleAware( child ).applyStyles();
 					}
 				}
 			}

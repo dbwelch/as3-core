@@ -87,7 +87,15 @@ package com.ffsys.ui.core
 		public function set styles( styles:String ):void
 		{
 			_styles = styles;
-		}		
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function applyStyles():void
+		{
+			//
+		}
 		
 		/**
 		*	Invoked when the component is instantiated.

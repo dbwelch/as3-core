@@ -23,13 +23,6 @@ package com.ffsys.ui.core
 		static public var styleManager:IStyleManager = new StyleManager();
 		
 		/**
-		*	A collection of style sheets to apply
-		*	to child objects before they are added.	
-		*/
-		public static var css:Vector.<CssStyleCollection>
-			= new Vector.<CssStyleCollection>();
-		
-		/**
 		* 	Creates a <code>UIComponent</code> instance.
 		*/
 		public function UIComponent()
@@ -58,35 +51,14 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
-		override public function set styles( value:String ):void
+		override public function applyStyles():void
 		{
-			//if( value != this.styles )
-			//{
-				
-				super.styles = value;
-				
-				trace("UIComponent::styles(), ", value, this.styles, styleManager );
-				
-				if( this.styles && this.styles.length > 0 && styleManager )
-				{
-					/*
-					trace("UIComponent::has styles(), ", styles, css, css.length );
-					var sheet:CssStyleCollection = null;
-					for each( sheet in css )
-					{
-						trace("UIComponent::styles(), APPLYING STYLES: ", styles, sheet );
-						sheet.apply( styles, this );
-					}
-					*/
-					
-					trace("UIComponent::styles(), APPLYING STYLES: ", styles, this );
-					
-					styleManager.apply( this, styles );
-				}
-				
-			//}
+			if( styleManager )
+			{
+				styleManager.style( this );
+			}
 		}
 		
 		/**

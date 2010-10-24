@@ -130,6 +130,16 @@ package com.ffsys.ui.css {
 		function apply(
 			target:Object,
 			styleName:String ):Array;
+			
+		/**
+		*	Applies styles a style aware target.
+		*	
+		*	This extends the behaviour of <code>apply</code> to also
+		*	search for style objects by class name and identifier.
+		*	
+		*	@param target The target to style.
+		*/
+		function style( target:IStyleAware ):void;
 		
 		/**
 		*	Attempts to retrieve a style as a bitmap filter.
