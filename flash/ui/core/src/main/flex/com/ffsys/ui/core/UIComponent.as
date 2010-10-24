@@ -3,7 +3,7 @@ package com.ffsys.ui.core
 	import flash.display.DisplayObject;
 	import flash.events.FocusEvent;
 	
-	import com.ffsys.ui.css.CssStyleCollection;
+	import com.ffsys.ui.css.*;
 	
 	/**
 	*	The default component implementation.
@@ -16,6 +16,12 @@ package com.ffsys.ui.core
 	*/
 	public class UIComponent extends AbstractComponent
 	{
+		/**
+		*	The style manager responsible for managing loaded
+		*	style sheets and for applying styles to components.
+		*/
+		static public var styleManager:IStyleManager = new StyleManager();
+		
 		/**
 		*	A collection of style sheets to apply
 		*	to child objects before they are added.	

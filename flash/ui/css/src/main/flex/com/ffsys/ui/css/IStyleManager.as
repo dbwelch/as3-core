@@ -39,6 +39,16 @@ package com.ffsys.ui.css {
 			sheet:ICssStyleCollection ):Boolean;
 			
 		/**
+		*	Gets a style sheet by identifier.
+		*	
+		*	@param id The identifier for the style sheet.
+		*	
+		*	@return The style sheet with the specified identifier
+		*	or null if no corresponding style sheet was located.
+		*/
+		function getStyleSheet( id:String ):ICssStyleCollection;			
+			
+		/**
 		*	Loads all the style sheets associated with this
 		*	style manager.
 		*	

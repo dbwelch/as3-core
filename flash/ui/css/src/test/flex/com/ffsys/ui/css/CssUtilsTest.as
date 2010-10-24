@@ -70,11 +70,14 @@ package com.ffsys.ui.css
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			trace("CssUtilsTest::assertStyleManagerAssets(), ", this );
+			var sheet:ICssStyleCollection = _styleManager.getStyleSheet( "mockCss" );
+			var filters:ICssStyleCollection = _styleManager.getStyleSheet( "mockFilters" );
 			
+			trace("CssUtilsTest::assertStyleManagerAssets(), got style sheet: ", sheet, filters );
+			
+			//test style manager style lookup
 			var style:Object = _styleManager.getStyle( "test-style" );
 			var ident:Object = _styleManager.getStyle( "#ident" );
-			
 			
 			trace("CssUtilsTest::assertStyleManagerAssets(), ",
 				_styleManager.styleNames, style, ident );
@@ -86,6 +89,14 @@ package com.ffsys.ui.css
 					getQualifiedClassName( style[ z ] ) );
 			}
 			
+			//test the style sheets retrieved by id
+			Assert.assertNotNull( sheet );
+			Assert.assertNotNull( filters );
+			Assert.assertTrue( sheet is ICssStyleCollection );
+			Assert.assertTrue( filters is ICssStyleCollection );
+			
+			//test the values returned from retrieving the styles from
+			//the style manager
 			Assert.assertEquals( "a test string", style.propertyString );
 			Assert.assertEquals( 10, style.propertyNumber );
 			Assert.assertEquals( 1.67, style.propertyFloat );

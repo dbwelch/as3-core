@@ -6,6 +6,8 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.xml.IDeserializeProperty;
 	import com.ffsys.io.xml.IDeserializeComplete;
 	
+	import com.ffsys.ui.css.IStyleManager;
+	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationProperties;
 	import com.ffsys.swat.configuration.IMessageAccess;
@@ -32,6 +34,11 @@ package com.ffsys.swat.configuration.locale {
 		 		IDeserializeProperty,
 				IDeserializeComplete,
 				IResourceManagerAware {
+					
+		/**
+		*	Gets the style manager for the application.
+		*/
+		function get styleManager():IStyleManager;
 		
 		/**
 		* 	The parent configuration.

@@ -3,6 +3,8 @@ package com.ffsys.ui.css {
 	import flash.events.IEventDispatcher;
 	import flash.filters.BitmapFilter;
 	import flash.text.TextFormat;
+	
+	import com.ffsys.core.IStringIdentifier;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
 	/**
@@ -15,7 +17,9 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public interface ICssStyleCollection extends IEventDispatcher {
+	public interface ICssStyleCollection
+		extends	IStringIdentifier,
+				IEventDispatcher {
 		
 		/**
 		*	A queue that represents the dependencies that

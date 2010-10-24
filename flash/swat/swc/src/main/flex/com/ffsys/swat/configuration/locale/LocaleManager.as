@@ -19,6 +19,9 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.ui.css.CssStyleCollection;
+	import com.ffsys.ui.css.IStyleManager;
+	import com.ffsys.ui.css.StyleManager;
+	
 	import com.ffsys.utils.properties.IProperties;
 	
 	import com.ffsys.swat.configuration.rsls.IResourceManager;
@@ -35,6 +38,9 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public class LocaleManager extends LocaleCollection
 		implements ILocaleManager {
+			
+		static private var _styleManager:IStyleManager
+			= new StyleManager();
 		
 		private var _lang:String;
 		private var _defaultLocale:IConfigurationLocale;
@@ -67,6 +73,14 @@ package com.ffsys.swat.configuration.locale {
 		public function LocaleManager()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			return _styleManager;
 		}
 		
 		/**
@@ -305,9 +319,14 @@ package com.ffsys.swat.configuration.locale {
 						_current.resources.css.getLoaderQueue() );
 				}
 			}
+			
+			//massage the css queue so that it uses the style manager
+			//for loading, ensuring that style dependencies are resolved
+			
+			//TODO
 
 			return _cssQueue;
-		}		
+		}
 		
 		/**
 		*	@inheritDoc

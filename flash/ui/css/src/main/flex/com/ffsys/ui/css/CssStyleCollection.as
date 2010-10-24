@@ -47,6 +47,7 @@ package com.ffsys.ui.css {
 	public class CssStyleCollection extends StyleSheet
 		implements ICssStyleCollection {
 		
+		private var _id:String;
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
 		private var _dependencies:ILoaderQueue;
 		private var _cache:Dictionary;
@@ -98,6 +99,19 @@ package com.ffsys.ui.css {
 		public function CssStyleCollection()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id( id:String ):void
+		{
+			_id = id;
 		}
 		
 		/**

@@ -55,6 +55,25 @@ package com.ffsys.ui.css {
 			return ( sheet && _styleSheets[ sheet ] == null );
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getStyleSheet( id:String ):ICssStyleCollection
+		{
+			if( id )
+			{
+				var css:ICssStyleCollection = null;
+				for( var obj:Object in _styleSheets )
+				{
+					css = ICssStyleCollection( obj );
+					if( id == css.id )
+					{
+						return css;
+					}
+				}
+			}
+			return null;
+		}
 		
 		/**
 		*	@inheritDoc
@@ -156,13 +175,25 @@ package com.ffsys.ui.css {
 			_current = ICssStyleCollection(
 				StylesheetResource( event.resource ).styleSheet );
 				
-			if( _current.dependencies && _current.dependencies.getLength() > 0 )
+			trace("StyleManager::itemLoaded(), ", event.loader, event.loader.id, _current );
+			
+			if( _current )
 			{
-				_queue.paused = true;
-				_current.dependencies.addEventListener( LoadEvent.DATA, dependencyLoaded );
-				_current.dependencies.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyResourceNotFound );
-				_current.dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
-				_current.dependencies.load();
+				//assign a default id based on the loader id
+				if( !_current.id && event.loader && event.loader.id )
+				{
+					_current.id = event.loader.id;
+				}
+				
+				if( _current.dependencies && _current.dependencies.getLength() > 0 )
+				{
+					_queue.paused = true;
+					_current.dependencies.addEventListener( LoadEvent.DATA, dependencyLoaded );
+					_current.dependencies.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyResourceNotFound );
+					_current.dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
+					_current.dependencies.load();
+				}
+			
 			}
 		}
 		
