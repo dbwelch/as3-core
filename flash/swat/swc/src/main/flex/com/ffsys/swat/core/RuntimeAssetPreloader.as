@@ -210,8 +210,10 @@ package com.ffsys.swat.core {
 			interpreter.flashvars = SwatFlashVariables( _flashvars );
 			_configurationLoader.parser.interpreter = interpreter;
 			
+			/*
 			trace("RuntimeAssetPreloader::load(), ",
 				_configurationLoader.parser, interpreter, _flashvars );
+			*/
 				
 			_configurationLoader.root =
 				SwatFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();

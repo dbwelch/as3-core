@@ -110,6 +110,14 @@ package com.ffsys.swat.as3.view {
 		/**
 		*	@inheritDoc
 		*/
+		override public function css( event:RslEvent ):void
+		{
+			showLoadProgress( event.preloader.phase, event );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
 		override public function sound( event:RslEvent ):void
 		{
 			showLoadProgress( event.preloader.phase, event );

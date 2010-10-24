@@ -62,12 +62,12 @@ package com.ffsys.ui.core
 		*/
 		override public function set styles( value:String ):void
 		{
-			trace("UIComponent::styles(), ", value, this.styles );
-			
 			//if( value != this.styles )
 			//{
 				
 				super.styles = value;
+				
+				trace("UIComponent::styles(), ", value, this.styles, styleManager );
 				
 				if( this.styles && this.styles.length > 0 && styleManager )
 				{

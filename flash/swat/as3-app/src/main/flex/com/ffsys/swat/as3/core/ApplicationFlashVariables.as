@@ -50,6 +50,9 @@ package com.ffsys.swat.as3.core {
 			_mode = mode;
 		}
 		
+		/**
+		*	Test for receiving a primitive flash variables parameter.	
+		*/
 		public function get test():Boolean
 		{
 			return _test;
@@ -58,7 +61,6 @@ package com.ffsys.swat.as3.core {
 		public function set test( val:Boolean ):void
 		{
 			_test = val;
-			trace("ApplicationFlashVariables::test(), TEST VALUE: ", test );
 		}
 	}
 }
