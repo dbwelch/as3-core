@@ -79,6 +79,7 @@ package com.ffsys.swat.as3.view {
 			//update the style manager reference
 			UIComponent.styleManager = utils.configuration.locales.styleManager;
 			
+			var css:ICssStyleCollection = utils.getStyleSheet( "test-css" );
 			
 			/*
 			//test for adding a bitmap css reference

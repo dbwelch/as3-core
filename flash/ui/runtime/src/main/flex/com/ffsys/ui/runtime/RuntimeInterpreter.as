@@ -1,8 +1,10 @@
 package com.ffsys.ui.runtime {
 	
+	import flash.filters.BitmapFilter;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
+	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.css.IStyleAware;
 	
@@ -101,6 +103,25 @@ package com.ffsys.ui.runtime {
 		override public function shouldSetProperty(
 			parent:Object, name:String, value:* ):Boolean
 		{
+			if( name == "filters" )
+			{
+				if( UIComponent.styleManager && parent is DisplayObject )
+				{
+					var display:DisplayObject = DisplayObject( parent );
+					var filters:Array = display.filters ? display.filters : new Array();
+					var ids:Array = String( value ).split( " " );
+					var filter:BitmapFilter = null
+					for( var i:int = 0;i < ids.length;i++ )
+					{
+						filter = UIComponent.styleManager.getFilter( ids[ i ] );
+						filters.push( filter );
+					}
+					display.filters = filters;
+				}
+				
+				return false;
+			}
+			
 			if( value is DisplayObject )
 			{
 				return false;

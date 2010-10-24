@@ -15,6 +15,7 @@
 			
 			<label>
 				<id>copy</id>
+				<filters>drop-shadow</filters>
 				<styles>copy copy-override</styles>
 				<text>this is some copy text for you</text>
 				
