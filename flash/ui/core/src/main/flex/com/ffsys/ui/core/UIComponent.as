@@ -83,7 +83,7 @@ package com.ffsys.ui.core
 					
 					trace("UIComponent::styles(), APPLYING STYLES: ", styles, this );
 					
-					styleManager.apply( styles, this );
+					styleManager.apply( this, styles );
 				}
 				
 			//}

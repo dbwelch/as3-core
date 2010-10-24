@@ -206,10 +206,160 @@ package com.ffsys.ui.css {
 			
 			return filter;
 		}
+
+		/**
+		*	@inheritDoc	
+		*/
+		public function getStyles( styleName:String ):Array
+		{
+			var output:Array = new Array();
+			var style:Object = null;
+			if( styleName.indexOf( " " ) > -1 )
+			{
+				var styleNames:Array = styleName.split( " " );
+				for( var i:int = 0;i < styleNames.length;i++ )
+				{
+					style = getStyles( styleNames[ i ] );
+					if( style )
+					{
+						output.push( style );
+					}
+				}
+			}
+			
+			style = getStyle( styleName );
+			
+			if( style )
+			{
+				output.push( style );
+			}
+			
+			return output;
+		}
 		
 		/**
 		*	@inheritDoc
 		*/
+		public function apply(
+			target:Object,
+			styleName:String ):Array
+		{
+			if( styleName == null )
+			{
+				return new Array();
+			}
+			
+			/*
+			if( styles == null )
+			{
+				styles = new Array();
+			}
+			*/
+			
+			/*
+			//deal with multiple style names separated by spaces
+			if( styleName.indexOf( " " ) > -1 )
+			{
+				var styleNames:Array = styleName.split( " " );
+				for( var i:int = 0;i < styleNames.length;i++ )
+				{
+					apply( styleNames[ i ], target, styles );
+				}
+				return styles;
+			}
+			*/
+			
+			var styles:Array = getStyles( styleName );
+			
+			trace("CssStyleCollection::apply(), ", styles );
+			
+			for( var i:int = 0;i < styles.length;i++ )
+			{
+				applyStyle( target, styles[ i ] );
+			}
+			
+			//apply an individual style
+			//var style:Object = getStyle( styleName );
+			
+
+			
+			return styles;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function applyStyle( target:Object, style:Object ):void
+		{
+			trace("CssStyleCollection::applyStyle(), ", target, style );
+			if( style && target )
+			{
+				var txt:TextField = null;
+				var format:TextFormat = null;
+
+				var targets:Vector.<TextField> = new Vector.<TextField>(); 
+				
+				if( target is TextField )
+				{
+					targets.push( TextField( target ) );				
+				}
+				
+				if( target is ICssTextFieldProxy )
+				{
+					targets = ICssTextFieldProxy( target ).getProxyTextFields();
+				}
+			
+				var merger:PropertiesMerge = new PropertiesMerge();
+				merger.merge( target, style );
+				
+				//we cannot guarantee the order that styles will
+				//be applied so we need to ensure that any width/height
+				//are applied after other properties such as autoSize
+				//for the textfield to render correctly
+				
+				if( targets.length )
+				{
+					format = new TextFormat();
+					format = transform( style );
+				
+					for each( txt in targets )
+					{
+						txt.defaultTextFormat = format;
+					
+						if( style.hasOwnProperty( "width" ) )
+						{
+							target.width = style.width;
+						}
+					
+						if( style.hasOwnProperty( "height" ) )
+						{
+							target.height = style.height;
+						}
+					
+						//trace("CssStyleCollection::apply(), txt text: ", txt.text );
+					
+						if( txt.text )
+						{
+							txt.text = txt.text;
+						}
+						
+						//txt.border = true;
+						//txt.background = true;
+						
+						
+						//trace("CssStyleCollection::apply(), ",
+						//	txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
+						
+					}
+				}
+			}			
+		}	
+		
+		/**
+		*	@inheritDoc
+		*/
+		
+		/*
 		public function apply(
 			styleName:String,
 			target:Object,
@@ -293,10 +443,10 @@ package com.ffsys.ui.css {
 						//txt.border = true;
 						//txt.background = true;
 						
-						/*
-						trace("CssStyleCollection::apply(), ",
-							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
-						*/
+						
+						//trace("CssStyleCollection::apply(), ",
+						//	txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
+						
 					}
 				}
 
@@ -305,6 +455,7 @@ package com.ffsys.ui.css {
 			
 			return styles;
 		}
+		*/
 		
 		/**
 		*	@private	

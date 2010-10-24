@@ -103,19 +103,33 @@ package com.ffsys.ui.css {
 		function clear():void;
 		
 		/**
+		*	Retrieves an array of all the style objects matched by the specified
+		*	style name.
+		*	
+		*	If the style name does not contain any spaces then we are expected
+		*	to be searching for a single style. If any spaces are found in the
+		*	style name then the style name string is split on a space character
+		*	and we attempt to locate a style for each part of the style name
+		*	parameter.
+		*	
+		*	@param styleName The name of the style.
+		*	
+		*	@return An array of the styles that were found.
+		*/
+		function getStyles( styleName:String ):Array;
+		
+		/**
 		*	Applies a style to a target object.
 		*	
-		*	@param styleName The name of the style to apply.
 		*	@param target The target object to apply the style to.
-		*	@param styles An array to place the applied style objects into.
+		*	@param styleName The name of the style to apply.
 		*	
 		*	@return An array of the style objects that were applied or an empty
 		*	array if no styles were applied.
 		*/
 		function apply(
-			styleName:String,
 			target:Object,
-			styles:Array = null ):Array;
+			styleName:String ):Array;
 		
 		/**
 		*	Attempts to retrieve a style as a bitmap filter.

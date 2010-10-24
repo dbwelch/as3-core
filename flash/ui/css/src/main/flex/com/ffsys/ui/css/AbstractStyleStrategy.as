@@ -39,7 +39,7 @@ package com.ffsys.ui.css {
 			if( styleSheet )
 			{
 				styles = styleSheet.apply(
-					target.styles, target );
+					target, target.styles );
 			}
 			return styles;
 		}

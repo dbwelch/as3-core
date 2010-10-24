@@ -30,7 +30,7 @@ package com.ffsys.io.loaders.types {
 			options:ILoadOptions = null )
 		{
 			super( request, options );
-		}		
+		}
 		
 		/**
 		*	@inheritDoc	

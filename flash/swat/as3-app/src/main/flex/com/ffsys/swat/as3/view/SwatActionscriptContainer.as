@@ -84,7 +84,7 @@ package com.ffsys.swat.as3.view {
 				dependencyStyle,
 				dependencyStyle.propertyBitmap );
 				
-			addChild( dependencyStyle.propertyBitmap );
+			//addChild( dependencyStyle.propertyBitmap );
 			
 			var css:ICssStyleCollection = utils.getStyleSheet( "test-css" );
 			
@@ -125,7 +125,7 @@ package com.ffsys.swat.as3.view {
 			*/
 			
 			var txt:TextField = new TextField();
-			css.apply( "test-text", txt );
+			css.apply( txt, "test-text" );
 			//txt.width = 250;
 			txt.text = "This is a text field created manually using"
 				+ " an embedded font and a css declaration.";

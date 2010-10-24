@@ -98,25 +98,53 @@ package com.ffsys.ui.css {
 		/**
 		*	@inheritDoc
 		*/
+		/**
+		*	@inheritDoc	
+		*/
+		override public function getStyles( styleName:String ):Array
+		{
+			var output:Array = new Array();
+			var css:ICssStyleCollection = null;
+			var styles:Array = null;
+			for( var obj:Object in _styleSheets )
+			{
+				css = ICssStyleCollection( obj );
+				styles = css.getStyles( styleName );
+				if( styles && styles.length > 0 )
+				{
+					output = output.concat( styles );
+				}
+			}
+			
+			styles = super.getStyles( styleName );
+			if( styles && styles.length > 0 )
+			{
+				output = output.concat( styles );
+			}
+			
+			return output;
+		}
+		
+		/*
 		override public function apply(
-			styleName:String,
 			target:Object,
-			styles:Array = null ):Array
+			styleName:String ):Array
 		{
 			var css:ICssStyleCollection = null;
 			var styles:Array = null;
 			for( var obj:Object in _styleSheets )
 			{
 				css = ICssStyleCollection( obj );
-				styles = css.apply( styleName, target, styles );
+				styles = css.apply( target, styleName );
 				if( styles && styles.length > 0 )
 				{
 					return styles;
 				}
 			}
 			
-			return super.apply( styleName, target, styles );
+			return super.apply( target, styleName );
 		}
+		*/
 		
 		/**
 		*	@inheritDoc	
@@ -216,12 +244,11 @@ package com.ffsys.ui.css {
 					_current.dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
 					_current.dependencies.load();
 				}
-			
 			}
 		}
 		
 		/**
-		*	@private	
+		*	@private
 		*/
 		override protected function dependenciesLoaded( event:LoadEvent ):void
 		{
