@@ -25,7 +25,7 @@ package com.ffsys.ui.css
 		/**
 		*	The timeout before the load operation fails.
 		*/
-		private static const TIMEOUT:Number = 5000;
+		private static const TIMEOUT:Number = 10000;
 		
 		/**
 		*	@private	

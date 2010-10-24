@@ -1,3 +1,11 @@
+Document {
+	padding-left: 20;
+}
+
+Cell {
+	padding: 10;
+}
+
 Label, Button {
 	color: #a9a9a9;
 	font: main;
@@ -24,7 +32,7 @@ test-text {
 }
 
 #vbox {
-	x: 0;
+	padding-left: 20;
 }
 
 dependency-test-style {

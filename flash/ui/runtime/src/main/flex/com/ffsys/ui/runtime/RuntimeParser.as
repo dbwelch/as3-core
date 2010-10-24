@@ -148,7 +148,13 @@ package com.ffsys.ui.runtime {
 				Button,
 				"button",
 				null,
-				false );	
+				false );
+				
+			classNodeNameMap.add(
+				TextButton,
+				"text-button",
+				null,
+				false );				
 		}
 	}
 }

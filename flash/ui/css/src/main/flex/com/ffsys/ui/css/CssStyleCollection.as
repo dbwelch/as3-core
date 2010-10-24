@@ -12,6 +12,9 @@ package com.ffsys.ui.css {
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.ui.common.IMarginAware;
+	import com.ffsys.ui.common.IPaddingAware;
+	
 	import com.ffsys.core.IStringIdentifier;
 	
 	import com.ffsys.io.loaders.core.*;
@@ -330,6 +333,38 @@ package com.ffsys.ui.css {
 			}
 		}
 		
+		private function applyPadding( target:IPaddingAware, style:Object ):void
+		{
+			if( target && target.paddings )
+			{
+				if( style.padding is Number )
+				{
+					target.paddings.padding = style.padding;
+				}
+			
+				if( style.paddingLeft is Number )
+				{
+					target.paddings.left = style.paddingLeft;	
+					trace("CssStyleCollection::applyPadding(), ASSIGNING PADDING: ", target.paddings.left );				
+				}
+				
+				if( style.paddingTop is Number )
+				{
+					target.paddings.top = style.paddingTop;					
+				}
+				
+				if( style.paddingRight is Number )
+				{
+					target.paddings.right = style.paddingRight;					
+				}
+				
+				if( style.paddingBottom is Number )
+				{
+					target.paddings.bottom = style.paddingBottom;					
+				}				
+			}
+		}
+		
 		/**
 		*	@private	
 		*/
@@ -337,6 +372,12 @@ package com.ffsys.ui.css {
 		{
 			if( style && target )
 			{
+				if( target is IPaddingAware )
+				{
+					trace("CssStyleCollection::applyStyle(), APPLYING PADDING: ", target, style );
+					applyPadding( IPaddingAware( target ), style );
+				}
+				
 				var txt:TextField = null;
 				var format:TextFormat = null;
 
