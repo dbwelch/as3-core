@@ -155,7 +155,7 @@ package com.ffsys.ui.css {
 			var style:Object = super.getStyle( styleName );
 			for( var z:String in style )
 			{
-				trace("CssStyleCollection::getStyle(), ", z, style[ z ] );
+				//trace("CssStyleCollection::getStyle(), ", z, style[ z ] );
 				return style;
 			}
 			return null;
@@ -239,7 +239,7 @@ package com.ffsys.ui.css {
 			style = getStyle( styleName );
 			if( style )
 			{
-				trace("CssStyleCollection::getStyle(), GOT STYLE FOR STYLE NAME: ", id, styleName, style );
+				//trace("CssStyleCollection::getStyle(), GOT STYLE FOR STYLE NAME: ", id, styleName, style );
 				output.push( style );
 			}
 			
@@ -276,13 +276,15 @@ package com.ffsys.ui.css {
 				
 				if( styleName && styleName.length > 0 )
 				{
-					trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ", styleParts.length );
+					//trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ", styleParts.length );
 					
 					var styles:Array = getStyles( styleName );
 				
+					/*
 					trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ",
 						styleParts, styleName, styles.length );
-			
+					*/
+					
 					applyStyles( target, styles );
 				}
 			}
@@ -310,13 +312,19 @@ package com.ffsys.ui.css {
 		*/
 		private function applyStyles( target:Object, styles:Array ):void
 		{
+			//calling applyStyle() is potentially expensive
+			//so we merge all styles into a single object
+			//in the order styles are declared and apply
+			//the cumulative style			
 			if( target && styles )
 			{
-				trace("****** CssStyleCollection::applyStyles(), ", target, styles, styles.length );
+				var cumulative:Object = new Object();
+				var merger:PropertiesMerge = new PropertiesMerge();
 				for( var i:int = 0;i < styles.length;i++ )
 				{
-					applyStyle( target, styles[ i ] );
-				}
+					merger.merge( cumulative, styles[ i ], false );
+				}	
+				applyStyle( target, cumulative );
 			}
 		}
 		
@@ -325,14 +333,8 @@ package com.ffsys.ui.css {
 		*/
 		private function applyStyle( target:Object, style:Object ):void
 		{
-			trace("CssStyleCollection::applyStyle(), ", target, style, style is Array );
 			if( style && target )
 			{
-				for( var z:String in style )
-				{
-					trace("CssStyleCollection::applyStyle(), ", z, " || ", style[ z ] );
-				}
-				
 				var txt:TextField = null;
 				var format:TextFormat = null;
 
@@ -375,102 +377,6 @@ package com.ffsys.ui.css {
 							target.height = style.height;
 						}
 					
-						trace("CssStyleCollection::apply(), txt text: ", txt.text );
-					
-						if( txt.text )
-						{
-							txt.text = txt.text;
-						}
-						
-						txt.border = true;
-						txt.background = true;
-						
-						trace("CssStyleCollection::apply(), ",
-							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
-						
-					}
-				}
-			}			
-		}	
-		
-		/**
-		*	@inheritDoc
-		*/
-		
-		/*
-		public function apply(
-			styleName:String,
-			target:Object,
-			styles:Array = null ):Array
-		{
-			if( styleName == null )
-			{
-				return new Array();
-			}
-			
-			if( styles == null )
-			{
-				styles = new Array();
-			}
-			
-			//deal with multiple style names separated by spaces
-			if( styleName.indexOf( " " ) > -1 )
-			{
-				var styleNames:Array = styleName.split( " " );
-				for( var i:int = 0;i < styleNames.length;i++ )
-				{
-					apply( styleNames[ i ], target, styles );
-				}
-				return styles;
-			}
-			
-			//apply an individual style
-			var style:Object = getStyle( styleName );
-			
-			if( style && target )
-			{
-				var txt:TextField = null;
-				var format:TextFormat = null;
-
-				var targets:Vector.<TextField> = new Vector.<TextField>(); 
-				
-				if( target is TextField )
-				{
-					targets.push( TextField( target ) );				
-				}
-				
-				if( target is ICssTextFieldProxy )
-				{
-					targets = ICssTextFieldProxy( target ).getProxyTextFields();
-				}
-			
-				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( target, style );
-				
-				//we cannot guarantee the order that styles will
-				//be applied so we need to ensure that any width/height
-				//are applied after other properties such as autoSize
-				//for the textfield to render correctly
-				
-				if( targets.length )
-				{
-					format = new TextFormat();
-					format = transform( style );
-				
-					for each( txt in targets )
-					{
-						txt.defaultTextFormat = format;
-					
-						if( style.hasOwnProperty( "width" ) )
-						{
-							target.width = style.width;
-						}
-					
-						if( style.hasOwnProperty( "height" ) )
-						{
-							target.height = style.height;
-						}
-					
 						//trace("CssStyleCollection::apply(), txt text: ", txt.text );
 					
 						if( txt.text )
@@ -478,22 +384,17 @@ package com.ffsys.ui.css {
 							txt.text = txt.text;
 						}
 						
-						//txt.border = true;
-						//txt.background = true;
+						/*
+						txt.border = true;
+						txt.background = true;
 						
-						
-						//trace("CssStyleCollection::apply(), ",
-						//	txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
-						
+						trace("CssStyleCollection::apply(), ",
+							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
+						*/
 					}
 				}
-
-				styles.push( style );
-			}
-			
-			return styles;
+			}			
 		}
-		*/
 		
 		/**
 		*	@private	
@@ -571,7 +472,7 @@ package com.ffsys.ui.css {
 		{
 			for( var z:String in extensions )
 			{
-				if( candidate.indexOf( z ) > -1 )
+				if( candidate.indexOf( z ) == 0 )
 				{
 					return true;
 				}
@@ -596,11 +497,7 @@ package com.ffsys.ui.css {
 			var extension:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
 			var output:Object = null;
 			
-			//var valueExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([a-zA-Z0-9\.]+)\s*\)$/;
 			var value:String = candidate.replace( _extensionExpression, "$1" );
-	
-			//is this necessary, the css parsing of StyleSheet seems to strip
-			//leading white space - verify trailing is also removed
 			value = new StringTrim().trim( value );
 			
 			switch( extension )
@@ -646,7 +543,7 @@ package com.ffsys.ui.css {
 		protected function dependenciesLoaded( event:LoadEvent ):void
 		{
 			_dependencies.removeEventListener(
-				LoadEvent.LOAD_COMPLETE, dependenciesLoaded );			
+				LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
 
 			var loader:ILoader = null;
 			var cached:Object = null;

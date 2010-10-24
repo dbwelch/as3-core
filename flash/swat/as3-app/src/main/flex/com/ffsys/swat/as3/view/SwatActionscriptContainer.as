@@ -8,6 +8,8 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.ui.text.core.*;
 	
+	import com.ffsys.io.loaders.events.LoadEvent;
+	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.view.IApplicationMainView;
 	import com.ffsys.swat.view.IApplicationPreloader;
@@ -77,53 +79,48 @@ package com.ffsys.swat.as3.view {
 			//update the style manager reference
 			UIComponent.styleManager = utils.configuration.locales.styleManager;
 			
-			var dependencyStyle:Object = UIComponent.styleManager.getStyle( "dependency-test-style" );
+			
+			/*
+			//test for adding a bitmap css reference
+			var dependencyStyle:Object = UIComponent.styleManager.getStyle(
+				"dependency-test-style" );
 			
 			trace("SwatActionscriptContainer::createChildren(), ",
 				UIComponent.styleManager,
 				dependencyStyle,
 				dependencyStyle.propertyBitmap );
-				
-			//addChild( dependencyStyle.propertyBitmap );
+				//addChild( dependencyStyle.propertyBitmap );
+			*/
 			
+			/*
 			var css:ICssStyleCollection = utils.getStyleSheet( "test-css" );
 			
 			//initialize the listener strategy and assign the stylesheet
 			strategy = new ListenerStyleStrategy();
 			ListenerStyleStrategy( strategy ).initialize( stage );
-			strategy.styleSheet = css;	
-			
-			//UIComponent.css.push( css );
+			strategy.styleSheet = css;
+			*/
 			
 			//test applying styles using the listener strategy
 			var loader:IRuntimeLoader =
 				Runtime.load( new URLRequest( "view.xml" ), this );
+			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
 			
+			/*
 			var container:ContainerView = new ContainerView();
 			container.styles = "container-view";
 			container.graphics.beginFill( 0xff0000, 1 );
 			container.graphics.drawRect( 0, 0, 20, 20 );
 			container.graphics.endFill();
 			addChild( container );
-			
-			/*
-			trace("SwatActionscriptContainer::creating(), ",
-				css, css.getStyle( "test-text" ) );
 			*/
 			
+			/*			
 			//test manually creating a textfield
 			var tf:TextFormat = new TextFormat();
 			tf.font = "main";
 			tf.size = 12;
-			
-			/*
-			var filters:CssStyleCollection = utils.getStyleSheet(
-				"test-filters" );
-			var filter:BitmapFilter = filters.getFilter( "bevel" );
-			
-			trace("SwatActionscriptContainer::createChildren(), ", filter );
-			*/
-			
+		
 			var txt:TextField = new TextField();
 			css.apply( txt, "test-text" );
 			//txt.width = 250;
@@ -134,28 +131,12 @@ package com.ffsys.swat.as3.view {
 				txt, txt.width, txt.height, txt.autoSize, txt.defaultTextFormat.color );
 			
 			txt.y = 200;
-				
-			//txt.filters = [ filter ];
-			
-			/*
-			trace("SwatActionscriptContainer::creating(), ",
-				txt, txt.embedFonts, txt.defaultTextFormat,
-				txt.defaultTextFormat.font, txt.defaultTextFormat.color );
-			*/
-			
-			/*
-			txt.textColor = 0xa9a9a9;
-			txt.embedFonts = true;
-			txt.autoSize = TextFieldAutoSize.LEFT;
-			txt.antiAliasType = AntiAliasType.ADVANCED;
-			txt.x = -2;
-			*/
-			
 			addChild( txt );
+			*/
 			
 			//set up the component tests
 			vbox = new VerticalBox();
-			vbox.y = txt.y + txt.textHeight + 12;
+			//vbox.y = txt.y + txt.textHeight + 12;
 			vbox.spacing = 10;
 			
 			/*
@@ -192,7 +173,7 @@ package com.ffsys.swat.as3.view {
 				lbl.height );
 			*/
 				
-			vbox.addChild( lbl );
+			//vbox.addChild( lbl );
 			
 			lbl = new Label( utils.getMessage( "test.message" ) );
 			vbox.addChild( lbl );
@@ -236,6 +217,11 @@ package com.ffsys.swat.as3.view {
 			image.scaleX = image.scaleY = .1;
 			addChild( image );
 			*/
+		}
+		
+		private function runtimeLoaded( event:LoadEvent ):void
+		{
+			trace("SwatActionscriptContainer::runtimeLoaded(), ", event );
 		}
 	}
 }

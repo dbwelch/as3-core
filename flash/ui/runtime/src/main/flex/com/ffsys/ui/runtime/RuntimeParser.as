@@ -4,7 +4,9 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.io.xml.Parser;
 	
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.display.*;
 	import com.ffsys.ui.graphics.*;
+	import com.ffsys.ui.layout.*;
 	import com.ffsys.ui.text.*;
 	
 	/**
@@ -38,17 +40,67 @@ package com.ffsys.ui.runtime {
 			
 			//this.deserializer.parentField = PARENT_FIELD;
 			
-			//document	
+			//document
 			classNodeNameMap.add(
 				Array,
 				"css",
 				null,
 				false );
 			
-			//containers			
+			//containers
 			classNodeNameMap.add(
 				Canvas,
 				"canvas",
+				null,
+				false );
+				
+			//TODO: implement
+			classNodeNameMap.add(
+				RectangleGraphic,
+				"background",
+				null,
+				false );
+			
+			//TODO: implement	
+			classNodeNameMap.add(
+				RectangleGraphic,
+				"border",
+				null,
+				false );					
+			
+			classNodeNameMap.add(
+				Scroller,
+				"scroller",
+				null,
+				false );
+						
+			classNodeNameMap.add(
+				Cell,
+				"cell",
+				null,
+				false );
+				
+			classNodeNameMap.add(
+				BoxModelComponent,
+				"box-model",
+				null,
+				false );
+				
+			classNodeNameMap.add(
+				Layout,
+				"layout",
+				null,
+				false );
+				
+			classNodeNameMap.add(
+				HorizontalLayout,
+				"horizontal-layout",
+				null,
+				false );
+			
+			classNodeNameMap.add(
+				VerticalLayout,
+				"vertical-layout",
 				null,
 				false );
 				

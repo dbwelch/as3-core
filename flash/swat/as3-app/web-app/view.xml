@@ -9,27 +9,126 @@
 			<spacing>10</spacing>
 			
 			<label>
-				<text>this is some funky text {paths:locale}</text>
+				<text>Currently running with locale path {paths:locale} as locale: {locale:country}</text>
 				<!-- <selectable>true</selectable> -->
 			</label>
+			
 			<label>
 				<id>copy</id>
 				<styles>copy copy-override</styles>
 				<text>this is some copy text for you</text>
+				
+				<!--
+				
+				//TODO: implement
+				<background>
+					<fill>
+						<color>0xff6600</color>
+						<alpha>.5</alpha>
+					</fill>
+					<stroke>
+						<thickness>1</thickness>
+						<color>0xff0000</color>
+					</stroke>
+				</background>
+				
+				-->				
 			</label>
 			
-			<rect>
-				<preferred-width>25</preferred-width>
-				<preferred-height>25</preferred-height>
-				<fill>
-					<color>0xff6600</color>
-					<alpha>.5</alpha>
-				</fill>
-				<stroke>
-					<thickness>1</thickness>
-					<color>0xff0000</color>
-				</stroke>
-			</rect>
+			<hbox>
+				<spacing>10</spacing>
+				<rect>
+					<preferred-width>25</preferred-width>
+					<preferred-height>25</preferred-height>
+					<fill>
+						<color>0xff6600</color>
+						<alpha>.5</alpha>
+					</fill>
+					<stroke>
+						<thickness>1</thickness>
+						<color>0xff0000</color>
+					</stroke>
+				</rect>
+				<label styles="lbl">
+					<text>This is a graphic that was rendered from an xml declaration.</text>
+				</label>
+			</hbox>
+			
+			<hbox>
+				<spacing>10</spacing>
+				<cell>
+					<preferred-width>80</preferred-width>
+					<preferred-height>80</preferred-height>
+					<label styles="lbl">
+						<text>Box Model</text>
+					</label>
+					<box-model />
+				</cell>
+				<cell>
+					<preferred-width>80</preferred-width>
+					<preferred-height>80</preferred-height>
+					<layout>
+						<horizontal-align>left</horizontal-align>
+						<vertical-align>top</vertical-align>
+					</layout>
+					<label styles="lbl">
+						<text>Box Model</text>
+					</label>
+					<box-model />
+				</cell>
+				<cell>
+					<preferred-width>80</preferred-width>
+					<preferred-height>80</preferred-height>
+					<layout>
+						<horizontal-align>right</horizontal-align>
+						<vertical-align>top</vertical-align>
+					</layout>
+					<label styles="lbl">
+						<text>Box Model</text>
+					</label>
+					<box-model />
+				</cell>
+				<cell>
+					<preferred-width>80</preferred-width>
+					<preferred-height>80</preferred-height>
+					<layout>
+						<horizontal-align>right</horizontal-align>
+						<vertical-align>bottom</vertical-align>
+					</layout>
+					<label styles="lbl">
+						<text>Box Model</text>
+					</label>
+					<box-model />
+				</cell>
+				<cell>
+					<preferred-width>80</preferred-width>
+					<preferred-height>80</preferred-height>
+					<layout>
+						<horizontal-align>left</horizontal-align>
+						<vertical-align>bottom</vertical-align>
+					</layout>
+					<label styles="lbl">
+						<text>Box Model</text>
+					</label>
+					<box-model />
+				</cell>							
+			</hbox>
+			
+			<!--
+			var cell:Cell = new Cell( 80, 80 );
+			cell.paddings.padding = 5;
+			cell.margins.margin = 5;
+			cell.background = new RectangleGraphic(
+				cell.preferredWidth,
+				cell.preferredHeight,
+				null, new SolidFill( 0xa9a9a9 ) );
+			lbl = new Label( "Box Model" );
+			lbl.color = 0x000000;
+			cell.addChild( lbl );
+			cell.addChild( new BoxModelComponent() );
+			hbox.addChild( cell );
+			-->
+			
 		</vbox>
 	</canvas>
 </document>

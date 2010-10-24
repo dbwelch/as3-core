@@ -18,7 +18,7 @@
 			<artifactId>framework</artifactId>
 			<version>${flex.version}</version>
 			<type>swc</type>
-			<scope>external</scope>
+			<!-- <scope>external</scope> -->
 		</dependency>
 		
 		<dependency>

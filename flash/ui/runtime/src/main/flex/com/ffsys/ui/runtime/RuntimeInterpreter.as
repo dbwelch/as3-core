@@ -117,7 +117,6 @@ package com.ffsys.ui.runtime {
 		override public function postProcessClass(
 			instance:Object, parent:Object ):void
 		{
-			//trace("RuntimeInterpreter::postProcessClass(), ", instance, parent );
 			if( instance is DisplayObject )
 			{
 				var child:DisplayObject = DisplayObject( instance );
@@ -131,21 +130,15 @@ package com.ffsys.ui.runtime {
 				
 				if( parent is DisplayObjectContainer )
 				{
-					//trace("RuntimeInterpreter::postProcessClass(), adding child: ", child, ( child is IStyleAware ), _styles );
-					DisplayObjectContainer( parent ).addChild( child );
-					
 					//set the styles property after all other deserialization
 					if( child is IStyleAware )
 					{
-						
-						trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES TO: ",
-							child, IStyleAware( child ).styles );
-							
 						IStyleAware( child ).applyStyles();
-					}
+					}					
+					
+					DisplayObjectContainer( parent ).addChild( child );
 				}
 			}
 		}
-		
 	}
 }

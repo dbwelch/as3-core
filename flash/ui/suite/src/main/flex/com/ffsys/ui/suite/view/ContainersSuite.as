@@ -44,7 +44,7 @@ package com.ffsys.ui.suite.view {
 			
 			var hbox:HorizontalBox = new HorizontalBox();
 			hbox.spacing = 10;
-			addChild( hbox );	
+			addChild( hbox );
 			
 			var vscrollTarget:Graphic =
 				new Graphic(

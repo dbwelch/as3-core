@@ -58,7 +58,6 @@ package com.ffsys.utils.substitution {
 			methodParts:int = 0 )
 		{
 			super();
-			
 			_prefix = prefix;
 			_target = target;
 			_methodName = methodName;

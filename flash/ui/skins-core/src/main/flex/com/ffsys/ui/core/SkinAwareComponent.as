@@ -171,11 +171,9 @@ package com.ffsys.ui.core
 		{
 			super.applyStyles();
 			
-			/*
 			applyGraphicStyles( preferredWidth, preferredHeight );
 			applyAlpha();
 			applyBlendMode();
-			*/
 		}
 		
 		/**

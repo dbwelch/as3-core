@@ -21,30 +21,35 @@ package com.ffsys.utils.properties {
 		
 		/**
 		*	Merges the properties of a source object into
-		*	a target object. This method copies the values from
-		*	the source object only if the target object has the
-		*	corresponding property. In addition, this method uses
-		*	a for loop so the properties must be enumerable in the
-		*	source object.
+		*	a target object. This method uses a for loop so
+		*	the properties must be enumerable in the source object.
+		*	
+		*	By default the merge logic works in strict mode, meaning
+		*	that the target property is set only if the target has
+		*	the corresponding property.
+		*	
+		*	Set strict to false when you want to merge into dynamic classes
+		*	that can have any property set and you want all of the source
+		*	properties merged into the target dynamic class.
 		*	
 		*	@param target The target object.
 		*	@param source The source object.
+		*	@param strict A boolean indicating whether we should
+		*	be strict.
 		*/
 		public function merge(
-			target:Object, source:Object ):void
+			target:Object,
+			source:Object,
+			strict:Boolean = true ):void
 		{
 			if( target && source )
 			{
-				//trace("PropertiesMerge::merge()", target, source );
-				
 				var z:String = null;
 				for( z in source )
 				{
-					//trace("PropertiesMerge::merge()", z );
-					if( target.hasOwnProperty( z ) )
+					if( !strict || ( strict && target.hasOwnProperty( z ) ) )
 					{
 						target[ z ] = source[ z ];
-						//trace("PropertiesMerge::merged()", z , target[ z ], target );
 					}
 				}
 			}

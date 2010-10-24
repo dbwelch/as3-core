@@ -101,6 +101,10 @@ package com.ffsys.ui.runtime {
 				loader.addEventListener(
 					LoadEvent.DATA,
 					itemLoaded, false, 0, false );
+					
+				loader.addEventListener(
+					LoadEvent.LOAD_COMPLETE,
+					loadComplete, false, 0, false );					
 			}
 		}
 		
@@ -123,6 +127,10 @@ package com.ffsys.ui.runtime {
 				loader.removeEventListener(
 					LoadEvent.DATA,
 					itemLoaded );
+					
+				loader.removeEventListener(
+					LoadEvent.LOAD_COMPLETE,
+					loadComplete );					
 			}
 		}
 		
@@ -132,7 +140,7 @@ package com.ffsys.ui.runtime {
 		private function resourceNotFound(
 			event:LoadEvent ):void
 		{	
-			//
+			dispatchEvent( event );
 		}
 		
 		/**
@@ -140,7 +148,7 @@ package com.ffsys.ui.runtime {
 		*/
 		private function loadStart( event:LoadEvent ):void
 		{
-			//
+			dispatchEvent( event );
 		}
 		
 		/**
@@ -149,7 +157,7 @@ package com.ffsys.ui.runtime {
 		private function loadProgress( 
 			event:LoadEvent ):void
 		{
-			//
+			dispatchEvent( event );
 		}
 		
 		/**
@@ -157,8 +165,16 @@ package com.ffsys.ui.runtime {
 		*/
 		private function itemLoaded( event:LoadEvent ):void
 		{
-			//
-			trace("RuntimeLoader::itemLoaded(), ", event, event.resource );
-		}		
+			dispatchEvent( event );
+		}
+		
+		/**
+		*	@private
+		*/
+		private function loadComplete(
+			event:LoadEvent ):void
+		{
+			dispatchEvent( event );
+		}
 	}
 }

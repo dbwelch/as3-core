@@ -33,6 +33,10 @@ dependency-test-style {
 	property-movie: swf( assets/common/swf/mock-css-movie.swf );
 }
 
+lbl {
+	maximum-width: 120;
+}
+
 #copy {
 	size: 12;
 }
