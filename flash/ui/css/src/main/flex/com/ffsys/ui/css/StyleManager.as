@@ -5,7 +5,7 @@ package com.ffsys.ui.css {
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	
-	import com.ffsys.io.loaders.core.*;	
+	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.StylesheetResource;
 	
