@@ -22,7 +22,7 @@ package com.ffsys.utils.substitution {
 	*	strict String substitution, in which case a runtime
 	*	error is thrown if the target instance cannot be located.
 	*
-	*	Adding custom SubstitutionNamespace instances
+	*	Adding custom Binding instances
 	*	allows us to specify prefixes for these substitutions.
 	*
 	*	The prefix takes the form of:
@@ -41,8 +41,8 @@ package com.ffsys.utils.substitution {
 	*	@author Mischa Williamson
 	*	@since  25.07.2007
 	*/
-	public class SubstitutionNamespace extends Object
-		implements ISubstitutionNamespace {
+	public class Binding extends Object
+		implements IBinding {
 		
 		static public var DELIMITER:String = ":";
 		
@@ -51,7 +51,7 @@ package com.ffsys.utils.substitution {
 		private var _methodName:String;
 		private var _methodParts:int;
 		
-		public function SubstitutionNamespace(
+		public function Binding(
 			prefix:String,
 			target:Object,
 			methodName:String = null,
@@ -108,7 +108,7 @@ package com.ffsys.utils.substitution {
 			return _methodParts;
 		}
 		
-		public function merge( substitutionNamespace:ISubstitutionNamespace ):void
+		public function merge( substitutionNamespace:IBinding ):void
 		{
 			this.prefix = substitutionNamespace.prefix;
 			this.target = substitutionNamespace.target;
@@ -116,9 +116,9 @@ package com.ffsys.utils.substitution {
 			this.methodParts = substitutionNamespace.methodParts;
 		}
 		
-		public function clone():ISubstitutionNamespace
+		public function clone():IBinding
 		{
-			return new SubstitutionNamespace(
+			return new Binding(
 				prefix,
 				target,
 				methodName,

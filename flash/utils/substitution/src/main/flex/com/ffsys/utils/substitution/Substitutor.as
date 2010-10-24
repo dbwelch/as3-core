@@ -27,10 +27,10 @@ package com.ffsys.utils.substitution {
 		static public var END_DELIMITER:String = "}";
 		
 		/**
-		*	A collection of SubstitutionNamespace instances to use when
+		*	A collection of Binding instances to use when
 		*	performing substitution.
 		*/
-		private var _namespaces:ISubstitutionNamespaceCollection;
+		private var _namespaces:IBindingCollection;
 		
 		/**
 		*	Determines whether String replacement is performed
@@ -76,12 +76,12 @@ package com.ffsys.utils.substitution {
 			pathDelimiter = PATH_DELIMITER;
 			startDelimiter = START_DELIMITER;
 			endDelimiter = END_DELIMITER;
-			namespaceDelimiter = SubstitutionNamespace.DELIMITER;
+			namespaceDelimiter = Binding.DELIMITER;
 			
 			this.source = source;
 			this.target = target;
 			
-			_namespaces = new SubstitutionNamespaceCollection();
+			_namespaces = new BindingCollection();
 			
 			this.strict = true;
 		}
@@ -150,12 +150,12 @@ package com.ffsys.utils.substitution {
 			return _formatter;
 		}		
 		
-		public function set namespaces( val:ISubstitutionNamespaceCollection ):void
+		public function set namespaces( val:IBindingCollection ):void
 		{
 			_namespaces = val;
 		}
 		
-		public function get namespaces():ISubstitutionNamespaceCollection
+		public function get namespaces():IBindingCollection
 		{
 			return _namespaces;
 		}

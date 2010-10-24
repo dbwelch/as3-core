@@ -8,7 +8,7 @@ package com.ffsys.ui.runtime {
 	
 	//import com.ffsys.io.xml.Deserializer;
 	import com.ffsys.io.xml.DeserializeInterpreter;
-	//import com.ffsys.utils.substitution.SubstitutionNamespace;
+	//import com.ffsys.utils.substitution.Binding;
 	
 	/**
 	*	Interpreter for the runtime view document parser.
@@ -60,15 +60,15 @@ package com.ffsys.ui.runtime {
 			configuration.locales.lang = flashvars.lang;
 			
 			//add the current locale as a default namespace
-			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
-				new SubstitutionNamespace(
+			Deserializer.defaultStringSubstitutions.addBinding(
+				new Binding(
 					"locale",
 					configuration.locales.current )
 			);
 			
 			//add the configuration as a default binding
-			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
-				new SubstitutionNamespace(
+			Deserializer.defaultStringSubstitutions.addBinding(
+				new Binding(
 					"configuration",
 					configuration )
 			);			
@@ -85,8 +85,8 @@ package com.ffsys.ui.runtime {
 				IConfigurationLocale( configuration.locales.current ) );
 			
 			//add the paths as a default binding
-			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
-				new SubstitutionNamespace(
+			Deserializer.defaultStringSubstitutions.addBinding(
+				new Binding(
 					"paths",
 					configuration.paths )
 			);

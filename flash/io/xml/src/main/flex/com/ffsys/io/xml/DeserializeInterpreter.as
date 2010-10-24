@@ -1,10 +1,10 @@
 package com.ffsys.io.xml {
 	
-	import com.ffsys.utils.substitution.ISubstitutionNamespace;
-	import com.ffsys.utils.substitution.ISubstitutionNamespaceCollection;	
+	import com.ffsys.utils.substitution.IBinding;
+	import com.ffsys.utils.substitution.IBindingCollection;	
 	import com.ffsys.utils.substitution.Substitutor;
-	import com.ffsys.utils.substitution.SubstitutionNamespace;
-	import com.ffsys.utils.substitution.SubstitutionNamespaceCollection;
+	import com.ffsys.utils.substitution.Binding;
+	import com.ffsys.utils.substitution.BindingCollection;
 	
 	/**
 	*	Represents a custom deserialization interpreter, this means
@@ -24,10 +24,10 @@ package com.ffsys.io.xml {
 		private var _deserializer:Deserializer;
 		
 		/**
-		*	A collection of SubstitutionNamespace instances to use when
+		*	A collection of Binding instances to use when
 		*	interpreting this deserialization pass.
 		*/
-		private var _stringSubstitutions:ISubstitutionNamespaceCollection;
+		private var _stringSubstitutions:IBindingCollection;
 		
 		/**
 		*	Determines whether this interpreter should perform
@@ -69,7 +69,7 @@ package com.ffsys.io.xml {
 			this.useStringReplacement = useStringReplacement;
 			this.strictStringReplacement = strictStringReplacement;
 			
-			_stringSubstitutions = new SubstitutionNamespaceCollection();
+			_stringSubstitutions = new BindingCollection();
 			
 			//needs refactoring so it doesn't point to the same static
 			//instance but uses a different instance that uses the
@@ -85,20 +85,20 @@ package com.ffsys.io.xml {
 				_stringSubstitutions = Deserializer.defaultStringSubstitutions;
 				
 				/*
-				var defaults:ISubstitutionNamespaceCollection = Deserializer.defaultStringSubstitutions;
+				var defaults:IBindingCollection = Deserializer.defaultStringSubstitutions;
 				
 				var i:int = 0;
 				var l:int = defaults.getLength();
 				
-				var defaultSubstitution:ISubstitutionNamespace;
+				var defaultSubstitution:IBinding;
 				
 				for( ;i < l;i++ )
 				{
-					defaultSubstitution = defaults.getSubstitutionNamespaceAt( i );
+					defaultSubstitution = defaults.getBindingAt( i );
 					
 					//trace( "Add default substitution : " + defaultSubstitution );
 					
-					_stringSubstitutions.addSubstitutionNamespace(
+					_stringSubstitutions.addBinding(
 						defaultSubstitution.clone() );
 				}
 				
@@ -118,7 +118,7 @@ package com.ffsys.io.xml {
 			return _deserializer;
 		}
 		
-		public function get stringSubstitutions():ISubstitutionNamespaceCollection
+		public function get stringSubstitutions():IBindingCollection
 		{
 			return _stringSubstitutions;
 		}

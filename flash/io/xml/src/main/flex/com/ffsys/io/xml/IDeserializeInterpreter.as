@@ -1,6 +1,6 @@
 package com.ffsys.io.xml {
 	
-	import com.ffsys.utils.substitution.ISubstitutionNamespaceCollection;
+	import com.ffsys.utils.substitution.IBindingCollection;
 	
 	/**
 	*	Describes the contract for instances
@@ -19,7 +19,7 @@ package com.ffsys.io.xml {
 		function set deserializer( val:Deserializer ):void;
 		function get deserializer():Deserializer;
 		
-		function get stringSubstitutions():ISubstitutionNamespaceCollection;
+		function get stringSubstitutions():IBindingCollection;
 		
 		function set useStringReplacement( val:Boolean ):void;
 		function get useStringReplacement():Boolean;

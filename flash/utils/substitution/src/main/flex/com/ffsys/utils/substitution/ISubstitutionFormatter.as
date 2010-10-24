@@ -14,5 +14,4 @@ package com.ffsys.utils.substitution {
 	public interface ISubstitutionFormatter {
 		function format( replacement:Object ):Object;
 	}
-	
 }

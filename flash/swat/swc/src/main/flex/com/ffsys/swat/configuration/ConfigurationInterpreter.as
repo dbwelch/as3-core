@@ -4,7 +4,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.io.xml.DeserializeInterpreter;
 	
-	import com.ffsys.utils.substitution.SubstitutionNamespace;
+	import com.ffsys.utils.substitution.Binding;
 	import com.ffsys.swat.core.SwatFlashVariables;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
@@ -58,15 +58,15 @@ package com.ffsys.swat.configuration {
 			configuration.locales.lang = flashvars.lang;
 			
 			//add the current locale as a default namespace
-			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
-				new SubstitutionNamespace(
+			Deserializer.defaultStringSubstitutions.addBinding(
+				new Binding(
 					"locale",
 					configuration.locales.current )
 			);
 			
 			//add the configuration as a default binding
-			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
-				new SubstitutionNamespace(
+			Deserializer.defaultStringSubstitutions.addBinding(
+				new Binding(
 					"configuration",
 					configuration )
 			);			
@@ -83,8 +83,8 @@ package com.ffsys.swat.configuration {
 				IConfigurationLocale( configuration.locales.current ) );
 			
 			//add the paths as a default binding
-			Deserializer.defaultStringSubstitutions.addSubstitutionNamespace(
-				new SubstitutionNamespace(
+			Deserializer.defaultStringSubstitutions.addBinding(
+				new Binding(
 					"paths",
 					configuration.paths )
 			);

@@ -21,10 +21,10 @@ package com.ffsys.utils.substitution {
 		implements ISubstitutor {
 		
 		/**
-		*	A collection of SubstitutionNamespace instances to use when
+		*	A collection of Binding instances to use when
 		*	performing substitution.
 		*/
-		private var _namespaces:ISubstitutionNamespaceCollection;
+		private var _namespaces:IBindingCollection;
 		
 		/**
 		*	Determines whether String replacement is performed
@@ -53,7 +53,7 @@ package com.ffsys.utils.substitution {
 			this.target = target;
 			this.source = source;
 			
-			_namespaces = new SubstitutionNamespaceCollection();
+			_namespaces = new BindingCollection();
 			
 			this.strict = true;
 		}
@@ -100,13 +100,13 @@ package com.ffsys.utils.substitution {
 			return _source;
 		}
 		
-		public function set namespaces( val:ISubstitutionNamespaceCollection ):void
+		public function set namespaces( val:IBindingCollection ):void
 		{
 			_namespaces = val;
 			update();
 		}
 		
-		public function get namespaces():ISubstitutionNamespaceCollection
+		public function get namespaces():IBindingCollection
 		{
 			return _namespaces;
 		}
@@ -179,29 +179,29 @@ package com.ffsys.utils.substitution {
 			return value;
 		}
 		
-		protected function updateFromNamespace( substitutionNamespace:ISubstitutionNamespace ):void
+		protected function updateFromNamespace( binding:IBinding ):void
 		{
 			
-			if( substitutionNamespace )
+			if( binding )
 			{
 			
 				//change the object pointer
-				if( substitutionNamespace.target )
+				if( binding.target )
 				{
-					target = substitutionNamespace.target;
+					target = binding.target;
 				
 					//trace( "SET SUBSTIUTION TARGET : " + target );
 				
 				}
 			
-				if( substitutionNamespace.methodName )
+				if( binding.methodName )
 				{
-					methodName = substitutionNamespace.methodName;
+					methodName = binding.methodName;
 				}
 			
-				if( substitutionNamespace.methodParts )
+				if( binding.methodParts )
 				{
-					methodParts = substitutionNamespace.methodParts;
+					methodParts = binding.methodParts;
 				}
 			
 			}
@@ -216,18 +216,18 @@ package com.ffsys.utils.substitution {
 				var i:int = 0;
 				var l:int = namespaces.getLength();	
 				
-				var substitutionNamespace:SubstitutionNamespace;
+				var binding:Binding;
 				var prefix:String;
 				
 				for( ;i < l;i++ )
 				{
-					substitutionNamespace = SubstitutionNamespace( namespaces.getSubstitutionNamespaceAt( i ) );
+					binding = Binding( namespaces.getBindingAt( i ) );
 					
-					prefix = substitutionNamespace.prefix + substitutor.namespaceDelimiter;
+					prefix = binding.prefix + substitutor.namespaceDelimiter;
 					
 					if( source.match( new RegExp( "^" + prefix ) ) )
 					{
-						updateFromNamespace( substitutionNamespace );
+						updateFromNamespace( binding );
 					
 						//strip off the namespace
 						source = stripNamespace( source );

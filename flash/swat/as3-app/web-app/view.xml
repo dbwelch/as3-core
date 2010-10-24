@@ -14,7 +14,7 @@
 			</label>
 			<label>
 				<id>copy</id>
-				<styles>copy</styles>
+				<styles>copy copy-override</styles>
 				<text>this is some copy text for you</text>
 			</label>
 			

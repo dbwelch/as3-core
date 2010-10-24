@@ -41,6 +41,10 @@ copy {
 	color: #ff0000;
 }
 
+copy-override {
+	color: #0000ff;
+}
+
 container-view {
 	x: 250;
 	y: 100;

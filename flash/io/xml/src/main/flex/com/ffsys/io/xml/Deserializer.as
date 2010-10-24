@@ -14,8 +14,8 @@ package com.ffsys.io.xml {
 	import com.ffsys.utils.string.StringUtils;
 	import com.ffsys.utils.xml.XmlUtils;
 	
-	import com.ffsys.utils.substitution.ISubstitutionNamespaceCollection;
-	import com.ffsys.utils.substitution.SubstitutionNamespaceCollection;
+	import com.ffsys.utils.substitution.IBindingCollection;
+	import com.ffsys.utils.substitution.BindingCollection;
 	
 	import com.ffsys.utils.merge.IMergable;
 	
@@ -43,8 +43,8 @@ package com.ffsys.io.xml {
 	public class Deserializer extends Object
 		implements ISerializeDeserializeProperty {
 		
-		static public var defaultStringSubstitutions:ISubstitutionNamespaceCollection
-			= new SubstitutionNamespaceCollection();
+		static public var defaultStringSubstitutions:IBindingCollection
+			= new BindingCollection();
 		
 		/**
 		*	A ClassNodeNameMap instance associated with this Deserializer instance.

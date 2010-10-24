@@ -2,7 +2,7 @@ package com.ffsys.utils.substitution {
 	
 	/**
 	*	Describes the contract for Objects that encapsulate
-	*	information pertaining to a SubstitutionNamespace.
+	*	information pertaining to a Binding.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -10,7 +10,7 @@ package com.ffsys.utils.substitution {
 	*	@author Mischa Williamson
 	*	@since  16.10.2007
 	*/
-	public interface ISubstitutionNamespace {
+	public interface IBinding {
 		
 		function set prefix( val:String ):void;
 		function get prefix():String;
@@ -24,9 +24,9 @@ package com.ffsys.utils.substitution {
 		function set methodParts( val:int ):void;
 		function get methodParts():int;
 		
-		function merge( substitutionNamespace:ISubstitutionNamespace ):void;
+		function merge( substitutionNamespace:IBinding ):void;
 		
-		function clone():ISubstitutionNamespace;
+		function clone():IBinding;
 	}
 	
 }
