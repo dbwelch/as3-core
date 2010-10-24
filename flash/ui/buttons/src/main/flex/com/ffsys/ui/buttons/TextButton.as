@@ -1,6 +1,9 @@
 package com.ffsys.ui.buttons
 {
+	import flash.text.TextField;
 	import com.ffsys.ui.text.Label;
+	
+	import com.ffsys.ui.css.ICssTextFieldProxy;
 
 	/**
 	*	Represents a button that consists of a single
@@ -13,6 +16,7 @@ package com.ffsys.ui.buttons
 	*	@since  16.06.2010
 	*/
 	public class TextButton extends ButtonComponent
+		implements ICssTextFieldProxy
 	{
 		private var _text:String;
 		private var _label:Label;
@@ -31,6 +35,19 @@ package com.ffsys.ui.buttons
 		{
 			super( width, height );
 			this.text = text;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getProxyTextFields():Vector.<TextField>
+		{
+			var output:Vector.<TextField> = new Vector.<TextField>();
+			if( _label && _label.textfield )
+			{
+				output.push( TextField( _label.textfield ) );
+			}
+			return output;
 		}
 		
 		/**

@@ -102,11 +102,6 @@ package com.ffsys.swat.as3.view {
 			strategy.styleSheet = css;
 			*/
 			
-			//test applying styles using the listener strategy
-			var loader:IRuntimeLoader =
-				Runtime.load( new URLRequest( "view.xml" ), this );
-			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
-			
 			/*
 			var container:ContainerView = new ContainerView();
 			container.styles = "container-view";
@@ -139,6 +134,11 @@ package com.ffsys.swat.as3.view {
 			vbox = new VerticalBox();
 			//vbox.y = txt.y + txt.textHeight + 12;
 			vbox.spacing = 10;
+			addChild( vbox );
+			
+			var loader:IRuntimeLoader =
+				Runtime.load( new URLRequest( "view.xml" ), vbox );
+			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );		
 			
 			/*
 			trace("SwatActionscriptContainer::message(), ",
@@ -162,7 +162,6 @@ package com.ffsys.swat.as3.view {
 			}
 			
 			/*
-				
 			trace("SwatActionscriptContainer::createChildren(), ",
 			 	lbl,
 				lbl.text,
@@ -176,6 +175,7 @@ package com.ffsys.swat.as3.view {
 				
 			//vbox.addChild( lbl );
 			
+			/*
 			lbl = new Label( utils.getMessage( "test.message" ) );
 			vbox.addChild( lbl );
 			
@@ -212,6 +212,7 @@ package com.ffsys.swat.as3.view {
 			vbox.addChild( graphic );
 			
 			addChild( vbox );
+			*/
 			
 			/*
 			var image:Bitmap = utils.getImage( "garden-001" );

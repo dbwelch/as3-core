@@ -155,7 +155,29 @@ package com.ffsys.ui.css {
 			var style:Object = super.getStyle( styleName );
 			for( var z:String in style )
 			{
-				//trace("CssStyleCollection::getStyle(), ", z, style[ z ] );
+				trace("CssStyleCollection::getStyle(), ", z, style[ z ], style.instanceClass );
+				
+				if( style && ( style.instanceClass is Class ) )
+				{
+					var instance:Object = null;
+					try
+					{
+						instance = new style.instanceClass();
+					}catch( e:Error )
+					{
+						throw new Error( "Could not instantiate style instance with class '"
+							+ style.instanceClass + "'." );
+					}
+
+					if( instance )
+					{
+						var merger:PropertiesMerge = new PropertiesMerge();
+						merger.merge( instance, style );
+					}
+					
+					return instance;
+				}
+				
 				return style;
 			}
 			return null;
@@ -189,28 +211,8 @@ package com.ffsys.ui.css {
 		*/
 		public function getFilter( styleName:String ):BitmapFilter
 		{
-			var filter:BitmapFilter = null;
 			var style:Object = getStyle( styleName );
-
-			if( style && ( style.filterClass is Class ) )
-			{
-				try
-				{
-					filter = new style.filterClass();
-				}catch( e:Error )
-				{
-					throw new Error( "Could not instantiate filter with class '"
-						+ style.filterClass + "'." );
-				}
-				
-				if( filter )
-				{
-					var merger:PropertiesMerge = new PropertiesMerge();
-					merger.merge( filter, style );
-				}
-			}
-			
-			return filter;
+			return style as BitmapFilter;
 		}
 
 		/**

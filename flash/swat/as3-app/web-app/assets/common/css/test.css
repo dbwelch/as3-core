@@ -1,4 +1,4 @@
-Label {
+Label, Button {
 	color: #a9a9a9;
 	font: main;
 	size: 12;
@@ -24,7 +24,7 @@ test-text {
 }
 
 #vbox {
-	x: 200;
+	x: 0;
 }
 
 dependency-test-style {

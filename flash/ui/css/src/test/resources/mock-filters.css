@@ -1,5 +1,5 @@
 bevel {
-	filter-class: class( flash.filters.BevelFilter );
+	instance-class: class( flash.filters.BevelFilter );
 	distance: 1;
 	highlight-color: #ff0000;
 	shadow-color: #666666;

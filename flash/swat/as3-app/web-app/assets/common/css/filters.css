@@ -1,5 +1,5 @@
 bevel {
-	filter-class: class( flash.filters.BevelFilter );
+	instance-class: class( flash.filters.BevelFilter );
 	distance: 1;
 	highlight-color: #ff0000;
 	shadow-color: #666666;
@@ -11,11 +11,12 @@ bevel {
 }
 
 drop-shadow {
-	filter-class: class( flash.filters.DropShadowFilter );
+	instance-class: class( flash.filters.DropShadowFilter );
 	angle: 45;
-	color: #00ff00;
-	blur-x: 3;
-	blur-y: 3;
+	distance: 10;
+	color: #999999;
+	blur-x: 1;
+	blur-y: 1;
 	strength: .55;
-	alpha: .5;
+	alpha: .7;
 }

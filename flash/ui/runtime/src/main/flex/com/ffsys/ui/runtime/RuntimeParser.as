@@ -3,6 +3,7 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.io.xml.DeserializationMode;
 	import com.ffsys.io.xml.Parser;
 	
+	import com.ffsys.ui.buttons.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.display.*;
 	import com.ffsys.ui.graphics.*;
@@ -141,6 +142,13 @@ package com.ffsys.ui.runtime {
 				"label",
 				null,
 				false );
+				
+			//buttons
+			classNodeNameMap.add(
+				Button,
+				"button",
+				null,
+				false );	
 		}
 	}
 }

@@ -5,20 +5,23 @@
 	</css>
 	<canvas>
 		<vbox>
+			<!-- <button>button text</button> -->
+			
 			<id>vbox</id>
 			<spacing>10</spacing>
 			
 			<label>
 				<text>Currently running with locale path {paths:locale} as locale: {locale:country}</text>
+				<!-- <filters>drop-shadow</filters> -->
+				<blend-mode>invert</blend-mode>		
 				<!-- <selectable>true</selectable> -->
 			</label>
 			
 			<label>
 				<id>copy</id>
-				<filters>drop-shadow</filters>
 				<styles>copy copy-override</styles>
 				<text>this is some copy text for you</text>
-				
+				<!-- <filters>drop-shadow</filters>	 -->
 				<!--
 				
 				//TODO: implement
@@ -63,7 +66,9 @@
 					<label styles="lbl">
 						<text>Box Model</text>
 					</label>
-					<box-model />
+					<box-model>
+						<blend-mode>invert</blend-mode>
+					</box-model>
 				</cell>
 				<cell>
 					<preferred-width>80</preferred-width>
@@ -115,21 +120,13 @@
 				</cell>							
 			</hbox>
 			
-			<!--
-			var cell:Cell = new Cell( 80, 80 );
-			cell.paddings.padding = 5;
-			cell.margins.margin = 5;
-			cell.background = new RectangleGraphic(
-				cell.preferredWidth,
-				cell.preferredHeight,
-				null, new SolidFill( 0xa9a9a9 ) );
-			lbl = new Label( "Box Model" );
-			lbl.color = 0x000000;
-			cell.addChild( lbl );
-			cell.addChild( new BoxModelComponent() );
-			hbox.addChild( cell );
-			-->
-			
+			<canvas>				
+				<scroller>
+					<!-- <target>{scrollTarget}</target> -->
+					<preferred-width>200</preferred-width>
+					<preferred-height>200</preferred-height>		
+				</scroller>
+			</canvas>
 		</vbox>
 	</canvas>
 </document>

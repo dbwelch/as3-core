@@ -5,6 +5,23 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<script type="text/javascript" src="assets/common/js/swfobject.js"></script>
 		<script type="text/javascript">
+			
+			function switchLocale( id, lang )
+			{
+				var div = document.getElementById( id );
+				
+				if( div )
+				{
+					var flashvars = 
+					{
+						classes: "com.ffsys.swat.as3.configuration.SwatActionscriptClassPathConfiguration",
+						lang: lang
+					}
+					swfobject.embedSWF( "swat-as3-app-1.1-SNAPSHOT.swf", id, "980", "480", "10", "assets/common/swf/expressInstall.swf", flashvars );
+				}
+				return false;
+			}
+		
 			swfobject.registerObject( "swat-as3", "10", "assets/common/swf/expressInstall.swf" );
 		</script>
 		<link rel="stylesheet" href="assets/common/css/common.css" type="text/css" media="screen" />
@@ -14,9 +31,9 @@
 			<h1>SWAT (Smart Web Application Toolkit)</h1>
 			<p class="note">Built for Flash Player <strong>10.0</strong> and later player versions using Actionscript 3.</p>
 			<ul>
-				<li>Locale: <a href="index-en_GB.html" title="English Version">en_GB</a>, <a href="index-es_ES.html" title="Spanish Version">es_ES</a>, <a href="index-de_DE.html" title="German Version">de_DE</a>, <a href="index-fr_FR.html" title="French Version">fr_FR</a></li>
+				<li>Locale: <a href="index-en_GB.html" title="English Version">en-GB</a>, <a href="index-es_ES.html" title="Spanish Version" onclick="return switchLocale( 'flash', 'es-ES' );">es-ES</a>, <a href="index-de_DE.html" title="German Version" onclick="return switchLocale( 'flash', 'de-DE' );">de-DE</a>, <a href="index-fr_FR.html" title="French Version" onclick="return switchLocale( 'flash', 'fr-FR' );">fr-FR</a></li>
 			</ul>
-			<div>
+			<div id="flash">
 				<object id="swat-as3" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="980" height="480">
 					<param name="movie" value="swat-as3-app-1.1-SNAPSHOT.swf" />
 					<param name="menu" value="false" />
