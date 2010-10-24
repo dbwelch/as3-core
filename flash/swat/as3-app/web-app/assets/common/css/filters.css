@@ -9,3 +9,13 @@ bevel {
 	blur-y: 1;
 	strength: 1;
 }
+
+drop-shadow {
+	filter-class: class( flash.filters.DropShadowFilter );
+	angle: 45;
+	color: #00ff00;
+	blur-x: 3;
+	blur-y: 3;
+	strength: .55;
+	alpha: .5;
+}

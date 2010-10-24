@@ -113,12 +113,6 @@ package com.ffsys.ui.css {
 				}
 			}
 			
-			styles = super.getStyles( styleName );
-			if( styles && styles.length > 0 )
-			{
-				output = output.concat( styles );
-			}
-			
 			return output;
 		}
 		

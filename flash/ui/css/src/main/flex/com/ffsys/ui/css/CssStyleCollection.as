@@ -153,8 +153,12 @@ package com.ffsys.ui.css {
 			//object when the style does not exist is undesirable
 			//so we test for existence of at least one property
 			var style:Object = super.getStyle( styleName );
-			for( var z:String in style ){ break; };
-			return z ? style : null;
+			for( var z:String in style )
+			{
+				trace("CssStyleCollection::getStyle(), ", z, style[ z ] );
+				return style;
+			}
+			return null;
 		}
 		
 		/**
@@ -233,9 +237,9 @@ package com.ffsys.ui.css {
 			}
 			
 			style = getStyle( styleName );
-			
 			if( style )
 			{
+				trace("CssStyleCollection::getStyle(), GOT STYLE FOR STYLE NAME: ", id, styleName, style );
 				output.push( style );
 			}
 			
@@ -252,10 +256,7 @@ package com.ffsys.ui.css {
 			if( target )
 			{
 				var styleParts:Array = target.styles ? target.styles.split( " " ) : new Array();
-				
-				trace(">>>>>>>>>>>>>> CssStyleCollection::style(), STYLE NAMES: ",
-					target.styles, styleParts );
-				
+
 				//add identifier style name
 				if( target is IStringIdentifier
 					&& IStringIdentifier( target ).id )
@@ -275,10 +276,12 @@ package com.ffsys.ui.css {
 				
 				if( styleName && styleName.length > 0 )
 				{
+					trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ", styleParts.length );
+					
 					var styles:Array = getStyles( styleName );
 				
 					trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ",
-						styleParts, styleName, styles, styles.length );
+						styleParts, styleName, styles.length );
 			
 					applyStyles( target, styles );
 				}

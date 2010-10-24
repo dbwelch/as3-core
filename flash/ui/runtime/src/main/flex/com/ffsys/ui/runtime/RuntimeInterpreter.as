@@ -106,7 +106,7 @@ package com.ffsys.ui.runtime {
 				return false;
 			}
 			
-			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value );
+			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value );
 			
 			return true;
 		}
