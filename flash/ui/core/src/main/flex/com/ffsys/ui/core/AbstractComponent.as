@@ -87,6 +87,8 @@ package com.ffsys.ui.core
 		public function set styles( styles:String ):void
 		{
 			_styles = styles;
+			
+			trace("|||||||||||| >>>>>>>>>>>>>>> AbstractComponent::set(), SETTING STYLES: ", styles );
 		}
 		
 		/**

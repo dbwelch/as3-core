@@ -33,9 +33,12 @@ dependency-test-style {
 	property-movie: swf( assets/common/swf/mock-css-movie.swf );
 }
 
+#copy {
+	size: 12;
+}
+
 copy {
 	color: #ff0000;
-	size: 22;
 }
 
 container-view {

@@ -10,10 +10,12 @@
 			
 			<label>
 				<text>this is some funky text {paths:locale}</text>
-				<!-- <selectable>true</selectable> -->				
+				<!-- <selectable>true</selectable> -->
 			</label>
-			<label styles="copy">
-				<text>this is some text</text>
+			<label>
+				<id>copy</id>
+				<styles>copy</styles>
+				<text>this is some copy text for you</text>
 			</label>
 			
 			<rect>

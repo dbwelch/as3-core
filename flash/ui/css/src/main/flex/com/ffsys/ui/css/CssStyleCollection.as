@@ -214,7 +214,7 @@ package com.ffsys.ui.css {
 		*/
 		public function getStyles( styleName:String ):Array
 		{
-			trace("*** CssStyleCollection::getStyles(), GETTING STYLES FOR: ", styleName );
+			//trace("*** CssStyleCollection::getStyles(), GETTING STYLES FOR: ", styleName );
 			
 			var output:Array = new Array();
 			var style:Object = null;
@@ -239,7 +239,7 @@ package com.ffsys.ui.css {
 				output.push( style );
 			}
 			
-			trace("*** CssStyleCollection::getStyles(), RETURNING STYLES FOR: ", styleName, output );
+			//trace("*** CssStyleCollection::getStyles(), RETURNING STYLES FOR: ", styleName, output );
 			
 			return output;
 		}
@@ -253,18 +253,19 @@ package com.ffsys.ui.css {
 			{
 				var styleParts:Array = target.styles ? target.styles.split( " " ) : new Array();
 				
-				//add identifier style access
+				trace(">>>>>>>>>>>>>> CssStyleCollection::style(), STYLE NAMES: ",
+					target.styles, styleParts );
+				
+				//add identifier style name
 				if( target is IStringIdentifier
 					&& IStringIdentifier( target ).id )
 				{
 					styleParts.unshift( "#" + IStringIdentifier( target ).id );
 				}
 	
+				//add the class level style name
 				var className:String = getQualifiedClassName( target );
 				className = className.substr( className.indexOf( "::" ) + 2 );
-		
-				//trace("CssStyleCollection::className(), ", className );
-				
 				if( className )
 				{
 					styleParts.unshift( className );
@@ -276,7 +277,7 @@ package com.ffsys.ui.css {
 				{
 					var styles:Array = getStyles( styleName );
 				
-					trace("CssStyleCollection::style(), ",
+					trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ",
 						styleParts, styleName, styles, styles.length );
 			
 					applyStyles( target, styles );
@@ -311,7 +312,6 @@ package com.ffsys.ui.css {
 				trace("****** CssStyleCollection::applyStyles(), ", target, styles, styles.length );
 				for( var i:int = 0;i < styles.length;i++ )
 				{
-					trace("CssStyleCollection::applyStyles(), ", target, styles[ i ] );
 					applyStyle( target, styles[ i ] );
 				}
 			}

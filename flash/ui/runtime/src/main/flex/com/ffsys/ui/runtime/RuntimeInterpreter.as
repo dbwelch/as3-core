@@ -111,26 +111,6 @@ package com.ffsys.ui.runtime {
 			return true;
 		}
 		
-		//private var _styles:String;
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override public function shouldProcessAttribute(
-			parent:Object, name:String, value:Object ):Boolean
-		{
-			
-			/*
-			if( name == "styles" )
-			{
-				_styles = String( value );
-				return false;
-			}
-			*/
-			
-			return true;
-		}		
-		
 		/**
 		*	@inheritDoc	
 		*/
@@ -157,21 +137,15 @@ package com.ffsys.ui.runtime {
 					//set the styles property after all other deserialization
 					if( child is IStyleAware )
 					{
-						/*
-						if( IStyleAware( child ).styles )
-						{
-							trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES: ", child, _styles );
-							IStyleAware( child ).styles = _styles;
-							_styles = null;
-						}
-						*/
 						
-						trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES TO: ", child );
-						
+						trace("RuntimeInterpreter::postProcessClass(), APPLYING STYLES TO: ",
+							child, IStyleAware( child ).styles );
+							
 						IStyleAware( child ).applyStyles();
 					}
 				}
 			}
 		}
+		
 	}
 }
