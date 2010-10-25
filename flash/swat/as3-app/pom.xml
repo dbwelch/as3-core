@@ -12,7 +12,6 @@
 	<packaging>swf</packaging>
 	<name>swat-as3-app</name>
 	<dependencies>
-		
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>framework</artifactId>
@@ -20,21 +19,24 @@
 			<type>swc</type>
 			<!-- <scope>external</scope> -->
 		</dependency>
-		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>swat</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.ffsys.swat</groupId>
+			<artifactId>swat-js</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ffsys-core-all</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>pom</type>
-		</dependency>		
-		
+		</dependency>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ui</artifactId>
@@ -58,12 +60,10 @@
 					<linkReport>true</linkReport>
 					<configurationReport>true</configurationReport>
 					<defaultBackgroundColor>0</defaultBackgroundColor>
-
 					<defaultSize>
 						<width>980</width>
 						<height>480</height>
 					</defaultSize>
-					
 					<defaultFrameRate>30</defaultFrameRate>
 					<fonts>
 						<managers>
@@ -94,6 +94,43 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.ffsys.swat</groupId>
+									<artifactId>swat-js</artifactId>
+									<version>1.1-SNAPSHOT</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${project.basedir}/web-app/assets/common/js</outputDirectory>
+									<!-- <destFileName>optional-new-name.jar</destFileName> -->
+									<includes>**/*.js</includes>
+									<excludes>**/*.class</excludes>
+								</artifactItem>
+							</artifactItems>
+							
+							<!--
+							<includes>**/*.java</includes>
+							<excludes>**/*.properties</excludes>
+							<outputDirectory>${project.build.directory}/wars</outputDirectory>
+							-->
+							
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
