@@ -1,7 +1,12 @@
 package com.ffsys.swat.view  {
 	
+	import flash.display.Bitmap;	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.filters.BitmapFilter;
+	import flash.media.Sound;
+	
+	import com.ffsys.ui.css.ICssStyleCollection;
 	
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	
@@ -22,6 +27,7 @@ package com.ffsys.swat.view  {
 		static private var _utils:IViewUtils
 			= new ViewUtils();
 			
+		//TODO : remove the style strategy functionality
 		static private var _strategy:IStyleStrategy;
 		
 		private var _enabled:Boolean = true;
@@ -95,6 +101,38 @@ package com.ffsys.swat.view  {
 			replacements.unshift( id );
 			return utils.getError.apply(
 				utils, replacements );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getStyleSheet( id:String ):ICssStyleCollection
+		{
+			return utils.getStyleSheet( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getImage( id:String ):Bitmap
+		{
+			return utils.getImage( id );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getSound( id:String ):Sound
+		{
+			return utils.getSound( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getFilter( id:String ):BitmapFilter
+		{
+			return utils.getFilter( id );
 		}
 		
 		/**

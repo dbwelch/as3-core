@@ -18,7 +18,6 @@ package com.ffsys.swat.configuration {
 	*/
 	public interface IMediaAccess {
 		
-		
 		/**
 		*	Gets a style sheet by identifier.
 		*	
@@ -47,6 +46,8 @@ package com.ffsys.swat.configuration {
 		
 		/**
 		*	Gets a bitmap filter by identifier.
+		* 
+		* 	@param id The identifer for the filter.
 		*/
 		function getFilter( id:String ):BitmapFilter;	
 	}
