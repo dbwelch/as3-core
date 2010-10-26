@@ -2,6 +2,7 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.ILocaleCollection;
+	import com.ffsys.utils.properties.IProperties;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
 	import com.ffsys.io.xml.IDeserializeComplete;
@@ -38,6 +39,12 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		function get parent():IConfiguration;
 		function set parent( parent:IConfiguration ):void;
+		
+		/**
+		*	Gets all the messages for the application merged into
+		*	a single properties representation.	
+		*/
+		function get messages():IProperties;		
 		
 		/**
 		* 	The currently selected locale.

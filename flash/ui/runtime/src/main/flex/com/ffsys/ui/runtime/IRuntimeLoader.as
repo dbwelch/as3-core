@@ -17,6 +17,11 @@ package com.ffsys.ui.runtime {
 	*/
 	public interface IRuntimeLoader
 		extends IEventDispatcher {
+			
+		/**
+		*	The document created for the last load request.
+		*/
+		function get document():IDocument;
 		
 		/**
 		*	Loads the xml document defining the runtime view to render.

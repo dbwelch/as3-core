@@ -4,6 +4,9 @@ package com.ffsys.swat.templates.as3.view {
 	import flash.net.URLRequest;
 	import flash.text.*;
 	
+	import com.ffsys.io.xml.Deserializer;
+	import com.ffsys.utils.substitution.Binding;	
+	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -69,8 +72,16 @@ package com.ffsys.swat.templates.as3.view {
 			vbox.spacing = 10;
 			addChild( vbox );
 			
+			//add the paths as a default binding
+			Deserializer.defaultStringSubstitutions.addBinding(
+				new Binding(
+					"messages",
+					utils.configuration.locales.messages )
+			);
+			
 			var loader:IRuntimeLoader =
 				Runtime.load( new URLRequest( "assets/common/xml/pages/main.xml" ), vbox );
+			loader.document.x = 20;
 			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
 			
 			/*

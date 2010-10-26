@@ -10,7 +10,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.locale.LocaleCollection;
 
 	import com.ffsys.io.loaders.core.ILoader;
-	import com.ffsys.io.loaders.core.ILoaderQueue;	
+	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	
 	import com.ffsys.swat.configuration.*;
@@ -24,6 +24,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.ui.css.StyleManager;
 	
 	import com.ffsys.utils.properties.IProperties;
+	import com.ffsys.utils.properties.Properties;
 	
 	import com.ffsys.swat.configuration.rsls.IResourceManager;
 	
@@ -609,6 +610,69 @@ package com.ffsys.swat.configuration.locale {
 						defaultLocale.country ) );
 			}
 		}
+		
+		
+		private var _messages:IProperties;
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get messages():IProperties
+		{
+			if( !_messages )
+			{
+				var cumulative:IProperties = new Properties();
+				
+				//TODO: check - this may need reversin
+				var properties:Vector.<IProperties> = getAllProperties( getMessagesQueue() );
+				var current:IProperties = null;
+				
+				//trace("LocaleManager::messages(), ", properties.length );
+				
+				var z:Object = null;
+				for( var i:int = 0;i < properties.length;i++ )
+				{
+					current = properties[ i ];
+					cumulative.merge( current );
+					
+					/*
+					trace("LocaleManager::message(), adding to cumulative ",
+						current.length, cumulative.length );
+					*/
+					
+				}
+				
+				//trace("LocaleManager::messages(), ", cumulative );
+				
+				_messages = cumulative;
+			}
+			
+			return _messages;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getAllProperties(
+			queue:ILoaderQueue ):Vector.<IProperties>
+		{
+			var output:Vector.<IProperties> = new Vector.<IProperties>();
+			var list:IResourceList = queue.resources;
+			var resource:PropertiesResource = null;
+			var properties:IProperties = null;
+			
+			for( var i:int = 0;i < list.getLength();i++ )
+			{
+				resource = PropertiesResource( list.getResourceAt( i ) );
+				properties = resource.properties;
+				if( properties )
+				{
+					output.push( properties );
+				}
+			}
+			
+			return output;
+		}	
 		
 		/**
 		*	@private

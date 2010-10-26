@@ -42,7 +42,7 @@ package com.ffsys.swat.templates.as3.view {
 				"",
 				{ width: stage.stageWidth, height: stage.stageHeight },
 				{ color: 0x666666, font: "Courier", size: 14 } );
-			
+			_txt.x = 20;
 			addChild( _txt );
 		}
 		

@@ -110,6 +110,55 @@ package com.ffsys.utils.collections.data {
 			return _id;
 		}
 		
+		public function getChildCollection( collection:IDataCollection ):IDataCollection
+		{
+			if( collection )
+			{
+				var child:IDataCollection = null;
+				for( var i:int = 0;i < _children.length;i++ )
+				{
+					if( child
+						&& ( collection == child
+						|| collection.id == child.id ) )
+					{
+						return child;
+					}
+				}
+			}
+			
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/		
+		public function merge( collection:IDataCollection ):void
+		{
+			if( collection )
+			{
+				var properties:Dictionary = collection.data;
+				for( var z:Object in properties )
+				{
+					_data[ z ] = properties[ z ];
+				}
+				
+				var children:Array = collection.children;
+				var child:IDataCollection = null;
+				var existing:IDataCollection = null;
+				for( var i:int = 0;i < children.length;i++ )
+				{
+					child = IDataCollection( children[ i ] );
+					existing = getChildCollection( child );
+					if( !existing )
+					{
+						_children.push( child );
+					}else{
+						existing.merge( child );
+					}
+				}
+			}
+		}
+		
 		/**
 		*	@inheritDoc	
 		*/
@@ -310,7 +359,7 @@ package com.ffsys.utils.collections.data {
 					return z;
 				}
 			}
-			
+
 			return null;
 		}
 		

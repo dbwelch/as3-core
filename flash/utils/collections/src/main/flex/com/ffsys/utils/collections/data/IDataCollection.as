@@ -20,6 +20,11 @@ package com.ffsys.utils.collections.data {
 		extends IStringIdentifier {
 			
 		/**
+		*	The number of child collections.	
+		*/
+		function get length():int;
+			
+		/**
 		*	Gets an array of classes that are valid types to be stored
 		*	in this collection.
 		*/
@@ -64,6 +69,11 @@ package com.ffsys.utils.collections.data {
 		*	A dictionary of the properties assigned to this collection.
 		*/
 		function get data():Dictionary;
+		
+		/**
+		*	Merges another data collection into this one.	
+		*/
+		function merge( collection:IDataCollection ):void;
 		
 		/**
 		*	Gets a child collection by identifier.

@@ -69,7 +69,7 @@ package com.ffsys.swat.configuration {
 				new Binding(
 					"configuration",
 					configuration )
-			);			
+			);
 			
 			//ensure we always have some path information
 			//even if none is declared in the config

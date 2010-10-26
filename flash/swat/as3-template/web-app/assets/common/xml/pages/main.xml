@@ -8,66 +8,84 @@
 			<label>
 				<styles>title</styles>
 				<text>{configuration:meta.name} {configuration:meta.version}</text>
-			</label>			
+			</label>
 			
 			<label>
 				<styles>heading</styles>
-				<text>System Variables</text>
+				<text>{messages:headings.flashvars-heading}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.flashvars.lang} {configuration:flashvars.lang}</text>
 			</label>
 						
 			<label>
-				<text>Classes: {configuration:flashvars.classes}</text>
+				<text>{messages:prefixes.flashvars.classes} {configuration:flashvars.classes}</text>
 			</label>
 			
 			<label>
-				<text>Configuration: {configuration:flashvars.configuration}</text>
-			</label>
-			
-			<label>
-				<styles>heading</styles>
-				<text>Current Locale</text>
-			</label>
-			
-			<label>
-				<text>Language: {locale:lang}</text>	
-			</label>
-			
-			<label>
-				<text>Country: {locale:country}</text>
-			</label>
-			
-			<label>
-				<text>Prefix: {locale:prefix}</text>
-			</label>
-			
-			<label>
-				<text>Path: {paths:locale}</text>
+				<text>{messages:prefixes.flashvars.config} {configuration:flashvars.configuration}</text>
 			</label>
 			
 			<label>
 				<styles>heading</styles>
-				<text>Paths</text>
+				<text>{messages:headings.locale-heading}</text>
 			</label>
 			
 			<label>
-				<text>Absolute: {paths:absolute}</text>
-			</label>			
-			
-			<label>
-				<text>Base: {paths:base}</text>
+				<text>{messages:prefixes.lcl.lang} {locale:lang}</text>	
 			</label>
 			
 			<label>
-				<text>Common: {paths:common}</text>
-			</label>			
-			
-			<label>
-				<text>Locales: {paths:locales}</text>
+				<text>{messages:prefixes.lcl.country} {locale:country}</text>
 			</label>
 			
 			<label>
-				<text>Total locales: {configuration:locales.length}</text>
+				<text>{messages:prefixes.lcl.prefix} {locale:prefix}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.lcl.path} {paths:locale}</text>
+			</label>
+			
+			<label>
+				<styles>heading</styles>
+				<text>{messages:headings.paths-heading}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.paths.absolute} {paths:absolute}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.paths.base} {paths:base}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.paths.common} {paths:common}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.paths.locales} {paths:locales}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.paths.localepath} {paths:locale}</text>
+			</label>
+			
+			<label>
+				<styles>heading</styles>
+				<text>{messages:headings.summary-heading}</text>
 			</label>						
+			
+			<label>
+				<text>{messages:prefixes.summary.total-locales} {configuration:locales.length}</text>
+			</label>
+			
+			<label>
+				<text>{messages:prefixes.summary.sample-message} {messages:test.message}</text>
+			</label>
+								
 		</vbox>
 	</canvas>
 </document>

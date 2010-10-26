@@ -55,6 +55,12 @@ package com.ffsys.ui.runtime {
 				null,
 				false );
 				
+			classNodeNameMap.add(
+				RuntimeAsset,
+				"asset",
+				null,
+				false );
+				
 			//TODO: implement
 			classNodeNameMap.add(
 				RectangleGraphic,
@@ -67,7 +73,7 @@ package com.ffsys.ui.runtime {
 				RectangleGraphic,
 				"border",
 				null,
-				false );					
+				false );	
 			
 			classNodeNameMap.add(
 				Scroller,

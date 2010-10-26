@@ -24,6 +24,7 @@ package com.ffsys.ui.runtime {
 	public class RuntimeLoader extends EventDispatcher
 		implements IRuntimeLoader {
 			
+		private var _document:IDocument;
 		private var _loader:IParserAwareXmlLoader;
 		
 		/**
@@ -32,6 +33,14 @@ package com.ffsys.ui.runtime {
 		public function RuntimeLoader()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get document():IDocument
+		{
+			return _document;
 		}
 		
 		/**
@@ -72,11 +81,11 @@ package com.ffsys.ui.runtime {
 			
 			_loader = new ParserAwareXmlLoader();
 			_loader.parser = new RuntimeParser();
-			var document:IDocument = new Document();
+			_document = new Document();
 			_loader.root = document;
 			parent.addChild( DisplayObject( document ) );
 			
-			trace("RuntimeLoader::load(), ", document.parent, document.stage );
+			//trace("RuntimeLoader::load(), ", document.parent, document.stage );
 			
 			addLoaderListeners( _loader );
 			_loader.load( request );
