@@ -29,6 +29,25 @@ package com.ffsys.swat.configuration {
 		function getStyleSheet( id:String ):ICssStyleCollection;
 		
 		/**
+		* 	Locates a style from the specified identifier searching
+		* 	all style sheets that have been loaded by the style manager.
+		* 
+		* 	@param id The identifier for the style.
+		* 
+		* 	@return The copy of the style object if it was found otherwise
+		* 	null.
+		*/
+		function getStyle( id:String ):Object;
+		
+		/**
+		* 	Sets a style on the style manager.
+		* 
+		* 	@param styleName The name of the style.
+		* 	@param style The object containing the style information.
+		*/
+		function setStyle( styleName:String, style:Object ):void;
+		
+		/**
 		*	Gets a loaded image bitmap.
 		*	
 		*	@param id The identifier for the loaded

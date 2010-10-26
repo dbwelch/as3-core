@@ -114,6 +114,22 @@ package com.ffsys.swat.view  {
 		/**
 		* 	@inheritDoc
 		*/
+		public function getStyle( id:String ):Object
+		{
+			return utils.getStyle( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setStyle( styleName:String, style:Object ):void
+		{
+			utils.setStyle( styleName, style );
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getImage( id:String ):Bitmap
 		{
 			return utils.getImage( id );

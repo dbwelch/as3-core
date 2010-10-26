@@ -172,6 +172,24 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getStyle( id:String ):Object
+		{
+			verifyConfiguration();
+			return this.configuration.getStyle( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setStyle( styleName:String, style:Object ):void
+		{
+			verifyConfiguration();
+			this.configuration.setStyle( styleName, style );
+		}		
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getSound( id:String ):Sound

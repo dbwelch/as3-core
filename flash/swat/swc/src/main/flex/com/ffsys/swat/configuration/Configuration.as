@@ -110,6 +110,22 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getStyle( id:String ):Object
+		{
+			return _locales.getStyle( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setStyle( styleName:String, style:Object ):void
+		{
+			_locales.setStyle( styleName, style );
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getImage( id:String ):Bitmap

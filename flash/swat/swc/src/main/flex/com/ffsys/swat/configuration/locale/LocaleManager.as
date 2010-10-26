@@ -75,15 +75,7 @@ package com.ffsys.swat.configuration.locale {
 		public function LocaleManager()
 		{
 			super();
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get styleManager():IStyleManager
-		{
-			return _styleManager;
-		}
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -434,6 +426,14 @@ package com.ffsys.swat.configuration.locale {
 			
 			return null;
 		}
+			
+		/**
+		*	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			return _styleManager;
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -442,6 +442,22 @@ package com.ffsys.swat.configuration.locale {
 		{
 			return _styleManager.getStyleSheet( id );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyle( id:String ):Object
+		{
+			return styleManager.getStyle( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setStyle( styleName:String, style:Object ):void
+		{
+			styleManager.setStyle( styleName, style );
+		}		
 		
 		/**
 		*	@inheritDoc
