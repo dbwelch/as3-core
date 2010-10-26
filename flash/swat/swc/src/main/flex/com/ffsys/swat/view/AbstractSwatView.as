@@ -52,7 +52,7 @@ package com.ffsys.swat.view  {
 		public function set strategy( strategy:IStyleStrategy ):void
 		{
 			_strategy = strategy;
-		}
+		}ß
 		
 		/**
 		*	@inheritDoc	

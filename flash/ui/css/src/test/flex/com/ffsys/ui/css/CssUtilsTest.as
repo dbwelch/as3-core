@@ -72,6 +72,11 @@ package com.ffsys.ui.css
 			var sheet:ICssStyleCollection = _styleManager.getStyleSheet( "mockCss" );
 			var filters:ICssStyleCollection = _styleManager.getStyleSheet( "mockFilters" );
 			
+			_styleManager.setStyle( "internal-style", { color: 0x336699 } );
+			var internalStyle:Object = _styleManager.getStyle( "internal-style" );
+			Assert.assertNotNull( internalStyle );
+			Assert.assertEquals( 0x336699, internalStyle.color );
+			
 			trace("CssUtilsTest::assertStyleManagerAssets(), got style sheet: ", sheet, filters );
 			
 			//test style manager style lookup
