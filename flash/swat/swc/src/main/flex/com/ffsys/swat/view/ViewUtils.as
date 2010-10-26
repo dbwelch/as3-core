@@ -16,7 +16,6 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.ISettings;
-	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	
 	/**
 	*	Encapsulates access to various commonly used configuration
@@ -108,15 +107,6 @@ package com.ffsys.swat.view  {
 		{
 			verifyConfiguration();
 			return this.configuration.assets;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get filters():IFilterCollection
-		{
-			verifyConfiguration();
-			return this.configuration.filters;
 		}
 		
 		/**

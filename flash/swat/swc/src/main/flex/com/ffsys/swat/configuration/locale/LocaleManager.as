@@ -14,7 +14,6 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	
 	import com.ffsys.swat.configuration.*;
-	import com.ffsys.swat.configuration.filters.*;
 	import com.ffsys.swat.configuration.rsls.*;
 	
 	import com.ffsys.io.loaders.resources.*;
@@ -53,7 +52,6 @@ package com.ffsys.swat.configuration.locale {
 		private var _settings:ISettings;
 		private var _defaults:IDefaults;
 		private var _assets:IStringCollection;
-		private var _filters:IFilterCollection;
 			
 		//
 		private var _messagesQueue:ILoaderQueue;
@@ -589,22 +587,6 @@ package com.ffsys.swat.configuration.locale {
 		public function set assets( assets:IStringCollection ):void
 		{
 			_assets = assets;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get filters():IFilterCollection
-		{
-			return _filters;
-		}
-
-		/**
-		*	@inheritDoc
-		*/
-		public function set filters( filters:IFilterCollection ):void
-		{
-			_filters = filters;
 		}
 		
 		/**

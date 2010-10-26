@@ -13,7 +13,6 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	
-	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.locale.LocaleManager;
 	import com.ffsys.swat.configuration.rsls.IResourceCollection;
@@ -227,22 +226,6 @@ package com.ffsys.swat.configuration {
 		public function set assets( assets:IStringCollection ):void
 		{
 			_locales.assets = assets;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get filters():IFilterCollection
-		{
-			return _locales.filters;
-		}
-
-		/**
-		*	@inheritDoc
-		*/
-		public function set filters( filters:IFilterCollection ):void
-		{
-			_locales.filters = filters;
 		}
 	}
 }

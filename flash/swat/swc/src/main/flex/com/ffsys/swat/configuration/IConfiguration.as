@@ -7,7 +7,6 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.locale.LocaleCollection;
 	
 	import com.ffsys.swat.core.IFlashVariablesAware;
-	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.rsls.ResourceCollection;
 	

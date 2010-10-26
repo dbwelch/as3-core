@@ -4,7 +4,6 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.LocaleCollection;
 	
-	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.rsls.IResourceCollection;
 	
@@ -37,11 +36,5 @@ package com.ffsys.swat.configuration {
 		*/
 		function get defaults():IDefaults;
 		function set defaults( defaults:IDefaults ):void;
-		
-		/**
-		*	The application filters.
-		*/
-		function get filters():IFilterCollection;
-		function set filters( filters:IFilterCollection ):void;
 	}
 }

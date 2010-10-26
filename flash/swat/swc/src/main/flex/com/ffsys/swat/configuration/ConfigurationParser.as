@@ -6,7 +6,6 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.Locale;
 	
-	import com.ffsys.swat.configuration.filters.*;
 	import com.ffsys.swat.configuration.locale.*;
 	import com.ffsys.swat.configuration.rsls.*;
 

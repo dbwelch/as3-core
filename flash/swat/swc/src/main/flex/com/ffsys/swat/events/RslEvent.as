@@ -26,7 +26,7 @@ package com.ffsys.swat.events {
 		public static const RESOURCE_NOT_FOUND:String = "rslResourceNotFound";
 		
 		/**
-		*	Event dispatched while a runtime resource is loading.	
+		*	Event dispatched while a runtime resource is loading.
 		*/
 		public static const LOAD_PROGRESS:String = "rslLoadProgress";
 		

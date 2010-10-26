@@ -11,7 +11,6 @@ package com.ffsys.swat.view {
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.ISettings;
-	import com.ffsys.swat.configuration.filters.IFilterCollection;
 	import com.ffsys.swat.configuration.IMessageAccess;
 	import com.ffsys.swat.configuration.IMediaAccess;
 	
@@ -59,6 +58,10 @@ package com.ffsys.swat.view {
 		function get flashvars():IFlashVariables;
 		
 		/**
+		*	@deprecated
+		*	
+		*	Deprecated, use the font loading mechanism instead.
+		*	
 		* 	Registers a font from a class path and returns
 		* 	an instance of the font.
 		* 
@@ -67,11 +70,6 @@ package com.ffsys.swat.view {
 		* 	@return An instance of the font.
 		*/
 		function registerFont( classPath:String ):Font;
-		
-		/**
-		* 	Gets the application filters.
-		*/
-		function get filters():IFilterCollection;
 		
 		/**
 		* 	Gets the application assets map between identifiers
