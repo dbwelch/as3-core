@@ -19,7 +19,6 @@ package com.ffsys.swat.templates.as3.view {
 	import com.ffsys.ui.runtime.*;
 	
 	import com.ffsys.ui.css.ICssStyleCollection;
-	import com.ffsys.ui.css.ListenerStyleStrategy;
 	
 	/**
 	*	The main view for the application.

@@ -23,7 +23,6 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.ui.runtime.*;
 	
 	import com.ffsys.ui.css.ICssStyleCollection;
-	import com.ffsys.ui.css.ListenerStyleStrategy;
 	
 	/**
 	*	The main view for the application.
@@ -91,15 +90,6 @@ package com.ffsys.swat.as3.view {
 				dependencyStyle,
 				dependencyStyle.propertyBitmap );
 				//addChild( dependencyStyle.propertyBitmap );
-			*/
-			
-			/*
-			var css:ICssStyleCollection = utils.getStyleSheet( "test-css" );
-			
-			//initialize the listener strategy and assign the stylesheet
-			strategy = new ListenerStyleStrategy();
-			ListenerStyleStrategy( strategy ).initialize( stage );
-			strategy.styleSheet = css;
 			*/
 			
 			/*

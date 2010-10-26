@@ -1,132 +1,73 @@
 <?xml version="1.0"?>
 <document>
-	<css>
-		<file>view-common.css</file>
-	</css>
 	<canvas>
 		<vbox>
-			<!-- <button>button text</button> -->
-			
 			<id>vbox</id>
-			<spacing>10</spacing>
+			<spacing>5</spacing>
+
+			<label>
+				<styles>title</styles>
+				<text>{configuration:meta.name} {configuration:meta.version}</text>
+			</label>			
 			
 			<label>
-				<text>Currently running with locale path {paths:locale} as locale: {locale:country}</text>
-				<!-- <filters>drop-shadow</filters> -->
-				<blend-mode>invert</blend-mode>		
-				<!-- <selectable>true</selectable> -->
+				<styles>heading</styles>
+				<text>System Variables</text>
+			</label>
+						
+			<label>
+				<text>Classes: {configuration:flashvars.classes}</text>
 			</label>
 			
 			<label>
-				<id>copy</id>
-				<styles>copy copy-override</styles>
-				<text>this is some copy text for you</text>
-				<!-- <filters>drop-shadow</filters>	 -->
-				<!--
-				
-				//TODO: implement
-				<background>
-					<fill>
-						<color>0xff6600</color>
-						<alpha>.5</alpha>
-					</fill>
-					<stroke>
-						<thickness>1</thickness>
-						<color>0xff0000</color>
-					</stroke>
-				</background>
-				
-				-->				
+				<text>Configuration: {configuration:flashvars.configuration}</text>
 			</label>
 			
-			<hbox>
-				<spacing>10</spacing>
-				<rect>
-					<preferred-width>25</preferred-width>
-					<preferred-height>25</preferred-height>
-					<fill>
-						<color>0xff6600</color>
-						<alpha>.5</alpha>
-					</fill>
-					<stroke>
-						<thickness>1</thickness>
-						<color>0xff0000</color>
-					</stroke>
-				</rect>
-				<label styles="lbl">
-					<text>This is a graphic that was rendered from an xml declaration.</text>
-				</label>
-			</hbox>
+			<label>
+				<styles>heading</styles>
+				<text>Current Locale</text>
+			</label>
 			
-			<hbox>
-				<spacing>10</spacing>
-				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
-					<label styles="lbl">
-						<text>Box Model</text>
-					</label>
-					<box-model>
-						<blend-mode>invert</blend-mode>
-					</box-model>
-				</cell>
-				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
-					<layout>
-						<horizontal-align>left</horizontal-align>
-						<vertical-align>top</vertical-align>
-					</layout>
-					<label styles="lbl">
-						<text>Box Model</text>
-					</label>
-					<box-model />
-				</cell>
-				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
-					<layout>
-						<horizontal-align>right</horizontal-align>
-						<vertical-align>top</vertical-align>
-					</layout>
-					<label styles="lbl">
-						<text>Box Model</text>
-					</label>
-					<box-model />
-				</cell>
-				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
-					<layout>
-						<horizontal-align>right</horizontal-align>
-						<vertical-align>bottom</vertical-align>
-					</layout>
-					<label styles="lbl">
-						<text>Box Model</text>
-					</label>
-					<box-model />
-				</cell>
-				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
-					<layout>
-						<horizontal-align>left</horizontal-align>
-						<vertical-align>bottom</vertical-align>
-					</layout>
-					<label styles="lbl">
-						<text>Box Model</text>
-					</label>
-					<box-model />
-				</cell>							
-			</hbox>
+			<label>
+				<text>Language: {locale:lang}</text>	
+			</label>
 			
-			<canvas>				
-				<scroller>
-					<!-- <target>{scrollTarget}</target> -->
-					<preferred-width>200</preferred-width>
-					<preferred-height>200</preferred-height>		
-				</scroller>
-			</canvas>
+			<label>
+				<text>Country: {locale:country}</text>
+			</label>
+			
+			<label>
+				<text>Prefix: {locale:prefix}</text>
+			</label>
+			
+			<label>
+				<text>Path: {paths:locale}</text>
+			</label>
+			
+			<label>
+				<styles>heading</styles>
+				<text>Paths</text>
+			</label>
+			
+			<label>
+				<text>Absolute: {paths:absolute}</text>
+			</label>			
+			
+			<label>
+				<text>Base: {paths:base}</text>
+			</label>
+			
+			<label>
+				<text>Common: {paths:common}</text>
+			</label>			
+			
+			<label>
+				<text>Locales: {paths:locales}</text>
+			</label>
+			
+			<label>
+				<text>Total locales: {configuration:locales.length}</text>
+			</label>						
 		</vbox>
 	</canvas>
 </document>
