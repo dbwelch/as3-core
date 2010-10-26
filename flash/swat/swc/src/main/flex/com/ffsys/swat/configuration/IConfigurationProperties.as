@@ -30,11 +30,5 @@ package com.ffsys.swat.configuration {
 		*/
 		function get assets():IStringCollection;
 		function set assets( assets:IStringCollection ):void;
-		
-		/**
-		*	The application defaults.
-		*/
-		function get defaults():IDefaults;
-		function set defaults( defaults:IDefaults ):void;
 	}
 }

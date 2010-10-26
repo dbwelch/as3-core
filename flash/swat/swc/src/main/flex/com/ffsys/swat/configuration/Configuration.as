@@ -203,19 +203,6 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		*	@inheritDoc	
-		*/
-		public function get defaults():IDefaults
-		{
-			return _locales.defaults;
-		}
-		
-		public function set defaults( defaults:IDefaults ):void
-		{
-			_locales.defaults = defaults;
-		}
-		
-		/**
 		*	@inheritDoc
 		*/
 		public function get assets():IStringCollection

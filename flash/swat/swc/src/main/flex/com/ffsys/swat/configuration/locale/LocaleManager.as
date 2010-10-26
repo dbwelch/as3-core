@@ -50,7 +50,6 @@ package com.ffsys.swat.configuration.locale {
 		private var _resources:IResourceManager;
 		
 		private var _settings:ISettings;
-		private var _defaults:IDefaults;
 		private var _assets:IStringCollection;
 			
 		//
@@ -555,22 +554,6 @@ package com.ffsys.swat.configuration.locale {
 		public function set settings( settings:ISettings ):void
 		{
 			_settings = settings;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get defaults():IDefaults
-		{
-			return _defaults;
-		}
-
-		/**
-		*	@inheritDoc	
-		*/
-		public function set defaults( defaults:IDefaults ):void
-		{
-			_defaults = defaults;
 		}
 		
 		/**
