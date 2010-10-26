@@ -9,7 +9,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.ui.css.ICssStyleCollection;
-	import com.ffsys.ui.css.IStyleManager;	
+	import com.ffsys.ui.css.IStyleManager;
 	
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	
