@@ -8,13 +8,10 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.core.IFlashVariables;
 	
-	/*
-	import com.ffsys.ui.text.core.ITextFieldFactory;
-	import com.ffsys.ui.text.core.TextFieldFactory;
-	*/
-	
 	import com.ffsys.utils.collections.strings.IStringCollection;
+	
 	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.IStyleManager;
 	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
@@ -169,6 +166,15 @@ package com.ffsys.swat.view  {
 		{
 			verifyConfiguration();
 			return this.configuration.getStyleSheet( id );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			verifyConfiguration();
+			return this.configuration.styleManager;
 		}
 		
 		/**

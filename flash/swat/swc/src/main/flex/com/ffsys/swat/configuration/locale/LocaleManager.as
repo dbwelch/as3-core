@@ -448,7 +448,7 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		public function getStyle( id:String ):Object
 		{
-			return styleManager.getStyle( id );
+			return _styleManager.getStyle( id );
 		}
 		
 		/**
@@ -456,7 +456,7 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		public function setStyle( styleName:String, style:Object ):void
 		{
-			styleManager.setStyle( styleName, style );
+			_styleManager.setStyle( styleName, style );
 		}		
 		
 		/**
@@ -480,33 +480,8 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		public function getFilter( id:String ):BitmapFilter
 		{
-			var filter:BitmapFilter = null;
-			
-			//TODO: re-integrate this when filters can be locale specific
-			
-			/*
-			if( _current
-			 	&& _current.filters )
-			{
-				filter = _current.filters.getFilterById( id );
-			}
-			
-			if( defaultLocale
-				&& ( defaultLocale != current )
-				&& defaultLocale.filters
-				&& !filter )
-			{
-				filter = defaultLocale.filters.getFilterById( id );
-			}
-			*/
-			
-			if( this.filters && !filter )
-			{
-				filter = this.filters.getFilterById( id );
-			}
-			
-			return filter;
-		}		
+			return _styleManager.getFilter( id );
+		}
 		
 		/**
 		*	@inheritDoc	

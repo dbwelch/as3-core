@@ -5,6 +5,7 @@ package com.ffsys.swat.configuration {
 	import flash.media.Sound;
 	
 	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.IStyleManager;
 	
 	/**
 	*	Describes the contract for implementations
@@ -17,6 +18,11 @@ package com.ffsys.swat.configuration {
 	*	@since  18.07.2010
 	*/
 	public interface IMediaAccess {
+		
+		/**
+		*	Gets the style manager for the application.
+		*/
+		function get styleManager():IStyleManager;		
 		
 		/**
 		*	Gets a style sheet by identifier.

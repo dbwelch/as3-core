@@ -7,6 +7,7 @@ package com.ffsys.swat.view  {
 	import flash.media.Sound;
 	
 	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.IStyleManager;	
 	
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	
@@ -52,7 +53,7 @@ package com.ffsys.swat.view  {
 		public function set strategy( strategy:IStyleStrategy ):void
 		{
 			_strategy = strategy;
-		}ß
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -109,6 +110,14 @@ package com.ffsys.swat.view  {
 		public function getStyleSheet( id:String ):ICssStyleCollection
 		{
 			return utils.getStyleSheet( id );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			return utils.styleManager;
 		}
 		
 		/**
