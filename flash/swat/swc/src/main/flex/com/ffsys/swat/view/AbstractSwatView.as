@@ -78,6 +78,26 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		public function getMessage( id:String, ... replacements ):String
+		{
+			replacements.unshift( id );
+			return utils.getMessage.apply(
+				utils, replacements );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getError( id:String, ... replacements ):String
+		{
+			replacements.unshift( id );
+			return utils.getError.apply(
+				utils, replacements );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function createChildren():void

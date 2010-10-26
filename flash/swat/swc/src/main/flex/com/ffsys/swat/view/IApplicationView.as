@@ -9,6 +9,8 @@ package com.ffsys.swat.view
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.Settings;
 	
+	import com.ffsys.swat.configuration.IMessageAccess;
+	
 	import com.ffsys.ui.css.IStyleAware;
 	import com.ffsys.ui.css.IStyleStrategy;
 	
@@ -24,6 +26,7 @@ package com.ffsys.swat.view
 	public interface IApplicationView
 		extends IEnabled,
 				IDestroy,
+				IMessageAccess,
 				IStyleAware
 	{
 		
