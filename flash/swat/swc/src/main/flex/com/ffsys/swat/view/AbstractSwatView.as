@@ -13,8 +13,6 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	
-	import com.ffsys.ui.css.IStyleStrategy;
-	
 	/**
 	*	Abstract super class for application views.
 	*
@@ -29,9 +27,6 @@ package com.ffsys.swat.view  {
 			
 		static private var _utils:IViewUtils
 			= new ViewUtils();
-			
-		//TODO : remove the style strategy functionality
-		static private var _strategy:IStyleStrategy;
 		
 		private var _enabled:Boolean = true;
 		private var _styles:String;
@@ -42,19 +37,6 @@ package com.ffsys.swat.view  {
 		public function AbstractSwatView()
 		{
 			super();
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get strategy():IStyleStrategy
-		{
-			return _strategy;
-		}
-		
-		public function set strategy( strategy:IStyleStrategy ):void
-		{
-			_strategy = strategy;
 		}
 		
 		/**

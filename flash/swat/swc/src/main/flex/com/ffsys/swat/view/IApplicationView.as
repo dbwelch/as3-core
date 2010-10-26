@@ -14,7 +14,6 @@ package com.ffsys.swat.view
 	import com.ffsys.swat.configuration.IMediaAccess;
 	
 	import com.ffsys.ui.css.IStyleAware;
-	import com.ffsys.ui.css.IStyleStrategy;
 	
 	/**
 	*	Describes the contract for application views.
@@ -32,12 +31,6 @@ package com.ffsys.swat.view
 				IMediaAccess,
 				IStyleAware
 	{
-		
-		/**
-		*	The strategy used to apply styles.
-		*/
-		function get strategy():IStyleStrategy;
-		function set strategy( strategy:IStyleStrategy ):void;
 		
 		/**
 		*	Gets the utility configuration properties
