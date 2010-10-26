@@ -179,7 +179,7 @@ package com.ffsys.swat.view {
 				_classes.getMainClassInstance();
 			SwatFlashVariables(
 				_flashvars ).classPathConfiguration = _classes;
-			app.flashvars = _flashvars;
+			SwatApplication( app ).setFlashVariables( _flashvars );
 			app.preloader.view = _view;
 			app.preloader.main = this;
 			addChild( DisplayObject( app ) );

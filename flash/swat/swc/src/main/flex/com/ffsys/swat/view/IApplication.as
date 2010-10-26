@@ -15,9 +15,12 @@ package com.ffsys.swat.view
 	*	@since  08.06.2010
 	*/
 	public interface IApplication
-		extends IApplicationView,
-				IFlashVariablesAware
+		extends IApplicationView
 	{
+		/**
+		* 	The preloader that handled preloading assets
+		* 	during the bootstrap phase.
+		*/
 		function get preloader():IRuntimeAssetPreloader;
 	}
 }

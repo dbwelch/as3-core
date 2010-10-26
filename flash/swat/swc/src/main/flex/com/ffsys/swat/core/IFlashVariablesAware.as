@@ -10,6 +10,6 @@ package com.ffsys.swat.core
 		* 	was started.
 		*/
 		function get flashvars():IFlashVariables;
-		function set flashvars( flashvars:IFlashVariables ):void;	
+		function set flashvars( flashvars:IFlashVariables ):void;
 	}
 }

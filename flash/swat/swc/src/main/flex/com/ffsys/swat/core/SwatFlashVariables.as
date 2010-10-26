@@ -125,7 +125,7 @@ package com.ffsys.swat.core {
 		override protected function convert( name:String, value:String ):*
 		{
 			var parser:PrimitiveParser = new PrimitiveParser();
-			return parser.parse( value );
+			return parser.parse( value, true );
 		}
 	}
 }

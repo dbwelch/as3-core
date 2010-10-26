@@ -62,7 +62,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function get flashvars():IFlashVariables
+		override public function get flashvars():IFlashVariables
 		{
 			return _flashvars;
 		}
@@ -70,7 +70,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function set flashvars(
+		internal function setFlashVariables(
 			flashvars:IFlashVariables ):void
 		{
 			if( !_flashvars )
@@ -81,7 +81,6 @@ package com.ffsys.swat.view  {
 				{
 					var classPathConfiguration:IClassPathConfiguration = 
 						SwatFlashVariables( _flashvars ).classPathConfiguration;
-					
 					
 					var parser:IConfigurationParser = 
 						classPathConfiguration.getConfigurationParserInstance();

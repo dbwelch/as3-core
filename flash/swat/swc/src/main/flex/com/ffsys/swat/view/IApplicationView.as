@@ -5,6 +5,7 @@ package com.ffsys.swat.view
 	
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
+	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.Settings;
@@ -43,6 +44,13 @@ package com.ffsys.swat.view
 		*	and functionality exposed to all views.
 		*/
 		function get utils():IViewUtils;
+		
+		/**
+		* 	Gets the application flash variables.
+		*	
+		*	@return The application flash variables.
+		*/
+		function get flashvars():IFlashVariables;		
 		
 		/**
 		* 	Creates child display list objects.

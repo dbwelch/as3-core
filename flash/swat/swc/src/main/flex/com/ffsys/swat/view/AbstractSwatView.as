@@ -1,10 +1,12 @@
 package com.ffsys.swat.view  {
 	
-	import flash.display.Bitmap;	
+	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
+	
+	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.ui.css.ICssStyleCollection;
 	import com.ffsys.ui.css.IStyleManager;	
@@ -82,6 +84,14 @@ package com.ffsys.swat.view  {
 		public function get utils():IViewUtils
 		{
 			return _utils;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get flashvars():IFlashVariables
+		{
+			return utils.flashvars;
 		}
 		
 		/**
