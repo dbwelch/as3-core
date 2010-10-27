@@ -164,7 +164,8 @@ package com.ffsys.swat.view  {
 		*/
 		public function getXmlDocument( id:String ):XML
 		{
-			
+			verifyConfiguration();
+			return this.configuration.getXmlDocument( id );			
 		}		
 		
 		/**
