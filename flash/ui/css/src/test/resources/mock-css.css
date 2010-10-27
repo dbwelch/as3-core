@@ -35,6 +35,10 @@ CssStyleAware {
 	class-level-color: #ff66ff;
 }
 
+#stylable-identifier {
+	identifier-level-color: #ff6600;
+}
+
 stylable-test {
 	x: 20;
 	y: 50;

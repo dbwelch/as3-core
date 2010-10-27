@@ -2,6 +2,8 @@ package com.ffsys.ui.css
 {
 	import flash.display.Sprite;
 	
+	import com.ffsys.core.IStringIdentifier;
+	
 	/**
 	* 	Example of implementing the style aware contract.
 	*
@@ -12,11 +14,14 @@ package com.ffsys.ui.css
 	*	@since  27.10.2010
 	*/
 	public class CssStyleAware extends Sprite
-		implements IStyleAware
+		implements 	IStyleAware,
+					IStringIdentifier
 	{
+		private var _id:String;
 		private var _styles:String;
 		private var _styleManager:IStyleManager;
 		private var _classLevelColor:Number;
+		private var _identifierLevelColor:Number;
 		private var _customColor:Number;
 		
 		/**
@@ -28,6 +33,19 @@ package com.ffsys.ui.css
 		{
 			super();
 			_styleManager = manager;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id( value:String ):void
+		{
+			_id = value;
 		}
 		
 		/**
@@ -65,6 +83,19 @@ package com.ffsys.ui.css
 		public function set classLevelColor( value:Number ):void
 		{
 			_classLevelColor = value;
+		}
+		
+		/**
+		* 	Represents a syle property declared at the identifier level.
+		*/		
+		public function get identifierLevelColor():Number
+		{
+			return _identifierLevelColor;
+		}
+		
+		public function set identifierLevelColor( value:Number ):void
+		{
+			_identifierLevelColor = value;
 		}
 		
 		/**

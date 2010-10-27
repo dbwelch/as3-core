@@ -172,7 +172,7 @@ package com.ffsys.ui.css {
 			var style:Object = super.getStyle( styleName );
 			for( var z:String in style )
 			{
-				trace("CssStyleCollection::getStyle(), ", z, style[ z ], style.instanceClass );
+				//trace("CssStyleCollection::getStyle(), ", z, style[ z ], style.instanceClass );
 				
 				if( style && ( style.instanceClass is Class ) )
 				{

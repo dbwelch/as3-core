@@ -126,13 +126,15 @@ package com.ffsys.ui.css
 			Assert.assertTrue( filter is BitmapFilter );
 			
 			var stylable:CssStyleAware = new CssStyleAware( _styleManager );
+			stylable.id = "stylable-identifier";
 			stylable.styles = "stylable-test";
 			stylable.applyStyles();
 			
 			Assert.assertEquals( 20, stylable.x );
 			Assert.assertEquals( 50, stylable.y );
-			Assert.assertEquals( 3368601, stylable.customColor );
 			Assert.assertEquals( 16738047, stylable.classLevelColor );
+			Assert.assertEquals( 16737792, stylable.identifierLevelColor );
+			Assert.assertEquals( 3368601, stylable.customColor );
 			
 			var sprite:Sprite = _styleManager.getStyle( "custom-sprite" ) as Sprite;
 			Assert.assertNotNull( sprite );
