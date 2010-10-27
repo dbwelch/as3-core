@@ -51,8 +51,8 @@ package com.ffsys.ui.css {
 	*	
 	*	@see com.ffsys.utils.primitives.PrimitiveParser
 	*/
-	public class CssStyleCollection extends StyleSheet
-		implements ICssStyleCollection {
+	public class CssStyleSheet extends StyleSheet
+		implements ICssStyleSheet {
 		
 		private var _id:String;
 		private var _delimiter:String = "|";
@@ -102,9 +102,9 @@ package com.ffsys.ui.css {
 		public static const HEX_NUMBER:String = "#";
 		
 		/**
-		*	Creates a <code>CssStyleCollection</code> instance.
+		*	Creates a <code>CssStyleSheet</code> instance.
 		*/
-		public function CssStyleCollection()
+		public function CssStyleSheet()
 		{
 			super();
 		}
@@ -172,7 +172,7 @@ package com.ffsys.ui.css {
 			var style:Object = super.getStyle( styleName );
 			for( var z:String in style )
 			{
-				//trace("CssStyleCollection::getStyle(), ", z, style[ z ], style.instanceClass );
+				//trace("CssStyleSheet::getStyle(), ", z, style[ z ], style.instanceClass );
 				
 				if( style && ( style.instanceClass is Class ) )
 				{
@@ -237,7 +237,7 @@ package com.ffsys.ui.css {
 		*/
 		public function getStyles( styleName:String ):Array
 		{
-			//trace("*** CssStyleCollection::getStyles(), GETTING STYLES FOR: ", styleName );
+			//trace("*** CssStyleSheet::getStyles(), GETTING STYLES FOR: ", styleName );
 			
 			var output:Array = new Array();
 			var style:Object = null;
@@ -258,11 +258,11 @@ package com.ffsys.ui.css {
 			style = getStyle( styleName );
 			if( style )
 			{
-				//trace("CssStyleCollection::getStyle(), GOT STYLE FOR STYLE NAME: ", id, styleName, style );
+				//trace("CssStyleSheet::getStyle(), GOT STYLE FOR STYLE NAME: ", id, styleName, style );
 				output.push( style );
 			}
 			
-			//trace("*** CssStyleCollection::getStyles(), RETURNING STYLES FOR: ", styleName, output );
+			//trace("*** CssStyleSheet::getStyles(), RETURNING STYLES FOR: ", styleName, output );
 			
 			return output;
 		}
@@ -295,12 +295,12 @@ package com.ffsys.ui.css {
 				
 				if( styleName && styleName.length > 0 )
 				{
-					//trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ", styleParts.length );
+					//trace("********************* >>>>>>>>>>>>> CssStyleSheet::style(), ", styleParts.length );
 					
 					var styles:Array = getStyles( styleName );
 				
 					/*
-					trace("********************* >>>>>>>>>>>>> CssStyleCollection::style(), ",
+					trace("********************* >>>>>>>>>>>>> CssStyleSheet::style(), ",
 						styleParts, styleName, styles.length );
 					*/
 					
@@ -359,7 +359,7 @@ package com.ffsys.ui.css {
 				if( style.paddingLeft is Number )
 				{
 					target.paddings.left = style.paddingLeft;	
-					trace("CssStyleCollection::applyPadding(), ASSIGNING PADDING: ", target.paddings.left );				
+					trace("CssStyleSheet::applyPadding(), ASSIGNING PADDING: ", target.paddings.left );				
 				}
 				
 				if( style.paddingTop is Number )
@@ -388,7 +388,7 @@ package com.ffsys.ui.css {
 			{
 				if( target is IPaddingAware )
 				{
-					trace("CssStyleCollection::applyStyle(), APPLYING PADDING: ", target, style );
+					trace("CssStyleSheet::applyStyle(), APPLYING PADDING: ", target, style );
 					applyPadding( IPaddingAware( target ), style );
 				}
 				
@@ -434,7 +434,7 @@ package com.ffsys.ui.css {
 							target.height = style.height;
 						}
 					
-						//trace("CssStyleCollection::apply(), txt text: ", txt.text );
+						//trace("CssStyleSheet::apply(), txt text: ", txt.text );
 					
 						if( txt.text )
 						{
@@ -445,7 +445,7 @@ package com.ffsys.ui.css {
 						txt.border = true;
 						txt.background = true;
 						
-						trace("CssStyleCollection::apply(), ",
+						trace("CssStyleSheet::apply(), ",
 							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
 						*/
 					}
@@ -468,18 +468,18 @@ package com.ffsys.ui.css {
 			
 			var styles:Array = styleNames;
 			
-			//trace("********************** CssStyleCollection::postProcessCss(), " );
+			//trace("********************** CssStyleSheet::postProcessCss(), " );
 
 			for( var i:int = 0;i < styles.length;i++ )
 			{
 				styleName = styles[ i ];
 				style = getStyle( styleName );
-				//trace("CssStyleCollection::postProcessCss(), ", styleName, style );
+				//trace("CssStyleSheet::postProcessCss(), ", styleName, style );
 				for( z in style )
 				{
 					value = style[ z ];
 					value = parser.parse( value, true, delimiter );
-					//trace("CssStyleCollection::postProcessCss(), ", value );
+					//trace("CssStyleSheet::postProcessCss(), ", value );
 
 					//we've parsed the primitives
 					//now deal with css specific parsing
@@ -501,7 +501,7 @@ package com.ffsys.ui.css {
 					style[ z ] = value;
 				}
 				
-				//trace("********************** CssStyleCollection::postProcessCss(), setting style: ", styleName, style );
+				//trace("********************** CssStyleSheet::postProcessCss(), setting style: ", styleName, style );
 
 				setStyle( styleName, style );
 			}
@@ -583,7 +583,7 @@ package com.ffsys.ui.css {
 					break;
 			}
 			
-			//trace("CssStyleCollection::parseExtension(), ", output );
+			//trace("CssStyleSheet::parseExtension(), ", output );
 			
 			if( _dependencies && ( output is ILoader ) )
 			{

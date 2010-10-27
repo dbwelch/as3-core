@@ -18,8 +18,8 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.io.loaders.resources.*;
 	
-	import com.ffsys.ui.css.CssStyleCollection;
-	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.CssStyleSheet;
+	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.StyleManager;
 	import com.ffsys.ui.css.StyleSheetFactory;
@@ -316,7 +316,7 @@ package com.ffsys.swat.configuration.locale {
 				//massage the css queue so that it uses the style manager
 				//for loading, ensuring that style dependencies are resolved
 				var loader:ILoader = null;
-				var css:ICssStyleCollection = null;
+				var css:ICssStyleSheet = null;
 				for( var i:int = 0;i < _cssQueue.getLength();i++ )
 				{
 					loader = ILoader( _cssQueue.getLoaderAt( i ) );
@@ -456,7 +456,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function getStyleSheet( id:String ):ICssStyleCollection
+		public function getStyleSheet( id:String ):ICssStyleSheet
 		{
 			return _styleManager.getStyleSheet( id );
 		}

@@ -7,7 +7,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.core.IFlashVariables;
 	
-	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
@@ -121,7 +121,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function getStyleSheet( id:String ):ICssStyleCollection
+		public function getStyleSheet( id:String ):ICssStyleSheet
 		{
 			return _locales.getStyleSheet( id );
 		}

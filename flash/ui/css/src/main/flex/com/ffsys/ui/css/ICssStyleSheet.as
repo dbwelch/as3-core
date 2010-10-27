@@ -17,7 +17,7 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public interface ICssStyleCollection
+	public interface ICssStyleSheet
 		extends	IStringIdentifier,
 				IEventDispatcher {
 										

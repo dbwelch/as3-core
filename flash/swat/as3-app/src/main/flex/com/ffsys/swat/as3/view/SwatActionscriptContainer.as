@@ -22,7 +22,7 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.ui.runtime.*;
 	
-	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.ICssStyleSheet;
 	
 	/**
 	*	The main view for the application.
@@ -78,7 +78,7 @@ package com.ffsys.swat.as3.view {
 			//update the style manager reference
 			UIComponent.styleManager = utils.configuration.locales.styleManager;
 			
-			var css:ICssStyleCollection = utils.getStyleSheet( "test-css" );
+			var css:ICssStyleSheet = utils.getStyleSheet( "test-css" );
 			
 			/*
 			//test for adding a bitmap css reference

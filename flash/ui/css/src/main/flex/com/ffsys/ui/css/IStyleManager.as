@@ -16,7 +16,7 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public interface IStyleManager extends ICssStyleCollection {
+	public interface IStyleManager extends ICssStyleSheet {
 		
 		/**
 		*	Adds a style sheet to this manager.
@@ -31,7 +31,7 @@ package com.ffsys.ui.css {
 		*/
 		function addStyleSheet(
 			request:URLRequest,
-			sheet:ICssStyleCollection = null ):void;
+			sheet:ICssStyleSheet = null ):void;
 			
 		/**
 		*	Removes a style sheet from this manager.
@@ -39,7 +39,7 @@ package com.ffsys.ui.css {
 		*	@param sheet The style sheet to remove.
 		*/
 		function removeStyleSheet(
-			sheet:ICssStyleCollection ):Boolean;
+			sheet:ICssStyleSheet ):Boolean;
 			
 		/**
 		*	Gets a style sheet by identifier.
@@ -49,7 +49,7 @@ package com.ffsys.ui.css {
 		*	@return The style sheet with the specified identifier
 		*	or null if no corresponding style sheet was located.
 		*/
-		function getStyleSheet( id:String ):ICssStyleCollection;			
+		function getStyleSheet( id:String ):ICssStyleSheet;			
 			
 		/**
 		*	Loads all the style sheets associated with this

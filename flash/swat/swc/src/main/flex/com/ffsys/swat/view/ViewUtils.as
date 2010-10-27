@@ -10,7 +10,7 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
-	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	
 	import com.ffsys.swat.configuration.AssetManager;
@@ -161,7 +161,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function getStyleSheet( id:String ):ICssStyleCollection
+		public function getStyleSheet( id:String ):ICssStyleSheet
 		{
 			verifyConfiguration();
 			return this.configuration.getStyleSheet( id );

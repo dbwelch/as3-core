@@ -8,7 +8,7 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.core.IFlashVariables;
 	
-	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	
 	import com.ffsys.swat.configuration.IConfigurationAware;
@@ -107,7 +107,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function getStyleSheet( id:String ):ICssStyleCollection
+		public function getStyleSheet( id:String ):ICssStyleSheet
 		{
 			return utils.getStyleSheet( id );
 		}

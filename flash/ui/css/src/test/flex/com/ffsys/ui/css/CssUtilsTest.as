@@ -100,8 +100,8 @@ package com.ffsys.ui.css
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			var sheet:ICssStyleCollection = _styleManager.getStyleSheet( "mockCss" );
-			var filters:ICssStyleCollection = _styleManager.getStyleSheet( "mockFilters" );
+			var sheet:ICssStyleSheet = _styleManager.getStyleSheet( "mockCss" );
+			var filters:ICssStyleSheet = _styleManager.getStyleSheet( "mockFilters" );
 			
 			_styleManager.setStyle( "internal-style", { color: 0x336699 } );
 			var internalStyle:Object = _styleManager.getStyle( "internal-style" );
@@ -127,8 +127,8 @@ package com.ffsys.ui.css
 			//test the style sheets retrieved by id
 			Assert.assertNotNull( sheet );
 			Assert.assertNotNull( filters );
-			Assert.assertTrue( sheet is ICssStyleCollection );
-			Assert.assertTrue( filters is ICssStyleCollection );
+			Assert.assertTrue( sheet is ICssStyleSheet );
+			Assert.assertTrue( filters is ICssStyleSheet );
 			
 			//test the values returned from retrieving the styles from
 			//the style manager

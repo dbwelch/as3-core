@@ -18,7 +18,7 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public class StyleManager extends CssStyleCollection
+	public class StyleManager extends CssStyleSheet
 		implements IStyleManager {
 			
 		private var _queue:ILoaderQueue;
@@ -38,7 +38,7 @@ package com.ffsys.ui.css {
 		*/
 		public function addStyleSheet(
 			request:URLRequest,
-			sheet:ICssStyleCollection = null ):void
+			sheet:ICssStyleSheet = null ):void
 		{
 			if( sheet == null )
 			{
@@ -55,7 +55,7 @@ package com.ffsys.ui.css {
 		*	@inheritDoc
 		*/
 		public function removeStyleSheet(
-			sheet:ICssStyleCollection ):Boolean
+			sheet:ICssStyleSheet ):Boolean
 		{
 			delete _styleSheets[ sheet ];
 			return ( sheet && _styleSheets[ sheet ] == null );
@@ -64,14 +64,14 @@ package com.ffsys.ui.css {
 		/**
 		*	@inheritDoc	
 		*/
-		public function getStyleSheet( id:String ):ICssStyleCollection
+		public function getStyleSheet( id:String ):ICssStyleSheet
 		{
 			if( id )
 			{
-				var css:ICssStyleCollection = null;
+				var css:ICssStyleSheet = null;
 				for( var obj:Object in _styleSheets )
 				{
-					css = ICssStyleCollection( obj );
+					css = ICssStyleSheet( obj );
 					if( id == css.id )
 					{
 						return css;
@@ -86,11 +86,11 @@ package com.ffsys.ui.css {
 		*/
 		override public function getStyle( styleName:String ):Object
 		{
-			var css:ICssStyleCollection = null;
+			var css:ICssStyleSheet = null;
 			var style:Object = null;
 			for( var obj:Object in _styleSheets )
 			{
-				css = ICssStyleCollection( obj );
+				css = ICssStyleSheet( obj );
 				style = css.getStyle( styleName );
 				if( style )
 				{
@@ -107,11 +107,11 @@ package com.ffsys.ui.css {
 		override public function getStyles( styleName:String ):Array
 		{
 			var output:Array = new Array();
-			var css:ICssStyleCollection = null;
+			var css:ICssStyleSheet = null;
 			var styles:Array = null;
 			for( var obj:Object in _styleSheets )
 			{
-				css = ICssStyleCollection( obj );
+				css = ICssStyleSheet( obj );
 				styles = css.getStyles( styleName );
 				if( styles && styles.length > 0 )
 				{
@@ -129,11 +129,11 @@ package com.ffsys.ui.css {
 		{
 			var output:Array = super.styleNames;
 			
-			var css:ICssStyleCollection = null;
+			var css:ICssStyleSheet = null;
 			var styles:Array = null;
 			for( var obj:Object in _styleSheets )
 			{
-				css = ICssStyleCollection( obj );
+				css = ICssStyleSheet( obj );
 				styles = css.styleNames;
 				if( styles )
 				{
@@ -149,11 +149,11 @@ package com.ffsys.ui.css {
 		*/
 		override public function getFilter( styleName:String ):BitmapFilter
 		{
-			var css:ICssStyleCollection = null;
+			var css:ICssStyleSheet = null;
 			var filter:BitmapFilter = null;
 			for( var obj:Object in _styleSheets )
 			{
-				css = ICssStyleCollection( obj );
+				css = ICssStyleSheet( obj );
 				filter = css.getFilter( styleName );
 				if( filter )
 				{
@@ -177,10 +177,10 @@ package com.ffsys.ui.css {
 			_queue = new LoaderQueue();
 			
 			var loader:CssLoader = null;
-			var css:ICssStyleCollection = null;
+			var css:ICssStyleSheet = null;
 			for( var obj:Object in _styleSheets )
 			{
-				css = ICssStyleCollection( obj );
+				css = ICssStyleSheet( obj );
 				loader = new CssLoader( URLRequest( _styleSheets[ obj ] ) );
 				loader.css = css;
 				loader.addEventListener( LoadEvent.DATA, itemLoaded );
@@ -192,14 +192,14 @@ package com.ffsys.ui.css {
 			return _queue;
 		}
 		
-		private var _current:ICssStyleCollection;
+		private var _current:ICssStyleSheet;
 		
 		/**
 		*	@private
 		*/
 		private function itemLoaded( event:LoadEvent ):void
 		{
-			_current = ICssStyleCollection(
+			_current = ICssStyleSheet(
 				StylesheetResource( event.resource ).styleSheet );
 				
 			//trace("StyleManager::itemLoaded(), ", event.loader, event.loader.id, _current );

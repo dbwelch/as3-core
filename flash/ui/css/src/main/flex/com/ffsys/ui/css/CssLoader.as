@@ -18,7 +18,7 @@ package com.ffsys.ui.css {
 	*/
 	public class CssLoader extends StylesheetLoader {
 		
-		private var _css:ICssStyleCollection;
+		private var _css:ICssStyleSheet;
 		
 		/**
 		*	Creates a <code>CssLoader</code> instance.
@@ -35,14 +35,14 @@ package com.ffsys.ui.css {
 		
 		/**
 		*	The css style collection to parse the css
-		*	text file into.	
+		*	text file into.
 		*/
-		public function get css():ICssStyleCollection
+		public function get css():ICssStyleSheet
 		{
 			return _css;
 		}
 		
-		public function set css( css:ICssStyleCollection ):void
+		public function set css( css:ICssStyleSheet ):void
 		{
 			_css = css;
 		}
@@ -52,7 +52,7 @@ package com.ffsys.ui.css {
 		*/
 		override protected function parse( text:String ):StyleSheet
 		{
-			var sheet:ICssStyleCollection = css ? css : new CssStyleCollection();
+			var sheet:ICssStyleSheet = css ? css : StyleSheetFactory.create();
 			sheet.parse( text );
 			return StyleSheet( sheet );
 		}

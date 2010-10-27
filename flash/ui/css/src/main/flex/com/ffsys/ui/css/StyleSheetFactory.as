@@ -14,7 +14,7 @@ package com.ffsys.ui.css {
 		/**
 		*	The default class to instantiate when creating style sheets.
 		*/
-		public static var styleSheetClass:Class = CssStyleCollection;
+		public static var styleSheetClass:Class = CssStyleSheet;
 		
 		/**
 		*	Creates a <code>StyleSheetFactory</code> instance.
@@ -39,7 +39,7 @@ package com.ffsys.ui.css {
 		*	
 		*	@return The created style sheet.
 		*/
-		public static function create( clazz:Class = null ):ICssStyleCollection
+		public static function create( clazz:Class = null ):ICssStyleSheet
 		{
 			var sheet:Object = null;
 			
@@ -62,13 +62,13 @@ package com.ffsys.ui.css {
 				throw e;
 			}
 			
-			if( !( sheet is ICssStyleCollection ) )
+			if( !( sheet is ICssStyleSheet ) )
 			{
 				throw new Error( "The created style sheet does not adhere"
 					+ " to the style sheet contract." );
 			}
 			
-			return ICssStyleCollection( sheet );
+			return ICssStyleSheet( sheet );
 		}
 	}
 }

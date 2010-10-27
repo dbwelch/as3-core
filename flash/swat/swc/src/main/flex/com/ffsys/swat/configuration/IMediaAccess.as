@@ -4,7 +4,7 @@ package com.ffsys.swat.configuration {
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
 	
-	import com.ffsys.ui.css.ICssStyleCollection;
+	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	
 	/**
@@ -37,7 +37,7 @@ package com.ffsys.swat.configuration {
 		*	@return The style sheet with the specified identifier
 		*	or null if no corresponding style sheet could be located.
 		*/
-		function getStyleSheet( id:String ):ICssStyleCollection;
+		function getStyleSheet( id:String ):ICssStyleSheet;
 		
 		/**
 		* 	Locates a style from the specified identifier searching
