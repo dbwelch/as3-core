@@ -38,8 +38,13 @@ package com.ffsys.ui.css {
 		*/
 		public function addStyleSheet(
 			request:URLRequest,
-			sheet:ICssStyleCollection ):void
+			sheet:ICssStyleCollection = null ):void
 		{
+			if( sheet == null )
+			{
+				sheet = StyleSheetFactory.create();
+			}
+			
 			if( request && sheet )
 			{
 				_styleSheets[ sheet ] = request;

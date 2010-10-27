@@ -22,6 +22,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.ui.css.ICssStyleCollection;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.StyleManager;
+	import com.ffsys.ui.css.StyleSheetFactory;
 	
 	import com.ffsys.utils.properties.IProperties;
 	import com.ffsys.utils.properties.Properties;
@@ -319,7 +320,7 @@ package com.ffsys.swat.configuration.locale {
 				for( var i:int = 0;i < _cssQueue.getLength();i++ )
 				{
 					loader = ILoader( _cssQueue.getLoaderAt( i ) );
-					css = new CssStyleCollection();
+					css = StyleSheetFactory.create();
 					if( loader.id )
 					{
 						css.id = loader.id;

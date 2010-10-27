@@ -21,6 +21,9 @@ package com.ffsys.ui.css {
 		/**
 		*	Adds a style sheet to this manager.
 		*	
+		*	If no specific style sheet is specified this method
+		*	will create one using the style sheet factory.
+		*	
 		*	@param request The url request to load the style
 		*	sheet data from.
 		*	@param sheet A style sheet implementation to load
@@ -28,7 +31,7 @@ package com.ffsys.ui.css {
 		*/
 		function addStyleSheet(
 			request:URLRequest,
-			sheet:ICssStyleCollection ):void;
+			sheet:ICssStyleCollection = null ):void;
 			
 		/**
 		*	Removes a style sheet from this manager.
