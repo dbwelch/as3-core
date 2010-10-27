@@ -160,6 +160,14 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getXmlDocument( id:String ):XML
+		{
+			
+		}		
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getStyleSheet( id:String ):ICssStyleCollection

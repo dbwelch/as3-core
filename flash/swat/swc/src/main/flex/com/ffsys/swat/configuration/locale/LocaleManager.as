@@ -426,6 +426,25 @@ package com.ffsys.swat.configuration.locale {
 			
 			return null;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getXmlDocument( id:String ):XML
+		{
+			var x:XML = null;
+			
+			var queue:ILoaderQueue = getXmlQueue();
+			var resource:XmlResource = 
+				queue.resources.getResourceById( id ) as XmlResource;
+				
+			if( resource )
+			{
+				x = resource.xml;
+			}
+			
+			return x;
+		}
 			
 		/**
 		*	@inheritDoc
