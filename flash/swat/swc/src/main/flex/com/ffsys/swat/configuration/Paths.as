@@ -133,7 +133,12 @@ package com.ffsys.swat.configuration
 			//we always load using the raw url
 			if( this.absolute || resource.absolute )
 			{
-				return join( [ base ], resource.url );
+				if( base && base.length > 0 )
+				{
+					return join( [ base ], resource.url )
+				}
+				
+				return resource.url
 			}
 			
 			var manager:IResourceManagerAware = getResourceManagerAware( resource );
