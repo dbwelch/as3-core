@@ -56,7 +56,7 @@ package com.ffsys.ui.css {
 			
 			try
 			{
-				sheet = new clazz()
+				sheet = new clazz();
 			}catch( e:Error )
 			{
 				throw e;

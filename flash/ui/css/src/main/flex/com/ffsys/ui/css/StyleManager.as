@@ -183,7 +183,7 @@ package com.ffsys.ui.css {
 				css = ICssStyleSheet( obj );
 				loader = new CssLoader( URLRequest( _styleSheets[ obj ] ) );
 				loader.css = css;
-				loader.addEventListener( LoadEvent.DATA, itemLoaded );
+				loader.addEventListener( LoadEvent.DATA, itemLoaded );			
 				_queue.addLoader( loader );
 			}
 			

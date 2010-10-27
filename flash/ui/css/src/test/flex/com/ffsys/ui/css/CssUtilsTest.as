@@ -63,6 +63,7 @@ package com.ffsys.ui.css
 		*/
 		private function loadHandler( event:LoadEvent ):void
 		{
+			trace("CssUtilsTest::loadHandler(), ", event.type, event.uri );
 			if( event.type == LoadEvent.DATA )
 			{
 				if( event.loader is ImageLoader )
