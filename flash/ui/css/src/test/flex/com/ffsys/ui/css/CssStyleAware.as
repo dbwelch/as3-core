@@ -16,6 +16,7 @@ package com.ffsys.ui.css
 	{
 		private var _styles:String;
 		private var _styleManager:IStyleManager;
+		private var _classLevelColor:Number;
 		private var _customColor:Number;
 		
 		/**
@@ -51,6 +52,19 @@ package com.ffsys.ui.css
 			{
 				_styleManager.style( this );
 			}
+		}
+		
+		/**
+		* 	Represents a syle property declared at the class level.
+		*/		
+		public function get classLevelColor():Number
+		{
+			return _classLevelColor;
+		}
+		
+		public function set classLevelColor( value:Number ):void
+		{
+			_classLevelColor = value;
 		}
 		
 		/**

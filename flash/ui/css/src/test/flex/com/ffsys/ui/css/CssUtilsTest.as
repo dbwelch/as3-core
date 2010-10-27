@@ -132,6 +132,7 @@ package com.ffsys.ui.css
 			Assert.assertEquals( 20, stylable.x );
 			Assert.assertEquals( 50, stylable.y );
 			Assert.assertEquals( 3368601, stylable.customColor );
+			Assert.assertEquals( 16738047, stylable.classLevelColor );
 			
 			var sprite:Sprite = _styleManager.getStyle( "custom-sprite" ) as Sprite;
 			Assert.assertNotNull( sprite );

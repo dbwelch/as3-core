@@ -31,6 +31,10 @@ one, two {
 	color: #336699;
 }
 
+CssStyleAware {
+	class-level-color: #ff66ff;
+}
+
 stylable-test {
 	x: 20;
 	y: 50;
