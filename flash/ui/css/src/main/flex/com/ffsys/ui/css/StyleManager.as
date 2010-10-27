@@ -22,6 +22,7 @@ package com.ffsys.ui.css {
 		implements IStyleManager {
 			
 		private var _queue:ILoaderQueue;
+		private var _dependencyQueue:ILoaderQueue;
 		private var _styleSheets:Dictionary = new Dictionary();
 		
 		/**
@@ -209,10 +210,13 @@ package com.ffsys.ui.css {
 				if( _current.dependencies && _current.dependencies.getLength() > 0 )
 				{
 					_queue.paused = true;
-					_current.dependencies.addEventListener( LoadEvent.DATA, dependencyLoaded );
-					_current.dependencies.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyResourceNotFound );
-					_current.dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
-					_current.dependencies.load();
+					_dependencyQueue = _current.dependencies;
+					_dependencyQueue.addEventListener( LoadEvent.DATA, dependencyDispatchProxy );
+					_dependencyQueue.addEventListener( LoadEvent.LOAD_START, dependencyDispatchProxy );
+					_dependencyQueue.addEventListener( LoadEvent.LOAD_PROGRESS, dependencyDispatchProxy );
+					_dependencyQueue.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyDispatchProxy );
+					_dependencyQueue.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
+					_dependencyQueue.load();
 				}
 			}
 		}
@@ -222,6 +226,14 @@ package com.ffsys.ui.css {
 		*/
 		override protected function dependenciesLoaded( event:LoadEvent ):void
 		{
+			_dependencyQueue.removeEventListener( LoadEvent.DATA, dependencyDispatchProxy );
+			_dependencyQueue.removeEventListener( LoadEvent.LOAD_START, dependencyDispatchProxy );
+			_dependencyQueue.removeEventListener( LoadEvent.LOAD_PROGRESS, dependencyDispatchProxy );
+			_dependencyQueue.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyDispatchProxy );
+			
+			_dependencyQueue.removeEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
+			
+			//resume the main css queue
 			_queue.resume();
 			_current = null;
 		}
@@ -229,14 +241,10 @@ package com.ffsys.ui.css {
 		/**
 		*	@private	
 		*/
-		private function dependencyLoaded( event:LoadEvent ):void
+		private function dependencyDispatchProxy( event:LoadEvent ):void
 		{
-			//trace("StyleManager::dependencyLoaded(): ", event.resource );
-		}
-		
-		private function dependencyResourceNotFound( event:LoadEvent ):void
-		{
-			//trace("StyleManager::dependencyResourceNotFound(), ", this, event.loader, event.uri );
+			//proxy the events through the main loader queue
+			_queue.dispatchEvent( event );
 		}
 	}
 }
