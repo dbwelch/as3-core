@@ -30,3 +30,16 @@ one, two {
 #logo:over {
 	color: #336699;
 }
+
+stylable-test {
+	x: 20;
+	y: 50;
+	custom-color: #336699;
+}
+
+custom-sprite {
+	instance-class: class( flash.display.Sprite );
+	mouse-enabled: false;
+	x: 20;
+	y: 100;
+}

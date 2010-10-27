@@ -2,6 +2,7 @@ package com.ffsys.ui.css
 {
 	import flash.display.Bitmap;
 	import flash.display.Loader;
+	import flash.display.Sprite;
 	import flash.filters.BitmapFilter;
 	import flash.events.Event;
 	import flash.media.Sound;
@@ -120,14 +121,30 @@ package com.ffsys.ui.css
 			Assert.assertTrue( style.propertyBitmap is Bitmap );
 			Assert.assertTrue( style.propertySound is Sound );
 			Assert.assertTrue( style.propertyMovie is Loader );
-			Assert.assertTrue( _styleManager.getFilter( "bevel" ) is BitmapFilter );
+			
+			var filter:BitmapFilter = _styleManager.getFilter( "bevel" );
+			Assert.assertTrue( filter is BitmapFilter );
+			
+			var stylable:CssStyleAware = new CssStyleAware( _styleManager );
+			stylable.styles = "stylable-test";
+			stylable.applyStyles();
+			
+			Assert.assertEquals( 20, stylable.x );
+			Assert.assertEquals( 50, stylable.y );
+			Assert.assertEquals( 3368601, stylable.customColor );
+			
+			var sprite:Sprite = _styleManager.getStyle( "custom-sprite" ) as Sprite;
+			Assert.assertNotNull( sprite );
+			Assert.assertEquals( 20, sprite.x );
+			Assert.assertEquals( 100, sprite.y );
+			Assert.assertFalse( sprite.mouseEnabled );
 		}
 		
 		[Test(async)]
 		public function cssParseTest():void
 		{
 			//start the load process
-		}		
+		}
 		
 		/**
 		*	@private	
