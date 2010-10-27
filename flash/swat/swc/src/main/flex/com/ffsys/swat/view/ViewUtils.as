@@ -150,6 +150,15 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getXmlDocument( id:String ):XML
+		{
+			verifyConfiguration();
+			return this.configuration.getXmlDocument( id );			
+		}		
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getStyleSheet( id:String ):ICssStyleCollection

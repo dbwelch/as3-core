@@ -103,6 +103,14 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getXmlDocument( id:String ):XML
+		{
+			return _locales.getXmlDocument( id );
+		}		
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function get styleManager():IStyleManager

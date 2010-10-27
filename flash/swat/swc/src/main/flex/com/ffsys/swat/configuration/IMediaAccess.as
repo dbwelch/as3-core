@@ -20,6 +20,11 @@ package com.ffsys.swat.configuration {
 	public interface IMediaAccess {
 		
 		/**
+		* 	Gets a loaded XML document by identifier.
+		*/
+		function getXmlDocument( id:String ):XML;
+		
+		/**
 		*	Gets the style manager for the application.
 		*/
 		function get styleManager():IStyleManager;		
