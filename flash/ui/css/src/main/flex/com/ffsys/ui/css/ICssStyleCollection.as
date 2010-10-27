@@ -20,6 +20,14 @@ package com.ffsys.ui.css {
 	public interface ICssStyleCollection
 		extends	IStringIdentifier,
 				IEventDispatcher {
+										
+		/**
+		* 	The delimiter to use when parsing array values.
+		* 
+		* 	The default value is a vertical bar.
+		*/
+		function get delimiter():String;
+		function set delimiter( value:String ):void;					
 		
 		/**
 		*	A queue that represents the dependencies that

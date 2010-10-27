@@ -7,7 +7,7 @@ test-style {
 	property-null: null;
 	property-undefined: undefined;
 	property-nan: NaN;
-	property-array: apples, 10, 3.14, true;
+	property-array: apples|10|3.14|true;
 	property-class: class ( flash.display.Sprite );
 	property-url: url ( assets/file.css );
 	property-bitmap: img( assets/mock-css-image.jpg );

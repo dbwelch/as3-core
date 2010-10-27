@@ -55,6 +55,7 @@ package com.ffsys.ui.css {
 		implements ICssStyleCollection {
 		
 		private var _id:String;
+		private var _delimiter:String = "|";
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
 		private var _dependencies:ILoaderQueue;
 		private var _cache:Dictionary;
@@ -106,6 +107,19 @@ package com.ffsys.ui.css {
 		public function CssStyleCollection()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get delimiter():String
+		{
+			return _delimiter;
+		}
+		
+		public function set delimiter( value:String ):void
+		{
+			_delimiter = value;
 		}
 		
 		/**
@@ -464,7 +478,7 @@ package com.ffsys.ui.css {
 				for( z in style )
 				{
 					value = style[ z ];
-					value = parser.parse( value, true );
+					value = parser.parse( value, true, delimiter );
 					//trace("CssStyleCollection::postProcessCss(), ", value );
 
 					//we've parsed the primitives
