@@ -478,13 +478,14 @@ package com.ffsys.ui.css {
 				for( z in style )
 				{
 					value = style[ z ];
-					value = parser.parse( value, true, delimiter );
-					//trace("CssStyleSheet::postProcessCss(), ", value );
 
 					//we've parsed the primitives
 					//now deal with css specific parsing
 					if( value is String )
 					{
+						value = parser.parse( value, true, delimiter );
+						//trace("CssStyleSheet::postProcessCss(), ", value );
+						
 						if( hexExpression.test( value ) )
 						{
 							value = parseHexNumber( value );

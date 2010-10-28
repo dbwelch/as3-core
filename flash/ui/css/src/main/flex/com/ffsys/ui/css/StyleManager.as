@@ -23,7 +23,7 @@ package com.ffsys.ui.css {
 			
 		private var _queue:ILoaderQueue;
 		private var _dependencyQueue:ILoaderQueue;
-		private var _styleSheets:Dictionary = new Dictionary();
+		private var _styleSheets:Vector.<StyleSheetEntry> = new Vector.<StyleSheetEntry>();
 		
 		/**
 		*	Creates a <code>StyleManager</code> instance.
@@ -47,7 +47,10 @@ package com.ffsys.ui.css {
 			
 			if( request && sheet )
 			{
-				_styleSheets[ sheet ] = request;
+				//_styleSheets[ sheet ] = request;
+				
+				var entry:StyleSheetEntry = new StyleSheetEntry( request, sheet );
+				_styleSheets.push( entry );
 			}
 		}
 			
@@ -57,8 +60,18 @@ package com.ffsys.ui.css {
 		public function removeStyleSheet(
 			sheet:ICssStyleSheet ):Boolean
 		{
-			delete _styleSheets[ sheet ];
-			return ( sheet && _styleSheets[ sheet ] == null );
+			var entry:StyleSheetEntry = null;
+			for( var i:int = 0;i < _styleSheets.length;i++ )
+			{
+				entry = _styleSheets[ i ];
+				if( entry.sheet == sheet )
+				{
+					_styleSheets.splice( i, 1 );
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
 		/**
@@ -69,9 +82,10 @@ package com.ffsys.ui.css {
 			if( id )
 			{
 				var css:ICssStyleSheet = null;
-				for( var obj:Object in _styleSheets )
+				var entry:StyleSheetEntry = null;
+				for each( entry in _styleSheets )
 				{
-					css = ICssStyleSheet( obj );
+					css = ICssStyleSheet( entry.sheet );
 					if( id == css.id )
 					{
 						return css;
@@ -88,9 +102,10 @@ package com.ffsys.ui.css {
 		{
 			var css:ICssStyleSheet = null;
 			var style:Object = null;
-			for( var obj:Object in _styleSheets )
+			var entry:StyleSheetEntry = null;
+			for each( entry in _styleSheets )
 			{
-				css = ICssStyleSheet( obj );
+				css = ICssStyleSheet( entry.sheet );
 				style = css.getStyle( styleName );
 				if( style )
 				{
@@ -109,9 +124,10 @@ package com.ffsys.ui.css {
 			var output:Array = new Array();
 			var css:ICssStyleSheet = null;
 			var styles:Array = null;
-			for( var obj:Object in _styleSheets )
+			var entry:StyleSheetEntry = null;
+			for each( entry in _styleSheets )
 			{
-				css = ICssStyleSheet( obj );
+				css = ICssStyleSheet( entry.sheet );
 				styles = css.getStyles( styleName );
 				if( styles && styles.length > 0 )
 				{
@@ -130,10 +146,11 @@ package com.ffsys.ui.css {
 			var output:Array = super.styleNames;
 			
 			var css:ICssStyleSheet = null;
+			var entry:StyleSheetEntry = null;
 			var styles:Array = null;
-			for( var obj:Object in _styleSheets )
+			for each( entry in _styleSheets )
 			{
-				css = ICssStyleSheet( obj );
+				css = ICssStyleSheet( entry.sheet );
 				styles = css.styleNames;
 				if( styles )
 				{
@@ -151,9 +168,10 @@ package com.ffsys.ui.css {
 		{
 			var css:ICssStyleSheet = null;
 			var filter:BitmapFilter = null;
-			for( var obj:Object in _styleSheets )
+			var entry:StyleSheetEntry = null;
+			for each( entry in _styleSheets )
 			{
-				css = ICssStyleSheet( obj );
+				css = ICssStyleSheet( entry.sheet );
 				filter = css.getFilter( styleName );
 				if( filter )
 				{
@@ -178,10 +196,11 @@ package com.ffsys.ui.css {
 			
 			var loader:CssLoader = null;
 			var css:ICssStyleSheet = null;
-			for( var obj:Object in _styleSheets )
+			var entry:StyleSheetEntry = null;
+			for each( entry in _styleSheets )
 			{
-				css = ICssStyleSheet( obj );
-				loader = new CssLoader( URLRequest( _styleSheets[ obj ] ) );
+				css = ICssStyleSheet( entry.sheet );
+				loader = new CssLoader( entry.request );
 				loader.css = css;
 				loader.addEventListener( LoadEvent.DATA, itemLoaded );			
 				_queue.addLoader( loader );
@@ -251,5 +270,36 @@ package com.ffsys.ui.css {
 			//proxy the events through the main loader queue
 			_queue.dispatchEvent( event );
 		}
+	}	
+}
+
+import flash.net.URLRequest;
+import com.ffsys.ui.css.ICssStyleSheet;
+
+class StyleSheetEntry extends Object {
+
+	/**
+	*	The url request for the entry.
+	*/
+	public var request:URLRequest;
+
+	/**
+	*	The style sheet for the entry.
+	*/
+	public var sheet:ICssStyleSheet;
+
+	/**
+	*	Creates a <code>StyleSheetEntry</code> instance.
+	*
+	*	@param request The url request.
+	*	@param sheet The style sheet implementation.
+	*/
+	public function StyleSheetEntry(
+		request:URLRequest = null,
+		sheet:ICssStyleSheet = null )
+	{
+		super();
+		this.request = request;
+		this.sheet = sheet;
 	}
 }
