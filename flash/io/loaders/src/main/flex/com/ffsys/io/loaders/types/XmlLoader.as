@@ -77,7 +77,7 @@ package com.ffsys.io.loaders.types {
 				data = null;
 			}
 			
-			dispatchLoadCompleteEvent();
+			//dispatchLoadCompleteEvent();
         }
 	}
 }

@@ -74,7 +74,7 @@ package com.ffsys.io.loaders.types {
 			
 			Notifier.dispatchEvent( evt );
 	
-			dispatchLoadCompleteEvent();
+			//dispatchLoadCompleteEvent();
 
 			//clean our reference to the underlying Loader
 			_loader = null;

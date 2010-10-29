@@ -72,7 +72,7 @@ package com.ffsys.io.loaders.types {
 				Notifier.dispatchEvent( evt );
 			}
 			
-			dispatchLoadCompleteEvent();
+			//dispatchLoadCompleteEvent();
         }
 	}
 }

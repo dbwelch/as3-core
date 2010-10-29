@@ -292,7 +292,7 @@ package com.ffsys.io.loaders.types {
 			_netConnection = null;
 			*/
 			
-			dispatchLoadCompleteEvent();
+			//dispatchLoadCompleteEvent();
 		}
 		
         public function onMetaData( info:Object ):void

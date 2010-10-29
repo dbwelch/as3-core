@@ -389,6 +389,8 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@private	
 		*/
+		
+		/*
 		protected function dispatchLoadCompleteEvent():void
 		{
 			removeListeners();
@@ -401,6 +403,7 @@ package com.ffsys.io.loaders.core {
 			
 			Notifier.dispatchEvent( evt );
 		}
+		*/
 		
 		/**
 		*	@private	

@@ -65,7 +65,7 @@ package com.ffsys.io.loaders.types {
 			
 			Notifier.dispatchEvent( evt );
 			
-			dispatchLoadCompleteEvent();
+			//dispatchLoadCompleteEvent();
 			
 			//clean up the Loader as we only
 			//want the BitmapData
