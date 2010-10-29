@@ -113,12 +113,8 @@ package com.ffsys.io.loaders.core {
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			//
-			//trace("LoaderQueueTest::assertLoadedAsset()", _queue );
-			
 			Assert.assertNotNull( _queue.resources );
-			Assert.assertTrue( _queue.resources is IResourceList );
-			
+			Assert.assertTrue( _queue.resources is IResourceList );	
 		}
 		
 		/**

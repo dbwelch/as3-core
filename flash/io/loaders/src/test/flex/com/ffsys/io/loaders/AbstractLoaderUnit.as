@@ -30,7 +30,7 @@ package com.ffsys.io.loaders {
 		/**
 		*	@private	
 		*/
-		private var _loader:ILoader;
+		protected var _loader:ILoader;
 		
 		/**
 		*	Creates an <code>AbstractLoaderUnit</code> instance.	
@@ -90,7 +90,7 @@ package com.ffsys.io.loaders {
 		/**
 		*	@private	
 		*/
-		private function fail( event:Event ):void
+		protected function fail( event:Event ):void
 		{
 			throw new Error( "A loader test case timed out." );
 		}		
