@@ -80,6 +80,6 @@ package com.ffsys.events {
 		public function get triggerEvent():Event
 		{
 			return _triggerEvent;
-		}	
+		}
 	}	
 }

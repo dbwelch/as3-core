@@ -135,7 +135,7 @@ package com.ffsys.io.loaders.types {
 
 			//dispatchEvent( event );
 			
-			dispatchResourceNotFoundEvent( event as Event, this );
+			dispatchResourceNotFoundEvent( event, this );
         }
 		
         private function netStatusHandler( event:NetStatusEvent ):void
@@ -159,7 +159,7 @@ package com.ffsys.io.loaders.types {
 				
 				clearTimer();
 				
-				dispatchResourceNotFoundEvent( event as Event, this );
+				dispatchResourceNotFoundEvent( event, this );
 			}
 			
 			/*

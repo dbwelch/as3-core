@@ -94,9 +94,6 @@ package com.ffsys.io.loaders.core {
 			_queue.load();
 		}
 		
-		//
-		//new URLRequest( "assets/test-fonts.swf" )
-		
 		[After]
      	public function tearDown():void
 		{
