@@ -478,6 +478,11 @@ package com.ffsys.ui.css {
 				for( z in style )
 				{
 					value = style[ z ];
+					
+					//TODO: investigate why we can't parse here due to a bug
+					//with iterating the same property twice after it has been
+					//converted to a class it is being re-assigned as a string
+					//value = parser.parse( value, true, delimiter );
 
 					//we've parsed the primitives
 					//now deal with css specific parsing
