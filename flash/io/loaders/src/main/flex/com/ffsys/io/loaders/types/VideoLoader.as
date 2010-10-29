@@ -52,7 +52,6 @@ package com.ffsys.io.loaders.types {
 		//protected var _loaded:Boolean;
 		
 		protected var _timer:Timer;
-		
 		protected var _netConnection:NetConnection;
 		protected var _netStream:NetStream;
 		protected var _display:IDisplayVideo;
