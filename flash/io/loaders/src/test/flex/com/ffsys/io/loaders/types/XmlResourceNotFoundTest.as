@@ -12,7 +12,8 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.resources.*;
 	
 	/**
-	*	Unit test for handling resource not found events.
+	*	Unit test for handling resource not found events for
+	* 	xml documents.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -20,12 +21,12 @@ package com.ffsys.io.loaders.types {
 	*	@author Mischa Williamson
 	*	@since  29.10.2010
 	*/
-	public class ResourceNotFoundTest extends AbstractLoaderUnit {
+	public class XmlResourceNotFoundTest extends AbstractLoaderUnit {
 		
 		/**
-		*	Creates a <code>ResourceNotFoundTest</code> instance.
+		*	Creates a <code>XmlResourceNotFoundTest</code> instance.
 		*/
-		public function ResourceNotFoundTest()
+		public function XmlResourceNotFoundTest()
 		{
 			super();
 		}
