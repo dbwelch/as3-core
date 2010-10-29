@@ -34,7 +34,7 @@ package com.ffsys.io.loaders.types {
 		*/
 		override protected function getLoader():ILoader
 		{
-			return new StylesheetLoader();
+			return new StyleSheetLoader();
 		}
 		
 		/**
@@ -55,8 +55,8 @@ package com.ffsys.io.loaders.types {
 			Assert.assertTrue(
 				event is LoadEvent );
 			Assert.assertNotNull( event.resource );	
-			Assert.assertTrue( event.resource is StylesheetResource );
-			//Assert.assertTrue( StylesheetResource( event.resource ).bytesTotal > 0 );
+			Assert.assertTrue( event.resource is StyleSheetResource );
+			//Assert.assertTrue( StyleSheetResource( event.resource ).bytesTotal > 0 );
 		}
 		
 		[Test(async)]

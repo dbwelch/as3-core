@@ -4,7 +4,7 @@ package com.ffsys.ui.css {
 	import flash.text.StyleSheet;
 	
 	import com.ffsys.io.loaders.core.ILoadOptions;
-	import com.ffsys.io.loaders.types.StylesheetLoader;
+	import com.ffsys.io.loaders.types.StyleSheetLoader;
 	
 	/**
 	*	Responsible for loading css files that can
@@ -16,7 +16,7 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public class CssLoader extends StylesheetLoader {
+	public class CssLoader extends StyleSheetLoader {
 		
 		private var _css:ICssStyleSheet;
 		

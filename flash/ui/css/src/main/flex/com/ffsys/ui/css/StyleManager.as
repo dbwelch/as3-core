@@ -7,7 +7,7 @@ package com.ffsys.ui.css {
 	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.resources.StylesheetResource;
+	import com.ffsys.io.loaders.resources.StyleSheetResource;
 	
 	/**
 	*	Responsible for managing a collection of style sheets.
@@ -219,7 +219,7 @@ package com.ffsys.ui.css {
 		private function itemLoaded( event:LoadEvent ):void
 		{
 			_current = ICssStyleSheet(
-				StylesheetResource( event.resource ).styleSheet );
+				StyleSheetResource( event.resource ).styleSheet );
 				
 			//trace("StyleManager::itemLoaded(), ", event.loader, event.loader.id, _current );
 			
