@@ -131,9 +131,11 @@ package com.ffsys.io.loaders.types {
 		{
             //trace ( "IO Error : " + event );
 			
-			stopPreload();
+			clearTimer();
 
-			dispatchEvent( event );
+			//dispatchEvent( event );
+			
+			dispatchResourceNotFoundEvent( event as Event, this );
         }
 		
         private function netStatusHandler( event:NetStatusEvent ):void
@@ -155,7 +157,7 @@ package com.ffsys.io.loaders.types {
 			{
 				//trace( "Video resource not found!!!!" );
 				
-				stopPreload();
+				clearTimer();
 				
 				dispatchResourceNotFoundEvent( event as Event, this );
 			}
@@ -230,11 +232,25 @@ package com.ffsys.io.loaders.types {
 			}
 		}
 		
+		/**
+		* 	@private
+		*/
+		private function clearTimer():void
+		{
+			if( _timer )
+			{
+				_timer.removeEventListener( TimerEvent.TIMER, preload );
+				_timer.stop();
+				_timer = null;
+			}			
+		}
+		
+		/**
+		* 	@private
+		*/		
 		private function stopPreload():void
 		{
-			_timer.removeEventListener( TimerEvent.TIMER, preload );
-			_timer.stop();
-			_timer = null;
+			clearTimer();
 			
 			_loaded = true;
 			

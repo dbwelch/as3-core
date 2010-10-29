@@ -13,7 +13,7 @@ package com.ffsys.io.loaders.types {
 	
 	/**
 	*	Unit test for handling resource not found events for
-	* 	xml documents.
+	* 	binary files.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -21,12 +21,12 @@ package com.ffsys.io.loaders.types {
 	*	@author Mischa Williamson
 	*	@since  29.10.2010
 	*/
-	public class XmlResourceNotFoundTest extends AbstractLoaderUnit {
+	public class BinaryResourceNotFoundTest extends AbstractLoaderUnit {
 		
 		/**
-		*	Creates a <code>XmlResourceNotFoundTest</code> instance.
+		*	Creates a <code>BinaryResourceNotFoundTest</code> instance.
 		*/
-		public function XmlResourceNotFoundTest()
+		public function BinaryResourceNotFoundTest()
 		{
 			super();
 		}
@@ -36,7 +36,7 @@ package com.ffsys.io.loaders.types {
 		*/
 		override protected function getLoader():ILoader
 		{
-			return new XmlLoader();
+			return new BinaryLoader();
 		}
 		
 		/**
@@ -44,7 +44,7 @@ package com.ffsys.io.loaders.types {
 		*/
 		override protected function getLoadRequest():URLRequest
 		{
-			return new URLRequest( "assets/test-resource-not-found.xml" );
+			return new URLRequest( "assets/test-resource-not-found.osc" );
 		}
 		
 		[Before( async )]
@@ -64,9 +64,9 @@ package com.ffsys.io.loaders.types {
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			Assert.assertEquals( "assets/test-resource-not-found.xml", event.uri );
+			Assert.assertEquals( "assets/test-resource-not-found.osc", event.uri );
 			Assert.assertEquals( LoadEvent.RESOURCE_NOT_FOUND, event.type );
-			Assert.assertTrue( event.loader is XmlLoader );
+			Assert.assertTrue( event.loader is BinaryLoader );
 			Assert.assertNull( event.resource );
 		}
 		
