@@ -43,8 +43,12 @@ package com.ffsys.io.loaders.resources {
 			}
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function destroy():void
 		{
+			dispose();
 			super.destroy();
 		}
 		

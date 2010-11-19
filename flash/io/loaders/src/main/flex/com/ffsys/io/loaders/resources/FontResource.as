@@ -12,7 +12,7 @@ package com.ffsys.io.loaders.resources {
 	*	@author Mischa Williamson
 	*	@since  17.06.2010
 	*/
-	public class FontResource extends AbstractResource {
+	public class FontResource extends MovieResource {
 		
 		public function FontResource(
 			data:Object = null,
@@ -20,11 +20,6 @@ package com.ffsys.io.loaders.resources {
 			bytesTotal:uint = 0 )
 		{
 			super( data, uri, bytesTotal );
-		}
-		
-		public function get loader():Loader
-		{
-			return Loader( data );
 		}
 	}
 }

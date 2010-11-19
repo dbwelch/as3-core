@@ -30,6 +30,19 @@ package com.ffsys.io.loaders.resources {
 			return Loader( data );
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			if( loader )
+			{
+				loader.unload();
+			}
+			
+			super.destroy();
+		}
+		
 		public function get movie():IDisplayMovie
 		{
 			if( !data )
