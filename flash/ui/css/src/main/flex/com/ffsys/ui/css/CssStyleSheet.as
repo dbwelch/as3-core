@@ -384,8 +384,11 @@ package com.ffsys.ui.css {
 		*/
 		private function applyStyle( target:Object, style:Object ):void
 		{
+			trace("CssStyleSheet::applyStyle()", target, style );
+			
 			if( style && target )
 			{
+				
 				if( target is IPaddingAware )
 				{
 					trace("CssStyleSheet::applyStyle(), APPLYING PADDING: ", target, style );
@@ -441,13 +444,13 @@ package com.ffsys.ui.css {
 							txt.text = txt.text;
 						}
 						
-						/*
+						
 						txt.border = true;
 						txt.background = true;
 						
 						trace("CssStyleSheet::apply(), ",
 							txt, txt.embedFonts, txt.defaultTextFormat, txt.defaultTextFormat.font, txt.width, txt.height, txt.visible, txt.defaultTextFormat.color );
-						*/
+						
 					}
 				}
 			}			
