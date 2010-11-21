@@ -15,7 +15,10 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IPaths;
 	import com.ffsys.swat.configuration.ISettings;
+	
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
 	/**
 	*	Encapsulates access to various commonly used configuration
@@ -201,6 +204,22 @@ package com.ffsys.swat.view  {
 		{
 			verifyConfiguration();
 			return this.configuration.getSound( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getLocalePath( path:String, locale:IConfigurationLocale = null ):String
+		{
+			if( locale == null )
+			{
+				locale = configuration.locales.current;
+			}
+			
+			var paths:IPaths = configuration.paths;
+			var out:String = paths.join(
+				[ paths.getLocalePath( locale ) ], path );
+			return out;
 		}
 		
 		/**

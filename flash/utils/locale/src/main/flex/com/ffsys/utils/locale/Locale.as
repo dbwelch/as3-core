@@ -70,7 +70,7 @@ package com.ffsys.utils.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function getLanguage( delimiter:String = "_" ):String
+		public function getLanguage( delimiter:String = "-" ):String
 		{
 			return this.lang + delimiter + this.country;
 		}

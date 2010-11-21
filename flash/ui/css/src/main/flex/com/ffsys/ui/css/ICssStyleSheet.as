@@ -146,8 +146,10 @@ package com.ffsys.ui.css {
 		*	search for style objects by class name and identifier.
 		*	
 		*	@param target The target to style.
+		* 	@param ...custom Custom style objects to apply in addition
+		* 	to any styles found on the style aware instance.
 		*/
-		function style( target:IStyleAware ):void;
+		function style( target:IStyleAware, ...custom ):void;
 		
 		/**
 		*	Attempts to retrieve a style as a bitmap filter.

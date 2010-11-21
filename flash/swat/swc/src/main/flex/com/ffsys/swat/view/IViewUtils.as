@@ -4,7 +4,6 @@ package com.ffsys.swat.view {
 	import flash.text.Font;
 	
 	import com.ffsys.core.IFlashVariables;
-	//import com.ffsys.ui.text.core.ITextFieldFactory;
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
@@ -13,6 +12,7 @@ package com.ffsys.swat.view {
 	import com.ffsys.swat.configuration.ISettings;
 	import com.ffsys.swat.configuration.IMessageAccess;
 	import com.ffsys.swat.configuration.IMediaAccess;
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
 	/**
 	*	Describes the contract for an instance
@@ -29,26 +29,19 @@ package com.ffsys.swat.view {
 		extends IConfigurationAware,
 		 		IMessageAccess,
 		 		IMediaAccess {
-		
+			
 		/**
-		* 	The factory class used for creating and working
-		* 	with textfields.
-		*/
-		//function get textFieldFactory():ITextFieldFactory;
-		
-		/**
-		* 	Gets the application asset manager.
+		* 	Gets a path relative to a locale.
 		* 
-		* 	@return The application asset manager.
+		* 	If no locale is specified this method will use
+		* 	the current locale for the application.
+		* 
+		* 	@param path The relative portion of the path.
+		* 	@param locale The locale used to retrieve the base path.
+		* 
+		* 	@return The full path for the locale specific resource.
 		*/
-		function get assetManager():AssetManager;
-		
-		/**
-		* 	Gets the application settings.
-		*
-		*	@return The application settings.
-		*/
-		function get settings():ISettings;
+		function getLocalePath( path:String, locale:IConfigurationLocale = null ):String;
 		
 		/**
 		* 	Gets the application flash variables.
@@ -56,6 +49,26 @@ package com.ffsys.swat.view {
 		*	@return The application flash variables.
 		*/
 		function get flashvars():IFlashVariables;
+		
+		/* DEPRECATED */
+		
+		/**
+		* 	@deprecated
+		* 
+		* 	Gets the application settings.
+		*
+		*	@return The application settings.
+		*/
+		function get settings():ISettings;
+		
+		/**
+		* 	@deprecated
+		* 	
+		* 	Gets the application asset manager.
+		* 
+		* 	@return The application asset manager.
+		*/
+		function get assetManager():AssetManager;
 		
 		/**
 		*	@deprecated
@@ -72,8 +85,12 @@ package com.ffsys.swat.view {
 		function registerFont( classPath:String ):Font;
 		
 		/**
+		* 	@deprecated
+		* 
 		* 	Gets the application assets map between identifiers
 		* 	and class paths.
+		* 
+		* 	This has been replaced by enhaced css functionality.
 		*/
 		function get assets():IStringCollection;
 	}
