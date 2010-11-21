@@ -214,6 +214,7 @@ package com.ffsys.swat.configuration.locale {
 						this.resources.fonts.getLoaderQueue() );
 				}
 				
+				/*
 				if( defaultLocale
 					&& ( defaultLocale != current )
 					&& defaultLocale.resources
@@ -222,6 +223,7 @@ package com.ffsys.swat.configuration.locale {
 					_fontsQueue.append(
 						defaultLocale.resources.fonts.getLoaderQueue() );
 				}
+				*/
 				
 				if( _current
 					&& _current.resources

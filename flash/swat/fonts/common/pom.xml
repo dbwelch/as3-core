@@ -30,11 +30,6 @@
 					<configurationReport>false</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
 					<defaultFrameRate>30</defaultFrameRate>
-					<fonts>
-						<managers>
-							<manager-class>flash.fonts.AFEFontManager</manager-class>
-						</managers>
-					</fonts>
 					<locales>
 						<locale>en_US</locale>
 					</locales>

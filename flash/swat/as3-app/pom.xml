@@ -65,11 +65,6 @@
 						<height>480</height>
 					</defaultSize>
 					<defaultFrameRate>30</defaultFrameRate>
-					<fonts>
-						<managers>
-							<manager-class>flash.fonts.AFEFontManager</manager-class>
-						</managers>
-					</fonts>
 					<locales>
 						<locale>en_US</locale>
 					</locales>

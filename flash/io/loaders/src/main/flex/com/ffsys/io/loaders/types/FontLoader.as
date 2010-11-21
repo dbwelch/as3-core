@@ -42,6 +42,7 @@ package com.ffsys.io.loaders.types {
 			options:ILoadOptions = null )
 		{
 			super( request, options );
+			
 			//force fonts to be trusted by default
 			this.context = new LoaderContext(
 				false, ApplicationDomain.currentDomain );

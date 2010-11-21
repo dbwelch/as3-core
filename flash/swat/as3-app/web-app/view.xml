@@ -11,7 +11,7 @@
 			<spacing>10</spacing>
 			
 			<label>
-				<text>Currently running with locale path {paths:locale} as locale: {locale:country}</text>
+				<text>Currently running with locale (.АПбвгеийклмнорстщ) path {paths:locale} as locale: {locale:country}</text>
 				<!-- <filters>drop-shadow</filters> -->
 				<blend-mode>invert</blend-mode>		
 				<!-- <selectable>true</selectable> -->

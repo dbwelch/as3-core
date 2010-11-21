@@ -14,8 +14,7 @@
 	<url>http://as3.freeformsystems.com</url>
 	<modules>
 		<!-- TODO: re-install this before deploy -->
-		<!-- <module>fonts</module> -->
-		
+		<module>fonts</module>
 		<module>swat-js</module>
 		<module>swc</module>
 		<module>as3-app</module>
