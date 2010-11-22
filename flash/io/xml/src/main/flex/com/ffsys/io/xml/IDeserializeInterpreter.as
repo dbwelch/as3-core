@@ -19,7 +19,7 @@ package com.ffsys.io.xml {
 		function set deserializer( val:Deserializer ):void;
 		function get deserializer():Deserializer;
 		
-		function get stringSubstitutions():IBindingCollection;
+		function get bindings():IBindingCollection;
 		
 		function set useStringReplacement( val:Boolean ):void;
 		function get useStringReplacement():Boolean;

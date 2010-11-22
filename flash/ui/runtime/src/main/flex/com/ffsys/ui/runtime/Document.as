@@ -20,6 +20,7 @@ package com.ffsys.ui.runtime {
 		implements 	IDocument {
 			
 		private var _css:Array;
+		private var _binding:Object = new Object();
 		
 		/**
 		*	Creates a <code>Document</code> instance.
@@ -40,6 +41,14 @@ package com.ffsys.ui.runtime {
 		public function set css( val:Array ):void
 		{
 			_css = val;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get binding():Object
+		{
+			return _binding;
 		}
 	}
 }

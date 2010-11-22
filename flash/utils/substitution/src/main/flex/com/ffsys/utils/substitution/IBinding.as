@@ -28,5 +28,4 @@ package com.ffsys.utils.substitution {
 		
 		function clone():IBinding;
 	}
-	
 }

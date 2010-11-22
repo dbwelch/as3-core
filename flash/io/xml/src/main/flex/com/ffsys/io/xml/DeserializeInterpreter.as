@@ -27,7 +27,7 @@ package com.ffsys.io.xml {
 		*	A collection of Binding instances to use when
 		*	interpreting this deserialization pass.
 		*/
-		private var _stringSubstitutions:IBindingCollection;
+		private var _bindings:IBindingCollection;
 		
 		/**
 		*	Determines whether this interpreter should perform
@@ -69,23 +69,30 @@ package com.ffsys.io.xml {
 			this.useStringReplacement = useStringReplacement;
 			this.strictStringReplacement = strictStringReplacement;
 			
-			_stringSubstitutions = new BindingCollection();
+			_bindings = new BindingCollection();
 			
 			//needs refactoring so it doesn't point to the same static
 			//instance but uses a different instance that uses the
 			//defaults as start values
-			if( Deserializer.defaultStringSubstitutions )
+			if( Deserializer.defaultBindings )
 			{
 				
-				//trace( "DEFAULTS : " + Deserializer.defaultStringSubstitutions );
+				//trace( "DEFAULTS : " + Deserializer.defaultBindings );
 				
 				//--> cloning should work but fails on UriCollection
-				//_stringSubstitutions = Deserializer.defaultStringSubstitutions.clone();
+				//_bindings = Deserializer.defaultBindings.clone();
 				
-				_stringSubstitutions = Deserializer.defaultStringSubstitutions;
+				//_bindings = Deserializer.defaultBindings;
+				
+				var binding:IBinding = null;
+				for( var i:int = 0;i < Deserializer.defaultBindings.getLength();i++ )
+				{
+					binding = Deserializer.defaultBindings.getBindingAt( i );
+					_bindings.addBinding( binding.clone() );
+				}
 				
 				/*
-				var defaults:IBindingCollection = Deserializer.defaultStringSubstitutions;
+				var defaults:IBindingCollection = Deserializer.defaultBindings;
 				
 				var i:int = 0;
 				var l:int = defaults.getLength();
@@ -98,11 +105,11 @@ package com.ffsys.io.xml {
 					
 					//trace( "Add default substitution : " + defaultSubstitution );
 					
-					_stringSubstitutions.addBinding(
+					_bindings.addBinding(
 						defaultSubstitution.clone() );
 				}
 				
-				trace( "OURS : " + _stringSubstitutions );
+				trace( "OURS : " + _bindings );
 				*/
 				
 			}
@@ -118,9 +125,9 @@ package com.ffsys.io.xml {
 			return _deserializer;
 		}
 		
-		public function get stringSubstitutions():IBindingCollection
+		public function get bindings():IBindingCollection
 		{
-			return _stringSubstitutions;
+			return _bindings;
 		}
 		
 		public function set useStringReplacement( val:Boolean ):void
@@ -260,7 +267,7 @@ package com.ffsys.io.xml {
 				{
 					substitution = _stringSubstitutionCandidates[ i ];
 					
-					substitution.namespaces = _stringSubstitutions;
+					substitution.namespaces = _bindings;
 					
 					substitution.target = instance;
 					substitution.substitute();
@@ -270,7 +277,5 @@ package com.ffsys.io.xml {
 				_stringSubstitutionCandidates = null;
 			}
 		}
-		
 	}
-	
 }

@@ -17,6 +17,9 @@ package com.ffsys.ui.runtime {
 	*/
 	public class Runtime extends Object {
 		
+		public static const BINDING:String = "binding";
+		public static const DOCUMENT_BINDING:String = "document";
+		
 		/**
 		*	Creates a <code>Runtime</code> instance.	
 		*/
@@ -39,10 +42,16 @@ package com.ffsys.ui.runtime {
 		*/
 		static public function load(
 			request:URLRequest,
-			parent:DisplayObjectContainer ):IRuntimeLoader
+			parent:DisplayObjectContainer,
+			...bindings ):IRuntimeLoader
 		{
 			var loader:IRuntimeLoader = new RuntimeLoader();
-			loader.load( request, parent );
+			
+			//pass the bindings on to the runtime loader
+			bindings.unshift( parent );
+			bindings.unshift( request );
+			loader.load.apply( loader, bindings );	
+			
 			return loader;
 		}
 	}

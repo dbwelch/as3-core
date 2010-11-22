@@ -11,6 +11,8 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.io.loaders.types.ParserAwareXmlLoader;
 	import com.ffsys.io.loaders.types.IParserAwareXmlLoader;
 	
+	import com.ffsys.utils.substitution.Binding;
+	
 	/**
 	*	Responsible for loading the runtime view definition document
 	*	and it's dependencies.
@@ -56,7 +58,8 @@ package com.ffsys.ui.runtime {
 		*/
 		public function load(
 			request:URLRequest,
-			parent:DisplayObjectContainer ):void
+			parent:DisplayObjectContainer,
+			...bindings ):void
 		{
 			if( !parent )
 			{
@@ -81,6 +84,25 @@ package com.ffsys.ui.runtime {
 			
 			_loader = new ParserAwareXmlLoader();
 			_loader.parser = new RuntimeParser();
+			
+			if( bindings.length > 0 )
+			{
+				var binding:Object = null;
+				for( var i:int = 0;i < bindings.length;i++ )
+				{
+					binding = bindings[ i ];
+					trace("RuntimeLoader::get loader()", "ADDING BINDING: " , binding );
+					
+					for( var z:String in binding )
+					{
+						trace("RuntimeLoader::get loader()", z, binding[z] );
+					}
+					
+					_loader.parser.interpreter.bindings.addBinding(
+						new Binding( Runtime.DOCUMENT_BINDING + "_" + i, binding ) );
+				}
+			}
+			
 			_document = new Document();
 			_loader.root = document;
 			parent.addChild( DisplayObject( document ) );

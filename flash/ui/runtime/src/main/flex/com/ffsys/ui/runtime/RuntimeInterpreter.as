@@ -8,9 +8,9 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.css.IStyleAware;
 	
-	//import com.ffsys.io.xml.Deserializer;
 	import com.ffsys.io.xml.DeserializeInterpreter;
-	//import com.ffsys.utils.substitution.Binding;
+	import com.ffsys.utils.substitution.Binding;
+	import com.ffsys.utils.substitution.IBinding;
 	
 	/**
 	*	Interpreter for the runtime view document parser.
@@ -41,59 +41,41 @@ package com.ffsys.ui.runtime {
 		/**
 		*	Invoked when parsing is complete.
 		*	
-		*	Updates the bindings of the parser so that the
-		*	configuration can use lookup in the <code>locale</code>
-		*	binding namespace.
+		*	This method adds the bindings that were specified
+		* 	when the load method was invoked.
 		*	
 		*	@param instance The root instance of the object graph.
 		*/
 		override public function complete( instance:Object ):void
 		{
+			var document:IDocument  = instance as Document;
 			
-			/*
-			var configuration:IConfiguration = IConfiguration( instance );
-			
-			if( configuration.locales == null )
+			if( document )
 			{
-				throw new Error( "The locales element was not specified." );
+				var binding:IBinding = null;
+				for( var i:int = 0;i < bindings.getLength();i++ )
+				{
+					binding = bindings.getBindingAt( i );
+					
+					trace("RuntimeInterpreter::complete()", binding, binding.prefix, binding.target );
+					
+					var re:RegExp = new RegExp( "^" + Runtime.DOCUMENT_BINDING );
+				
+					if( binding
+						&& re.test( binding.prefix )
+						&& binding.target )
+					{
+						for( var z:Object in binding.target )
+						{
+							document.binding[ z ] = binding.target[ z ];
+							trace("RuntimeInterpreter::complete() ASSIGNING BINDING PROPERTY: ", z, document.binding[ z ] );
+						}
+					}
+				}
+				
+				bindings.addBinding(
+					new Binding( Runtime.BINDING, document.binding ) );
 			}
-			
-			//update the selected locale
-			configuration.locales.lang = flashvars.lang;
-			
-			//add the current locale as a default namespace
-			Deserializer.defaultStringSubstitutions.addBinding(
-				new Binding(
-					"locale",
-					configuration.locales.current )
-			);
-			
-			//add the configuration as a default binding
-			Deserializer.defaultStringSubstitutions.addBinding(
-				new Binding(
-					"configuration",
-					configuration )
-			);			
-			
-			//ensure we always have some path information
-			//even if none is declared in the config
-			if( configuration.paths == null )
-			{
-				configuration.paths = new Paths();
-			}
-			
-			//assign the path to the current locale
-			configuration.paths.locale = configuration.paths.getLocalePath(
-				IConfigurationLocale( configuration.locales.current ) );
-			
-			//add the paths as a default binding
-			Deserializer.defaultStringSubstitutions.addBinding(
-				new Binding(
-					"paths",
-					configuration.paths )
-			);
-			*/
-			
 			super.complete( instance );
 		}
 		

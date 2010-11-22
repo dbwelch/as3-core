@@ -14,5 +14,11 @@ package com.ffsys.ui.runtime {
 	*/
 	public interface IDocument extends ICanvas {
 		
+		
+		/**
+		* 	The binding used to access data associated with the parsing
+		* 	of this document.
+		*/
+		function get binding():Object;
 	}
 }

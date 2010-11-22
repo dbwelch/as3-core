@@ -223,16 +223,19 @@ package com.ffsys.utils.substitution {
 				{
 					binding = Binding( namespaces.getBindingAt( i ) );
 					
-					prefix = binding.prefix + substitutor.namespaceDelimiter;
-					
-					if( source.match( new RegExp( "^" + prefix ) ) )
+					if( binding.prefix && binding.prefix.length > 0 )
 					{
-						updateFromNamespace( binding );
+						prefix = binding.prefix + substitutor.namespaceDelimiter;
 					
-						//strip off the namespace
-						source = stripNamespace( source );
+						if( source.match( new RegExp( "^" + prefix ) ) )
+						{
+							updateFromNamespace( binding );
+					
+							//strip off the namespace
+							source = stripNamespace( source );
+						}
+					
 					}
-					
 				}
 			}			
 		}

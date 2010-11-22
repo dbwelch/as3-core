@@ -52,8 +52,8 @@ package com.ffsys.utils.substitution {
 		private var _methodParts:int;
 		
 		public function Binding(
-			prefix:String,
-			target:Object,
+			prefix:String = "",
+			target:Object = null,
 			methodName:String = null,
 			methodParts:int = 0 )
 		{
@@ -107,12 +107,25 @@ package com.ffsys.utils.substitution {
 			return _methodParts;
 		}
 		
-		public function merge( substitutionNamespace:IBinding ):void
+		public function merge( binding:IBinding ):void
 		{
-			this.prefix = substitutionNamespace.prefix;
-			this.target = substitutionNamespace.target;
-			this.methodName = substitutionNamespace.methodName;
-			this.methodParts = substitutionNamespace.methodParts;
+			this.prefix = binding.prefix;
+			this.target = binding.target;
+			this.methodName = binding.methodName;
+			this.methodParts = binding.methodParts;
+			
+			//copy enumerable properties
+			for( var z:Object in binding.target )
+			{
+				try
+				{
+					this.target[ z ] = binding.target[ z ];
+				}catch( e:Error )
+				{
+					//fail silently if both the objects are not dynamic
+					//or the properties do not correspond
+				}
+			}
 		}
 		
 		public function clone():IBinding

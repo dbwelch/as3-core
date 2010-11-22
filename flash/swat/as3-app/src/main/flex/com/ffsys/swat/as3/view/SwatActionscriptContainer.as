@@ -127,8 +127,8 @@ package com.ffsys.swat.as3.view {
 			addChild( vbox );
 			
 			var loader:IRuntimeLoader =
-				Runtime.load( new URLRequest( "view.xml" ), vbox );
-			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );		
+				Runtime.load( new URLRequest( "view.xml" ), vbox, { title: "this is a test" }, {another: "another title :)"} );
+			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
 			
 			/*
 			trace("SwatActionscriptContainer::message(), ",

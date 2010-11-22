@@ -73,7 +73,7 @@ package com.ffsys.swat.templates.as3.view {
 			addChild( vbox );
 			
 			//add the paths as a default binding
-			Deserializer.defaultStringSubstitutions.addBinding(
+			Deserializer.defaultBindings.addBinding(
 				new Binding(
 					"messages",
 					utils.configuration.locales.messages )

@@ -32,9 +32,12 @@ package com.ffsys.ui.runtime {
 		*	@param request The url request to load the xml document from.
 		*	@param parent The display object that the view document will be
 		*	added to.
+		* 	@param bindings Data bindings to expose when parsing the runtime
+		* 	xml document.
 		*/
 		function load(
 			request:URLRequest,
-			parent:DisplayObjectContainer ):void;
+			parent:DisplayObjectContainer,
+			...bindings ):void;
 	}
 }

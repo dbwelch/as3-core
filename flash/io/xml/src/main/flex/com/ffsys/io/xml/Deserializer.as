@@ -43,7 +43,7 @@ package com.ffsys.io.xml {
 	public class Deserializer extends Object
 		implements ISerializeDeserializeProperty {
 		
-		static public var defaultStringSubstitutions:IBindingCollection
+		static public var defaultBindings:IBindingCollection
 			= new BindingCollection();
 		
 		/**
@@ -105,7 +105,7 @@ package com.ffsys.io.xml {
 			
 			_mode = DeserializationMode.POST_PROPERTY_SET;
 			
-			if( defaultStringSubstitutions && ( defaultStringSubstitutions.getLength() > 0 ) )
+			if( defaultBindings && ( defaultBindings.getLength() > 0 ) )
 			{
 				_interpreter = new DeserializeInterpreter( true, true );
 			}

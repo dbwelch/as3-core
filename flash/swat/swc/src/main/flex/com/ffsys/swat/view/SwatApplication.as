@@ -85,7 +85,7 @@ package com.ffsys.swat.view  {
 					var parser:IConfigurationParser = 
 						classPathConfiguration.getConfigurationParserInstance();
 					/*
-					parser.interpreter.stringSubstitutions.addBinding(
+					parser.interpreter.bindings.addBinding(
 						new Binding() );
 					*/
 					
