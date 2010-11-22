@@ -85,6 +85,13 @@ package com.ffsys.ui.runtime {
 			_loader = new ParserAwareXmlLoader();
 			_loader.parser = new RuntimeParser();
 			
+			if( _document )
+			{
+				_document.destroy();
+			}
+			
+			_document = new Document();			
+			
 			if( bindings.length > 0 )
 			{
 				var binding:Object = null;
@@ -95,15 +102,14 @@ package com.ffsys.ui.runtime {
 					
 					for( var z:String in binding )
 					{
-						trace("RuntimeLoader::get loader()", z, binding[z] );
+						document.binding[ z ] = binding[ z ];
 					}
-					
-					_loader.parser.interpreter.bindings.addBinding(
-						new Binding( Runtime.DOCUMENT_BINDING + "_" + i, binding ) );
 				}
+				
+				_loader.parser.interpreter.bindings.addBinding(
+					new Binding( Runtime.BINDING, document.binding ) );
 			}
 			
-			_document = new Document();
 			_loader.root = document;
 			parent.addChild( DisplayObject( document ) );
 			

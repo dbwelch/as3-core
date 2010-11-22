@@ -48,34 +48,6 @@ package com.ffsys.ui.runtime {
 		*/
 		override public function complete( instance:Object ):void
 		{
-			var document:IDocument  = instance as Document;
-			
-			if( document )
-			{
-				var binding:IBinding = null;
-				for( var i:int = 0;i < bindings.getLength();i++ )
-				{
-					binding = bindings.getBindingAt( i );
-					
-					trace("RuntimeInterpreter::complete()", binding, binding.prefix, binding.target );
-					
-					var re:RegExp = new RegExp( "^" + Runtime.DOCUMENT_BINDING );
-				
-					if( binding
-						&& re.test( binding.prefix )
-						&& binding.target )
-					{
-						for( var z:Object in binding.target )
-						{
-							document.binding[ z ] = binding.target[ z ];
-							trace("RuntimeInterpreter::complete() ASSIGNING BINDING PROPERTY: ", z, document.binding[ z ] );
-						}
-					}
-				}
-				
-				bindings.addBinding(
-					new Binding( Runtime.BINDING, document.binding ) );
-			}
 			super.complete( instance );
 		}
 		

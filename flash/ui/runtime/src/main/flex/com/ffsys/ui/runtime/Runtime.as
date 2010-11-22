@@ -18,7 +18,6 @@ package com.ffsys.ui.runtime {
 	public class Runtime extends Object {
 		
 		public static const BINDING:String = "binding";
-		public static const DOCUMENT_BINDING:String = "document";
 		
 		/**
 		*	Creates a <code>Runtime</code> instance.	
@@ -50,8 +49,8 @@ package com.ffsys.ui.runtime {
 			//pass the bindings on to the runtime loader
 			bindings.unshift( parent );
 			bindings.unshift( request );
-			loader.load.apply( loader, bindings );	
-			
+			loader.load.apply( loader, bindings );
+
 			return loader;
 		}
 	}
