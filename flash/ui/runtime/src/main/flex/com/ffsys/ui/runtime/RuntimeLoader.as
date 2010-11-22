@@ -5,7 +5,7 @@ package com.ffsys.ui.runtime {
 	import flash.events.EventDispatcher;
 	import flash.net.URLRequest;
 	
-	import com.ffsys.io.loaders.core.ILoaderElement;
+	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.types.ParserAwareXmlLoader;
@@ -26,6 +26,7 @@ package com.ffsys.ui.runtime {
 	public class RuntimeLoader extends EventDispatcher
 		implements IRuntimeLoader {
 			
+		private var _queue:ILoaderQueue;
 		private var _document:IDocument;
 		private var _loader:IParserAwareXmlLoader;
 		
@@ -61,6 +62,7 @@ package com.ffsys.ui.runtime {
 			parent:DisplayObjectContainer,
 			...bindings ):void
 		{
+			
 			if( !parent )
 			{
 				throw new Error(
@@ -73,16 +75,18 @@ package com.ffsys.ui.runtime {
 					"The parent display object must be on the stage when loading a runtime view." );
 			}
 			
-			//clean any existing loader
-			if( _loader )
+			//clean any existing queue
+			if( _queue )
 			{
-				_loader.close();
+				_queue.close();
 				//_loader.destroy();
-				removeLoaderListeners( _loader );
-				_loader = null;
+				removeLoaderListeners( _queue );
+				_queue = null;
 			}
 			
-			_loader = new ParserAwareXmlLoader();
+			_queue = new LoaderQueue();
+			
+			_loader = new ParserAwareXmlLoader( request );
 			_loader.parser = new RuntimeParser();
 			
 			if( _document )
@@ -112,9 +116,11 @@ package com.ffsys.ui.runtime {
 			
 			_loader.root = document;
 			parent.addChild( DisplayObject( document ) );
+			
+			_queue.addLoader( _loader );
 
-			addLoaderListeners( _loader );
-			_loader.load( request );
+			addLoaderListeners( _queue );
+			_queue.load();
 		}
 		
 		private function addLoaderListeners( loader:ILoaderElement ):void
@@ -139,7 +145,7 @@ package com.ffsys.ui.runtime {
 					
 				loader.addEventListener(
 					LoadEvent.LOAD_COMPLETE,
-					loadComplete, false, 0, false );					
+					loadComplete, false, 0, false );				
 			}
 		}
 		
@@ -209,6 +215,8 @@ package com.ffsys.ui.runtime {
 		private function loadComplete(
 			event:LoadEvent ):void
 		{
+			removeLoaderListeners( _queue );
+			trace("RuntimeLoader::itemLoaded()", "LOAD COMPLETE" );
 			dispatchEvent( event );
 		}
 	}

@@ -169,7 +169,6 @@ package com.ffsys.ui.runtime {
 			
 			
 				var iteration:IDocument = null;
-				var i:int = 0;
 				var display:DisplayObject = null;
 				var item:Object = null;
 			

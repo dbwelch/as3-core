@@ -3,6 +3,7 @@ package com.ffsys.swat.as3.view {
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.filters.BitmapFilter;
+	import flash.events.MouseEvent;
 	import flash.net.URLRequest;
 	import flash.text.*;
 	
@@ -15,14 +16,13 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
-	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.core.*;
+	import com.ffsys.ui.buttons.*;
 	import com.ffsys.ui.graphics.*;
-	import com.ffsys.ui.containers.VerticalBox;
-	import com.ffsys.ui.text.Label;
-	
+	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.text.*;
 	import com.ffsys.ui.runtime.*;
-	
-	import com.ffsys.ui.css.ICssStyleSheet;
+	import com.ffsys.ui.css.*;
 	
 	/**
 	*	The main view for the application.
@@ -36,6 +36,9 @@ package com.ffsys.swat.as3.view {
 	public class SwatActionscriptContainer extends SwatActionscriptAbstractView
 		implements IApplicationMainView {
 			
+		private var _loader:IRuntimeLoader;
+		private var _document:IDocument;
+		
 		public var vbox:VerticalBox;
 		
 		/**
@@ -56,14 +59,6 @@ package com.ffsys.swat.as3.view {
 		{
 			var preloader:SwatActionscriptApplicationPreloadView
 				= SwatActionscriptApplicationPreloadView( view );
-				
-			/*
-			//get a bitmap grab of the preloader view
-			var text:MultiLineTextField = preloader.getTextField();
-			var bitmap:Bitmap = text.getBitmap();
-			addChild( bitmap );
-			*/
-			
 			return true;
 		}
 		
@@ -71,149 +66,38 @@ package com.ffsys.swat.as3.view {
 		*	@inheritDoc
 		*/
 		override public function createChildren():void
-		{	
-				
-			//trace("SwatActionscriptContainer::createChildren(), ", loader );
-			
+		{
 			//update the style manager reference
-			UIComponent.styleManager = utils.configuration.locales.styleManager;
+			UIComponent.styleManager = styleManager;
 			
-			var css:ICssStyleSheet = utils.getStyleSheet( "test-css" );
-			
-			/*
-			//test for adding a bitmap css reference
-			var dependencyStyle:Object = UIComponent.styleManager.getStyle(
-				"dependency-test-style" );
-			
-			trace("SwatActionscriptContainer::createChildren(), ",
-				UIComponent.styleManager,
-				dependencyStyle,
-				dependencyStyle.propertyBitmap );
-				//addChild( dependencyStyle.propertyBitmap );
-			*/
-			
-			/*
-			var container:ContainerView = new ContainerView();
-			container.styles = "container-view";
-			container.graphics.beginFill( 0xff0000, 1 );
-			container.graphics.drawRect( 0, 0, 20, 20 );
-			container.graphics.endFill();
-			addChild( container );
-			*/
-			
-			/*			
-			//test manually creating a textfield
-			var tf:TextFormat = new TextFormat();
-			tf.font = "main";
-			tf.size = 12;
-		
-			var txt:TextField = new TextField();
-			css.apply( txt, "test-text" );
-			//txt.width = 250;
-			txt.text = "This is a text field created manually using"
-				+ " an embedded font and a css declaration.";
-				
-			trace("SwatActionscriptContainer::createChildren(), ",
-				txt, txt.width, txt.height, txt.autoSize, txt.defaultTextFormat.color );
-			
-			txt.y = 200;
-			addChild( txt );
-			*/
-			
-			//set up the component tests
 			vbox = new VerticalBox();
-			//vbox.y = txt.y + txt.textHeight + 12;
-			vbox.spacing = 10;
 			addChild( vbox );
 			
-			var loader:IRuntimeLoader =
-				Runtime.load( new URLRequest( "view.xml" ), vbox, { title: "this is a test" }, {another: "another title :)"}, { items: [ 1, 2, 3 ] }, { locales: utils.configuration.locales.getLocales() } );
-			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
+			_loader =
+				Runtime.load(
+					new URLRequest( "view.xml" ),
+					vbox,
+					{ title: "this is a test" },
+					{ another: "another title :)" },
+					{ items: [ 1, 2, 3 ] },
+					{ locales: utils.configuration.locales.getLocales(), fonts: Font.enumerateFonts() }
+				);
 			
-			/*
-			trace("SwatActionscriptContainer::message(), ",
-				utils.getMessage( "common.message" ) );
-			
-			trace("SwatActionscriptContainer::error(), ",
-				utils.getError( "general", "warning" ) );
-			*/
-			
-			var lbl:Label = new Label(
-				utils.getMessage( "common.message" ) );
-				
-			var fonts:Array = Font.enumerateFonts();
-			
-			trace("SwatActionscriptContainer::createChildren(), ", 
-				fonts );
-				
-			for each( var f:Font in fonts )
-			{
-				trace("SwatActionscriptContainer::createChildren(), ", f, f.fontName );
-			}
-			
-			/*
-			trace("SwatActionscriptContainer::createChildren(), ",
-			 	lbl,
-				lbl.text,
-				lbl.textfield,
-				lbl.textfield.embedFonts,
-				lbl.textfield.defaultTextFormat.font,
-				lbl.visible,
-				lbl.width,
-				lbl.height );
-			*/
-				
-			//vbox.addChild( lbl );
-			
-			/*
-			lbl = new Label( utils.getMessage( "test.message" ) );
-			vbox.addChild( lbl );
-			
-			var fill:IFill = new SolidFill( 0xff0000, 0.5 );
-			
-			var graphic:DisplayObject = new SquareGraphic( 50, null, fill );
-			IComponentGraphic( graphic ).draw();
-			//graphic.filters = [ utils.getFilter( "bevel" ) ];
-			vbox.addChild( graphic );
-			
-			graphic = new SquareGraphic( 50, null, fill );
-			IComponentGraphic( graphic ).draw();
-			//graphic.filters = [ utils.getFilter( "drop-shadow" ) ];
-			vbox.addChild( graphic );
-			
-			graphic = new SquareGraphic( 50, null, fill );
-			IComponentGraphic( graphic ).draw();
-			//graphic.filters = [ utils.getFilter( "color-matrix" ) ];
-			vbox.addChild( graphic );
-			
-			graphic = new SquareGraphic( 50, null, fill );
-			IComponentGraphic( graphic ).draw();
-			//graphic.filters = [ utils.getFilter( "glow" ) ];
-			vbox.addChild( graphic );
-			
-			graphic = new SquareGraphic( 50, null, fill );
-			IComponentGraphic( graphic ).draw();
-			//graphic.filters = [ utils.getFilter( "gradient-glow" ) ];
-			vbox.addChild( graphic );
-			
-			graphic = new SquareGraphic( 50, null, fill );
-			IComponentGraphic( graphic ).draw();
-			//graphic.filters = [ utils.getFilter( "gradient-bevel" ) ];
-			vbox.addChild( graphic );
-			
-			addChild( vbox );
-			*/
-			
-			/*
-			var image:Bitmap = utils.getImage( "garden-001" );
-			image.scaleX = image.scaleY = .1;
-			addChild( image );
-			*/
+			_document = _loader.document;
+			_loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
 		}
 		
 		private function runtimeLoaded( event:LoadEvent ):void
 		{
-			trace("SwatActionscriptContainer::runtimeLoaded(), ", event );
+			var btn:Button = Button( _loader.document.getElementById( "btn" ) );
+			btn.addEventListener( MouseEvent.CLICK, click );
+			trace("SwatActionscriptContainer::runtimeLoaded(), ", btn );
 		}
+		
+		private function click( event:MouseEvent ):void
+		{
+			trace("SwatActionscriptContainer::click()", Button( event.target ).text );
+		}
+		
 	}
 }

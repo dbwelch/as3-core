@@ -7,10 +7,16 @@
 	
 	<canvas>
 		<vbox>
-			<!-- <button>button text</button> -->
+			
+			<button>
+				<id>btn</id>
+				<preferred-width>100</preferred-width>
+				<preferred-height>16</preferred-height>
+				<text>button text</text>
+			</button>
 			
 			<id>vbox</id>
-			<spacing>10</spacing>
+			<spacing>5</spacing>
 			
 			<label>
 				<text>Currently ({binding:title}) - ({binding:another}) running with locale path {paths:locale} as locale: {locale:country}</text>
@@ -22,7 +28,7 @@
 			<label>
 				<id>copy</id>
 				<styles>copy copy-override</styles>
-				<text>this is some copy text for you</text>			
+				<text>this is some copy text for you</text>
 			</label>
 			
 			<each>
@@ -32,21 +38,24 @@
 				</label>
 			</each>
 			
-			<each>
-				<provider>{binding:locales}</provider>
-				<vbox>
-					<spacing>2</spacing>
-					<label>
-						<text><![CDATA[{it:value.lang}]]></text>
-					</label>
-					<label>
-						<text><![CDATA[{it:value.country}]]></text>
-					</label>
-					<label>
-						<text><![CDATA[{it:value.prefix}]]></text>
-					</label>					
-				</vbox>
-			</each>
+			<hbox>
+				<spacing>10</spacing>
+				<each>
+					<provider>{binding:locales}</provider>
+					<vbox>
+						<spacing>0</spacing>
+						<label>
+							<text><![CDATA[{it:value.lang}]]></text>
+						</label>
+						<label>
+							<text><![CDATA[{it:value.country}]]></text>
+						</label>
+						<label>
+							<text><![CDATA[{it:value.prefix}]]></text>
+						</label>
+					</vbox>
+				</each>
+			</hbox>
 			
 			<hbox>
 				<spacing>10</spacing>

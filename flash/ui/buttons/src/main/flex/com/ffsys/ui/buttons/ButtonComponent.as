@@ -34,6 +34,7 @@ package com.ffsys.ui.buttons
 			super();
 			this.preferredWidth = width;
 			this.preferredHeight = height;
+			this.mouseChildren = false;
 		}
 		
 		/**

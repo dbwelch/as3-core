@@ -654,7 +654,6 @@ package com.ffsys.ui.core
 		public function set enabled( enabled:Boolean ):void
 		{
 			mouseEnabled = enabled;
-			mouseChildren = enabled;
 		}	
 		
 		/**

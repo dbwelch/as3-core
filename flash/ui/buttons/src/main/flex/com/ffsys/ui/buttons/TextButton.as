@@ -72,6 +72,7 @@ package com.ffsys.ui.buttons
 				_label = new Label( text );
 				_label.x = paddings.left;
 				_label.y = paddings.top;
+				_label.applyStyles();
 			}
 		}
 		

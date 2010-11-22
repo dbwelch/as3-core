@@ -39,9 +39,11 @@ package com.ffsys.io.loaders.types {
 		/**
 		*	Creates a <code>ParserAwareXmlLoader</code> instance.
 		*/
-		public function ParserAwareXmlLoader()
+		public function ParserAwareXmlLoader(
+			request:URLRequest = null,
+			options:ILoadOptions = null	)
 		{
-			super();
+			super( request, options );
 		}
 		
 		/**
