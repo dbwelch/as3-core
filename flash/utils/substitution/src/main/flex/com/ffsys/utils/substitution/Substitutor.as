@@ -273,7 +273,7 @@ package com.ffsys.utils.substitution {
 				parent[ name ] = replaced;
 			}
 			
-			return replaced;	
+			return replaced;
 		}		
 		
 		public function isCandidate():Boolean

@@ -98,8 +98,6 @@ package com.ffsys.ui.runtime {
 				for( var i:int = 0;i < bindings.length;i++ )
 				{
 					binding = bindings[ i ];
-					trace("RuntimeLoader::get loader()", "ADDING BINDING: " , binding );
-					
 					for( var z:String in binding )
 					{
 						document.binding[ z ] = binding[ z ];
@@ -110,11 +108,11 @@ package com.ffsys.ui.runtime {
 					new Binding( Runtime.BINDING, document.binding ) );
 			}
 			
+			//TODO: add binding for the stage dimensions
+			
 			_loader.root = document;
 			parent.addChild( DisplayObject( document ) );
-			
-			//trace("RuntimeLoader::load(), ", document.parent, document.stage );
-			
+
 			addLoaderListeners( _loader );
 			_loader.load( request );
 		}

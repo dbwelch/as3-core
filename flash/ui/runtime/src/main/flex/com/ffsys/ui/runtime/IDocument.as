@@ -1,5 +1,6 @@
 package com.ffsys.ui.runtime {
 	
+	import com.ffsys.ui.core.IComponent;
 	import com.ffsys.ui.containers.ICanvas;
 	
 	/**
@@ -14,11 +15,25 @@ package com.ffsys.ui.runtime {
 	*/
 	public interface IDocument extends ICanvas {
 		
-		
 		/**
 		* 	The binding used to access data associated with the parsing
 		* 	of this document.
 		*/
 		function get binding():Object;
+		
+		/**
+		* 	The object used to store mappings between child identifiers
+		* 	and the child element reference.
+		*/
+		function get identifiers():Object;
+		
+		/**
+		* 	Attempts to retrieve a child component by identifier.
+		* 
+		* 	@param id THe identifier for the child component.
+		* 
+		* 	@return The child component if found otherwise null.
+		*/
+		function getElementById( id:String ):IComponent;
 	}
 }

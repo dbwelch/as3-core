@@ -1073,7 +1073,7 @@ package com.ffsys.io.xml {
 				parseAttributes( node, obj );
 			}
 		
-			var output:Object = parse( node, obj, ignoreISerializeDeserialize );
+			var output:Object = parse( node, obj, ignoreISerializeDeserialize, true );
 			
 			if( output == null && obj )
 			{
@@ -1093,7 +1093,11 @@ package com.ffsys.io.xml {
 			return output;
 		}
 		
-		public function parse( x:XML = null, obj:Object = null, ignoreISerializeDeserialize:Boolean = false ):Object
+		public function parse(
+			x:XML = null,
+			obj:Object = null,
+			ignoreISerializeDeserialize:Boolean = false,
+			rootNode:Boolean = false ):Object
 		{
 			if( !x )
 			{
@@ -1154,14 +1158,20 @@ package com.ffsys.io.xml {
 				//}
 			}
 			
+			
+			if( obj && rootNode && _interpreter )
+			{
+				_interpreter.documentAvailable( obj );
+			}
+			
+			var contract:ISerializeContract = null;
+			
 			if( !ignoreISerializeDeserialize )
 			{
 				//let an object handle deserializing itself
 				if( obj is ISerializeDeserialize )
 				{
 					contractName = x.attribute( Serializer.CONTRACT_ATTRIBUTE_NAME );
-				
-					var contract:ISerializeContract = null;
 					
 					if( contractName )
 					{
@@ -1189,7 +1199,6 @@ package com.ffsys.io.xml {
 				
 				for( ;i < l;i++ )
 				{
-				
 					node = x.children()[ i ];
 					name = node.name().localName;
 					
@@ -1214,6 +1223,15 @@ package com.ffsys.io.xml {
 					{
 						if( !_interpreter.shouldProcessNode( node, obj ) )
 						{
+							continue;
+						}
+						
+						var interpreterProcess:Boolean = _interpreter.preProcess( node, obj, this, contract );
+
+						//the interpreter is handling processing of this node
+						if( interpreterProcess )
+						{
+							_interpreter.process( node, obj, this, contract );
 							continue;
 						}
 					}

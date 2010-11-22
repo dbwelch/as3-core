@@ -71,47 +71,15 @@ package com.ffsys.io.xml {
 			
 			_bindings = new BindingCollection();
 			
-			//needs refactoring so it doesn't point to the same static
-			//instance but uses a different instance that uses the
-			//defaults as start values
 			if( Deserializer.defaultBindings )
 			{
-				
-				//trace( "DEFAULTS : " + Deserializer.defaultBindings );
-				
-				//--> cloning should work but fails on UriCollection
-				//_bindings = Deserializer.defaultBindings.clone();
-				
-				//_bindings = Deserializer.defaultBindings;
-				
+				//add default bindings to our bindings
 				var binding:IBinding = null;
 				for( var i:int = 0;i < Deserializer.defaultBindings.getLength();i++ )
 				{
 					binding = Deserializer.defaultBindings.getBindingAt( i );
 					_bindings.addBinding( binding.clone() );
 				}
-				
-				/*
-				var defaults:IBindingCollection = Deserializer.defaultBindings;
-				
-				var i:int = 0;
-				var l:int = defaults.getLength();
-				
-				var defaultSubstitution:IBinding;
-				
-				for( ;i < l;i++ )
-				{
-					defaultSubstitution = defaults.getBindingAt( i );
-					
-					//trace( "Add default substitution : " + defaultSubstitution );
-					
-					_bindings.addBinding(
-						defaultSubstitution.clone() );
-				}
-				
-				trace( "OURS : " + _bindings );
-				*/
-				
 			}
 		}
 		
@@ -128,6 +96,11 @@ package com.ffsys.io.xml {
 		public function get bindings():IBindingCollection
 		{
 			return _bindings;
+		}
+		
+		public function set bindings( bindings:IBindingCollection ):void
+		{
+			_bindings = bindings;
 		}
 		
 		public function set useStringReplacement( val:Boolean ):void
@@ -151,6 +124,17 @@ package com.ffsys.io.xml {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function documentAvailable( instance:Object ):void
+		{
+			//do nothing by default
+			//other implementations may want to to store a reference
+			//to the document instance to perform operations
+			//while the document is being deserialized
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function shouldSetProperty(
@@ -159,6 +143,9 @@ package com.ffsys.io.xml {
 			return true;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function shouldPostProcessPrimitive( parent:Object, name:String, value:Object ):Boolean
 		{
 			if( useStringReplacement && ( value is String ) )
@@ -169,6 +156,9 @@ package com.ffsys.io.xml {
 			return false;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function postProcessPrimitive( parent:Object, name:String, value:Object ):void
 		{
 			if( useStringReplacement )
@@ -177,6 +167,9 @@ package com.ffsys.io.xml {
 			}
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		private function gatherSubstitutionCandidates( parent:Object, name:String, value:Object ):void
 		{
 			var substitutor:Substitutor =
@@ -188,21 +181,33 @@ package com.ffsys.io.xml {
 			_stringSubstitutionCandidates.push( substitutor );			
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function processClass( node:XML, parent:Object, classReference:Class ):Object
 		{
 			return new Object();
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function shouldProcessClass( node:XML, classReference:Class ):Boolean
 		{
 			return false;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function shouldProcessNode( node:XML, instance:Object ):Boolean
 		{
 			return true;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function preProcess(
 			node:XML,
 			instance:Object,
@@ -212,6 +217,9 @@ package com.ffsys.io.xml {
 			return false;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function process(
 			node:XML,
 			instance:Object,
@@ -221,16 +229,25 @@ package com.ffsys.io.xml {
 			return new Object();
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function postProcessClass( instance:Object, parent:Object ):void
 		{
 			//
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function postProcess( node:XML, instance:Object, parent:Object ):void
 		{
 			//
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function shouldProcessAttribute( parent:Object, name:String, value:Object ):Boolean
 		{
 			if( useStringReplacement && ( value is String ) )
@@ -240,7 +257,10 @@ package com.ffsys.io.xml {
 			
 			return false;
 		}
-			
+		
+		/**
+		*	@inheritDoc
+		*/	
 		public function processAttribute( parent:Object, name:String, value:Object ):Boolean
 		{
 			if( useStringReplacement )
@@ -252,6 +272,9 @@ package com.ffsys.io.xml {
 			return true;
 		}
 		
+		/**
+		*	@inheritDoc
+		*/
 		public function complete( instance:Object ):void
 		{
 

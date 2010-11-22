@@ -17,7 +17,16 @@ package com.ffsys.ui.runtime {
 	*/
 	public class Runtime extends Object {
 		
+		/**
+		* 	The binding namespace used when parsing runtime 
+		* 	view xml documents.
+		*/
 		public static const BINDING:String = "binding";
+		
+		/**
+		* 	The binding used when iterating over view elements.
+		*/
+		public static const ITERATE_BINDING:String = "it";
 		
 		/**
 		*	Creates a <code>Runtime</code> instance.	

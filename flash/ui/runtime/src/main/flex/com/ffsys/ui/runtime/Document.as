@@ -1,5 +1,6 @@
 package com.ffsys.ui.runtime {
 
+	import com.ffsys.ui.core.IComponent;
 	import com.ffsys.ui.containers.Canvas;
 	
 	/**
@@ -21,6 +22,7 @@ package com.ffsys.ui.runtime {
 			
 		private var _css:Array;
 		private var _binding:Object = new Object();
+		private var _identifiers:Object = new Object();
 		
 		/**
 		*	Creates a <code>Document</code> instance.
@@ -49,6 +51,34 @@ package com.ffsys.ui.runtime {
 		public function get binding():Object
 		{
 			return _binding;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get identifiers():Object
+		{
+			return _identifiers;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getElementById( id:String ):IComponent
+		{
+			return _identifiers[ id ];
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			
+			_css = null;
+			_binding = null;
+			_identifiers = null;
 		}
 	}
 }

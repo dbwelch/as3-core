@@ -127,7 +127,7 @@ package com.ffsys.swat.as3.view {
 			addChild( vbox );
 			
 			var loader:IRuntimeLoader =
-				Runtime.load( new URLRequest( "view.xml" ), vbox, { title: "this is a test" }, {another: "another title :)"} );
+				Runtime.load( new URLRequest( "view.xml" ), vbox, { title: "this is a test" }, {another: "another title :)"}, { items: [ 1, 2, 3 ] }, { locales: utils.configuration.locales.getLocales() } );
 			loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
 			
 			/*

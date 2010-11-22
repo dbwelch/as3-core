@@ -20,6 +20,7 @@ package com.ffsys.io.xml {
 		function get deserializer():Deserializer;
 		
 		function get bindings():IBindingCollection;
+		function set bindings( bindings:IBindingCollection ):void;
 		
 		function set useStringReplacement( val:Boolean ):void;
 		function get useStringReplacement():Boolean;
@@ -31,11 +32,30 @@ package com.ffsys.io.xml {
 		
 		function postProcessPrimitive( parent:Object, name:String, value:Object ):void;
 		
+		/**
+		* 	Determines whether an xml element should be processed.
+		* 
+		* 	When this method returns false the node will be not be
+		* 	deserialized.
+		* 
+		* 	@param node The xml element being processed.
+		* 	@param instance THe parent object the element belongs to.
+		* 
+		* 	@return Whether further deserialization should occur for the node.
+		*/
 		function shouldProcessNode( node:XML, instance:Object ):Boolean;
 	
 		function shouldProcessClass( node:XML, classReference:Class ):Boolean;
 	
 		function processClass( node:XML, parent:Object, classReference:Class ):Object;
+		
+		
+		/**
+		* 	Invoked when the root object for the xml document is available.
+		* 
+		* 	@param instance The root object for the document.
+		*/
+		function documentAvailable( instance:Object ):void;
 		
 		/**
 		*	Should determine whether the interpreter handles the deserialization

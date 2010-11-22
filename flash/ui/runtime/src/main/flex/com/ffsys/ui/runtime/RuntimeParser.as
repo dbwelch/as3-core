@@ -22,6 +22,21 @@ package com.ffsys.ui.runtime {
 	public class RuntimeParser extends Parser {
 		
 		/**
+		*	The element name for a document.
+		*/
+		public static const DOCUMENT_NAME:String = "document";
+		
+		/**
+		*	The element name for an each loop.
+		*/
+		public static const EACH_NODE_NAME:String = "each";
+		
+		/**
+		*	The element name for a container. 
+		*/
+		public static const CONTAINER_NAME:String = "container";
+		
+		/**
 		*	Creates a RuntimeParser instance.	
 		*/
 		public function RuntimeParser()
@@ -52,6 +67,12 @@ package com.ffsys.ui.runtime {
 			classNodeNameMap.add(
 				Canvas,
 				"canvas",
+				null,
+				false );
+				
+			classNodeNameMap.add(
+				Container,
+				CONTAINER_NAME,
 				null,
 				false );
 				
@@ -160,7 +181,13 @@ package com.ffsys.ui.runtime {
 				TextButton,
 				"text-button",
 				null,
-				false );				
+				false );
+				
+			classNodeNameMap.add(
+				RuntimeEachLoop,
+				EACH_NODE_NAME,
+				null,
+				false );						
 		}
 	}
 }
