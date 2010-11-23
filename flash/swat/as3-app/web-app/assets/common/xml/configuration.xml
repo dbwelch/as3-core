@@ -163,8 +163,7 @@
 			
 			<css>
 				<resource>
-					<id>test-css</id>
-					<url>css/test.css</url>
+					<url>css/web-app.css</url>
 				</resource>
 				<resource>
 					<id>test-filters</id>

@@ -70,6 +70,10 @@ package com.ffsys.swat.as3.view {
 			//update the style manager reference
 			UIComponent.styleManager = styleManager;
 			
+			var substyle:Object = styleManager.getStyle( "sub" );
+			
+			trace("SwatActionscriptContainer::createChildren()", substyle.substitution );
+			
 			vbox = new VerticalBox();
 			addChild( vbox );
 			

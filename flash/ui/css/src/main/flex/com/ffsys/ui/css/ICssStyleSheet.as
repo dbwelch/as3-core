@@ -7,6 +7,8 @@ package com.ffsys.ui.css {
 	import com.ffsys.core.IStringIdentifier;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
+	import com.ffsys.utils.substitution.IBindingCollection;
+	
 	/**
 	*	Describes the contract for collections
 	*	of css style.
@@ -20,6 +22,12 @@ package com.ffsys.ui.css {
 	public interface ICssStyleSheet
 		extends	IStringIdentifier,
 				IEventDispatcher {
+					
+		/**
+		* 	The collection of bindings to expose when parsing css files.
+		*/
+		function get bindings():IBindingCollection;
+		function set bindings( bindings:IBindingCollection ):void;			
 										
 		/**
 		* 	The delimiter to use when parsing array values.

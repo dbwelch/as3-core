@@ -19,6 +19,10 @@ test-label {
 	color: #ff6600;
 }
 
+sub {
+	substitution: <paths:locale> : <locales:lang>
+}
+
 test-text {
 	color: #a9a9a9;
 	font: main;

@@ -9,6 +9,8 @@ package com.ffsys.ui.css {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.StyleSheetResource;
 	
+	import com.ffsys.utils.substitution.*;	
+	
 	/**
 	*	Responsible for managing a collection of style sheets.
 	*
@@ -23,7 +25,7 @@ package com.ffsys.ui.css {
 			
 		private var _queue:ILoaderQueue;
 		private var _dependencyQueue:ILoaderQueue;
-		private var _styleSheets:Vector.<StyleSheetEntry> = new Vector.<StyleSheetEntry>();
+		private var _styleSheets:Vector.<StyleSheetEntry> = new Vector.<StyleSheetEntry>();	
 		
 		/**
 		*	Creates a <code>StyleManager</code> instance.
@@ -31,7 +33,8 @@ package com.ffsys.ui.css {
 		public function StyleManager()
 		{
 			super();
-		}
+			this.bindings = new BindingCollection();
+		}		
 		
 		/**
 		*	@inheritDoc
@@ -50,6 +53,21 @@ package com.ffsys.ui.css {
 				//_styleSheets[ sheet ] = request;
 				
 				var entry:StyleSheetEntry = new StyleSheetEntry( request, sheet );
+				
+				if( this.bindings )
+				{
+					if( !sheet.bindings )
+					{
+						sheet.bindings = this.bindings;
+					}else{
+						for( var i:int = 0;i < this.bindings.getLength();i++ )
+						{
+							sheet.bindings.addBinding(
+								bindings.getBindingAt( i ) );
+						}
+					}
+				}
+				
 				_styleSheets.push( entry );
 			}
 		}
@@ -202,7 +220,7 @@ package com.ffsys.ui.css {
 				css = ICssStyleSheet( entry.sheet );
 				loader = new CssLoader( entry.request );
 				loader.css = css;
-				loader.addEventListener( LoadEvent.DATA, itemLoaded );			
+				loader.addEventListener( LoadEvent.DATA, itemLoaded );	
 				_queue.addLoader( loader );
 			}
 			

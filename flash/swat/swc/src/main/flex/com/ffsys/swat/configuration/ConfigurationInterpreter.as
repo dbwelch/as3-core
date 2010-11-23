@@ -5,6 +5,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.io.xml.DeserializeInterpreter;
 	
 	import com.ffsys.utils.substitution.Binding;
+	import com.ffsys.swat.core.Bindings;
 	import com.ffsys.swat.core.SwatFlashVariables;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
@@ -60,15 +61,22 @@ package com.ffsys.swat.configuration {
 			//add the current locale as a default namespace
 			Deserializer.defaultBindings.addBinding(
 				new Binding(
-					"locale",
+					Bindings.LOCALE,
 					configuration.locales.current )
 			);
 			
 			//add the configuration as a default binding
 			Deserializer.defaultBindings.addBinding(
 				new Binding(
-					"configuration",
+					Bindings.CONFIGURATION,
 					configuration )
+			);
+			
+			//add the locales as a default binding
+			Deserializer.defaultBindings.addBinding(
+				new Binding(
+					Bindings.LOCALES,
+					configuration.locales )
 			);
 			
 			//ensure we always have some path information
@@ -85,7 +93,7 @@ package com.ffsys.swat.configuration {
 			//add the paths as a default binding
 			Deserializer.defaultBindings.addBinding(
 				new Binding(
-					"paths",
+					Bindings.PATHS,
 					configuration.paths )
 			);
 			

@@ -28,6 +28,8 @@ package com.ffsys.ui.css {
 	import com.ffsys.utils.properties.PropertiesMerge;
 	import com.ffsys.utils.string.StringTrim;
 	
+	import com.ffsys.utils.substitution.*;
+	
 	/**
 	*	Represents a collection of CSS styles.
 	*	
@@ -59,6 +61,8 @@ package com.ffsys.ui.css {
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
 		private var _dependencies:ILoaderQueue;
 		private var _cache:Dictionary;
+		
+		private var _bindings:IBindingCollection;
 		
 		private static var extensions:Object = {
 			"class": Class,
@@ -107,6 +111,19 @@ package com.ffsys.ui.css {
 		public function CssStyleSheet()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get bindings():IBindingCollection
+		{
+			return _bindings;
+		}
+		
+		public function set bindings( bindings:IBindingCollection ):void
+		{
+			_bindings = bindings;
 		}
 		
 		/**
@@ -363,8 +380,9 @@ package com.ffsys.ui.css {
 			
 				if( style.paddingLeft is Number )
 				{
-					target.paddings.left = style.paddingLeft;	
-					trace("CssStyleSheet::applyPadding(), ASSIGNING PADDING: ", target.paddings.left );				
+					target.paddings.left = style.paddingLeft;
+					
+					//trace("CssStyleSheet::applyPadding(), ASSIGNING PADDING: ", target.paddings.left );				
 				}
 				
 				if( style.paddingTop is Number )
@@ -462,6 +480,22 @@ package com.ffsys.ui.css {
 			}			
 		}
 		
+		private var _substitutor:Substitutor = null;
+		private function getSubstitutor( source:String, target:Object = null ):Substitutor
+		{
+			if( !_substitutor )
+			{
+				_substitutor = new Substitutor();
+				_substitutor.startDelimiter = "<";
+				_substitutor.endDelimiter = ">";
+			}
+			
+			_substitutor.source = source;
+			_substitutor.target = target;
+			
+			return _substitutor;
+		}
+		
 		/**
 		*	@private	
 		*/
@@ -497,6 +531,13 @@ package com.ffsys.ui.css {
 					//now deal with css specific parsing
 					if( value is String )
 					{
+						var candidate:Boolean = getSubstitutor( value ).isCandidate();
+
+						if( candidate )
+						{
+							value = parseBindingCandidate( value );
+						}
+						
 						value = parser.parse( value, true, delimiter );
 						//trace("CssStyleSheet::postProcessCss(), ", value );
 						
@@ -520,6 +561,21 @@ package com.ffsys.ui.css {
 
 				setStyle( styleName, style );
 			}
+		}
+		
+		private function parseBindingCandidate( value:String ):Object
+		{
+			var output:Object = value;
+			
+			if( this.bindings )
+			{
+				var substitutor:Substitutor =
+					getSubstitutor( ( value as String ), this );
+				substitutor.namespaces = this.bindings;
+				output = substitutor.substitute();
+			}
+			
+			return output;
 		}
 		
 		/**

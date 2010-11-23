@@ -7,6 +7,8 @@ package com.ffsys.swat.view  {
 	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.io.loaders.events.*;
 	
+	import com.ffsys.io.xml.Deserializer;
+	
 	//import com.ffsys.ui.text.core.ITextFieldFactory;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -131,19 +133,13 @@ package com.ffsys.swat.view  {
 			//keep a reference to the configuration
 			utils.configuration = event.configuration;
 			
-			/*
-			if( utils.configuration.defaults )
-			{
-				utils.textFieldFactory.defaultTextFieldProperties =
-					utils.configuration.defaults.textfield;
-					
-				utils.textFieldFactory.defaultTextFormatProperties =
-					utils.configuration.defaults.textformat;
-			}
-			*/
-			
 			//update the configuration with the flash variables
 			utils.configuration.flashvars = this.flashvars;
+			
+			//update the style bindings to match the xml bindings
+			utils.styleManager.bindings = Deserializer.defaultBindings.clone();
+			
+			trace("SwatApplication::configurationLoadComplete()", utils.styleManager.bindings.getLength() );
 			
 			configure( utils.configuration );
 		}
