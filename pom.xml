@@ -44,6 +44,7 @@
 		    <scope>theme</scope>
 		</dependency>		
 	</dependencies>
+	
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ffsys-mvn</id>
@@ -57,11 +58,13 @@
 			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>
 		</repository>
 	</distributionManagement>
+	
 	<scm>
 		<connection>scm:git:git@github.com:freeformsystems/as3-core.git</connection>
 		<developerConnection>scm:git:git@github.com:freeformsystems/as3-core.git</developerConnection>
 		<url>scm:git:git@github.com:freeformsystems/as3-core.git</url>
 	</scm>
+	
 	<modules>
 		<module>flash</module>
 	</modules>
