@@ -25,7 +25,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	A delimiter to use when automatically inferring
 		*	a version <code>String</code> from the
-		*	<code>majorVersion<code>, <code>minorVersion</code> 
+		*	<code>majorVersion</code>, <code>minorVersion</code> 
 		*	and <code>revision</code>.
 		*/
 		static public const VERSION_DELIMITER:String = ".";

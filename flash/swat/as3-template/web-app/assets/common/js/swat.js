@@ -35,7 +35,7 @@ swat.embed = function( config )
 		alert( "No valid configuration data found." );
 	}
 	
-	swfobject.embedSWF( config.url, config.id, config.width, config.height, config.version, config.express, config.flashvars );
+	swfobject.embedSWF( config.url, config.id, config.width, config.height, config.version, config.express, config.flashvars, config.params, config.attributes );
 }
 
 /**

@@ -18,13 +18,13 @@ package com.ffsys.ui.graphics {
 	public class Gradient extends Object
 		implements IGradient {
 		
-		private var _type:String;
+		private var _type:String = GradientType.LINEAR;
 		private var _colors:Array;
 		private var _alphas:Array;
 		private var _ratios:Array;
 		private var _matrix:Matrix;
-		private var _spreadMethod:String;
-		private var _interpolationMethod:String;
+		private var _spreadMethod:String = SpreadMethod.PAD;
+		private var _interpolationMethod:String = InterpolationMethod.RGB;
 		private var _focalPointRatio:Number = 0;
 		private var _angle:Number = 90;
 		
@@ -32,13 +32,13 @@ package com.ffsys.ui.graphics {
 		*	Creates an <code>Gradient</code> instance.
 		*/
 		public function Gradient(
-			type:String = GradientType.LINEAR,
+			type:String = null,
 			colors:Array = null,
 			alphas:Array = null,
 			ratios:Array = null,
 			matrix:Matrix = null,
-			spreadMethod:String = SpreadMethod.PAD,
-			interpolationMethod:String = InterpolationMethod.RGB,
+			spreadMethod:String = null,
+			interpolationMethod:String = null,
 			focalPointRatio:Number = 0 )
 		{
 			super();
@@ -58,13 +58,25 @@ package com.ffsys.ui.graphics {
 				ratios = [ 0, 255 ];
 			}
 			
-			this.type = type;
+			if( type != null )
+			{
+				this.type = type;
+			}
+			
 			this.colors = colors;
 			this.alphas = alphas;
 			this.ratios = ratios;
 			this.matrix = matrix;
-			this.spreadMethod = spreadMethod;
-			this.interpolationMethod = interpolationMethod;
+			
+			if( spreadMethod != null )
+			{
+				this.spreadMethod = spreadMethod;
+			}
+			
+			if( interpolationMethod != null )
+			{
+				this.interpolationMethod = interpolationMethod;
+			}
 			this.focalPointRatio = focalPointRatio;
 		}
 		
