@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>ui-parent</artifactId>
+		<artifactId>ui</artifactId>
 		<groupId>com.ffsys</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
@@ -25,10 +25,35 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>ui</artifactId>
+			<groupId>com.ffsys.ui</groupId>
+			<artifactId>containers</artifactId>
 			<version>${ffsys.lib.version}</version>
-			<type>pom</type>
+			<type>swc</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.ui</groupId>
+			<artifactId>loaders</artifactId>
+			<version>${ffsys.lib.version}</version>
+			<type>swc</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.ui</groupId>
+			<artifactId>tooltips</artifactId>
+			<version>${ffsys.lib.version}</version>
+			<type>swc</type>
+		</dependency>						
+		<dependency>
+			<groupId>com.ffsys.ui</groupId>
+			<artifactId>text-core</artifactId>
+			<version>${ffsys.lib.version}</version>
+			<type>swc</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ffsys.utils</groupId>
+			<artifactId>random</artifactId>
+			<version>${ffsys.lib.version}</version>
+			<type>swc</type>
 		</dependency>
 	</dependencies>
 	<build>

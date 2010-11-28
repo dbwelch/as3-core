@@ -24,6 +24,8 @@
 		<git.ignore>.gitignore</git.ignore>
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
+		
+		<aggregate>true</aggregate>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -179,13 +181,22 @@
 					<incremental>true</incremental>
 					<linkReport>true</linkReport>
 					<configurationReport>true</configurationReport>
+					<sizeReportAttach>true</sizeReportAttach>
+					<generateAbstractSyntaxTree>true</generateAbstractSyntaxTree>
 					
 					<mainTitle>Freeform Core</mainTitle>
 					<windowTitle>Freeform Core</windowTitle>
 					<templatePath>${project.build.directory}/${asdoc.template.name}</templatePath>
 					<excludeClasses>
 						<class>TestRunner</class>
-					</excludeClasses>
+					</excludeClasses>				
+					
+					<packageDescriptions>
+						<package>
+							<name>com.ffsys.core</name>
+							<value>Common interfaces used by other packages</value>
+						</package>
+					</packageDescriptions>
 					
 				</configuration>
 			</plugin>

@@ -7,12 +7,12 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys</groupId>
-	<artifactId>io-parent</artifactId>
+	<artifactId>io</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>io-parent</name>
+	<name>io</name>
 	<packaging>pom</packaging>
 	<url>http://as3.freeformsystems.com</url>
-	<dependencies>		
+	<dependencies>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>core</artifactId>
@@ -27,7 +27,5 @@
 		<module>loaders-flex-support</module>
 		<module>log</module>
 		<module>xml</module>
-		
-		<module>combined</module>
 	</modules>
 </project>
