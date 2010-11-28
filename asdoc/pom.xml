@@ -17,7 +17,7 @@
 		<install.name>${asdoc.artifact}-${project.version}</install.name>
 	</properties>	
 	<modules>
-		<module>docs</module>
+		<module>doc-source</module>
 		<module>template</module>
 	</modules>	
 </project>
