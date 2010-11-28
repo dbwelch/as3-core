@@ -153,7 +153,7 @@
 					<linkReport>true</linkReport>
 					<configurationReport>true</configurationReport>
 				</configuration>
-			</plugin>									
+			</plugin>
 		</plugins>		
 	</build>
 </project>
