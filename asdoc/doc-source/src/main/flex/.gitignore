@@ -1,10 +1,2 @@
-*.png
-*.as
-*.js
-*.swf
-*.fla
-*.jpg
-*.jpeg
-*.MF
-com
-META-INF
+*
+!.gitignore
