@@ -15,12 +15,10 @@
 	<build>
 		<sourceDirectory>src/main/resources</sourceDirectory>
 		<plugins>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2-beta-5</version>
-				
 				<executions>
 					<execution>
 						<phase>process-sources</phase>
@@ -35,7 +33,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

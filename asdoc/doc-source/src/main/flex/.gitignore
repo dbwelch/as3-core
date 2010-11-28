@@ -1,12 +1,10 @@
-*.html
-*.js
-*.swf
-*.jpg
-*.jpeg
 *.png
 *.as
-*.MF
+*.js
+*.swf
 *.fla
-*.psd
+*.jpg
+*.jpeg
+*.MF
 com
 META-INF

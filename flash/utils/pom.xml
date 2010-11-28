@@ -36,7 +36,6 @@
 		<module>string</module>
 		<module>substitution</module>
 		<module>xml</module>
-		
 		<module>combined</module>
-	</modules>
+	</modules>	
 </project>

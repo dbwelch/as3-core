@@ -12,26 +12,19 @@
 	<version>1.1-SNAPSHOT</version>
 	<name>as3-doc-source</name>
 	<url>http://as3.freeformsystems.com</url>
-	<dependencies>
-		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>ffsys-as3-library</artifactId>
-			<type>pom</type>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>		
+	<dependencies>	
+		
+		<!--	
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>as3-core</artifactId>
 			<type>pom</type>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.ffsys.asdoc</groupId>
-			<artifactId>as3-doc-template</artifactId>
-			<type>pom</type>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>		
-	</dependencies>	
+		
+		-->
+		
+	</dependencies>
 	<build>
 		<plugins>
 			
@@ -72,7 +65,7 @@
 				<version>2.1</version>
 				<executions>
 					<execution>
-						<id>unpack-typefaces</id>
+						<id>unpack-asdoc-template</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>unpack</goal>
@@ -97,7 +90,7 @@
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}</outputDirectory>
 									<includes>**/**</includes>
-								</artifactItem>
+								</artifactItem>								
 							</artifactItems>
 							<overWriteReleases>true</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
@@ -116,15 +109,6 @@
 						<goals>
 							<goal>asdoc</goal>
 						</goals>
-						<configuration>
-							<mainTitle>Freeform Core</mainTitle>
-							<windowTitle>Freeform Core</windowTitle>
-							<templatePath>${project.build.directory}/${install.name}</templatePath>
-							<!-- <dumpConfigAttach>true</dumpConfigAttach> -->
-							<excludeClasses>
-								<class>TestRunner</class>
-							</excludeClasses>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
