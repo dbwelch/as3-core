@@ -179,4 +179,17 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>asdoc</id>
+			<activation>
+				<property>
+					<name>asdoc</name>
+				</property>
+			</activation>
+			<modules>
+				<module>api-docs</module>
+			</modules>
+		</profile>
+	</profiles>	
 </project>

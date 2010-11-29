@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<assembly>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<fileSet>
+			<directory>${project.build.directory}/documentation-staging</directory>
+			<outputDirectory />
+			<includes>
+				<include>**/*.pdf</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>
