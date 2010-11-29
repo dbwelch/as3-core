@@ -54,7 +54,7 @@
 								<phase>install</phase>
 								<configuration>
 									<descriptors>
-										<descriptor>api-documentation.xml</descriptor>
+										<descriptor>src/main/assembly/api-documentation.xml</descriptor>
 									</descriptors>
 								</configuration>
 								<goals>
