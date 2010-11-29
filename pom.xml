@@ -25,8 +25,12 @@
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
 		
-		<aggregate>true</aggregate>
+		<asdoc.dir>${project.build.directory}/asdoc</asdoc.dir>
+		
+		<latex.xslt>latex-asdoc-xslt</latex.xslt>
+		<latex.xslt.dir>${latex.xslt}-${project.version}</latex.xslt.dir>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.adobe.flexunit</groupId>

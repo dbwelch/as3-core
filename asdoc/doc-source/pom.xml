@@ -144,6 +144,28 @@
 							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
 					</execution>
+					<execution>
+						<id>unpack-latex-xslt</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.ffsys.asdoc</groupId>
+									<artifactId>${latex.xslt}</artifactId>
+									<version>1.1-SNAPSHOT</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${project.build.directory}/asdoc</outputDirectory>
+									<includes>**/**</includes>
+								</artifactItem>
+							</artifactItems>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -182,12 +204,12 @@
 				<configuration>
 					<transformationSets>
 						<transformationSet>
-							<dir>${project.build.directory}/asdoc</dir>
-							<stylesheet>src/main/stylesheet.xsl</stylesheet>
+							<dir>${asdoc.dir}</dir>
+							<stylesheet>${asdoc.dir}/${latex.xslt.dir}/${latex.xslt}.xsl</stylesheet>
 							<fileMappers>
 								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
 									<pattern>toplevel.xml$</pattern>
-									<replacement>latex-asdoc.tex</replacement>
+									<replacement>${project.build.finalName}.tex</replacement>
 								</fileMapper>
 							</fileMappers>
 							<includes>
@@ -199,16 +221,16 @@
 									<value>yes</value>
 								</outputProperty>
 							</outputProperties>
-							<!--
-							
 							<parameters>
-							                <parameter>
-							                  <name>MyParam</name>
-							                  <value>true</value>
-							                </parameter>
-							              </parameters>
-							
-							-->
+								<parameter>
+									<name>page-header-left</name>
+									<value>Freeform Core</value>
+								</parameter>
+								<parameter>
+									<name>page-header-right</name>
+									<value>Actionscript API</value>
+								</parameter>			
+							</parameters>
 						</transformationSet>
 					</transformationSets>
 				</configuration>

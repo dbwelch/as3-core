@@ -14,90 +14,17 @@
 		<xsl:output-character character="&#x2122;" string="&amp;trade;"/>
 	</xsl:character-map>
 	<xsl:output cdata-section-elements="description" method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
-	<xsl:param name="titleBarFile" select="''"/>
-	<xsl:param name="index-file" select="''"/>
-	<xsl:param name="package-frame" select="''"/>
-	<xsl:param name="liveDocsTitleBarFile" select="''"/>
+	<xsl:param name="page-header-left" select="'Freeform Systems'"/>
+	<xsl:param name="page-header-right" select="'API Documentation'"/>
 	<xsl:param name="packages_map_name" select="'packagemap.xml'"/>
-	<xsl:param name="prog_language_name" select="''"/>
 	<xsl:variable name="newline">
 		<xsl:text>
 </xsl:text>
 	</xsl:variable>
 	
 	<xsl:template match="/">
-		<xsl:text><![CDATA[\documentclass[a4paper,titlepage,oneside]{article}
-
-% Palatino for rm and math | Helvetica for ss | Courier for tt
-\usepackage{mathpazo}
-
-% math & rm
-\linespread{1.25} 
-
-% Palatino needs more leading (space between lines)
-\usepackage[scaled]{helvet} 
-
-% ss
-\usepackage{courier}
-
-% tt
-\normalfont 
-\usepackage[T1]{fontenc} 
-\usepackage{setspace}
-\usepackage{geometry} 
-\usepackage[parfill]{parskip} 
-\usepackage{graphicx} 
-\usepackage{amssymb} 
-\usepackage{epstopdf} 
-\usepackage{makeidx}
-\usepackage{showidx}
-\usepackage{url} 
-\usepackage{moreverb}
-\usepackage{listings}
-\usepackage{wallpaper}
-\usepackage{hyperref}
-
-\usepackage{fancyhdr}
-%\setlength{\headheight}{15.2pt}
-\pagestyle{fancy}
-
-\hypersetup{
-	colorlinks,
-	linkcolor=blue,
-	urlcolor=blue,
-	bookmarks=true,
-	bookmarksopen=true,
-	%pdftoolbar=true,
-	%pdfmenubar=true,
-	pdffitwindow=true,
-	pdftitle={Actionscript Documentation},
-	pdfkeywords={Flash, Actionscript},
-	pdfauthor={Mischa Williamson}
-}
-\urlstyle{rm}
-\pdfpagewidth=\paperwidth
-\pdfpageheight=\paperheight
-
-\renewcommand{\paragraph}{\small}
-
-\title{Actionscript Documentation}
-\author{Mischa Williamson}
-\makeindex
-
-\begin{document} 
-\maketitle
-
-\fancyhead{}
-\fancyfoot{}
-
-\lhead{\textbf{\textsc{...TODO}}}
-\rhead{\textbf{\textsc{Actionscript Documentation}}}
-\lfoot{\thepage}
-\rfoot{\textsc{Last updated \today}}
-
-\tableofcontents
-
-\clearpage]]></xsl:text>
+		
+		<xsl:call-template name="header" />
 		
 		<!-- INTERFACES -->
 		<xsl:call-template name="part">
@@ -380,4 +307,111 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>	
+	
+	<xsl:template name="header">
+		
+		<xsl:call-template name="header-preamble" />
+		<xsl:call-template name="header-packages" />
+		
+		<xsl:text><![CDATA[
+\hypersetup{
+	colorlinks,
+	linkcolor=blue,
+	urlcolor=blue,
+	bookmarks=true,
+	bookmarksopen=true,
+	%pdftoolbar=true,
+	%pdfmenubar=true,
+	pdffitwindow=true,
+	pdftitle={Actionscript Documentation},
+	pdfkeywords={Flash, Actionscript},
+	pdfauthor={Mischa Williamson}
+}
+\urlstyle{rm}
+\pdfpagewidth=\paperwidth
+\pdfpageheight=\paperheight
+
+\renewcommand{\paragraph}{\small}
+
+\title{Actionscript Documentation}
+\author{Mischa Williamson}
+\makeindex
+
+\begin{document} 
+\maketitle
+
+\fancyhead{}
+\fancyfoot{}
+]]></xsl:text>
+
+<xsl:call-template name="left-page-header" />
+<xsl:call-template name="right-page-header" />
+
+<xsl:text><![CDATA[
+\lfoot{\thepage}
+\rfoot{\textsc{Last updated \today}}
+
+\tableofcontents
+
+\clearpage
+]]></xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="header-preamble">
+		<xsl:text><![CDATA[\documentclass[a4paper,titlepage,oneside]{article}
+]]></xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="header-packages">
+		<xsl:text><![CDATA[% Palatino for rm and math | Helvetica for ss | Courier for tt
+\usepackage{mathpazo}
+
+% math & rm
+\linespread{1.25} 
+
+% Palatino needs more leading (space between lines)
+\usepackage[scaled]{helvet} 
+
+% ss
+\usepackage{courier}
+
+% tt
+\normalfont 
+\usepackage[T1]{fontenc} 
+\usepackage{setspace}
+\usepackage{geometry} 
+\usepackage[parfill]{parskip} 
+\usepackage{graphicx} 
+\usepackage{amssymb} 
+\usepackage{epstopdf} 
+\usepackage{makeidx}
+\usepackage{showidx}
+\usepackage{url} 
+\usepackage{moreverb}
+\usepackage{listings}
+\usepackage{wallpaper}
+\usepackage{hyperref}
+
+\usepackage{fancyhdr}
+%\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+]]></xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="left-page-header">
+		<xsl:text><![CDATA[
+\lhead{\textbf{\textsc{
+]]></xsl:text>
+	<xsl:value-of select="$page-header-left" />
+	<xsl:text><![CDATA[}}}]]></xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="right-page-header">
+		<xsl:text><![CDATA[
+\rhead{\textbf{\textsc{
+]]></xsl:text>
+	<xsl:value-of select="$page-header-right" />
+	<xsl:text><![CDATA[}}}]]></xsl:text>
+	</xsl:template>	
+	
 </xsl:stylesheet>
