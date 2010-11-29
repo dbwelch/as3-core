@@ -357,9 +357,13 @@
 		<xsl:value-of select="$newline" />	
 		<xsl:text>\paragraph{</xsl:text>
 		
-			<xsl:call-template name="sanitize">
-				<xsl:with-param name="input" select="$text"/>
-			</xsl:call-template>
+		<xsl:call-template name="escape">
+			<xsl:with-param name="input">
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="$text"/>
+				</xsl:call-template>
+			</xsl:with-param>
+		</xsl:call-template>
 		<!-- <xsl:value-of select="$text" /> -->
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
