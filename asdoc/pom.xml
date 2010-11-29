@@ -13,7 +13,8 @@
 	<name>as3-docs</name>
 	<url>http://as3.freeformsystems.com</url>	
 	<modules>
-		<module>doc-source</module>
 		<module>template</module>
+		<module>latex-template</module>
+		<module>doc-source</module>
 	</modules>
 </project>

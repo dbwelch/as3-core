@@ -12,13 +12,14 @@
 	<version>1.1-SNAPSHOT</version>
 	<name>as3-doc-source</name>
 	<url>http://as3.freeformsystems.com</url>
-	<dependencies>	
+	<dependencies>
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>core</artifactId>
 			<type>swc</type>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>effects</artifactId>
@@ -73,11 +74,11 @@
 			<artifactId>swat</artifactId>
 			<type>swc</type>
 			<version>1.1-SNAPSHOT</version>
-		</dependency>		
+		</dependency>
+		-->
 	</dependencies>
 	<build>
 		<plugins>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -88,33 +89,26 @@
 						<phase>pre-clean</phase>
 						<configuration>
 							<tasks>
-								<delete
-									verbose="true">
-									<fileset dir="${project.build.sourceDirectory}" excludes="${git.ignore}" />
+								<delete verbose="true">
+									<fileset dir="${project.build.sourceDirectory}" excludes="${git.ignore}"/>
 								</delete>
-								<delete
-									dir="${project.build.sourceDirectory}/com"
-									verbose="true">
+								<delete dir="${project.build.sourceDirectory}/com" verbose="true">
 								</delete>
-								<delete
-									dir="${project.build.sourceDirectory}/META-INF"
-									verbose="true">
-								</delete>														
+								<delete dir="${project.build.sourceDirectory}/META-INF" verbose="true">
+								</delete>
 							</tasks>
 						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
-				</executions>					
+				</executions>
 			</plugin>
-			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.1</version>
 				<executions>
-					
 					<execution>
 						<id>aggregate-sources</id>
 						<phase>generate-sources</phase>
@@ -125,9 +119,9 @@
 							<classifier>sources</classifier>
 							<outputDirectory>${project.build.sourceDirectory}</outputDirectory>
 							<failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+							<excludeGroupIds>com.adobe.flex.framework,com.adobe.flexunit</excludeGroupIds>
 						</configuration>
 					</execution>
-					
 					<execution>
 						<id>unpack-asdoc-template</id>
 						<phase>validate</phase>
@@ -138,13 +132,13 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.ffsys.asdoc</groupId>
-									<artifactId>as3-doc-template</artifactId>
+									<artifactId>as3-latex-template</artifactId>
 									<version>1.1-SNAPSHOT</version>
 									<type>zip</type>
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}</outputDirectory>
 									<includes>**/**</includes>
-								</artifactItem>								
+								</artifactItem>
 							</artifactItems>
 							<overWriteReleases>true</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
@@ -159,13 +153,66 @@
 				<executions>
 					<execution>
 						<id>generate-asdoc</id>
-						<phase>install</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>asdoc</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>xml-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>transform</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.saxon</groupId>
+						<artifactId>saxon</artifactId>
+						<version>8.7</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<transformationSets>
+						<transformationSet>
+							<dir>${project.build.directory}/asdoc</dir>
+							<stylesheet>src/main/stylesheet.xsl</stylesheet>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
+									<pattern>toplevel.xml$</pattern>
+									<replacement>latex-asdoc.tex</replacement>
+								</fileMapper>
+							</fileMappers>
+							<includes>
+								<include>*.xml</include>
+							</includes>
+							<outputProperties>
+								<outputProperty>
+									<name>omit-xml-declaration</name>
+									<value>yes</value>
+								</outputProperty>
+							</outputProperties>
+							<!--
+							
+							<parameters>
+							                <parameter>
+							                  <name>MyParam</name>
+							                  <value>true</value>
+							                </parameter>
+							              </parameters>
+							
+							-->
+						</transformationSet>
+					</transformationSets>
+				</configuration>
+			</plugin>
 		</plugins>
-	</build>	
+	</build>
 </project>

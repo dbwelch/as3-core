@@ -22,7 +22,7 @@
 		<compiler.debug>false</compiler.debug>
 		
 		<git.ignore>.gitignore</git.ignore>
-		<asdoc.artifact>as3-doc-template</asdoc.artifact>
+		<asdoc.artifact>as3-latex-template</asdoc.artifact>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
 		
 		<aggregate>true</aggregate>
@@ -128,7 +128,7 @@
 								<artifactItems>
 									<artifactItem>
 										<groupId>com.ffsys.asdoc</groupId>
-										<artifactId>as3-doc-template</artifactId>
+										<artifactId>as3-latex-template</artifactId>
 										<version>1.1-SNAPSHOT</version>
 										<type>zip</type>
 										<overWrite>true</overWrite>
