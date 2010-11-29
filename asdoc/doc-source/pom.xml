@@ -132,7 +132,7 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.ffsys.asdoc</groupId>
-									<artifactId>as3-latex-template</artifactId>
+									<artifactId>as3-doc-template</artifactId>
 									<version>1.1-SNAPSHOT</version>
 									<type>zip</type>
 									<overWrite>true</overWrite>
