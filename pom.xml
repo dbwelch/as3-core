@@ -30,7 +30,8 @@
 		<xslt.packaging>xsl</xslt.packaging>
 		<latex.xslt>latex-asdoc-xslt</latex.xslt>
 		<latex.xslt.dir>${latex.xslt}-${project.version}</latex.xslt.dir>
-		
+		<latex.source.dir>src/main/latex</latex.source.dir>
+		<asdoc.xslt.output>${project.build.directory}/generated-resources/xml/xslt</asdoc.xslt.output>
 	</properties>
 	
 	<dependencies>
