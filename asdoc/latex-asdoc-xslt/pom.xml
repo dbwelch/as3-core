@@ -33,6 +33,26 @@
 					</execution>
 				</executions>
 			</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>install-xslt-file</id>
+							<phase>install</phase>
+							<goals>
+								<goal>install-file</goal>
+							</goals>
+							<configuration>
+								<groupId>${project.groupId}</groupId>
+								<artifactId>${project.artifactId}</artifactId>
+								<version>${project.version}</version>
+								<packaging>${xslt.packaging}</packaging>
+								<file>${project.build.sourceDirectory}/${project.artifactId}.${xslt.packaging}</file>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 		</plugins>
 	</build>
 </project>

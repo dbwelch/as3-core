@@ -14,20 +14,140 @@
 		<xsl:output-character character="&#x2122;" string="&amp;trade;"/>
 	</xsl:character-map>
 	<xsl:output cdata-section-elements="description" method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
+	<xsl:strip-space elements="apiDesc" />
 	<xsl:param name="page-header-left" select="'Freeform Systems'"/>
 	<xsl:param name="page-header-right" select="'API Documentation'"/>
-	<xsl:param name="packages_map_name" select="'packagemap.xml'"/>
+	<xsl:param name="dita-dir" select="'tempdita'"/>	
+	<xsl:param name="delimiter" select="system-property('file.separator')"/>
+	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packagemap.xml')"/>
 	<xsl:variable name="newline">
 		<xsl:text>
 </xsl:text>
 	</xsl:variable>
-	
 	<xsl:template match="/">
-		
 		<xsl:call-template name="header" />
 		
+		<!--  PACKAGES-->
+		<xsl:variable name="packages" select="document($packages-map-path)" />
+		<xsl:for-each select="$packages//apiPackage">
+			<xsl:sort select="@id"/>
+			<xsl:variable name="package-id" select="@id"/>
+			<xsl:call-template name="part">
+				<xsl:with-param name="title" select="@id"/>
+			</xsl:call-template>
+			<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@id,'.xml')" />
+			<xsl:variable name="package" select="document($package-path)" />
+			<!--  PACKAGE-->
+			<xsl:for-each select="$package//apiClassifier">
+				<xsl:sort select="apiName"/>
+				<xsl:variable name="class-id" select="@id"/>
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="apiName"/>
+				</xsl:call-template>
+				
+				<xsl:call-template name="details">
+					<xsl:with-param name="package" select="@id"/>
+					<xsl:with-param name="author" select="prolog/author"/>
+					<xsl:with-param name="langversion" select="prolog/asMetadata/apiVersion/apiLanguage[@version]"/>
+					<xsl:with-param name="playerversion" select="prolog/asMetadata/apiVersion/apiPlatform[@version]"/>
+					<xsl:with-param name="since" select="prolog/asMetadata/apiVersion/apiSince[@version]"/>
+				</xsl:call-template>
+				
+				<xsl:call-template name="paragraph">
+					<xsl:with-param name="text" select="shortdesc"/>
+				</xsl:call-template>
+				
+				<!-- PUBLIC METHODS -->
+				<xsl:if test="apiOperation/apiOperationDetail/apiOperationDef/apiAccess[@value = 'public']">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title" select="'Public methods'"/>
+						<xsl:with-param name="label" select="concat($class-id,':','public:methods')"/>
+					</xsl:call-template>
+				</xsl:if>
+								
+				<xsl:for-each select="apiOperation">
+					<xsl:sort select="apiName"/>
+					<xsl:if test="apiOperationDetail/apiOperationDef/apiAccess[@value = 'public']">
+						<xsl:call-template name="subsubsection">
+							<xsl:with-param name="title" select="apiName"/>
+							<xsl:with-param name="label" select="@id"/>
+						</xsl:call-template>
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
+						</xsl:call-template>
+					</xsl:if>
+				</xsl:for-each>
+
+				
+				<!-- PROTECTED METHODS -->
+				<xsl:if test="apiOperation/apiOperationDetail/apiOperationDef/apiAccess[@value = 'protected']">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title" select="'Protected methods'"/>
+						<xsl:with-param name="label" select="concat($class-id,':','protected:methods')"/>
+					</xsl:call-template>
+				</xsl:if>
+								
+				<xsl:for-each select="apiOperation">
+					<xsl:sort select="apiName"/>
+					<xsl:if test="apiOperationDetail/apiOperationDef/apiAccess[@value = 'protected']">
+						<xsl:call-template name="subsubsection">
+							<xsl:with-param name="title" select="apiName"/>
+							<xsl:with-param name="label" select="@id"/>
+						</xsl:call-template>
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
+						</xsl:call-template>
+					</xsl:if>
+				</xsl:for-each>												
+				
+				<!-- PUBLIC PROPERTIES -->
+				<xsl:if test="apiValue/apiValueDetail/apiValueDef/apiAccess[@value = 'public']">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title" select="'Public properties'"/>
+						<xsl:with-param name="label" select="concat($class-id,':','properties')"/>
+					</xsl:call-template>
+				</xsl:if>
+								
+				<xsl:for-each select="apiValue">
+					<xsl:sort select="apiName"/>
+					<xsl:if test="apiValueDetail/apiValueDef/apiAccess[@value = 'public']">
+						<xsl:call-template name="subsubsection">
+							<xsl:with-param name="title" select="apiName"/>
+							<xsl:with-param name="label" select="@id"/>
+						</xsl:call-template>
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
+						</xsl:call-template>
+					</xsl:if>
+				</xsl:for-each>
+				
+				<!-- PROTECTED PROPERTIES -->
+				<xsl:if test="apiValue/apiValueDetail/apiValueDef/apiAccess[@value = 'protected']">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title" select="'Protected properties'"/>
+						<xsl:with-param name="label" select="concat($class-id,':','properties')"/>
+					</xsl:call-template>
+				</xsl:if>
+								
+				<xsl:for-each select="apiValue">
+					<xsl:sort select="apiName"/>
+					<xsl:if test="apiValueDetail/apiValueDef/apiAccess[@value = 'protected']">
+						<xsl:call-template name="subsubsection">
+							<xsl:with-param name="title" select="apiName"/>
+							<xsl:with-param name="label" select="@id"/>
+						</xsl:call-template>
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
+						</xsl:call-template>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:for-each>
+		</xsl:for-each>
+		
 		<!-- INTERFACES -->
-		<xsl:call-template name="part">
+		
+		<!--
+		<xsl:call-template name="section">
 			<xsl:with-param name="title" select="'Interfaces'"/>
 		</xsl:call-template>
 		<xsl:for-each select="//interfaceRec[@access = 'public']">
@@ -54,9 +174,12 @@
 				<xsl:sort select="@name"/>				
 			</xsl:apply-templates>
 		</xsl:for-each>
+		-->
 		
 		<!-- CLASSES -->
-		<xsl:call-template name="part">
+		
+		<!--
+		<xsl:call-template name="section">
 			<xsl:with-param name="title" select="'Classes'"/>
 		</xsl:call-template>
 		<xsl:for-each select="//classRec[@access = 'public']">
@@ -83,39 +206,93 @@
 				<xsl:sort select="@name"/>				
 			</xsl:apply-templates>							
 		</xsl:for-each>		
+		-->
 		
 		<xsl:call-template name="footer"/>
 	</xsl:template>
 	
-	<xsl:template name="part">
+	<xsl:template name="label">
 		<xsl:param name="title" />
 		<xsl:value-of select="$newline" />		
-		<xsl:text>\part{</xsl:text>
-		<xsl:value-of select="$title" />
+		<xsl:text>\label{</xsl:text>
+		<xsl:call-template name="escape-label">
+			<xsl:with-param name="input" select="$title"/>
+		</xsl:call-template>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
-		<!-- TODO : add label for namerefs -->
+	</xsl:template>
+	
+	<xsl:template name="part">
+		<xsl:param name="title" />
+		<xsl:param name="label" select="''" />
+		<xsl:value-of select="$newline" />		
+		<xsl:text>\part{</xsl:text>
+		<xsl:call-template name="escape">
+			<xsl:with-param name="input" select="$title"/>
+		</xsl:call-template>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline" />
+		
+		<xsl:if test="$label != ''">
+			<xsl:call-template name="label">
+				<xsl:with-param name="title" select="$label"/>
+			</xsl:call-template>
+		</xsl:if>	
 	</xsl:template>
 	
 	<xsl:template name="section">
 		<xsl:param name="title" />
+		<xsl:param name="label" select="''" />
 		<xsl:value-of select="$newline" />		
 		<xsl:text>\section{</xsl:text>
-		<xsl:value-of select="$title" />
+		<xsl:call-template name="escape">
+			<xsl:with-param name="input" select="$title"/>
+		</xsl:call-template>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
-		<!-- TODO : add label for namerefs -->
+		
+		<xsl:if test="$label != ''">
+			<xsl:call-template name="label">
+				<xsl:with-param name="title" select="$label"/>
+			</xsl:call-template>
+		</xsl:if>		
 	</xsl:template>	
 	
 	<xsl:template name="subsection">
 		<xsl:param name="title" />
+		<xsl:param name="label" select="''" />		
 		<xsl:value-of select="$newline" />		
 		<xsl:text>\subsection{</xsl:text>
-		<xsl:value-of select="$title" />
+		<xsl:call-template name="escape">
+			<xsl:with-param name="input" select="$title"/>
+		</xsl:call-template>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
-		<!-- TODO : add label for namerefs -->
-	</xsl:template>	
+		
+		<xsl:if test="$label != ''">
+			<xsl:call-template name="label">
+				<xsl:with-param name="title" select="$label"/>
+			</xsl:call-template>
+		</xsl:if>		
+	</xsl:template>
+	
+	<xsl:template name="subsubsection">
+		<xsl:param name="title" />
+		<xsl:param name="label" select="''" />		
+		<xsl:value-of select="$newline" />		
+		<xsl:text>\subsubsection{</xsl:text>
+		<xsl:call-template name="escape">
+			<xsl:with-param name="input" select="$title"/>
+		</xsl:call-template>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline" />
+		
+		<xsl:if test="$label != ''">
+			<xsl:call-template name="label">
+				<xsl:with-param name="title" select="$label"/>
+			</xsl:call-template>
+		</xsl:if>		
+	</xsl:template>		
 	
 	<xsl:template name="details">
 		<xsl:param name="package" />
@@ -154,7 +331,7 @@
 		<xsl:text>}}</xsl:text>
 		<xsl:value-of select="$newline" />
 		<!-- TODO : add label for namerefs -->
-	</xsl:template>	
+	</xsl:template>
 	
 	<xsl:template match="method">		
 		<xsl:if test="not(contains( @fullname, '/private:' ))">
@@ -179,17 +356,14 @@
 		<xsl:param name="text" />
 		<xsl:value-of select="$newline" />	
 		<xsl:text>\paragraph{</xsl:text>
-		<xsl:call-template name="sanitize">
-			<xsl:with-param name="input" select="$text"/>
-		</xsl:call-template>
+		
+			<xsl:call-template name="sanitize">
+				<xsl:with-param name="input" select="$text"/>
+			</xsl:call-template>
 		<!-- <xsl:value-of select="$text" /> -->
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
 		<!-- TODO : add label for namerefs -->
-	</xsl:template>
-	
-	<xsl:template match="comment()">
-		<xsl:value-of select="'COMMENT:'" /><xsl:value-of select="." />
 	</xsl:template>
 	
 	<xsl:template match="description">
@@ -203,16 +377,87 @@
 \end{document}
 		</xsl:text>
 	</xsl:template>
+	
+	<xsl:template name="escape">
+		<xsl:param name="input" />
+		
+		<xsl:variable name="underscore">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$input" />
+				<xsl:with-param name="search-string" select="'_'" />
+				<xsl:with-param name="replace-string" select="'\_'" />
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:call-template name="search-and-replace">
+			<xsl:with-param name="input" select="$underscore" />
+			<xsl:with-param name="search-string" select="'$'" />
+			<xsl:with-param name="replace-string" select="'\$'" />
+		</xsl:call-template>		
+	</xsl:template>	
+	
+	<xsl:template name="escape-label">
+		<xsl:param name="input" />
+		
+		<xsl:variable name="underscore">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$input" />
+				<xsl:with-param name="search-string" select="'_'" />
+				<xsl:with-param name="replace-string" select="'-'" />
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:call-template name="search-and-replace">
+			<xsl:with-param name="input" select="$underscore" />
+			<xsl:with-param name="search-string" select="'$'" />
+			<xsl:with-param name="replace-string" select="''" />
+		</xsl:call-template>
+	</xsl:template>	
 
 	<xsl:template name="sanitize">
 		<xsl:param name="input" />
 		
 		<!-- replace 'code' tags with inline verb elements -->
+		
+		<!-- <xsl:value-of select="$input" /> -->
+		
+		<!--
 		<xsl:call-template name="replace-tag">
 			<xsl:with-param name="input" select="$input" />
 			<xsl:with-param name="tag" select="'code'" />
 			<xsl:with-param name="replacement-start" select="'\verb|'" />
 			<xsl:with-param name="replacement-end" select="'|'" />
+		</xsl:call-template>
+		-->
+		
+		<!-- replace 'codeph' tags with inline verb elements -->
+		<xsl:variable name="codeph">
+			<xsl:call-template name="replace-tag">
+				<xsl:with-param name="input" select="$input" />
+				<xsl:with-param name="tag" select="'codeph'" />
+				<xsl:with-param name="replacement-start" select="'\verb|'" />
+				<xsl:with-param name="replacement-end" select="'|'" />
+			</xsl:call-template>
+		</xsl:variable>
+		
+		
+		
+		<!-- strong -->
+		<xsl:variable name="strong">
+			<xsl:call-template name="replace-tag">
+				<xsl:with-param name="input" select="$codeph" />
+				<xsl:with-param name="tag" select="'strong'" />
+				<xsl:with-param name="replacement-start" select="'\textbf{'" />
+				<xsl:with-param name="replacement-end" select="'}'" />
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<!-- em -->
+		<xsl:call-template name="replace-tag">
+			<xsl:with-param name="input" select="$strong" />
+			<xsl:with-param name="tag" select="'em'" />
+			<xsl:with-param name="replacement-start" select="'\emph{'" />
+			<xsl:with-param name="replacement-end" select="'}'" />
 		</xsl:call-template>
 	</xsl:template>
 	
@@ -221,6 +466,12 @@
 		<xsl:param name="tag" />
 		<xsl:param name="replacement-start" />
 		<xsl:param name="replacement-end" />
+		
+		<xsl:if test="contains( $input, concat('&lt;',$tag,'&gt;') )">
+			
+			<!-- <xsl:text>GOT TAG!!!</xsl:text> -->
+			
+		</xsl:if>
 		
 		<xsl:variable name="start-replaced">
 			<xsl:call-template name="search-and-replace">

@@ -145,20 +145,21 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>unpack-latex-xslt</id>
+						<id>copy-latex-xslt</id>
 						<phase>process-classes</phase>
 						<goals>
-							<goal>unpack</goal>
+							<goal>copy</goal>
 						</goals>
 						<configuration>
+							<stripVersion>true</stripVersion>
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.ffsys.asdoc</groupId>
 									<artifactId>${latex.xslt}</artifactId>
 									<version>1.1-SNAPSHOT</version>
-									<type>zip</type>
+									<type>${xslt.packaging}</type>
 									<overWrite>true</overWrite>
-									<outputDirectory>${project.build.directory}/asdoc</outputDirectory>
+									<outputDirectory>${asdoc.dir}</outputDirectory>
 									<includes>**/**</includes>
 								</artifactItem>
 							</artifactItems>
@@ -205,7 +206,7 @@
 					<transformationSets>
 						<transformationSet>
 							<dir>${asdoc.dir}</dir>
-							<stylesheet>${asdoc.dir}/${latex.xslt.dir}/${latex.xslt}.xsl</stylesheet>
+							<stylesheet>${asdoc.dir}/${latex.xslt}.xsl</stylesheet>
 							<fileMappers>
 								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.RegExpFileMapper">
 									<pattern>toplevel.xml$</pattern>

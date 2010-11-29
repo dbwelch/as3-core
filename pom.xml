@@ -22,13 +22,15 @@
 		<compiler.debug>false</compiler.debug>
 		
 		<git.ignore>.gitignore</git.ignore>
+		
+		<asdoc.group>com.ffsys.asdoc</asdoc.group>
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
-		
 		<asdoc.dir>${project.build.directory}/asdoc</asdoc.dir>
-		
+		<xslt.packaging>xsl</xslt.packaging>
 		<latex.xslt>latex-asdoc-xslt</latex.xslt>
 		<latex.xslt.dir>${latex.xslt}-${project.version}</latex.xslt.dir>
+		
 	</properties>
 	
 	<dependencies>
@@ -51,8 +53,7 @@
 			<type>swc</type>
 			<version>${flex.version}</version>
 			<scope>theme</scope>
-		</dependency>
-				
+		</dependency>	
 	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
@@ -73,8 +74,8 @@
 		<url>scm:git:git@github.com:freeformsystems/as3-core.git</url>
 	</scm>
 	<modules>
-		<module>flash</module>
 		<module>asdoc</module>
+		<module>flash</module>
 	</modules>
 	<build>
 		<extensions>
@@ -116,35 +117,6 @@
 							<version>${scm.version}</version>
 						</dependency>
 					</dependencies>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.1</version>
-					<executions>
-						<execution>
-							<id>unpack-asdoc-template</id>
-							<phase>validate</phase>
-							<goals>
-								<goal>unpack</goal>
-							</goals>
-							<configuration>
-								<artifactItems>
-									<artifactItem>
-										<groupId>com.ffsys.asdoc</groupId>
-										<artifactId>as3-doc-template</artifactId>
-										<version>1.1-SNAPSHOT</version>
-										<type>zip</type>
-										<overWrite>true</overWrite>
-										<outputDirectory>${project.build.directory}</outputDirectory>
-										<includes>**/**</includes>
-									</artifactItem>
-								</artifactItems>
-								<overWriteReleases>true</overWriteReleases>
-								<overWriteSnapshots>true</overWriteSnapshots>
-							</configuration>
-						</execution>
-					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -206,33 +178,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	<profiles>
-		<profile>
-			<id>asdoc</id>
-			<activation>
-				<property>
-					<name>asdoc</name>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.sonatype.flexmojos</groupId>
-						<artifactId>flexmojos-maven-plugin</artifactId>
-						<version>${flexmojos.version}</version>
-						<executions>
-							<execution>
-								<id>generate-asdoc</id>
-								<phase>compile</phase>
-								<goals>
-									<goal>asdoc</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
