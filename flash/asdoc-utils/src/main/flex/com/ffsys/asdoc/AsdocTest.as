@@ -9,6 +9,8 @@ package com.ffsys.asdoc {
 	* 	You can instantiate a new asdoc test with:
 	* 
 	* 	<pre>var asdoc:AsdocTest = new AsdocTest();</pre>
+	* 
+	* 	But that would be insane as this class is useless to code.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -44,9 +46,7 @@ package com.ffsys.asdoc {
 		protected var protection:String = "protection";		
 		
 		private var _readwrite:Boolean;
-		
 		private var _readonly:String = "readonly";
-		
 		private var _writeonly:String = "writeonly";
 	
 		/**
@@ -56,6 +56,25 @@ package com.ffsys.asdoc {
 		{	
 			super();
 		}
+		
+		/*
+		* 	Oops, no return type. Naughty.
+		*/
+		
+		/*
+		public function stupid()
+		{
+			//
+		}
+		*/
+		
+		/**
+		* 	A method with zero parameters.
+		*/
+		protected function zero():void
+		{
+			//
+		}		
 		
 		/**
 		* 	A protected method.
@@ -73,10 +92,11 @@ package com.ffsys.asdoc {
 		* 	A public method.
 		* 
 		* 	@param id The <b>identifier</b> parameter for the public method.
+		* 	@param another Another parameter for this method.
 		* 
 		* 	@return Just <code>null</code> as this is a documentation test.
 		*/
-		public function getPublicMethod( id:String ):Object
+		public function getPublicMethod( id:String, another:Boolean ):Object
 		{
 			return null;
 		}
