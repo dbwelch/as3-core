@@ -61,7 +61,7 @@
 				</xsl:call-template>
 				
 				<!-- CONSTANTS -->
-				<xsl:if test="count(not(apiValue/apiValueDetail/apiValueDef/apiProperty)) != 0">
+				<xsl:if test="not(apiValue/apiValueDetail/apiValueDef/apiProperty)">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Constants'"/>
 						<xsl:with-param name="label" select="concat($class-id,':','constants')"/>

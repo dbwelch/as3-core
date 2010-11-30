@@ -54,8 +54,9 @@
 			<type>swc</type>
 			<version>${flex.version}</version>
 			<scope>theme</scope>
-		</dependency>	
+		</dependency>		
 	</dependencies>
+	
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ffsys-mvn</id>
@@ -179,6 +180,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<profiles>
 		<profile>
 			<id>asdoc</id>

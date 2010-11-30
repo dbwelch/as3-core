@@ -15,6 +15,5 @@
 	<modules>
 		<module>template</module>
 		<module>latex-asdoc-xslt</module>
-		<module>doc-source</module>
 	</modules>
 </project>
