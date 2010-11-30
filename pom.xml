@@ -25,7 +25,6 @@
 		
 		<asdoc.group>com.ffsys.asdoc</asdoc.group>
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>
-		
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
 		<asdoc.dir>${project.build.directory}/asdoc</asdoc.dir>
 		<xslt.packaging>xsl</xslt.packaging>
@@ -165,7 +164,6 @@
 					
 					<mainTitle>Freeform Core</mainTitle>
 					<windowTitle>Freeform Core</windowTitle>
-					<templatePath>${project.build.directory}/${asdoc.template.name}</templatePath>
 					<excludeClasses>
 						<class>TestRunner</class>
 					</excludeClasses>				
@@ -178,6 +176,22 @@
 					</packageDescriptions>
 					
 				</configuration>
+				
+				<!--
+				<executions>
+					<execution>
+						<id>default-dita-asdoc</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>dita-asdoc</goal>
+						</goals>
+						<configuration>
+							<templatePath>${project.build.directory}/abcdef</templatePath>
+						</configuration>
+					</execution>
+				</executions>
+				-->
+							
 			</plugin>
 		</plugins>
 	</build>

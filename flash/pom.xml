@@ -79,8 +79,11 @@
 									<goals>
 										<goal>asdoc</goal>
 									</goals>
+									<configuration>
+										<templatePath>${project.build.directory}/${asdoc.template.name}</templatePath>
+									</configuration>
 								</execution>
-							</executions>
+							</executions>						
 						</plugin>
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
