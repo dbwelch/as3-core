@@ -46,6 +46,8 @@ package com.ffsys.asdoc {
 		private var _readwrite:Boolean;
 		
 		private var _readonly:String = "readonly";
+		
+		private var _writeonly:String = "writeonly";
 	
 		/**
 		*	Creates an <code>AsdocTest</code> instance.
@@ -65,7 +67,7 @@ package com.ffsys.asdoc {
 		protected function getProtectedMethod( id:String ):void
 		{
 			//
-		}		
+		}
 		
 		/**
 		* 	A public method.
@@ -80,7 +82,7 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
-		* 	A <code>readwrite</code> accessor proeprty.
+		* 	A <code>readwrite</code> accessor property.
 		*/
 		public function get readwrite():Boolean
 		{
@@ -93,11 +95,19 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
-		* 	A <code>readonly</code> accessor proeprty.
+		* 	A <code>readonly</code> accessor property.
 		*/
 		public function get readonly():String
 		{
 			return _readonly;
-		}		
+		}
+		
+		/**
+		* 	A <code>writeonly</code> property.
+		*/
+		public function set writeonly(write:String):void
+		{
+			_writeonly = write;
+		}	
 	}
 }

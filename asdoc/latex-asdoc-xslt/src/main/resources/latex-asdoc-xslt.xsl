@@ -52,7 +52,7 @@
 				</xsl:call-template>
 				
 				<xsl:call-template name="details">
-					<xsl:with-param name="package" select="@id"/>
+					<xsl:with-param name="package" select="$package-id"/>
 					<xsl:with-param name="author" select="prolog/author"/>
 					<xsl:with-param name="langversion" select="prolog/asMetadata/apiVersion/apiLanguage/@version"/>
 					<xsl:with-param name="playerversion" select="prolog/asMetadata/apiVersion/apiPlatform/@version"/>
@@ -83,7 +83,7 @@
 							<xsl:call-template name="property-signature" />
 						</xsl:if>
 					</xsl:for-each>
-				</xsl:if>		
+				</xsl:if>
 				
 				<!-- PUBLIC METHODS -->
 				<xsl:if test="apiOperation/apiOperationDetail/apiOperationDef/apiAccess[@value = 'public']">
@@ -106,7 +106,6 @@
 					</xsl:if>
 				</xsl:for-each>
 
-				
 				<!-- PROTECTED METHODS -->
 				<xsl:if test="apiOperation/apiOperationDetail/apiOperationDef/apiAccess[@value = 'protected']">
 					<xsl:call-template name="subsection">
@@ -126,7 +125,7 @@
 							<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
 						</xsl:call-template>
 					</xsl:if>
-				</xsl:for-each>													
+				</xsl:for-each>
 				
 				<!-- PUBLIC PROPERTIES -->
 				<xsl:if test="apiValue/apiValueDetail/apiValueDef/apiAccess[@value = 'public']">
@@ -191,10 +190,9 @@
 		
 		<xsl:value-of select="$newline" />
 		<xsl:text>\begin{verbatimtab}[2]</xsl:text>
-		<xsl:if test="$access != ''">
-			<xsl:value-of select="$access" />
-		</xsl:if>
-
+		
+		<xsl:value-of select="$access" />
+		
 		<xsl:if test="apiValueDetail/apiValueDef/apiStatic">
 			<xsl:text> </xsl:text><xsl:value-of select="'static'" />
 		</xsl:if>
@@ -207,12 +205,42 @@
 			<xsl:text> </xsl:text><xsl:value-of select="'var'" />
 		</xsl:if>
 		
-		<xsl:text> </xsl:text><xsl:value-of select="$name" />
+		<xsl:if test="$accessor">
+			<xsl:choose>
+				<xsl:when test="$api-value-access = 'write'">
+					<xsl:text> </xsl:text><xsl:value-of select="'function set'" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text> </xsl:text><xsl:value-of select="'function get'" />				
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+		
+		<xsl:text> </xsl:text>
+		<xsl:value-of select="$name" />
+		
+		<xsl:if test="$accessor">
+			<xsl:value-of select="'()'" />
+		</xsl:if>
+		
 		<xsl:if test="$type != ''">
 			<xsl:text>:</xsl:text><xsl:value-of select="$type" />
-		</xsl:if>		
+		</xsl:if>
 		<xsl:if test="$api-data != ''">
 			<xsl:value-of select="concat($newline,$tab)" /><xsl:text> = </xsl:text><xsl:value-of select="$api-data" />
+		</xsl:if>
+		
+		<!-- also add a setter for readwrite -->
+		<xsl:if test="$api-value-access = 'readwrite'">
+			<xsl:value-of select="$newline" />
+			<xsl:value-of select="$access" />
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="'function set'" />
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="$name" />
+			<xsl:value-of select="'(value:'" />
+			<xsl:value-of select="$type" />
+			<xsl:value-of select="'):void'" />
 		</xsl:if>
 		<xsl:text>\end{verbatimtab}</xsl:text>
 		<xsl:value-of select="$newline" />
