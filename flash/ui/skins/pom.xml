@@ -22,7 +22,7 @@
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>ui-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
