@@ -44,6 +44,9 @@
 			<xsl:for-each select="$package//apiClassifier">
 				<xsl:sort select="apiName"/>
 				<xsl:variable name="class-id" select="@id"/>
+				
+				<xsl:variable name="has-constants" select="count(apiValue/apiValueDetail/apiValueDef[not(apiProperty)]) &gt; 0"/>
+				
 				<xsl:call-template name="section">
 					<xsl:with-param name="title" select="apiName"/>
 				</xsl:call-template>
@@ -61,27 +64,26 @@
 				</xsl:call-template>
 				
 				<!-- CONSTANTS -->
-				<xsl:if test="not(apiValue/apiValueDetail/apiValueDef/apiProperty)">
+				<xsl:if test="$has-constants">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Constants'"/>
 						<xsl:with-param name="label" select="concat($class-id,':','constants')"/>
 					</xsl:call-template>
-				</xsl:if>
-								
-				<xsl:for-each select="apiValue">
-					<xsl:sort select="apiName"/>
-					<xsl:if test="not(apiValueDetail/apiValueDef/apiProperty)">
-						<xsl:call-template name="subsubsection">
-							<xsl:with-param name="title" select="apiName"/>
-							<xsl:with-param name="label" select="@id"/>
-						</xsl:call-template>
-						<xsl:call-template name="paragraph">
-							<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
-						</xsl:call-template>
-						
-						<xsl:call-template name="property-signature" />
-					</xsl:if>
-				</xsl:for-each>			
+					
+					<xsl:for-each select="apiValue[not(apiValueDetail/apiValueDef/apiProperty)]">
+						<xsl:sort select="apiName"/>
+						<xsl:if test="not(apiValueDetail/apiValueDef/apiProperty)">
+							<xsl:call-template name="subsubsection">
+								<xsl:with-param name="title" select="apiName"/>
+								<xsl:with-param name="label" select="@id"/>
+							</xsl:call-template>
+							<xsl:call-template name="paragraph">
+								<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
+							</xsl:call-template>
+							<xsl:call-template name="property-signature" />
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:if>		
 				
 				<!-- PUBLIC METHODS -->
 				<xsl:if test="apiOperation/apiOperationDetail/apiOperationDef/apiAccess[@value = 'public']">
