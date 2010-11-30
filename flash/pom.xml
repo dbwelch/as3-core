@@ -27,6 +27,7 @@
 		</dependency>
 	</dependencies>
 	<modules>
+		<module>asdoc-utils</module>
 		<module>core</module>
 		<module>effects</module>
 		<module>errors</module>
