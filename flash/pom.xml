@@ -64,7 +64,7 @@
 			</activation>
 			<modules>
 				<module>asdoc-all</module>
-			</modules>					
+			</modules>
 			<build>
 				<pluginManagement>
 					<plugins>

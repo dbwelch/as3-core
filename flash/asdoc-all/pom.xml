@@ -64,6 +64,7 @@
 			<type>swc</type>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.ffsys.io</groupId>
 			<artifactId>xml</artifactId>
@@ -239,7 +240,7 @@
 				<version>2.1</version>
 				<executions>
 					<execution>
-						<id>aggregate-sources</id>
+						<id>unpack-source-dependencies</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>unpack-dependencies</goal>
