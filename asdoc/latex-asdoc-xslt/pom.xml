@@ -36,6 +36,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
+					<version>2.3.1</version>
 					<executions>
 						<execution>
 							<id>install-xslt-file</id>
@@ -52,7 +53,31 @@
 							</configuration>
 						</execution>
 					</executions>
-				</plugin>				
+				</plugin>
+							
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.5</version>
+					<executions>
+						<execution>
+							<id>deploy-xslt-file</id>
+							<phase>deploy</phase>
+							<goals>
+								<goal>deploy-file</goal>
+							</goals>
+							<configuration>
+								<groupId>${project.groupId}</groupId>
+								<artifactId>${project.artifactId}</artifactId>
+								<version>${project.version}</version>
+								<packaging>${xslt.packaging}</packaging>
+								<file>${project.build.sourceDirectory}/${project.artifactId}.${xslt.packaging}</file>
+								<repositoryId>ffsys-mvn</repositoryId>
+								<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/snapshots</url>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>							
 		</plugins>
 	</build>
 </project>

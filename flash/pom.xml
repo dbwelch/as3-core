@@ -80,6 +80,7 @@
 										<goal>asdoc</goal>
 									</goals>
 									<configuration>
+										<keepXml>true</keepXml>
 										<templatePath>${project.build.directory}/${asdoc.template.name}</templatePath>
 									</configuration>
 								</execution>

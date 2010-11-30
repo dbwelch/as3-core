@@ -151,7 +151,6 @@
 					<targetPlayer>${target.player}</targetPlayer>
 					<debug>${compiler.debug}</debug>
 					<footer>Freeform Systems</footer>
-					<keepXml>true</keepXml>
 					<locales>
 						<locale>en_US</locale>
 					</locales>
