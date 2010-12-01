@@ -37,6 +37,7 @@
 			<xsl:variable name="package-id" select="@id"/>
 			<xsl:call-template name="part">
 				<xsl:with-param name="title" select="@id"/>
+				<xsl:with-param name="label" select="$package-id"/>
 			</xsl:call-template>
 			<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@id,'.xml')" />
 			<xsl:variable name="package" select="document($package-path)" />
@@ -401,6 +402,15 @@
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
+	<xsl:template name="nameref">
+		<xsl:param name="input" select="''" />
+		<xsl:text>\nameref{</xsl:text>
+		<xsl:call-template name="clean">
+			<xsl:with-param name="input" select="$input"/>
+		</xsl:call-template>
+		<xsl:text>}</xsl:text>
+	</xsl:template>
+	
 	<xsl:template name="begin-itemize">
 		<xsl:text>\begin{itemize}</xsl:text>
 		<xsl:value-of select="$newline" />
@@ -512,7 +522,10 @@
 		<xsl:text>\paragraph{\scriptsize{</xsl:text>
 		
 		<xsl:if test="$package != ''">
-			<xsl:text>Package: \emph{</xsl:text><xsl:value-of select="$package" /><xsl:text>}</xsl:text>
+			<xsl:text>Package: </xsl:text>
+			<xsl:call-template name="nameref">
+				<xsl:with-param name="input" select="$package" />
+			</xsl:call-template>
 		</xsl:if>
 		
 		<xsl:if test="$author != ''">
