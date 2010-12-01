@@ -47,6 +47,8 @@
 				
 				<xsl:variable name="has-constants" select="count(apiValue/apiValueDetail/apiValueDef[not(apiProperty)]) &gt; 0"/>
 				
+				<xsl:variable name="has-constructor" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiAccess[@value = 'public' or @value = 'protected']" />
+				
 				<xsl:call-template name="section">
 					<xsl:with-param name="title" select="apiName"/>
 				</xsl:call-template>
@@ -59,9 +61,27 @@
 					<xsl:with-param name="since" select="prolog/asMetadata/apiVersion/apiSince/@version"/>
 				</xsl:call-template>
 				
+				<!-- CLASS DESCRIPTION -->
 				<xsl:call-template name="paragraph">
 					<xsl:with-param name="text" select="apiClassifierDetail/apiDesc"/>
 				</xsl:call-template>
+				
+				<!-- CONSTRUCTOR -->
+				<xsl:if test="$has-constructor">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title" select="'Constructor'"/>
+						<xsl:with-param name="label" select="concat($class-id,':','constructor')"/>
+					</xsl:call-template>
+					<xsl:call-template name="paragraph">
+						<xsl:with-param name="text" select="apiConstructor/apiConstructorDetail/apiDesc"/>
+					</xsl:call-template>
+					
+					<xsl:call-template name="parameter-list">
+						<xsl:with-param name="params" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiParam" />
+					</xsl:call-template>
+					
+					<xsl:call-template name="constructor-signature" />
+				</xsl:if>
 				
 				<!-- CONSTANTS -->
 				<xsl:if test="$has-constants">
@@ -103,6 +123,9 @@
 						<xsl:call-template name="paragraph">
 							<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
 						</xsl:call-template>
+						
+						<xsl:call-template name="parameter-list" />
+						
 						<xsl:call-template name="method-signature" />
 					</xsl:if>
 				</xsl:for-each>
@@ -125,6 +148,9 @@
 						<xsl:call-template name="paragraph">
 							<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
 						</xsl:call-template>
+						
+						<xsl:call-template name="parameter-list" />						
+						
 						<xsl:call-template name="method-signature" />						
 					</xsl:if>
 				</xsl:for-each>
@@ -147,7 +173,6 @@
 						<xsl:call-template name="paragraph">
 							<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
 						</xsl:call-template>
-						
 						<xsl:call-template name="property-signature" />						
 					</xsl:if>
 				</xsl:for-each>
@@ -248,10 +273,20 @@
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
+	<xsl:template name="constructor-signature">		
+		<xsl:call-template name="method-signature">
+			<xsl:with-param name="access" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiAccess/@value" />
+			<xsl:with-param name="name" select="apiName" />
+			<xsl:with-param name="return-type" select="''" />
+			<xsl:with-param name="params" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiParam" />
+		</xsl:call-template>
+	</xsl:template>
+	
 	<xsl:template name="method-signature">
-		<xsl:variable name="access" select="apiOperationDetail/apiOperationDef/apiAccess/@value" />
-		<xsl:variable name="name" select="apiName" />
-		<xsl:variable name="return-type" select="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value" />
+		<xsl:param name="params" select="apiOperationDetail/apiOperationDef/apiParam" />
+		<xsl:param name="access" select="apiOperationDetail/apiOperationDef/apiAccess/@value" />
+		<xsl:param name="name" select="apiName" />
+		<xsl:param name="return-type" select="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value" />
 		
 		<xsl:text>\begin{verbatimtab}[2]</xsl:text>
 		<xsl:value-of select="$access" />
@@ -267,8 +302,10 @@
 			<xsl:otherwise>
 				<xsl:value-of select="'('" />
 				<xsl:value-of select="$newline" />		
-				<xsl:call-template name="get-parameters" />
-				<xsl:value-of select="')'" />	
+				<xsl:call-template name="get-parameters">
+					<xsl:with-param name="params" select="$params" />
+				</xsl:call-template>
+				<xsl:value-of select="')'" />
 			</xsl:otherwise>
 		</xsl:choose>
 		
@@ -287,9 +324,23 @@
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
+	<xsl:template name="parameter-list">
+		<xsl:param name="params" select="apiOperationDetail/apiOperationDef/apiParam" />
+		<xsl:if test="count($params) &gt; 0">
+			<xsl:call-template name="begin-itemize" />
+			<xsl:for-each select="$params">
+				<xsl:call-template name="item">
+					<xsl:with-param name="input" select="./apiDesc" />
+					<xsl:with-param name="prefix" select="./apiItemName" />
+				</xsl:call-template>
+			</xsl:for-each>
+			<xsl:call-template name="end-itemize" />
+		</xsl:if>
+	</xsl:template>
+	
 	<xsl:template name="get-parameters">
 		<xsl:param name="break" select="true()" />
-		<xsl:variable name="params" select=".//apiParam" />
+		<xsl:param name="params" select=".//apiParam" />
 		<xsl:if test="$break">
 			<xsl:value-of select="$tab" />
 		</xsl:if>		
@@ -347,6 +398,35 @@
 			<xsl:with-param name="input" select="$title"/>
 		</xsl:call-template>
 		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="begin-itemize">
+		<xsl:text>\begin{itemize}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="item">
+		<xsl:param name="input" select="''" />
+		<xsl:param name="prefix" select="''" />
+		<xsl:param name="delimiter" select="' -- '" />
+		<xsl:text>\item </xsl:text>
+		
+		<xsl:if test="$prefix != ''">
+			<xsl:call-template name="clean">
+				<xsl:with-param name="input" select="$prefix"/>
+			</xsl:call-template>
+			<xsl:value-of select="$delimiter" />
+		</xsl:if>
+		
+		<xsl:call-template name="clean">
+			<xsl:with-param name="input" select="$input"/>
+		</xsl:call-template>	
+		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="end-itemize">
+		<xsl:text>\end{itemize}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
@@ -461,17 +541,24 @@
 		<!-- TODO : add label for namerefs -->
 	</xsl:template>
 	
+	<xsl:template name="clean">
+		<xsl:param name="input" />
+		<xsl:call-template name="escape">
+			<xsl:with-param name="input">
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="$input"/>
+				</xsl:call-template>
+			</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>	
+	
 	<xsl:template name="paragraph">
 		<xsl:param name="text" />
 		<xsl:value-of select="$newline" />	
 		<xsl:text>\paragraph{</xsl:text>
 		
-		<xsl:call-template name="escape">
-			<xsl:with-param name="input">
-				<xsl:call-template name="sanitize">
-					<xsl:with-param name="input" select="$text"/>
-				</xsl:call-template>
-			</xsl:with-param>
+		<xsl:call-template name="clean">
+			<xsl:with-param name="input" select="$text"/>
 		</xsl:call-template>
 		<!-- <xsl:value-of select="$text" /> -->
 		<xsl:text>}</xsl:text>

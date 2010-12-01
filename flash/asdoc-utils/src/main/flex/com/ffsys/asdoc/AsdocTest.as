@@ -51,8 +51,10 @@ package com.ffsys.asdoc {
 	
 		/**
 		*	Creates an <code>AsdocTest</code> instance.
+		* 
+		* 	@param num An integer for this class.
 		*/
-		public function AsdocTest()
+		public function AsdocTest( num:int )
 		{	
 			super();
 		}
