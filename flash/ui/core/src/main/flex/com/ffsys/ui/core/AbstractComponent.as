@@ -16,6 +16,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.Margin;
 	import com.ffsys.ui.common.Padding;
 	
+	import com.ffsys.ui.data.IDataBinding;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
 
@@ -56,6 +57,8 @@ package com.ffsys.ui.core
 		private var _background:IComponentGraphic;
 		private var _styles:String;
 		
+		private var _dataBinding:IDataBinding;
+		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
 		*/
@@ -74,6 +77,19 @@ package com.ffsys.ui.core
 			{
 				addEventListener( Event.ADDED_TO_STAGE, __initialize );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get dataBinding():IDataBinding
+		{
+			return _dataBinding;
+		}
+		
+		public function set dataBinding( dataBinding:IDataBinding ):void
+		{
+			_dataBinding = dataBinding;
 		}
 		
 		/**

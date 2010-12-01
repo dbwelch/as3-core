@@ -10,6 +10,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.common.flash.ISprite;
 	
+	import com.ffsys.ui.data.IDataBinding;	
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
@@ -41,6 +42,12 @@ package com.ffsys.ui.core
 				IEnabled,
 				IStringIdentifier
 	{
+		
+		/**
+		* 	A data binding provider for this user interface component.
+		*/
+		function get dataBinding():IDataBinding;
+		function set dataBinding( dataBinding:IDataBinding ):void;		
 		
 		/**
 		* 	Gets the utility methods and properties available to all components.
