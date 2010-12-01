@@ -71,7 +71,7 @@
 				<xsl:if test="$has-constructor">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Constructor'"/>
-						<xsl:with-param name="label" select="concat($class-id,':','constructor')"/>
+						<xsl:with-param name="label" select="concat($class-id,':constructor')"/>
 					</xsl:call-template>
 					<xsl:call-template name="paragraph">
 						<xsl:with-param name="text" select="apiConstructor/apiConstructorDetail/apiDesc"/>
@@ -81,6 +81,10 @@
 						<xsl:with-param name="params" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiParam" />
 					</xsl:call-template>
 					
+					<xsl:call-template name="exceptions-list">
+						<xsl:with-param name="params" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiException" />
+					</xsl:call-template>
+					
 					<xsl:call-template name="constructor-signature" />
 				</xsl:if>
 				
@@ -88,7 +92,7 @@
 				<xsl:if test="$has-constants">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Constants'"/>
-						<xsl:with-param name="label" select="concat($class-id,':','constants')"/>
+						<xsl:with-param name="label" select="concat($class-id,':constants')"/>
 					</xsl:call-template>
 					
 					<xsl:for-each select="apiValue[not(apiValueDetail/apiValueDef/apiProperty)]">
@@ -110,7 +114,7 @@
 				<xsl:if test="apiOperation/apiOperationDetail/apiOperationDef/apiAccess[@value = 'public']">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Public methods'"/>
-						<xsl:with-param name="label" select="concat($class-id,':','public:methods')"/>
+						<xsl:with-param name="label" select="concat($class-id,':public:methods')"/>
 					</xsl:call-template>
 				</xsl:if>
 								
@@ -121,17 +125,40 @@
 							<xsl:with-param name="title" select="apiName"/>
 							<xsl:with-param name="label" select="@id"/>
 						</xsl:call-template>
+						
+						<xsl:call-template name="deprecated">
+							<xsl:with-param name="input" select="apiOperationDetail/apiOperationDef/apiDeprecated" />
+						</xsl:call-template>
+						
 						<xsl:call-template name="paragraph">
 							<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
 						</xsl:call-template>
 						
 						<xsl:call-template name="parameter-list" />
-						<xsl:call-template name="method-return" />						
+						<xsl:call-template name="method-return" />					
+						<xsl:call-template name="exceptions-list" />
 						<xsl:call-template name="method-signature" />
 					</xsl:if>
 				</xsl:for-each>
 
 				<!-- PROTECTED METHODS -->
+				
+				<xsl:variable
+					name="protected-methods"
+					select="apiOperation[apiOperationDetail/apiOperationDef/apiAccess/@value = 'protected']" />
+		
+				<xsl:if test="$protected-methods">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title" select="'Protected methods'"/>
+						<xsl:with-param name="label" select="concat($class-id,':protected:methods')"/>
+					</xsl:call-template>
+					
+					<xsl:call-template name="list-methods">
+						<xsl:with-param name="input" select="$protected-methods" />
+					</xsl:call-template>
+				</xsl:if>
+				
+				<!--
 				<xsl:if test="apiOperation/apiOperationDetail/apiOperationDef/apiAccess[@value = 'protected']">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Protected methods'"/>
@@ -146,15 +173,22 @@
 							<xsl:with-param name="title" select="apiName"/>
 							<xsl:with-param name="label" select="@id"/>
 						</xsl:call-template>
+						
+						<xsl:call-template name="deprecated">
+							<xsl:with-param select="apiOperationDetail/apiOperationDef/apiDeprecated" />
+						</xsl:call-template>						
+						
 						<xsl:call-template name="paragraph">
 							<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
 						</xsl:call-template>
 						
-						<xsl:call-template name="parameter-list" />	
+						<xsl:call-template name="parameter-list" />
 						<xsl:call-template name="method-return" />
+						<xsl:call-template name="exceptions-list" />
 						<xsl:call-template name="method-signature" />						
 					</xsl:if>
 				</xsl:for-each>
+				-->
 				
 				<!-- PUBLIC PROPERTIES -->
 				<xsl:if test="apiValue/apiValueDetail/apiValueDef/apiAccess[@value = 'public']">
@@ -178,7 +212,10 @@
 					</xsl:if>
 				</xsl:for-each>
 				
-				<!-- PROTECTED PROPERTIES -->
+				
+				
+				<!-- PROTECTED PROPERTIES -->				
+				
 				<xsl:if test="apiValue/apiValueDetail/apiValueDef/apiAccess[@value = 'protected']">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Protected properties'"/>
@@ -204,6 +241,33 @@
 		</xsl:for-each>
 
 		<xsl:call-template name="footer"/>
+	</xsl:template>
+	
+	<xsl:template name="list-methods">
+		<xsl:param name="input" select="''" />
+						
+		<xsl:for-each select="$input">
+			<xsl:sort select="apiName"/>
+			<xsl:if test="apiOperationDetail/apiOperationDef/apiAccess[@value = 'protected']">
+				<xsl:call-template name="subsubsection">
+					<xsl:with-param name="title" select="apiName"/>
+					<xsl:with-param name="label" select="@id"/>
+				</xsl:call-template>
+				
+				<xsl:call-template name="deprecated">
+					<xsl:with-param name="input" select="apiOperationDetail/apiOperationDef/apiDeprecated" />
+				</xsl:call-template>						
+				
+				<xsl:call-template name="paragraph">
+					<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
+				</xsl:call-template>
+				
+				<xsl:call-template name="parameter-list" />
+				<xsl:call-template name="method-return" />
+				<xsl:call-template name="exceptions-list" />
+				<xsl:call-template name="method-signature" />						
+			</xsl:if>
+		</xsl:for-each>		
 	</xsl:template>
 
 	<xsl:template name="property-signature">
@@ -357,15 +421,77 @@
 				<xsl:with-param name="input" select="'Parameters'" />
 			</xsl:call-template>
 			
-			<xsl:call-template name="begin-itemize" />
+			<xsl:call-template name="begin-description" />
 			<xsl:for-each select="$params">
 				<xsl:call-template name="item">
 					<xsl:with-param name="input" select="./apiDesc" />
 					<xsl:with-param name="prefix" select="./apiItemName" />
+					<xsl:with-param name="description" select="true()" />
 				</xsl:call-template>
 			</xsl:for-each>
-			<xsl:call-template name="end-itemize" />
+			<xsl:call-template name="end-description" />
 		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="exceptions-list">
+		<xsl:param name="params" select="apiOperationDetail/apiOperationDef/apiException" />
+		
+		<xsl:if test="count($params) &gt; 0">
+			
+			<xsl:call-template name="subtitle">
+				<xsl:with-param name="input" select="'Throws'" />
+			</xsl:call-template>
+			
+			<xsl:call-template name="begin-description" />
+			<xsl:for-each select="$params">
+				<xsl:call-template name="item">
+					<xsl:with-param name="input" select="./apiDesc" />
+					<xsl:with-param name="prefix" select="./apiItemName" />
+					<xsl:with-param name="description" select="true()" />
+				</xsl:call-template>
+			</xsl:for-each>
+			<xsl:call-template name="end-description" />
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="deprecated">
+		<!-- ./apiOperationDetail/apiOperationDef/apiDeprecated -->
+		<xsl:param name="input" select="''" />
+		
+		<xsl:if test="count($input) &gt; 0">
+			
+			<!-- \textcolor{red} -->
+			
+			<xsl:variable name="text" select="'Deprecated'" />
+			
+			<xsl:choose>
+				
+				<xsl:when test="$input/@replacement">
+					
+					<!-- TODO: Add the replacement for the deprecated item -->
+					<xsl:call-template name="paragraph">
+						<xsl:with-param name="text">
+							<xsl:call-template name="textsc">
+								<xsl:with-param name="input">
+									<xsl:call-template name="textcolor">
+										<xsl:with-param name="input" select="$text" />
+									</xsl:call-template>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+					
+					<!-- $input/@replacement -->
+									
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="paragraph">
+						<xsl:with-param name="text" select="$text" />
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+		
 	</xsl:template>
 	
 	<xsl:template name="method-return">
@@ -452,6 +578,16 @@
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 	
+	<xsl:template name="begin-description">
+		<xsl:text>\begin{description}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="end-description">
+		<xsl:text>\end{description}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
 	<xsl:template name="begin-itemize">
 		<xsl:text>\begin{itemize}</xsl:text>
 		<xsl:value-of select="$newline" />
@@ -460,14 +596,28 @@
 	<xsl:template name="item">
 		<xsl:param name="input" select="''" />
 		<xsl:param name="prefix" select="''" />
+		<xsl:param name="description" select="false()" />
 		<xsl:param name="delimiter" select="' -- '" />
-		<xsl:text>\item </xsl:text>
+		<xsl:text>\item</xsl:text>
 		
-		<xsl:if test="$prefix != ''">
+		<xsl:if test="not($description)">
+			<xsl:text> </xsl:text>
+		</xsl:if>
+		
+		<xsl:if test="$prefix != '' and not($description)">
 			<xsl:call-template name="clean">
 				<xsl:with-param name="input" select="$prefix"/>
 			</xsl:call-template>
 			<xsl:value-of select="$delimiter" />
+		</xsl:if>
+		
+		<xsl:if test="$prefix != '' and $description">
+			<xsl:text>[</xsl:text>
+			<xsl:call-template name="clean">
+				<xsl:with-param name="input" select="$prefix"/>
+			</xsl:call-template>
+			<xsl:text>]</xsl:text>
+			<xsl:text> </xsl:text>
 		</xsl:if>
 		
 		<xsl:call-template name="clean">
@@ -606,6 +756,18 @@
 		</xsl:call-template>
 	</xsl:template>	
 	
+	<xsl:template name="textcolor">
+		<xsl:param name="input" select="''" />
+		<xsl:param name="color" select="'red'" />
+		<xsl:text>\textcolor{</xsl:text>
+		<xsl:value-of select="$color" />
+		<xsl:text>}{</xsl:text>
+		<xsl:call-template name="clean">
+			<xsl:with-param name="input" select="$input"/>
+		</xsl:call-template>
+		<xsl:text>}</xsl:text>
+	</xsl:template>	
+	
 	<xsl:template name="paragraph">
 		<xsl:param name="text" />
 		<xsl:value-of select="$newline" />	
@@ -614,10 +776,8 @@
 		<xsl:call-template name="clean">
 			<xsl:with-param name="input" select="$text"/>
 		</xsl:call-template>
-		<!-- <xsl:value-of select="$text" /> -->
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
-		<!-- TODO : add label for namerefs -->
 	</xsl:template>
 	
 	<xsl:template name="textsc">
@@ -638,11 +798,13 @@
 		<xsl:text>}</xsl:text>
 	</xsl:template>	
 	
+	<!--
 	<xsl:template match="description">
 		<xsl:call-template name="paragraph">
 			<xsl:with-param name="text" select="."/>
 		</xsl:call-template>
 	</xsl:template>
+	-->
 	
 	<xsl:template name="footer">
 		<xsl:text>

@@ -53,10 +53,13 @@ package com.ffsys.asdoc {
 		*	Creates an <code>AsdocTest</code> instance.
 		* 
 		* 	@param num An integer for this class.
+		* 
+		* 	@throws Error An error to indicate this class cannot be instantiated.
 		*/
 		public function AsdocTest( num:int )
 		{	
 			super();
+			throw new Error( "You cannot instantiate this class as it is for testing documentation." );
 		}
 		
 		/*
@@ -118,11 +121,15 @@ package com.ffsys.asdoc {
 		/**
 		* 	A method that will always fail.
 		* 
-		* 	@throws Error An error to indicate this method failed.
+		* 	@throws AsdocError A custom error to indicate this method failed.
+		* 
+		* 	@return A boolean that will in fact never be returned as
+		* 	this method will consistently throw an error.
 		*/
-		public function fail():void
+		public function fail():Boolean
 		{
-			throw new Error( "Failed." );
+			throw new AsdocError( "Failed." );
+			return true;
 		}
 		
 		/**
@@ -176,5 +183,19 @@ package com.ffsys.asdoc {
 		{
 			_writeonly = write;
 		}	
+	}
+}
+
+/**
+*	An attempt to document an inner class.
+*/
+class AsdocError extends Error {
+	
+	/**
+	* 	Creates an <code>AsdocError</code> instance.
+	*/
+	public function AsdocError( message:String )
+	{
+		super( message );
 	}
 }
