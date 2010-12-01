@@ -272,14 +272,16 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		
-		<xsl:choose>
-			<xsl:when test="$return-type != 'any'">
-				<xsl:value-of select="concat(':',$return-type)" />
-			</xsl:when>
-			<xsl:otherwise>	
-				<xsl:value-of select="':*'" />
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:if test="$return-type != ''">
+			<xsl:choose>
+				<xsl:when test="$return-type != 'any'">
+					<xsl:value-of select="concat(':',$return-type)" />
+				</xsl:when>
+				<xsl:otherwise>	
+					<xsl:value-of select="':*'" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
 		
 		<xsl:text>\end{verbatimtab}</xsl:text>
 		<xsl:value-of select="$newline" />
