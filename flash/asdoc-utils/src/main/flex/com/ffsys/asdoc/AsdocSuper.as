@@ -1,8 +1,13 @@
 package com.ffsys.asdoc
 {
+	import flash.display.Sprite;
+	
+	import com.ffsys.asdoc.interfaces.IAsdocObject;
 	
 	/**
 	*	A super class for the <em>actionscript documentation</em> test package.
+	* 
+	* 	@see com.ffsys.asdoc.interfaces.IAsdocObject
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -11,6 +16,7 @@ package com.ffsys.asdoc
 	*	@since  01.12.2010
 	*/
 	public class AsdocSuper extends Object
+		implements IAsdocObject
 	{
 		private var _id:String;
 		
@@ -33,6 +39,14 @@ package com.ffsys.asdoc
 		public function set id( value:String ):void
 		{
 			_id = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get sprite():Sprite
+		{
+			return new Sprite();
 		}
 	}
 }

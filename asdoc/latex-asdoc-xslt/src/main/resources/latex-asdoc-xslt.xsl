@@ -21,7 +21,7 @@
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
 	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packagemap.xml')"/>
 	
-	<xsl:variable name="self" select="document(.)" />
+	<!-- <xsl:variable name="self" select="document(.)" /> -->
 	
 	<xsl:variable name="newline">
 		<xsl:text>
@@ -217,14 +217,44 @@
 		
 			<xsl:for-each select="$input">
 				<xsl:sort select="linktext" />
-			
-				<xsl:variable name="xref">
-					<xsl:call-template name="search-and-replace">
-						<xsl:with-param name="input" select="@href" />
-						<xsl:with-param name="search-string" select="'.xml#'" />
-						<xsl:with-param name="replace-string" select="':'" />
-					</xsl:call-template>
-				</xsl:variable>
+				
+				
+				<xsl:choose>
+					<xsl:when test="@href != ''">
+						<xsl:variable name="xref">
+							<xsl:call-template name="search-and-replace">
+								<xsl:with-param name="input" select="@href" />
+								<xsl:with-param name="search-string" select="'.xml#'" />
+								<xsl:with-param name="replace-string" select="':'" />
+							</xsl:call-template>
+						</xsl:variable>
+						
+						<xsl:call-template name="item">
+							<xsl:with-param name="input">
+								<xsl:call-template name="xref">
+									<xsl:with-param name="input" select="$xref" />
+								</xsl:call-template>
+							</xsl:with-param>
+						</xsl:call-template>
+																	
+					</xsl:when>
+					<xsl:otherwise>
+						
+						<!-- no valid href available show the invalid one -->
+						<xsl:variable name="xref">
+							<xsl:call-template name="search-and-replace">
+								<xsl:with-param name="input" select="@invalidHref" />
+								<xsl:with-param name="search-string" select="'.xml'" />
+								<xsl:with-param name="replace-string" select="''" />
+							</xsl:call-template>
+						</xsl:variable>
+						
+						<xsl:call-template name="item">
+							<xsl:with-param name="input" select="$xref" />
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 			
 				<!--
 				<xsl:variable name="xref">
@@ -237,13 +267,7 @@
 				-->
 				
 				
-				<xsl:call-template name="item">
-					<xsl:with-param name="input">
-						<xsl:call-template name="xref">
-							<xsl:with-param name="input" select="$xref" />
-						</xsl:call-template>
-					</xsl:with-param>
-				</xsl:call-template>
+
 			</xsl:for-each>
 		
 			<xsl:call-template name="end-itemize" />
@@ -510,6 +534,7 @@
 		</xsl:if>
 	</xsl:template>
 	
+	<!-- performs lookup for xref id data -->
 	<xsl:template name="xref">
 		<xsl:param name="input" select="''" />
 		<xsl:param name="scope" select="''" />
@@ -523,6 +548,7 @@
 			
 			<xsl:if test="$scope != ''">
 				<xsl:variable name="target" select="$scope//*[apiName = $input]" />
+				
 				<xsl:call-template name="nameref">
 					<xsl:with-param name="input" select="$target/@id" />
 				</xsl:call-template>
@@ -531,15 +557,18 @@
 			<xsl:if test="$scope = ''">
 				
 				<!-- look in the package level scope first -->
-				
 				<!-- TODO: validate the input in the package scope -->
+				
+			
 				<xsl:call-template name="nameref">
 					<xsl:with-param name="input" select="$input" />
-				</xsl:call-template>
+				</xsl:call-template>				
+
 				
 				<!-- TODO: implement global scope xref -->
 				<!-- <xsl:text>TESTING GLOBAL TOP LEVEL XREF: </xsl:text><xsl:value-of select="$self/classRec/@fullname" />	-->
 			</xsl:if>			
+						
 		</xsl:if>
 	</xsl:template>
 	
