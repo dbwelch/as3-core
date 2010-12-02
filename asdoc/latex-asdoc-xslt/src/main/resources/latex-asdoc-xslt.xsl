@@ -20,9 +20,7 @@
 	<xsl:param name="dita-dir" select="'tempdita'"/>	
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
 	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packagemap.xml')"/>
-	
-	<!-- <xsl:variable name="self" select="document(.)" /> -->
-	
+
 	<xsl:variable name="newline">
 		<xsl:text>
 </xsl:text>
@@ -210,9 +208,18 @@
 		<xsl:for-each select="$input">
 			<xsl:sort select="apiName"/>
 			<xsl:if test="apiValueDetail/apiValueDef/apiProperty">
+				
+				<xsl:variable name="label">
+					<xsl:call-template name="search-and-replace">
+						<xsl:with-param name="input" select="@id" />
+						<xsl:with-param name="search-string" select="':get'" />
+						<xsl:with-param name="replace-string" select="''" />
+					</xsl:call-template>
+				</xsl:variable>
+				
 				<xsl:call-template name="subsubsection">
 					<xsl:with-param name="title" select="apiName"/>
-					<xsl:with-param name="label" select="@id"/>
+					<xsl:with-param name="label" select="$label"/>
 				</xsl:call-template>
 				<xsl:call-template name="paragraph">
 					<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
@@ -220,7 +227,7 @@
 				<xsl:call-template name="property-signature" />						
 			</xsl:if>
 		</xsl:for-each>
-	</xsl:template>	
+	</xsl:template>
 	
 	<!--
 	<related-links>
@@ -243,8 +250,6 @@
 		
 			<xsl:for-each select="$input">
 				<xsl:sort select="linktext" />
-				
-				
 				<xsl:choose>
 					<xsl:when test="@href != ''">
 						
@@ -279,6 +284,11 @@
 									<xsl:with-param name="input" select="$xref" />
 								</xsl:call-template>
 							</xsl:with-param>
+						</xsl:call-template>
+
+						<xsl:value-of select="' -- '" />
+						<xsl:call-template name="emph">
+							<xsl:with-param name="input" select="$xref" />
 						</xsl:call-template>
 																	
 					</xsl:when>
