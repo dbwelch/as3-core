@@ -11,6 +11,8 @@ package com.ffsys.asdoc.interfaces
 	* 	@see flash.display.Sprite
 	* 	@see com.ffsys.asdoc.AsdocSuper
 	* 	@see com.ffsys.asdoc.AsdocTest
+	* 	@see com.ffsys.asdoc
+	* 	@see com.ffsys.asdoc.AsdocSuper#sprite
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

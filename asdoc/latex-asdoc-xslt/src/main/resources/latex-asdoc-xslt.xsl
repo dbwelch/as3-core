@@ -71,7 +71,7 @@
 					<xsl:with-param name="text" select="apiClassifierDetail/apiDesc"/>
 				</xsl:call-template>
 				
-				<!-- SEE XREF -->
+				<!-- SEE ALSO XREF -->
 				<xsl:call-template name="list-see" />
 				
 				<!-- CONSTRUCTOR -->
@@ -148,53 +148,79 @@
 				</xsl:if>
 				
 				<!-- PUBLIC PROPERTIES -->
-				<xsl:if test="apiValue/apiValueDetail/apiValueDef/apiAccess[@value = 'public']">
+				<xsl:variable
+					name="public-properties"
+					select="apiValue[apiValueDetail/apiValueDef/apiAccess/@value = 'public']" />
+					
+				<xsl:if test="$public-properties">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Public properties'"/>
-						<xsl:with-param name="label" select="concat($class-id,':','properties')"/>
+						<xsl:with-param name="label" select="concat($class-id,':public:properties')"/>
+					</xsl:call-template>
+					<xsl:call-template name="list-properties">
+						<xsl:with-param name="input" select="$public-properties" />
 					</xsl:call-template>
 				</xsl:if>
-								
-				<xsl:for-each select="apiValue">
-					<xsl:sort select="apiName"/>
-					<xsl:if test="apiValueDetail/apiValueDef/apiAccess[@value = 'public'] and apiValueDetail/apiValueDef/apiProperty">
-						<xsl:call-template name="subsubsection">
-							<xsl:with-param name="title" select="apiName"/>
-							<xsl:with-param name="label" select="@id"/>
-						</xsl:call-template>
-						<xsl:call-template name="paragraph">
-							<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
-						</xsl:call-template>
-						<xsl:call-template name="property-signature" />						
-					</xsl:if>
-				</xsl:for-each>
 				
 				<!-- PROTECTED PROPERTIES -->
-				<xsl:if test="apiValue/apiValueDetail/apiValueDef/apiAccess[@value = 'protected']">
+				<xsl:variable
+					name="protected-properties"
+					select="apiValue[apiValueDetail/apiValueDef/apiAccess/@value = 'protected']" />
+					
+				<xsl:if test="$protected-properties">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Protected properties'"/>
-						<xsl:with-param name="label" select="concat($class-id,':','properties')"/>
+						<xsl:with-param name="label" select="concat($class-id,':protected:properties')"/>
+					</xsl:call-template>
+					<xsl:call-template name="list-properties">
+						<xsl:with-param name="input" select="$protected-properties" />
 					</xsl:call-template>
 				</xsl:if>
-								
-				<xsl:for-each select="apiValue">
-					<xsl:sort select="apiName"/>
-					<xsl:if test="apiValueDetail/apiValueDef/apiAccess[@value = 'protected'] and apiValueDetail/apiValueDef/apiProperty">
-						<xsl:call-template name="subsubsection">
-							<xsl:with-param name="title" select="apiName"/>
-							<xsl:with-param name="label" select="@id"/>
-						</xsl:call-template>
-						<xsl:call-template name="paragraph">
-							<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
-						</xsl:call-template>
-						<xsl:call-template name="property-signature" />						
-					</xsl:if>					
-				</xsl:for-each>
+				
 			</xsl:for-each>
 		</xsl:for-each>
 
 		<xsl:call-template name="footer"/>
 	</xsl:template>
+	
+	<xsl:template name="list-methods">
+		<xsl:param name="input" select="''" />			
+		<xsl:for-each select="$input">
+			<xsl:sort select="apiName"/>
+			<xsl:call-template name="subsubsection">
+				<xsl:with-param name="title" select="apiName" />
+				<xsl:with-param name="label" select="@id" />
+			</xsl:call-template>
+			<xsl:call-template name="deprecated">
+				<xsl:with-param name="input" select="apiOperationDetail/apiOperationDef/apiDeprecated" />
+			</xsl:call-template>						
+			<xsl:call-template name="paragraph">
+				<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
+			</xsl:call-template>
+			<xsl:call-template name="parameter-list" />
+			<xsl:call-template name="method-return" />
+			<xsl:call-template name="exceptions-list" />
+			<xsl:call-template name="method-signature" />
+		</xsl:for-each>
+	</xsl:template>
+	
+	<!-- lists properties - omitting the constants -->
+	<xsl:template name="list-properties">
+		<xsl:param name="input" select="''" />	
+		<xsl:for-each select="$input">
+			<xsl:sort select="apiName"/>
+			<xsl:if test="apiValueDetail/apiValueDef/apiProperty">
+				<xsl:call-template name="subsubsection">
+					<xsl:with-param name="title" select="apiName"/>
+					<xsl:with-param name="label" select="@id"/>
+				</xsl:call-template>
+				<xsl:call-template name="paragraph">
+					<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
+				</xsl:call-template>
+				<xsl:call-template name="property-signature" />						
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>	
 	
 	<!--
 	<related-links>
@@ -221,10 +247,28 @@
 				
 				<xsl:choose>
 					<xsl:when test="@href != ''">
+						
+						<!-- valid href attribute we should have a valid xref -->
 						<xsl:variable name="xref">
 							<xsl:call-template name="search-and-replace">
 								<xsl:with-param name="input" select="@href" />
-								<xsl:with-param name="search-string" select="'.xml#'" />
+								<xsl:with-param name="search-string" select="'.xml'" />
+								<xsl:with-param name="replace-string" select="''" />
+							</xsl:call-template>
+						</xsl:variable>
+						
+						<xsl:variable name="xref">
+							<xsl:call-template name="search-and-replace">
+								<xsl:with-param name="input" select="$xref" />
+								<xsl:with-param name="search-string" select="'#'" />
+								<xsl:with-param name="replace-string" select="':'" />
+							</xsl:call-template>
+						</xsl:variable>
+						
+						<xsl:variable name="xref">
+							<xsl:call-template name="search-and-replace">
+								<xsl:with-param name="input" select="$xref" />
+								<xsl:with-param name="search-string" select="'/'" />
 								<xsl:with-param name="replace-string" select="':'" />
 							</xsl:call-template>
 						</xsl:variable>
@@ -254,52 +298,11 @@
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
-				
-			
-				<!--
-				<xsl:variable name="xref">
-					<xsl:call-template name="search-and-replace">
-						<xsl:with-param name="input" select="$xref" />
-						<xsl:with-param name="search-string" select="'.'" />
-						<xsl:with-param name="replace-string" select="':'" />
-					</xsl:call-template>
-				</xsl:variable>
-				-->
-				
-				
-
 			</xsl:for-each>
 		
 			<xsl:call-template name="end-itemize" />
-		
 		</xsl:if>
-	</xsl:template>
-	
-	<xsl:template name="list-methods">
-		<xsl:param name="input" select="''" />
-						
-		<xsl:for-each select="$input">
-			<xsl:sort select="apiName"/>
-			
-			<xsl:call-template name="subsubsection">
-				<xsl:with-param name="title" select="apiName" />
-				<xsl:with-param name="label" select="@id" />
-			</xsl:call-template>
-			
-			<xsl:call-template name="deprecated">
-				<xsl:with-param name="input" select="apiOperationDetail/apiOperationDef/apiDeprecated" />
-			</xsl:call-template>						
-			
-			<xsl:call-template name="paragraph">
-				<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
-			</xsl:call-template>
-			
-			<xsl:call-template name="parameter-list" />
-			<xsl:call-template name="method-return" />
-			<xsl:call-template name="exceptions-list" />
-			<xsl:call-template name="method-signature" />
-		</xsl:for-each>
-	</xsl:template>
+	</xsl:template>	
 
 	<xsl:template name="property-signature">
 		<xsl:param name="access" select="apiValueDetail/apiValueDef/apiAccess/@value" />
@@ -511,6 +514,7 @@
 				<xsl:choose>
 					<!-- look for the corresponding replacement in the same class to xref -->
 					<xsl:when test="../*/apiName = $replacement">
+						
 						<xsl:call-template name="xref">
 							<xsl:with-param name="input" select="$replacement" />
 							<xsl:with-param name="scope" select=".." />
@@ -541,7 +545,6 @@
 		<xsl:param name="prefix" select="''" />
 		
 		<xsl:if test="$input != ''">
-			
 			<xsl:if test="$prefix != ''">
 				<xsl:value-of select="$prefix" />
 			</xsl:if>
@@ -555,21 +558,12 @@
 			</xsl:if>
 			
 			<xsl:if test="$scope = ''">
-				
-				<!-- look in the package level scope first -->
-				<!-- TODO: validate the input in the package scope -->
-				
-			
 				<xsl:call-template name="nameref">
 					<xsl:with-param name="input" select="$input" />
-				</xsl:call-template>				
-
-				
-				<!-- TODO: implement global scope xref -->
-				<!-- <xsl:text>TESTING GLOBAL TOP LEVEL XREF: </xsl:text><xsl:value-of select="$self/classRec/@fullname" />	-->
-			</xsl:if>			
-						
+				</xsl:call-template>
+			</xsl:if>
 		</xsl:if>
+		
 	</xsl:template>
 	
 	<xsl:template name="method-return">
