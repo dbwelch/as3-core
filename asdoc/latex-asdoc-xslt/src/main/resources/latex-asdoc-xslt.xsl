@@ -55,6 +55,7 @@
 				
 				<xsl:call-template name="section">
 					<xsl:with-param name="title" select="apiName"/>
+					<xsl:with-param name="label" select="$class-id"/>
 				</xsl:call-template>
 				
 				<xsl:call-template name="details">
@@ -69,6 +70,9 @@
 				<xsl:call-template name="paragraph">
 					<xsl:with-param name="text" select="apiClassifierDetail/apiDesc"/>
 				</xsl:call-template>
+				
+				<!-- SEE XREF -->
+				<xsl:call-template name="list-see" />
 				
 				<!-- CONSTRUCTOR -->
 				<xsl:if test="$has-constructor">
@@ -190,6 +194,61 @@
 		</xsl:for-each>
 
 		<xsl:call-template name="footer"/>
+	</xsl:template>
+	
+	<!--
+	<related-links>
+		<link href="com.ffsys.asdoc.xml#AsdocSuper">
+			<linktext>com.ffsys.asdoc.AsdocSuper</linktext>
+		</link>
+	</related-links>	
+	-->
+	
+	<xsl:template name="list-see">
+		<xsl:param name="input" select="related-links/link" />
+		
+		<xsl:if test="count($input) &gt; 0">
+			
+			<xsl:call-template name="subtitle">
+				<xsl:with-param name="input" select="'See Also'" />
+			</xsl:call-template>			
+			
+			<xsl:call-template name="begin-itemize" />
+		
+			<xsl:for-each select="$input">
+				<xsl:sort select="linktext" />
+			
+				<xsl:variable name="xref">
+					<xsl:call-template name="search-and-replace">
+						<xsl:with-param name="input" select="@href" />
+						<xsl:with-param name="search-string" select="'.xml#'" />
+						<xsl:with-param name="replace-string" select="':'" />
+					</xsl:call-template>
+				</xsl:variable>
+			
+				<!--
+				<xsl:variable name="xref">
+					<xsl:call-template name="search-and-replace">
+						<xsl:with-param name="input" select="$xref" />
+						<xsl:with-param name="search-string" select="'.'" />
+						<xsl:with-param name="replace-string" select="':'" />
+					</xsl:call-template>
+				</xsl:variable>
+				-->
+				
+				
+				<xsl:call-template name="item">
+					<xsl:with-param name="input">
+						<xsl:call-template name="xref">
+							<xsl:with-param name="input" select="$xref" />
+						</xsl:call-template>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:for-each>
+		
+			<xsl:call-template name="end-itemize" />
+		
+		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template name="list-methods">
@@ -470,6 +529,14 @@
 			</xsl:if>
 			
 			<xsl:if test="$scope = ''">
+				
+				<!-- look in the package level scope first -->
+				
+				<!-- TODO: validate the input in the package scope -->
+				<xsl:call-template name="nameref">
+					<xsl:with-param name="input" select="$input" />
+				</xsl:call-template>
+				
 				<!-- TODO: implement global scope xref -->
 				<!-- <xsl:text>TESTING GLOBAL TOP LEVEL XREF: </xsl:text><xsl:value-of select="$self/classRec/@fullname" />	-->
 			</xsl:if>			
