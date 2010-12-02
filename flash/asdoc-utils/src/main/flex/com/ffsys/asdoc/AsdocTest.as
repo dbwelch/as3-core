@@ -11,6 +11,8 @@ package com.ffsys.asdoc {
 	* 	<pre>var asdoc:AsdocTest = new AsdocTest();</pre>
 	* 
 	* 	But that would be insane as this class is useless to code.
+	* 
+	* 	@see com.ffsys.asdoc.AsdocSuper
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
