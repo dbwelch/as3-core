@@ -28,6 +28,10 @@
 	<xsl:param name="public-properties-xref-id" select="':public:properties'" />
 	<xsl:param name="protected-properties-xref-id" select="':protected:properties'" />
 	
+	<xsl:param name="include-class-meta" select="false()" />
+	
+	<xsl:param name="link-report-path" select="''" />
+	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
 	<xsl:variable name="toplevel" select="document($toplevel-path)" />
 
@@ -49,6 +53,20 @@
 			</xsl:with-param>
 		</xsl:call-template>
 		-->
+		
+		<!-- ALL CLASSES -->
+		<xsl:call-template name="classifier-listing">
+			<xsl:with-param name="input" select="$toplevel//classRec" />
+			<xsl:with-param name="title" select="'Classes'" />
+			<xsl:with-param name="label" select="'classes'" />
+		</xsl:call-template>
+		
+		<!-- ALL INTERFACES -->
+		<xsl:call-template name="classifier-listing">
+			<xsl:with-param name="input" select="$toplevel//interfaceRec" />
+			<xsl:with-param name="title" select="'Interfaces'" />
+			<xsl:with-param name="label" select="'interfaces'" />
+		</xsl:call-template>
 		
 		<!--  PACKAGES-->
 		
@@ -338,9 +356,11 @@
 				<xsl:with-param name="title" select="apiName" />
 				<xsl:with-param name="label" select="@id" />
 			</xsl:call-template>
-			<xsl:call-template name="deprecated">
-				<xsl:with-param name="input" select="apiOperationDetail/apiOperationDef/apiDeprecated" />
-			</xsl:call-template>						
+			
+			<xsl:call-template name="begin-paragraph" />
+			<xsl:call-template name="deprecated" />
+			<xsl:call-template name="end-paragraph" />
+									
 			<xsl:call-template name="paragraph">
 				<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
 			</xsl:call-template>
@@ -648,7 +668,7 @@
 	
 	<xsl:template name="deprecated">
 		<!-- ./apiOperationDetail/apiOperationDef/apiDeprecated -->
-		<xsl:param name="input" select="''" />
+		<xsl:param name="input" select=".//apiDeprecated" />
 		
 		<xsl:if test="count($input) &gt; 0">
 
@@ -656,8 +676,7 @@
 			<xsl:variable name="replacement" select="$input/@replacement" />
 			
 			<!-- title -->
-			<xsl:call-template name="begin-paragraph" />
-
+			
 			<xsl:call-template name="textsc">
 				<xsl:with-param name="input">
 					<xsl:call-template name="textcolor">
@@ -691,8 +710,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>
-			
-			<xsl:call-template name="end-paragraph" />
 		</xsl:if>
 	</xsl:template>
 	
@@ -931,7 +948,41 @@
 				<xsl:with-param name="title" select="$label"/>
 			</xsl:call-template>
 		</xsl:if>		
-	</xsl:template>		
+	</xsl:template>	
+	
+	<xsl:template name="classifier-listing">
+		<xsl:param name="input" select="''" />
+		<xsl:param name="title" select="''" />
+		<xsl:param name="label" select="'classes'" />
+		
+		<xsl:if test="count($input) &gt; 0">
+			
+			<xsl:call-template name="part">
+				<xsl:with-param name="title" select="$title"/>
+				<xsl:with-param name="label" select="$label"/>
+			</xsl:call-template>
+			
+			<xsl:value-of select="$newline" />
+			<xsl:text>{\scriptsize</xsl:text>
+			<xsl:value-of select="$newline" />		
+			<xsl:text>\begin{tabularx}{\textwidth}{X}</xsl:text>
+			<xsl:value-of select="$newline" />				
+
+			<xsl:for-each select="$input">
+				<xsl:sort select="name" />
+				<xsl:call-template name="xref">
+					<xsl:with-param name="input" select="@fullname"/>
+				</xsl:call-template>
+				<xsl:text>\\</xsl:text>
+			</xsl:for-each>
+			
+			<xsl:text>\end{tabularx}</xsl:text>
+			<!-- end size block -->
+			<xsl:text>}</xsl:text>		
+			<xsl:value-of select="$newline" />			
+			
+		</xsl:if>		
+	</xsl:template>
 	
 	<xsl:template name="class-details">
 		<xsl:param name="package" />
@@ -1073,48 +1124,51 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		
-		<xsl:if test="$author != ''">
-			<xsl:text>\scriptsize{Author:} &amp; </xsl:text>
-			<xsl:text>\scriptsize{</xsl:text>
-			<xsl:call-template name="emph">
-				<xsl:with-param name="input" select="normalize-space($author)" />
-			</xsl:call-template>
-			<xsl:text>}</xsl:text>
-			<xsl:text>\\</xsl:text>
-			<xsl:value-of select="$newline" />
-		</xsl:if>
 		
-		<xsl:if test="$since != ''">
-			<xsl:text>\scriptsize{Since:} &amp; </xsl:text>
-			<xsl:text>\scriptsize{</xsl:text>
-			<xsl:call-template name="emph">
-				<xsl:with-param name="input" select="normalize-space($since)" />
-			</xsl:call-template>
-			<xsl:text>}</xsl:text>
-			<xsl:text>\\</xsl:text>
-			<xsl:value-of select="$newline" />
-		</xsl:if>
+		<xsl:if test="$include-class-meta">
+			<xsl:if test="$author != ''">
+				<xsl:text>\scriptsize{Author:} &amp; </xsl:text>
+				<xsl:text>\scriptsize{</xsl:text>
+				<xsl:call-template name="emph">
+					<xsl:with-param name="input" select="normalize-space($author)" />
+				</xsl:call-template>
+				<xsl:text>}</xsl:text>
+				<xsl:text>\\</xsl:text>
+				<xsl:value-of select="$newline" />
+			</xsl:if>
 		
-		<xsl:if test="$langversion != ''">
-			<xsl:text>\scriptsize{Language version:} &amp; </xsl:text>
-			<xsl:text>\scriptsize{</xsl:text>
-			<xsl:call-template name="emph">
-				<xsl:with-param name="input" select="normalize-space($langversion)" />
-			</xsl:call-template>
-			<xsl:text>}</xsl:text>
-			<xsl:text>\\</xsl:text>
-			<xsl:value-of select="$newline" />
-		</xsl:if>
+			<xsl:if test="$since != ''">
+				<xsl:text>\scriptsize{Since:} &amp; </xsl:text>
+				<xsl:text>\scriptsize{</xsl:text>
+				<xsl:call-template name="emph">
+					<xsl:with-param name="input" select="normalize-space($since)" />
+				</xsl:call-template>
+				<xsl:text>}</xsl:text>
+				<xsl:text>\\</xsl:text>
+				<xsl:value-of select="$newline" />
+			</xsl:if>
 		
-		<xsl:if test="$playerversion != ''">
-			<xsl:text>\scriptsize{Runtime version:} &amp; </xsl:text>
-			<xsl:text>\scriptsize{</xsl:text>
-			<xsl:call-template name="emph">
-				<xsl:with-param name="input" select="normalize-space($playerversion)" />
-			</xsl:call-template>
-			<xsl:text>}</xsl:text>
-			<xsl:text>\\</xsl:text>
-			<xsl:value-of select="$newline" />
+			<xsl:if test="$langversion != ''">
+				<xsl:text>\scriptsize{Language version:} &amp; </xsl:text>
+				<xsl:text>\scriptsize{</xsl:text>
+				<xsl:call-template name="emph">
+					<xsl:with-param name="input" select="normalize-space($langversion)" />
+				</xsl:call-template>
+				<xsl:text>}</xsl:text>
+				<xsl:text>\\</xsl:text>
+				<xsl:value-of select="$newline" />
+			</xsl:if>
+		
+			<xsl:if test="$playerversion != ''">
+				<xsl:text>\scriptsize{Runtime version:} &amp; </xsl:text>
+				<xsl:text>\scriptsize{</xsl:text>
+				<xsl:call-template name="emph">
+					<xsl:with-param name="input" select="normalize-space($playerversion)" />
+				</xsl:call-template>
+				<xsl:text>}</xsl:text>
+				<xsl:text>\\</xsl:text>
+				<xsl:value-of select="$newline" />
+			</xsl:if>
 		</xsl:if>
 
 		<xsl:text>\end{tabularx}</xsl:text>
@@ -1185,7 +1239,7 @@
 		<xsl:text>{\scriptsize</xsl:text>
 		<xsl:value-of select="$newline" />		
 		<xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text>
-		<xsl:value-of select="$newline" />		
+		<xsl:value-of select="$newline" />
 		
 		<xsl:if test="$title != ''">
 			<xsl:choose>
@@ -1215,7 +1269,13 @@
 			<xsl:value-of select="$newline" />
 			<xsl:call-template name="escape">
 				<xsl:with-param name="input" select="shortdesc" />
-			</xsl:call-template>			
+			</xsl:call-template>
+			
+			<xsl:if test=".//apiDeprecated">
+				<xsl:value-of select="$newline" />
+				<xsl:call-template name="deprecated" />
+			</xsl:if>
+				
 			<xsl:text> &amp; </xsl:text>
 			<xsl:call-template name="escape">
 				<xsl:with-param name="input" select="../apiName" />

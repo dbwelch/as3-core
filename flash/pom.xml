@@ -182,6 +182,10 @@
 												<name>page-header-right</name>
 												<value>Actionscript API</value>
 											</parameter>
+											<parameter>
+												<name>link-report-path</name>
+												<value>../${project.build.finalName}-link-report.xml</value>
+											</parameter>
 										</parameters>
 									</transformationSet>
 								</transformationSets>
