@@ -970,10 +970,26 @@
 
 			<xsl:for-each select="$input">
 				<xsl:sort select="name" />
+				
 				<xsl:call-template name="xref">
 					<xsl:with-param name="input" select="@fullname"/>
 				</xsl:call-template>
+				
 				<xsl:text>\\</xsl:text>
+				<xsl:value-of select="$newline" />
+				
+				<xsl:variable name="doc" select="document(concat($dita-dir,$delimiter,@namespace,'.xml'))" />
+				<xsl:variable name="fullname" select="@fullname" />
+				<xsl:variable name="found" select="$doc//apiClassifier[@id = $fullname]" />
+				
+				<xsl:if test="$found">
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="$found/shortdesc" />
+					</xsl:call-template>
+				</xsl:if>
+				
+				<xsl:text>\\</xsl:text>
+				<xsl:value-of select="$newline" />
 			</xsl:for-each>
 			
 			<xsl:text>\end{tabularx}</xsl:text>
@@ -1266,15 +1282,14 @@
 			<xsl:call-template name="xref">
 				<xsl:with-param name="input" select="@id" />
 			</xsl:call-template>
-			<xsl:value-of select="$newline" />
-			<xsl:call-template name="escape">
-				<xsl:with-param name="input" select="shortdesc" />
-			</xsl:call-template>
-			
 			<xsl:if test=".//apiDeprecated">
 				<xsl:value-of select="$newline" />
 				<xsl:call-template name="deprecated" />
 			</xsl:if>
+			<xsl:value-of select="$newline" />
+			<xsl:call-template name="escape">
+				<xsl:with-param name="input" select="shortdesc" />
+			</xsl:call-template>
 				
 			<xsl:text> &amp; </xsl:text>
 			<xsl:call-template name="escape">
