@@ -21,6 +21,13 @@
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
 	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packagemap.xml')"/>
 	<xsl:param name="toplevel-path" select="'toplevel.xml'" />
+	
+	<xsl:param name="constants-xref-id" select="':constants'" />
+	<xsl:param name="public-methods-xref-id" select="':public:methods'" />
+	<xsl:param name="protected-methods-xref-id" select="':protected:methods'" />
+	<xsl:param name="public-properties-xref-id" select="':public:properties'" />
+	<xsl:param name="protected-properties-xref-id" select="':protected:properties'" />
+	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
 	<xsl:variable name="toplevel" select="document($toplevel-path)" />
 
@@ -130,7 +137,7 @@
 				<xsl:if test="$has-constants">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Constants'"/>
-						<xsl:with-param name="label" select="concat($class-id,':constants')"/>
+						<xsl:with-param name="label" select="concat($class-id,$constants-xref-id)"/>
 					</xsl:call-template>
 					
 					<xsl:for-each select="$constants">
@@ -152,7 +159,7 @@
 				<xsl:if test="$public-methods">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Public methods'"/>
-						<xsl:with-param name="label" select="concat($class-id,':public:methods')"/>
+						<xsl:with-param name="label" select="concat($class-id,$public-methods-xref-id)"/>
 					</xsl:call-template>
 					<xsl:call-template name="list-methods">
 						<xsl:with-param name="input" select="$public-methods" />
@@ -163,7 +170,7 @@
 				<xsl:if test="$protected-methods">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Protected methods'"/>
-						<xsl:with-param name="label" select="concat($class-id,':protected:methods')"/>
+						<xsl:with-param name="label" select="concat($class-id,$protected-methods-xref-id)"/>
 					</xsl:call-template>
 					<xsl:call-template name="list-methods">
 						<xsl:with-param name="input" select="$protected-methods" />
@@ -174,7 +181,7 @@
 				<xsl:if test="$public-properties">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Public properties'"/>
-						<xsl:with-param name="label" select="concat($class-id,':public:properties')"/>
+						<xsl:with-param name="label" select="concat($class-id,$public-properties-xref-id)"/>
 					</xsl:call-template>
 					<xsl:call-template name="list-properties">
 						<xsl:with-param name="input" select="$public-properties" />
@@ -185,7 +192,7 @@
 				<xsl:if test="$protected-properties">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Protected properties'"/>
-						<xsl:with-param name="label" select="concat($class-id,':protected:properties')"/>
+						<xsl:with-param name="label" select="concat($class-id,$protected-properties-xref-id)"/>
 					</xsl:call-template>
 					<xsl:call-template name="list-properties">
 						<xsl:with-param name="input" select="$protected-properties" />
@@ -1131,6 +1138,7 @@
 			<xsl:call-template name="summary-listing">
 				<xsl:with-param name="input" select="$constants" />
 				<xsl:with-param name="title" select="'Constants'" />
+				<xsl:with-param name="listing-xref" select="concat(@id,$constants-xref-id)" />
 			</xsl:call-template>
 		</xsl:if>
 		
@@ -1138,6 +1146,7 @@
 			<xsl:call-template name="summary-listing">
 				<xsl:with-param name="input" select="$public-methods" />
 				<xsl:with-param name="title" select="'Public methods'" />
+				<xsl:with-param name="listing-xref" select="concat(@id,$public-methods-xref-id)" />				
 			</xsl:call-template>
 		</xsl:if>
 		
@@ -1145,6 +1154,7 @@
 			<xsl:call-template name="summary-listing">
 				<xsl:with-param name="input" select="$protected-methods" />
 				<xsl:with-param name="title" select="'Protected methods'" />
+				<xsl:with-param name="listing-xref" select="concat(@id,$protected-methods-xref-id)" />	
 			</xsl:call-template>
 		</xsl:if>
 		
@@ -1152,6 +1162,7 @@
 			<xsl:call-template name="summary-listing">
 				<xsl:with-param name="input" select="$public-properties" />
 				<xsl:with-param name="title" select="'Public properties'" />
+				<xsl:with-param name="listing-xref" select="concat(@id,$public-properties-xref-id)" />				
 			</xsl:call-template>
 		</xsl:if>
 		
@@ -1159,6 +1170,7 @@
 			<xsl:call-template name="summary-listing">
 				<xsl:with-param name="input" select="$protected-properties" />
 				<xsl:with-param name="title" select="'Protected properties'" />
+				<xsl:with-param name="listing-xref" select="concat(@id,$protected-properties-xref-id)" />
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
@@ -1166,6 +1178,7 @@
 	<xsl:template name="summary-listing">
 		<xsl:param name="input" select="''"/>
 		<xsl:param name="title" select="''"/>
+		<xsl:param name="listing-xref" select="''"/>
 		<xsl:param name="defined-by" select="'Defined by'"/>
 		
 		<xsl:value-of select="$newline" />
@@ -1175,8 +1188,16 @@
 		<xsl:value-of select="$newline" />		
 		
 		<xsl:if test="$title != ''">
-			<!-- TODO: nameref to title item -->
-			<xsl:value-of select="$title" />
+			<xsl:choose>
+				<xsl:when test="$listing-xref != ''">
+					<xsl:call-template name="xref">
+						<xsl:with-param name="input" select="$listing-xref" />
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$title" />
+				</xsl:otherwise>
+			</xsl:choose>
 			<xsl:text> &amp; </xsl:text>
 			<xsl:value-of select="$defined-by" />
 			<xsl:text>\\</xsl:text>
