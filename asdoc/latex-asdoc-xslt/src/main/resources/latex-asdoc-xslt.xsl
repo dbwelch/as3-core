@@ -1195,7 +1195,9 @@
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="$title" />
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="$title" />
+					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:text> &amp; </xsl:text>
@@ -1211,11 +1213,15 @@
 				<xsl:with-param name="input" select="@id" />
 			</xsl:call-template>
 			<xsl:value-of select="$newline" />
-			<xsl:value-of select="shortdesc" />
+			<xsl:call-template name="escape">
+				<xsl:with-param name="input" select="shortdesc" />
+			</xsl:call-template>			
 			<xsl:text> &amp; </xsl:text>
-			<xsl:value-of select="../apiName" />
+			<xsl:call-template name="escape">
+				<xsl:with-param name="input" select="../apiName" />
+			</xsl:call-template>
 			<xsl:text>\\</xsl:text>
-			<xsl:value-of select="$newline" />			
+			<xsl:value-of select="$newline" />
 		</xsl:for-each>
 		
 		<xsl:text>\end{tabularx}</xsl:text>
