@@ -13,13 +13,16 @@
 		<xsl:output-character character="&#xB0;" string="&amp;deg;"/>
 		<xsl:output-character character="&#x2122;" string="&amp;trade;"/>
 	</xsl:character-map>
-	<xsl:output cdata-section-elements="description" method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
+	<xsl:output method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
 	<xsl:strip-space elements="apiDesc" />
 	<xsl:param name="page-header-left" select="'Freeform Systems'"/>
 	<xsl:param name="page-header-right" select="'API Documentation'"/>
 	<xsl:param name="dita-dir" select="'tempdita'"/>	
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
 	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packagemap.xml')"/>
+	<xsl:param name="toplevel-path" select="'toplevel.xml'" />
+	<xsl:variable name="packages" select="document($packages-map-path)" />
+	<xsl:variable name="toplevel" select="document($toplevel-path)" />
 
 	<xsl:variable name="newline">
 		<xsl:text>
@@ -29,10 +32,19 @@
 		<xsl:text>	</xsl:text>
 	</xsl:variable>
 	<xsl:template match="/">
+
 		<xsl:call-template name="header" />
 		
+		<!--
+		<xsl:call-template name="paragraph">
+			<xsl:with-param name="text">
+				<xsl:text>DEBUG: </xsl:text><xsl:value-of select="$toplevel//classRec" />
+			</xsl:with-param>
+		</xsl:call-template>
+		-->
+		
 		<!--  PACKAGES-->
-		<xsl:variable name="packages" select="document($packages-map-path)" />
+		
 		<xsl:for-each select="$packages//apiPackage">
 			<xsl:sort select="@id"/>
 			<xsl:variable name="package-id" select="@id"/>
@@ -55,6 +67,14 @@
 					<xsl:with-param name="title" select="apiName"/>
 					<xsl:with-param name="label" select="$class-id"/>
 				</xsl:call-template>
+								
+				<xsl:call-template name="begin-paragraph" />
+				<xsl:value-of select="apiName" />
+				<xsl:call-template name="inheritance" />
+				<xsl:call-template name="end-paragraph" />
+				
+				
+				<xsl:call-template name="implements" />
 				
 				<xsl:call-template name="details">
 					<xsl:with-param name="package" select="$package-id"/>
@@ -181,6 +201,72 @@
 		<xsl:call-template name="footer"/>
 	</xsl:template>
 	
+	<xsl:template name="inheritance">
+		<xsl:param name="input" select="apiClassifierDetail/apiClassifierDef/apiBaseClassifier" />
+		<xsl:param name="prefix" select="' \begin{math}\Rightarrow\end{math} '" />
+		
+		<xsl:if test="$input != ''">
+			
+			<xsl:if test="$prefix != ''">
+				<xsl:value-of select="$prefix" />
+			</xsl:if>
+			
+			<!--
+			<xsl:call-template name="paragraph">
+				<xsl:with-param name="text" select="$input"/>
+			</xsl:call-template>
+			
+			<xsl:call-template name="paragraph">
+				<xsl:with-param name="text">
+					<xsl:text>INHERITANCE: </xsl:text><xsl:value-of select="$toplevel//classRec" />
+				</xsl:with-param>
+			</xsl:call-template>			
+			-->
+			
+			<xsl:variable name="matched" select="$toplevel//classRec[@fullname=$input]" />
+			
+			<xsl:choose>
+				<!-- check for a valid xref -->
+				<xsl:when test="$matched">
+					<xsl:call-template name="xref">
+						<xsl:with-param name="input" select="$input"/>
+					</xsl:call-template>
+
+					<xsl:variable name="namespace" select="$matched/@namespace" />
+					<xsl:variable name="base" select="$matched/@baseclass" />
+					<xsl:variable name="doc" select="document(concat($dita-dir,$namespace,'.xml'))" />
+
+					<xsl:variable name="found" select="$doc//apiClassifier[@id = $base]" />
+				
+					<xsl:if test="$found">
+						<xsl:call-template name="inheritance">
+							<xsl:with-param name="input" select="$found" />
+						</xsl:call-template>
+					</xsl:if>
+			
+					<xsl:if test="not($found)">
+						<xsl:call-template name="inheritance">
+							<xsl:with-param name="input" select="$base" />
+						</xsl:call-template>						
+					</xsl:if>					
+				
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$input" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+		
+	</xsl:template>
+	
+	<xsl:template name="implements">
+		<xsl:param name="input" select="apiClassifierDetail/apiClassifierDef/apiBaseInterface" />
+		
+		<xsl:for-each select="$input">
+			
+		</xsl:for-each>
+	</xsl:template>
+	
 	<xsl:template name="list-methods">
 		<xsl:param name="input" select="''" />			
 		<xsl:for-each select="$input">
@@ -285,10 +371,17 @@
 								</xsl:call-template>
 							</xsl:with-param>
 						</xsl:call-template>
-
+						
+						<!-- also output the full path to the symbol when we have an xref -->
 						<xsl:value-of select="' -- '" />
 						<xsl:call-template name="emph">
-							<xsl:with-param name="input" select="$xref" />
+							<xsl:with-param name="input">
+								<xsl:call-template name="search-and-replace">
+									<xsl:with-param name="input" select="$xref" />
+									<xsl:with-param name="search-string" select="':'" />
+									<xsl:with-param name="replace-string" select="'.'" />
+								</xsl:call-template>
+							</xsl:with-param>
 						</xsl:call-template>
 																	
 					</xsl:when>
@@ -912,8 +1005,16 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
+		<xsl:variable name="hash">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$underscore" />
+				<xsl:with-param name="search-string" select="'#'" />
+				<xsl:with-param name="replace-string" select="'\#'" />
+			</xsl:call-template>
+		</xsl:variable>		
+		
 		<xsl:call-template name="search-and-replace">
-			<xsl:with-param name="input" select="$underscore" />
+			<xsl:with-param name="input" select="$hash" />
 			<xsl:with-param name="search-string" select="'$'" />
 			<xsl:with-param name="replace-string" select="'\$'" />
 		</xsl:call-template>		
@@ -930,8 +1031,16 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
+		<xsl:variable name="hash">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$underscore" />
+				<xsl:with-param name="search-string" select="'#'" />
+				<xsl:with-param name="replace-string" select="''" />
+			</xsl:call-template>
+		</xsl:variable>
+		
 		<xsl:call-template name="search-and-replace">
-			<xsl:with-param name="input" select="$underscore" />
+			<xsl:with-param name="input" select="$hash" />
 			<xsl:with-param name="search-string" select="'$'" />
 			<xsl:with-param name="replace-string" select="''" />
 		</xsl:call-template>
