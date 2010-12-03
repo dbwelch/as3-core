@@ -47,7 +47,7 @@ package com.ffsys.io.xml {
 		*	and an <code>IParser</code> implementation.
 		*	
 		*	@param classReference The <code>Class</code> that
-		*	should use the given <code>IParser</code>/.
+		*	should use the given <code>IParser</code>.
 		*	@param parser The <code>IParser</code> to associate
 		*	with <code>classReference</code>.
 		*/

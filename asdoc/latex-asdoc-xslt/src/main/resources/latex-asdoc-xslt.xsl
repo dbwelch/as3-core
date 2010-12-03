@@ -60,7 +60,24 @@
 				<xsl:variable name="class-id" select="@id"/>
 				
 				<xsl:variable name="has-constants" select="count(apiValue/apiValueDetail/apiValueDef[not(apiProperty)]) &gt; 0"/>
+				<xsl:variable name="constants" select="apiValue[not(apiValueDetail/apiValueDef/apiProperty)]" />
 				<xsl:variable name="has-constructor" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiAccess[@value = 'public' or @value = 'protected']" />
+				
+				<xsl:variable
+					name="public-methods"
+					select="apiOperation[apiOperationDetail/apiOperationDef/apiAccess/@value = 'public']" />
+					
+				<xsl:variable
+					name="protected-methods"
+					select="apiOperation[apiOperationDetail/apiOperationDef/apiAccess/@value = 'protected']" />	
+					
+				<xsl:variable
+					name="public-properties"
+					select="apiValue[apiValueDetail/apiValueDef/apiAccess/@value = 'public' and apiValueDetail/apiValueDef/apiProperty]" />
+					
+				<xsl:variable
+					name="protected-properties"
+					select="apiValue[apiValueDetail/apiValueDef/apiAccess/@value = 'protected' and apiValueDetail/apiValueDef/apiProperty]" />
 				
 				<xsl:call-template name="section">
 					<xsl:with-param name="title" select="apiName"/>
@@ -78,6 +95,15 @@
 				
 				<!-- SEE ALSO XREF -->
 				<xsl:call-template name="list-see" />
+				
+				<!-- SUMMARY LISTINGS -->
+				<xsl:call-template name="class-summary">
+					<xsl:with-param name="constants" select="$constants"/>
+					<xsl:with-param name="public-methods" select="$public-methods"/>
+					<xsl:with-param name="protected-methods" select="$protected-methods"/>
+					<xsl:with-param name="public-properties" select="$public-properties"/>
+					<xsl:with-param name="protected-properties" select="$protected-properties"/>
+				</xsl:call-template>			
 				
 				<!-- CONSTRUCTOR -->
 				<xsl:if test="$has-constructor">
@@ -107,7 +133,7 @@
 						<xsl:with-param name="label" select="concat($class-id,':constants')"/>
 					</xsl:call-template>
 					
-					<xsl:for-each select="apiValue[not(apiValueDetail/apiValueDef/apiProperty)]">
+					<xsl:for-each select="$constants">
 						<xsl:sort select="apiName"/>
 						<xsl:if test="not(apiValueDetail/apiValueDef/apiProperty)">
 							<xsl:call-template name="subsubsection">
@@ -122,11 +148,7 @@
 					</xsl:for-each>
 				</xsl:if>
 				
-				<!-- PUBLIC METHODS -->
-				<xsl:variable
-					name="public-methods"
-					select="apiOperation[apiOperationDetail/apiOperationDef/apiAccess/@value = 'public']" />
-					
+				<!-- PUBLIC METHODS -->					
 				<xsl:if test="$public-methods">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Public methods'"/>
@@ -137,11 +159,7 @@
 					</xsl:call-template>
 				</xsl:if>
 				
-				<!-- PROTECTED METHODS -->
-				<xsl:variable
-					name="protected-methods"
-					select="apiOperation[apiOperationDetail/apiOperationDef/apiAccess/@value = 'protected']" />
-		
+				<!-- PROTECTED METHODS -->		
 				<xsl:if test="$protected-methods">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Protected methods'"/>
@@ -152,11 +170,7 @@
 					</xsl:call-template>
 				</xsl:if>
 				
-				<!-- PUBLIC PROPERTIES -->
-				<xsl:variable
-					name="public-properties"
-					select="apiValue[apiValueDetail/apiValueDef/apiAccess/@value = 'public']" />
-					
+				<!-- PUBLIC PROPERTIES -->					
 				<xsl:if test="$public-properties">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Public properties'"/>
@@ -167,11 +181,7 @@
 					</xsl:call-template>
 				</xsl:if>
 				
-				<!-- PROTECTED PROPERTIES -->
-				<xsl:variable
-					name="protected-properties"
-					select="apiValue[apiValueDetail/apiValueDef/apiAccess/@value = 'protected']" />
-					
+				<!-- PROTECTED PROPERTIES -->					
 				<xsl:if test="$protected-properties">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title" select="'Protected properties'"/>
@@ -341,17 +351,9 @@
 			<xsl:sort select="apiName"/>
 			<xsl:if test="apiValueDetail/apiValueDef/apiProperty">
 				
-				<xsl:variable name="label">
-					<xsl:call-template name="search-and-replace">
-						<xsl:with-param name="input" select="@id" />
-						<xsl:with-param name="search-string" select="':get'" />
-						<xsl:with-param name="replace-string" select="''" />
-					</xsl:call-template>
-				</xsl:variable>
-				
 				<xsl:call-template name="subsubsection">
 					<xsl:with-param name="title" select="apiName"/>
-					<xsl:with-param name="label" select="$label"/>
+					<xsl:with-param name="label" select="@id"/>
 				</xsl:call-template>
 				<xsl:call-template name="paragraph">
 					<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
@@ -793,7 +795,7 @@
 	<xsl:template name="nameref">
 		<xsl:param name="input" select="''" />
 		<xsl:text>\nameref{</xsl:text>
-		<xsl:call-template name="clean">
+		<xsl:call-template name="escape-label">
 			<xsl:with-param name="input" select="$input"/>
 		</xsl:call-template>
 		<xsl:text>}</xsl:text>
@@ -936,7 +938,7 @@
 		<xsl:variable name="access" select="apiClassifierDetail/apiClassifierDef/apiAccess/@value" />		
 		
 		<xsl:value-of select="$newline" />
-		<xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text>
+		<xsl:text>\begin{tabularx}{\textwidth}{@{\extracolsep{\fill}}XR@{}}</xsl:text>
 		<xsl:value-of select="$newline" />
 		
 		<xsl:if test="$package != ''">
@@ -1112,6 +1114,96 @@
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
+	<xsl:template name="class-summary">
+		<xsl:param name="constants" select="''"/>
+		<xsl:param name="public-methods" select="''"/>
+		<xsl:param name="protected-methods" select="''"/>
+		<xsl:param name="public-properties" select="''"/>
+		<xsl:param name="protected-properties" select="''"/>
+		
+		<xsl:if test="count($constants) &gt; 0 or count($public-methods) &gt; 0 or count($protected-methods) &gt; 0 or count($public-properties) &gt; 0 or count($protected-properties) &gt; 0">
+			<xsl:call-template name="subtitle">
+				<xsl:with-param name="input" select="'Summary'" />
+			</xsl:call-template>
+		</xsl:if>
+		
+		<xsl:if test="count($constants) &gt; 0">
+			<xsl:call-template name="summary-listing">
+				<xsl:with-param name="input" select="$constants" />
+				<xsl:with-param name="title" select="'Constants'" />
+			</xsl:call-template>
+		</xsl:if>
+		
+		<xsl:if test="count($public-methods) &gt; 0">
+			<xsl:call-template name="summary-listing">
+				<xsl:with-param name="input" select="$public-methods" />
+				<xsl:with-param name="title" select="'Public methods'" />
+			</xsl:call-template>
+		</xsl:if>
+		
+		<xsl:if test="count($protected-methods) &gt; 0">
+			<xsl:call-template name="summary-listing">
+				<xsl:with-param name="input" select="$protected-methods" />
+				<xsl:with-param name="title" select="'Protected methods'" />
+			</xsl:call-template>
+		</xsl:if>
+		
+		<xsl:if test="count($public-properties) &gt; 0">
+			<xsl:call-template name="summary-listing">
+				<xsl:with-param name="input" select="$public-properties" />
+				<xsl:with-param name="title" select="'Public properties'" />
+			</xsl:call-template>
+		</xsl:if>
+		
+		<xsl:if test="count($protected-properties) &gt; 0">
+			<xsl:call-template name="summary-listing">
+				<xsl:with-param name="input" select="$protected-properties" />
+				<xsl:with-param name="title" select="'Protected properties'" />
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="summary-listing">
+		<xsl:param name="input" select="''"/>
+		<xsl:param name="title" select="''"/>
+		<xsl:param name="defined-by" select="'Defined by'"/>
+		
+		<xsl:value-of select="$newline" />
+		<xsl:text>{\scriptsize</xsl:text>
+		<xsl:value-of select="$newline" />		
+		<xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text>
+		<xsl:value-of select="$newline" />		
+		
+		<xsl:if test="$title != ''">
+			<!-- TODO: nameref to title item -->
+			<xsl:value-of select="$title" />
+			<xsl:text> &amp; </xsl:text>
+			<xsl:value-of select="$defined-by" />
+			<xsl:text>\\</xsl:text>
+			<xsl:value-of select="$newline" />	
+			<xsl:value-of select="'\hline'" />
+			<xsl:value-of select="$newline" />		
+		</xsl:if>
+		
+		<xsl:for-each select="$input">
+			<xsl:call-template name="xref">
+				<xsl:with-param name="input" select="@id" />
+			</xsl:call-template>
+			<xsl:value-of select="$newline" />
+			<xsl:value-of select="shortdesc" />
+			<xsl:text> &amp; </xsl:text>
+			<xsl:value-of select="../apiName" />
+			<xsl:text>\\</xsl:text>
+			<xsl:value-of select="$newline" />			
+		</xsl:for-each>
+		
+		<xsl:text>\end{tabularx}</xsl:text>
+		<!-- end size block -->
+		<xsl:text>}</xsl:text>		
+		<xsl:value-of select="$newline" />
+		
+	</xsl:template>	
+	
 	<xsl:template name="clean">
 		<xsl:param name="input" />
 		<xsl:call-template name="escape">
@@ -1216,9 +1308,17 @@
 	<xsl:template name="escape-label">
 		<xsl:param name="input" />
 		
-		<xsl:variable name="underscore">
+		<xsl:variable name="label">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$input" />
+				<xsl:with-param name="search-string" select="':get'" />
+				<xsl:with-param name="replace-string" select="''" />
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="underscore">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$label" />
 				<xsl:with-param name="search-string" select="'_'" />
 				<xsl:with-param name="replace-string" select="'-'" />
 			</xsl:call-template>
@@ -1443,6 +1543,7 @@
 % tt
 \normalfont 
 \usepackage[T1]{fontenc} 
+\usepackage{array}
 \usepackage{setspace}
 \usepackage{geometry} 
 \usepackage[parfill]{parskip} 
@@ -1461,6 +1562,9 @@
 \usepackage{fancyhdr}
 %\setlength{\headheight}{15.2pt}
 \pagestyle{fancy}
+
+% increase table row top padding
+\setlength{\extrarowheight}{2.5pt}
 
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}%
 \newcolumntype{C}{>{\centering\arraybackslash}X}%
