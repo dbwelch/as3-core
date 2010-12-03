@@ -933,6 +933,9 @@
 	
 	<xsl:template name="class-details">
 		<xsl:param name="package" />
+		
+		<xsl:variable name="list-delimiter" select="', '" />
+		
 		<xsl:value-of select="$newline" />
 		<xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text>
 		<xsl:value-of select="$newline" />
@@ -966,7 +969,6 @@
 				<!-- interface inheritance -->
 				<xsl:otherwise>
 					<xsl:variable name="interfaces" select="apiClassifierDetail/apiClassifierDef/apiBaseInterface" />
-					<xsl:variable name="interface-delimiter" select="', '" />
 					<xsl:for-each select="$interfaces">
 						<xsl:choose>
 							<xsl:when test="position() = 1">
@@ -978,7 +980,7 @@
 							<xsl:otherwise>
 								<xsl:call-template name="inheritance">
 									<xsl:with-param name="input" select="." />
-									<xsl:with-param name="prefix" select="$interface-delimiter" />
+									<xsl:with-param name="prefix" select="$list-delimiter" />
 								</xsl:call-template>
 							</xsl:otherwise>
 						</xsl:choose>
@@ -1000,7 +1002,65 @@
 			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
 		</xsl:if>
-	
+		
+		<!-- sub classes & interfaces listings -->
+		<xsl:variable name="id" select="@id" />		
+		<xsl:choose>
+			<!-- sub classes -->			
+			<xsl:when test="not(apiClassifierDetail/apiClassifierDef/apiInterface)">
+				<xsl:variable name="sub-classes" select="$toplevel//classRec[@baseclass = $id]" />
+
+				<xsl:if test="count($sub-classes) &gt; 0">
+
+					<xsl:text>\scriptsize{Sub classes:} &amp; </xsl:text>
+
+					<xsl:text>\scriptsize{</xsl:text>
+
+					<xsl:for-each select="$sub-classes">
+
+						<xsl:if test="position() &gt; 1">
+							<xsl:value-of select="$list-delimiter" />
+						</xsl:if>
+
+						<xsl:call-template name="xref">
+							<xsl:with-param name="input" select="@fullname" />
+						</xsl:call-template>
+					</xsl:for-each>
+
+					<xsl:text>}</xsl:text>
+					<xsl:text>\\</xsl:text>			
+
+				</xsl:if>				
+			</xsl:when>
+			<!-- sub interfaces -->
+			<xsl:otherwise>
+			
+				<xsl:variable name="sub-interfaces" select="$toplevel//interfaceRec[contains(@baseClasses, $id)]" />
+		
+				<xsl:if test="count($sub-interfaces) &gt; 0">
+			
+					<xsl:text>\scriptsize{Sub interfaces:} &amp; </xsl:text>
+		
+					<xsl:text>\scriptsize{</xsl:text>
+
+					<xsl:for-each select="$sub-interfaces">
+				
+						<xsl:if test="position() &gt; 1">
+							<xsl:value-of select="$list-delimiter" />
+						</xsl:if>
+
+						<xsl:call-template name="xref">
+							<xsl:with-param name="input" select="@fullname" />
+						</xsl:call-template>
+					</xsl:for-each>
+
+					<xsl:text>}</xsl:text>
+					<xsl:text>\\</xsl:text>			
+			
+				</xsl:if>				
+			</xsl:otherwise>
+		</xsl:choose>
+
 		<xsl:text>\end{tabularx}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>	

@@ -9,7 +9,7 @@ package com.ffsys.io.log {
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
-	*	@author Vish Vishvanath / Mischa Williamson
+	*	@author Vish Vishvanath, Mischa Williamson
 	*	@since  09.03.2008
 	*/
 	public class LogEvent extends Event {

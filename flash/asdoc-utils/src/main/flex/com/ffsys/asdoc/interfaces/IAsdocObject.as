@@ -23,7 +23,8 @@ package com.ffsys.asdoc.interfaces
 	*/
 	public interface IAsdocObject
 		extends	IStringIdentifier,
-				IFlush
+				IFlush,
+				IAsdocAlt
 	{
 		/**
 		* 	Retrieves an empty sprite.
