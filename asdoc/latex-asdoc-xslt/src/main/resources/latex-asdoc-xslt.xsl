@@ -60,24 +60,18 @@
 				<xsl:variable name="class-id" select="@id"/>
 				
 				<xsl:variable name="has-constants" select="count(apiValue/apiValueDetail/apiValueDef[not(apiProperty)]) &gt; 0"/>
-				
 				<xsl:variable name="has-constructor" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiAccess[@value = 'public' or @value = 'protected']" />
 				
 				<xsl:call-template name="section">
 					<xsl:with-param name="title" select="apiName"/>
 					<xsl:with-param name="label" select="$class-id"/>
 				</xsl:call-template>
-								
-				<xsl:call-template name="begin-paragraph" />
-				<xsl:value-of select="apiName" />
-				<xsl:call-template name="inheritance" />
-				<xsl:call-template name="end-paragraph" />
 				
-				
-				<xsl:call-template name="implements" />
+				<xsl:call-template name="class-details">
+					<xsl:with-param name="package" select="$package-id"/>
+				</xsl:call-template>
 				
 				<xsl:call-template name="details">
-					<xsl:with-param name="package" select="$package-id"/>
 					<xsl:with-param name="author" select="prolog/author"/>
 					<xsl:with-param name="langversion" select="prolog/asMetadata/apiVersion/apiLanguage/@version"/>
 					<xsl:with-param name="playerversion" select="prolog/asMetadata/apiVersion/apiPlatform/@version"/>
@@ -202,8 +196,15 @@
 	</xsl:template>
 	
 	<xsl:template name="inheritance">
-		<xsl:param name="input" select="apiClassifierDetail/apiClassifierDef/apiBaseClassifier" />
+		<xsl:param name="input" select="''" />
 		<xsl:param name="prefix" select="' \begin{math}\Rightarrow\end{math} '" />
+		
+		<!-- TODO : add support for interface inheritance hierarchy -->
+		
+		<!--
+		apiInterface
+		apiBaseInterface
+		-->
 		
 		<xsl:if test="$input != ''">
 			
@@ -223,7 +224,7 @@
 			</xsl:call-template>			
 			-->
 			
-			<xsl:variable name="matched" select="$toplevel//classRec[@fullname=$input]" />
+			<xsl:variable name="matched" select="$toplevel//classRec[@fullname=$input] | $toplevel//interfaceRec[@fullname=$input]" />
 			
 			<xsl:choose>
 				<!-- check for a valid xref -->
@@ -234,21 +235,33 @@
 
 					<xsl:variable name="namespace" select="$matched/@namespace" />
 					<xsl:variable name="base" select="$matched/@baseclass" />
-					<xsl:variable name="doc" select="document(concat($dita-dir,$namespace,'.xml'))" />
+					<xsl:variable name="doc" select="document(concat($dita-dir,$delimiter,$namespace,'.xml'))" />
 
 					<xsl:variable name="found" select="$doc//apiClassifier[@id = $base]" />
 				
 					<xsl:if test="$found">
-						<xsl:call-template name="inheritance">
-							<xsl:with-param name="input" select="$found" />
-						</xsl:call-template>
+						
+						<xsl:choose>
+							<xsl:when test="$found/apiClassifierDetail/apiClassifierDef/apiBaseClassifier != ''">
+								<xsl:call-template name="inheritance">
+									<xsl:with-param name="input" select="$found/apiClassifierDetail/apiClassifierDef/apiBaseClassifier" />
+								</xsl:call-template>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:if test="$found/apiClassifierDetail/apiClassifierDef/apiBaseInterface != ''">
+									<xsl:call-template name="inheritance">
+										<xsl:with-param name="input" select="$found/apiClassifierDetail/apiClassifierDef/apiBaseInterface" />
+									</xsl:call-template>
+								</xsl:if>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:if>
 			
 					<xsl:if test="not($found)">
 						<xsl:call-template name="inheritance">
 							<xsl:with-param name="input" select="$base" />
 						</xsl:call-template>						
-					</xsl:if>					
+					</xsl:if>
 				
 				</xsl:when>
 				<xsl:otherwise>
@@ -263,6 +276,46 @@
 		<xsl:param name="input" select="apiClassifierDetail/apiClassifierDef/apiBaseInterface" />
 		
 		<xsl:for-each select="$input">
+			
+			<xsl:variable name="current" select="." />
+			
+			<xsl:if test="position() &gt; 1">
+				<xsl:value-of select="', '" />
+			</xsl:if>
+
+			<xsl:variable name="matched" select="$toplevel//interfaceRec[@fullname=$current]" />
+			
+			<xsl:choose>
+				<!-- check for a valid xref -->
+				<xsl:when test="$matched">
+					
+					<xsl:call-template name="xref">
+						<xsl:with-param name="input" select="$current"/>
+					</xsl:call-template>
+
+					<xsl:variable name="namespace" select="$matched/@namespace" />
+					<xsl:variable name="base" select="$matched/@baseclass" />
+					<xsl:variable name="doc" select="document(concat($dita-dir,$delimiter,$namespace,'.xml'))" />
+
+					<xsl:variable name="found" select="$doc//apiClassifier[@id = $base]" />
+				
+					<xsl:if test="$found">
+						<xsl:call-template name="implements">
+							<xsl:with-param name="input" select="$found" />
+						</xsl:call-template>
+					</xsl:if>
+			
+					<xsl:if test="not($found)">
+						<xsl:call-template name="implements">
+							<xsl:with-param name="input" select="$base" />
+						</xsl:call-template>
+					</xsl:if>
+				
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$current" />
+				</xsl:otherwise>
+			</xsl:choose>
 			
 		</xsl:for-each>
 	</xsl:template>
@@ -878,8 +931,81 @@
 		</xsl:if>		
 	</xsl:template>		
 	
-	<xsl:template name="details">
+	<xsl:template name="class-details">
 		<xsl:param name="package" />
+		<xsl:value-of select="$newline" />
+		<xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text>
+		<xsl:value-of select="$newline" />
+		
+		<xsl:if test="$package != ''">
+			<xsl:text>\scriptsize{Package:} &amp; </xsl:text>
+			<xsl:text>\scriptsize{</xsl:text>
+			<xsl:call-template name="nameref">
+				<xsl:with-param name="input" select="$package" />
+			</xsl:call-template>
+			<xsl:text>}</xsl:text>
+			<xsl:text>\\</xsl:text>
+			<xsl:value-of select="$newline" />
+		</xsl:if>
+	
+		<!-- inheritance -->
+		
+		<xsl:if test="apiClassifierDetail/apiClassifierDef/apiBaseClassifier != '' or apiClassifierDetail/apiClassifierDef/apiBaseInterface != ''">
+			<xsl:text>\scriptsize{Inheritance:} &amp; </xsl:text>
+		
+			<xsl:text>\scriptsize{</xsl:text>
+			<xsl:choose>			
+				<!-- class inheritance -->
+				<xsl:when test="not(apiClassifierDetail/apiClassifierDef/apiInterface)">
+					<xsl:value-of select="apiName" />
+					<xsl:call-template name="inheritance">
+						<xsl:with-param name="input" select="apiClassifierDetail/apiClassifierDef/apiBaseClassifier" />
+					</xsl:call-template>
+				</xsl:when>
+			
+				<!-- interface inheritance -->
+				<xsl:otherwise>
+					<xsl:variable name="interfaces" select="apiClassifierDetail/apiClassifierDef/apiBaseInterface" />
+					<xsl:variable name="interface-delimiter" select="', '" />
+					<xsl:for-each select="$interfaces">
+						<xsl:choose>
+							<xsl:when test="position() = 1">
+								<xsl:call-template name="inheritance">
+									<xsl:with-param name="input" select="." />
+									<xsl:with-param name="prefix" select="''" />
+								</xsl:call-template>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:call-template name="inheritance">
+									<xsl:with-param name="input" select="." />
+									<xsl:with-param name="prefix" select="$interface-delimiter" />
+								</xsl:call-template>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:for-each>
+				</xsl:otherwise>
+			</xsl:choose>
+		
+			<xsl:text>}</xsl:text>
+			<xsl:text>\\</xsl:text>
+		</xsl:if>
+		
+		<!-- implements for classes -->
+		<xsl:if test="not(apiClassifierDetail/apiClassifierDef/apiInterface) and apiClassifierDetail/apiClassifierDef/apiBaseInterface">
+			<xsl:value-of select="$newline" />
+			<xsl:text>\scriptsize{Implements:} &amp; </xsl:text>
+			<xsl:text>\scriptsize{</xsl:text>
+			<xsl:call-template name="implements" />
+			<xsl:text>}</xsl:text>
+			<xsl:text>\\</xsl:text>
+			<xsl:value-of select="$newline" />
+		</xsl:if>
+	
+		<xsl:text>\end{tabularx}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>	
+	
+	<xsl:template name="details">
 		<xsl:param name="author" />
 		<xsl:param name="langversion" />
 		<xsl:param name="playerversion" />
@@ -887,32 +1013,25 @@
 		<xsl:value-of select="$newline" />
 		<xsl:text>\paragraph{\scriptsize{</xsl:text>
 		
-		<xsl:if test="$package != ''">
-			<xsl:text>Package: </xsl:text>
-			<xsl:call-template name="nameref">
-				<xsl:with-param name="input" select="$package" />
-			</xsl:call-template>
-		</xsl:if>
-		
 		<xsl:if test="$author != ''">
-			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
-			<xsl:text>Author: \emph{</xsl:text><xsl:value-of select="$author" /><xsl:text>}</xsl:text>
+			<xsl:text>Author: \emph{</xsl:text><xsl:value-of select="normalize-space($author)" /><xsl:text>}</xsl:text>
+			<xsl:text>\\</xsl:text>			
 		</xsl:if>
 		<xsl:if test="$since != ''">
-			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
-			<xsl:text>Since: \emph{</xsl:text><xsl:value-of select="$since" /><xsl:text>}</xsl:text>
+			<xsl:text>Since: \emph{</xsl:text><xsl:value-of select="normalize-space($since)" /><xsl:text>}</xsl:text>
+			<xsl:text>\\</xsl:text>			
 		</xsl:if>
 		<xsl:if test="$langversion != ''">
-			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
-			<xsl:text>Language version: \emph{</xsl:text><xsl:value-of select="$langversion" /><xsl:text>}</xsl:text>
+			<xsl:text>Language version: \emph{</xsl:text><xsl:value-of select="normalize-space($langversion)" /><xsl:text>}</xsl:text>
+			<xsl:text>\\</xsl:text>			
 		</xsl:if>
 		<xsl:if test="$playerversion != ''">
-			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
-			<xsl:text>Player version: \emph{</xsl:text><xsl:value-of select="$playerversion" /><xsl:text>}</xsl:text>
+			<xsl:text>Player version: \emph{</xsl:text><xsl:value-of select="normalize-space($playerversion)" /><xsl:text>}</xsl:text>
+			<xsl:text>\\</xsl:text>			
 		</xsl:if>				
 	
 		<xsl:text>}}</xsl:text>
@@ -1261,12 +1380,17 @@
 \usepackage{url} 
 \usepackage{moreverb}
 \usepackage{listings}
+\usepackage{tabularx}
 \usepackage{wallpaper}
 \usepackage{hyperref}
 
 \usepackage{fancyhdr}
 %\setlength{\headheight}{15.2pt}
 \pagestyle{fancy}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}%
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
 ]]></xsl:text>
 	</xsl:template>	
 	

@@ -3,6 +3,7 @@ package com.ffsys.asdoc.interfaces
 	import flash.display.Sprite;
 	
 	import com.ffsys.core.IStringIdentifier;
+	import com.ffsys.core.IFlush;
 
 	/**
 	*	An interface for the <em>actionscript documentation</em> test package.
@@ -20,7 +21,9 @@ package com.ffsys.asdoc.interfaces
 	*	@author Mischa Williamson
 	*	@since  02.12.2010
 	*/
-	public interface IAsdocObject extends IStringIdentifier
+	public interface IAsdocObject
+		extends	IStringIdentifier,
+				IFlush
 	{
 		/**
 		* 	Retrieves an empty sprite.

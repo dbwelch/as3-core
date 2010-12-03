@@ -84,9 +84,9 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
-		* 	@inheritDoc
-		* 
 		* 	Overriden to add no functionality whatsoever.
+		* 
+		* 	@inheritDoc
 		*/
 		override public function set id(value:String):void
 		{
@@ -94,9 +94,9 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
-		* 	@deprecated
-		* 
 		* 	A java style deprecated declaration.
+		* 	
+		* 	@deprecated amazing
 		*/
 		public function jdeprecated():void
 		{
