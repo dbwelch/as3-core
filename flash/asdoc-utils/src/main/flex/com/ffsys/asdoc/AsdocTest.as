@@ -223,7 +223,15 @@ package com.ffsys.asdoc {
 		public function set writeonly(write:String):void
 		{
 			_writeonly = write;
-		}	
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function flush():void
+		{
+			//
+		}
 	}
 }
 

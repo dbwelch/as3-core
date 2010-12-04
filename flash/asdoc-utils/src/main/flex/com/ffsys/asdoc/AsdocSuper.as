@@ -53,7 +53,7 @@ package com.ffsys.asdoc
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Does nothing.
 		*/
 		public function flush():void
 		{

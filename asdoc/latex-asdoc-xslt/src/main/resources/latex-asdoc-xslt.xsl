@@ -741,7 +741,7 @@
 		<xsl:value-of select="'):void'" />		
 	</xsl:template>
 	
-	<xsl:template name="constructor-signature">		
+	<xsl:template name="constructor-signature">
 		<xsl:call-template name="method-signature">
 			<xsl:with-param name="access" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiAccess/@value" />
 			<xsl:with-param name="name" select="apiName" />
@@ -753,6 +753,7 @@
 	<xsl:template name="method-signature">
 		<xsl:param name="params" select="apiOperationDetail/apiOperationDef/apiParam" />
 		<xsl:param name="access" select="apiOperationDetail/apiOperationDef/apiAccess/@value" />
+		<xsl:param name="prefix" select="''" />
 		<xsl:param name="name" select="apiName" />
 		<!--
 		<xsl:param name="return-type" select="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value" />
@@ -776,6 +777,15 @@
 		<xsl:value-of select="$start-verb" />
 		<xsl:value-of select="$access" />
 		<xsl:text> </xsl:text>
+		
+		<xsl:if test="$prefix != ''">
+			<xsl:value-of select="$prefix" />
+			<xsl:text> </xsl:text>
+		</xsl:if>
+		
+		<xsl:if test="apiOperationDetail/apiOperationDef/apiIsOverride">	
+			<xsl:value-of select="'override '" />
+		</xsl:if>
 		<xsl:value-of select="'function'" />
 		<xsl:text> </xsl:text>
 		<xsl:value-of select="$name" />
@@ -1276,16 +1286,23 @@
 				<xsl:text>\scriptsize{Class:} &amp; </xsl:text>
 				<xsl:text>\scriptsize{\verb|</xsl:text>
 				<xsl:value-of select="$access" />
-				<xsl:text> class </xsl:text>
+				<xsl:if test="apiClassifierDetail/apiClassifierDef/apiDynamic">
+					<xsl:text> dynamic</xsl:text>
+				</xsl:if>
+				<xsl:if test="apiClassifierDetail/apiClassifierDef/apiFinal">
+					<xsl:text> final</xsl:text>
+				</xsl:if>		
+				<xsl:text> class</xsl:text>
 			</xsl:when>
 			<!-- interface -->
 			<xsl:otherwise>
 				<xsl:text>\scriptsize{Interface:} &amp; </xsl:text>
 				<xsl:text>\scriptsize{\verb|</xsl:text>
 				<xsl:value-of select="$access" />								
-				<xsl:text> interface </xsl:text>				
+				<xsl:text> interface</xsl:text>				
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:value-of select="' '" />
 		<xsl:value-of select="apiName" />
 		<xsl:value-of select="'|'" />		
 		<xsl:text>}</xsl:text>
