@@ -255,7 +255,7 @@
 				<xsl:variable name="package" select="document($package-path)" />
 				<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
-				<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id]"/>
+				<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-classes) &gt; 0">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title">
@@ -282,7 +282,7 @@
 				<xsl:variable name="package" select="document($package-path)" />
 				<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
-				<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id]"/>
+				<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-interfaces) &gt; 0">
 					<xsl:call-template name="subsection">
 						<xsl:with-param name="title">
