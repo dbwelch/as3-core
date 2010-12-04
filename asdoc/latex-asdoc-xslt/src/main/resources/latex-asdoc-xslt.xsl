@@ -14,22 +14,18 @@
 		<xsl:output-character character="&#x2122;" string="&amp;trade;"/>
 	</xsl:character-map>
 	<xsl:output method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
-	<xsl:strip-space elements="apiDesc" />
 	<xsl:param name="page-header-left" select="'Freeform Systems'"/>
 	<xsl:param name="page-header-right" select="'API Documentation'"/>
-	<xsl:param name="dita-dir" select="'tempdita'"/>	
+	<xsl:param name="dita-dir" select="'tempdita'"/>
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
 	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packages.dita')"/>
 	<xsl:param name="toplevel-path" select="'toplevel.xml'" />
-	
 	<xsl:param name="constants-xref-id" select="':constants'" />
 	<xsl:param name="public-methods-xref-id" select="':public:methods'" />
 	<xsl:param name="protected-methods-xref-id" select="':protected:methods'" />
 	<xsl:param name="public-properties-xref-id" select="':public:properties'" />
 	<xsl:param name="protected-properties-xref-id" select="':protected:properties'" />
-	
 	<xsl:param name="include-class-meta" select="false()" />
-	
 	<xsl:param name="link-report-path" select="''" />
 	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
@@ -45,14 +41,6 @@
 	<xsl:template match="/">
 
 		<xsl:call-template name="header" />
-		
-		<!--
-		<xsl:call-template name="paragraph">
-			<xsl:with-param name="text">
-				<xsl:text>DEBUG: </xsl:text><xsl:value-of select="$toplevel//classRec" />
-			</xsl:with-param>
-		</xsl:call-template>
-		-->
 		
 		<!-- ALL CLASSES -->
 		<xsl:call-template name="classifier-listing">
@@ -75,11 +63,20 @@
 			<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@href)" />
 			<xsl:variable name="package" select="document($package-path)" />
 			<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
+			<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
 			
 			<xsl:call-template name="part">
 				<xsl:with-param name="title" select="$package-id"/>
 				<xsl:with-param name="label" select="$package-id"/>
 			</xsl:call-template>
+			
+			<xsl:variable name="package-description" select="$toplevel//packageRec[@fullname = $package-id or @fullname = $package-id-null]" />
+			
+			<xsl:if test="$package-description">
+				<xsl:call-template name="paragraph">
+					<xsl:with-param name="text" select="$package-description/description"/>
+				</xsl:call-template>
+			</xsl:if>
 			
 			<!--  PACKAGE-->
 			<xsl:for-each select="$package//apiClassifier">
