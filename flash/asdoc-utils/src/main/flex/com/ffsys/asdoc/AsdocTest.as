@@ -84,7 +84,7 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
-		* 	This method os used to test xref within parameters
+		* 	This method is used to test xref within parameters
 		* 	and return types.
 		* 
 		* 	@param target An instance to <b>not</b> copy into this instance.

@@ -637,7 +637,18 @@
 		<xsl:param name="params" select="apiOperationDetail/apiOperationDef/apiParam" />
 		<xsl:param name="access" select="apiOperationDetail/apiOperationDef/apiAccess/@value" />
 		<xsl:param name="name" select="apiName" />
+		<!--
 		<xsl:param name="return-type" select="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value" />
+		-->
+		
+		<xsl:param name="return-type">
+			<xsl:if test="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value">
+				<xsl:value-of select="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value"/>
+			</xsl:if>
+			<xsl:if test="not(apiOperationDetail/apiOperationDef/apiReturn/apiType/@value) and apiOperationDetail/apiOperationDef/apiReturn/apiOperationClassifier">
+				<xsl:value-of select="apiOperationDetail/apiOperationDef/apiReturn/apiOperationClassifier"/>
+			</xsl:if>
+		</xsl:param>
 		
 		<xsl:call-template name="subtitle">
 			<xsl:with-param name="input" select="'Implementation'" />
@@ -666,17 +677,24 @@
 		</xsl:choose>
 		
 		<xsl:if test="$return-type != ''">
-			
-			
+			<xsl:value-of select="':'" />
 			<xsl:choose>
 				<xsl:when test="$return-type != 'any'">
-					
-					<!-- TODO: xref on return type -->
-					
-					<xsl:value-of select="concat(':',$return-type)" />
+					<xsl:variable name="xref" select="$toplevel//*[@fullname = $return-type]" />
+					<xsl:if test="$xref">
+						<xsl:value-of select="$end-verb" />
+						<xsl:call-template name="xref">
+							<xsl:with-param name="input" select="$xref/@fullname" />
+							<xsl:with-param name="tt" select="true()" />
+						</xsl:call-template>
+						<xsl:value-of select="$start-verb" />
+					</xsl:if>
+					<xsl:if test="not($xref)">
+						<xsl:value-of select="$return-type" />
+					</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>	
-					<xsl:value-of select="':*'" />
+					<xsl:value-of select="'*'" />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
@@ -802,6 +820,7 @@
 		<xsl:param name="input" select="''" />
 		<xsl:param name="scope" select="''" />
 		<xsl:param name="prefix" select="''" />
+		<xsl:param name="tt" select="false()" />
 		
 		<xsl:if test="$input != ''">
 			<xsl:if test="$prefix != ''">
@@ -810,16 +829,42 @@
 			
 			<xsl:if test="$scope != ''">
 				<xsl:variable name="target" select="$scope//*[apiName = $input]" />
-				
-				<xsl:call-template name="nameref">
-					<xsl:with-param name="input" select="$target/@id" />
-				</xsl:call-template>
+				<xsl:choose>
+					<xsl:when test="not($tt)">
+						<xsl:call-template name="nameref">
+							<xsl:with-param name="input" select="$target/@id" />
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>					
+						<xsl:call-template name="texttt">
+							<xsl:with-param name="input">
+								<xsl:call-template name="nameref">
+									<xsl:with-param name="input" select="$target/@id" />
+								</xsl:call-template>							
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:if>
 			
 			<xsl:if test="$scope = ''">
-				<xsl:call-template name="nameref">
-					<xsl:with-param name="input" select="$input" />
-				</xsl:call-template>
+				
+				<xsl:choose>
+					<xsl:when test="not($tt)">
+						<xsl:call-template name="nameref">
+							<xsl:with-param name="input" select="$input" />
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>					
+						<xsl:call-template name="texttt">
+							<xsl:with-param name="input">
+								<xsl:call-template name="nameref">
+									<xsl:with-param name="input" select="$input" />
+								</xsl:call-template>							
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:if>
 		</xsl:if>
 		
@@ -870,15 +915,13 @@
 			<xsl:if test="($type-name != 'restParam')">
 				<xsl:value-of select="./apiItemName"/>
 				<xsl:if test="($type-name != '')">
-					<xsl:text>:</xsl:text>
-					
-					<!-- TODO: cross-referencing -->
-					
+					<xsl:text>:</xsl:text>					
 					<xsl:variable name="xref" select="$toplevel//*[@fullname = $type-name]" />
 					<xsl:if test="$xref">
 						<xsl:value-of select="$end-verb" />
 						<xsl:call-template name="xref">
 							<xsl:with-param name="input" select="$xref/@fullname" />
+							<xsl:with-param name="tt" select="true()" />							
 						</xsl:call-template>
 						<xsl:value-of select="$start-verb" />
 					</xsl:if>
@@ -1448,6 +1491,15 @@
 		</xsl:call-template>
 		<xsl:text>}</xsl:text>
 	</xsl:template>	
+	
+	<xsl:template name="texttt">
+		<xsl:param name="input" />
+		<xsl:text>\texttt{</xsl:text>
+		<xsl:call-template name="clean">
+			<xsl:with-param name="input" select="$input"/>
+		</xsl:call-template>
+		<xsl:text>}</xsl:text>
+	</xsl:template>
 	
 	<xsl:template name="emph">
 		<xsl:param name="input" />
