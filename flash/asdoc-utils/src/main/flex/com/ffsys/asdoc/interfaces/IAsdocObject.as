@@ -1,3 +1,6 @@
+/**
+*	This is a package used to store interfaces that are not used in real world code. They exist solely to test the actionscript documentation functionality for interfaces.
+*/
 package com.ffsys.asdoc.interfaces
 {
 	import flash.display.Sprite;

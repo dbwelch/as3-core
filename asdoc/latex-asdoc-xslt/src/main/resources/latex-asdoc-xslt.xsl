@@ -42,43 +42,52 @@
 
 		<xsl:call-template name="header" />
 		
-		<!-- ALL CLASSES -->
-		<xsl:call-template name="classifier-listing">
-			<xsl:with-param name="input" select="$toplevel//classRec" />
-			<xsl:with-param name="title" select="'Classes'" />
-			<xsl:with-param name="label" select="'classes'" />
-		</xsl:call-template>
-		
-		<!-- ALL INTERFACES -->
-		<xsl:call-template name="classifier-listing">
-			<xsl:with-param name="input" select="$toplevel//interfaceRec" />
-			<xsl:with-param name="title" select="'Interfaces'" />
-			<xsl:with-param name="label" select="'interfaces'" />
-		</xsl:call-template>
-		
 		<!--  PACKAGES-->
-		
 		<xsl:for-each select="$packages//apiItemRef">
-			<!-- <xsl:sort select="@href"/> -->
+			
+			<!--  PACKAGE-->
 			<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@href)" />
 			<xsl:variable name="package" select="document($package-path)" />
 			<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
 			<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
+			
+			<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id]"/>
+			<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id]"/>
 			
 			<xsl:call-template name="part">
 				<xsl:with-param name="title" select="$package-id"/>
 				<xsl:with-param name="label" select="$package-id"/>
 			</xsl:call-template>
 			
+			<!-- package description if available -->
 			<xsl:variable name="package-description" select="$toplevel//packageRec[@fullname = $package-id or @fullname = $package-id-null]" />
-			
 			<xsl:if test="$package-description">
 				<xsl:call-template name="paragraph">
 					<xsl:with-param name="text" select="$package-description/description"/>
 				</xsl:call-template>
 			</xsl:if>
 			
-			<!--  PACKAGE-->
+			<!-- PACKAGE CLASS LISTING -->
+			<xsl:if test="count($package-classes) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Classes'" />
+				</xsl:call-template>
+				<xsl:call-template name="classifier-listing">
+					<xsl:with-param name="input" select="$package-classes" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<!-- PACKAGE INTERFACE LISTING -->
+			<xsl:if test="count($package-interfaces) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Interfaces'" />
+				</xsl:call-template>
+				<xsl:call-template name="classifier-listing">
+					<xsl:with-param name="input" select="$package-interfaces" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<!--  CLASS OR INTERFACE-->
 			<xsl:for-each select="$package//apiClassifier">
 				<xsl:sort select="apiName"/>
 				<xsl:variable name="class-id" select="@id"/>
@@ -218,8 +227,74 @@
 				
 			</xsl:for-each>
 		</xsl:for-each>
-
+		
+		<xsl:call-template name="appendix"/>
 		<xsl:call-template name="footer"/>
+	</xsl:template>
+	
+	<xsl:template name="appendix">
+		
+		<xsl:variable name="classes" select="$toplevel//classRec" />
+		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />		
+		
+		<xsl:call-template name="part">
+			<xsl:with-param name="title" select="'Appendix'"/>
+			<xsl:with-param name="label" select="'appendix'"/>
+		</xsl:call-template>
+		
+		<!-- ALL CLASSES -->
+		<xsl:if test="count($classes) &gt; 0">
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'Class Index'"/>
+				<xsl:with-param name="label" select="'class:index'"/>
+			</xsl:call-template>
+			<xsl:for-each select="$packages//apiItemRef">
+				<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@href)" />
+				<xsl:variable name="package" select="document($package-path)" />
+				<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
+				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
+				<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id]"/>
+				<xsl:if test="count($package-classes) &gt; 0">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title">
+							<xsl:call-template name="xref">
+								<xsl:with-param name="input" select="$package-id"/>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="classifier-listing">
+						<xsl:with-param name="input" select="$package-classes" />
+					</xsl:call-template>
+				</xsl:if>
+			</xsl:for-each>
+		</xsl:if>
+		
+		<!-- ALL INTERFACES -->
+		<xsl:if test="count($interfaces) &gt; 0">
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'Interface Index'"/>
+				<xsl:with-param name="label" select="'interface:index'"/>
+			</xsl:call-template>
+			<xsl:for-each select="$packages//apiItemRef">
+				<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@href)" />
+				<xsl:variable name="package" select="document($package-path)" />
+				<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
+				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
+				<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id]"/>
+				<xsl:if test="count($package-interfaces) &gt; 0">
+					<xsl:call-template name="subsection">
+						<xsl:with-param name="title">
+							<xsl:call-template name="xref">
+								<xsl:with-param name="input" select="$package-id"/>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="classifier-listing">
+						<xsl:with-param name="input" select="$package-interfaces" />
+					</xsl:call-template>
+				</xsl:if>
+			</xsl:for-each>
+		</xsl:if>	
 	</xsl:template>
 	
 	<xsl:template name="inheritance">
@@ -951,22 +1026,8 @@
 	
 	<xsl:template name="classifier-listing">
 		<xsl:param name="input" select="''" />
-		<xsl:param name="title" select="''" />
-		<xsl:param name="label" select="'classes'" />
-		<xsl:param name="listing-title" select="concat('Listing all ',$label)" />
 		
 		<xsl:if test="count($input) &gt; 0">
-			
-			<xsl:call-template name="part">
-				<xsl:with-param name="title" select="$title"/>
-				<xsl:with-param name="label" select="$label"/>
-			</xsl:call-template>
-			
-			<xsl:value-of select="$newline" />
-			<xsl:value-of select="'\section*{'" />
-			<xsl:value-of select="$listing-title" />
-			<xsl:value-of select="'}'" />
-			<xsl:value-of select="$newline" />
 			
 			<xsl:value-of select="$newline" />
 			<xsl:text>{\scriptsize</xsl:text>
