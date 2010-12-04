@@ -30,14 +30,16 @@
 	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
 	<xsl:variable name="toplevel" select="document($toplevel-path)" />
+	
+	<xsl:variable name="start-verb" select="'\verb|'" />
+	<xsl:variable name="end-verb" select="'|'" />
 
 	<xsl:variable name="newline">
 		<xsl:text>
 </xsl:text>
 	</xsl:variable>
-	<xsl:variable name="tab">
-		<xsl:text>	</xsl:text>
-	</xsl:variable>
+	<xsl:variable name="tab" select="'  '" />
+	
 	<xsl:template match="/">
 
 		<xsl:call-template name="header" />
@@ -309,25 +311,12 @@
 		-->
 		
 		<xsl:if test="$input != ''">
-			
 			<xsl:if test="$prefix != ''">
 				<xsl:value-of select="$prefix" />
 			</xsl:if>
 			
-			<!--
-			<xsl:call-template name="paragraph">
-				<xsl:with-param name="text" select="$input"/>
-			</xsl:call-template>
-			
-			<xsl:call-template name="paragraph">
-				<xsl:with-param name="text">
-					<xsl:text>INHERITANCE: </xsl:text><xsl:value-of select="$toplevel//classRec" />
-				</xsl:with-param>
-			</xsl:call-template>			
-			-->
-			
+			<!-- checking for a known class or interface for the inheritance -->
 			<xsl:variable name="matched" select="$toplevel//classRec[@fullname=$input] | $toplevel//interfaceRec[@fullname=$input]" />
-			
 			<xsl:choose>
 				<!-- check for a valid xref -->
 				<xsl:when test="$matched">
@@ -358,20 +347,17 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:if>
-			
 					<xsl:if test="not($found)">
 						<xsl:call-template name="inheritance">
 							<xsl:with-param name="input" select="$base" />
 						</xsl:call-template>						
 					</xsl:if>
-				
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="$input" />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
-		
 	</xsl:template>
 	
 	<xsl:template name="implements">
@@ -571,7 +557,8 @@
 		</xsl:call-template>		
 		
 		<xsl:value-of select="$newline" />
-		<xsl:text>\begin{verbatimtab}[2]</xsl:text>
+		<xsl:value-of select="'\scriptsize{'" />
+		<xsl:value-of select="$start-verb" />
 		
 		<xsl:value-of select="$access" />
 		
@@ -609,12 +596,20 @@
 			<xsl:text>:</xsl:text><xsl:value-of select="$type" />
 		</xsl:if>
 		<xsl:if test="$api-data != ''">
-			<xsl:value-of select="concat($newline,$tab)" /><xsl:text> = </xsl:text><xsl:value-of select="$api-data" />
+			<xsl:value-of select="$end-verb" />
+			<xsl:value-of select="'\\'" />
+			<xsl:value-of select="$newline" />
+			<xsl:value-of select="$start-verb" />
+			<xsl:text> = </xsl:text>
+			<xsl:value-of select="$api-data" />
 		</xsl:if>
 		
 		<!-- also add a setter for readwrite -->
 		<xsl:if test="$api-value-access = 'readwrite'">
+			<xsl:value-of select="$end-verb" />
+			<xsl:value-of select="'\\'" />
 			<xsl:value-of select="$newline" />
+			<xsl:value-of select="$start-verb" />
 			<xsl:value-of select="$access" />
 			<xsl:text> </xsl:text>
 			<xsl:value-of select="'function set'" />
@@ -624,7 +619,8 @@
 			<xsl:value-of select="$type" />
 			<xsl:value-of select="'):void'" />
 		</xsl:if>
-		<xsl:text>\end{verbatimtab}</xsl:text>
+		<xsl:value-of select="$end-verb" />
+		<xsl:value-of select="'}'" />	
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
@@ -647,7 +643,9 @@
 			<xsl:with-param name="input" select="'Implementation'" />
 		</xsl:call-template>				
 		
-		<xsl:text>\begin{verbatimtab}[2]</xsl:text>
+		<xsl:call-template name="begin-paragraph" />
+		<xsl:value-of select="'{\scriptsize'" />
+		<xsl:value-of select="$start-verb" />
 		<xsl:value-of select="$access" />
 		<xsl:text> </xsl:text>
 		<xsl:value-of select="'function'" />
@@ -659,8 +657,7 @@
 				<xsl:value-of select="'()'" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="'('" />
-				<xsl:value-of select="$newline" />		
+				<xsl:value-of select="'('" />	
 				<xsl:call-template name="get-parameters">
 					<xsl:with-param name="params" select="$params" />
 				</xsl:call-template>
@@ -669,8 +666,13 @@
 		</xsl:choose>
 		
 		<xsl:if test="$return-type != ''">
+			
+			
 			<xsl:choose>
 				<xsl:when test="$return-type != 'any'">
+					
+					<!-- TODO: xref on return type -->
+					
 					<xsl:value-of select="concat(':',$return-type)" />
 				</xsl:when>
 				<xsl:otherwise>	
@@ -678,10 +680,18 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
-		
-		<xsl:text>\end{verbatimtab}</xsl:text>
-		<xsl:value-of select="$newline" />
+		<xsl:value-of select="$end-verb" />
+		<xsl:value-of select="'}'" />
+		<xsl:call-template name="end-paragraph" />
 	</xsl:template>
+	
+	<xsl:template name="begin-verbatimtab">
+		<xsl:text>\begin{verbatimtab}[2]</xsl:text>	
+	</xsl:template>
+	
+	<xsl:template name="end-verbatimtab">
+		<xsl:text>\end{verbatimtab}</xsl:text>
+	</xsl:template>		
 	
 	<xsl:template name="subtitle">
 		<xsl:param name="input" select="''" />
@@ -836,11 +846,14 @@
 		<xsl:for-each select="$params">
 			<xsl:if test="position()>1">
 				<xsl:text>, </xsl:text>
-				<xsl:if test="$break">
-					<xsl:value-of select="$newline" />
-					<xsl:value-of select="$tab" />
-				</xsl:if>				
 			</xsl:if>
+			<xsl:if test="$break">
+				<xsl:value-of select="$end-verb" />
+				<xsl:value-of select="'\\'" />
+				<xsl:value-of select="$newline" />
+				<xsl:value-of select="$start-verb" />				
+				<xsl:value-of select="$tab" />
+			</xsl:if>			
 			<xsl:variable name="type-name">
 				<xsl:if test="./apiType and not(./apiOperationClassifier)">
 					<xsl:value-of select="./apiType/@value"/>
@@ -858,15 +871,20 @@
 				<xsl:value-of select="./apiItemName"/>
 				<xsl:if test="($type-name != '')">
 					<xsl:text>:</xsl:text>
-					<xsl:value-of select="$type-name" />
 					
 					<!-- TODO: cross-referencing -->
 					
-					<!--
-					<xsl:call-template name="processParamType">
-						<xsl:with-param name="typeName" select="$type-name"/>
-					</xsl:call-template>
-					-->
+					<xsl:variable name="xref" select="$toplevel//*[@fullname = $type-name]" />
+					<xsl:if test="$xref">
+						<xsl:value-of select="$end-verb" />
+						<xsl:call-template name="xref">
+							<xsl:with-param name="input" select="$xref/@fullname" />
+						</xsl:call-template>
+						<xsl:value-of select="$start-verb" />
+					</xsl:if>
+					<xsl:if test="not($xref)">
+						<xsl:value-of select="$type-name" />
+					</xsl:if>
 				</xsl:if>
 			</xsl:if>
 			<xsl:if test="($type-name = 'restParam')">
@@ -1483,6 +1501,14 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
+		<xsl:variable name="label">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$label" />
+				<xsl:with-param name="search-string" select="':set'" />
+				<xsl:with-param name="replace-string" select="''" />
+			</xsl:call-template>
+		</xsl:variable>
+		
 		<xsl:variable name="underscore">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$label" />
@@ -1728,6 +1754,8 @@
 \usepackage{fancyhdr}
 %\setlength{\headheight}{15.2pt}
 \pagestyle{fancy}
+
+\lstset{breaklines=true,basicstyle=\ttfamily}
 
 % increase table row top padding
 \setlength{\extrarowheight}{2.5pt}

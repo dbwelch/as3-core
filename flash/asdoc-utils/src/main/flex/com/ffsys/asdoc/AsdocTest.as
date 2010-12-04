@@ -84,6 +84,19 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
+		* 	This method os used to test xref within parameters
+		* 	and return types.
+		* 
+		* 	@param target An instance to <b>not</b> copy into this instance.
+		* 
+		* 	@return Always returns this instance.
+		*/
+		public function getCopy( target:AsdocTest ):AsdocTest
+		{
+			return this;
+		}
+		
+		/**
 		* 	Overriden to add no functionality whatsoever.
 		* 
 		* 	@inheritDoc
