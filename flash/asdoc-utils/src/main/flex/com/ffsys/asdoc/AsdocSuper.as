@@ -1,3 +1,6 @@
+/**
+*	This is a test package description.
+*/
 package com.ffsys.asdoc
 {
 	import flash.display.Sprite;

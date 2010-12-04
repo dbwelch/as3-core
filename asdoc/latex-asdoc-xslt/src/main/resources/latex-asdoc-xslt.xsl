@@ -19,7 +19,7 @@
 	<xsl:param name="page-header-right" select="'API Documentation'"/>
 	<xsl:param name="dita-dir" select="'tempdita'"/>	
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
-	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packagemap.xml')"/>
+	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packages.dita')"/>
 	<xsl:param name="toplevel-path" select="'toplevel.xml'" />
 	
 	<xsl:param name="constants-xref-id" select="':constants'" />
@@ -70,15 +70,17 @@
 		
 		<!--  PACKAGES-->
 		
-		<xsl:for-each select="$packages//apiPackage">
-			<xsl:sort select="@id"/>
-			<xsl:variable name="package-id" select="@id"/>
+		<xsl:for-each select="$packages//apiItemRef">
+			<!-- <xsl:sort select="@href"/> -->
+			<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@href)" />
+			<xsl:variable name="package" select="document($package-path)" />
+			<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
+			
 			<xsl:call-template name="part">
-				<xsl:with-param name="title" select="@id"/>
+				<xsl:with-param name="title" select="$package-id"/>
 				<xsl:with-param name="label" select="$package-id"/>
 			</xsl:call-template>
-			<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@id,'.xml')" />
-			<xsl:variable name="package" select="document($package-path)" />
+			
 			<!--  PACKAGE-->
 			<xsl:for-each select="$package//apiClassifier">
 				<xsl:sort select="apiName"/>
@@ -954,6 +956,7 @@
 		<xsl:param name="input" select="''" />
 		<xsl:param name="title" select="''" />
 		<xsl:param name="label" select="'classes'" />
+		<xsl:param name="listing-title" select="concat('Listing all ',$label)" />
 		
 		<xsl:if test="count($input) &gt; 0">
 			
@@ -963,20 +966,26 @@
 			</xsl:call-template>
 			
 			<xsl:value-of select="$newline" />
+			<xsl:value-of select="'\section*{'" />
+			<xsl:value-of select="$listing-title" />
+			<xsl:value-of select="'}'" />
+			<xsl:value-of select="$newline" />
+			
+			<xsl:value-of select="$newline" />
 			<xsl:text>{\scriptsize</xsl:text>
 			<xsl:value-of select="$newline" />		
-			<xsl:text>\begin{tabularx}{\textwidth}{X}</xsl:text>
-			<xsl:value-of select="$newline" />				
+			<xsl:call-template name="begin-itemize" />
 
 			<xsl:for-each select="$input">
 				<xsl:sort select="name" />
 				
+				<xsl:value-of select="$newline" />
+				<xsl:value-of select="'\item '" />
+				
 				<xsl:call-template name="xref">
 					<xsl:with-param name="input" select="@fullname"/>
 				</xsl:call-template>
-				
 				<xsl:text>\\</xsl:text>
-				<xsl:value-of select="$newline" />
 				
 				<xsl:variable name="doc" select="document(concat($dita-dir,$delimiter,@namespace,'.xml'))" />
 				<xsl:variable name="fullname" select="@fullname" />
@@ -987,12 +996,10 @@
 						<xsl:with-param name="input" select="$found/shortdesc" />
 					</xsl:call-template>
 				</xsl:if>
-				
-				<xsl:text>\\</xsl:text>
-				<xsl:value-of select="$newline" />
+
 			</xsl:for-each>
 			
-			<xsl:text>\end{tabularx}</xsl:text>
+			<xsl:call-template name="end-itemize" />
 			<!-- end size block -->
 			<xsl:text>}</xsl:text>		
 			<xsl:value-of select="$newline" />			
@@ -1619,8 +1626,6 @@
 \rfoot{\textsc{Last updated \today}}
 
 \tableofcontents
-
-\clearpage
 ]]></xsl:text>
 	</xsl:template>	
 	
@@ -1658,6 +1663,7 @@
 \usepackage{moreverb}
 \usepackage{listings}
 \usepackage{tabularx}
+\usepackage{longtable}
 \usepackage{wallpaper}
 \usepackage{hyperref}
 
