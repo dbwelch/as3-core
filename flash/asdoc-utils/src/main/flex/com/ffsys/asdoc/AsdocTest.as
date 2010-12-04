@@ -97,6 +97,22 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
+		* 	An accessor getter that returns an xref.
+		*/
+		public function get copy():AsdocTest
+		{
+			return this;
+		}
+		
+		/**
+		* 	An accessor setter that has an xref as it's parameter.
+		*/
+		public function set insert(value:AsdocTest):void
+		{
+			//
+		}
+		
+		/**
 		* 	Overriden to add no functionality whatsoever.
 		* 
 		* 	@inheritDoc
@@ -104,6 +120,16 @@ package com.ffsys.asdoc {
 		override public function set id(value:String):void
 		{
 			super.id = value;
+		}
+		
+		/**
+		* 	Overriden to add no functionality whatsoever.
+		* 
+		* 	@inheritDoc
+		*/		
+		override public function get id():String
+		{
+			return super.id;
 		}
 		
 		/**
