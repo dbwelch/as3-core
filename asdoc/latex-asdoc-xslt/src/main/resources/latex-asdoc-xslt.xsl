@@ -56,7 +56,8 @@
 			
 			<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 			<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
-		
+			
+			<!-- LEFT HAND PAGE HEADER -->
 			<xsl:text>\lhead{\scriptsize{\textsc{</xsl:text>
 			<xsl:call-template name="xref">
 				<xsl:with-param name="input" select="$package-id" />
@@ -112,18 +113,12 @@
 			<!--  CLASS OR INTERFACE-->
 			<xsl:for-each select="$package//apiClassifier">
 				<xsl:sort select="apiName"/>
+				
 				<xsl:variable name="class-id" select="@id"/>
-				
-				<xsl:text>\rhead{\scriptsize{\textsc{</xsl:text>
-				<xsl:call-template name="xref">
-					<xsl:with-param name="input" select="$class-id" />
-				</xsl:call-template>
-				<xsl:text>}}}</xsl:text>
-				<xsl:value-of select="$newline" />
-				
 				<xsl:variable name="has-constants" select="count(apiValue/apiValueDetail/apiValueDef[not(apiProperty)]) &gt; 0"/>
 				<xsl:variable name="constants" select="apiValue[not(apiValueDetail/apiValueDef/apiProperty)]" />
 				<xsl:variable name="has-constructor" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiAccess[@value = 'public' or @value = 'protected']" />
+				<xsl:variable name="is-class" select="not(apiClassifierDetail/apiClassifierDef/apiInterface)"/>
 				
 				<xsl:variable
 					name="public-methods"
@@ -140,6 +135,14 @@
 				<xsl:variable
 					name="protected-properties"
 					select="apiValue[apiValueDetail/apiValueDef/apiAccess/@value = 'protected' and apiValueDetail/apiValueDef/apiProperty]" />
+					
+				<!-- RIGHT HAND PAGE HEADER -->
+				<xsl:text>\rhead{\scriptsize{\textsc{</xsl:text>
+				<xsl:call-template name="xref">
+					<xsl:with-param name="input" select="$class-id" />
+				</xsl:call-template>
+				<xsl:text>}}}</xsl:text>
+				<xsl:value-of select="$newline" />					
 				
 				<xsl:call-template name="section">
 					<xsl:with-param name="title" select="apiName"/>
@@ -151,9 +154,45 @@
 				</xsl:call-template>
 				
 				<!-- CLASS DESCRIPTION -->
+				
+				<!--
 				<xsl:call-template name="paragraph">
 					<xsl:with-param name="text" select="apiClassifierDetail/apiDesc"/>
 				</xsl:call-template>
+				-->
+				
+				<xsl:variable
+					name="class-description"
+					select="apiClassifierDetail/apiDesc" />				
+				
+				<!-- handle missing class/interface descriptions -->
+				<xsl:choose>
+					<xsl:when test="normalize-space($class-description) != ''">
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text" select="$class-description"/>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>
+						
+						<xsl:variable name="missing-prefix">
+							<xsl:if test="$is-class">
+								<xsl:value-of select="'class'" />
+							</xsl:if>
+							<xsl:if test="not($is-class)">
+								<xsl:value-of select="'interface'" />
+							</xsl:if>							
+						</xsl:variable>
+						
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text">
+								<xsl:call-template name="missing">
+									<xsl:with-param name="type" select="$missing-prefix" />
+								</xsl:call-template>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 				
 				<!-- SEE ALSO XREF -->
 				<xsl:call-template name="list-see" />

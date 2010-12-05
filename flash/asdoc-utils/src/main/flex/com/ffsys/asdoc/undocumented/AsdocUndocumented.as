@@ -7,6 +7,7 @@ package com.ffsys.asdoc.undocumented
 	*	Tests for a class that has not been documented properly.
 	*/
 	public class AsdocUndocumented extends Object
+		implements IAsdocUndocumented
 	{	
 		/*
 		*	An undocumented public varaible.
