@@ -72,11 +72,22 @@
 			
 			<!-- package description if available -->
 			<xsl:variable name="package-description" select="$toplevel//packageRec[@fullname = $package-id or @fullname = $package-id-null]" />
-			<xsl:if test="$package-description">
-				<xsl:call-template name="paragraph">
-					<xsl:with-param name="text" select="$package-description/description"/>
-				</xsl:call-template>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$package-description">
+					<xsl:call-template name="paragraph">
+						<xsl:with-param name="text" select="$package-description/description"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="paragraph">
+						<xsl:with-param name="text">
+							<xsl:call-template name="missing">
+								<xsl:with-param name="type" select="'package'" />
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>
 			
 			<!-- PACKAGE CLASS LISTING -->
 			<xsl:if test="count($package-classes) &gt; 0">
