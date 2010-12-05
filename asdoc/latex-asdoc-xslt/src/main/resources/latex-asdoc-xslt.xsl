@@ -55,6 +55,14 @@
 			
 			<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 			<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
+		
+			<xsl:text>\lhead{\scriptsize{</xsl:text>
+			<xsl:call-template name="xref">
+				<xsl:with-param name="input" select="$package-id" />
+			</xsl:call-template>
+			<xsl:text>}}</xsl:text>
+			<xsl:value-of select="$newline" />
+			<xsl:text>\rhead{}</xsl:text>
 			
 			<xsl:call-template name="part">
 				<xsl:with-param name="title" select="$package-id"/>
@@ -93,6 +101,13 @@
 			<xsl:for-each select="$package//apiClassifier">
 				<xsl:sort select="apiName"/>
 				<xsl:variable name="class-id" select="@id"/>
+				
+				<xsl:text>\rhead{\scriptsize{</xsl:text>
+				<xsl:call-template name="xref">
+					<xsl:with-param name="input" select="$class-id" />
+				</xsl:call-template>
+				<xsl:text>}}</xsl:text>
+				<xsl:value-of select="$newline" />
 				
 				<xsl:variable name="has-constants" select="count(apiValue/apiValueDetail/apiValueDef[not(apiProperty)]) &gt; 0"/>
 				<xsl:variable name="constants" select="apiValue[not(apiValueDetail/apiValueDef/apiProperty)]" />
@@ -1514,8 +1529,10 @@
 		<xsl:value-of select="$newline" />
 		<xsl:text>{\scriptsize</xsl:text>
 		<xsl:value-of select="$newline" />		
-		<xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text>
-		<xsl:value-of select="$newline" />
+		<!-- <xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text> -->
+		
+		<!-- <xsl:text>\begin{longtable}{p{5in}r}</xsl:text>	-->
+		<!-- <xsl:value-of select="$newline" /> -->
 		
 		<xsl:if test="$title != ''">
 			<xsl:choose>
@@ -1530,36 +1547,62 @@
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:text> &amp; </xsl:text>
+			
+			<xsl:text>\hspace{\stretch{1}}</xsl:text>
+			<xsl:text>Defined by</xsl:text>
+			<xsl:text>\\</xsl:text>
+			<xsl:value-of select="$newline" />
+			
+			<xsl:value-of select="'\rule[0cm]{\textwidth}{0.01cm}'" />
+			<xsl:value-of select="$newline" />
+			
+			<!-- <xsl:text> &amp; </xsl:text>
 			<xsl:value-of select="$defined-by" />
 			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />	
 			<xsl:value-of select="'\hline'" />
-			<xsl:value-of select="$newline" />		
+			<xsl:value-of select="$newline" />	
+			-->	
 		</xsl:if>
 		
 		<xsl:for-each select="$input">
+			
 			<xsl:call-template name="xref">
 				<xsl:with-param name="input" select="@id" />
 			</xsl:call-template>
+			
+			
+			<!-- TODO: defined by look up -->
+			<xsl:text>\hspace{\stretch{1}}</xsl:text>
+			
+			<xsl:call-template name="escape">
+				<xsl:with-param name="input" select="../apiName" />
+			</xsl:call-template>			
+			
 			<xsl:if test=".//apiDeprecated">
+				<xsl:text>\\</xsl:text>
 				<xsl:value-of select="$newline" />
 				<xsl:call-template name="deprecated" />
 			</xsl:if>
-			<xsl:value-of select="$newline" />
-			<xsl:call-template name="escape">
-				<xsl:with-param name="input" select="shortdesc" />
-			</xsl:call-template>
-				
-			<xsl:text> &amp; </xsl:text>
-			<xsl:call-template name="escape">
-				<xsl:with-param name="input" select="../apiName" />
-			</xsl:call-template>
+			
+			<!--
+			<xsl:text>\multicolumn{2}{p{5in}}</xsl:text>
+			<xsl:value-of select="$newline" />			
+			-->
+			
 			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
+			<xsl:call-template name="escape">
+				<xsl:with-param name="input" select="normalize-space(shortdesc)" />
+			</xsl:call-template>
+			
+			<xsl:text>\\</xsl:text>
+			<xsl:value-of select="$newline" />			
+								
 		</xsl:for-each>
 		
-		<xsl:text>\end{tabularx}</xsl:text>
+		<!-- <xsl:text>\end{tabularx}</xsl:text> -->
+		<!-- <xsl:text>\end{longtable}</xsl:text> -->
 		<!-- end size block -->
 		<xsl:text>}</xsl:text>		
 		<xsl:value-of select="$newline" />
@@ -1882,6 +1925,7 @@
 \makeindex
 
 \begin{document} 
+
 \maketitle
 
 \fancyhead{}
@@ -1892,10 +1936,12 @@
 <xsl:call-template name="right-page-header" />
 
 <xsl:text><![CDATA[
-\lfoot{\thepage}
-\rfoot{\textsc{Last updated \today}}
+\lfoot{\scriptsize{\textsc{\thepage\ of \pageref{LastPage}}}}
+\rfoot{\scriptsize{\textsc{Last updated \today}}}
 
 \tableofcontents
+
+\clearpage
 ]]></xsl:text>
 	</xsl:template>	
 	
@@ -1929,6 +1975,7 @@
 \usepackage{epstopdf} 
 \usepackage{makeidx}
 \usepackage{showidx}
+\usepackage{lastpage}
 \usepackage{url} 
 \usepackage{moreverb}
 \usepackage{listings}
