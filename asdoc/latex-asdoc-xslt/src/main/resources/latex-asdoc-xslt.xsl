@@ -56,11 +56,11 @@
 			<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 			<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 		
-			<xsl:text>\lhead{\scriptsize{</xsl:text>
+			<xsl:text>\lhead{\scriptsize{\textsc{</xsl:text>
 			<xsl:call-template name="xref">
 				<xsl:with-param name="input" select="$package-id" />
 			</xsl:call-template>
-			<xsl:text>}}</xsl:text>
+			<xsl:text>}}}</xsl:text>
 			<xsl:value-of select="$newline" />
 			<xsl:text>\rhead{}</xsl:text>
 			
@@ -102,11 +102,11 @@
 				<xsl:sort select="apiName"/>
 				<xsl:variable name="class-id" select="@id"/>
 				
-				<xsl:text>\rhead{\scriptsize{</xsl:text>
+				<xsl:text>\rhead{\scriptsize{\textsc{</xsl:text>
 				<xsl:call-template name="xref">
 					<xsl:with-param name="input" select="$class-id" />
 				</xsl:call-template>
-				<xsl:text>}}</xsl:text>
+				<xsl:text>}}}</xsl:text>
 				<xsl:value-of select="$newline" />
 				
 				<xsl:variable name="has-constants" select="count(apiValue/apiValueDetail/apiValueDef[not(apiProperty)]) &gt; 0"/>
@@ -1939,7 +1939,7 @@
 \lfoot{\scriptsize{\textsc{\thepage\ of \pageref{LastPage}}}}
 \rfoot{\scriptsize{\textsc{Last updated \today}}}
 
-\tableofcontents
+\scriptsize{\tableofcontents}
 
 \clearpage
 ]]></xsl:text>
@@ -1968,6 +1968,7 @@
 \usepackage[T1]{fontenc} 
 \usepackage{array}
 \usepackage{setspace}
+\usepackage{alltt}
 \usepackage{geometry} 
 \usepackage[parfill]{parskip} 
 \usepackage{graphicx} 
