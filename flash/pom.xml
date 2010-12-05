@@ -232,13 +232,6 @@
 									<goals>
 										<goal>latex</goal>
 									</goals>
-								</execution>
-								<execution>
-									<id>rerun-asdoc-pdf</id>
-									<phase>install</phase>
-									<goals>
-										<goal>latex</goal>
-									</goals>
 								</execution>				
 							</executions>
 						</plugin>

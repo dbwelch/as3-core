@@ -1,3 +1,6 @@
+/*
+*	This package does not have a description.
+*/
 package com.ffsys.asdoc.undocumented
 {
 	/*
@@ -5,6 +8,14 @@ package com.ffsys.asdoc.undocumented
 	*/
 	public class AsdocUndocumented extends Object
 	{	
+		/*
+		*	An undocumented public varaible.
+		*/
+		public var number:Number = 1;
+		
+		/*
+		*	Forgot to document the constructor properly.
+		*/
 		public function AsdocUndocumented()
 		{
 			super();
@@ -30,6 +41,14 @@ package com.ffsys.asdoc.undocumented
 		*	This is a method that has not had it's return value documented properly.
 		*/
 		public function missingReturnDocumentation():String
+		{
+			return null;
+		}
+		
+		/*
+		*	An undocumented getter accessor.
+		*/
+		public function get id():String
 		{
 			return null;
 		}
