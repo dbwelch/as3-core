@@ -46,6 +46,7 @@
 		
 		<!--  PACKAGES-->
 		<xsl:for-each select="$packages//apiItemRef">
+			<xsl:sort select="substring-before(@href,'.xml')" />
 			
 			<!--  PACKAGE-->
 			<xsl:variable name="package-path" select="concat($dita-dir,$delimiter,@href)" />
