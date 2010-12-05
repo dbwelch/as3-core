@@ -2,10 +2,6 @@ package com.ffsys.utils.assert {
 	
 	import com.ffsys.core.IStrictMode;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.IObjectInspector;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Describes the contract for Objects that provide
 	*	an API for performing assertions.
@@ -18,8 +14,7 @@ package com.ffsys.utils.assert {
 	*/
 	public interface IAssertion
 	 	extends IAssertionElement,
-				IStrictMode,
-				IObjectInspector {
+				IStrictMode {
 		
 		/**
 		*	Assert an expression is <code>true</code>.

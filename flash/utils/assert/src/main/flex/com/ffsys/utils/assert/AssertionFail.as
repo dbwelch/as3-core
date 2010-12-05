@@ -44,20 +44,5 @@ package com.ffsys.utils.assert {
 		{
 			return _error;
 		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		
-		/**
-		*	@private	
-		*/
-		override public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = super.getCommonStringOutputProperties();
-			output.methodName = methodName;
-			output.error = error;
-			return output;
-		}
-		
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
 }

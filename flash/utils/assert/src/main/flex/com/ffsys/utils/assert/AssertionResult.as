@@ -1,12 +1,7 @@
 package com.ffsys.utils.assert {
 	
 	import flash.events.Event;
-	import flash.events.EventDispatcher;	
-	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
+	import flash.events.EventDispatcher;
 	
 	/**
 	*	Represents the result of running an individual
@@ -100,94 +95,5 @@ package com.ffsys.utils.assert {
 		{
 			return _parameters;
 		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		
-		/**
-		*	@private	
-		*/		
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			output.methodName = methodName;
-			//output.parameters = parameters;
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputComposites():Array
-		{
-			var output:Array = new Array();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-			
-			output.detail = date;
-			
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		/**
-		*	@private	
-		*/		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		/**
-		*	Gets a <code>String</code> representation
-		*	of this instance.
-		*	
-		*	@return The <code>String</code>
-		*	representation of this instance.
-		*/
-		override public function toString():String
-		{
-			return getObjectString( true );
-		}		
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
-	
 }

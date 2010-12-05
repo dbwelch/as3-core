@@ -73,11 +73,28 @@
 			
 			<!-- PACKAGE DESCRIPTION IF AVAILABLE -->
 			<xsl:variable name="package-description" select="$toplevel//packageRec[@fullname = $package-id or @fullname = $package-id-null]" />
+			<xsl:variable name="pkg-description" select="replace($package-description/description,'^\n','')" />
 			<xsl:choose>
 				<xsl:when test="$package-description">
-					<xsl:call-template name="paragraph">
-						<xsl:with-param name="text" select="$package-description/description"/>
-					</xsl:call-template>
+					
+					<!-- newline handling for package descriptions -->
+					<xsl:if test="contains($pkg-description,$newline)">
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text">
+								<xsl:call-template name="search-and-replace">
+									<xsl:with-param name="input" select="$pkg-description" />
+									<xsl:with-param name="search-string" select="concat('.',$newline)" />
+									<xsl:with-param name="replace-string" select="concat('.\\',$newline,$newline)" />
+								</xsl:call-template>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:if>
+					
+					<xsl:if test="not(contains($pkg-description,$newline))">
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text" select="$pkg-description"/>
+						</xsl:call-template>						
+					</xsl:if>	
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:call-template name="paragraph">

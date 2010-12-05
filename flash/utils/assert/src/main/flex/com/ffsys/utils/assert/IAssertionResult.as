@@ -1,9 +1,5 @@
 package com.ffsys.utils.assert {
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.IObjectInspector;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Describes the contract for instances that
 	*	represent the result of performing an assertion.
@@ -15,8 +11,7 @@ package com.ffsys.utils.assert {
 	*	@since  05.12.2007
 	*/
 	public interface IAssertionResult
-		extends IAssertionElement,
-				IObjectInspector {
+		extends IAssertionElement {
 		
 		/**
 		*	The name of the method used to perform

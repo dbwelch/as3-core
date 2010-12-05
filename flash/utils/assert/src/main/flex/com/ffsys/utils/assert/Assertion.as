@@ -1,3 +1,14 @@
+/**
+*	A lightweight assertion library designed to allow for assertions to be executed during
+*	integration tests for an application.
+*
+*	You can use conditional compilation to place assertions in the code base for an application
+*	and then only compile the assertions into the application during the development phase.
+*
+*	If you want an overall report of all assertions you should only ever instantiate a single
+*	<code>Assertion</code>. When using dependency injection you can configure the assertion instance
+*	to be a singleton instance otherwise you could declare the assertion as a static member.
+*/
 package com.ffsys.utils.assert {
 	
 	import flash.events.Event;
@@ -5,14 +16,15 @@ package com.ffsys.utils.assert {
 	
 	import com.ffsys.core.IStrictMode;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Lightweight utility class for performing
 	*	unit test assertions at runtime.
+	* 
+	* 	<pre>
+	*	var assertion:IAssertion = new Assertion();
+	*	assertion.assertEquals( "a", "a" );
+	*	assertion.assertTrue( true );
+	* 	</pre>
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -463,99 +475,6 @@ package com.ffsys.utils.assert {
 				}
 				
 			}
-		}		
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		
-		/**
-		*	@private
-		*/
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
 		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			output.totalPasses = totalPasses;
-			output.totalFailures = totalFailures;
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getCommonStringOutputComposites():Array
-		{
-			return passes.concat( failures );
-		}
-
-		/**
-		*	@private	
-		*/
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-
-		/**
-		*	@private	
-		*/
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			var summary:String = total + " assertions, " +
-				totalPasses + " passed, " +
-				totalFailures + " failed";
-			
-			output.detail = total;
-			output.summary = summary;
-			
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		/**
-		*	@private	
-		*/		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		/**
-		*	Gets a <code>String</code> representation
-		*	of this instance.
-		*	
-		*	@return The <code>String</code> representation
-		*	of this instance.
-		*/
-		override public function toString():String
-		{
-			return getObjectString( true );
-		}			
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
-	
 }
