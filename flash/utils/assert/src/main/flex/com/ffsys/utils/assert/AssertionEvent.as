@@ -28,11 +28,8 @@ package com.ffsys.utils.assert {
 		*/
 		static public const ASSERTION_FAIL:String =
 			"assertionFail";
-		
-		/**
-		*	@private
-		*/
-		protected var _element:IAssertionElement;
+
+		private var _element:IAssertionElement;
 		
 		/**
 		*	Creates an <code>AssertionEvent</code> instance.
@@ -75,6 +72,7 @@ package com.ffsys.utils.assert {
 		*	
 		*	@param target The <code>IEventDispatcher</code>
 		*	the event should be dispatched from.
+		* 	@param element The assertion element that performed the assertion.
 		*	
 		*	@return The dispatched <code>Event</code>.
 		*/
@@ -84,10 +82,8 @@ package com.ffsys.utils.assert {
 		{
 			var event:AssertionEvent =
 				new AssertionEvent( ASSERTION_PASS, element );
-				
 			EventProxy.dispatchEventProxy( target, event );
 			Notifier.dispatchEvent( event as Event, target );
-			
 			return event;
 		}
 		
@@ -97,6 +93,7 @@ package com.ffsys.utils.assert {
 		*	
 		*	@param target The <code>IEventDispatcher</code>
 		*	the event should be dispatched from.
+		* 	@param element The assertion element that performed the assertion.
 		*	
 		*	@return The dispatched <code>Event</code>.
 		*/		
@@ -106,10 +103,8 @@ package com.ffsys.utils.assert {
 		{
 			var event:AssertionEvent =
 				new AssertionEvent( ASSERTION_FAIL, element );
-				
 			EventProxy.dispatchEventProxy( target, event );
 			Notifier.dispatchEvent( event as Event, target );
-			
 			return event;
 		}
 	}

@@ -25,6 +25,15 @@ package com.ffsys.utils.assert {
 	*	assertion.assertEquals( "a", "a" );
 	*	assertion.assertTrue( true );
 	* 	</pre>
+	* 
+	* 	This class operates in strict mode by default which means a runtime exception will
+	* 	be thrown as soon as an assertion fails, to prevent this behaviour you can alter
+	* 	the <code>strict</code> property or instantiate the assertion disabling <code>strict</code>
+	* 	mode.
+	* 
+	* 	<pre>
+	*	var assertion:IAssertion = new Assertion( false );
+	* 	</pre>
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -184,7 +193,10 @@ package com.ffsys.utils.assert {
 		*/
 		
 		/**
-		*	@inheritDoc	
+		*	Determines whether this assertion operates in strict mode.
+		* 
+		* 	When an assertion is running in strict mode a runtime exception
+		* 	is thrown as soon as an assertion fails.
 		*/
 		public function set strict( val:Boolean ):void
 		{

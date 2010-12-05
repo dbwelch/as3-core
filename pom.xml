@@ -27,6 +27,7 @@
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
 		<asdoc.dir>${project.build.directory}/asdoc</asdoc.dir>
+		<api.docs.packaging>pdf</api.docs.packaging>
 		<xslt.packaging>xsl</xslt.packaging>
 		<latex.xslt>latex-asdoc-xslt</latex.xslt>
 		<latex.xslt.dir>${latex.xslt}-${project.version}</latex.xslt.dir>

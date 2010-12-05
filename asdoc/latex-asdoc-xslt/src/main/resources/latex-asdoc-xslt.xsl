@@ -889,10 +889,7 @@
 		<xsl:param name="access" select="apiOperationDetail/apiOperationDef/apiAccess/@value" />
 		<xsl:param name="prefix" select="''" />
 		<xsl:param name="name" select="apiName" />
-		<!--
-		<xsl:param name="return-type" select="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value" />
-		-->
-		
+		<xsl:param name="static" select="apiOperationDetail/apiOperationDef/apiStatic" />
 		<xsl:param name="return-type">
 			<xsl:if test="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value">
 				<xsl:value-of select="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value"/>
@@ -910,19 +907,20 @@
 		<xsl:value-of select="'{\scriptsize'" />
 		<xsl:value-of select="$start-verb" />
 		<xsl:value-of select="$access" />
-		<xsl:text> </xsl:text>
+		
+		<xsl:if test="$static">
+			<xsl:value-of select="' static'" />
+		</xsl:if>
 		
 		<xsl:if test="$prefix != ''">
-			<xsl:value-of select="$prefix" />
-			<xsl:text> </xsl:text>
+			<xsl:value-of select="concat(' ', $prefix)" />
 		</xsl:if>
 		
 		<xsl:if test="apiOperationDetail/apiOperationDef/apiIsOverride">	
 			<xsl:value-of select="'override '" />
 		</xsl:if>
-		<xsl:value-of select="'function'" />
-		<xsl:text> </xsl:text>
-		<xsl:value-of select="$name" />
+		<xsl:value-of select="' function'" />
+		<xsl:value-of select="concat(' ', $name)" />
 		
 		<xsl:choose>
 			<xsl:when test="count(.//apiParam) = 0">
