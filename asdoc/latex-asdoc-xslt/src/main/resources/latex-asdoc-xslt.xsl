@@ -250,10 +250,24 @@
 		<xsl:call-template name="footer"/>
 	</xsl:template>
 	
+	<xsl:template name="missing">
+		<xsl:param name="prefix" select="'missing'" />
+		<xsl:param name="type" select="''" />
+		<xsl:param name="suffix" select="'description'" />
+		<xsl:variable name="message" select="concat('[',$prefix,' ',$type,' ',$suffix,']')" />
+		<xsl:call-template name="textcolor">
+			<xsl:with-param name="input">
+				<xsl:call-template name="textsc">
+					<xsl:with-param name="input" select="normalize-space($message)" />
+				</xsl:call-template>
+			</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
+	
 	<xsl:template name="appendix">
 		
 		<xsl:variable name="classes" select="$toplevel//classRec" />
-		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />		
+		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />
 		
 		<xsl:call-template name="part">
 			<xsl:with-param name="title" select="'Appendix'"/>
@@ -440,6 +454,16 @@
 			<xsl:call-template name="paragraph">
 				<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
 			</xsl:call-template>
+			
+			<!-- missing method description -->
+			<xsl:if test="normalize-space(apiOperationDetail/apiDesc) = ''">
+				<xsl:call-template name="paragraph">
+					<xsl:with-param name="text">
+						<xsl:call-template name="missing" />
+					</xsl:with-param>
+				</xsl:call-template>		
+			</xsl:if>
+			
 			<xsl:call-template name="parameter-list" />
 			<xsl:call-template name="method-return" />
 			<xsl:call-template name="exceptions-list" />
@@ -880,11 +904,28 @@
 			
 			<xsl:call-template name="begin-description" />
 			<xsl:for-each select="$params">
-				<xsl:call-template name="item">
-					<xsl:with-param name="input" select="./apiDesc" />
-					<xsl:with-param name="prefix" select="./apiItemName" />
-					<xsl:with-param name="description" select="true()" />
-				</xsl:call-template>
+				<xsl:variable name="description" select="./apiDesc" />
+				<xsl:choose>
+					<!-- handle missing parameter descriptions -->
+					<xsl:when test="normalize-space($description) = ''">
+						<xsl:call-template name="item">
+							<xsl:with-param name="input">
+								<xsl:call-template name="missing">
+									<xsl:with-param name="type" select="'parameter'" />
+								</xsl:call-template>								
+							</xsl:with-param>
+							<xsl:with-param name="prefix" select="./apiItemName" />
+							<xsl:with-param name="description" select="true()" />
+						</xsl:call-template>				
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="item">
+							<xsl:with-param name="input" select="$description" />
+							<xsl:with-param name="prefix" select="./apiItemName" />
+							<xsl:with-param name="description" select="true()" />
+						</xsl:call-template>						
+					</xsl:otherwise>
+				</xsl:choose>				
 			</xsl:for-each>
 			<xsl:call-template name="end-description" />
 		</xsl:if>
@@ -1015,13 +1056,30 @@
 	
 	<xsl:template name="method-return">
 		<xsl:param name="input" select="apiOperationDetail/apiOperationDef/apiReturn/apiDesc" />
-		<xsl:if test="$input != ''">
+		
+		<xsl:if test="apiOperationDetail/apiOperationDef/apiReturn/apiType[@value != 'void']">
+			
 			<xsl:call-template name="subtitle">
 				<xsl:with-param name="input" select="'Returns'" />
 			</xsl:call-template>
-			<xsl:call-template name="paragraph">
-				<xsl:with-param name="text" select="$input" />
-			</xsl:call-template>
+			<xsl:choose>
+				<!-- handle missing return descriptions -->
+				<xsl:when test="normalize-space($input) = ''">
+					<xsl:call-template name="paragraph">
+						<xsl:with-param name="text">
+							<xsl:call-template name="missing">
+								<xsl:with-param name="type" select="'return'" />
+							</xsl:call-template>								
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="paragraph">
+						<xsl:with-param name="text" select="$input" />
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>
+			
 		</xsl:if>
 	</xsl:template>
 	

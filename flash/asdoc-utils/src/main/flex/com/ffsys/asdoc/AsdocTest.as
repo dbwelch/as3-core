@@ -207,7 +207,7 @@ package com.ffsys.asdoc {
 		public function set readwrite(value:Boolean):void
 		{
 			_readwrite = value;
-		}
+		}		
 		
 		/**
 		* 	A <code>readonly</code> accessor property.
