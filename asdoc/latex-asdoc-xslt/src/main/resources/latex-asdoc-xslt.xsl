@@ -173,9 +173,28 @@
 						<xsl:with-param name="title" select="'Constructor'"/>
 						<xsl:with-param name="label" select="concat($class-id,':constructor')"/>
 					</xsl:call-template>
-					<xsl:call-template name="paragraph">
-						<xsl:with-param name="text" select="apiConstructor/apiConstructorDetail/apiDesc"/>
-					</xsl:call-template>
+					
+					<xsl:variable
+						name="constructor-description"
+						select="apiConstructor/apiConstructorDetail/apiDesc" />					
+					
+					<!-- handle missing constructor descriptions -->
+					<xsl:choose>
+						<xsl:when test="normalize-space($constructor-description) != ''">
+							<xsl:call-template name="paragraph">
+								<xsl:with-param name="text" select="$constructor-description"/>
+							</xsl:call-template>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:call-template name="paragraph">
+								<xsl:with-param name="text">
+									<xsl:call-template name="missing">
+										<xsl:with-param name="type" select="'constructor'" />
+									</xsl:call-template>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:otherwise>
+					</xsl:choose>					
 					
 					<xsl:call-template name="parameter-list">
 						<xsl:with-param name="params" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiParam" />
