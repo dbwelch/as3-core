@@ -778,25 +778,20 @@
 				<xsl:choose>
 					<xsl:when test="$api-value-access = 'write'">
 						<xsl:value-of select="' function set'" />
+						
+						<xsl:call-template name="setter-parameters">
+							<xsl:with-param name="name" select="$name" />
+							<xsl:with-param name="type" select="$type" />	
+						</xsl:call-template>						
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="' function get'" />
-					</xsl:otherwise>
-				</xsl:choose>
-				
-				<xsl:choose>
-					<xsl:when test="$is-getter">
+						
 						<xsl:call-template name="getter-parameters">
 							<xsl:with-param name="name" select="$name" />
 							<xsl:with-param name="accessor" select="$accessor" />
 							<xsl:with-param name="type" select="$type" />
-						</xsl:call-template>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:call-template name="setter-parameters">
-							<xsl:with-param name="name" select="$name" />
-							<xsl:with-param name="type" select="$type" />	
-						</xsl:call-template>
+						</xsl:call-template>						
 					</xsl:otherwise>
 				</xsl:choose>
 
