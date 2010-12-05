@@ -1,10 +1,12 @@
+/**
+*	Utility classes for working with boolean values.
+*/
 package com.ffsys.utils.boolean {
 	
 	/**
-	*	Utility functions for working with
-	*	<code>Boolean</code> types.
+	*	Utility methods for working with boolean types.
 	*	
-	*	Useful when deserializing <code>String</code>
+	*	This is useful when deserializing <code>String</code>
 	*	values to <code>Boolean</code> values.
 	*
 	*	@langversion ActionScript 3.0
@@ -16,19 +18,17 @@ package com.ffsys.utils.boolean {
 	public class BooleanUtils extends Object {
 		
 		/**
-		*	Constant representing a <code>String</code>
-		*	<code>true</code> value.
+		*	Constant representing a <code>true</code> value.
 		*/
 		static public const TRUE_STRING:String = "true";
 		
 		/**
-		*	Constant representing a <code>String</code>
-		*	<code>false</code> value.
+		*	Constant representing a <code>false</code> value.
 		*/
 		static public const FALSE_STRING:String = "false";
 		
 		/**
-		*	@private	
+		*	@private
 		*/
 		public function BooleanUtils()
 		{
@@ -67,7 +67,7 @@ package com.ffsys.utils.boolean {
 		*	@return <code>true</code> if the <code>source</code> equals
 		*	<code>true</code> otherwise <code>false</code>.
 		*	
-		*	@see com.ffsys.utils.boolean.BooleanUtils#stringIsBoolean()
+		*	@see com.ffsys.utils.boolean.BooleanUtils#stringIsBoolean
 		*/
 		static public function stringToBoolean( source:String ):Boolean
 		{
@@ -75,7 +75,6 @@ package com.ffsys.utils.boolean {
 			{
 				return true;
 			}
-			
 			return false;
 		}
 	}

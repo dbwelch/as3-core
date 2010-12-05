@@ -83,8 +83,8 @@
 							<xsl:with-param name="text">
 								<xsl:call-template name="search-and-replace">
 									<xsl:with-param name="input" select="$pkg-description" />
-									<xsl:with-param name="search-string" select="concat('.',$newline)" />
-									<xsl:with-param name="replace-string" select="concat('.\\',$newline,$newline)" />
+									<xsl:with-param name="search-string" select="concat('\.',$newline)" />
+									<xsl:with-param name="replace-string" select="concat('\\\\',$newline,$newline)" />									
 								</xsl:call-template>
 							</xsl:with-param>
 						</xsl:call-template>
@@ -612,11 +612,11 @@
 						<xsl:variable name="xref">
 							<xsl:call-template name="search-and-replace">
 								<xsl:with-param name="input" select="@href" />
-								<xsl:with-param name="search-string" select="'.xml'" />
+								<xsl:with-param name="search-string" select="'\.xml'" />
 								<xsl:with-param name="replace-string" select="''" />
 							</xsl:call-template>
 						</xsl:variable>
-						
+
 						<xsl:variable name="xref">
 							<xsl:call-template name="search-and-replace">
 								<xsl:with-param name="input" select="$xref" />
@@ -642,6 +642,8 @@
 						</xsl:call-template>
 						
 						<!-- also output the full path to the symbol when we have an xref -->
+						
+						<!-- TODO: move to class-path template -->
 						<xsl:value-of select="' -- '" />
 						<xsl:call-template name="emph">
 							<xsl:with-param name="input">
@@ -652,7 +654,6 @@
 								</xsl:call-template>
 							</xsl:with-param>
 						</xsl:call-template>
-																	
 					</xsl:when>
 					<xsl:otherwise>
 						
@@ -660,7 +661,7 @@
 						<xsl:variable name="xref">
 							<xsl:call-template name="search-and-replace">
 								<xsl:with-param name="input" select="@invalidHref" />
-								<xsl:with-param name="search-string" select="'.xml'" />
+								<xsl:with-param name="search-string" select="'\.xml'" />
 								<xsl:with-param name="replace-string" select="''" />
 							</xsl:call-template>
 						</xsl:variable>
@@ -912,7 +913,7 @@
 		</xsl:if>
 		
 		<xsl:if test="apiOperationDetail/apiOperationDef/apiIsOverride">	
-			<xsl:value-of select="'override '" />
+			<xsl:value-of select="' override'" />
 		</xsl:if>
 		<xsl:value-of select="' function'" />
 		<xsl:value-of select="concat(' ', $name)" />
@@ -1841,12 +1842,11 @@
 	
 	<xsl:template name="escape">
 		<xsl:param name="input" />
-		
 		<xsl:variable name="underscore">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$input" />
 				<xsl:with-param name="search-string" select="'_'" />
-				<xsl:with-param name="replace-string" select="'\_'" />
+				<xsl:with-param name="replace-string" select="'\\_'" />
 			</xsl:call-template>
 		</xsl:variable>
 		
@@ -1854,24 +1854,24 @@
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$underscore" />
 				<xsl:with-param name="search-string" select="'#'" />
-				<xsl:with-param name="replace-string" select="'\#'" />
+				<xsl:with-param name="replace-string" select="'\\#'" />
 			</xsl:call-template>
 		</xsl:variable>		
 		
 		<xsl:call-template name="search-and-replace">
 			<xsl:with-param name="input" select="$hash" />
-			<xsl:with-param name="search-string" select="'$'" />
-			<xsl:with-param name="replace-string" select="'\$'" />
-		</xsl:call-template>		
+			<xsl:with-param name="search-string" select="'\$'" />
+			<xsl:with-param name="replace-string" select="'\\\$'" />
+		</xsl:call-template>	
 	</xsl:template>	
 	
 	<xsl:template name="escape-label">
 		<xsl:param name="input" />
-		
+
 		<xsl:variable name="label">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$input" />
-				<xsl:with-param name="search-string" select="':get'" />
+				<xsl:with-param name="search-string" select="':get$'" />
 				<xsl:with-param name="replace-string" select="''" />
 			</xsl:call-template>
 		</xsl:variable>
@@ -1879,7 +1879,7 @@
 		<xsl:variable name="label">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$label" />
-				<xsl:with-param name="search-string" select="':set'" />
+				<xsl:with-param name="search-string" select="':set$'" />
 				<xsl:with-param name="replace-string" select="''" />
 			</xsl:call-template>
 		</xsl:variable>
@@ -1902,7 +1902,7 @@
 		
 		<xsl:call-template name="search-and-replace">
 			<xsl:with-param name="input" select="$hash" />
-			<xsl:with-param name="search-string" select="'$'" />
+			<xsl:with-param name="search-string" select="'\$'" />
 			<xsl:with-param name="replace-string" select="''" />
 		</xsl:call-template>
 	</xsl:template>	
@@ -1915,7 +1915,7 @@
 			<xsl:call-template name="replace-tag">
 				<xsl:with-param name="input" select="$input" />
 				<xsl:with-param name="tag" select="'codeph'" />
-				<xsl:with-param name="replacement-start" select="'\verb|'" />
+				<xsl:with-param name="replacement-start" select="'\\verb|'" />
 				<xsl:with-param name="replacement-end" select="'|'" />
 			</xsl:call-template>
 		</xsl:variable>
@@ -1924,7 +1924,7 @@
 			<xsl:call-template name="replace-tag">
 				<xsl:with-param name="input" select="$codeph" />
 				<xsl:with-param name="tag" select="'code'" />
-				<xsl:with-param name="replacement-start" select="'\verb|'" />
+				<xsl:with-param name="replacement-start" select="'\\verb|'" />
 				<xsl:with-param name="replacement-end" select="'|'" />
 			</xsl:call-template>
 		</xsl:variable>
@@ -1934,8 +1934,8 @@
 			<xsl:call-template name="replace-tag">
 				<xsl:with-param name="input" select="$code" />
 				<xsl:with-param name="tag" select="'pre'" />
-				<xsl:with-param name="replacement-start" select="concat('\begin{verbatimtab}[2]',$newline)" />
-				<xsl:with-param name="replacement-end" select="concat($newline,'\end{verbatimtab}')" />
+				<xsl:with-param name="replacement-start" select="concat('\\begin{verbatimtab}[2]',$newline)" />
+				<xsl:with-param name="replacement-end" select="concat($newline,'\\end{verbatimtab}')" />
 			</xsl:call-template>
 		</xsl:variable>
 		
@@ -1946,7 +1946,7 @@
 			<xsl:call-template name="replace-tag">
 				<xsl:with-param name="input" select="$pre" />
 				<xsl:with-param name="tag" select="'b'" />
-				<xsl:with-param name="replacement-start" select="'\textbf{'" />
+				<xsl:with-param name="replacement-start" select="'\\textbf{'" />
 				<xsl:with-param name="replacement-end" select="'}'" />
 			</xsl:call-template>
 		</xsl:variable>
@@ -1955,7 +1955,7 @@
 		<xsl:call-template name="replace-tag">
 			<xsl:with-param name="input" select="$b" />
 			<xsl:with-param name="tag" select="'i'" />
-			<xsl:with-param name="replacement-start" select="'\emph{'" />
+			<xsl:with-param name="replacement-start" select="'\\emph{'" />
 			<xsl:with-param name="replacement-end" select="'}'" />
 		</xsl:call-template>
 	</xsl:template>
@@ -2036,6 +2036,9 @@
 		<xsl:param name="input"/>
 		<xsl:param name="search-string"/>
 		<xsl:param name="replace-string"/>
+		<xsl:value-of select="replace($input,$search-string,$replace-string)" />
+		
+		<!--
 		<xsl:choose>
 			<xsl:when test="$search-string and contains($input,$search-string)">
 				<xsl:value-of select="substring-before($input,$search-string)"/>
@@ -2050,6 +2053,7 @@
 				<xsl:value-of select="$input" disable-output-escaping="no"/>
 			</xsl:otherwise>
 		</xsl:choose>
+		-->
 	</xsl:template>	
 	
 	<xsl:template name="header">
