@@ -2,7 +2,7 @@ package com.ffsys.utils.array {
 	
 	/**
 	*	Utility methods for working with
-	*	<code>Array</code> instances.
+	*	array instances.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -31,12 +31,12 @@ package com.ffsys.utils.array {
 		*	in the <code>Array</code> will be multiplied by it's index in
 		*	the <code>Array</code>.
 		*	
-		*	@param instance the <code>Object</code> to fill the <code>Array</code> with
-		*	@param length the length of the filled <code>Array</code>
-		*	@param multiply a flag indicating whether numeric values should be multiplied
-		*	by their index
+		*	@param instance The <code>Object</code> to fill the <code>Array</code> with.
+		*	@param length The length of the filled <code>Array</code>.
+		*	@param multiply A flag indicating whether numeric values should be multiplied
+		*	by their index.
 		*	
-		*	@return the filled <code>Array</code>
+		*	@return The filled <code>Array</code>.
 		*/
 		static public function fill(
 			instance:Object,
@@ -70,11 +70,11 @@ package com.ffsys.utils.array {
 		*	If the <code>source</code> is <code>null</code>
 		*	or empty this method will return <code>false</code>.
 		*	
-		*	@param source the <code>Array</code> to inspect
-		*	@param value the <code>Object</code> to search for
+		*	@param source The <code>Array</code> to inspect.
+		*	@param value The <code>Object</code> to search for.
 		*	
-		*	@return a <code>Boolean</code> indicating whether
-		*	<code>value</code> exists in <code>source</code>
+		*	@return A <code>Boolean</code> indicating whether
+		*	<code>value</code> exists in <code>source</code>.
 		*/
 		static public function contains(
 			source:Array, value:Object ):Boolean

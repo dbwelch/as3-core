@@ -29,27 +29,7 @@ package com.ffsys.utils.array
 		*/
 		private function isUnique( element:*, index:int, arr:Array ):Boolean
 		{
-			
-			/*
-			for( var i:int = 0;i < arr.length;i++ )
-			{
-				//we don't want to compare against the element
-				//we are testing
-				if( index == i )
-				{
-					continue;
-				}
-				
-  				if( ( element != null ) && element === arr[ i ] )
-				{
-					return false;
-				}
-			}
-			
-			return true;
-			*/
-			
-			return ( arr.indexOf( element ) == index );
+			return ( arr.indexOf( element ) == index && arr.lastIndexOf( element ) == index );
 		}
 		
 		/**
@@ -63,12 +43,10 @@ package com.ffsys.utils.array
 		public function unique( target:Array ):Array
 		{
 			var output:Array = new Array();
-			
 			if( target != null )
 			{
 				output = target.filter( isUnique );
 			}
-			
 			return output;
 		}
 	}
