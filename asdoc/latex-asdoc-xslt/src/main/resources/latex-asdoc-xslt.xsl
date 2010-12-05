@@ -53,7 +53,6 @@
 			<xsl:variable name="package" select="document($package-path)" />
 			<xsl:variable name="package-id" select="$package/apiPackage/@id"/>
 			<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
-			
 			<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 			<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 			
@@ -66,12 +65,13 @@
 			<xsl:value-of select="$newline" />
 			<xsl:text>\rhead{}</xsl:text>
 			
+			<!-- PACKAGE PART DECLARATION -->
 			<xsl:call-template name="part">
 				<xsl:with-param name="title" select="$package-id"/>
 				<xsl:with-param name="label" select="$package-id"/>
 			</xsl:call-template>
 			
-			<!-- package description if available -->
+			<!-- PACKAGE DESCRIPTION IF AVAILABLE -->
 			<xsl:variable name="package-description" select="$toplevel//packageRec[@fullname = $package-id or @fullname = $package-id-null]" />
 			<xsl:choose>
 				<xsl:when test="$package-description">
@@ -154,18 +154,11 @@
 				</xsl:call-template>
 				
 				<!-- CLASS DESCRIPTION -->
-				
-				<!--
-				<xsl:call-template name="paragraph">
-					<xsl:with-param name="text" select="apiClassifierDetail/apiDesc"/>
-				</xsl:call-template>
-				-->
-				
 				<xsl:variable
 					name="class-description"
 					select="apiClassifierDetail/apiDesc" />				
 				
-				<!-- handle missing class/interface descriptions -->
+				<!-- HANDLE MISSING CLASS/INTERFACE DESCRIPTIONS -->
 				<xsl:choose>
 					<xsl:when test="normalize-space($class-description) != ''">
 						<xsl:call-template name="paragraph">
@@ -173,16 +166,14 @@
 						</xsl:call-template>
 					</xsl:when>
 					<xsl:otherwise>
-						
 						<xsl:variable name="missing-prefix">
 							<xsl:if test="$is-class">
 								<xsl:value-of select="'class'" />
 							</xsl:if>
 							<xsl:if test="not($is-class)">
 								<xsl:value-of select="'interface'" />
-							</xsl:if>							
+							</xsl:if>
 						</xsl:variable>
-						
 						<xsl:call-template name="paragraph">
 							<xsl:with-param name="text">
 								<xsl:call-template name="missing">
@@ -192,7 +183,6 @@
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
-				
 				
 				<!-- SEE ALSO XREF -->
 				<xsl:call-template name="list-see" />
@@ -217,7 +207,7 @@
 						name="constructor-description"
 						select="apiConstructor/apiConstructorDetail/apiDesc" />					
 					
-					<!-- handle missing constructor descriptions -->
+					<!-- HANDLE MISSING CONSTRUCTOR DESCRIPTIONS -->
 					<xsl:choose>
 						<xsl:when test="normalize-space($constructor-description) != ''">
 							<xsl:call-template name="paragraph">
