@@ -512,9 +512,27 @@
 					<xsl:with-param name="title" select="apiName"/>
 					<xsl:with-param name="label" select="@id"/>
 				</xsl:call-template>
-				<xsl:call-template name="paragraph">
-					<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
-				</xsl:call-template>
+				
+				<xsl:variable name="description" select="apiValueDetail/apiDesc" />
+				
+				<!-- handle missing property descriptions -->
+				<xsl:choose>
+					<xsl:when test="normalize-space($description) != ''">
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text" select="$description"/>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="paragraph">
+							<xsl:with-param name="text">
+								<xsl:call-template name="missing">
+									<xsl:with-param name="type" select="'property'" />
+								</xsl:call-template>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>				
+				
 				<xsl:call-template name="property-signature" />						
 			</xsl:if>
 		</xsl:for-each>
