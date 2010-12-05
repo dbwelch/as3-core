@@ -1,6 +1,8 @@
+/**
+*	Utility classes for working with <code>Array</code> objects.
+*/
 package com.ffsys.utils.array
 {
-	
 	/**
 	*	Responsible for interleaving the elements of multiple
 	* 	arrays into a single array.

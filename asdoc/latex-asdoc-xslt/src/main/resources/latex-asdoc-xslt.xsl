@@ -1910,15 +1910,26 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
+		<xsl:variable name="code">
+			<xsl:call-template name="replace-tag">
+				<xsl:with-param name="input" select="$codeph" />
+				<xsl:with-param name="tag" select="'code'" />
+				<xsl:with-param name="replacement-start" select="'\verb|'" />
+				<xsl:with-param name="replacement-end" select="'|'" />
+			</xsl:call-template>
+		</xsl:variable>
+		
 		<!-- replace 'pre' tags with verbatimtab elements -->
 		<xsl:variable name="pre">
 			<xsl:call-template name="replace-tag">
-				<xsl:with-param name="input" select="$codeph" />
+				<xsl:with-param name="input" select="$code" />
 				<xsl:with-param name="tag" select="'pre'" />
 				<xsl:with-param name="replacement-start" select="concat('\begin{verbatimtab}[2]',$newline)" />
 				<xsl:with-param name="replacement-end" select="concat($newline,'\end{verbatimtab}')" />
 			</xsl:call-template>
 		</xsl:variable>
+		
+		<!-- TODO: add support for strong and em tags when parsing from the top level xml - package descriptions etc. -->
 		
 		<!-- b : note the dita conversion performs 'strong' > 'b' translation -->
 		<xsl:variable name="b">
