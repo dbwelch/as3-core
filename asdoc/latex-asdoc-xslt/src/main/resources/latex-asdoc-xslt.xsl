@@ -1470,9 +1470,13 @@
 							<xsl:call-template name="missing" />
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:call-template name="escape">
-								<xsl:with-param name="input" select="normalize-space($found/shortdesc)" />
-							</xsl:call-template>	
+							<xsl:call-template name="auto-xref">
+								<xsl:with-param name="input">
+									<xsl:call-template name="escape">
+										<xsl:with-param name="input" select="normalize-space($found/shortdesc)" />
+									</xsl:call-template>
+								</xsl:with-param>
+							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>					
 					
@@ -1806,9 +1810,13 @@
 					<xsl:call-template name="missing" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:call-template name="escape">
-						<xsl:with-param name="input" select="normalize-space(shortdesc)" />
-					</xsl:call-template>	
+					<xsl:call-template name="auto-xref">
+						<xsl:with-param name="input">					
+							<xsl:call-template name="escape">
+								<xsl:with-param name="input" select="normalize-space(shortdesc)" />
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
 			

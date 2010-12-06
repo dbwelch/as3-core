@@ -233,7 +233,8 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
-		* 	A <code>writeonly</code> property.
+		* 	A <code>writeonly</code> property for <code>AsdocTest</code> to check inline
+		* 	auto xref logic in property short descriptions.
 		*/
 		public function set writeonly(write:String):void
 		{

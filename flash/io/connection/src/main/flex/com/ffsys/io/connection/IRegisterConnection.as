@@ -3,8 +3,8 @@ package com.ffsys.io.connection {
 	import com.ffsys.io.connection.IConnection;
 	
 	/**
-	*	Describes the contract for Objects that can register
-	*	an IConnection with an underlying IConnectionManager
+	*	Describes the contract for objects that can register
+	*	an <code>IConnection</code> with an underlying <code>IConnectionManager</code>
 	*	instance.
 	*
 	*	@langversion ActionScript 3.0
