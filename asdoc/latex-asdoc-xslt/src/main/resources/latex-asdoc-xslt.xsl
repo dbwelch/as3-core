@@ -564,7 +564,11 @@
 			<xsl:call-template name="parameter-list" />
 			<xsl:call-template name="method-return" />
 			<xsl:call-template name="exceptions-list" />
+			
+
+			<xsl:call-template name="start-paragraph" />
 			<xsl:call-template name="method-signature" />
+			<xsl:call-template name="end-paragraph" />
 		</xsl:for-each>
 	</xsl:template>
 	
@@ -709,7 +713,9 @@
 	<xsl:template name="property-signature">
 		<xsl:param name="access" select="apiValueDetail/apiValueDef/apiAccess/@value" />
 		<xsl:param name="name" select="apiName" />
-
+		<xsl:param name="alltt" select="true()" />
+		<xsl:param name="abbreviated" select="false()" />
+		<xsl:param name="title" select="'Implementation'" />
 		<xsl:param name="type">
 			<xsl:if test="apiValueDetail/apiValueDef/apiType/@value">
 				<xsl:value-of select="apiValueDetail/apiValueDef/apiType/@value"/>
@@ -726,27 +732,40 @@
 		<xsl:param name="static" select="apiValueDetail/apiValueDef/apiStatic" />
 		<xsl:param name="constant" select="not(apiValueDetail/apiValueDef/apiProperty)" />
 		
-		<xsl:call-template name="subtitle">
-			<xsl:with-param name="input" select="'Implementation'" />
-		</xsl:call-template>
+		<xsl:if test="$title != ''">
+			<xsl:call-template name="subtitle">
+				<xsl:with-param name="input" select="$title" />
+			</xsl:call-template>
+		</xsl:if>
 		
-		<xsl:value-of select="$newline" />
 		<xsl:value-of select="'\scriptsize{'" />
-		<xsl:value-of select="$start-alltt" />
 		
-		<xsl:value-of select="$access" />
+		<xsl:choose>
+			<xsl:when test="$alltt">
+				<xsl:value-of select="$start-alltt" />				
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$start-tt" />
+			</xsl:otherwise>
+		</xsl:choose>
 		
-		<xsl:if test="$static">
-			<xsl:value-of select="' static'" />
-		</xsl:if>
+		<xsl:if test="not($abbreviated)">
+			<xsl:value-of select="$access" />
 		
-		<xsl:if test="not($accessor) and not(apiValueDetail/apiValueDef/apiProperty)">
-			<xsl:value-of select="' const'" />
-		</xsl:if>
+			<xsl:if test="$static">
+				<xsl:value-of select="' static'" />
+			</xsl:if>
 		
-		<xsl:if test="not($accessor) and apiValueDetail/apiValueDef/apiProperty">
-			<xsl:value-of select="' var'" />
-		</xsl:if>
+			<xsl:if test="not($accessor) and not(apiValueDetail/apiValueDef/apiProperty)">
+				<xsl:value-of select="' const'" />
+			</xsl:if>
+		
+			<xsl:if test="not($accessor) and apiValueDetail/apiValueDef/apiProperty">
+				<xsl:value-of select="' var'" />
+			</xsl:if>
+			
+			<xsl:text> </xsl:text>
+		</xsl:if>	
 		
 		<xsl:if test="not($accessor)">
 			
@@ -755,8 +774,8 @@
 				<xsl:with-param name="accessor" select="$accessor" />
 				<xsl:with-param name="type" select="$type" />
 			</xsl:call-template>
-
-			<xsl:if test="$api-data != ''">
+			
+			<xsl:if test="$api-data != '' and $alltt and $abbreviated">
 				<xsl:value-of select="$newline" />
 				<xsl:text> = </xsl:text>
 				<xsl:call-template name="escape">
@@ -770,7 +789,7 @@
 		<xsl:if test="$accessor">
 			
 			<!-- override candidate -->
-			<xsl:if test="apiValueDetail/apiValueDef/apiIsOverride">
+			<xsl:if test="apiValueDetail/apiValueDef/apiIsOverride and not($abbreviated)">
 				<xsl:variable name="getter-fullname" select="concat(../@id,'/',apiName,'/get')" />
 				<xsl:variable name="setter-fullname" select="concat(../@id,'/',apiName,'/set')" />
 				
@@ -778,7 +797,9 @@
 				<xsl:variable name="setter-override" select="$toplevel//*[@fullname = $setter-fullname]" />
 				
 				<xsl:if test="$getter-override">
-					<xsl:value-of select="' override function get'" />
+					<xsl:if test="not($abbreviated)">
+						<xsl:value-of select="'override function get '" />
+					</xsl:if>
 					<xsl:call-template name="getter-parameters">
 						<xsl:with-param name="name" select="$name" />
 						<xsl:with-param name="type" select="$type" />				
@@ -793,7 +814,10 @@
 						<xsl:value-of select="$access" />
 					</xsl:if>
 					
-					<xsl:value-of select="' override function set'" />
+					<xsl:if test="not($abbreviated)">
+						<xsl:value-of select="'override function set '" />
+					</xsl:if>
+					
 					<xsl:call-template name="setter-parameters">
 						<xsl:with-param name="name" select="$name" />
 						<xsl:with-param name="type" select="$type" />				
@@ -802,18 +826,22 @@
 			</xsl:if>
 			
 			<!-- not dealing with an override -->
-			<xsl:if test="not(apiValueDetail/apiValueDef/apiIsOverride)">
+			<xsl:if test="not(apiValueDetail/apiValueDef/apiIsOverride) or $abbreviated">
 				<xsl:choose>
 					<xsl:when test="$api-value-access = 'write'">
-						<xsl:value-of select="' function set'" />
 						
+						<xsl:if test="not($abbreviated)">
+							<xsl:value-of select="'function set '" />
+						</xsl:if>
 						<xsl:call-template name="setter-parameters">
 							<xsl:with-param name="name" select="$name" />
 							<xsl:with-param name="type" select="$type" />	
 						</xsl:call-template>						
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="' function get'" />
+						<xsl:if test="not($abbreviated)">
+							<xsl:value-of select="'function get '" />
+						</xsl:if>
 						
 						<xsl:call-template name="getter-parameters">
 							<xsl:with-param name="name" select="$name" />
@@ -824,21 +852,28 @@
 				</xsl:choose>
 
 				<!-- also add a setter for readwrite -->
-				<xsl:if test="$accessor and $api-value-access = 'readwrite' and not(apiValueDetail/apiValueDef/apiIsOverride)">
+				<xsl:if test="$accessor and not($abbreviated) and $api-value-access = 'readwrite' and not(apiValueDetail/apiValueDef/apiIsOverride)">
 					<xsl:value-of select="$newline" />
 					<xsl:value-of select="$access" />
-					<xsl:value-of select="' function set'" />
+					<xsl:value-of select="' function set '" />
 					<xsl:call-template name="setter-parameters">
 						<xsl:with-param name="name" select="$name" />
-						<xsl:with-param name="type" select="$type" />				
+						<xsl:with-param name="type" select="$type" />			
 					</xsl:call-template>
 				</xsl:if>
 			</xsl:if>
 		</xsl:if>
 		
-		<xsl:value-of select="$end-alltt" />
-		<xsl:value-of select="'}'" />	
-		<xsl:value-of select="$newline" />
+		<xsl:choose>
+			<xsl:when test="$alltt">
+				<xsl:value-of select="$end-alltt" />				
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$end-tt" />
+			</xsl:otherwise>
+		</xsl:choose>
+		<!-- end size block -->
+		<xsl:value-of select="'}'" />
 	</xsl:template>
 	
 	<xsl:template name="getter-parameters">
@@ -846,8 +881,6 @@
 		<xsl:param name="accessor" select="true()" />
 		<xsl:param name="type" select="''" />
 		<xsl:param name="xref" select="true()" />
-		
-		<xsl:text> </xsl:text>
 		
 		<xsl:choose>
 			<xsl:when test="$xref">
@@ -881,7 +914,7 @@
 		<xsl:param name="name" select="''" />
 		<xsl:param name="type" select="''" />
 		<xsl:param name="xref" select="true()" />
-		<xsl:text> </xsl:text>
+
 		<xsl:choose>
 			<xsl:when test="$xref">
 				<xsl:call-template name="nameref">
@@ -911,12 +944,14 @@
 	
 	<xsl:template name="constructor-signature">
 		<xsl:for-each select="apiConstructor">
+			<xsl:call-template name="start-paragraph" />
 			<xsl:call-template name="method-signature">
 				<xsl:with-param name="access" select="apiConstructorDetail/apiConstructorDef/apiAccess/@value" />
 				<xsl:with-param name="name" select="apiName" />
 				<xsl:with-param name="return-type" select="''" />
 				<xsl:with-param name="params" select="apiConstructorDetail/apiConstructorDef/apiParam" />
 			</xsl:call-template>
+			<xsl:call-template name="end-paragraph" />
 		</xsl:for-each>
 	</xsl:template>
 	
@@ -927,6 +962,9 @@
 		<xsl:param name="name" select="apiName" />
 		<xsl:param name="xref" select="true()" />
 		<xsl:param name="break" select="true()" />
+		<xsl:param name="alltt" select="true()" />
+		<xsl:param name="abbreviated" select="false()" />
+		<xsl:param name="title" select="'Implementation'" />
 		<xsl:param name="static" select="apiOperationDetail/apiOperationDef/apiStatic" />
 		<xsl:param name="return-type">
 			<xsl:if test="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value">
@@ -937,39 +975,52 @@
 			</xsl:if>
 		</xsl:param>
 		
-		<xsl:call-template name="subtitle">
-			<xsl:with-param name="input" select="'Implementation'" />
-		</xsl:call-template>				
-		
-		<xsl:call-template name="start-paragraph" />
-		
-		<xsl:value-of select="'{\scriptsize'" />
-		<xsl:value-of select="$start-alltt" />
-		<xsl:value-of select="$access" />
-		
-		<xsl:if test="$static">
-			<xsl:value-of select="' static'" />
+		<xsl:if test="$title != ''">
+			<xsl:call-template name="subtitle">
+				<xsl:with-param name="input" select="$title" />
+			</xsl:call-template>
 		</xsl:if>
 		
-		<xsl:if test="$prefix != ''">
-			<xsl:value-of select="concat(' ', $prefix)" />
-		</xsl:if>
+		<xsl:value-of select="'\scriptsize{'" />
 		
-		<xsl:if test="apiOperationDetail/apiOperationDef/apiIsOverride">	
-			<xsl:value-of select="' override'" />
+		<xsl:choose>
+			<xsl:when test="$alltt">
+				<xsl:value-of select="$start-alltt" />				
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$start-tt" />
+			</xsl:otherwise>
+		</xsl:choose>
+		
+		<xsl:if test="not($abbreviated)">
+		
+			<xsl:value-of select="$access" />
+		
+			<xsl:if test="$static">
+				<xsl:value-of select="' static'" />
+			</xsl:if>
+		
+			<xsl:if test="$prefix != ''">
+				<xsl:value-of select="concat(' ', $prefix)" />
+			</xsl:if>
+		
+			<xsl:if test="apiOperationDetail/apiOperationDef/apiIsOverride">	
+				<xsl:value-of select="' override'" />
+			</xsl:if>
+			<xsl:value-of select="' function'" />
+		
+			<xsl:value-of select="' '" />
+		
 		</xsl:if>
-		<xsl:value-of select="' function'" />
 		
 		<xsl:choose>
 			<!-- xref the name -->
-			<xsl:when test="$xref">
-				<xsl:value-of select="' '" />				
+			<xsl:when test="$xref">				
 				<xsl:call-template name="nameref">
 					<xsl:with-param name="input" select="@id" />
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="' '" />
 				<xsl:value-of select="$name" />
 			</xsl:otherwise>
 		</xsl:choose>
@@ -1008,9 +1059,17 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
-		<xsl:value-of select="$end-alltt" />
+			
+		<xsl:choose>
+			<xsl:when test="$alltt">
+				<xsl:value-of select="$end-alltt" />			
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$end-tt" />
+			</xsl:otherwise>
+		</xsl:choose>		
+		
 		<xsl:value-of select="'}'" />
-		<xsl:call-template name="end-paragraph" />
 	</xsl:template>
 	
 	<xsl:template name="get-parameters">
@@ -1880,14 +1939,33 @@
 	</xsl:template>
 	
 	<xsl:template name="property-summary-listing-title">
+		
+		<!--
 		<xsl:call-template name="xref">
 			<xsl:with-param name="input" select="@id" />
-		</xsl:call-template>		
+		</xsl:call-template>
+		-->
+		
+		<xsl:call-template name="property-signature">
+			<xsl:with-param name="title" select="''" />
+			<xsl:with-param name="abbreviated" select="true()" />
+			<xsl:with-param name="alltt" select="false()" />
+		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template name="method-summary-listing-title">
+		
+		<!--
 		<xsl:call-template name="xref">
 			<xsl:with-param name="input" select="@id" />
+		</xsl:call-template>
+		-->
+		
+		<xsl:call-template name="method-signature">
+			<xsl:with-param name="title" select="''" />
+			<xsl:with-param name="abbreviated" select="true()" />
+			<xsl:with-param name="break" select="false()" />			
+			<xsl:with-param name="alltt" select="false()" />
 		</xsl:call-template>
 	</xsl:template>
 	
