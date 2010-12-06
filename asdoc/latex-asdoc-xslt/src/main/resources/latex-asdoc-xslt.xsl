@@ -1051,7 +1051,9 @@
 						</xsl:call-template>
 					</xsl:if>
 					<xsl:if test="not($xref)">
-						<xsl:value-of select="$return-type" />
+						<xsl:call-template name="escape">
+							<xsl:with-param name="input" select="$return-type" />
+						</xsl:call-template>
 					</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>	
@@ -1111,7 +1113,9 @@
 						</xsl:call-template>
 					</xsl:if>
 					<xsl:if test="not($xref)">
-						<xsl:value-of select="$type-name" />
+						<xsl:call-template name="escape">
+							<xsl:with-param name="input" select="$type-name" />
+						</xsl:call-template>
 					</xsl:if>
 				</xsl:if>
 			</xsl:if>
@@ -1225,12 +1229,29 @@
 	
 	<xsl:template name="deprecated">
 		<!-- ./apiOperationDetail/apiOperationDef/apiDeprecated -->
-		<xsl:param name="input" select=".//apiDeprecated" />
+		<xsl:param name="text" select="'Deprecated'" />		
+		<xsl:param name="input">
+			<xsl:choose>
+				<xsl:when test=".//prolog/asCustoms/deprecated">
+					<xsl:value-of select="normalize-space(.//prolog/asCustoms/deprecated)" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select=".//apiDeprecated" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:param>
+		<xsl:param name="replacement">
+			<xsl:choose>
+				<xsl:when test=".//prolog/asCustoms/deprecated">
+					<xsl:value-of select="normalize-space(.//prolog/asCustoms/deprecated)" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select=".//apiDeprecated/@replacement" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:param>
 		
-		<xsl:if test="count($input) &gt; 0">
-
-			<xsl:variable name="text" select="'Deprecated'" />
-			<xsl:variable name="replacement" select="$input/@replacement" />
+		<xsl:if test="$input">
 			
 			<!-- title -->
 			
@@ -1242,7 +1263,7 @@
 				</xsl:with-param>
 			</xsl:call-template>
 			
-			<xsl:if test="$input/@replacement">
+			<xsl:if test="$replacement">
 				<xsl:value-of select="' -- '" />
 				
 				<xsl:choose>
@@ -1906,7 +1927,7 @@
 				<xsl:with-param name="input" select="../apiName" />
 			</xsl:call-template>			
 			
-			<xsl:if test=".//apiDeprecated">
+			<xsl:if test=".//apiDeprecated | .//prolog/asCustoms/deprecated">
 				<xsl:text>\\</xsl:text>
 				<xsl:value-of select="$newline" />
 				<xsl:call-template name="deprecated" />
