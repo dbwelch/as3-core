@@ -631,8 +631,16 @@
 						<xsl:variable name="xref">
 							<xsl:call-template name="search-and-replace">
 								<xsl:with-param name="input" select="@href" />
-								<xsl:with-param name="search-string" select="'\.xml'" />
+								<xsl:with-param name="search-string" select="'\.xml$'" />
 								<xsl:with-param name="replace-string" select="''" />
+							</xsl:call-template>
+						</xsl:variable>
+						
+						<xsl:variable name="xref">
+							<xsl:call-template name="search-and-replace">
+								<xsl:with-param name="input" select="@href" />
+								<xsl:with-param name="search-string" select="'\.xml#'" />
+								<xsl:with-param name="replace-string" select="':'" />
 							</xsl:call-template>
 						</xsl:variable>
 
