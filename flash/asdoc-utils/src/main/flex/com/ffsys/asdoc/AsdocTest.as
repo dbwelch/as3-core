@@ -50,7 +50,22 @@ package com.ffsys.asdoc {
 		/**
 		* 	A tilde.
 		*/
-		public static const TILDE:String = "~";				
+		public static const TILDE:String = "~";	
+		
+		/**
+		* 	A left brace.
+		*/
+		public static const LEFT_BRACE:String = "{";
+	
+		/**
+		* 	A right brace.
+		*/
+		public static const RIGHT_BRACE:String = "}";
+		
+		/**
+		* 	A set of characters used to test escaping.
+		*/
+		public static const CHARACTERS:String = "{~-\\^}";				
 		
 		/**
 		* 	A <code>public</code> property.
