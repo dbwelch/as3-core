@@ -759,7 +759,10 @@
 			<xsl:if test="$api-data != ''">
 				<xsl:value-of select="$newline" />
 				<xsl:text> = </xsl:text>
-				<xsl:value-of select="$api-data" />
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$api-data" />
+					<xsl:with-param name="plain-tilde" select="true()" />
+				</xsl:call-template>
 			</xsl:if>
 		</xsl:if>
 		
@@ -2054,10 +2057,26 @@
 	
 	<xsl:template name="escape">
 		<xsl:param name="input" />
-		<!-- backslash characters must be escaped first -->
-		<xsl:variable name="backslash">
+		<xsl:param name="plain-tilde" select="false" />
+		<!-- curly braces must be escaped first -->		
+		<xsl:variable name="left-brace">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$input" />
+				<xsl:with-param name="search-string" select="'([^\\]?)\{'" />
+				<xsl:with-param name="replace-string" select="'$1\\char`\\{\\'" />
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="right-brace">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$left-brace" />
+				<xsl:with-param name="search-string" select="'([^\\]?)\}'" />
+				<xsl:with-param name="replace-string" select="'$1\\char`\\}\\'" />
+			</xsl:call-template>
+		</xsl:variable>
+		<!-- backslash characters must be escaped next -->
+		<xsl:variable name="backslash">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$right-brace" />
 				<xsl:with-param name="search-string" select="'([^\\]?)\\'" />
 				<xsl:with-param name="replace-string" select="'$1\\textbackslash{}'" />
 			</xsl:call-template>
@@ -2075,14 +2094,21 @@
 				<xsl:with-param name="search-string" select="'([^\\]?)\^'" />
 				<xsl:with-param name="replace-string" select="'$1\\char`\\^\\'" />
 			</xsl:call-template>
-		</xsl:variable>	
+		</xsl:variable>
 		<xsl:variable name="tilde">
-			<xsl:call-template name="search-and-replace">
-				<xsl:with-param name="input" select="$circumflex" />
-				<xsl:with-param name="search-string" select="'([^\\]?)~'" />
-				<xsl:with-param name="replace-string" select="'$1\\char`\\~\\'" />
-			</xsl:call-template>
-		</xsl:variable>				
+			<xsl:choose>
+				<xsl:when test="not($plain-tilde)">
+					<xsl:call-template name="search-and-replace">
+						<xsl:with-param name="input" select="$circumflex" />
+						<xsl:with-param name="search-string" select="'([^\\]?)~'" />
+						<xsl:with-param name="replace-string" select="'$1\\char`\\~\\'" />
+					</xsl:call-template>					
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$circumflex" />
+				</xsl:otherwise>				
+			</xsl:choose>
+		</xsl:variable>	
 		<xsl:variable name="underscore">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$tilde" />

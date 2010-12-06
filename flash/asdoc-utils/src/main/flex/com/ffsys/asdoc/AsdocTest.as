@@ -38,9 +38,19 @@ package com.ffsys.asdoc {
 		public static var staticVariable:String = "static-variable";
 		
 		/**
-		* 	A constant declaration.
+		* 	The escape character.
 		*/
-		public static const CONSTANT_NAME:String = "constant";
+		public static const ESCAPE_DECLARATION:String = "\\";
+		
+		/**
+		* 	A hyphen.
+		*/
+		public static const HYPHEN:String = "-";
+		
+		/**
+		* 	A tilde.
+		*/
+		public static const TILDE:String = "~";				
 		
 		/**
 		* 	A <code>public</code> property.
