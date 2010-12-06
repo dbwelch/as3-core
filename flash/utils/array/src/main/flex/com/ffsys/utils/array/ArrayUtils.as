@@ -22,9 +22,8 @@ package com.ffsys.utils.array {
 		
 		/**
 		*	Fills an <code>Array</code> with references to
-		*	the <code>instance</code> <code>Object</code>
-		*	the number of times specified by the <code>length</code>
-		*	parameter.
+		*	<code>instance</code> the number of times
+		* 	specified by the <code>length</code> parameter.
 		*	
 		*	If the <code>instance</code> parameter is a <code>Number</code>
 		*	and the <code>multiply</code> flag is specified each entry

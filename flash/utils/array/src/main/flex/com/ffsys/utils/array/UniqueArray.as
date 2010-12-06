@@ -15,7 +15,7 @@ package com.ffsys.utils.array
 	public class UniqueArray extends Object
 	{	
 		/**
-		* 	Creates an <code>UniqueArray</code> instance.
+		* 	Creates a <code>UniqueArray</code> instance.
 		*/
 		public function UniqueArray()
 		{
@@ -29,7 +29,7 @@ package com.ffsys.utils.array
 		*/
 		private function isUnique( element:*, index:int, arr:Array ):Boolean
 		{
-			return ( arr.indexOf( element ) == index && arr.lastIndexOf( element ) == index );
+			return ( arr.indexOf( element ) == index );
 		}
 		
 		/**

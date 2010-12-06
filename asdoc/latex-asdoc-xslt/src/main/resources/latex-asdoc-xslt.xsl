@@ -34,6 +34,9 @@
 	
 	<xsl:variable name="start-verb" select="'\verb|'" />
 	<xsl:variable name="end-verb" select="'|'" />
+	
+	<xsl:variable name="start-tt" select="'\begin{alltt}'" />
+	<xsl:variable name="end-tt" select="'\end{alltt}'" />
 
 	<xsl:variable name="newline">
 		<xsl:text>
@@ -219,14 +222,15 @@
 				
 				<!-- CONSTRUCTOR -->
 				<xsl:if test="$has-constructor">
+					
 					<xsl:call-template name="subsection">
-						<xsl:with-param name="title" select="'Constructor'"/>
-						<xsl:with-param name="label" select="concat($class-id,':constructor')"/>
+						<xsl:with-param name="title" select="apiConstructor/apiName"/>
+						<xsl:with-param name="label" select="apiConstructor/@id"/>
 					</xsl:call-template>
 					
 					<xsl:variable
 						name="constructor-description"
-						select="apiConstructor/apiConstructorDetail/apiDesc" />					
+						select="apiConstructor/apiConstructorDetail/apiDesc" />
 					
 					<!-- HANDLE MISSING CONSTRUCTOR DESCRIPTIONS -->
 					<xsl:choose>
@@ -894,12 +898,14 @@
 	</xsl:template>
 	
 	<xsl:template name="constructor-signature">
-		<xsl:call-template name="method-signature">
-			<xsl:with-param name="access" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiAccess/@value" />
-			<xsl:with-param name="name" select="apiName" />
-			<xsl:with-param name="return-type" select="''" />
-			<xsl:with-param name="params" select="apiConstructor/apiConstructorDetail/apiConstructorDef/apiParam" />
-		</xsl:call-template>
+		<xsl:for-each select="apiConstructor">
+			<xsl:call-template name="method-signature">
+				<xsl:with-param name="access" select="apiConstructorDetail/apiConstructorDef/apiAccess/@value" />
+				<xsl:with-param name="name" select="apiName" />
+				<xsl:with-param name="return-type" select="''" />
+				<xsl:with-param name="params" select="apiConstructorDetail/apiConstructorDef/apiParam" />
+			</xsl:call-template>
+		</xsl:for-each>
 	</xsl:template>
 	
 	<xsl:template name="method-signature">
@@ -907,6 +913,7 @@
 		<xsl:param name="access" select="apiOperationDetail/apiOperationDef/apiAccess/@value" />
 		<xsl:param name="prefix" select="''" />
 		<xsl:param name="name" select="apiName" />
+		<xsl:param name="xref" select="true()" />
 		<xsl:param name="static" select="apiOperationDetail/apiOperationDef/apiStatic" />
 		<xsl:param name="return-type">
 			<xsl:if test="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value">
@@ -922,8 +929,9 @@
 		</xsl:call-template>				
 		
 		<xsl:call-template name="start-paragraph" />
+		
 		<xsl:value-of select="'{\scriptsize'" />
-		<xsl:value-of select="$start-verb" />
+		<xsl:value-of select="$start-tt" />
 		<xsl:value-of select="$access" />
 		
 		<xsl:if test="$static">
@@ -938,7 +946,20 @@
 			<xsl:value-of select="' override'" />
 		</xsl:if>
 		<xsl:value-of select="' function'" />
-		<xsl:value-of select="concat(' ', $name)" />
+		
+		<xsl:choose>
+			<!-- xref the name -->
+			<xsl:when test="$xref">
+				<xsl:value-of select="' '" />				
+				<xsl:call-template name="nameref">
+					<xsl:with-param name="input" select="@id" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="' '" />
+				<xsl:value-of select="$name" />
+			</xsl:otherwise>
+		</xsl:choose>
 		
 		<xsl:choose>
 			<xsl:when test="count(.//apiParam) = 0">
@@ -959,12 +980,12 @@
 				<xsl:when test="$return-type != 'any'">
 					<xsl:variable name="xref" select="$toplevel//*[@fullname = $return-type]" />
 					<xsl:if test="$xref">
-						<xsl:value-of select="$end-verb" />
+						<xsl:value-of select="$end-tt" />
 						<xsl:call-template name="xref">
 							<xsl:with-param name="input" select="$xref/@fullname" />
 							<xsl:with-param name="tt" select="true()" />
 						</xsl:call-template>
-						<xsl:value-of select="$start-verb" />
+						<xsl:value-of select="$start-tt" />
 					</xsl:if>
 					<xsl:if test="not($xref)">
 						<xsl:value-of select="$return-type" />
@@ -975,10 +996,65 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
-		<xsl:value-of select="$end-verb" />
+		<xsl:value-of select="$end-tt" />
 		<xsl:value-of select="'}'" />
 		<xsl:call-template name="end-paragraph" />
 	</xsl:template>
+	
+	<xsl:template name="get-parameters">
+		<xsl:param name="break" select="true()" />
+		<xsl:param name="params" select=".//apiParam" />
+		<xsl:if test="$break">
+			<xsl:value-of select="$tab" />
+		</xsl:if>		
+		<xsl:for-each select="$params">
+			<xsl:if test="position()>1">
+				<xsl:text>, </xsl:text>
+			</xsl:if>
+			<xsl:if test="$break">
+				<xsl:value-of select="$newline" />
+				<!-- <xsl:value-of select="$start-verb" />	-->
+				<xsl:value-of select="$tab" />
+				<!-- <xsl:value-of select="$end-verb" /> -->
+			</xsl:if>
+			<xsl:variable name="type-name">
+				<xsl:if test="./apiType and not(./apiOperationClassifier)">
+					<xsl:value-of select="./apiType/@value"/>
+				</xsl:if>
+				<xsl:if test="./apiOperationClassifier and not(./apiType)">
+					<xsl:value-of select="./apiOperationClassifier"/>
+				</xsl:if>
+			</xsl:variable>
+			
+			<xsl:if test="@optional='true'">
+				<xsl:text>[</xsl:text>
+			</xsl:if>
+
+			<xsl:if test="($type-name != 'restParam')">
+				<xsl:value-of select="./apiItemName"/>
+				<xsl:if test="($type-name != '')">
+					<xsl:text>:</xsl:text>					
+					<xsl:variable name="xref" select="$toplevel//*[@fullname = $type-name]" />
+					<xsl:if test="$xref">
+						<xsl:call-template name="xref">
+							<xsl:with-param name="input" select="$xref/@fullname" />
+							<xsl:with-param name="tt" select="true()" />							
+						</xsl:call-template>
+					</xsl:if>
+					<xsl:if test="not($xref)">
+						<xsl:value-of select="$type-name" />
+					</xsl:if>
+				</xsl:if>
+			</xsl:if>
+			<xsl:if test="($type-name = 'restParam')">
+				<xsl:text>... rest</xsl:text>
+			</xsl:if>
+			<xsl:if test="@optional='true'">
+				<xsl:text>]</xsl:text>
+			</xsl:if>
+			
+		</xsl:for-each>
+	</xsl:template>	
 	
 	<xsl:template name="begin-verbatimtab">
 		<xsl:text>\begin{verbatimtab}[2]</xsl:text>	
@@ -1012,6 +1088,7 @@
 			
 			<xsl:call-template name="start-description" />
 			<xsl:for-each select="$params">
+				
 				<xsl:variable name="description">
 					<xsl:call-template name="sanitize">
 						<xsl:with-param name="input" select="./apiDesc" />
@@ -1201,64 +1278,6 @@
 			</xsl:choose>
 		</xsl:if>
 	</xsl:template>
-	
-	<xsl:template name="get-parameters">
-		<xsl:param name="break" select="true()" />
-		<xsl:param name="params" select=".//apiParam" />
-		<xsl:if test="$break">
-			<xsl:value-of select="$tab" />
-		</xsl:if>		
-		<xsl:for-each select="$params">
-			<xsl:if test="position()>1">
-				<xsl:text>, </xsl:text>
-			</xsl:if>
-			<xsl:if test="$break">
-				<xsl:value-of select="$end-verb" />
-				<xsl:value-of select="'\\'" />
-				<xsl:value-of select="$newline" />
-				<xsl:value-of select="$start-verb" />			
-				<xsl:value-of select="$tab" />
-			</xsl:if>			
-			<xsl:variable name="type-name">
-				<xsl:if test="./apiType and not(./apiOperationClassifier)">
-					<xsl:value-of select="./apiType/@value"/>
-				</xsl:if>
-				<xsl:if test="./apiOperationClassifier and not(./apiType)">
-					<xsl:value-of select="./apiOperationClassifier"/>
-				</xsl:if>
-			</xsl:variable>
-			
-			<xsl:if test="@optional='true'">
-				<xsl:text>[</xsl:text>
-			</xsl:if>
-
-			<xsl:if test="($type-name != 'restParam')">
-				<xsl:value-of select="./apiItemName"/>
-				<xsl:if test="($type-name != '')">
-					<xsl:text>:</xsl:text>					
-					<xsl:variable name="xref" select="$toplevel//*[@fullname = $type-name]" />
-					<xsl:if test="$xref">
-						<xsl:value-of select="$end-verb" />
-						<xsl:call-template name="xref">
-							<xsl:with-param name="input" select="$xref/@fullname" />
-							<xsl:with-param name="tt" select="true()" />							
-						</xsl:call-template>
-						<xsl:value-of select="$start-verb" />
-					</xsl:if>
-					<xsl:if test="not($xref)">
-						<xsl:value-of select="$type-name" />
-					</xsl:if>
-				</xsl:if>
-			</xsl:if>
-			<xsl:if test="($type-name = 'restParam')">
-				<xsl:text>... rest</xsl:text>
-			</xsl:if>
-			<xsl:if test="@optional='true'">
-				<xsl:text>]</xsl:text>
-			</xsl:if>
-			
-		</xsl:for-each>
-	</xsl:template>	
 	
 	<xsl:template name="label">
 		<xsl:param name="title" />
