@@ -44,14 +44,6 @@
 	<xsl:template match="/">
 
 		<xsl:call-template name="header" />
-		
-		<xsl:variable name="test">
-			<xsl:text>&lt;root&gt;this is some text&lt;/root&gt;</xsl:text>
-		</xsl:variable>
-			
-		<xsl:variable name="converted" select="saxon:parse(string($test))" />
-		
-		<xsl:value-of select="concat('CONVERTED: ', $converted)" />
 	
 		<!--  PACKAGES-->
 		<xsl:for-each select="$packages//apiItemRef">
@@ -82,7 +74,10 @@
 			
 			<!-- PACKAGE DESCRIPTION IF AVAILABLE -->
 			<xsl:variable name="package-description" select="$toplevel//packageRec[@fullname = $package-id or @fullname = $package-id-null]" />
-			<xsl:variable name="pkg-description" select="replace($package-description/description,'^\n','')" />
+			<xsl:variable name="pkg-description" select="$package-description/description" />
+			<xsl:variable name="pkg-description" select="replace($pkg-description,'^\s+','')" />
+			<xsl:variable name="pkg-description" select="replace($pkg-description,'\s+$','')" />			
+			
 			<xsl:choose>
 				<xsl:when test="$package-description">
 					
@@ -93,7 +88,7 @@
 								<xsl:call-template name="search-and-replace">
 									<xsl:with-param name="input" select="$pkg-description" />
 									<xsl:with-param name="search-string" select="concat('\.',$newline)" />
-									<xsl:with-param name="replace-string" select="concat('\\\\',$newline,$newline)" />									
+									<xsl:with-param name="replace-string" select="concat('.\\\\',$newline,$newline)" />									
 								</xsl:call-template>
 							</xsl:with-param>
 						</xsl:call-template>
@@ -1906,40 +1901,38 @@
 	<xsl:template name="auto-xref">	
 		<xsl:param name="input" />
 		
-		<xsl:variable name="input" select="replace($input,'^\s+','')" />
-		<xsl:variable name="input" select="replace($input,'\s+$','')" />
-		
 		<xsl:variable name="lines" select="tokenize($input,'\n')" />
 		<xsl:for-each select="$lines">
 			<xsl:variable name="line" select="string(.)" />
 			<xsl:variable name="words" select="tokenize($line, ' ')" />
+			<xsl:if test="position() &gt; 1">
+				<xsl:value-of select="$newline" />
+			</xsl:if>
 			<xsl:for-each select="$words">
 				<xsl:variable name="word" select="string(.)" />
 				<xsl:variable name="match" select="$toplevel//classRec[@name = $word] | $toplevel//interfaceRec[@name = $word]" />
+				<xsl:if test="position() &gt; 1">
+					<xsl:value-of select="' '" />
+				</xsl:if>	
 				<xsl:choose>
 					<xsl:when test="$match">
-						<xsl:value-of select="' '" />
 						<xsl:call-template name="nameref">
 							<xsl:with-param name="input" select="$match/@fullname" />
 						</xsl:call-template>
-						<xsl:value-of select="' '" />
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$word" />
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:if test="position() &lt; count($words)">
-					<xsl:value-of select="' '" />
-				</xsl:if>
-			</xsl:for-each>
-			<xsl:if test="position() &lt; count($lines)">
-				<xsl:value-of select="$newline" />
-			</xsl:if>				
+			</xsl:for-each>				
 		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template name="sanitize">	
 		<xsl:param name="input" />
+		<xsl:variable name="input" select="replace($input,'^\s+','')" />
+		<xsl:variable name="input" select="replace($input,'\s+$','')" />
+		
 		<xsl:variable name="x" select="saxon:parse(concat('&lt;root&gt;',$input,'&lt;/root&gt;'))" />
 		<xsl:for-each select="$x/root/text() | $x/root//* ">
 			<xsl:choose>

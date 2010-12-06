@@ -252,7 +252,7 @@
 										<artifactId>${project.artifactId}</artifactId>
 										<version>${project.version}</version>
 										<packaging>${api.docs.packaging}</packaging>
-										<file>${project.build.sourceDirectory}/${project.artifactId}.${api.docs.packaging}</file>
+										<file>${project.build.directory}/${project.build.finalName}.${api.docs.packaging}</file>
 									</configuration>
 								</execution>
 							</executions>
