@@ -544,9 +544,11 @@
 				<xsl:with-param name="label" select="@id" />
 			</xsl:call-template>
 			
-			<xsl:call-template name="start-paragraph" />
-			<xsl:call-template name="deprecated" />
-			<xsl:call-template name="end-paragraph" />
+			<xsl:if test=".//apiDeprecated | .//prolog/asCustoms/deprecated">
+				<xsl:call-template name="start-paragraph" />
+				<xsl:call-template name="deprecated" />
+				<xsl:call-template name="end-paragraph" />
+			</xsl:if>
 									
 			<xsl:call-template name="description-paragraph">
 				<xsl:with-param name="input" select="apiOperationDetail/apiDesc"/>
@@ -1229,7 +1231,7 @@
 	
 	<xsl:template name="deprecated">
 		<!-- ./apiOperationDetail/apiOperationDef/apiDeprecated -->
-		<xsl:param name="text" select="'Deprecated'" />		
+		<xsl:param name="text" select="'Deprecated'" />
 		<xsl:param name="input">
 			<xsl:choose>
 				<xsl:when test=".//prolog/asCustoms/deprecated">
@@ -1251,7 +1253,7 @@
 			</xsl:choose>
 		</xsl:param>
 		
-		<xsl:if test="$input">
+		<xsl:if test="count($input) &gt; 0">
 			
 			<!-- title -->
 			
