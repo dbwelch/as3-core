@@ -1826,6 +1826,28 @@
 		</xsl:if>
 	</xsl:template>
 
+	<xsl:template name="auto-xref">	
+		<xsl:param name="input" />
+		<xsl:variable name="words" select="tokenize($input, ': \(')" />
+		<xsl:for-each select="$words">
+			<xsl:variable name="word" select="string(.)" />
+			<xsl:variable name="match" select="$toplevel//classRec[@name = $word] | $toplevel//interfaceRec[@name = $word]" />
+			<xsl:choose>
+				<xsl:when test="$match">
+					<xsl:call-template name="nameref">
+						<xsl:with-param name="input" select="$match/@fullname" />
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$word" />
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="position() &lt; count($words)">
+				<xsl:value-of select="' '" />
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>
+
 	<xsl:template name="sanitize">	
 		<xsl:param name="input" />
 		<xsl:variable name="x" select="saxon:parse(concat('&lt;root&gt;',$input,'&lt;/root&gt;'))" />
@@ -1833,8 +1855,12 @@
 			<xsl:choose>
 				<!-- pass text elements through escaped -->
 				<xsl:when test="self::text()">
-					<xsl:call-template name="escape">
-						<xsl:with-param name="input" select="." />
+					<xsl:call-template name="auto-xref">
+						<xsl:with-param name="input">
+							<xsl:call-template name="escape">
+								<xsl:with-param name="input" select="." />
+							</xsl:call-template>
+						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
@@ -1842,9 +1868,13 @@
 					<xsl:call-template name="start-tag">
 						<xsl:with-param name="input" select="name()" />
 					</xsl:call-template>
-					<xsl:call-template name="escape">
-						<xsl:with-param name="input" select="." />
-					</xsl:call-template>
+					<xsl:call-template name="auto-xref">
+						<xsl:with-param name="input">					
+							<xsl:call-template name="escape">
+								<xsl:with-param name="input" select="." />
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>					
 					<xsl:call-template name="end-tag">
 						<xsl:with-param name="input" select="name()" />
 					</xsl:call-template>
