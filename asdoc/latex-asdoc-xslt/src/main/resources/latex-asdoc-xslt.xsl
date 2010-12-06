@@ -373,9 +373,14 @@
 				<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-classes) &gt; 0">
 					<xsl:call-template name="subsection">
+						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
-								<xsl:with-param name="input" select="$package-id"/>
+								<xsl:with-param name="input">
+									<xsl:call-template name="escape">
+										<xsl:with-param name="input" select="$package-id" />
+									</xsl:call-template>
+								</xsl:with-param>
 							</xsl:call-template>
 						</xsl:with-param>
 					</xsl:call-template>
@@ -400,9 +405,14 @@
 				<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-interfaces) &gt; 0">
 					<xsl:call-template name="subsection">
+						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
-								<xsl:with-param name="input" select="$package-id"/>
+								<xsl:with-param name="input">
+									<xsl:call-template name="escape">
+										<xsl:with-param name="input" select="$package-id" />
+									</xsl:call-template>
+								</xsl:with-param>
 							</xsl:call-template>
 						</xsl:with-param>
 					</xsl:call-template>
@@ -1321,11 +1331,19 @@
 	<xsl:template name="part">
 		<xsl:param name="title" />
 		<xsl:param name="label" select="''" />
+		<xsl:param name="escaped" select="false()" />
 		<xsl:value-of select="$newline" />		
-		<xsl:text>\part{</xsl:text>
-		<xsl:call-template name="escape">
-			<xsl:with-param name="input" select="$title"/>
-		</xsl:call-template>
+		<xsl:text>\part{</xsl:text>		
+		<xsl:choose>
+			<xsl:when test="$escaped">
+				<xsl:value-of select="$title"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$title"/>
+				</xsl:call-template>				
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
 		
@@ -1339,11 +1357,20 @@
 	<xsl:template name="section">
 		<xsl:param name="title" />
 		<xsl:param name="label" select="''" />
-		<xsl:value-of select="$newline" />		
+		<xsl:param name="escaped" select="false()" />	
+		
+		<xsl:value-of select="$newline" />	
 		<xsl:text>\section{</xsl:text>
-		<xsl:call-template name="escape">
-			<xsl:with-param name="input" select="$title"/>
-		</xsl:call-template>
+		<xsl:choose>
+			<xsl:when test="$escaped">
+				<xsl:value-of select="$title"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$title"/>
+				</xsl:call-template>				
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
 		
@@ -1356,12 +1383,21 @@
 	
 	<xsl:template name="subsection">
 		<xsl:param name="title" />
-		<xsl:param name="label" select="''" />		
+		<xsl:param name="label" select="''" />	
+		<xsl:param name="escaped" select="false()" />	
+		
 		<xsl:value-of select="$newline" />		
 		<xsl:text>\subsection{</xsl:text>
-		<xsl:call-template name="escape">
-			<xsl:with-param name="input" select="$title"/>
-		</xsl:call-template>
+		<xsl:choose>
+			<xsl:when test="$escaped">
+				<xsl:value-of select="$title"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$title"/>
+				</xsl:call-template>				
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
 		
@@ -1374,12 +1410,21 @@
 	
 	<xsl:template name="subsubsection">
 		<xsl:param name="title" />
-		<xsl:param name="label" select="''" />		
+		<xsl:param name="label" select="''" />	
+		<xsl:param name="escaped" select="false()" />
+			
 		<xsl:value-of select="$newline" />		
 		<xsl:text>\subsubsection{</xsl:text>
-		<xsl:call-template name="escape">
-			<xsl:with-param name="input" select="$title"/>
-		</xsl:call-template>
+		<xsl:choose>
+			<xsl:when test="$escaped">
+				<xsl:value-of select="$title"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$title"/>
+				</xsl:call-template>				
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
 		
