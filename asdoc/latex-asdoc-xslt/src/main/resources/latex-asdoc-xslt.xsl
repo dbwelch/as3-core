@@ -1855,7 +1855,7 @@
 	</xsl:template>	
 	
 	<xsl:template name="start-textsc">
-		<xsl:text>\textbf{</xsl:text>
+		<xsl:text>\textsc{</xsl:text>
 	</xsl:template>
 
 	<xsl:template name="start-tt">
