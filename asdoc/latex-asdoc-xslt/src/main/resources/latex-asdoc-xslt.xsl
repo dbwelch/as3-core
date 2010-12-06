@@ -640,7 +640,7 @@
 						
 						<xsl:variable name="xref">
 							<xsl:call-template name="search-and-replace">
-								<xsl:with-param name="input" select="@href" />
+								<xsl:with-param name="input" select="$xref" />
 								<xsl:with-param name="search-string" select="'\.xml#'" />
 								<xsl:with-param name="replace-string" select="':'" />
 							</xsl:call-template>
@@ -926,6 +926,7 @@
 		<xsl:param name="prefix" select="''" />
 		<xsl:param name="name" select="apiName" />
 		<xsl:param name="xref" select="true()" />
+		<xsl:param name="break" select="true()" />
 		<xsl:param name="static" select="apiOperationDetail/apiOperationDef/apiStatic" />
 		<xsl:param name="return-type">
 			<xsl:if test="apiOperationDetail/apiOperationDef/apiReturn/apiType/@value">
@@ -981,6 +982,7 @@
 				<xsl:value-of select="'('" />	
 				<xsl:call-template name="get-parameters">
 					<xsl:with-param name="params" select="$params" />
+					<xsl:with-param name="break" select="$break" />
 				</xsl:call-template>
 				<xsl:value-of select="')'" />
 			</xsl:otherwise>
@@ -1753,6 +1755,7 @@
 			<xsl:call-template name="summary-listing">
 				<xsl:with-param name="input" select="$public-methods" />
 				<xsl:with-param name="title" select="'Public methods'" />
+				<xsl:with-param name="property" select="false()" />				
 				<xsl:with-param name="listing-xref" select="concat(@id,$public-methods-xref-id)" />				
 			</xsl:call-template>
 		</xsl:if>
@@ -1761,6 +1764,7 @@
 			<xsl:call-template name="summary-listing">
 				<xsl:with-param name="input" select="$protected-methods" />
 				<xsl:with-param name="title" select="'Protected methods'" />
+				<xsl:with-param name="property" select="false()" />
 				<xsl:with-param name="listing-xref" select="concat(@id,$protected-methods-xref-id)" />	
 			</xsl:call-template>
 		</xsl:if>
@@ -1786,6 +1790,7 @@
 		<xsl:param name="input" select="''"/>
 		<xsl:param name="title" select="''"/>
 		<xsl:param name="listing-xref" select="''"/>
+		<xsl:param name="property" select="true()"/>
 		<xsl:param name="defined-by" select="'Defined by'"/>
 		
 		<xsl:value-of select="$newline" />
@@ -1819,9 +1824,22 @@
 		</xsl:if>
 		
 		<xsl:for-each select="$input">
+			
+			<!--
 			<xsl:call-template name="xref">
 				<xsl:with-param name="input" select="@id" />
 			</xsl:call-template>
+			-->
+			
+			<xsl:choose>
+				<xsl:when test="$property">
+					<xsl:call-template name="property-summary-listing-title" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="method-summary-listing-title" />
+				</xsl:otherwise>
+			</xsl:choose>
+			
 			<!-- TODO: defined by look up -->
 			<xsl:text>\hspace{\stretch{1}}</xsl:text>
 			
@@ -1859,6 +1877,18 @@
 		<!-- end size block -->
 		<xsl:text>}</xsl:text>		
 		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="property-summary-listing-title">
+		<xsl:call-template name="xref">
+			<xsl:with-param name="input" select="@id" />
+		</xsl:call-template>		
+	</xsl:template>
+	
+	<xsl:template name="method-summary-listing-title">
+		<xsl:call-template name="xref">
+			<xsl:with-param name="input" select="@id" />
+		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template name="textcolor">
