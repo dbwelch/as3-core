@@ -53,5 +53,14 @@ package com.ffsys.asdoc.undocumented
 		{
 			return null;
 		}
+		
+		/**
+		*	This is a documented method in an undocumented class to test
+		* 	certain special characters.
+		*/
+		public function get value():String
+		{
+			return null;
+		}
 	}
 }

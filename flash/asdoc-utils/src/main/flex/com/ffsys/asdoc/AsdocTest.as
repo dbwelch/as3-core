@@ -12,6 +12,9 @@ package com.ffsys.asdoc {
 	* 
 	* 	But that would be insane as this class is useless to code.
 	* 
+	* 	A reference to a constant <code>CONSTANT_NAME</code> to check double
+	* 	escaping.
+	* 
 	* 	@see com.ffsys.asdoc.AsdocSuper
 	*
 	*	@langversion ActionScript 3.0
@@ -50,6 +53,11 @@ package com.ffsys.asdoc {
 		private var _readwrite:Boolean;
 		private var _readonly:String = "readonly";
 		private var _writeonly:String = "writeonly";
+		
+		/**
+		* 	A protected variable with an underscore.
+		*/
+		protected var _underscore:String;
 	
 		/**
 		*	Creates an <code>AsdocTest</code> instance.
@@ -162,9 +170,9 @@ package com.ffsys.asdoc {
 		/**
 		* 	A method that will always fail.
 		* 
-		* 	@throws AsdocError A custom error to indicate this method failed.
+		* 	@throws AsdocError A custom <code>error</code> to indicate this method failed.
 		* 
-		* 	@return A boolean that will in fact never be returned as
+		* 	@return A <code>boolean</code> that will in fact never be returned as
 		* 	this method will consistently throw an error.
 		*/
 		public function fail():Boolean

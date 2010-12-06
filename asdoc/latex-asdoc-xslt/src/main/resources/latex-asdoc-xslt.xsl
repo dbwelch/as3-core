@@ -27,6 +27,7 @@
 	<xsl:param name="protected-properties-xref-id" select="':protected:properties'" />
 	<xsl:param name="include-class-meta" select="false()" />
 	<xsl:param name="link-report-path" select="''" />
+	<xsl:param name="end-tag" select="'}'" />
 	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
 	<xsl:variable name="toplevel" select="document($toplevel-path)" />
@@ -44,6 +45,14 @@
 
 		<xsl:call-template name="header" />
 		
+		<xsl:variable name="test">
+			<xsl:text>&lt;root&gt;this is some text&lt;/root&gt;</xsl:text>
+		</xsl:variable>
+			
+		<xsl:variable name="converted" select="saxon:parse(string($test))" />
+		
+		<xsl:value-of select="concat('CONVERTED: ', $converted)" />
+	
 		<!--  PACKAGES-->
 		<xsl:for-each select="$packages//apiItemRef">
 			<xsl:sort select="substring-before(@href,'.xml')" />
@@ -79,8 +88,8 @@
 					
 					<!-- newline handling for package descriptions -->
 					<xsl:if test="contains($pkg-description,$newline)">
-						<xsl:call-template name="paragraph">
-							<xsl:with-param name="text">
+						<xsl:call-template name="description-paragraph">
+							<xsl:with-param name="input">
 								<xsl:call-template name="search-and-replace">
 									<xsl:with-param name="input" select="$pkg-description" />
 									<xsl:with-param name="search-string" select="concat('\.',$newline)" />
@@ -91,9 +100,9 @@
 					</xsl:if>
 					
 					<xsl:if test="not(contains($pkg-description,$newline))">
-						<xsl:call-template name="paragraph">
-							<xsl:with-param name="text" select="$pkg-description"/>
-						</xsl:call-template>						
+						<xsl:call-template name="description-paragraph">
+							<xsl:with-param name="input" select="$pkg-description"/>
+						</xsl:call-template>				
 					</xsl:if>	
 				</xsl:when>
 				<xsl:otherwise>
@@ -178,8 +187,8 @@
 				<!-- HANDLE MISSING CLASS/INTERFACE DESCRIPTIONS -->
 				<xsl:choose>
 					<xsl:when test="normalize-space($class-description) != ''">
-						<xsl:call-template name="paragraph">
-							<xsl:with-param name="text" select="$class-description"/>
+						<xsl:call-template name="description-paragraph">
+							<xsl:with-param name="input" select="$class-description"/>
 						</xsl:call-template>
 					</xsl:when>
 					<xsl:otherwise>
@@ -227,8 +236,8 @@
 					<!-- HANDLE MISSING CONSTRUCTOR DESCRIPTIONS -->
 					<xsl:choose>
 						<xsl:when test="normalize-space($constructor-description) != ''">
-							<xsl:call-template name="paragraph">
-								<xsl:with-param name="text" select="$constructor-description"/>
+							<xsl:call-template name="description-paragraph">
+								<xsl:with-param name="input" select="$constructor-description"/>
 							</xsl:call-template>
 						</xsl:when>
 						<xsl:otherwise>
@@ -267,8 +276,8 @@
 								<xsl:with-param name="title" select="apiName"/>
 								<xsl:with-param name="label" select="@id"/>
 							</xsl:call-template>
-							<xsl:call-template name="paragraph">
-								<xsl:with-param name="text" select="apiValueDetail/apiDesc"/>
+							<xsl:call-template name="description-paragraph">
+								<xsl:with-param name="input" select="apiValueDetail/apiDesc"/>
 							</xsl:call-template>
 							<xsl:call-template name="property-signature" />
 						</xsl:if>
@@ -523,12 +532,12 @@
 				<xsl:with-param name="label" select="@id" />
 			</xsl:call-template>
 			
-			<xsl:call-template name="begin-paragraph" />
+			<xsl:call-template name="start-paragraph" />
 			<xsl:call-template name="deprecated" />
 			<xsl:call-template name="end-paragraph" />
 									
-			<xsl:call-template name="paragraph">
-				<xsl:with-param name="text" select="apiOperationDetail/apiDesc"/>
+			<xsl:call-template name="description-paragraph">
+				<xsl:with-param name="input" select="apiOperationDetail/apiDesc"/>
 			</xsl:call-template>
 			
 			<!-- missing method description -->
@@ -564,8 +573,8 @@
 				<!-- handle missing property descriptions -->
 				<xsl:choose>
 					<xsl:when test="normalize-space($description) != ''">
-						<xsl:call-template name="paragraph">
-							<xsl:with-param name="text" select="$description"/>
+						<xsl:call-template name="description-paragraph">
+							<xsl:with-param name="input" select="$description"/>
 						</xsl:call-template>
 					</xsl:when>
 					<xsl:otherwise>
@@ -601,7 +610,7 @@
 				<xsl:with-param name="input" select="'See Also'" />
 			</xsl:call-template>			
 			
-			<xsl:call-template name="begin-itemize" />
+			<xsl:call-template name="start-itemize" />
 		
 			<xsl:for-each select="$input">
 				<xsl:sort select="linktext" />
@@ -899,7 +908,7 @@
 			<xsl:with-param name="input" select="'Implementation'" />
 		</xsl:call-template>				
 		
-		<xsl:call-template name="begin-paragraph" />
+		<xsl:call-template name="start-paragraph" />
 		<xsl:value-of select="'{\scriptsize'" />
 		<xsl:value-of select="$start-verb" />
 		<xsl:value-of select="$access" />
@@ -968,17 +977,15 @@
 	
 	<xsl:template name="subtitle">
 		<xsl:param name="input" select="''" />
-		<xsl:call-template name="paragraph">
-			<xsl:with-param name="text">
-				<xsl:call-template name="textbf">
-					<xsl:with-param name="input">
-						<xsl:call-template name="textsc">
-							<xsl:with-param name="input" select="$input" />
-						</xsl:call-template>
-					</xsl:with-param>
-				</xsl:call-template>
-			</xsl:with-param>
+		<xsl:call-template name="start-paragraph" />
+		<xsl:call-template name="start-textsc" />
+		<xsl:call-template name="start-textbf" />
+		<xsl:call-template name="escape">
+			<xsl:with-param name="input" select="$input" />
 		</xsl:call-template>
+		<xsl:value-of select="$end-tag" />
+		<xsl:value-of select="$end-tag" />
+		<xsl:call-template name="end-paragraph" />
 	</xsl:template>
 	
 	<xsl:template name="parameter-list">
@@ -990,9 +997,14 @@
 				<xsl:with-param name="input" select="'Parameters'" />
 			</xsl:call-template>
 			
-			<xsl:call-template name="begin-description" />
+			<xsl:call-template name="start-description" />
 			<xsl:for-each select="$params">
-				<xsl:variable name="description" select="./apiDesc" />
+				<xsl:variable name="description">
+					<xsl:call-template name="sanitize">
+						<xsl:with-param name="input" select="./apiDesc" />
+					</xsl:call-template>
+				</xsl:variable>
+				
 				<xsl:choose>
 					<!-- handle missing parameter descriptions -->
 					<xsl:when test="normalize-space($description) = ''">
@@ -1028,10 +1040,17 @@
 				<xsl:with-param name="input" select="'Throws'" />
 			</xsl:call-template>
 			
-			<xsl:call-template name="begin-description" />
+			<xsl:call-template name="start-description" />
 			<xsl:for-each select="$params">
+				
+				<xsl:variable name="description">
+					<xsl:call-template name="sanitize">
+						<xsl:with-param name="input" select="./apiDesc" />
+					</xsl:call-template>
+				</xsl:variable>
+				
 				<xsl:call-template name="item">
-					<xsl:with-param name="input" select="./apiDesc" />
+					<xsl:with-param name="input" select="$description" />
 					<xsl:with-param name="prefix" select="./apiItemName" />
 					<xsl:with-param name="description" select="true()" />
 				</xsl:call-template>
@@ -1162,12 +1181,11 @@
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:call-template name="paragraph">
-						<xsl:with-param name="text" select="$input" />
+					<xsl:call-template name="description-paragraph">
+						<xsl:with-param name="input" select="$input" />
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-			
 		</xsl:if>
 	</xsl:template>
 	
@@ -1185,7 +1203,7 @@
 				<xsl:value-of select="$end-verb" />
 				<xsl:value-of select="'\\'" />
 				<xsl:value-of select="$newline" />
-				<xsl:value-of select="$start-verb" />				
+				<xsl:value-of select="$start-verb" />			
 				<xsl:value-of select="$tab" />
 			</xsl:if>			
 			<xsl:variable name="type-name">
@@ -1249,7 +1267,7 @@
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 	
-	<xsl:template name="begin-description">
+	<xsl:template name="start-description">
 		<xsl:text>\begin{description}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>
@@ -1259,7 +1277,7 @@
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
-	<xsl:template name="begin-itemize">
+	<xsl:template name="start-itemize">
 		<xsl:text>\begin{itemize}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>
@@ -1276,7 +1294,7 @@
 		</xsl:if>
 		
 		<xsl:if test="$prefix != '' and not($description)">
-			<xsl:call-template name="clean">
+			<xsl:call-template name="escape">
 				<xsl:with-param name="input" select="$prefix"/>
 			</xsl:call-template>
 			<xsl:value-of select="$delimiter" />
@@ -1284,16 +1302,14 @@
 		
 		<xsl:if test="$prefix != '' and $description">
 			<xsl:text>[</xsl:text>
-			<xsl:call-template name="clean">
+			<xsl:call-template name="escape">
 				<xsl:with-param name="input" select="$prefix"/>
 			</xsl:call-template>
 			<xsl:text>]</xsl:text>
 			<xsl:text> </xsl:text>
 		</xsl:if>
 		
-		<xsl:call-template name="clean">
-			<xsl:with-param name="input" select="$input"/>
-		</xsl:call-template>	
+		<xsl:value-of select="$input" />
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
@@ -1382,7 +1398,7 @@
 			<xsl:value-of select="$newline" />
 			<xsl:text>{\scriptsize</xsl:text>
 			<xsl:value-of select="$newline" />		
-			<xsl:call-template name="begin-itemize" />
+			<xsl:call-template name="start-itemize" />
 
 			<xsl:for-each select="$input">
 				<xsl:sort select="name" />
@@ -1675,11 +1691,7 @@
 		
 		<xsl:value-of select="$newline" />
 		<xsl:text>{\scriptsize</xsl:text>
-		<xsl:value-of select="$newline" />		
-		<!-- <xsl:text>\begin{tabularx}{\textwidth}{@{}XR@{}}</xsl:text> -->
-		
-		<!-- <xsl:text>\begin{longtable}{p{5in}r}</xsl:text>	-->
-		<!-- <xsl:value-of select="$newline" /> -->
+		<xsl:value-of select="$newline" />
 		
 		<xsl:if test="$title != ''">
 			<xsl:choose>
@@ -1695,30 +1707,22 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			
+			<!-- TODO: move the hspace to a template -->
 			<xsl:text>\hspace{\stretch{1}}</xsl:text>
+			
 			<xsl:text>Defined by</xsl:text>
 			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
 			
+			<!-- TODO: move the rule to a template -->
 			<xsl:value-of select="'\rule[0cm]{\textwidth}{0.01cm}'" />
 			<xsl:value-of select="$newline" />
-			
-			<!-- <xsl:text> &amp; </xsl:text>
-			<xsl:value-of select="$defined-by" />
-			<xsl:text>\\</xsl:text>
-			<xsl:value-of select="$newline" />	
-			<xsl:value-of select="'\hline'" />
-			<xsl:value-of select="$newline" />	
-			-->	
 		</xsl:if>
 		
 		<xsl:for-each select="$input">
-			
 			<xsl:call-template name="xref">
 				<xsl:with-param name="input" select="@id" />
 			</xsl:call-template>
-			
-			
 			<!-- TODO: defined by look up -->
 			<xsl:text>\hspace{\stretch{1}}</xsl:text>
 			
@@ -1731,40 +1735,18 @@
 				<xsl:value-of select="$newline" />
 				<xsl:call-template name="deprecated" />
 			</xsl:if>
-			
-			<!--
-			<xsl:text>\multicolumn{2}{p{5in}}</xsl:text>
-			<xsl:value-of select="$newline" />			
-			-->
-			
 			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
 			<xsl:call-template name="escape">
 				<xsl:with-param name="input" select="normalize-space(shortdesc)" />
 			</xsl:call-template>
-			
 			<xsl:text>\\</xsl:text>
-			<xsl:value-of select="$newline" />			
-								
+			<xsl:value-of select="$newline" />				
 		</xsl:for-each>
 		
-		<!-- <xsl:text>\end{tabularx}</xsl:text> -->
-		<!-- <xsl:text>\end{longtable}</xsl:text> -->
 		<!-- end size block -->
 		<xsl:text>}</xsl:text>		
 		<xsl:value-of select="$newline" />
-		
-	</xsl:template>	
-	
-	<xsl:template name="clean">
-		<xsl:param name="input" />
-		<xsl:call-template name="escape">
-			<xsl:with-param name="input">
-				<xsl:call-template name="sanitize">
-					<xsl:with-param name="input" select="$input"/>
-				</xsl:call-template>
-			</xsl:with-param>
-		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template name="textcolor">
@@ -1773,64 +1755,145 @@
 		<xsl:text>\textcolor{</xsl:text>
 		<xsl:value-of select="$color" />
 		<xsl:text>}{</xsl:text>
-		<xsl:call-template name="clean">
-			<xsl:with-param name="input" select="$input"/>
-		</xsl:call-template>
+		<xsl:value-of select="$input" />
 		<xsl:text>}</xsl:text>
 	</xsl:template>	
 	
-	<xsl:template name="begin-paragraph">
+	<xsl:template name="start-paragraph">
 		<xsl:value-of select="$newline" />	
 		<xsl:text>\paragraph{</xsl:text>
-	</xsl:template>	
+	</xsl:template>
 	
 	<xsl:template name="end-paragraph">
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
+	<xsl:template name="start-emph">
+		<xsl:text>\emph{</xsl:text>
+	</xsl:template>
+	
+	<xsl:template name="start-textbf">
+		<xsl:text>\textbf{</xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="start-textsc">
+		<xsl:text>\textbf{</xsl:text>
+	</xsl:template>
+
+	<xsl:template name="start-tt">
+		<xsl:text>\texttt{</xsl:text>
+	</xsl:template>
+	
+	<xsl:template name="start-all-tt">
+		<xsl:text>\begin{alltt}</xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="end-all-tt">
+		<xsl:text>\end{alltt}</xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="start-tag">
+		<xsl:param name="input" />
+		<xsl:if test="matches($input,'^i$')">
+			<xsl:call-template name="start-emph" />
+		</xsl:if>
+		<xsl:if test="matches($input,'^b|strong$')">
+			<xsl:call-template name="start-textbf" />
+		</xsl:if>
+		<xsl:if test="matches($input,'^code|codeph$')">
+			<xsl:call-template name="start-tt" />
+		</xsl:if>
+		<xsl:if test="matches($input,'^pre$')">
+			<xsl:call-template name="start-all-tt" />
+		</xsl:if>				
+	</xsl:template>
+	
+	<xsl:template name="end-tag">
+		<xsl:param name="input" />
+		<xsl:param name="default-output" select="'}'" />
+		<xsl:if test="matches($input,'^i|em$')">
+			<xsl:value-of select="$default-output" />
+		</xsl:if>
+		<xsl:if test="matches($input,'^b|strong$')">
+			<xsl:value-of select="$default-output" />
+		</xsl:if>		
+		<xsl:if test="matches($input,'^code|codeph$')">
+			<xsl:value-of select="$default-output" />
+		</xsl:if>
+		<xsl:if test="matches($input,'^pre$')">
+			<xsl:call-template name="end-all-tt" />
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template name="sanitize">	
+		<xsl:param name="input" />
+		<xsl:variable name="x" select="saxon:parse(concat('&lt;root&gt;',$input,'&lt;/root&gt;'))" />
+		<xsl:for-each select="$x/root/text() | $x/root//* ">
+			<xsl:choose>
+				<!-- pass text elements through escaped -->
+				<xsl:when test="self::text()">
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="." />
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<!-- handle markup elements -->
+					<xsl:call-template name="start-tag">
+						<xsl:with-param name="input" select="name()" />
+					</xsl:call-template>
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="." />
+					</xsl:call-template>
+					<xsl:call-template name="end-tag">
+						<xsl:with-param name="input" select="name()" />
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template name="description-paragraph">
+		<xsl:param name="input" />
+		<xsl:call-template name="start-paragraph" />
+		<xsl:call-template name="sanitize">
+			<xsl:with-param name="input" select="$input" />
+		</xsl:call-template>
+		<xsl:call-template name="end-paragraph" />
+	</xsl:template>
+	
 	<xsl:template name="paragraph">
 		<xsl:param name="text" />
-		<xsl:call-template name="begin-paragraph" />
-		<xsl:call-template name="clean">
-			<xsl:with-param name="input" select="$text"/>
-		</xsl:call-template>
+		<xsl:call-template name="start-paragraph" />
+		<xsl:value-of select="$text"/>
 		<xsl:call-template name="end-paragraph" />
 	</xsl:template>
 	
 	<xsl:template name="textsc">
 		<xsl:param name="input" />
 		<xsl:text>\textsc{</xsl:text>
-		<xsl:call-template name="clean">
-			<xsl:with-param name="input" select="$input"/>
-		</xsl:call-template>
+		<xsl:value-of select="$input" />
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 	
 	<xsl:template name="textbf">
 		<xsl:param name="input" />
 		<xsl:text>\textbf{</xsl:text>
-		<xsl:call-template name="clean">
-			<xsl:with-param name="input" select="$input"/>
-		</xsl:call-template>
+		<xsl:value-of select="$input" />
 		<xsl:text>}</xsl:text>
 	</xsl:template>	
 	
 	<xsl:template name="texttt">
 		<xsl:param name="input" />
 		<xsl:text>\texttt{</xsl:text>
-		<xsl:call-template name="clean">
-			<xsl:with-param name="input" select="$input"/>
-		</xsl:call-template>
+		<xsl:value-of select="$input" />
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 	
 	<xsl:template name="emph">
 		<xsl:param name="input" />
-		<xsl:text>\emph{</xsl:text>
-		<xsl:call-template name="clean">
-			<xsl:with-param name="input" select="$input"/>
-		</xsl:call-template>
+		<xsl:call-template name="start-emph" />
+		<xsl:value-of select="$input" />
 		<xsl:text>}</xsl:text>
 	</xsl:template>
 	
@@ -1842,27 +1905,40 @@
 	
 	<xsl:template name="escape">
 		<xsl:param name="input" />
-		<xsl:variable name="underscore">
+		<!-- backslash characters must be escaped first -->
+		<xsl:variable name="backslash">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$input" />
-				<xsl:with-param name="search-string" select="'_'" />
-				<xsl:with-param name="replace-string" select="'\\_'" />
+				<xsl:with-param name="search-string" select="'([^\\]?)\\'" />
+				<xsl:with-param name="replace-string" select="'$1\\\\'" />
 			</xsl:call-template>
 		</xsl:variable>
-		
+		<xsl:variable name="percent">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$backslash" />
+				<xsl:with-param name="search-string" select="'([^\\]?)%'" />
+				<xsl:with-param name="replace-string" select="'$1\\%'" />
+			</xsl:call-template>
+		</xsl:variable>		
+		<xsl:variable name="underscore">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$percent" />
+				<xsl:with-param name="search-string" select="'([^\\]?)_'" />
+				<xsl:with-param name="replace-string" select="'$1\\_'" />
+			</xsl:call-template>
+		</xsl:variable>
 		<xsl:variable name="hash">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$underscore" />
-				<xsl:with-param name="search-string" select="'#'" />
-				<xsl:with-param name="replace-string" select="'\\#'" />
+				<xsl:with-param name="search-string" select="'([^\\]?)#'" />
+				<xsl:with-param name="replace-string" select="'$1\\#'" />
 			</xsl:call-template>
-		</xsl:variable>		
-		
+		</xsl:variable>
 		<xsl:call-template name="search-and-replace">
 			<xsl:with-param name="input" select="$hash" />
-			<xsl:with-param name="search-string" select="'\$'" />
-			<xsl:with-param name="replace-string" select="'\\\$'" />
-		</xsl:call-template>	
+			<xsl:with-param name="search-string" select="'([^\\]?)\$'" />
+			<xsl:with-param name="replace-string" select="'$1\\\$'" />
+		</xsl:call-template>
 	</xsl:template>	
 	
 	<xsl:template name="escape-label">
@@ -1905,155 +1981,13 @@
 			<xsl:with-param name="search-string" select="'\$'" />
 			<xsl:with-param name="replace-string" select="''" />
 		</xsl:call-template>
-	</xsl:template>	
+	</xsl:template>
 
-	<xsl:template name="sanitize">
-		<xsl:param name="input" />
-
-		<!-- replace 'codeph' tags with inline verb elements -->
-		<xsl:variable name="codeph">
-			<xsl:call-template name="replace-tag">
-				<xsl:with-param name="input" select="$input" />
-				<xsl:with-param name="tag" select="'codeph'" />
-				<xsl:with-param name="replacement-start" select="'\\verb|'" />
-				<xsl:with-param name="replacement-end" select="'|'" />
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<xsl:variable name="code">
-			<xsl:call-template name="replace-tag">
-				<xsl:with-param name="input" select="$codeph" />
-				<xsl:with-param name="tag" select="'code'" />
-				<xsl:with-param name="replacement-start" select="'\\verb|'" />
-				<xsl:with-param name="replacement-end" select="'|'" />
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<!-- replace 'pre' tags with verbatimtab elements -->
-		<xsl:variable name="pre">
-			<xsl:call-template name="replace-tag">
-				<xsl:with-param name="input" select="$code" />
-				<xsl:with-param name="tag" select="'pre'" />
-				<xsl:with-param name="replacement-start" select="concat('\\begin{verbatimtab}[2]',$newline)" />
-				<xsl:with-param name="replacement-end" select="concat($newline,'\\end{verbatimtab}')" />
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<!-- TODO: add support for strong and em tags when parsing from the top level xml - package descriptions etc. -->
-		
-		<!-- b : note the dita conversion performs 'strong' > 'b' translation -->
-		<xsl:variable name="b">
-			<xsl:call-template name="replace-tag">
-				<xsl:with-param name="input" select="$pre" />
-				<xsl:with-param name="tag" select="'b'" />
-				<xsl:with-param name="replacement-start" select="'\\textbf{'" />
-				<xsl:with-param name="replacement-end" select="'}'" />
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<!-- i : note the dita conversion performs 'em' > 'i' translation -->
-		<xsl:call-template name="replace-tag">
-			<xsl:with-param name="input" select="$b" />
-			<xsl:with-param name="tag" select="'i'" />
-			<xsl:with-param name="replacement-start" select="'\\emph{'" />
-			<xsl:with-param name="replacement-end" select="'}'" />
-		</xsl:call-template>
-	</xsl:template>
-	
-	<xsl:template name="replace-tag">
-		<xsl:param name="input" />
-		<xsl:param name="tag" />
-		<xsl:param name="replacement-start" />
-		<xsl:param name="replacement-end" />
-
-		<xsl:variable name="start-replaced">
-			<xsl:call-template name="search-and-replace">
-				<xsl:with-param name="input" select="$input" />
-				<xsl:with-param name="search-string" select="concat('&lt;',$tag,'&gt;')" />
-				<xsl:with-param name="replace-string" select="$replacement-start" />
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<xsl:call-template name="search-and-replace">
-			<xsl:with-param name="input" select="$start-replaced" />
-			<xsl:with-param name="search-string" select="concat('&lt;','/',$tag,'&gt;')" />
-			<xsl:with-param name="replace-string" select="$replacement-end" />
-		</xsl:call-template>
-	</xsl:template>
-	
-	<!-- utility functions - to be moved -->
-	<xsl:template name="duplicateString">
-		<xsl:param name="input"/>
-		<xsl:param name="count" select="1"/>
-		<xsl:choose>
-			<xsl:when test="not($count) or not($input)"/>
-			<xsl:when test="$count=1">
-				<xsl:value-of select="$input"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:if test="$count mod 2">
-					<xsl:value-of select="$input"/>
-				</xsl:if>
-				<xsl:call-template name="duplicateString">
-					<xsl:with-param name="input" select="concat($input,$input)"/>
-					<xsl:with-param name="count" select="floor($count div 2)"/>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	<xsl:template name="substring-before-last">
-		<xsl:param name="input"/>
-		<xsl:param name="substr"/>
-		<xsl:if test="$substr and contains($input,$substr)">
-			<xsl:variable name="tmp" select="substring-after($input,$substr)"/>
-			<xsl:value-of select="substring-before($input,$substr)"/>
-			<xsl:if test="contains($tmp,$substr)">
-				<xsl:value-of select="$substr"/>
-				<xsl:call-template name="substring-before-last">
-					<xsl:with-param name="input" select="$tmp"/>
-					<xsl:with-param name="substr" select="$substr"/>
-				</xsl:call-template>
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
-	<xsl:template name="substring-after-last">
-		<xsl:param name="input"/>
-		<xsl:param name="substr"/>
-		<xsl:variable name="tmp" select="substring-after($input,$substr)"/>
-		<xsl:choose>
-			<xsl:when test="$substr and contains($tmp,$substr)">
-				<xsl:call-template name="substring-after-last">
-					<xsl:with-param name="input" select="$tmp"/>
-					<xsl:with-param name="substr" select="$substr"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$tmp"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
 	<xsl:template name="search-and-replace">
 		<xsl:param name="input"/>
 		<xsl:param name="search-string"/>
 		<xsl:param name="replace-string"/>
 		<xsl:value-of select="replace($input,$search-string,$replace-string)" />
-		
-		<!--
-		<xsl:choose>
-			<xsl:when test="$search-string and contains($input,$search-string)">
-				<xsl:value-of select="substring-before($input,$search-string)"/>
-				<xsl:value-of select="$replace-string"/>
-				<xsl:call-template name="search-and-replace">
-					<xsl:with-param name="input" select="substring-after($input,$search-string)"/>
-					<xsl:with-param name="search-string" select="$search-string"/>
-					<xsl:with-param name="replace-string" select="$replace-string"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$input" disable-output-escaping="no"/>
-			</xsl:otherwise>
-		</xsl:choose>
-		-->
 	</xsl:template>	
 	
 	<xsl:template name="header">
