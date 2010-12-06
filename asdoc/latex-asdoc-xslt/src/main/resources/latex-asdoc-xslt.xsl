@@ -35,8 +35,11 @@
 	<xsl:variable name="start-verb" select="'\verb|'" />
 	<xsl:variable name="end-verb" select="'|'" />
 	
-	<xsl:variable name="start-tt" select="'\begin{alltt}'" />
-	<xsl:variable name="end-tt" select="'\end{alltt}'" />
+	<xsl:variable name="start-tt" select="'\texttt{'" />
+	<xsl:variable name="end-tt" select="'}'" />
+	
+	<xsl:variable name="start-alltt" select="'\begin{alltt}'" />
+	<xsl:variable name="end-alltt" select="'\end{alltt}'" />
 
 	<xsl:variable name="newline">
 		<xsl:text>
@@ -729,7 +732,7 @@
 		
 		<xsl:value-of select="$newline" />
 		<xsl:value-of select="'\scriptsize{'" />
-		<xsl:value-of select="$start-verb" />
+		<xsl:value-of select="$start-alltt" />
 		
 		<xsl:value-of select="$access" />
 		
@@ -754,10 +757,7 @@
 			</xsl:call-template>
 
 			<xsl:if test="$api-data != ''">
-				<xsl:value-of select="$end-verb" />
-				<xsl:value-of select="'\\'" />
 				<xsl:value-of select="$newline" />
-				<xsl:value-of select="$start-verb" />
 				<xsl:text> = </xsl:text>
 				<xsl:value-of select="$api-data" />
 			</xsl:if>
@@ -785,10 +785,7 @@
 					
 					<!-- only break on a newline if there is an existing getter override -->
 					<xsl:if test="$getter-override">
-						<xsl:value-of select="$end-verb" />
-						<xsl:value-of select="'\\'" />
 						<xsl:value-of select="$newline" />
-						<xsl:value-of select="$start-verb" />
 						<xsl:value-of select="$access" />
 					</xsl:if>
 					
@@ -824,10 +821,7 @@
 
 				<!-- also add a setter for readwrite -->
 				<xsl:if test="$accessor and $api-value-access = 'readwrite' and not(apiValueDetail/apiValueDef/apiIsOverride)">
-					<xsl:value-of select="$end-verb" />
-					<xsl:value-of select="'\\'" />
 					<xsl:value-of select="$newline" />
-					<xsl:value-of select="$start-verb" />
 					<xsl:value-of select="$access" />
 					<xsl:value-of select="' function set'" />
 					<xsl:call-template name="setter-parameters">
@@ -838,7 +832,7 @@
 			</xsl:if>
 		</xsl:if>
 		
-		<xsl:value-of select="$end-verb" />
+		<xsl:value-of select="$end-alltt" />
 		<xsl:value-of select="'}'" />	
 		<xsl:value-of select="$newline" />
 	</xsl:template>
@@ -847,8 +841,20 @@
 		<xsl:param name="name" select="''" />
 		<xsl:param name="accessor" select="true()" />
 		<xsl:param name="type" select="''" />
+		<xsl:param name="xref" select="true()" />
+		
 		<xsl:text> </xsl:text>
-		<xsl:value-of select="$name" />
+		
+		<xsl:choose>
+			<xsl:when test="$xref">
+				<xsl:call-template name="nameref">
+					<xsl:with-param name="input" select="@id" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$name" />
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:if test="$accessor">
 			<xsl:value-of select="'()'" />
 		</xsl:if>
@@ -856,44 +862,46 @@
 			<xsl:text>:</xsl:text>
 			<xsl:variable name="xref" select="$toplevel//*[@fullname = $type]" />
 			<xsl:if test="$xref">
-				<xsl:value-of select="$end-verb" />
 				<xsl:call-template name="xref">
 					<xsl:with-param name="input" select="$xref/@fullname" />
 					<xsl:with-param name="tt" select="true()" />
 				</xsl:call-template>
-				<xsl:value-of select="$start-verb" />
 			</xsl:if>
 			<xsl:if test="not($xref)">
 				<xsl:value-of select="$type" />
 			</xsl:if>
-			
-			<!-- <xsl:value-of select="$type" /> -->
-		</xsl:if>		
+		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template name="setter-parameters">
 		<xsl:param name="name" select="''" />
 		<xsl:param name="type" select="''" />
+		<xsl:param name="xref" select="true()" />
 		<xsl:text> </xsl:text>
-		<xsl:value-of select="$name" />
+		<xsl:choose>
+			<xsl:when test="$xref">
+				<xsl:call-template name="nameref">
+					<xsl:with-param name="input" select="@id" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$name" />
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:value-of select="'(value'" />
 		<xsl:if test="$type != ''">
 			<xsl:text>:</xsl:text>
 			<xsl:variable name="xref" select="$toplevel//*[@fullname = $type]" />
 			<xsl:if test="$xref">
-				<xsl:value-of select="$end-verb" />
 				<xsl:call-template name="xref">
 					<xsl:with-param name="input" select="$xref/@fullname" />
 					<xsl:with-param name="tt" select="true()" />
 				</xsl:call-template>
-				<xsl:value-of select="$start-verb" />
 			</xsl:if>
 			<xsl:if test="not($xref)">
 				<xsl:value-of select="$type" />
 			</xsl:if>
-		</xsl:if>		
-		
-		<!-- <xsl:value-of select="$type" /> -->
+		</xsl:if>
 		<xsl:value-of select="'):void'" />		
 	</xsl:template>
 	
@@ -931,7 +939,7 @@
 		<xsl:call-template name="start-paragraph" />
 		
 		<xsl:value-of select="'{\scriptsize'" />
-		<xsl:value-of select="$start-tt" />
+		<xsl:value-of select="$start-alltt" />
 		<xsl:value-of select="$access" />
 		
 		<xsl:if test="$static">
@@ -994,7 +1002,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
-		<xsl:value-of select="$end-tt" />
+		<xsl:value-of select="$end-alltt" />
 		<xsl:value-of select="'}'" />
 		<xsl:call-template name="end-paragraph" />
 	</xsl:template>
@@ -1011,9 +1019,7 @@
 			</xsl:if>
 			<xsl:if test="$break">
 				<xsl:value-of select="$newline" />
-				<!-- <xsl:value-of select="$start-verb" />	-->
 				<xsl:value-of select="$tab" />
-				<!-- <xsl:value-of select="$end-verb" /> -->
 			</xsl:if>
 			<xsl:variable name="type-name">
 				<xsl:if test="./apiType and not(./apiOperationClassifier)">
@@ -1056,7 +1062,6 @@
 			<xsl:if test="@optional='true'">
 				<xsl:text>]</xsl:text>
 			</xsl:if>
-			
 		</xsl:for-each>
 	</xsl:template>	
 	
@@ -2122,7 +2127,7 @@
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$label" />
 				<xsl:with-param name="search-string" select="'_'" />
-				<xsl:with-param name="replace-string" select="'-'" />
+				<xsl:with-param name="replace-string" select="'.'" />
 			</xsl:call-template>
 		</xsl:variable>
 		
@@ -2130,14 +2135,14 @@
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$underscore" />
 				<xsl:with-param name="search-string" select="'#'" />
-				<xsl:with-param name="replace-string" select="'-'" />
+				<xsl:with-param name="replace-string" select="':'" />
 			</xsl:call-template>
 		</xsl:variable>
 		
 		<xsl:call-template name="search-and-replace">
 			<xsl:with-param name="input" select="$hash" />
 			<xsl:with-param name="search-string" select="'\$'" />
-			<xsl:with-param name="replace-string" select="'-'" />
+			<xsl:with-param name="replace-string" select="'::'" />
 		</xsl:call-template>
 	</xsl:template>
 
