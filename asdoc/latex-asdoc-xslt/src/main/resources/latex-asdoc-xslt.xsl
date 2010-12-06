@@ -1912,21 +1912,17 @@
 		<xsl:variable name="lines" select="tokenize($input,'\n')" />
 		<xsl:for-each select="$lines">
 			<xsl:variable name="line" select="string(.)" />
-			
-				<!--<xsl:value-of select="'[LINE]'" /> -->
-			
 			<xsl:variable name="words" select="tokenize($line, ' ')" />
 			<xsl:for-each select="$words">
 				<xsl:variable name="word" select="string(.)" />
-			
-				<!-- <xsl:value-of select="concat('[WORD]',$word, '[/WORD]')" /> -->
-			
 				<xsl:variable name="match" select="$toplevel//classRec[@name = $word] | $toplevel//interfaceRec[@name = $word]" />
 				<xsl:choose>
 					<xsl:when test="$match">
+						<xsl:value-of select="' '" />
 						<xsl:call-template name="nameref">
 							<xsl:with-param name="input" select="$match/@fullname" />
 						</xsl:call-template>
+						<xsl:value-of select="' '" />
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$word" />
@@ -1936,11 +1932,9 @@
 					<xsl:value-of select="' '" />
 				</xsl:if>
 			</xsl:for-each>
-			
-			
-				<!-- <xsl:value-of select="'[/LINE]'" />			-->
-			
-			<xsl:value-of select="$newline" />
+			<xsl:if test="position() &lt; count($lines)">
+				<xsl:value-of select="$newline" />
+			</xsl:if>				
 		</xsl:for-each>
 	</xsl:template>
 

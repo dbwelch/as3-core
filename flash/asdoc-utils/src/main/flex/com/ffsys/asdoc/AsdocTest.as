@@ -12,7 +12,7 @@ package com.ffsys.asdoc {
 	* 
 	* 	But that would be insane as this class is useless to code.
 	* 
-	* 	An AsdocDynamic reference and an IAsdocUndocumented reference.
+	* 	An <code>AsdocDynamic</code> reference and an <code>IAsdocUndocumented</code> reference.
 	* 
 	* 	A reference to a constant <code>CONSTANT_NAME</code> to check double
 	* 	escaping.
