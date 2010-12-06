@@ -57,6 +57,16 @@ package com.ffsys.asdoc.undocumented
 		/**
 		*	This is a documented method in an undocumented class to test
 		* 	certain special characters.
+		* 
+		* 	Such as underscores in <code>inline_code</code> and dollar signs <code>$</code>
+		* 	as well as the backslash escape character <code>\some text</code>.
+		* 
+		* 	It's nice to test the circumflex ^ and the tilde ~ too.
+		* 
+		* 	We also want to check in the pre tag:
+		* 
+		* 	<pre>private var _under_score:String =
+		*		doSomething( $_super_private, "\n");</pre>
 		*/
 		public function get value():String
 		{

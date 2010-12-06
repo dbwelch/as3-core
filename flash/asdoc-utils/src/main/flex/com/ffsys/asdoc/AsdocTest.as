@@ -58,6 +58,11 @@ package com.ffsys.asdoc {
 		* 	A protected variable with an underscore.
 		*/
 		protected var _underscore:String;
+		
+		/**
+		* 	A protected variable with a dollar and an underscore.
+		*/
+		protected var $_underscore:String;
 	
 		/**
 		*	Creates an <code>AsdocTest</code> instance.

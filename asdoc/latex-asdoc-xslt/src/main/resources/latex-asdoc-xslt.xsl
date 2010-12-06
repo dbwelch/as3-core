@@ -1940,7 +1940,7 @@
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$input" />
 				<xsl:with-param name="search-string" select="'([^\\]?)\\'" />
-				<xsl:with-param name="replace-string" select="'$1\\\\'" />
+				<xsl:with-param name="replace-string" select="'$1\\textbackslash{}'" />
 			</xsl:call-template>
 		</xsl:variable>
 		<xsl:variable name="percent">
@@ -1949,10 +1949,24 @@
 				<xsl:with-param name="search-string" select="'([^\\]?)%'" />
 				<xsl:with-param name="replace-string" select="'$1\\%'" />
 			</xsl:call-template>
-		</xsl:variable>		
-		<xsl:variable name="underscore">
+		</xsl:variable>	
+		<xsl:variable name="circumflex">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$percent" />
+				<xsl:with-param name="search-string" select="'([^\\]?)\^'" />
+				<xsl:with-param name="replace-string" select="'$1\\char`\\^\\'" />
+			</xsl:call-template>
+		</xsl:variable>	
+		<xsl:variable name="tilde">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$circumflex" />
+				<xsl:with-param name="search-string" select="'([^\\]?)~'" />
+				<xsl:with-param name="replace-string" select="'$1\\char`\\~\\'" />
+			</xsl:call-template>
+		</xsl:variable>				
+		<xsl:variable name="underscore">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$tilde" />
 				<xsl:with-param name="search-string" select="'([^\\]?)_'" />
 				<xsl:with-param name="replace-string" select="'$1\\_'" />
 			</xsl:call-template>
