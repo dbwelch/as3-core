@@ -251,6 +251,7 @@
 										<groupId>${project.groupId}</groupId>
 										<artifactId>${project.artifactId}</artifactId>
 										<version>${project.version}</version>
+										<classifier>${asdoc.classifier}</classifier>
 										<packaging>${api.docs.packaging}</packaging>
 										<file>${project.build.directory}/${project.build.finalName}.${api.docs.packaging}</file>
 									</configuration>

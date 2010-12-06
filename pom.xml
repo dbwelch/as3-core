@@ -25,6 +25,7 @@
 		
 		<asdoc.group>com.ffsys.asdoc</asdoc.group>
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>
+		<asdoc.classifier>api-docs</asdoc.classifier>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
 		<asdoc.dir>${project.build.directory}/asdoc</asdoc.dir>
 		<api.docs.packaging>pdf</api.docs.packaging>
