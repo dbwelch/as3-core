@@ -1416,9 +1416,24 @@
 				<xsl:variable name="found" select="$doc//apiClassifier[@id = $fullname]" />
 				
 				<xsl:if test="$found">
+					
+					<xsl:choose>
+						<xsl:when test="normalize-space($found/shortdesc) = ''">
+							<xsl:call-template name="missing" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:call-template name="escape">
+								<xsl:with-param name="input" select="normalize-space($found/shortdesc)" />
+							</xsl:call-template>	
+						</xsl:otherwise>
+					</xsl:choose>					
+					
+					<!--
 					<xsl:call-template name="escape">
 						<xsl:with-param name="input" select="$found/shortdesc" />
 					</xsl:call-template>
+					-->
+					
 				</xsl:if>
 
 			</xsl:for-each>
@@ -1737,9 +1752,18 @@
 			</xsl:if>
 			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />
-			<xsl:call-template name="escape">
-				<xsl:with-param name="input" select="normalize-space(shortdesc)" />
-			</xsl:call-template>
+			
+			<xsl:choose>
+				<xsl:when test="normalize-space(shortdesc) = ''">
+					<xsl:call-template name="missing" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="normalize-space(shortdesc)" />
+					</xsl:call-template>	
+				</xsl:otherwise>
+			</xsl:choose>
+			
 			<xsl:text>\\</xsl:text>
 			<xsl:value-of select="$newline" />				
 		</xsl:for-each>
@@ -2016,14 +2040,14 @@
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$underscore" />
 				<xsl:with-param name="search-string" select="'#'" />
-				<xsl:with-param name="replace-string" select="''" />
+				<xsl:with-param name="replace-string" select="'-'" />
 			</xsl:call-template>
 		</xsl:variable>
 		
 		<xsl:call-template name="search-and-replace">
 			<xsl:with-param name="input" select="$hash" />
 			<xsl:with-param name="search-string" select="'\$'" />
-			<xsl:with-param name="replace-string" select="''" />
+			<xsl:with-param name="replace-string" select="'-'" />
 		</xsl:call-template>
 	</xsl:template>
 
