@@ -980,12 +980,10 @@
 				<xsl:when test="$return-type != 'any'">
 					<xsl:variable name="xref" select="$toplevel//*[@fullname = $return-type]" />
 					<xsl:if test="$xref">
-						<xsl:value-of select="$end-tt" />
 						<xsl:call-template name="xref">
 							<xsl:with-param name="input" select="$xref/@fullname" />
 							<xsl:with-param name="tt" select="true()" />
 						</xsl:call-template>
-						<xsl:value-of select="$start-tt" />
 					</xsl:if>
 					<xsl:if test="not($xref)">
 						<xsl:value-of select="$return-type" />
@@ -1047,7 +1045,13 @@
 				</xsl:if>
 			</xsl:if>
 			<xsl:if test="($type-name = 'restParam')">
-				<xsl:text>... rest</xsl:text>
+				<xsl:text>... </xsl:text>
+				<xsl:if test="apiItemName">
+					<xsl:value-of select="apiItemName" />
+				</xsl:if>
+				<xsl:if test="not(apiItemName)">
+					<xsl:value-of select="'rest'" />
+				</xsl:if>
 			</xsl:if>
 			<xsl:if test="@optional='true'">
 				<xsl:text>]</xsl:text>
