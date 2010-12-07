@@ -37,6 +37,10 @@ default-stroke {
 	alpha: 0.5;
 }
 
+references {
+	rectangle: ref( rectangle );
+}
+
 .bluetext {
 	color: #ffffff;
 }

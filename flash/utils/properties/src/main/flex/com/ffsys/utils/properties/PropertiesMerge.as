@@ -36,20 +36,41 @@ package com.ffsys.utils.properties {
 		*	@param source The source object.
 		*	@param strict A boolean indicating whether we should
 		*	be strict.
+		* 	@param ignore An array of class types that should
+		* 	be ignored if the value type is contained in this array.
 		*/
 		public function merge(
 			target:Object,
 			source:Object,
-			strict:Boolean = true ):void
+			strict:Boolean = true,
+			ignore:Array = null ):void
 		{
 			if( target && source )
 			{
 				var z:String = null;
+				var value:*;
+				var assign:Boolean = false;
 				for( z in source )
 				{
-					if( !strict || ( strict && target.hasOwnProperty( z ) ) )
+					value = source[ z ];
+					assign = !strict || ( strict && target.hasOwnProperty( z ) );
+					if( assign && ignore )
 					{
-						target[ z ] = source[ z ];
+						var clazz:Class = null;
+						for(var i:int = 0;i < ignore.length;i++)
+						{
+							clazz = Class( ignore[ i ] );
+							if( value is clazz )
+							{
+								assign = false;
+								break;
+							}
+						}
+					}
+					
+					if( assign )
+					{
+						target[ z ] = value;						
 					}
 				}
 			}

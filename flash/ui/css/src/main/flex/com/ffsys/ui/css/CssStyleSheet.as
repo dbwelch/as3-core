@@ -73,7 +73,8 @@ package com.ffsys.ui.css {
 			"url": URLRequest,
 			"img": ImageLoader,
 			"sound": SoundLoader,
-			"swf": MovieLoader
+			"swf": MovieLoader,
+			"ref": CssReference
 		};
 		
 		private var _processed:Boolean = false;
@@ -105,6 +106,18 @@ package com.ffsys.ui.css {
 		*	Represents an external css swf movie extension.
 		*/
 		public static const SWF:String = "swf";
+	
+		/**
+		*	Represents a reference to a style or style property
+		* 	in the same document.
+		*/
+		public static const REF:String = "ref";
+		
+		/**
+		*	The delimiter used in reference expressions to delimit
+		* 	a property from the style name.
+		*/
+		public static const REFERENCE_PROPERTY_DELIMITER:String = ".";
 		
 		/**
 		*	Represents a hexadecimal number notation.
@@ -184,19 +197,9 @@ package com.ffsys.ui.css {
 			return _dependencies;
 		}
 		
-		/**
-		*	@inheritDoc
-		*/
-		override public function getStyle( styleName:String ):Object
+		protected function getInstanceFromStyle( styleName:String, style:Object ):Object
 		{
-			//trace("CssStyleSheet::getStyle(), ", "STYLE NAME: ", styleName );
-			
-			//the default behaviour of returning an empty
-			//object when the style does not exist is undesirable
-			//so we test for existence of at least one property
-			var style:Object = super.getStyle( styleName );
-			
-			if( style && ( style.instanceClass is Class ) && _processed )
+			if( style && ( style.instanceClass is Class ) )
 			{
 				var instance:Object = null;
 				
@@ -212,45 +215,38 @@ package com.ffsys.ui.css {
 				if( instance )
 				{
 					var merger:PropertiesMerge = new PropertiesMerge();
-					merger.merge( instance, style );
+					merger.merge( instance, style, true, [ CssReference ] );
 				}
-				
-				if( instance is IComponentGraphic )
-				{
-					var graphic:IComponentGraphic = IComponentGraphic( instance );
-					var fill:IFill = null;
-					var stroke:IStroke = null;
-					
-					if( graphic.fillStyle )
-					{
-						fill = getStyle( graphic.fillStyle ) as IFill;
-						if( !fill )
-						{
-							throw new Error( "Could not locate a fill for style '"
-								+ styleName + "' with identifier '" + graphic.fillStyle + "'." );
-						}
-						graphic.fill = fill;
-					}
 
-					if( graphic.strokeStyle )
-					{
-						stroke = getStyle( graphic.strokeStyle ) as IStroke;
-						if( !stroke )
-						{
-							throw new Error( "Could not locate a stroke for style '"
-								+ styleName + "' with identifier '" + graphic.strokeStyle + "'." );
-						}
-						graphic.stroke = stroke;
-					}						
-					
-				}
 				return instance;
-			}			
+			}
 			
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function getStyle( styleName:String ):Object
+		{
+			var style:Object = super.getStyle( styleName );
+			
+			//workaround for class expressions not always resolving correctly
+			if( style && ( style.instanceClass is String ) )
+			{
+				style.instanceClass = parseExtension( style.instanceClass, styleName );
+			}
+			
+			if( style && ( style.instanceClass is Class ) && _processed )
+			{
+				return getInstanceFromStyle( styleName, style );
+			}
+			
+			//the default behaviour of returning an empty
+			//object when the style does not exist is undesirable
+			//so we test for existence of at least one property			
 			for( var z:String in style )
 			{
-				//trace("CssStyleSheet::getStyle(), ", z, style[ z ], style.instanceClass );
-				
 				return style;
 			}
 			return null;
@@ -579,7 +575,7 @@ package com.ffsys.ui.css {
 						}
 						
 						value = parser.parse( value, true, delimiter );
-						//trace("CssStyleSheet::postProcessCss(), ", value );
+						//trace("CssStyleSheet::postProcessCss(), value/hex/expression: ", value, hexExpression.test( value ), _extensionExpression.test( value ) );
 						
 						if( hexExpression.test( value ) )
 						{
@@ -597,12 +593,111 @@ package com.ffsys.ui.css {
 					style[ z ] = value;
 				}
 				
-				//trace("********************** CssStyleSheet::postProcessCss(), setting style: ", styleName, style );
+				//trace("********************** CssStyleSheet::postProcessCss(), setting style: ", styleName, style, style.instanceClass );
 				
 				setStyle( styleName, style );
 			}
 			
+			//trace( "STARTING FINALIZATION" );
+			
+			finalize();
+
 			_processed = true;
+		}
+		
+		/**
+		* 	Finalizes css references.
+		*/
+		private function finalize():void
+		{
+			var z:String = null;
+			var value:*;
+			var style:Object = null;
+			var styleName:String = null;
+			var styles:Array = styleNames;
+			for( var i:int = 0;i < styles.length;i++ )
+			{
+				styleName = styles[ i ];
+				style = getStyle( styleName );
+				for( z in style )
+				{
+					value = style[ z ];
+					if( value is CssReference )
+					{
+						resolveCssReference( styleName, style, z, value, CssReference( value ) );
+					}
+				}
+			}
+		}
+		
+		/**
+		* 	Attempts to resolve a css reference.
+		*/
+		private function resolveCssReference(
+			styleName:String,
+			style:Object,
+			name:String,
+			value:String,
+			reference:CssReference ):void
+		{
+			var candidate:String = reference.value;
+			var found:Object;
+			
+			//trace("CssStyleSheet::finalize()", "RESOLVING CSS REFERENCE: ", reference );
+			
+			//we check the delimiter is beyond the first character
+			if( candidate.lastIndexOf( REFERENCE_PROPERTY_DELIMITER ) > 0 )
+			{
+				if( candidate.indexOf( REFERENCE_PROPERTY_DELIMITER ) == 0 )
+				{
+					//remove the first character if it matches the reference delimiter
+					candidate = candidate.substr( 1 );
+				}
+				
+				var parts:Array = candidate.split( REFERENCE_PROPERTY_DELIMITER );
+				if( !(parts.length == 2 ) )
+				{
+					throw new Error( "Found invalid css reference candidate '" + candidate + "'." );
+				}
+				
+				candidate = parts[ 0 ];
+				var property:String = parts[ 1 ];
+				var candidateStyle:Object = getStyle( candidate );
+				if( !candidateStyle )
+				{
+					throw new Error(
+						"Could not locate style reference with value '" + candidate + "'." );					
+				}
+				
+				found = candidateStyle[ property ];
+			}else{
+				
+				//trace("CssStyleSheet::finalize() SEARCHING FOR STYLE candidate: ", candidate );
+				
+				found = getStyle( candidate );
+				
+				if( found && found.instanceClass )
+				{
+					found = getInstanceFromStyle( styleName, found );
+				}
+				
+				
+				//trace("CssStyleSheet::finalize() SEARCHING FOR STYLE found: ", found );				
+			}
+			
+			if( found == null )
+			{
+				throw new Error(
+					"Could not locate style reference with value '" + candidate + "'." );
+			}
+			
+			//update the reference
+			style[ name ] = found;
+			
+			//trace("CssStyleSheet::finalize()", " setting css reference ", styleName, name, found );
+			
+			//update the stored style
+			setStyle( styleName, style );
 		}
 
 		private function parseBindingCandidate( value:String ):Object
@@ -647,7 +742,6 @@ package com.ffsys.ui.css {
 					return true;
 				}
 			}
-			
 			return false;
 		}
 		
@@ -657,8 +751,10 @@ package com.ffsys.ui.css {
 		private function parseExtension(
 			candidate:String,
 			styleName:String,
-			styleProperty:String ):Object
+			styleProperty:String = null ):Object
 		{
+			//trace("CssStyleSheet::parseExtension()", candidate );
+			
 			if( !isValidExtension( candidate ) )
 			{
 				return null;
@@ -669,6 +765,8 @@ package com.ffsys.ui.css {
 			
 			var value:String = candidate.replace( _extensionExpression, "$1" );
 			value = new StringTrim().trim( value );
+			
+			//trace("CssStyleSheet::parseExtension()", candidate, extension, value );
 			
 			switch( extension )
 			{
@@ -681,6 +779,8 @@ package com.ffsys.ui.css {
 						throw new Error( "Could not locate css class reference with class path '"
 							+ value + "'." );
 					}
+					
+					//trace("CssStyleSheet::parseExtension() SETTING CLASS REFERENCE!!!!!!!!!!!!!!!!!!!!!!!: ", output );
 					break;
 				case URL:
 					output = new URLRequest( value );
@@ -694,11 +794,17 @@ package com.ffsys.ui.css {
 				case SWF:
 					output = new MovieLoader( new URLRequest( value ) );
 					break;
+				case REF:
+					output = new CssReference( value );
+					break;
+				default:
+					throw new Error(
+						"Could not handle css expression with identifier '" + extension + "'." );
 			}
 			
 			//trace("CssStyleSheet::parseExtension(), ", output );
 			
-			if( _dependencies && ( output is ILoader ) )
+			if( _dependencies && ( output is ILoader ) && styleProperty )
 			{
 				_dependencies.addLoader( ILoader( output ) );
 				_cache[ output ] = { styleName: styleName, styleProperty: styleProperty };
@@ -747,5 +853,20 @@ package com.ffsys.ui.css {
 			_cache = null;
 			_dependencies = null;
 		}
+	}
+}
+
+/**
+*	Used to store a reference to another css style or style
+*	property. During the finalization phase these references
+*	are resolved. This type is used to indicate which properties
+*	need resolving.
+*/
+class CssReference extends Object {
+	public var value:String;
+	public function CssReference( value:String ):void
+	{
+		super();
+		this.value = value;
 	}
 }

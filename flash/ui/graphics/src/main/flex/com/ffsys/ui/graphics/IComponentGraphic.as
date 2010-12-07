@@ -28,17 +28,6 @@ package com.ffsys.ui.graphics
 				ILayoutHeight,
 				IComponentDraw
 	{
-		/**
-		* 	A style identifier that represents a fill for this shape.
-		*/
-		function get fillStyle():String;
-		function set fillStyle( value:String ):void;
-		
-		/**
-		* 	A style identifier that represents a stroke for this shape.
-		*/		
-		function get strokeStyle():String;
-		function set strokeStyle( value:String ):void;		
 		
 		/**
 		* 	A preferred width to use when drawing the graphic.
