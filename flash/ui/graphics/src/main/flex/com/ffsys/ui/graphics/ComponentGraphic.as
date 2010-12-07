@@ -32,6 +32,9 @@ package com.ffsys.ui.graphics
 		private var _strokeApplied:Boolean;
 		private var _fillApplied:Boolean;
 		
+		private var _fillStyle:String;
+		private var _strokeStyle:String;
+		
 		/**
 		* 	Creates a <code>ComponentGraphic</code> instance.
 		* 
@@ -57,6 +60,35 @@ package com.ffsys.ui.graphics
 			this.fill = fill;
 			this.tx = tx;
 			this.ty = ty;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get fillStyle():String
+		{
+			return _fillStyle;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function set fillStyle( value:String ):void
+		{
+			_fillStyle = value;
+		}
+		
+		/**
+		* 	A style identifier that represents a stroke for this shape.
+		*/		
+		public function get strokeStyle():String
+		{
+			return _strokeStyle;
+		}
+		
+		public function set strokeStyle( value:String ):void
+		{
+			_strokeStyle = value;
 		}
 		
 		/**

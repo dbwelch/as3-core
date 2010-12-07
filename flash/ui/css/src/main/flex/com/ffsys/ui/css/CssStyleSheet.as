@@ -76,6 +76,8 @@ package com.ffsys.ui.css {
 			"swf": MovieLoader
 		};
 		
+		private var _processed:Boolean = false;
+		
 		/**
 		*	Represents a css extension that references a class.
 		*	
@@ -193,31 +195,61 @@ package com.ffsys.ui.css {
 			//object when the style does not exist is undesirable
 			//so we test for existence of at least one property
 			var style:Object = super.getStyle( styleName );
+			
+			if( style && ( style.instanceClass is Class ) && _processed )
+			{
+				var instance:Object = null;
+				
+				try
+				{
+					instance = new style.instanceClass();
+				}catch( e:Error )
+				{
+					throw new Error( "Could not instantiate style instance with class '"
+						+ style.instanceClass + "'." );
+				}
+				
+				if( instance )
+				{
+					var merger:PropertiesMerge = new PropertiesMerge();
+					merger.merge( instance, style );
+				}
+				
+				if( instance is IComponentGraphic )
+				{
+					var graphic:IComponentGraphic = IComponentGraphic( instance );
+					var fill:IFill = null;
+					var stroke:IStroke = null;
+					
+					if( graphic.fillStyle )
+					{
+						fill = getStyle( graphic.fillStyle ) as IFill;
+						if( !fill )
+						{
+							throw new Error( "Could not locate a fill for style '"
+								+ styleName + "' with identifier '" + graphic.fillStyle + "'." );
+						}
+						graphic.fill = fill;
+					}
+
+					if( graphic.strokeStyle )
+					{
+						stroke = getStyle( graphic.strokeStyle ) as IStroke;
+						if( !stroke )
+						{
+							throw new Error( "Could not locate a stroke for style '"
+								+ styleName + "' with identifier '" + graphic.strokeStyle + "'." );
+						}
+						graphic.stroke = stroke;
+					}						
+					
+				}
+				return instance;
+			}			
+			
 			for( var z:String in style )
 			{
 				//trace("CssStyleSheet::getStyle(), ", z, style[ z ], style.instanceClass );
-				
-				if( style && ( style.instanceClass is Class ) )
-				{
-					var instance:Object = null;
-					
-					try
-					{
-						instance = new style.instanceClass();
-					}catch( e:Error )
-					{
-						throw new Error( "Could not instantiate style instance with class '"
-							+ style.instanceClass + "'." );
-					}
-					
-					if( instance )
-					{
-						var merger:PropertiesMerge = new PropertiesMerge();
-						merger.merge( instance, style );
-					}
-					
-					return instance;
-				}
 				
 				return style;
 			}
@@ -567,74 +599,12 @@ package com.ffsys.ui.css {
 				
 				//trace("********************** CssStyleSheet::postProcessCss(), setting style: ", styleName, style );
 				
-					
-			
-				setStyle( styleName, style );
-				
-				
-				
-				style = getStyle( styleName );
-				
-				trace("CssStyleSheet::postProcessCss()", styleName, style, (style is IComponentGraphic) );
-				
-				if( style is IComponentGraphic )
-				{
-					trace("CssStyleSheet::postProcessCss()", "GOT COMPONENT GRAPHIC" );
-					processGraphicStyle( styleName, style );
-				}				
-				
-			}
-		}
-		
-		private function processGraphicStyle( styleName:String, style:Object ):void
-		{	
-			trace("CssStyleSheet::processGraphicStyle()", styleName, style );
-			
-				
-			var fill:IFill = null;
-			var stroke:IStroke = null;
-		
-			if( style.hasOwnProperty( "fillStyle" ) && ( style.fillStyle is String ) )
-			{
-				fill = getStyle( style.fillStyle ) as IFill;
-			
-				if( !fill )
-				{
-					throw new Error( "Could not locate a fill for style '" + styleName + "' with identifier '" + style.fillStyle + "'." );
-				}
-			}
-		
-			if( style.hasOwnProperty( "strokeStyle" ) && ( style.strokeStyle is String ) )
-			{
-				stroke = getStyle( style.strokeStyle ) as IStroke;
-			
-			
-				if( !stroke )
-				{
-					throw new Error( "Could not locate a stroke for style '" + styleName + "' with identifier '" + style.strokeStyle + "'." );
-				}						
-			}
-		
-			trace("CssStyleSheet::getStyle()", styleName, style.fillStyle, style.strokeStyle, fill, stroke );					
-		
-			if( fill || stroke )
-			{
-				if( fill )
-				{
-					style.fill = fill;
-					delete style.fillStyle;
-				}
-			
-				if( stroke )
-				{
-					style.stroke = stroke;
-					delete style.strokeStyle;
-				}
-			
 				setStyle( styleName, style );
 			}
+			
+			_processed = true;
 		}
-		
+
 		private function parseBindingCandidate( value:String ):Object
 		{
 			var output:Object = value;

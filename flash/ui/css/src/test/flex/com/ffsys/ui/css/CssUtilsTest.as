@@ -24,6 +24,7 @@ package com.ffsys.ui.css
 	*/ 
 	public class CssUtilsTest
 	{
+		private var _rectangle:RectangleGraphic;
 		private var _stroke:Stroke;
 		private var _solidFill:SolidFill;
 		
@@ -182,6 +183,14 @@ package com.ffsys.ui.css
 			Assert.assertEquals( 20, sprite.x );
 			Assert.assertEquals( 100, sprite.y );
 			Assert.assertFalse( sprite.mouseEnabled );
+			
+			var rectangle:RectangleGraphic = RectangleGraphic( _styleManager.getStyle( "rectangle" ) );
+			var fill:SolidFill = SolidFill( _styleManager.getStyle( "default-fill" ) );
+			var stroke:Stroke = Stroke( _styleManager.getStyle( "default-stroke" ) );
+			
+			Assert.assertNotNull( rectangle );
+			Assert.assertNotNull( fill );
+			Assert.assertNotNull( stroke );
 		}
 		
 		[Test(async)]

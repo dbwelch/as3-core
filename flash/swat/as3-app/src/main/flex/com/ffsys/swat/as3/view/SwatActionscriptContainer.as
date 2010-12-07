@@ -78,14 +78,13 @@ package com.ffsys.swat.as3.view {
 			addChild( vbox );
 			
 			var rect:RectangleGraphic = RectangleGraphic( styleManager.getStyle( "rectangle" ) );
-			
-			trace("SwatActionscriptContainer::createChildren()", rect, rect.fill, rect.stroke );
 
-			rect.draw();
-			//addChild( rect );
-			
 			var graphic:Graphic = new Graphic( rect );
-			//vbox.addChild( graphic );
+			vbox.addChild( graphic );
+			
+			trace("SwatActionscriptContainer::createChildren()", rect, rect.fill, rect.stroke, rect.width, rect.height, rect.preferredWidth, rect.preferredHeight );			
+			
+			return;
 			
 			var substyle:Object = styleManager.getStyle( "sub" );
 			trace("SwatActionscriptContainer::createChildren()", substyle.substitution );			
