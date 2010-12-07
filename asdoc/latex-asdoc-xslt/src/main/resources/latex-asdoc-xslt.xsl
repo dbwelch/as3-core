@@ -571,6 +571,9 @@
 			<xsl:call-template name="start-paragraph" />
 			<xsl:call-template name="method-signature" />
 			<xsl:call-template name="end-paragraph" />
+			
+			<!-- SEE ALSO XREF -->
+			<xsl:call-template name="list-see" />			
 		</xsl:for-each>
 	</xsl:template>
 	
@@ -606,7 +609,10 @@
 					</xsl:otherwise>
 				</xsl:choose>				
 				
-				<xsl:call-template name="property-signature" />						
+				<xsl:call-template name="property-signature" />
+				
+				<!-- SEE ALSO XREF -->
+				<xsl:call-template name="list-see" />				
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
@@ -777,7 +783,7 @@
 				<xsl:with-param name="type" select="$type" />
 			</xsl:call-template>
 			
-			<xsl:if test="$api-data != '' and $alltt and $abbreviated">
+			<xsl:if test="$api-data != '' and $alltt and not($abbreviated)">
 				<xsl:value-of select="$newline" />
 				<xsl:text> = </xsl:text>
 				<xsl:call-template name="escape">

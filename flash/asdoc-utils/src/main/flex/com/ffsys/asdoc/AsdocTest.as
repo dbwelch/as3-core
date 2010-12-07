@@ -173,33 +173,6 @@ package com.ffsys.asdoc {
 		}
 		
 		/**
-		* 	A java style deprecated declaration.
-		* 	
-		* 	@deprecated amazing
-		*/
-		public function jdeprecated():void
-		{
-			//
-		}
-		
-		/**
-		* 	A deprecated method.
-		*/
-		[Deprecated(replacement="amazing")]
-		public function deprecated():void
-		{
-			//
-		}
-		
-		/**
-		* 	An amazing method to replace the deprecated one.
-		*/
-		public function amazing():void
-		{
-			//
-		}
-		
-		/**
 		* 	A method that will always fail.
 		* 
 		* 	@throws AsdocError A custom <code>error</code> to indicate this method failed.
