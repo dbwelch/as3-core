@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ffsys</groupId>
 	<version>1.1-SNAPSHOT</version>
-	<artifactId>ffsys-as3-library</artifactId>
+	<artifactId>as3-core-library</artifactId>
 	<packaging>pom</packaging>
-	<name>as3 library super pom</name>
+	<name>as3 core library</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<latex.version>1.0</latex.version>

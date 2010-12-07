@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>swat-parent</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.swat</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.swat.templates.as3</groupId>
