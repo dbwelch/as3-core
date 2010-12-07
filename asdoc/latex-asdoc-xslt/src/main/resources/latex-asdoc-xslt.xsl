@@ -2369,6 +2369,11 @@
 \author{Mischa Williamson}
 \makeindex
 
+%fix for the toc overlap problem
+\makeatletter
+  \renewcommand\l@subsubsection{\@dottedtocline{2}{1.5em}{4em}}
+\makeatother
+
 \begin{document} 
 
 \maketitle

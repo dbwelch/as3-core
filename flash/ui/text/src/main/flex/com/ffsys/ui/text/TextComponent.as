@@ -5,9 +5,13 @@ package com.ffsys.ui.text
 	import flash.display.DisplayObject;
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
-	import com.ffsys.ui.core.UIComponent;
-	import com.ffsys.ui.text.core.ITypedTextField;
 	
+	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.data.IDataBindingNotification;
+	import com.ffsys.ui.data.StringDataBinding;
+	import com.ffsys.ui.data.ChangeNotification;
+	import com.ffsys.ui.data.CreateNotification;
+	import com.ffsys.ui.text.core.ITypedTextField;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 	
 	/**
@@ -42,6 +46,20 @@ package com.ffsys.ui.text
 			
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function notify( notification:IDataBindingNotification ):void
+		{
+			trace("TextComponent::notify()", notification, this, dataBinding, StringDataBinding( this.dataBinding ).value );
+			
+			if( ( notification is ChangeNotification || notification is CreateNotification )
+				&& ( this.dataBinding is StringDataBinding ) )
+			{
+				this.text = StringDataBinding( this.dataBinding ).value;
+			}
 		}
 		
 		/**

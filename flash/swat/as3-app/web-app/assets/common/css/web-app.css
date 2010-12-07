@@ -20,7 +20,7 @@ test-label {
 }
 
 sub {
-	substitution: <paths:locale> : <locales:lang>
+	substitution: <paths:locale>, <locales:lang>;
 }
 
 test-text {

@@ -1,7 +1,6 @@
 package com.ffsys.swat.as3.view {
 	
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
+	import flash.display.*;
 	import flash.filters.BitmapFilter;
 	import flash.events.MouseEvent;
 	import flash.net.URLRequest;
@@ -18,6 +17,8 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.buttons.*;
+	import com.ffsys.ui.controls.*;
+	import com.ffsys.ui.data.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.text.*;
@@ -77,6 +78,55 @@ package com.ffsys.swat.as3.view {
 			vbox = new VerticalBox();
 			addChild( vbox );
 			
+			/*
+			var data:Array = [ "apples", "oranges", "pears" ];
+			
+			var listBinding:DataBindingCollection = new DataBindingCollection();
+			for( var i:int = 0;i < data.length;i++ )
+			{
+				listBinding.children.push( new StringDataBinding( data[ i ] ) );
+			}
+		
+			var list:List = new List();
+			list.dataBinding = listBinding;
+			vbox.addChild( list );
+			listBinding.children[ 0 ].data = "THIS IS A VALUE";
+			*/
+			
+			var proxy:IDataBindingProxy = null;
+			var lbl:IDataBinding = null;
+			var icon:IDataBinding = null;
+			var sprite:Shape = null;
+			
+			var data:Array = [
+				{ label: "apples", colour: 0x00ff00},
+				{ label: "oranges", colour: 0xff6600},
+				{ label: "plums", colour: 0x6f0988 } ];
+			
+			var listBinding:DataBindingCollection = new DataBindingCollection();
+			for( var i:int = 0;i < data.length;i++ )
+			{
+				sprite = new Shape();
+				sprite.graphics.beginFill( data[ i ].colour, 1 );
+				sprite.graphics.drawRect( 0, 0, 10, 10 );
+				sprite.graphics.endFill();
+				
+				lbl = new StringDataBinding( data[ i ].label );
+				icon = new DisplayObjectDataBinding( sprite );
+				proxy = new DataBindingProxy();
+				proxy.addDataBinding( lbl );
+				proxy.addDataBinding( icon );
+				
+				//TODO: move to an addDataBinding implementation
+				listBinding.children.push( proxy );
+			}
+			
+			var list:List = new List();
+			list.itemRendererClass = IconLabelListItemRenderer;
+			list.dataBinding = listBinding;
+			vbox.addChild( list );
+
+			/*
 			_loader =
 				Runtime.load(
 					new URLRequest( "view.xml" ),
@@ -89,6 +139,8 @@ package com.ffsys.swat.as3.view {
 			
 			_document = _loader.document;
 			_loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
+			*/
+			
 		}
 		
 		private function runtimeLoaded( event:LoadEvent ):void

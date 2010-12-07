@@ -10,7 +10,10 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.common.flash.ISprite;
 	
-	import com.ffsys.ui.data.IDataBinding;	
+	import com.ffsys.ui.data.IDataBinding;
+	import com.ffsys.ui.data.IDataBindingNotification;
+	import com.ffsys.ui.data.IDataBindingNotificationObserver;
+	
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
@@ -40,6 +43,7 @@ package com.ffsys.ui.core
 				IBitmapGrab,
 				IDestroy,
 				IEnabled,
+				IDataBindingNotificationObserver,
 				IStringIdentifier
 	{
 		

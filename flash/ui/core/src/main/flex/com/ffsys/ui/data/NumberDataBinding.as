@@ -27,12 +27,12 @@ package com.ffsys.ui.data
 		*/
 		public function get value():Number
 		{
-			return Number( _data );
+			return Number( this.data );
 		}
 		
 		public function set value( value:Number ):void
 		{
-			_data = value;
+			this.data = value;
 		}
 	}
 }

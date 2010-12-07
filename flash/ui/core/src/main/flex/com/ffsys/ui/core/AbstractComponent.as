@@ -17,6 +17,8 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.Padding;
 	
 	import com.ffsys.ui.data.IDataBinding;
+	import com.ffsys.ui.data.IDataBindingNotification;
+	
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
 
@@ -87,9 +89,30 @@ package com.ffsys.ui.core
 			return _dataBinding;
 		}
 		
-		public function set dataBinding( dataBinding:IDataBinding ):void
+		public function set dataBinding( value:IDataBinding ):void
 		{
-			_dataBinding = dataBinding;
+			if( _dataBinding && value && ( _dataBinding != value ) )
+			{
+				_dataBinding.removeObserver( this );
+			}
+			
+			if( _dataBinding != value )
+			{
+				_dataBinding = value;
+			}
+			
+			if( _dataBinding )
+			{
+				_dataBinding.addObserver( this );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function notify( notification:IDataBindingNotification ):void
+		{	
+			trace("AbstractComponent::notify()", notification, this );
 		}
 		
 		/**
@@ -680,7 +703,12 @@ package com.ffsys.ui.core
 		*/
 		public function destroy():void
 		{
-			//
+			if( this.dataBinding )
+			{
+				this.dataBinding.removeObserver( this );
+			}
+			
+			//TODO: the core UIComponent destroy logic
 		}
 		
 		/**
@@ -790,6 +818,11 @@ package com.ffsys.ui.core
 			createChildren();
 			layoutChildren( preferredWidth, preferredHeight );
 			childrenCreated();
+			
+			//TODO: apply styles to child composite components
+			
+			//apply style information by default
+			applyStyles();
 		}
 		
 		/**

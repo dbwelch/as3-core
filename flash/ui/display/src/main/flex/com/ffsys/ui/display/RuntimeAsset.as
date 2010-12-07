@@ -4,6 +4,7 @@ package com.ffsys.ui.display
 	import flash.utils.getQualifiedClassName;
 	
 	import com.ffsys.ui.core.InteractiveComponent;
+	import com.ffsys.ui.data.*;
 	
 	/**
 	*	Represents a component that adds a display list object
@@ -29,11 +30,30 @@ package com.ffsys.ui.display
 		* 	@param classPath The fully qualified class path to the
 		* 	display object asset.
 		*/
-		public function RuntimeAsset( classPath:String )
+		public function RuntimeAsset( classPath:String = null )
 		{
 			super();
-			this.classPath = classPath;
+			
+			if( classPath != null )
+			{
+				this.classPath = classPath;
+			}
+			
 			this.interactive = false;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function notify( notification:IDataBindingNotification ):void
+		{
+			trace("RuntimeAsset::notify()", notification, this, dataBinding );
+			
+			if( ( notification is ChangeNotification || notification is CreateNotification )
+				&& ( this.dataBinding is DisplayObjectDataBinding ) )
+			{
+				this.asset = DisplayObjectDataBinding( this.dataBinding ).value;
+			}
 		}
 		
 		/**

@@ -5,6 +5,7 @@ package com.ffsys.ui.runtime {
 	
 	import com.ffsys.ui.buttons.*;
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.controls.*;
 	import com.ffsys.ui.display.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.layout.*;
@@ -35,6 +36,11 @@ package com.ffsys.ui.runtime {
 		*	The element name for a container. 
 		*/
 		public static const CONTAINER_NAME:String = "container";
+		
+		/**
+		*	The element name for a list. 
+		*/
+		public static const LIST_NAME:String = "list";
 		
 		/**
 		*	Creates a RuntimeParser instance.	
@@ -187,7 +193,14 @@ package com.ffsys.ui.runtime {
 				RuntimeEachLoop,
 				EACH_NODE_NAME,
 				null,
-				false );						
+				false );
+			
+			//controls package	
+			classNodeNameMap.add(
+				List,
+				LIST_NAME,
+				null,
+				false );										
 		}
 	}
 }

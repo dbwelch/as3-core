@@ -8,6 +8,12 @@
 	<canvas>
 		<vbox>
 			
+			<list>
+				<id>my-list</id>
+				<preferred-width>100</preferred-width>
+				<preferred-height>100</preferred-height>
+			</list>
+			
 			<button>
 				<id>btn</id>
 				<preferred-width>100</preferred-width>

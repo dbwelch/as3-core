@@ -27,12 +27,12 @@ package com.ffsys.ui.data
 		*/
 		public function get value():Boolean
 		{
-			return Boolean( _data );
+			return Boolean( this.data );
 		}
 		
 		public function set value( value:Boolean ):void
 		{
-			_data = value;
+			this.data = value;
 		}
 	}
 }
