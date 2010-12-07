@@ -17,6 +17,10 @@ package com.ffsys.ui.css {
 	
 	import com.ffsys.core.IStringIdentifier;
 	
+	import com.ffsys.ui.graphics.IComponentGraphic;	
+	import com.ffsys.ui.graphics.IFill;
+	import com.ffsys.ui.graphics.IStroke;	
+	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.*;
@@ -183,6 +187,8 @@ package com.ffsys.ui.css {
 		*/
 		override public function getStyle( styleName:String ):Object
 		{
+			//trace("CssStyleSheet::getStyle(), ", "STYLE NAME: ", styleName );
+			
 			//the default behaviour of returning an empty
 			//object when the style does not exist is undesirable
 			//so we test for existence of at least one property
@@ -194,6 +200,7 @@ package com.ffsys.ui.css {
 				if( style && ( style.instanceClass is Class ) )
 				{
 					var instance:Object = null;
+					
 					try
 					{
 						instance = new style.instanceClass();
@@ -202,7 +209,7 @@ package com.ffsys.ui.css {
 						throw new Error( "Could not instantiate style instance with class '"
 							+ style.instanceClass + "'." );
 					}
-
+					
 					if( instance )
 					{
 						var merger:PropertiesMerge = new PropertiesMerge();
@@ -517,6 +524,7 @@ package com.ffsys.ui.css {
 			{
 				styleName = styles[ i ];
 				style = getStyle( styleName );
+				
 				//trace("CssStyleSheet::postProcessCss(), ", styleName, style );
 				for( z in style )
 				{
@@ -558,7 +566,71 @@ package com.ffsys.ui.css {
 				}
 				
 				//trace("********************** CssStyleSheet::postProcessCss(), setting style: ", styleName, style );
-
+				
+					
+			
+				setStyle( styleName, style );
+				
+				
+				
+				style = getStyle( styleName );
+				
+				trace("CssStyleSheet::postProcessCss()", styleName, style, (style is IComponentGraphic) );
+				
+				if( style is IComponentGraphic )
+				{
+					trace("CssStyleSheet::postProcessCss()", "GOT COMPONENT GRAPHIC" );
+					processGraphicStyle( styleName, style );
+				}				
+				
+			}
+		}
+		
+		private function processGraphicStyle( styleName:String, style:Object ):void
+		{	
+			trace("CssStyleSheet::processGraphicStyle()", styleName, style );
+			
+				
+			var fill:IFill = null;
+			var stroke:IStroke = null;
+		
+			if( style.hasOwnProperty( "fillStyle" ) && ( style.fillStyle is String ) )
+			{
+				fill = getStyle( style.fillStyle ) as IFill;
+			
+				if( !fill )
+				{
+					throw new Error( "Could not locate a fill for style '" + styleName + "' with identifier '" + style.fillStyle + "'." );
+				}
+			}
+		
+			if( style.hasOwnProperty( "strokeStyle" ) && ( style.strokeStyle is String ) )
+			{
+				stroke = getStyle( style.strokeStyle ) as IStroke;
+			
+			
+				if( !stroke )
+				{
+					throw new Error( "Could not locate a stroke for style '" + styleName + "' with identifier '" + style.strokeStyle + "'." );
+				}						
+			}
+		
+			trace("CssStyleSheet::getStyle()", styleName, style.fillStyle, style.strokeStyle, fill, stroke );					
+		
+			if( fill || stroke )
+			{
+				if( fill )
+				{
+					style.fill = fill;
+					delete style.fillStyle;
+				}
+			
+				if( stroke )
+				{
+					style.stroke = stroke;
+					delete style.strokeStyle;
+				}
+			
 				setStyle( styleName, style );
 			}
 		}

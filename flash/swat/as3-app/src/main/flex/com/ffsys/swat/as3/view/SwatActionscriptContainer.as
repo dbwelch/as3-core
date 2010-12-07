@@ -37,6 +37,9 @@ package com.ffsys.swat.as3.view {
 	public class SwatActionscriptContainer extends SwatActionscriptAbstractView
 		implements IApplicationMainView {
 			
+		private var _stroke:Stroke;
+		private var _solidFill:SolidFill;
+			
 		private var _loader:IRuntimeLoader;
 		private var _document:IDocument;
 		
@@ -71,12 +74,21 @@ package com.ffsys.swat.as3.view {
 			//update the style manager reference
 			UIComponent.styleManager = styleManager;
 			
-			var substyle:Object = styleManager.getStyle( "sub" );
-			
-			trace("SwatActionscriptContainer::createChildren()", substyle.substitution );
-			
 			vbox = new VerticalBox();
 			addChild( vbox );
+			
+			var rect:RectangleGraphic = RectangleGraphic( styleManager.getStyle( "rectangle" ) );
+			
+			trace("SwatActionscriptContainer::createChildren()", rect, rect.fill, rect.stroke );
+
+			rect.draw();
+			//addChild( rect );
+			
+			var graphic:Graphic = new Graphic( rect );
+			//vbox.addChild( graphic );
+			
+			var substyle:Object = styleManager.getStyle( "sub" );
+			trace("SwatActionscriptContainer::createChildren()", substyle.substitution );			
 			
 			/*
 			var data:Array = [ "apples", "oranges", "pears" ];

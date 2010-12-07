@@ -39,6 +39,7 @@ package com.ffsys.ui.controls
 			if( this.dataBinding && ( this.dataBinding is IDataBindingProxy ) )
 			{
 				var proxy:IDataBindingProxy = IDataBindingProxy( this.dataBinding );
+				
 				var labelBinding:IDataBinding = proxy.getDataBindingByType( StringDataBinding );
 				var displayBinding:IDataBinding = proxy.getDataBindingByType( DisplayObjectDataBinding );
 				

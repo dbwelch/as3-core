@@ -53,7 +53,7 @@ package com.ffsys.ui.text
 		*/
 		override public function notify( notification:IDataBindingNotification ):void
 		{
-			trace("TextComponent::notify()", notification, this, dataBinding, StringDataBinding( this.dataBinding ).value );
+			//trace("TextComponent::notify()", notification, this, dataBinding, StringDataBinding( this.dataBinding ).value );
 			
 			if( ( notification is ChangeNotification || notification is CreateNotification )
 				&& ( this.dataBinding is StringDataBinding ) )
