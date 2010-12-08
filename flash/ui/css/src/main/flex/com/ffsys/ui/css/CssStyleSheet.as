@@ -59,6 +59,11 @@ package com.ffsys.ui.css {
 	*/
 	public class CssStyleSheet extends StyleSheet
 		implements ICssStyleSheet {
+			
+		/**
+		* 	The delimiter used to delimit style names within a single string declaration.
+		*/
+		public static const STYLE_DELIMITER:String = " ";
 		
 		private var _id:String;
 		private var _delimiter:String = "|";
@@ -293,9 +298,9 @@ package com.ffsys.ui.css {
 			
 			var output:Array = new Array();
 			var style:Object = null;
-			if( styleName.indexOf( " " ) > -1 )
+			if( styleName.indexOf( STYLE_DELIMITER ) > -1 )
 			{
-				var styleNames:Array = styleName.split( " " );
+				var styleNames:Array = styleName.split( STYLE_DELIMITER );
 				var styles:Array = null;
 				for( var i:int = 0;i < styleNames.length;i++ )
 				{
@@ -326,7 +331,25 @@ package com.ffsys.ui.css {
 		{
 			if( target )
 			{
-				var styleParts:Array = target.styles ? target.styles.split( " " ) : new Array();
+				custom.unshift( target );
+				var styles:Array = getStyleNameList.apply( this, custom );
+				
+				if( styles.length > 0 )
+				{
+					applyStyles( target, styles );
+				}
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyleNameList( target:IStyleAware, ... custom ):Array
+		{
+			var styles:Array = new Array();
+			if( target )
+			{
+				var styleParts:Array = target.styles ? target.styles.split( STYLE_DELIMITER ) : new Array();
 
 				//add identifier style name
 				if( target is IStringIdentifier
@@ -343,27 +366,55 @@ package com.ffsys.ui.css {
 					styleParts.unshift( className );
 				}
 				
-				var styleName:String = styleParts.join( " " );
+				var styleName:String = styleParts.join( STYLE_DELIMITER );
 				
 				if( styleName && styleName.length > 0 )
 				{
 					//trace("********************* >>>>>>>>>>>>> CssStyleSheet::style(), ", styleParts.length );
 					
-					var styles:Array = getStyles( styleName );
+					styles = getStyles( styleName );
 					
 					if( custom.length > 0 )
 					{
 						styles = styles.concat( custom );
 					}
-				
-					/*
-					trace("********************* >>>>>>>>>>>>> CssStyleSheet::style(), ",
-						styleParts, styleName, styles.length );
-					*/
-					
-					applyStyles( target, styles );
 				}
 			}
+			
+			return styles;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyleNames( target:IStyleAware, ... custom ):String
+		{
+			var output:String = "";
+			if( target )
+			{
+				custom.unshift( target );
+				var styles:Array = getStyleNameList.apply( this, custom );
+				output = styles.join( STYLE_DELIMITER );
+			}
+			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyleObjects( target:IStyleAware, ... custom ):Array
+		{
+			var output:Array = new Array();
+			if( target )
+			{
+				custom.unshift( target );
+				var styles:String = getStyleNames.apply( this, custom );
+				if( styles.length > 0 )
+				{
+					output = getStyles( styles );
+				}
+			}
+			return output;
 		}
 		
 		/**
@@ -443,7 +494,7 @@ package com.ffsys.ui.css {
 		*/
 		public function assign( target:Object, source:Object, name:String, value:* ):Boolean
 		{
-			trace("CssStyleSheet::assign()", target, source, name, value );
+			//trace("CssStyleSheet::assign()", target, source, name, value );
 			
 			if( target is ICssProperty )
 			{

@@ -268,11 +268,14 @@ package com.ffsys.ui.runtime {
 				
 				if( parent is DisplayObjectContainer )
 				{
+					
+					/*
 					//set the styles property after all other deserialization
 					if( child is IStyleAware )
 					{
 						IStyleAware( child ).applyStyles();
-					}					
+					}
+					*/
 					
 					DisplayObjectContainer( parent ).addChild( child );
 				}

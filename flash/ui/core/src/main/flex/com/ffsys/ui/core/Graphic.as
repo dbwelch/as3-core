@@ -103,6 +103,44 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	Custom style application logic.
+		* 
+		* 	This method inspects the style objects that would be applied
+		* 	searching for a style that is an <code>IComponentGraphic</code>
+		* 	implementation and adds it as a child if it corresponds to a valid
+		* 	graphic implementation.
+		* 
+		* 	Only one graphic may be assigned at any one time so the rule is that
+		* 	the last style declaration will be used.
+		* 
+		* 	As the order of style application may vary this could result in unexpected
+		* 	behaviour. To prevent this, only ever apply a single graphic style declaration
+		* 	to this component.
+		* 
+		*	@inheritDoc
+		*/
+		override public function applyStyles():void
+		{
+			if( styleManager )
+			{
+				var styles:Array = styleManager.getStyleObjects( this );
+				
+				trace("Graphic::applyStyles()", styles );
+				
+				var style:Object = null;
+				for( var i:int = 0;i < styles.length;i++ )
+				{
+					style = styles[ i ];
+					
+					if( style is IComponentGraphic )
+					{
+						trace("Graphic::applyStyles()", "FOUND COMPONENT GRAPHIC STYLE", style );
+					}
+				}
+			}
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		override protected function layoutChildren(

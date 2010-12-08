@@ -64,12 +64,13 @@
 			<id>ffsys-mvn</id>
 			<name>Freeform Systems Repository</name>
 			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/snapshots</url>
-			<uniqueVersion>false</uniqueVersion>
+			<!-- want to set this to false but M3 no longer respects this when deploying -->
+			<uniqueVersion>true</uniqueVersion>
 		</snapshotRepository>
 		<repository>
 			<id>ffsys-mvn</id>
 			<name>Freeform Systems Repository</name>
-			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>
+			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>			
 		</repository>
 	</distributionManagement>
 	<scm>

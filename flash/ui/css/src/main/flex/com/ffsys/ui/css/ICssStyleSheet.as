@@ -119,6 +119,45 @@ package com.ffsys.ui.css {
 		function clear():void;
 		
 		/**
+		* 	Gets an array of all the style names for a style aware target.
+		* 
+		* 	This method includes any identifier style and class level style names as well
+		* 	as any styles associated with the target using the <code>styles</code> property.
+		* 
+		* 	@param target The style aware target.
+		* 	@param custom Any custom styles you want to apply in addition to the styles
+		* 	retrieved from the target.
+		* 
+		* 	@return An array containing the style names that represents all the styles that should
+		* 	be applied to the target.
+		*/
+		function getStyleNameList( target:IStyleAware, ... custom ):Array;
+		
+		/**
+		* 	Gets a string representing all the styles that should be applied to a target.
+		* 
+		* 	@param target The style aware target.
+		* 	@param custom Any custom styles you want to apply in addition to the styles
+		* 	retrieved from the target.
+		* 
+		* 	@return A string representing the style names that would be applied to the style
+		* 	aware target.
+		*/
+		function getStyleNames( target:IStyleAware, ... custom ):String;
+		
+		/**
+		* 	Gets the style objects for all the valid styles that the target is aware of.
+		* 
+		* 	@param target The style aware target.
+		* 	@param custom Any custom styles you want to apply in addition to the styles
+		* 	retrieved from the target.
+		* 
+		* 	@return An array containing the styles that would be applied to the style
+		* 	aware target.
+		*/
+		function getStyleObjects( target:IStyleAware, ... custom ):Array;
+		
+		/**
 		*	Retrieves an array of all the style objects matched by the specified
 		*	style name.
 		*	
