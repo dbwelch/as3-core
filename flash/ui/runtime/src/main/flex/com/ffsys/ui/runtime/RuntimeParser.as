@@ -159,6 +159,8 @@ package com.ffsys.ui.runtime {
 				false );			
 			
 			//
+			
+			/*
 			classNodeNameMap.add(
 				RectangleGraphic,
 				"rect",
@@ -177,6 +179,7 @@ package com.ffsys.ui.runtime {
 				null,
 				false );				
 			//
+			*/
 			
 			//text
 			classNodeNameMap.add(

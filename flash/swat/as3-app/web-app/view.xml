@@ -69,6 +69,8 @@
 			
 			<hbox>
 				<spacing>10</spacing>
+				
+				<!--
 				<rect>
 					<preferred-width>25</preferred-width>
 					<preferred-height>25</preferred-height>
@@ -81,6 +83,8 @@
 						<color>0xff0000</color>
 					</stroke>
 				</rect>
+				-->
+				
 				<label styles="lbl">
 					<text>This is a graphic that was rendered from an xml declaration.</text>
 				</label>
