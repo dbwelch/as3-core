@@ -94,7 +94,7 @@ package com.ffsys.ui.css
 		{
 			var stylesheet:ICssStyleSheet = new CssStyleSheet();
 			stylesheet.parse( sample );
-			
+
 			var rectangle:Object = stylesheet.getStyle( "rectangle" );
 			var defaultStroke:Object = stylesheet.getStyle( "default-stroke" );
 			var defaultFill:Object = stylesheet.getStyle( "default-fill" );
@@ -125,7 +125,7 @@ package com.ffsys.ui.css
 			var rect1:IComponentGraphic = IComponentGraphic( stylesheet.getStyle( "rectangle" ) );
 			var rect2:IComponentGraphic = IComponentGraphic( stylesheet.getStyle( "rectangle" ) );
 			Assert.assertTrue( rect1 != rect2 );
-			//Assert.assertTrue( rect1.fill != rect2.fill );
+			Assert.assertTrue( rect1.fill != rect2.fill );
 		}
 	}
 }

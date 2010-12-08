@@ -97,6 +97,16 @@ package com.ffsys.ui.css {
 		*	of the style to retrieve.
 		*/
 		function getStyle( styleName:String ):Object;
+	
+		/**
+		* 	Attempts to retrieve an instance of a style that defines 
+		* 	an <code>instance-class</code> class reference.
+		* 	
+		* 	@param styleName The style name.
+		* 	@param style The style object that the instance will be instantiated
+		* 	from.
+		*/
+		function getInstance( styleName:String, style:Object ):Object;
 		
 		/**
 		*	Adds a new style with the specified name to the

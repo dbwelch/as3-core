@@ -223,15 +223,31 @@ package com.ffsys.ui.css {
 			return _dependencies;
 		}
 		
-		protected function getInstanceFromStyle( styleName:String, style:Object ):Object
+		/**
+		* 	@inheritDoc
+		*/
+		public function getInstance( styleName:String, style:Object ):Object
 		{
-			if( style && ( style.instanceClass is Class ) )
+			var clazz:Class = null;
+			
+			try
+			{
+				clazz = style.instanceClass;
+			}catch( e:Error )
+			{
+				//if the above fails we likely already have a complex object
+				//we are definitely not dealing with a dynamic object
+				//so return the existing complex object
+				return style;
+			}
+			
+			if( style && clazz )
 			{
 				var instance:Object = null;
 				
 				try
 				{
-					instance = new style.instanceClass();
+					instance = new clazz();
 				}catch( e:Error )
 				{
 					throw new Error( "Could not instantiate style instance with class '"
@@ -251,21 +267,42 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	@private
+		*/
+		private function resolve( style:Object ):void
+		{
+			var z:Object = null;
+			var o:Object = null;
+			for( z in style )
+			{
+				o = style[ z ];
+				if( o is ICssResolver )
+				{
+					style[ z ] = ICssResolver( o ).resolve( this, style );
+				}
+			}
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		override public function getStyle( styleName:String ):Object
 		{
+			//trace("******************************* CssStyleSheet::getStyle() styleName: ", styleName );
+			
 			var style:Object = super.getStyle( styleName );
 			
-			//workaround for class expressions not always resolving correctly
-			if( style && ( style.instanceClass is String ) )
-			{
-				style.instanceClass = parseExtension( style.instanceClass, styleName );
-			}
+			//trace("******************************* CssStyleSheet::getStyle() style: ", style );
 			
-			if( style && ( style.instanceClass is Class ) && _processed )
+			if( style )
 			{
-				return getInstanceFromStyle( styleName, style );
+				//resolve references
+				resolve( style );
+			}
+
+			if( style && ( style.instanceClass is Class ) )
+			{
+				return getInstance( styleName, style );
 			}
 			
 			//the default behaviour of returning an empty
@@ -701,113 +738,14 @@ package com.ffsys.ui.css {
 				
 				setStyle( styleName, style );
 			}
-			
-			//trace( "STARTING FINALIZATION" );
-			
-			finalize();
-
-			_processed = true;
 		}
 		
 		/**
-		* 	Finalizes css references.
+		* 	@private
 		*/
-		private function finalize():void
-		{
-			var z:String = null;
-			var value:*;
-			var style:Object = null;
-			var styleName:String = null;
-			var styles:Array = styleNames;
-			for( var i:int = 0;i < styles.length;i++ )
-			{
-				styleName = styles[ i ];
-				style = getStyle( styleName );
-				for( z in style )
-				{
-					value = style[ z ];
-					if( value is CssReference )
-					{
-						resolveCssReference( styleName, style, z, value, CssReference( value ) );
-					}
-				}
-			}
-		}
-		
-		/**
-		* 	Attempts to resolve a css reference.
-		*/
-		private function resolveCssReference(
-			styleName:String,
-			style:Object,
-			name:String,
-			value:String,
-			reference:CssReference ):void
-		{
-			var candidate:String = reference.value;
-			var found:Object;
-			
-			//trace("CssStyleSheet::finalize()", "RESOLVING CSS REFERENCE: ", reference );
-			
-			//we check the delimiter is beyond the first character
-			if( candidate.lastIndexOf( REFERENCE_PROPERTY_DELIMITER ) > 0 )
-			{
-				if( candidate.indexOf( REFERENCE_PROPERTY_DELIMITER ) == 0 )
-				{
-					//remove the first character if it matches the reference delimiter
-					candidate = candidate.substr( 1 );
-				}
-				
-				var parts:Array = candidate.split( REFERENCE_PROPERTY_DELIMITER );
-				if( !(parts.length == 2 ) )
-				{
-					throw new Error( "Found invalid css reference candidate '" + candidate + "'." );
-				}
-				
-				candidate = parts[ 0 ];
-				var property:String = parts[ 1 ];
-				var candidateStyle:Object = getStyle( candidate );
-				if( !candidateStyle )
-				{
-					throw new Error(
-						"Could not locate style reference with value '" + candidate + "'." );					
-				}
-				
-				found = candidateStyle[ property ];
-			}else{
-				
-				//trace("CssStyleSheet::finalize() SEARCHING FOR STYLE candidate: ", candidate );
-				
-				found = getStyle( candidate );
-				
-				if( found && found.instanceClass )
-				{
-					found = getInstanceFromStyle( styleName, found );
-				}
-				
-				
-				//trace("CssStyleSheet::finalize() SEARCHING FOR STYLE found: ", found );				
-			}
-			
-			if( found == null )
-			{
-				throw new Error(
-					"Could not locate style reference with value '" + candidate + "'." );
-			}
-			
-			//update the reference
-			style[ name ] = found;
-			
-			//trace("CssStyleSheet::finalize()", " setting css reference ", styleName, name, found );
-			
-			//update the stored style
-			setStyle( styleName, style );
-		}
-
 		private function parseBindingCandidate( value:String ):Object
 		{
 			var output:Object = value;
-			
 			if( this.bindings )
 			{
 				var substitutor:Substitutor =
@@ -815,7 +753,6 @@ package com.ffsys.ui.css {
 				substitutor.namespaces = this.bindings;
 				output = substitutor.substitute();
 			}
-			
 			return output;
 		}
 		
@@ -899,21 +836,10 @@ package com.ffsys.ui.css {
 					output = new MovieLoader( new URLRequest( value ) );
 					break;
 				case REF:
-					output = new CssReference( value );
+					output = new CssReference( styleName, styleProperty, value );
 					break;
 				case CONSTANT:
-					if( this.constants == null )
-					{
-						throw new Error( "Cannot handle a constant reference expression with no declared constants." );
-					}
-					
-					if( !this.constants.hasOwnProperty( value ) )
-					{
-						throw new Error( "The constant reference '" + value + "' has not been declared." );
-					}
-					
-					//extract the constant from the constants style declaration
-					output = this.constants[ value ];
+					output = new CssConstant( styleName, styleProperty, value );
 					break;
 				default:
 					throw new Error(
@@ -974,17 +900,206 @@ package com.ffsys.ui.css {
 	}
 }
 
+interface ICssResolver {
+	
+	import com.ffsys.ui.css.ICssStyleSheet;
+	
+	/**
+	* 	Attempts to resolve this reference in the context
+	* 	of the specified stylesheet.
+	* 
+	* 	@param stylesheet The stylesheet context for to resolve
+	* 	this reference in.
+	* 	@param style The style object.
+	* 
+	* 	@return The object this reference refers to or null if no corresponding
+	* 	reference value was found.
+	*/
+	function resolve( stylesheet:ICssStyleSheet, style:Object ):Object;
+}
+
+class CssConstant extends Object
+	implements ICssResolver {
+	
+	import com.ffsys.ui.css.CssStyleSheet;
+	import com.ffsys.ui.css.ICssStyleSheet;	
+	
+	/**
+	* 	The name of the style that holds this constant.
+	*/
+	public var styleName:String;
+	
+	/**
+	* 	The name of the style property that holdes this constant.
+	*/
+	public var name:String;
+	
+	/**
+	* 	The refrerence value extracted when this constant was parsed.
+	*/
+	public var value:String;
+	
+	/**
+	* 	Creates a <code>CssReference</code> instance.
+	* 
+	* 	@param styleName The name of the style.
+	* 	@param name The name of the style property.
+	* 	@param value The constant value.
+	*/
+	public function CssConstant(
+		styleName:String,
+		name:String,
+		value:String ):void
+	{
+		super();
+		this.styleName = styleName;
+		this.name = name;
+		this.value = value;		
+	}
+	
+	/**
+	* 	@inheritDoc
+	*/
+	public function resolve( stylesheet:ICssStyleSheet, style:Object ):Object
+	{
+		if( stylesheet != null )
+		{
+			if( stylesheet.constants == null )
+			{
+				throw new Error( "Cannot handle a constant reference expression with no declared constants." );
+			}
+		
+			if( !stylesheet.constants.hasOwnProperty( this.value ) )
+			{
+				throw new Error( "The constant reference '" + this.value + "' has not been declared." );
+			}
+		
+			//extract the constant from the constants style declaration
+			var value:Object = stylesheet.constants[ value ];
+			
+			if( value is ICssResolver && value != this )
+			{
+				value = ICssResolver( value ).resolve( stylesheet, style );
+			}
+			
+			return value;
+		}
+		return null;
+	}
+}
+
 /**
 *	Used to store a reference to another css style or style
 *	property. During the finalization phase these references
 *	are resolved. This type is used to indicate which properties
 *	need resolving.
 */
-class CssReference extends Object {
+class CssReference extends Object
+	implements ICssResolver {
+	
+	import com.ffsys.ui.css.CssStyleSheet;
+	import com.ffsys.ui.css.ICssStyleSheet;	
+	
+	/**
+	* 	The name of the style that holds this reference.
+	*/
+	public var styleName:String;
+	
+	/**
+	* 	The name of the style property that this reference applies to.
+	*/
+	public var name:String;
+	
+	/**
+	* 	The refrerence value extracted when this reference was parsed.
+	*/
 	public var value:String;
-	public function CssReference( value:String ):void
+	
+	/**
+	* 	Creates a <code>CssReference</code> instance.
+	* 
+	* 	@param styleName The name of the style.
+	* 	@param name The name of the style property.
+	* 	@param value The reference value.
+	*/
+	public function CssReference(
+		styleName:String,
+		name:String,
+		value:String ):void
 	{
 		super();
+		
+		//trace("CssStyleSheet::init()", styleName, name, value );
+		
+		this.styleName = styleName;
+		this.name = name;
 		this.value = value;
+	}
+	
+	/**
+	* 	@inheritDoc
+	*/
+	public function resolve( stylesheet:ICssStyleSheet, style:Object ):Object
+	{
+		if( stylesheet )
+		{
+			var candidate:String = this.value;
+			var found:Object;
+		
+			//trace("CssStyleSheet::finalize()", "RESOLVING CSS REFERENCE: ", reference );
+		
+			//we check the delimiter is beyond the first character
+			if( candidate.lastIndexOf( CssStyleSheet.REFERENCE_PROPERTY_DELIMITER ) > 0 )
+			{
+				if( candidate.indexOf( CssStyleSheet.REFERENCE_PROPERTY_DELIMITER ) == 0 )
+				{
+					//remove the first character if it matches the reference delimiter
+					candidate = candidate.substr( 1 );
+				}
+			
+				var parts:Array = candidate.split( CssStyleSheet.REFERENCE_PROPERTY_DELIMITER );
+				if( !(parts.length == 2 ) )
+				{
+					throw new Error( "Found invalid css reference candidate '" + candidate + "'." );
+				}
+			
+				candidate = parts[ 0 ];
+				var property:String = parts[ 1 ];
+				var candidateStyle:Object = stylesheet.getStyle( candidate );
+				if( !candidateStyle )
+				{
+					throw new Error(
+						"Could not locate style reference with value '" + candidate + "'." );					
+				}
+			
+				found = candidateStyle[ property ];
+			}else{
+				found = stylesheet.getStyle( candidate );
+
+				if( found is ICssResolver && found != this )
+				{
+					found = ICssResolver( found ).resolve( stylesheet, style );
+				}
+			
+				/*
+				if( found && found.instanceClass )
+				{
+					found = stylesheet.getInstance( styleName, found );
+				}
+				*/
+			
+				//trace("CssStyleSheet::finalize() SEARCHING FOR STYLE found: ", found );				
+			}
+		
+			if( found == null )
+			{
+				throw new Error(
+					"Could not locate style reference with value '" + candidate + "'." );
+			}
+			
+			return found;
+		}
+		
+		return style;
 	}
 }

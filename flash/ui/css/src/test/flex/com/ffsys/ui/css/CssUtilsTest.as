@@ -194,7 +194,7 @@ package com.ffsys.ui.css
 		}
 		
 		[Test(async)]
-		public function cssParseTest():void
+		public function cssLoadParseTest():void
 		{
 			//start the load process
 		}
