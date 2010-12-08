@@ -65,6 +65,12 @@ package com.ffsys.ui.css {
 		*/
 		public static const STYLE_DELIMITER:String = " ";
 		
+		/**
+		* 	The name of the style that defines constants for the
+		* 	stylesheet.
+		*/
+		public static const CONSTANTS_STYLE_NAME:String = "constants";
+		
 		private var _id:String;
 		private var _delimiter:String = "|";
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
@@ -72,6 +78,7 @@ package com.ffsys.ui.css {
 		private var _cache:Dictionary;
 		
 		private var _bindings:IBindingCollection;
+		private var _constants:Object;
 		
 		private static var extensions:Object = {
 			"class": Class,
@@ -79,7 +86,8 @@ package com.ffsys.ui.css {
 			"img": ImageLoader,
 			"sound": SoundLoader,
 			"swf": MovieLoader,
-			"ref": CssReference
+			"ref": CssReference,
+			"constant": Object
 		};
 		
 		private var _processed:Boolean = false;
@@ -119,6 +127,11 @@ package com.ffsys.ui.css {
 		public static const REF:String = "ref";
 		
 		/**
+		*	Represents a reference to a css constant declaration.
+		*/
+		public static const CONSTANT:String = "constant";		
+		
+		/**
 		*	The delimiter used in reference expressions to delimit
 		* 	a property from the style name.
 		*/
@@ -135,6 +148,14 @@ package com.ffsys.ui.css {
 		public function CssStyleSheet()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get constants():Object
+		{
+			return _constants;
 		}
 		
 		/**
@@ -613,6 +634,16 @@ package com.ffsys.ui.css {
 			
 			var styles:Array = styleNames;
 			
+			var constantsIndex:int = styles.indexOf( CONSTANTS_STYLE_NAME );
+
+			//we have a constants style defined so it should be moved to the beginning
+			//so that it is processed before any other styles
+			if( constantsIndex > -1 )
+			{
+				//remove the item and prepend to the beginning of the style names to process
+				styles.unshift.apply( styles, styles.splice( constantsIndex, 1 ) );
+			}
+			
 			//trace("********************** CssStyleSheet::postProcessCss(), " );
 
 			for( var i:int = 0;i < styles.length;i++ )
@@ -659,6 +690,12 @@ package com.ffsys.ui.css {
 					
 					style[ z ] = value;
 				}
+				
+				//keep a reference to the constants style object
+				if( styleName == CONSTANTS_STYLE_NAME )
+				{
+					_constants = style;
+				}				
 				
 				//trace("********************** CssStyleSheet::postProcessCss(), setting style: ", styleName, style, style.instanceClass );
 				
@@ -863,6 +900,20 @@ package com.ffsys.ui.css {
 					break;
 				case REF:
 					output = new CssReference( value );
+					break;
+				case CONSTANT:
+					if( this.constants == null )
+					{
+						throw new Error( "Cannot handle a constant reference expression with no declared constants." );
+					}
+					
+					if( !this.constants.hasOwnProperty( value ) )
+					{
+						throw new Error( "The constant reference '" + value + "' has not been declared." );
+					}
+					
+					//extract the constant from the constants style declaration
+					output = this.constants[ value ];
 					break;
 				default:
 					throw new Error(

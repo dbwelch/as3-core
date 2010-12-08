@@ -31,6 +31,14 @@ package com.ffsys.ui.css
 		
 		public var sample:String = 
 			(<![CDATA[
+			
+				constants {
+					color: #ff6600;
+					rectangle: class( com.ffsys.ui.graphics.RectangleGraphic );
+					fill: ref( default-fill );
+					stroke: ref( default-stroke );
+				}
+			
 				test-style {
 					property-string: a test string;
 					property-number: 10;
@@ -45,9 +53,9 @@ package com.ffsys.ui.css
 				}
 
 				rectangle {
-					instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
-					fill-style: default-fill;
-					stroke-style: default-stroke;
+					instance-class: constant( rectangle );
+					fill: constant( fill );
+					stroke: constant( stroke );
 					preferred-width: 20;
 					preferred-height: 20;
 				}
@@ -91,7 +99,13 @@ package com.ffsys.ui.css
 			var defaultStroke:Object = stylesheet.getStyle( "default-stroke" );
 			var defaultFill:Object = stylesheet.getStyle( "default-fill" );
 			var references:Object = stylesheet.getStyle( "references" );
-			trace("CssParseTest::cssParseTest()", "GOT RECT: ", references.rectangle );			
+			
+			var fill1:Object = stylesheet.getStyle( "default-fill" );
+			var fill2:Object = stylesheet.getStyle( "default-fill" );
+			//check that when retrieving the same style the return values correspond to different instances
+			Assert.assertTrue( fill1 != fill2 );
+			
+			Assert.assertNotNull( stylesheet.constants );
 			
 			Assert.assertNotNull( rectangle );
 			Assert.assertNotNull( defaultStroke );
@@ -107,6 +121,11 @@ package com.ffsys.ui.css
 			
 			//check the colour property references
 			Assert.assertEquals( defaultStroke.color, references.color );
+			
+			var rect1:IComponentGraphic = IComponentGraphic( stylesheet.getStyle( "rectangle" ) );
+			var rect2:IComponentGraphic = IComponentGraphic( stylesheet.getStyle( "rectangle" ) );
+			Assert.assertTrue( rect1 != rect2 );
+			//Assert.assertTrue( rect1.fill != rect2.fill );
 		}
 	}
 }

@@ -24,6 +24,11 @@ package com.ffsys.ui.css {
 				IEventDispatcher {
 					
 		/**
+		* 	Gets the style object that encapsulates constants for the stylesheet.
+		*/
+		function get constants():Object;
+					
+		/**
 		* 	The collection of bindings to expose when parsing css files.
 		*/
 		function get bindings():IBindingCollection;
