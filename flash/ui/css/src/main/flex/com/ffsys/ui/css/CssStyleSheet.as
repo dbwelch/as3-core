@@ -332,8 +332,7 @@ package com.ffsys.ui.css {
 			if( target )
 			{
 				custom.unshift( target );
-				var styles:Array = getStyleNameList.apply( this, custom );
-				
+				var styles:Array = getStyleObjects.apply( this, custom );
 				if( styles.length > 0 )
 				{
 					applyStyles( target, styles );
@@ -366,17 +365,13 @@ package com.ffsys.ui.css {
 					styleParts.unshift( className );
 				}
 				
-				var styleName:String = styleParts.join( STYLE_DELIMITER );
+				styles = styleParts;
 				
-				if( styleName && styleName.length > 0 )
+				if( custom.length > 0 )
 				{
-					//trace("********************* >>>>>>>>>>>>> CssStyleSheet::style(), ", styleParts.length );
-					
-					styles = getStyles( styleName );
-					
-					if( custom.length > 0 )
+					for( var i:int = 0;i < custom.length;i++ )
 					{
-						styles = styles.concat( custom );
+						styles.push( custom[ i ] );
 					}
 				}
 			}
@@ -447,7 +442,6 @@ package com.ffsys.ui.css {
 			{
 				var cumulative:Object = new Object();
 				var merger:PropertiesMerge = new PropertiesMerge();
-				
 				for( var i:int = 0;i < styles.length;i++ )
 				{
 					merger.merge( cumulative, styles[ i ], false );

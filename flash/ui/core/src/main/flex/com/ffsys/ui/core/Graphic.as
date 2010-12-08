@@ -111,30 +111,26 @@ package com.ffsys.ui.core
 		* 	graphic implementation.
 		* 
 		* 	Only one graphic may be assigned at any one time so the rule is that
-		* 	the last style declaration will be used.
+		* 	the first located style declaration will be used.
 		* 
 		* 	As the order of style application may vary this could result in unexpected
 		* 	behaviour. To prevent this, only ever apply a single graphic style declaration
 		* 	to this component.
-		* 
-		*	@inheritDoc
 		*/
 		override public function applyStyles():void
 		{
 			if( styleManager )
 			{
+				var styleNames:Array = styleManager.getStyleNameList( this );
 				var styles:Array = styleManager.getStyleObjects( this );
-				
-				trace("Graphic::applyStyles()", styles );
-				
 				var style:Object = null;
 				for( var i:int = 0;i < styles.length;i++ )
 				{
 					style = styles[ i ];
-					
 					if( style is IComponentGraphic )
 					{
-						trace("Graphic::applyStyles()", "FOUND COMPONENT GRAPHIC STYLE", style );
+						this.graphic = IComponentGraphic( style );
+						break;
 					}
 				}
 			}
