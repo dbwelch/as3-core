@@ -6,6 +6,7 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.ui.buttons.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.controls.*;
+	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.display.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.layout.*;
@@ -152,6 +153,13 @@ package com.ffsys.ui.runtime {
 				
 			//graphics
 			classNodeNameMap.add(
+				Graphic,
+				"graphic",
+				null,
+				false );			
+			
+			//
+			classNodeNameMap.add(
 				RectangleGraphic,
 				"rect",
 				null,
@@ -168,6 +176,7 @@ package com.ffsys.ui.runtime {
 				"stroke",
 				null,
 				false );				
+			//
 			
 			//text
 			classNodeNameMap.add(

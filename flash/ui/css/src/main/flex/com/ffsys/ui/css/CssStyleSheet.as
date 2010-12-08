@@ -396,10 +396,11 @@ package com.ffsys.ui.css {
 			{
 				var cumulative:Object = new Object();
 				var merger:PropertiesMerge = new PropertiesMerge();
+				
 				for( var i:int = 0;i < styles.length;i++ )
 				{
 					merger.merge( cumulative, styles[ i ], false );
-				}	
+				}
 				applyStyle( target, cumulative );
 			}
 		}
@@ -438,6 +439,27 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	@private
+		*/
+		public function assign( target:Object, source:Object, name:String, value:* ):Boolean
+		{
+			trace("CssStyleSheet::assign()", target, source, name, value );
+			
+			if( target is ICssProperty )
+			{
+				
+				var property:ICssProperty = ICssProperty( target );
+				if( property.shouldSetCssProperty( name, value ) )
+				{
+					//delegate css property assignment
+					property.setCssProperty( name, value );
+					return false;
+				}
+			}
+			return true;		
+		}
+		
+		/**
 		*	@private	
 		*/
 		private function applyStyle( target:Object, style:Object ):void
@@ -469,7 +491,7 @@ package com.ffsys.ui.css {
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( target, style );
+				merger.merge( target, style, true, null, assign );
 				
 				//we cannot guarantee the order that styles will
 				//be applied so we need to ensure that any width/height

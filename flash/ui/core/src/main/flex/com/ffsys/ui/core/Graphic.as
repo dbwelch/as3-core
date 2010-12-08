@@ -4,6 +4,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.core.InteractiveComponent;
 	import com.ffsys.ui.graphics.IComponentGraphic;
+	import com.ffsys.ui.css.ICssProperty;
 	
 	/**
 	*	A container for a graphic that adds the ability
@@ -17,7 +18,7 @@ package com.ffsys.ui.core
 	*	@since  20.06.2010
 	*/
 	public class Graphic extends InteractiveComponent
-		implements IGraphic
+		implements IGraphic, ICssProperty
 	{
 		private var _graphic:IComponentGraphic;
 		
@@ -34,6 +35,22 @@ package com.ffsys.ui.core
 			{
 				this.graphic = graphic;
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function shouldSetCssProperty( name:String, value:* ):Boolean
+		{
+			return ( value is IComponentGraphic );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setCssProperty( name:String, value:* ):void
+		{
+			this.graphic = IComponentGraphic( value );
 		}
 		
 		/**

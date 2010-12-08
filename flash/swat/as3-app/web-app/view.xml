@@ -8,6 +8,10 @@
 	<canvas>
 		<vbox>
 			
+			<graphic>
+				<styles>rectangle</styles>
+			</graphic>
+			
 			<list>
 				<id>my-list</id>
 				<preferred-width>100</preferred-width>
@@ -27,7 +31,7 @@
 			<label>
 				<text>Currently ({binding:title}) - ({binding:another}) running with locale path {paths:locale} as locale: {locale:country}</text>
 				<!-- <filters>drop-shadow</filters> -->
-				<blend-mode>invert</blend-mode>		
+				<blend-mode>invert</blend-mode>
 				<!-- <selectable>true</selectable> -->
 			</label>
 			

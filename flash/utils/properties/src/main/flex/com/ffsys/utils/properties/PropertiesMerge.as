@@ -43,7 +43,8 @@ package com.ffsys.utils.properties {
 			target:Object,
 			source:Object,
 			strict:Boolean = true,
-			ignore:Array = null ):void
+			ignore:Array = null,
+			callback:Function = null ):void
 		{
 			if( target && source )
 			{
@@ -70,6 +71,12 @@ package com.ffsys.utils.properties {
 					
 					if( assign )
 					{
+						//a final test on a callback if necessary
+						if( callback != null )
+						{
+							assign = callback.call( null, target, source, z, value );
+						}						
+						
 						target[ z ] = value;						
 					}
 				}

@@ -77,6 +77,7 @@ package com.ffsys.swat.as3.view {
 			vbox = new VerticalBox();
 			addChild( vbox );
 			
+			/*
 			var rect:RectangleGraphic = RectangleGraphic( styleManager.getStyle( "rectangle" ) );
 
 			var graphic:Graphic = new Graphic( rect );
@@ -85,6 +86,7 @@ package com.ffsys.swat.as3.view {
 			trace("SwatActionscriptContainer::createChildren()", rect, rect.fill, rect.stroke, rect.width, rect.height, rect.preferredWidth, rect.preferredHeight );			
 			
 			return;
+			*/
 			
 			var substyle:Object = styleManager.getStyle( "sub" );
 			trace("SwatActionscriptContainer::createChildren()", substyle.substitution );			
@@ -137,7 +139,6 @@ package com.ffsys.swat.as3.view {
 			list.dataBinding = listBinding;
 			vbox.addChild( list );
 
-			/*
 			_loader =
 				Runtime.load(
 					new URLRequest( "view.xml" ),
@@ -150,8 +151,6 @@ package com.ffsys.swat.as3.view {
 			
 			_document = _loader.document;
 			_loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
-			*/
-			
 		}
 		
 		private function runtimeLoaded( event:LoadEvent ):void
