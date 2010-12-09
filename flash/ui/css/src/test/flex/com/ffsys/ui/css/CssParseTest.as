@@ -79,6 +79,13 @@ package com.ffsys.ui.css
 					stroke: ref( default-stroke );
 					color: ref( default-stroke.color );
 				}
+				
+				singleton-fill {
+					instance-class: class( com.ffsys.ui.graphics.SolidFill );
+					singleton: true;
+					color: #ff0000;
+					alpha: 0.5;
+				}
 			]]>).toString();
 		
 		/**
@@ -126,6 +133,17 @@ package com.ffsys.ui.css
 			var rect2:IComponentGraphic = IComponentGraphic( stylesheet.getStyle( "rectangle" ) );
 			Assert.assertTrue( rect1 != rect2 );
 			Assert.assertTrue( rect1.fill != rect2.fill );
+			
+			var color:Number = 0xff1234;
+			var sFill1:SolidFill = SolidFill( stylesheet.getStyle( "singleton-fill" ) );
+			var sFill2:SolidFill = SolidFill( stylesheet.getStyle( "singleton-fill" ) );
+			
+			//ensure singletons are equal
+			Assert.assertEquals( sFill1, sFill2 );
+			
+			//assert setting properties are equal on singletons
+			sFill1.color = color;
+			Assert.assertEquals( sFill1.color, sFill2.color );
 		}
 	}
 }

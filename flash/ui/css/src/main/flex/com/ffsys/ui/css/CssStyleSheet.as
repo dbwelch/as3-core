@@ -17,10 +17,6 @@ package com.ffsys.ui.css {
 	
 	import com.ffsys.core.IStringIdentifier;
 	
-	import com.ffsys.ui.graphics.IComponentGraphic;	
-	import com.ffsys.ui.graphics.IFill;
-	import com.ffsys.ui.graphics.IStroke;	
-	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.*;
@@ -71,6 +67,12 @@ package com.ffsys.ui.css {
 		*/
 		public static const CONSTANTS_STYLE_NAME:String = "constants";
 		
+		/**
+		* 	The name of the style property that indicates a style
+		* 	should be treated as a singleton instance.
+		*/
+		public static const SINGLETON_PROPERTY:String = "singleton";
+		
 		private var _id:String;
 		private var _delimiter:String = "|";
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
@@ -79,6 +81,7 @@ package com.ffsys.ui.css {
 		
 		private var _bindings:IBindingCollection;
 		private var _constants:Object;
+		private var _singletons:Object = new Object();
 		
 		private static var extensions:Object = {
 			"class": Class,
@@ -89,8 +92,6 @@ package com.ffsys.ui.css {
 			"ref": CssReference,
 			"constant": Object
 		};
-		
-		private var _processed:Boolean = false;
 		
 		/**
 		*	Represents a css extension that references a class.
@@ -129,7 +130,7 @@ package com.ffsys.ui.css {
 		/**
 		*	Represents a reference to a css constant declaration.
 		*/
-		public static const CONSTANT:String = "constant";		
+		public static const CONSTANT:String = "constant";
 		
 		/**
 		*	The delimiter used in reference expressions to delimit
@@ -292,7 +293,31 @@ package com.ffsys.ui.css {
 			
 			var style:Object = super.getStyle( styleName );
 			
+			var isInstance:Boolean = ( style && ( style.instanceClass is Class ) );
+			
 			//trace("******************************* CssStyleSheet::getStyle() style: ", style );
+			
+			if( style && style.hasOwnProperty( SINGLETON_PROPERTY ) )
+			{
+				if( style[ SINGLETON_PROPERTY ] === true )
+				{
+					if( !isInstance )
+					{
+						throw new Error( "Cannot access a singleton with no instance class." );
+					}
+					
+					var exists:Boolean = _singletons.hasOwnProperty( styleName )
+						&& _singletons[ styleName ] != null;
+					
+					//create the singleton for the first time
+					if( !exists )
+					{
+						_singletons[ styleName ] = getInstance( styleName, style );
+					}
+					
+					return _singletons[ styleName ];
+				}
+			}
 			
 			if( style )
 			{
@@ -668,9 +693,7 @@ package com.ffsys.ui.css {
 			var value:*;
 			var extension:Object = null;
 			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
-			
 			var styles:Array = styleNames;
-			
 			var constantsIndex:int = styles.indexOf( CONSTANTS_STYLE_NAME );
 
 			//we have a constants style defined so it should be moved to the beginning
@@ -732,7 +755,7 @@ package com.ffsys.ui.css {
 				if( styleName == CONSTANTS_STYLE_NAME )
 				{
 					_constants = style;
-				}				
+				}
 				
 				//trace("********************** CssStyleSheet::postProcessCss(), setting style: ", styleName, style, style.instanceClass );
 				
