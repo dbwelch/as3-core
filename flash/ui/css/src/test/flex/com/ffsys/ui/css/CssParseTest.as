@@ -111,9 +111,14 @@ package com.ffsys.ui.css
 				}
 				
 				tween {
-					instance-class: class( com.ffsys.ui.css.CssStyleAware );
-					method: method( doSomethingSpecial );
-				}				
+					instance-class: class( com.ffsys.effects.tween.Tween );
+					parameters: ref( alpha-tween );
+				}
+				
+				alpha-tween {
+					instance-class: class( com.ffsys.effects.tween.TweenParameters );
+					properties: alpha|x;
+				}
 				
 			]]>).toString();
 		
@@ -189,7 +194,11 @@ package com.ffsys.ui.css
 			Assert.assertNotNull( instanceMethod );
 			Assert.assertTrue( instanceMethod is Function );
 			
-			//trace("CssParseTest::cssParseTest() INSTANCE METHOD: ", instanceMethod );
+			var tween:ITween = stylesheet.getStyle( "tween" ) as ITween;
+			
+			Assert.assertNotNull( tween );
+			
+			trace("CssParseTest::cssParseTest() INSTANCE METHOD: ", tween );
 		}
 	}
 }

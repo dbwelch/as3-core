@@ -17,9 +17,9 @@ package com.ffsys.effects.tween {
 	public class TweenParameters extends AbstractTween {
 		
 		public function TweenParameters(
-			properties:Object,
-			easing:Object,
-			endValues:Array,
+			properties:Object = null,
+			easing:Object = null,
+			endValues:Array = null,
 			duration:Number = 1,
 			delay:Number = 0,
 			startValues:Array = null,
