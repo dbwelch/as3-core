@@ -17,6 +17,8 @@ package com.ffsys.ui.css
 	import com.ffsys.io.loaders.types.*;
 	import com.ffsys.io.loaders.resources.*;
 	
+	import com.ffsys.effects.easing.*;
+	
 	import flash.utils.getQualifiedClassName;
 	
 	/**
@@ -27,7 +29,8 @@ package com.ffsys.ui.css
 		
 		private var _rectangle:RectangleGraphic;
 		private var _stroke:Stroke;
-		private var _solidFill:SolidFill;		
+		private var _solidFill:SolidFill;
+		private var _quad:Quad;
 		
 		public var sample:String = 
 			(<![CDATA[
@@ -85,6 +88,10 @@ package com.ffsys.ui.css
 					singleton: true;
 					color: #ff0000;
 					alpha: 0.5;
+				}
+				
+				quad {
+					static-class: class( com.ffsys.effects.easing.Quad );
 				}
 			]]>).toString();
 		
@@ -144,6 +151,14 @@ package com.ffsys.ui.css
 			//assert setting properties are equal on singletons
 			sFill1.color = color;
 			Assert.assertEquals( sFill1.color, sFill2.color );
+			
+			var easing:Class = Class( stylesheet.getStyle( "quad" ) );
+			
+			//assertion on static class
+			Assert.assertNotNull( easing );
+			Assert.assertEquals( Quad, easing );
+			
+			//easeIn
 		}
 	}
 }

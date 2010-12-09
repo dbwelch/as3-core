@@ -73,6 +73,18 @@ package com.ffsys.ui.css {
 		*/
 		public static const SINGLETON_PROPERTY:String = "singleton";
 		
+		/**
+		* 	The name of the property used to determine whether a style
+		* 	represents a custom class to instantiate when retrieving the style.
+		*/
+		public static const INSTANCE_CLASS_PROPERTY:String = "instanceClass";
+		
+		/**
+		* 	The name of the property used to determine whether a style
+		* 	represents a static class reference.
+		*/
+		public static const STATIC_CLASS_PROPERTY:String = "staticClass";		
+		
 		private var _id:String;
 		private var _delimiter:String = "|";
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
@@ -131,6 +143,11 @@ package com.ffsys.ui.css {
 		*	Represents a reference to a css constant declaration.
 		*/
 		public static const CONSTANT:String = "constant";
+		
+		/**
+		*	Represents a reference to a method definition.
+		*/
+		public static const METHOD:String = "method";
 		
 		/**
 		*	The delimiter used in reference expressions to delimit
@@ -293,7 +310,8 @@ package com.ffsys.ui.css {
 			
 			var style:Object = super.getStyle( styleName );
 			
-			var isInstance:Boolean = ( style && ( style.instanceClass is Class ) );
+			var isInstance:Boolean = ( style && ( style[ INSTANCE_CLASS_PROPERTY ] is Class ) );
+			var isStatic:Boolean = ( style && ( style[ STATIC_CLASS_PROPERTY ] is Class ) );
 			
 			//trace("******************************* CssStyleSheet::getStyle() style: ", style );
 			
@@ -324,8 +342,17 @@ package com.ffsys.ui.css {
 				//resolve references
 				resolve( style );
 			}
-
-			if( style && ( style.instanceClass is Class ) )
+			
+			if( isStatic )
+			{
+				trace("CssStyleSheet::getStyle()", "GETTING STATIC CLASS REFERENCE" );
+				
+				var clazz:Class = style[ STATIC_CLASS_PROPERTY ];
+				
+				//TODO: check setting static properties using a properties merge
+				
+				return clazz;
+			}else if( style && ( style.instanceClass is Class ) )
 			{
 				return getInstance( styleName, style );
 			}
@@ -575,7 +602,6 @@ package com.ffsys.ui.css {
 			
 			if( target is ICssProperty )
 			{
-				
 				var property:ICssProperty = ICssProperty( target );
 				if( property.shouldSetCssProperty( name, value ) )
 				{
@@ -584,7 +610,7 @@ package com.ffsys.ui.css {
 					return false;
 				}
 			}
-			return true;		
+			return true;
 		}
 		
 		/**
