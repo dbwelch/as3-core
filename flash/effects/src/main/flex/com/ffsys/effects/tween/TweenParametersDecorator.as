@@ -4,11 +4,6 @@ package com.ffsys.effects.tween {
 	
 	import com.ffsys.effects.IEffect;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Decorates common methods for accessing the parameters
 	*	associated with a tween.
@@ -41,7 +36,8 @@ package com.ffsys.effects.tween {
 		
 		private var _tween:ITween;
 		
-		public function TweenParametersDecorator( proxy:ITweenParameters = null )
+		public function TweenParametersDecorator(	
+			proxy:ITweenParameters = null )
 		{
 			super();
 			this.proxy = proxy;
@@ -492,66 +488,6 @@ package com.ffsys.effects.tween {
 					new TweenUpdateEvent( dispatcher )
 				);
 			}
-		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		public function getCommonStringOutputComposites():Array
-		{
-			var output:Array = new Array();
-			return output;
-		}
-
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-			
-			//add a detail Object if necessary
-			//output.detail = new Object();
-			
-			//pass in the default methods, properties and composites
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		public function toString():String
-		{
-			return getObjectString( true );
-		}
-		/* END OBJECT_INSPECTOR REMOVAL */		
+		}	
 	}
-	
 }

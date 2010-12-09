@@ -2,10 +2,6 @@ package com.ffsys.effects {
 	
 	import com.ffsys.effects.tween.TweenGroup;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Abstract super class for all effects.
 	*
@@ -18,27 +14,20 @@ package com.ffsys.effects {
 	public class AbstractEffect extends TweenGroup
 		implements IEffect {
 		
+		/**
+		* 	Creates an <code>AbstractEffect</code> instance.
+		*/
 		public function AbstractEffect()
 		{
 			super();
 		}
 		
-		/*
-		*	IEffect implementation.
+		/**
+		*	@inheritDoc
 		*/
 		public function composite( effect:IEffect ):void
 		{
 			addTween( effect );
 		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		override public function toString():String
-		{	
-			var output:ObjectInspector = new ObjectInspector( this );
-			return output.getComplexInspection();
-		}
-		/* END OBJECT_INSPECTOR REMOVAL */
-		
 	}
-	
 }

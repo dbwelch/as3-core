@@ -21,16 +21,11 @@ package com.ffsys.effects.tween {
 	import com.ffsys.effects.events.TweenUpdateEvent;
 	import com.ffsys.effects.events.TweenFinishEvent;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.IObjectInspector;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	public class Tween extends AbstractTween
 		implements 	ITweenTrigger,
 					ITweenDelta,
 					ITweenValueFormatter,
-					ITweenUpdater,
-					IObjectInspector {
+					ITweenUpdater {
 		
 		/**
 		*	The target Object whose properties we are tweening.
@@ -71,7 +66,7 @@ package com.ffsys.effects.tween {
 			
 			//update our parameters decorator to point to the TweenParameters
 			//argument
-			//_parametersDecorator = parameters;
+			//_parameters = parameters;
 			
 			_currentLoop = 0;
 		
@@ -743,7 +738,7 @@ package com.ffsys.effects.tween {
 		{
 			this.startValues = ( startValues == null ) ? initStartValues() : startValues;
 			if( deltaTrigger ) setDeltas();
-			if( updateOriginals ) _parametersDecorator.originalStartValues = startValues;
+			if( updateOriginals ) _parameters.originalStartValues = startValues;
 		}		
 		
 		public function setEndValues(
@@ -753,7 +748,7 @@ package com.ffsys.effects.tween {
 		{
 			this.endValues = endValues;
 			if( deltaTrigger ) setDeltas();
-			if( updateOriginals ) _parametersDecorator.originalEndValues = endValues;
+			if( updateOriginals ) _parameters.originalEndValues = endValues;
 		}
 		
 		/*
@@ -795,15 +790,5 @@ package com.ffsys.effects.tween {
 			
 			return output;
 		}
-
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		override public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = super.getCommonStringOutputProperties();
-			output.target = this.target;
-			return output;
-		}						
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
-	
 }

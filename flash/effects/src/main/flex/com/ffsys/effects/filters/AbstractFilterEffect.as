@@ -85,9 +85,9 @@ package com.ffsys.effects.filters {
 			tween.updater = this;
 			
 			//assign our filter
-			var filters:Array = !( _displayObject.filters is Array ) ? [] : _displayObject.filters;
+			var filters:Array = !( this.displayObject.filters is Array ) ? [] : this.displayObject.filters;
 			filters.push( _filter );
-			_displayObject.filters = filters;
+			this.displayObject.filters = filters;
 			
 			//store a copy of the filters assigned to the display object
 			_filters = filters;
@@ -101,7 +101,7 @@ package com.ffsys.effects.filters {
 		protected function applyFilter():void
 		{
 			//update the display object filter
-			_displayObject.filters = _filters;
+			this.displayObject.filters = _filters;
 		}
 	}
 }

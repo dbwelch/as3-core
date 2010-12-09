@@ -2,10 +2,6 @@ package com.ffsys.effects.tween {
 
 	import flash.events.IEventDispatcher;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.IObjectInspector;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	public interface ITween
 		extends IEventDispatcher,
 				IDefaultEasing,
@@ -16,8 +12,7 @@ package com.ffsys.effects.tween {
 				ITweenTarget,
 				ITweenReverse,
 				ITweenSpeed,
-				ITweenClone,
-				IObjectInspector
+				ITweenClone
 	{
 		function get parameters():ITweenParameters;
 		function set parameters( value:ITweenParameters ):void;

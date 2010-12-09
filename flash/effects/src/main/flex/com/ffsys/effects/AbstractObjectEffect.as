@@ -20,7 +20,6 @@ package com.ffsys.effects {
 	public class AbstractObjectEffect extends AbstractEffect {
 		
 		protected var _properties:Array;
-		
 		protected var _tween:ITween;
 		
 		public function AbstractObjectEffect( properties:Array )
@@ -101,9 +100,9 @@ package com.ffsys.effects {
 			
 			addTween( tween );
 			
-			//TweenParametersDecorator( _parametersDecorator ).proxy = tween.parameters;
+			//TweenParametersDecorator( _parameters ).proxy = tween.parameters;
 			
-			_parametersDecorator = tween.parameters;
+			_parameters = tween.parameters;
 			
 			_tween = tween;
 			

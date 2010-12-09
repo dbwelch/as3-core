@@ -840,6 +840,7 @@ package com.ffsys.ui.css {
 		
 		private function setStyleProperty( style:Object, name:String, value:Object ):void
 		{
+			trace("************************* CssStyleSheet::setStyleProperty()", name, value);
 			style[ name ] = value;
 		}
 		
@@ -1089,6 +1090,8 @@ class CssArray extends CssResolver
 	import com.ffsys.ui.css.CssStyleSheet;
 	import com.ffsys.ui.css.ICssStyleSheet;	
 	
+	import flash.utils.getQualifiedClassName;
+	
 	/**
 	* 	The name of the style that holds this method.
 	*/
@@ -1136,6 +1139,9 @@ class CssArray extends CssResolver
 			var parts:Array = this.value.split( "," );
 			var part:String = null;
 			var parsed:Object = null;
+			
+			trace("CssArray::resolve()", this.value, parts );
+			
 			for( var i:int = 0;i < parts.length;i++ )
 			{
 				part = String( parts[ i ] );
@@ -1145,6 +1151,8 @@ class CssArray extends CssResolver
 	
 				//overwrite the array entry with the parsed value
 				parsed = stylesheet.parseElement( part, styleName, this.name );
+				
+				trace("CssStyleSheet::resolve() RESOLVED: ", parsed, getQualifiedClassName( parsed ) );
 				
 				if( parsed is ICssResolver )
 				{

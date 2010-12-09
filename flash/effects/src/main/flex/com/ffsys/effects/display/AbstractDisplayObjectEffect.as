@@ -4,11 +4,6 @@ package com.ffsys.effects.display {
 	
 	import com.ffsys.effects.AbstractObjectEffect;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Abstract base class for DisplayObject effects.
 	*
@@ -20,34 +15,29 @@ package com.ffsys.effects.display {
 	*/
 	public class AbstractDisplayObjectEffect extends AbstractObjectEffect {
 	
-		protected var _displayObject:DisplayObject;
+		private var _displayObject:DisplayObject;
 		
-		public function AbstractDisplayObjectEffect( displayObject:DisplayObject, properties:Array )
+		/**
+		* 	Creates an <code>AbstractDisplayObjectEffect</code> instance.
+		*/
+		public function AbstractDisplayObjectEffect(
+			displayObject:DisplayObject = null, properties:Array = null )
 		{
 			super( properties );
 			this.displayObject = displayObject;
 		}
 		
+		/**
+		* 	The display object this effect is operating on.
+		*/
+		public function get displayObject():DisplayObject
+		{
+			return _displayObject;
+		}		
+		
 		public function set displayObject( val:DisplayObject ):void
 		{
 			_displayObject = val;
 		}
-		
-		public function get displayObject():DisplayObject
-		{
-			return _displayObject;
-		}
-		
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		override public function toString():String
-		{
-			var options:ObjectInspectorOptions = new ObjectInspectorOptions();
-			var output:ObjectInspector = new ObjectInspector( this, options );
-			output.composites = [ displayObject ];
-			return output.getComplexInspection();
-		}
-		/* END OBJECT_INSPECTOR REMOVAL */
-		
 	}
-	
 }

@@ -20,11 +20,6 @@ package com.ffsys.effects.tween {
 	import com.ffsys.effects.events.TweenCollectionCompleteEvent;
 	import com.ffsys.effects.events.TweenCollectionFinishEvent;
 	
-	/* BEGIN OBJECT_INSPECTOR REMOVAL */
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	/* END OBJECT_INSPECTOR REMOVAL */
-	
 	/**
 	*	Represents an Abstract super class for all
 	*	ITweenCollection instances.
@@ -40,10 +35,10 @@ package com.ffsys.effects.tween {
 		
 		protected var _parentDecorator:TweenParentDecorator;
 		protected var _statusDecorator:TweenStatusDecorator;
-		protected var _parametersDecorator:ITweenParameters;
+		protected var _parameters:ITweenParameters;
 		
 		protected var _valueFormatter:ITweenValueFormatter;
-		protected var _updater:ITweenUpdater;		
+		protected var _updater:ITweenUpdater;
 		
 		public function AbstractTween()
 		{
@@ -51,8 +46,9 @@ package com.ffsys.effects.tween {
 			
 			_parentDecorator = new TweenParentDecorator();
 			_statusDecorator = new TweenStatusDecorator();
-			_parametersDecorator = new TweenParametersDecorator();
-			TweenParametersDecorator( _parametersDecorator ).tween = this;
+			
+			_parameters = new TweenParameters();
+			TweenParametersDecorator( _parameters ).tween = this;
 		}
 		
 		/**
@@ -86,17 +82,17 @@ package com.ffsys.effects.tween {
 		
 		public function get parameters():ITweenParameters
 		{
-			return _parametersDecorator;
+			return _parameters;
 		}
 		
 		public function set parameters( value:ITweenParameters ):void
 		{
-			_parametersDecorator = parameters;
+			_parameters = parameters;
 			
 			//TODO: remove this in a refactor pass
-			if( _parametersDecorator && _parametersDecorator is TweenParameters )
+			if( _parameters && _parameters is TweenParameters )
 			{
-				TweenParameters( _parametersDecorator ).tween = this;
+				TweenParameters( _parameters ).tween = this;
 			}
 		}
 		
@@ -198,127 +194,127 @@ package com.ffsys.effects.tween {
 		*/
 		public function get values():Array
 		{
-			return _parametersDecorator.values;
+			return _parameters.values;
 		}
 						
 		public function set properties( val:Array ):void
 		{
-			_parametersDecorator.properties = val;
+			_parameters.properties = val;
 		}
 		
 		public function get properties():Array
 		{
-			return _parametersDecorator.properties;
+			return _parameters.properties;
 		}
 		
 		public function set easing( val:Array ):void
 		{
-			_parametersDecorator.easing = val;
+			_parameters.easing = val;
 		}
 		
 		public function get easing():Array
 		{
-			return _parametersDecorator.easing;
+			return _parameters.easing;
 		}
 		
 		public function set endValues( val:Array ):void
 		{
-			_parametersDecorator.endValues = val;
+			_parameters.endValues = val;
 		}		
 		
 		public function get endValues():Array
 		{
-			return _parametersDecorator.endValues;
+			return _parameters.endValues;
 		}					
 		
 		public function set duration( val:Number ):void
 		{
-			_parametersDecorator.duration = val;
+			_parameters.duration = val;
 		}
 		
 		public function get duration():Number
 		{
-			return _parametersDecorator.duration;
+			return _parameters.duration;
 		}
 		
 		public function set delay( val:Number ):void
 		{
-			_parametersDecorator.delay = val;
+			_parameters.delay = val;
 		}
 		
 		public function get delay():Number
 		{
-			return _parametersDecorator.delay;
+			return _parameters.delay;
 		}	
 		
 		public function set startValues( val:Array ):void
 		{
-			_parametersDecorator.startValues = val;
+			_parameters.startValues = val;
 		}
 		
 		public function get startValues():Array
 		{
-			return _parametersDecorator.startValues;
+			return _parameters.startValues;
 		}		
 		
 		public function set loops( val:int ):void
 		{
-			_parametersDecorator.loops = val;
+			_parameters.loops = val;
 		}
 		
 		public function get loops():int
 		{
-			return _parametersDecorator.loops;
+			return _parameters.loops;
 		}
 		
 		public function set originalStartValues( val:Array ):void
 		{
-			_parametersDecorator.originalStartValues = val;
+			_parameters.originalStartValues = val;
 		}
 		
 		public function get originalStartValues():Array
 		{
-			return _parametersDecorator.originalStartValues;
+			return _parameters.originalStartValues;
 		}
 		
 		public function set originalEndValues( val:Array ):void
 		{
-			_parametersDecorator.originalEndValues = val;
+			_parameters.originalEndValues = val;
 		}
 		
 		public function get originalEndValues():Array
 		{
-			return _parametersDecorator.originalEndValues;
+			return _parameters.originalEndValues;
 		}
 		
 		public function getParameters():Object
 		{
-			return _parametersDecorator.getParameters();
+			return _parameters.getParameters();
 		}
 		
 		public function applyValues( values:Array, target:Object = null ):void
 		{
-			_parametersDecorator.applyValues( values, target );
+			_parameters.applyValues( values, target );
 		}
 		
 		public function applyOriginalStartValues():void
 		{
-			_parametersDecorator.applyOriginalStartValues();
+			_parameters.applyOriginalStartValues();
 		}
 		
 		public function applyOriginalEndValues():void
 		{
-			_parametersDecorator.applyOriginalEndValues();
+			_parameters.applyOriginalEndValues();
 		}		
 		
 		public function applyStartValues():void
 		{
-			_parametersDecorator.applyStartValues();
+			_parameters.applyStartValues();
 		}
 		
 		public function applyEndValues():void
 		{
-			_parametersDecorator.applyEndValues();
+			_parameters.applyEndValues();
 		}
 		
 		/*
@@ -326,22 +322,22 @@ package com.ffsys.effects.tween {
 		*/
 		public function set refreshRate( val:int ):void
 		{
-			_parametersDecorator.refreshRate = val;			
+			_parameters.refreshRate = val;			
 		}
 		
 		public function get refreshRate():int
 		{
-			return _parametersDecorator.refreshRate;
+			return _parameters.refreshRate;
 		}
 		
 		public function set frameRate( val:int ):void
 		{
-			_parametersDecorator.frameRate = val;
+			_parameters.frameRate = val;
 		}
 		
 		public function get frameRate():int
 		{
-			return _parametersDecorator.frameRate;
+			return _parameters.frameRate;
 		}		
 		
 		/*
@@ -424,66 +420,5 @@ package com.ffsys.effects.tween {
 			setComplete( false );
 			setPaused( false );	
 		}
-	
-		/* BEGIN OBJECT_INSPECTOR REMOVAL */
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = _parametersDecorator.getParameters();
-			return output;
-		}
-
-		public function getCommonStringOutputComposites():Array
-		{
-			var output:Array = new Array();
-			output.push( parameters );
-			return output;
-		}
-
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-			
-			//add a detail Object if necessary
-			//output.detail = new Object();
-			
-			//pass in the default methods, properties and composites
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
-		override public function toString():String
-		{
-			return getObjectString();
-		}	
-		/* END OBJECT_INSPECTOR REMOVAL */
 	}
-	
 }
