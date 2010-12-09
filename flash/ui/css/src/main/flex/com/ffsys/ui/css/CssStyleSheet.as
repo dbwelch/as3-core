@@ -283,8 +283,7 @@ package com.ffsys.ui.css {
 				{
 					if( isMethodReference( style ) )
 					{
-						var method:Function = getMethod( style, clazz );
-						return method as Function;
+						return getMethod( style, instance ) as Function;
 					}
 					
 					var merger:PropertiesMerge = new PropertiesMerge();
@@ -370,8 +369,7 @@ package com.ffsys.ui.css {
 				
 					if( isMethodReference( style ) )
 					{
-						var method:Function = getMethod( style, clazz );
-						return method as Function;
+						return getMethod( style, clazz ) as Function;
 					}
 				
 					return clazz;

@@ -29,7 +29,7 @@ package com.ffsys.ui.css
 		* 
 		* 	@param manager The style manager for the application.
 		*/
-		public function CssStyleAware( manager:IStyleManager )
+		public function CssStyleAware( manager:IStyleManager = null )
 		{
 			super();
 			_styleManager = manager;
@@ -59,6 +59,14 @@ package com.ffsys.ui.css
 		public function set styles( value:String ):void
 		{
 			_styles = value;
+		}
+		
+		/**
+		* 	A method declaration for testing references to instance methods.
+		*/
+		public function doSomethingSpecial():void
+		{
+			//
 		}
 		
 		/**

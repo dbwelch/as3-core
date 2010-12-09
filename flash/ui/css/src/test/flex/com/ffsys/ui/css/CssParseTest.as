@@ -31,6 +31,7 @@ package com.ffsys.ui.css
 		private var _stroke:Stroke;
 		private var _solidFill:SolidFill;
 		private var _quad:Quad;
+		private var _styleAware:CssStyleAware;
 		
 		public var sample:String = 
 			(<![CDATA[
@@ -97,6 +98,11 @@ package com.ffsys.ui.css
 				quad-ease-in {
 					static-class: class( com.ffsys.effects.easing.Quad );
 					method: method( easeIn );
+				}
+				
+				style-aware {
+					instance-class: class( com.ffsys.ui.css.CssStyleAware );
+					method: method( doSomethingSpecial );
 				}
 			]]>).toString();
 		
@@ -167,6 +173,12 @@ package com.ffsys.ui.css
 			var easeIn:Object = stylesheet.getStyle( "quad-ease-in" );
 			Assert.assertNotNull( easeIn );
 			Assert.assertTrue( easeIn is Function );
+			
+			var instanceMethod:Object = stylesheet.getStyle( "style-aware" );
+			Assert.assertNotNull( instanceMethod );
+			Assert.assertTrue( instanceMethod is Function );
+			
+			//trace("CssParseTest::cssParseTest() INSTANCE METHOD: ", instanceMethod );
 		}
 	}
 }
