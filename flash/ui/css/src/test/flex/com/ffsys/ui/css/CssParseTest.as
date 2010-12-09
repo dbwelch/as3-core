@@ -93,6 +93,11 @@ package com.ffsys.ui.css
 				quad {
 					static-class: class( com.ffsys.effects.easing.Quad );
 				}
+				
+				quad-ease-in {
+					static-class: class( com.ffsys.effects.easing.Quad );
+					method: method( easeIn );
+				}
 			]]>).toString();
 		
 		/**
@@ -159,6 +164,9 @@ package com.ffsys.ui.css
 			Assert.assertEquals( Quad, easing );
 			
 			//easeIn
+			var easeIn:Object = stylesheet.getStyle( "quad-ease-in" );
+			Assert.assertNotNull( easeIn );
+			Assert.assertTrue( easeIn is Function );
 		}
 	}
 }

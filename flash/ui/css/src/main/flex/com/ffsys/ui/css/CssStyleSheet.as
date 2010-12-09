@@ -83,7 +83,13 @@ package com.ffsys.ui.css {
 		* 	The name of the property used to determine whether a style
 		* 	represents a static class reference.
 		*/
-		public static const STATIC_CLASS_PROPERTY:String = "staticClass";		
+		public static const STATIC_CLASS_PROPERTY:String = "staticClass";
+		
+		/**
+		* 	The name of the property used to determine that this style
+		* 	is a function reference.
+		*/
+		public static const METHOD_PROPERTY:String = "method";				
 		
 		private var _id:String;
 		private var _delimiter:String = "|";
@@ -102,7 +108,8 @@ package com.ffsys.ui.css {
 			"sound": SoundLoader,
 			"swf": MovieLoader,
 			"ref": CssReference,
-			"constant": Object
+			"constant": Object,
+			"method": Function
 		};
 		
 		/**
@@ -274,6 +281,12 @@ package com.ffsys.ui.css {
 				
 				if( instance )
 				{
+					if( isMethodReference( style ) )
+					{
+						var method:Function = getMethod( style, clazz );
+						return method as Function;
+					}
+					
 					var merger:PropertiesMerge = new PropertiesMerge();
 					merger.merge( instance, style, true, [ CssReference ] );
 				}
@@ -291,12 +304,14 @@ package com.ffsys.ui.css {
 		{
 			var z:Object = null;
 			var o:Object = null;
+			var resolver:ICssResolver = null;
 			for( z in style )
 			{
 				o = style[ z ];
-				if( o is ICssResolver )
+				if( o is ICssResolver && !( o is CssMethod ) )
 				{
-					style[ z ] = ICssResolver( o ).resolve( this, style );
+					resolver = ICssResolver( o );
+					style[ z ] = resolver.resolve( this, style );
 				}
 			}
 		}
@@ -308,63 +323,93 @@ package com.ffsys.ui.css {
 		{
 			//trace("******************************* CssStyleSheet::getStyle() styleName: ", styleName );
 			
-			var style:Object = super.getStyle( styleName );
+			var style:Object = null;
 			
-			var isInstance:Boolean = ( style && ( style[ INSTANCE_CLASS_PROPERTY ] is Class ) );
-			var isStatic:Boolean = ( style && ( style[ STATIC_CLASS_PROPERTY ] is Class ) );
-			
-			//trace("******************************* CssStyleSheet::getStyle() style: ", style );
-			
-			if( style && style.hasOwnProperty( SINGLETON_PROPERTY ) )
+			if( styleName != null )
 			{
-				if( style[ SINGLETON_PROPERTY ] === true )
+				style = super.getStyle( styleName );
+			
+				if( style )
 				{
-					if( !isInstance )
-					{
-						throw new Error( "Cannot access a singleton with no instance class." );
-					}
-					
-					var exists:Boolean = _singletons.hasOwnProperty( styleName )
-						&& _singletons[ styleName ] != null;
-					
-					//create the singleton for the first time
-					if( !exists )
-					{
-						_singletons[ styleName ] = getInstance( styleName, style );
-					}
-					
-					return _singletons[ styleName ];
+					//resolve references
+					resolve( style );
 				}
+			
+				var isInstance:Boolean = ( style && ( style[ INSTANCE_CLASS_PROPERTY ] is Class ) );
+				var isStatic:Boolean = ( style && ( style[ STATIC_CLASS_PROPERTY ] is Class ) );
+			
+				//trace("******************************* CssStyleSheet::getStyle() style: ", style );
+			
+				if( style && style.hasOwnProperty( SINGLETON_PROPERTY ) )
+				{
+					if( style[ SINGLETON_PROPERTY ] === true )
+					{
+						if( !isInstance )
+						{
+							throw new Error( "Cannot access a singleton with no instance class." );
+						}
+					
+						var exists:Boolean = _singletons.hasOwnProperty( styleName )
+							&& _singletons[ styleName ] != null;
+					
+						//create the singleton for the first time
+						if( !exists )
+						{
+							_singletons[ styleName ] = getInstance( styleName, style );
+						}
+					
+						return _singletons[ styleName ];
+					}
+				}
+			
+				if( isStatic )
+				{
+					var clazz:Class = style[ STATIC_CLASS_PROPERTY ];
+				
+					//TODO: check setting static properties using a properties merge
+				
+					if( isMethodReference( style ) )
+					{
+						var method:Function = getMethod( style, clazz );
+						return method as Function;
+					}
+				
+					return clazz;
+				}else if( isInstance )
+				{
+					return getInstance( styleName, style );
+				}
+			
+				//the default behaviour of returning an empty
+				//object when the style does not exist is undesirable
+				//so we test for existence of at least one property			
+				for( var z:String in style )
+				{
+					return style;
+				}
+			
 			}
 			
-			if( style )
-			{
-				//resolve references
-				resolve( style );
-			}
-			
-			if( isStatic )
-			{
-				trace("CssStyleSheet::getStyle()", "GETTING STATIC CLASS REFERENCE" );
-				
-				var clazz:Class = style[ STATIC_CLASS_PROPERTY ];
-				
-				//TODO: check setting static properties using a properties merge
-				
-				return clazz;
-			}else if( style && ( style.instanceClass is Class ) )
-			{
-				return getInstance( styleName, style );
-			}
-			
-			//the default behaviour of returning an empty
-			//object when the style does not exist is undesirable
-			//so we test for existence of at least one property			
-			for( var z:String in style )
-			{
-				return style;
-			}
 			return null;
+		}
+		
+		private function isMethodReference( style:Object ):Boolean
+		{
+			return style && style[ METHOD_PROPERTY ] && ( style[ METHOD_PROPERTY ] is CssMethod );
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function getMethod( style:Object, target:Object ):Function
+		{
+			//handle method references
+			if( isMethodReference( style ) )
+			{
+				return CssMethod( style[ METHOD_PROPERTY ] ).resolve( this, target ) as Function;
+			}
+			
+			return null;	
 		}
 		
 		/**
@@ -890,6 +935,9 @@ package com.ffsys.ui.css {
 				case CONSTANT:
 					output = new CssConstant( styleName, styleProperty, value );
 					break;
+				case METHOD:
+					output = new CssMethod( styleName, styleProperty, value );
+					break;
 				default:
 					throw new Error(
 						"Could not handle css expression with identifier '" + extension + "'." );
@@ -965,6 +1013,77 @@ interface ICssResolver {
 	* 	reference value was found.
 	*/
 	function resolve( stylesheet:ICssStyleSheet, style:Object ):Object;
+}
+
+class CssMethod extends Object
+	implements ICssResolver {
+	
+	import com.ffsys.ui.css.CssStyleSheet;
+	import com.ffsys.ui.css.ICssStyleSheet;	
+	
+	/**
+	* 	The name of the style that holds this method.
+	*/
+	public var styleName:String;
+	
+	/**
+	* 	The name of the style property that holdes this method.
+	*/
+	public var name:String;
+	
+	/**
+	* 	The refrerence value extracted when this method was parsed.
+	*/
+	public var value:String;
+	
+	/**
+	* 	Creates a <code>CssMethod</code> instance.
+	* 
+	* 	@param styleName The name of the style.
+	* 	@param name The name of the style property.
+	* 	@param value The constant value.
+	*/
+	public function CssMethod(
+		styleName:String,
+		name:String,
+		value:String ):void
+	{
+		super();
+		this.styleName = styleName;
+		this.name = name;
+		this.value = value;		
+	}
+	
+	/**
+	* 	This method differs from other implementations in that it expects
+	* 	the <code>style</code> parameter to be the object that contains
+	* 	the method reference.
+	* 
+	* 	@inheritDoc
+	*/
+	public function resolve( stylesheet:ICssStyleSheet, style:Object ):Object
+	{
+		if( stylesheet != null )
+		{
+			var method:Object = null;
+			
+			try
+			{
+				method = style[ this.value ];
+			}catch( e:Error )
+			{
+				throw new Error( "Could not locate method reference with identifier '" + this.value + "'." );
+			}
+			
+			if( method && !( method is Function ) )
+			{
+				throw new Error( "The method reference '" + this.value + "' does not correspond to a function." );
+			}
+			
+			return method as Function;
+		}
+		return null;
+	}
 }
 
 class CssConstant extends Object
