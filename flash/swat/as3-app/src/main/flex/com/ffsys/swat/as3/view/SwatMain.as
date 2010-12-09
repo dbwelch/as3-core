@@ -4,6 +4,9 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.swat.as3.core.ApplicationFlashVariables;
 	import com.ffsys.swat.configuration.ConfigurationParser;
 	
+	import com.ffsys.effects.easing.*;
+	import com.ffsys.effects.tween.*;
+	
 	/**
 	*	Main entry point for the application.
 	*
@@ -32,6 +35,12 @@ package com.ffsys.swat.as3.view {
 			var output:Array = new Array();
 			output.push( SwatActionscriptContainer );
 			output.push( ConfigurationParser );
+			
+			output.push( Tween );
+			output.push( TweenGroup );
+			output.push( TweenSequence );
+			
+			output.push( Quad );
 			return output;
 		}
 	}

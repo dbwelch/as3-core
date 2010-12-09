@@ -6,6 +6,12 @@
 		<version>0.4a</version>
 	</meta>
 	
+	<!--
+	<paths>
+		<base>http://localhost</base>
+	</paths>
+	-->
+	
 	<locales>
 		
 		<!-- applies to all locales -->
@@ -165,6 +171,9 @@
 				<resource>
 					<url>css/web-app.css</url>
 				</resource>
+				<resource>
+					<url>css/animations.css</url>
+				</resource>				
 				<resource>
 					<id>test-filters</id>
 					<url>css/filters.css</url>

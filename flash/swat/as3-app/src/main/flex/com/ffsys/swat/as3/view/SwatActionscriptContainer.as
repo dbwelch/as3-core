@@ -8,6 +8,8 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.ui.text.core.*;
 	
+	import com.ffsys.effects.tween.*;
+	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -158,6 +160,14 @@ package com.ffsys.swat.as3.view {
 			var btn:Button = Button( _loader.document.getElementById( "btn" ) );
 			btn.addEventListener( MouseEvent.CLICK, click );
 			trace("SwatActionscriptContainer::runtimeLoaded(), ", btn );
+			
+			var tween:ITween = ITween( getStyle( "alpha-tween" ) );
+			
+			trace("SwatActionscriptContainer::runtimeLoaded() GOT TWEEN", tween );
+			
+			var graphic:Graphic = Graphic( _loader.document.getElementById( "graphic" ) );
+			
+			trace("SwatActionscriptContainer::runtimeLoaded()", "GOT GRAPHIC", graphic );
 		}
 		
 		private function click( event:MouseEvent ):void

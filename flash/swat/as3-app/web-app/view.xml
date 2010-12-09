@@ -9,6 +9,7 @@
 		<vbox>
 			
 			<graphic>
+				<id>graphic</id>
 				<styles>rectangle</styles>
 			</graphic>
 			

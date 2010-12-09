@@ -100,6 +100,7 @@ package com.ffsys.ui.css {
 		private var _bindings:IBindingCollection;
 		private var _constants:Object;
 		private var _singletons:Object = new Object();
+		private var _processed:Boolean = false;
 		
 		private static var extensions:Object = {
 			"class": Class,
@@ -254,6 +255,12 @@ package com.ffsys.ui.css {
 			return _dependencies;
 		}
 		
+		public function hasStyle( styleName:String ):Boolean
+		{
+			var names:Array = this.styleNames;
+			return names.indexOf( styleName ) > -1;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
@@ -299,6 +306,7 @@ package com.ffsys.ui.css {
 					
 					trace("CssStyleSheet::getInstance()", "ASSIGNING INSTANCE PROPERTIES FOR: ", styleName );
 					
+					/*
 					if( styleName == "alpha-tween" )
 					{
 						for( var z:String in style )
@@ -306,6 +314,7 @@ package com.ffsys.ui.css {
 							trace("CssStyleSheet::getInstance() ALPHA TWEEN STYLE PROPERTIES: ", z, style[ z ] );
 						}
 					}
+					*/
 					
 					var merger:PropertiesMerge = new PropertiesMerge();
 					merger.merge( instance, style, true, [ CssReference, CssArray ] );
@@ -322,7 +331,9 @@ package com.ffsys.ui.css {
 		*/
 		private function resolve( style:Object ):void
 		{
-			var z:Object = null;
+			trace("CssStyleSheet::resolve()", "RESOLVING REFERENCES" );
+			
+			var z:String = null;
 			var o:Object = null;
 			var resolver:ICssResolver = null;
 			var loop:Boolean = false;
@@ -345,7 +356,9 @@ package com.ffsys.ui.css {
 					
 					trace("CssStyleSheet::resolve()", "RESOLVED ASSIGNING: ", z, resolved );
 					
-					style[ z ] = resolved;
+					//style[ z ] = resolved;
+					
+					setStyleProperty( style, z, resolved );
 				}
 			}
 		}
@@ -361,18 +374,43 @@ package com.ffsys.ui.css {
 			
 			if( styleName != null )
 			{
-				style = super.getStyle( styleName );
-			
-				if( style )
+				
+				/*
+				if( !hasStyle( styleName ) )
 				{
-					//resolve references
-					resolve( style );
+					return null;
+				}
+				*/
+				
+				style = super.getStyle( styleName );
+				
+				if( style && ( style[ INSTANCE_CLASS_PROPERTY ] is String ) )
+				{
+					trace("CssStyleSheet::getStyle()", "FOUND AN INSTANCE CLASS THAT IS A STRING - THIS IS FUCKED", style[ INSTANCE_CLASS_PROPERTY ] );
+					
+					setStyleProperty(
+						style,
+						INSTANCE_CLASS_PROPERTY, 
+						parseExtension( style[ INSTANCE_CLASS_PROPERTY ], styleName, null ) );
 				}
 			
 				var isInstance:Boolean = ( style && ( style[ INSTANCE_CLASS_PROPERTY ] is Class ) );
 				var isStatic:Boolean = ( style && ( style[ STATIC_CLASS_PROPERTY ] is Class ) );
+				
+		
+				if( style )
+				{
+					//resolve references
+					resolve( style );
+				}	
+				
+				//during processing we don't resolve instances so return early
+				if( !_processed )
+				{
+					return style;
+				}							
 			
-				//trace("******************************* CssStyleSheet::getStyle() style: ", style );
+				trace("******************************* CssStyleSheet::getStyle() styleName/isInstance/isStatic: ", styleName, isInstance, isStatic );
 			
 				if( style && style.hasOwnProperty( SINGLETON_PROPERTY ) )
 				{
@@ -420,7 +458,8 @@ package com.ffsys.ui.css {
 				{
 					return style;
 				}
-			
+				
+				//return style;
 			}
 			
 			return null;
@@ -826,10 +865,14 @@ package com.ffsys.ui.css {
 					//now deal with css specific parsing
 					if( value is String )
 					{
+						trace("CssStyleSheet::postProcessCss() BEFORE PARSING: ", value );
 						value = parseElement( String( value ), styleName, z );
+						trace("CssStyleSheet::postProcessCss() AFTER PARSING: ", value );
 					}
 					
-					style[ z ] = value;
+					//style[ z ] = value;
+					
+					setStyleProperty( style, z, value );
 				}
 				
 				//keep a reference to the constants style object
@@ -842,6 +885,20 @@ package com.ffsys.ui.css {
 				
 				setStyle( styleName, style );
 			}
+			
+			_processed = true;
+		}
+		
+		private function setStyleProperty( style:Object, name:String, value:Object ):void
+		{
+			trace("CssStyleSheet::setStyleProperty()", "SETTING STYLE PROPERTY: ", name, value );
+			
+			if( name == INSTANCE_CLASS_PROPERTY )
+			{
+				trace("CssStyleSheet::setStyleProperty()", "SETTING INSTANCE CLASS PROPERTY: ", name, value, getQualifiedClassName( value ) );
+			}
+			
+			style[ name ] = value;
 		}
 		
 		/**
@@ -882,7 +939,7 @@ package com.ffsys.ui.css {
 					{
 						extension = parseExtension( String( output ), styleName, propertyName );
 						if( extension != null )
-						{				
+						{
 							output = extension;
 						}
 					}
@@ -975,7 +1032,7 @@ package com.ffsys.ui.css {
 							+ value + "'." );
 					}
 					
-					//trace("CssStyleSheet::parseExtension() SETTING CLASS REFERENCE!!!!!!!!!!!!!!!!!!!!!!!: ", output );
+					trace("CssStyleSheet::parseExtension() SETTING CLASS REFERENCE!!!!!!!!!!!!!!!!!!!!!!!: ", output );
 					break;
 				case URL:
 					output = new URLRequest( value );
@@ -1052,7 +1109,9 @@ package com.ffsys.ui.css {
 							data = new Bitmap( BitmapData( data ) );
 						}
 						
-						style[ cached.styleProperty ] = data;
+						//style[ cached.styleProperty ] = data;
+						
+						setStyleProperty( style, cached.styleProperty, data );
 						setStyle( cached.styleName, style );
 					}
 				}

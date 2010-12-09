@@ -96,6 +96,12 @@ package com.ffsys.ui.css
 					alpha: 0.5;
 				}
 				
+				style-aware {
+					instance-class: class( com.ffsys.ui.css.CssStyleAware );
+					method: method( doSomethingSpecial );
+				}
+				
+				
 				quad {
 					static-class: class( com.ffsys.effects.easing.Quad );
 				}
@@ -103,11 +109,6 @@ package com.ffsys.ui.css
 				quad-ease-in {
 					static-class: class( com.ffsys.effects.easing.Quad );
 					method: method( easeIn );
-				}
-				
-				style-aware {
-					instance-class: class( com.ffsys.ui.css.CssStyleAware );
-					method: method( doSomethingSpecial );
 				}
 				
 				tween {
@@ -136,8 +137,17 @@ package com.ffsys.ui.css
 		{
 			var stylesheet:ICssStyleSheet = new CssStyleSheet();
 			stylesheet.parse( sample );
+			
+			trace("START ASSERTIONS");
 
-			var rectangle:Object = stylesheet.getStyle( "rectangle" );
+			var references:Object = stylesheet.getStyle( "references" );
+			trace("CssParseTest::cssParseTest()", "RECT: ", references.rectangle );
+			
+			Assert.assertTrue( references.rectangle is RectangleGraphic );
+			return;
+			
+			/*
+			var rectangle:Object = stylesheet.getStyle( "rectangle" );			
 			var defaultStroke:Object = stylesheet.getStyle( "default-stroke" );
 			var defaultFill:Object = stylesheet.getStyle( "default-fill" );
 			var references:Object = stylesheet.getStyle( "references" );
@@ -153,12 +163,13 @@ package com.ffsys.ui.css
 			Assert.assertNotNull( defaultStroke );
 			Assert.assertNotNull( defaultFill );
 			
-			trace("CssParseTest::cssParseTest()", "DEFAULT STROKE : ", defaultStroke );
-			
 			Assert.assertTrue( defaultStroke is Stroke );
 			Assert.assertTrue( defaultFill is SolidFill );
 			
 			Assert.assertNotNull( references );
+			
+			trace("CssParseTest::cssParseTest()", "RECT: ", references.rectangle );
+			
 			Assert.assertTrue( references.rectangle is RectangleGraphic );
 			Assert.assertTrue( references.fill is SolidFill );
 			Assert.assertTrue( references.stroke is Stroke );
@@ -202,6 +213,7 @@ package com.ffsys.ui.css
 			Assert.assertNotNull( tween );
 			
 			trace("CssParseTest::cssParseTest() INSTANCE METHOD: ", tween );
+			*/
 		}
 	}
 }
