@@ -89,6 +89,11 @@ package com.ffsys.effects.tween {
 			return _parametersDecorator;
 		}
 		
+		public function set parameters( value:ITweenParameters ):void
+		{
+			_parametersDecorator = parameters;
+		}
+		
 		/*
 		*	ITweenParent implementation.
 		*/

@@ -20,6 +20,7 @@ package com.ffsys.effects.tween {
 				IObjectInspector
 	{
 		function get parameters():ITweenParameters;
+		function set parameters( value:ITweenParameters ):void;
 		
 		function set formatter( val:ITweenValueFormatter ):void;
 		function get formatter():ITweenValueFormatter;

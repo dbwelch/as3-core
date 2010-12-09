@@ -18,6 +18,7 @@ package com.ffsys.ui.css
 	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.effects.easing.*;
+	import com.ffsys.effects.tween.*;
 	
 	import flash.utils.getQualifiedClassName;
 	
@@ -32,6 +33,10 @@ package com.ffsys.ui.css
 		private var _solidFill:SolidFill;
 		private var _quad:Quad;
 		private var _styleAware:CssStyleAware;
+		
+		private var _tween:Tween;
+		private var _tweenGroup:TweenGroup;
+		private var _tweenSequence:TweenSequence;
 		
 		public var sample:String = 
 			(<![CDATA[
@@ -104,6 +109,12 @@ package com.ffsys.ui.css
 					instance-class: class( com.ffsys.ui.css.CssStyleAware );
 					method: method( doSomethingSpecial );
 				}
+				
+				tween {
+					instance-class: class( com.ffsys.ui.css.CssStyleAware );
+					method: method( doSomethingSpecial );
+				}				
+				
 			]]>).toString();
 		
 		/**
