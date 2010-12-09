@@ -159,14 +159,12 @@ package com.ffsys.effects.tween {
 			for( ;i < l;i++ )
 			{
 				prop = properties[ i ];
-				
 				if( !Object( target ).hasOwnProperty( prop ) )
 				{
 					throw new IllegalOperationError(
 						"Tween property '" + prop +
 						"' not found on Object: " + target.toString() );
 				}
-					
 			}
 		
 			super.properties = properties;
@@ -675,6 +673,8 @@ package com.ffsys.effects.tween {
 		private function initStartValues():Array
 		{
 			var props:Array = properties;
+			
+			trace("Tween::initStartValues()", "INIT START VALUES", props );
 			
 			var arr:Array = [];
 			

@@ -161,13 +161,16 @@ package com.ffsys.swat.as3.view {
 			btn.addEventListener( MouseEvent.CLICK, click );
 			trace("SwatActionscriptContainer::runtimeLoaded(), ", btn );
 			
-			var tween:ITween = ITween( getStyle( "alpha-tween" ) );
-			
-			trace("SwatActionscriptContainer::runtimeLoaded() GOT TWEEN", tween );
-			
 			var graphic:Graphic = Graphic( _loader.document.getElementById( "graphic" ) );
 			
 			trace("SwatActionscriptContainer::runtimeLoaded()", "GOT GRAPHIC", graphic );
+			
+			var tween:ITween = ITween( getStyle( "alpha-tween" ) );
+			tween.target = graphic;
+			tween.initialize();
+			tween.start();
+			
+			trace("SwatActionscriptContainer::runtimeLoaded() GOT TWEEN", tween );			
 		}
 		
 		private function click( event:MouseEvent ):void
