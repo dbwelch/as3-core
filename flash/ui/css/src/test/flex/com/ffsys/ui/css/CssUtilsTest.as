@@ -98,8 +98,8 @@ package com.ffsys.ui.css
 		
 		protected function addRequests( manager:IStyleManager ):void
 		{
-			manager.addStyleSheet( new URLRequest( "mock-css.css" ) );
-			manager.addStyleSheet( new URLRequest( "mock-filters.css" ) );
+			manager.addStyleSheet( null, new URLRequest( "mock-css.css" ) );
+			manager.addStyleSheet( null, new URLRequest( "mock-filters.css" ) );
 		}
 		
 		protected function assertStyleManagerAssets(

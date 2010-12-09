@@ -120,6 +120,8 @@ package com.ffsys.ui.css
 					instance-class: class( com.ffsys.effects.tween.TweenParameters );
 					properties: array( alpha );
 					easing: array( ref( quad-ease-in ) );
+					start-values: array( 0 );
+					end-values: array( 1 );	
 				}
 				
 			]]>).toString();
@@ -138,15 +140,16 @@ package com.ffsys.ui.css
 			var stylesheet:ICssStyleSheet = new CssStyleSheet();
 			stylesheet.parse( sample );
 			
+			/*
 			trace("START ASSERTIONS");
-
+			
 			var references:Object = stylesheet.getStyle( "references" );
 			trace("CssParseTest::cssParseTest()", "RECT: ", references.rectangle );
 			
 			Assert.assertTrue( references.rectangle is RectangleGraphic );
 			return;
+			*/
 			
-			/*
 			var rectangle:Object = stylesheet.getStyle( "rectangle" );			
 			var defaultStroke:Object = stylesheet.getStyle( "default-stroke" );
 			var defaultFill:Object = stylesheet.getStyle( "default-fill" );
@@ -167,8 +170,6 @@ package com.ffsys.ui.css
 			Assert.assertTrue( defaultFill is SolidFill );
 			
 			Assert.assertNotNull( references );
-			
-			trace("CssParseTest::cssParseTest()", "RECT: ", references.rectangle );
 			
 			Assert.assertTrue( references.rectangle is RectangleGraphic );
 			Assert.assertTrue( references.fill is SolidFill );
@@ -211,8 +212,15 @@ package com.ffsys.ui.css
 			var tween:ITween = stylesheet.getStyle( "tween" ) as ITween;
 			
 			Assert.assertNotNull( tween );
+			Assert.assertNotNull( tween.parameters );
+			//Assert.assertNotNull( tween.parameters.properties );
 			
-			trace("CssParseTest::cssParseTest() INSTANCE METHOD: ", tween );
+			/*
+			var tween:ITween = ITween( getStyle( "alpha-tween" ) );
+			tween.target = graphic;
+			tween.initialize();
+			tween.start();			
+			
 			*/
 		}
 	}

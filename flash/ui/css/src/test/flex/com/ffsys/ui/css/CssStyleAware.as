@@ -35,6 +35,11 @@ package com.ffsys.ui.css
 			_styleManager = manager;
 		}
 		
+		public function set styleManager( value:IStyleManager ):void
+		{
+			_styleManager = value;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/

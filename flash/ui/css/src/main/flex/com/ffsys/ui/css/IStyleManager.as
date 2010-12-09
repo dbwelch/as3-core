@@ -23,16 +23,16 @@ package com.ffsys.ui.css {
 		*	
 		*	If no specific style sheet is specified this method
 		*	will create one using the style sheet factory.
-		*	
+		* 
+		*	@param sheet A style sheet implementation to register
+		* 	with the style manager.
 		*	@param request The url request to load the style
 		*	sheet data from.
-		*	@param sheet A style sheet implementation to load
-		*	the style sheet data into.	
 		*/
 		function addStyleSheet(
-			request:URLRequest,
-			sheet:ICssStyleSheet = null ):void;
-			
+			sheet:ICssStyleSheet = null,
+			request:URLRequest = null ):ICssStyleSheet;
+		
 		/**
 		*	Removes a style sheet from this manager.
 		*	

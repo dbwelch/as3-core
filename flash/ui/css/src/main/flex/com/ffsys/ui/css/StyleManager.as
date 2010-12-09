@@ -40,19 +40,19 @@ package com.ffsys.ui.css {
 		*	@inheritDoc
 		*/
 		public function addStyleSheet(
-			request:URLRequest,
-			sheet:ICssStyleSheet = null ):void
+			sheet:ICssStyleSheet = null,
+			request:URLRequest = null ):ICssStyleSheet
 		{
 			if( sheet == null )
 			{
 				sheet = StyleSheetFactory.create();
 			}
+				
+			var entry:StyleSheetEntry = new StyleSheetEntry( request, sheet );
 			
 			if( request && sheet )
 			{
 				//_styleSheets[ sheet ] = request;
-				
-				var entry:StyleSheetEntry = new StyleSheetEntry( request, sheet );
 				
 				if( this.bindings )
 				{
@@ -67,9 +67,10 @@ package com.ffsys.ui.css {
 						}
 					}
 				}
-				
-				_styleSheets.push( entry );
 			}
+			
+			_styleSheets.push( entry );
+			return sheet;
 		}
 			
 		/**

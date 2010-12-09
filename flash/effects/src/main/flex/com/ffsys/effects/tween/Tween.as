@@ -138,7 +138,7 @@ package com.ffsys.effects.tween {
 				setEndValues( this.endValues, false );
 			
 				//calculate the deltas here
-				setStartValues( this.startValues );			
+				setStartValues( this.startValues );
 			}
 		}
 		
@@ -159,7 +159,7 @@ package com.ffsys.effects.tween {
 			for( ;i < l;i++ )
 			{
 				prop = properties[ i ];
-				if( !Object( target ).hasOwnProperty( prop ) )
+				if( target && !Object( target ).hasOwnProperty( prop ) )
 				{
 					throw new IllegalOperationError(
 						"Tween property '" + prop +

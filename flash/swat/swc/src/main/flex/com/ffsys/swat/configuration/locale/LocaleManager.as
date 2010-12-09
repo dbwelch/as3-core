@@ -327,7 +327,7 @@ package com.ffsys.swat.configuration.locale {
 					{
 						css.id = loader.id;
 					}
-					_styleManager.addStyleSheet( loader.request, css );
+					_styleManager.addStyleSheet( css, loader.request );
 				}
 				
 				//update our queue with the queue that the
