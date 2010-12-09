@@ -69,6 +69,17 @@ package com.ffsys.ui.css {
 		function parseCSS( text:String ):void;
 		
 		/**
+		* 	Parses an individual string value.
+		* 
+		* 	@param value The value to parse.
+		* 	@param styleName The name of the style the property belongs to.
+		* 	@param propertyName The name of the property the value was extracted from.
+		* 
+		* 	@return The parsed value.
+		*/
+		function parseElement( value:String, styleName:String, propertyName:String ):Object;
+		
+		/**
 		*	Extends the native text format transform ability.	
 		*	
 		*	@param style The style object to transform to a text format.

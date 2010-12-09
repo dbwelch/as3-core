@@ -16,7 +16,7 @@ package com.ffsys.effects.tween {
 	*/
 	public interface ITweenParameters
 		extends ITweenSpeed,
-		 		IObjectInspector {
+		 		IObjectInspector {	
 
 		function get values():Array;
 		

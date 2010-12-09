@@ -117,8 +117,8 @@ package com.ffsys.ui.css
 				
 				alpha-tween {
 					instance-class: class( com.ffsys.effects.tween.TweenParameters );
-					properties: alpha;
-					easing: ref( quad-ease-in );
+					properties: array( alpha );
+					easing: array( ref( quad-ease-in ) );
 				}
 				
 			]]>).toString();
@@ -152,6 +152,8 @@ package com.ffsys.ui.css
 			Assert.assertNotNull( rectangle );
 			Assert.assertNotNull( defaultStroke );
 			Assert.assertNotNull( defaultFill );
+			
+			trace("CssParseTest::cssParseTest()", "DEFAULT STROKE : ", defaultStroke );
 			
 			Assert.assertTrue( defaultStroke is Stroke );
 			Assert.assertTrue( defaultFill is SolidFill );

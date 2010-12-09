@@ -93,7 +93,7 @@ package com.ffsys.ui.css {
 		
 		private var _id:String;
 		private var _delimiter:String = "|";
-		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*([^)\s]+)\s*\)$/;
+		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*(.+)\s*\)$/;
 		private var _dependencies:ILoaderQueue;
 		private var _cache:Dictionary;
 		
@@ -109,7 +109,8 @@ package com.ffsys.ui.css {
 			"swf": MovieLoader,
 			"ref": CssReference,
 			"constant": Object,
-			"method": Function
+			"method": Function,
+			"array": Array
 		};
 		
 		/**
@@ -155,6 +156,11 @@ package com.ffsys.ui.css {
 		*	Represents a reference to a method definition.
 		*/
 		public static const METHOD:String = "method";
+		
+		/**
+		*	Represents an array collection expression.
+		*/
+		public static const ARRAY:String = "array";
 		
 		/**
 		*	The delimiter used in reference expressions to delimit
@@ -291,8 +297,18 @@ package com.ffsys.ui.css {
 						return getMethod( style, instance ) as Function;
 					}
 					
+					trace("CssStyleSheet::getInstance()", "ASSIGNING INSTANCE PROPERTIES FOR: ", styleName );
+					
+					if( styleName == "alpha-tween" )
+					{
+						for( var z:String in style )
+						{
+							trace("CssStyleSheet::getInstance() ALPHA TWEEN STYLE PROPERTIES: ", z, style[ z ] );
+						}
+					}
+					
 					var merger:PropertiesMerge = new PropertiesMerge();
-					merger.merge( instance, style, true, [ CssReference ] );
+					merger.merge( instance, style, true, [ CssReference, CssArray ] );
 				}
 
 				return instance;
@@ -309,13 +325,27 @@ package com.ffsys.ui.css {
 			var z:Object = null;
 			var o:Object = null;
 			var resolver:ICssResolver = null;
+			var loop:Boolean = false;
+			var resolved:Object = null;
 			for( z in style )
 			{
 				o = style[ z ];
 				if( o is ICssResolver && !( o is CssMethod ) )
 				{
 					resolver = ICssResolver( o );
-					style[ z ] = resolver.resolve( this, style );
+					resolved = resolver.resolve( this, style );
+				
+					loop = ( resolved is ICssResolver ) && ( resolved != resolver )
+					while( loop )
+					{
+						trace("CssReference::resolve() LOOKING FOR NESTED RESOLVER: ", resolved );
+						resolved = ICssResolver( resolved ).resolve( this, style );
+						loop = ( resolved is ICssResolver ) && ( resolved != resolver )
+					}
+					
+					trace("CssStyleSheet::resolve()", "RESOLVED ASSIGNING: ", z, resolved );
+					
+					style[ z ] = resolved;
 				}
 			}
 		}
@@ -763,10 +793,7 @@ package com.ffsys.ui.css {
 			var z:String = null;
 			var style:Object = null;
 			var styleName:String = null;
-			var parser:PrimitiveParser = new PrimitiveParser();
 			var value:*;
-			var extension:Object = null;
-			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
 			var styles:Array = styleNames;
 			var constantsIndex:int = styles.indexOf( CONSTANTS_STYLE_NAME );
 
@@ -799,27 +826,7 @@ package com.ffsys.ui.css {
 					//now deal with css specific parsing
 					if( value is String )
 					{
-						var candidate:Boolean = getSubstitutor( value ).isCandidate();
-
-						if( candidate )
-						{
-							value = parseBindingCandidate( value );
-						}
-						
-						value = parser.parse( value, true, delimiter );
-						//trace("CssStyleSheet::postProcessCss(), value/hex/expression: ", value, hexExpression.test( value ), _extensionExpression.test( value ) );
-						
-						if( hexExpression.test( value ) )
-						{
-							value = parseHexNumber( value );
-						}else if( _extensionExpression.test( value ) )
-						{
-							extension = parseExtension( value, styleName, z );
-							if( extension != null )
-							{
-								value = extension;
-							}
-						}
+						value = parseElement( String( value ), styleName, z );
 					}
 					
 					style[ z ] = value;
@@ -835,6 +842,56 @@ package com.ffsys.ui.css {
 				
 				setStyle( styleName, style );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function parseElement( value:String, styleName:String, propertyName:String ):Object
+		{
+			var output:Object = value;
+			var extension:Object = null;
+			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
+			var parser:PrimitiveParser = new PrimitiveParser();				
+		
+			var candidate:Boolean = getSubstitutor( value ).isCandidate();
+
+			if( candidate )
+			{
+				output = parseBindingCandidate( value );
+			}
+			
+			//trace("CssStyleSheet::value()", value, output, (output is String) );
+			
+			if( output is String )
+			{
+				output = parser.parse( String( output ), true, delimiter );
+				
+				if( propertyName == INSTANCE_CLASS_PROPERTY )
+				{
+					trace("CssStyleSheet::postProcessCss(), value/hex/expression: ", output, hexExpression.test( String( output ) ), _extensionExpression.test( String( output ) ) );
+				}
+				
+				//still a string after primitive parsing
+				if( output is String )
+				{
+					if( hexExpression.test( String( output ) ) )
+					{
+						output = parseHexNumber( String( output ) );
+					}else if( _extensionExpression.test( String( output ) ) )
+					{
+						extension = parseExtension( String( output ), styleName, propertyName );
+						if( extension != null )
+						{				
+							output = extension;
+						}
+					}
+				
+				}
+			
+			}
+			
+			return output;			
 		}
 		
 		/**
@@ -891,7 +948,7 @@ package com.ffsys.ui.css {
 			styleName:String,
 			styleProperty:String = null ):Object
 		{
-			//trace("CssStyleSheet::parseExtension()", candidate );
+			trace("CssStyleSheet::parseExtension()", candidate );
 			
 			if( !isValidExtension( candidate ) )
 			{
@@ -940,6 +997,13 @@ package com.ffsys.ui.css {
 					break;
 				case METHOD:
 					output = new CssMethod( styleName, styleProperty, value );
+					break;
+				case ARRAY:
+					//output = value.split( "," );
+					//trace("CssStyleSheet::isValidExtension()", "FOUND ARRAY OUTPUT :", output, ( output as Array ).length );
+					
+					output = new CssArray( styleName, styleProperty, value );
+					
 					break;
 				default:
 					throw new Error(
@@ -1016,6 +1080,81 @@ interface ICssResolver {
 	* 	reference value was found.
 	*/
 	function resolve( stylesheet:ICssStyleSheet, style:Object ):Object;
+}
+
+class CssArray extends Object
+	implements ICssResolver {
+	
+	import com.ffsys.ui.css.CssStyleSheet;
+	import com.ffsys.ui.css.ICssStyleSheet;	
+	
+	/**
+	* 	The name of the style that holds this method.
+	*/
+	public var styleName:String;
+	
+	/**
+	* 	The name of the style property that holdes this method.
+	*/
+	public var name:String;
+	
+	/**
+	* 	The refrerence value extracted when this method was parsed.
+	*/
+	public var value:String;
+	
+	/**
+	* 	Creates a <code>CssArray</code> instance.
+	* 
+	* 	@param styleName The name of the style.
+	* 	@param name The name of the style property.
+	* 	@param value The constant value.
+	*/
+	public function CssArray(
+		styleName:String,
+		name:String,
+		value:String ):void
+	{
+		super();
+		this.styleName = styleName;
+		this.name = name;
+		this.value = value;		
+	}
+	
+	/**
+	* 	This method differs from other implementations in that it expects
+	* 	the <code>style</code> parameter to be the object that contains
+	* 	the method reference.
+	* 
+	* 	@inheritDoc
+	*/
+	public function resolve( stylesheet:ICssStyleSheet, style:Object ):Object
+	{
+		if( stylesheet != null )
+		{	
+			var parts:Array = this.value.split( "," );
+			var part:String = null;
+			var parsed:Object = null;
+			for( var i:int = 0;i < parts.length;i++ )
+			{
+				part = String( parts[ i ] );
+	
+				//overwrite the array entry with the parsed value
+				parsed = stylesheet.parseElement( part, styleName, this.name );
+				
+				//update the array element
+				parts[ i ] = parsed;								
+			}
+			
+			trace("CssArray::resolve() HANDLING COMPLEX ARRAY: ", this, this.value, parts );
+			
+			//style[ this.name ] = parts;
+			
+			return parts;
+		}
+		
+		return null;
+	}
 }
 
 class CssMethod extends Object
@@ -1148,11 +1287,6 @@ class CssConstant extends Object
 			//extract the constant from the constants style declaration
 			var value:Object = stylesheet.constants[ value ];
 			
-			if( value is ICssResolver && value != this )
-			{
-				value = ICssResolver( value ).resolve( stylesheet, style );
-			}
-			
 			return value;
 		}
 		return null;
@@ -1217,7 +1351,7 @@ class CssReference extends Object
 			var candidate:String = this.value;
 			var found:Object;
 		
-			//trace("CssStyleSheet::finalize()", "RESOLVING CSS REFERENCE: ", reference );
+			trace("CssStyleSheet::finalize()", "RESOLVING CSS REFERENCE: ", this.value );
 		
 			//we check the delimiter is beyond the first character
 			if( candidate.lastIndexOf( CssStyleSheet.REFERENCE_PROPERTY_DELIMITER ) > 0 )
@@ -1247,10 +1381,17 @@ class CssReference extends Object
 			}else{
 				found = stylesheet.getStyle( candidate );
 
+				/*
 				if( found is ICssResolver && found != this )
 				{
+					trace("CssStyleSheet::resolve()", "RESOLVING NESTED REFERENCE: " ICssResolver( found ) );
+					
 					found = ICssResolver( found ).resolve( stylesheet, style );
+					
+
+					//trace("CssStyleSheet::resolve()", "RESOLVING NESTED REFERENCE: ", found );
 				}
+				*/
 			
 				/*
 				if( found && found.instanceClass )

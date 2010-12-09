@@ -61,30 +61,26 @@ package com.ffsys.effects.tween {
 		private var _startInt:Number;
 		
 		public function Tween(
-			target:Object,
-			parameters:TweenParameters )
+			target:Object = null,
+			parameters:ITweenParameters = null )
 		{
-			super();
-			this.target = target;
-			
-			parameters.tween = this;
+			super();			
 			
 			_valueFormatter = this;
 			_updater = this;
 			
 			//update our parameters decorator to point to the TweenParameters
 			//argument
-			_parametersDecorator = parameters;
+			//_parametersDecorator = parameters;
 			
 			_currentLoop = 0;
 		
 			this.direction = TweenConstants.OUTBOUND;
 			
-			//don't calculate the deltas here so we don't calculate them twice
-			setEndValues( this.endValues, false );
 			
-			//calculate the deltas here
-			setStartValues( this.startValues );
+			this.parameters = parameters;
+			
+			this.target = target;			
 		}
 		
 		/**
@@ -135,6 +131,15 @@ package com.ffsys.effects.tween {
 		override public function set target( val:Object ):void
 		{
 			_target = val;
+			
+			if( _target )
+			{
+				//don't calculate the deltas here so we don't calculate them twice
+				setEndValues( this.endValues, false );
+			
+				//calculate the deltas here
+				setStartValues( this.startValues );			
+			}
 		}
 		
 		override public function get target():Object

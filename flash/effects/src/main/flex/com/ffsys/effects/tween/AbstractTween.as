@@ -92,6 +92,12 @@ package com.ffsys.effects.tween {
 		public function set parameters( value:ITweenParameters ):void
 		{
 			_parametersDecorator = parameters;
+			
+			//TODO: remove this in a refactor pass
+			if( _parametersDecorator && _parametersDecorator is TweenParameters )
+			{
+				TweenParameters( _parametersDecorator ).tween = this;
+			}
 		}
 		
 		/*
