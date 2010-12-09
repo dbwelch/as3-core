@@ -27,6 +27,9 @@ package com.ffsys.effects.tween {
 		{
 			super();
 			
+			//TODO: re-implement outside the constructor
+			
+			/*
 			if( properties is Array )
 			{
 				properties = ( properties as Array );
@@ -48,6 +51,7 @@ package com.ffsys.effects.tween {
 				throw new IllegalOperationError(
 					"The easing parameter must be a Function or Array of Functions." );
 			}
+			*/
 			
 			this.properties = properties as Array;
 			this.easing = easing as Array;

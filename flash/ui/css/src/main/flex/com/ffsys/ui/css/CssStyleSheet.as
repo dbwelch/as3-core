@@ -275,8 +275,13 @@ package com.ffsys.ui.css {
 					instance = new clazz();
 				}catch( e:Error )
 				{
+					
+					/*
 					throw new Error( "Could not instantiate style instance with class '"
 						+ style.instanceClass + "'." );
+					*/
+					
+					throw e;
 				}
 				
 				if( instance )

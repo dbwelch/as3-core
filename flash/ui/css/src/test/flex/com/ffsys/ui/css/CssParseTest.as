@@ -117,7 +117,8 @@ package com.ffsys.ui.css
 				
 				alpha-tween {
 					instance-class: class( com.ffsys.effects.tween.TweenParameters );
-					properties: alpha|x;
+					properties: alpha;
+					easing: ref( quad-ease-in );
 				}
 				
 			]]>).toString();
