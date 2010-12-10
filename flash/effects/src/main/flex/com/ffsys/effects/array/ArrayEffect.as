@@ -58,7 +58,7 @@ package com.ffsys.effects.array {
 				throw new Error(
 					"ArrayEffect start/end Arrays should be non-null and of " +
 					"equal length." );
-			}			
+			}
 		}
 		
 	}

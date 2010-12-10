@@ -11,8 +11,11 @@ package com.ffsys.effects.tween {
 	*	@since  10.08.2007
 	*/
 	public interface ITweenParent {
-		function set parent( val:ITween ):void;
+		
+		/**
+		* 	A parent tween implementation that owns this tween.
+		*/
 		function get parent():ITween;
+		function set parent( val:ITween ):void;
 	}
-	
 }

@@ -65,7 +65,7 @@ package com.ffsys.effects.display {
 		public function formatTweenValue( value:Number ):Number
 		{
 			return Math.floor( value );
-		}		
+		}
 		
 		/*
 		*	ITweenUpdater implementation.
@@ -83,8 +83,6 @@ package com.ffsys.effects.display {
 		public function applyTweenValue( target:Object, property:String, value:Object ):void
 		{
 			this.currentFrame = ( value as int );
-		}		
-		
+		}
 	}
-	
 }

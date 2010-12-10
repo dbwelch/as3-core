@@ -36,6 +36,15 @@ package com.ffsys.effects.tween {
 		}
 		
 		/**
+		* 	Initializes all target properties to their start
+		* 	values.
+		*/
+		public function initialize():void
+		{
+			//
+		}		
+		
+		/**
 		* 	A parent tween implementation that owns this tween.
 		*/
 		public function set parent( val:ITween ):void
@@ -46,25 +55,19 @@ package com.ffsys.effects.tween {
 		public function get parent():ITween
 		{
 			return _parent;
-		}		
+		}
 		
 		/**
-		* 	Initializes all target properties to their start
-		* 	values.
+		* 	@inheritDoc
 		*/
-		public function initialize():void
+		public function get formatter():ITweenValueFormatter
 		{
-			//
-		}
+			return _formatter;
+		}		
 		
 		public function set formatter( val:ITweenValueFormatter ):void
 		{
 			_formatter = val;
-		}
-		
-		public function get formatter():ITweenValueFormatter
-		{
-			return _formatter;
 		}
 		
 		public function set updater( val:ITweenUpdater ):void

@@ -21,20 +21,26 @@ package com.ffsys.effects.filters {
 	public class AbstractFilterEffect extends AbstractDisplayObjectEffect
 		implements ITweenUpdater {
 
-		protected var _filter:Object;
-		
-		protected var _filters:Array;
+		private var _filter:Object;
+		private var _filters:Array;
 		
 		public function AbstractFilterEffect(
-			displayObject:DisplayObject, filter:Object, properties:Array )
+			displayObject:DisplayObject = null, 
+			filter:Object = null,
+			properties:Array = null )
 		{
 			super( displayObject, properties );
-			_filter = filter;
+			this.filter = filter;
 		}
 		
 		public function get filter():Object
 		{
 			return _filter;
+		}
+		
+		public function set filter(value:Object):void
+		{
+			_filter = value;
 		}
 		
 		/**

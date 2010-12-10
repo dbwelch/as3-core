@@ -15,5 +15,4 @@ package com.ffsys.effects.tween {
 				ITweenEventProxy,
 				ITweenCollectionList {
 	}
-	
 }
