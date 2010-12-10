@@ -29,7 +29,6 @@ package com.ffsys.effects.tween {
 		private var _originalStartValues:Array;
 		private var _refreshRate:int;
 		private var _frameRate:int;
-		private var _proxy:ITweenParameters;
 		private var _tween:ITween;
 		
 		public function TweenParameters(
@@ -39,8 +38,7 @@ package com.ffsys.effects.tween {
 			duration:Number = 1,
 			delay:Number = 0,
 			startValues:Array = null,
-			loops:Number = 0,
-			proxy:ITweenParameters = null )
+			loops:Number = 0 )
 		{
 			super();
 			
@@ -77,9 +75,7 @@ package com.ffsys.effects.tween {
 			this.duration = duration;
 			this.delay = delay;
 			this.startValues = startValues;
-			this.loops = loops;			
-			
-			this.proxy = proxy;
+			this.loops = loops;
 		}
 		
 		/**
@@ -93,24 +89,6 @@ package com.ffsys.effects.tween {
 		public function set tween( val:ITween ):void
 		{
 			_tween = val;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get proxy():ITweenParameters
-		{
-			return _proxy;
-		}		
-		
-		public function set proxy( val:ITweenParameters ):void
-		{
-			_proxy = val;
-			
-			if( _proxy is ITween )
-			{
-				this.tween = ( val as ITween );
-			}
 		}
 		
 		/*
@@ -164,51 +142,26 @@ package com.ffsys.effects.tween {
 			
 		public function set properties( val:Array ):void
 		{
-			if( _proxy )
-			{
-				_proxy.properties = val;
-			}
-		
 			_properties = val;
 		}
 		
 		public function get properties():Array
 		{
-			if( _proxy )
-			{
-				return _proxy.properties;
-			}		
-		
 			return _properties;
 		}
 		
 		public function set easing( val:Array ):void
 		{
-			if( _proxy )
-			{
-				_proxy.easing = val;
-			}		
-		
 			_easing = val;
 		}
 		
 		public function get easing():Array
 		{
-			if( _proxy )
-			{
-				return _proxy.easing;
-			}		
-		
 			return _easing;
 		}
 		
 		public function set endValues( val:Array ):void
 		{
-			if( _proxy )
-			{
-				_proxy.endValues = val;
-			}
-		
 			_endValues = val;
 			
 			if( !_originalEndValues && val )
@@ -218,64 +171,32 @@ package com.ffsys.effects.tween {
 		}
 		
 		public function get endValues():Array
-		{
-			if( _proxy )
-			{
-				return _proxy.endValues;
-			}
-					
+		{		
 			return _endValues;
 		}
 		
 		public function set duration( val:Number ):void
 		{
-		
-			if( _proxy )
-			{
-				_proxy.duration = val;
-			}		
-		
 			_duration = val;
 		}
 		
 		public function get duration():Number
 		{
-			if( _proxy )
-			{
-				return _proxy.duration;
-			}		
-		
 			return _duration;
 		}
 		
 		public function set delay( val:Number ):void
 		{
-			if( _proxy )
-			{
-				_proxy.delay = val;
-			}			
-		
 			_delay = val;
 		}
 		
 		public function get delay():Number
 		{
-			if( _proxy )
-			{
-				return _proxy.delay;
-			}
-			
 			return _delay;
 		}
 		
 		public function set startValues( val:Array ):void
-		{
-		
-			if( _proxy )
-			{
-				_proxy.startValues = val;
-			}	
-					
+		{		
 			_startValues = val;
 			
 			//trace( "SET START VALUES : " + val );
@@ -291,31 +212,16 @@ package com.ffsys.effects.tween {
 		
 		public function get startValues():Array
 		{
-			if( _proxy )
-			{
-				return _proxy.startValues;
-			}
-		
 			return _startValues;
 		}
 		
 		public function set loops( val:int ):void
 		{
-			if( _proxy )
-			{
-				_proxy.loops = val;
-			}		
-		
 			_loops = val;
 		}
 		
 		public function get loops():int
-		{
-			if( _proxy )
-			{
-				return _proxy.loops;
-			}
-					
+		{		
 			return _loops;
 		}
 		
@@ -326,11 +232,6 @@ package com.ffsys.effects.tween {
 		
 		public function get originalStartValues():Array
 		{
-			if( _proxy )
-			{
-				return _proxy.originalStartValues;
-			}
-		
 			return _originalStartValues;
 		}
 		
@@ -341,11 +242,6 @@ package com.ffsys.effects.tween {
 
 		public function get originalEndValues():Array
 		{
-			if( _proxy )
-			{
-				return _proxy.originalEndValues;
-			}
-			
 			return _originalEndValues;
 		}
 		
