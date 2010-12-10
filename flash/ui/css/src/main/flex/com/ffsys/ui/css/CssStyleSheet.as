@@ -668,7 +668,7 @@ package com.ffsys.ui.css {
 				
 				if( style.paddingTop is Number )
 				{
-					target.paddings.top = style.paddingTop;					
+					target.paddings.top = style.paddingTop;	
 				}
 				
 				if( style.paddingRight is Number )
@@ -1140,7 +1140,7 @@ class CssArray extends CssResolver
 			var part:String = null;
 			var parsed:Object = null;
 			
-			trace("CssArray::resolve()", this.value, parts );
+			//trace("CssArray::resolve()", this.value, parts );
 			
 			for( var i:int = 0;i < parts.length;i++ )
 			{
@@ -1152,7 +1152,7 @@ class CssArray extends CssResolver
 				//overwrite the array entry with the parsed value
 				parsed = stylesheet.parseElement( part, styleName, this.name );
 				
-				trace("CssArray::resolve() RESOLVED: ", parsed, getQualifiedClassName( parsed ) );
+				//trace("CssArray::resolve() RESOLVED: ", parsed, getQualifiedClassName( parsed ) );
 				
 				if( parsed is ICssResolver )
 				{
