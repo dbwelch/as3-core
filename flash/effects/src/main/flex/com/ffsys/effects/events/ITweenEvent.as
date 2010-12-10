@@ -11,8 +11,7 @@ package com.ffsys.effects.events {
 	*	@author Mischa Williamson
 	*	@since  14.08.2007
 	*/
-	public interface ITweenEvent
-		extends ITweenParameters {	
+	public interface ITweenEvent {
+		//extends ITweenParameters {
 	}
-	
 }

@@ -11,7 +11,10 @@ package com.ffsys.effects.tween {
 	*	@since  14.08.2007
 	*/
 	public interface IDefaultEasing {
+
+		/**
+		* 	Gets the default function used to perform easing.
+		*/
 		function getDefaultEasing():Function;
 	}
-	
 }

@@ -4,21 +4,7 @@ package com.ffsys.effects.tween {
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.effects.events.TweenEvent;
-	import com.ffsys.effects.events.TweenCompleteEvent;
-	import com.ffsys.effects.events.TweenEndEvent;
-	import com.ffsys.effects.events.TweenFinishEvent;
-	import com.ffsys.effects.events.TweenPauseEvent;
-	import com.ffsys.effects.events.TweenResumeEvent;
-	import com.ffsys.effects.events.TweenStartEvent;
-	import com.ffsys.effects.events.TweenStopEvent;
-	import com.ffsys.effects.events.TweenUpdateEvent;
-	import com.ffsys.effects.events.TweenCollectionStartEvent;
-	import com.ffsys.effects.events.TweenCollectionStopEvent;
-	import com.ffsys.effects.events.TweenCollectionPauseEvent;
-	import com.ffsys.effects.events.TweenCollectionResumeEvent;
-	import com.ffsys.effects.events.TweenCollectionCompleteEvent;
-	import com.ffsys.effects.events.TweenCollectionFinishEvent;
+	import com.ffsys.effects.events.*;
 	
 	/**
 	*	Represents an Abstract super class for all
@@ -33,23 +19,33 @@ package com.ffsys.effects.tween {
 	public class AbstractTween extends EventDispatcher
 		implements ITween {			
 		
-		protected var _parentDecorator:TweenParentDecorator;
-		protected var _statusDecorator:TweenStatusDecorator;
-		protected var _parameters:ITweenParameters;
+		private var _parent:ITween;
+		private var _playing:Boolean;
+		private var _complete:Boolean;
+		private var _paused:Boolean;
 		
-		protected var _valueFormatter:ITweenValueFormatter;
-		protected var _updater:ITweenUpdater;
+		//TODO: make private
+		protected var _parameters:ITweenParameters;
+		private var _formatter:ITweenValueFormatter;
+		private var _updater:ITweenUpdater;
 		
 		public function AbstractTween()
 		{
 			super();
-			
-			_parentDecorator = new TweenParentDecorator();
-			_statusDecorator = new TweenStatusDecorator();
-			
-			_parameters = new TweenParameters();
-			TweenParametersDecorator( _parameters ).tween = this;
 		}
+		
+		/**
+		* 	A parent tween implementation that owns this tween.
+		*/
+		public function set parent( val:ITween ):void
+		{
+			_parent = val;
+		}
+		
+		public function get parent():ITween
+		{
+			return _parent;
+		}		
 		
 		/**
 		* 	Initializes all target properties to their start
@@ -62,12 +58,12 @@ package com.ffsys.effects.tween {
 		
 		public function set formatter( val:ITweenValueFormatter ):void
 		{
-			_valueFormatter = val;
+			_formatter = val;
 		}
 		
 		public function get formatter():ITweenValueFormatter
 		{
-			return _valueFormatter;
+			return _formatter;
 		}
 		
 		public function set updater( val:ITweenUpdater ):void
@@ -80,6 +76,9 @@ package com.ffsys.effects.tween {
 			return _updater;
 		}		
 		
+		/**
+		* 	The parameters for the tween.
+		*/
 		public function get parameters():ITweenParameters
 		{
 			return _parameters;
@@ -97,97 +96,12 @@ package com.ffsys.effects.tween {
 		}
 		
 		/*
-		*	ITweenParent implementation.
-		*/
-		public function set parent( val:ITween ):void
-		{
-			_parentDecorator.parent = val;
-		}
-		
-		public function get parent():ITween
-		{
-			return _parentDecorator.parent;
-		}
-		
-		/*
 		*	ITweenReverse implementation.	
 		*/
 		public function reverse():Array
 		{
 			return new Array();
 		}
-		
-		/*
-		*	ITweenStatus implementation.
-		*/
-		public function set playing( val:Boolean ):void
-		{
-			setPlaying( val );
-		}
-		
-		public function get playing():Boolean
-		{
-			return _statusDecorator.playing;
-		}
-		
-		public function set complete( val:Boolean ):void
-		{
-			setComplete( val );
-		}
-		
-		public function get complete():Boolean
-		{
-			return _statusDecorator.complete;
-		}
-		
-		public function set paused( val:Boolean ):void
-		{
-			setPaused( val );
-		}		
-		
-		public function get paused():Boolean
-		{
-			return _statusDecorator.paused;
-		}
-		
-		/**
-		*	@private
-		*
-		*	Used internally to set the value of the
-		*	playing status variable.
-		*
-		*	@param val a Boolean to set the playing status to
-		*/
-		protected function setPlaying( val:Boolean ):void
-		{
-			_statusDecorator.playing = val;
-		}
-		
-		/**
-		*	@private
-		*
-		*	Used internally to set the value of the
-		*	complete status variable.
-		*
-		*	@param val a Boolean to set the complete status to
-		*/
-		protected function setComplete( val:Boolean ):void
-		{
-			_statusDecorator.complete = val;
-		}		
-		
-		/**
-		*	@private
-		*
-		*	Used internally to set the value of the
-		*	paused status variable.
-		*
-		*	@param val a Boolean to set the paused status to
-		*/
-		protected function setPaused( val:Boolean ):void
-		{
-			_statusDecorator.paused = val;
-		}				
 		
 		/*
 		*	ITweenParameters implementation.
@@ -394,7 +308,40 @@ package com.ffsys.effects.tween {
 		{
 			TweenManager.removeTween( this );
 			dispatchEvent( new TweenFinishEvent( this ) );
+		}
+		
+		/*
+		*	ITweenStatus implementation.
+		*/	
+		public function set playing( val:Boolean ):void
+		{
+			_playing = val;
+		}
+	
+		public function get playing():Boolean
+		{
+			return _playing;
+		}
+		
+		public function set complete( val:Boolean ):void
+		{		
+			_complete = val;
 		}		
+		
+		public function get complete():Boolean
+		{
+			return _complete;
+		}
+		
+		public function set paused( val:Boolean ):void
+		{		
+			_paused = val;
+		}		
+		
+		public function get paused():Boolean
+		{		
+			return _paused;
+		}			
 		
 		/**
 		*	IDefaultEasing implementation.
@@ -402,7 +349,7 @@ package com.ffsys.effects.tween {
 		public function getDefaultEasing():Function
 		{
 			return TweenConstants.DEFAULT_EASING;
-		}		
+		}
 		
 		/*
 		*	ITweenClone implementation.
@@ -416,9 +363,9 @@ package com.ffsys.effects.tween {
 		
 		protected function resetAllStatus():void
 		{
- 			setPlaying( false );
-			setComplete( false );
-			setPaused( false );	
+ 			this.playing = false;
+			this.complete = false;
+			this.paused = false;
 		}
 	}
 }

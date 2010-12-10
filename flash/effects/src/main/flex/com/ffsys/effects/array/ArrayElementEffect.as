@@ -115,8 +115,6 @@ package com.ffsys.effects.array {
 			{
 				this.element = elem;
 			}
-		}		
-		
+		}
 	}
-	
 }

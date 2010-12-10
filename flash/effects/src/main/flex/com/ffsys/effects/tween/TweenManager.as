@@ -1,5 +1,7 @@
 package com.ffsys.effects.tween {
 	
+	import com.ffsys.effects.events.*;
+	
 	/**
 	*	Global class for managing all tween instances
 	*	currently in effect.
@@ -13,9 +15,13 @@ package com.ffsys.effects.tween {
 	*	@author Mischa Williamson
 	*	@since  09.08.2007
 	*/
-	public class TweenManager extends Object {
+	public class TweenManager extends AbstractTweenCollection {
 		
-		static private var _controller:TweenController = new TweenController();
+		static private var _instance:TweenManager = new TweenManager();
+		
+		static private const COMPLETE:String = "dispatchCompleteEvent";
+		static private const REFRESH_RATE:String = "refreshRate";
+		static private const FRAME_RATE:String = "frameRate";		
 		
 		/**
 		*	@private
@@ -23,57 +29,61 @@ package com.ffsys.effects.tween {
 		public function TweenManager()
 		{
 			super();
-			throw new Error( "TweenManager cannot be instantiated, static method access only." );
-		}
-		
-		/*
-		*	ITweenControl implementation.
-		*
-		*	Strictly speaking this is not an implementation as these
-		*	are all static methods, yet this is considered an ITweenControl
-		*	implementation.
-		*/
-		static public function start( trigger:Boolean = false ):void
-		{
-			_controller.start( trigger );
-		}
-		
-		static public function stop():void
-		{
-			_controller.stop();
-		}
-		
-		static public function pause():void
-		{
-			_controller.pause();
-		}
-		
-		static public function resume():void
-		{
-			_controller.resume();
-		}
-		
-		static public function finish( original:Boolean = false ):void
-		{
-			_controller.finish( original );
-		}
-		
-		static public function complete():void
-		{
-			_controller.complete = true;
 		}
 		
 		/*
 		*	ITweenSpeed implementation.
 		*/
-		static public function setRefreshRate( value:int ):void
+		override public function set refreshRate( value:int ):void
 		{
-			_controller.refreshRate = value;
+			applyPropertyToTargets( REFRESH_RATE, value );
 		}
 		
-		static public function setFrameRate( value:int ):void
+		override public function set frameRate( value:int ):void
 		{
-			_controller.frameRate = value;
+			applyPropertyToTargets( FRAME_RATE, value );
+		}
+		
+		/*
+		*	ITweenControl implementation.
+		*/
+		override public function start( trigger:Boolean = false ):void
+		{
+			applyMethodToTargets( TweenEvent.START, [ trigger ] );
+		}
+		
+		override public function stop():void
+		{
+			applyMethodToTargets( TweenEvent.STOP, [] );
+		}
+		
+		override public function pause():void
+		{
+			applyMethodToTargets( TweenEvent.PAUSE, [] );
+		}
+		
+		override public function resume():void
+		{
+			applyMethodToTargets( TweenEvent.RESUME, [] );
+		}
+		
+		override public function finish( original:Boolean = false ):void
+		{
+			applyMethodToTargets( TweenEvent.FINISH, [ original ] );
+		}
+		
+		override public function set complete( val:Boolean ):void
+		{
+			applyMethodToTargets( COMPLETE, [] );
+		}
+		
+		static public function get instance():TweenManager
+		{
+			if( !_instance )
+			{
+				_instance = new TweenManager();
+			}
+			return _instance;
 		}
 		
 		/*
@@ -87,7 +97,7 @@ package com.ffsys.effects.tween {
 		*/
 		static public function addTween( tween:ITween ):int
 		{
-			return _controller.addTween( tween );
+			return instance.addTween( tween );
 		}
 		
 		/**
@@ -97,9 +107,7 @@ package com.ffsys.effects.tween {
 		*/
 		static public function removeTween( tween:ITween ):Boolean
 		{
-			return _controller.removeTween( tween );
+			return instance.removeTween( tween );
 		}
-		
 	}
-	
 }

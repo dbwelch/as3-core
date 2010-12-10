@@ -11,7 +11,7 @@ package com.ffsys.effects.filters {
 	import com.ffsys.utils.number.NumericRange;
 	
 	/**
-	*	Represents Blur effect.
+	*	Performs an animation on a blur filter.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

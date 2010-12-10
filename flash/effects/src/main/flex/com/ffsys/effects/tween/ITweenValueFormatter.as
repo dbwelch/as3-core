@@ -27,5 +27,4 @@ package com.ffsys.effects.tween {
 		*/
 		function formatTweenValue( value:Number ):Number;
 	}
-	
 }

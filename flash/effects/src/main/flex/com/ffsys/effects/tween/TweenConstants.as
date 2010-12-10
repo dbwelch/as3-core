@@ -85,7 +85,5 @@ package com.ffsys.effects.tween {
 		{
 			super();
 		}
-		
 	}
-	
 }

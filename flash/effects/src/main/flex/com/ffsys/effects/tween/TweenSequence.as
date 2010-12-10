@@ -12,7 +12,7 @@ package com.ffsys.effects.tween {
 	
 	import com.ffsys.effects.events.TweenEvent;
 	import com.ffsys.effects.events.TweenCompleteEvent;
-	import com.ffsys.effects.events.TweenCollectionCompleteEvent;
+	import com.ffsys.effects.events.TweenEvent;
 
 	public class TweenSequence extends AbstractTweenCollection
 		implements ITweenCollection {
@@ -79,8 +79,7 @@ package com.ffsys.effects.tween {
 			
 			if( index > ( targets.length - 1 ) )
 			{
-				dispatchCollectionCompleteEvent( new TweenCollectionCompleteEvent( this ) );
-				
+				dispatchCollectionCompleteEvent( new TweenEvent( TweenEvent.COLLECTION_COMPLETE, this ) );
 				reset();
 				return;
 			}
@@ -221,7 +220,7 @@ package com.ffsys.effects.tween {
 		}
 		
 		override public function dispatchCollectionCompleteEvent(
-			event:TweenCollectionCompleteEvent ):void
+			event:TweenEvent ):void
 		{
 			if( hasSequentialElements() )
 			{

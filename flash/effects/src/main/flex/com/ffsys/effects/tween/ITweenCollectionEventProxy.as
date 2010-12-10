@@ -1,6 +1,6 @@
 package com.ffsys.effects.tween {
 	
-	import com.ffsys.effects.events.TweenCollectionCompleteEvent;
+	import com.ffsys.effects.events.TweenEvent;
 	
 	/*
 	*	Describes the contract for instancs that proxy
@@ -16,7 +16,7 @@ package com.ffsys.effects.tween {
 		extends ITweenEventProxy {
 			
 		function dispatchCollectionCompleteEvent(
-			event:TweenCollectionCompleteEvent ):void;
+			event:TweenEvent ):void;
 			
 	}
 	

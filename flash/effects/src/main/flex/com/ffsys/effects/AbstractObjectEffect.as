@@ -6,7 +6,6 @@ package com.ffsys.effects {
 	import com.ffsys.effects.tween.Tween;
 	import com.ffsys.effects.tween.TweenConstants;
 	import com.ffsys.effects.tween.TweenParameters;
-	import com.ffsys.effects.tween.TweenParametersDecorator;
 	
 	/**
 	*	Abstract super class for Effect sub-sets.
@@ -99,8 +98,6 @@ package com.ffsys.effects {
 			var tween:ITween = new Tween( target, parameters );
 			
 			addTween( tween );
-			
-			//TweenParametersDecorator( _parameters ).proxy = tween.parameters;
 			
 			_parameters = tween.parameters;
 			

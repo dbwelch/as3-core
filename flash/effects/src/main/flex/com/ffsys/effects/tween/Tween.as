@@ -59,10 +59,10 @@ package com.ffsys.effects.tween {
 			target:Object = null,
 			parameters:ITweenParameters = null )
 		{
-			super();			
+			super();
 			
-			_valueFormatter = this;
-			_updater = this;
+			this.formatter = this;
+			this.updater = this;
 			
 			//update our parameters decorator to point to the TweenParameters
 			//argument
@@ -71,11 +71,8 @@ package com.ffsys.effects.tween {
 			_currentLoop = 0;
 		
 			this.direction = TweenConstants.OUTBOUND;
-			
-			
 			this.parameters = parameters;
-			
-			this.target = target;			
+			this.target = target;
 		}
 		
 		/**
@@ -266,7 +263,7 @@ package com.ffsys.effects.tween {
 					//trace( "Tween : " + target[ prop ] );
 					
 					values.push(
-						_valueFormatter.formatTweenValue(
+						this.formatter.formatTweenValue(
 							easingMethod.call(
 								null,
 								_elapsed,
@@ -286,7 +283,7 @@ package com.ffsys.effects.tween {
 			}else{
 				
 				if(
-					_updater.shouldApplyTweenValues(
+					this.updater.shouldApplyTweenValues(
 						properties,
 						values
 					)
@@ -336,9 +333,9 @@ package com.ffsys.effects.tween {
 		{
 			clear();
 			
-			setPaused( false );
-			setPlaying( false );
-			setComplete( true );
+			this.paused = false;
+ 			this.playing = false;
+			this.complete = true;
 			
 			TweenManager.removeTween( this );
 			
@@ -401,7 +398,7 @@ package com.ffsys.effects.tween {
 			}
 			
 			clear();
-			setPlaying( false );
+			this.playing = false;
 			super.stop();
 		}
 		
@@ -416,7 +413,7 @@ package com.ffsys.effects.tween {
 				_startPauseTime = getTimer();
 				
 				stop();
-				setPaused( true );
+				this.paused = true;
 				
 				/*
 				trace( "Pause duration: " + this.duration );
@@ -724,9 +721,9 @@ package com.ffsys.effects.tween {
 			
 			_startInt = setInterval( tween, this.refreshRate );
 			
-			setPlaying( true );
-			setComplete( false );
-			setPaused( false );
+			this.playing = true;
+			this.complete = false;
+			this.paused = false;
 			
 			dispatchEvent( new TweenStartEvent( this ) );
 		}

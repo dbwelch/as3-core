@@ -25,15 +25,11 @@ package com.ffsys.effects.tween {
 		private var _delay:Number;
 		private var _startValues:Array;
 		private var _loops:int;
-		
 		private var _originalEndValues:Array;
 		private var _originalStartValues:Array;
-		
 		private var _refreshRate:int;
 		private var _frameRate:int;
-		
 		private var _proxy:ITweenParameters;
-		
 		private var _tween:ITween;
 		
 		public function TweenParameters(
@@ -86,15 +82,26 @@ package com.ffsys.effects.tween {
 			this.proxy = proxy;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get tween():ITween
+		{
+			return _tween;
+		}		
+		
 		public function set tween( val:ITween ):void
 		{
 			_tween = val;
 		}
 		
-		public function get tween():ITween
+		/**
+		* 	@inheritDoc
+		*/
+		public function get proxy():ITweenParameters
 		{
-			return _tween;
-		}
+			return _proxy;
+		}		
 		
 		public function set proxy( val:ITweenParameters ):void
 		{
@@ -106,20 +113,9 @@ package com.ffsys.effects.tween {
 			}
 		}
 		
-		public function get proxy():ITweenParameters
-		{
-			return _proxy;
-		}
-		
 		/*
 		*	ITweenSpeed implementation.
 		*/
-		public function set refreshRate( val:int ):void
-		{
-			_refreshRate = val;
-			_frameRate = Math.round( 1000 / val );			
-		}
-		
 		public function get refreshRate():int
 		{
 			if( !_frameRate )
@@ -129,14 +125,17 @@ package com.ffsys.effects.tween {
 			}
 			
 			return _refreshRate;
-		}
+		}		
 		
-		public function set frameRate( val:int ):void
+		public function set refreshRate( val:int ):void
 		{
-			_frameRate = val;
-			_refreshRate = Math.round( 1000 / val );
+			_refreshRate = val;
+			_frameRate = Math.round( 1000 / val );			
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get frameRate():int
 		{
 			if( !_frameRate )
@@ -146,6 +145,13 @@ package com.ffsys.effects.tween {
 			
 			return _frameRate;
 		}		
+		
+		public function set frameRate( val:int ):void
+		{
+			_frameRate = val;
+			_refreshRate = Math.round( 1000 / val );
+		}		
+		
 		
 		/*
 		*	ITweenParameters implementation.

@@ -6,19 +6,7 @@ package com.ffsys.effects.tween {
 	
 	import com.ffsys.effects.IEffect;
 	
-	import com.ffsys.effects.events.TweenEvent;
-	import com.ffsys.effects.events.TweenCompleteEvent;
-	import com.ffsys.effects.events.TweenEndEvent;
-	import com.ffsys.effects.events.TweenPauseEvent;
-	import com.ffsys.effects.events.TweenResumeEvent;
-	import com.ffsys.effects.events.TweenStartEvent;
-	import com.ffsys.effects.events.TweenStopEvent;
-	import com.ffsys.effects.events.TweenUpdateEvent;
-	import com.ffsys.effects.events.TweenCollectionStartEvent;
-	import com.ffsys.effects.events.TweenCollectionStopEvent;
-	import com.ffsys.effects.events.TweenCollectionPauseEvent;
-	import com.ffsys.effects.events.TweenCollectionResumeEvent;
-	import com.ffsys.effects.events.TweenCollectionCompleteEvent;
+	import com.ffsys.effects.events.*;
 
 	public class TweenGroup extends AbstractTweenCollection
 		implements ITweenCollection {
@@ -240,12 +228,12 @@ package com.ffsys.effects.tween {
 			{
 				playing = false;
 				complete = true;
-				super.dispatchCollectionCompleteEvent( new TweenCollectionCompleteEvent( this ) );
+				super.dispatchCollectionCompleteEvent( new TweenEvent( TweenEvent.COLLECTION_COMPLETE, this ) );
 			}
 		}
 		
 		override public function dispatchCollectionCompleteEvent(
-			event:TweenCollectionCompleteEvent ):void
+			event:TweenEvent ):void
 		{
 			//removeProxyListeners( event.target as IEventDispatcher );
 			
@@ -253,8 +241,6 @@ package com.ffsys.effects.tween {
 			
 			removeAllProxyListeners();
 			super.dispatchCollectionCompleteEvent( event );
-		}				
-				
+		}
 	}
-	
 }

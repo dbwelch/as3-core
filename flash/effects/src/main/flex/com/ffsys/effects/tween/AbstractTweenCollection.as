@@ -16,7 +16,7 @@ package com.ffsys.effects.tween {
 	import com.ffsys.effects.events.TweenCollectionStopEvent;
 	import com.ffsys.effects.events.TweenCollectionPauseEvent;
 	import com.ffsys.effects.events.TweenCollectionResumeEvent;
-	import com.ffsys.effects.events.TweenCollectionCompleteEvent;
+	import com.ffsys.effects.events.TweenEvent;
 	import com.ffsys.effects.events.TweenCollectionFinishEvent;
 	
 	/**
@@ -268,7 +268,7 @@ package com.ffsys.effects.tween {
 		}
 		
 		public function dispatchCollectionCompleteEvent(
-			event:TweenCollectionCompleteEvent ):void
+			event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
