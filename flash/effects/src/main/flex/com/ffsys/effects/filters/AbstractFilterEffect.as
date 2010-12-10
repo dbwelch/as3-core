@@ -3,7 +3,7 @@ package com.ffsys.effects.filters {
 	import flash.display.DisplayObject;
 	
 	import com.ffsys.effects.display.AbstractDisplayObjectEffect;
-	import com.ffsys.effects.events.TweenUpdateEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 	import com.ffsys.effects.tween.ITweenUpdater;
 	import com.ffsys.effects.tween.ITween;
 	

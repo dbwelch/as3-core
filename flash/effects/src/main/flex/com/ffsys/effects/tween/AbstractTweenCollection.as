@@ -4,20 +4,7 @@ package com.ffsys.effects.tween {
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.effects.events.TweenEvent;
-	import com.ffsys.effects.events.TweenCompleteEvent;
-	import com.ffsys.effects.events.TweenEndEvent;
-	import com.ffsys.effects.events.TweenPauseEvent;
-	import com.ffsys.effects.events.TweenResumeEvent;
-	import com.ffsys.effects.events.TweenStartEvent;
-	import com.ffsys.effects.events.TweenStopEvent;
-	import com.ffsys.effects.events.TweenUpdateEvent;
-	import com.ffsys.effects.events.TweenCollectionStartEvent;
-	import com.ffsys.effects.events.TweenCollectionStopEvent;
-	import com.ffsys.effects.events.TweenCollectionPauseEvent;
-	import com.ffsys.effects.events.TweenCollectionResumeEvent;
-	import com.ffsys.effects.events.TweenEvent;
-	import com.ffsys.effects.events.TweenCollectionFinishEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 	
 	/**
 	*	Represents an Abstract super class for all ITweenCollection instances.
@@ -159,27 +146,27 @@ package com.ffsys.effects.tween {
 		*/
 		override public function start( trigger:Boolean = false ):void
 		{
-			dispatchEvent( new TweenCollectionStartEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.COLLECTION_START, this ) );
 		}
 		
 		override public function stop():void
 		{
-			dispatchEvent( new TweenCollectionStopEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.COLLECTION_STOP, this ) );
 		}
 		
 		override public function pause():void
 		{
-			dispatchEvent( new TweenCollectionPauseEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.COLLECTION_PAUSE, this ) );
 		}
 		
 		override public function resume():void
 		{
-			dispatchEvent( new TweenCollectionResumeEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.COLLECTION_RESUME, this ) );
 		}
 		
 		override public function finish( original:Boolean = false ):void
 		{
-			dispatchEvent( new TweenCollectionFinishEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.COLLECTION_FINISH, this ) );
 		}
 		
 		/*
@@ -232,37 +219,37 @@ package com.ffsys.effects.tween {
 			
 		}
 		
-		public function dispatchStartEvent( event:TweenStartEvent ):void
+		public function dispatchStartEvent( event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
 		
-		public function dispatchStopEvent( event:TweenStopEvent ):void
+		public function dispatchStopEvent( event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
 		
-		public function dispatchPauseEvent( event:TweenPauseEvent ):void
+		public function dispatchPauseEvent( event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
 		
-		public function dispatchResumeEvent( event:TweenResumeEvent ):void
+		public function dispatchResumeEvent( event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
 		
-		public function dispatchUpdateEvent( event:TweenUpdateEvent ):void
+		public function dispatchUpdateEvent( event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
 		
-		public function dispatchEndEvent( event:TweenEndEvent ):void
+		public function dispatchEndEvent( event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
 		
-		public function dispatchCompleteEvent( event:TweenCompleteEvent ):void
+		public function dispatchCompleteEvent( event:TweenEvent ):void
 		{
 			dispatchEvent( event );
 		}
@@ -353,7 +340,5 @@ package com.ffsys.effects.tween {
 				target[ propertyName ] = value;
 			}
 		}
-
 	}
-	
 }

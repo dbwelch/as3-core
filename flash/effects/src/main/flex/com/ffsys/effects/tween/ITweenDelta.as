@@ -16,5 +16,4 @@ package com.ffsys.effects.tween {
 		function set deltas( val:Array ):void;
 		function get deltas():Array;
 	}
-	
 }

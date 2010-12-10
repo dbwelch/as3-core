@@ -1,6 +1,6 @@
 package com.ffsys.effects.tween {
 
-	import com.ffsys.effects.events.TweenUpdateEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 	
 	import com.ffsys.effects.IEffect;
 	
@@ -534,7 +534,7 @@ package com.ffsys.effects.tween {
 				}
 				
 				dispatcher.dispatchEvent(
-					new TweenUpdateEvent( dispatcher )
+					new TweenEvent( TweenEvent.UPDATE, dispatcher )
 				);
 			}
 		}	

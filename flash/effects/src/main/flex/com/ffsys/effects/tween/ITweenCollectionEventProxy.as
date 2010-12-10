@@ -1,6 +1,6 @@
 package com.ffsys.effects.tween {
 	
-	import com.ffsys.effects.events.TweenEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 	
 	/*
 	*	Describes the contract for instancs that proxy

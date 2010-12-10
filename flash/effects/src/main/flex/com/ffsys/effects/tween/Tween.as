@@ -11,15 +11,7 @@ package com.ffsys.effects.tween {
 	import flash.utils.setInterval;
 	import flash.utils.Timer;
 	
-	import com.ffsys.effects.events.TweenEvent;
-	import com.ffsys.effects.events.TweenCompleteEvent;
-	import com.ffsys.effects.events.TweenEndEvent;
-	import com.ffsys.effects.events.TweenPauseEvent;
-	import com.ffsys.effects.events.TweenResumeEvent;
-	import com.ffsys.effects.events.TweenStartEvent;
-	import com.ffsys.effects.events.TweenStopEvent;
-	import com.ffsys.effects.events.TweenUpdateEvent;
-	import com.ffsys.effects.events.TweenFinishEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 	
 	public class Tween extends AbstractTween
 		implements 	ITweenTrigger,
@@ -224,7 +216,8 @@ package com.ffsys.effects.tween {
 					if( i == ( l - 1 ) )
 					{
 						
-						dispatchEvent( new TweenEndEvent( this ) );
+						//TODO: investigate this event
+						dispatchEvent( new TweenEvent( TweenEvent.COMPLETE, this ) );
 						
 						stop();
 						
@@ -341,7 +334,7 @@ package com.ffsys.effects.tween {
 			
 			//trace( "Tween dispatchCompleteEvent" );
 			
-			dispatchEvent( new TweenCompleteEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.COMPLETE, this ) );
 		}
 		
 		/*
@@ -725,7 +718,7 @@ package com.ffsys.effects.tween {
 			this.complete = false;
 			this.paused = false;
 			
-			dispatchEvent( new TweenStartEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.START, this ) );
 		}
 		
 		public function setStartValues(
@@ -747,27 +740,6 @@ package com.ffsys.effects.tween {
 			if( deltaTrigger ) setDeltas();
 			if( updateOriginals ) _parameters.originalEndValues = endValues;
 		}
-		
-		/*
-		private function set startTime( val:Number ):void
-		{
-			_startTime = val;
-		}
-		*/
-		
-		/*
-		private function set nowTime( val:Number ):void
-		{
-			_now = val;
-		}
-		*/
-		
-		/*
-		private function get startTime():Number
-		{
-			return _startTime;
-		}
-		*/
 		
 		/*
 		*	Static utility methods.

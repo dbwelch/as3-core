@@ -10,9 +10,7 @@ package com.ffsys.effects.tween {
 
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.effects.events.TweenEvent;
-	import com.ffsys.effects.events.TweenCompleteEvent;
-	import com.ffsys.effects.events.TweenEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 
 	public class TweenSequence extends AbstractTweenCollection
 		implements ITweenCollection {
@@ -24,7 +22,7 @@ package com.ffsys.effects.tween {
 		{
 			super( args );
 			_currentIndex = 0;
-		}			
+		}
 		
 		/*
 		*	ITweenCollection implementation.
@@ -155,7 +153,7 @@ package com.ffsys.effects.tween {
 			
 			complete = true;
 			
-			//dispatchEvent( new TweenCollectionResumeEvent() );
+			//dispatchEvent( new TweenEvent() );
 			
 			super.finish();
 		}
@@ -185,7 +183,7 @@ package com.ffsys.effects.tween {
 		/*
 		*	ITweenEventProxy implementation.
 		*/
-		override public function dispatchCompleteEvent( event:TweenCompleteEvent ):void
+		override public function dispatchCompleteEvent( event:TweenEvent ):void
 		{
 			//trace( "Tween sequence complete : " + this );
 			//trace( "Tween sequence complete target : " + event.target );
@@ -289,8 +287,6 @@ package com.ffsys.effects.tween {
 		private function hasSequentialElements():Boolean
 		{
 			return ( _currentIndex < ( targets.length - 1 ) );
-		}					
-				
+		}
 	}
-	
 }

@@ -3,7 +3,7 @@ package com.ffsys.effects.sound {
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
 	
-	import com.ffsys.effects.events.TweenEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 	import com.ffsys.effects.tween.TweenConstants;
 	
 	import com.ffsys.utils.number.NumericRange;
@@ -40,9 +40,6 @@ package com.ffsys.effects.sound {
 				volume.end,
 				duration,
 				easing );
-			
-		}				
-		
+		}
 	}
-	
 }

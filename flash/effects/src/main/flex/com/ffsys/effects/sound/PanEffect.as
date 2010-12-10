@@ -3,13 +3,13 @@ package com.ffsys.effects.sound {
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
 	
-	import com.ffsys.effects.events.TweenEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 	import com.ffsys.effects.tween.TweenConstants;
 	
 	import com.ffsys.utils.number.NumericRange;
 	
 	/**
-	*	Effect for changing the pan of a SoundTransform instance.
+	*	Effect for changing the pan of a sound transform.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -39,9 +39,6 @@ package com.ffsys.effects.sound {
 				pan.end,
 				duration,
 				easing );
-			
-		}		
-		
+		}
 	}
-	
 }

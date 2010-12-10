@@ -1,4 +1,4 @@
-package com.ffsys.effects.events {
+package com.ffsys.effects.tween {
 
 	import flash.events.Event;
 	
@@ -14,8 +14,7 @@ package com.ffsys.effects.events {
 	*	@author Mischa Williamson
 	*	@since  14.08.2007
 	*/
-	public class TweenEvent extends Event
-		implements ITweenEvent {
+	public class TweenEvent extends Event {
 	
 		static public const START:String = "start";
 		static public const STOP:String = "stop";

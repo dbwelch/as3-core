@@ -4,7 +4,7 @@ package com.ffsys.effects.tween {
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.effects.events.*;
+	import com.ffsys.effects.tween.TweenEvent;
 	
 	/**
 	*	Represents an Abstract super class for all
@@ -26,6 +26,7 @@ package com.ffsys.effects.tween {
 		
 		//TODO: make private
 		protected var _parameters:ITweenParameters;
+		
 		private var _formatter:ITweenValueFormatter;
 		private var _updater:ITweenUpdater;
 		
@@ -281,22 +282,22 @@ package com.ffsys.effects.tween {
 		*/
 		public function start( trigger:Boolean = false ):void
 		{
-			dispatchEvent( new TweenStartEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.START, this ) );
 		}
 		
 		public function stop():void
 		{
-			dispatchEvent( new TweenStopEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.STOP, this ) );
 		}
 		
 		public function pause():void
 		{
-			dispatchEvent( new TweenPauseEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.PAUSE, this ) );
 		}
 		
 		public function resume():void
 		{
-			dispatchEvent( new TweenResumeEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.RESUME, this ) );
 		}
 		
 		public function toggle():void
@@ -307,7 +308,7 @@ package com.ffsys.effects.tween {
 		public function finish( original:Boolean = false ):void
 		{
 			TweenManager.removeTween( this );
-			dispatchEvent( new TweenFinishEvent( this ) );
+			dispatchEvent( new TweenEvent( TweenEvent.FINISH, this ) );
 		}
 		
 		/*

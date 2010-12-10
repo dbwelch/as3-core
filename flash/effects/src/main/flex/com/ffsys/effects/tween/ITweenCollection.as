@@ -12,7 +12,7 @@ package com.ffsys.effects.tween {
 	*/
 	public interface ITweenCollection
 		extends ITween,
-				ITweenCollectionEventProxy,
+				ITweenEventProxy,
 				ITweenCollectionList {
 	}
 	

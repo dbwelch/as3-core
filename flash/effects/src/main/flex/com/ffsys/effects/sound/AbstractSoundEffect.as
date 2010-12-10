@@ -6,7 +6,7 @@ package com.ffsys.effects.sound {
 	import com.ffsys.effects.AbstractObjectEffect;
 	import com.ffsys.effects.easing.Linear;
 	
-	import com.ffsys.effects.events.TweenUpdateEvent;	
+	import com.ffsys.effects.tween.TweenEvent;	
 	
 	/**
 	*	Abstract base class for sound effects.
@@ -32,7 +32,7 @@ package com.ffsys.effects.sound {
 			return Linear.easeNone;
 		}
 		
-		override public function dispatchUpdateEvent( event:TweenUpdateEvent ):void
+		override public function dispatchUpdateEvent( event:TweenEvent ):void
 		{
 			applyTransform();
 			dispatchEvent( event );

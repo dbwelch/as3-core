@@ -6,7 +6,7 @@ package com.ffsys.effects.tween {
 	
 	import com.ffsys.effects.IEffect;
 	
-	import com.ffsys.effects.events.*;
+	import com.ffsys.effects.tween.TweenEvent;
 
 	public class TweenGroup extends AbstractTweenCollection
 		implements ITweenCollection {
@@ -198,7 +198,7 @@ package com.ffsys.effects.tween {
 		}
 		*/
 		
-		override public function dispatchCompleteEvent( event:TweenCompleteEvent ):void
+		override public function dispatchCompleteEvent( event:TweenEvent ):void
 		{
 			//removeProxyListeners( event.target as IEventDispatcher );
 			

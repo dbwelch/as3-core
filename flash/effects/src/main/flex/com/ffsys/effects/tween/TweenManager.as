@@ -1,6 +1,6 @@
 package com.ffsys.effects.tween {
 	
-	import com.ffsys.effects.events.*;
+	import com.ffsys.effects.tween.TweenEvent;
 	
 	/**
 	*	Global class for managing all tween instances
