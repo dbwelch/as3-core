@@ -56,12 +56,7 @@ package com.ffsys.effects.tween {
 			this.formatter = this;
 			this.updater = this;
 			
-			//update our parameters decorator to point to the TweenParameters
-			//argument
-			//_parameters = parameters;
-			
 			_currentLoop = 0;
-		
 			this.direction = TweenConstants.OUTBOUND;
 			this.parameters = parameters;
 			this.target = target;
@@ -326,9 +321,9 @@ package com.ffsys.effects.tween {
 		{
 			clear();
 			
-			this.paused = false;
- 			this.playing = false;
-			this.complete = true;
+			_paused = false;
+ 			_playing = false;
+			_complete = true;
 			
 			TweenManager.removeTween( this );
 			
@@ -391,7 +386,7 @@ package com.ffsys.effects.tween {
 			}
 			
 			clear();
-			this.playing = false;
+			_playing = false;
 			super.stop();
 		}
 		
@@ -406,7 +401,6 @@ package com.ffsys.effects.tween {
 				_startPauseTime = getTimer();
 				
 				stop();
-				this.paused = true;
 				
 				/*
 				trace( "Pause duration: " + this.duration );
@@ -425,9 +419,8 @@ package com.ffsys.effects.tween {
 		*/
 		override public function resume():void
 		{
-			if( paused )
+			if( _paused )
 			{
-				
 				_pausedTime =
 					getTimer() - _startPauseTime;
 
@@ -565,8 +558,10 @@ package com.ffsys.effects.tween {
 		{	
 			var tween:Tween = new Tween(
 				target,
-				TweenParameters( parameters )
+				this.parameters
 			)
+			
+			//TODO: clone the parameters
 			
 			tween.frameRate = this.frameRate;
 			
@@ -714,9 +709,9 @@ package com.ffsys.effects.tween {
 			
 			_startInt = setInterval( tween, this.refreshRate );
 			
-			this.playing = true;
-			this.complete = false;
-			this.paused = false;
+			_playing = true;
+			_complete = false;
+			_paused = false;
 			
 			dispatchEvent( new TweenEvent( TweenEvent.START, this ) );
 		}

@@ -20,9 +20,21 @@ package com.ffsys.effects.tween {
 		implements ITween {			
 		
 		private var _parent:ITween;
-		private var _playing:Boolean;
-		private var _complete:Boolean;
-		private var _paused:Boolean;
+		
+		/**
+		* 	@private
+		*/
+		protected var _playing:Boolean;
+		
+		/**
+		* 	@private
+		*/
+		protected var _complete:Boolean;
+		
+		/**
+		* 	@private
+		*/
+		protected var _paused:Boolean;
 		
 		//TODO: make private
 		protected var _parameters:ITweenParameters;
@@ -85,10 +97,11 @@ package com.ffsys.effects.tween {
 		*/
 		public function get parameters():ITweenParameters
 		{
+			trace("AbstractTween::get parameters()", "GETTING PARAMETERS: ", _parameters );
 			return _parameters;
 		}
 		
-		public function set parameters( value:ITweenParameters ):void
+		public function set parameters( parameters:ITweenParameters ):void
 		{
 			_parameters = parameters;
 			
@@ -295,11 +308,13 @@ package com.ffsys.effects.tween {
 		
 		public function pause():void
 		{
+			_paused = true;
 			dispatchEvent( new TweenEvent( TweenEvent.PAUSE, this ) );
 		}
 		
 		public function resume():void
 		{
+			_paused = false;
 			dispatchEvent( new TweenEvent( TweenEvent.RESUME, this ) );
 		}
 		

@@ -72,6 +72,7 @@ package com.ffsys.effects.tween {
 		function set originalEndValues( val:Array ):void;
 		function get originalEndValues():Array;
 		
+		
 		function getParameters():Object;
 		
 		/**

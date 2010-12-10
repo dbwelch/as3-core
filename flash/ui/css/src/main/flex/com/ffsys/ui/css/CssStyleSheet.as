@@ -1152,7 +1152,7 @@ class CssArray extends CssResolver
 				//overwrite the array entry with the parsed value
 				parsed = stylesheet.parseElement( part, styleName, this.name );
 				
-				trace("CssStyleSheet::resolve() RESOLVED: ", parsed, getQualifiedClassName( parsed ) );
+				trace("CssArray::resolve() RESOLVED: ", parsed, getQualifiedClassName( parsed ) );
 				
 				if( parsed is ICssResolver )
 				{
