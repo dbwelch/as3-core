@@ -13,6 +13,13 @@ package com.ffsys.io.loaders.resources {
 	*/
 	public class BinaryResource extends AbstractResource {
 		
+		/**
+		* 	Creates a <code>BinaryResource</code> instance.
+		* 
+		* 	@param data The data this resource encapsulates.
+		* 	@param uri The <code>URI</code> the data was loaded from.
+		* 	@param bytesTotal The total number of bytes loaded.
+		*/
 		public function BinaryResource(
 			data:Object = null,
 			uri:String = null,
@@ -21,6 +28,9 @@ package com.ffsys.io.loaders.resources {
 			super( data, uri, bytesTotal );
 		}
 		
+		/**
+		* 	The data for this resource coerced to a byte array.
+		*/
 		public function get bytes():ByteArray
 		{
 			return ByteArray( this.data );

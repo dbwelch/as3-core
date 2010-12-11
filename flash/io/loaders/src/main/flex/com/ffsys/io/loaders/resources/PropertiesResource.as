@@ -18,12 +18,11 @@ package com.ffsys.io.loaders.resources {
 		private var _properties:IProperties;
 		
 		/**
-		*	Creates a <code>PropertiesResource</code> instance.
-		*	
-		*	@param data The data for the resource.
-		*	@param uri The URI the resource was loaded from.
-		*	@param bytesTotal The total number of bytes for the
-		*	resource.
+		* 	Creates a <code>PropertiesResource</code> instance.
+		* 
+		* 	@param data The data this resource encapsulates.
+		* 	@param uri The <code>URI</code> the data was loaded from.
+		* 	@param bytesTotal The total number of bytes loaded.
 		*/
 		public function PropertiesResource(
 			data:Object = null,

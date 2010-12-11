@@ -42,14 +42,12 @@ package com.ffsys.io.loaders.message {
 			message:String = null,
 			id:String = null ):String
 		{
-			
 			if( id )
 			{
 				id = StringUtils.removeExtension( id );
 				id = CamelCaseUtils.camelCaseToTitleCase( id );
 			}
-			
 			return StringUtils.substitute( message, id );
-		}	
-	}	
+		}
+	}
 }

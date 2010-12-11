@@ -11,6 +11,7 @@ package com.ffsys.io.loaders.core {
 	*	@since  16.10.2007
 	*/
 	public class LoaderPriority extends Object {
+		
 		/**
 		*	Constant to indicate prioritizing to the top
 		*	of the queue - becomes the first item to be loaded.

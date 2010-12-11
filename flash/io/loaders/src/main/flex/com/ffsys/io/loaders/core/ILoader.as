@@ -28,12 +28,6 @@ package com.ffsys.io.loaders.core {
 		*/
 		function get message():ILoadMessage;
 		function set message( message:ILoadMessage ):void;
-					
-		/*
-		*	We can't implement IBytesTotal/IBytesLoaded
-		*	as URLLoader declares bytesLoaded/bytesTotal
-		*	public variables.	
-		*/
 		
 		/**
 		*	The number of bytes currently loaded.
@@ -52,8 +46,7 @@ package com.ffsys.io.loaders.core {
 		function getBytesTotal():uint;
 	
 		/**
-		*	Starts a load operation on this
-		*	<code>ILoader</code>.
+		*	Starts loading the file.
 		*	
 		*	@param request The <code>URLRequest</code>
 		*	to load the resource from.
@@ -61,7 +54,9 @@ package com.ffsys.io.loaders.core {
 		function load( request:URLRequest ):void;
 		
 		/**
-		*	@deprecate
+		* 	Adds listeners to a target.
+		* 
+		*	@deprecated
 		*/
 		function addResponderListeners(
 			target:IEventDispatcher,
@@ -71,8 +66,10 @@ package com.ffsys.io.loaders.core {
 			resourceNotFoundMethod:Function = null ):void;
 		
 		/**
-		*	@deprecate	
-		*/		
+		* 	Removes listeners from a target.
+		* 
+		*	@deprecated
+		*/
 		function removeResponderListeners(
 			target:IEventDispatcher,
 			startMethod:Function = null,

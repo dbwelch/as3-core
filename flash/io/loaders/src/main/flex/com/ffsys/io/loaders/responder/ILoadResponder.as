@@ -1,3 +1,6 @@
+/**
+*	Classes used for event response handling.
+*/
 package com.ffsys.io.loaders.responder {
 	
 	import flash.events.IEventDispatcher;
@@ -16,10 +19,39 @@ package com.ffsys.io.loaders.responder {
 	public interface ILoadResponder
 		extends IEventDispatcher {
 		
+		/**
+		* 	Invoked when a resource starts loading.
+		* 
+		* 	@param event The event that triggered this listener.
+		*/
 		function resourceLoadStart( event:LoadEvent ):void;
+		
+		/**
+		* 	Invoked while a resource is loading.
+		* 
+		* 	@param event The event that triggered this listener.
+		*/
 		function resourceLoadProgress( event:LoadEvent ):void;
+		
+		/**
+		* 	Invoked when a resource is loaded.
+		* 
+		* 	@param event The event that triggered this listener.
+		*/
 		function resourceLoaded( event:LoadEvent ):void;
+		
+		/**
+		* 	Invoked when a resource has completed loaded.
+		* 
+		* 	@param event The event that triggered this listener.
+		*/
 		function resourceLoadComplete( event:LoadEvent ):void;
+		
+		/**
+		* 	Invoked when a resource could not be found.
+		* 
+		* 	@param event The event that triggered this listener.
+		*/
 		function resourceNotFoundHandler( event:LoadEvent ):void;		
 	}
 }

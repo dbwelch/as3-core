@@ -17,6 +17,13 @@ package com.ffsys.io.loaders.resources {
 	*/
 	public class MovieResource extends AbstractResource {
 		
+		/**
+		* 	Creates a <code>MovieResource</code> instance.
+		* 
+		* 	@param data The data this resource encapsulates.
+		* 	@param uri The <code>URI</code> the data was loaded from.
+		* 	@param bytesTotal The total number of bytes loaded.
+		*/
 		public function MovieResource(
 			data:Object = null,
 			uri:String = null,
@@ -25,6 +32,9 @@ package com.ffsys.io.loaders.resources {
 			super( data, uri, bytesTotal );
 		}
 		
+		/**
+		* 	The data for this resource coerced to a loader.
+		*/		
 		public function get loader():Loader
 		{
 			return Loader( data );
@@ -52,12 +62,10 @@ package com.ffsys.io.loaders.resources {
 			}
 			
 			var display:IDisplayMovie;
-			
 			display = new MovieDisplay();
 			display.uri = uri;
 			display.loader = loader;
 			display.bytesTotal = bytesTotal;
-
 			return display;
 		}
 	}

@@ -3,22 +3,17 @@ package com.ffsys.io.loaders.types {
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-	
 	import flash.text.StyleSheet;
 	
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.core.AbstractLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;
-	
+	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
 	import com.ffsys.io.loaders.resources.StyleSheetResource;
 	
-	import com.ffsys.io.loaders.core.ILoadOptions;
-	
 	/**
-	*	Represents a loader for css text files.
+	*	Loads a css text file.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -29,10 +24,10 @@ package com.ffsys.io.loaders.types {
 	public class StyleSheetLoader extends AbstractLoader {
 		
 		/**
-		*	Creates a <code>StyleSheetLoader</code> instance.
-		*	
-		*	@param request The url request.
-		*	@param options The load options.
+		* 	Creates a <code>StyleSheetLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
 		*/
 		public function StyleSheetLoader(	
 			request:URLRequest = null,
@@ -72,29 +67,9 @@ package com.ffsys.io.loaders.types {
 		{
 			var loader:URLLoader = URLLoader( event.target );
 			var sheet:StyleSheet = parse( String( loader.data ) );
-			
-			/*
-			if( !data )
-			{
-				var loader:URLLoader = URLLoader( event.target );
-				
-				if( loader.data )
-				{	
-					sheet = getStyleSheet();
-					css = new String( loader.data );
-					sheet.parseCSS( css );
-					
-					super.completeHandler( event, css );
-				}
-			}else{
-				sheet = data as StyleSheet;
-			}
-			*/
-			
 			if( sheet )
 			{
-				resource = new StyleSheetResource( sheet, uri );			
-				
+				resource = new StyleSheetResource( sheet, uri );
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.DATA,
 					event,
@@ -102,17 +77,15 @@ package com.ffsys.io.loaders.types {
 					resource as StyleSheetResource
 				);
 				
+				//TODO: refactor
 				if( queue )
 				{
 					queue.addResource( this );
 				}
 				
 				dispatchEvent( evt );
-				
 				Notifier.dispatchEvent( evt );
 			}
-			
-			//dispatchLoadCompleteEvent();
         }
 	}
 }

@@ -12,16 +12,12 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.core.AbstractDisplayLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;
-	
+	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
 	import com.ffsys.io.loaders.resources.ImageResource;
 	
-	import com.ffsys.io.loaders.core.ILoadOptions;
-	
 	/**
-	*	Represents a loader for Bitmap data.
+	*	Loads bitmap image files.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -31,6 +27,12 @@ package com.ffsys.io.loaders.types {
 	*/
 	public class ImageLoader extends AbstractDisplayLoader {
 		
+		/**
+		* 	Creates an <code>ImageLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function ImageLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
@@ -39,6 +41,9 @@ package com.ffsys.io.loaders.types {
 			dataFormat = URLLoaderDataFormat.BINARY;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{

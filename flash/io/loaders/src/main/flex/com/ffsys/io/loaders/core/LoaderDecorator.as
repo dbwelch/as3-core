@@ -24,7 +24,8 @@ package com.ffsys.io.loaders.core {
 	*	@since  02.08.2007
 	*/
 	public class LoaderDecorator extends Object
-		implements ILoaderParameters {
+		implements 	ILoaderParameters,
+		 			IForceLoad {
 		
 		/**
 		*	@private	
@@ -66,6 +67,12 @@ package com.ffsys.io.loaders.core {
 		*/	
 		protected var _forceLoad:Boolean;
 		
+		/**
+		* 	Creates a <code>LoaderDecorator</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function LoaderDecorator(
 			request:URLRequest,
 			options:ILoadOptions = null )
@@ -127,7 +134,7 @@ package com.ffsys.io.loaders.core {
 		}			
 		
 		/**
-		*	@inheritDoc	
+		*	An identifier for this decorator.
 		*/		
 		public function set id( val:String ):void
 		{

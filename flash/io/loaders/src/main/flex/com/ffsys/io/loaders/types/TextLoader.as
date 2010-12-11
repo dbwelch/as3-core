@@ -7,17 +7,13 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.core.AbstractLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;
-	
+	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.events.LoadEvent;
-
 	import com.ffsys.io.loaders.resources.ObjectResource;
 	import com.ffsys.io.loaders.resources.TextResource;
 	
-	import com.ffsys.io.loaders.core.ILoadOptions;
-	
 	/**
-	*	Encapsulates loading plain text data.
+	*	Loads a text file.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -59,6 +55,9 @@ package com.ffsys.io.loaders.types {
 			return false;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
@@ -92,18 +91,16 @@ package com.ffsys.io.loaders.types {
 					this,
 					resource
 				);
-					
+				
+				//TODO: refactor
 				if( queue )
 				{
 					queue.addResource( this );
 				}
 				
-				dispatchEvent( evt );
-				
+				dispatchEvent( evt );	
 				Notifier.dispatchEvent( evt );
 			}
-			
-			//dispatchLoadCompleteEvent();
         }
 	}
 }

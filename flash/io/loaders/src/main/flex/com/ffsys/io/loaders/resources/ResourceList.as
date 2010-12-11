@@ -24,10 +24,14 @@ package com.ffsys.io.loaders.resources {
 			this.id = id;
 		}
 		
+		/**
+		* 	Destroys this resource list.
+		*/
 		public function destroy():void
 		{
 			//trace("ResourceList::destroy(), " + _resources );
 			
+			//TODO: remove this deprecated dependency
 			var destroyer:Destroyer = new Destroyer();
 			
 			if( _resources )
@@ -39,24 +43,22 @@ package com.ffsys.io.loaders.resources {
 			_resources = null;
 		}
 		
-		/*
-		*	IResourceElement implementation.
+		/**
+		*	An identifier for this resource list.
 		*/
+		public function get id():String
+		{
+			return _id;
+		}		
 		
 		public function set id( val:String ):void
 		{
 			_id = val;
 		}		
 		
-		public function get id():String
-		{
-			return _id;
-		}		
-		
-		/*
-		*	IResourceList implementation.
+		/**
+		* 	@inheritDoc
 		*/
-		
 		public function addResource( val:IResourceElement ):int
 		{
 			if( !_resources )
@@ -67,6 +69,9 @@ package com.ffsys.io.loaders.resources {
 			return _resources.push( val );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function removeResource( val:IResourceElement ):Boolean
 		{
 			var i:int = 0;
@@ -94,11 +99,17 @@ package com.ffsys.io.loaders.resources {
 			return false;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getResourceAt( index:int ):IResourceElement
 		{
 			return IResourceElement( _resources[ index ] );
 		}	
 
+		/**
+		* 	@inheritDoc
+		*/
 		public function removeResourceAt( index:int ):IResourceElement
 		{
 			
@@ -117,31 +128,49 @@ package com.ffsys.io.loaders.resources {
 			return null;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get length():int
 		{
 			return _resources.length;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function last():IResourceElement
 		{
 			return _resources[ _resources.length - 1 ];
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function first():IResourceElement
 		{
 			return _resources[ 0 ];
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function clear():void
 		{
 			_resources = new Array();
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function isEmpty():Boolean
 		{
 			return ( _resources == null ) || ( _resources.length == 0 );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getResourcesByType( type:Class ):IResourceList
 		{
 			var output:ResourceList = new ResourceList();
@@ -173,10 +202,7 @@ package com.ffsys.io.loaders.resources {
 		}
 		
 		/**
-		*	Recursively adds the contents of the source list
-		*	into the destination IResourceList passed to the merge method. If
-		*	destination is not specified it defaults to the instance that the merge
-		*	method is invoked on.
+		*	@inheritDoc
 		*/
 		public function merge(
 			source:IResourceList,
@@ -206,6 +232,9 @@ package com.ffsys.io.loaders.resources {
 			return destination;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function flatten():IResourceList
 		{
 			var output:IResourceList = new ResourceList( this.id );
@@ -223,15 +252,17 @@ package com.ffsys.io.loaders.resources {
 			return output;
 		}
 		
-		/*
-		*	IResourceAccess implementation.
+		/**
+		* 	@inheritDoc
 		*/
-		
 		public function get resources():IResourceList
 		{
 			return this;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getResourceById( id:String, list:String = null ):IResource
 		{
 			if( list )
@@ -247,12 +278,18 @@ package com.ffsys.io.loaders.resources {
 			return IResource( getElementByClass( id, IResource ) );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getResourceListById( id:String ):IResourceList
 		{
 			var list:IResourceList = IResourceList( getElementByClass( id, IResourceList ) );	
 			return list;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getAllResources():Array
 		{
 			var output:Array = new Array();

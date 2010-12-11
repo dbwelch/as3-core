@@ -1,3 +1,6 @@
+/**
+*	Contains classes used to associate text messages with load operations.
+*/
 package com.ffsys.io.loaders.message {
 	
 	/**
@@ -17,7 +20,7 @@ package com.ffsys.io.loaders.message {
 		/**
 		*	Creates an <code>AbstractLoadMessageFormatter</code>
 		*	instance.
-		*/		
+		*/
 		public function AbstractLoadMessageFormatter()
 		{
 			super();
@@ -31,6 +34,6 @@ package com.ffsys.io.loaders.message {
 			id:String = null ):String
 		{
 			return message;
-		}	
-	}	
+		}
+	}
 }

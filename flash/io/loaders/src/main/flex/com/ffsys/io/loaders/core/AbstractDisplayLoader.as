@@ -1,3 +1,6 @@
+/**
+*	The core classes for the loaders library.
+*/
 package com.ffsys.io.loaders.core {
 	
 	import flash.display.Loader;
@@ -18,8 +21,10 @@ package com.ffsys.io.loaders.core {
 	
 	/**
 	*	Abstract super class for loaders that load data
-	*	that can be added to the display list. These instances
-	*	use an underlying Loader to load the display data.
+	*	that can be added to the display list.
+	* 
+	* 	These implementations use an underlying <code>Loader</code>
+	* 	to load the display data.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -40,17 +45,25 @@ package com.ffsys.io.loaders.core {
 		*/		
 		protected var _context:LoaderContext;
 		
+		/**
+		* 	Creates an <code>AbstractDisplayLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function AbstractDisplayLoader(
 			request:URLRequest,
 			options:ILoadOptions = null )
 		{
 			super( request, options );
-			
 			_loader = new Loader();
-
 			_context = new LoaderContext();
 		}
 		
+		/**
+		* 	Overrides the default behaviour to add listeners
+		* 	to the encapsulated <code>Loader</code>.
+		*/
         override protected function addListeners():void
 		{
 			
@@ -76,6 +89,10 @@ package com.ffsys.io.loaders.core {
 			}
         }
 
+		/**
+		* 	Overrides the default behaviour to remove listeners
+		* 	from the encapsulated <code>Loader</code>.
+		*/
 		override protected function removeListeners():void
 		{
 			if( loader )
@@ -101,7 +118,7 @@ package com.ffsys.io.loaders.core {
 		}		
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		public function get loader():Loader
 		{
@@ -109,28 +126,17 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
-		*/		
-		public function set context( val:LoaderContext ):void
-		{
-			_context = val;
-		}
-		
+		*	@inheritDoc
+		*/
 		public function get context():LoaderContext
 		{
 			return _context;
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/	
-		
-		/*	
-		override public function invoke( ...args:Array ):*
+				
+		public function set context( val:LoaderContext ):void
 		{
-
+			_context = val;
 		}
-		*/
 		
 		/**
 		*	@inheritDoc	
@@ -150,7 +156,7 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		public function unload():void
 		{

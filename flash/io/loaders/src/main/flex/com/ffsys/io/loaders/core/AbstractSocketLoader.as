@@ -2,24 +2,16 @@ package com.ffsys.io.loaders.core {
 	
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
-	
+	import flash.events.Event;
+	import flash.events.TimerEvent;	
 	import flash.net.URLRequest;
 	import flash.net.URLRequestHeader;
 	import flash.net.Socket;
-	
 	import flash.system.Security;
-	
-	import flash.events.Event;
-	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
-	
-	import com.ffsys.io.loaders.events.ILoadEvent;
-	import com.ffsys.io.loaders.events.LoadEvent;
-	
-	//import com.ffsys.utils.address.AddressUtils;
 	
 	/**
 	*	Abstract super class for Objects that load data via
@@ -38,20 +30,25 @@ package com.ffsys.io.loaders.core {
 		private var _relative:String;
 		private var _port:int;
 		
+		/**
+		* 	Creates an <code>AbstractSocketLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function AbstractSocketLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
 		{
 			super();
-			
 			socket = new Socket();
 			port = 80;
-			
 			socket.addEventListener( Event.CONNECT, connectHandler );
-			
-			//_decorator = new LoaderDecorator( request, options );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function load( request:URLRequest ):void
 		{
 			
@@ -89,17 +86,28 @@ package com.ffsys.io.loaders.core {
 		
 		private var _timer:Timer;
 		
+		/**
+		* 	@private
+		*/
 		private function onTimer( event:TimerEvent ):void
 		{
 			connect();
 			_timer.stop();
 		}
 		
+		/**
+		* 	Invoked when the socket is connected.
+		* 
+		* 	@param event The event that triggered this handler.
+		*/
 		protected function connectHandler( event:Event ):void
 		{
 			trace( "Connected : " + event );
 		}		
 		
+		/**
+		* 	Attempts to connect the socket.
+		*/
 		public function connect():void
 		{
 			try
@@ -116,46 +124,61 @@ package com.ffsys.io.loaders.core {
 			trace( "Connect : " + socket.connected );
 		}
 		
+		/**
+		* 	The socket used for the load process.
+		*/
+		public function get socket():Socket
+		{
+			return _socket;
+		}		
+		
 		public function set socket( val:Socket ):void
 		{
 			_socket = val;
 		}
 		
-		public function get socket():Socket
+		/**
+		* 	The domain to connect to.
+		*/
+		public function get domain():String
 		{
-			return _socket;
-		}
+			return _domain;
+		}		
 		
 		public function set domain( val:String ):void
 		{
 			_domain = val;
 		}
 		
-		public function get domain():String
+		/**
+		* 	A relative path to use after the domain.
+		*/
+		public function get relative():String
 		{
-			return _domain;
+			return _relative;
 		}
-		
+				
 		public function set relative( val:String ):void
 		{
 			_relative = val;
 		}
 		
-		public function get relative():String
+		/**
+		* 	The port to connect to.
+		*/
+		public function get port():int
 		{
-			return _relative;
-		}				
+			return _port;
+		}						
 		
 		public function set port( val:int ):void
 		{
 			_port = val;
-		}
-		
-		public function get port():int
-		{
-			return _port;
 		}			
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function close():void
 		{
 			if( socket.connected )

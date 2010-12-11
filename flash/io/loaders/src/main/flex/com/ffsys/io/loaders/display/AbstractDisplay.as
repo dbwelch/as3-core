@@ -1,3 +1,6 @@
+/**
+*	Helper classes for loaders that represent implementations that can be added to the display list.
+*/
 package com.ffsys.io.loaders.display {
 	
 	import flash.display.Sprite;

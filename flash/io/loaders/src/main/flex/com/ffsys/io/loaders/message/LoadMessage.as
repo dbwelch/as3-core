@@ -14,19 +14,8 @@ package com.ffsys.io.loaders.message {
 	public class LoadMessage extends Object
 		implements ILoadMessage {
 		
-		/**
-		*	@private	
-		*/
-		private var _message:String = "";
-		
-		/**
-		*	@private
-		*/		
+		private var _message:String = "";	
 		private var _id:String;
-		
-		/**
-		*	@private	
-		*/		
 		private var _formatter:ILoadMessageFormatter;
 		
 		/**
@@ -61,7 +50,7 @@ package com.ffsys.io.loaders.message {
 		}
 		
 		/**
-		*	@inheritDoc
+		*	An identifier for this message.
 		*/		
 		public function set id( val:String ):void
 		{
@@ -116,12 +105,6 @@ package com.ffsys.io.loaders.message {
 			output.id = id;
 			output.message = message;
 			return output;
-		}
-		
-		//--> move to IObjectInspector implementation
-		public function toString():String
-		{
-			return "[object LoadMessage][" + message + "][" + id + "]";
 		}
 	}
 }

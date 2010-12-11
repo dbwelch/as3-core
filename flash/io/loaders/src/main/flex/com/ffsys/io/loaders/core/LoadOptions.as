@@ -30,7 +30,8 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	Determines whether the loader these options are applied to
+		* 	should operate in a silent manner.
 		*/		
 		public function set silent( val:Boolean ):void
 		{
@@ -48,8 +49,12 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
-		*/		
+		*	Determines whether the loader these options are applied to
+		* 	should operate in a fatal manner.
+		* 
+		* 	When this property is <code>true</code> an exception
+		* 	will be thrown when a resource not found event is encountered.
+		*/	
 		public function set fatal( val:Boolean ):void
 		{
 			_fatal = val;
@@ -58,7 +63,7 @@ package com.ffsys.io.loaders.core {
 		public function get fatal():Boolean
 		{
 			return _fatal;
-		}			
+		}
 		
 		/**
 		*	@inheritDoc	

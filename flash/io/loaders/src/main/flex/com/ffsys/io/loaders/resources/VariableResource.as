@@ -13,6 +13,13 @@ package com.ffsys.io.loaders.resources {
 	*/
 	public class VariableResource extends AbstractResource {
 		
+		/**
+		* 	Creates a <code>VariableResource</code> instance.
+		* 
+		* 	@param data The data this resource encapsulates.
+		* 	@param uri The <code>URI</code> the data was loaded from.
+		* 	@param bytesTotal The total number of bytes loaded.
+		*/
 		public function VariableResource(
 			data:Object = null,
 			uri:String = null,

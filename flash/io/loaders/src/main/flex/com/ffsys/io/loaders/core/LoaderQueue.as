@@ -42,14 +42,12 @@ package com.ffsys.io.loaders.core {
 		
 		private var _id:String;
 		private var _items:Array;
-		private var _index:int;
 		private var _item:ILoaderElement;
-		private var _bytesTotal:uint;
-		private var _bytesLoaded:uint;
-		
-		//TODO: change to interface type
 		private var _resources:IResourceList;
 		
+		private var _index:int;
+		private var _bytesTotal:uint;
+		private var _bytesLoaded:uint;
 		private var _paused:Boolean;		
 		private var _loading:Boolean;
 		private var _complete:Boolean;
@@ -57,11 +55,16 @@ package com.ffsys.io.loaders.core {
 		private var _delay:int;
 		private var _delayTimer:Timer;
 		
+		private var _force:Boolean;
+		
 		private var _silent:Boolean;
 		private var _fatal:Boolean;
 		
 		private var _responderDecorator:ILoadResponderDecorator;
 		
+		/**
+		* 	Creates a <code>LoaderQueue</code> instance.
+		*/
 		public function LoaderQueue()
 		{
 			super();
@@ -118,7 +121,7 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	The total number of bytes.
 		*/		
 		public function get bytesTotal():uint
 		{
@@ -131,12 +134,12 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	The total number of bytes loaded.
 		*/		
 		public function get bytesLoaded():uint
 		{
 			return _bytesLoaded;
-		}				
+		}
 		
 		public function set bytesLoaded( val:uint ):void
 		{
@@ -565,12 +568,6 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	Loads all items that have been set to forceLoad	
-		*/
-		
-		protected var _force:Boolean;
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function force( bytesTotal:uint = 0 ):void
@@ -611,7 +608,7 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Closes any open connections.
 		*/
 		public function close():void
 		{
@@ -622,7 +619,7 @@ package com.ffsys.io.loaders.core {
 			stopDelay();
 			
 			if( _item )
-			{	
+			{
 				removeResponderListeners( _item, responder );
 				removeResponderListeners( _item, this );
 				_item.close();
@@ -630,7 +627,8 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	Destroys this queue allowing composite objects
+		* 	to be freed for garbage collection.
 		*/
 		public function destroy():void
 		{
@@ -647,6 +645,7 @@ package com.ffsys.io.loaders.core {
 			_item = null;
 			
 			//TODO: call destroy on these composite instances
+			
 			_responderDecorator = null;
 		}
 		
@@ -779,7 +778,7 @@ package com.ffsys.io.loaders.core {
 		}
 
 		/**
-		*	@inheritDoc	
+		*	Determines whether this queue should behave in a silent manner.
 		*/
 		public function get silent():Boolean
 		{
@@ -792,8 +791,11 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
-		*/		
+		*	Determines whether this queue should behave in a fatal manner.
+		* 
+		* 	When this property is <code>true</code> this implementation
+		* 	will throw an exception when a resource not found event is encountered.
+		*/
 		public function get fatal():Boolean
 		{
 			return _fatal;
@@ -807,6 +809,14 @@ package com.ffsys.io.loaders.core {
 		/*
 		*	ILoadResponderDecorator implementation.
 		*/
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get responder():ILoadResponder
+		{
+			return _responderDecorator.responder;
+		}		
 		
 		public function set responder( val:ILoadResponder ):void
 		{
@@ -826,13 +836,11 @@ package com.ffsys.io.loaders.core {
 					LoadEvent.LOAD_COMPLETE,
 					val.resourceLoadComplete, false, 0, true );
 			}
-		}
-		
-		public function get responder():ILoadResponder
-		{
-			return _responderDecorator.responder;
 		}		
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function addResponderListeners(
 			dispatcher:IEventDispatcher,
 			responder:ILoadResponder = null,
@@ -841,6 +849,9 @@ package com.ffsys.io.loaders.core {
 			_responderDecorator.addResponderListeners( dispatcher, responder, filters );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function removeResponderListeners(
 			dispatcher:IEventDispatcher,
 			responder:ILoadResponder = null ):void
@@ -848,15 +859,17 @@ package com.ffsys.io.loaders.core {
 			_responderDecorator.removeResponderListeners( dispatcher, responder );
 		}
 		
-		public function cleanupResponderListeners( event:ILoadEvent ):void
+		/**
+		* 	@inheritDoc
+		*/
+		public function cleanupResponderListeners( event:LoadEvent ):void
 		{
 			//
 		}		
 		
-		/*
-		*	ILoadResponder implementation	
+		/**
+		* 	@inheritDoc
 		*/
-		
 		public function resourceNotFoundHandler( event:LoadEvent ):void
 		{
 			var loader:ILoader = event.loader;
@@ -906,17 +919,28 @@ package com.ffsys.io.loaders.core {
 			
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoadStart( event:LoadEvent ):void
 		{
 			//dispatchEvent( event as Event );
 			dispatchEvent( event.clone() );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoadProgress( event:LoadEvent ):void
 		{
 			dispatchEvent( event.clone() );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
+		
+		//TODO: deprecate
 		public function addResource( loader:ILoader ):void
 		{
 			var resource:IResource = loader.resource;
@@ -949,10 +973,13 @@ package com.ffsys.io.loaders.core {
 				}else{
 					resources.addResource( resource );
 				}
-			
 			}			
 		}
 		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoaded( event:LoadEvent ):void
 		{
 			
@@ -962,14 +989,13 @@ package com.ffsys.io.loaders.core {
 			next();
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoadComplete( event:LoadEvent ):void
 		{
-			//dispatchEvent( event );
+			//we don't proxy this event
 		}
-		
-		/*
-		*	IResourceAccess implementation.
-		*/
 		
 		/**
 		* 	@inheritDoc
@@ -1107,7 +1133,10 @@ package com.ffsys.io.loaders.core {
 			
 			return prioritized;
 		}
-			
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function prioritizeById( id:String, priority:int ):Boolean
 		{
 			var element:ILoaderElement = getLoaderById( id );
@@ -1120,62 +1149,90 @@ package com.ffsys.io.loaders.core {
 			return false;
 		}		
 		
+		/**
+		* 	Prioritize a loader element to the top of the queue.
+		* 
+		* 	@param loader The loader element.
+		* 
+		* 	@return A boolean indicating whether any prioritization took place.
+		*/
 		protected function prioritizeTop( loader:ILoaderElement ):Boolean
 		{
 			var index:int = getLoaderIndex( loader );
-			
 			if( index > 0 )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
 				_items.unshift( loader );
 				return true;
 			}
-			
 			return false;
 		}
 		
+		/**
+		* 	Prioritize a loader element up one place in the queue.
+		* 
+		* 	@param loader The loader element.
+		* 
+		* 	@return A boolean indicating whether any prioritization took place.
+		*/
 		protected function prioritizeUp( loader:ILoaderElement ):Boolean
 		{
 			var index:int = getLoaderIndex( loader );
-			
 			if( index > 0 )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
 				_items.splice( index - 1, 0, loader );
 				return true;
 			}
-			
 			return false;
 		}
 		
+		/**
+		* 	Prioritize a loader element down one place in the queue.
+		* 
+		* 	@param loader The loader element.
+		* 
+		* 	@return A boolean indicating whether any prioritization took place.
+		*/
 		protected function prioritizeDown( loader:ILoaderElement ):Boolean
 		{
 			var index:int = getLoaderIndex( loader );
-			
 			if( index > -1 && index < ( length - 1 ) )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
 				_items.splice( index + 1, 0, removed );	
 				return true;
 			}
-			
 			return false;
 		}			
 		
+		/**
+		* 	Prioritize a loader element to the bottom of queue.
+		* 
+		* 	@param loader The loader element.
+		* 
+		* 	@return A boolean indicating whether any prioritization took place.
+		*/
 		protected function prioritizeBottom( loader:ILoaderElement ):Boolean
 		{
 			var index:int = getLoaderIndex( loader );
-			
 			if( index > -1 )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
 				_items.push( removed );
 				return true;
 			}
-			
 			return false;
 		}
 		
+		/**
+		* 	Prioritize a loader element to a specified index in the queue.
+		* 
+		* 	@param loader The loader element.
+		* 	@param priority The index to prioritize to.
+		* 
+		* 	@return A boolean indicating whether any prioritization took place.
+		*/
 		protected function prioritizeIndex( loader:ILoaderElement, priority:int ):Boolean
 		{
 			if( priority >= 0 && priority < ( length - 1 ) )
@@ -1187,10 +1244,8 @@ package com.ffsys.io.loaders.core {
 					var removed:ILoaderElement = removeLoaderAt( index );
 					_items.splice( priority, 0, removed );	
 					return true;
-				}
-				
+				}	
 			}
-			
 			return false;
 		}
 	}	

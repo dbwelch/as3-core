@@ -5,14 +5,10 @@ package com.ffsys.io.loaders.responder {
 	import flash.events.IEventDispatcher;
 	
 	import com.ffsys.io.loaders.core.ILoader;
-	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	
-	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	/**
-	*	Decorates classes that respond to ILoader events.
+	*	Decorates implementations that respond to load events.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -26,7 +22,13 @@ package com.ffsys.io.loaders.responder {
 		private var _decorated:ILoadResponderDecorator;
 		private var _responder:ILoadResponder;
 		
-		public function LoadResponderDecorator( decorated:ILoadResponderDecorator )
+		/**
+		* 	Creates a <code>LoadResponderDecorator</code> instance.
+		* 
+		* 	@param decorated The implementation being decorated.
+		*/
+		public function LoadResponderDecorator(
+			decorated:ILoadResponderDecorator )
 		{
 			super();
 			
@@ -40,16 +42,22 @@ package com.ffsys.io.loaders.responder {
 			_decorated = decorated;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get responder():ILoadResponder
+		{
+			return _responder;
+		}		
+		
 		public function set responder( val:ILoadResponder ):void
 		{
 			_responder = val;
 		}
 		
-		public function get responder():ILoadResponder
-		{
-			return _responder;
-		}
-		
+		/**
+		* 	@inheritDoc
+		*/
 		public function addResponderListeners(
 			dispatcher:IEventDispatcher,
 			responder:ILoadResponder = null,
@@ -114,6 +122,9 @@ package com.ffsys.io.loaders.responder {
 			}
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function removeResponderListeners(
 			dispatcher:IEventDispatcher,
 			responder:ILoadResponder = null ):void
@@ -135,46 +146,59 @@ package com.ffsys.io.loaders.responder {
 			
 				dispatcher.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, cleanupResponderListeners );
 				dispatcher.removeEventListener( LoadEvent.DATA, cleanupResponderListeners );
-				
 				dispatcher.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, _decorated.cleanupResponderListeners );
 				dispatcher.removeEventListener( LoadEvent.DATA, _decorated.cleanupResponderListeners );				
 			}
 		}
-			
-		public function cleanupResponderListeners( event:ILoadEvent ):void
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function cleanupResponderListeners( event:LoadEvent ):void
 		{
-			Event( event ).target.removeEventListener( Event( event ).type, cleanupResponderListeners );
+			event.target.removeEventListener( event.type, cleanupResponderListeners );
 			removeResponderListeners( event.loader );
 		}
 		
-		/*
-		*	ILoadResponder implementation	
+		/**
+		* 	@inheritDoc
 		*/
-		
 		public function resourceNotFoundHandler( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoadStart( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoadProgress( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoaded( event:LoadEvent ):void
 		{
 			//
 			_decorated.dispatchEvent( event as Event );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resourceLoadComplete( event:LoadEvent ):void
 		{
 			//

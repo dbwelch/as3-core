@@ -11,18 +11,13 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.core.AbstractDisplayLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;
-	
+	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.display.IDisplayMovie;
-	
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
 	import com.ffsys.io.loaders.resources.MovieResource;
 	
-	import com.ffsys.io.loaders.core.ILoadOptions;
-	
 	/**
-	*	Represents a loader for Flash swf movies.
+	*	Loads swf movies.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -32,6 +27,12 @@ package com.ffsys.io.loaders.types {
 	*/
 	public class MovieLoader extends AbstractDisplayLoader {
 		
+		/**
+		* 	Creates a <code>MovieLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function MovieLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
@@ -40,6 +41,9 @@ package com.ffsys.io.loaders.types {
 			dataFormat = URLLoaderDataFormat.BINARY;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
@@ -71,7 +75,5 @@ package com.ffsys.io.loaders.types {
 			//clean our reference to the underlying Loader
 			_loader = null;
         }
-
 	}
-	
 }

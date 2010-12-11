@@ -3,8 +3,6 @@ package com.ffsys.io.loaders.core {
 	import flash.display.Loader;
 	import flash.system.LoaderContext;
 	
-	import com.ffsys.io.core.IUnload;
-	
 	/**
 	*	Describes the contract for instances that
 	*	load data onto the display list using a composite
@@ -17,8 +15,12 @@ package com.ffsys.io.loaders.core {
 	*	@since  12.12.2007
 	*/
 	public interface IDisplayLoader
-		extends ILoader,
-		 		IUnload {
+		extends ILoader {
+
+		/**
+		*	Unloads the content loaded by this loader.
+		*/
+		function unload():void;
 		
 		/**
 		*	The <code>Loader</code> used for the load

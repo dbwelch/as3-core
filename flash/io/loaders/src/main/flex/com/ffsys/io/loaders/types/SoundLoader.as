@@ -12,16 +12,12 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.core.AbstractStreamLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;	
-	
+	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
 	import com.ffsys.io.loaders.resources.SoundResource;
 	
-	import com.ffsys.io.loaders.core.ILoadOptions;
-	
 	/**
-	*	Encapsulates loading an external sound file (mp3).
+	*	Loads a sound file.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -34,16 +30,23 @@ package com.ffsys.io.loaders.types {
 		private var _sound:Sound;
 		private var _context:SoundLoaderContext;
 		
+		/**
+		* 	Creates a <code>SoundLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function SoundLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
 		{
 			_sound = new Sound();
-			//_context = new SoundLoaderContext();
-			
 			super( request, options );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override protected function addListeners():void
 		{
 			_sound.addEventListener(
@@ -56,6 +59,9 @@ package com.ffsys.io.loaders.types {
 				IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );			
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/		
 		override protected function removeListeners():void
 		{
 			_sound.removeEventListener(
@@ -66,23 +72,32 @@ package com.ffsys.io.loaders.types {
 				ProgressEvent.PROGRESS, progressHandler );
 			_sound.removeEventListener(
 				IOErrorEvent.IO_ERROR, ioErrorHandler );
-		}
-		
-		public function set context( val:SoundLoaderContext ):void
-		{
-			_context = val;
 		}		
-
+		
+		/**
+		* 	The sound loader context used to load the sound.
+		*/
 		public function get context():SoundLoaderContext
 		{
 			return _context;
 		}
 		
+		public function set context( val:SoundLoaderContext ):void
+		{
+			_context = val;
+		}
+		
+		/**
+		* 	The sound used to load the sound file.
+		*/
 		public function get sound():Sound
 		{
 			return _sound;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function load( request:URLRequest ):void
 		{
 			removeListeners();
@@ -91,6 +106,9 @@ package com.ffsys.io.loaders.types {
 			_sound.load( request, _context );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function close():void
 		{
 			try {
@@ -101,6 +119,9 @@ package com.ffsys.io.loaders.types {
 			}
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
@@ -126,7 +147,5 @@ package com.ffsys.io.loaders.types {
 			
 			_sound = null;
         }
-		
 	}
-	
 }

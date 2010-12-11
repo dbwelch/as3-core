@@ -1,28 +1,21 @@
 package com.ffsys.io.loaders.core {
-	
-	import flash.net.URLStream;
-	import flash.net.URLRequest;
-	
+
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.events.ProgressEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.events.HTTPStatusEvent;
-	import flash.events.IOErrorEvent;
-	
+	import flash.events.IOErrorEvent;	
+	import flash.net.URLStream;
+	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	
 	import com.ffsys.io.loaders.resources.BinaryResource;
-	
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
-	
 	import com.ffsys.io.loaders.message.ILoadMessage;
 	
 	/**
@@ -40,11 +33,6 @@ package com.ffsys.io.loaders.core {
 		
 		/**
 		*	@private	
-		*/
-		protected var _bytes:ByteArray;
-		
-		/**
-		*	@private	
 		*/		
 		protected var _loading:Boolean;
 	
@@ -58,31 +46,26 @@ package com.ffsys.io.loaders.core {
 		*/		
 		protected var _complete:Boolean;
 		
-		/**
-		*	@private	
-		*/
-		private var _callback:String;		
-		
-		/**
-		*	@private	
-		*/		
+		private var _bytes:ByteArray;
+		private var _callback:String;				
 		private var _decorator:LoaderDecorator;
-		
-		/**
-		*	@private
-		*/
 		private var _message:ILoadMessage;		
 		
-		//declared to match the behaviour of URLLoader
+		/**
+		* 	The number of bytes loaded.
+		*/
 		public var bytesLoaded:uint;
-		public var bytesTotal:uint;		
+		
+		/**
+		* 	The total number of bytes.
+		*/
+		public var bytesTotal:uint;
 		
 		public function StreamLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
 		{
 			_decorator = new LoaderDecorator( request, options );
-			
 			super();
 		}
 		
@@ -112,11 +95,17 @@ package com.ffsys.io.loaders.core {
 			_callback = callback;
 		}				
 		
+		/**
+		* 	The byte array of loaded bytes.
+		*/
 		public function get bytes():ByteArray
 		{
 			return _bytes;
 		}
 		
+		/**
+		* 	Adds listeners to the super class.
+		*/
         protected function addListeners():void
 		{
             addEventListener(
@@ -137,7 +126,10 @@ package com.ffsys.io.loaders.core {
             addEventListener(
 				IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
         }
-
+		
+		/**
+		* 	Removes listeners from the super class.
+		*/
 		protected function removeListeners():void
 		{
             removeEventListener(
@@ -233,10 +225,6 @@ package com.ffsys.io.loaders.core {
 
 		}
 		
-		/*
-		*	ILoadStatus implementation.	
-		*/
-		
 		/**
 		*	@inheritDoc	
 		*/
@@ -284,7 +272,7 @@ package com.ffsys.io.loaders.core {
 		}
 
 		/**
-		*	@private	
+		*	@inheritDoc
 		*/
         protected function completeHandler(
 			event:Event,
@@ -326,12 +314,18 @@ package com.ffsys.io.loaders.core {
 			dispatchEvent( evt as Event );
 			Notifier.dispatchEvent( evt as Event );
         }
-
+		
+		/**
+		*	@private	
+		*/
 		public function getBytesLoaded():uint
 		{
 			return bytesLoaded;
 		}
 		
+		/**
+		*	@private	
+		*/
 		public function getBytesTotal():uint
 		{
 			return bytesTotal;
@@ -604,7 +598,7 @@ package com.ffsys.io.loaders.core {
 		}					
 		
 		/**
-		*	@inheritDoc	
+		*	Closes any open connection.
 		*/		
 		override public function close():void
 		{

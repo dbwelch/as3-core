@@ -18,18 +18,14 @@ package com.ffsys.io.loaders.core {
 	public class AbstractStreamLoader extends AbstractLoader
 		implements IStreamLoader {
 			
-		/**
-		*	@private
-		*	
-		*	Determines whether this instance is treated in a streaming
-		*	manner. If the instance is treated in a streaming manner
-		*	the default behaviour of playing back the stream is followed
-		*	otherwise the loader attempts to stop playback of the stream
-		*	as soon as possible so that the entire stream can be loaded
-		*	prior to playback starting.
-		*/
 		private var _streaming:Boolean = false;
 		
+		/**
+		* 	Creates an <code>AbstractStreamLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function AbstractStreamLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
@@ -44,10 +40,7 @@ package com.ffsys.io.loaders.core {
 		{
 			return _streaming;
 		}		
-		
-		/**
-		*	@private	
-		*/
+
 		public function set streaming( val:Boolean ):void
 		{
 			_streaming = val;

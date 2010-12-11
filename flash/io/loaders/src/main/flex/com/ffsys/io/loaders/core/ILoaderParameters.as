@@ -22,7 +22,7 @@ package com.ffsys.io.loaders.core {
 		
 		/**
 		*	The <code>ILoaderQueue</code> implementation
-		*	associated with this instance.	
+		*	associated with this instance.
 		*/
 		function set queue( val:ILoaderQueue ):void;
 		function get queue():ILoaderQueue;					
@@ -34,7 +34,7 @@ package com.ffsys.io.loaders.core {
 		function get list():IResourceList;
 		
 		/**
-		*	Arbritrary custom data associated with
+		*	Arbitrary custom data associated with
 		*	this instance.	
 		*/
 		function set customData( val:Object ):void;
@@ -56,7 +56,7 @@ package com.ffsys.io.loaders.core {
 		
 		/**
 		*	The uniform resource indicator used to
-		*	load the resource.	
+		*	load the resource.
 		*/
 		function set uri( val:String ):void;
 		function get uri():String;
@@ -66,6 +66,6 @@ package com.ffsys.io.loaders.core {
 		*	associated with this instance.
 		*/
 		function set options( val:ILoadOptions ):void;
-		function get options():ILoadOptions;		
+		function get options():ILoadOptions;
 	}
 }

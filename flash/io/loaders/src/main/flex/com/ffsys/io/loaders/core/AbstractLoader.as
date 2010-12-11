@@ -29,19 +29,8 @@ package com.ffsys.io.loaders.core {
 	public class AbstractLoader extends URLLoader
 		implements 	ILoader {
 		
-		/**
-		*	@private	
-		*/
 		private var _decorator:LoaderDecorator;
-		
-		/**
-		*	@private
-		*/
 		private var _message:ILoadMessage;
-		
-		/**
-		*	@private	
-		*/
 		private var _callback:String;
 		
 		/**
@@ -60,7 +49,10 @@ package com.ffsys.io.loaders.core {
 		protected var _complete:Boolean;		
 		
 		/**
-		*	@private	
+		*	Creates an <code>AbstractLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
 		*/
 		public function AbstractLoader(
 			request:URLRequest = null,
@@ -88,7 +80,10 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	The name of a callback function associated with this loader.
+		* 
+		* 	This is useful when declaring loader implementations in external
+		* 	files.
 		*/
 		public function get callback():String
 		{
@@ -98,11 +93,14 @@ package com.ffsys.io.loaders.core {
 		public function set callback( callback:String ):void
 		{
 			_callback = callback;
-		}		
+		}
 		
 		/**
-		*	@private	
-		*/		
+		*	Adds listeners to this implementation.
+		* 
+		* 	Concrete implementations can modify the default behaviour
+		* 	of adding event listeners to the <code>URLLoader</code> super class.
+		*/
         protected function addListeners():void
 		{
             addEventListener(
@@ -125,7 +123,10 @@ package com.ffsys.io.loaders.core {
         }
 
 		/**
-		*	@private	
+		*	Removes listeners from this implementation.
+		* 
+		* 	Concrete implementations can modify the default behaviour
+		* 	of removing event listeners from the <code>URLLoader</code> super class.
 		*/
 		protected function removeListeners():void
 		{
@@ -148,6 +149,9 @@ package com.ffsys.io.loaders.core {
 				IOErrorEvent.IO_ERROR, ioErrorHandler );			
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function addResponderListeners(
 			target:IEventDispatcher,
 			startMethod:Function = null,
@@ -187,6 +191,9 @@ package com.ffsys.io.loaders.core {
 
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function removeResponderListeners(
 			target:IEventDispatcher,
 			startMethod:Function = null,
@@ -222,10 +229,6 @@ package com.ffsys.io.loaders.core {
 
 		}
 		
-		/*
-		*	ILoadStatus implementation.	
-		*/
-		
 		/**
 		*	@inheritDoc	
 		*/
@@ -251,9 +254,8 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@private
+		*	@inheritDoc
 		*/
-		
 		override public function load( request:URLRequest ):void
 		{
 			this.request = request;
@@ -269,24 +271,16 @@ package com.ffsys.io.loaders.core {
 		}
 
 		/**
-		*	@private	
+		*	Invoked when the load operation is complete.
+		* 
+		* 	@param event The event that triggered this event.
+		* 	@param data The data associated with the complete event.	
 		*/
         protected function completeHandler(
 			event:Event,
 			data:Object = null ):void
 		{
 			loadSuccess();
-        }
-
-		/**
-		*	@private	
-		*/
-        protected function openHandler( event:Event ):void
-		{
-			var evt:LoadEvent = new LoadEvent(
-				LoadEvent.LOAD_START, event, this );
-			dispatchEvent( evt as Event );
-			Notifier.dispatchEvent( evt as Event );
         }
 
 		/**
@@ -304,20 +298,6 @@ package com.ffsys.io.loaders.core {
 		{
 			return bytesTotal;
 		}
-
-		/**
-		*	@private	
-		*/
-        protected function progressHandler( event:ProgressEvent ):void
-		{
-			bytesLoaded = event.bytesLoaded;
-			bytesTotal = event.bytesTotal;
-			
-			var evt:LoadEvent = new LoadEvent(
-				LoadEvent.LOAD_PROGRESS, event, this );
-			dispatchEvent( evt as Event );
-			Notifier.dispatchEvent( evt as Event );
-        }
 		
 		/**
 		*	@private	
@@ -342,6 +322,31 @@ package com.ffsys.io.loaders.core {
 			_loading = false;
 			_complete = true;
 		}
+		
+		/**
+		*	@private	
+		*/
+        protected function progressHandler( event:ProgressEvent ):void
+		{
+			bytesLoaded = event.bytesLoaded;
+			bytesTotal = event.bytesTotal;
+			
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.LOAD_PROGRESS, event, this );
+			dispatchEvent( evt as Event );
+			Notifier.dispatchEvent( evt as Event );
+        }
+
+		/**
+		*	@private	
+		*/
+        protected function openHandler( event:Event ):void
+		{
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.LOAD_START, event, this );
+			dispatchEvent( evt as Event );
+			Notifier.dispatchEvent( evt as Event );
+        }
 
 		/**
 		*	@private	
@@ -385,25 +390,6 @@ package com.ffsys.io.loaders.core {
 		{
 			dispatchResourceNotFoundEvent( event );
         }
-
-		/**
-		*	@private	
-		*/
-		
-		/*
-		protected function dispatchLoadCompleteEvent():void
-		{
-			removeListeners();
-			
-			var event:Event = new Event( Event.COMPLETE );
-			var evt:LoadEvent = new LoadEvent(
-				LoadEvent.LOAD_COMPLETE, event, this );
-			
-			dispatchEvent( evt );
-			
-			Notifier.dispatchEvent( evt );
-		}
-		*/
 		
 		/**
 		*	@private	
@@ -494,7 +480,7 @@ package com.ffsys.io.loaders.core {
 		}		
 		
 		/**
-		*	@inheritDoc	
+		*	An identifier for this loader.
 		*/		
 		public function set id( val:String ):void
 		{
@@ -572,7 +558,7 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	Closes any connection this loader has open.
 		*/		
 		override public function close():void
 		{

@@ -15,8 +15,8 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResourceAccess;
 	
 	/**
-	*	Describes the contract for instances that contain
-	*	queued <code>ILoader</code> implementations.
+	*	Describes the contract for instances that queue the loading
+	* 	of encapsulated loader elements.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -74,6 +74,18 @@ package com.ffsys.io.loaders.core {
 		function getAllLoaders():Array;
 		
 		/**
+		* 	Gets an array of all the load requests
+		* 	encapsulated by this queue.
+		* 
+		* 	This includes all loaders that belong to
+		* 	descendant queues.
+		* 
+		* 	@return An array of all the load requests this queue
+		* 	encapsulates.
+		*/
+		function getAllRequests():Array;
+		
+		/**
 		* 	Adds a loader or queue to this queue.
 		* 
 		* 	@param loader The loader element to add.
@@ -85,20 +97,20 @@ package com.ffsys.io.loaders.core {
 		function addLoader(
 			loader:ILoaderElement,
 			options:ILoadOptions = null ):ILoaderElement;
-			
+		
+		/**
+		* 	A delay between loading elements.
+		*/	
 		function set delay( val:int ):void;
 		function get delay():int;
 		
 		/**
-		*	Gets the current ILoaderElement that is being loaded.
+		*	Gets the current element that is being loaded.
 		*/
-		
-		//--> refactor to 'loader' getter
 		function get item():ILoaderElement;
 		
 		/**
-		*	Gets the index that the queue is currently using to
-		*	retrieve the ILoaderElement that is loading.
+		*	Gets the index that the queue is currently loading.
 		*/
 		function get index():int;
 		
@@ -137,9 +149,18 @@ package com.ffsys.io.loaders.core {
 		* 
 		* 	@param loader The loader element to retrieve the index of.
 		* 
-		* 	
+		* 	@return The index of the loader or <code>-1</code> if the loader
+		* 	was not found.
 		*/
 		function getLoaderIndex( loader:ILoaderElement ):int;
+		
+		/**
+		* 	Removes a loader at a specified index.
+		* 
+		* 	@param index The index to remove the loader at.
+		* 
+		* 	@return The removed loader element or <code>null</code>.
+		*/
 		function removeLoaderAt( index:int ):ILoaderElement;
 		
 		/**
@@ -151,32 +172,79 @@ package com.ffsys.io.loaders.core {
 		function get length():int;
 		
 		/**
-		*	Clears all ILoader	
+		*	Clears all elements stored by this queue.	
 		*/
 		function clear():void;
+		
+		/**
+		* 	Determines whether this queue is empty.
+		* 
+		* 	@return A boolean indicating whether this queue is empty.
+		*/
 		function isEmpty():Boolean;
 		
+		/**
+		* 	@deprecated
+		* 
+		* 	Adds a resource to this queue.
+		* 
+		* 	@param loader The loader encapsulating the resource to add.
+		*/
 		function addResource( loader:ILoader ):void;
 		
-		//-->refactor getLastLoader/getFirstLoader
+		/**
+		* 	Gets the last loader element contained by this implementation.
+		*/
 		function last():ILoaderElement;
+	
+		/**
+		* 	Gets the first loader element contained by this implementation.
+		*/		
 		function first():ILoaderElement;
 		
-		//
+		/**
+		* 	Resets this queue so that it is ready to start loading again.
+		*/
 		function reset():void;
+		
+		/**
+		* 	Flattens this queue to that all nested queues are removed
+		* 	and this queue represents <em>all</em> the loaders.
+		*/
 		function flatten():void;
 		
-		function force( bytesTotal:uint = 0 ):void;
+		/**
+		* 	Start the load process.
+		* 
+		* 	@param bytesTotal A known total bytes for all resources to be loaded.
+		*/
 		function load( bytesTotal:uint = 0 ):void;
 		
+		/**
+		* 	Forces all resources to be reloaded even if they have already been
+		* 	loaded.
+		* 
+		* 	@param bytesTotal A known total bytes for all resources to be loaded.
+		*/
+		function force( bytesTotal:uint = 0 ):void;
+		
+		/**
+		* 	Determines whether this loader queue will reload.
+		* 
+		* 	@return A boolean indicating whether this queue would reload.
+		*/
 		function willReload():Boolean;
+		
+		/**
+		* 	Starts reloading the resources encapsulated by this queue.
+		*/
 		function reload():void;
 		
 		/**
 		*	Appends all the loaders in the source queue
 		*	to this queue.
 		*	
-		*	@param source The source loader queue.	
+		*	@param source The source loader queue.
 		*/
 		function append( source:ILoaderQueue ):void;
 	}

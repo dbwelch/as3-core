@@ -11,6 +11,7 @@ package com.ffsys.io.loaders.core {
 	*	@since  16.10.2007
 	*/
 	public interface IPriorityQueue {
+		
 		/**
 		* 	Prioritizes a loader element in the queue.
 		* 

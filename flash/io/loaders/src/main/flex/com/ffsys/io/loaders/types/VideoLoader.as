@@ -19,20 +19,16 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.events.Notifier;
 	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.events.VideoStatusEvent;
-	
-	import com.ffsys.io.loaders.display.IDisplayVideo;
-	import com.ffsys.io.loaders.display.VideoDisplay;
-	
 	import com.ffsys.io.loaders.core.AbstractStreamLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;
-	
-	import com.ffsys.io.loaders.resources.VideoResource;
 	import com.ffsys.io.loaders.core.ILoadOptions;
+	import com.ffsys.io.loaders.display.IDisplayVideo;
+	import com.ffsys.io.loaders.display.VideoDisplay;	
+	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.events.VideoStatusEvent;	
+	import com.ffsys.io.loaders.resources.VideoResource;
 	
 	/**
-	*	Encapsulates loading an external flv video file.
+	*	Loads a video file.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -49,15 +45,20 @@ package com.ffsys.io.loaders.types {
 		static public const STREAM_BUFFER_FULL:String = "NetStream.Buffer.Full";
 		static public const STREAM_BUFFER_EMPTY:String = "NetStream.Buffer.Empty";
 		
-		//protected var _loaded:Boolean;
 		
-		protected var _timer:Timer;
-		protected var _netConnection:NetConnection;
-		protected var _netStream:NetStream;
-		protected var _display:IDisplayVideo;
+		private var _timer:Timer;
+		private var _netConnection:NetConnection;
+		private var _netStream:NetStream;
+		private var _display:IDisplayVideo;
 		
 		private var _duration:Number;
 		
+		/**
+		* 	Creates a <code>VideoLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function VideoLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )
@@ -76,6 +77,9 @@ package com.ffsys.io.loaders.types {
 			return _duration;
 		}
 		
+		/**
+		* 	@private
+		*/
 		private function initialize():void
 		{
 			_netConnection = new NetConnection();
@@ -117,16 +121,21 @@ package com.ffsys.io.loaders.types {
 			startPreload();
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function close():void
 		{
 			if( _netStream )
 			{
 				stopPreload();
-				
 				_netStream.close();
 			}
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
         override protected function ioErrorHandler( event:IOErrorEvent ):void
 		{
             //trace ( "IO Error : " + event );
@@ -138,6 +147,9 @@ package com.ffsys.io.loaders.types {
 			dispatchResourceNotFoundEvent( event, this );
         }
 		
+		/**
+		* 	@private
+		*/
         private function netStatusHandler( event:NetStatusEvent ):void
 		{
 			

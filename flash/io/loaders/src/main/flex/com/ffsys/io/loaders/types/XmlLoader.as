@@ -7,15 +7,12 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.core.AbstractLoader;
-	import com.ffsys.io.loaders.core.LoadOptions;
-	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	
-	import com.ffsys.io.loaders.resources.XmlResource;
 	import com.ffsys.io.loaders.core.ILoadOptions;
+	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.resources.XmlResource;
 	
 	/**
-	*	Represents a loader for XML data.
+	*	Loads an <code>XML</code> file.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -25,6 +22,12 @@ package com.ffsys.io.loaders.types {
 	*/
 	public class XmlLoader extends AbstractLoader {
 		
+		/**
+		* 	Creates an <code>XmlLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function XmlLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )

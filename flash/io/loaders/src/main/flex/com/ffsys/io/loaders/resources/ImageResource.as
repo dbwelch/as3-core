@@ -21,6 +21,13 @@ package com.ffsys.io.loaders.resources {
 	public class ImageResource extends AbstractResource
 		implements 	IDispose {
 		
+		/**
+		* 	Creates an <code>ImageResource</code> instance.
+		* 
+		* 	@param data The data this resource encapsulates.
+		* 	@param uri The <code>URI</code> the data was loaded from.
+		* 	@param bytesTotal The total number of bytes loaded.
+		*/		
 		public function ImageResource(
 			data:Object = null,
 			uri:String = null,
@@ -29,6 +36,9 @@ package com.ffsys.io.loaders.resources {
 			super( data, uri, bytesTotal );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function dispose():void
 		{
 			if( bitmapData )
@@ -52,6 +62,9 @@ package com.ffsys.io.loaders.resources {
 			super.destroy();
 		}
 		
+		/**
+		* 	The data for this resource coerced to bitmap data.
+		*/		
 		public function get bitmapData():BitmapData
 		{
 			return data as BitmapData;

@@ -20,6 +20,10 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	Indicates whether this loader should behave in a streaming
 		* 	manner and allow playback before the entire file has loaded.
+		* 	
+		*	When streaming is <code>false</code> the loader attempts
+		* 	to stop playback of the stream as soon as possible so
+		* 	that the entire stream can be loaded prior to playback starting.
 		*/
 		function set streaming( val:Boolean ):void;
 		function get streaming():Boolean;

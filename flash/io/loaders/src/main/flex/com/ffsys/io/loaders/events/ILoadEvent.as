@@ -1,3 +1,6 @@
+/**
+*	Events for the loaders library.
+*/
 package com.ffsys.io.loaders.events {
 	
 	import flash.events.Event;

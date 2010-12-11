@@ -34,5 +34,4 @@ package com.ffsys.io.loaders.display {
 		
 		//function get loader():Loader;
 	}
-	
 }

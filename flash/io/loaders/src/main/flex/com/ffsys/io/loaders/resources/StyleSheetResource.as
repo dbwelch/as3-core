@@ -14,11 +14,11 @@ package com.ffsys.io.loaders.resources {
 	public class StyleSheetResource extends AbstractResource {
 		
 		/**
-		*	Creates a <code>StyleSheetResource</code> instance.	
-		*	
-		*	@param data The resource data.
-		*	@param uri The uri the resource was loaded from.
-		*	@param bytesTotal The total number of bytes.
+		* 	Creates a <code>StyleSheetResource</code> instance.
+		* 
+		* 	@param data The data this resource encapsulates.
+		* 	@param uri The <code>URI</code> the data was loaded from.
+		* 	@param bytesTotal The total number of bytes loaded.
 		*/
 		public function StyleSheetResource(
 			data:Object = null,
@@ -30,7 +30,7 @@ package com.ffsys.io.loaders.resources {
 		
 		/**
 		*	Gets the style sheet associated with
-		*	this resource.	
+		*	this resource.
 		*/
 		public function get styleSheet():StyleSheet
 		{

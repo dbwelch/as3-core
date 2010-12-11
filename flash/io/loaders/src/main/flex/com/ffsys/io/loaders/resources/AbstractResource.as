@@ -1,3 +1,6 @@
+/**
+*	Encapsulates resources loaded by the loaders library.
+*/
 package com.ffsys.io.loaders.resources {
 	
 	import flash.events.EventDispatcher;
@@ -19,6 +22,13 @@ package com.ffsys.io.loaders.resources {
 		private var _uri:String;
 		private var _bytesTotal:uint;
 		
+		/**
+		* 	Creates an <code>AbstractResource</code> instance.
+		* 
+		* 	@param data The data this resource encapsulates.
+		* 	@param uri The <code>URI</code> the data was loaded from.
+		* 	@param bytesTotal The total number of bytes loaded.
+		*/
 		public function AbstractResource(
 			data:Object = null,
 			uri:String = null,
@@ -70,7 +80,7 @@ package com.ffsys.io.loaders.resources {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	An identifier for this resource.
 		*/
 		public function get id():String
 		{
@@ -83,7 +93,7 @@ package com.ffsys.io.loaders.resources {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	Destroys this resource.
 		*/
 		public function destroy():void
 		{
