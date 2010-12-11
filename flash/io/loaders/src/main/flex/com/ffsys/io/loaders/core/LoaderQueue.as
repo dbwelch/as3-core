@@ -19,9 +19,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.core.IBytesTotal;
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.responder.ILoadResponder;
-	import com.ffsys.io.loaders.responder.ILoadResponderDecorator;
-	import com.ffsys.io.loaders.responder.LoadResponderDecorator;
 	
 	import com.ffsys.io.loaders.resources.ResourceList;
 	import com.ffsys.io.loaders.resources.IResource;
@@ -56,11 +53,8 @@ package com.ffsys.io.loaders.core {
 		private var _delayTimer:Timer;
 		
 		private var _force:Boolean;
-		
 		private var _silent:Boolean;
 		private var _fatal:Boolean;
-		
-		private var _responderDecorator:ILoadResponderDecorator;
 		
 		/**
 		* 	Creates a <code>LoaderQueue</code> instance.
@@ -68,9 +62,6 @@ package com.ffsys.io.loaders.core {
 		public function LoaderQueue()
 		{
 			super();
-			
-			_responderDecorator = new LoadResponderDecorator( this );
-			
 			_resources = new ResourceList();
 			reset();
 			clear();
@@ -431,8 +422,7 @@ package com.ffsys.io.loaders.core {
 		
 			if( _item )
 			{
-				removeResponderListeners( _item, responder );
-				removeResponderListeners( _item, this );
+				removeChildListeners( _item );
 			}
 			
 			//add any composite child queue resources to our list
@@ -480,8 +470,7 @@ package com.ffsys.io.loaders.core {
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			
-				addResponderListeners( loader, responder );
-				addResponderListeners( loader, this );
+				addChildListeners( loader );
 			
 				//if we were in a delay _loading may have been set to false
 				//for the duration of the delay period
@@ -492,32 +481,76 @@ package com.ffsys.io.loaders.core {
 			}else if( element is ILoaderQueue )
 			{
 				var child:ILoaderQueue = ILoaderQueue( element );
-				child.addEventListener( LoadEvent.LOAD_START, childEventProxy );
-				child.addEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
-				child.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );						
-				child.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
-				child.addEventListener( LoadEvent.DATA, childEventProxy );
-				child.addEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
+				addChildListeners( child );
 				child.load();
 			}
 		}
 		
+		/**
+		* 	@private
+		*/
 		private function childEventProxy( event:LoadEvent ):void
 		{
 			dispatchEvent( event );
 		}
 		
+		/**
+		* 	@private
+		*/
 		private function childQueueComplete( event:LoadEvent ):void
 		{
-			event.target.removeEventListener( LoadEvent.LOAD_START, childEventProxy );
-			event.target.removeEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
-			event.target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );							
-			event.target.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
-			event.target.removeEventListener( LoadEvent.DATA, childEventProxy );
-			event.target.removeEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
+			removeChildListeners( event.loader );
 			
 			//move on to the next item
 			next();
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function addChildListeners( target:ILoaderElement ):void
+		{
+			//child queue listeners
+			if( target is ILoaderQueue )
+			{
+				target.addEventListener( LoadEvent.LOAD_START, childEventProxy );
+				target.addEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
+				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );						
+				target.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
+				target.addEventListener( LoadEvent.DATA, childEventProxy );
+				target.addEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
+			//child loader listeners				
+			}else if( target is ILoader )
+			{
+				target.addEventListener( LoadEvent.LOAD_START, childEventProxy );
+				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );						
+				target.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundHandler );
+				target.addEventListener( LoadEvent.DATA, resourceLoaded );
+			}
+		}		
+		
+		/**
+		* 	@private
+		*/
+		private function removeChildListeners( target:ILoaderElement ):void
+		{
+			//child queue listeners
+			if( target is ILoaderQueue )
+			{
+				target.removeEventListener( LoadEvent.LOAD_START, childEventProxy );
+				target.removeEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
+				target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );					
+				target.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
+				target.removeEventListener( LoadEvent.DATA, childEventProxy );
+				target.removeEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
+			//child loader listeners				
+			}else if( target is ILoader )
+			{
+				target.removeEventListener( LoadEvent.LOAD_START, childEventProxy );
+				target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );
+				target.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundHandler );
+				target.removeEventListener( LoadEvent.DATA, resourceLoaded );
+			}
 		}
 		
 		/**
@@ -610,8 +643,7 @@ package com.ffsys.io.loaders.core {
 			
 			if( _item )
 			{
-				removeResponderListeners( _item, responder );
-				removeResponderListeners( _item, this );
+				removeChildListeners( _item );
 				_item.close();
 			}
 		}
@@ -633,10 +665,6 @@ package com.ffsys.io.loaders.core {
 			_id = null;
 			_items = null;
 			_item = null;
-			
-			//TODO: call destroy on these composite instances
-			
-			_responderDecorator = null;
 		}
 		
 		/**
@@ -690,7 +718,6 @@ package com.ffsys.io.loaders.core {
 				next();
 			}
 		}
-		
 		
 		/**
 		* 	Moves on to processing the next item in the queue.
@@ -794,73 +821,12 @@ package com.ffsys.io.loaders.core {
 		public function set fatal( val:Boolean ):void
 		{
 			_fatal = val;
-		}
-		
-		/*
-		*	ILoadResponderDecorator implementation.
-		*/
+		}			
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
-		public function get responder():ILoadResponder
-		{
-			return _responderDecorator.responder;
-		}		
-		
-		public function set responder( val:ILoadResponder ):void
-		{
-			if( responder )
-			{
-				this.removeEventListener(
-					LoadEvent.LOAD_COMPLETE,
-					responder.resourceLoadComplete );
-			}
-			
-			_responderDecorator.responder = val;
-			
-			//hook our LoadCompleteEvent into the responder
-			if( val )
-			{
-				this.addEventListener(
-					LoadEvent.LOAD_COMPLETE,
-					val.resourceLoadComplete, false, 0, true );
-			}
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function addResponderListeners(
-			dispatcher:IEventDispatcher,
-			responder:ILoadResponder = null,
-			filters:Array = null ):void
-		{
-			_responderDecorator.addResponderListeners( dispatcher, responder, filters );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function removeResponderListeners(
-			dispatcher:IEventDispatcher,
-			responder:ILoadResponder = null ):void
-		{
-			_responderDecorator.removeResponderListeners( dispatcher, responder );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function cleanupResponderListeners( event:LoadEvent ):void
-		{
-			//
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function resourceNotFoundHandler( event:LoadEvent ):void
+		private function resourceNotFoundHandler( event:LoadEvent ):void
 		{
 			var element:ILoaderElement = event.loader;
 			
@@ -887,9 +853,7 @@ package com.ffsys.io.loaders.core {
 					next();
 				}						
 			
-				removeResponderListeners( loader );
-				removeResponderListeners( this );
-				removeResponderListeners( loader, this );
+				removeChildListeners( loader );
 			
 				if( !silent && !options.continueOnResourceNotFound )
 				{
@@ -904,26 +868,9 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
-		public function resourceLoadStart( event:LoadEvent ):void
-		{
-			//dispatchEvent( event as Event );
-			dispatchEvent( event.clone() );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function resourceLoadProgress( event:LoadEvent ):void
-		{
-			dispatchEvent( event.clone() );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function resourceLoaded( event:LoadEvent ):void
+		private function resourceLoaded( event:LoadEvent ):void
 		{
 			if( event.loader is ILoader )
 			{
@@ -945,14 +892,6 @@ package com.ffsys.io.loaders.core {
 			
 			dispatchEvent( event as Event );
 			next();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function resourceLoadComplete( event:LoadEvent ):void
-		{
-			//we don't proxy this event
 		}
 		
 		/**

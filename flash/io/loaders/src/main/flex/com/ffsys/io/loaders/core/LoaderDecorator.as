@@ -28,7 +28,7 @@ package com.ffsys.io.loaders.core {
 		 			IForceLoad {
 		
 		/**
-		*	@private	
+		*	@private
 		*/
 		protected var _customData:Object;
 

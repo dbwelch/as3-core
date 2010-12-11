@@ -30,6 +30,7 @@ package com.ffsys.io.loaders.core {
 		implements 	ILoader {
 		
 		private var _decorator:LoaderDecorator;
+		
 		private var _message:ILoadMessage;
 		private var _callback:String;
 		
@@ -420,17 +421,8 @@ package com.ffsys.io.loaders.core {
 				new LoadEvent(
 					LoadEvent.RESOURCE_NOT_FOUND ,event as Event, loader );
 			
-			//ensure a queue always receives the ResourceNotFoundEvent
-			if( queue )
-			{
-				queue.resourceNotFoundHandler( evt );
-			}
-			
-			if( !queue && !options.quietOnResourceNotFound )
-			{
-				dispatchEvent( evt as Event );
-				Notifier.dispatchEvent( evt as Event );
-			}
+			dispatchEvent( evt as Event );
+			Notifier.dispatchEvent( evt as Event );
 		}
 		
 		/*

@@ -457,17 +457,9 @@ package com.ffsys.io.loaders.core {
 					LoadEvent.RESOURCE_NOT_FOUND ,event as Event, loader );
 			
 			//ensure a queue always receives the ResourceNotFoundEvent
-			if( queue )
-			{
-				queue.resourceNotFoundHandler( evt );
-			}
 			
-			if( !queue && !options.quietOnResourceNotFound )
-			{
-				dispatchEvent( evt as Event );
-				Notifier.dispatchEvent( evt as Event );
-			}
-			
+			dispatchEvent( evt as Event );
+			Notifier.dispatchEvent( evt as Event );
 		}
 		
 		/*

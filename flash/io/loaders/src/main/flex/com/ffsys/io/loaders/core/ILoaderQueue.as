@@ -11,7 +11,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.core.IBytesTotal;
 	import com.ffsys.io.core.IBytesLoaded;
 	
-	import com.ffsys.io.loaders.responder.ILoadResponderDecorator;
 	import com.ffsys.io.loaders.resources.IResourceAccess;
 	
 	/**
@@ -26,7 +25,6 @@ package com.ffsys.io.loaders.core {
 	*/
 	public interface ILoaderQueue
 		extends ILoaderElement,
-		 		ILoadResponderDecorator,
 				ILoadStatus,
 				IForceLoad,
 				IBytesTotal,
