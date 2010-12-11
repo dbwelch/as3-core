@@ -27,13 +27,5 @@ package com.ffsys.di
 		* 	@return A bean document.
 		*/
 		function parse( text:String ):IBeanDocument;
-		
-		/**
-		* 	The delimiter to use when parsing array values.
-		* 
-		* 	The default value is a vertical bar.
-		*/
-		function get delimiter():String;
-		function set delimiter( value:String ):void;
 	}
 }

@@ -12,10 +12,19 @@ package com.ffsys.di
 	
 	import com.ffsys.utils.substitution.*;
 	
+	/**
+	*	Responsible for parsing an individual bean property within
+	* 	a text document.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanTextElementParser extends Object
 	{
 		private var _document:IBeanDocument;
-		private var _delimiter:String;
 		private var _substitutor:Substitutor = null;
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*(.+)\s*\)$/;
 		
@@ -25,25 +34,10 @@ package com.ffsys.di
 		* 	@param document A bean document to parse into.
 		*/
 		public function BeanTextElementParser(
-			document:IBeanDocument = null,
-			delimiter:String = null )
+			document:IBeanDocument = null )
 		{
 			super();
 			this.document = document;
-			this.delimiter = delimiter;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get delimiter():String
-		{
-			return _delimiter;
-		}
-		
-		public function set delimiter( value:String ):void
-		{
-			_delimiter = value;
 		}
 		
 		/**
@@ -65,6 +59,8 @@ package com.ffsys.di
 		* 	@param value The parsed value.
 		* 	@param bean The name of the bean.
 		* 	@param propertyName The name of the bean property.
+		* 
+		* 	@return The parsed object.
 		*/
 		public function parse(
 			value:String,
@@ -85,7 +81,7 @@ package com.ffsys.di
 			
 			if( output is String )
 			{
-				output = parser.parse( String( output ), true, delimiter );
+				output = parser.parse( String( output ), true, document.delimiter );
 				
 				//still a string after primitive parsing
 				if( output is String )
@@ -164,7 +160,7 @@ package com.ffsys.di
 						output = Class( getDefinitionByName( value ) );
 					}catch( e:Error )
 					{
-						throw new Error( "Could not locate bean css class reference with class path '"
+						throw new Error( "Could not locate bean bean class reference with class path '"
 							+ value + "'." );
 					}
 					break;
@@ -197,7 +193,7 @@ package com.ffsys.di
 					break;
 				default:
 					throw new Error(
-						"Could not handle css expression with identifier '" + extension + "'." );
+						"Could not handle bean expression with identifier '" + extension + "'." );
 			}
 			
 			if( document && ( output is BeanFileDependency ) )

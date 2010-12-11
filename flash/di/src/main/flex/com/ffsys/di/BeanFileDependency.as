@@ -2,6 +2,8 @@ package com.ffsys.di
 {
 	import flash.net.URLRequest;
 	
+	import com.ffsys.io.loaders.core.ILoader;
+	
 	/**
 	*	Represents a file dependency declared in a bean file.
 	*
@@ -22,6 +24,7 @@ package com.ffsys.di
 		* 	@param beanName The name of the bean.
 		* 	@param name The name of the bean property.
 		* 	@param value The parsed value.
+		* 	@param loaderClass The class of loader to instantiate.
 		*/
 		public function BeanFileDependency(
 			beanName:String = null,
@@ -44,6 +47,23 @@ package com.ffsys.di
 		{
 			_loaderClass = value;
 		}
+		
+		/**
+		* 	Gets the loader repsonsible for loading this file dependency.
+		* 
+		* 	@return The loader to use to load the bean file dependency.
+		*/
+		public function getLoader():ILoader
+		{
+			if( this.loaderClass && this.value )
+			{
+				var loader:ILoader = ILoader(
+					new loaderClass( new URLRequest( this.value ) ) );
+				loader.customData = this;
+				return loader;
+			}
+			return null;
+		}
 
 		/**
 		* 	@inheritDoc
@@ -52,7 +72,7 @@ package com.ffsys.di
 		{
 			if( document != null )
 			{	
-				//
+				trace("BeanFileDependency::resolve()", this );
 			}
 
 			return null;

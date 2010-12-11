@@ -151,14 +151,14 @@ package com.ffsys.di {
 			
 			var document:IBeanDocument = null;
 			var entry:BeanDocumentEntry = null;
-			var styles:Array = null;
+			var beans:Array = null;
 			for each( entry in _beanDocuments )
 			{
 				document = IBeanDocument( entry.document );
-				styles = document.beanNames;
-				if( styles )
+				beans = document.beanNames;
+				if( beans )
 				{
-					output = output.concat( styles );
+					output = output.concat( beans );
 				}
 			}
 			
@@ -206,7 +206,7 @@ package com.ffsys.di {
 		private function itemLoaded( event:LoadEvent ):void
 		{
 			_current = IBeanDocument(
-				BeanDocumentResource( event.resource ).styleSheet );
+				BeanDocumentResource( event.resource ).beanSheet );
 				
 			//trace("BeanManager::itemLoaded(), ", event.loader, event.loader.id, _current );
 			
@@ -247,7 +247,7 @@ package com.ffsys.di {
 			
 			_dependencyQueue.removeEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
 			
-			//resume the main css queue
+			//resume the main bean queue
 			_queue.resume();
 			_current = null;
 		}
@@ -283,7 +283,7 @@ class BeanDocumentEntry extends Object {
 	*	Creates a <code>BeanDocumentEntry</code> instance.
 	*
 	*	@param request The url request.
-	*	@param document The style document implementation.
+	*	@param document The bean document implementation.
 	*/
 	public function BeanDocumentEntry(
 		request:URLRequest = null,

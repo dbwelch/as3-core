@@ -1,6 +1,15 @@
 package com.ffsys.di
 {
-	
+	/**
+	*	Abstract super class for bean reference expressions that
+	* 	perform resolution at runtime.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanResolver extends Object {
 		
 		/**
@@ -20,6 +29,10 @@ package com.ffsys.di
 		
 		/**
 		* 	Creates a <code>BeanResolver</code> instance.
+		* 
+		* 	@param beanName The name of the bean.
+		* 	@param name The name of the bean property.
+		* 	@param value The name of the parsed value.
 		*/
 		public function BeanResolver(
 			beanName:String,
@@ -37,14 +50,14 @@ package com.ffsys.di
 		*/
 		protected function find(
 			target:Object,
-			style:Object,
+			bean:Object,
 			document:IBeanDocument ):Object
 		{	
 			var loop:Boolean = false;
 			loop = ( target is IBeanResolver )
 			while( loop )
 			{
-				target = IBeanResolver( target ).resolve( document, style );
+				target = IBeanResolver( target ).resolve( document, bean );
 				loop = ( target is IBeanResolver );
 			}
 

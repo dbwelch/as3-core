@@ -15,10 +15,11 @@ package com.ffsys.di
 		implements IBeanParser
 	{
 		private var _document:IBeanDocument;
-		private var _delimiter:String;
 		
 		/**
 		* 	Creates a <code>BeanTextParser</code> instance.
+		* 
+		* 	@param document The document that the parsed beans will be placed in.
 		*/
 		public function BeanParser( document:IBeanDocument = null )
 		{
@@ -28,19 +29,6 @@ package com.ffsys.di
 				document = new BeanDocument();
 			}
 			this.document = document;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get delimiter():String
-		{
-			return _delimiter;
-		}
-		
-		public function set delimiter( value:String ):void
-		{
-			_delimiter = value;
 		}
 		
 		/**

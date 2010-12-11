@@ -4,6 +4,8 @@ package com.ffsys.di
 	
 	/**
 	*	Represents a bean array reference.
+	* 
+	* 	This can be used to create arrays of bean references.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -44,8 +46,7 @@ package com.ffsys.di
 				var part:String = null;
 				var parsed:Object = null;
 
-				var parser:BeanTextElementParser = new BeanTextElementParser(
-					document, "|" );
+				var parser:BeanTextElementParser = new BeanTextElementParser( document );
 
 				for( var i:int = 0;i < parts.length;i++ )
 				{

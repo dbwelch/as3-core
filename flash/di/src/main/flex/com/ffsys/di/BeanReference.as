@@ -1,11 +1,13 @@
 package com.ffsys.di
 {
-
 	/**
-	*	Used to store a reference to another bean or bean
-	*	property. During the finalization phase these references
-	*	are resolved. This type is used to indicate which properties
-	*	need resolving.
+	*	Represents a reference to another bean or bean property.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
 	*/
 	public class BeanReference extends BeanResolver
 		implements IBeanResolver {
@@ -47,7 +49,7 @@ package com.ffsys.di
 					var parts:Array = candidate.split( BeanConstants.REFERENCE_PROPERTY_DELIMITER );
 					if( !(parts.length == 2 ) )
 					{
-						throw new Error( "Found invalid css reference candidate '" + candidate + "'." );
+						throw new Error( "Found invalid bean reference candidate '" + candidate + "'." );
 					}
 
 					candidate = parts[ 0 ];

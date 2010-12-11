@@ -22,6 +22,14 @@ package com.ffsys.di
 				IEventDispatcher {
 		
 		/**
+		* 	The delimiter to use when parsing array values.
+		* 
+		* 	The default value is a vertical bar.
+		*/
+		function get delimiter():String;
+		function set delimiter( value:String ):void;					
+		
+		/**
 		* 	A collection of external file dependencies found when
 		* 	the bean document was parsed.
 		*/			
@@ -40,6 +48,7 @@ package com.ffsys.di
 		*	declared in the beans.
 		*	
 		*	@param text The beans text to parse.
+		* 	@param parser A specific parser implementation to use.
 		*	
 		*	@return The loader queue responsible for loading
 		*	external dependencies.

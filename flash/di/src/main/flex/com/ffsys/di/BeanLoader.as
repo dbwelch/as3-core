@@ -46,7 +46,11 @@ package com.ffsys.di {
 		}
 		
 		/**
-		*	@inheritDoc
+		*	Parses the beans document text into a bean document.
+		* 
+		* 	@param text The bean document text.
+		* 
+		* 	@return The bean document.
 		*/
 		override protected function parse( text:String ):Object
 		{

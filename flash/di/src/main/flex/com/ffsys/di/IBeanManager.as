@@ -4,11 +4,11 @@ package com.ffsys.di {
 	import com.ffsys.io.loaders.core.*;
 	
 	/**
-	*	Describes the contract for style managers.
+	*	Describes the contract for bean managers.
 	*	
 	*	Style managers manage the loading of a collection
-	*	of style beanss and locating styles from a number
-	*	of style beanss.
+	*	of bean beanss and locating beans from a number
+	*	of bean beanss.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -19,24 +19,26 @@ package com.ffsys.di {
 	public interface IBeanManager extends IBeanDocument {
 		
 		/**
-		*	Adds a style beans to this manager.
+		*	Adds a bean beans to this manager.
 		*	
-		*	If no specific style beans is specified this method
-		*	will create one using the style beans factory.
+		*	If no specific bean beans is specified this method
+		*	will create one using the bean beans factory.
 		* 
-		*	@param beans A style beans implementation to register
-		* 	with the style manager.
-		*	@param request The url request to load the style
+		*	@param beans A bean beans implementation to register
+		* 	with the bean manager.
+		*	@param request The url request to load the bean
 		*	beans data from.
+		* 
+		* 	@return The bean document.
 		*/
 		function addBeanDocument(
 			beans:IBeanDocument = null,
 			request:URLRequest = null ):IBeanDocument;
 		
 		/**
-		*	Removes a style beans from this manager.
+		*	Removes a bean beans from this manager.
 		*	
-		*	@param beans The style beans to remove.
+		*	@param beans The bean beans to remove.
 		* 
 		* 	@return Whether the speciified beans document was removed.
 		*/

@@ -18,6 +18,8 @@ package com.ffsys.di
 		* 
 		* 	@param name The name of the property about to be set.
 		* 	@param value The value of the property about to be set.
+		* 
+		* 	@return Whether this implementation should set the bean property.
 		*/
 		function shouldSetBeanProperty( name:String, value:* ):Boolean;
 		

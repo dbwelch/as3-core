@@ -913,7 +913,9 @@
 				</xsl:call-template>
 			</xsl:if>
 			<xsl:if test="not($xref)">
-				<xsl:value-of select="$type" />
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$type" />
+				</xsl:call-template>
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
@@ -944,7 +946,9 @@
 				</xsl:call-template>
 			</xsl:if>
 			<xsl:if test="not($xref)">
-				<xsl:value-of select="$type" />
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$type" />
+				</xsl:call-template>				
 			</xsl:if>
 		</xsl:if>
 		<xsl:value-of select="'):void'" />		

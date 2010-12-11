@@ -20,6 +20,7 @@ package com.ffsys.di
 		implements IBeanDocument
 	{		
 		private var _id:String;
+		private var _delimiter:String = "|";		
 		private var _bindings:IBindingCollection;
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
 		private var _files:Vector.<BeanFileDependency> = new Vector.<BeanFileDependency>();
@@ -35,6 +36,19 @@ package com.ffsys.di
 		/**
 		* 	@inheritDoc
 		*/
+		public function get delimiter():String
+		{
+			return _delimiter;
+		}
+		
+		public function set delimiter( value:String ):void
+		{
+			_delimiter = value;
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get files():Vector.<BeanFileDependency>
 		{
 			return _files;
@@ -46,13 +60,10 @@ package com.ffsys.di
 		public function get dependencies():ILoaderQueue
 		{
 			var output:ILoaderQueue = new LoaderQueue();
-			
 			for( var i:int = 0;i < this.files.length;i++ )
 			{
-				output.addLoader(
-					ILoader( files[ i ].resolve( this, null ) ) );
+				output.addLoader( files[ i ].getLoader() );
 			}
-			
 			return output;
 		}
 		
@@ -94,7 +105,7 @@ package com.ffsys.di
 		}
 		
 		/**
-		*	@inheritDoc
+		*	An identifier for this document.
 		*/
 		public function get id():String
 		{

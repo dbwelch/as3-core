@@ -2,6 +2,15 @@ package com.ffsys.di
 {	
 	import flash.text.StyleSheet;
 	
+	/**
+	*	Responsible for parsing text that declares beans.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanTextParser extends BeanParser
 	{
 		private var _beanSheet:StyleSheet;
@@ -14,7 +23,6 @@ package com.ffsys.di
 		public function BeanTextParser( document:IBeanDocument = null )
 		{
 			super( document );
-			this.delimiter = "|";
 		}		
 		
 		/**
@@ -61,8 +69,7 @@ package com.ffsys.di
 		*/
 		private function processBean( beanName:String, bean:Object ):void
 		{
-			var parser:BeanTextElementParser = new BeanTextElementParser(
-				this.document, this.delimiter );
+			var parser:BeanTextElementParser = new BeanTextElementParser( this.document );
 			var z:String = null;
 			var value:*;
 			for( z in bean )
