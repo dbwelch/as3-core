@@ -20,6 +20,12 @@ package com.ffsys.di
 				IEventDispatcher {
 		
 		/**
+		* 	A collection of external file dependencies found when
+		* 	the bean document was parsed.
+		*/			
+		function get files():Vector.<BeanFileDependency>;
+		
+		/**
 		* 	Gets the object that encapsulates constants for the bean document.
 		*/
 		function get constants():Object;

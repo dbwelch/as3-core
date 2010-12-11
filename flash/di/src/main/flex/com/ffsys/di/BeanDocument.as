@@ -11,6 +11,7 @@ package com.ffsys.di
 		private var _bindings:IBindingCollection;
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
 		private var _constants:Object;
+		private var _files:Vector.<BeanFileDependency> = new Vector.<BeanFileDependency>();
 		
 		/**
 		* 	Creates a <code>BeanDocument</code> instance.
@@ -18,6 +19,14 @@ package com.ffsys.di
 		public function BeanDocument()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get files():Vector.<BeanFileDependency>
+		{
+			return _files;
 		}
 		
 		/**

@@ -138,7 +138,7 @@ package com.ffsys.di
 				return _singletonInstance;
 			}
 			
-			trace("***************************** BeanDescriptor::getBean()", this.id, this.singleton );
+			//trace("***************************** BeanDescriptor::getBean()", this.id, this.singleton );
 			
 			var clazz:Class = null;
 			
@@ -191,8 +191,6 @@ package com.ffsys.di
 					_singletonInstance = instance;
 				}
 				
-				trace("********************** BeanDescriptor::getBean() returning: ", instance );
-
 				return instance;
 			}
 			
@@ -277,7 +275,6 @@ package com.ffsys.di
 		*/
 		private function resolveConstants( bean:Object ):void
 		{
-			trace("BeanDescriptor::resolveConstants()", "RESOLVING CONSTANTS: ", bean );
 			if( bean )
 			{
 				var z:String = null;
@@ -285,7 +282,6 @@ package com.ffsys.di
 				{
 					if( bean[ z ] is BeanConstant )
 					{
-						trace("BeanDescriptor::resolveConstants()", "RESOLVING CONSTANT!!!!!!!!!!!!!!: ", z, bean[ z ] );
 						bean[ z ] = BeanConstant( bean[ z ] ).resolve( this.document, bean );
 					}
 				}

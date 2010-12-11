@@ -4,6 +4,8 @@ package com.ffsys.di
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.io.loaders.types.*;
+	
 	import com.ffsys.utils.primitives.PrimitiveParser;
 	import com.ffsys.utils.properties.PropertiesMerge;
 	import com.ffsys.utils.string.StringTrim;
@@ -110,7 +112,7 @@ package com.ffsys.di
 		*/
 		public function setBeanProperty( bean:Object, name:String, value:Object ):void
 		{
-			trace("************************* BeanTextElementParser::setBeanProperty()", name, value);
+			//trace("************************* BeanTextElementParser::setBeanProperty()", name, value);
 			bean[ name ] = value;
 		}		
 		
@@ -141,29 +143,6 @@ package com.ffsys.di
 		}
 		
 		/**
-		*	Determines whether an extension is valid.
-		*	
-		*	@param candidate The string candidate.
-		*	
-		*	@return Whether the extension candidate represents a
-		*	valid extension.
-		*/
-		
-		/*
-		private function isValidExtension( candidate:String ):Boolean
-		{
-			for( var z:String in parser.expressions )
-			{
-				if( candidate.indexOf( z ) == 0 )
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		*/
-		
-		/**
 		*	@private
 		*/
 		private function parseExtension(
@@ -171,14 +150,6 @@ package com.ffsys.di
 			beanName:String,
 			beanProperty:String = null ):Object
 		{
-			
-			/*
-			if( !isValidExtension( candidate ) )
-			{
-				return null;
-			}
-			*/
-			
 			var extension:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
 			var output:Object = null;
 			
@@ -199,20 +170,19 @@ package com.ffsys.di
 					break;
 				case BeanConstants.URL:
 					output = new URLRequest( value );
-					break;		
-					
-				/*	
+					break;
 				case BeanConstants.BITMAP:
-					output = new ImageLoader( new URLRequest( value ) );
+					output = new BeanFileDependency(
+						beanName, beanProperty, value, ImageLoader );
 					break;
 				case BeanConstants.SOUND:
-					output = new SoundLoader( new URLRequest( value ) );
+					output = new BeanFileDependency(
+						beanName, beanProperty, value, SoundLoader );					
 					break;
 				case BeanConstants.SWF:
-					output = new MovieLoader( new URLRequest( value ) );
+					output = new BeanFileDependency(
+						beanName, beanProperty, value, MovieLoader );
 					break;
-				*/
-				
 				case BeanConstants.REF:
 					output = new BeanReference( beanName, beanProperty, value );
 					break;
@@ -230,13 +200,11 @@ package com.ffsys.di
 						"Could not handle css expression with identifier '" + extension + "'." );
 			}
 			
-			/*
-			if( _dependencies && ( output is ILoader ) && beanProperty )
+			if( document && ( output is BeanFileDependency ) )
 			{
-				_dependencies.addLoader( ILoader( output ) );
-				_cache[ output ] = { beanName: beanName, beanProperty: beanProperty };
+				document.files.push(
+					BeanFileDependency( output ) );
 			}
-			*/
 			
 			return output;
 		}

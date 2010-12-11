@@ -49,16 +49,15 @@ package com.ffsys.di {
 		/**
 		*	@inheritDoc
 		*/
-		
-		/*
-		override protected function parse( text:String ):StyleSheet
+		override protected function parse( text:String ):Object
 		{
 			var beans:IBeanDocument = document ? document : BeanDocumentFactory.create();
 			
-			beans.parse( text );
+			//TODO: implement CSS/XML switching
 			
-			return StyleSheet( beans );
+			var parser:IBeanParser = new BeanTextParser( beans );
+			parser.parse( text );
+			return beans;
 		}
-		*/
 	}
 }

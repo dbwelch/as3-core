@@ -10,7 +10,8 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.LoadOptions;
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
+
+	import com.ffsys.io.loaders.resources.ObjectResource;
 	import com.ffsys.io.loaders.resources.TextResource;
 	
 	import com.ffsys.io.loaders.core.ILoadOptions;
@@ -33,6 +34,31 @@ package com.ffsys.io.loaders.types {
 			super( request, options );
 		}
 		
+		/**
+		*	Parses the loaded text data to an object.
+		* 
+		* 	The default implementation does nothing.
+		*	
+		*	@param text The loaded text data.
+		*	
+		*	@return An object parsed from the text.
+		*/
+		protected function parse( text:String ):Object
+		{
+			return null;
+		}
+		
+		/**
+		* 	Determines whether the loaded text should be parsed.
+		* 
+		* 	@return A boolean indicating whether the loaded text should
+		* 	be parsed.
+		*/
+		protected function shouldParseText():Boolean
+		{
+			return false;
+		}
+		
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
@@ -53,13 +79,18 @@ package com.ffsys.io.loaders.types {
 			
 			if( txt )
 			{
-				resource = new TextResource( txt, uri );
+				if( !shouldParseText() )
+				{
+					this.resource = new TextResource( txt, uri );
+				}else{
+					this.resource = new ObjectResource( parse( txt ), uri );
+				}
 				
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.DATA,
 					event,
 					this,
-					resource as TextResource
+					resource
 				);
 					
 				if( queue )
