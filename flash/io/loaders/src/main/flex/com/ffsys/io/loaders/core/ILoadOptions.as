@@ -1,5 +1,8 @@
 package com.ffsys.io.loaders.core {
 	
+	import com.ffsys.core.IFatal;
+	import com.ffsys.core.ISilent;	
+	
 	/**
 	*	Describes the contract for instances that encapsulate
 	*	options for <code>ILoader</code> implementations.
@@ -11,7 +14,8 @@ package com.ffsys.io.loaders.core {
 	*	@since  03.09.2007
 	*/
 	public interface ILoadOptions
-		extends ILoadOptionsDecorator {
+		extends IFatal,
+		 		ISilent {
 			
 		/**
 		*	Determines whether an <code>id</code> should

@@ -39,92 +39,77 @@ package com.ffsys.io.loaders.core {
 	public class LoaderQueue extends EventDispatcher
 		implements	ILoaderQueue,
 					IBytesTotal {
-				
-		/**
-		*	@private	
-		*/		
-		protected var _id:String;
-			
-		/**
-		*	@private
-		*	
-		*	<code>Array</code> used to store the
-		*	<code>ILoaderElement</code> instances.
-		*/
-		protected var _items:Array;
 		
-		/**
-		*	@private
-		*	
-		*	The current index (or position) of the queue.
-		*/
-		protected var _index:int;
+		private var _id:String;
+		private var _items:Array;
+		private var _index:int;
+		private var _item:ILoaderElement;
+		private var _bytesTotal:uint;
+		private var _bytesLoaded:uint;
 		
-		/**
-		*	@private	
-		*/
-		protected var _item:ILoaderElement;
+		//TODO: change to interface type
+		private var _resources:IResourceList;
 		
-		/**
-		*	@private	
-		*/
-		protected var _bytesTotal:uint;
+		private var _paused:Boolean;		
+		private var _loading:Boolean;
+		private var _complete:Boolean;
+		private var _forceLoad:Boolean;
+		private var _delay:int;
+		private var _delayTimer:Timer;
 		
-		/**
-		*	@private	
-		*/
-		protected var _bytesLoaded:uint;
+		private var _silent:Boolean;
+		private var _fatal:Boolean;
 		
-		protected var _responderDecorator:ILoadResponderDecorator;
-		protected var _loadOptionsDecorator:ILoadOptionsDecorator;
-		
-		protected var _resources:ResourceList;
-		
-		/**
-		*	@private	
-		*/
-		protected var _loading:Boolean;
-		
-		/**
-		*	@private	
-		*/
-		protected var _complete:Boolean;		
+		private var _responderDecorator:ILoadResponderDecorator;
 		
 		public function LoaderQueue()
 		{
+			super();
+			
 			_responderDecorator = new LoadResponderDecorator( this );
-			_loadOptionsDecorator = new LoadOptionsDecorator();
 			
 			_resources = new ResourceList();
-			
-			super();
 			reset();
 			clear();
-			
 			this.bytesTotal = 0;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function flushResources():void
 		{
-			
 			if( resources )
 			{
 				resources.destroy();
-			}
-			
+			}	
 			_resources = new ResourceList();
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function willReload():Boolean
 		{
 			//if we have no resources but have ILoader items
 			//we should reload
-			return ( !_resources.getLength() && getLength() );
+			return ( !_resources.length && length );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function reload():void
 		{
 			load( bytesTotal );
+		}
+		
+		/**
+		* 	An identifier for this queue.
+		*/
+		public function get id():String
+		{
+			return _id;
 		}
 		
 		public function set id( val:String ):void
@@ -132,46 +117,48 @@ package com.ffsys.io.loaders.core {
 			_id = val;
 		}
 		
-		public function get id():String
+		/**
+		* 	@inheritDoc
+		*/		
+		public function get bytesTotal():uint
 		{
-			return _id;
-		}		
+			return _bytesTotal;
+		}
 		
 		public function set bytesTotal( val:uint ):void
 		{
 			_bytesTotal = val;
 		}
 		
-		public function get bytesTotal():uint
+		/**
+		* 	@inheritDoc
+		*/		
+		public function get bytesLoaded():uint
 		{
-			return _bytesTotal;
-		}
+			return _bytesLoaded;
+		}				
 		
 		public function set bytesLoaded( val:uint ):void
 		{
 			_bytesLoaded = val;
 		}
 		
-		public function get bytesLoaded():uint
+		/**
+		* 	@inheritDoc
+		*/		
+		public function get forceLoad():Boolean
 		{
-			return _bytesLoaded;
-		}
-		
-		/*
-		*	IForceLoad implementation.	
-		*/
-		protected var _forceLoad:Boolean;
+			return _forceLoad;
+		}		
 		
 		public function set forceLoad( val:Boolean ):void
 		{
 			_forceLoad = val;
 		}
 		
-		public function get forceLoad():Boolean
-		{
-			return _forceLoad;
-		}
-		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getAllRequests():Array
 		{
 			var requests:Array = new Array();
@@ -179,7 +166,7 @@ package com.ffsys.io.loaders.core {
 			var item:ILoader;
 			
 			var i:int;
-			var l:int = getLength();
+			var l:int = length;
 			
 			var j:int;
 			var jl:int;
@@ -193,10 +180,9 @@ package com.ffsys.io.loaders.core {
 			return requests;
 		}
 		
-		/*
-		*	ILoaderQueue implementation.
+		/**
+		* 	@inheritDoc
 		*/
-		
 		public function getAllLoaders():Array
 		{
 			var output:Array = new Array();
@@ -224,37 +210,36 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	Adds a loader to this queue.
-		*
-		*	@param loader The loader to add to the queue.
-		*	@param loader an optional ILoader instance to use for loading this request 
+		*	@inheritDoc
 		*/
 		public function addLoader(
-			loader:ILoader,
-			options:ILoadOptions = null ):ILoader
+			loader:ILoaderElement,
+			options:ILoadOptions = null ):ILoaderElement
 		{
 			if( loader )
 			{
-				if( options )
+				if( loader is ILoader )
 				{
-					loader.options = options;
+					if( options )
+					{
+						ILoader( loader ).options = options;
+					}
+					ILoader( loader ).queue = this;
 				}
-			
-				loader.queue = this;
-			
 				_items.push( loader );
 			}
 			
 			return loader;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function removeLoader( val:ILoaderElement ):Boolean
 		{
 			var i:int = 0;
 			var l:int = _items.length;
-			
 			var target:ILoaderElement;
-			
 			for( ;i < l;i++ )
 			{
 				target = _items[ i ];
@@ -271,101 +256,105 @@ package com.ffsys.io.loaders.core {
 					return true;
 				}
 			}
-			
 			return false;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getLoaderAt( index:int ):ILoaderElement
 		{
 			return ILoaderElement( _items[ index ] );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getLoaderById( id:String ):ILoaderElement
 		{
 			var i:int = 0;
-			var l:int = getLength();
+			var l:int = length;
 			
 			var element:ILoaderElement;
 			
 			for( ;i < l;i++ )
 			{
 				element = getLoaderAt( i );
-				
 				if( element.id == id )
 				{
 					return element;
 				}
-				
 			}
-			
 			return null;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getLoaderIndex( loader:ILoaderElement ):int
 		{
-			var i:int = 0;
-			var l:int = getLength();
-			
-			var element:ILoaderElement;
-			
-			for( ;i < l;i++ )
-			{
-				element = getLoaderAt( i );
-				
-				if( element == loader )
-				{
-					return i;
-				}
-				
-			}
-			
-			return -1;			
+			return _items.indexOf( loader );
 		}
-
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function removeLoaderAt( index:int ):ILoaderElement
 		{
 			var removed:Array = _items.splice( index, 1 );
-			
 			if( removed && removed.length > 0 )
 			{
 				return removed[ 0 ] as ILoaderElement;
 			}
-			
 			return null;
 		}
 		
-		public function getLength():int
+		/**
+		* 	@inheritDoc
+		*/
+		public function get length():int
 		{
 			return _items.length;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function last():ILoaderElement
 		{
 			if( _items.length )
 			{
 				return _items[ _items.length - 1 ];
 			}
-			
 			return null;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function first():ILoaderElement
 		{
 			return _items[ 0 ];
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function clear():void
 		{
 			_items = new Array();
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function isEmpty():Boolean
 		{
 			return _items.length == 0;
 		}
 		
 		/**
-		*	Resets the queue position to zero.
+		* 	@inheritDoc
 		*/
 		public function reset():void
 		{
@@ -379,11 +368,14 @@ package com.ffsys.io.loaders.core {
 		*	contains all the ILoader instances in any and all children including
 		*	this LoaderQueue itself.
 		*/
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function flatten():void
 		{
 			var loaders:Array = getAllLoaders();
 			clear();
-			
 			var i:int = 0;
 			var l:int = loaders.length;
 			var loader:ILoader;
@@ -410,11 +402,17 @@ package com.ffsys.io.loaders.core {
 			}
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get item():ILoaderElement
 		{
 			return _item;
 		}
 		
+		/**
+		* 	@private
+		*/
 		protected function dispatchLoadCompleteEvent():void
 		{
 			
@@ -431,6 +429,9 @@ package com.ffsys.io.loaders.core {
 			dispatchEvent( event );
 		}
 		
+		/**
+		* 	@private
+		*/
 		private function loadItemAtIndex( index:int = 0 ):void
 		{
 		
@@ -508,15 +509,17 @@ package com.ffsys.io.loaders.core {
 			loader.load( loader.request );
 		}
 		
-		/*
-		*	ILoadStatus implementation.	
+		/**
+		* 	@inheritDoc
 		*/
-		
 		public function get loading():Boolean
 		{
 			return _loading;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get loaded():Boolean
 		{
 
@@ -526,7 +529,7 @@ package com.ffsys.io.loaders.core {
 			var output:Boolean = true;
 			
 			var i:int = 0;
-			var l:int = getLength();
+			var l:int = length;
 			
 			var loader:ILoader;
 			
@@ -539,11 +542,13 @@ package com.ffsys.io.loaders.core {
 				//instances are not loaded
 				if( !output )
 				{
+					
 					/*
 					trace("LoaderQueue::loaded(), not loaded: " + loader );
 					trace("LoaderQueue::loaded(), not loaded: " + loader.getBytesLoaded() );
 					trace("LoaderQueue::loaded(), not loaded: " + loader.getBytesTotal() );
 					*/
+					
 					return output;
 				}
 			}
@@ -551,6 +556,9 @@ package com.ffsys.io.loaders.core {
 			return output;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get complete():Boolean
 		{
 			return _complete;
@@ -562,6 +570,9 @@ package com.ffsys.io.loaders.core {
 		
 		protected var _force:Boolean;
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function force( bytesTotal:uint = 0 ):void
 		{
 			_force = true;
@@ -571,12 +582,15 @@ package com.ffsys.io.loaders.core {
 			trace( this );
 			
 			trace( "LoaderQueue force : " + index );
-			trace( "LoaderQueue force : " + getLength() );
+			trace( "LoaderQueue force : " + length );
 			*/
 			
 			load( bytesTotal );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function load( bytesTotal:uint = 0 ):void
 		{
 			this.bytesLoaded = 0;
@@ -588,7 +602,7 @@ package com.ffsys.io.loaders.core {
 				reset();
 			}
 			
-			//trace( "LoaderQueue load : " + getLength() );
+			//trace( "LoaderQueue load : " + length );
 			
 			_loading = true;
 			_complete = false;
@@ -596,20 +610,14 @@ package com.ffsys.io.loaders.core {
 			loadItemAtIndex( _index );
 		}
 		
-		//private var _closed:Boolean;
+		/**
+		* 	@inheritDoc
+		*/
 		public function close():void
 		{
 			_loading = false;
 			_force = false;
 			_complete = true;
-			//_closed = true;
-			
-			/*
-			if( _calculator )
-			{
-				_calculator.close();
-			}
-			*/
 			
 			stopDelay();
 			
@@ -617,7 +625,6 @@ package com.ffsys.io.loaders.core {
 			{	
 				removeResponderListeners( _item, responder );
 				removeResponderListeners( _item, this );
-				
 				_item.close();
 			}
 		}
@@ -625,7 +632,6 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@inheritDoc	
 		*/
-
 		public function destroy():void
 		{
 			close();
@@ -642,34 +648,28 @@ package com.ffsys.io.loaders.core {
 			
 			//TODO: call destroy on these composite instances
 			_responderDecorator = null;
-			_loadOptionsDecorator = null;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get index():int
 		{
 			return _index;
 		}
 		
-		protected var _delay:int;
-		protected var _delayTimer:Timer;
+		/**
+		* 	@inheritDoc
+		*/
+		public function get delay():int
+		{
+			return _delay;
+		}		
 		
 		public function set delay( val:int ):void
 		{
 			_delay = val;
 		}
-		
-		public function get delay():int
-		{
-			return _delay;
-		}
-		
-		protected function proceed( event:TimerEvent ):void
-		{
-			stopDelay();
-			loadItemAtIndex( index + 1 );
-		}
-		
-		private var _paused:Boolean;
 		
 		/**
 		*	@inheritDoc
@@ -702,6 +702,25 @@ package com.ffsys.io.loaders.core {
 			}
 		}
 		
+		
+		/**
+		* 	Moves on to processing the next item in the queue.
+		* 
+		* 	This method is invoked as a handler after any delay
+		* 	between loading has executed.
+		* 
+		* 	@param event The timer event that triggered this listener.
+		*/
+		protected function proceed( event:TimerEvent ):void
+		{
+			stopDelay();
+			loadItemAtIndex( index + 1 );
+		}		
+		
+		/**
+		* 	Encapsulates the logic for determining whether we proceed
+		* 	to the next item or start a delay between items.
+		*/
 		protected function next():void
 		{
 			//we shouldn't proceed to the next item
@@ -735,6 +754,9 @@ package com.ffsys.io.loaders.core {
 			}
 		}
 		
+		/**
+		* 	Starts the delay timer.
+		*/
 		protected function startDelay():void
 		{
 			_delayTimer = new Timer( delay, 1 );
@@ -742,6 +764,9 @@ package com.ffsys.io.loaders.core {
 			_delayTimer.start();
 		}
 		
+		/**
+		* 	Stops the delay timer.
+		*/
 		protected function stopDelay():void
 		{
 			if( _delayTimer )
@@ -753,28 +778,30 @@ package com.ffsys.io.loaders.core {
 			_delayTimer = null;
 		}
 
-		/*
-		*	ILoadOptionsDecorator implementation.
+		/**
+		*	@inheritDoc	
 		*/
-		
-		public function set silent( val:Boolean ):void
-		{
-			_loadOptionsDecorator.silent = val;
-		}
-		
 		public function get silent():Boolean
 		{
-			return _loadOptionsDecorator.silent;
+			return _silent;
 		}
-		
-		public function set fatal( val:Boolean ):void
+				
+		public function set silent( val:Boolean ):void
 		{
-			_loadOptionsDecorator.fatal = val;
+			_silent = val;
 		}
 		
+		/**
+		*	@inheritDoc	
+		*/		
 		public function get fatal():Boolean
 		{
-			return _loadOptionsDecorator.fatal;
+			return _fatal;
+		}
+				
+		public function set fatal( val:Boolean ):void
+		{
+			_fatal = val;
 		}
 		
 		/*
@@ -943,21 +970,34 @@ package com.ffsys.io.loaders.core {
 		/*
 		*	IResourceAccess implementation.
 		*/
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getResourceById( id:String, list:String = null ):IResource
 		{
 			return _resources.getResourceById( id );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getResourceListById( id:String ):IResourceList
 		{
 			return _resources.getResourceListById( id );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getAllResources():Array
 		{
 			return _resources.getAllResources();
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get resources():IResourceList
 		{
 			return _resources;
@@ -967,7 +1007,12 @@ package com.ffsys.io.loaders.core {
 		*	IPriorityQueue implementation.
 		*/
 		
-		public function prioritize(	loader:ILoaderElement, priority:int ):Boolean
+		/**
+		* 	@inheritDoc
+		*/
+		public function prioritize(
+			loader:ILoaderElement,
+			priority:int ):Boolean
 		{
 			
 			if( !loader )
@@ -981,80 +1026,83 @@ package com.ffsys.io.loaders.core {
 			
 			var currentLoader:ILoader = item as ILoader;
 			
-			//attempt to prioritize the loader that is currently
-			//loading
-			if( ( loader == currentLoader ) && currentLoader.loading )
+			if( currentLoader )
 			{
-				//--> refactor to be runtime warnings in case this behaviour is required
-				//--> to bypass the loading of certain assets
+				//attempt to prioritize the loader that is currently
+				//loading
+				if( ( loader == currentLoader ) && currentLoader.loading )
+				{
+					//--> refactor to be runtime warnings in case this behaviour is required
+					//--> to bypass the loading of certain assets
 				
-				//trying to prioritize an ILoader to the currently loading
-				//ILoader instance, bypass prioritization
+					//trying to prioritize an ILoader to the currently loading
+					//ILoader instance, bypass prioritization
+					if( priority == LoaderPriority.CURRENT )
+					{
+						//trace("LoaderQueue::prioritize(), bypassing prioritization on: " + loader.id );
+						return false;
+					}
+				}
+			
+				//switch the priority to be the current
+				//index of we are set to switch out the current loader
+				//this will cause the default prioritizeIndex() clause
+				//to be triggered below
 				if( priority == LoaderPriority.CURRENT )
 				{
-					//trace("LoaderQueue::prioritize(), bypassing prioritization on: " + loader.id );
-					return false;
+					priority = index;
 				}
+			
+				//indicates that we are prioritizing to the current
+				//index being loaded
+				var prioritizeCurrentLoad:Boolean =
+					( currentLoader && ( priority == index ) );
+			
+				//if the current item is loading
+				//close it's stream
+				if( prioritizeCurrentLoad )
+				{
+					//trace("LoaderQueue::prioritize(), closing current item: " + currentLoader.id );
 				
-			}
-			
-			//switch the priority to be the current
-			//index of we are set to switch out the current loader
-			//this will cause the default prioritizeIndex() clause
-			//to be triggered below
-			if( priority == LoaderPriority.CURRENT )
-			{
-				priority = index;
-			}
-			
-			//indicates that we are prioritizing to the current
-			//index being loaded
-			var prioritizeCurrentLoad:Boolean =
-				( currentLoader && ( priority == index ) );
-			
-			//if the current item is loading
-			//close it's stream
-			if( prioritizeCurrentLoad )
-			{
-				//trace("LoaderQueue::prioritize(), closing current item: " + currentLoader.id );
+					//removeResponderListeners( currentLoader, responder );
+					//removeResponderListeners( currentLoader, this );		
 				
-				//removeResponderListeners( currentLoader, responder );
-				//removeResponderListeners( currentLoader, this );		
+					//close any open stream
+					currentLoader.close();
 				
-				//close any open stream
-				currentLoader.close();
-				
-				//stop any delay in effect
-				stopDelay();
-			}
+					//stop any delay in effect
+					stopDelay();
+				}
 			
-			switch( priority )
-			{
-				case LoaderPriority.TOP:
-					prioritized = prioritizeTop( loader );
-					break;
-				case LoaderPriority.UP:
-					prioritized = prioritizeUp( loader );
-					break;					
-				case LoaderPriority.DOWN:
-					prioritized = prioritizeDown( loader );
-					break;					
-				case LoaderPriority.BOTTOM:
-					prioritized = prioritizeBottom( loader );
-					break;					
-				default:
-					prioritized = prioritizeIndex( loader, priority );
-					break;					
-			}
+				switch( priority )
+				{
+					case LoaderPriority.TOP:
+						prioritized = prioritizeTop( loader );
+						break;
+					case LoaderPriority.UP:
+						prioritized = prioritizeUp( loader );
+						break;					
+					case LoaderPriority.DOWN:
+						prioritized = prioritizeDown( loader );
+						break;					
+					case LoaderPriority.BOTTOM:
+						prioritized = prioritizeBottom( loader );
+						break;					
+					default:
+						prioritized = prioritizeIndex( loader, priority );
+						break;					
+				}
 			
-			//after the queue prioritization
-			//if we've moved an attempt to be current
-			//we need to restart the load process
-			//on the newly prioritized item
-			if( prioritizeCurrentLoad )
-			{
-				//trace("LoaderQueue::prioritize(), starting load on prioritized item: " + loader.id );
-				loadItemAtIndex( index );
+				//after the queue prioritization
+				//if we've moved an attempt to be current
+				//we need to restart the load process
+				//on the newly prioritized item
+				if( prioritizeCurrentLoad )
+				{
+					//trace("LoaderQueue::prioritize(), starting load on prioritized item: " + loader.id );
+					loadItemAtIndex( index );
+				}
+			
 			}
 			
 			return prioritized;
@@ -1104,7 +1152,7 @@ package com.ffsys.io.loaders.core {
 		{
 			var index:int = getLoaderIndex( loader );
 			
-			if( index > -1 && index < ( getLength() - 1 ) )
+			if( index > -1 && index < ( length - 1 ) )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
 				_items.splice( index + 1, 0, removed );	
@@ -1130,7 +1178,7 @@ package com.ffsys.io.loaders.core {
 		
 		protected function prioritizeIndex( loader:ILoaderElement, priority:int ):Boolean
 		{
-			if( priority >= 0 && priority < ( getLength() - 1 ) )
+			if( priority >= 0 && priority < ( length - 1 ) )
 			{
 				var index:int = getLoaderIndex( loader );
 				

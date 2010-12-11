@@ -12,26 +12,12 @@ package com.ffsys.io.loaders.core {
 	*/
 	public class LoadOptions extends Object
 		implements ILoadOptions {
-	
-		/**
-		*	@private	
-		*/	
+		
+		private var _silent:Boolean;
+		private var _fatal:Boolean;
 		private var _autoGenerateId:Boolean;
-		
-		/**
-		*	@private	
-		*/		
 		private var _continueOnResourceNotFound:Boolean;
-		
-		/**
-		*	@private	
-		*/		
 		private var _quietOnResourceNotFound:Boolean;
-		
-		/**
-		*	@private	
-		*/		
-		private var _loadOptionsDecorator:ILoadOptionsDecorator;
 		
 		/**
 		*	Creates a <code>LoadOptions</code> instance.	
@@ -39,34 +25,26 @@ package com.ffsys.io.loaders.core {
 		public function LoadOptions()
 		{
 			super();
-
-			_loadOptionsDecorator = new LoadOptionsDecorator();
-			
 			this.continueOnResourceNotFound = true;
 			this.quietOnResourceNotFound = false;
 		}
 		
-		/*
-		*	ILoadOptionsDecorator implementation.
-		*/
-		
 		/**
 		*	@inheritDoc	
-		*/
+		*/		
 		public function set silent( val:Boolean ):void
 		{
-			_loadOptionsDecorator.silent = val;
-			
+			_silent = val;
 			if( val )
 			{
 				this.continueOnResourceNotFound = val;
 				this.quietOnResourceNotFound = val;
-			}
+			}			
 		}
 		
 		public function get silent():Boolean
 		{
-			return _loadOptionsDecorator.silent;
+			return _silent;
 		}
 		
 		/**
@@ -74,17 +52,13 @@ package com.ffsys.io.loaders.core {
 		*/		
 		public function set fatal( val:Boolean ):void
 		{
-			_loadOptionsDecorator.fatal = val;
+			_fatal = val;
 		}
 		
 		public function get fatal():Boolean
 		{
-			return _loadOptionsDecorator.fatal;
-		}
-		
-		/*
-		*	ILoadOptions implementation.
-		*/				
+			return _fatal;
+		}			
 		
 		/**
 		*	@inheritDoc	

@@ -1,7 +1,7 @@
 package com.ffsys.io.loaders.core {
 	
 	/**
-	*	Encapsulates constants that describe the type of
+	*	Encapsulates constants that describe the types of
 	*	prioritization that can occur.
 	*
 	*	@langversion ActionScript 3.0
@@ -11,7 +11,6 @@ package com.ffsys.io.loaders.core {
 	*	@since  16.10.2007
 	*/
 	public class LoaderPriority extends Object {
-		
 		/**
 		*	Constant to indicate prioritizing to the top
 		*	of the queue - becomes the first item to be loaded.
@@ -40,16 +39,6 @@ package com.ffsys.io.loaders.core {
 		*	switching the currently ILoader being loaded with
 		*	the one that you want to load immediately.
 		*/	
-		static public const CURRENT:int = -32;	
-		
-		/**
-		*	@private
-		*/
-		public function LoaderPriority()
-		{
-			super();
-		}
-		
+		static public const CURRENT:int = -32;
 	}
-	
 }

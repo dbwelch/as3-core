@@ -20,7 +20,7 @@ package com.ffsys.io.loaders.resources {
 		function removeResource( val:IResourceElement ):Boolean;
 		function getResourceAt( index:int ):IResourceElement;
 		function removeResourceAt( index:int ):IResourceElement;
-		function getLength():int;
+		function get length():int;
 		function last():IResourceElement;
 		function first():IResourceElement;
 		function clear():void;

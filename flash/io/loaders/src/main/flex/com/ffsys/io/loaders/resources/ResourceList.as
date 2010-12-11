@@ -102,7 +102,7 @@ package com.ffsys.io.loaders.resources {
 		public function removeResourceAt( index:int ):IResourceElement
 		{
 			
-			if( index < 0 || ( index > ( getLength() - 1 ) ) )
+			if( index < 0 || ( index > ( length - 1 ) ) )
 			{
 				throw new Error( "ResourceList.removeResourceAt() index out of bounds error: " + index );
 			}
@@ -117,7 +117,7 @@ package com.ffsys.io.loaders.resources {
 			return null;
 		}
 		
-		public function getLength():int
+		public function get length():int
 		{
 			return _resources.length;
 		}

@@ -61,11 +61,30 @@ package com.ffsys.io.loaders.core {
 		*/
 		function flushResources():void;
 		
+		/**
+		* 	Gets an array of all the loaders
+		* 	encapsulated by this queue.
+		* 
+		* 	This includes all loaders that belong to
+		* 	descendant queues.
+		* 
+		* 	@return An array of all the loaders this queue
+		* 	encapsulates.
+		*/
 		function getAllLoaders():Array;
 		
+		/**
+		* 	Adds a loader or queue to this queue.
+		* 
+		* 	@param loader The loader element to add.
+		* 	@param options Load options to assign when
+		* 	a loader is added.
+		* 
+		* 	@return The added loader element.
+		*/
 		function addLoader(
-			loader:ILoader,
-			options:ILoadOptions = null ):ILoader;
+			loader:ILoaderElement,
+			options:ILoadOptions = null ):ILoaderElement;
 			
 		function set delay( val:int ):void;
 		function get delay():int;
@@ -83,9 +102,43 @@ package com.ffsys.io.loaders.core {
 		*/
 		function get index():int;
 		
+		/**
+		* 	Removes a loader element.
+		* 
+		* 	@param loader The loader element to remove.
+		* 
+		* 	@return A boolean indicating whether the element
+		* 	was removed.
+		*/
 		function removeLoader( loader:ILoaderElement ):Boolean;
+		
+		/**
+		* 	Gets a loader element at the specified index.
+		* 
+		* 	@param index The index to retrieve the element from.
+		* 
+		* 	@return A loader element or <code>null</code> if one
+		* 	could not be found.
+		*/
 		function getLoaderAt( index:int ):ILoaderElement;
+		
+		/**
+		* 	Gets a loader element by identifier.
+		* 
+		* 	@param id The identifier of the loader element.
+		* 
+		* 	@return A loader element or <code>null</code> if one
+		* 	could not be found.
+		*/
 		function getLoaderById( id:String ):ILoaderElement;
+		
+		/**
+		* 	Gets the index of a loader element.
+		* 
+		* 	@param loader The loader element to retrieve the index of.
+		* 
+		* 	
+		*/
 		function getLoaderIndex( loader:ILoaderElement ):int;
 		function removeLoaderAt( index:int ):ILoaderElement;
 		
@@ -95,7 +148,7 @@ package com.ffsys.io.loaders.core {
 		*	
 		*	@return The length of this queue.
 		*/
-		function getLength():int;
+		function get length():int;
 		
 		/**
 		*	Clears all ILoader	
