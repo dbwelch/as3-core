@@ -8,7 +8,7 @@ package com.ffsys.di
 	/**
 	*	Unit tests for declaring graphics as beans.
 	*/ 
-	public class BeanGraphicTest
+	public class BeanGraphicTest extends AbstractBeanUnit
 	{		
 		public var sample:String = 
 			(<![CDATA[
@@ -56,18 +56,7 @@ package com.ffsys.di
 			Assert.assertNotNull( document );
 			Assert.assertEquals( 3, document.length );			
 			
-			var rectangle:RectangleGraphic = RectangleGraphic( document.getBean( "rectangle" ) );
-			var fill:SolidFill = SolidFill( document.getBean( "default-fill" ) );
-			var stroke:Stroke = Stroke( document.getBean( "default-stroke" ) );
-			
-			Assert.assertNotNull( rectangle );
-			Assert.assertNotNull( fill );
-			Assert.assertNotNull( stroke );
-			Assert.assertNotNull( rectangle.fill );
-			Assert.assertNotNull( rectangle.stroke );
-			Assert.assertEquals( 1, rectangle.stroke.thickness );
-			Assert.assertEquals( 16711680, rectangle.stroke.color );
-			Assert.assertEquals( 0.5, rectangle.stroke.alpha );
+			assertGraphicBeans( document );
 		}
 	}
 }

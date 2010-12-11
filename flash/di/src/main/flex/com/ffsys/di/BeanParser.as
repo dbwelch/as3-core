@@ -2,6 +2,15 @@ package com.ffsys.di
 {
 	import flash.net.URLRequest;
 
+	/**
+	*	Abstract super class for parsing bean documents.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanParser extends Object
 		implements IBeanParser
 	{
@@ -19,21 +28,6 @@ package com.ffsys.di
 				document = new BeanDocument();
 			}
 			this.document = document;
-		}	
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get expressions():Object
-		{
-			var output:Object = new Object();
-			output[ BeanConstants.CLASS ] = Class;
-			output[ BeanConstants.URL ] = URLRequest;
-			output[ BeanConstants.REF ] = BeanReference;
-			output[ BeanConstants.CONSTANT ] = BeanConstant;
-			output[ BeanConstants.METHOD ] = Function;
-			output[ BeanConstants.ARRAY ] = Array;
-			return output;
 		}
 		
 		/**

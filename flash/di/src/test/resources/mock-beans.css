@@ -1,0 +1,34 @@
+constants {
+	constant-class: class( flash.display.Sprite );
+	red: #ff0000;
+	string: hello world;
+	stylable: ref( stylable );
+}
+
+expressions {
+	class-expression: class( flash.display.Sprite );
+	url-expression: url( http://google.com );
+	red: constant( red );
+	constant-class: constant( constant-class );
+}
+
+arrays {
+	values: array( constant( red ), constant( string ), constant( stylable ) );
+}
+
+stylable {
+	singleton: true;
+	instance-class: class( flash.display.Sprite );
+}
+
+bevel {
+	instance-class: class( flash.filters.BevelFilter );
+	distance: 1;
+	highlight-color: #ff0000;
+	shadow-color: #666666;
+	shadow-alpha: 0.6;
+	knockout: true;
+	blur-x: 5;
+	blur-y: 10;
+	strength: 20;
+}

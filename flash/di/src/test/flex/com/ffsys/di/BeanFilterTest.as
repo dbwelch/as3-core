@@ -8,7 +8,7 @@ package com.ffsys.di
 	/**
 	*	Unit tests for declaring filters in bean files.
 	*/ 
-	public class BeanFilterTest
+	public class BeanFilterTest extends AbstractBeanUnit
 	{	
 		public var sample:String = 
 			(<![CDATA[
@@ -36,31 +36,16 @@ package com.ffsys.di
 		}
 		
 		/**
-		* 	Tests for verifying filters declared in css files.
+		* 	Tests for verifying filters declared in bean files.
 		*/
 		[Test]
 		public function beanFilterTest():void
 		{
 			var parser:BeanTextParser = new BeanTextParser();
 			var document:IBeanDocument = parser.parse( sample );
-			
 			Assert.assertNotNull( document );
 			Assert.assertEquals( 1, document.length );
-			
- 			var filter:BevelFilter = BevelFilter( document.getBean( "bevel" ) );
-			Assert.assertNotNull( filter );
-			Assert.assertEquals( 1, filter.distance );
-			Assert.assertEquals( 16711680, filter.highlightColor );
-			Assert.assertEquals( 6710886, filter.shadowColor );
-			Assert.assertEquals( 0.6, filter.shadowAlpha );
-			Assert.assertEquals( true, filter.knockout );
-			Assert.assertEquals( 5, filter.blurX );
-			Assert.assertEquals( 10, filter.blurY );
-			Assert.assertEquals( 20, filter.strength );
-			
-			//verify filters are returned as different instances
-			var bevel:BevelFilter = BevelFilter( document.getBean( "bevel" ) );
-			Assert.assertTrue( filter != bevel );
+			assertFilterBean( document );
 		}
 	}
 }

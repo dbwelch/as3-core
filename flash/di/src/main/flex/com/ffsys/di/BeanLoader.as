@@ -7,8 +7,7 @@ package com.ffsys.di {
 	import com.ffsys.io.loaders.types.TextLoader;
 	
 	/**
-	*	Responsible for loading css files that can
-	*	declare external file dependencies.
+	*	Loads bean documents.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -54,7 +53,6 @@ package com.ffsys.di {
 			var beans:IBeanDocument = document ? document : BeanDocumentFactory.create();
 			
 			//TODO: implement CSS/XML switching
-			
 			var parser:IBeanParser = new BeanTextParser( beans );
 			parser.parse( text );
 			return beans;

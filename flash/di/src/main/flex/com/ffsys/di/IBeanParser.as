@@ -1,14 +1,17 @@
 package com.ffsys.di
 {
-
+	/**
+	*	Describes the contract for implementations that parse
+	* 	files describing the beans for a document.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public interface IBeanParser
-	{
-		/**
-		* 	The mapping between valid expressions and the corresponding
-		* 	class.
-		*/
-		function get expressions():Object;
-		
+	{	
 		/**
 		* 	The bean document to parse into.
 		*/
@@ -31,6 +34,6 @@ package com.ffsys.di
 		* 	The default value is a vertical bar.
 		*/
 		function get delimiter():String;
-		function set delimiter( value:String ):void;		
+		function set delimiter( value:String ):void;
 	}
 }

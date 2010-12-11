@@ -8,7 +8,7 @@ package com.ffsys.di
 	/**
 	*	Unit tests for instantiating from bean descriptors.
 	*/ 
-	public class BeanInstanceCreationTest
+	public class BeanInstanceCreationTest extends AbstractBeanUnit
 	{	
 		
 		/**

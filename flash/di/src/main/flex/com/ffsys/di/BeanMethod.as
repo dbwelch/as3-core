@@ -1,6 +1,15 @@
 package com.ffsys.di
 {
-
+	
+	/**
+	*	Represents a bean method reference.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanMethod extends BeanResolver
 		implements IBeanResolver {
 			

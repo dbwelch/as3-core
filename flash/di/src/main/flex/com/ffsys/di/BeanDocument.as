@@ -1,16 +1,27 @@
 package com.ffsys.di
 {
 	import flash.events.EventDispatcher;
-	
+
+	import com.ffsys.io.loaders.core.ILoader;	
+	import com.ffsys.io.loaders.core.ILoaderQueue;
+	import com.ffsys.io.loaders.core.LoaderQueue;	
 	import com.ffsys.utils.substitution.IBindingCollection;
 	
+	/**
+	*	Encapsulates a collection of beans.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanDocument extends EventDispatcher
 		implements IBeanDocument
 	{		
 		private var _id:String;
 		private var _bindings:IBindingCollection;
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
-		private var _constants:Object;
 		private var _files:Vector.<BeanFileDependency> = new Vector.<BeanFileDependency>();
 		
 		/**
@@ -27,6 +38,37 @@ package com.ffsys.di
 		public function get files():Vector.<BeanFileDependency>
 		{
 			return _files;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get dependencies():ILoaderQueue
+		{
+			var output:ILoaderQueue = new LoaderQueue();
+			
+			for( var i:int = 0;i < this.files.length;i++ )
+			{
+				output.addLoader(
+					ILoader( files[ i ].resolve( this, null ) ) );
+			}
+			
+			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function parse( text:String, parser:IBeanParser = null ):ILoaderQueue
+		{
+			if( parser == null )
+			{
+				parser = new BeanTextParser( this );
+			}
+			
+			parser.document = this;
+			parser.parse( text );
+			return this.dependencies;
 		}
 		
 		/**

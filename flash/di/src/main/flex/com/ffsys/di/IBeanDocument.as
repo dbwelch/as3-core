@@ -3,7 +3,9 @@ package com.ffsys.di
 	import flash.events.IEventDispatcher;
 	import com.ffsys.core.IStringIdentifier;
 	
+	import com.ffsys.io.loaders.core.ILoaderQueue;	
 	import com.ffsys.utils.substitution.IBindingCollection;	
+	
 	
 	/**
 	*	Describes the contract for collections
@@ -24,6 +26,25 @@ package com.ffsys.di
 		* 	the bean document was parsed.
 		*/			
 		function get files():Vector.<BeanFileDependency>;
+		
+		/**
+		*	A queue that represents the dependencies that
+		*	were found when the beans were parsed.
+		*/
+		function get dependencies():ILoaderQueue;
+	
+		/**
+		*	Parses the text into this instance
+		*	and returns a loader queue implementation
+		*	responsible for loading any external file dependencies
+		*	declared in the beans.
+		*	
+		*	@param text The beans text to parse.
+		*	
+		*	@return The loader queue responsible for loading
+		*	external dependencies.
+		*/
+		function parse( text:String, parser:IBeanParser = null ):ILoaderQueue;
 		
 		/**
 		* 	Gets the object that encapsulates constants for the bean document.

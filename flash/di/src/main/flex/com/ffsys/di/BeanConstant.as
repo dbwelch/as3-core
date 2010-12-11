@@ -1,7 +1,7 @@
 package com.ffsys.di
 {
 	/**
-	*	Represents a bean array reference.
+	*	Represents a bean constant reference.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

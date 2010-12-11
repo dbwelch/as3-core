@@ -3,7 +3,7 @@ package com.ffsys.di
 	import flash.net.URLRequest;
 	
 	/**
-	*	Represents a bean array reference.
+	*	Represents a file dependency declared in a bean file.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

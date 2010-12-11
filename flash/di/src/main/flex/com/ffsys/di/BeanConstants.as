@@ -1,6 +1,14 @@
 package com.ffsys.di
 {
-	
+	/**
+	*	Encapsulates constants for the dependency injection package.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanConstants extends Object
 	{
 		/**
@@ -92,10 +100,9 @@ package com.ffsys.di
 		*/
 		public static const HEX_NUMBER:String = "#";
 		
-		
 		/**
-		* 	The name of the style that defines constants for the
-		* 	stylesheet.
+		* 	The name of the bean descriptor that defines constants for the
+		* 	bean document.
 		*/
 		public static const CONSTANTS_PROPERTY_NAME:String = "constants";						
 	}

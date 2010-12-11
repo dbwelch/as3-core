@@ -1,7 +1,7 @@
 package com.ffsys.di {
 	
 	/**
-	*	Factory class for creating bean storage instances.
+	*	Factory class for creating bean document instances.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -50,8 +50,8 @@ package com.ffsys.di {
 			
 			if( clazz == null )
 			{
-				throw new ArgumentError( "The style factory could not determine the"
-					+ " class of style sheet to instantiate." );
+				throw new ArgumentError( "The bean document factory could not determine the"
+					+ " class of bean document to instantiate." );
 			}
 			
 			try
@@ -64,8 +64,8 @@ package com.ffsys.di {
 			
 			if( !( storage is IBeanDocument ) )
 			{
-				throw new Error( "The created style sheet does not adhere"
-					+ " to the style sheet contract." );
+				throw new Error( "The created bean document does not adhere"
+					+ " to the bean document contract." );
 			}
 			
 			return IBeanDocument( storage );

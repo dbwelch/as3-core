@@ -2,6 +2,15 @@ package com.ffsys.di
 {
 	import com.ffsys.utils.properties.PropertiesMerge;	
 	
+	/**
+	*	Encapsulates all the information required to instantiate a bean.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public class BeanDescriptor extends Object
 		implements IBeanDescriptor
 	{	
