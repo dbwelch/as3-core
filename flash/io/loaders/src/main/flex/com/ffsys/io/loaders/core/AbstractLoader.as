@@ -80,10 +80,7 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	The name of a callback function associated with this loader.
-		* 
-		* 	This is useful when declaring loader implementations in external
-		* 	files.
+		* 	@inheritDoc
 		*/
 		public function get callback():String
 		{

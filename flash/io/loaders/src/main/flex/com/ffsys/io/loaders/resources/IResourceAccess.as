@@ -34,12 +34,12 @@ package com.ffsys.io.loaders.resources {
 		
 		/**
 		* 	Gets an array of all the resources
-		* 	encapsulated by this queue.
+		* 	encapsulated by this implementation.
 		* 
 		* 	This includes all resources that belong to
-		* 	descendant queues.
+		* 	descendant implementations.
 		* 
-		* 	@return An array of all the load requests this queue
+		* 	@return An array of all the load requests this implementation
 		* 	encapsulates.
 		*/
 		function getAllResources():Array;

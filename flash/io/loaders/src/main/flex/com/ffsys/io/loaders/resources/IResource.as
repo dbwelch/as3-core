@@ -3,7 +3,7 @@ package com.ffsys.io.loaders.resources {
 	import com.ffsys.io.core.IBytesTotal;
 	
 	/**
-	*	Describes the contract for Objects that encapsulate
+	*	Describes the contract for implementations that encapsulate
 	*	loaded resources.
 	*
 	*	@langversion ActionScript 3.0
@@ -15,20 +15,15 @@ package com.ffsys.io.loaders.resources {
 	public interface IResource
 		extends IResourceElement,
 				IBytesTotal {
-		
+					
 		/**
-		*	Should return the underlying resource typed as an Object.
-		*
-		*	@return the loaded resource as an Object
+		*	Gets the data this resource encapsulates.
 		*/
 		function get data():Object;	
 		
 		/**
-		*	Gets the String URI the resource was loaded from.
-		*
-		*	@return the String URI the resource was loaded from
+		*	Gets the <code>URI</code> the resource was loaded from.
 		*/
 		function get uri():String;
 	}
-	
 }
