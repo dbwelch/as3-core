@@ -6,7 +6,7 @@ package com.ffsys.io.loaders.events {
 	import flash.events.Event;
 	import flash.net.URLRequest;
 	
-	import com.ffsys.io.loaders.core.ILoader;
+	import com.ffsys.io.loaders.core.ILoaderElement;
 	import com.ffsys.io.loaders.resources.IResourceElement;
 	
 	/**
@@ -27,10 +27,12 @@ package com.ffsys.io.loaders.events {
 		function get triggerEvent():Event;
 		
 		/**
-		*	A loader implementation associated with this event.	
+		*	A loader element implementation associated with this event.	
+		* 
+		* 	This will be either a loader or a loader queue implementation.
 		*/
-		function set loader( val:ILoader ):void;
-		function get loader():ILoader;
+		function set loader( val:ILoaderElement ):void;
+		function get loader():ILoaderElement;
 		
 		/**
 		*	The request that started the load operation.

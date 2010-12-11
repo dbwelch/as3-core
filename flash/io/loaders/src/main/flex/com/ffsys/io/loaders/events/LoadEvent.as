@@ -5,9 +5,9 @@ package com.ffsys.io.loaders.events {
 	import flash.net.URLRequest;
 	
 	import com.ffsys.events.AbstractEvent;
-	
+
 	import com.ffsys.io.loaders.core.ILoader;
-	
+	import com.ffsys.io.loaders.core.ILoaderElement;
 	import com.ffsys.io.loaders.resources.IResourceElement;
 	
 	/**
@@ -56,7 +56,7 @@ package com.ffsys.io.loaders.events {
 		/**
 		*	@private
 		*/
-		private var _loader:ILoader;
+		private var _loader:ILoaderElement;
 		
 		/**
 		*	@private	
@@ -66,7 +66,7 @@ package com.ffsys.io.loaders.events {
 		public function LoadEvent(
 			type:String,
 			triggerEvent:Event,
-			loader:ILoader,
+			loader:ILoaderElement,
 			resource:IResourceElement = null )
 		{
 			super( type, triggerEvent );
@@ -90,12 +90,12 @@ package com.ffsys.io.loaders.events {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get loader():ILoader
+		public function get loader():ILoaderElement
 		{
 			return _loader;
 		}		
 		
-		public function set loader( value:ILoader ):void
+		public function set loader( value:ILoaderElement ):void
 		{
 			_loader = value;
 		}
@@ -110,9 +110,9 @@ package com.ffsys.io.loaders.events {
 				return ProgressEvent( triggerEvent ).bytesLoaded;
 			}
 			
-			if( loader )
+			if( loader && ( loader is ILoader ) )
 			{
-				return loader.getBytesLoaded();
+				return ILoader( loader ).getBytesLoaded();
 			}
 			
 			return 0;
@@ -128,20 +128,26 @@ package com.ffsys.io.loaders.events {
 				return ProgressEvent( triggerEvent ).bytesTotal;
 			}
 			
-			if( loader )
+			if( loader && ( loader is ILoader ) )
 			{
-				return loader.getBytesTotal();
+				return ILoader( loader ).getBytesTotal();
 			}
 			
 			return 0;
 		}
 		
-		
+		/**
+		* 	A normalized value between zero and one representing
+		* 	the amount of bytes loaded.
+		*/
 		public function get normalized():Number
 		{
 			return ( bytesLoaded / bytesTotal ) * 1;
 		}
 		
+		/**
+		* 	The percentage progress for a load operation.
+		*/
 		public function get percentLoaded():int
 		{
 			return Math.floor( ( bytesLoaded / bytesTotal ) * 100 );
@@ -152,9 +158,9 @@ package com.ffsys.io.loaders.events {
 		*/
 		public function get request():URLRequest
 		{
-			if( _loader )
+			if( loader && ( loader is ILoader ) )
 			{
-				return _loader.request;
+				return ILoader( loader ).request;
 			}
 			
 			return null;
@@ -165,9 +171,9 @@ package com.ffsys.io.loaders.events {
 		*/
 		public function get uri():String
 		{
-			if( _loader )
+			if( loader && ( loader is ILoader ) )
 			{
-				return _loader.uri;
+				return ILoader( loader ).uri;
 			}
 			
 			return null;
@@ -178,9 +184,9 @@ package com.ffsys.io.loaders.events {
 		*/
 		public function get id():String
 		{
-			if( _loader )
+			if( loader )
 			{
-				return _loader.id;
+				return loader.id;
 			}
 			
 			return null;

@@ -65,7 +65,7 @@ package com.ffsys.io.loaders.types {
 			
 			if( bytes )
 			{
-				resource = new BinaryResource( bytes );			
+				this.resource = new BinaryResource( bytes );
 				
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.DATA,
@@ -74,17 +74,9 @@ package com.ffsys.io.loaders.types {
 					resource as BinaryResource
 				);
 				
-				if( queue )
-				{
-					queue.addResource( this );
-				}				
-				
 				dispatchEvent( evt );
-				
 				Notifier.dispatchEvent( evt );
 			}
-			
-			//dispatchLoadCompleteEvent();
         }
 	}
 }

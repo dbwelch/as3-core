@@ -76,13 +76,7 @@ package com.ffsys.io.loaders.types {
 					this,
 					resource as StyleSheetResource
 				);
-				
-				//TODO: refactor
-				if( queue )
-				{
-					queue.addResource( this );
-				}
-				
+
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}

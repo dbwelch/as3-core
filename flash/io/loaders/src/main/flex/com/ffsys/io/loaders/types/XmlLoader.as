@@ -65,22 +65,14 @@ package com.ffsys.io.loaders.types {
 					event,
 					this, 
 					resource as XmlResource );
-					
-				if( queue )
-				{
-					queue.addResource( this );
-				}
 				
 				dispatchEvent( evt );
-				
 				Notifier.dispatchEvent( evt );
 				
 				//we've created the resource
 				//clean our data reference
 				data = null;
 			}
-			
-			//dispatchLoadCompleteEvent();
         }
 	}
 }

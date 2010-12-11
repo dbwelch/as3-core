@@ -92,12 +92,6 @@ package com.ffsys.io.loaders.types {
 					resource
 				);
 				
-				//TODO: refactor
-				if( queue )
-				{
-					queue.addResource( this );
-				}
-				
 				dispatchEvent( evt );	
 				Notifier.dispatchEvent( evt );
 			}

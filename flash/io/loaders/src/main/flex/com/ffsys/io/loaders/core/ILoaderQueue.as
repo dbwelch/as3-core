@@ -184,15 +184,6 @@ package com.ffsys.io.loaders.core {
 		function isEmpty():Boolean;
 		
 		/**
-		* 	@deprecated
-		* 
-		* 	Adds a resource to this queue.
-		* 
-		* 	@param loader The loader encapsulating the resource to add.
-		*/
-		function addResource( loader:ILoader ):void;
-		
-		/**
 		* 	Gets the last loader element contained by this implementation.
 		*/
 		function last():ILoaderElement;

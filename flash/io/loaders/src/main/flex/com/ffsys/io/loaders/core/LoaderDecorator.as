@@ -31,11 +31,6 @@ package com.ffsys.io.loaders.core {
 		*	@private	
 		*/
 		protected var _customData:Object;
-		
-		/**
-		*	@private	
-		*/	
-		protected var _list:IResourceList;
 
 		/**
 		*	@private	
@@ -86,20 +81,7 @@ package com.ffsys.io.loaders.core {
 			
 			this.options = options;
 			this.request = request;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function set list( val:IResourceList ):void
-		{
-			_list = val;
-		}
-		
-		public function get list():IResourceList
-		{
-			return _list;
-		}		
+		}	
 		
 		/**
 		*	@inheritDoc	

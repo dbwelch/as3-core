@@ -134,17 +134,8 @@ package com.ffsys.io.loaders.types {
 				resource as SoundResource
 			);
 			
-			if( queue )
-			{
-				queue.addResource( this );
-			}
-			
 			dispatchEvent( evt );
-			
 			Notifier.dispatchEvent( evt );
-			
-			//dispatchLoadCompleteEvent();
-			
 			_sound = null;
         }
 	}

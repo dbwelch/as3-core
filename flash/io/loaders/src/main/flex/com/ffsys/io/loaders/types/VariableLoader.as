@@ -71,18 +71,10 @@ package com.ffsys.io.loaders.types {
 						this,
 						resource as VariableResource
 					);
-				
-				if( queue )
-				{
-					queue.addResource( this );
-				}					
-				
+					
 				dispatchEvent( evt );
-				
 				Notifier.dispatchEvent( evt );
 			}
-			
-			//dispatchLoadCompleteEvent();
         }
 	}
 }

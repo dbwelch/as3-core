@@ -25,13 +25,7 @@ package com.ffsys.io.loaders.core {
 		*	associated with this instance.
 		*/
 		function set queue( val:ILoaderQueue ):void;
-		function get queue():ILoaderQueue;					
-		
-		/**
-		*	A composite <code>IResourceList</code>.	
-		*/
-		function set list( val:IResourceList ):void;
-		function get list():IResourceList;
+		function get queue():ILoaderQueue;
 		
 		/**
 		*	Arbitrary custom data associated with

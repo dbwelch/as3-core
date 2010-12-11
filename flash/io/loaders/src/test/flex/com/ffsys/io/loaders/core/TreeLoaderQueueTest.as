@@ -12,8 +12,7 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.types.*;
 	
 	/**
-	*	Abstract super class for unit tests that load
-	*	a multiple resources using a loader queue.
+	*	A simple test for verifying that nested loader queues behave as expected.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -21,7 +20,7 @@ package com.ffsys.io.loaders.core {
 	*	@author Mischa Williamson
 	*	@since  29.10.2010
 	*/
-	public class LoaderQueueTest extends Object {
+	public class TreeLoaderQueueTest extends Object {
 		
 		/**
 		*	The timeout before the load operation fails.
@@ -34,9 +33,9 @@ package com.ffsys.io.loaders.core {
 		private var _queue:ILoaderQueue;
 		
 		/**
-		*	Creates an <code>LoaderQueueTest</code> instance.	
+		*	Creates an <code>TreeLoaderQueueTest</code> instance.	
 		*/
-		public function LoaderQueueTest()
+		public function TreeLoaderQueueTest()
 		{
 			super();
 		}
@@ -58,8 +57,16 @@ package com.ffsys.io.loaders.core {
 			loader = new BinaryLoader( new URLRequest( "assets/test.osc" ) );
 			_queue.addLoader( loader );
 			
+			var nested:ILoaderQueue = new LoaderQueue();
+			
+			loader = new ImageLoader( new URLRequest( "assets/test.jpg" ) );
+			nested.addLoader( loader );
+			_queue.addLoader( nested );
+			
+			/*
+			
 			loader = new FontLoader( new URLRequest( "assets/test-fonts.swf" ) );
-			_queue.addLoader( loader );
+			_queue.addLoader( loader );			
 			
 			loader = new ImageLoader( new URLRequest( "assets/test.jpg" ) );
 			_queue.addLoader( loader );
@@ -87,6 +94,7 @@ package com.ffsys.io.loaders.core {
 			
 			loader = new XmlLoader( new URLRequest( "assets/test.xml" ) );
 			_queue.addLoader( loader );
+			*/
 			
 			_queue.addEventListener(
 				LoadEvent.LOAD_COMPLETE,
@@ -111,8 +119,12 @@ package com.ffsys.io.loaders.core {
 			passThroughData:Object ):void
 		{
 			Assert.assertNotNull( _queue.resources );
-			Assert.assertTrue( _queue.resources is IResourceList );	
-			Assert.assertEquals( 11, _queue.resources.length );
+			Assert.assertTrue( _queue.resources is IResourceList );
+			Assert.assertEquals( 2, _queue.resources.length );
+			Assert.assertTrue( _queue.resources.getResourceAt( 0 ) is IResource );
+			
+			var list:Object = _queue.resources.getResourceAt( 1 );
+			Assert.assertTrue( list is IResourceList );
 		}
 		
 		/**
@@ -124,9 +136,9 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		[Test(async)]
-		public function testLoaderQueue():void
+		public function testTreeLoaderQueue():void
 		{
 			//start the load process
-		}
+		}				
 	}
 }

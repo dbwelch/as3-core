@@ -45,7 +45,7 @@ package com.ffsys.io.loaders.resources {
 		function getAllResources():Array;
 		
 		/**
-		* 	A list is resources encapsulated by this implementation.
+		* 	A list of resources encapsulated by this implementation.
 		*/
 		function get resources():IResourceList;
 	}

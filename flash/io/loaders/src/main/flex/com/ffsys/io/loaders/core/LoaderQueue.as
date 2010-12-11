@@ -365,14 +365,6 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	Flattens this LoaderQueue. If the LoaderQueue contains
-		*	any other LoaderQueue instances all the ILoader instances
-		*	within the child LoaderQueue(s) are collected and this LoaderQueue
-		*	contains all the ILoader instances in any and all children including
-		*	this LoaderQueue itself.
-		*/
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function flatten():void
@@ -418,7 +410,6 @@ package com.ffsys.io.loaders.core {
 		*/
 		protected function dispatchLoadCompleteEvent():void
 		{
-			
 			//the queue has finished loading
 			_loading = false;
 			_complete = true;
@@ -427,7 +418,7 @@ package com.ffsys.io.loaders.core {
 			
 			var event:LoadEvent =
 				new LoadEvent(
-					LoadEvent.LOAD_COMPLETE, evt, ILoader( _item ), resources );
+					LoadEvent.LOAD_COMPLETE, evt, _item, resources );
 				
 			dispatchEvent( event );
 		}
@@ -444,23 +435,14 @@ package com.ffsys.io.loaders.core {
 				removeResponderListeners( _item, this );
 			}
 			
+			//add any composite child queue resources to our list
+			if( this.resources && _item is ILoaderQueue )
+			{
+				this.resources.addResource( ILoaderQueue( _item ).resources );
+			}
+			
 			if( index > ( _items.length - 1 ) )
 			{
-				//trace("LoaderQueue::complete() " + index );
-				//trace("LoaderQueue::complete() " + _item );
-				
-				/*
-				removeResponderListeners( _item );
-				removeResponderListeners( this );
-				removeResponderListeners( _item, this );
-				*/
-				/*
-				//-->
-				//clean up our reference to the ResourceList
-				//now we've dispatched the event
-				//_resources = null;
-				*/
-				
 				_loading = false;
 				_force = false;
 
@@ -472,44 +454,70 @@ package com.ffsys.io.loaders.core {
 			
 			_index = index;
 			
-			//trace( "LoaderQueue.loadItemAtIndex : " + index );
-			//trace( "LoaderQueue.loadItemAtIndex : " + responder );
-			
 			_item = getLoaderAt( index );
 			
-			var loader:ILoader = ILoader( _item );
+			var element:ILoaderElement = _item;
 			
-			//if we're set to only load ILoader instances
-			//that have the forceLoad flag set
-			if( _force )
+			if( element is ILoader )
 			{
-				//move on to the next one if this ILoader
-				//is not set to force load
-				if( !loader.forceLoad )
+				var loader:ILoader = ILoader( element );
+			
+				//if we're set to only load ILoader instances
+				//that have the forceLoad flag set
+				if( _force )
 				{
-					loadItemAtIndex( _index + 1 );
-					return;
+					//move on to the next one if this ILoader
+					//is not set to force load
+					if( !loader.forceLoad )
+					{
+						loadItemAtIndex( _index + 1 );
+						return;
+					}
 				}
+			
+				var evt:LoadEvent = new LoadEvent(
+					LoadEvent.LOAD_ITEM_START ,null, loader );
+				dispatchEvent( evt );
+				Notifier.dispatchEvent( evt );
+			
+				addResponderListeners( loader, responder );
+				addResponderListeners( loader, this );
+			
+				//if we were in a delay _loading may have been set to false
+				//for the duration of the delay period
+				_loading = true;
+			
+				loader.load( loader.request );
+			
+			}else if( element is ILoaderQueue )
+			{
+				var child:ILoaderQueue = ILoaderQueue( element );
+				child.addEventListener( LoadEvent.LOAD_START, childEventProxy );
+				child.addEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
+				child.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );						
+				child.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
+				child.addEventListener( LoadEvent.DATA, childEventProxy );
+				child.addEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
+				child.load();
 			}
+		}
+		
+		private function childEventProxy( event:LoadEvent ):void
+		{
+			dispatchEvent( event );
+		}
+		
+		private function childQueueComplete( event:LoadEvent ):void
+		{
+			event.target.removeEventListener( LoadEvent.LOAD_START, childEventProxy );
+			event.target.removeEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
+			event.target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );							
+			event.target.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
+			event.target.removeEventListener( LoadEvent.DATA, childEventProxy );
+			event.target.removeEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
 			
-			var evt:LoadEvent = new LoadEvent(
-				LoadEvent.LOAD_ITEM_START ,null, loader );
-			dispatchEvent( evt );
-			Notifier.dispatchEvent( evt );
-			
-			addResponderListeners( loader, responder );
-			addResponderListeners( loader, this );
-			
-			/*
-			trace("LoaderQueue::loadItemAtIndex(), index " + _index );
-			trace("LoaderQueue::loadItemAtIndex(), uri " + loader.uri );
-			*/
-			
-			//if we were in a delay _loading may have been set to false
-			//for the duration of the delay period
-			_loading = true;
-			
-			loader.load( loader.request );
+			//move on to the next item
+			next();
 		}
 		
 		/**
@@ -545,13 +553,6 @@ package com.ffsys.io.loaders.core {
 				//instances are not loaded
 				if( !output )
 				{
-					
-					/*
-					trace("LoaderQueue::loaded(), not loaded: " + loader );
-					trace("LoaderQueue::loaded(), not loaded: " + loader.getBytesLoaded() );
-					trace("LoaderQueue::loaded(), not loaded: " + loader.getBytesTotal() );
-					*/
-					
 					return output;
 				}
 			}
@@ -574,14 +575,6 @@ package com.ffsys.io.loaders.core {
 		{
 			_force = true;
 			reset();
-			
-			/*
-			trace( this );
-			
-			trace( "LoaderQueue force : " + index );
-			trace( "LoaderQueue force : " + length );
-			*/
-			
 			load( bytesTotal );
 		}
 		
@@ -598,12 +591,9 @@ package com.ffsys.io.loaders.core {
 				close();
 				reset();
 			}
-			
-			//trace( "LoaderQueue load : " + length );
-			
+
 			_loading = true;
-			_complete = false;
-			
+			_complete = false;			
 			loadItemAtIndex( _index );
 		}
 		
@@ -872,51 +862,45 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function resourceNotFoundHandler( event:LoadEvent ):void
 		{
-			var loader:ILoader = event.loader;
+			var element:ILoaderElement = event.loader;
+			
+			if( element is ILoader )
+			{
+				var loader:ILoader = ILoader( element );
 
-			var options:ILoadOptions = loader.options;
+				var options:ILoadOptions = loader.options;
+
+				if( fatal || options.fatal )
+				{
+					throw new Error(
+						"LoaderQueue fatal resource not found error: " + loader.uri );
+				}
 			
-			/*
-			trace( "LoaderQueue resourceNotFoundHandler options.silent : " + options.silent );
-			trace( "LoaderQueue resourceNotFoundHandler options.fatal : " + options.fatal );
-			trace( "LoaderQueue resourceNotFoundHandler options.continueOnResourceNotFound : " +
-				options.continueOnResourceNotFound );
-			trace( "LoaderQueue resourceNotFoundHandler options.quietOnResourceNotFound : " +
-				options.quietOnResourceNotFound );
+				if( !silent && !options.quietOnResourceNotFound )
+				{
+					dispatchEvent( event as Event );
+					Notifier.dispatchEvent( event as Event );
+				}
 			
-			*/
+				if( silent || options.continueOnResourceNotFound )
+				{
+					next();
+				}						
 			
-			if( fatal || options.fatal )
-			{
-				throw new Error(
-					"LoaderQueue fatal resource not found error: " + event.loader.uri );
+				removeResponderListeners( loader );
+				removeResponderListeners( this );
+				removeResponderListeners( loader, this );
+			
+				if( !silent && !options.continueOnResourceNotFound )
+				{
+					//if we don't continue on resource not found
+					//we are complete and not currently loading
+					//dispatch the complete event after the resource
+					//not found event - this also resets the loading
+					//and complete flags
+					dispatchLoadCompleteEvent();
+				}
 			}
-			
-			if( !silent && !options.quietOnResourceNotFound )
-			{
-				dispatchEvent( event as Event );
-				Notifier.dispatchEvent( event as Event );
-			}
-			
-			if( silent || options.continueOnResourceNotFound )
-			{
-				next();
-			}						
-			
-			removeResponderListeners( event.loader );
-			removeResponderListeners( this );
-			removeResponderListeners( event.loader, this );
-			
-			if( !silent && !options.continueOnResourceNotFound )
-			{
-				//if we don't continue on resource not found
-				//we are complete and not currently loading
-				//dispatch the complete event after the resource
-				//not found event - this also resets the loading
-				//and complete flags
-				dispatchLoadCompleteEvent();
-			}
-			
 		}
 		
 		/**
@@ -939,51 +923,25 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	@inheritDoc
 		*/
-		
-		//TODO: deprecate
-		public function addResource( loader:ILoader ):void
-		{
-			var resource:IResource = loader.resource;
-			
-			//trace("LoaderQueue::addResource() " + loader );
-
-			if( resource )
-			{
-			
-				resource.id = loader.id;
-			
-				if( loader.list )
-				{
-					
-					try {
-						ResourceList( loader.list ).addResource( resource );
-					}catch( e:Error )
-					{
-						//throw new Error( "LoaderQueue, could not add resource : " + resource + "\n\n" + e.toString() );
-						
-						//possibly the queue has been closed when this error is thrown
-						//ignored for the moment - but needs to be fixed properly
-					}					
-					
-					/*
-					trace( "Adding individual resource to list : " +
-						ResourceList( loader.customData ) );
-					*/
-					
-				}else{
-					resources.addResource( resource );
-				}
-			}			
-		}
-		
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function resourceLoaded( event:LoadEvent ):void
 		{
-			
-			//trace("LoaderQueue::resourceLoaded(), " + event.loader.id );
+			if( event.loader is ILoader )
+			{
+				var loader:ILoader = ILoader( event.loader );
+				
+				//must be direct child loader to add the resource
+				//nested loader queues have their lists added to maintain
+				//the tree structure 
+				if( getLoaderIndex( loader ) > -1 )
+				{
+					var resource:IResource = loader.resource;
+					if( resource )
+					{
+						resource.id = loader.id;
+						resources.addResource( resource );
+					}
+				}
+			}
 			
 			dispatchEvent( event as Event );
 			next();
@@ -1040,16 +998,12 @@ package com.ffsys.io.loaders.core {
 			loader:ILoaderElement,
 			priority:int ):Boolean
 		{
-			
 			if( !loader )
 			{
 				throw new Error( "LoaderQueue, cannot prioritize a null ILoader." );
 			}
 			
-			//trace("LoaderQueue::prioritize(), on loader id: " + loader.id );
-			
 			var prioritized:Boolean = false;
-			
 			var currentLoader:ILoader = item as ILoader;
 			
 			if( currentLoader )
@@ -1065,7 +1019,7 @@ package com.ffsys.io.loaders.core {
 					//ILoader instance, bypass prioritization
 					if( priority == LoaderPriority.CURRENT )
 					{
-						//trace("LoaderQueue::prioritize(), bypassing prioritization on: " + loader.id );
+						//TODO
 						return false;
 					}
 				}
@@ -1088,11 +1042,6 @@ package com.ffsys.io.loaders.core {
 				//close it's stream
 				if( prioritizeCurrentLoad )
 				{
-					//trace("LoaderQueue::prioritize(), closing current item: " + currentLoader.id );
-				
-					//removeResponderListeners( currentLoader, responder );
-					//removeResponderListeners( currentLoader, this );		
-				
 					//close any open stream
 					currentLoader.close();
 				
@@ -1125,12 +1074,9 @@ package com.ffsys.io.loaders.core {
 				//on the newly prioritized item
 				if( prioritizeCurrentLoad )
 				{
-					//trace("LoaderQueue::prioritize(), starting load on prioritized item: " + loader.id );
 					loadItemAtIndex( index );
 				}
-			
 			}
-			
 			return prioritized;
 		}
 		
@@ -1140,12 +1086,10 @@ package com.ffsys.io.loaders.core {
 		public function prioritizeById( id:String, priority:int ):Boolean
 		{
 			var element:ILoaderElement = getLoaderById( id );
-			
 			if( element )
 			{
 				return prioritize( element, priority );
 			}
-			
 			return false;
 		}		
 		

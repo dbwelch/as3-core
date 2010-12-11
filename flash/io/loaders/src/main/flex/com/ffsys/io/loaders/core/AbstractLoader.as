@@ -436,19 +436,6 @@ package com.ffsys.io.loaders.core {
 		/*
 		*	ILoaderParameters implementation.
 		*/
-
-		/**
-		*	@inheritDoc	
-		*/
-		public function set list( val:IResourceList ):void
-		{
-			_decorator.list = val;
-		}
-		
-		public function get list():IResourceList
-		{
-			return _decorator.list;
-		}
 		
 		/**
 		*	@inheritDoc	

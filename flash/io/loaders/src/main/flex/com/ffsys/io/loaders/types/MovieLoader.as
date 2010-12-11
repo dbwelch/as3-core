@@ -47,8 +47,7 @@ package com.ffsys.io.loaders.types {
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-				
-			resource = new MovieResource( loader, uri, bytesTotal );
+			this.resource = new MovieResource( loader, uri, bytesTotal );
 			
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,
@@ -57,20 +56,9 @@ package com.ffsys.io.loaders.types {
 				resource as MovieResource
 			);
 			
-			if( queue )
-			{
-				queue.addResource( this );
-			}
-			
 			super.completeHandler( event );
-			
 			dispatchEvent( evt );
-			
 			Notifier.dispatchEvent( evt );
-	
-			//dispatchLoadCompleteEvent();
-			
-			//removeListeners();
 			
 			//clean our reference to the underlying Loader
 			_loader = null;

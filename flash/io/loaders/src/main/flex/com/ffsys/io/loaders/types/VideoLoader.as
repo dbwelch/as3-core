@@ -279,22 +279,13 @@ package com.ffsys.io.loaders.types {
 					this,
 					resource as VideoResource
 				);
-				
-			if( queue )
-			{
-				queue.addResource( this );
-			}
 			
 			dispatchEvent( evt );
-			
 			Notifier.dispatchEvent( evt );
 			
 			_netStream.removeEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
-			
 			_netStream.removeEventListener( NetStatusEvent.NET_STATUS, netStatusHandler );
-			
 			_netStream.removeEventListener( AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler );
-			
 			_netStream.client = new Object();
 			
 			/*

@@ -57,8 +57,8 @@ package com.ffsys.io.loaders.types {
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-				
-			resource = new FontResource( loader, uri, bytesTotal );
+			this.resource = new FontResource(
+				loader, uri, bytesTotal );
 			
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,
@@ -69,18 +69,9 @@ package com.ffsys.io.loaders.types {
 			
 			initializeFonts( _loader );
 			
-			if( queue )
-			{
-				queue.addResource( this );
-			}
-			
 			super.completeHandler( event );
-			
 			dispatchEvent( evt );
-			
 			Notifier.dispatchEvent( evt );
-	
-			//dispatchLoadCompleteEvent();
 
 			//clean our reference to the underlying Loader
 			_loader = null;

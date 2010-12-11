@@ -50,7 +50,8 @@ package com.ffsys.io.loaders.types {
 			var bitmap:Bitmap = loader.contentLoaderInfo.content as Bitmap;
 			var bitmapData:BitmapData = bitmap.bitmapData;
 			
-			resource = new ImageResource( bitmapData, uri );
+			this.resource = new ImageResource(
+				bitmapData, uri );
 			
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,
@@ -59,23 +60,14 @@ package com.ffsys.io.loaders.types {
 				resource as ImageResource
 			);
 			
-			if( queue )
-			{
-				queue.addResource( this );
-			}
-			
-			super.completeHandler( event, bitmapData );
-						
+			super.completeHandler( event, bitmapData );			
 			dispatchEvent( evt );
-			
 			Notifier.dispatchEvent( evt );
-			
-			//dispatchLoadCompleteEvent();
 			
 			//clean up the Loader as we only
 			//want the BitmapData
 			unload();
 			_loader = null;
-        }	
+        }
 	}
 }
