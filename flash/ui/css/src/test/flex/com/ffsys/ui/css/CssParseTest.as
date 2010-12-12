@@ -210,19 +210,7 @@ package com.ffsys.ui.css
 			Assert.assertTrue( instanceMethod is Function );
 			
 			var tween:ITween = stylesheet.getStyle( "tween" ) as ITween;
-			
 			Assert.assertNotNull( tween );
-			
-			//Assert.assertNotNull( tween.parameters );
-			//Assert.assertNotNull( tween.parameters.properties );
-			
-			/*
-			var tween:ITween = ITween( getStyle( "alpha-tween" ) );
-			tween.target = graphic;
-			tween.initialize();
-			tween.start();			
-			
-			*/
 		}
 	}
 }

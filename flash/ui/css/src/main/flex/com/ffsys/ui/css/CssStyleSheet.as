@@ -85,18 +85,23 @@ package com.ffsys.ui.css {
 		*/
 		public function setStyle( styleName:String, style:Object ):void
 		{
-			//TODO: implement
-			
 			if( styleName != null )
 			{
 				var descriptor:IBeanDescriptor = getBeanDescriptor( styleName );
+				if( !descriptor && style )
+				{
+					descriptor = new BeanDescriptor();
+					descriptor.id = styleName;
+					addBeanDescriptor( descriptor );
+				}
 				
 				//clear the existing bean
-				if( !style )
+				if( !style && descriptor )
 				{
 					removeBeanDescriptor( descriptor );
 				//update the existing bean descriptor
-				}else{
+				}else if( descriptor && style )
+				{
 					descriptor.transfer( style );
 				}
 			}

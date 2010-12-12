@@ -74,18 +74,6 @@ package com.ffsys.ui.css
 			Assert.assertEquals( 16738047, stylable.classLevelColor );
 			Assert.assertEquals( 16737792, stylable.identifierLevelColor );
 			Assert.assertEquals( 3368601, stylable.customColor );
-			
-			//test instance method level references
-			//TODO: re-implement
-			/*
- 			instance-method-reference {
-				instance-class: class( com.ffsys.ui.css.CssStyleAware );
-				method: method( doSomethingSpecial );
-			}
-			var instanceMethod:Object = stylesheet.getStyle( "instance-method-reference" );
-			Assert.assertNotNull( instanceMethod );
-			Assert.assertTrue( instanceMethod is Function );
-			*/
 		}
 	}
 }

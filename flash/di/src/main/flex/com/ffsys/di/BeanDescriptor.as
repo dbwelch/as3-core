@@ -197,10 +197,17 @@ package com.ffsys.di
 				return _singletonInstance;
 			}
 			
+			var clazz:Class = null;
+			
 			//handle static class references
 			if( _staticClass != null || _staticClassConstant != null )
 			{
-				return this.getStaticClass();
+				clazz = this.getStaticClass();
+				if( isMethodReference( this.properties ) )
+				{
+					return getMethod( this.properties, clazz ) as Function;
+				}
+				return clazz;
 			}
 			
 			//not an instance return the properties
@@ -210,8 +217,6 @@ package com.ffsys.di
 			}
 			
 			//trace("***************************** BeanDescriptor::getBean()", this.id, this.singleton );
-			
-			var clazz:Class = null;
 			
 			try
 			{
@@ -254,6 +259,7 @@ package com.ffsys.di
 				{
 					if( parameters )
 					{
+						//instance method references
 						if( isMethodReference( parameters ) )
 						{
 							return getMethod( parameters, instance ) as Function;

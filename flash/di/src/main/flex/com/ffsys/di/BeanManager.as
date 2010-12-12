@@ -185,6 +185,7 @@ package com.ffsys.di {
 			{
 				var dependencies:ILoaderQueue = this.document.dependencies;
 				dependencies.addEventListener( LoadEvent.DATA, resolveFileDependency );
+				dependencies.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, resolveFileDependency );
 				dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );				
 
 				//inject the dependency queue into the main loader queue
@@ -220,64 +221,10 @@ package com.ffsys.di {
 		{
 			var dependencies:ILoaderQueue = this.document.dependencies;
 			dependencies.removeEventListener( LoadEvent.DATA, resolveFileDependency );
+			dependencies.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, resolveFileDependency );
 			dependencies.removeEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
 		}
-		
-		/**
-		*	@private
-		*/
-		
-		/*
-		private function itemLoaded( event:LoadEvent ):void
-		{
-			_current = IBeanDocument(
-				BeanDocumentResource( event.resource ).beanSheet );
-				
-			//trace("BeanManager::itemLoaded(), ", event.loader, event.loader.id, _current );
-			
-			if( _current )
-			{
-				//assign a default id based on the loader id
-				if( !_current.id && event.loader && event.loader.id )
-				{
-					_current.id = event.loader.id;
-				}
-				
-				if( _current.dependencies && _current.dependencies.getLength() > 0 )
-				{
-					_queue.paused = true;
-					_dependencyQueue = _current.dependencies;
-					_dependencyQueue.addEventListener( LoadEvent.DATA, dependencyDispatchProxy );
-					_dependencyQueue.addEventListener( LoadEvent.LOAD_START, dependencyDispatchProxy );
-					_dependencyQueue.addEventListener( LoadEvent.LOAD_PROGRESS, dependencyDispatchProxy );
-					_dependencyQueue.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyDispatchProxy );
-					_dependencyQueue.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
-					_dependencyQueue.load();
-				}
-			}
-		}
-		*/
-		
-		/**
-		*	@private
-		*/
-		
-		/*
-		override protected function dependenciesLoaded( event:LoadEvent ):void
-		{
-			_dependencyQueue.removeEventListener( LoadEvent.DATA, dependencyDispatchProxy );
-			_dependencyQueue.removeEventListener( LoadEvent.LOAD_START, dependencyDispatchProxy );
-			_dependencyQueue.removeEventListener( LoadEvent.LOAD_PROGRESS, dependencyDispatchProxy );
-			_dependencyQueue.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, dependencyDispatchProxy );
-			
-			_dependencyQueue.removeEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
-			
-			//resume the main bean queue
-			_queue.resume();
-			_current = null;
-		}
-		*/
-	}	
+	}
 }
 
 import flash.net.URLRequest;

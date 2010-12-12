@@ -9,7 +9,7 @@ package com.ffsys.di
 	import com.ffsys.effects.easing.Quad;
 	
 	/**
-	*	Unit tests for bean referencing static class beans.
+	*	Unit tests for beans that return as class references.
 	*/ 
 	public class BeanStaticClassTest extends AbstractBeanUnit
 	{	
@@ -41,10 +41,10 @@ package com.ffsys.di
 		}
 		
 		/**
-		* 	Tests for verifying reference expressions declared in text files.
+		* 	Tests for verifying beans that return as class references.
 		*/
 		[Test]
-		public function beanReferenceTest():void
+		public function beanStaticClasTest():void
 		{
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );

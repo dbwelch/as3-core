@@ -75,6 +75,9 @@ package com.ffsys.di
 			{	
 				var descriptor:IBeanDescriptor = document.getBeanDescriptor( this.beanName );
 				var properties:Object = descriptor.properties;
+				
+				//trace("BeanFileDependency::resolve()", properties, this.name, bean );
+				
 				if( properties )
 				{
 					//update the bean descriptor properties

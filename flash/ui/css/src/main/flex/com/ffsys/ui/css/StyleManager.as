@@ -30,7 +30,7 @@ package com.ffsys.ui.css {
 		{
 			super();
 		}
-		
+				
 		/**
 		* 	Modifies the default behaviour to ensure a style sheet document
 		* 	is created.
@@ -46,7 +46,7 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		* 	Gets the document cast to a style sheet implementation.
+		* 	@inheritDoc
 		*/
 		public function get stylesheet():ICssStyleSheet
 		{

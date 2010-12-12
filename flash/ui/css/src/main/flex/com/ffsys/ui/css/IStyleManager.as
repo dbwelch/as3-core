@@ -20,6 +20,11 @@ package com.ffsys.ui.css {
 	public interface IStyleManager
 		extends IBeanManager,
 		 		IStyleAccess {
+			
+		/**
+		* 	Gets the document cast to a style sheet implementation.
+		*/
+		function get stylesheet():ICssStyleSheet;
 		
 		/**
 		*	Adds a style sheet load request to this manager.
