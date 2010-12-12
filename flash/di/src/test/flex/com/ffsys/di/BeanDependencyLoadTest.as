@@ -123,6 +123,7 @@ package com.ffsys.di
 			Assert.assertTrue( dependencies.propertyText is String );
 			Assert.assertTrue( dependencies.propertyFont is Array );
 			
+			//basic assertions on the loaded font data
 			var fonts:Array = ( dependencies.propertyFont as Array );
 			Assert.assertEquals( 1, fonts.length );
 			Assert.assertTrue( fonts[ 0 ] is Font );			

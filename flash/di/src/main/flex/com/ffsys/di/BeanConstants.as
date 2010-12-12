@@ -141,6 +141,11 @@ package com.ffsys.di
 		
 		/**
 		*	An expression to load a flash movie containing fonts.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to an <code>Array</code> of <code>Font</code>
+		* 	instances representing the fonts registered when the font
+		* 	loader parsed the loaded font data.
 		*/
 		public static const FONT_EXPRESSION:String = "font";
 	}
