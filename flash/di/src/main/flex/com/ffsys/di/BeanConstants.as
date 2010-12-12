@@ -41,60 +41,6 @@ package com.ffsys.di
 		public static const ID_PROPERTY:String = "id";
 		
 		/**
-		*	Represents a bean expression that references a class.
-		*	
-		*	The class must be available when the bean document is
-		*	parsed.
-		*/
-		public static const CLASS:String = "class";
-		
-		/**
-		*	Represents an external bean url expression.
-		*/
-		public static const URL:String = "url";		
-	
-		/**
-		*	Represents a reference to a bean or bean property
-		* 	in the same document.
-		*/
-		public static const REF:String = "ref";
-		
-		/**
-		*	Represents a reference to a bean constant declaration.
-		*/
-		public static const CONSTANT:String = "constant";
-		
-		/**
-		*	Represents a reference to a method definition.
-		*/
-		public static const METHOD:String = "method";
-		
-		/**
-		*	Represents an array collection expression.
-		*/
-		public static const ARRAY:String = "array";
-		
-		/**
-		*	Represents an external bean bitmap expression.
-		*/
-		public static const BITMAP:String = "img";
-		
-		/**
-		*	Represents an external bean sound expression.
-		*/
-		public static const SOUND:String = "sound";
-		
-		/**
-		*	Represents an external bean swf movie expression.
-		*/
-		public static const SWF:String = "swf";	
-		
-		/**
-		*	Represents an external bean xml document expression.
-		*/
-		public static const XML_EXPRESSION:String = "xml";
-		
-		/**
 		*	The delimiter used in reference expressions to delimit
 		* 	a property from the bean name.
 		*/
@@ -109,6 +55,60 @@ package com.ffsys.di
 		* 	The name of the bean descriptor that defines constants for the
 		* 	bean document.
 		*/
-		public static const CONSTANTS_PROPERTY_NAME:String = "constants";						
+		public static const CONSTANTS_PROPERTY_NAME:String = "constants";			
+		
+		/**
+		*	Represents a bean expression that references a class.
+		*	
+		*	The class must be available when the bean document is
+		*	parsed.
+		*/
+		public static const CLASS_EXPRESSION:String = "class";
+		
+		/**
+		*	Represents an external bean url expression.
+		*/
+		public static const URL_EXPRESSION:String = "url";
+	
+		/**
+		*	Represents a reference to a bean or bean property
+		* 	in the same document.
+		*/
+		public static const REF_EXPRESSION:String = "ref";
+		
+		/**
+		*	Represents a reference to a bean constant declaration.
+		*/
+		public static const CONSTANT_EXPRESSION:String = "constant";
+		
+		/**
+		*	Represents an array collection expression.
+		*/
+		public static const ARRAY_EXPRESSION:String = "array";
+		
+		/**
+		*	Represents an external bean bitmap expression.
+		*/
+		public static const BITMAP_EXPRESSION:String = "img";
+		
+		/**
+		*	Represents an external bean sound expression.
+		*/
+		public static const SOUND_EXPRESSION:String = "sound";
+		
+		/**
+		*	Represents an external bean swf movie expression.
+		*/
+		public static const SWF_EXPRESSION:String = "swf";
+		
+		/**
+		*	Represents an external bean xml document expression.
+		*/
+		public static const XML_EXPRESSION:String = "xml";
+		
+		/**
+		*	Represents an external bean text document expression.
+		*/
+		public static const TEXT_EXPRESSION:String = "text";
 	}
 }

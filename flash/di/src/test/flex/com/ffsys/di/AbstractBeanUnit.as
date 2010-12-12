@@ -28,16 +28,17 @@ package com.ffsys.di
 			Assert.assertNotNull( dependencies );
 
 			//test the file dependencies were added
-			Assert.assertEquals( 4, document.files.length );
+			Assert.assertEquals( 5, document.files.length );
 			Assert.assertTrue( document.files[ 0 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 1 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 2 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 3 ] is BeanFileDependency );
+			Assert.assertTrue( document.files[ 4 ] is BeanFileDependency );
 			
 			var queue:ILoaderQueue = document.dependencies;
 			
 			Assert.assertNotNull( queue );
-			Assert.assertEquals( 4, queue.length );
+			Assert.assertEquals( 5, queue.length );
 		}
 		
 		protected function assertFilterBean( document:IBeanDocument ):void

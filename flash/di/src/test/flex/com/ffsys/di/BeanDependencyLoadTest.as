@@ -119,6 +119,7 @@ package com.ffsys.di
 			Assert.assertTrue( dependencies.propertySound is Sound );
 			Assert.assertTrue( dependencies.propertyMovie is Loader );
 			Assert.assertTrue( dependencies.propertyXml is XML );
+			Assert.assertTrue( dependencies.propertyText is String );
 		}
 		
 		[Test(async)]

@@ -38,4 +38,5 @@ di-dependencies {
 	property-sound: sound( assets/mock-di-sound.mp3 );
 	property-movie: swf( assets/mock-di-movie.swf );
 	property-xml: xml( assets/mock-di-xml.xml );
+	property-text: text( assets/mock-di-text.txt );
 }

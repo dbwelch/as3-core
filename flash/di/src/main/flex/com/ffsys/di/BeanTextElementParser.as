@@ -154,7 +154,7 @@ package com.ffsys.di
 			
 			switch( extension )
 			{
-				case BeanConstants.CLASS:
+				case BeanConstants.CLASS_EXPRESSION:
 					try
 					{
 						output = Class( getDefinitionByName( value ) );
@@ -164,18 +164,18 @@ package com.ffsys.di
 							+ value + "'." );
 					}
 					break;
-				case BeanConstants.URL:
+				case BeanConstants.URL_EXPRESSION:
 					output = new URLRequest( value );
 					break;
-				case BeanConstants.BITMAP:
+				case BeanConstants.BITMAP_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, ImageLoader );
 					break;
-				case BeanConstants.SOUND:
+				case BeanConstants.SOUND_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, SoundLoader );					
 					break;
-				case BeanConstants.SWF:
+				case BeanConstants.SWF_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, MovieLoader );
 					break;
@@ -183,16 +183,20 @@ package com.ffsys.di
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, XmlLoader );
 					break;
-				case BeanConstants.REF:
+				case BeanConstants.TEXT_EXPRESSION:
+					output = new BeanFileDependency(
+						beanName, beanProperty, value, TextLoader );
+					break;
+				case BeanConstants.REF_EXPRESSION:
 					output = new BeanReference( beanName, beanProperty, value );
 					break;
-				case BeanConstants.CONSTANT:
+				case BeanConstants.CONSTANT_EXPRESSION:
 					output = new BeanConstant( beanName, beanProperty, value );
 					break;
-				case BeanConstants.METHOD:
+				case BeanConstants.METHOD_PROPERTY:
 					output = new BeanMethod( beanName, beanProperty, value );
 					break;
-				case BeanConstants.ARRAY:
+				case BeanConstants.ARRAY_EXPRESSION:
 					output = new BeanArray( beanName, beanProperty, value );
 					break;
 				default:
