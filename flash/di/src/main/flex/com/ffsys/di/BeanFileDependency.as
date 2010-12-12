@@ -33,6 +33,7 @@ package com.ffsys.di
 			loaderClass:Class = null ):void
 		{
 			super( beanName, name, value );
+			this.loaderClass = loaderClass;
 		}
 		
 		/**
@@ -55,14 +56,14 @@ package com.ffsys.di
 		*/
 		public function getLoader():ILoader
 		{
+			var loader:ILoader = null;
 			if( this.loaderClass && this.value )
 			{
-				var loader:ILoader = ILoader(
+				loader = ILoader(
 					new loaderClass( new URLRequest( this.value ) ) );
 				loader.customData = this;
-				return loader;
 			}
-			return null;
+			return loader;
 		}
 
 		/**

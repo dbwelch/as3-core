@@ -8,6 +8,8 @@ package com.ffsys.di
 	import flash.net.*;	
 	import com.ffsys.ui.graphics.*;
 	
+	import com.ffsys.io.loaders.core.*;
+	
 	public class AbstractBeanUnit extends Object
 	{
 		
@@ -17,6 +19,27 @@ package com.ffsys.di
 		public function AbstractBeanUnit()
 		{
 			super();
+		}
+		
+		protected function assertDependenciesBean( document:IBeanDocument ):void
+		{
+			//test the bean exists
+ 			var dependencies:Object = document.getBean( "di-dependencies" );
+			Assert.assertNotNull( dependencies );
+			
+			trace("AbstractBeanUnit::assertDependenciesBean()", dependencies.propertyBitmap );
+			
+			//test the file dependencies were added
+			Assert.assertEquals( 4, document.files.length );
+			Assert.assertTrue( document.files[ 0 ] is BeanFileDependency );
+			Assert.assertTrue( document.files[ 1 ] is BeanFileDependency );
+			Assert.assertTrue( document.files[ 2 ] is BeanFileDependency );
+			Assert.assertTrue( document.files[ 3 ] is BeanFileDependency );
+			
+			var queue:ILoaderQueue = document.dependencies;
+			
+			Assert.assertNotNull( queue );
+			Assert.assertEquals( 4, queue.length );
 		}
 		
 		protected function assertFilterBean( document:IBeanDocument ):void

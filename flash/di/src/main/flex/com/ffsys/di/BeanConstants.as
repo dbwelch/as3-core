@@ -87,7 +87,12 @@ package com.ffsys.di
 		/**
 		*	Represents an external bean swf movie expression.
 		*/
-		public static const SWF:String = "swf";		
+		public static const SWF:String = "swf";	
+		
+		/**
+		*	Represents an external bean xml document expression.
+		*/
+		public static const XML_EXPRESSION:String = "xml";
 		
 		/**
 		*	The delimiter used in reference expressions to delimit

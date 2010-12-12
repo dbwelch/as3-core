@@ -107,12 +107,11 @@ package com.ffsys.di
 			passThroughData:Object ):void
 		{
 			
-			trace("BeanManagerTest::assertBeanManagerAssets()", _beanManager.document, _beanManager.document.id, _beanManager.document.length , _beanManager.document.beanNames );
-			
-			
-			
+			trace("BeanManagerTest::assertBeanManagerAssets()", _beanManager.document, _beanManager.document.files, _beanManager.document.dependencies );
+
 			//test the filter declaration
 			assertFilterBean( _beanManager.document );
+			
 			
 		}
 		

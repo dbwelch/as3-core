@@ -179,6 +179,10 @@ package com.ffsys.di
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, MovieLoader );
 					break;
+				case BeanConstants.XML_EXPRESSION:
+					output = new BeanFileDependency(
+						beanName, beanProperty, value, XmlLoader );
+					break;
 				case BeanConstants.REF:
 					output = new BeanReference( beanName, beanProperty, value );
 					break;

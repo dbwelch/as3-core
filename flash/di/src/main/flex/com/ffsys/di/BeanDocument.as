@@ -52,6 +52,11 @@ package com.ffsys.di
 		*/
 		public function get files():Vector.<BeanFileDependency>
 		{
+			if( _files == null )
+			{
+				_files = new Vector.<BeanFileDependency>();
+			}
+			
 			return _files;
 		}
 		
@@ -295,7 +300,7 @@ package com.ffsys.di
 			//clear all stored beans
 			clear();
 			
-			//TODO: ensure file dependency and bindings are also destroyed
+			//TODO: ensure child file dependency and bindings are also destroyed
 			
 			//null references
 			_id = null;
