@@ -122,11 +122,14 @@ package com.ffsys.di
 			Assert.assertTrue( dependencies.propertyXml is XML );
 			Assert.assertTrue( dependencies.propertyText is String );
 			Assert.assertTrue( dependencies.propertyFont is Array );
+
+			Assert.assertEquals( "hello xml world", dependencies.propertyXml.text()[ 0 ] );
+			Assert.assertEquals( "hello text world", dependencies.propertyText );
 			
 			//basic assertions on the loaded font data
 			var fonts:Array = ( dependencies.propertyFont as Array );
 			Assert.assertEquals( 1, fonts.length );
-			Assert.assertTrue( fonts[ 0 ] is Font );			
+			Assert.assertTrue( fonts[ 0 ] is Font );
 		}
 		
 		[Test(async)]
