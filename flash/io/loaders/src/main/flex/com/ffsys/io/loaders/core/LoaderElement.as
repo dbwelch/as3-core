@@ -28,12 +28,12 @@ package com.ffsys.io.loaders.core
 		/**
 		* 	@private
 		*/
-		protected var _bytesTotal:uint;
+		protected var _bytesTotal:uint = 0;
 		
 		/**
 		* 	@private
 		*/
-		protected var _bytesLoaded:uint;
+		protected var _bytesLoaded:uint = 0;
 		
 		/**
 		* 	@private
