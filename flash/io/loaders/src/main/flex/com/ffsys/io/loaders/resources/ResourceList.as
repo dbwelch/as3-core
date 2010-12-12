@@ -17,6 +17,11 @@ package com.ffsys.io.loaders.resources {
 		private var _id:String;
 		private var _resources:Array;
 		
+		/**
+		* 	Creates a <code>ResourceList</code> instance.
+		* 
+		* 	@param id An identifier for this resource list.
+		*/
 		public function ResourceList( id:String = null )
 		{
 			super();
@@ -29,14 +34,12 @@ package com.ffsys.io.loaders.resources {
 		*/
 		public function destroy():void
 		{
-			//trace("ResourceList::destroy(), " + _resources );
-			
-			//TODO: remove this deprecated dependency
-			var destroyer:Destroyer = new Destroyer();
-			
-			if( _resources )
+			//destroy child resources first
+			var target:IResourceElement;
+			for( var i:int = 0;i < _resources.length;i++ )
 			{
-				destroyer.attack( _resources );
+				target = _resources[ i ];
+				target.destroy();
 			}
 			
 			_id = null;
@@ -141,6 +144,10 @@ package com.ffsys.io.loaders.resources {
 		*/
 		public function last():IResourceElement
 		{
+			if( isEmpty() )
+			{
+				return null;
+			}
 			return _resources[ _resources.length - 1 ];
 		}
 		
@@ -148,7 +155,11 @@ package com.ffsys.io.loaders.resources {
 		* 	@inheritDoc
 		*/
 		public function first():IResourceElement
-		{
+		{	
+			if( isEmpty() )
+			{
+				return null;
+			}
 			return _resources[ 0 ];
 		}
 		
@@ -208,7 +219,6 @@ package com.ffsys.io.loaders.resources {
 			source:IResourceList,
 			destination:IResourceList = null ):IResourceList
 		{
-			
 			if( !source )
 			{
 				source = new ResourceList();
@@ -219,16 +229,13 @@ package com.ffsys.io.loaders.resources {
 				destination = this;
 			}
 			
-			var flattened:Array = source.getAllResources();
-			
+			var flattened:Array = source.getAllResources();	
 			var i:int = 0;
 			var l:int = flattened.length;
-			
 			for( ;i < l;i++ )
 			{
 				destination.addResource( flattened[ i ] );
 			}
-			
 			return destination;
 		}
 		
@@ -238,17 +245,13 @@ package com.ffsys.io.loaders.resources {
 		public function flatten():IResourceList
 		{
 			var output:IResourceList = new ResourceList( this.id );
-			
 			var flattened:Array = getAllResources();
-			
 			var i:int = 0;
 			var l:int = flattened.length;
-			
 			for( ;i < l;i++ )
 			{
 				output.addResource( flattened[ i ] );
 			}
-			
 			return output;
 		}
 		
@@ -268,13 +271,11 @@ package com.ffsys.io.loaders.resources {
 			if( list )
 			{
 				var resourceList:IResourceList = getResourceListById( list );
-				
 				if( resourceList )
 				{
 					return resourceList.getResourceById( id );
 				}
 			}
-			
 			return IResource( getElementByClass( id, IResource ) );
 		}
 		
@@ -283,8 +284,7 @@ package com.ffsys.io.loaders.resources {
 		*/
 		public function getResourceListById( id:String ):IResourceList
 		{
-			var list:IResourceList = IResourceList( getElementByClass( id, IResourceList ) );	
-			return list;
+			return IResourceList( getElementByClass( id, IResourceList ) );	
 		}
 		
 		/**

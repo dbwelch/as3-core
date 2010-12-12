@@ -17,6 +17,8 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
+	import com.ffsys.utils.identifier.IdentifierUtils;	
+	
 	/**
 	*	Abstract super class for loader implementations.
 	*
@@ -26,28 +28,22 @@ package com.ffsys.io.loaders.core {
 	*	@author Mischa Williamson
 	*	@since  07.07.2007
 	*/
-	public class AbstractLoader extends URLLoader
+	public class AbstractLoader extends LoaderElement
 		implements 	ILoader {
-		
-		private var _decorator:LoaderDecorator;
-		
+	
+		private var _request:URLRequest;
 		private var _message:ILoadMessage;
 		private var _callback:String;
 		
 		/**
-		*	@private	
-		*/		
-		protected var _loading:Boolean;
-		
+		* 	@private
+		*/
+		protected var dataFormat:String = null;			
+			
 		/**
-		*	@private	
-		*/		
-		protected var _loaded:Boolean;
-		
-		/**
-		*	@private	
-		*/		
-		protected var _complete:Boolean;		
+		* 	@private
+		*/
+		protected var _composite:Object;
 		
 		/**
 		*	Creates an <code>AbstractLoader</code> instance.
@@ -59,12 +55,22 @@ package com.ffsys.io.loaders.core {
 			request:URLRequest = null,
 			options:ILoadOptions = null )
 		{
-			_decorator = new LoaderDecorator( request, options );
-			
-			//IMPORTANT: We never pass the URLRequest down when
-			//instantiating otherwise the URLLoader calls load()
-			//immediately - this behaviour is *very* undesirable 
 			super();
+			this.request = request;
+			if( options )
+			{
+				this.options = options;
+			}
+		}
+		
+		/**
+		* 	The composite object handling the load process.
+		* 
+		* 	This is a <code>URLLoader</code> by default.
+		*/
+		public function get composite():Object
+		{
+			return _composite;
 		}
 		
 		/**
@@ -101,23 +107,26 @@ package com.ffsys.io.loaders.core {
 		*/
         protected function addListeners():void
 		{
-            addEventListener(
-				Event.COMPLETE, completeHandler, false, 0, true );
+			if( _composite )
+			{
+	            _composite.addEventListener(
+					Event.COMPLETE, completeHandler, false, 0, true );
 				
-            addEventListener(
-				Event.OPEN, openHandler, false, 0, true );
+	            _composite.addEventListener(
+					Event.OPEN, openHandler, false, 0, true );
 				
-            addEventListener(
-				ProgressEvent.PROGRESS, progressHandler, false, 0, true );
+	            _composite.addEventListener(
+					ProgressEvent.PROGRESS, progressHandler, false, 0, true );
 				
-            addEventListener(
-				SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler, false, 0, true );
+	            _composite.addEventListener(
+					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler, false, 0, true );
 				
-            addEventListener(
-				HTTPStatusEvent.HTTP_STATUS, httpStatusHandler, false, 0, true );
+	            _composite.addEventListener(
+					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler, false, 0, true );
 				
-            addEventListener(
-				IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
+	            _composite.addEventListener(
+					IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
+			}
         }
 
 		/**
@@ -128,144 +137,58 @@ package com.ffsys.io.loaders.core {
 		*/
 		protected function removeListeners():void
 		{
-            removeEventListener(
-				Event.COMPLETE, completeHandler );
+			if( _composite )
+			{			
+	            _composite.removeEventListener(
+					Event.COMPLETE, completeHandler );
 				
-            removeEventListener(
-				Event.OPEN, openHandler );
+	            _composite.removeEventListener(
+					Event.OPEN, openHandler );
 				
-            removeEventListener(
-				ProgressEvent.PROGRESS, progressHandler );
+	            _composite.removeEventListener(
+					ProgressEvent.PROGRESS, progressHandler );
 				
-            removeEventListener(
-				SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
+	            _composite.removeEventListener(
+					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
 				
-            removeEventListener(
-				HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
+	            _composite.removeEventListener(
+					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
 			
-            removeEventListener(
-				IOErrorEvent.IO_ERROR, ioErrorHandler );			
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function addResponderListeners(
-			target:IEventDispatcher,
-			startMethod:Function = null,
-			progressMethod:Function = null,			
-			loadedMethod:Function = null,
-			resourceNotFoundMethod:Function = null ):void
-		{
-			
-			if( !target )
-			{
-				throw new Error( "ILoader: cannot modify responder listeners on a null target." );
+	            _composite.removeEventListener(
+					IOErrorEvent.IO_ERROR, ioErrorHandler );
 			}
-			
-			if( startMethod != null )
-			{
-				addEventListener(
-					LoadEvent.LOAD_START, startMethod, false, 0, true );
-			}
-			
-			if( progressMethod != null )
-			{
-				addEventListener(
-					LoadEvent.LOAD_PROGRESS, progressMethod, false, 0, true );
-			}			
-			
-			if( loadedMethod != null )
-			{
-				addEventListener(
-					LoadEvent.DATA, loadedMethod, false, 0, true );
-			}
-			
-			if( resourceNotFoundMethod != null )
-			{
-				addEventListener(
-					LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod, false, 0, true );
-			}
-
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function removeResponderListeners(
-			target:IEventDispatcher,
-			startMethod:Function = null,
-			progressMethod:Function = null,			
-			loadedMethod:Function = null,
-			resourceNotFoundMethod:Function = null ):void
-		{
-			
-			if( !target )
-			{
-				throw new Error( "ILoader: cannot modify responder listeners on a null target." );
-			}
-			
-			if( startMethod != null )
-			{
-				removeEventListener( LoadEvent.LOAD_START, startMethod );
-			}
-			
-			if( progressMethod != null )
-			{
-				removeEventListener( LoadEvent.LOAD_PROGRESS, progressMethod );
-			}			
-			
-			if( loadedMethod != null )
-			{
-				removeEventListener( LoadEvent.DATA, loadedMethod );
-			}
-			
-			if( resourceNotFoundMethod != null )
-			{
-				removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundMethod );
-			}
-
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get loading():Boolean
-		{
-			return _loading;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function get loaded():Boolean
-		{
-			return _loaded;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function get complete():Boolean
-		{
-			return _complete;
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		override public function load( request:URLRequest ):void
+		override public function load():void
 		{
-			this.request = request;
+			if( this.request == null )
+			{
+				throw new Error( "Cannot load with a null url request." );
+			}
 			
-			removeListeners();
+			if( _composite )
+			{
+				close();
+				removeListeners();
+			}
+			
+			_composite = new URLLoader();
+			
+			if( dataFormat != null )
+			{
+				_composite.dataFormat = dataFormat;
+			}
+			
 			addListeners();
 				
 			_loading = true;
 			_loaded = false;
 			_complete = false;
 			
-			super.load( request );			
+			URLLoader( _composite ).load( this.request );
 		}
 
 		/**
@@ -280,22 +203,6 @@ package com.ffsys.io.loaders.core {
 		{
 			loadSuccess();
         }
-
-		/**
-		*	@inheritDoc	
-		*/
-		public function getBytesLoaded():uint
-		{
-			return bytesLoaded;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getBytesTotal():uint
-		{
-			return bytesTotal;
-		}
 		
 		/**
 		*	@private	
@@ -303,6 +210,7 @@ package com.ffsys.io.loaders.core {
 		protected function loadSuccess():void
 		{
 			//trace("AbstractLoader::loadSuccess(), " + uri );
+			
 			//successful load event
 			_loaded = true;
 			_loading = false;
@@ -326,8 +234,8 @@ package com.ffsys.io.loaders.core {
 		*/
         protected function progressHandler( event:ProgressEvent ):void
 		{
-			bytesLoaded = event.bytesLoaded;
-			bytesTotal = event.bytesTotal;
+			_bytesLoaded = event.bytesLoaded;
+			_bytesTotal = event.bytesTotal;
 			
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.LOAD_PROGRESS, event, this );
@@ -353,13 +261,14 @@ package com.ffsys.io.loaders.core {
 		{
 			loadFailure();
 			
-			//-->
-            trace( "securityErrorHandler: " + event );
+			//TODO: implement proper handling for security errors
+            //trace( "securityErrorHandler: " + event );
 			
 			/*
 			dispatchEvent( event as Event );
 			Notifier.dispatchEvent( event as Event );
 			*/
+			
         }
 
 		/**
@@ -425,121 +334,69 @@ package com.ffsys.io.loaders.core {
 			Notifier.dispatchEvent( evt as Event );
 		}
 		
-		/*
-		*	ILoaderParameters implementation.
-		*/
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set customData( val:Object ):void
+		override public function get id():String
 		{
-			_decorator.customData = val;
-		}
-		
-		public function get customData():Object
-		{
-			return _decorator.customData;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/				
-		public function get resource():IResource
-		{
-			return _decorator.resource;
-		}
-		
-		public function set resource( val:IResource ):void
-		{
-			_decorator.resource = val;
-		}		
-		
-		/**
-		*	An identifier for this loader.
-		*/		
-		public function set id( val:String ):void
-		{
-			_decorator.id = val;
-		}
-		
-		public function get id():String
-		{
-			return _decorator.id;
-		}		
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set request( val:URLRequest ):void
-		{
-			_decorator.request = val;
-		}
-		
-		public function get request():URLRequest
-		{
-			return _decorator.request;
-		}		
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set queue( val:ILoaderQueue ):void
-		{
-			_decorator.queue = val;
-		}
-		
-		public function get queue():ILoaderQueue
-		{
-			return _decorator.queue;
+			if( !_id && this.options && this.options.autoGenerateId )
+			{
+				return getAutomaticId();
+			}
+			return super.id;
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/		
-		public function set options( val:ILoadOptions ):void
+		public function set uri( value:String ):void
 		{
-			_decorator.options = val;
-		}
-		
-		public function get options():ILoadOptions
-		{
-			return _decorator.options;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/		
-		public function set uri( val:String ):void
-		{
-			_decorator.uri = val;
+			this.request = new URLRequest( value );
 		}
 		
 		public function get uri():String
 		{
-			return _decorator.uri;
+			if( _request )
+			{
+				return _request.url;
+			}
+			
+			return null;
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/		
-		public function set forceLoad( val:Boolean ):void
+		public function set request( value:URLRequest ):void
 		{
-			_decorator.forceLoad = val;
+			_request = value;
+			if( _request && !this.id && options && options.autoGenerateId )
+			{
+				this.id = getAutomaticId();
+			}
 		}
 		
-		public function get forceLoad():Boolean
+		public function get request():URLRequest
 		{
-			return _decorator.forceLoad;
+			return _request;
+		}		
+		
+		/**
+		*	@private	
+		*/
+		private function getAutomaticId():String
+		{
+			if( this.uri )
+			{
+				return IdentifierUtils.getFileNameId( this.uri );
+			}
+			return null;
 		}
 		
 		/**
-		*	Closes any connection this loader has open.
+		*	@inheritDoc
 		*/		
 		override public function close():void
 		{
 			try {
-				super.close();
+				URLLoader( _composite ).close();
 				
 				//if we closed the stream we should remove our
 				//listeners

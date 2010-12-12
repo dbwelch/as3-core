@@ -67,7 +67,7 @@ package com.ffsys.io.loaders.types {
 			//clean up the Loader as we only
 			//want the BitmapData
 			unload();
-			_loader = null;
+			_composite = null;
         }
 	}
 }

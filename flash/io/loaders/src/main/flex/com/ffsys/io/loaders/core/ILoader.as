@@ -18,63 +18,26 @@ package com.ffsys.io.loaders.core {
 	*/
 	public interface ILoader
 		extends ILoaderElement,
-				ILoaderParameters,
-				IResourceCallback,
-				ILoadStatus,
-				IForceLoad {
-			
+				IResourceCallback {
+		
 		/**
-		*	The load message associated with the loader.
+		*	A load message associated with the loader.
 		*/
 		function get message():ILoadMessage;
 		function set message( message:ILoadMessage ):void;
 		
 		/**
-		*	The number of bytes currently loaded.
-		*	
-		*	@return The number of bytes loaded.
+		*	The <code>URLRequest</code> used to load
+		*	the resource.
 		*/
-		function getBytesLoaded():uint;
-		
-		/**
-		*	The total number of bytes for this
-		*	load operation.
-		*	
-		*	@return The total number of bytes for
-		*	this load operation.
-		*/
-		function getBytesTotal():uint;
+		function set request( value:URLRequest ):void;
+		function get request():URLRequest;
 	
 		/**
-		*	Starts loading the file.
-		*	
-		*	@param request The <code>URLRequest</code>
-		*	to load the resource from.
+		*	The uniform resource indicator used to
+		*	load the resource.
 		*/
-		function load( request:URLRequest ):void;
-		
-		/**
-		* 	Adds listeners to a target.
-		* 
-		*	@deprecated
-		*/
-		function addResponderListeners(
-			target:IEventDispatcher,
-			startMethod:Function = null,
-			progressMethod:Function = null,
-			loadedMethod:Function = null,
-			resourceNotFoundMethod:Function = null ):void;
-		
-		/**
-		* 	Removes listeners from a target.
-		* 
-		*	@deprecated
-		*/
-		function removeResponderListeners(
-			target:IEventDispatcher,
-			startMethod:Function = null,
-			progressMethod:Function = null,			
-			loadedMethod:Function = null,
-			resourceNotFoundMethod:Function = null ):void;		
-	}	
+		function set uri( value:String ):void;
+		function get uri():String;
+	}
 }

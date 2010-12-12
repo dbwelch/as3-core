@@ -112,7 +112,7 @@ package com.ffsys.io.loaders.events {
 			
 			if( loader && ( loader is ILoader ) )
 			{
-				return ILoader( loader ).getBytesLoaded();
+				return ILoader( loader ).bytesLoaded;
 			}
 			
 			return 0;
@@ -130,7 +130,7 @@ package com.ffsys.io.loaders.events {
 			
 			if( loader && ( loader is ILoader ) )
 			{
-				return ILoader( loader ).getBytesTotal();
+				return ILoader( loader ).bytesTotal;
 			}
 			
 			return 0;

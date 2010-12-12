@@ -67,14 +67,14 @@ package com.ffsys.io.loaders.types {
 				resource as FontResource
 			);
 			
-			initializeFonts( _loader );
+			initializeFonts( this.loader );
 			
 			super.completeHandler( event );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
 
 			//clean our reference to the underlying Loader
-			_loader = null;
+			_composite = null;
         }
 		
 		/**

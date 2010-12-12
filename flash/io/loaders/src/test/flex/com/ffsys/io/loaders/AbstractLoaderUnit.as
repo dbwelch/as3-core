@@ -62,10 +62,11 @@ package com.ffsys.io.loaders {
      	public function setUp():void
 		{
 			_loader = getLoader();
+			_loader.request = getLoadRequest();
 			_loader.addEventListener(
 				LoadEvent.DATA,
 				Async.asyncHandler( this, assertLoadedAsset, TIMEOUT, null, fail ) );
-			_loader.load( getLoadRequest() );
+			_loader.load();
 		}
 		
 		[After]

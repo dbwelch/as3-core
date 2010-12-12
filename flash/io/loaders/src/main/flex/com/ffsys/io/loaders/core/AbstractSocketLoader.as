@@ -49,7 +49,7 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	@inheritDoc
 		*/
-		override public function load( request:URLRequest ):void
+		override public function load():void
 		{
 			
 			/*

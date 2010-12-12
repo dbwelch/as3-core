@@ -34,11 +34,6 @@ package com.ffsys.io.loaders.core {
 	*/
 	public class AbstractDisplayLoader extends AbstractLoader
 		implements IDisplayLoader {
-			
-		/**
-		*	@private	
-		*/
-		protected var _loader:Loader;
 		
 		/**
 		*	@private	
@@ -56,7 +51,7 @@ package com.ffsys.io.loaders.core {
 			options:ILoadOptions = null )
 		{
 			super( request, options );
-			_loader = new Loader();
+			_composite = new Loader();
 			_context = new LoaderContext();
 		}
 		
@@ -122,7 +117,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function get loader():Loader
 		{
-			return _loader;
+			return Loader( _composite );
 		}
 		
 		/**
@@ -169,9 +164,13 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@inheritDoc	
 		*/		
-		override public function load( request:URLRequest ):void
+		override public function load():void
 		{
 			//trace("AbstractDisplayLoader::load(), " + request.url );
+			if( this.request == null )
+			{
+				throw new Error( "Cannot load with a null url request." );
+			}			
 			
 			if( loader )
 			{
@@ -179,12 +178,8 @@ package com.ffsys.io.loaders.core {
 				unload();
 			}
 			
-			_loader = new Loader();	
-			
-			this.request = request;
-			
+			_composite = new Loader();
 			removeListeners();
-			
 			_loading = true;
 			_loaded = false;
 			_complete = false;
@@ -193,7 +188,7 @@ package com.ffsys.io.loaders.core {
 			if( loader )
 			{
 				addListeners();
-				loader.load( request, context );
+				loader.load( this.request, context );
 			}
 		}
 	}

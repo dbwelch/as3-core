@@ -23,6 +23,12 @@ package com.ffsys.io.loaders.types {
 	*/
 	public class TextLoader extends AbstractLoader {
 		
+		/**
+		* 	Creates a <code>TextLoader</code> instance.
+		* 
+		* 	@param request The request to load the file from.
+		* 	@param options The load options.
+		*/
 		public function TextLoader(
 			request:URLRequest = null,
 			options:ILoadOptions = null )

@@ -21,45 +21,10 @@ package com.ffsys.io.loaders.core {
 		extends IStringIdentifier {
 		
 		/**
-		*	The <code>ILoaderQueue</code> implementation
-		*	associated with this instance.
-		*/
-		function set queue( val:ILoaderQueue ):void;
-		function get queue():ILoaderQueue;
-		
-		/**
-		*	Arbitrary custom data associated with
-		*	this instance.	
-		*/
-		function set customData( val:Object ):void;
-		function get customData():Object;
-		
-		/**
 		*	An <code>IResource</code> implementation
 		*	associated with this instance.
 		*/
 		function set resource( val:IResource ):void;
 		function get resource():IResource;
-	
-		/**
-		*	The <code>URLRequest</code> used to load
-		*	the resource.
-		*/
-		function set request( val:URLRequest ):void;
-		function get request():URLRequest;
-		
-		/**
-		*	The uniform resource indicator used to
-		*	load the resource.
-		*/
-		function set uri( val:String ):void;
-		function get uri():String;
-		
-		/**
-		*	The <code>ILoadOptions</code> implementation
-		*	associated with this instance.
-		*/
-		function set options( val:ILoadOptions ):void;
-		function get options():ILoadOptions;
 	}
 }

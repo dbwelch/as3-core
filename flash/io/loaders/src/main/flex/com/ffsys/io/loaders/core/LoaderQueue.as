@@ -3,15 +3,8 @@ package com.ffsys.io.loaders.core {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
-	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
-	import flash.events.HTTPStatusEvent;
-	import flash.events.IOErrorEvent;
 	import flash.events.TimerEvent;
-	
 	import flash.net.URLRequest;
-	import flash.net.URLLoader;
-	
 	import flash.utils.Timer;
 	
 	import com.ffsys.events.Notifier;
@@ -25,7 +18,8 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.IResourceList;
 
 	/**
-	*	Handles loading a queue of external assets.
+	*	Encapsulates child loader or loader queue implementations
+	* 	and the logic for sequencing the load operations.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -33,22 +27,13 @@ package com.ffsys.io.loaders.core {
 	*	@author Mischa Williamson
 	*	@since  10.07.2007
 	*/
-	public class LoaderQueue extends EventDispatcher
+	public class LoaderQueue extends LoaderElement
 		implements	ILoaderQueue,
 					IBytesTotal {
 		
-		private var _id:String;
-		private var _items:Array;
-		private var _item:ILoaderElement;
-		private var _resources:IResourceList;
-		
-		private var _index:int;
-		private var _bytesTotal:uint;
-		private var _bytesLoaded:uint;
-		private var _paused:Boolean;		
-		private var _loading:Boolean;
-		private var _complete:Boolean;
-		private var _forceLoad:Boolean;
+		private var _elements:Array;
+		private var _current:ILoaderElement;
+		private var _index:int = 0;
 		private var _delay:int;
 		private var _delayTimer:Timer;
 		
@@ -62,7 +47,7 @@ package com.ffsys.io.loaders.core {
 		public function LoaderQueue()
 		{
 			super();
-			_resources = new ResourceList();
+			_resource = new ResourceList();
 			reset();
 			clear();
 			this.bytesTotal = 0;
@@ -77,7 +62,7 @@ package com.ffsys.io.loaders.core {
 			{
 				resources.destroy();
 			}	
-			_resources = new ResourceList();
+			_resource = new ResourceList( this.id );
 		}
 		
 		/**
@@ -87,7 +72,7 @@ package com.ffsys.io.loaders.core {
 		{
 			//if we have no resources but have ILoader items
 			//we should reload
-			return ( !_resources.length && length );
+			return ( !this.resources.length && length );
 		}
 		
 		/**
@@ -95,59 +80,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function reload():void
 		{
-			load( bytesTotal );
-		}
-		
-		/**
-		* 	An identifier for this queue.
-		*/
-		public function get id():String
-		{
-			return _id;
-		}
-		
-		public function set id( val:String ):void
-		{
-			_id = val;
-		}
-		
-		/**
-		* 	The total number of bytes.
-		*/		
-		public function get bytesTotal():uint
-		{
-			return _bytesTotal;
-		}
-		
-		public function set bytesTotal( val:uint ):void
-		{
-			_bytesTotal = val;
-		}
-		
-		/**
-		* 	The total number of bytes loaded.
-		*/		
-		public function get bytesLoaded():uint
-		{
-			return _bytesLoaded;
-		}
-		
-		public function set bytesLoaded( val:uint ):void
-		{
-			_bytesLoaded = val;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/		
-		public function get forceLoad():Boolean
-		{
-			return _forceLoad;
-		}		
-		
-		public function set forceLoad( val:Boolean ):void
-		{
-			_forceLoad = val;
+			load();
 		}
 		
 		/**
@@ -156,19 +89,18 @@ package com.ffsys.io.loaders.core {
 		public function getAllRequests():Array
 		{
 			var requests:Array = new Array();
-			
-			var item:ILoader;
-			
-			var i:int;
-			var l:int = length;
-			
-			var j:int;
-			var jl:int;
-			
-			for( ;i < l;i++ )
+			var target:ILoaderElement = null;
+			for( var i:int = 0;i < this.length;i++ )
 			{
-				item = getLoaderAt( i ) as ILoader;
-				requests.push( new URLRequest( item.uri ) );
+				target = _elements[ i ] as ILoaderElement;
+				if( target is ILoader )
+				{
+					requests.push( new URLRequest( ILoader( item ).uri ) );
+				}else if( target is ILoaderQueue ) 
+				{
+					requests = requests.concat.apply(
+						requests, ( target as ILoaderQueue ).getAllRequests() );
+				}				
 			}
 			
 			return requests;
@@ -180,16 +112,10 @@ package com.ffsys.io.loaders.core {
 		public function getAllLoaders():Array
 		{
 			var output:Array = new Array();
-			
-			var i:int = 0;
-			var l:int = _items.length;
-			
-			var target:ILoaderElement;
-			
-			for( ;i < l;i++ )
+			var target:ILoaderElement = null;
+			for( var i:int = 0;i < this.length;i++ )
 			{	
-				target = _items[ i ] as ILoaderElement;
-				
+				target = _elements[ i ] as ILoaderElement;
 				if( target is ILoader )
 				{
 					output.push( target );
@@ -199,7 +125,6 @@ package com.ffsys.io.loaders.core {
 						output, ( target as ILoaderQueue ).getAllLoaders() );
 				}
 			}
-			
 			return output;
 		}
 		
@@ -220,7 +145,7 @@ package com.ffsys.io.loaders.core {
 					}
 					ILoader( loader ).queue = this;
 				}
-				_items.push( loader );
+				_elements.push( loader );
 			}
 			
 			return loader;
@@ -232,11 +157,11 @@ package com.ffsys.io.loaders.core {
 		public function removeLoader( val:ILoaderElement ):Boolean
 		{
 			var i:int = 0;
-			var l:int = _items.length;
+			var l:int = _elements.length;
 			var target:ILoaderElement;
 			for( ;i < l;i++ )
 			{
-				target = _items[ i ];
+				target = _elements[ i ];
 				
 				if( target == val )
 				{
@@ -258,7 +183,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function getLoaderAt( index:int ):ILoaderElement
 		{
-			return ILoaderElement( _items[ index ] );
+			return ILoaderElement( _elements[ index ] );
 		}
 		
 		/**
@@ -287,7 +212,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function getLoaderIndex( loader:ILoaderElement ):int
 		{
-			return _items.indexOf( loader );
+			return _elements.indexOf( loader );
 		}
 		
 		/**
@@ -295,7 +220,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function removeLoaderAt( index:int ):ILoaderElement
 		{
-			var removed:Array = _items.splice( index, 1 );
+			var removed:Array = _elements.splice( index, 1 );
 			if( removed && removed.length > 0 )
 			{
 				return removed[ 0 ] as ILoaderElement;
@@ -308,7 +233,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function get length():int
 		{
-			return _items.length;
+			return _elements.length;
 		}
 		
 		/**
@@ -316,9 +241,9 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function last():ILoaderElement
 		{
-			if( _items.length )
+			if( _elements.length )
 			{
-				return _items[ _items.length - 1 ];
+				return _elements[ _elements.length - 1 ];
 			}
 			return null;
 		}
@@ -328,7 +253,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function first():ILoaderElement
 		{
-			return _items[ 0 ];
+			return _elements[ 0 ];
 		}
 		
 		/**
@@ -336,7 +261,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function clear():void
 		{
-			_items = new Array();
+			_elements = new Array();
 		}
 		
 		/**
@@ -344,7 +269,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function isEmpty():Boolean
 		{
-			return _items.length == 0;
+			return _elements.length == 0;
 		}
 		
 		/**
@@ -393,7 +318,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function get item():ILoaderElement
 		{
-			return _item;
+			return _current;
 		}
 		
 		/**
@@ -409,7 +334,7 @@ package com.ffsys.io.loaders.core {
 			
 			var event:LoadEvent =
 				new LoadEvent(
-					LoadEvent.LOAD_COMPLETE, evt, _item, resources );
+					LoadEvent.LOAD_COMPLETE, evt, _current, resources );
 				
 			dispatchEvent( event );
 		}
@@ -420,18 +345,18 @@ package com.ffsys.io.loaders.core {
 		private function loadItemAtIndex( index:int = 0 ):void
 		{
 		
-			if( _item )
+			if( _current )
 			{
-				removeChildListeners( _item );
+				removeCompositeListeners( _current );
 			}
 			
 			//add any composite child queue resources to our list
-			if( this.resources && _item is ILoaderQueue )
+			if( this.resources && _current is ILoaderQueue )
 			{
-				this.resources.addResource( ILoaderQueue( _item ).resources );
+				this.resources.addResource( ILoaderQueue( _current ).resources );
 			}
 			
-			if( index > ( _items.length - 1 ) )
+			if( index > ( _elements.length - 1 ) )
 			{
 				_loading = false;
 				_force = false;
@@ -444,9 +369,9 @@ package com.ffsys.io.loaders.core {
 			
 			_index = index;
 			
-			_item = getLoaderAt( index );
+			_current = getLoaderAt( index );
 			
-			var element:ILoaderElement = _item;
+			var element:ILoaderElement = _current;
 			
 			if( element is ILoader )
 			{
@@ -470,18 +395,18 @@ package com.ffsys.io.loaders.core {
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			
-				addChildListeners( loader );
+				addCompositeListeners( loader );
 			
 				//if we were in a delay _loading may have been set to false
 				//for the duration of the delay period
 				_loading = true;
 			
-				loader.load( loader.request );
+				loader.load();
 			
 			}else if( element is ILoaderQueue )
 			{
 				var child:ILoaderQueue = ILoaderQueue( element );
-				addChildListeners( child );
+				addCompositeListeners( child );
 				child.load();
 			}
 		}
@@ -499,8 +424,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		private function childQueueComplete( event:LoadEvent ):void
 		{
-			removeChildListeners( event.loader );
-			
+			removeCompositeListeners( event.loader );
 			//move on to the next item
 			next();
 		}
@@ -508,7 +432,7 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	@private
 		*/
-		private function addChildListeners( target:ILoaderElement ):void
+		override protected function addCompositeListeners( target:IEventDispatcher ):void
 		{
 			//child queue listeners
 			if( target is ILoaderQueue )
@@ -532,7 +456,7 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	@private
 		*/
-		private function removeChildListeners( target:ILoaderElement ):void
+		override protected function removeCompositeListeners( target:IEventDispatcher ):void
 		{
 			//child queue listeners
 			if( target is ILoaderQueue )
@@ -556,15 +480,7 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get loading():Boolean
-		{
-			return _loading;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get loaded():Boolean
+		override public function get loaded():Boolean
 		{
 
 			//we only return true if all child
@@ -596,28 +512,20 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get complete():Boolean
-		{
-			return _complete;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function force( bytesTotal:uint = 0 ):void
 		{
 			_force = true;
 			reset();
-			load( bytesTotal );
+			load();
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function load( bytesTotal:uint = 0 ):void
+		override public function load():void
 		{
-			this.bytesLoaded = 0;
-			this.bytesTotal = bytesTotal;
+			_bytesLoaded = 0;
+			_bytesTotal = bytesTotal;
 			
 			if( _loading )
 			{
@@ -631,9 +539,9 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		* 	Closes any open connections.
+		* 	@inheritDoc
 		*/
-		public function close():void
+		override public function close():void
 		{
 			_loading = false;
 			_force = false;
@@ -641,10 +549,10 @@ package com.ffsys.io.loaders.core {
 			
 			stopDelay();
 			
-			if( _item )
+			if( _current )
 			{
-				removeChildListeners( _item );
-				_item.close();
+				removeCompositeListeners( _current );
+				_current.close();
 			}
 		}
 		
@@ -652,19 +560,15 @@ package com.ffsys.io.loaders.core {
 		*	Destroys this queue allowing composite objects
 		* 	to be freed for garbage collection.
 		*/
-		public function destroy():void
+		override public function destroy():void
 		{
-			close();
-			
-			if( _resources )
-			{
-				_resources.destroy();
-			}
-			
-			_resources = null;
-			_id = null;
-			_items = null;
-			_item = null;
+			//calling super also calls close()
+			//calling close() implies a call to stopDelay()
+			//which also nulls the delay timer reference
+			//calling super also clean the underlying
+			super.destroy();
+			_elements = null;
+			_current = null;
 		}
 		
 		/**
@@ -691,17 +595,11 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@inheritDoc
 		*/
-		public function get paused():Boolean
+		override public function set paused( paused:Boolean ):void
 		{
-			return _paused;
-		}
-		
-		public function set paused( paused:Boolean ):void
-		{
-			_paused = paused;
-			
+			super.paused = paused;
 			//stop any delay when set to pause
-			if( _paused )
+			if( this.paused )
 			{
 				stopDelay();
 			}
@@ -710,7 +608,7 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	@inheritDoc	
 		*/
-		public function resume():void
+		override public function resume():void
 		{
 			if( this.paused )
 			{
@@ -792,35 +690,6 @@ package com.ffsys.io.loaders.core {
 			}
 			
 			_delayTimer = null;
-		}
-
-		/**
-		*	Determines whether this queue should behave in a silent manner.
-		*/
-		public function get silent():Boolean
-		{
-			return _silent;
-		}
-				
-		public function set silent( val:Boolean ):void
-		{
-			_silent = val;
-		}
-		
-		/**
-		*	Determines whether this queue should behave in a fatal manner.
-		* 
-		* 	When this property is <code>true</code> this implementation
-		* 	will throw an exception when a resource not found event is encountered.
-		*/
-		public function get fatal():Boolean
-		{
-			return _fatal;
-		}
-				
-		public function set fatal( val:Boolean ):void
-		{
-			_fatal = val;
 		}			
 		
 		/**
@@ -836,26 +705,26 @@ package com.ffsys.io.loaders.core {
 
 				var options:ILoadOptions = loader.options;
 
-				if( fatal || options.fatal )
+				if( this.options && this.options.fatal || options && options.fatal )
 				{
 					throw new Error(
 						"LoaderQueue fatal resource not found error: " + loader.uri );
 				}
 			
-				if( !silent && !options.quietOnResourceNotFound )
+				if( this.options && !this.options.silent && ( options && !options.quietOnResourceNotFound ) )
 				{
 					dispatchEvent( event as Event );
 					Notifier.dispatchEvent( event as Event );
 				}
 			
-				if( silent || options.continueOnResourceNotFound )
+				if( ( this.options && this.options.silent ) || ( options && options.continueOnResourceNotFound ) )
 				{
 					next();
-				}						
+				}
 			
-				removeChildListeners( loader );
+				removeCompositeListeners( loader );
 			
-				if( !silent && !options.continueOnResourceNotFound )
+				if( ( this.options && !this.options.silent ) && ( options && !options.continueOnResourceNotFound ) )
 				{
 					//if we don't continue on resource not found
 					//we are complete and not currently loading
@@ -881,7 +750,7 @@ package com.ffsys.io.loaders.core {
 				//the tree structure 
 				if( getLoaderIndex( loader ) > -1 )
 				{
-					var resource:IResource = loader.resource;
+					var resource:IResource = IResource( loader.resource );
 					if( resource )
 					{
 						resource.id = loader.id;
@@ -899,7 +768,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function getResourceById( id:String, list:String = null ):IResource
 		{
-			return _resources.getResourceById( id );
+			return this.resources.getResourceById( id );
 		}
 		
 		/**
@@ -907,7 +776,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function getResourceListById( id:String ):IResourceList
 		{
-			return _resources.getResourceListById( id );
+			return this.resources.getResourceListById( id );
 		}
 		
 		/**
@@ -915,7 +784,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function getAllResources():Array
 		{
-			return _resources.getAllResources();
+			return this.resources.getAllResources();
 		}
 		
 		/**
@@ -923,7 +792,7 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function get resources():IResourceList
 		{
-			return _resources;
+			return IResourceList( this.resource );
 		}
 		
 		/*
@@ -1045,7 +914,7 @@ package com.ffsys.io.loaders.core {
 			if( index > 0 )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
-				_items.unshift( loader );
+				_elements.unshift( loader );
 				return true;
 			}
 			return false;
@@ -1064,7 +933,7 @@ package com.ffsys.io.loaders.core {
 			if( index > 0 )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
-				_items.splice( index - 1, 0, loader );
+				_elements.splice( index - 1, 0, loader );
 				return true;
 			}
 			return false;
@@ -1083,7 +952,7 @@ package com.ffsys.io.loaders.core {
 			if( index > -1 && index < ( length - 1 ) )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
-				_items.splice( index + 1, 0, removed );	
+				_elements.splice( index + 1, 0, removed );	
 				return true;
 			}
 			return false;
@@ -1102,7 +971,7 @@ package com.ffsys.io.loaders.core {
 			if( index > -1 )
 			{
 				var removed:ILoaderElement = removeLoaderAt( index );
-				_items.push( removed );
+				_elements.push( removed );
 				return true;
 			}
 			return false;
@@ -1125,7 +994,7 @@ package com.ffsys.io.loaders.core {
 				if( index > -1 && ( index != priority ) )
 				{
 					var removed:ILoaderElement = removeLoaderAt( index );
-					_items.splice( priority, 0, removed );	
+					_elements.splice( priority, 0, removed );	
 					return true;
 				}	
 			}

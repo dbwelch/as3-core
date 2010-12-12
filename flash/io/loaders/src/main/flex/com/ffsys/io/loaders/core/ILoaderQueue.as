@@ -1,16 +1,5 @@
 package com.ffsys.io.loaders.core {
 	
-	import flash.net.URLRequest;
-	
-	import flash.events.IEventDispatcher;
-	
-	import com.ffsys.core.ISilent;
-	import com.ffsys.core.IFatal;
-	import com.ffsys.core.IDestroy;
-	
-	import com.ffsys.io.core.IBytesTotal;
-	import com.ffsys.io.core.IBytesLoaded;
-	
 	import com.ffsys.io.loaders.resources.IResourceAccess;
 	
 	/**
@@ -25,27 +14,8 @@ package com.ffsys.io.loaders.core {
 	*/
 	public interface ILoaderQueue
 		extends ILoaderElement,
-				ILoadStatus,
-				IForceLoad,
-				IBytesTotal,
-				IBytesLoaded,
 				IResourceAccess,
-				IPriorityQueue,
-				ISilent,
-				IFatal,
-				IDestroy,
-				IEventDispatcher {
-					
-		/**
-		*	Indicates whether this queue should pause.
-		*	
-		*	Setting this property does not close any
-		*	existing load operation it merely prevents
-		*	the queue from proceeding to the next item
-		*	until the resume method is called.
-		*/
-		function get paused():Boolean;
-		function set paused( paused:Boolean ):void
+				IPriorityQueue {
 		
 		/**
 		*	Instructs this queue if it is paused to
@@ -201,13 +171,6 @@ package com.ffsys.io.loaders.core {
 		* 	and this queue represents <em>all</em> the loaders.
 		*/
 		function flatten():void;
-		
-		/**
-		* 	Start the load process.
-		* 
-		* 	@param bytesTotal A known total bytes for all resources to be loaded.
-		*/
-		function load( bytesTotal:uint = 0 ):void;
 		
 		/**
 		* 	Forces all resources to be reloaded even if they have already been

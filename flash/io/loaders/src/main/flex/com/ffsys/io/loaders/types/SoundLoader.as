@@ -26,8 +26,7 @@ package com.ffsys.io.loaders.types {
 	*	@since  04.08.2007
 	*/
 	public class SoundLoader extends AbstractStreamLoader {
-		
-		private var _sound:Sound;
+
 		private var _context:SoundLoaderContext;
 		
 		/**
@@ -40,7 +39,6 @@ package com.ffsys.io.loaders.types {
 			request:URLRequest = null,
 			options:ILoadOptions = null )
 		{
-			_sound = new Sound();
 			super( request, options );
 		}
 		
@@ -49,13 +47,13 @@ package com.ffsys.io.loaders.types {
 		*/
 		override protected function addListeners():void
 		{
-			_sound.addEventListener(
+			_composite.addEventListener(
 				Event.COMPLETE, completeHandler, false, 0, true );
-			_sound.addEventListener(
+			_composite.addEventListener(
 				Event.OPEN, openHandler, false, 0, true );
-			_sound.addEventListener(
+			_composite.addEventListener(
 				ProgressEvent.PROGRESS, progressHandler, false, 0, true );
-			_sound.addEventListener(
+			_composite.addEventListener(
 				IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );			
 		}
 		
@@ -64,15 +62,15 @@ package com.ffsys.io.loaders.types {
 		*/		
 		override protected function removeListeners():void
 		{
-			_sound.removeEventListener(
+			_composite.removeEventListener(
 				Event.COMPLETE, completeHandler );
-			_sound.removeEventListener(
+			_composite.removeEventListener(
 				Event.OPEN, openHandler );
-			_sound.removeEventListener(
+			_composite.removeEventListener(
 				ProgressEvent.PROGRESS, progressHandler );
-			_sound.removeEventListener(
+			_composite.removeEventListener(
 				IOErrorEvent.IO_ERROR, ioErrorHandler );
-		}		
+		}
 		
 		/**
 		* 	The sound loader context used to load the sound.
@@ -92,18 +90,25 @@ package com.ffsys.io.loaders.types {
 		*/
 		public function get sound():Sound
 		{
-			return _sound;
+			return Sound( _composite );
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		override public function load( request:URLRequest ):void
+		override public function load():void
 		{
-			removeListeners();
+			if( _composite )
+			{
+				close();
+				removeListeners();				
+			}
+			
+			_composite = new Sound();
 			addListeners();
-			this.request = request;
-			_sound.load( request, _context );
+			
+			//start the load operation on the composite
+			this.sound.load( this.request, _context );
 		}
 		
 		/**
@@ -112,7 +117,7 @@ package com.ffsys.io.loaders.types {
 		override public function close():void
 		{
 			try {
-				_sound.close();
+				_composite.close();
 			}catch( e:Error )
 			{
 				//
@@ -125,7 +130,7 @@ package com.ffsys.io.loaders.types {
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-			resource = new SoundResource( _sound, uri );		
+			resource = new SoundResource( this.sound, uri );
 			
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,
@@ -136,7 +141,6 @@ package com.ffsys.io.loaders.types {
 			
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
-			_sound = null;
         }
 	}
 }

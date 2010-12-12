@@ -109,10 +109,8 @@ package com.ffsys.io.loaders.types {
 			return _netStream;
 		}
 		
-		override public function load( request:URLRequest ):void
+		override public function load():void
 		{
-			this.request = request;
-			
 			//documentation says that the play method should
 			//accept a URLRequest instance - this does not seem
 			//to be the case so we use the underlying String

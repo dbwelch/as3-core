@@ -1,8 +1,7 @@
 package com.ffsys.io.loaders.core {
 	
 	/**
-	*	Encapsulates options available when
-	*	loading resources.
+	*	Encapsulates options available when loading resources.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -15,9 +14,9 @@ package com.ffsys.io.loaders.core {
 		
 		private var _silent:Boolean;
 		private var _fatal:Boolean;
-		private var _autoGenerateId:Boolean;
-		private var _continueOnResourceNotFound:Boolean;
-		private var _quietOnResourceNotFound:Boolean;
+		private var _autoGenerateId:Boolean = true;
+		private var _continueOnResourceNotFound:Boolean = true;
+		private var _quietOnResourceNotFound:Boolean = true;
 		
 		/**
 		*	Creates a <code>LoadOptions</code> instance.	
@@ -25,8 +24,6 @@ package com.ffsys.io.loaders.core {
 		public function LoadOptions()
 		{
 			super();
-			this.continueOnResourceNotFound = true;
-			this.quietOnResourceNotFound = false;
 		}
 		
 		/**
@@ -40,7 +37,7 @@ package com.ffsys.io.loaders.core {
 			{
 				this.continueOnResourceNotFound = val;
 				this.quietOnResourceNotFound = val;
-			}			
+			}
 		}
 		
 		public function get silent():Boolean

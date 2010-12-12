@@ -54,7 +54,8 @@ package com.ffsys.io.loaders.types {
 			_loader.addEventListener(
 				LoadEvent.RESOURCE_NOT_FOUND,
 				Async.asyncHandler( this, assertLoadedAsset, TIMEOUT, null, fail ) );
-			_loader.load( getLoadRequest() );
+			_loader.request = getLoadRequest();
+			_loader.load();
 		}
 		
 		/**

@@ -61,7 +61,7 @@ package com.ffsys.io.loaders.types {
 			Notifier.dispatchEvent( evt );
 			
 			//clean our reference to the underlying Loader
-			_loader = null;
+			_composite = null;
         }
 	}
 }
