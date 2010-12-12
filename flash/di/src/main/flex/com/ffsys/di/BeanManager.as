@@ -27,12 +27,14 @@ package com.ffsys.di {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public class BeanManager extends BeanDocument
+	public class BeanManager extends EventDispatcher
 		implements IBeanManager {
 			
 		private var _queue:ILoaderQueue;
 		private var _dependencyQueue:ILoaderQueue;
 		private var _beanDocuments:Vector.<BeanDocumentEntry> = new Vector.<BeanDocumentEntry>();
+		
+		private var _bindings:IBindingCollection = new BindingCollection();
 		
 		/**
 		*	Creates a <code>BeanManager</code> instance.
@@ -40,7 +42,35 @@ package com.ffsys.di {
 		public function BeanManager()
 		{
 			super();
-			this.bindings = new BindingCollection();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get bindings():IBindingCollection
+		{
+			return _bindings;
+		}
+		
+		public function set bindings( bindings:IBindingCollection ):void
+		{
+			_bindings = bindings;
+		}		
+		
+		/**
+		* 	Gets a list of all the documents stored by this implementation.
+		*/
+		public function get documents():Vector.<IBeanDocument>
+		{
+			var documents:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
+			
+			var entry:BeanDocumentEntry = null;
+			for( var i:int = 0;i < _beanDocuments.length;i++ )
+			{
+				entry = _beanDocuments[ i ];
+				documents.push( entry.document );
+			}
+			return documents;
 		}
 		
 		/**
@@ -124,7 +154,7 @@ package com.ffsys.di {
 		/**
 		*	@inheritDoc
 		*/
-		override public function getBean( beanName:String ):Object
+		public function getBean( beanName:String ):Object
 		{
 			var document:IBeanDocument = null;
 			var instance:Object = null;
@@ -139,16 +169,15 @@ package com.ffsys.di {
 				}
 			}
 			
-			return super.getBean( beanName );
+			return null;
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		override public function get beanNames():Array
+		public function get beanNames():Array
 		{
-			var output:Array = super.beanNames;
-			
+			var output:Array = new Array();
 			var document:IBeanDocument = null;
 			var entry:BeanDocumentEntry = null;
 			var beans:Array = null;
@@ -158,12 +187,12 @@ package com.ffsys.di {
 				beans = document.beanNames;
 				if( beans )
 				{
-					output = output.concat( beans );
+					output = output.concat.apply( output, beans );
 				}
 			}
 			
 			return output;
-		}	
+		}
 
 		/**
 		*	@inheritDoc
@@ -187,13 +216,26 @@ package com.ffsys.di {
 				loader.document = document;
 				
 				//TODO: re-implement
-				//loader.addEventListener( LoadEvent.DATA, itemLoaded );	
+				//loader.addEventListener( LoadEvent.DATA, itemLoaded );
+					
 				_queue.addLoader( loader );
 			}
 			
 			_queue.load();
 			
 			return _queue;
+		}
+		
+		/**
+		* 	Destroys this manager implementation.
+		*/
+		public function destroy():void
+		{
+			//TODO: close any loading queue
+			
+			//TODO: destroy composite bindings
+			
+			_bindings = null;
 		}
 		
 		private var _current:IBeanDocument;

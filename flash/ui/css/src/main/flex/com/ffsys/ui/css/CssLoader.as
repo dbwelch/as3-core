@@ -3,6 +3,8 @@ package com.ffsys.ui.css {
 	import flash.net.URLRequest;
 	import flash.text.StyleSheet;
 	
+	import com.ffsys.di.*;
+	
 	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.types.StyleSheetLoader;
 	
@@ -16,7 +18,7 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public class CssLoader extends StyleSheetLoader {
+	public class CssLoader extends BeanLoader {
 		
 		private var _css:ICssStyleSheet;
 		
@@ -31,6 +33,19 @@ package com.ffsys.ui.css {
 			options:ILoadOptions = null	)
 		{
 			super( request, options );
+		}
+		
+		/**
+		* 	Overriden to prevent the parser being set to anything
+		* 	other than a text parser.
+		*/
+		override public function set parser( value:IBeanParser ):void
+		{
+			if( value && !( value is BeanTextParser ) )
+			{
+				throw new Error( "The parser for a css loader must be a text parser." );
+			}
+			super.parser = value;
 		}
 		
 		/**
@@ -50,11 +65,9 @@ package com.ffsys.ui.css {
 		/**
 		*	@inheritDoc
 		*/
-		override protected function parse( text:String ):StyleSheet
+		override protected function parse( text:String ):Object
 		{
-			var sheet:ICssStyleSheet = css ? css : StyleSheetFactory.create();
-			sheet.parse( text );
-			return StyleSheet( sheet );
+			return super.parse( text );
 		}
 	}
 }

@@ -248,6 +248,18 @@ package com.ffsys.di
 		}
 		
 		/**
+		* 	Destroys this bean descriptor.
+		*/
+		public function destroy():void
+		{
+			_document = null;
+			_id = null;
+			_instanceClass = null;
+			_properties = null;
+			_singletonInstance = null;
+		}
+		
+		/**
 		* 	@private
 		*/
 		private function resolve( bean:Object ):void

@@ -1,6 +1,9 @@
 package com.ffsys.di {
 	
+	import flash.events.IEventDispatcher;
 	import flash.net.URLRequest;
+	
+	import com.ffsy.core.IDestroy;
 	import com.ffsys.io.loaders.core.*;
 	
 	/**
@@ -16,7 +19,15 @@ package com.ffsys.di {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public interface IBeanManager extends IBeanDocument {
+	public interface IBeanManager
+		extends IBeanAccess,
+				IDestroy,
+				IEventDispatcher {
+		
+		/**
+		* 	Gets a list of all the documents stored by this implementation.
+		*/
+		function get documents():Vector.<IBeanDocument>;
 		
 		/**
 		*	Adds a bean beans to this manager.

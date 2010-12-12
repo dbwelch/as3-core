@@ -1,10 +1,10 @@
 package com.ffsys.ui.css {
 	
-	import flash.events.IEventDispatcher;
 	import flash.filters.BitmapFilter;
 	import flash.text.TextFormat;
 	
-	import com.ffsys.core.IStringIdentifier;
+	import com.ffsys.di.*;	
+	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
 	import com.ffsys.utils.substitution.IBindingCollection;
@@ -20,33 +20,42 @@ package com.ffsys.ui.css {
 	*	@since  23.10.2010
 	*/
 	public interface ICssStyleSheet
-		extends	IStringIdentifier,
-				IEventDispatcher {
+		extends	IBeanDocument {
+			
+		/**
+		* 	Determines whether this style sheet has a style with the specified
+		* 	name.
+		* 
+		* 	@param styleName The name of the style.
+		* 
+		* 	@return A boolean indicating whether the style exists in this css document.
+		*/
+		function hasStyle( styleName:String ):Boolean;
 					
 		/**
 		* 	Gets the style object that encapsulates constants for the stylesheet.
 		*/
-		function get constants():Object;
+		//function get constants():Object;
 					
 		/**
 		* 	The collection of bindings to expose when parsing css files.
 		*/
-		function get bindings():IBindingCollection;
-		function set bindings( bindings:IBindingCollection ):void;			
+		//function get bindings():IBindingCollection;
+		//function set bindings( bindings:IBindingCollection ):void;			
 										
 		/**
 		* 	The delimiter to use when parsing array values.
 		* 
 		* 	The default value is a vertical bar.
 		*/
-		function get delimiter():String;
-		function set delimiter( value:String ):void;					
+		//function get delimiter():String;
+		//function set delimiter( value:String ):void;	
 		
 		/**
 		*	A queue that represents the dependencies that
 		*	were found when the css was parsed.
 		*/
-		function get dependencies():ILoaderQueue;
+		//function get dependencies():ILoaderQueue;
 		
 		/**
 		*	Parses the css text into this instance
@@ -59,14 +68,14 @@ package com.ffsys.ui.css {
 		*	@return The loader queue responsible for loading
 		*	external dependencies.
 		*/
-		function parse( text:String ):ILoaderQueue;
+		//function parse( text:String ):ILoaderQueue;
 		
 		/**
 		*	Extends the native style sheet parsing capability.
 		*	
 		*	@param text The css text to parse.
 		*/
-		function parseCSS( text:String ):void;
+		//function parseCSS( text:String ):void;
 		
 		/**
 		* 	Parses an individual string value.
@@ -77,7 +86,7 @@ package com.ffsys.ui.css {
 		* 
 		* 	@return The parsed value.
 		*/
-		function parseElement( value:String, styleName:String, propertyName:String ):Object;
+		//function parseElement( value:String, styleName:String, propertyName:String ):Object;
 		
 		/**
 		*	Extends the native text format transform ability.	
@@ -117,7 +126,7 @@ package com.ffsys.ui.css {
 		* 	@param style The style object that the instance will be instantiated
 		* 	from.
 		*/
-		function getInstance( styleName:String, style:Object ):Object;
+		//function getInstance( styleName:String, style:Object ):Object;
 		
 		/**
 		*	Adds a new style with the specified name to the
@@ -142,7 +151,7 @@ package com.ffsys.ui.css {
 		/**
 		*	Removes all styles from this style collection.	
 		*/
-		function clear():void;
+		//function clear():void;
 		
 		/**
 		* 	Gets an array of all the style names for a style aware target.

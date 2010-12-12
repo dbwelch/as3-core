@@ -5,6 +5,7 @@ package com.ffsys.di
 	import com.ffsys.io.loaders.core.ILoader;	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.LoaderQueue;	
+	import com.ffsys.utils.substitution.BindingCollection;
 	import com.ffsys.utils.substitution.IBindingCollection;
 	
 	/**
@@ -21,7 +22,7 @@ package com.ffsys.di
 	{		
 		private var _id:String;
 		private var _delimiter:String = "|";		
-		private var _bindings:IBindingCollection;
+		private var _bindings:IBindingCollection = new BindingCollection();
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
 		private var _files:Vector.<BeanFileDependency> = new Vector.<BeanFileDependency>();
 		
@@ -249,6 +250,35 @@ package com.ffsys.di
 				}
 			}
 			return null;
+		}
+		
+		/**
+		* 	Destroys this bean document.
+		*/
+		public function destroy():void
+		{
+			//destroy child bean descriptors
+			var bean:IBeanDescriptor = null;
+			for( var i:int = 0;i < _beans.length;i++ )
+			{
+				bean = _beans[ i ];
+				if( bean )
+				{
+					bean.destroy();
+				}
+			}
+			
+			//clear all stored beans
+			clear();
+			
+			//TODO: ensure file dependency and bindings are also destroyed
+			
+			//null references
+			_id = null;
+			_delimiter = null;
+			_bindings = null;
+			_beans = null;
+			_files = null;
 		}
 	}
 }

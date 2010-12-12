@@ -1,6 +1,8 @@
 package com.ffsys.di
 {
 	import flash.events.IEventDispatcher;
+	
+	import com.ffsys.core.IDestroy;	
 	import com.ffsys.core.IStringIdentifier;
 	
 	import com.ffsys.io.loaders.core.ILoaderQueue;	
@@ -18,7 +20,9 @@ package com.ffsys.di
 	*	@since  23.10.2010
 	*/
 	public interface IBeanDocument
-		extends	IStringIdentifier,
+		extends	IBeanAccess,
+				IStringIdentifier,
+				IDestroy,
 				IEventDispatcher {
 		
 		/**
@@ -70,16 +74,6 @@ package com.ffsys.di
 		*	Removes all beans from this document.
 		*/
 		function clear():void;
-
-		/**
-		* 	Attempts to retrieve an instance of a bean.
-		* 	
-		* 	@param beanName The bean descriptor identifier.
-		* 
-		* 	@return An instance of the bean or null if no matching
-		* 	bean descriptor was located.
-		*/
-		function getBean( beanName:String ):Object;	
 		
 		/**
 		* 	The number of beans stored in this document.

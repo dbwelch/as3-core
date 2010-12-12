@@ -1,5 +1,6 @@
 package com.ffsys.di
 {
+	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IStringIdentifier;
 	
 	/**
@@ -12,7 +13,9 @@ package com.ffsys.di
 	*	@author Mischa Williamson
 	*	@since  10.12.2010
 	*/
-	public interface IBeanDescriptor extends IStringIdentifier
+	public interface IBeanDescriptor
+		extends	IStringIdentifier,
+				IDestroy
 	{
 		/**
 		* 	The document this bean descriptor belongs to.
