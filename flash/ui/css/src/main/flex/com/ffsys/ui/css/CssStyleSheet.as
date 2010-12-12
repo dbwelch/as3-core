@@ -1014,7 +1014,7 @@ package com.ffsys.ui.css {
 			var cached:Object = null;
 			var style:Object = null;
 			var data:Object = null;
-			for( var i:int = 0;i < _dependencies.getLength();i++ )
+			for( var i:int = 0;i < _dependencies.length;i++ )
 			{
 				loader = _dependencies.getLoaderAt( i ) as ILoader;
 				
@@ -1025,7 +1025,7 @@ package com.ffsys.ui.css {
 					if( cached )
 					{
 						style = getStyle( cached.styleName );
-						data = loader.resource.data;
+						data = IResource( loader.resource ).data;
 						
 						//wrap bitmap data as bitmap display objects
 						if( data is BitmapData )

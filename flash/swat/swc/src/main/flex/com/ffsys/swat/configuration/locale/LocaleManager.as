@@ -319,7 +319,7 @@ package com.ffsys.swat.configuration.locale {
 				//for loading, ensuring that style dependencies are resolved
 				var loader:ILoader = null;
 				var css:ICssStyleSheet = null;
-				for( var i:int = 0;i < _cssQueue.getLength();i++ )
+				for( var i:int = 0;i < _cssQueue.length;i++ )
 				{
 					loader = ILoader( _cssQueue.getLoaderAt( i ) );
 					css = StyleSheetFactory.create();
@@ -683,7 +683,7 @@ package com.ffsys.swat.configuration.locale {
 			var resource:PropertiesResource = null;
 			var properties:IProperties = null;
 			
-			for( var i:int = 0;i < list.getLength();i++ )
+			for( var i:int = 0;i < list.length;i++ )
 			{
 				resource = PropertiesResource( list.getResourceAt( i ) );
 				properties = resource.properties;
@@ -709,7 +709,7 @@ package com.ffsys.swat.configuration.locale {
 			
 			replacements.unshift( id );
 			
-			for( var i:int = 0;i < list.getLength();i++ )
+			for( var i:int = 0;i < list.length;i++ )
 			{
 				resource = PropertiesResource( list.getResourceAt( i ) );
 				properties = resource.properties;

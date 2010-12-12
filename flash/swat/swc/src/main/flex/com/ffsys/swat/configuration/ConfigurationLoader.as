@@ -1,17 +1,11 @@
 package com.ffsys.swat.configuration {
 
-	import flash.events.Event;
-	import flash.net.URLRequest;
-	
-	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.IResource;
-	import com.ffsys.io.loaders.resources.XmlResource;
+	import com.ffsys.io.loaders.resources.IResourceElement;
 	import com.ffsys.io.loaders.types.ParserAwareXmlLoader;
 	
-	import com.ffsys.swat.events.ConfigurationEvent;
-	
 	/**
-	*	Preloads the application configuration XML document.
+	*	Preloads the application configuration <code>XML</code> document.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -42,11 +36,11 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
-		override public function set resource( resource:IResource ):void
+		override public function set resource( resource:IResourceElement ):void
 		{
-			if( resource != null )
+			if( resource != null && resource is IResource )
 			{
-				_configuration = IConfiguration( resource.data );
+				_configuration = IConfiguration( IResource( resource ).data );
 			}
 			super.resource = resource;
 		}

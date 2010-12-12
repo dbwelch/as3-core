@@ -18,8 +18,7 @@ package com.ffsys.ui.loaders
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	
 	import com.ffsys.effects.tween.ITween;
-	import com.ffsys.effects.events.ITweenEvent;
-	import com.ffsys.effects.events.TweenEvent;
+	import com.ffsys.effects.tween.TweenEvent;
 
 	/**
 	*	Abstract super class for instances that load visual assets
@@ -551,7 +550,7 @@ package com.ffsys.ui.loaders
 		/**
 		* 	Invoked when the reveal animation is complete.
 		*/
-		private function revealComplete( event:ITweenEvent ):void
+		private function revealComplete( event:TweenEvent ):void
 		{
 			Event( event ).target.removeEventListener(
 				Event( event ).type, arguments.callee );
@@ -567,7 +566,7 @@ package com.ffsys.ui.loaders
 		/**
 		* 	Invoked when the hide animation is complete.
 		*/
-		private function hideComplete( event:ITweenEvent ):void
+		private function hideComplete( event:TweenEvent ):void
 		{
 			Event( event ).target.removeEventListener(
 				Event( event ).type, arguments.callee );

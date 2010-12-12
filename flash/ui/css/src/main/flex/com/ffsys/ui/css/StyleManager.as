@@ -250,7 +250,7 @@ package com.ffsys.ui.css {
 					_current.id = event.loader.id;
 				}
 				
-				if( _current.dependencies && _current.dependencies.getLength() > 0 )
+				if( _current.dependencies && _current.dependencies.length > 0 )
 				{
 					_queue.paused = true;
 					_dependencyQueue = _current.dependencies;

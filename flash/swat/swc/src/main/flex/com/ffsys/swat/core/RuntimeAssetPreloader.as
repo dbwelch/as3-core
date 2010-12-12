@@ -237,7 +237,8 @@ package com.ffsys.swat.core {
 			_phase = CONFIGURATION_PHASE;
 				
 			var path:String = SwatFlashVariables( _flashvars ).configuration;
-			_configurationLoader.load( new URLRequest( path ) );
+			_configurationLoader.request = new URLRequest( path );
+			_configurationLoader.load();
 		}
 		
 		/**

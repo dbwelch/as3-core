@@ -41,8 +41,8 @@ package com.ffsys.io.xml
 			_xmlLoader.addEventListener(
 				LoadEvent.DATA,
 				Async.asyncHandler( this, assertLoadedDocument, TIMEOUT, null, fail ) );
-
-			_xmlLoader.load( new URLRequest( getXmlLoadPath() ) );
+			_xmlLoader.request = new URLRequest( getXmlLoadPath() );
+			_xmlLoader.load();
 		}
 		
 		/**

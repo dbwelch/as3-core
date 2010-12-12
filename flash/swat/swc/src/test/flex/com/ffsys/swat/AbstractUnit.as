@@ -54,9 +54,10 @@ package com.ffsys.swat
 			_configurationLoader.addEventListener(
 				LoadEvent.DATA,
 				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
-
-			_configurationLoader.load( new URLRequest( TEST_XML_PATH ) );						
-		}		
+			
+			_configurationLoader.request = new URLRequest( TEST_XML_PATH );
+			_configurationLoader.load();
+		}
 		
 		[After]
      	public function tearDown():void

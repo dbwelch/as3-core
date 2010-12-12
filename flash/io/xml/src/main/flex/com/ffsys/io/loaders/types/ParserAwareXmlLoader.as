@@ -129,21 +129,13 @@ package com.ffsys.io.loaders.types {
 					this,
 					ObjectResource( resource ) );
 				
-				if( queue )
-				{
-					queue.addResource( this );
-				}
-				
-				dispatchEvent( evt );
-				
+				dispatchEvent( evt );	
 				Notifier.dispatchEvent( evt );
 				
 				//we've created the resource
 				//clean our data reference
 				data = null;
 			}
-			
-			//dispatchLoadCompleteEvent();
         }
 	}
 }
