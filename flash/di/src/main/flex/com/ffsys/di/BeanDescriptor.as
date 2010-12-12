@@ -181,7 +181,7 @@ package com.ffsys.di
 			{
 				resolveConstants( clone );
 				//resolve references
-				resolve( clone );			
+				resolve( clone );
 			}
 			return clone;
 		}
@@ -223,15 +223,19 @@ package com.ffsys.di
 				//so return the existing complex object
 				return this.properties;
 			}
+
+			var parameters:Object = null;
 			
-			if( properties )
+			if( this.properties )
 			{
-				resolveConstants( properties );
+				//get a copy of the properties
+				parameters = copy();
+				resolveConstants( parameters );
 				//resolve references
-				resolve( properties );
+				resolve( parameters );
 			}
 			
-			if( this.properties && clazz )
+			if( clazz )
 			{
 				var instance:Object = null;
 				
@@ -248,13 +252,16 @@ package com.ffsys.di
 				
 				if( instance )
 				{
-					if( isMethodReference( this.properties ) )
+					if( parameters )
 					{
-						return getMethod( this.properties, instance ) as Function;
-					}
+						if( isMethodReference( parameters ) )
+						{
+							return getMethod( parameters, instance ) as Function;
+						}
 
-					var merger:PropertiesMerge = new PropertiesMerge();
-					merger.merge( instance, this.properties, true, [ IBeanResolver ] );
+						var merger:PropertiesMerge = new PropertiesMerge();
+						merger.merge( instance, parameters, true, [ IBeanResolver ] );
+					}
 				}
 				
 				if( this.singleton )
@@ -369,7 +376,7 @@ package com.ffsys.di
 					}
 
 					//setBeanProperty( bean, z, resolved );
-					
+
 					bean[ z ] = resolved;
 				}
 			}
