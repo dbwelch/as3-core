@@ -121,9 +121,9 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function getStyleSheet( id:String ):ICssStyleSheet
+		public function get stylesheet():ICssStyleSheet
 		{
-			return _locales.getStyleSheet( id );
+			return _locales.stylesheet;
 		}
 		
 		/**

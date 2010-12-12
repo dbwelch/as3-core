@@ -53,7 +53,10 @@ package com.ffsys.ui.css
 
 			var style:Object = stylesheet.getStyle( "style-aware" );
 			
+			trace("CssInstanceClassTest::cssInstanceClassTest()", "CHECKING STYLE AWARE: ", style );
+			
 			Assert.assertNotNull( style );
+			//
 			Assert.assertTrue( style is CssStyleAware );
 
 			var stylable:CssStyleAware = CssStyleAware( style );

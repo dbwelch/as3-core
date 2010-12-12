@@ -164,10 +164,10 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function getStyleSheet( id:String ):ICssStyleSheet
+		public function get stylesheet():ICssStyleSheet
 		{
 			verifyConfiguration();
-			return this.configuration.getStyleSheet( id );
+			return this.configuration.stylesheet;
 		}
 		
 		/**

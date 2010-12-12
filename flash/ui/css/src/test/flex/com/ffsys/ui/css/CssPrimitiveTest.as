@@ -34,7 +34,7 @@ package com.ffsys.ui.css
 		}
 		
 		[Test]
-		public function cssPrimitivesTest():void
+		public function cssPrimitiveTest():void
 		{
 			var stylesheet:ICssStyleSheet = new CssStyleSheet();
 			stylesheet.parse( sample );

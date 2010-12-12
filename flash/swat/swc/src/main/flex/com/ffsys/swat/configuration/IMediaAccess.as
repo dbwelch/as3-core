@@ -30,14 +30,9 @@ package com.ffsys.swat.configuration {
 		function get styleManager():IStyleManager;		
 		
 		/**
-		*	Gets a style sheet by identifier.
-		*	
-		*	@param id The identifier for the style sheet.
-		*	
-		*	@return The style sheet with the specified identifier
-		*	or null if no corresponding style sheet could be located.
+		*	The style sheet for the application.
 		*/
-		function getStyleSheet( id:String ):ICssStyleSheet;
+		function get stylesheet():ICssStyleSheet;
 		
 		/**
 		* 	Locates a style from the specified identifier searching

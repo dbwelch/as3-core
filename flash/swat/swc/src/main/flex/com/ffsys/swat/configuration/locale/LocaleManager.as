@@ -327,7 +327,7 @@ package com.ffsys.swat.configuration.locale {
 					{
 						css.id = loader.id;
 					}
-					_styleManager.addStyleSheet( css, loader.request );
+					_styleManager.addStyleSheet( loader.request );
 				}
 				
 				//update our queue with the queue that the
@@ -458,9 +458,9 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function getStyleSheet( id:String ):ICssStyleSheet
+		public function get stylesheet():ICssStyleSheet
 		{
-			return _styleManager.getStyleSheet( id );
+			return _styleManager.stylesheet;
 		}
 		
 		/**
