@@ -17,9 +17,12 @@ package com.ffsys.di
 		private var _document:IBeanDocument;
 		private var _id:String;
 		private var _instanceClass:Class;
+		private var _staticClass:Class;
 		private var _singleton:Boolean = false;
 		private var _properties:Object;
 		private var _singletonInstance:Object;
+		private var _instanceClassConstant:BeanConstant;
+		private var _staticClassConstant:BeanConstant;
 		
 		/**
 		* 	Creates a <code>BeanDescriptor</code> instance.
@@ -71,10 +74,56 @@ package com.ffsys.di
 		}
 		
 		/**
+		* 	@private
+		*/
+		private function getStaticClass():Class
+		{
+			if( !_staticClass && _staticClassConstant )
+			{
+				var candidate:Object = null;
+				try
+				{
+					candidate = _staticClassConstant.resolve( this.document, this );
+				}catch( e:Error )
+				{
+					throw new Error( "Could not resolve a static class constant." );
+				}
+				
+				if( !( candidate is Class ) )
+				{
+					throw new Error( "The static class constant value '" + candidate + "' is not a class." );
+				}
+				
+				_staticClass = candidate as Class;
+			}
+			
+			return _staticClass;
+		}		
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function get instanceClass():Class
 		{
+			if( !_instanceClass && _instanceClassConstant )
+			{
+				var candidate:Object = null;
+				try
+				{
+					candidate = _instanceClassConstant.resolve( this.document, this );
+				}catch( e:Error )
+				{
+					throw new Error( "Could not resolve an instance class constant." );
+				}
+				
+				if( !( candidate is Class ) )
+				{
+					throw new Error( "The instance class constant value '" + candidate + "' is not a class." );
+				}
+				
+				return candidate as Class;
+			}
+			
 			return _instanceClass;
 		}
 		
@@ -141,10 +190,23 @@ package com.ffsys.di
 		* 	@inheritDoc
 		*/
 		public function getBean():Object
-		{
+		{			
+			//prefer singletons to static classes
 			if( this.singleton && _singletonInstance )
 			{
 				return _singletonInstance;
+			}
+			
+			//handle static class references
+			if( _staticClass != null || _staticClassConstant != null )
+			{
+				return this.getStaticClass();
+			}
+			
+			//not an instance return the properties
+			if( !isBean() )
+			{
+				return getProperties();
 			}
 			
 			//trace("***************************** BeanDescriptor::getBean()", this.id, this.singleton );
@@ -216,10 +278,32 @@ package com.ffsys.di
 				if( target.hasOwnProperty( BeanConstants.INSTANCE_CLASS_PROPERTY ) )
 				{
 					var instanceClassCandidate:Object = target[ BeanConstants.INSTANCE_CLASS_PROPERTY ];	
-					if( instanceClassCandidate is Class )
+					if( instanceClassCandidate is Class || instanceClassCandidate is BeanConstant )
 					{
-						this.instanceClass = ( instanceClassCandidate as Class );
+						if( instanceClassCandidate is Class )
+						{
+							this.instanceClass = ( instanceClassCandidate as Class );
+						}else if( instanceClassCandidate is BeanConstant )
+						{
+							_instanceClassConstant = BeanConstant( instanceClassCandidate );
+						}
 						delete target[ BeanConstants.INSTANCE_CLASS_PROPERTY ];
+					}
+				}
+				
+				if( target.hasOwnProperty( BeanConstants.STATIC_CLASS_PROPERTY ) )
+				{
+					var staticClassCandidate:Object = target[ BeanConstants.STATIC_CLASS_PROPERTY ];
+					if( staticClassCandidate is Class || staticClassCandidate is BeanConstant )
+					{
+						if( staticClassCandidate is Class )
+						{
+							_staticClass = ( staticClassCandidate as Class );
+						}else if( staticClassCandidate is BeanConstant )
+						{
+							_staticClassConstant = BeanConstant( staticClassCandidate );
+						}
+						delete target[ BeanConstants.STATIC_CLASS_PROPERTY ];
 					}
 				}
 				

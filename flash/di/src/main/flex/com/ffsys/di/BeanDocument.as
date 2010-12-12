@@ -271,12 +271,7 @@ package com.ffsys.di
 			var descriptor:IBeanDescriptor = getBeanDescriptor( beanName );
 			if( descriptor )
 			{
-				if( descriptor.isBean() )
-				{
-					return descriptor.getBean();
-				}else{
-					return descriptor.getProperties();
-				}
+				return descriptor.getBean();
 			}
 			return null;
 		}
