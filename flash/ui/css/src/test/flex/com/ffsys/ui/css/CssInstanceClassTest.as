@@ -44,7 +44,7 @@ package com.ffsys.ui.css
 		}
 		
 		[Test]
-		public function cssPrimitivesTest():void
+		public function cssInstanceClassTest():void
 		{
 			var styleManager:IStyleManager = new StyleManager();
 			

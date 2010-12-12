@@ -18,6 +18,7 @@ package com.ffsys.di {
 	public class BeanLoader extends TextLoader {
 		
 		private var _document:IBeanDocument;
+		private var _parser:IBeanParser;
 		
 		/**
 		*	Creates a <code>BeanLoader</code> instance.
@@ -30,6 +31,19 @@ package com.ffsys.di {
 			options:ILoadOptions = null	)
 		{
 			super( request, options );
+		}
+		
+		/**
+		* 	Gets the parser used to parse the document beans.
+		*/
+		public function get parser():IBeanParser
+		{
+			return _parser;
+		}
+		
+		public function set parser( value:IBeanParser ):void
+		{
+			_parser = value;
 		}
 		
 		/**
@@ -46,6 +60,22 @@ package com.ffsys.di {
 		}
 		
 		/**
+		* 	Gets a parser for the document assigned to this loader.
+		* 
+		* 	If a custom <code>parser</code> has been assigned it will be
+		* 	used otherwise a text parser will be created by default.
+		*/
+		public function getParser( document:IBeanDocument ):IBeanParser
+		{
+			if( !_parser )
+			{
+				_parser = new BeanTextParser();
+			}
+			_parser.document = document;
+			return _parser;
+		}
+		
+		/**
 		*	Parses the beans document text into a bean document.
 		* 
 		* 	@param text The bean document text.
@@ -54,10 +84,8 @@ package com.ffsys.di {
 		*/
 		override protected function parse( text:String ):Object
 		{
-			var beans:IBeanDocument = document ? document : BeanDocumentFactory.create();
-			
-			//TODO: implement CSS/XML switching
-			var parser:IBeanParser = new BeanTextParser( beans );
+			var beans:IBeanDocument = this.document != null ? this.document : BeanDocumentFactory.create();
+			var parser:IBeanParser = getParser( beans );
 			parser.parse( text );
 			return beans;
 		}
