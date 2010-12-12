@@ -29,6 +29,8 @@ package com.ffsys.di
 				constant-class: constant( constant-class );
 				point: point( 16, 32 );
 				rect: rect( 16, 32, 64, 128 );
+				matrix: matrix( 16, 32, 64, 128, 256, 512 );
+				color-transform: color( 2, 4, 6, 8, 10, 12, 14, 16 );
 			}
 			
 			arrays {
@@ -78,7 +80,29 @@ package com.ffsys.di
 			Assert.assertEquals( 16, r.left );
 			Assert.assertEquals( 32, r.top );
 			Assert.assertEquals( 64, r.width );
-			Assert.assertEquals( 128, r.height );			
+			Assert.assertEquals( 128, r.height );
+			
+			var matrix:Object = expressions.matrix;
+			Assert.assertTrue( matrix is Matrix );
+			var m:Matrix = Matrix( matrix );
+			Assert.assertEquals( 16, m.a );
+			Assert.assertEquals( 32, m.b );
+			Assert.assertEquals( 64, m.c );
+			Assert.assertEquals( 128, m.d );
+			Assert.assertEquals( 256, m.tx );
+			Assert.assertEquals( 512, m.ty );
+
+			var color:Object = expressions.colorTransform;
+			Assert.assertTrue( color is ColorTransform );
+			var c:ColorTransform = ColorTransform( color );
+			Assert.assertEquals( 2, c.redMultiplier );
+			Assert.assertEquals( 4, c.greenMultiplier );
+			Assert.assertEquals( 6, c.blueMultiplier );
+			Assert.assertEquals( 8, c.alphaMultiplier );
+			Assert.assertEquals( 10, c.redOffset );
+			Assert.assertEquals( 12, c.greenOffset );
+			Assert.assertEquals( 14, c.blueOffset );
+			Assert.assertEquals( 16, c.alphaOffset );
 		}
 	}
 }

@@ -208,36 +208,47 @@ package com.ffsys.di
 				case BeanConstants.POINT_EXPRESSION:
 					output = new Point();
 					parameters = parseParts( value, beanName, beanProperty );
-					if( parameters.length > 2 )
-					{
-						throw new Error( "Too many parameters for a point expression." );
-					}
-					
-					if( parameters.length > 0 )
-					{
-						var p:Point = Point( output );
-						p.x = parameters[ 0 ];	
-						if( parameters.length > 1 )
-						{
-							p.y = parameters[ 1 ];
-						}
-					}
+					validateNumericParameterExpression( parameters, 2, BeanConstants.POINT_EXPRESSION );
+					var p:Point = Point( output );
+					p.x = parameters[ 0 ];
+					p.y = parameters[ 1 ];
 					break;					
 				case BeanConstants.RECTANGLE_EXPRESSION:
 					output = new Rectangle();
 					parameters = parseParts( value, beanName, beanProperty );
-					
-					if( parameters.length != 4 )
-					{
-						throw new Error( "Incorrect parameter count for a rectangle expression, must be: left, top, width, height." );
-					}
-
+					validateNumericParameterExpression( parameters, 4, BeanConstants.RECTANGLE_EXPRESSION );
 					var r:Rectangle = Rectangle( output );
 					r.left = parameters[ 0 ];
 					r.top = parameters[ 1 ];
 					r.width = parameters[ 2 ];
 					r.height = parameters[ 3 ];
 					break;
+				case BeanConstants.MATRIX_EXPRESSION:
+					output = new Matrix();
+					parameters = parseParts( value, beanName, beanProperty );
+					validateNumericParameterExpression( parameters, 6, BeanConstants.MATRIX_EXPRESSION );
+					var m:Matrix = Matrix( output );
+					m.a = parameters[ 0 ];
+					m.b = parameters[ 1 ];
+					m.c = parameters[ 2 ];
+					m.d = parameters[ 3 ];
+					m.tx = parameters[ 4 ];
+					m.ty = parameters[ 5 ];
+					break;
+				case BeanConstants.COLOR_TRANSFORM_EXPRESSION:
+					output = new ColorTransform();
+					parameters = parseParts( value, beanName, beanProperty );
+					validateNumericParameterExpression( parameters, 8, BeanConstants.COLOR_TRANSFORM_EXPRESSION );
+					var c:ColorTransform = ColorTransform( output );
+					c.redMultiplier = parameters[ 0 ];
+					c.greenMultiplier = parameters[ 1 ];
+					c.blueMultiplier = parameters[ 2 ];
+					c.alphaMultiplier = parameters[ 3 ];
+					c.redOffset = parameters[ 4 ];
+					c.greenOffset = parameters[ 5 ];
+					c.blueOffset = parameters[ 6 ];
+					c.alphaOffset = parameters[ 7 ];
+					break;			
 				default:
 					throw new Error(
 						"Could not handle bean expression with identifier '" + extension + "'." );
@@ -250,6 +261,33 @@ package com.ffsys.di
 			}
 			
 			return output;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Validates that an expression that expects number only parameters
+		* 	is valid.
+		* 
+		* 	@param parameters The parsed parameters.
+		* 	@param length The expected number of parameters.
+		* 	@param expression The expression being evaluated.
+		*/
+		private function validateNumericParameterExpression(
+			parameters:Array, length:int, expression:String ):void
+		{
+			if( parameters.length != length )
+			{
+				throw new Error( "Incorrect parameter count for a " + expression + " expression, expected " + length + "." );
+			}
+			
+			for( var i:int = 0;i < parameters.length;i++ )
+			{
+				if( !( parameters[ i ] is Number ) )
+				{
+					throw new Error( "The expression value '" + parameters[ i ] + "' is not a number." );
+				}
+			}
 		}
 		
 		/**

@@ -155,7 +155,7 @@ package com.ffsys.di
 		* 	When this expression is evaluated the resulting property
 		* 	will be set to a <code>Point</code>.
 		*/
-		public static const POINT_EXPRESSION:String = "point";		
+		public static const POINT_EXPRESSION:String = "point";
 		
 		/**
 		*	An expression to declare a rectangle.
@@ -164,5 +164,21 @@ package com.ffsys.di
 		* 	will be set to a <code>Rectangle</code>.
 		*/
 		public static const RECTANGLE_EXPRESSION:String = "rect";
+		
+		/**
+		*	An expression to declare a matrix.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>Matrix</code>.
+		*/
+		public static const MATRIX_EXPRESSION:String = "matrix";
+		
+		/**
+		*	An expression to declare a color transform.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>ColorTransform</code>.
+		*/
+		public static const COLOR_TRANSFORM_EXPRESSION:String = "color";
 	}
 }
