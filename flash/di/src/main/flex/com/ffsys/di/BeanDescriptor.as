@@ -272,7 +272,7 @@ package com.ffsys.di
 			for( z in bean )
 			{
 				o = bean[ z ];
-				if( o is IBeanResolver && !( o is BeanMethod ) )
+				if( o is IBeanResolver && !( o is BeanMethod ) && !( o is BeanFileDependency ) )
 				{
 					resolver = IBeanResolver( o );
 					resolved = resolver.resolve( this.document, bean );

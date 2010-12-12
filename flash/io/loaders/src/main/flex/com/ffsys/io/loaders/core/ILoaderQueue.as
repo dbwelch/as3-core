@@ -58,6 +58,22 @@ package com.ffsys.io.loaders.core {
 		function addLoader(
 			loader:ILoaderElement,
 			options:ILoadOptions = null ):ILoaderElement;
+			
+		/**
+		* 	Inserts a loader element at the specified index.
+		* 
+		* 	This method will return false if the loader parameter
+		* 	is null or if the specified index is less than zero.
+		* 
+		* 	If the specified index exceeds the length of this implementation
+		* 	the loader parameter is added to the end.
+		* 
+		* 	@param loader The loader element to insert.
+		* 	@param index The index to insert the loader item into.
+		* 
+		* 	@return Whether the loader element was inserted.
+		*/
+		function insertLoaderAt( loader:ILoaderElement, index:int ):Boolean;
 		
 		/**
 		* 	A delay between loading elements.

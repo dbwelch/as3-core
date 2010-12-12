@@ -73,9 +73,14 @@ package com.ffsys.di
 		{
 			if( document != null )
 			{	
-				trace("BeanFileDependency::resolve()", this );
+				var descriptor:IBeanDescriptor = document.getBeanDescriptor( this.beanName );
+				var properties:Object = descriptor.properties;
+				if( properties )
+				{
+					//update the bean descriptor properties
+					properties[ this.name ] = bean;
+				}
 			}
-
 			return null;
 		}
 	}

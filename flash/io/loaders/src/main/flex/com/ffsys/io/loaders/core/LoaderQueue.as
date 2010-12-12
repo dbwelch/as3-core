@@ -179,6 +179,25 @@ package com.ffsys.io.loaders.core {
 		/**
 		* 	@inheritDoc
 		*/
+		public function insertLoaderAt( loader:ILoaderElement, index:int ):Boolean
+		{
+			if( loader && index >= 0 )
+			{
+				if( index < this.length )
+				{
+					_elements.splice( index, 0, loader );
+				}else{
+					_elements.push( loader );
+				}
+				return true;
+			}
+			
+			return false;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getLoaderAt( index:int ):ILoaderElement
 		{
 			return ILoaderElement( _elements[ index ] );

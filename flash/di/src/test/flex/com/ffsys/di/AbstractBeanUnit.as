@@ -26,9 +26,7 @@ package com.ffsys.di
 			//test the bean exists
  			var dependencies:Object = document.getBean( "di-dependencies" );
 			Assert.assertNotNull( dependencies );
-			
-			trace("AbstractBeanUnit::assertDependenciesBean()", dependencies.propertyBitmap );
-			
+
 			//test the file dependencies were added
 			Assert.assertEquals( 4, document.files.length );
 			Assert.assertTrue( document.files[ 0 ] is BeanFileDependency );

@@ -13,8 +13,7 @@ package com.ffsys.di {
 	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	
-	//import com.ffsys.io.loaders.resources.BeanDocumentResource;
+	import com.ffsys.io.loaders.resources.IResource;
 	
 	import com.ffsys.utils.substitution.*;
 	
@@ -150,15 +149,11 @@ package com.ffsys.di {
 			{
 				loader = new BeanLoader( entry.request );
 				loader.document = this.document;
-				
-				trace("BeanManager::load()", loader.document, loader.document == this.document );
-				
-				//TODO: re-implement
-				//loader.addEventListener( LoadEvent.DATA, itemLoaded );
-					
+				loader.addEventListener( LoadEvent.DATA, itemLoaded );
 				_queue.addLoader( loader );
 			}
 			
+			//_queue.addEventListener( LoadEvent.LOAD_COMPLETE, documentsLoaded );
 			_queue.load();
 			
 			return _queue;
@@ -182,7 +177,51 @@ package com.ffsys.di {
 			_beanDocuments = null;
 		}
 		
-		private var _current:IBeanDocument;
+		
+		private function itemLoaded( event:LoadEvent ):void
+		{
+			if( this.document.files
+				&& this.document.files.length )
+			{
+				var dependencies:ILoaderQueue = this.document.dependencies;
+				dependencies.addEventListener( LoadEvent.DATA, resolveFileDependency );
+				dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );				
+
+				//inject the dependency queue into the main loader queue
+				_queue.insertLoaderAt( dependencies, _queue.index + 1 );
+			}
+		}
+		
+		/**
+		*	@private
+		*/
+		private function resolveFileDependency( event:LoadEvent ):void
+		{
+			//trace("BeanManager::resolveFileDependency()", event.loader, event.loader.customData );
+			
+			var dependency:BeanFileDependency = event.loader.customData as BeanFileDependency;
+			if( dependency )
+			{
+				//we change the bean property sent to be resolved
+				//based upon whether the resource was found
+				//when it is found the data encapsulated by the resource
+				//is passed to resolve otherwise it is the loader that attempted
+				//to load the file
+				dependency.resolve(
+					document,
+					event.type == LoadEvent.RESOURCE_NOT_FOUND ? event.loader : IResource( event.resource ).data );
+			}
+		}
+		
+		/**
+		*	@private
+		*/
+		private function dependenciesLoaded( event:LoadEvent ):void
+		{
+			var dependencies:ILoaderQueue = this.document.dependencies;
+			dependencies.removeEventListener( LoadEvent.DATA, resolveFileDependency );
+			dependencies.removeEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );
+		}
 		
 		/**
 		*	@private
@@ -238,15 +277,6 @@ package com.ffsys.di {
 			_current = null;
 		}
 		*/
-		
-		/**
-		*	@private	
-		*/
-		private function dependencyDispatchProxy( event:LoadEvent ):void
-		{
-			//proxy the events through the main loader queue
-			_queue.dispatchEvent( event );
-		}
 	}	
 }
 

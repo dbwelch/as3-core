@@ -18,9 +18,9 @@ package com.ffsys.di
 	import flash.utils.getQualifiedClassName;
 	
 	/**
-	*	Unit tests for the bean manager.
+	*	Unit tests for <code>BeanDependencyLoadTest</code>.
 	*/ 
-	public class BeanManagerTest extends AbstractBeanUnit
+	public class BeanDependencyLoadTest extends AbstractBeanUnit
 	{
 		private var _rectangle:RectangleGraphic;
 		private var _stroke:Stroke;
@@ -32,14 +32,14 @@ package com.ffsys.di
 		private static const TIMEOUT:Number = 30000;
 		
 		/**
-		*	@private
+		*	@private	
 		*/
 		private var _beanManager:IBeanManager;
 		
 		/**
-		*	Creates a <code>BeanManagerTest</code> instance.
+		*	Creates a <code>BeanDependencyLoadTest</code> instance.
 		*/ 
-		public function BeanManagerTest()
+		public function BeanDependencyLoadTest()
 		{
 			super();
 		}
@@ -48,12 +48,11 @@ package com.ffsys.di
      	public function setUp():void
 		{
 			_beanManager = new BeanManager();
-			_beanManager.document.id = "master";
 			addRequests( _beanManager );
 			var queue:ILoaderQueue = _beanManager.load();
 			queue.addEventListener(
 				LoadEvent.LOAD_COMPLETE,
-				Async.asyncHandler( this, assertBeanManagerAssets, TIMEOUT, null, fail ) );
+				Async.asyncHandler( this, assertBeanFileDependencyAssets, TIMEOUT, null, fail ) );
 				
 			queue.addEventListener( LoadEvent.DATA, loadHandler );
 			queue.addEventListener( LoadEvent.LOAD_START, loadHandler );
@@ -68,25 +67,29 @@ package com.ffsys.di
 		private function loadHandler( event:LoadEvent ):void
 		{
 			/*
-			trace("BeanManagerTest::loadHandler(), ", event.type, event.uri );
+			trace("BeanDependencyLoadTest::loadHandler(), ", event.type, event.uri );
 			if( event.type == LoadEvent.DATA )
 			{
 				if( event.loader is ImageLoader )
 				{
-					trace("BeanManagerTest::loadHandler() image available: ",
+					trace("BeanDependencyLoadTest::loadHandler() image available: ",
 						ImageResource( event.resource ).bitmapData );
 				}else if( event.loader is SoundLoader )
 				{
-					trace("BeanManagerTest::loadHandler() sound available: ",
+					trace("BeanDependencyLoadTest::loadHandler() sound available: ",
 					 	SoundResource( event.resource ).sound );
 				}else if( event.loader is MovieLoader )
 				{
-					trace("BeanManagerTest::loadHandler() movie available: ",
+					trace("BeanDependencyLoadTest::loadHandler() movie available: ",
 					 	MovieResource( event.resource ).loader );
+				}else if( event.loader is XmlLoader )
+				{
+					trace("BeanDependencyLoadTest::loadHandler() xml available: ",
+					 	XmlResource( event.resource ).xml );
 				}
 			}else if( event.type == LoadEvent.RESOURCE_NOT_FOUND )
 			{
-				trace("BeanManagerTest::loadHandler() resource not found: ", event.uri );
+				trace("BeanDependencyLoadTest::loadHandler() resource not found: ", event.uri );
 			}
 			*/
 		}
@@ -102,7 +105,7 @@ package com.ffsys.di
 			manager.addBeanDocument( new URLRequest( "mock-beans.css" ) );
 		}
 		
-		protected function assertBeanManagerAssets(
+		protected function assertBeanFileDependencyAssets(
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
@@ -116,13 +119,10 @@ package com.ffsys.di
 			Assert.assertTrue( dependencies.propertySound is Sound );
 			Assert.assertTrue( dependencies.propertyMovie is Loader );
 			Assert.assertTrue( dependencies.propertyXml is XML );
-
-			//test the filter declaration
-			assertFilterBean( _beanManager.document );
 		}
 		
 		[Test(async)]
-		public function mockBeanLoadParseTest():void
+		public function beanDependencyLoadTest():void
 		{
 			//start the load process
 		}
