@@ -1,6 +1,8 @@
 package com.ffsys.ui.css {
 	
 	import flash.net.URLRequest;
+	
+	import com.ffsys.di.*;
 	import com.ffsys.io.loaders.core.*;
 	
 	/**
@@ -16,7 +18,7 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public interface IStyleManager extends ICssStyleSheet {
+	public interface IStyleManager extends IBeanManager {
 		
 		/**
 		*	Adds a style sheet to this manager.
@@ -49,14 +51,6 @@ package com.ffsys.ui.css {
 		*	@return The style sheet with the specified identifier
 		*	or null if no corresponding style sheet was located.
 		*/
-		function getStyleSheet( id:String ):ICssStyleSheet;			
-			
-		/**
-		*	Loads all the style sheets associated with this
-		*	style manager.
-		*	
-		*	@return The loader queue used to load the style sheets.
-		*/
-		function load():ILoaderQueue;
+		function getStyleSheet( id:String ):ICssStyleSheet;
 	}
 }

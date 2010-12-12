@@ -69,20 +69,26 @@ package com.ffsys.ui.css {
 		*/
 		public function getStyle( styleName:String ):Object
 		{
-			var css:ICssStyleSheet = null;
-			var style:Object = null;
-			var entry:StyleSheetEntry = null;
-			for each( entry in _styleSheets )
+			if( styleName != null )
 			{
-				css = ICssStyleSheet( entry.sheet );
-				style = css.getStyle( styleName );
-				if( style )
+				var documents:Vector.<IBeanDocument> = this.documents;
+				var doc:IBeanDocument = null;
+				var css:ICssStyleSheet = null;
+				var style:Object = null;			
+				for each( doc in documents )
 				{
-					return style;
+					css = doc as ICssStyleSheet;
+					if( css )
+					{
+						style = css.getStyle( styleName );
+						if( style )
+						{
+							return style;
+						}
+					}
 				}
 			}
-			
-			return super.getStyle( styleName );
+			return null;
 		}
 		
 		/**
@@ -91,19 +97,25 @@ package com.ffsys.ui.css {
 		public function getStyles( styleName:String ):Array
 		{
 			var output:Array = new Array();
-			var css:ICssStyleSheet = null;
-			var styles:Array = null;
-			var entry:StyleSheetEntry = null;
-			for each( entry in _styleSheets )
+			if( styleName != null )
 			{
-				css = ICssStyleSheet( entry.sheet );
-				styles = css.getStyles( styleName );
-				if( styles && styles.length > 0 )
+				var documents:Vector.<IBeanDocument> = this.documents;
+				var doc:IBeanDocument = null;
+				var css:ICssStyleSheet = null;
+				var styles:Array = null;			
+				for each( doc in documents )
 				{
-					output = output.concat( styles );
+					css = doc as ICssStyleSheet;
+					if( css )
+					{
+						styles = css.getStyles( styleName );
+						if( styles && styles.length > 0 )
+						{
+							output = output.concat.apply( output, styles );
+						}
+					}
 				}
 			}
-			
 			return output;
 		}
 		
@@ -112,22 +124,7 @@ package com.ffsys.ui.css {
 		*/
 		public function get styleNames():Array
 		{
-			var output:Array = super.styleNames;
-			
-			var css:ICssStyleSheet = null;
-			var entry:StyleSheetEntry = null;
-			var styles:Array = null;
-			for each( entry in _styleSheets )
-			{
-				css = ICssStyleSheet( entry.sheet );
-				styles = css.styleNames;
-				if( styles )
-				{
-					output = output.concat( styles );
-				}
-			}
-			
-			return output;
+			return this.beanNames;
 		}
 		
 		/**
@@ -135,20 +132,26 @@ package com.ffsys.ui.css {
 		*/
 		public function getFilter( styleName:String ):BitmapFilter
 		{
-			var css:ICssStyleSheet = null;
-			var filter:BitmapFilter = null;
-			var entry:StyleSheetEntry = null;
-			for each( entry in _styleSheets )
+			if( styleName != null )
 			{
-				css = ICssStyleSheet( entry.sheet );
-				filter = css.getFilter( styleName );
-				if( filter )
+				var documents:Vector.<IBeanDocument> = this.documents;
+				var doc:IBeanDocument = null;
+				var css:ICssStyleSheet = null;
+				var filter:BitmapFilter = null;
+				for each( doc in documents )
 				{
-					return filter;
+					css = doc as ICssStyleSheet;
+					if( css )
+					{
+						filter = css.getFilter( styleName );
+						if( filter )
+						{
+							return filter;
+						}
+					}
 				}
 			}
-			
-			return super.getFilter( styleName );
+			return null;
 		}
 	}	
 }

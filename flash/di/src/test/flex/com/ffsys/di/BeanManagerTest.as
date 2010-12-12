@@ -98,7 +98,7 @@ package com.ffsys.di
 		
 		protected function addRequests( manager:IBeanManager ):void
 		{
-			manager.addBeanDocument( null, new URLRequest( "mock-beans.css" ) );
+			manager.addBeanDocument( new URLRequest( "mock-beans.css" ) );
 		}
 		
 		protected function assertBeanManagerAssets(

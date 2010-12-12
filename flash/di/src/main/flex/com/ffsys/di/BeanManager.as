@@ -29,12 +29,13 @@ package com.ffsys.di {
 	*/
 	public class BeanManager extends EventDispatcher
 		implements IBeanManager {
-			
+		
+		private var _beanDocuments:Vector.<BeanDocumentEntry> = new Vector.<BeanDocumentEntry>();
+		private var _document:IBeanDocument;
+		
+		//TODO: refactor the dependency queue to be a nested queue
 		private var _queue:ILoaderQueue;
 		private var _dependencyQueue:ILoaderQueue;
-		private var _beanDocuments:Vector.<BeanDocumentEntry> = new Vector.<BeanDocumentEntry>();
-		
-		private var _bindings:IBindingCollection = new BindingCollection();
 		
 		/**
 		*	Creates a <code>BeanManager</code> instance.
@@ -47,66 +48,45 @@ package com.ffsys.di {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get bindings():IBindingCollection
+		public function get document():IBeanDocument
 		{
-			return _bindings;
+			if( _document == null )
+			{
+				_document = BeanDocumentFactory.create();
+			}
+			
+			return _document;
 		}
 		
-		public function set bindings( bindings:IBindingCollection ):void
+		public function set document( value:IBeanDocument ):void
 		{
-			_bindings = bindings;
-		}		
+			_document = value;
+		}
 		
 		/**
-		* 	Gets a list of all the documents stored by this implementation.
+		* 	@inheritDoc
 		*/
-		public function get documents():Vector.<IBeanDocument>
+		public function get bindings():IBindingCollection
 		{
-			var documents:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
-			
-			var entry:BeanDocumentEntry = null;
-			for( var i:int = 0;i < _beanDocuments.length;i++ )
-			{
-				entry = _beanDocuments[ i ];
-				documents.push( entry.document );
-			}
-			return documents;
+			return this.document.bindings;
+		}
+		
+		public function set bindings( value:IBindingCollection ):void
+		{
+			this.document.bindings = value;
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function addBeanDocument(
-			document:IBeanDocument = null,
-			request:URLRequest = null ):IBeanDocument
-		{
-			if( document == null )
+		public function addBeanDocument( request:URLRequest ):IBeanDocument
+		{	
+			if( request )
 			{
-				document = BeanDocumentFactory.create();
+				var entry:BeanDocumentEntry = new BeanDocumentEntry(
+					request, this.document );
+				_beanDocuments.push( entry );
 			}
-				
-			var entry:BeanDocumentEntry = new BeanDocumentEntry( request, document );
-			
-			if( request && document )
-			{
-				//_beanDocuments[ document ] = request;
-				
-				if( this.bindings )
-				{
-					if( !document.bindings )
-					{
-						document.bindings = this.bindings;
-					}else{
-						for( var i:int = 0;i < this.bindings.getLength();i++ )
-						{
-							document.bindings.addBinding(
-								bindings.getBindingAt( i ) );
-						}
-					}
-				}
-			}
-			
-			_beanDocuments.push( entry );
 			return document;
 		}
 			
@@ -114,41 +94,22 @@ package com.ffsys.di {
 		*	@inheritDoc
 		*/
 		public function removeBeanDocument(
-			document:IBeanDocument ):Boolean
+			request:URLRequest ):Boolean
 		{
-			var entry:BeanDocumentEntry = null;
-			for( var i:int = 0;i < _beanDocuments.length;i++ )
+			if( request )
 			{
-				entry = _beanDocuments[ i ];
-				if( entry.document == document )
-				{
-					_beanDocuments.splice( i, 1 );
-					return true;
-				}
-			}
-			
-			return false;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getBeanDocument( id:String ):IBeanDocument
-		{
-			if( id )
-			{
-				var document:IBeanDocument = null;
 				var entry:BeanDocumentEntry = null;
-				for each( entry in _beanDocuments )
+				for( var i:int = 0;i < _beanDocuments.length;i++ )
 				{
-					document = IBeanDocument( entry.document );
-					if( id == document.id )
+					entry = _beanDocuments[ i ];
+					if( entry.request == request || entry.request.url == request.url )
 					{
-						return document;
+						_beanDocuments.splice( i, 1 );
+						return true;
 					}
 				}
 			}
-			return null;
+			return false;
 		}
 		
 		/**
@@ -156,20 +117,7 @@ package com.ffsys.di {
 		*/
 		public function getBean( beanName:String ):Object
 		{
-			var document:IBeanDocument = null;
-			var instance:Object = null;
-			var entry:BeanDocumentEntry = null;
-			for each( entry in _beanDocuments )
-			{
-				document = IBeanDocument( entry.document );
-				instance = document.getBean( beanName );
-				if( instance )
-				{
-					return instance;
-				}
-			}
-			
-			return null;
+			return this.document.getBean( beanName );
 		}
 		
 		/**
@@ -177,21 +125,7 @@ package com.ffsys.di {
 		*/
 		public function get beanNames():Array
 		{
-			var output:Array = new Array();
-			var document:IBeanDocument = null;
-			var entry:BeanDocumentEntry = null;
-			var beans:Array = null;
-			for each( entry in _beanDocuments )
-			{
-				document = IBeanDocument( entry.document );
-				beans = document.beanNames;
-				if( beans )
-				{
-					output = output.concat.apply( output, beans );
-				}
-			}
-			
-			return output;
+			return this.document.beanNames;
 		}
 
 		/**
@@ -235,7 +169,13 @@ package com.ffsys.di {
 			
 			//TODO: destroy composite bindings
 			
-			_bindings = null;
+			if( _document )
+			{
+				_document.destroy();
+			}
+			
+			_document = null;
+			_beanDocuments = null;
 		}
 		
 		private var _current:IBeanDocument;
