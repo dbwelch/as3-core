@@ -8,7 +8,7 @@ package com.ffsys.di
 	import flash.net.*;
 	
 	/**
-	*	Unit tests for css expressions.
+	*	Unit tests for bean expressions.
 	*/ 
 	public class BeanExpressionTest extends AbstractBeanUnit
 	{	
