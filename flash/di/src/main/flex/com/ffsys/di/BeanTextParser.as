@@ -41,26 +41,22 @@ package com.ffsys.di
 				_beanSheet.parseCSS( text );
 			
 				var bean:Object = null;
-				var beanNames:Array = _beanSheet.styleNames;
+				var names:Array = _beanSheet.styleNames;
 				var name:String = null;
 				var descriptor:IBeanDescriptor = null;
-				
-				for( var i:int = 0;i < beanNames.length;i++ )
+				for( var i:int = 0;i < names.length;i++ )
 				{
-					name = beanNames[ i ];
+					name = names[ i ];
 					bean = _beanSheet.getStyle( name );
 					processBean( name, bean );
+					//transfer the anonymous object to a bean descriptor
 					descriptor = new BeanDescriptor( bean );
-					if( descriptor.id == null )
-					{
-						descriptor.id = name;
-					}
+					//always assign the style name as the bean identifier
+					descriptor.id = name;	
 					this.document.addBeanDescriptor( descriptor );
 				}
-			
 				return this.document;
 			}
-			
 			return null;
 		}
 		

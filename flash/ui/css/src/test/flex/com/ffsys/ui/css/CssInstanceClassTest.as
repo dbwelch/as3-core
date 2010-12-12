@@ -50,23 +50,27 @@ package com.ffsys.ui.css
 			
 			var stylesheet:ICssStyleSheet = new CssStyleSheet();
 			stylesheet.parse( sample );
-			
-			styleManager.addStyleSheet( stylesheet );
-			
+
 			var style:Object = stylesheet.getStyle( "style-aware" );
+			
 			Assert.assertNotNull( style );
 			Assert.assertTrue( style is CssStyleAware );
-			
+
 			var stylable:CssStyleAware = CssStyleAware( style );
 			stylable.styleManager = styleManager;
 			Assert.assertEquals( "stylable-identifier", stylable.id );
 			Assert.assertEquals( "stylable-test", stylable.styles );
 			
 			//TODO: change this to UIImpersonator and addChild()
+			
+			//style manager must be prepared in order to apply styles
+			styleManager.document.copy( stylesheet );
+			
 			stylable.applyStyles();
 			
 			Assert.assertEquals( 20, stylable.x );
 			Assert.assertEquals( 50, stylable.y );
+			
 			Assert.assertEquals( 16738047, stylable.classLevelColor );
 			Assert.assertEquals( 16737792, stylable.identifierLevelColor );
 			Assert.assertEquals( 3368601, stylable.customColor );

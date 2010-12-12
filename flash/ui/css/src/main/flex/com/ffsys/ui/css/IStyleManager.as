@@ -9,8 +9,7 @@ package com.ffsys.ui.css {
 	*	Describes the contract for style managers.
 	*	
 	*	Style managers manage the loading of a collection
-	*	of style sheets and locating styles from a number
-	*	of style sheets.
+	*	of style sheets and provide access to the loaded style information.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -18,39 +17,30 @@ package com.ffsys.ui.css {
 	*	@author Mischa Williamson
 	*	@since  23.10.2010
 	*/
-	public interface IStyleManager extends IBeanManager {
+	public interface IStyleManager
+		extends IBeanManager,
+		 		IStyleAccess {
 		
 		/**
-		*	Adds a style sheet to this manager.
-		*	
-		*	If no specific style sheet is specified this method
-		*	will create one using the style sheet factory.
-		* 
-		*	@param sheet A style sheet implementation to register
-		* 	with the style manager.
+		*	Adds a style sheet load request to this manager.
+		*
 		*	@param request The url request to load the style
 		*	sheet data from.
+		* 
+		* 	@return The style sheet the loaded data will be placed into.
 		*/
 		function addStyleSheet(
-			sheet:ICssStyleSheet = null,
-			request:URLRequest = null ):ICssStyleSheet;
+			request:URLRequest ):ICssStyleSheet;
 		
 		/**
-		*	Removes a style sheet from this manager.
+		*	Removes a style sheet load request from this manager.
 		*	
-		*	@param sheet The style sheet to remove.
+		*	@param request The request that was previously added.
+		* 
+		* 	@return Whether the specified request was removed from the list
+		* 	of style sheets to load.
 		*/
 		function removeStyleSheet(
-			sheet:ICssStyleSheet ):Boolean;
-			
-		/**
-		*	Gets a style sheet by identifier.
-		*	
-		*	@param id The identifier for the style sheet.
-		*	
-		*	@return The style sheet with the specified identifier
-		*	or null if no corresponding style sheet was located.
-		*/
-		function getStyleSheet( id:String ):ICssStyleSheet;
+			request:URLRequest ):Boolean;
 	}
 }

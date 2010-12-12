@@ -34,7 +34,7 @@ package com.ffsys.di
 		private static const TIMEOUT:Number = 10000;
 		
 		/**
-		*	@private	
+		*	@private
 		*/
 		private var _beanManager:IBeanManager;
 		
@@ -50,6 +50,7 @@ package com.ffsys.di
      	public function setUp():void
 		{
 			_beanManager = new BeanManager();
+			_beanManager.document.id = "master";
 			addRequests( _beanManager );
 			var queue:ILoaderQueue = _beanManager.load();
 			queue.addEventListener(
@@ -105,7 +106,14 @@ package com.ffsys.di
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			//TODO: assertions
+			
+			trace("BeanManagerTest::assertBeanManagerAssets()", _beanManager.document, _beanManager.document.id, _beanManager.document.length , _beanManager.document.beanNames );
+			
+			
+			
+			//test the filter declaration
+			assertFilterBean( _beanManager.document );
+			
 		}
 		
 		[Test(async)]

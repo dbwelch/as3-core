@@ -1,17 +1,15 @@
 package com.ffsys.ui.css {
 	
-	import flash.events.EventDispatcher;
 	import flash.filters.BitmapFilter;
+	import flash.text.TextFormat;
 	import flash.net.URLRequest;
-	import flash.utils.Dictionary;
 	
 	import com.ffsys.di.*;
 	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.resources.StyleSheetResource;
 	
-	import com.ffsys.utils.substitution.*;	
+	import com.ffsys.io.loaders.resources.StyleSheetResource;
 	
 	/**
 	*	Responsible for managing a collection of style sheets.
@@ -34,34 +32,66 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	Modifies the default behaviour to ensure a style sheet document
+		* 	is created.
+		*/
+		override public function get document():IBeanDocument
+		{
+			if( _document == null )
+			{
+				_document = StyleSheetFactory.create();
+			}
+			
+			return _document;
+		}
+		
+		/**
+		* 	Gets the document cast to a style sheet implementation.
+		*/
+		public function get stylesheet():ICssStyleSheet
+		{
+			return ICssStyleSheet( this.document );
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function addStyleSheet(
-			sheet:ICssStyleSheet = null,
-			request:URLRequest = null ):ICssStyleSheet
+			request:URLRequest ):ICssStyleSheet
 		{
-			if( sheet == null )
-			{
-				sheet = StyleSheetFactory.create();
-			}
-			return ICssStyleSheet( addBeanDocument( sheet ) );
+			return ICssStyleSheet( addBeanDocument( request ) );
 		}
 			
 		/**
 		*	@inheritDoc
 		*/
 		public function removeStyleSheet(
-			sheet:ICssStyleSheet ):Boolean
+			request:URLRequest ):Boolean
 		{
-			return removeBeanDocument( sheet );
+			return removeBeanDocument( request );
 		}
 		
 		/**
-		*	@inheritDoc	
+		* 	@inheritDoc
 		*/
-		public function getStyleSheet( id:String ):ICssStyleSheet
+		public function hasStyle( styleName:String ):Boolean
 		{
-			return ICssStyleSheet( getBeanDocument( id ) );
+			if( styleName != null && this.stylesheet )
+			{
+				return this.stylesheet.hasStyle( styleName );
+			}
+			return false;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function setStyle( styleName:String, style:Object ):void
+		{
+			if( styleName != null && this.stylesheet )
+			{
+				return this.stylesheet.setStyle( styleName, style );
+			}			
 		}
 		
 		/**
@@ -69,24 +99,9 @@ package com.ffsys.ui.css {
 		*/
 		public function getStyle( styleName:String ):Object
 		{
-			if( styleName != null )
+			if( styleName != null && this.stylesheet )
 			{
-				var documents:Vector.<IBeanDocument> = this.documents;
-				var doc:IBeanDocument = null;
-				var css:ICssStyleSheet = null;
-				var style:Object = null;			
-				for each( doc in documents )
-				{
-					css = doc as ICssStyleSheet;
-					if( css )
-					{
-						style = css.getStyle( styleName );
-						if( style )
-						{
-							return style;
-						}
-					}
-				}
+				return this.stylesheet.getStyle( styleName );
 			}
 			return null;
 		}
@@ -97,24 +112,9 @@ package com.ffsys.ui.css {
 		public function getStyles( styleName:String ):Array
 		{
 			var output:Array = new Array();
-			if( styleName != null )
+			if( styleName != null && this.stylesheet )
 			{
-				var documents:Vector.<IBeanDocument> = this.documents;
-				var doc:IBeanDocument = null;
-				var css:ICssStyleSheet = null;
-				var styles:Array = null;			
-				for each( doc in documents )
-				{
-					css = doc as ICssStyleSheet;
-					if( css )
-					{
-						styles = css.getStyles( styleName );
-						if( styles && styles.length > 0 )
-						{
-							output = output.concat.apply( output, styles );
-						}
-					}
-				}
+				return this.stylesheet.getStyles( styleName );
 			}
 			return output;
 		}
@@ -132,26 +132,108 @@ package com.ffsys.ui.css {
 		*/
 		public function getFilter( styleName:String ):BitmapFilter
 		{
-			if( styleName != null )
+			if( styleName != null && this.stylesheet )
 			{
-				var documents:Vector.<IBeanDocument> = this.documents;
-				var doc:IBeanDocument = null;
-				var css:ICssStyleSheet = null;
-				var filter:BitmapFilter = null;
-				for each( doc in documents )
-				{
-					css = doc as ICssStyleSheet;
-					if( css )
-					{
-						filter = css.getFilter( styleName );
-						if( filter )
-						{
-							return filter;
-						}
-					}
-				}
+				return this.stylesheet.getFilter( styleName );
 			}
 			return null;
 		}
-	}	
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function transform( style:Object ):TextFormat
+		{
+			if( style != null && this.stylesheet )
+			{
+				return this.stylesheet.transform( style );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyleNameList( target:IStyleAware, ... custom ):Array
+		{
+			var styles:Array = new Array();
+			if( target != null && this.stylesheet )
+			{
+				if( custom == null )
+				{
+					custom = new Array();
+				}
+				custom.unshift( target );
+				styles = this.stylesheet.getStyleNameList.apply( this.stylesheet, custom );
+			}
+			return styles;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyleNames( target:IStyleAware, ... custom ):String
+		{
+			var styles:String = null;
+			if( target != null && this.stylesheet )
+			{
+				if( custom == null )
+				{
+					custom = new Array();
+				}
+				custom.unshift( target );
+				styles = this.stylesheet.getStyleNames.apply( this.stylesheet, custom );
+			}
+			return styles;
+		}
+
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyleObjects( target:IStyleAware, ... custom ):Array
+		{
+			var styles:Array = new Array();
+			if( target != null && this.stylesheet )
+			{
+				if( custom == null )
+				{
+					custom = new Array();
+				}
+				custom.unshift( target );
+				styles = this.stylesheet.getStyleObjects.apply( this.stylesheet, custom );
+			}
+			return styles;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function apply(
+			target:Object,
+			styleName:String ):Array
+		{
+			var styles:Array = new Array();
+			if( target != null && styleName != null && this.stylesheet )
+			{
+				styles = this.stylesheet.apply( target, styleName );
+			}
+			return styles;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function style( target:IStyleAware, ...custom ):void
+		{
+			if( target && this.stylesheet )
+			{
+				if( custom == null )
+				{
+					custom = new Array();
+				}
+				custom.unshift( target );
+				this.stylesheet.style.apply( this.stylesheet, custom );
+			}
+		}
+	}
 }

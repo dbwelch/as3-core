@@ -126,5 +126,15 @@ package com.ffsys.di
 		* 	@return The bean descriptor if found otherwise <code>null</code>.
 		*/
 		function getBeanDescriptor( beanName:String ):IBeanDescriptor;
+		
+		/**
+		* 	Copies the contents of another bean document into this
+		* 	document.
+		* 
+		* 	@param document The target document to copy into this document.
+		* 	
+		* 	@return The number of descriptors in this document after the copy.
+		*/
+		function copy( document:IBeanDocument ):uint;
 	}
 }

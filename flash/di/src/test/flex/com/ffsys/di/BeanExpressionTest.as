@@ -53,8 +53,9 @@ package com.ffsys.di
 		[Test]
 		public function beanExpressionTest():void
 		{
-			var parser:BeanTextParser = new BeanTextParser();
-			var document:IBeanDocument = parser.parse( sample );
+			var document:IBeanDocument = new BeanDocument();
+			document.parse( sample );
+			
 			Assert.assertNotNull( document );
 			Assert.assertEquals( 4, document.length );
 			assertExpressions( document );

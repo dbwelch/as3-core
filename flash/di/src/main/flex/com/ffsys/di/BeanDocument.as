@@ -24,7 +24,7 @@ package com.ffsys.di
 		private var _delimiter:String = "|";		
 		private var _bindings:IBindingCollection = new BindingCollection();
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
-		private var _files:Vector.<BeanFileDependency> = new Vector.<BeanFileDependency>();
+		private var _files:Vector.<BeanFileDependency> = null;
 		
 		/**
 		* 	Creates a <code>BeanDocument</code> instance.
@@ -61,9 +61,12 @@ package com.ffsys.di
 		public function get dependencies():ILoaderQueue
 		{
 			var output:ILoaderQueue = new LoaderQueue();
-			for( var i:int = 0;i < this.files.length;i++ )
+			if( this.files != null )
 			{
-				output.addLoader( files[ i ].getLoader() );
+				for( var i:int = 0;i < this.files.length;i++ )
+				{
+					output.addLoader( files[ i ].getLoader() );
+				}
 			}
 			return output;
 		}
@@ -77,6 +80,9 @@ package com.ffsys.di
 			{
 				parser = new BeanTextParser( this );
 			}
+			
+			//reset the file list
+			_files = new Vector.<BeanFileDependency>();
 			
 			parser.document = this;
 			parser.parse( text );
@@ -232,6 +238,24 @@ package com.ffsys.di
 				}
 			}
 			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function copy( document:IBeanDocument ):uint
+		{
+			if( document != null )
+			{
+				var names:Array = document.beanNames;
+				var descriptor:IBeanDescriptor = null;
+				for( var i:int = 0;i < names.length;i++ )
+				{
+					descriptor = document.getBeanDescriptor( names[ i ] );
+					addBeanDescriptor( descriptor );
+				}
+			}
+			return this.length;
 		}
 
 		/**

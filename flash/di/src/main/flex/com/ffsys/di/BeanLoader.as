@@ -76,6 +76,14 @@ package com.ffsys.di {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override protected function shouldParseText():Boolean
+		{
+			return true;
+		}		
+		
+		/**
 		*	Parses the beans document text into a bean document.
 		* 
 		* 	@param text The bean document text.

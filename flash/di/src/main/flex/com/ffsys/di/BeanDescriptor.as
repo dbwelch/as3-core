@@ -239,9 +239,9 @@ package com.ffsys.di
 					if( idCandidate is String )
 					{
 						this.id = ( idCandidate as String );
-						delete target[ BeanConstants.ID_PROPERTY ];
+						//we don't delete the id property as it may need to be assigned
 					}
-				}		
+				}
 			
 				_properties = target;
 			}

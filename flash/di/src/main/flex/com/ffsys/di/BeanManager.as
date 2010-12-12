@@ -31,7 +31,11 @@ package com.ffsys.di {
 		implements IBeanManager {
 		
 		private var _beanDocuments:Vector.<BeanDocumentEntry> = new Vector.<BeanDocumentEntry>();
-		private var _document:IBeanDocument;
+		
+		/**
+		* 	@private
+		*/
+		protected var _document:IBeanDocument;
 		
 		//TODO: refactor the dependency queue to be a nested queue
 		private var _queue:ILoaderQueue;
@@ -141,13 +145,13 @@ package com.ffsys.di {
 			_queue = new LoaderQueue();
 			
 			var loader:BeanLoader = null;
-			var document:IBeanDocument = null;
 			var entry:BeanDocumentEntry = null;
 			for each( entry in _beanDocuments )
 			{
-				document = IBeanDocument( entry.document );
 				loader = new BeanLoader( entry.request );
-				loader.document = document;
+				loader.document = this.document;
+				
+				trace("BeanManager::load()", loader.document, loader.document == this.document );
 				
 				//TODO: re-implement
 				//loader.addEventListener( LoadEvent.DATA, itemLoaded );

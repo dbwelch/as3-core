@@ -202,7 +202,10 @@ package com.ffsys.ui.css {
 	
 				//add the class level style name
 				var className:String = getQualifiedClassName( target );
-				className = className.substr( className.indexOf( "::" ) + 2 );
+				
+				//class name must be converted to lower case as the StyleSheet
+				//style parsing logic converts style names to lower case
+				className = className.substr( className.indexOf( "::" ) + 2 ).toLowerCase();
 				if( className )
 				{
 					styleParts.unshift( className );
