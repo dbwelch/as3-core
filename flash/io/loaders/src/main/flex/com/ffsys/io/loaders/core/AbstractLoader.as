@@ -334,6 +334,11 @@ package com.ffsys.io.loaders.core {
 			Notifier.dispatchEvent( evt as Event );
 		}
 		
+		/**
+		* 	Adds the ability for loader implementations
+		* 	to aumatically generate an identifier based
+		* 	on the file name of the resource.
+		*/
 		override public function get id():String
 		{
 			if( !_id && this.options && this.options.autoGenerateId )

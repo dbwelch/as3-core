@@ -28,11 +28,11 @@ package com.ffsys.io.loaders.display {
 		}
 		
 		/**
-		*	@inheritDoc
+		*	Destroys this display object.
 		*/
 		public function destroy():void
 		{
-			//no references to clean at the moment : 8/12/2007
+			//
 		}
 	}
 }

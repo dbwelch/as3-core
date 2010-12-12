@@ -1,10 +1,6 @@
 package com.ffsys.io.loaders.display {
 	
-	import flash.display.Loader;	
 	import flash.events.IEventDispatcher;
-	import flash.system.LoaderContext;
-	import flash.utils.ByteArray;
-	
 	import com.ffsys.core.IDestroy;
 	
 	/**
@@ -20,18 +16,5 @@ package com.ffsys.io.loaders.display {
 	public interface IAbstractDisplay
 		extends IDestroy,
 				IEventDispatcher {
-		
-		/*
-		function loadBytes(
-			bytes:ByteArray,
-			context:LoaderContext = null ):void;
-		*/
-		
-		/*
-		function set loader( val:Loader ):void;
-		function get loader():Loader;
-		*/
-		
-		//function get loader():Loader;
 	}
 }

@@ -195,16 +195,11 @@ package com.ffsys.io.loaders.core
 		}		
 		
 		/**
-		* 	@inheritDoc
+		* 	The total number of bytes loaded.
 		*/		
 		public function get bytesTotal():uint
 		{
 			return _bytesTotal;
-		}
-		
-		public function set bytesTotal( val:uint ):void
-		{
-			_bytesTotal = val;
 		}
 		
 		/**

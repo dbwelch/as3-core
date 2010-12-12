@@ -16,13 +16,6 @@ package com.ffsys.io.loaders.core {
 		extends ILoaderElement,
 				IResourceAccess,
 				IPriorityQueue {
-		
-		/**
-		*	Instructs this queue if it is paused to
-		*	resume it's load operations from the next
-		*	index.
-		*/
-		function resume():void;
 					
 		/**
 		*	Flushes any loaded resources.

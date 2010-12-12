@@ -5,7 +5,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.core.IDestroy;	
 	import com.ffsys.core.IStringIdentifier;
 	
-	import com.ffsys.io.core.IBytesTotal;	
 	import com.ffsys.io.connection.IConnection;
 	
 	import com.ffsys.io.loaders.resources.IResourceElement;	
@@ -22,8 +21,7 @@ package com.ffsys.io.loaders.core {
 	*/
 	public interface ILoaderElement
 		extends IConnection,
-				IStringIdentifier,
-				IBytesTotal,				
+				IStringIdentifier,				
 				IDestroy,
 				IEventDispatcher {	
 					
@@ -58,13 +56,6 @@ package com.ffsys.io.loaders.core {
 		*/
 		function set customData( val:Object ):void;
 		function get customData():Object;					
-					
-		/**
-		* 	The total number of bytes.
-		*/		
-		//function get bytesTotal():uint;
-		
-		//function set bytesTotal( val:uint ):void;
 				
 		/**
 		*	A queue that owns this element.
@@ -74,6 +65,11 @@ package com.ffsys.io.loaders.core {
 		*/		
 		function set queue( queue:ILoaderQueue ):void;
 		function get queue():ILoaderQueue;
+		
+		/**
+		* 	The total number of bytes.
+		*/		
+		function get bytesTotal():uint;
 		
 		/**
 		* 	The total number of bytes this element has loaded
@@ -90,7 +86,12 @@ package com.ffsys.io.loaders.core {
 		*	until the resume method is called.
 		*/
 		function get paused():Boolean;
-		function set paused( paused:Boolean ):void;		
+		function set paused( paused:Boolean ):void;	
+		
+		/**
+		*	Resumes a paused load operation.
+		*/
+		function resume():void;
 		
 		/**
 		*	Indicates whether a load operation is currently

@@ -9,7 +9,6 @@ package com.ffsys.io.loaders.core {
 	
 	import com.ffsys.events.Notifier;
 	
-	import com.ffsys.io.core.IBytesTotal;
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
@@ -28,8 +27,7 @@ package com.ffsys.io.loaders.core {
 	*	@since  10.07.2007
 	*/
 	public class LoaderQueue extends LoaderElement
-		implements	ILoaderQueue,
-					IBytesTotal {
+		implements	ILoaderQueue {
 		
 		private var _elements:Array;
 		private var _current:ILoaderElement;
@@ -50,7 +48,7 @@ package com.ffsys.io.loaders.core {
 			_resource = new ResourceList();
 			reset();
 			clear();
-			this.bytesTotal = 0;
+			_bytesTotal = 0;
 		}
 		
 		/**
