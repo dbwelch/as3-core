@@ -1,11 +1,7 @@
 package com.ffsys.io.loaders.core {
 
 	import flash.events.Event;
-	import flash.events.IEventDispatcher;
-	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
-	import flash.events.HTTPStatusEvent;
-	import flash.events.IOErrorEvent;	
+	import flash.events.IEventDispatcher;	
 	import flash.net.URLStream;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
@@ -55,54 +51,6 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		* 	Adds listeners to the super class.
-		*/
-        override protected function addListeners():void
-		{
-            addEventListener(
-				Event.COMPLETE, completeHandler, false, 0, true );
-				
-            addEventListener(
-				Event.OPEN, openHandler, false, 0, true );
-				
-            addEventListener(
-				ProgressEvent.PROGRESS, progressHandler, false, 0, true );
-				
-            addEventListener(
-				SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler, false, 0, true );
-				
-            addEventListener(
-				HTTPStatusEvent.HTTP_STATUS, httpStatusHandler, false, 0, true );
-				
-            addEventListener(
-				IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
-        }
-		
-		/**
-		* 	Removes listeners from the super class.
-		*/
-		override protected function removeListeners():void
-		{
-            removeEventListener(
-				Event.COMPLETE, completeHandler );
-				
-            removeEventListener(
-				Event.OPEN, openHandler );
-				
-            removeEventListener(
-				ProgressEvent.PROGRESS, progressHandler );
-				
-            removeEventListener(
-				SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
-				
-            removeEventListener(
-				HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
-				
-            removeEventListener(
-				IOErrorEvent.IO_ERROR, ioErrorHandler );			
-		}
-		
-		/**
 		*	@inheritDoc	
 		*/		
 		override public function load():void
@@ -117,11 +65,11 @@ package com.ffsys.io.loaders.core {
 			if( _composite )
 			{
 				close();
-				removeListeners();
+				removeCompositeListeners( IEventDispatcher( _composite ) );
 			}
 			
 			_composite = new URLStream();
-			addListeners();			
+			addCompositeListeners( IEventDispatcher( _composite ) );
 
 			_loading = true;
 			_loaded = false;
@@ -153,134 +101,7 @@ package com.ffsys.io.loaders.core {
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}
-			
-			dispatchLoadCompleteEvent();
-        }
-
-		/**
-		*	@private	
-		*/
-        override protected function openHandler( event:Event ):void
-		{
-			var evt:LoadEvent = new LoadEvent(
-				LoadEvent.LOAD_START, event, this );
-			dispatchEvent( evt as Event );
-			Notifier.dispatchEvent( evt as Event );
-        }
-
-		/**
-		*	@private	
-		*/
-        override protected function progressHandler( event:ProgressEvent ):void
-		{
-			var evt:LoadEvent = new LoadEvent(
-				LoadEvent.LOAD_PROGRESS, event, this );
-			dispatchEvent( evt as Event );
-			Notifier.dispatchEvent( evt as Event );
-        }
-
-		/**
-		*	@private	
-		*/
-        override protected function securityErrorHandler( event:SecurityErrorEvent ):void
-		{
-			loadFailure();
-			
-			//-->
-            trace( "securityErrorHandler: " + event );
-			
-			/*
-			dispatchEvent( event as Event );
-			Notifier.dispatchEvent( event as Event );
-			*/
-        }
-
-		/**
-		*	@private	
-		*/
-        override protected function httpStatusHandler( event:HTTPStatusEvent ):void
-		{
-			//trace( "Http status : " + event.status );
-		
-			if( event.status == 404 )
-			{
-				dispatchResourceNotFoundEvent( event );
-			}else{
-			
-				//--> stack overflow on clone() ???
-				//dispatchEvent( event as Event );
-				
-				Notifier.dispatchEvent( event as Event );
-			}
-        }
-
-		/**
-		*	@private	
-		*/
-        override protected function ioErrorHandler( event:IOErrorEvent ):void
-		{
-			dispatchResourceNotFoundEvent( event );
-        }
-
-		/**
-		*	@private	
-		*/
-		protected function dispatchLoadCompleteEvent():void
-		{
-			removeListeners();
-			
-			var event:Event = new Event( Event.COMPLETE );
-			var evt:LoadEvent = new LoadEvent(
-				LoadEvent.LOAD_COMPLETE, event, this );
-			
-			dispatchEvent( evt );
-			
-			Notifier.dispatchEvent( evt );
-		}
-		
-		/**
-		*	@private	
-		*/		
-		override protected function dispatchResourceNotFoundEvent(
-			event:Event, loader:ILoader = null ):void
-		{
-			removeListeners();
-		
-			close();
-			
-			loadFailure();
-			
-			if( !loader )
-			{
-				try {
-					loader = ILoader( event.target );
-				}catch( e:Error )
-				{
-					loader = this as ILoader;
-				}
-			}
-			
-			/*
-			trace( "Resource not found uri : " + this.uri );
-			trace( "Resource not found quiet : " + options.quietOnResourceNotFound );
-			trace( "Resource not found continue : " + options.continueOnResourceNotFound );
-			*/
-			
-			if( !queue && options.fatal )
-			{
-				throw new Error(
-					"ILoader fatal resource not found error: " + this.uri );
-			}
-			
-			var evt:LoadEvent =
-				new LoadEvent(
-					LoadEvent.RESOURCE_NOT_FOUND ,event as Event, loader );
-			
-			//ensure a queue always receives the ResourceNotFoundEvent
-			
-			dispatchEvent( evt as Event );
-			Notifier.dispatchEvent( evt as Event );
-		}					
+        }					
 		
 		/**
 		*	Closes any open connection.
@@ -292,7 +113,7 @@ package com.ffsys.io.loaders.core {
 				
 				//if we closed the stream we should remove our
 				//listeners
-				removeListeners();
+				removeCompositeListeners( IEventDispatcher( _composite ) );
 				
 				//only set these flags if the above attempt to
 				//close the underlying stream did not throw an

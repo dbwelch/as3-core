@@ -1,6 +1,7 @@
 package com.ffsys.io.loaders.types {
 	
 	import flash.events.Event;
+	import flash.events.IEventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	
@@ -43,36 +44,6 @@ package com.ffsys.io.loaders.types {
 		}
 		
 		/**
-		* 	@inheritDoc
-		*/
-		override protected function addListeners():void
-		{
-			_composite.addEventListener(
-				Event.COMPLETE, completeHandler, false, 0, true );
-			_composite.addEventListener(
-				Event.OPEN, openHandler, false, 0, true );
-			_composite.addEventListener(
-				ProgressEvent.PROGRESS, progressHandler, false, 0, true );
-			_composite.addEventListener(
-				IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );			
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/		
-		override protected function removeListeners():void
-		{
-			_composite.removeEventListener(
-				Event.COMPLETE, completeHandler );
-			_composite.removeEventListener(
-				Event.OPEN, openHandler );
-			_composite.removeEventListener(
-				ProgressEvent.PROGRESS, progressHandler );
-			_composite.removeEventListener(
-				IOErrorEvent.IO_ERROR, ioErrorHandler );
-		}
-		
-		/**
 		* 	The sound loader context used to load the sound.
 		*/
 		public function get context():SoundLoaderContext
@@ -101,11 +72,11 @@ package com.ffsys.io.loaders.types {
 			if( _composite )
 			{
 				close();
-				removeListeners();				
+				removeCompositeListeners( IEventDispatcher( _composite ) );				
 			}
 			
 			_composite = new Sound();
-			addListeners();
+			addCompositeListeners( IEventDispatcher( _composite ) );
 			
 			//start the load operation on the composite
 			this.sound.load( this.request, _context );

@@ -53,63 +53,6 @@ package com.ffsys.io.loaders.core {
 			super( request, options );
 			_composite = new Loader();
 			_context = new LoaderContext();
-		}
-		
-		/**
-		* 	Overrides the default behaviour to add listeners
-		* 	to the encapsulated <code>Loader</code>.
-		*/
-        override protected function addListeners():void
-		{
-			
-			if( loader )
-			{
-	            loader.contentLoaderInfo.addEventListener(
-					Event.COMPLETE, completeHandler, false, 0, true );
-				
-	            loader.contentLoaderInfo.addEventListener(
-					Event.OPEN, openHandler, false, 0, true );
-				
-	            loader.contentLoaderInfo.addEventListener(
-					ProgressEvent.PROGRESS, progressHandler, false, 0, true );
-				
-	            loader.contentLoaderInfo.addEventListener(
-					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler, false, 0, true );
-				
-	            loader.contentLoaderInfo.addEventListener(
-					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler, false, 0, true );
-				
-	            loader.contentLoaderInfo.addEventListener(
-					IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
-			}
-        }
-
-		/**
-		* 	Overrides the default behaviour to remove listeners
-		* 	from the encapsulated <code>Loader</code>.
-		*/
-		override protected function removeListeners():void
-		{
-			if( loader )
-			{
-	            loader.contentLoaderInfo.removeEventListener(
-					Event.COMPLETE, completeHandler );
-					
-	            loader.contentLoaderInfo.removeEventListener(
-					Event.OPEN, openHandler );
-					
-	            loader.contentLoaderInfo.removeEventListener(
-					ProgressEvent.PROGRESS, progressHandler );
-					
-	            loader.contentLoaderInfo.removeEventListener(
-					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
-					
-	            loader.contentLoaderInfo.removeEventListener(
-					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
-				
-	            loader.contentLoaderInfo.removeEventListener(
-					IOErrorEvent.IO_ERROR, ioErrorHandler );
-			}			
 		}		
 		
 		/**
@@ -176,10 +119,11 @@ package com.ffsys.io.loaders.core {
 			{
 				close();
 				unload();
+				
+				removeCompositeListeners( loader.contentLoaderInfo );
 			}
 			
 			_composite = new Loader();
-			removeListeners();
 			_loading = true;
 			_loaded = false;
 			_complete = false;
@@ -187,7 +131,7 @@ package com.ffsys.io.loaders.core {
 			//
 			if( loader )
 			{
-				addListeners();
+				addCompositeListeners( loader.contentLoaderInfo );
 				loader.load( this.request, context );
 			}
 		}

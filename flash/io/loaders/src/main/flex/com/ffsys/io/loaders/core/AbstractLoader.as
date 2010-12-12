@@ -104,27 +104,29 @@ package com.ffsys.io.loaders.core {
 		* 
 		* 	Concrete implementations can modify the default behaviour
 		* 	of adding event listeners to the <code>URLLoader</code> super class.
+		* 
+		* 	@param target The target event dispatcher.
 		*/
-        protected function addListeners():void
+        override protected function addCompositeListeners( target:IEventDispatcher ):void
 		{
-			if( _composite )
+			if( target )
 			{
-	            _composite.addEventListener(
+	            target.addEventListener(
 					Event.COMPLETE, completeHandler, false, 0, true );
 				
-	            _composite.addEventListener(
+	            target.addEventListener(
 					Event.OPEN, openHandler, false, 0, true );
 				
-	            _composite.addEventListener(
+	            target.addEventListener(
 					ProgressEvent.PROGRESS, progressHandler, false, 0, true );
 				
-	            _composite.addEventListener(
+	            target.addEventListener(
 					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler, false, 0, true );
 				
-	            _composite.addEventListener(
+	            target.addEventListener(
 					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler, false, 0, true );
 				
-	            _composite.addEventListener(
+	            target.addEventListener(
 					IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
 			}
         }
@@ -134,27 +136,29 @@ package com.ffsys.io.loaders.core {
 		* 
 		* 	Concrete implementations can modify the default behaviour
 		* 	of removing event listeners from the <code>URLLoader</code> super class.
+		* 
+		* 	@param target The target event dispatcher.
 		*/
-		protected function removeListeners():void
+		override protected function removeCompositeListeners( target:IEventDispatcher ):void
 		{
-			if( _composite )
+			if( target )
 			{			
-	            _composite.removeEventListener(
+	            target.removeEventListener(
 					Event.COMPLETE, completeHandler );
 				
-	            _composite.removeEventListener(
+	            target.removeEventListener(
 					Event.OPEN, openHandler );
 				
-	            _composite.removeEventListener(
+	            target.removeEventListener(
 					ProgressEvent.PROGRESS, progressHandler );
 				
-	            _composite.removeEventListener(
+	            target.removeEventListener(
 					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
 				
-	            _composite.removeEventListener(
+	            target.removeEventListener(
 					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
 			
-	            _composite.removeEventListener(
+	            target.removeEventListener(
 					IOErrorEvent.IO_ERROR, ioErrorHandler );
 			}
 		}
@@ -172,7 +176,7 @@ package com.ffsys.io.loaders.core {
 			if( _composite )
 			{
 				close();
-				removeListeners();
+				removeCompositeListeners( IEventDispatcher( _composite ) );
 			}
 			
 			_composite = new URLLoader();
@@ -182,7 +186,7 @@ package com.ffsys.io.loaders.core {
 				_composite.dataFormat = dataFormat;
 			}
 			
-			addListeners();
+			addCompositeListeners( IEventDispatcher( _composite ) );
 				
 			_loading = true;
 			_loaded = false;
@@ -304,7 +308,7 @@ package com.ffsys.io.loaders.core {
 		protected function dispatchResourceNotFoundEvent(
 			event:Event, loader:ILoader = null ):void
 		{
-			removeListeners();
+			removeCompositeListeners( IEventDispatcher( _composite ) );
 		
 			close();
 			
@@ -405,7 +409,7 @@ package com.ffsys.io.loaders.core {
 				
 				//if we closed the stream we should remove our
 				//listeners
-				removeListeners();
+				removeCompositeListeners( IEventDispatcher( _composite ) );
 				
 				//only set these flags if the above attempt to
 				//close the underlying stream did not throw an

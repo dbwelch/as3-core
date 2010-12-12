@@ -34,12 +34,12 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
 		public function get streaming():Boolean
 		{
 			return _streaming;
-		}		
+		}
 
 		public function set streaming( val:Boolean ):void
 		{
