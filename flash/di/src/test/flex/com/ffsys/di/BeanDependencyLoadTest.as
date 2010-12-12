@@ -4,6 +4,7 @@ package com.ffsys.di
 	import flash.filters.*;
 	import flash.events.*;
 	import flash.media.*;
+	import flash.text.*;
 	import flash.net.*;
 	
 	import org.flexunit.Assert;
@@ -120,6 +121,11 @@ package com.ffsys.di
 			Assert.assertTrue( dependencies.propertyMovie is Loader );
 			Assert.assertTrue( dependencies.propertyXml is XML );
 			Assert.assertTrue( dependencies.propertyText is String );
+			Assert.assertTrue( dependencies.propertyFont is Array );
+			
+			var fonts:Array = ( dependencies.propertyFont as Array );
+			Assert.assertEquals( 1, fonts.length );
+			Assert.assertTrue( fonts[ 0 ] is Font );			
 		}
 		
 		[Test(async)]

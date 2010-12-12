@@ -16,7 +16,8 @@ package com.ffsys.di
 				property-sound: sound( assets/mock-di-sound.mp3 );
 				property-movie: swf( assets/mock-di-movie.swf );
 				property-xml: xml( assets/mock-di-xml.xml );
-				property-text: text( assets/mock-di-text.txt );				
+				property-text: text( assets/mock-di-text.txt );
+				property-font: font( assets/mock-di-fonts.swf );
 			}
 				
 			]]>).toString();
