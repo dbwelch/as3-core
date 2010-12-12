@@ -2,9 +2,10 @@ package com.ffsys.di
 {
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
-	
+
+	import flash.display.*;
+	import flash.geom.*;
 	import flash.net.*;
-	import flash.display.Sprite;
 	
 	/**
 	*	Unit tests for css expressions.
@@ -26,6 +27,8 @@ package com.ffsys.di
 				url-expression: url( http://google.com );
 				red: constant( red );
 				constant-class: constant( constant-class );
+				point: point( 16, 32 );
+				rect: rect( 16, 32, 64, 128 );
 			}
 			
 			arrays {
@@ -59,6 +62,23 @@ package com.ffsys.di
 			Assert.assertNotNull( document );
 			Assert.assertEquals( 4, document.length );
 			assertExpressions( document );
+			
+			var expressions:Object = document.getBean( "expressions" );
+			Assert.assertNotNull( expressions );
+			
+			var point:Object = expressions.point;
+			Assert.assertTrue( point is Point );
+			var p:Point = Point( point );
+			Assert.assertEquals( 16, p.x );
+			Assert.assertEquals( 32, p.y );
+			
+			var rect:Object = expressions.rect;
+			Assert.assertTrue( rect is Rectangle );
+			var r:Rectangle = Rectangle( rect );
+			Assert.assertEquals( 16, r.left );
+			Assert.assertEquals( 32, r.top );
+			Assert.assertEquals( 64, r.width );
+			Assert.assertEquals( 128, r.height );			
 		}
 	}
 }

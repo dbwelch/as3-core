@@ -148,5 +148,21 @@ package com.ffsys.di
 		* 	loader parsed the loaded font data.
 		*/
 		public static const FONT_EXPRESSION:String = "font";
+		
+		/**
+		*	An expression to declare a point.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>Point</code>.
+		*/
+		public static const POINT_EXPRESSION:String = "point";		
+		
+		/**
+		*	An expression to declare a rectangle.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>Rectangle</code>.
+		*/
+		public static const RECTANGLE_EXPRESSION:String = "rect";
 	}
 }

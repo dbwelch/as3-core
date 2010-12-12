@@ -1,5 +1,6 @@
 package com.ffsys.di
 {
+	import flash.geom.*;
 	import flash.net.URLRequest;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
@@ -151,6 +152,7 @@ package com.ffsys.di
 			
 			var value:String = candidate.replace( _extensionExpression, "$1" );
 			value = new StringTrim().trim( value );
+			var parameters:Array = null;
 			
 			switch( extension )
 			{
@@ -203,6 +205,39 @@ package com.ffsys.di
 				case BeanConstants.ARRAY_EXPRESSION:
 					output = new BeanArray( beanName, beanProperty, value );
 					break;
+				case BeanConstants.POINT_EXPRESSION:
+					output = new Point();
+					parameters = parseParts( value, beanName, beanProperty );
+					if( parameters.length > 2 )
+					{
+						throw new Error( "Too many parameters for a point expression." );
+					}
+					
+					if( parameters.length > 0 )
+					{
+						var p:Point = Point( output );
+						p.x = parameters[ 0 ];	
+						if( parameters.length > 1 )
+						{
+							p.y = parameters[ 1 ];
+						}
+					}
+					break;					
+				case BeanConstants.RECTANGLE_EXPRESSION:
+					output = new Rectangle();
+					parameters = parseParts( value, beanName, beanProperty );
+					
+					if( parameters.length != 4 )
+					{
+						throw new Error( "Incorrect parameter count for a rectangle expression, must be: left, top, width, height." );
+					}
+
+					var r:Rectangle = Rectangle( output );
+					r.left = parameters[ 0 ];
+					r.top = parameters[ 1 ];
+					r.width = parameters[ 2 ];
+					r.height = parameters[ 3 ];
+					break;
 				default:
 					throw new Error(
 						"Could not handle bean expression with identifier '" + extension + "'." );
@@ -220,6 +255,42 @@ package com.ffsys.di
 		/**
 		* 	@private
 		*/
+		private function toParts( value:String, delimiter:String = "," ):Array
+		{
+			var parts:Array = value.split( "," );
+			var part:String = null;
+			for( var i:int = 0;i < parts.length;i++ )
+			{
+				part = String( parts[ i ] );
+				part = part.replace(/^\s+/,"");
+				part = part.replace(/\s+$/,"");
+				parts[ i ] = part;
+			}			
+			return parts;
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function parseParts(
+			value:String,
+			beanName:String,
+			beanProperty:String,
+			delimiter:String = "," ):Array
+		{
+			var output:Array = new Array();
+			var parts:Array = toParts( value, delimiter );
+			var part:String = null;			
+			for( var i:int = 0;i < parts.length;i++ )
+			{
+				output.push( parse( parts[ i ], beanName, beanProperty ) );
+			}
+			return output;
+		}
+		
+		/**
+		* 	@private
+		*/
 		private function getSubstitutor( source:String, target:Object = null ):Substitutor
 		{
 			if( !_substitutor )
@@ -228,10 +299,8 @@ package com.ffsys.di
 				_substitutor.startDelimiter = "<";
 				_substitutor.endDelimiter = ">";
 			}
-			
 			_substitutor.source = source;
 			_substitutor.target = target;
-			
 			return _substitutor;
 		}		
 	}
