@@ -57,10 +57,10 @@ package com.ffsys.io.loaders.types {
 				LoadEvent.DATA,
 				event,
 				this,
-				resource as ImageResource
+				resource
 			);
 			
-			super.completeHandler( event, bitmapData );			
+			super.completeHandler( event, bitmapData );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
 			

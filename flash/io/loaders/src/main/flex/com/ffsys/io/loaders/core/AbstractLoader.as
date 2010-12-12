@@ -206,6 +206,8 @@ package com.ffsys.io.loaders.core {
 			data:Object = null ):void
 		{
 			loadSuccess();
+			//clean our listeners as we loaded successfully
+			removeCompositeListeners( IEventDispatcher( _composite ) );
         }
 		
 		/**

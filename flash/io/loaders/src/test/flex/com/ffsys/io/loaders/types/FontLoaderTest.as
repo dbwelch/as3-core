@@ -56,10 +56,19 @@ package com.ffsys.io.loaders.types {
 			Assert.assertTrue(
 				event is LoadEvent );
 			Assert.assertNotNull( event.resource );
-			Assert.assertTrue( event.resource is FontResource );
+			Assert.assertTrue( event.resource is ObjectResource );
 			
 			var fonts:Array = Font.enumerateFonts();
 			Assert.assertTrue( fonts.length > 0 );
+			
+			//font loaders create an object resource containing the
+			//registered fonts in an array
+			var data:Object = ObjectResource( event.resource ).data;
+			Assert.assertTrue( data is Array );
+			
+			var registered:Array = ( data as Array );
+			Assert.assertEquals( 1, registered.length );
+			Assert.assertTrue( registered[ 0 ] is Font );
 		}
 		
 		[Test(async)]

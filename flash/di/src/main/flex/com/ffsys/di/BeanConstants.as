@@ -58,57 +58,90 @@ package com.ffsys.di
 		public static const CONSTANTS_PROPERTY_NAME:String = "constants";			
 		
 		/**
-		*	Represents a bean expression that references a class.
-		*	
-		*	The class must be available when the bean document is
-		*	parsed.
+		*	An expression to reference a linked class.
+		* 
+		* 	The class must be available when this expression is resolved.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to <code>Class</code>.
 		*/
 		public static const CLASS_EXPRESSION:String = "class";
 		
 		/**
-		*	Represents an external bean url expression.
+		*	An expression to create a url.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to <code>URLRequest</code>.
 		*/
 		public static const URL_EXPRESSION:String = "url";
 	
 		/**
-		*	Represents a reference to a bean or bean property
-		* 	in the same document.
+		*	An expression that references another bean in the same document.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to the result of evaluating the bean reference.
 		*/
 		public static const REF_EXPRESSION:String = "ref";
 		
 		/**
-		*	Represents a reference to a bean constant declaration.
+		*	An expression that references a declared constant.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to the result of evaluating the constant property.
 		*/
 		public static const CONSTANT_EXPRESSION:String = "constant";
 		
 		/**
-		*	Represents an array collection expression.
+		*	An expression to create an array.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to <code>Array</code>.
 		*/
 		public static const ARRAY_EXPRESSION:String = "array";
 		
 		/**
-		*	Represents an external bean bitmap expression.
+		*	An expression to load an image file.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to <code>BitmapData</code>.
 		*/
 		public static const BITMAP_EXPRESSION:String = "img";
 		
 		/**
-		*	Represents an external bean sound expression.
+		*	An expression to load a sound file.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>Sound</code>.
 		*/
 		public static const SOUND_EXPRESSION:String = "sound";
 		
 		/**
-		*	Represents an external bean swf movie expression.
+		*	An expression to load a flash movie.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>Loader</code>.
 		*/
 		public static const SWF_EXPRESSION:String = "swf";
 		
 		/**
-		*	Represents an external bean xml document expression.
+		*	An expression to load an <code>XML</code> document.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to <code>XML</code>.
 		*/
 		public static const XML_EXPRESSION:String = "xml";
 		
 		/**
-		*	Represents an external bean text document expression.
+		*	An expression to load a plain text file.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>String</code>.
 		*/
 		public static const TEXT_EXPRESSION:String = "text";
+		
+		/**
+		*	An expression to load a flash movie containing fonts.
+		*/
+		public static const FONT_EXPRESSION:String = "font";
 	}
 }

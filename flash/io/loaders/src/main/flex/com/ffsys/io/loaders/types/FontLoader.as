@@ -20,7 +20,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.AbstractDisplayLoader;
 	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.resources.FontResource;
+	import com.ffsys.io.loaders.resources.ObjectResource;
 	
 	/**
 	*	Loads flash movies containing embedded fonts.
@@ -57,19 +57,17 @@ package com.ffsys.io.loaders.types {
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-			this.resource = new FontResource(
-				loader, uri, bytesTotal );
-			
+			var fonts:Array = initializeFonts( this.loader );
+			this.resource = new ObjectResource(
+				fonts, uri, bytesTotal );
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,
 				event,
 				this,
-				resource as FontResource
+				resource
 			);
 			
-			initializeFonts( this.loader );
-			
-			super.completeHandler( event );
+			super.completeHandler( event, fonts );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
 
@@ -80,9 +78,10 @@ package com.ffsys.io.loaders.types {
 		/**
 		*	@private	
 		*/
-		private function initializeFonts( loader:Loader ):void
+		private function initializeFonts( loader:Loader ):Array
 		{
-			var application:Sprite = getFontApplication( loader );
+			var before:Array = Font.enumerateFonts();
+			var application:Sprite = getLoadedApplication( loader );
 			var type:XML = null;
 			var clazz:Class = null;
 			if( application )
@@ -121,21 +120,31 @@ package com.ffsys.io.loaders.types {
 					}
 				}
 			}
-		}
-		
-		/**
-		*	@private	
-		*/		
-		private function getFontApplication( loader:Loader ):Sprite
-		{
-			if( loader &&
-			 	loader.content &&
-				( loader.content is Sprite ) )	//catches AVM1 Movies, where the cast below will fail
-			{
-				return Sprite( loader.content );
-			}
 			
-			return null;
+			//ensure the font with the same name was not already registered
+			var after:Array = Font.enumerateFonts();			
+			var difference:Array = new Array();			
+			var filter:Function = function( element:*, index:int, arr:Array ):void
+			{
+				var font:Font = Font( element );
+				var existing:Font = null;
+				var found:Boolean = false;
+				for( var i:int = 0; i < before.length ;i++ )
+				{
+					existing = before[ i ];
+					if( font.fontName == existing.fontName )
+					{
+						found = true;
+						break;
+					}
+				}
+				if( !found )
+				{
+					difference.push( font );
+				}
+			}
+			after.forEach( filter, null );
+			return difference;
 		}
 	}
 }

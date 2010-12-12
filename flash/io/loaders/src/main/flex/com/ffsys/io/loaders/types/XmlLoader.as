@@ -42,15 +42,12 @@ package com.ffsys.io.loaders.types {
 			event:Event, data:Object = null ):void
 		{
 			var x:XML;
-			
 			if( !data )
 			{
 				var loader:URLLoader = URLLoader( event.target );
-				
 				if( loader.data )
 				{
 					x = new XML( loader.data );	
-					super.completeHandler( event, x );
 				}
 			}else{
 				x = data as XML;
@@ -66,6 +63,7 @@ package com.ffsys.io.loaders.types {
 					this, 
 					resource as XmlResource );
 				
+				super.completeHandler( event, x );
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 				

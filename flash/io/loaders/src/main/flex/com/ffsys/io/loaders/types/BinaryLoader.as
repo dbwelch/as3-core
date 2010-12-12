@@ -50,14 +50,13 @@ package com.ffsys.io.loaders.types {
 		{
 			var bytes:ByteArray;
 			
-			if( !data )
+			if( data == null )
 			{
 				var loader:URLLoader = URLLoader( event.target );
 				
 				if( loader.data )
 				{
 					bytes = loader.data as ByteArray;
-					super.completeHandler( event, bytes );
 				}
 			}else{
 				bytes = data as ByteArray;
@@ -71,9 +70,10 @@ package com.ffsys.io.loaders.types {
 					LoadEvent.DATA,
 					event,
 					this,
-					resource as BinaryResource
+					resource
 				);
 				
+				super.completeHandler( event, bytes );
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}

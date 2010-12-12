@@ -56,7 +56,7 @@ package com.ffsys.io.loaders.types {
 				resource as MovieResource
 			);
 			
-			super.completeHandler( event );
+			super.completeHandler( event, loader );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
 			

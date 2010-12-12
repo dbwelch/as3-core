@@ -4,6 +4,7 @@
 package com.ffsys.io.loaders.core {
 	
 	import flash.display.Loader;
+	import flash.display.Sprite;
 	import flash.system.LoaderContext;	
 	import flash.system.ApplicationDomain;
 	
@@ -135,5 +136,21 @@ package com.ffsys.io.loaders.core {
 				loader.load( this.request, context );
 			}
 		}
+		
+		
+		/**
+		*	@private	
+		*/		
+		protected function getLoadedApplication( loader:Loader ):Sprite
+		{
+			if( loader &&
+			 	loader.content &&
+				( loader.content is Sprite ) )	//catches AVM1 Movies, where the cast below will fail
+			{
+				return Sprite( loader.content );
+			}
+			
+			return null;
+		}		
 	}
 }

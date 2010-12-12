@@ -72,7 +72,7 @@ package com.ffsys.io.loaders.types {
 			if( _composite )
 			{
 				close();
-				removeCompositeListeners( IEventDispatcher( _composite ) );				
+				removeCompositeListeners( IEventDispatcher( _composite ) );			
 			}
 			
 			_composite = new Sound();
@@ -101,15 +101,14 @@ package com.ffsys.io.loaders.types {
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-			resource = new SoundResource( this.sound, uri );
-			
+			this.resource = new SoundResource( this.sound, uri );
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,
 				event,
 				this,
-				resource as SoundResource
+				resource
 			);
-			
+			super.completeHandler( event, this.sound );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
         }

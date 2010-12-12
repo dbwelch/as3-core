@@ -50,7 +50,6 @@ package com.ffsys.io.loaders.types {
 				if( loader.data )
 				{				
 					txt = new String( loader.data );
-					super.completeHandler( event, txt );
 				}
 			}else{
 				txt = data as String;
@@ -58,15 +57,16 @@ package com.ffsys.io.loaders.types {
 			
 			if( txt )
 			{
-				resource = new PropertiesResource( txt, uri );
+				this.resource = new PropertiesResource( txt, uri );
 				
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.DATA,
 					event,
 					this,
-					resource as PropertiesResource
+					resource
 				);
 
+				super.completeHandler( event, PropertiesResource( this.resource ).properties );
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}

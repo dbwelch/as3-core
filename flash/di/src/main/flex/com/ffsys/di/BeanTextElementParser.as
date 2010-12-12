@@ -187,6 +187,10 @@ package com.ffsys.di
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, TextLoader );
 					break;
+				case BeanConstants.FONT_EXPRESSION:
+					output = new BeanFileDependency(
+						beanName, beanProperty, value, FontLoader );
+					break;
 				case BeanConstants.REF_EXPRESSION:
 					output = new BeanReference( beanName, beanProperty, value );
 					break;

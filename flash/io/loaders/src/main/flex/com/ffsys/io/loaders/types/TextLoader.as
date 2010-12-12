@@ -9,6 +9,7 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.core.AbstractLoader;
 	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.resources.IResource;	
 	import com.ffsys.io.loaders.resources.ObjectResource;
 	import com.ffsys.io.loaders.resources.TextResource;
 	
@@ -76,7 +77,6 @@ package com.ffsys.io.loaders.types {
 				if( loader.data )
 				{				
 					txt = new String( loader.data );
-					super.completeHandler( event, txt );
 				}
 			}else{
 				txt = data as String;
@@ -98,7 +98,8 @@ package com.ffsys.io.loaders.types {
 					resource
 				);
 				
-				dispatchEvent( evt );	
+				super.completeHandler( event, IResource( this.resource ).data );
+				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}
         }

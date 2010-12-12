@@ -69,14 +69,14 @@ package com.ffsys.io.loaders.types {
 			var sheet:StyleSheet = parse( String( loader.data ) );
 			if( sheet )
 			{
-				resource = new StyleSheetResource( sheet, uri );
+				this.resource = new StyleSheetResource( sheet, uri );
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.DATA,
 					event,
 					this,
-					resource as StyleSheetResource
+					resource
 				);
-
+				super.completeHandler( event, sheet );
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}

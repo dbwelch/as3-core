@@ -45,33 +45,30 @@ package com.ffsys.io.loaders.types {
 			event:Event, data:Object = null ):void
 		{
 			var vars:URLVariables;
-			
 			if( !data )
 			{
 				var loader:URLLoader = URLLoader( event.target );
-				
 				if( loader.data )
 				{
 					vars = new URLVariables( loader.data );
-					super.completeHandler( event, vars );
 				}
-				
 			}else{
 				vars = data as URLVariables;
 			}
 			
 			if( vars )
 			{
-				resource = new VariableResource( vars, uri );
+				this.resource = new VariableResource( vars, uri );
 				
 				var evt:LoadEvent =
 					new LoadEvent(
 						LoadEvent.DATA,
 						event,
 						this,
-						resource as VariableResource
+						resource
 					);
-					
+				
+				super.completeHandler( event, vars );
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}
