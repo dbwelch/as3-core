@@ -21,6 +21,7 @@ package com.ffsys.di
 		private var _properties:Object;
 		private var _instanceClassConstant:BeanConstant;
 		private var _staticClassConstant:BeanConstant;
+		private var _factoryReference:BeanReference;
 		
 		/**
 		* 	@private
@@ -87,7 +88,7 @@ package com.ffsys.di
 		*/
 		public function isBean():Boolean
 		{
-			return ( this.instanceClass is Class );
+			return ( _factoryReference != null || _singletonInstance != null || ( this.instanceClass is Class ) );
 		}
 		
 		/**
@@ -220,6 +221,8 @@ package com.ffsys.di
 			if( _staticClass != null || _staticClassConstant != null )
 			{
 				clazz = this.getStaticClass();
+				
+				//a method reference on a static class
 				if( isMethodReference( this.properties ) )
 				{
 					return getMethod( this.properties, clazz ) as Function;
@@ -233,6 +236,25 @@ package com.ffsys.di
 			if( !isBean() )
 			{
 				return getProperties();
+			}
+
+			//handle factory instantiation
+			if( _factoryReference )
+			{
+				var methodCandidate:Object = _factoryReference.resolve( document, this );
+				if( !( methodCandidate is Function ) )
+				{
+					throw new BeanError(
+						"A factory reference must be a method '"
+						+ methodCandidate + "'." );
+				}
+				var method:Function = ( methodCandidate as Function );
+				instance = method.apply( null, [] );
+				if( this.singleton )
+				{
+					_singletonInstance = instance;
+				}
+				return instance;
 			}
 			
 			try
@@ -260,7 +282,7 @@ package com.ffsys.di
 			if( clazz )
 			{
 				var instance:Object = null;
-				
+
 				try
 				{
 					instance = new clazz();
@@ -268,10 +290,10 @@ package com.ffsys.di
 				{
 					throw new Error(
 						"Could not instantiate bean instance with class '" + this.instanceClass + "'." );
-					
+				
 					//throw e;
 				}
-				
+			
 				if( instance )
 				{
 					if( parameters )
@@ -285,7 +307,7 @@ package com.ffsys.di
 						var merger:PropertiesMerge = new PropertiesMerge();
 						merger.merge( instance, parameters, true, [ IBeanResolver ] );
 					}
-					
+				
 					if( inject && document && document.injector )
 					{
 						document.injector.inject( document, this.id, instance );
@@ -296,8 +318,7 @@ package com.ffsys.di
 				{
 					_singletonInstance = instance;
 				}
-				
-				return instance;
+				return instance;				
 			}
 			
 			return null;
@@ -312,6 +333,24 @@ package com.ffsys.di
 			{
 				clear();
 				
+				//keep track of whether this bean instantiates as a factory
+				if( target.hasOwnProperty( BeanConstants.FACTORY_PROPERTY ) )
+				{
+					var factoryCandidate:Object = target[ BeanConstants.FACTORY_PROPERTY ];
+					if( factoryCandidate )
+					{
+						if( !( factoryCandidate is BeanReference ) )
+						{
+							throw new BeanError(
+								"A factory property must be a bean reference, received '"
+								+ factoryCandidate + "'." );
+						}
+						_factoryReference = ( factoryCandidate as BeanReference );
+						delete target[ BeanConstants.FACTORY_PROPERTY ];
+					}
+				}			
+				
+				//transfer any instance class reference
 				if( target.hasOwnProperty( BeanConstants.INSTANCE_CLASS_PROPERTY ) )
 				{
 					var instanceClassCandidate:Object = target[ BeanConstants.INSTANCE_CLASS_PROPERTY ];	
@@ -329,6 +368,7 @@ package com.ffsys.di
 					}
 				}
 				
+				//transfer any static class reference
 				if( target.hasOwnProperty( BeanConstants.STATIC_CLASS_PROPERTY ) )
 				{
 					var staticClassCandidate:Object = target[ BeanConstants.STATIC_CLASS_PROPERTY ];
@@ -345,6 +385,7 @@ package com.ffsys.di
 					}
 				}
 				
+				//keep track of whether this bean is a singleton instance
 				if( target.hasOwnProperty( BeanConstants.SINGLETON_PROPERTY ) )
 				{
 					var singletonCandidate:Object = target[ BeanConstants.SINGLETON_PROPERTY ];
@@ -355,6 +396,7 @@ package com.ffsys.di
 					}
 				}
 				
+				//copy an identifier is appropriate
 				if( target.hasOwnProperty( BeanConstants.ID_PROPERTY ) )
 				{
 					var idCandidate:Object = target[ BeanConstants.ID_PROPERTY ];
@@ -364,7 +406,9 @@ package com.ffsys.di
 						//we don't delete the id property as it may need to be assigned
 					}
 				}
-			
+				
+				//copy all properties so that they are
+				//resolved when the bean is retrieved
 				_properties = target;
 			}
 		}

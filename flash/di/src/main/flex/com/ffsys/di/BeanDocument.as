@@ -42,15 +42,13 @@ package com.ffsys.di
 		{
 			if( !_injector )
 			{
-				if( beanNames.indexOf( BeanConstants.INJECTOR_NAME ) > -1 )
+				var descriptor:IBeanDescriptor = getBeanDescriptor( BeanConstants.INJECTOR_NAME );	
+				if( descriptor != null )
 				{
-					var descriptor:IBeanDescriptor = getBeanDescriptor( BeanConstants.INJECTOR_NAME );
-					
 					var injector:Object = descriptor.getBean( false );
-					
 					if( !( injector is IBeanInjector ) )
 					{
-						throw new BeanInjectionError(
+						throw new BeanError(
 							"The specified injector bean does not adhere to the bean injector interface." );
 					}
 					return IBeanInjector( injector );
@@ -75,7 +73,7 @@ package com.ffsys.di
 		public function set delimiter( value:String ):void
 		{
 			_delimiter = value;
-		}		
+		}
 		
 		/**
 		* 	@inheritDoc

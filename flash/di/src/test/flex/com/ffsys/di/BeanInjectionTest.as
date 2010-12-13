@@ -18,6 +18,7 @@ package com.ffsys.di
 		private var _mock:MockApplicationBean;
 		private var _home:MockHomeController;
 		private var _injector:BeanInjector;
+		private var _factory:MockFactoryBean;
 		
 		public var sample:String = 
 			(<![CDATA[
@@ -57,6 +58,15 @@ package com.ffsys.di
 				instance-class: class( com.ffsys.di.mock.MockHomeController );
 			}
 			
+			loader {
+				factory: ref( loader-factory );
+			}
+			
+			loader-factory {
+				static-class: class( com.ffsys.di.mock.MockFactoryBean );
+				method: method( getLoaderInstance );
+			}
+			
 			]]>).toString();
 		
 		/**
@@ -76,7 +86,7 @@ package com.ffsys.di
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 7, document.length );
+			Assert.assertEquals( 9, document.length );
 			
 			var application:Object = document.getBean( "application" );
 			Assert.assertNotNull( application );
@@ -94,6 +104,8 @@ package com.ffsys.di
 			Assert.assertTrue( app.configuration.locales is MockLocaleManager );
 			
 			trace("BeanInjectionTest::beanInjectionTest()", app.applicationController );
+			
+			var loader:Object = document.getBean( "loader" );
 		}
 	}
 }

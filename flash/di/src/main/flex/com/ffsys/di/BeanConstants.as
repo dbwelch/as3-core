@@ -22,6 +22,12 @@ package com.ffsys.di
 		* 	represents a custom class to instantiate when retrieving the bean.
 		*/
 		public static const INSTANCE_CLASS_PROPERTY:String = "instanceClass";
+		
+		/**
+		* 	The name of the property used to determine whether a bean uses
+		* 	a factory method for instantiation.
+		*/
+		public static const FACTORY_PROPERTY:String = "factory";
 	
 		/**
 		* 	The name of the property used to determine whether a bean

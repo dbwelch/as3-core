@@ -12,15 +12,15 @@ package com.ffsys.di
 	*	@author Mischa Williamson
 	*	@since  13.12.2010
 	*/
-	public class BeanInjectionError extends AbstractError
+	public class BeanError extends AbstractError
 	{
 		/**
-		* 	Creates a <code>BeanInjectionError</code> instance.
+		* 	Creates a <code>BeanError</code> instance.
 		* 
 		* 	@param message The message for the error.
 		* 	@param replacements Replacement valued for the message.
 		*/
-		public function BeanInjectionError( message:String, ... replacements )
+		public function BeanError( message:String, ... replacements )
 		{
 			super( message, replacements );
 		}

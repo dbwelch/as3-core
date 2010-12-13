@@ -64,6 +64,8 @@ package com.ffsys.di
 					found = candidateStyle[ property ];
 				}else{
 					found = document.getBean( candidate );
+					
+					//trace("BeanReference::resolve()", "FOUND RESOLVED TARGET: ", found );
 
 					if( found is IBeanResolver && found != this )
 					{
