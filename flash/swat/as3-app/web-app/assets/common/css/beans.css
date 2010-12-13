@@ -1,0 +1,4 @@
+application {
+	instance-class: class( com.ffsys.swat.as3.view.SwatActionscriptContainer );
+	singleton: true;
+}

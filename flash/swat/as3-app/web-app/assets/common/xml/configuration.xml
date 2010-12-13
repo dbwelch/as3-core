@@ -14,141 +14,14 @@
 	
 	<locales>
 		
-		<!-- applies to all locales -->
+		<!-- TODO: deprecate
 		<settings>
-			
 		</settings>
+		-->
 		
+		<!-- TODO: deprecate
 		<assets id="main">
-			
 		</assets>
-		
-		<!--
-		<defaults>
-			<textfield-defaults>
-				<embedFonts>true</embedFonts>
-				<antiAliasType>advanced</antiAliasType>
-			</textfield-defaults>
-			<textformat-defaults>
-				<font>main</font>
-				<size>12</size>
-				<color>0xa9a9a9</color>
-			</textformat-defaults>
-		</defaults>
-		
-		<filters>
-			<bevel-filter>
-				<id>bevel</id>
-				<distance>1</distance>
-				<highlightColor>0xff0000</highlightColor>
-				<shadowColor>0x666666</shadowColor>
-				<shadowAlpha>0.6</shadowAlpha>
-				<knockout>true</knockout>
-				<blurX>1</blurX>
-				<blurY>1</blurY>
-				<strength>1</strength>
-			</bevel-filter>
-			<drop-shadow-filter>
-				<id>drop-shadow</id>
-				<color>0x00ff00</color>
-				<angle>45</angle>
-				<strength>0.55</strength>
-				<alpha>0.5</alpha>
-				<blurX>3</blurX>
-				<blurY>3</blurY>
-				<distance>1</distance>
-			</drop-shadow-filter>
-			<color-matrix-filter>
-				<id>color-matrix</id>
-				<matrix>
-					<a0>0</a0>
-					<a1>0</a1>
-					<a2>0</a2>
-					<a3>0</a3>
-					<a4>0</a4>
-					<a5>0</a5>
-					<a6>0</a6>
-					<a7>0</a7>
-					<a8>0</a8>
-					<a9>0</a9>
-					<a10>0</a10>
-					<a11>0</a11>
-					<a12>1</a12>
-					<a13>0</a13>
-					<a14>0</a14>
-					<a15>0</a15>
-					<a16>0</a16>
-					<a17>0</a17>
-					<a18>0.75</a18>
-					<a19>0</a19>
-				</matrix>
-			</color-matrix-filter>
-			<glow-filter>
-				<id>glow</id>
-				<color>0x33CCFF</color>
-				<alpha>0.5</alpha>
-				<blurX>5</blurX>
-				<blurY>5</blurY>
-				<strength>2</strength>
-			</glow-filter>
-			<gradient-glow-filter>
-				<id>gradient-glow</id>
-				<colors>
-					<color>0xa9a9a9</color>
-					<color>0xffcc33</color>
-				</colors>
-				<alphas>
-					<alpha>0.8</alpha>
-					<alpha>0</alpha>
-				</alphas>
-				<ratios>
-					<ratio>0</ratio>
-					<ratio>128</ratio>
-				</ratios>
-				<distance>5</distance>
-				<blurX>5</blurX>
-				<blurY>5</blurY>
-				<strength>1</strength>
-			</gradient-glow-filter>
-			<gradient-bevel-filter>
-				<id>gradient-bevel</id>
-				<colors>
-					<color>0x33CCFF</color>
-					<color>0xffcc33</color>
-				</colors>
-				<alphas>
-					<alpha>0.8</alpha>
-					<alpha>0.8</alpha>
-				</alphas>
-				<ratios>
-					<ratio>0</ratio>
-					<ratio>128</ratio>
-				</ratios>
-				<distance>5</distance>
-				<blurX>5</blurX>
-				<blurY>5</blurY>
-				<strength>1</strength>
-			</gradient-bevel-filter>
-			<convolution-filter>
-				<id>convolution</id>
-				<color>0xff0000</color>
-				<alpha>0.5</alpha>
-				<matrixX>3</matrixX>
-				<matrixY>3</matrixY>
-				<divisor>9</divisor>
-				<matrix>
-					<a0>5</a0>
-					<a1>5</a1>
-					<a2>5</a2>
-					<a3>5</a3>
-					<a4>0</a4>
-					<a5>5</a5>
-					<a6>5</a6>
-					<a7>5</a7>
-					<a8>5</a8>
-				</matrix>
-			</convolution-filter>
-		</filters>
 		-->
 		
 		<!-- resources for all locales -->
@@ -160,6 +33,12 @@
 					<url>swf/application-assets.swf</url>
 				</rsl>
 			</rsls>
+			
+			<beans>
+				<resource>
+					<url>css/beans.css</url>
+				</resource>
+			</beans>
 				
 			<xml>
 				<resource>
@@ -251,7 +130,6 @@
 				</messages>
 			</resources>
 		</locale>
-		
 		<locale lang="fr" country="FR">
 			<resources>
 				<messages>
@@ -261,7 +139,6 @@
 				</messages>
 			</resources>
 		</locale>
-		
 	</locales>
 	
 </configuration>

@@ -55,6 +55,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _assets:IStringCollection;
 			
 		//
+		private var _beansQueue:ILoaderQueue;
 		private var _messagesQueue:ILoaderQueue;
 		private var _errorsQueue:ILoaderQueue;
 		private var _fontsQueue:ILoaderQueue;
@@ -262,6 +263,30 @@ package com.ffsys.swat.configuration.locale {
 			}
 			
 			return _rslsQueue;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getBeansQueue():ILoaderQueue
+		{
+			if( !_beansQueue )
+			{
+				_beansQueue = new LoaderQueue();
+				if( this.resources && this.resources.beans )
+				{
+					_beansQueue.append(
+						this.resources.beans.getLoaderQueue() );
+				}
+				if( _current
+					&& _current.resources
+					&& _current.resources.beans )
+				{
+					_beansQueue.append(
+						_current.resources.beans.getLoaderQueue() );
+				}
+			}
+			return _beansQueue;
 		}
 		
 		/**

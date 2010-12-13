@@ -87,6 +87,11 @@ package com.ffsys.swat.core {
 		public static const RSLS_PHASE:String = "rsls";
 		
 		/**
+		*	Represents the preload phase for bean documents.	
+		*/
+		public static const BEANS_PHASE:String = "beans";
+		
+		/**
 		*	Represents the preload phase for XML documents.
 		*/
 		public static const XML_PHASE:String = "xml";
@@ -110,6 +115,7 @@ package com.ffsys.swat.core {
 			ERRORS_PHASE,
 			FONTS_PHASE,
 			RSLS_PHASE,
+			BEANS_PHASE,
 			CSS_PHASE,
 			XML_PHASE,
 			IMAGES_PHASE,
@@ -335,6 +341,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case BEANS_PHASE:
+						this.view.bean( evt );
+						break;				
 					case CSS_PHASE:
 						this.view.css( evt );
 						break;
@@ -385,6 +394,9 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case BEANS_PHASE:
+						this.view.bean( evt );
+						break;						
 					case CSS_PHASE:
 						this.view.css( evt );
 						break;
@@ -432,10 +444,10 @@ package com.ffsys.swat.core {
 					case RSLS_PHASE:
 						this.view.rsl( evt );
 						break;
+					case BEANS_PHASE:
+						this.view.bean( evt );
+						break;						
 					case CSS_PHASE:
-						
-						
-					
 						this.view.css( evt );
 						break;					
 					case XML_PHASE:
@@ -446,9 +458,9 @@ package com.ffsys.swat.core {
 						break;
 					case SOUNDS_PHASE:
 						this.view.sound( evt );
-						break;						
+						break;					
 				}
-			}			
+			}
 		}
 		
 		/**
@@ -546,12 +558,15 @@ package com.ffsys.swat.core {
 					break;
 				case ERRORS_PHASE:
 					queue = this.configuration.locales.getErrorsQueue();
-					break;	
+					break;
 				case FONTS_PHASE:
 					queue = this.configuration.locales.getFontsQueue();
-					break;	
+					break;
 				case RSLS_PHASE:
 					queue = this.configuration.locales.getRslsQueue();
+					break;
+				case BEANS_PHASE:
+					queue = this.configuration.locales.getBeansQueue();
 					break;
 				case CSS_PHASE:
 					queue = this.configuration.locales.getCssQueue();

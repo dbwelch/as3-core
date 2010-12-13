@@ -46,7 +46,7 @@ package com.ffsys.di
 		
 		/**
 		*	Creates a <code>BeanExpressionTest</code> instance.
-		*/ 
+		*/
 		public function BeanExpressionTest()
 		{
 			super();

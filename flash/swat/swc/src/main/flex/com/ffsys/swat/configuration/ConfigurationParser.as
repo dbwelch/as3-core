@@ -129,6 +129,12 @@ package com.ffsys.swat.configuration {
 		*/
 		static public const SOUNDS_NAME:String =
 			"sounds";
+			
+		/**
+		*	The node name for bean resources.
+		*/
+		static public const BEANS_NAME:String =
+			"beans";
 
 		/**
 		*	The node name for a collection of resources.
@@ -258,7 +264,13 @@ package com.ffsys.swat.configuration {
 				SoundCollection,
 				SOUNDS_NAME,
 				SOUNDS_NAME,
-				false );						
+				false );
+				
+			classNodeNameMap.add(
+				BeansCollection,
+				BEANS_NAME,
+				BEANS_NAME,
+				false );										
 				
 			classNodeNameMap.add(
 				RuntimeSharedLibrary,

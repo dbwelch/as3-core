@@ -97,6 +97,13 @@ package com.ffsys.swat.configuration.locale {
 		function getRslsQueue():ILoaderQueue;
 		
 		/**
+		*	Gets the loader queue used to load bean documents.
+		*	
+		*	@return The bean document loader queue.
+		*/
+		function getBeansQueue():ILoaderQueue;
+		
+		/**
 		*	Gets the loader queue used to load runtime
 		*	CSS files.
 		*	

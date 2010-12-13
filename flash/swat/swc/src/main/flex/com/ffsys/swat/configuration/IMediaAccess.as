@@ -27,7 +27,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	Gets the style manager for the application.
 		*/
-		function get styleManager():IStyleManager;		
+		function get styleManager():IStyleManager;
 		
 		/**
 		*	The style sheet for the application.
@@ -74,6 +74,6 @@ package com.ffsys.swat.configuration {
 		* 
 		* 	@param id The identifer for the filter.
 		*/
-		function getFilter( id:String ):BitmapFilter;	
+		function getFilter( id:String ):BitmapFilter;
 	}
 }

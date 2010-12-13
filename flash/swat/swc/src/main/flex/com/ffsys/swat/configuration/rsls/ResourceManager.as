@@ -13,7 +13,8 @@ package com.ffsys.swat.configuration.rsls {
 	*/
 	public class ResourceManager extends Object
 		implements IResourceManager {
-		
+
+		private var _beans:IResourceCollection;
 		private var _messages:IResourceCollection;
 		private var _errors:IResourceCollection;
 		private var _fonts:IResourceCollection;
@@ -44,6 +45,19 @@ package com.ffsys.swat.configuration.rsls {
 		public function set parent( parent:IResourceManagerAware ):void
 		{
 			_parent = parent;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get beans():IResourceCollection
+		{
+			return _beans;
+		}
+
+		public function set beans( value:IResourceCollection ):void
+		{
+			_beans = value;
 		}
 		
 		/**

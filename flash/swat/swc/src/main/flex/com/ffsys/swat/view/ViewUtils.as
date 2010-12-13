@@ -33,12 +33,7 @@ package com.ffsys.swat.view  {
 	*/
 	public class ViewUtils extends Object
 		implements IViewUtils {
-		
-		/*	
-		static private var _textFieldFactory:ITextFieldFactory
-			= new TextFieldFactory();
-		*/
-		
+
 		private var _configuration:IConfiguration;
 		
 		/**
@@ -64,17 +59,6 @@ package com.ffsys.swat.view  {
 		{
 			_configuration = configuration;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		
-		/*
-		public function get textFieldFactory():ITextFieldFactory
-		{
-			return _textFieldFactory;
-		}
-		*/
 		
 		/**
 		* 	@inheritDoc

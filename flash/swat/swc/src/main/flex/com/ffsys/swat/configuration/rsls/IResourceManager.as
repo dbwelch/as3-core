@@ -21,6 +21,12 @@ package com.ffsys.swat.configuration.rsls {
 		function set parent( parent:IResourceManagerAware ):void;
 		
 		/**
+		*	The collection of bean files.
+		*/
+		function get beans():IResourceCollection;
+		function set beans( value:IResourceCollection ):void;
+		
+		/**
 		*	The collection of message properties files.
 		*/
 		function get messages():IResourceCollection;
