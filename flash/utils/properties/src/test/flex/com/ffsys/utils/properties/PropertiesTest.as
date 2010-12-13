@@ -7,6 +7,15 @@ package com.ffsys.utils.properties
 	*/ 
 	public class PropertiesTest
 	{
+		private var _expectedMultiline:String = (<![CDATA[A multiline string with hard
+line breaks so that we can check
+that forced hard line breaks
+work as expected.]]>).toString();
+
+		private var _expectedEndMultiline:String = (<![CDATA[A multiline string as the final property
+entry so that we can check
+that forced hard line breaks
+work as expected at the end of a document.]]>).toString();
 		
 		/**
 		*	Creates an <code>PropertiesTest</code> instance.
@@ -27,7 +36,17 @@ package com.ffsys.utils.properties
 			properties += "group.b=bcd" + "\n";
 			properties += "group.nested.a=abcdef" + "\n";
 			properties += "group.nested.b=bcdefg" + "\n";
-			properties += "group.err=An error of type {0} occured";
+			properties += "group.err=An error of type {0} occured" + "\n";
+			properties += "multiline=A multiline string with hard\\" + "\n";
+			properties += "line breaks so that we can check\\" + "\n";
+			properties += "that forced hard line breaks\\" + "\n";
+			properties += "work as expected." + "\n";
+			properties += "after.multiline=Another message after the multiline message." + "\n";
+			properties += "end.multiline=A multiline string as the final property\\" + "\n";
+			properties += "entry so that we can check\\" + "\n";
+			properties += "that forced hard line breaks\\" + "\n";
+			properties += "work as expected at the end of a document." + "\n";			
+			
 			return properties;
 		}
 		
@@ -83,6 +102,15 @@ package com.ffsys.utils.properties
 			Assert.assertEquals(
 				"An error of type critical occured",
 				properties.getProperty( "group.err", "critical" ) );
+				
+			Assert.assertEquals(
+				_expectedMultiline, properties.getProperty( "multiline" ) );
+				
+			Assert.assertEquals( "Another message after the multiline message.",
+			 	properties.getProperty( "after.multiline" ) );
+			
+			Assert.assertEquals(
+				_expectedEndMultiline, properties.getProperty( "end.multiline" ) );
 		}
 	}
 }

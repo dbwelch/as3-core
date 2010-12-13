@@ -1,6 +1,6 @@
 package com.ffsys.utils.properties {
 	
-	import com.ffsys.utils.collections.strings.IStringCollection;
+	import com.ffsys.utils.collections.data.IDataCollection;
 	
 	/**
 	*	Describes the contract for implementations that
@@ -13,7 +13,7 @@ package com.ffsys.utils.properties {
 	*	@author Mischa Williamson
 	*	@since  15.07.2010
 	*/
-	public interface IProperties extends IStringCollection {
+	public interface IProperties extends IDataCollection {
 		
 		/**
 		*	Parses the raw string data for a collection
@@ -34,7 +34,7 @@ package com.ffsys.utils.properties {
 		*	property could be found.
 		*/
 		function getProperty(
-			id:String, ... replacements ):String;
+			id:String, ... replacements ):Object;
 		
 		/**
 		*	Gets a properties collection by identifier.

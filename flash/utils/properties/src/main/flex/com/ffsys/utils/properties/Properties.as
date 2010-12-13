@@ -5,8 +5,8 @@ package com.ffsys.utils.properties {
 	
 	import com.ffsys.utils.locale.ILocale;
 	
-	import com.ffsys.utils.collections.strings.IStringCollection;
-	import com.ffsys.utils.collections.strings.StringCollection;
+	import com.ffsys.utils.collections.data.AbstractDataCollection;
+	import com.ffsys.utils.collections.data.IDataCollection;
 	
 	import com.ffsys.utils.substitution.Substitutor;
 	
@@ -20,7 +20,7 @@ package com.ffsys.utils.properties {
 	*	@author Mischa Williamson
 	*	@since  15.07.2010
 	*/
-	dynamic public class Properties extends StringCollection
+	dynamic public class Properties extends AbstractDataCollection
 		implements IProperties {
 		
 		/**
@@ -39,6 +39,16 @@ package com.ffsys.utils.properties {
 		public static const COMMENT_DELIMITER:String = "#";
 		
 		/**
+		*	The delimiter used to determine hard line breaks.
+		*/
+		public static const LINE_DELIMITER:String = "\\";
+		
+		/**
+		*	The delimiter used to determine new lines.
+		*/
+		public static const NEWLINE:String = "\n";
+		
+		/**
 		*	Creates a <code>Properties</code> instance.
 		*	
 		*	@param locale A locale associated with these properties.
@@ -46,6 +56,7 @@ package com.ffsys.utils.properties {
 		public function Properties( locale:ILocale = null )
 		{
 			super();
+			_types = [ IProperties, String ];
 			this.locale = locale;
 		}
 		
@@ -53,7 +64,7 @@ package com.ffsys.utils.properties {
 		*	@inheritDoc	
 		*/
 		public function getProperty(
-			id:String, ... replacements ):String
+			id:String, ... replacements ):Object
 		{
 			var output:String = null;
 			if( id )
@@ -114,7 +125,7 @@ package com.ffsys.utils.properties {
 		*/
 		public function getPropertiesById( id:String ):IProperties
 		{
-			return getStringCollectionById( id ) as IProperties;
+			return getCollectionById( id ) as IProperties;
 		}
 		
 		/**
@@ -161,18 +172,29 @@ package com.ffsys.utils.properties {
 			//remove carriage returns
 			data = data.replace( "\r", "" );
 			
-			var lines:Array = data.split( "\n" );
+			var lines:Array = data.split( NEWLINE );
 			var line:String = null;
 			
 			var index:int = -1;
 			var path:String = null;
 			var value:String = null;
 			
+			//expression for comment lines
 			var comment:RegExp = 
-				new RegExp( "\\s*" + COMMENT_DELIMITER + ".*" );
+				new RegExp( "\\s*" + COMMENT_DELIMITER + ".*" );	
 				
+			//expression for whitespace only lines
 			var whitespace:RegExp = 
-				new RegExp( "^\\s*$");				
+				new RegExp( "^\\s*$");
+				
+			//expression for hard line breaks
+			var hardline:RegExp = 
+				new RegExp( LINE_DELIMITER + LINE_DELIMITER + "+$");
+				
+			var multiline:Boolean = false;	
+			var isMultiline:Boolean = false;
+			var mpath:String = null;
+			var mvalue:String = null;
 			
 			for( var i:int = 0;i < lines.length;i++ )
 			{
@@ -184,19 +206,53 @@ package com.ffsys.utils.properties {
 				}
 				
 				index = line.indexOf( DELIMITER );
-				
-				if( index == -1 )
+				isMultiline = hardline.test( line );
+
+				//got to the end of a multiline value
+				if( multiline && !isMultiline )
 				{
-					throw new Error( "Cannot parse properties, no delimiter '"
-					 	+ DELIMITER + "' found at line " + ( i + 1 ) + "." );
+					mvalue += NEWLINE + line;	
+					parsePropertyPath( mpath, mvalue );
+					multiline = false;
+					continue;
 				}
 				
-				path = line.substr( 0, index );
-				value = line.substr( index + 1 );
-				
-				//parse each line
-				parsePropertyPath( path, value );
+				if( isMultiline )
+				{
+					//remove the hard line break escape character
+					line = line.replace( hardline, "" );
+					
+					//first time around extract the property name and initial value
+					if( !multiline )
+					{
+						verifyPropertyDelimiter( index, i );
+						mpath = line.substr( 0, index );
+						mvalue = line.substr( index + 1 );
+					}else{
+						mvalue += NEWLINE + line;
+					}
+					
+					multiline = true;
+				}else{
+					verifyPropertyDelimiter( index, i );
+					
+					//normal name/value pair handling
+					path = line.substr( 0, index );
+					value = line.substr( index + 1 );	
+					
+					//parse each pair
+					parsePropertyPath( path, value );									
+				}
 			}
+		}
+		
+		private function verifyPropertyDelimiter( index:int, i:int ):void
+		{
+			if( index == -1 )
+			{
+				throw new Error( "Cannot parse properties, no delimiter '"
+				 	+ DELIMITER + "' found at line " + ( i + 1 ) + "." );
+			}			
 		}
 		
 		/**
@@ -209,7 +265,7 @@ package com.ffsys.utils.properties {
 				path, PATH_DELIMITER );
 				
 			//a collection to create for nested collections
-			var nested:IStringCollection = null;
+			var nested:IDataCollection = null;
 			
 			if( enumerator.isRootPath() )
 			{
@@ -224,8 +280,8 @@ package com.ffsys.utils.properties {
 				this[ enumerator.getFirstPathElement() ] = value;
 			}else
 			{
-				var target:IStringCollection = this;
-				var existing:IStringCollection = null;
+				var target:IDataCollection = this;
+				var existing:IDataCollection = null;
 				var l:int = enumerator.getLength();
 				var element:String = null;
 				//complex path with nested collections
@@ -235,7 +291,7 @@ package com.ffsys.utils.properties {
 
 					if( i < ( l - 1 ) )
 					{
-						existing = target.getStringCollectionById( element );
+						existing = target.getCollectionById( element );
 						
 						if( !existing )
 						{
