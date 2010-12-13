@@ -24,6 +24,12 @@ package com.ffsys.di
 				IStringIdentifier,
 				IDestroy,
 				IEventDispatcher {
+					
+		/**
+		* 	An injector to use when beans are retrieved from this document.
+		*/
+		function get injector():IBeanInjector;
+		function set injector( value:IBeanInjector ):void;
 		
 		/**
 		* 	The delimiter to use when parsing array values.
@@ -126,6 +132,17 @@ package com.ffsys.di
 		* 	@return The bean descriptor if found otherwise <code>null</code>.
 		*/
 		function getBeanDescriptor( beanName:String ):IBeanDescriptor;
+		
+		/**
+		* 	Retrieves a bean with the specified bean name that <em>is</em> of any
+		* 	of the class types specified in the type parameter.
+		* 
+		* 	@param beanName The name of the bean to retrieve.
+		* 	@param types A vector of class types that the bean must be one of.
+		* 
+		* 	@return A matching bean if found otherwise <code>null</code>.
+		*/
+		function getBeanByType( beanName:String, types:Vector.<Class> ):Object;
 		
 		/**
 		* 	Copies the contents of another bean document into this

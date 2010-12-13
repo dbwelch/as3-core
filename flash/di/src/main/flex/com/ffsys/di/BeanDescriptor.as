@@ -1,5 +1,5 @@
 package com.ffsys.di
-{
+{	
 	import com.ffsys.utils.properties.PropertiesMerge;	
 	
 	/**
@@ -285,6 +285,11 @@ package com.ffsys.di
 						var merger:PropertiesMerge = new PropertiesMerge();
 						merger.merge( instance, parameters, true, [ IBeanResolver ] );
 					}
+					
+					if( document && document.injector )
+					{
+						document.injector.inject( document, this.id, instance );
+					}
 				}
 				
 				if( this.singleton )
@@ -402,6 +407,7 @@ package com.ffsys.di
 					//setBeanProperty( bean, z, resolved );
 					
 					//TODO: reintegrate with a central bean property set method
+					
 					bean[ z ] = resolved;
 				}
 			}
