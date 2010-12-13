@@ -25,8 +25,19 @@ package com.ffsys.di
 				singleton: true;
 			}
 			
+			messages {
+				instance-class: class( com.ffsys.di.mock.MockMessagesBean );
+				singleton: true;
+			}
+			
 			configuration {
 				instance-class: class( com.ffsys.di.mock.MockConfigurationBean );
+				singleton: true;
+			}
+			
+			applicationController {
+				instance-class: class( com.ffsys.di.mock.MockApplicationControllerBean );
+				singleton: true;
 			}
 
 			]]>).toString();
@@ -48,15 +59,19 @@ package com.ffsys.di
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 2, document.length );
+			Assert.assertEquals( 4, document.length );
 			
 			var application:Object = document.getBean( "application" );
 			Assert.assertNotNull( application );
 			Assert.assertTrue( application is MockApplicationBean );
 			
 			var app:MockApplicationBean = MockApplicationBean( application );
+			
 			Assert.assertNotNull( app.configuration );
 			Assert.assertTrue( app.configuration is MockConfigurationBean );
+			
+			Assert.assertNotNull( app.messages );
+			Assert.assertTrue( app.messages is MockMessagesBean );
 		}
 	}
 }

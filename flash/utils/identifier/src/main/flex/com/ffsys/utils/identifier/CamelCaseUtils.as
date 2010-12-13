@@ -141,7 +141,5 @@ package com.ffsys.utils.identifier {
 			//convert to title case
 			return StringUtils.toTitleCase( source );
 		}
-		
 	}
-	
 }

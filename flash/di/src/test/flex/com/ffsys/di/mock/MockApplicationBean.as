@@ -1,6 +1,5 @@
 package com.ffsys.di.mock
 {
-
 	/**
 	*	Represents a mock application bean.
 	*
@@ -13,6 +12,8 @@ package com.ffsys.di.mock
 	public class MockApplicationBean extends Object
 	{
 		private var _configuration:MockConfigurationBean;
+		private	var _messages:MockMessagesBean;
+		private var _applicationController:MockApplicationControllerBean;
 	
 		/**
 		* 	Creates a <code>MockApplicationBean</code> instance.
@@ -33,6 +34,32 @@ package com.ffsys.di.mock
 		public function set configuration( value:MockConfigurationBean ):void
 		{
 			_configuration = value;
+		}
+		
+		/**
+		* 	A mock bean for the application messages.
+		*/
+		public function get messages():MockMessagesBean
+		{
+			return _messages;
+		}
+		
+		public function set messages( value:MockMessagesBean ):void
+		{
+			_messages = value;
+		}
+		
+		/**
+		* 	A mock bean for the main application controller.
+		*/
+		public function get applicationController():MockApplicationControllerBean
+		{
+			return _applicationController;
+		}
+		
+		public function set applicationController( value:MockApplicationControllerBean ):void
+		{
+			_applicationController = value;
 		}
 	}
 }
