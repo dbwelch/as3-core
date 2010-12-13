@@ -162,7 +162,7 @@ package com.ffsys.di
 						output = Class( getDefinitionByName( value ) );
 					}catch( e:Error )
 					{
-						throw new Error( "Could not locate bean bean class reference with class path '"
+						throw new Error( "Could not locate bean class expression with class path '"
 							+ value + "'." );
 					}
 					break;

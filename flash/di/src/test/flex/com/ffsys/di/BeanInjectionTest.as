@@ -16,9 +16,16 @@ package com.ffsys.di
 	public class BeanInjectionTest extends AbstractBeanUnit
 	{	
 		private var _mock:MockApplicationBean;
+		private var _home:MockHomeController;
+		private var _injector:BeanInjector;
 		
 		public var sample:String = 
 			(<![CDATA[
+			
+			injector {
+				instance-class: class( com.ffsys.di.BeanInjector );
+				singleton: true;
+			}
 			
 			application {
 				instance-class: class( com.ffsys.di.mock.MockApplicationBean );
@@ -38,8 +45,18 @@ package com.ffsys.di
 			applicationController {
 				instance-class: class( com.ffsys.di.mock.MockApplicationControllerBean );
 				singleton: true;
+				controller: ref( home-controller );
 			}
-
+			
+			locales {
+				instance-class: class( com.ffsys.di.mock.MockLocaleManager );
+				singleton: true;
+			}
+			
+			home-controller {
+				instance-class: class( com.ffsys.di.mock.MockHomeController );
+			}
+			
 			]]>).toString();
 		
 		/**
@@ -59,7 +76,7 @@ package com.ffsys.di
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 4, document.length );
+			Assert.assertEquals( 7, document.length );
 			
 			var application:Object = document.getBean( "application" );
 			Assert.assertNotNull( application );
@@ -72,6 +89,11 @@ package com.ffsys.di
 			
 			Assert.assertNotNull( app.messages );
 			Assert.assertTrue( app.messages is MockMessagesBean );
+			
+			Assert.assertNotNull( app.configuration.locales );
+			Assert.assertTrue( app.configuration.locales is MockLocaleManager );
+			
+			trace("BeanInjectionTest::beanInjectionTest()", app.applicationController );
 		}
 	}
 }

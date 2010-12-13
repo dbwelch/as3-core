@@ -52,9 +52,12 @@ package com.ffsys.di
 		/**
 		* 	Gets the bean that this descriptor represents.
 		* 
+		* 	@param inject Whether dependency injection is enabled when retrieving
+		* 	the bean instance.
+		* 
 		* 	@return The bean instance.
 		*/
-		function getBean():Object;
+		function getBean( inject:Boolean = true ):Object;
 		
 		/**
 		* 	Determines whether this descriptor

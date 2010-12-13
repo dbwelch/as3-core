@@ -206,7 +206,7 @@ package com.ffsys.di
 		/**
 		* 	@inheritDoc
 		*/
-		public function getBean():Object
+		public function getBean( inject:Boolean = true ):Object
 		{			
 			//prefer singletons to static classes
 			if( this.singleton && _singletonInstance )
@@ -286,7 +286,7 @@ package com.ffsys.di
 						merger.merge( instance, parameters, true, [ IBeanResolver ] );
 					}
 					
-					if( document && document.injector )
+					if( inject && document && document.injector )
 					{
 						document.injector.inject( document, this.id, instance );
 					}

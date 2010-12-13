@@ -12,6 +12,7 @@ package com.ffsys.di.mock
 	*/
 	public class MockApplicationControllerBean extends Object
 	{
+		private var _controller:IMockController;
 		
 		/**
 		* 	Creates a <code>MockApplicationControllerBean</code> instance.
@@ -19,6 +20,19 @@ package com.ffsys.di.mock
 		public function MockApplicationControllerBean()
 		{
 			super();
+		}
+		
+		/**
+		* 	The current top level controller.
+		*/
+		public function get controller():IMockController
+		{
+			return _controller;
+		}
+		
+		public function set controller( value:IMockController ):void
+		{
+			_controller = value;
 		}
 	}
 }

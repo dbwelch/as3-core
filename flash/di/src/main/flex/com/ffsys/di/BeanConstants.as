@@ -55,7 +55,13 @@ package com.ffsys.di
 		* 	The name of the bean descriptor that defines constants for the
 		* 	bean document.
 		*/
-		public static const CONSTANTS_PROPERTY_NAME:String = "constants";			
+		public static const CONSTANTS_PROPERTY_NAME:String = "constants";
+		
+		/**
+		* 	The name of the bean descriptor that defines an injector for the
+		* 	bean document.
+		*/
+		public static const INJECTOR_NAME:String = "injector";	
 		
 		/**
 		*	An expression to reference a linked class.

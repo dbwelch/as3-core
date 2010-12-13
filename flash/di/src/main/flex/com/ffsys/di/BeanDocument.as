@@ -25,7 +25,7 @@ package com.ffsys.di
 		private var _bindings:IBindingCollection = new BindingCollection();
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
 		private var _files:Vector.<BeanFileDependency> = null;
-		private var _injector:IBeanInjector = new BeanInjector();
+		private var _injector:IBeanInjector;
 		
 		/**
 		* 	Creates a <code>BeanDocument</code> instance.
@@ -40,6 +40,22 @@ package com.ffsys.di
 		*/
 		public function get injector():IBeanInjector
 		{
+			if( !_injector )
+			{
+				if( beanNames.indexOf( BeanConstants.INJECTOR_NAME ) > -1 )
+				{
+					var descriptor:IBeanDescriptor = getBeanDescriptor( BeanConstants.INJECTOR_NAME );
+					
+					var injector:Object = descriptor.getBean( false );
+					
+					if( !( injector is IBeanInjector ) )
+					{
+						throw new BeanInjectionError(
+							"The specified injector bean does not adhere to the bean injector interface." );
+					}
+					return IBeanInjector( injector );
+				}
+			}
 			return _injector;
 		}
 		
@@ -163,7 +179,6 @@ package com.ffsys.di
 		{
 			return _beans.length;
 		}
-		
 		
 		/**
 		*	@inheritDoc	
