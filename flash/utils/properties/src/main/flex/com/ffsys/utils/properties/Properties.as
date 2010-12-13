@@ -11,8 +11,10 @@ package com.ffsys.utils.properties {
 	import com.ffsys.utils.substitution.Substitutor;
 	
 	/**
-	*	Encapsulates the properties loaded from
-	*	a properties file.
+	*	Represents a collection of string properties.
+	* 
+	* 	This implementation can parse property strings
+	* 	declared in java-style properties notation.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -246,6 +248,28 @@ package com.ffsys.utils.properties {
 			}
 		}
 		
+		/**
+		* 	Performs parsing of the property value.
+		* 
+		* 	This allows implementations to perform type conversion
+		* 	when a property document is parsed.
+		* 
+		* 	The default implementation passes the value through
+		* 	untouched.
+		* 
+		* 	@param name The name of the property.
+		* 	@param value The value of the property.
+		* 
+		* 	@return The parsed property value.
+		*/
+		protected function getPropertyValue( name:String, value:Object ):Object
+		{
+			return value;
+		}
+		
+		/**
+		* 	@private
+		*/
 		private function verifyPropertyDelimiter( index:int, i:int ):void
 		{
 			if( index == -1 )
@@ -259,7 +283,7 @@ package com.ffsys.utils.properties {
 		*	@private	
 		*/
 		private function parsePropertyPath(
-			path:String, value:String ):void
+			path:String, value:Object ):void
 		{
 			var enumerator:IAddressPath = new AddressPath(
 				path, PATH_DELIMITER );
@@ -272,6 +296,8 @@ package com.ffsys.utils.properties {
 				throw new Error( "Invalid property path encountered '"
 				 	+ path + "'." );
 			}
+			
+			value = getPropertyValue( path, value );
 			
 			//top level string
 			if( enumerator.isTopLevelPath() )
@@ -288,22 +314,22 @@ package com.ffsys.utils.properties {
 				for( var i:int = 0;i < l;i++ )
 				{
 					element = enumerator.getPathElementAt( i );
-
+					
+					//not on the last path part so find the target
 					if( i < ( l - 1 ) )
 					{
 						existing = target.getCollectionById( element );
 						
+						//create the target collection if it doesn't exist
 						if( !existing )
 						{
 							existing = new Properties();
-							
 							//assign the collection
 							target[ element ] = existing;
 						}
-						
 						//update the current target collection
 						target = existing;
-						
+					//got to the end so set the property on the target
 					}else{
 						//set the string property on the last path element
 						target[ element ] = value;
