@@ -3,14 +3,14 @@ package com.ffsys.swat.core {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.net.URLRequest;
+	import flash.net.URLRequest;	
 	
 	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.types.*;
-	
+
 	import com.ffsys.swat.configuration.ConfigurationLoader;
 	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.configuration.IConfiguration;

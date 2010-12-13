@@ -30,7 +30,8 @@ package com.ffsys.di
 			bean.z = 30;
 						
 			var document:IBeanDocument = new BeanDocument();			
-			var descriptor:IBeanDescriptor = new BeanDescriptor( bean );
+			var descriptor:IBeanDescriptor = new BeanDescriptor();
+			descriptor.transfer( bean );
 			Assert.assertEquals( "my-bean", descriptor.id );
 			Assert.assertTrue( descriptor.instanceClass is Class );
 			
@@ -58,7 +59,8 @@ package com.ffsys.di
 			bean.singleton = true;		
 			
 			var document:IBeanDocument = new BeanDocument();
-			var descriptor:IBeanDescriptor = new BeanDescriptor( bean );
+			var descriptor:IBeanDescriptor = new BeanDescriptor();
+			descriptor.transfer( bean );
 			Assert.assertEquals( "my-bean", descriptor.id );			
 			Assert.assertTrue( descriptor.instanceClass is Class );
 			Assert.assertTrue( descriptor.singleton );

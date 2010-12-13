@@ -6,7 +6,16 @@ Cell {
 	padding: 10;
 }
 
-Label, Button {
+Label {
+	color: #a9a9a9;
+	font: main;
+	size: 12;
+	embed-fonts: true;
+	auto-size: left;
+	anti-alias-type: advanced;
+}
+
+Button {
 	color: #a9a9a9;
 	font: main;
 	size: 12;

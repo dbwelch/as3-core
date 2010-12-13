@@ -109,8 +109,7 @@ package com.ffsys.di
 		*/
 		public function setBeanProperty( bean:Object, name:String, value:Object ):void
 		{
-			trace("************************* BeanTextElementParser::setBeanProperty()", bean, name, value );
-			
+			//trace("************************* BeanTextElementParser::setBeanProperty()", bean, name, value );
 			bean[ name ] = value;
 		}		
 		
@@ -194,8 +193,11 @@ package com.ffsys.di
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, FontLoader );
 					break;
+				case BeanConstants.MESSAGES_EXPRESSION:
+					output = new BeanFileDependency(
+						beanName, beanProperty, value, PropertiesLoader );
+					break;
 				case BeanConstants.REF_EXPRESSION:
-					trace("BeanTextElementParser::parseExtension()", "SETTING BEAN REFERENCE ON :", beanName, "with value: ", value );
 					output = new BeanReference( beanName, beanProperty, value );
 					break;
 				case BeanConstants.CONSTANT_EXPRESSION:

@@ -18,6 +18,7 @@ package com.ffsys.di
 				property-xml: xml( assets/mock-di-xml.xml );
 				property-text: text( assets/mock-di-text.txt );
 				property-font: font( assets/mock-di-fonts.swf );
+				property-messages: messages( assets/mock-di-messages.properties );
 			}
 				
 			]]>).toString();

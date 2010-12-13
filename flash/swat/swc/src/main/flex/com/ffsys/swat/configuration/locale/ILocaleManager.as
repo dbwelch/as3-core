@@ -39,6 +39,10 @@ package com.ffsys.swat.configuration.locale {
 				IDeserializeComplete,
 				IResourceManagerAware {
 		
+		/**
+		* 	The document containing the beans for the application.
+		*/
+		function get document():IBeanDocument;
 		
 		/**
 		* 	The parent configuration.
@@ -48,7 +52,7 @@ package com.ffsys.swat.configuration.locale {
 		
 		/**
 		*	Gets all the messages for the application merged into
-		*	a single properties representation.	
+		*	a single properties representation.
 		*/
 		function get messages():IProperties;		
 		

@@ -11,6 +11,8 @@ package com.ffsys.swat.view  {
 	
 	//import com.ffsys.ui.text.core.ITextFieldFactory;
 	
+	import com.ffsys.di.*;	
+	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.core.RuntimeAssetPreloader;
 	
@@ -181,11 +183,30 @@ package com.ffsys.swat.view  {
 			createMainView();
 		}
 		
+		private function doWithBeans( beans:IBeanDocument ):void
+		{
+			var descriptor:IBeanDescriptor = null;
+			descriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.CONFIGURATION, utils.configuration );
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.FLASH_VARIABLES, utils.configuration.flashvars );
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.PATHS, utils.configuration.paths );
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.LOCALES, utils.configuration.locales );
+			beans.addBeanDescriptor( descriptor );
+		}
+		
 		/**
 		*	Creates the main view and adds it to the display list.	
 		*/
 		protected function createMainView():void
 		{
+			doWithBeans( utils.configuration.locales.document );
+			
 			var application:Object = getBean( DefaultBeanIdentifiers.APPLICATION_BEAN );
 			
 			if( application )

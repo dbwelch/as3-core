@@ -16,6 +16,8 @@ package com.ffsys.di
 	import com.ffsys.io.loaders.types.*;
 	import com.ffsys.io.loaders.resources.*;
 	
+	import com.ffsys.utils.properties.IProperties;	
+	
 	import flash.utils.getQualifiedClassName;
 	
 	/**
@@ -122,9 +124,15 @@ package com.ffsys.di
 			Assert.assertTrue( dependencies.propertyXml is XML );
 			Assert.assertTrue( dependencies.propertyText is String );
 			Assert.assertTrue( dependencies.propertyFont is Array );
+			Assert.assertTrue( dependencies.propertyMessages is IProperties );
 
-			Assert.assertEquals( "hello xml world", dependencies.propertyXml.text()[ 0 ] );
-			Assert.assertEquals( "hello text world", dependencies.propertyText );
+			//assertions on the contents of loaded files
+			Assert.assertEquals( "hello xml world",
+				dependencies.propertyXml.text()[ 0 ] );
+			Assert.assertEquals( "hello text world",
+				dependencies.propertyText );
+			Assert.assertEquals( "hello properties world",
+				dependencies.propertyMessages.getProperty( "message" ) );
 			
 			//basic assertions on the loaded font data
 			var fonts:Array = ( dependencies.propertyFont as Array );

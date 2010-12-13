@@ -158,6 +158,12 @@ package com.ffsys.swat.as3.view {
 			_loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
 		}
 		
+		
+		public function set myLocale(value:Object):void
+		{
+			trace("SwatApplication::set myLocales()",  "SET MY LOCALE: " , value, value == utils.configuration.locales );
+		}		
+		
 		private function runtimeLoaded( event:LoadEvent ):void
 		{
 			var btn:Button = Button( _loader.document.getElementById( "btn" ) );

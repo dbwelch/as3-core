@@ -40,10 +40,10 @@ package com.ffsys.swat.configuration.locale {
 	public class LocaleManager extends LocaleCollection
 		implements ILocaleManager {
 			
-		static private var _styleManager:IStyleManager
+		static internal var _styleManager:IStyleManager
 			= new StyleManager();
 			
-		static private var _beanManager:IBeanManager
+		static internal var _beanManager:IBeanManager
 			= new BeanManager();
 		
 		private var _lang:String;
@@ -88,6 +88,14 @@ package com.ffsys.swat.configuration.locale {
 		public function getBean( beanName:String ):Object
 		{
 			return _beanManager.getBean( beanName );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get document():IBeanDocument
+		{
+			return _beanManager.document;
 		}
 		
 		/**

@@ -140,6 +140,14 @@ package com.ffsys.di
 		public static const TEXT_EXPRESSION:String = "text";
 		
 		/**
+		*	An expression to load a properties file with messages.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to an <code>IProperties</code>.
+		*/
+		public static const MESSAGES_EXPRESSION:String = "messages";
+		
+		/**
 		*	An expression to load a flash movie containing fonts.
 		* 
 		* 	When this expression is evaluated the resulting property

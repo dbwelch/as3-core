@@ -15,8 +15,6 @@ package com.ffsys.io.loaders.resources {
 	*/
 	public class PropertiesResource extends AbstractResource {
 		
-		private var _properties:IProperties;
-		
 		/**
 		* 	Creates a <code>PropertiesResource</code> instance.
 		* 
@@ -29,9 +27,9 @@ package com.ffsys.io.loaders.resources {
 			uri:String = null,
 			bytesTotal:uint = 0 )
 		{
-			super( data, uri, bytesTotal );
-			_properties = new Properties();
-			_properties.parse( data as String );
+			var properties:IProperties = new Properties();
+			properties.parse( data as String );
+			super( properties, uri, bytesTotal );
 		}
 		
 		/**
@@ -39,16 +37,7 @@ package com.ffsys.io.loaders.resources {
 		*/
 		public function get properties():IProperties
 		{
-			return _properties;
+			return ( data as IProperties );
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override public function destroy():void
-		{
-			super.destroy();
-			_properties = null;
-		}		
 	}
 }

@@ -16,27 +16,31 @@ package com.ffsys.di
 	{	
 		private var _document:IBeanDocument;
 		private var _id:String;
-		private var _instanceClass:Class;
 		private var _staticClass:Class;
 		private var _singleton:Boolean = false;
 		private var _properties:Object;
-		private var _singletonInstance:Object;
 		private var _instanceClassConstant:BeanConstant;
 		private var _staticClassConstant:BeanConstant;
 		
 		/**
+		* 	@private
+		*/
+		protected var _instanceClass:Class;
+		
+		/**
+		* 	@private
+		*/
+		protected var _singletonInstance:Object;
+		
+		/**
 		* 	Creates a <code>BeanDescriptor</code> instance.
 		* 
-		* 	@param source A source object to copy bean descriptor
-		* 	information from.
+		* 	@param id An identifier for the bean.
 		*/
-		public function BeanDescriptor( source:Object = null )
+		public function BeanDescriptor( id:String = null )
 		{
 			super();
-			if( source != null )
-			{
-				transfer( source );
-			}
+			this.id = id;
 		}
 		
 		/**
@@ -223,15 +227,13 @@ package com.ffsys.di
 				return clazz;
 			}
 			
-			trace("****************************************** BeanDescriptor::getBean()", this.id, isBean(), this.instanceClass );
+			//trace("****************************************** BeanDescriptor::getBean()", this.id, isBean(), this.instanceClass );
 			
 			//not an instance return the properties
 			if( !isBean() )
 			{
 				return getProperties();
 			}
-			
-			//trace("***************************** BeanDescriptor::getBean()", this.id, this.singleton );
 			
 			try
 			{
@@ -303,8 +305,6 @@ package com.ffsys.di
 		{
 			if( target )
 			{
-				trace("BeanDescriptor::transfer()", "TRANSFERRING INTO BEAN", this.id );
-				
 				clear();
 				
 				if( target.hasOwnProperty( BeanConstants.INSTANCE_CLASS_PROPERTY ) )
@@ -392,11 +392,6 @@ package com.ffsys.di
 					resolver = IBeanResolver( o );
 					resolved = resolver.resolve( this.document, bean );
 					
-					if( resolver is BeanReference )
-					{
-						trace("BeanDescriptor::resolve()", "RESOLVING BEAN REFERENCE: ", resolver.name, resolved );
-					}
-
 					loop = ( resolved is IBeanResolver ) && ( resolved != resolver )
 					while( loop )
 					{
@@ -405,7 +400,8 @@ package com.ffsys.di
 					}
 
 					//setBeanProperty( bean, z, resolved );
-
+					
+					//TODO: reintegrate with a central bean property set method
 					bean[ z ] = resolved;
 				}
 			}
