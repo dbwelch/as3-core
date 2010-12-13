@@ -21,7 +21,7 @@ package com.ffsys.swat.view {
 	*	
 	*	This handles loading of the main code base
 	*	and then defers to the runtime asset preloader
-	*	for the remaining assets.
+	*	for the remaining resources.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

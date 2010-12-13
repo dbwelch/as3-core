@@ -158,6 +158,10 @@ package com.ffsys.swat.as3.view {
 			_loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
 		}
 		
+		public function set myPreloaderView(value:Object):void
+		{
+			trace("SwatApplication::set myLocales()",  "SET MY PRELOADER VIEW: " , value );
+		}		
 		
 		public function set myLocale(value:Object):void
 		{

@@ -36,5 +36,23 @@ package com.ffsys.swat.configuration
 		* 	The identifier of the injected locales bean.
 		*/
 		public static const LOCALES:String = "locales";
+		
+		/**
+		* 	The identifier of the injected main application preloader.
+		* 
+		* 	This instance is at the root of the display list hierarchy
+		* 	for the application.
+		*/
+		public static const MAIN_APPLICATION_VIEW:String = "main-application-view";
+		
+		/**
+		* 	The identifier of the injected bootstrap preloader.
+		*/
+		public static const BOOTSTRAP_PRELOADER:String = "bootstrap-preloader";
+		
+		/**
+		* 	The identifier of the injected preloader view.
+		*/
+		public static const PRELOADER_VIEW:String = "preloader-view";
 	}
 }

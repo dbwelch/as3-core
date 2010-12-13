@@ -198,6 +198,15 @@ package com.ffsys.swat.view  {
 			descriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.LOCALES, utils.configuration.locales );
 			beans.addBeanDescriptor( descriptor );
+			descriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER, preloader );
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
+			beans.addBeanDescriptor( descriptor );
 		}
 		
 		/**
@@ -211,28 +220,27 @@ package com.ffsys.swat.view  {
 			
 			if( application )
 			{
-				trace("SwatApplication::createMainView()", "GOT APPLICATION BEAN" );
-			
-				if( !( application is IApplicationMainView ) )
+				//trace("SwatApplication::createMainView()", "GOT APPLICATION BEAN" );
+				
+				//ensure the ready method has access to the configuration
+				if( application is IApplicationView )
 				{
-					throw new Error(
-						"The application does not"
-						+ " adhere to the application contract." );
+					IApplicationView( application ).utils.configuration = utils.configuration;
 				}
 			
-				//ensure the ready method has access to the configuration
-				IApplicationMainView( application ).utils.configuration = utils.configuration;
-			
-				//invoke the ready method
-				var cleanup:Boolean = IApplicationMainView( application ).ready(
-					preloader.main,
-					preloader,
-					preloader.view );
-				
-				if( cleanup ) 
+				if( application is IApplicationMainView )
 				{
-					//remove the preloader view from the display list
-					preloader.view = null;
+					//invoke the ready method
+					var cleanup:Boolean = IApplicationMainView( application ).ready(
+						preloader.main,
+						preloader,
+						preloader.view );
+			
+					if( cleanup ) 
+					{
+						//remove the preloader view from the display list
+						preloader.view = null;
+					}
 				}
 			}
 			

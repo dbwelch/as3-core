@@ -13,8 +13,7 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public interface IApplicationMainView
-		extends IApplicationView {
+	public interface IApplicationMainView {
 		
 		/**
 		*	Invoked when all runtime assets have been loaded
