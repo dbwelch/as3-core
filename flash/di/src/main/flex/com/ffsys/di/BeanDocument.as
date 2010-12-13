@@ -295,7 +295,7 @@ package com.ffsys.di
 			//clear all stored beans
 			clear();
 			
-			//TODO: ensure child file dependency and bindings are also destroyed
+			//TODO: ensure bindings are also destroyed
 			
 			//null references
 			_id = null;

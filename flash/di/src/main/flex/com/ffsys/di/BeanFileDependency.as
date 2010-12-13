@@ -60,7 +60,7 @@ package com.ffsys.di
 			if( this.loaderClass && this.value )
 			{
 				loader = ILoader(
-					new loaderClass( new URLRequest( this.value ) ) );
+					new loaderClass( new URLRequest( String( this.value ) ) ) );
 				loader.customData = this;
 			}
 			return loader;
@@ -74,6 +74,13 @@ package com.ffsys.di
 			if( document != null )
 			{	
 				var descriptor:IBeanDescriptor = document.getBeanDescriptor( this.beanName );
+				
+				if( !descriptor )
+				{
+					throw new Error( "Could not locate file dependency bean with name '"
+						+ this.beanName + "'." );
+				}
+				
 				var properties:Object = descriptor.properties;
 				
 				//trace("BeanFileDependency::resolve()", properties, this.name, bean );

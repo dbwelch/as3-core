@@ -600,7 +600,11 @@ package com.ffsys.swat.core {
 				_assets = queue;
 				addQueueListeners( lastPhase ? loadComplete : next );
 				_phase = phase;
-				_assets.load();
+				
+				if( !_assets.loading )
+				{
+					_assets.load();
+				}
 			}
 		}
 		

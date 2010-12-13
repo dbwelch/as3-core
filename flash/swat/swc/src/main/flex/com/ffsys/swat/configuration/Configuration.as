@@ -85,6 +85,22 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
+		* 	Provides access to stored beans.
+		* 
+		* 	@param beanName The name of the bean.
+		* 
+		* 	@return An instance of the bean.
+		*/
+		public function getBean( beanName:String ):Object
+		{
+			if( _locales )
+			{
+				return _locales.getBean( beanName );
+			}
+			return null;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getMessage( id:String, ... replacements ):String

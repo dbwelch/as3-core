@@ -24,5 +24,23 @@ package com.ffsys.di
 		* 	reference value was found.
 		*/
 		function resolve( document:IBeanDocument, bean:Object ):Object;
+		
+		/**
+		* 	The name of the bean that holds this reference.
+		*/
+		function get beanName():String;
+		function set beanName( value:String ):void;
+		
+		/**
+		* 	The name of the bean property that holds this reference.
+		*/
+		function get name():String;
+		function set name( value:String ):void;
+		
+		/**
+		* 	The refrerence value extracted when this reference was parsed.
+		*/
+		function get value():Object;
+		function set value( value:Object ):void;		
 	}
 }

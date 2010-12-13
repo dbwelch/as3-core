@@ -1,6 +1,15 @@
 package com.ffsys.di
 {
-
+	/**
+	*	Describes the contract for implementations that provide
+	* 	access to stored beans.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  12.12.2010
+	*/
 	public interface IBeanAccess
 	{
 		/**

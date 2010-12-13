@@ -2,20 +2,13 @@ package com.ffsys.swat.configuration.locale {
 	
 	import flash.display.Bitmap;
 	import flash.filters.BitmapFilter;
-	import flash.media.Sound;	
+	import flash.media.Sound;
 	
-	import com.ffsys.utils.collections.strings.IStringCollection;
-	
-	import com.ffsys.utils.locale.ILocale;
-	import com.ffsys.utils.locale.LocaleCollection;
+	import com.ffsys.di.*;	
 
 	import com.ffsys.io.loaders.core.ILoader;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.LoaderQueue;
-	
-	import com.ffsys.swat.configuration.*;
-	import com.ffsys.swat.configuration.rsls.*;
-	
 	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.ui.css.CssStyleSheet;
@@ -24,10 +17,15 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.ui.css.StyleManager;
 	import com.ffsys.ui.css.StyleSheetFactory;
 	
+	import com.ffsys.utils.collections.strings.IStringCollection;
+	
+	import com.ffsys.utils.locale.ILocale;
+	import com.ffsys.utils.locale.LocaleCollection;	
 	import com.ffsys.utils.properties.IProperties;
 	import com.ffsys.utils.properties.Properties;
 	
-	import com.ffsys.swat.configuration.rsls.IResourceManager;
+	import com.ffsys.swat.configuration.*;
+	import com.ffsys.swat.configuration.rsls.*;	
 	
 	/**
 	*	Manages all the runtime assets for a collection
@@ -44,6 +42,9 @@ package com.ffsys.swat.configuration.locale {
 			
 		static private var _styleManager:IStyleManager
 			= new StyleManager();
+			
+		static private var _beanManager:IBeanManager
+			= new BeanManager();
 		
 		private var _lang:String;
 		private var _defaultLocale:IConfigurationLocale;
@@ -75,7 +76,19 @@ package com.ffsys.swat.configuration.locale {
 		public function LocaleManager()
 		{
 			super();
-		}		
+		}
+		
+		/**
+		* 	Provides access to stored beans.
+		* 
+		* 	@param beanName The name of the bean.
+		* 
+		* 	@return An instance of the bean.
+		*/
+		public function getBean( beanName:String ):Object
+		{
+			return _beanManager.getBean( beanName );
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -285,6 +298,20 @@ package com.ffsys.swat.configuration.locale {
 					_beansQueue.append(
 						_current.resources.beans.getLoaderQueue() );
 				}
+				
+				
+				//massage the css queue so that it uses the style manager
+				//for loading, ensuring that style dependencies are resolved
+				var loader:ILoader = null;
+				for( var i:int = 0;i < _beansQueue.length;i++ )
+				{
+					loader = ILoader( _beansQueue.getLoaderAt( i ) );
+					_beanManager.addBeanDocument( loader.request );
+				}
+				
+				//update our queue with the queue that the
+				//style manager will use
+				_beansQueue = _beanManager.load();
 			}
 			return _beansQueue;
 		}

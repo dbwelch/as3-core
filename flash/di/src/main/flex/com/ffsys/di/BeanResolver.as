@@ -12,20 +12,9 @@ package com.ffsys.di
 	*/
 	public class BeanResolver extends Object {
 		
-		/**
-		* 	The name of the bean that holds this reference.
-		*/
-		public var beanName:String;
-
-		/**
-		* 	The name of the bean property that holdes this reference.
-		*/
-		public var name:String;
-
-		/**
-		* 	The refrerence value extracted when this reference was parsed.
-		*/
-		public var value:String;
+		private var _beanName:String;
+		private var _name:String;
+		private var _value:Object;
 		
 		/**
 		* 	Creates a <code>BeanResolver</code> instance.
@@ -43,6 +32,45 @@ package com.ffsys.di
 			this.beanName = beanName;
 			this.name = name;
 			this.value = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get beanName():String
+		{
+			return _beanName;
+		}
+		
+		public function set beanName( value:String ):void
+		{
+			_beanName = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get name():String
+		{
+			return _name;
+		}
+		
+		public function set name( value:String ):void
+		{
+			_name = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get value():Object
+		{
+			return _value;
+		}
+		
+		public function set value( value:Object ):void
+		{
+			_value = value;
 		}
 		
 		/**
@@ -72,8 +100,8 @@ package com.ffsys.di
 		{
 			//convert to camel case
 			var re:RegExp = /^([^\-]*)\-([a-z]{1})(.*)$/;
-			var matches:Object = re.exec( this.value );
-			var camel:String = this.value;
+			var matches:Object = re.exec( String( this.value ) );
+			var camel:String = String( this.value );
 
 			if( matches )
 			{

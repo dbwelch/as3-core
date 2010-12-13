@@ -16,6 +16,7 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;
+	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;	
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationParser;
@@ -185,32 +186,42 @@ package com.ffsys.swat.view  {
 		*/
 		protected function createMainView():void
 		{
-			var config:IClassPathConfiguration = preloader.main.classes;
-			var view:DisplayObject = config.getMainViewInstance();
+			var application:Object = getBean( DefaultBeanIdentifiers.APPLICATION_BEAN );
 			
-			if( !( view is IApplicationMainView ) )
+			if( application )
 			{
-				throw new Error(
-					"The main application view does not"
-					+ " adhere to the application main view contract." );
-			}
+				trace("SwatApplication::createMainView()", "GOT APPLICATION BEAN" );
 			
-			//ensure the ready method has access to the configuration
-			IApplicationMainView( view ).utils.configuration = utils.configuration;
+				if( !( application is IApplicationMainView ) )
+				{
+					throw new Error(
+						"The application does not"
+						+ " adhere to the application contract." );
+				}
 			
-			//invoke the ready method
-			var cleanup:Boolean = IApplicationMainView( view ).ready(
-				preloader.main,
-				preloader,
-				preloader.view );
+				//ensure the ready method has access to the configuration
+				IApplicationMainView( application ).utils.configuration = utils.configuration;
+			
+				//invoke the ready method
+				var cleanup:Boolean = IApplicationMainView( application ).ready(
+					preloader.main,
+					preloader,
+					preloader.view );
 				
-			if( cleanup ) 
-			{
-				//remove the preloader view from the display list
-				preloader.view = null;
+				if( cleanup ) 
+				{
+					//remove the preloader view from the display list
+					preloader.view = null;
+				}
 			}
 			
-			addChild( view );
+			//var config:IClassPathConfiguration = preloader.main.classes;
+			//var view:DisplayObject = config.getMainViewInstance();
+
+			if( application && ( application is DisplayObject ) )
+			{
+				addChild( DisplayObject( application ) );
+			}
 		}
 		
 		/**

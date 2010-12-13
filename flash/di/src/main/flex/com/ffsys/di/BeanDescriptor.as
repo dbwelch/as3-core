@@ -42,6 +42,19 @@ package com.ffsys.di
 		/**
 		* 	@inheritDoc
 		*/
+		public function clear():void
+		{
+			_instanceClass = null;
+			_staticClass = null;
+			_properties = null;
+			_singletonInstance = null;
+			_instanceClassConstant = null;
+			_staticClassConstant = null;		
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get document():IBeanDocument
 		{
 			return _document;
@@ -210,6 +223,8 @@ package com.ffsys.di
 				return clazz;
 			}
 			
+			trace("****************************************** BeanDescriptor::getBean()", this.id, isBean(), this.instanceClass );
+			
 			//not an instance return the properties
 			if( !isBean() )
 			{
@@ -288,6 +303,10 @@ package com.ffsys.di
 		{
 			if( target )
 			{
+				trace("BeanDescriptor::transfer()", "TRANSFERRING INTO BEAN", this.id );
+				
+				clear();
+				
 				if( target.hasOwnProperty( BeanConstants.INSTANCE_CLASS_PROPERTY ) )
 				{
 					var instanceClassCandidate:Object = target[ BeanConstants.INSTANCE_CLASS_PROPERTY ];	
@@ -300,6 +319,7 @@ package com.ffsys.di
 						{
 							_instanceClassConstant = BeanConstant( instanceClassCandidate );
 						}
+						
 						delete target[ BeanConstants.INSTANCE_CLASS_PROPERTY ];
 					}
 				}
@@ -333,7 +353,7 @@ package com.ffsys.di
 				if( target.hasOwnProperty( BeanConstants.ID_PROPERTY ) )
 				{
 					var idCandidate:Object = target[ BeanConstants.ID_PROPERTY ];
-					if( idCandidate is String )
+					if( ( idCandidate is String ) && this.id == null )
 					{
 						this.id = ( idCandidate as String );
 						//we don't delete the id property as it may need to be assigned
@@ -349,11 +369,9 @@ package com.ffsys.di
 		*/
 		public function destroy():void
 		{
+			clear();
 			_document = null;
 			_id = null;
-			_instanceClass = null;
-			_properties = null;
-			_singletonInstance = null;
 		}
 		
 		/**
@@ -373,6 +391,11 @@ package com.ffsys.di
 				{
 					resolver = IBeanResolver( o );
 					resolved = resolver.resolve( this.document, bean );
+					
+					if( resolver is BeanReference )
+					{
+						trace("BeanDescriptor::resolve()", "RESOLVING BEAN REFERENCE: ", resolver.name, resolved );
+					}
 
 					loop = ( resolved is IBeanResolver ) && ( resolved != resolver )
 					while( loop )

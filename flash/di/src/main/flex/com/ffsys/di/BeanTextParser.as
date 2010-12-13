@@ -50,9 +50,10 @@ package com.ffsys.di
 					bean = _beanSheet.getStyle( name );
 					processBean( name, bean );
 					//transfer the anonymous object to a bean descriptor
-					descriptor = new BeanDescriptor( bean );
+					descriptor = new BeanDescriptor();
 					//always assign the style name as the bean identifier
-					descriptor.id = name;	
+					descriptor.id = name;
+					descriptor.transfer( bean );
 					this.document.addBeanDescriptor( descriptor );
 				}
 				return this.document;
@@ -77,6 +78,6 @@ package com.ffsys.di
 				}
 				parser.setBeanProperty( bean, z, value );
 			}
-		}	
+		}
 	}
 }

@@ -61,6 +61,19 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	Provides access to stored beans.
+		* 
+		* 	@param beanName The name of the bean.
+		* 
+		* 	@return An instance of the bean.
+		*/
+		public function getBean( beanName:String ):Object
+		{
+			verifyConfiguration();
+			return this.configuration.getBean( beanName );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function get flashvars():IFlashVariables

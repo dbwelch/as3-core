@@ -3,6 +3,8 @@ package com.ffsys.swat.view
 	import flash.text.Font;
 	import flash.text.TextField;
 	
+	import com.ffsys.di.*;
+	
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;
 	import com.ffsys.core.IFlashVariables;
@@ -27,6 +29,7 @@ package com.ffsys.swat.view
 	public interface IApplicationView
 		extends IEnabled,
 				IDestroy,
+				IBeanAccess,
 				IMessageAccess,
 				IMediaAccess,
 				IStyleAware

@@ -42,10 +42,7 @@ package com.ffsys.di
 				}
 
 				//convert to camel case
-				var re:RegExp = /^([^\-]*)\-([a-z]{1})(.*)$/;
-				var matches:Object = re.exec( this.value );
 				var camel:String = toCamelCase();
-
 				if( !constants.hasOwnProperty( camel ) )
 				{
 					throw new Error( "The constant reference '" + camel + "' has not been declared." );

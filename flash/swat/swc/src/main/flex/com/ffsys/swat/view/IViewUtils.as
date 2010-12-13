@@ -3,6 +3,8 @@ package com.ffsys.swat.view {
 	import flash.filters.BitmapFilter;
 	import flash.text.Font;
 	
+	import com.ffsys.di.*;
+	
 	import com.ffsys.core.IFlashVariables;
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
@@ -27,6 +29,7 @@ package com.ffsys.swat.view {
 	*/
 	public interface IViewUtils
 		extends IConfigurationAware,
+				IBeanAccess,
 		 		IMessageAccess,
 		 		IMediaAccess {
 			

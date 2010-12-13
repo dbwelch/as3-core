@@ -56,7 +56,7 @@ package com.ffsys.swat.configuration
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@deprecated
 		*/
 		public function getMainViewClassPath():String
 		{
@@ -171,7 +171,7 @@ package com.ffsys.swat.configuration
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@deprecated
 		*/
 		public function getMainViewInstance():DisplayObject
 		{

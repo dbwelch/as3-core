@@ -32,10 +32,13 @@ package com.ffsys.di
 		*/
 		public function resolve( document:IBeanDocument, bean:Object ):Object
 		{
+			var found:Object = null;
+			
 			if( document )
 			{
-				var candidate:String = this.value;
-				var found:Object;
+				var candidate:String = String( this.value );
+				
+				trace("BeanReference::resolve()", "RESOLVING WITH CANDIDATE: ", candidate );
 
 				//we check the delimiter is beyond the first character
 				if( candidate.lastIndexOf( BeanConstants.REFERENCE_PROPERTY_DELIMITER ) > 0 )
@@ -76,11 +79,11 @@ package com.ffsys.di
 					throw new Error(
 						"Could not locate bean reference with value '" + candidate + "'." );
 				}
+				
+				trace("BeanReference::resolve()", "RETURNING RESOLVED OBJECT: ", found );
 
-				return found;
 			}
-
-			return bean;
+			return found;
 		}
 	}
 }

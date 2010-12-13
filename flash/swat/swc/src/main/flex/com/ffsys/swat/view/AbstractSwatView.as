@@ -37,7 +37,7 @@ package com.ffsys.swat.view  {
 		public function AbstractSwatView()
 		{
 			super();
-		}
+		}		
 		
 		/**
 		*	@inheritDoc	
@@ -66,6 +66,18 @@ package com.ffsys.swat.view  {
 		public function get utils():IViewUtils
 		{
 			return _utils;
+		}
+		
+		/**
+		* 	Provides access to stored beans.
+		* 
+		* 	@param beanName The name of the bean.
+		* 
+		* 	@return An instance of the bean.
+		*/
+		public function getBean( beanName:String ):Object
+		{
+			return _utils.getBean( beanName );
 		}
 		
 		/**

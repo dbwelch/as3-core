@@ -1,11 +1,15 @@
 package com.ffsys.swat.configuration.locale {
 	
-	import com.ffsys.utils.locale.ILocale;
-	import com.ffsys.utils.locale.ILocaleCollection;
-	import com.ffsys.utils.properties.IProperties;
+
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
 	import com.ffsys.io.xml.IDeserializeComplete;
+	
+	import com.ffsys.di.*;	
+	
+	import com.ffsys.utils.locale.ILocale;
+	import com.ffsys.utils.locale.ILocaleCollection;
+	import com.ffsys.utils.properties.IProperties;	
 	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationProperties;
@@ -27,12 +31,14 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public interface ILocaleManager
 		extends ILocaleCollection,
+				IBeanAccess,
 				IConfigurationProperties,
 				IMessageAccess,
 				IMediaAccess,
 		 		IDeserializeProperty,
 				IDeserializeComplete,
 				IResourceManagerAware {
+		
 		
 		/**
 		* 	The parent configuration.

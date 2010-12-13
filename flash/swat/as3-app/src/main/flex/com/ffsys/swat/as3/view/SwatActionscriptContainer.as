@@ -79,6 +79,9 @@ package com.ffsys.swat.as3.view {
 			vbox = new VerticalBox();
 			addChild( vbox );
 			
+			trace("SwatActionscriptContainer::createChildren()", "GOT APPLICATION BEAN: ",
+				getBean( "application" ) );
+			
 			/*
 			var rect:RectangleGraphic = RectangleGraphic( styleManager.getStyle( "rectangle" ) );
 
