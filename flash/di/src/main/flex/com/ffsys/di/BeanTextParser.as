@@ -42,6 +42,7 @@ package com.ffsys.di
 			
 				var bean:Object = null;
 				var names:Array = _beanSheet.styleNames;
+				names.sort();
 				var name:String = null;
 				var descriptor:IBeanDescriptor = null;
 				for( var i:int = 0;i < names.length;i++ )
