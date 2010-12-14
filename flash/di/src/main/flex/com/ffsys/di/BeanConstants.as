@@ -20,14 +20,26 @@ package com.ffsys.di
 		/**
 		* 	The name of the property used to determine whether a bean
 		* 	represents a custom class to instantiate when retrieving the bean.
+		* 
+		* 	This should be a <code>class</code> expression.
 		*/
 		public static const INSTANCE_CLASS_PROPERTY:String = "instanceClass";
 		
 		/**
 		* 	The name of the property used to determine whether a bean uses
 		* 	a factory method for instantiation.
+		* 
+		* 	This should be a <code>ref</code> expression.
 		*/
 		public static const FACTORY_PROPERTY:String = "factory";
+		
+		/**
+		* 	The name of the property used to determine the parameters
+		* 	for a method call.
+		* 
+		* 	This should be an <code>array</code> expression.
+		*/
+		public static const PARAMETERS_PROPERTY:String = "parameters";
 	
 		/**
 		* 	The name of the property used to determine whether a bean
