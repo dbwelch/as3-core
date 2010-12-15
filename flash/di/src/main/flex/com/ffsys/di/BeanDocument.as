@@ -203,7 +203,6 @@ package com.ffsys.di
 			{
 				return true;
 			}
-			
 			var bean:IBeanDescriptor = null;
 			for( var i:int = 0;i < _beans.length;i++ )
 			{
@@ -213,7 +212,6 @@ package com.ffsys.di
 					return true;
 				}
 			}
-			
 			return false;
 		}
 		
@@ -223,13 +221,34 @@ package com.ffsys.di
 		public function addBeanDescriptor( descriptor:IBeanDescriptor ):Boolean
 		{
 			if( descriptor
-				&& !hasBeanDescriptor( descriptor ) )
+				&& descriptor.id )
 			{
-				descriptor.document = this;
-				_beans.push( descriptor );
+				descriptor.document = this;				
+				var existing:IBeanDescriptor = getBeanDescriptor(
+					descriptor.id );
+				if( existing )
+				{
+					var policy:String = descriptor.policy;
+					//nothing to do on existing bean match
+					if( policy == BeanPolicy.NONE )
+					{
+						return false;
+					}else if( policy == BeanPolicy.REPLACE )
+					{
+						//remove the existing bean
+						removeBeanDescriptor( existing );
+						//add the new one
+						_beans.push( descriptor );
+					}else if( policy == BeanPolicy.MERGE )
+					{
+						//TODO
+						trace("BeanDocument::addBeanDescriptor()", "MERGE BEANS" );
+					}
+				}else{
+					_beans.push( descriptor );
+				}
 				return true;
 			}
-			
 			return false;
 		}
 		
@@ -251,7 +270,6 @@ package com.ffsys.di
 					}
 				}
 			}
-			
 			return false;
 		}		
 		

@@ -18,6 +18,7 @@ package com.ffsys.di
 	{	
 		private var _document:IBeanDocument;
 		private var _id:String;
+		private var _policy:String;
 		private var _staticClass:Class;
 		private var _singleton:Boolean = false;
 		private var _properties:Object;
@@ -44,6 +45,23 @@ package com.ffsys.di
 		{
 			super();
 			this.id = id;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get policy():String
+		{
+			if( _policy == null )
+			{
+				return BeanPolicy.NONE;
+			}
+			return _policy;
+		}
+		
+		public function set policy( value:String ):void
+		{
+			_policy = value;
 		}
 		
 		/**

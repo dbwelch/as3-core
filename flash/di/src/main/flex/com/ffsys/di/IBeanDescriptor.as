@@ -42,6 +42,13 @@ package com.ffsys.di
 		function set properties( properties:Object ):void;
 		
 		/**
+		* 	A bean policy used to determine how this bean should
+		* 	be handled when it matches an existing bean definition.
+		*/
+		function get policy():String;
+		function set policy( value:String ):void;		
+		
+		/**
 		* 	Transfers the properties of an anonymous object representing
 		* 	a bean descriptor into this descriptor.
 		* 
