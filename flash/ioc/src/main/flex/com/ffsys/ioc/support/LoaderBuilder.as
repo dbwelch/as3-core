@@ -19,7 +19,7 @@ package com.ffsys.ioc.support
 	public class LoaderBuilder extends Object
 		implements ILoaderBuilder
 	{
-		private var _factory:ILoaderFactory;
+		private var _loaderFactory:ILoaderFactory;
 		private var _loaderQueueClass:Class = LoaderQueue;
 		private var _extension:String;
 		private var _prefix:String;
@@ -61,14 +61,14 @@ package com.ffsys.ioc.support
 		/**
 		* 	@inheritDoc
 		*/
-		public function get factory():ILoaderFactory
+		public function get loaderFactory():ILoaderFactory
 		{
-			return _factory;
+			return _loaderFactory;
 		}
 		
-		public function set factory( value:ILoaderFactory ):void
+		public function set loaderFactory( value:ILoaderFactory ):void
 		{
-			_factory = value;
+			_loaderFactory = value;
 		}
 		
 		/**
@@ -102,7 +102,7 @@ package com.ffsys.ioc.support
 				throw new Error( "A loader builder cannot create a loader queue with a null loader queue class." );				
 			}
 			
-			if( this.factory == null )
+			if( this.loaderFactory == null )
 			{
 				throw new Error( "A loader builder cannot retrieve a loader with no loader factory reference." );
 			}
@@ -116,12 +116,9 @@ package com.ffsys.ioc.support
 				for( var i:int = 0;i < files.length;i++ )
 				{
 					file = files[ i ];
-					loader = this.factory.getLoaderByFileExtension(
+					loader = this.loaderFactory.getLoaderByFileExtension(
 						this.extension );
 					loader.request = new URLRequest( file );
-					
-					trace("LoaderBuilder::getLoaderQueue()", loader, file );
-					
 					output.addLoader( loader );
 				}
 			}

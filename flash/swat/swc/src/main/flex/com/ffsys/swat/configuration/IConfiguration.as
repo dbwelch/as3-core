@@ -2,7 +2,7 @@ package com.ffsys.swat.configuration {
 	
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.di.*;
+	import com.ffsys.ioc.*;
 	
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.ILocale;

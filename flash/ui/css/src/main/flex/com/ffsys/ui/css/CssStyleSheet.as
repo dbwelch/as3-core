@@ -12,7 +12,7 @@ package com.ffsys.ui.css {
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	
-	import com.ffsys.di.*;
+	import com.ffsys.ioc.*;
 	
 	import com.ffsys.ui.common.IMarginAware;
 	import com.ffsys.ui.common.IPaddingAware;

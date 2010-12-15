@@ -3,7 +3,7 @@ package com.ffsys.swat.view {
 	import flash.filters.BitmapFilter;
 	import flash.text.Font;
 	
-	import com.ffsys.di.*;
+	import com.ffsys.ioc.*;
 	
 	import com.ffsys.core.IFlashVariables;
 	

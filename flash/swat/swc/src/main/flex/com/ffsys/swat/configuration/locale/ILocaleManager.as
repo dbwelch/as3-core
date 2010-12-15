@@ -5,7 +5,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.xml.IDeserializeProperty;
 	import com.ffsys.io.xml.IDeserializeComplete;
 	
-	import com.ffsys.di.*;	
+	import com.ffsys.ioc.*;	
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.ILocaleCollection;

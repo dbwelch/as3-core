@@ -4,7 +4,7 @@ package com.ffsys.swat.configuration.locale {
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
 	
-	import com.ffsys.di.*;	
+	import com.ffsys.ioc.*;	
 
 	import com.ffsys.io.loaders.core.ILoader;
 	import com.ffsys.io.loaders.core.ILoaderQueue;

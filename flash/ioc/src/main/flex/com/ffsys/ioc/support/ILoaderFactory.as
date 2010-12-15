@@ -17,8 +17,8 @@ package com.ffsys.ioc.support
 		/**
 		* 	The file extension to class mappings.
 		*/
-		function get extensions():IFileExtensionClassMapping;
-		function set extensions( value:IFileExtensionClassMapping ):void;
+		function get extensions():IFileTypeClassMapping;
+		function set extensions( value:IFileTypeClassMapping ):void;
 		
 		/**
 		* 	Gets the class of loader for a given file extension.

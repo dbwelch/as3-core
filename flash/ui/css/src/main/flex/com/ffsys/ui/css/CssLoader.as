@@ -3,7 +3,7 @@ package com.ffsys.ui.css {
 	import flash.net.URLRequest;
 	import flash.text.StyleSheet;
 	
-	import com.ffsys.di.*;
+	import com.ffsys.ioc.*;
 	
 	import com.ffsys.io.loaders.core.ILoadOptions;
 	import com.ffsys.io.loaders.types.StyleSheetLoader;

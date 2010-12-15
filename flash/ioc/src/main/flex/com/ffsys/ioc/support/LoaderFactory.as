@@ -15,7 +15,7 @@ package com.ffsys.ioc.support
 	public class LoaderFactory extends Object
 		implements ILoaderFactory
 	{
-		private var _extensions:IFileExtensionClassMapping;
+		private var _extensions:IFileTypeClassMapping;
 		
 		/**
 		* 	Creates a <code>LoaderFactory</code> instance.
@@ -28,12 +28,12 @@ package com.ffsys.ioc.support
 		/**
 		* 	@inheritDoc
 		*/
-		public function get extensions():IFileExtensionClassMapping
+		public function get extensions():IFileTypeClassMapping
 		{
 			return _extensions;
 		}
 		
-		public function set extensions( value:IFileExtensionClassMapping ):void
+		public function set extensions( value:IFileTypeClassMapping ):void
 		{
 			_extensions = value;
 		}

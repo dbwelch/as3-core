@@ -3,7 +3,7 @@ package com.ffsys.swat.view
 	import flash.text.Font;
 	import flash.text.TextField;
 	
-	import com.ffsys.di.*;
+	import com.ffsys.ioc.*;
 	
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IEnabled;

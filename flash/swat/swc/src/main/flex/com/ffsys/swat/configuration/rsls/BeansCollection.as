@@ -2,7 +2,7 @@ package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
 	
-	import com.ffsys.di.BeanLoader;
+	import com.ffsys.ioc.BeanLoader;
 	import com.ffsys.io.loaders.core.ILoader;
 	
 	/**

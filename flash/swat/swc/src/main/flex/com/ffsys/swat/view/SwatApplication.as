@@ -11,7 +11,7 @@ package com.ffsys.swat.view  {
 	
 	//import com.ffsys.ui.text.core.ITextFieldFactory;
 	
-	import com.ffsys.di.*;	
+	import com.ffsys.ioc.*;	
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
 	import com.ffsys.swat.core.RuntimeAssetPreloader;

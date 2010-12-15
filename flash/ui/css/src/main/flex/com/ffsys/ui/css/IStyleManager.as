@@ -2,7 +2,7 @@ package com.ffsys.ui.css {
 	
 	import flash.net.URLRequest;
 	
-	import com.ffsys.di.*;
+	import com.ffsys.ioc.*;
 	import com.ffsys.io.loaders.core.*;
 	
 	/**

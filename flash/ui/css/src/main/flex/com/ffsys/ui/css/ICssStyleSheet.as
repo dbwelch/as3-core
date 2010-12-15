@@ -3,7 +3,7 @@ package com.ffsys.ui.css {
 	import flash.filters.BitmapFilter;
 	import flash.text.TextFormat;
 	
-	import com.ffsys.di.*;	
+	import com.ffsys.ioc.*;	
 	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	

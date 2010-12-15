@@ -1,7 +1,7 @@
 package com.ffsys.ioc.support
 {
 
-	public interface IFileExtensionClassMapping
+	public interface IFileTypeClassMapping
 	{
 		
 		/**

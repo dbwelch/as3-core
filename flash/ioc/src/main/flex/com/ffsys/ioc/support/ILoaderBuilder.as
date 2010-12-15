@@ -35,8 +35,8 @@ package com.ffsys.ioc.support
 		/**
 		* 	A factory used to instantiate the loaders.
 		*/
-		function get factory():ILoaderFactory;
-		function set factory( value:ILoaderFactory ):void;
+		function get loaderFactory():ILoaderFactory;
+		function set loaderFactory( value:ILoaderFactory ):void;
 		
 		/**
 		* 	Builds a list of all the files this builder represents.
