@@ -1,6 +1,5 @@
 package com.ffsys.swat.configuration
 {
-	
 	/**
 	*	Encapsulates constants that represent bean identifiers.
 	*
