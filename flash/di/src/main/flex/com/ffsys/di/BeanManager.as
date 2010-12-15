@@ -208,6 +208,7 @@ package com.ffsys.di {
 				//to load the file
 				dependency.resolve(
 					document,
+					null,
 					event.type == LoadEvent.RESOURCE_NOT_FOUND ? event.loader : IResource( event.resource ).data );
 			}
 		}

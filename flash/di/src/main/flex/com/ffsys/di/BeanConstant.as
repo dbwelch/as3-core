@@ -30,7 +30,10 @@ package com.ffsys.di
 		/**
 		* 	@inheritDoc
 		*/
-		public function resolve( document:IBeanDocument, bean:Object ):Object
+		public function resolve(
+			document:IBeanDocument,
+			descriptor:IBeanDescriptor,
+			bean:Object ):Object
 		{
 			if( document != null )
 			{

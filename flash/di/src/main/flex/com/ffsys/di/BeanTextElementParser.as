@@ -24,6 +24,7 @@ package com.ffsys.di
 	*	@since  10.12.2010
 	*/
 	public class BeanTextElementParser extends Object
+		implements IBeanPropertyParser
 	{
 		private var _document:IBeanDocument;
 		private var _substitutor:Substitutor = null;
@@ -49,24 +50,19 @@ package com.ffsys.di
 			return _document;
 		}
 		
-		public function set document(document:IBeanDocument):void
+		public function set document( document:IBeanDocument ):void
 		{
 			_document = document;
 		}
 		
 		/**
-		* 	Parses a bean text property.
-		* 
-		* 	@param value The parsed value.
-		* 	@param bean The name of the bean.
-		* 	@param propertyName The name of the bean property.
-		* 
-		* 	@return The parsed object.
+		* 	@inheritDoc
 		*/
 		public function parse(
-			value:String,
+			descriptor:IBeanDescriptor,
 			beanName:String,
-			propertyName:String ):Object
+			propertyName:String,
+			value:String ):Object
 		{
 			var output:Object = value;
 			var extension:Object = null;
@@ -77,7 +73,7 @@ package com.ffsys.di
 
 			if( candidate )
 			{
-				output = parseBindingCandidate( value );
+				output = parseBindingCandidate( descriptor, value );
 			}
 			
 			if( output is String )
@@ -89,10 +85,10 @@ package com.ffsys.di
 				{
 					if( hexExpression.test( String( output ) ) )
 					{
-						output = parseHexNumber( String( output ) );
+						output = parseHexNumber( descriptor, String( output ) );
 					}else if( _extensionExpression.test( String( output ) ) )
 					{
-						extension = parseExtension( String( output ), beanName, propertyName );
+						extension = parseExtension( descriptor, String( output ), beanName, propertyName );
 						if( extension != null )
 						{
 							output = extension;
@@ -100,7 +96,6 @@ package com.ffsys.di
 					}
 				}
 			}
-			
 			return output;			
 		}
 		
@@ -116,7 +111,9 @@ package com.ffsys.di
 		/**
 		* 	@private
 		*/
-		private function parseBindingCandidate( value:String ):Object
+		private function parseBindingCandidate( 
+			descriptor:IBeanDescriptor,
+			value:String ):Object
 		{
 			var output:Object = value;
 			if( document && document.bindings )
@@ -132,7 +129,9 @@ package com.ffsys.di
 		/**
 		*	@private	
 		*/
-		private function parseHexNumber( candidate:String ):Number
+		private function parseHexNumber(
+			descriptor:IBeanDescriptor,
+			candidate:String ):Number
 		{
 			candidate = candidate.replace( /^#/, "0x" );
 			var parsed:Number = Number( candidate );
@@ -143,6 +142,7 @@ package com.ffsys.di
 		*	@private
 		*/
 		private function parseExtension(
+			descriptor:IBeanDescriptor,
 			candidate:String,
 			beanName:String,
 			beanProperty:String = null ):Object
@@ -211,7 +211,7 @@ package com.ffsys.di
 					break;
 				case BeanConstants.POINT_EXPRESSION:
 					output = new Point();
-					parameters = parseParts( value, beanName, beanProperty );
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 2, BeanConstants.POINT_EXPRESSION );
 					var p:Point = Point( output );
 					p.x = parameters[ 0 ];
@@ -219,7 +219,7 @@ package com.ffsys.di
 					break;					
 				case BeanConstants.RECTANGLE_EXPRESSION:
 					output = new Rectangle();
-					parameters = parseParts( value, beanName, beanProperty );
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 4, BeanConstants.RECTANGLE_EXPRESSION );
 					var r:Rectangle = Rectangle( output );
 					r.left = parameters[ 0 ];
@@ -229,7 +229,7 @@ package com.ffsys.di
 					break;
 				case BeanConstants.MATRIX_EXPRESSION:
 					output = new Matrix();
-					parameters = parseParts( value, beanName, beanProperty );
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 6, BeanConstants.MATRIX_EXPRESSION );
 					var m:Matrix = Matrix( output );
 					m.a = parameters[ 0 ];
@@ -241,7 +241,7 @@ package com.ffsys.di
 					break;
 				case BeanConstants.COLOR_TRANSFORM_EXPRESSION:
 					output = new ColorTransform();
-					parameters = parseParts( value, beanName, beanProperty );
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 8, BeanConstants.COLOR_TRANSFORM_EXPRESSION );
 					var c:ColorTransform = ColorTransform( output );
 					c.redMultiplier = parameters[ 0 ];
@@ -315,9 +315,10 @@ package com.ffsys.di
 		* 	@private
 		*/
 		private function parseParts(
-			value:String,
+			descriptor:IBeanDescriptor,
 			beanName:String,
 			beanProperty:String,
+			value:String,			
 			delimiter:String = "," ):Array
 		{
 			var output:Array = new Array();
@@ -325,7 +326,7 @@ package com.ffsys.di
 			var part:String = null;			
 			for( var i:int = 0;i < parts.length;i++ )
 			{
-				output.push( parse( parts[ i ], beanName, beanProperty ) );
+				output.push( parse( descriptor, beanName, beanProperty, parts[ i ] ) );
 			}
 			return output;
 		}
@@ -333,7 +334,8 @@ package com.ffsys.di
 		/**
 		* 	@private
 		*/
-		private function getSubstitutor( source:String, target:Object = null ):Substitutor
+		private function getSubstitutor(
+			source:String, target:Object = null ):Substitutor
 		{
 			if( !_substitutor )
 			{

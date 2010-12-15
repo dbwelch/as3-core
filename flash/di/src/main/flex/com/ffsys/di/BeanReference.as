@@ -30,10 +30,12 @@ package com.ffsys.di
 		/**
 		* 	@inheritDoc
 		*/
-		public function resolve( document:IBeanDocument, bean:Object ):Object
+		public function resolve(
+			document:IBeanDocument,
+			descriptor:IBeanDescriptor,
+			bean:Object ):Object
 		{
 			var found:Object = null;
-			
 			if( document )
 			{
 				var candidate:String = String( this.value );
@@ -66,7 +68,7 @@ package com.ffsys.di
 					found = document.getBean( candidate );
 					if( found is IBeanResolver && found != this )
 					{
-						found = find( found, bean, document );
+						found = find( document, descriptor, found, bean );
 					}
 				}
 

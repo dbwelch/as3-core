@@ -3,7 +3,7 @@ package com.ffsys.di
 	import flash.utils.getQualifiedClassName;
 	
 	/**
-	*	Represents a bean array reference.
+	*	Represents a bean array expression.
 	* 
 	* 	This can be used to create arrays of bean references.
 	*
@@ -38,7 +38,10 @@ package com.ffsys.di
 		* 
 		* 	@inheritDoc
 		*/
-		public function resolve( document:IBeanDocument, bean:Object ):Object
+		public function resolve(
+			document:IBeanDocument,
+			descriptor:IBeanDescriptor,
+			bean:Object ):Object
 		{
 			if( document != null )
 			{	
@@ -56,11 +59,11 @@ package com.ffsys.di
 					part = part.replace(/\s+$/,"");
 
 					//overwrite the array entry with the parsed value
-					parsed = parser.parse( part, beanName, this.name );
+					parsed = parser.parse( descriptor, beanName, this.name, part );
 
 					if( parsed is IBeanResolver )
 					{
-						parsed = find( parsed, bean, document );
+						parsed = find( document, descriptor, parsed, bean );
 					}
 
 					//update the array element

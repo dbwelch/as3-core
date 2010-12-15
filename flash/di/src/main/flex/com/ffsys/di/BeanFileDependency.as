@@ -69,7 +69,10 @@ package com.ffsys.di
 		/**
 		* 	@inheritDoc
 		*/
-		public function resolve( document:IBeanDocument, bean:Object ):Object
+		public function resolve(
+			document:IBeanDocument,
+			descriptor:IBeanDescriptor,
+			bean:Object ):Object
 		{
 			if( document != null )
 			{	
@@ -84,7 +87,8 @@ package com.ffsys.di
 				var properties:Object = descriptor.properties;
 				if( properties )
 				{
-					//update the bean descriptor properties
+					//update the bean descriptor property
+					//with the loaded resource data
 					properties[ this.name ] = bean;
 				}
 			}

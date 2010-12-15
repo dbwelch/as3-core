@@ -77,18 +77,18 @@ package com.ffsys.di
 		* 	@private
 		*/
 		protected function find(
+			document:IBeanDocument,
+			descriptor:IBeanDescriptor,
 			target:Object,
-			bean:Object,
-			document:IBeanDocument ):Object
+			bean:Object ):Object
 		{	
 			var loop:Boolean = false;
 			loop = ( target is IBeanResolver )
 			while( loop )
 			{
-				target = IBeanResolver( target ).resolve( document, bean );
+				target = IBeanResolver( target ).resolve( document, descriptor, bean );
 				loop = ( target is IBeanResolver );
 			}
-
 			return target;
 		}
 		
@@ -96,6 +96,7 @@ package com.ffsys.di
 		/**
 		* 	@private
 		*/
+		//TODO: refactor this to use a CamelCaseConverter implementation when available
 		protected function toCamelCase():String
 		{
 			//convert to camel case

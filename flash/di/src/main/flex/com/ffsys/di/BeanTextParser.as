@@ -39,6 +39,9 @@ package com.ffsys.di
 			
 				_beanSheet = new StyleSheet();
 				_beanSheet.parseCSS( text );
+				
+				//TODO: refactor this so it is only instantiated for each call to parse() not to processBean()
+				var parser:BeanTextElementParser = new BeanTextElementParser( this.document );				
 			
 				var bean:Object = null;
 				var names:Array = _beanSheet.styleNames;
@@ -49,12 +52,20 @@ package com.ffsys.di
 				{
 					name = names[ i ];
 					bean = _beanSheet.getStyle( name );
-					bean = processBean( name, bean );
 					//transfer the anonymous object to a bean descriptor
 					descriptor = new BeanDescriptor();
+					
+					//parse bean expressions and primitives
+					bean = processBean( parser, descriptor, name, bean );
+					
 					//always assign the style name as the bean identifier
 					descriptor.id = name;
+					
+					//transfer the anonymous object properties
+					//to create the bean descriptor
 					descriptor.transfer( bean );
+					
+					//add the bean to the document
 					this.document.addBeanDescriptor( descriptor );
 				}
 				return this.document;
@@ -65,11 +76,12 @@ package com.ffsys.di
 		/**
 		* 	@private
 		*/
-		private function processBean( beanName:String, bean:Object ):Object
+		private function processBean(
+			parser:IBeanPropertyParser,
+			descriptor:IBeanDescriptor,
+			beanName:String,
+			bean:Object ):Object
 		{
-			//TODO: refactor this so it is only instantiated for each call to parse() not to processBean()
-			var parser:BeanTextElementParser = new BeanTextElementParser( this.document );
-			
 			var z:String = null;
 			var value:*;
 			var output:Object = new Object();
@@ -78,7 +90,7 @@ package com.ffsys.di
 				value = bean[ z ];
 				if( value is String )
 				{
-					value = parser.parse( String( value ), beanName, z );
+					value = parser.parse( descriptor, beanName, z, String( value ) );
 				}
 				
 				//parser.setBeanProperty( bean, z, value );

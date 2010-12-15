@@ -103,7 +103,7 @@ package com.ffsys.di
 				var candidate:Object = null;
 				try
 				{
-					candidate = _staticClassConstant.resolve( this.document, this );
+					candidate = _staticClassConstant.resolve( this.document, this, this );
 				}catch( e:Error )
 				{
 					throw new Error( "Could not resolve a static class constant." );
@@ -132,7 +132,7 @@ package com.ffsys.di
 				var candidate:Object = null;
 				try
 				{
-					candidate = _instanceClassConstant.resolve( this.document, this );
+					candidate = _instanceClassConstant.resolve( this.document, this, this );
 				}catch( e:Error )
 				{
 					throw new Error( "Could not resolve an instance class constant." );
@@ -251,7 +251,7 @@ package com.ffsys.di
 			//handle factory instantiation
 			if( _factoryReference )
 			{
-				var methodCandidate:Object = _factoryReference.resolve( document, this );
+				var methodCandidate:Object = _factoryReference.resolve( this.document, this, this );
 				if( !( methodCandidate is Function ) )
 				{
 					throw new BeanError(
@@ -441,12 +441,12 @@ package com.ffsys.di
 				if( o is IBeanResolver && !( o is BeanMethod ) && !( o is BeanFileDependency ) )
 				{
 					resolver = IBeanResolver( o );
-					resolved = resolver.resolve( this.document, bean );
+					resolved = resolver.resolve( this.document, this, bean );
 					
 					loop = ( resolved is IBeanResolver ) && ( resolved != resolver )
 					while( loop )
 					{
-						resolved = IBeanResolver( resolved ).resolve( this.document, bean );
+						resolved = IBeanResolver( resolved ).resolve( this.document, this, bean );
 						loop = ( resolved is IBeanResolver ) && ( resolved != resolver );
 					}
 
@@ -490,7 +490,7 @@ package com.ffsys.di
 				{
 					if( bean[ z ] is BeanConstant )
 					{
-						output[ z ] = BeanConstant( bean[ z ] ).resolve( this.document, bean );
+						output[ z ] = BeanConstant( bean[ z ] ).resolve( this.document, this, bean );
 					}else{
 						output[ z ] = bean[ z ];
 					}
@@ -515,7 +515,7 @@ package com.ffsys.di
 			//handle method references
 			if( isMethodReference( properties ) )
 			{
-				return BeanMethod( properties[ BeanConstants.METHOD_PROPERTY ] ).resolve( this.document, target ) as Function;
+				return BeanMethod( properties[ BeanConstants.METHOD_PROPERTY ] ).resolve( this.document, this, target ) as Function;
 			}
 			
 			return null;
