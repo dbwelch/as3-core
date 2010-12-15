@@ -90,7 +90,9 @@ package com.ffsys.di
 			Assert.assertNotNull( rectangle );
 			Assert.assertNotNull( fill );
 			Assert.assertNotNull( stroke );
+			
 			Assert.assertNotNull( rectangle.fill );
+			
 			Assert.assertNotNull( rectangle.stroke );
 			Assert.assertEquals( 1, rectangle.stroke.thickness );
 			Assert.assertEquals( 16711680, rectangle.stroke.color );

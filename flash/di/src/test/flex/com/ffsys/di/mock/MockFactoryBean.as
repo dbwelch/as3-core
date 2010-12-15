@@ -17,8 +17,7 @@ package com.ffsys.di.mock
 		*/
 		public static function getLoaderInstance():MockLoaderBean
 		{
-			trace("MockFactoryBean::getLoaderInstance()" );
-			
+			//trace("MockFactoryBean::getLoaderInstance()" );
 			return new MockLoaderBean( "test" );
 		}
 	}

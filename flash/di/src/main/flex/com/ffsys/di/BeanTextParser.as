@@ -49,7 +49,7 @@ package com.ffsys.di
 				{
 					name = names[ i ];
 					bean = _beanSheet.getStyle( name );
-					processBean( name, bean );
+					bean = processBean( name, bean );
 					//transfer the anonymous object to a bean descriptor
 					descriptor = new BeanDescriptor();
 					//always assign the style name as the bean identifier
@@ -65,11 +65,14 @@ package com.ffsys.di
 		/**
 		* 	@private
 		*/
-		private function processBean( beanName:String, bean:Object ):void
+		private function processBean( beanName:String, bean:Object ):Object
 		{
+			//TODO: refactor this so it is only instantiated for each call to parse() not to processBean()
 			var parser:BeanTextElementParser = new BeanTextElementParser( this.document );
+			
 			var z:String = null;
 			var value:*;
+			var output:Object = new Object();
 			for( z in bean )
 			{
 				value = bean[ z ];
@@ -77,8 +80,12 @@ package com.ffsys.di
 				{
 					value = parser.parse( String( value ), beanName, z );
 				}
-				parser.setBeanProperty( bean, z, value );
+				
+				//parser.setBeanProperty( bean, z, value );
+				
+				output[ z ] = value;
 			}
+			return output;
 		}
 	}
 }

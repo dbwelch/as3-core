@@ -49,7 +49,8 @@ package com.ffsys.di
 				}
 
 				//extract the constant from the constants bean declaration
-				return constants[ camel ];
+				var value:Object = constants[ camel ];
+				return value;
 			}
 			return null;
 		}

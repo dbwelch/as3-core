@@ -71,8 +71,8 @@ package com.ffsys.di
 			var output:Object = value;
 			var extension:Object = null;
 			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
-			var parser:PrimitiveParser = new PrimitiveParser();				
-		
+			var parser:PrimitiveParser = new PrimitiveParser();	
+			
 			var candidate:Boolean = getSubstitutor( value ).isCandidate();
 
 			if( candidate )
@@ -111,7 +111,7 @@ package com.ffsys.di
 		{
 			//trace("************************* BeanTextElementParser::setBeanProperty()", bean, name, value );
 			bean[ name ] = value;
-		}		
+		}
 		
 		/**
 		* 	@private

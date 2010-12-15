@@ -6,6 +6,8 @@ package com.ffsys.di
 	import flash.net.*;
 	import flash.display.Sprite;
 	
+	import flash.utils.getQualifiedClassName;
+	
 	import com.ffsys.ui.graphics.*;
 	
 	/**
@@ -23,9 +25,9 @@ package com.ffsys.di
 			}
 
 			rectangle {
-				instance-class: constant( rectangle );
-				fill: constant( fill );
-				stroke: constant( stroke );
+				instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+				fill: ref( default-fill );
+				stroke: ref( default-stroke );
 				preferred-width: 20;
 				preferred-height: 20;
 			}
@@ -71,7 +73,6 @@ package com.ffsys.di
 			
 			Assert.assertNotNull( document );
 			Assert.assertEquals( 5, document.length );
-			
 			Assert.assertTrue( document.constants.rectangle is Class );
 			Assert.assertTrue( document.constants.fill is SolidFill );
 			Assert.assertTrue( document.constants.stroke is Stroke );

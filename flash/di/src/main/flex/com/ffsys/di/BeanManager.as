@@ -198,8 +198,6 @@ package com.ffsys.di {
 		*/
 		private function resolveFileDependency( event:LoadEvent ):void
 		{
-			//trace("BeanManager::resolveFileDependency()", event.loader, event.loader.customData );
-			
 			var dependency:BeanFileDependency = event.loader.customData as BeanFileDependency;
 			if( dependency )
 			{

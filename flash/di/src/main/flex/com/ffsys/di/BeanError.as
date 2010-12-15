@@ -15,6 +15,12 @@ package com.ffsys.di
 	public class BeanError extends AbstractError
 	{
 		/**
+		* 	Error thrown when a bean expression failed to resolve.
+		*/
+		public static const BEAN_REFERENCE_ERROR:String = 
+			"Could not resolve expression %s on bean %s, property name is '%s' and parsed expression data is '%s'.";
+		
+		/**
 		* 	Creates a <code>BeanError</code> instance.
 		* 
 		* 	@param message The message for the error.

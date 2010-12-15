@@ -61,11 +61,15 @@ package com.ffsys.di
 		{
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
+
 			Assert.assertNotNull( document );
 			Assert.assertEquals( 4, document.length );
-			Assert.assertTrue( document.constants.rectangle is Class );
-			Assert.assertTrue( document.constants.fill is SolidFill );
-			Assert.assertTrue( document.constants.stroke is Stroke );
+		
+			var constants:Object = document.constants;
+			Assert.assertNotNull( constants );
+			Assert.assertTrue( constants.rectangle is Class );	
+			Assert.assertTrue( constants.fill is SolidFill );
+			Assert.assertTrue( constants.stroke is Stroke );
 		}
 	}
 }

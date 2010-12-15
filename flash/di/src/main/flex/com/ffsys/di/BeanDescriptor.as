@@ -1,5 +1,7 @@
 package com.ffsys.di
 {	
+	import flash.utils.getQualifiedClassName;
+	
 	import com.ffsys.utils.properties.PropertiesMerge;	
 	
 	/**
@@ -116,13 +118,15 @@ package com.ffsys.di
 			}
 			
 			return _staticClass;
-		}		
+		}	
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
-		public function get instanceClass():Class
+		private function getInstanceClass():Class
 		{
+			
+			
 			if( !_instanceClass && _instanceClassConstant )
 			{
 				var candidate:Object = null;
@@ -133,15 +137,21 @@ package com.ffsys.di
 				{
 					throw new Error( "Could not resolve an instance class constant." );
 				}
-				
 				if( !( candidate is Class ) )
 				{
 					throw new Error( "The instance class constant value '" + candidate + "' is not a class." );
 				}
-				
 				return candidate as Class;
 			}
 			
+			return _instanceClass;
+		}			
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get instanceClass():Class
+		{
 			return _instanceClass;
 		}
 		
@@ -197,9 +207,11 @@ package com.ffsys.di
 			var clone:Object = copy();
 			if( clone )
 			{
-				resolveConstants( clone );
+				//TODO: check if we should resolve constants when in a constant bean?
+				clone = resolveConstants( clone );
+				
 				//resolve references
-				resolve( clone );
+				clone = resolve( clone );
 			}
 			return clone;
 		}
@@ -229,9 +241,7 @@ package com.ffsys.di
 				}
 				return clazz;
 			}
-			
-			//trace("****************************************** BeanDescriptor::getBean()", this.id, isBean(), this.instanceClass );
-			
+
 			//not an instance return the properties
 			if( !isBean() )
 			{
@@ -259,7 +269,7 @@ package com.ffsys.di
 			
 			try
 			{
-				clazz = this.instanceClass;
+				clazz = this.getInstanceClass();
 			}catch( e:Error )
 			{
 				//if the above fails we likely already have a complex object
@@ -268,16 +278,7 @@ package com.ffsys.di
 				return this.properties;
 			}
 
-			var parameters:Object = null;
-			
-			if( this.properties )
-			{
-				//get a copy of the properties
-				parameters = copy();
-				resolveConstants( parameters );
-				//resolve references
-				resolve( parameters );
-			}
+			var parameters:Object = getProperties();
 			
 			if( clazz )
 			{
@@ -348,12 +349,12 @@ package com.ffsys.di
 						_factoryReference = ( factoryCandidate as BeanReference );
 						delete target[ BeanConstants.FACTORY_PROPERTY ];
 					}
-				}			
+				}
 				
 				//transfer any instance class reference
 				if( target.hasOwnProperty( BeanConstants.INSTANCE_CLASS_PROPERTY ) )
 				{
-					var instanceClassCandidate:Object = target[ BeanConstants.INSTANCE_CLASS_PROPERTY ];	
+					var instanceClassCandidate:Object = target[ BeanConstants.INSTANCE_CLASS_PROPERTY ];
 					if( instanceClassCandidate is Class || instanceClassCandidate is BeanConstant )
 					{
 						if( instanceClassCandidate is Class )
@@ -426,8 +427,9 @@ package com.ffsys.di
 		/**
 		* 	@private
 		*/
-		private function resolve( bean:Object ):void
+		private function resolve( bean:Object ):Object
 		{
+			var output:Object = new Object();
 			var z:String = null;
 			var o:Object = null;
 			var resolver:IBeanResolver = null;
@@ -452,16 +454,35 @@ package com.ffsys.di
 					
 					//TODO: reintegrate with a central bean property set method
 					
-					bean[ z ] = resolved;
+					
+					//didn't resolve correctly as the result
+					//still points to an expression
+					if( resolved is IBeanResolver )
+					{
+						throw new BeanError(
+							BeanError.BEAN_REFERENCE_ERROR,
+							getQualifiedClassName( resolver ),
+							resolver.beanName,
+							resolver.name,
+							resolver.value );
+					}
+					
+					output[ z ] = resolved;
+				}else{
+					//pass through intact
+					output[ z ] = bean[ z ];
 				}
 			}
+			
+			return output;
 		}
 		
 		/**
 		* 	@private
 		*/
-		private function resolveConstants( bean:Object ):void
+		private function resolveConstants( bean:Object ):Object
 		{
+			var output:Object = new Object();
 			if( bean )
 			{
 				var z:String = null;
@@ -469,10 +490,13 @@ package com.ffsys.di
 				{
 					if( bean[ z ] is BeanConstant )
 					{
-						bean[ z ] = BeanConstant( bean[ z ] ).resolve( this.document, bean );
+						output[ z ] = BeanConstant( bean[ z ] ).resolve( this.document, bean );
+					}else{
+						output[ z ] = bean[ z ];
 					}
 				}
 			}
+			return output;
 		}
 		
 		/**

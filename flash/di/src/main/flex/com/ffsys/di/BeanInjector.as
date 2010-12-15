@@ -39,8 +39,6 @@ package com.ffsys.di
 				var list:XMLList = ClassUtils.getPublicVariables( bean ).children();
 				var beanNames:Array = document.beanNames;
 				
-				//trace("BeanInjector::inject()", beanNames );
-				
 				var node:XML = null;
 				var name:String = null;
 				var type:String = null;
@@ -48,8 +46,6 @@ package com.ffsys.di
 				for each( node in list )
 				{
 					name = node.@name;
-					
-					//trace("BeanInjector::inject()", name );
 					
 					//TODO: ensure that we compare bean names after the bean name has been converted to camel case
 					

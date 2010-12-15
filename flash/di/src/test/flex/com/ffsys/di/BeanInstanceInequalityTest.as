@@ -27,8 +27,8 @@ package com.ffsys.di
 			}
 			
 			rectangle {
-				instance-class: constant( rectangle );
-				fill: constant( fill );
+				instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+				fill: ref( default-fill );
 				stroke: ref( default-stroke );
 				preferred-width: 20;
 				preferred-height: 20;

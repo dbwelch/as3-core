@@ -102,9 +102,7 @@ package com.ffsys.di
 			
 			Assert.assertNotNull( app.configuration.locales );
 			Assert.assertTrue( app.configuration.locales is MockLocaleManager );
-			
-			trace("BeanInjectionTest::beanInjectionTest()", app.applicationController );
-			
+
 			var loader:Object = document.getBean( "loader" );
 		}
 	}
