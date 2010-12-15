@@ -54,7 +54,7 @@ package com.ffsys.di
 		{
 			if( _policy == null )
 			{
-				return BeanPolicy.NONE;
+				return BeanCreationPolicy.NONE;
 			}
 			return _policy;
 		}
@@ -412,6 +412,17 @@ package com.ffsys.di
 					{
 						this.singleton = ( singletonCandidate as Boolean );
 						delete target[ BeanConstants.SINGLETON_PROPERTY ];
+					}
+				}
+				
+				//keep track of a bean creation policy
+				if( target.hasOwnProperty( BeanConstants.CREATION_POLICY_PROPERTY ) )
+				{
+					var policyCandidate:Object = target[ BeanConstants.CREATION_POLICY_PROPERTY ];
+					if( policyCandidate is String )
+					{
+						this.policy = ( policyCandidate as String );
+						delete target[ BeanConstants.CREATION_POLICY_PROPERTY ];
 					}
 				}
 				

@@ -13,7 +13,7 @@ package com.ffsys.di
 	*	@author Mischa Williamson
 	*	@since  15.12.2010
 	*/
-	public class BeanPolicy extends Object
+	public class BeanCreationPolicy extends Object
 	{
 		/**
 		* 	The policy indicates that no action should be taken.
@@ -21,13 +21,13 @@ package com.ffsys.di
 		* 	The existing bean will be kept intact and the duplicate
 		* 	will be discarded.
 		*/
-		public static const NONE:String = "noBeanPolicy";
+		public static const NONE:String = "noBeanCreationPolicy";
 		
 		/**
 		* 	The policy indicates that the duplicate bean definition
 		* 	should completely replace the existing bean definition.
 		*/
-		public static const REPLACE:String = "replaceBeanPolicy";
+		public static const REPLACE:String = "replaceBeanCreationPolicy";
 		
 		/**
 		* 	The policy indicates that the duplicate bean definition
@@ -39,6 +39,6 @@ package com.ffsys.di
 		* 	with the duplicate definition will overwrite properties associated
 		* 	with the existing bean definition.
 		*/
-		public static const MERGE:String = "mergeBeanPolicy";
+		public static const MERGE:String = "mergeBeanCreationPolicy";
 	}
 }

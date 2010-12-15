@@ -54,6 +54,11 @@ package com.ffsys.di
 		public static const METHOD_PROPERTY:String = "method";
 		
 		/**
+		* 	The name of the property used to determine a bean creation policy.
+		*/
+		public static const CREATION_POLICY_PROPERTY:String = "policy";
+		
+		/**
 		* 	The name of the property used to set the identifier for the bean.
 		*/
 		public static const ID_PROPERTY:String = "id";
@@ -79,7 +84,11 @@ package com.ffsys.di
 		* 	The name of the bean descriptor that defines an injector for the
 		* 	bean document.
 		*/
-		public static const INJECTOR_NAME:String = "injector";	
+		public static const INJECTOR_NAME:String = "injector";
+		
+		
+		
+		
 		
 		/**
 		*	An expression to reference a linked class.

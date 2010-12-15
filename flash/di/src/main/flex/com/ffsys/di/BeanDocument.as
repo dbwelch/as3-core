@@ -230,16 +230,16 @@ package com.ffsys.di
 				{
 					var policy:String = descriptor.policy;
 					//nothing to do on existing bean match
-					if( policy == BeanPolicy.NONE )
+					if( policy == BeanCreationPolicy.NONE )
 					{
 						return false;
-					}else if( policy == BeanPolicy.REPLACE )
+					}else if( policy == BeanCreationPolicy.REPLACE )
 					{
 						//remove the existing bean
 						removeBeanDescriptor( existing );
 						//add the new one
 						_beans.push( descriptor );
-					}else if( policy == BeanPolicy.MERGE )
+					}else if( policy == BeanCreationPolicy.MERGE )
 					{
 						//TODO
 						trace("BeanDocument::addBeanDescriptor()", "MERGE BEANS" );
