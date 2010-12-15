@@ -31,6 +31,18 @@ package com.ffsys.di
 		
 		/**
 		* 	The policy indicates that the duplicate bean definition
+		* 	should be just change the implementation instantiated by the
+		* 	existing bean definition.
+		* 
+		* 	This creation policy copies the instance class from the
+		* 	duplicate bean definition to the existing definition.
+		* 
+		* 	No other properties of the existing bean are modified.
+		*/
+		public static const CHANGE:String = "changeBeanCreationPolicy";
+		
+		/**
+		* 	The policy indicates that the duplicate bean definition
 		* 	should be merged with the existing bean definition.
 		* 
 		* 	When a duplicate bean is merged with an existing bean

@@ -239,10 +239,26 @@ package com.ffsys.di
 						removeBeanDescriptor( existing );
 						//add the new one
 						_beans.push( descriptor );
+					}else if( policy == BeanCreationPolicy.CHANGE
+					 	&& descriptor.instanceClass != null )
+					{
+						//just change the implementation
+						existing.instanceClass = descriptor.instanceClass;
 					}else if( policy == BeanCreationPolicy.MERGE )
 					{
 						//TODO
 						trace("BeanDocument::addBeanDescriptor()", "MERGE BEANS" );
+						
+						//update the implementation if one is available
+						//in the new descriptor
+						if( descriptor.instanceClass != null )
+						{
+							existing.instanceClass = descriptor.instanceClass;
+						}
+						
+						//merge in the properties or the new definition
+						//with the existing definition
+						existing.merge( descriptor );
 					}
 				}else{
 					_beans.push( descriptor );

@@ -40,11 +40,19 @@ package com.ffsys.di
 		* 	Creates a <code>BeanDescriptor</code> instance.
 		* 
 		* 	@param id An identifier for the bean.
+		* 	@param source A source object to transfer
+		* 	bean descriptor properties from.
 		*/
-		public function BeanDescriptor( id:String = null )
+		public function BeanDescriptor(
+			id:String = null,
+			source:Object = null )
 		{
 			super();
 			this.id = id;
+			if( source != null )
+			{
+				transfer( source );
+			}
 		}
 		
 		/**
@@ -202,6 +210,24 @@ package com.ffsys.di
 		public function set properties( properties:Object ):void
 		{
 			_properties = properties;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function merge( source:IBeanDescriptor ):Boolean
+		{
+			var merged:Boolean = false;
+			if( source.properties )
+			{
+				var z:String = null;
+				for( z in source.properties )
+				{
+					_properties[ z ] = source.properties[ z ];
+					merged = true;
+				}
+			}
+			return merged;
 		}
 		
 		/**

@@ -57,6 +57,17 @@ package com.ffsys.di
 		function transfer( target:Object ):void;
 		
 		/**
+		* 	Merges the properties of a source bean descriptor
+		* 	into this descriptor overwriting any existing properties
+		* 	defined by this bean descriptor.
+		* 
+		* 	@param source The source bean descriptor to merge into this bean descriptor.
+		* 
+		* 	@return A boolean indicating whether any properties were set.
+		*/
+		function merge( source:IBeanDescriptor ):Boolean;
+		
+		/**
 		* 	Gets the bean that this descriptor represents.
 		* 
 		* 	@param inject Whether dependency injection is enabled when retrieving
