@@ -1,6 +1,16 @@
 package com.ffsys.ioc.support
 {
 
+	/**
+	*	Describes the contract for implementations that encapsulate
+	* 	a mapping between a file extension
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  15.12.2010
+	*/
 	public interface IFileTypeClassMapping
 	{
 		

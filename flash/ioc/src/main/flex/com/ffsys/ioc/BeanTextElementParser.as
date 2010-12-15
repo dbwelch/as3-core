@@ -156,7 +156,7 @@ package com.ffsys.ioc
 			
 			switch( extension )
 			{
-				case BeanConstants.CLASS_EXPRESSION:
+				case BeanExpressions.CLASS_EXPRESSION:
 					try
 					{
 						output = Class( getDefinitionByName( value ) );
@@ -166,71 +166,71 @@ package com.ffsys.ioc
 							+ value + "'." );
 					}
 					break;
-				case BeanConstants.URL_EXPRESSION:
+				case BeanExpressions.URL_EXPRESSION:
 					output = new URLRequest( value );
 					break;
-				case BeanConstants.BITMAP_EXPRESSION:
+				case BeanExpressions.BITMAP_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, ImageLoader );
 					break;
-				case BeanConstants.SOUND_EXPRESSION:
+				case BeanExpressions.SOUND_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, SoundLoader );					
 					break;
-				case BeanConstants.SWF_EXPRESSION:
+				case BeanExpressions.SWF_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, MovieLoader );
 					break;
-				case BeanConstants.XML_EXPRESSION:
+				case BeanExpressions.XML_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, XmlLoader );
 					break;
-				case BeanConstants.TEXT_EXPRESSION:
+				case BeanExpressions.TEXT_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, TextLoader );
 					break;
-				case BeanConstants.FONT_EXPRESSION:
+				case BeanExpressions.FONT_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, FontLoader );
 					break;
-				case BeanConstants.MESSAGES_EXPRESSION:
+				case BeanExpressions.MESSAGES_EXPRESSION:
 					output = new BeanFileDependency(
 						beanName, beanProperty, value, PropertiesLoader );
 					break;
-				case BeanConstants.REF_EXPRESSION:
+				case BeanExpressions.REF_EXPRESSION:
 					output = new BeanReference( beanName, beanProperty, value );
 					break;
-				case BeanConstants.CONSTANT_EXPRESSION:
+				case BeanExpressions.CONSTANT_EXPRESSION:
 					output = new BeanConstant( beanName, beanProperty, value );
 					break;
-				case BeanConstants.METHOD_PROPERTY:
+				case BeanExpressions.METHOD_EXPRESSION:
 					output = new BeanMethod( beanName, beanProperty, value );
 					break;
-				case BeanConstants.ARRAY_EXPRESSION:
+				case BeanExpressions.ARRAY_EXPRESSION:
 					output = new BeanArray( beanName, beanProperty, value );
 					break;
-				case BeanConstants.POINT_EXPRESSION:
+				case BeanExpressions.POINT_EXPRESSION:
 					output = new Point();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
-					validateNumericParameterExpression( parameters, 2, BeanConstants.POINT_EXPRESSION );
+					validateNumericParameterExpression( parameters, 2, BeanExpressions.POINT_EXPRESSION );
 					var p:Point = Point( output );
 					p.x = parameters[ 0 ];
 					p.y = parameters[ 1 ];
 					break;					
-				case BeanConstants.RECTANGLE_EXPRESSION:
+				case BeanExpressions.RECTANGLE_EXPRESSION:
 					output = new Rectangle();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
-					validateNumericParameterExpression( parameters, 4, BeanConstants.RECTANGLE_EXPRESSION );
+					validateNumericParameterExpression( parameters, 4, BeanExpressions.RECTANGLE_EXPRESSION );
 					var r:Rectangle = Rectangle( output );
 					r.left = parameters[ 0 ];
 					r.top = parameters[ 1 ];
 					r.width = parameters[ 2 ];
 					r.height = parameters[ 3 ];
 					break;
-				case BeanConstants.MATRIX_EXPRESSION:
+				case BeanExpressions.MATRIX_EXPRESSION:
 					output = new Matrix();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
-					validateNumericParameterExpression( parameters, 6, BeanConstants.MATRIX_EXPRESSION );
+					validateNumericParameterExpression( parameters, 6, BeanExpressions.MATRIX_EXPRESSION );
 					var m:Matrix = Matrix( output );
 					m.a = parameters[ 0 ];
 					m.b = parameters[ 1 ];
@@ -239,10 +239,10 @@ package com.ffsys.ioc
 					m.tx = parameters[ 4 ];
 					m.ty = parameters[ 5 ];
 					break;
-				case BeanConstants.COLOR_TRANSFORM_EXPRESSION:
+				case BeanExpressions.COLOR_TRANSFORM_EXPRESSION:
 					output = new ColorTransform();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
-					validateNumericParameterExpression( parameters, 8, BeanConstants.COLOR_TRANSFORM_EXPRESSION );
+					validateNumericParameterExpression( parameters, 8, BeanExpressions.COLOR_TRANSFORM_EXPRESSION );
 					var c:ColorTransform = ColorTransform( output );
 					c.redMultiplier = parameters[ 0 ];
 					c.greenMultiplier = parameters[ 1 ];

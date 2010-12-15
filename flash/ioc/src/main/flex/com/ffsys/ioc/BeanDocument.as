@@ -42,7 +42,7 @@ package com.ffsys.ioc
 		{
 			if( !_injector )
 			{
-				var descriptor:IBeanDescriptor = getBeanDescriptor( BeanConstants.INJECTOR_NAME );	
+				var descriptor:IBeanDescriptor = getBeanDescriptor( BeanNames.INJECTOR_NAME );	
 				if( descriptor != null )
 				{
 					var injector:Object = descriptor.getBean( false );
@@ -128,7 +128,7 @@ package com.ffsys.ioc
 		public function get constants():Object
 		{
 			var descriptor:IBeanDescriptor = getBeanDescriptor(
-				BeanConstants.CONSTANTS_PROPERTY_NAME );
+				BeanNames.CONSTANTS_PROPERTY_NAME );
 			if( descriptor )
 			{
 				return descriptor.getProperties();

@@ -117,7 +117,12 @@ package com.ffsys.ioc.support
 				{
 					file = files[ i ];
 					loader = this.loaderFactory.getLoaderByFileExtension(
-						this.extension );
+						this.extension );	
+					if( loader == null )
+					{
+						throw new Error( "Could not locate a loader implementation for file extension '"
+							+ this.extension + "'." );
+					}
 					loader.request = new URLRequest( file );
 					output.addLoader( loader );
 				}
