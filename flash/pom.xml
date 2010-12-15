@@ -29,11 +29,11 @@
 	<modules>
 		<module>asdoc-utils</module>
 		<module>core</module>
-		<module>di</module>
 		<module>effects</module>
 		<module>errors</module>
 		<module>events</module>
 		<module>io</module>
+		<module>ioc</module>
 		<module>swat</module>
 		<module>ui</module>
 		<module>utils</module>
