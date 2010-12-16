@@ -13,5 +13,10 @@ package com.ffsys.ioc.mock
 			super();
 			_type = type;
 		}
+		
+		public function get type():String
+		{
+			return _type;
+		}
 	}
 }

@@ -15,10 +15,14 @@ package com.ffsys.ioc.mock
 		/**
 		* 	Creates a mock loader bean.
 		*/
-		public static function getLoaderInstance():MockLoaderBean
+		public static function getLoaderInstance( type:String = null ):MockLoaderBean
 		{
+			if( type == null )
+			{
+				type = "test";
+			}
 			//trace("MockFactoryBean::getLoaderInstance()" );
-			return new MockLoaderBean( "test" );
+			return new MockLoaderBean( type );
 		}
 	}
 }

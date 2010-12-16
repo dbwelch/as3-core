@@ -104,6 +104,8 @@ package com.ffsys.ioc
 			Assert.assertTrue( app.configuration.locales is MockLocaleManager );
 
 			var loader:Object = document.getBean( "loader" );
+			Assert.assertTrue( loader is MockLoaderBean );
+			Assert.assertEquals( "test", loader.type );
 		}
 	}
 }
