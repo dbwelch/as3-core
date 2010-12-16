@@ -76,6 +76,16 @@ package com.ffsys.ioc
 		/**
 		* 	@private
 		*/
+		protected function strip( candidate:String ):String
+		{
+			candidate = candidate.replace( /^\s+/, "" );
+			candidate = candidate.replace( /\s+$/, "" );
+			return candidate;
+		}
+		
+		/**
+		* 	@private
+		*/
 		protected function find(
 			document:IBeanDocument,
 			descriptor:IBeanDescriptor,

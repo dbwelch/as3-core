@@ -246,9 +246,6 @@ package com.ffsys.ioc
 						existing.instanceClass = descriptor.instanceClass;
 					}else if( policy == BeanCreationPolicy.MERGE )
 					{
-						//TODO
-						trace("BeanDocument::addBeanDescriptor()", "MERGE BEANS" );
-						
 						//update the implementation if one is available
 						//in the new descriptor
 						if( descriptor.instanceClass != null )

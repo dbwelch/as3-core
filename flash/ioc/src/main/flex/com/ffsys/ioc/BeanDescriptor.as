@@ -116,7 +116,9 @@ package com.ffsys.ioc
 		*/
 		public function isBean():Boolean
 		{
-			return ( _factoryReference != null || _singletonInstance != null || ( this.instanceClass is Class ) );
+			return ( _factoryReference != null
+				|| _singletonInstance != null
+				|| ( this.instanceClass is Class ) );
 		}
 		
 		/**
@@ -132,27 +134,26 @@ package com.ffsys.ioc
 					candidate = _staticClassConstant.resolve( this.document, this, this );
 				}catch( e:Error )
 				{
-					throw new Error( "Could not resolve a static class constant." );
+					throw new Error( "Could not resolve static class constant on property '"
+						+ _staticClassConstant.name + "'." );
 				}
 				
 				if( !( candidate is Class ) )
 				{
-					throw new Error( "The static class constant value '" + candidate + "' is not a class." );
+					throw new Error( "The static class constant value '"
+						+ candidate + "' is not a class." );
 				}
 				
 				_staticClass = candidate as Class;
-			}
-			
+			}	
 			return _staticClass;
-		}	
+		}
 		
 		/**
 		* 	@private
 		*/
 		private function getInstanceClass():Class
 		{
-			
-			
 			if( !_instanceClass && _instanceClassConstant )
 			{
 				var candidate:Object = null;
@@ -161,11 +162,13 @@ package com.ffsys.ioc
 					candidate = _instanceClassConstant.resolve( this.document, this, this );
 				}catch( e:Error )
 				{
-					throw new Error( "Could not resolve an instance class constant." );
+					throw new Error( "Could not resolve instance class constant on property '"
+						+ _staticClassConstant.name + "'." );
 				}
 				if( !( candidate is Class ) )
 				{
-					throw new Error( "The instance class constant value '" + candidate + "' is not a class." );
+					throw new Error( "The instance class constant value '"
+						+ candidate + "' is not a class." );
 				}
 				return candidate as Class;
 			}
@@ -341,18 +344,14 @@ package com.ffsys.ioc
 			
 				if( instance )
 				{
-					if( parameters )
+					//instance method references
+					if( isMethodReference( parameters ) )
 					{
-						//instance method references
-						if( isMethodReference( parameters ) )
-						{
-							return getMethod( parameters, instance ) as Function;
-						}
-
-						var merger:PropertiesMerge = new PropertiesMerge();
-						merger.merge( instance, parameters, true, [ IBeanResolver ] );
+						return getMethod( parameters, instance ) as Function;
 					}
-				
+					
+					setBeanProperties( instance, parameters );
+					callBeanMethods( instance, parameters );
 					if( inject && document && document.injector )
 					{
 						document.injector.inject( document, this.id, instance );
@@ -363,11 +362,58 @@ package com.ffsys.ioc
 				{
 					_singletonInstance = instance;
 				}
-				return instance;				
+				return instance;
 			}
-			
 			return null;
-		}	
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Sets the properties on an instantiated bean.
+		*/
+		private function setBeanProperties( instance:Object, parameters:Object ):void
+		{
+			if( instance && parameters )
+			{
+				var merger:PropertiesMerge = new PropertiesMerge();
+				merger.merge( instance, parameters, true, [ IBeanResolver ] );
+			}
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Calls methods on an instantiated bean.
+		*/
+		private function callBeanMethods( instance:Object, parameters:Object ):void
+		{
+			if( instance )
+			{
+				//search for method call references
+				var z:String = null;
+				var property:Object;
+				var result:*;
+				for( z in _properties )
+				{
+					property = _properties[ z ];
+					if( property is BeanMethodCall )
+					{
+						result = BeanMethodCall( property ).resolve( this.document, this, instance );
+						if( result != null && instance.hasOwnProperty( z ) )
+						{
+							try
+							{
+								instance[ z ] = result;
+							}catch( e:Error )
+							{
+								throw new BeanError( BeanError.BEAN_METHOD_RESULT_SET, z, instance, result );
+							}
+						}		
+					}
+				}
+			}
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -493,7 +539,10 @@ package com.ffsys.ioc
 			for( z in bean )
 			{
 				o = bean[ z ];
-				if( o is IBeanResolver && !( o is BeanMethod ) && !( o is BeanFileDependency ) )
+				if( o is IBeanResolver
+					&& !( o is BeanFileDependency )				
+					&& !( o is BeanMethod )
+					&& !( o is BeanMethodCall ) )
 				{
 					resolver = IBeanResolver( o );
 					resolved = resolver.resolve( this.document, this, bean );
@@ -559,7 +608,8 @@ package com.ffsys.ioc
 		*/
 		private function isMethodReference( properties:Object ):Boolean
 		{
-			return properties && properties[ BeanConstants.METHOD_PROPERTY ] && ( properties[ BeanConstants.METHOD_PROPERTY ] is BeanMethod );
+			return properties && properties[ BeanConstants.METHOD_PROPERTY ]
+				&& ( properties[ BeanConstants.METHOD_PROPERTY ] is BeanMethod );
 		}
 		
 		/**
@@ -570,9 +620,9 @@ package com.ffsys.ioc
 			//handle method references
 			if( isMethodReference( properties ) )
 			{
-				return BeanMethod( properties[ BeanConstants.METHOD_PROPERTY ] ).resolve( this.document, this, target ) as Function;
+				return BeanMethod( properties[ BeanConstants.METHOD_PROPERTY ] ).resolve(
+					this.document, this, target ) as Function;
 			}
-			
 			return null;
 		}		
 	}

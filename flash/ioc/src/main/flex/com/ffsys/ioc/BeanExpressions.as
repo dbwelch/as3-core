@@ -97,7 +97,7 @@ package com.ffsys.ioc
 		*	An expression to load a properties file with messages.
 		* 
 		* 	When this expression is evaluated the resulting property
-		* 	will be set to an <code>IProperties</code>.
+		* 	will be set to an <code>IProperties</code> implementation.
 		*/
 		public static const MESSAGES_EXPRESSION:String = "messages";
 		
@@ -150,5 +150,18 @@ package com.ffsys.ioc
 		* 	will be set to a <code>Function</code>.
 		*/
 		public static const METHOD_EXPRESSION:String = "method";
+		
+		/**
+		*	An expression to invoke a method on a bean.
+		* 
+		* 	When this expression is evaluated if the named property
+		* 	this expression is assigned to exists on the bean
+		* 	the property will be set with the return value of calling
+		* 	the method.
+		* 
+		* 	When no corresponding property exists the return value
+		* 	from invoking the method is ignored.
+		*/
+		public static const CALL_EXPRESSION:String = "call";		
 	}
 }

@@ -200,6 +200,9 @@ package com.ffsys.ioc
 				case BeanExpressions.REF_EXPRESSION:
 					output = new BeanReference( beanName, beanProperty, value );
 					break;
+				case BeanExpressions.CALL_EXPRESSION:
+					output = new BeanMethodCall( beanName, beanProperty, value );
+					break;
 				case BeanExpressions.CONSTANT_EXPRESSION:
 					output = new BeanConstant( beanName, beanProperty, value );
 					break;
@@ -255,7 +258,7 @@ package com.ffsys.ioc
 					break;			
 				default:
 					throw new Error(
-						"Could not handle bean expression with identifier '" + extension + "'." );
+						"Unknown bean expression '" + extension + "'." );
 			}
 			
 			if( document && ( output is BeanFileDependency ) )

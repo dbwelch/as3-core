@@ -32,10 +32,6 @@ package com.ffsys.ioc
 		}
 
 		/**
-		* 	This method differs from other implementations in that it expects
-		* 	the <code>bean</code> parameter to be the object that contains
-		* 	the method reference.
-		* 
 		* 	@inheritDoc
 		*/
 		public function resolve(
@@ -55,8 +51,7 @@ package com.ffsys.ioc
 				{
 					part = String( parts[ i ] );
 					
-					part = part.replace(/^\s+/,"");
-					part = part.replace(/\s+$/,"");
+					part = strip( part );
 
 					//overwrite the array entry with the parsed value
 					parsed = parser.parse( descriptor, beanName, this.name, part );

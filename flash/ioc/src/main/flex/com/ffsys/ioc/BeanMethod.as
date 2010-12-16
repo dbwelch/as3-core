@@ -29,10 +29,6 @@ package com.ffsys.ioc
 		}
 
 		/**
-		* 	This method differs from other implementations in that it expects
-		* 	the <code>bean</code> parameter to be the object that contains
-		* 	the method reference.
-		* 
 		* 	@inheritDoc
 		*/
 		public function resolve(

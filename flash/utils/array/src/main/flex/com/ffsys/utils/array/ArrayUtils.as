@@ -44,21 +44,16 @@ package com.ffsys.utils.array {
 		{
 			var output:Array = new Array();
 			var i:int = 0;
-			
 			var val:Object;
-			
 			for( ;i < length;i++ )
 			{
 				val = instance;
-
 				if( ( instance is Number ) && multiply )
 				{
 					val = Number( instance ) * i;
 				}
-				
 				output.push( val );
 			}
-			
 			return output;
 		}
 		
