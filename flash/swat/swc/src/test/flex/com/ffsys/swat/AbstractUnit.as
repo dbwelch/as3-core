@@ -94,8 +94,6 @@ package com.ffsys.swat
 			
 			
 			Assert.assertNotNull( configuration.locales );
-			Assert.assertNotNull( configuration.settings );
-			Assert.assertNotNull( configuration.assets );
 			
 			_configuration = configuration;
 		}

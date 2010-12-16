@@ -83,13 +83,6 @@ package com.ffsys.swat.configuration
 		function getFlashVariablesInstance( root:DisplayObject ):IFlashVariables;
 		
 		/**
-		*	Gets the main view instance.
-		*	
-		*	@return The main view instance.
-		*/
-		function getMainViewInstance():DisplayObject;
-		
-		/**
 		*	Gets the parser used to deserialize the configuration
 		*	data.
 		*	

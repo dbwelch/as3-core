@@ -49,11 +49,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _lang:String;
 		private var _defaultLocale:IConfigurationLocale;
 		private var _current:IConfigurationLocale;
-			
 		private var _resources:IResourceManager;
-		
-		private var _settings:ISettings;
-		private var _assets:IStringCollection;
 			
 		//
 		private var _beansQueue:ILoaderQueue;
@@ -67,7 +63,6 @@ package com.ffsys.swat.configuration.locale {
 		private var _soundsQueue:ILoaderQueue;
 		
 		private	var _parent:IConfiguration;
-		
 		private var _paths:IPaths;
 		
 		/**
@@ -621,38 +616,6 @@ package com.ffsys.swat.configuration.locale {
 					throw new Error( "Could not locate locale for language code '" + lang + "'" );
 				}
 			}
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get settings():ISettings
-		{
-			return _settings;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function set settings( settings:ISettings ):void
-		{
-			_settings = settings;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get assets():IStringCollection
-		{
-			return _assets;
-		}
-
-		/**
-		*	@inheritDoc
-		*/		
-		public function set assets( assets:IStringCollection ):void
-		{
-			_assets = assets;
 		}
 		
 		/**

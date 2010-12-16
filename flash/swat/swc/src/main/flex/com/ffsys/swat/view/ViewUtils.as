@@ -13,10 +13,8 @@ package com.ffsys.swat.view  {
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	
-	import com.ffsys.swat.configuration.AssetManager;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IPaths;
-	import com.ffsys.swat.configuration.ISettings;
 	
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
@@ -80,33 +78,6 @@ package com.ffsys.swat.view  {
 		{
 			verifyConfiguration();
 			return this.configuration.flashvars;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get assetManager():AssetManager
-		{
-			verifyConfiguration();
-			return this.configuration.assetManager;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get settings():ISettings
-		{
-			verifyConfiguration();
-			return this.configuration.settings;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get assets():IStringCollection
-		{
-			verifyConfiguration();
-			return this.configuration.assets;
 		}
 		
 		/**
@@ -217,46 +188,6 @@ package com.ffsys.swat.view  {
 			var out:String = paths.join(
 				[ paths.getLocalePath( locale ) ], path );
 			return out;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function registerFont( classPath:String ):Font
-		{
-			var instance:Object = null;
-			
-			var clz:Class = null;
-
-			try
-			{
-				clz = Class( getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error(
-					"Could not find a class for font class '"
-						+ classPath + "'." );
-			}
-			
-			try
-			{
-				instance = new clz();
-			}catch( e:Error )
-			{
-				throw new Error(
-					"Could not instantiate font instance with class path '"
-						+ classPath + "'." );
-			}
-			
-			if( !( instance is Font ) )
-			{
-				throw new Error(
-					"Instantiated instance from class path '"
-						+ classPath + "' is not a font." );
-			}
-
-			Font.registerFont( clz );
-			return Font( instance );
 		}
 		
 		/**

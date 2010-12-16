@@ -171,36 +171,6 @@ package com.ffsys.swat.configuration
 		}
 		
 		/**
-		* 	@deprecated
-		*/
-		public function getMainViewInstance():DisplayObject
-		{
-			var classPath:String = getMainViewClassPath();
-			var clz:Class = null;
-			
-			try
-			{
-				clz = Class(
-					getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error(
-					"Could not locate main view with class path '"
-					+ classPath + "'" );
-			}
-			
-			var instance:Object = new clz();
-			
-			if( !( instance is DisplayObject ) )
-			{
-				throw new Error(
-					"The main view is not a display object." );
-			}
-			
-			return DisplayObject( instance );
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function getConfigurationParserInstance():IConfigurationParser

@@ -9,8 +9,6 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.io.xml.Deserializer;
 	
-	//import com.ffsys.ui.text.core.ITextFieldFactory;
-	
 	import com.ffsys.ioc.*;	
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
@@ -18,7 +16,7 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;
-	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;	
+	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationParser;
@@ -142,7 +140,7 @@ package com.ffsys.swat.view  {
 			//update the style bindings to match the xml bindings
 			utils.styleManager.bindings = Deserializer.defaultBindings.clone();
 			
-			trace("SwatApplication::configurationLoadComplete()", utils.styleManager.bindings.getLength() );
+			//trace("SwatApplication::configurationLoadComplete()", utils.styleManager.bindings.getLength() );
 			
 			configure( utils.configuration );
 		}
@@ -183,6 +181,9 @@ package com.ffsys.swat.view  {
 			createMainView();
 		}
 		
+		/**
+		* 	@private
+		*/
 		private function doWithBeans( beans:IBeanDocument ):void
 		{
 			var descriptor:IBeanDescriptor = null;
@@ -215,9 +216,8 @@ package com.ffsys.swat.view  {
 		protected function createMainView():void
 		{
 			doWithBeans( utils.configuration.locales.document );
-			
-			var application:Object = getBean( DefaultBeanIdentifiers.APPLICATION_BEAN );
-			
+			var application:Object = getBean(
+				DefaultBeanIdentifiers.APPLICATION_BEAN );
 			if( application )
 			{
 				//trace("SwatApplication::createMainView()", "GOT APPLICATION BEAN" );
@@ -245,71 +245,11 @@ package com.ffsys.swat.view  {
 			}
 			
 			//var config:IClassPathConfiguration = preloader.main.classes;
-			//var view:DisplayObject = config.getMainViewInstance();
 
 			if( application && ( application is DisplayObject ) )
 			{
 				addChild( DisplayObject( application ) );
 			}
 		}
-		
-		/**
-		*	@private
-		*	
-		*	Checks whether the component module is compiled in
-		*	and propagates the swat textfield factory to the component
-		*	textfield factory.
-		*/
-		
-		/*
-		private function propagateComponentTextFactory():void
-		{
-			var classPath:String = "com.ffsys.ui.core.UIComponent";
-			
-			var clz:Class = null;
-			var instance:Object = null;
-			
-			try
-			{
-				clz = Class(
-					getDefinitionByName( classPath ) );
-				instance = new clz();
-				
-				//add and remove the component so that
-				//components are pre-initialized before the
-				//main application view is instantiated
-				addChild( DisplayObject( instance ) );
-				removeChild( DisplayObject( instance ) );
-			}catch( e:Error )
-			{
-				//ignore if the components are not compiled or instantiation error
-				//throw e;
-			}
-			
-			if( instance != null )
-			{
-				var factory:ITextFieldFactory;				
-			
-				if( !instance.hasOwnProperty( "textFieldFactory" ) )
-				{
-					throw new Error(
-						"Cannot propagate textfield factory defaults, missing factory on the ui component suite." );
-				}else{
-					factory = ITextFieldFactory(
-						instance.textFieldFactory );
-				}
-			
-				if( factory )
-				{
-					factory.defaultTextFieldProperties =
-						utils.textFieldFactory.defaultTextFieldProperties;			
-
-					factory.defaultTextFormatProperties =
-						utils.textFieldFactory.defaultTextFormatProperties;
-				}
-			
-			}
-		}
-		*/
 	}
 }

@@ -9,9 +9,6 @@ package com.ffsys.swat.view
 	import com.ffsys.core.IEnabled;
 	import com.ffsys.core.IFlashVariables;
 	
-	import com.ffsys.swat.configuration.AssetManager;
-	import com.ffsys.swat.configuration.Settings;
-	
 	import com.ffsys.swat.configuration.IMessageAccess;
 	import com.ffsys.swat.configuration.IMediaAccess;
 	

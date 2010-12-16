@@ -32,8 +32,6 @@ package com.ffsys.swat.configuration {
 		private var _flashvars:IFlashVariables;
 		private var _locales:ILocaleManager;
 		private var _paths:IPaths;
-		
-		private var _assetManager:AssetManager;
 		private var _meta:ApplicationMeta;
 		
 		/**
@@ -42,7 +40,6 @@ package com.ffsys.swat.configuration {
 		public function Configuration()
 		{
 			super();
-			_assetManager = new AssetManager( this );
 		}
 		
 		/**
@@ -185,19 +182,6 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get assetManager():AssetManager
-		{
-			return _assetManager;
-		}
-
-		public function set assetManager( assetManager:AssetManager ):void
-		{
-			_assetManager = assetManager;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
 		public function set meta( val:ApplicationMeta ):void
 		{
 			_meta = val;
@@ -211,32 +195,6 @@ package com.ffsys.swat.configuration {
 			}
 			
 			return _meta;
-		}		
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get settings():ISettings
-		{
-			return _locales.settings;
-		}
-
-		public function set settings( settings:ISettings ):void
-		{
-			_locales.settings = settings;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get assets():IStringCollection
-		{
-			return _locales.assets;
-		}
-	
-		public function set assets( assets:IStringCollection ):void
-		{
-			_locales.assets = assets;
 		}
 	}
 }

@@ -421,7 +421,8 @@ package com.ffsys.ioc
 								instance[ z ] = result;
 							}catch( e:Error )
 							{
-								throw new BeanError( BeanError.BEAN_METHOD_RESULT_SET, z, instance, result );
+								throw new BeanError(
+									BeanError.BEAN_METHOD_RESULT_SET, z, instance, result );
 							}
 						}		
 					}
@@ -575,15 +576,12 @@ package com.ffsys.ioc
 					loop = ( resolved is IBeanResolver ) && ( resolved != resolver )
 					while( loop )
 					{
-						resolved = IBeanResolver( resolved ).resolve( this.document, this, bean );
-						loop = ( resolved is IBeanResolver ) && ( resolved != resolver );
+						resolved = IBeanResolver( resolved ).resolve(
+							this.document, this, bean );
+						loop = ( resolved is IBeanResolver )
+							&& ( resolved != resolver );
 					}
 
-					//setBeanProperty( bean, z, resolved );
-					
-					//TODO: reintegrate with a central bean property set method
-					
-					
 					//didn't resolve correctly as the result
 					//still points to an expression
 					if( resolved is IBeanResolver )
@@ -619,7 +617,8 @@ package com.ffsys.ioc
 				{
 					if( bean[ z ] is BeanConstant )
 					{
-						output[ z ] = BeanConstant( bean[ z ] ).resolve( this.document, this, bean );
+						output[ z ] = BeanConstant(
+							bean[ z ] ).resolve( this.document, this, bean );
 					}else{
 						output[ z ] = bean[ z ];
 					}

@@ -27,7 +27,6 @@ package com.ffsys.swat.configuration {
 				IMessageAccess,
 				IMediaAccess,
 				IBeanAccess,
-				IConfigurationProperties,
 				IEventDispatcher {
 		
 		/**
@@ -41,12 +40,6 @@ package com.ffsys.swat.configuration {
 		*/
 		function set meta( val:ApplicationMeta ):void;
 		function get meta():ApplicationMeta;
-		
-		/**
-		*	The asset manager for the application.
-		*/
-		function get assetManager():AssetManager;
-		function set assetManager( assetManager:AssetManager ):void;
 		
 		/**
 		* 	The path settings used by the application.

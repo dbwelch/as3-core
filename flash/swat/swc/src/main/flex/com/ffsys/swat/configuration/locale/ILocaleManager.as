@@ -12,7 +12,6 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.properties.IProperties;	
 	
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.configuration.IConfigurationProperties;
 	import com.ffsys.swat.configuration.IMessageAccess;
 	import com.ffsys.swat.configuration.IMediaAccess;
 	
@@ -32,7 +31,6 @@ package com.ffsys.swat.configuration.locale {
 	public interface ILocaleManager
 		extends ILocaleCollection,
 				IBeanAccess,
-				IConfigurationProperties,
 				IMessageAccess,
 				IMediaAccess,
 		 		IDeserializeProperty,

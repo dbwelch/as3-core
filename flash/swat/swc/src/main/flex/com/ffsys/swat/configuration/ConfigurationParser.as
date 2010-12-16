@@ -65,18 +65,6 @@ package com.ffsys.swat.configuration {
 			"defaultLocale";
 			
 		/**
-		*	The node name for arbritrary settings.
-		*/
-		static public const SETTINGS_NAME:String =
-			"settings";
-			
-		/**
-		*	The node name for asset mappings.
-		*/
-		static public const ASSETS_NAME:String =
-			"assets";
-			
-		/**
 		*	The node name for the rsl collection.
 		*/
 		static public const RSLS_NAME:String =
@@ -204,18 +192,6 @@ package com.ffsys.swat.configuration {
 				ConfigurationLocale,
 				DEFAULT_LOCALE_NAME,
 				DEFAULT_LOCALE_PROPERTY_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				Settings,
-				SETTINGS_NAME,
-				SETTINGS_NAME,
-				false );
-				
-			classNodeNameMap.add(
-				StringCollection,
-				ASSETS_NAME,
-				ASSETS_NAME,
 				false );
 				
 			classNodeNameMap.add(

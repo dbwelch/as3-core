@@ -45,8 +45,6 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.locales.resources );
-			Assert.assertNotNull( configuration.settings );
-			Assert.assertNotNull( configuration.assets );
 			
 			//test parent references are correct
 			Assert.assertNotNull( configuration.locales.parent );

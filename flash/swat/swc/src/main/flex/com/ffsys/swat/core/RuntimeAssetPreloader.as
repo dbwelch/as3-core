@@ -14,7 +14,6 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.configuration.ConfigurationLoader;
 	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.configuration.Settings;
 	
 	import com.ffsys.swat.events.RslEvent;
 	import com.ffsys.swat.events.ConfigurationEvent;

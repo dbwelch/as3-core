@@ -2,10 +2,6 @@ package com.ffsys.swat.configuration {
 	
 	/**
 	*	Encapsulates meta information about the application.
-	*	
-	*	This is used by the debugging routines so that a
-	*	header can be output containing application specific
-	*	information when the application is ready.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -20,7 +16,7 @@ package com.ffsys.swat.configuration {
 		*	is specified.
 		*/
 		static public const DEFAULT_APPLICATION_NAME:String =
-			"Application";
+			"application";
 		
 		/**
 		*	A delimiter to use when automatically inferring
@@ -37,7 +33,7 @@ package com.ffsys.swat.configuration {
 		private var _revision:int = 1;
 		
 		/**
-		*	Creates a new <code>ApplicationMeta</code> instance.	
+		*	Creates an <code>ApplicationMeta</code> instance.
 		*/
 		public function ApplicationMeta()
 		{
