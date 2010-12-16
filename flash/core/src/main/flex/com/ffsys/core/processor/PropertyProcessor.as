@@ -30,10 +30,12 @@ package com.ffsys.core.processor {
 		/**
 		*	Creates a <code>PropertyProcessor</code>
 		*	instance.
+		* 
+		* 	@param target The target to start processing from.
 		*/
-		public function PropertyProcessor()
+		public function PropertyProcessor( target:Object = null )
 		{
-			super();
+			super( target );
 			_parameters = new Array();
 		}
 		

@@ -27,11 +27,13 @@ package com.ffsys.core.processor {
 		*	@param address The <code>String</code> address used to create
 		*	an <code>AddressPath</code> instance that will be used by this
 		*	processor.
+		* 	@param target The target to start processing from.
 		*/
 		public function AddressPathProcessor(
-			address:String = null )
+			address:String = null,
+			target:Object = null )
 		{
-			super();
+			super( target );
 			
 			if( address )
 			{

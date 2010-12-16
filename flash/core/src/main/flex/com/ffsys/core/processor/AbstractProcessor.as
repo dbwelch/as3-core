@@ -34,16 +34,19 @@ package com.ffsys.core.processor {
 		protected var _currentTarget:Object;
 		
 		/**
-		*	Creates a new <code>AbstractProcessor</code> instance.
+		*	Creates an <code>AbstractProcessor</code> instance.
+		* 
+		* 	@param target The target to start processing from.
 		*/
-		public function AbstractProcessor()
+		public function AbstractProcessor( target:Object = null )
 		{
 			super();
+			this.rootTarget = target;
 			_position = 0;
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	The root target object to start processing from.
 		*/		
 		public function set rootTarget( val:Object ):void
 		{
@@ -57,7 +60,7 @@ package com.ffsys.core.processor {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	The current target being processed.
 		*/		
 		public function set currentTarget( val:Object ):void
 		{
