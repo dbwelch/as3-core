@@ -21,6 +21,7 @@ package com.ffsys.ui.buttons {
 	*/
 	public class UpButton extends IconButton {
 		
+		//TODO: refactor this embed to a class level definition to avoid the flex framework compiler link problem
 		[Embed(source="../../../../../resources/up-icon.png")]
 		static private var _defaultIconClass:Class;
 		

@@ -12,13 +12,17 @@
 	<packaging>swf</packaging>
 	<name>swat-as3-app</name>
 	<dependencies>
+		
+		<!--
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>framework</artifactId>
 			<version>${flex.version}</version>
 			<type>swc</type>
-			<!-- <scope>external</scope> -->
+			<scope>external</scope>
 		</dependency>
+		-->
+		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ioc</artifactId>
@@ -105,7 +109,7 @@
 				<groupId>org.sonatype.flexmojos</groupId>
 				<artifactId>flexmojos-maven-plugin</artifactId>
 				<version>${flexmojos.version}</version>
-				<extensions>true</extensions>
+				<extensions>true</extensions>			
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/SwatMain.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>

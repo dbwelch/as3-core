@@ -16,6 +16,7 @@ package com.ffsys.ui.buttons {
 	*/
 	public class ForwardButton extends IconButton {
 		
+		//TODO: refactor this embed to a class level definition to avoid the flex framework compiler link problem
 		[Embed(source="../../../../../resources/next-icon.png")]
 		static private var _defaultIconClass:Class;
 		

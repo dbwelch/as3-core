@@ -14,6 +14,7 @@ package com.ffsys.ui.scrollbars
 	*/
 	public class ScrollUpButton extends UpButton
 	{
+		//TODO: refactor this embed to a class level definition to avoid the flex framework compiler link problem		
 		[Embed(source="../../../../../resources/scroll-up.png")]
 		static private var _defaultIconClass:Class;
 		

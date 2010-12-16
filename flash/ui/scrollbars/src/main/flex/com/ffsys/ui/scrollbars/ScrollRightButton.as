@@ -14,6 +14,7 @@ package com.ffsys.ui.scrollbars
 	*/
 	public class ScrollRightButton extends ForwardButton
 	{
+		//TODO: refactor this embed to a class level definition to avoid the flex framework compiler link problem		
 		[Embed(source="../../../../../resources/scroll-right.png")]
 		static private var _defaultIconClass:Class;
 				

@@ -14,6 +14,7 @@ package com.ffsys.ui.scrollbars
 	*/
 	public class ScrollDownButton extends DownButton
 	{
+		//TODO: refactor this embed to a class level definition to avoid the flex framework compiler link problem
 		[Embed(source="../../../../../resources/scroll-down.png")]
 		static private var _defaultIconClass:Class;
 				
