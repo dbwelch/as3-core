@@ -3,8 +3,7 @@ package com.ffsys.ioc
 	import com.ffsys.errors.AbstractError;
 	
 	/**
-	*	Encapsulates errors thrown related to the bean
-	* 	dependency injection functionality.
+	*	Encapsulates errors thrown by the inversion of control container.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -18,7 +17,7 @@ package com.ffsys.ioc
 		* 	Error thrown when a bean expression failed to resolve.
 		*/
 		public static const BEAN_REFERENCE_ERROR:String = 
-			"Could not resolve expression '%s' on bean '%s', property name is '%s' and parsed expression data is '%s'.";
+			"Could not resolve expression '%s' on bean '%s': property='%s', data='%s'.";
 			
 		/**
 		* 	Error thrown if there was an exception encountered while
@@ -34,12 +33,22 @@ package com.ffsys.ioc
 		*/
 		public static const BEAN_METHOD_RESULT_SET:String = 
 			"Could not set method return value on property '%s' of bean '%s' with value '%s'.";
+			
+		/**
+		* 	Error thrown when an attempt is made to modify an existing bean that is locked.
+		* 
+		* 	When encountering this error if you have not made a mistake and want to set up
+		* 	bean inheritance you must mark the bean as modifiable using the <code>locked</code>
+		* 	property and then configure the creation <code>policy</code> of the new bean.
+		*/
+		public static const BEAN_MODIFICATION_ERROR:String = 
+			"Cannot modify locked bean with identifier '%s'.";
 
 		/**
 		* 	Creates a <code>BeanError</code> instance.
 		* 
 		* 	@param message The message for the error.
-		* 	@param replacements Replacement valued for the message.
+		* 	@param replacements Replacement values for the message.
 		*/
 		public function BeanError( message:String, ... replacements )
 		{
@@ -47,4 +56,3 @@ package com.ffsys.ioc
 		}
 	}
 }
-

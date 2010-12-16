@@ -1,7 +1,7 @@
 package com.ffsys.ioc
 {
 	/**
-	*	Encapsulates constants for the ioc package.
+	*	Encapsulates constants for the inversion of control package.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -62,6 +62,11 @@ package com.ffsys.ioc
 		* 	The name of the property used to set the identifier for the bean.
 		*/
 		public static const ID_PROPERTY:String = "id";
+		
+		/**
+		* 	The name of the property used to set the locked status of a bean.
+		*/
+		public static const LOCKED_PROPERTY:String = "locked";
 		
 		/**
 		*	The delimiter used in reference expressions to delimit

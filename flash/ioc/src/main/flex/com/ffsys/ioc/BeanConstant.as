@@ -30,7 +30,7 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
-		public function resolve(
+		override public function resolve(
 			document:IBeanDocument,
 			descriptor:IBeanDescriptor,
 			bean:Object ):Object
@@ -38,19 +38,16 @@ package com.ffsys.ioc
 			if( document != null )
 			{
 				var constants:Object = document.constants;
-
 				if( constants == null )
 				{
 					throw new Error( "Cannot handle a constant reference expression with no declared constants." );
 				}
-
 				//convert to camel case
 				var camel:String = toCamelCase();
 				if( !constants.hasOwnProperty( camel ) )
 				{
 					throw new Error( "The constant reference '" + camel + "' has not been declared." );
 				}
-
 				//extract the constant from the constants bean declaration
 				var value:Object = constants[ camel ];
 				return value;

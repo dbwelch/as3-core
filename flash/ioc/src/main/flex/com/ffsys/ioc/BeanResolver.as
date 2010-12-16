@@ -10,7 +10,8 @@ package com.ffsys.ioc
 	*	@author Mischa Williamson
 	*	@since  10.12.2010
 	*/
-	public class BeanResolver extends Object {
+	public class BeanResolver extends Object 
+		implements IBeanResolver {
 		
 		private var _beanName:String;
 		private var _name:String;
@@ -32,6 +33,17 @@ package com.ffsys.ioc
 			this.beanName = beanName;
 			this.name = name;
 			this.value = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function resolve(
+			document:IBeanDocument,
+			descriptor:IBeanDescriptor,
+			bean:Object ):Object
+		{
+			return null;
 		}
 		
 		/**

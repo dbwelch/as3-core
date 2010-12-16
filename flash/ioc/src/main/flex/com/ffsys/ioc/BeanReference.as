@@ -30,7 +30,7 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
-		public function resolve(
+		override public function resolve(
 			document:IBeanDocument,
 			descriptor:IBeanDescriptor,
 			bean:Object ):Object

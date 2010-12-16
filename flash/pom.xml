@@ -176,6 +176,14 @@
 										</outputProperties>
 										<parameters>
 											<parameter>
+												<name>title</name>
+												<value>${api.docs.title}</value>
+											</parameter>
+											<parameter>
+												<name>author</name>
+												<value>${api.docs.author}</value>
+											</parameter>																
+											<parameter>
 												<name>page-header-left</name>
 												<value>Freeform Core</value>
 											</parameter>

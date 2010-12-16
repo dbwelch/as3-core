@@ -1,7 +1,16 @@
 package com.ffsys.ioc
 {
 	
-	
+	/**
+	*	Describes the contract for implementations responsible for
+	* 	parsing an individual bean property declaration.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  10.12.2010
+	*/
 	public interface IBeanPropertyParser
 	{
 		/**

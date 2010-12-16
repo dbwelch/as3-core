@@ -16,6 +16,9 @@
 	<xsl:output method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
 	<xsl:param name="page-header-left" select="'Freeform Systems'"/>
 	<xsl:param name="page-header-right" select="'API Documentation'"/>
+	<xsl:param name="title" select="'Actionscript Documentation'" />
+	<xsl:param name="author" select="'Mischa Williamson'" />
+	
 	<xsl:param name="dita-dir" select="'tempdita'"/>
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
 	<xsl:param name="packages-map-path" select="concat($dita-dir,$delimiter,'packages.dita')"/>
@@ -2348,7 +2351,6 @@
 		
 		<xsl:call-template name="header-preamble" />
 		<xsl:call-template name="header-packages" />
-		
 		<xsl:text><![CDATA[
 \hypersetup{
 	colorlinks,
@@ -2368,9 +2370,13 @@
 \pdfpageheight=\paperheight
 
 \renewcommand{\paragraph}{\small}
+]]></xsl:text>
 
-\title{Actionscript Documentation}
-\author{Mischa Williamson}
+<xsl:value-of select="concat('\title{',$title,'}')" />
+<xsl:value-of select="$newline" />
+<xsl:value-of select="concat('\author{',$author,'}')" />
+
+<xsl:text><![CDATA[
 \makeindex
 
 %fix for the toc overlap problem

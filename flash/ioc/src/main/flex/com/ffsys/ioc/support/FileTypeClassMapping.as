@@ -1,3 +1,6 @@
+/**
+*	Support classes for the inversion of control container.
+*/
 package com.ffsys.ioc.support
 {
 	import com.ffsys.io.loaders.types.*;

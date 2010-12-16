@@ -22,6 +22,7 @@ package com.ffsys.ioc
 		private var _staticClass:Class;
 		private var _singleton:Boolean = false;
 		private var _properties:Object;
+		private var _locked:Boolean = true;
 		private var _instanceClassConstant:BeanConstant;
 		private var _staticClassConstant:BeanConstant;
 		private var _factoryReference:BeanReference;
@@ -53,6 +54,19 @@ package com.ffsys.ioc
 			{
 				transfer( source );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get locked():Boolean
+		{
+			return _locked;
+		}
+		
+		public function set locked( value:Boolean ):void
+		{
+			_locked = value;
 		}
 		
 		/**
@@ -484,6 +498,17 @@ package com.ffsys.ioc
 					{
 						this.singleton = ( singletonCandidate as Boolean );
 						delete target[ BeanConstants.SINGLETON_PROPERTY ];
+					}
+				}
+				
+				//copy any locked setting
+				if( target.hasOwnProperty( BeanConstants.LOCKED_PROPERTY ) )
+				{
+					var lockedCandidate:Object = target[ BeanConstants.LOCKED_PROPERTY ];
+					if( lockedCandidate is Boolean )
+					{
+						this.locked = ( lockedCandidate as Boolean );
+						delete target[ BeanConstants.LOCKED_PROPERTY ];
 					}
 				}
 				

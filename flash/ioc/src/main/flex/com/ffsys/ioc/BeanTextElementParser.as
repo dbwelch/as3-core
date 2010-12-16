@@ -67,20 +67,16 @@ package com.ffsys.ioc
 			var output:Object = value;
 			var extension:Object = null;
 			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
-			var parser:PrimitiveParser = new PrimitiveParser();	
-			
+			var parser:PrimitiveParser = new PrimitiveParser();
 			var candidate:Boolean = getSubstitutor( value ).isCandidate();
-
 			if( candidate )
 			{
 				output = parseBindingCandidate( descriptor, value );
 			}
-			
 			if( output is String )
 			{
 				output = parser.parse( String( output ), true, document.delimiter );
-				
-				//still a string after primitive parsing
+				//only if still a string after primitive parsing
 				if( output is String )
 				{
 					if( hexExpression.test( String( output ) ) )
@@ -96,7 +92,7 @@ package com.ffsys.ioc
 					}
 				}
 			}
-			return output;			
+			return output;
 		}
 		
 		/**

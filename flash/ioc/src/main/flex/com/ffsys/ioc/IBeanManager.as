@@ -26,6 +26,11 @@ package com.ffsys.ioc {
 		extends IBeanAccess,
 				IDestroy,
 				IEventDispatcher {
+					
+		/**
+		* 	Clears all load requests stored by this manager.
+		*/
+		function clear():void;
 		
 		/**
 		* 	The document used to manage loaded bean definitions.

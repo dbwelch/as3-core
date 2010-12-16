@@ -1,3 +1,7 @@
+/**
+*	This package contains the classes and interfaces for a lightweight
+*	inversion of control container.
+*/
 package com.ffsys.ioc
 {
 	import flash.utils.getQualifiedClassName;
@@ -34,7 +38,7 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
-		public function resolve(
+		override public function resolve(
 			document:IBeanDocument,
 			descriptor:IBeanDescriptor,
 			bean:Object ):Object
@@ -49,24 +53,18 @@ package com.ffsys.ioc
 
 				for( var i:int = 0;i < parts.length;i++ )
 				{
-					part = String( parts[ i ] );
-					
-					part = strip( part );
-
+					part = strip( String( parts[ i ] ) );
 					//overwrite the array entry with the parsed value
 					parsed = parser.parse( descriptor, beanName, this.name, part );
-
 					if( parsed is IBeanResolver )
 					{
 						parsed = find( document, descriptor, parsed, bean );
 					}
-
 					//update the array element
 					parts[ i ] = parsed;
 				}
 				return parts;
-			}	
-
+			}
 			return null;
 		}
 	}

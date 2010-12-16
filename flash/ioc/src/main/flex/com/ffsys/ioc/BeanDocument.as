@@ -228,6 +228,12 @@ package com.ffsys.ioc
 					descriptor.id );
 				if( existing )
 				{
+					if( existing.locked )
+					{
+						throw new BeanError(
+							BeanError.BEAN_MODIFICATION_ERROR, existing.id );
+					}
+					
 					var policy:String = descriptor.policy;
 					//nothing to do on existing bean match
 					if( policy == BeanCreationPolicy.NONE )

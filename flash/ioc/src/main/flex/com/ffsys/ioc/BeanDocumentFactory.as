@@ -12,7 +12,7 @@ package com.ffsys.ioc {
 	public class BeanDocumentFactory extends Object {
 		
 		/**
-		*	The default class to instantiate when creating bean stores.
+		*	The default class to instantiate when creating bean documents.
 		*/
 		public static var documentClass:Class = BeanDocument;
 		
@@ -32,7 +32,7 @@ package com.ffsys.ioc {
 		*	@param clazz The class of bean document to instantiate.
 		*	
 		*	@throws ArgumentError An argument error if the specified class is null
-		*	and the bean document class is null.
+		*	or if the bean document class is null.
 		*	@throws Error An error if the class could not be instantiated.
 		*	@throws Error An error if the instantiated class does not adhere
 		*	to the bean document contract.
@@ -41,8 +41,7 @@ package com.ffsys.ioc {
 		*/
 		public static function create( clazz:Class = null ):IBeanDocument
 		{
-			var storage:Object = null;
-			
+			var document:Object = null;
 			if( clazz == null )
 			{
 				clazz = documentClass;
@@ -53,22 +52,19 @@ package com.ffsys.ioc {
 				throw new ArgumentError( "The bean document factory could not determine the"
 					+ " class of bean document to instantiate." );
 			}
-			
 			try
 			{
-				storage = new clazz();
+				document = new clazz();
 			}catch( e:Error )
 			{
 				throw e;
 			}
-			
-			if( !( storage is IBeanDocument ) )
+			if( !( document is IBeanDocument ) )
 			{
 				throw new Error( "The created bean document does not adhere"
 					+ " to the bean document contract." );
 			}
-			
-			return IBeanDocument( storage );
+			return IBeanDocument( document );
 		}
 	}
 }

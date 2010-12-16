@@ -27,6 +27,7 @@ package com.ffsys.ioc
 			
 			var a:Object = {};
 			a.instanceClass = Sprite;
+			a.locked = false;
 			a.x = 10;
 			
 			var b:Object = {};
@@ -67,6 +68,7 @@ package com.ffsys.ioc
 			
 			var a:Object = {};
 			a.instanceClass = Sprite;
+			a.locked = false;			
 			a.x = 10;
 			
 			var b:Object = {};
@@ -111,6 +113,7 @@ package com.ffsys.ioc
 			
 			var a:Object = {};
 			a.instanceClass = Sprite;
+			a.locked = false;			
 			a.x = 10;
 			
 			var b:Object = {};
@@ -155,6 +158,7 @@ package com.ffsys.ioc
 			
 			var a:Object = {};
 			a.instanceClass = Sprite;
+			a.locked = false;			
 			a.x = 10;
 			
 			var b:Object = {};

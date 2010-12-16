@@ -7,7 +7,7 @@ package com.ffsys.ioc {
 	import com.ffsys.io.loaders.types.TextLoader;
 	
 	/**
-	*	Loads bean documents.
+	*	Loads a single bean document.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -64,6 +64,10 @@ package com.ffsys.ioc {
 		* 
 		* 	If a custom <code>parser</code> has been assigned it will be
 		* 	used otherwise a text parser will be created by default.
+		* 
+		* 	@param document The bean document to assign to the parser.
+		* 
+		* 	@return The bean parser this bean loader will use.
 		*/
 		public function getParser( document:IBeanDocument ):IBeanParser
 		{
@@ -76,7 +80,10 @@ package com.ffsys.ioc {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Determines wheher this loader should parse the loaded text.
+		* 
+		* 	@return A boolean indicating whether this loader should
+		* 	parse the loaded text data. 
 		*/
 		override protected function shouldParseText():Boolean
 		{

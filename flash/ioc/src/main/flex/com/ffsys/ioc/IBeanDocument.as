@@ -89,6 +89,10 @@ package com.ffsys.ioc
 		/**
 		*	An array of string identifiers for each of the bean
 		* 	descriptors encapsulated by this document.
+		* 
+		* 	This method dynamically generates the array of bean names
+		* 	on every invocation so should not be invoked within an
+		* 	iteration.
 		*/
 		function get beanNames():Array;
 		

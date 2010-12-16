@@ -1,9 +1,3 @@
-/**
-*	A library for runtime dependency injection.
-*
-*	The beans retrieved at runtime can be declared
-*	as <code>CSS</code> or <code>XML</code>.
-*/
 package com.ffsys.ioc {
 	
 	import flash.events.EventDispatcher;
@@ -18,7 +12,7 @@ package com.ffsys.ioc {
 	import com.ffsys.utils.substitution.*;
 	
 	/**
-	*	Responsible for managing a collection of bean documents.
+	*	Responsible for managing the loading of multiple bean documents.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -29,6 +23,7 @@ package com.ffsys.ioc {
 	public class BeanManager extends EventDispatcher
 		implements IBeanManager {
 		
+		private var _queue:ILoaderQueue;		
 		private var _beanDocuments:Vector.<BeanDocumentEntry> = new Vector.<BeanDocumentEntry>();
 		
 		/**
@@ -36,16 +31,20 @@ package com.ffsys.ioc {
 		*/
 		protected var _document:IBeanDocument;
 		
-		//TODO: refactor the dependency queue to be a nested queue
-		private var _queue:ILoaderQueue;
-		private var _dependencyQueue:ILoaderQueue;
-		
 		/**
 		*	Creates a <code>BeanManager</code> instance.
 		*/
 		public function BeanManager()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clear():void
+		{
+			_beanDocuments = new Vector.<BeanDocumentEntry>();
 		}
 		
 		/**
@@ -124,7 +123,10 @@ package com.ffsys.ioc {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	A list of all the bean names stored in the document
+		* 	used by this bean manager.
+		* 
+		* 	@return An array of bean names.
 		*/
 		public function get beanNames():Array
 		{
@@ -226,6 +228,7 @@ package com.ffsys.ioc {
 	}
 }
 
+//TODO: refactor this by removing it as we no longer store a reference to a document for each request
 import flash.net.URLRequest;
 import com.ffsys.ioc.IBeanDocument;
 
