@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<module>
+
+	<!-- override the default path configuration if necessary -->
+	<paths>
+		<absolute>false</absolute>
+		<base>assets</base>
+		<common>common</common>
+		<locales>locales</locales>
+	</paths>
+	
+	<locales>
+		<!-- loads resources in the context of the current locale -->
+		<current-locale>
+			<resources>
+				<rsls>
+					<rsl>
+						<trusted>true</trusted>
+						<url>/////swf/application-assets.swf</url>
+					</rsl>
+				</rsls>
+				<xml>
+					<resource>
+						<url>/xml/test.xml</url>
+					</resource>
+				</xml>
+				<css>
+					<resource>
+						<id>test-css</id>
+						<url>/css/test.css</url>
+					</resource>
+					<resource>
+						<id>test-filters</id>
+						<url>/css/filters.css</url>
+					</resource>
+				</css>
+				<messages>
+					<resource>
+						<url>/properties/messages-common.properties</url>
+					</resource>
+				</messages>
+				<errors>
+					<resource>
+						<url>/properties/errors-common.properties</url>
+					</resource>
+				</errors>
+				<images>
+					<resource>
+						<id>garden-001</id>
+						<url>/images/garden-001.jpg</url>
+					</resource>
+					<resource>
+						<id>garden-002</id>
+						<url>/images/garden-002.jpg</url>
+					</resource>
+				</images>
+			</resources>
+		</current-locale>
+		
+		<!-- loads resources in the context of a specific locale -->
+		<locale lang="es" country="ES">
+			<resources>
+				<messages>
+					<resource>
+						<url>/properties/messages.properties</url>
+					</resource>
+				</messages>
+				<errors>
+					<resource>
+						<url>/properties/errors.properties</url>
+					</resource>
+				</errors>
+				<fonts>
+					<resource>
+						<url>/fonts/fonts.swf</url>
+					</resource>
+				</fonts>
+			</resources>
+		</locale>
+	</locales>
+</module>

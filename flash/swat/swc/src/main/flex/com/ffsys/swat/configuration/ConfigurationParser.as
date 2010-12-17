@@ -2,6 +2,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.io.xml.DeserializationMode;
 	import com.ffsys.io.xml.Parser;
+	import com.ffsys.io.xml.ClassNodeNameMap;
 
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.Locale;
@@ -161,7 +162,6 @@ package com.ffsys.swat.configuration {
 			super.initialize();
 			
 			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
-			
 			this.deserializer.parentField = PARENT_FIELD;
 			
 			classNodeNameMap.add(
@@ -194,6 +194,15 @@ package com.ffsys.swat.configuration {
 				DEFAULT_LOCALE_PROPERTY_NAME,
 				false );
 				
+			addResourceCollectionMappings( this.classNodeNameMap );
+		}
+		
+		/**
+		* 	Adds class node name mappings for resource collections.
+		*/
+		public function addResourceCollectionMappings(
+			classNodeNameMap:ClassNodeNameMap ):void
+		{
 			classNodeNameMap.add(
 				RslCollection,
 				RSLS_NAME,
@@ -264,7 +273,7 @@ package com.ffsys.swat.configuration {
 				RuntimeResource,
 				RESOURCE_NAME,
 				RESOURCE_NAME,
-				false );
+				false );			
 		}
 		
 		/**

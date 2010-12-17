@@ -78,14 +78,14 @@ package com.ffsys.swat.configuration
 			
 			Assert.assertEquals( configuration.locales, resource.parent.parent.parent );
 			Assert.assertEquals( configuration, ILocaleManager( resource.parent.parent.parent ).parent );
-			Assert.assertEquals( "assets/common/swf/application-assets.swf", resource.getTranslatedPath() );
+			Assert.assertEquals( "mock-assets/common/swf/application-assets.swf", resource.getTranslatedPath() );
 			
 			//test a locale specific load process
 			resources = locale.resources;
 			resource = resources.messages[ 0 ];
 			
 			//trace("ConfigurationLoadTest::assertLoadedConfiguration", resource, resource.url, resource.getTranslatedPath() );
-			Assert.assertEquals( "assets/locales/en-GB/properties/messages.properties", resource.getTranslatedPath() );
+			Assert.assertEquals( "mock-assets/locales/en-GB/properties/messages.properties", resource.getTranslatedPath() );
 		}
 	
 		[Test(async)]

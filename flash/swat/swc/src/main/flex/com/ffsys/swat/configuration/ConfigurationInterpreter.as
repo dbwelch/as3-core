@@ -20,6 +20,9 @@ package com.ffsys.swat.configuration {
 	*/
 	public class ConfigurationInterpreter extends DeserializeInterpreter {
 		
+		/**
+		* 	The application flash variables;
+		*/
 		public var flashvars:DefaultFlashVariables;
 		
 		/**
