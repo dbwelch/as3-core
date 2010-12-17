@@ -54,19 +54,9 @@ package com.ffsys.ioc
 		public static const METHOD_PROPERTY:String = "method";
 		
 		/**
-		* 	The name of the property used to determine a bean creation policy.
-		*/
-		public static const CREATION_POLICY_PROPERTY:String = "policy";
-		
-		/**
 		* 	The name of the property used to set the identifier for the bean.
 		*/
 		public static const ID_PROPERTY:String = "id";
-		
-		/**
-		* 	The name of the property used to set the locked status of a bean.
-		*/
-		public static const LOCKED_PROPERTY:String = "locked";
 		
 		/**
 		*	The delimiter used in reference expressions to delimit

@@ -17,7 +17,6 @@ package com.ffsys.ioc
 		extends	IStringIdentifier,
 				IDestroy
 	{
-		
 		/**
 		* 	Clears this bean descriptor ready for an object
 		* 	to be transferred into this descriptor. 
@@ -46,14 +45,7 @@ package com.ffsys.ioc
 		* 	Properties to apply after instantiating the bean.
 		*/
 		function get properties():Object;
-		function set properties( properties:Object ):void;
-		
-		/**
-		* 	A bean policy used to determine how this bean should
-		* 	be handled when it matches an existing bean definition.
-		*/
-		function get policy():String;
-		function set policy( value:String ):void;		
+		function set properties( properties:Object ):void;		
 		
 		/**
 		* 	Transfers the properties of an anonymous object representing
@@ -107,15 +99,5 @@ package com.ffsys.ioc
 		* 	any bean expressions resolved.
 		*/
 		function getProperties():Object;
-		
-		/**
-		* 	Indicates whether this bean descriptor is locked.
-		* 
-		* 	All bean descriptors are locked by default. When a bean
-		* 	descriptor is locked any attempt to add a bean with the same
-		* 	<code>id</code> to a document will result in a runtime exception.
-		*/
-		function get locked():Boolean;
-		function set locked( value:Boolean ):void;
 	}
 }

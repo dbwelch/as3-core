@@ -157,5 +157,29 @@ package com.ffsys.ioc
 		* 	@return The number of descriptors in this document after the copy.
 		*/
 		function copy( document:IBeanDocument ):uint;
+		
+		
+		/**
+		* 	Indicates whether this bean document is locked.
+		* 
+		* 	All bean documents are locked by default. When a bean
+		* 	document is locked any attempt to add a bean with the same
+		* 	<code>id</code> to a document will result in a runtime exception.
+		*/
+		function get locked():Boolean;
+		function set locked( value:Boolean ):void;
+		
+		/**
+		* 	The bean creation policy for the document.
+		* 
+		* 	By default this value is <code>null</code> indicating
+		* 	that the default behaviour should occur.
+		* 
+		* 	If this value has been specified and the bean being added
+		* 	has the default bean creation policy, the policy assigned
+		* 	to this document will take precedence.
+		*/
+		function get policy():String;
+		function set policy( value:String ):void;
 	}
 }

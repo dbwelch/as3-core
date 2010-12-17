@@ -26,6 +26,8 @@ package com.ffsys.ioc
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
 		private var _files:Vector.<BeanFileDependency> = null;
 		private var _injector:IBeanInjector;
+		private var _locked:Boolean = true;
+		private var _policy:String = null;
 		
 		/**
 		* 	Creates a <code>BeanDocument</code> instance.
@@ -33,6 +35,32 @@ package com.ffsys.ioc
 		public function BeanDocument()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get policy():String
+		{
+			return _policy;
+		}
+		
+		public function set policy( value:String ):void
+		{
+			_policy = value;
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get locked():Boolean
+		{
+			return _locked;
+		}
+		
+		public function set locked( value:Boolean ):void
+		{
+			_locked = value;
 		}
 		
 		/**
@@ -226,31 +254,31 @@ package com.ffsys.ioc
 				descriptor.document = this;				
 				var existing:IBeanDescriptor = getBeanDescriptor(
 					descriptor.id );
+					
 				if( existing )
 				{
-					if( existing.locked )
+					if( this.locked )
 					{
 						throw new BeanError(
 							BeanError.BEAN_MODIFICATION_ERROR, existing.id );
 					}
 					
-					var policy:String = descriptor.policy;
 					//nothing to do on existing bean match
-					if( policy == BeanCreationPolicy.NONE )
+					if( this.policy == BeanCreationPolicy.NONE )
 					{
 						return false;
-					}else if( policy == BeanCreationPolicy.REPLACE )
+					}else if( this.policy == BeanCreationPolicy.REPLACE )
 					{
 						//remove the existing bean
 						removeBeanDescriptor( existing );
 						//add the new one
 						_beans.push( descriptor );
-					}else if( policy == BeanCreationPolicy.CHANGE
+					}else if( this.policy == BeanCreationPolicy.CHANGE
 					 	&& descriptor.instanceClass != null )
 					{
 						//just change the implementation
 						existing.instanceClass = descriptor.instanceClass;
-					}else if( policy == BeanCreationPolicy.MERGE )
+					}else if( this.policy == BeanCreationPolicy.MERGE )
 					{
 						//update the implementation if one is available
 						//in the new descriptor

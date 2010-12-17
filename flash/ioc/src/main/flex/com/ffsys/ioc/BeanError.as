@@ -35,14 +35,14 @@ package com.ffsys.ioc
 			"Could not set method return value on property '%s' of bean '%s' with value '%s'.";
 			
 		/**
-		* 	Error thrown when an attempt is made to modify an existing bean that is locked.
+		* 	Error thrown when an attempt is made to modify an existing bean in a locked bean document.
 		* 
 		* 	When encountering this error if you have not made a mistake and want to set up
-		* 	bean inheritance you must mark the bean as modifiable using the <code>locked</code>
+		* 	bean inheritance you must mark the bean document as modifiable using the <code>locked</code>
 		* 	property and then configure the creation <code>policy</code> of the new bean.
 		*/
 		public static const BEAN_MODIFICATION_ERROR:String = 
-			"Cannot modify locked bean with identifier '%s'.";
+			"Cannot modify bean with identifier '%s' in a locked bean document.";
 
 		/**
 		* 	Creates a <code>BeanError</code> instance.

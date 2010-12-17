@@ -24,10 +24,11 @@ package com.ffsys.ioc
 			var id:String = "bean";
 			var retrieved:Object = null;
 			var document:IBeanDocument = new BeanDocument();
+			document.locked = false;
+			document.policy	= BeanCreationPolicy.NONE;				
 			
 			var a:Object = {};
 			a.instanceClass = Sprite;
-			a.locked = false;
 			a.x = 10;
 			
 			var b:Object = {};
@@ -36,10 +37,6 @@ package com.ffsys.ioc
 			
 			var d1:IBeanDescriptor = new BeanDescriptor( id, a );
 			var d2:IBeanDescriptor = new BeanDescriptor( id, b );
-			
-			//check the policy settings
-			Assert.assertEquals( BeanCreationPolicy.NONE, d1.policy );
-			Assert.assertEquals( BeanCreationPolicy.NONE, d2.policy );
 			
 			//add the first bean
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
@@ -65,23 +62,19 @@ package com.ffsys.ioc
 			var id:String = "bean";
 			var retrieved:Object = null;
 			var document:IBeanDocument = new BeanDocument();
+			document.locked = false;
+			document.policy	= BeanCreationPolicy.REPLACE;			
 			
 			var a:Object = {};
 			a.instanceClass = Sprite;
-			a.locked = false;			
 			a.x = 10;
 			
 			var b:Object = {};
 			b.instanceClass = Shape;
-			b.policy = BeanCreationPolicy.REPLACE;			
 			b.x = 20;
 			
 			var d1:IBeanDescriptor = new BeanDescriptor( id, a );
 			var d2:IBeanDescriptor = new BeanDescriptor( id, b );
-			
-			//check the policy settings
-			Assert.assertEquals( BeanCreationPolicy.NONE, d1.policy );
-			Assert.assertEquals( BeanCreationPolicy.REPLACE, d2.policy );
 
 			//add the first bean and check the initial bean property value
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
@@ -110,10 +103,11 @@ package com.ffsys.ioc
 			var id:String = "bean";
 			var retrieved:Object = null;
 			var document:IBeanDocument = new BeanDocument();
+			document.locked = false;
+			document.policy	= BeanCreationPolicy.CHANGE;	
 			
 			var a:Object = {};
-			a.instanceClass = Sprite;
-			a.locked = false;			
+			a.instanceClass = Sprite;			
 			a.x = 10;
 			
 			var b:Object = {};
@@ -123,10 +117,6 @@ package com.ffsys.ioc
 			
 			var d1:IBeanDescriptor = new BeanDescriptor( id, a );
 			var d2:IBeanDescriptor = new BeanDescriptor( id, b );
-			
-			//check the policy settings
-			Assert.assertEquals( BeanCreationPolicy.NONE, d1.policy );
-			Assert.assertEquals( BeanCreationPolicy.CHANGE, d2.policy );
 			
 			//add the first bean and check the initial bean property value
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
@@ -155,24 +145,20 @@ package com.ffsys.ioc
 			var id:String = "bean";
 			var retrieved:Object = null;
 			var document:IBeanDocument = new BeanDocument();
+			document.locked = false;
+			document.policy	= BeanCreationPolicy.MERGE;			
 			
 			var a:Object = {};
-			a.instanceClass = Sprite;
-			a.locked = false;			
+			a.instanceClass = Sprite;			
 			a.x = 10;
 			
 			var b:Object = {};
 			b.instanceClass = Shape;
-			b.policy = BeanCreationPolicy.MERGE;
 			b.x = 20;
 			b.y = 40;
 			
 			var d1:IBeanDescriptor = new BeanDescriptor( id, a );
 			var d2:IBeanDescriptor = new BeanDescriptor( id, b );
-			
-			//check the policy settings
-			Assert.assertEquals( BeanCreationPolicy.NONE, d1.policy );
-			Assert.assertEquals( BeanCreationPolicy.MERGE, d2.policy );
 			
 			//add the first bean and check the initial bean property value
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
@@ -195,6 +181,6 @@ package com.ffsys.ioc
 			//remove the existing definition
 			Assert.assertTrue( document.removeBeanDescriptor( d1 ) );
 			Assert.assertEquals( 0, document.length );			
-		}
+		}		
 	}
 }

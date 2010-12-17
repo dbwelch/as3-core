@@ -69,6 +69,7 @@ package com.ffsys.ui.css {
 		public function CssStyleSheet()
 		{
 			super();
+			this.locked = false;
 		}
 		
 		/**
