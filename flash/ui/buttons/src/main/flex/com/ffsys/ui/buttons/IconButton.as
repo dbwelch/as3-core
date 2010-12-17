@@ -52,8 +52,10 @@ package com.ffsys.ui.buttons
 			super.text = text;
 			if( label )
 			{
+				/*
 				utils.renderer.invalidate(
 					new ComponentRender( this, RenderPhase.REDRAW ) );
+				*/
 			}
 		}
 		
@@ -91,8 +93,10 @@ package com.ffsys.ui.buttons
 			{
 				addChild( this.icon );
 				
+				/*
 				utils.renderer.invalidate(
 					new ComponentRender( this, RenderPhase.REDRAW ) );
+				*/
 			}
 		}
 		
