@@ -56,15 +56,6 @@ package com.ffsys.swat.configuration
 		}
 		
 		/**
-		* 	@deprecated
-		*/
-		public function getMainViewClassPath():String
-		{
-			throw new Error(
-				"You must specify the main view class path in your concrete class configuration." );
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function getConfigurationParserClassPath():String
@@ -83,12 +74,10 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@inheritDoc
 		*/
-		public function getMainClassInstance():IApplication
+		public function getMainClassInstance():Object
 		{
 			var classPath:String = getMainClassPath();
-			
 			var clz:Class = null;
-			
 			try
 			{
 				clz = Class(
@@ -101,19 +90,13 @@ package com.ffsys.swat.configuration
 			}
 			
 			var instance:Object = new clz();
-			
-			if( !( instance is IApplication ) )
-			{
-				throw new Error( "The main class does not adhere to the application contract." );
-			}
-			
-			return IApplication( instance );
+			return instance;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function getApplicationPreloadViewInstance():IApplicationPreloadView
+		public function getApplicationPreloadViewInstance():Object
 		{
 			var classPath:String = getPreloadViewClassPath();
 			var clz:Class = null;
@@ -130,21 +113,14 @@ package com.ffsys.swat.configuration
 			}
 			
 			var instance:Object = new clz();
-			
-			if( !( instance is IApplicationPreloadView ) )
-			{
-				throw new Error(
-					"The application preload view class does not adhere to the application preload contract." );
-			}
-			
-			return IApplicationPreloadView( instance );
+			return instance;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
 		public function getFlashVariablesInstance(
-			root:DisplayObject ):IFlashVariables
+			root:DisplayObject ):Object
 		{
 			var classPath:String = getFlashVariablesClassPath();
 			var clz:Class = null;
@@ -161,19 +137,13 @@ package com.ffsys.swat.configuration
 			}
 			
 			var instance:Object = new clz( root );
-			
-			if( !( instance is SwatFlashVariables ) )
-			{
-				throw new Error( "The flash variables class is not valid, interface implementation is incorrect." );
-			}
-			
-			return IFlashVariables( instance );
+			return instance;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function getConfigurationParserInstance():IConfigurationParser
+		public function getConfigurationParserInstance():Object
 		{
 			var classPath:String = getConfigurationParserClassPath();
 			var clz:Class = null;
@@ -190,20 +160,13 @@ package com.ffsys.swat.configuration
 			}
 			
 			var instance:Object = new clz();
-			
-			if( !( instance is IConfigurationParser ) )
-			{
-				throw new Error(
-					"The specified configuration parser is not valid, interface implementation is incorrect." );
-			}
-			
-			return IConfigurationParser( instance );
+			return instance;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/		
-		public function getConfigurationInstance():IConfiguration
+		public function getConfigurationInstance():Object
 		{
 			var classPath:String = getConfigurationClassPath();
 			var clz:Class = null;
@@ -220,14 +183,7 @@ package com.ffsys.swat.configuration
 			}
 			
 			var instance:Object = new clz();
-			
-			if( !( instance is IConfiguration ) )
-			{
-				throw new Error(
-					"The specified configuration is not valid, interface implementation is incorrect." );
-			}
-			
-			return IConfiguration( instance );
+			return instance;
 		}
 	}
 }

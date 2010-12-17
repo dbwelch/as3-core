@@ -1,27 +1,21 @@
-package com.ffsys.swat.view  {
+package com.ffsys.swat.core  {
 	
 	import flash.display.Bitmap;
+	import flash.display.DisplayObject;
+	import flash.display.Sprite;
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
-	import flash.text.Font;
-	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.core.IFlashVariables;
-	
-	import com.ffsys.utils.collections.strings.IStringCollection;
-	
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	
 	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	import com.ffsys.swat.configuration.IPaths;
 	
-	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
-	
 	/**
-	*	Encapsulates access to various commonly used configuration
-	*	properties and other utility functionality such as a textfield
-	*	factory to simplify the process of creating textfields.
+	*	Abstract super class for application views.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -29,15 +23,15 @@ package com.ffsys.swat.view  {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class ViewUtils extends Object
-		implements IViewUtils {
+	public class DefaultApplicationController extends Object
+		implements IDefaultApplicationController {
 
 		private var _configuration:IConfiguration;
 		
 		/**
-		*	Creates an <code>ViewUtils</code> instance.
+		*	Creates an <code>DefaultApplicationController</code> instance.
 		*/
-		public function ViewUtils()
+		public function DefaultApplicationController()
 		{
 			super();
 		}
@@ -179,6 +173,7 @@ package com.ffsys.swat.view  {
 		*/
 		public function getLocalePath( path:String, locale:IConfigurationLocale = null ):String
 		{
+			verifyConfiguration();
 			if( locale == null )
 			{
 				locale = configuration.locales.current;
@@ -191,6 +186,14 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	Clean the references stored by this application.
+		*/
+		public function destroy():void
+		{
+			_configuration = null;
+		}
+		
+		/**
 		*	@private	
 		*/
 		private function verifyConfiguration():void
@@ -198,7 +201,7 @@ package com.ffsys.swat.view  {
 			if( this.configuration == null )
 			{
 				throw new Error(
-					"Cannot access view utilities with a null configuration." );
+					"Cannot access configuration data with a null configuration." );
 			}
 		}
 	}

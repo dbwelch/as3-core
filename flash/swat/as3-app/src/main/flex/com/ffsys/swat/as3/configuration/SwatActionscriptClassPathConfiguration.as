@@ -36,13 +36,5 @@ package com.ffsys.swat.as3.configuration
 		{
 			return "com.ffsys.swat.as3.view.SwatActionscriptApplicationPreloadView";
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function getMainViewClassPath():String
-		{
-			return "com.ffsys.swat.as3.view.SwatActionscriptContainer";
-		}
 	}
 }

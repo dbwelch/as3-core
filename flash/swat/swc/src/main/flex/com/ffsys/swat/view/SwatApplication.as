@@ -1,6 +1,7 @@
 package com.ffsys.swat.view  {
 	
 	import flash.display.DisplayObject;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
 	
@@ -21,6 +22,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.core.IApplicationMainController;
 	
 	/**
 	*	Abstract super class for the application.
@@ -31,11 +33,12 @@ package com.ffsys.swat.view  {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class SwatApplication extends AbstractSwatView
+	public class SwatApplication extends Sprite
 		implements IApplication {
 		
 		private var _preloader:IRuntimeAssetPreloader;
 		private var _flashvars:IFlashVariables;
+		private var _configuration:IConfiguration;
 		
 		/**
 		*	Creates a <code>SwatApplication</code> instance.
@@ -55,17 +58,9 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
-		* 	@inheritDoc
-		*/
-		override public function createChildren():void
-		{
-			//
-		}
-		
-		/**
 		*	@inheritDoc
 		*/
-		override public function get flashvars():IFlashVariables
+		public function get flashvars():IFlashVariables
 		{
 			return _flashvars;
 		}
@@ -86,11 +81,12 @@ package com.ffsys.swat.view  {
 						SwatFlashVariables( _flashvars ).classPathConfiguration;
 					
 					var parser:IConfigurationParser = 
-						classPathConfiguration.getConfigurationParserInstance();
-					/*
-					parser.interpreter.bindings.addBinding(
-						new Binding() );
-					*/
+						classPathConfiguration.getConfigurationParserInstance() as IConfigurationParser;
+						
+					if( parser == null )
+					{
+						throw new Error( "Could not retrieve a valid configuration parser." );
+					}
 					
 					_preloader = new RuntimeAssetPreloader(
 						_flashvars,
@@ -132,17 +128,15 @@ package com.ffsys.swat.view  {
 				configurationLoadComplete );
 			
 			//keep a reference to the configuration
-			utils.configuration = event.configuration;
+			_configuration = event.configuration;
 			
 			//update the configuration with the flash variables
-			utils.configuration.flashvars = this.flashvars;
+			_configuration.flashvars = this.flashvars;
 			
 			//update the style bindings to match the xml bindings
-			utils.styleManager.bindings = Deserializer.defaultBindings.clone();
+			_configuration.locales.styleManager.bindings = Deserializer.defaultBindings.clone();
 			
-			//trace("SwatApplication::configurationLoadComplete()", utils.styleManager.bindings.getLength() );
-			
-			configure( utils.configuration );
+			configure( _configuration );
 		}
 		
 		/**
@@ -151,7 +145,6 @@ package com.ffsys.swat.view  {
 		private function rslLoadComplete( event:RslEvent ):void
 		{
 			removeEventListener( RslEvent.LOAD_COMPLETE, rslLoadComplete );
-			//propagateComponentTextFactory();
 			ready();
 		}
 		
@@ -173,31 +166,34 @@ package com.ffsys.swat.view  {
 		*	Invoked when all runtime assets have been loaded and
 		*	the application is ready to start.
 		*	
-		*	The default behaviour is to create the main view and
-		*	add it to the display list.
+		*	The default behaviour is to create the main controller and
+		*	add it to the display list if it is a display object.
 		*/
 		protected function ready():void
 		{
-			createMainView();
+			createMainController();
 		}
 		
 		/**
-		* 	@private
+		* 	Configures the default injector beans for the application.
+		* 
+		* 	These are objects that have already been instantiated and
+		* 	should be made available to bean documents.
 		*/
-		private function doWithBeans( beans:IBeanDocument ):void
+		protected function doWithBeans( beans:IBeanDocument ):void
 		{
 			var descriptor:IBeanDescriptor = null;
 			descriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.CONFIGURATION, utils.configuration );
+				DefaultBeanIdentifiers.CONFIGURATION, _configuration );
 			beans.addBeanDescriptor( descriptor );
 			descriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.FLASH_VARIABLES, utils.configuration.flashvars );
+				DefaultBeanIdentifiers.FLASH_VARIABLES, _configuration.flashvars );
 			beans.addBeanDescriptor( descriptor );
 			descriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.PATHS, utils.configuration.paths );
+				DefaultBeanIdentifiers.PATHS, _configuration.paths );
 			beans.addBeanDescriptor( descriptor );
 			descriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.LOCALES, utils.configuration.locales );
+				DefaultBeanIdentifiers.LOCALES, _configuration.locales );
 			beans.addBeanDescriptor( descriptor );
 			descriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
@@ -211,27 +207,29 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
-		*	Creates the main view and adds it to the display list.	
+		*	Creates the main controller.
+		* 
+		* 	If the main controller is a display object it will be added
+		* 	to the display list.
+		* 
+		* 	If the main controller implements the IApplicationMainController interface
+		* 	it's ready implementation will be invoked.
 		*/
-		protected function createMainView():void
+		protected function createMainController():void
 		{
-			doWithBeans( utils.configuration.locales.document );
-			var application:Object = getBean(
+			var document:IBeanDocument = _configuration.locales.document;
+			doWithBeans( document );
+			
+			var application:Object = document.getBean(
 				DefaultBeanIdentifiers.APPLICATION_BEAN );
+			
 			if( application )
 			{
-				//trace("SwatApplication::createMainView()", "GOT APPLICATION BEAN" );
-				
-				//ensure the ready method has access to the configuration
-				if( application is IApplicationView )
-				{
-					IApplicationView( application ).utils.configuration = utils.configuration;
-				}
-			
-				if( application is IApplicationMainView )
+				if( application is IApplicationMainController )
 				{
 					//invoke the ready method
-					var cleanup:Boolean = IApplicationMainView( application ).ready(
+					var cleanup:Boolean = IApplicationMainController( application ).ready(
+						this,
 						preloader.main,
 						preloader,
 						preloader.view );

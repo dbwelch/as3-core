@@ -45,8 +45,8 @@ package com.ffsys.swat.view {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			_classes = getClassConfigurationInstance();
-			_flashvars = _classes.getFlashVariablesInstance( this );
-			_view = _classes.getApplicationPreloadViewInstance();
+			_flashvars = IFlashVariables( _classes.getFlashVariablesInstance( this ) );
+			_view = IApplicationPreloadView( _classes.getApplicationPreloadViewInstance() );
 			addEventListener( Event.ADDED_TO_STAGE, created );
 		}
 		
@@ -176,7 +176,7 @@ package com.ffsys.swat.view {
 		private function init():void
 		{
 			var app:IApplication =
-				_classes.getMainClassInstance();
+				IApplication( _classes.getMainClassInstance() );
 			SwatFlashVariables(
 				_flashvars ).classPathConfiguration = _classes;
 			SwatApplication( app ).setFlashVariables( _flashvars );

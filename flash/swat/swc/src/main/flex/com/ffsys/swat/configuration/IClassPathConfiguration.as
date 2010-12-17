@@ -3,8 +3,6 @@ package com.ffsys.swat.configuration
 	import flash.display.DisplayObject;
 	
 	import com.ffsys.core.IFlashVariables;
-	import com.ffsys.swat.core.SwatFlashVariables;
-	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
 	/**
@@ -41,13 +39,6 @@ package com.ffsys.swat.configuration
 		function getPreloadViewClassPath():String;
 		
 		/**
-		* 	Gets the class path to the main application view.
-		* 
-		* 	@return The main application view class path.
-		*/
-		function getMainViewClassPath():String;
-		
-		/**
 		* 	Gets the class path to the configuration parser.
 		* 
 		* 	@return The configuration parser class path.
@@ -66,21 +57,21 @@ package com.ffsys.swat.configuration
 		*	
 		*	@return The main application instance.
 		*/
-		function getMainClassInstance():IApplication;
+		function getMainClassInstance():Object;
 		
 		/**
 		*	Gets the application preload view instance.
 		*	
 		*	@return The application preload view instance.
 		*/
-		function getApplicationPreloadViewInstance():IApplicationPreloadView;
+		function getApplicationPreloadViewInstance():Object;
 		
 		/**
 		*	Gets the flash variables instance.
 		*	
 		*	@return The flash variables instance.
 		*/
-		function getFlashVariablesInstance( root:DisplayObject ):IFlashVariables;
+		function getFlashVariablesInstance( root:DisplayObject ):Object;
 		
 		/**
 		*	Gets the parser used to deserialize the configuration
@@ -88,13 +79,13 @@ package com.ffsys.swat.configuration
 		*	
 		*	@return The configuration parser instance.
 		*/
-		function getConfigurationParserInstance():IConfigurationParser;
+		function getConfigurationParserInstance():Object;
 		
 		/**
 		* 	Gets an instance of the application configuration.
 		*	
 		*	@return The application configuration.
 		*/
-		function getConfigurationInstance():IConfiguration;
+		function getConfigurationInstance():Object;
 	}
 }

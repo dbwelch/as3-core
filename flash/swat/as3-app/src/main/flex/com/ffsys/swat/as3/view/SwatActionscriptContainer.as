@@ -12,8 +12,10 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
+	import com.ffsys.swat.core.DefaultApplicationController;
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
-	import com.ffsys.swat.view.IApplicationMainView;
+	import com.ffsys.swat.core.IApplicationMainController;
+	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
@@ -36,8 +38,8 @@ package com.ffsys.swat.as3.view {
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class SwatActionscriptContainer extends SwatActionscriptAbstractView
-		implements IApplicationMainView {
+	public class SwatActionscriptContainer extends DefaultApplicationController
+		implements IApplicationMainController {
 			
 		private var _stroke:Stroke;
 		private var _solidFill:SolidFill;
@@ -59,25 +61,27 @@ package com.ffsys.swat.as3.view {
 		*	@inheritDoc	
 		*/
 		public function ready(
+			parent:IApplication,
 			main:IApplicationPreloader,
 			runtime:IRuntimeAssetPreloader,
 			view:IApplicationPreloadView ):Boolean
 		{
 			var preloader:SwatActionscriptApplicationPreloadView
 				= SwatActionscriptApplicationPreloadView( view );
+			createChildren( DisplayObjectContainer( parent ) );
 			return true;
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		override public function createChildren():void
+		private function createChildren( root:DisplayObjectContainer ):void
 		{
 			//update the style manager reference
 			UIComponent.styleManager = styleManager;
 			
 			vbox = new VerticalBox();
-			addChild( vbox );
+			root.addChild( vbox );
 			
 			trace("SwatActionscriptContainer::createChildren()", "GOT APPLICATION BEAN: ",
 				getBean( "application" ) );
@@ -151,7 +155,7 @@ package com.ffsys.swat.as3.view {
 					{ title: "this is a test" },
 					{ another: "another title :)" },
 					{ items: [ 1, 2, 3 ] },
-					{ locales: utils.configuration.locales.getLocales(), fonts: Font.enumerateFonts() }
+					{ locales: configuration.locales.getLocales(), fonts: Font.enumerateFonts() }
 				);
 			
 			_document = _loader.document;
@@ -165,7 +169,7 @@ package com.ffsys.swat.as3.view {
 		
 		public function set myLocale(value:Object):void
 		{
-			trace("SwatApplication::set myLocales()",  "SET MY LOCALE: " , value, value == utils.configuration.locales );
+			trace("SwatApplication::set myLocales()",  "SET MY LOCALE: " , value, value == configuration.locales );
 		}		
 		
 		private function runtimeLoaded( event:LoadEvent ):void

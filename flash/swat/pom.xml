@@ -18,6 +18,5 @@
 		<module>swat-js</module>
 		<module>swc</module>
 		<module>as3-app</module>
-		<module>as3-template</module>
 	</modules>
 </project>

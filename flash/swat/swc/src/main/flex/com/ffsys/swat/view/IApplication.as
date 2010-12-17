@@ -15,7 +15,6 @@ package com.ffsys.swat.view
 	*	@since  08.06.2010
 	*/
 	public interface IApplication
-		extends IApplicationView
 	{
 		/**
 		* 	The preloader that handled preloading assets

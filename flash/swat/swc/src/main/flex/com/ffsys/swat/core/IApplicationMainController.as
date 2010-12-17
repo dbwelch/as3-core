@@ -1,6 +1,7 @@
-package com.ffsys.swat.view {
+package com.ffsys.swat.core {
 	
 	import com.ffsys.swat.core.IRuntimeAssetPreloader;
+	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
@@ -13,7 +14,7 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public interface IApplicationMainView {
+	public interface IApplicationMainController {
 		
 		/**
 		*	Invoked when all runtime assets have been loaded
@@ -29,6 +30,7 @@ package com.ffsys.swat.view {
 		*	
 		*	<code>runtime.view = null;</code>
 		*	
+		* 	@param parent The application implementation that loaded the bootstrap data.
 		*	@param main The main application preloader that loaded
 		*	the main application code base.
 		*	@param runtime The runtime asset preloader.
@@ -38,6 +40,7 @@ package com.ffsys.swat.view {
 		*	removed from the display list.
 		*/
 		function ready(
+			parent:IApplication,
 			main:IApplicationPreloader,
 			runtime:IRuntimeAssetPreloader,
 			view:IApplicationPreloadView ):Boolean;
