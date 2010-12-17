@@ -1,16 +1,12 @@
 package com.ffsys.swat.configuration {
 	
 	import flash.display.Bitmap;
-	import flash.events.EventDispatcher;
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
 	
 	import com.ffsys.core.IFlashVariables;
-	
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
-	
-	import com.ffsys.utils.collections.strings.IStringCollection;
 	import com.ffsys.utils.locale.ILocale;
 	
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
@@ -26,12 +22,10 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class Configuration extends EventDispatcher
+	public class Configuration extends ConfigurationElement
 		implements IConfiguration {
 			
-		private var _flashvars:IFlashVariables;
 		private var _locales:ILocaleManager;
-		private var _paths:IPaths;
 		private var _meta:ApplicationMeta;
 		
 		/**
@@ -40,32 +34,6 @@ package com.ffsys.swat.configuration {
 		public function Configuration()
 		{
 			super();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get flashvars():IFlashVariables
-		{
-			return _flashvars;
-		}
-
-		public function set flashvars( flashvars:IFlashVariables ):void
-		{
-			_flashvars = flashvars;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get paths():IPaths
-		{
-			return _paths;
-		}
-		
-		public function set paths( paths:IPaths ):void
-		{
-			_paths = paths;
 		}
 		
 		/**
@@ -88,7 +56,7 @@ package com.ffsys.swat.configuration {
 		* 
 		* 	@return An instance of the bean.
 		*/
-		public function getBean( beanName:String ):Object
+		override public function getBean( beanName:String ):Object
 		{
 			if( _locales )
 			{
@@ -100,7 +68,8 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function getMessage( id:String, ... replacements ):String
+		override public function getMessage(
+			id:String, ... replacements ):String
 		{
 			replacements.unshift( id );
 			return _locales.getMessage.apply( _locales, replacements );
@@ -109,7 +78,8 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function getError( id:String, ... replacements ):String
+		override public function getError(
+			id:String, ... replacements ):String
 		{
 			replacements.unshift( id );
 			return _locales.getError.apply( _locales, replacements );
@@ -118,7 +88,7 @@ package com.ffsys.swat.configuration {
 		/**
 		* 	@inheritDoc
 		*/
-		public function getXmlDocument( id:String ):XML
+		override public function getXmlDocument( id:String ):XML
 		{
 			return _locales.getXmlDocument( id );
 		}		
@@ -126,7 +96,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function get styleManager():IStyleManager
+		override public function get styleManager():IStyleManager
 		{
 			return _locales.styleManager;
 		}
@@ -134,7 +104,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function get stylesheet():ICssStyleSheet
+		override public function get stylesheet():ICssStyleSheet
 		{
 			return _locales.stylesheet;
 		}
@@ -142,7 +112,7 @@ package com.ffsys.swat.configuration {
 		/**
 		* 	@inheritDoc
 		*/
-		public function getStyle( id:String ):Object
+		override public function getStyle( id:String ):Object
 		{
 			return _locales.getStyle( id );
 		}
@@ -150,7 +120,8 @@ package com.ffsys.swat.configuration {
 		/**
 		* 	@inheritDoc
 		*/
-		public function setStyle( styleName:String, style:Object ):void
+		override public function setStyle(
+			styleName:String, style:Object ):void
 		{
 			_locales.setStyle( styleName, style );
 		}
@@ -158,7 +129,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function getImage( id:String ):Bitmap
+		override public function getImage( id:String ):Bitmap
 		{
 			return _locales.getImage( id );
 		}
@@ -166,7 +137,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc
 		*/
-		public function getSound( id:String ):Sound
+		override public function getSound( id:String ):Sound
 		{
 			return _locales.getSound( id );
 		}
@@ -174,7 +145,7 @@ package com.ffsys.swat.configuration {
 		/**
 		*	@inheritDoc	
 		*/
-		public function getFilter( id:String ):BitmapFilter
+		override public function getFilter( id:String ):BitmapFilter
 		{
 			return _locales.getFilter( id );
 		}

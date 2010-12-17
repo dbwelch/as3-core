@@ -1,16 +1,6 @@
 package com.ffsys.swat.configuration {
 	
-	import flash.events.IEventDispatcher;
-	
-	import com.ffsys.ioc.*;
-	
-	import com.ffsys.utils.collections.strings.StringCollection;
-	import com.ffsys.utils.locale.ILocale;
-	import com.ffsys.utils.locale.LocaleCollection;
-	
-	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
-	import com.ffsys.swat.configuration.rsls.ResourceCollection;
 	
 	/**
 	*	Describes the contract for objects that
@@ -23,11 +13,7 @@ package com.ffsys.swat.configuration {
 	*	@since  08.06.2010
 	*/
 	public interface IConfiguration
-		extends IFlashVariablesAware,
-				IMessageAccess,
-				IMediaAccess,
-				IBeanAccess,
-				IEventDispatcher {
+		extends IConfigurationElement {
 		
 		/**
 		*	The locale manager.
@@ -36,15 +22,9 @@ package com.ffsys.swat.configuration {
 		function set locales( locales:ILocaleManager ):void;
 		
 		/**
-		*	@inheritDoc	
+		*	Application meta data.
 		*/
 		function set meta( val:ApplicationMeta ):void;
 		function get meta():ApplicationMeta;
-		
-		/**
-		* 	The path settings used by the application.
-		*/
-		function get paths():IPaths;
-		function set paths( paths:IPaths ):void;
 	}
 }

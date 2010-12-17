@@ -27,8 +27,6 @@ package com.ffsys.swat.configuration {
 		*	@param id The fully qualified identifier for the property.
 		*	@param replacements Replacement values for the located property.
 		*/
-		function getError( id:String, ... replacements ):String;		
-		
+		function getError( id:String, ... replacements ):String;
 	}
-	
 }

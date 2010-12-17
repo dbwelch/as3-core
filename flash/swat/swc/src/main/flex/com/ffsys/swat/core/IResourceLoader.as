@@ -19,7 +19,7 @@ package com.ffsys.swat.core {
 	public interface IResourceLoader
 		extends IDestroy,
 				IEventDispatcher {
-					
+		
 		/**
 		* 	A builder responsible for retrieving loader queues
 		* 	by load phase.

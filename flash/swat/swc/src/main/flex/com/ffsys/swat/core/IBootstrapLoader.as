@@ -8,7 +8,6 @@ package com.ffsys.swat.core {
 	
 	/**
 	*	Describes the contract for bootstrap loaders.
-	* 
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -32,7 +31,7 @@ package com.ffsys.swat.core {
 		function set main( main:IApplicationPreloader ):void;
 		
 		/**
-		* 	Gets the runtime configuration.
+		* 	Gets the application configuration.
 		*/
 		function get configuration():IConfiguration;
 	}

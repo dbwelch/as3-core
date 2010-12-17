@@ -194,14 +194,14 @@ package com.ffsys.swat.core  {
 		}
 		
 		/**
-		*	@private	
+		*	@private
 		*/
 		private function verifyConfiguration():void
 		{
 			if( this.configuration == null )
 			{
 				throw new Error(
-					"Cannot access configuration data with a null configuration." );
+					"Cannot access configuration data with a null configuration, you may need to inject a configuration bean." );
 			}
 		}
 	}

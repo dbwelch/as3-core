@@ -1,7 +1,5 @@
 package com.ffsys.swat.configuration
-{
-	import com.ffsys.utils.substitution.ISubstitutionLookup;
-	
+{	
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	import com.ffsys.swat.configuration.rsls.IRuntimeResource;
 
@@ -16,7 +14,6 @@ package com.ffsys.swat.configuration
 	*	@since  20.10.2010
 	*/
 	public interface IPaths
-		//extends ISubstitutionLookup
 	{
 		/**
 		* 	The parent configuration.
