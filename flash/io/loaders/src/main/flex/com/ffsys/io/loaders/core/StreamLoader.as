@@ -12,7 +12,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.io.loaders.resources.BinaryResource;
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
-	import com.ffsys.io.loaders.message.ILoadMessage;
 	
 	/**
 	*	Represents a loader that loads arbritrary binary

@@ -3,8 +3,7 @@ package com.ffsys.io.loaders.core {
 	import flash.net.URLRequest;
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.io.loaders.message.ILoadMessage;
-	import com.ffsys.io.loaders.resources.IResourceCallback;	
+	import com.ffsys.io.loaders.resources.IResourceCallback;
 	
 	/**
 	*	Defines the contract for instances that
@@ -19,12 +18,6 @@ package com.ffsys.io.loaders.core {
 	public interface ILoader
 		extends ILoaderElement,
 				IResourceCallback {
-		
-		/**
-		*	A load message associated with the loader.
-		*/
-		function get message():ILoadMessage;
-		function set message( message:ILoadMessage ):void;
 		
 		/**
 		*	The <code>URLRequest</code> used to load

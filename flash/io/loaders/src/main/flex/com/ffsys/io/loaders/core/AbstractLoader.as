@@ -13,7 +13,6 @@ package com.ffsys.io.loaders.core {
 	import com.ffsys.events.Notifier;
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.message.ILoadMessage;
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
@@ -29,10 +28,9 @@ package com.ffsys.io.loaders.core {
 	*	@since  07.07.2007
 	*/
 	public class AbstractLoader extends LoaderElement
-		implements 	ILoader {
+		implements ILoader {
 	
 		private var _request:URLRequest;
-		private var _message:ILoadMessage;
 		private var _callback:String;
 		
 		/**
@@ -71,19 +69,6 @@ package com.ffsys.io.loaders.core {
 		public function get composite():Object
 		{
 			return _composite;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get message():ILoadMessage
-		{
-			return _message;
-		}
-		
-		public function set message( message:ILoadMessage ):void
-		{
-			_message = message;
 		}
 		
 		/**
@@ -431,6 +416,18 @@ package com.ffsys.io.loaders.core {
 				//thrown when attempting to close a URLLoader
 				//with no open stream
 			}
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			_request = null;
+			_callback = null;
+			dataFormat = null;
+			_composite = null;
 		}
 	}
 }
