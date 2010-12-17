@@ -28,13 +28,5 @@ package com.ffsys.ui.suite.configuration
 		{
 			return "com.ffsys.ui.suite.view.ComponentSuitePreloadView";
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function getMainViewClassPath():String
-		{
-			return "com.ffsys.ui.suite.view.ComponentSuiteContainer";
-		}
 	}
 }

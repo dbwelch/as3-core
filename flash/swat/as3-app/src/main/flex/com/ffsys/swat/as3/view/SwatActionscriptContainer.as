@@ -169,7 +169,7 @@ package com.ffsys.swat.as3.view {
 		
 		public function set myLocale(value:Object):void
 		{
-			trace("SwatApplication::set myLocales()",  "SET MY LOCALE: " , value, value == configuration.locales );
+			trace("SwatApplication::set myLocales()",  "SET MY LOCALE: " , value, configuration );
 		}		
 		
 		private function runtimeLoaded( event:LoadEvent ):void

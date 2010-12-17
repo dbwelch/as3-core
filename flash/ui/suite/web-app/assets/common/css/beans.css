@@ -1,0 +1,5 @@
+application {
+	instance-class: class( com.ffsys.ui.suite.view.ComponentSuiteContainer );
+	singleton: true;
+	configuration: ref( configuration );
+}

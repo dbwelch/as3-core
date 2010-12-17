@@ -548,7 +548,7 @@ package com.ffsys.swat.core {
 			var queue:ILoaderQueue = null;
 			var phase:String = this.phases[ _phaseIndex ];
 			
-			//trace("BootstrapLoader::next(), ", _phaseIndex, phase );
+			trace("BootstrapLoader::next(), ", _phaseIndex, phase );
 			
 			switch( phase )
 			{
@@ -581,7 +581,7 @@ package com.ffsys.swat.core {
 					break;
 			}
 			
-			//trace("BootstrapLoader::next(), ", phase, queue );
+			trace("BootstrapLoader::next(), TESTING QUEUE:  ", phase, queue, queue.length );
 			
 			if( queue )
 			{

@@ -1,21 +1,13 @@
 <?xml version="1.0"?>
 <configuration>
 	
+	<!--
 	<paths>
 		<absolute>true</absolute>
 	</paths>
+	-->
 	
 	<locales>
-		
-		<!-- applies to all locales -->
-		
-		<settings>
-			
-		</settings>
-		
-		<assets id="main">
-			
-		</assets>
 		
 		<!-- resources for all locales -->
 		<resources>
@@ -26,10 +18,14 @@
 					<url>swf/application-assets.swf</url>
 				</rsl>
 			</rsls>
+			
+			<beans>
+				<resource>
+					<url>css/beans.css</url>
+				</resource>
+			</beans>			
+			
 		</resources>
-		
-		<!-- The default fallback locale -->
-		<default-locale lang="en" country="GB" />
 		
 		<!-- Locale definitions -->
 		<locale lang="en" country="GB">

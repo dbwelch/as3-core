@@ -4,9 +4,9 @@ package com.ffsys.ui.suite.view {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	
-	import com.ffsys.swat.core.IRuntimeAssetPreloader;
-	import com.ffsys.swat.view.AbstractSwatView;	
-	import com.ffsys.swat.view.IApplicationMainView;
+	import com.ffsys.swat.core.IBootstrapLoader;
+	import com.ffsys.swat.core.IApplicationMainController;
+	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
@@ -24,8 +24,8 @@ package com.ffsys.ui.suite.view {
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class ComponentSuiteContainer extends AbstractSwatView
-		implements IApplicationMainView {
+	public class ComponentSuiteContainer extends Container
+		implements IApplicationMainController {
 			
 		public var vbox:VerticalBox;
 		
@@ -41,8 +41,9 @@ package com.ffsys.ui.suite.view {
 		*	@inheritDoc	
 		*/
 		public function ready(
+			parent:IApplication,
 			main:IApplicationPreloader,
-			runtime:IRuntimeAssetPreloader,
+			runtime:IBootstrapLoader,
 			view:IApplicationPreloadView ):Boolean
 		{
 			var preloader:ComponentSuitePreloadView
@@ -55,6 +56,8 @@ package com.ffsys.ui.suite.view {
 			addChild( bitmap );
 			*/
 			
+			createMainChildren( DisplayObjectContainer( parent ) );
+			
 			//remove the preloader view from the display list
 			return true;
 		}
@@ -62,7 +65,7 @@ package com.ffsys.ui.suite.view {
 		/**
 		*	@inheritDoc	
 		*/
-		override public function createChildren():void
+ 		private function createMainChildren( root:DisplayObjectContainer ):void
 		{	
 			/*
 			trace("ComponentSuiteContainer::createChildren(), creating initial vertical box: ",
@@ -70,7 +73,7 @@ package com.ffsys.ui.suite.view {
 			*/
 			
 			vbox = new VerticalBox();
-			addChild( vbox );
+			root.addChild( vbox );
 			
 			//initialize the tooltips
 			var tooltip:DefaultToolTipRenderer = new DefaultToolTipRenderer()
@@ -82,7 +85,7 @@ package com.ffsys.ui.suite.view {
 			vbox.spacing = 15;
 			
 			var loadersSuite:LoadersSuite = new LoadersSuite();
-			vbox.addChild( loadersSuite );			
+			vbox.addChild( loadersSuite );
 			
 			var buttonSuite:ButtonSuite = new ButtonSuite();
 			vbox.addChild( buttonSuite );
@@ -106,7 +109,7 @@ package com.ffsys.ui.suite.view {
 			sp.graphics.endFill();
 			*/
 			
-			DisplayObjectContainer( this.root ).addChild( sp );
+			//DisplayObjectContainer( this.root ).addChild( sp );
 		}
 	}
 }

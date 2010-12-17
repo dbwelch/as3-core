@@ -9,8 +9,6 @@ package com.ffsys.io.loaders.display {
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
-	import mx.core.UIComponent;
-	
 	/**
 	*	Encapsulates a loaded swf movie that can
 	*	be added to the display list.

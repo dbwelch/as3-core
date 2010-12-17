@@ -5,8 +5,6 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.ui.containers.VerticalBox;
 	import com.ffsys.ui.text.Label;
 	
-	import com.ffsys.swat.view.AbstractSwatView;
-	
 	/**
 	*	Abstract super class for the component test suite views.
 	*

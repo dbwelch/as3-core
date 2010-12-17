@@ -20,6 +20,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.core.IApplicationMainController;
@@ -144,6 +145,7 @@ package com.ffsys.swat.view  {
 		*/
 		private function rslLoadComplete( event:RslEvent ):void
 		{
+			trace("SwatApplication::rslLoadComplete()", event );
 			removeEventListener( RslEvent.LOAD_COMPLETE, rslLoadComplete );
 			ready();
 		}
@@ -186,6 +188,9 @@ package com.ffsys.swat.view  {
 			descriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.CONFIGURATION, _configuration );
 			beans.addBeanDescriptor( descriptor );
+			
+			trace("SwatApplication::doWithBeans()", _configuration );
+			
 			descriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.FLASH_VARIABLES, _configuration.flashvars );
 			beans.addBeanDescriptor( descriptor );
@@ -225,6 +230,13 @@ package com.ffsys.swat.view  {
 			
 			if( application )
 			{
+				trace("SwatApplication::createMainController()", application, application.configuration );
+				
+				if( application is IConfigurationAware )
+				{
+					IConfigurationAware( application ).configuration = _configuration;
+				}
+				
 				if( application is IApplicationMainController )
 				{
 					//invoke the ready method

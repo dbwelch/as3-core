@@ -286,6 +286,8 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		public function getBeansQueue():ILoaderQueue
 		{
+			trace("LocaleManager::getBeansQueue()", this.resources, this.resources.beans );
+			
 			if( !_beansQueue )
 			{
 				_beansQueue = new LoaderQueue();
@@ -302,7 +304,6 @@ package com.ffsys.swat.configuration.locale {
 						_current.resources.beans.getLoaderQueue() );
 				}
 				
-				
 				//massage the css queue so that it uses the style manager
 				//for loading, ensuring that style dependencies are resolved
 				var loader:ILoader = null;
@@ -316,6 +317,9 @@ package com.ffsys.swat.configuration.locale {
 				//style manager will use
 				_beansQueue = _beanManager.load();
 			}
+			
+			//trace("LocaleManager::getBeansQueue()", _beansQueue, _beansQueue.length );
+			
 			return _beansQueue;
 		}
 		
