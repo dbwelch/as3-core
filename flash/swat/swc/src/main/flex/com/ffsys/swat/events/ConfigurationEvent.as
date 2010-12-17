@@ -4,7 +4,7 @@ package com.ffsys.swat.events {
 	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationAware;
-	import com.ffsys.swat.core.IBootstrapLoader;
+	import com.ffsys.swat.core.IResourceLoader;
 	
 	/**
 	*	Encapsulates events dispatched related to the configuration
@@ -18,6 +18,8 @@ package com.ffsys.swat.events {
 	*/
 	public class ConfigurationEvent extends RslEvent
 		implements IConfigurationAware {
+			
+		private var _configuration:IConfiguration;
 		
 		/**
 		* 	Events dispatched when the configuration XML has
@@ -30,13 +32,11 @@ package com.ffsys.swat.events {
 		*/
 		public function ConfigurationEvent(
 			type:String,
-			preloader:IBootstrapLoader,
+			preloader:IResourceLoader,
 			event:Event = null )
 		{
 			super( type, preloader, event );
 		}
-		
-		private var _configuration:IConfiguration;
 		
 		/**
 		*	@inheritDoc

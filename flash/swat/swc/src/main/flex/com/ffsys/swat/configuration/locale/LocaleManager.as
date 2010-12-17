@@ -25,7 +25,9 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.properties.Properties;
 	
 	import com.ffsys.swat.configuration.*;
-	import com.ffsys.swat.configuration.rsls.*;	
+	import com.ffsys.swat.configuration.rsls.*;
+	import com.ffsys.swat.core.ResourceLoadPhase;
+	
 	
 	/**
 	*	Manages all the runtime assets for a collection
@@ -50,8 +52,10 @@ package com.ffsys.swat.configuration.locale {
 		private var _defaultLocale:IConfigurationLocale;
 		private var _current:IConfigurationLocale;
 		private var _resources:IResourceManager;
-			
-		//
+		private	var _parent:IConfiguration;
+		private var _paths:IPaths;
+		
+		//TODO: build these queues every time and do not maintain a reference
 		private var _beansQueue:ILoaderQueue;
 		private var _messagesQueue:ILoaderQueue;
 		private var _errorsQueue:ILoaderQueue;
@@ -61,9 +65,6 @@ package com.ffsys.swat.configuration.locale {
 		private var _xmlQueue:ILoaderQueue;
 		private var _imagesQueue:ILoaderQueue;
 		private var _soundsQueue:ILoaderQueue;
-		
-		private	var _parent:IConfiguration;
-		private var _paths:IPaths;
 		
 		/**
 		*	Creates a <code>LocaleManager</code> instance.
@@ -141,316 +142,43 @@ package com.ffsys.swat.configuration.locale {
 		}
 		
 		/**
-		*	@inheritDoc	
+		* 	@inheritDoc
 		*/
-		public function getMessagesQueue():ILoaderQueue
+		public function getQueueByPhase( phase:String ):ILoaderQueue
 		{
-			if( !_messagesQueue )
+			var queue:ILoaderQueue = null;
+			switch( phase )
 			{
-				_messagesQueue = new LoaderQueue();
-				
-				//add current properties first
-				//so they are retrieved first when locating properties
-				if( _current 
-					&& _current.resources
-					&& _current.resources.messages )
-				{
-					_messagesQueue.append(
-						_current.resources.messages.getLoaderQueue() );
-				}
-				
-				if( defaultLocale
-					&& ( defaultLocale != current )
-					&& defaultLocale.resources
-					&& defaultLocale.resources.messages )
-				{
-					_messagesQueue.append(
-						defaultLocale.resources.messages.getLoaderQueue() );
-				}
-				
-				if( this.resources && this.resources.messages )
-				{
-					_messagesQueue.append(
-						this.resources.messages.getLoaderQueue() );
-				}
+				case ResourceLoadPhase.MESSAGES_PHASE:
+					queue = getMessagesQueue();
+					break;
+				case ResourceLoadPhase.ERRORS_PHASE:
+					queue = getErrorsQueue();
+					break;
+				case ResourceLoadPhase.FONTS_PHASE:
+					queue = getFontsQueue();
+					break;
+				case ResourceLoadPhase.RSLS_PHASE:
+					queue = getRslsQueue();
+					break;
+				case ResourceLoadPhase.BEANS_PHASE:
+					queue = getBeansQueue();
+					break;
+				case ResourceLoadPhase.CSS_PHASE:
+					queue = getCssQueue();
+					break;
+				case ResourceLoadPhase.XML_PHASE:
+					queue = getXmlQueue();
+					break;
+				case ResourceLoadPhase.IMAGES_PHASE:
+					queue = getImagesQueue();
+					break;
+				case ResourceLoadPhase.SOUNDS_PHASE:
+					queue = getSoundsQueue();
+					break;
 			}
-			
-			return _messagesQueue;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getErrorsQueue():ILoaderQueue
-		{
-			if( !_errorsQueue )
-			{
-				_errorsQueue = new LoaderQueue();
-				
-				//add current properties first
-				//so they are retrieved first when locating properties
-				if( _current
-					&& _current.resources
-					&& _current.resources.errors )
-				{
-					_errorsQueue.append(
-						_current.resources.errors.getLoaderQueue() );
-				}
-				
-				if( defaultLocale
-					&& ( defaultLocale != current )
-					&& defaultLocale.resources
-					&& defaultLocale.resources.errors )
-				{
-					_errorsQueue.append(
-						defaultLocale.resources.errors.getLoaderQueue() );
-				}
-				
-				if( this.resources && this.resources.errors )
-				{
-					_errorsQueue.append(
-						this.resources.errors.getLoaderQueue() );
-				}
-			}
-			
-			return _errorsQueue;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function getFontsQueue():ILoaderQueue
-		{
-			if( !_fontsQueue )
-			{
-				_fontsQueue = new LoaderQueue();
-				
-				if( this.resources && this.resources.fonts )
-				{
-					_fontsQueue.append(
-						this.resources.fonts.getLoaderQueue() );
-				}
-				
-				/*
-				if( defaultLocale
-					&& ( defaultLocale != current )
-					&& defaultLocale.resources
-					&& defaultLocale.resources.fonts )
-				{
-					_fontsQueue.append(
-						defaultLocale.resources.fonts.getLoaderQueue() );
-				}
-				*/
-				
-				if( _current
-					&& _current.resources
-					&& _current.resources.fonts )
-				{
-					_fontsQueue.append(
-						_current.resources.fonts.getLoaderQueue() );
-				}
-			}
-			
-			return _fontsQueue;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function getRslsQueue():ILoaderQueue
-		{
-			if( !_rslsQueue )
-			{
-				_rslsQueue = new LoaderQueue();
-				
-				if( this.resources && this.resources.rsls )
-				{
-					_rslsQueue.append(
-						this.resources.rsls.getLoaderQueue() );
-				}
-				
-				if( _current
-					&& _current.resources
-					&& _current.resources.rsls )
-				{
-					_rslsQueue.append(
-						_current.resources.rsls.getLoaderQueue() );
-				}
-			}
-			
-			return _rslsQueue;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function getBeansQueue():ILoaderQueue
-		{
-			trace("LocaleManager::getBeansQueue()", this.resources, this.resources.beans );
-			
-			if( !_beansQueue )
-			{
-				_beansQueue = new LoaderQueue();
-				if( this.resources && this.resources.beans )
-				{
-					_beansQueue.append(
-						this.resources.beans.getLoaderQueue() );
-				}
-				if( _current
-					&& _current.resources
-					&& _current.resources.beans )
-				{
-					_beansQueue.append(
-						_current.resources.beans.getLoaderQueue() );
-				}
-				
-				//massage the css queue so that it uses the style manager
-				//for loading, ensuring that style dependencies are resolved
-				var loader:ILoader = null;
-				for( var i:int = 0;i < _beansQueue.length;i++ )
-				{
-					loader = ILoader( _beansQueue.getLoaderAt( i ) );
-					_beanManager.addBeanDocument( loader.request );
-				}
-				
-				//update our queue with the queue that the
-				//style manager will use
-				_beansQueue = _beanManager.load();
-			}
-			
-			//trace("LocaleManager::getBeansQueue()", _beansQueue, _beansQueue.length );
-			
-			return _beansQueue;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function getXmlQueue():ILoaderQueue
-		{
-			if( !_xmlQueue )
-			{
-				_xmlQueue = new LoaderQueue();
-
-				if( this.resources && this.resources.xml )
-				{
-					_xmlQueue.append(
-						this.resources.xml.getLoaderQueue() );
-				}
-
-				if( _current
-					&& _current.resources
-					&& _current.resources.xml )
-				{
-					_xmlQueue.append(
-						_current.resources.xml.getLoaderQueue() );
-				}
-			}
-
-			return _xmlQueue;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function getCssQueue():ILoaderQueue
-		{
-			if( !_cssQueue )
-			{
-				_cssQueue = new LoaderQueue();
-
-				if( this.resources && this.resources.css )
-				{
-					_cssQueue.append(
-						this.resources.css.getLoaderQueue() );
-				}
-
-				if( _current
-					&& _current.resources
-					&& _current.resources.css )
-				{
-					_cssQueue.append(
-						_current.resources.css.getLoaderQueue() );
-				}
-				
-			
-				//massage the css queue so that it uses the style manager
-				//for loading, ensuring that style dependencies are resolved
-				var loader:ILoader = null;
-				var css:ICssStyleSheet = null;
-				for( var i:int = 0;i < _cssQueue.length;i++ )
-				{
-					loader = ILoader( _cssQueue.getLoaderAt( i ) );
-					css = StyleSheetFactory.create();
-					if( loader.id )
-					{
-						css.id = loader.id;
-					}
-					_styleManager.addStyleSheet( loader.request );
-				}
-				
-				//update our queue with the queue that the
-				//style manager will use
-				_cssQueue = _styleManager.load();
-			}
-
-			return _cssQueue;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function getImagesQueue():ILoaderQueue
-		{
-			if( !_imagesQueue )
-			{
-				_imagesQueue = new LoaderQueue();
-				
-				if( _current
-					&& _current.resources
-					&& _current.resources.images )
-				{
-					_imagesQueue.append(
-						_current.resources.images.getLoaderQueue() );
-				}				
-				
-				if( this.resources
-					&& this.resources.images )
-				{
-					_imagesQueue.append(
-						this.resources.images.getLoaderQueue() );
-				}
-			}
-			
-			return _imagesQueue;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function getSoundsQueue():ILoaderQueue
-		{
-			if( !_soundsQueue )
-			{
-				_soundsQueue = new LoaderQueue();
-				
-				if( _current
-					&& _current.resources
-					&& _current.resources.sounds )
-				{
-					_soundsQueue.append(
-						_current.resources.sounds.getLoaderQueue() );
-				}				
-				
-				if( this.resources && this.resources.sounds )
-				{
-					_soundsQueue.append(
-						this.resources.sounds.getLoaderQueue() );
-				}
-			}
-			
-			return _soundsQueue;
-		}								
+			return queue;
+		}			
 		
 		/**
 		*	@inheritDoc	
@@ -733,9 +461,7 @@ package com.ffsys.swat.configuration.locale {
 			var list:IResourceList = queue.resources;
 			var resource:PropertiesResource = null;
 			var properties:IProperties = null;
-			
 			replacements.unshift( id );
-			
 			for( var i:int = 0;i < list.length;i++ )
 			{
 				resource = PropertiesResource( list.getResourceAt( i ) );
@@ -778,5 +504,320 @@ package com.ffsys.swat.configuration.locale {
 			
 			return output;
 		}
+		
+		
+		/**
+		*	@private	
+		*/
+		private function getMessagesQueue():ILoaderQueue
+		{
+			if( !_messagesQueue )
+			{
+				_messagesQueue = new LoaderQueue();
+				
+				//add current properties first
+				//so they are retrieved first when locating properties
+				if( _current 
+					&& _current.resources
+					&& _current.resources.messages )
+				{
+					_messagesQueue.append(
+						_current.resources.messages.getLoaderQueue() );
+				}
+				
+				if( defaultLocale
+					&& ( defaultLocale != current )
+					&& defaultLocale.resources
+					&& defaultLocale.resources.messages )
+				{
+					_messagesQueue.append(
+						defaultLocale.resources.messages.getLoaderQueue() );
+				}
+				
+				if( this.resources && this.resources.messages )
+				{
+					_messagesQueue.append(
+						this.resources.messages.getLoaderQueue() );
+				}
+			}
+			
+			return _messagesQueue;
+		}
+		
+		/**
+		*	@private	
+		*/
+		private function getErrorsQueue():ILoaderQueue
+		{
+			if( !_errorsQueue )
+			{
+				_errorsQueue = new LoaderQueue();
+				
+				//add current properties first
+				//so they are retrieved first when locating properties
+				if( _current
+					&& _current.resources
+					&& _current.resources.errors )
+				{
+					_errorsQueue.append(
+						_current.resources.errors.getLoaderQueue() );
+				}
+				
+				if( defaultLocale
+					&& ( defaultLocale != current )
+					&& defaultLocale.resources
+					&& defaultLocale.resources.errors )
+				{
+					_errorsQueue.append(
+						defaultLocale.resources.errors.getLoaderQueue() );
+				}
+				
+				if( this.resources && this.resources.errors )
+				{
+					_errorsQueue.append(
+						this.resources.errors.getLoaderQueue() );
+				}
+			}
+			
+			return _errorsQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getFontsQueue():ILoaderQueue
+		{
+			if( !_fontsQueue )
+			{
+				_fontsQueue = new LoaderQueue();
+				
+				if( this.resources && this.resources.fonts )
+				{
+					_fontsQueue.append(
+						this.resources.fonts.getLoaderQueue() );
+				}
+				
+				//OVERRIDING WITH DEFAULT LOCALE FONTS CAN CAUSE
+				//PROBLEMS WHEN LOADING LOCALE SPECIFC FONTS!
+				/*
+				if( defaultLocale
+					&& ( defaultLocale != current )
+					&& defaultLocale.resources
+					&& defaultLocale.resources.fonts )
+				{
+					_fontsQueue.append(
+						defaultLocale.resources.fonts.getLoaderQueue() );
+				}
+				*/
+				
+				if( _current
+					&& _current.resources
+					&& _current.resources.fonts )
+				{
+					_fontsQueue.append(
+						_current.resources.fonts.getLoaderQueue() );
+				}
+			}
+			
+			return _fontsQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getRslsQueue():ILoaderQueue
+		{
+			if( !_rslsQueue )
+			{
+				_rslsQueue = new LoaderQueue();
+				
+				if( this.resources && this.resources.rsls )
+				{
+					_rslsQueue.append(
+						this.resources.rsls.getLoaderQueue() );
+				}
+				
+				if( _current
+					&& _current.resources
+					&& _current.resources.rsls )
+				{
+					_rslsQueue.append(
+						_current.resources.rsls.getLoaderQueue() );
+				}
+			}
+			
+			return _rslsQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getBeansQueue():ILoaderQueue
+		{
+			//trace("LocaleManager::getBeansQueue()", this.resources, this.resources.beans );
+			
+			if( !_beansQueue )
+			{
+				_beansQueue = new LoaderQueue();
+				if( this.resources && this.resources.beans )
+				{
+					_beansQueue.append(
+						this.resources.beans.getLoaderQueue() );
+				}
+				if( _current
+					&& _current.resources
+					&& _current.resources.beans )
+				{
+					_beansQueue.append(
+						_current.resources.beans.getLoaderQueue() );
+				}
+				
+				//massage the css queue so that it uses the style manager
+				//for loading, ensuring that style dependencies are resolved
+				var loader:ILoader = null;
+				for( var i:int = 0;i < _beansQueue.length;i++ )
+				{
+					loader = ILoader( _beansQueue.getLoaderAt( i ) );
+					_beanManager.addBeanDocument( loader.request );
+				}
+				
+				//update our queue with the queue that the
+				//style manager will use
+				_beansQueue = _beanManager.load();
+			}
+			
+			//trace("LocaleManager::getBeansQueue()", _beansQueue, _beansQueue.length );
+			
+			return _beansQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getXmlQueue():ILoaderQueue
+		{
+			if( !_xmlQueue )
+			{
+				_xmlQueue = new LoaderQueue();
+
+				if( this.resources && this.resources.xml )
+				{
+					_xmlQueue.append(
+						this.resources.xml.getLoaderQueue() );
+				}
+
+				if( _current
+					&& _current.resources
+					&& _current.resources.xml )
+				{
+					_xmlQueue.append(
+						_current.resources.xml.getLoaderQueue() );
+				}
+			}
+
+			return _xmlQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getCssQueue():ILoaderQueue
+		{
+			if( !_cssQueue )
+			{
+				_cssQueue = new LoaderQueue();
+
+				if( this.resources && this.resources.css )
+				{
+					_cssQueue.append(
+						this.resources.css.getLoaderQueue() );
+				}
+
+				if( _current
+					&& _current.resources
+					&& _current.resources.css )
+				{
+					_cssQueue.append(
+						_current.resources.css.getLoaderQueue() );
+				}
+				
+			
+				//massage the css queue so that it uses the style manager
+				//for loading, ensuring that style dependencies are resolved
+				var loader:ILoader = null;
+				var css:ICssStyleSheet = null;
+				for( var i:int = 0;i < _cssQueue.length;i++ )
+				{
+					loader = ILoader( _cssQueue.getLoaderAt( i ) );
+					css = StyleSheetFactory.create();
+					if( loader.id )
+					{
+						css.id = loader.id;
+					}
+					_styleManager.addStyleSheet( loader.request );
+				}
+				
+				//update our queue with the queue that the
+				//style manager will use
+				_cssQueue = _styleManager.load();
+			}
+
+			return _cssQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getImagesQueue():ILoaderQueue
+		{
+			if( !_imagesQueue )
+			{
+				_imagesQueue = new LoaderQueue();
+				
+				if( _current
+					&& _current.resources
+					&& _current.resources.images )
+				{
+					_imagesQueue.append(
+						_current.resources.images.getLoaderQueue() );
+				}				
+				
+				if( this.resources
+					&& this.resources.images )
+				{
+					_imagesQueue.append(
+						this.resources.images.getLoaderQueue() );
+				}
+			}
+			
+			return _imagesQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getSoundsQueue():ILoaderQueue
+		{
+			if( !_soundsQueue )
+			{
+				_soundsQueue = new LoaderQueue();
+				
+				if( _current
+					&& _current.resources
+					&& _current.resources.sounds )
+				{
+					_soundsQueue.append(
+						_current.resources.sounds.getLoaderQueue() );
+				}				
+				
+				if( this.resources && this.resources.sounds )
+				{
+					_soundsQueue.append(
+						this.resources.sounds.getLoaderQueue() );
+				}
+			}
+			
+			return _soundsQueue;
+		}		
 	}
 }

@@ -24,17 +24,7 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.configuration.ConfigurationInterpreter;
 	
 	/**
-	*	Preloads the application runtime resources.
-	*	
-	*	By default the runtime preload logic starts by loading the
-	*	configuration XML document for the application followed by
-	*	the declared messages and error properties files.
-	*	
-	*	Once the properties files that represent the localized application
-	*	text are loaded the application fonts are loaded.
-	*	
-	*	After the fonts are loaded the runtime shared libraries
-	*	are loaded.
+	*	Preloads the application bootstrap resources.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -42,83 +32,14 @@ package com.ffsys.swat.core {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class BootstrapLoader extends EventDispatcher
+	public class BootstrapLoader extends ResourceLoader
 		implements IBootstrapLoader {
 		
-		/**
-		*	Represents the preload phase for the main application code.	
-		*/
-		public static const CODE_PHASE:String = "code";
-		
-		/**
-		*	Represents the preload phase for the configuration XML document.
-		*/
-		public static const CONFIGURATION_PHASE:String = "configuration";
-		
-		/**
-		*	Represents the preload phase for message files.
-		*/
-		public static const MESSAGES_PHASE:String = "messages";
-		
-		/**
-		*	Represents the preload phase for error files.
-		*/
-		public static const ERRORS_PHASE:String = "errors";
-		
-		/**
-		*	Represents the preload phase for font files.
-		*/
-		public static const FONTS_PHASE:String = "fonts";
-		
-		/**
-		*	Represents the preload phase for image files.
-		*/
-		public static const IMAGES_PHASE:String = "images";
-		
-		/**
-		*	Represents the preload phase for sound files.
-		*/
-		public static const SOUNDS_PHASE:String = "sounds";
-		
-		/**
-		*	Represents the preload phase for runtime shared libraries.	
-		*/
-		public static const RSLS_PHASE:String = "rsls";
-		
-		/**
-		*	Represents the preload phase for bean documents.	
-		*/
-		public static const BEANS_PHASE:String = "beans";
-		
-		/**
-		*	Represents the preload phase for XML documents.
-		*/
-		public static const XML_PHASE:String = "xml";
-		
-		/**
-		*	Represents the preload phase for CSS documents.	
-		*/
-		public static const CSS_PHASE:String = "css";
-		
 		private var _flashvars:IFlashVariables;
-		private var _assets:ILoaderQueue;
 		private var _configurationLoader:ConfigurationLoader;
 		private var _view:IApplicationPreloadView;
 		private var _configuration:IConfiguration;
-		private var _phase:String = CODE_PHASE;
 		private var _main:IApplicationPreloader;
-		
-		private var _phaseIndex:int = -1;
-		private var _phases:Array = [
-			MESSAGES_PHASE,
-			ERRORS_PHASE,
-			FONTS_PHASE,
-			RSLS_PHASE,
-			BEANS_PHASE,
-			CSS_PHASE,
-			XML_PHASE,
-			IMAGES_PHASE,
-			SOUNDS_PHASE ];
 		
 		/**
 		*	Creates a <code>BootstrapLoader</code> instance.
@@ -143,14 +64,6 @@ package com.ffsys.swat.core {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get phases():Array
-		{
-			return _phases
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
 		public function get main():IApplicationPreloader
 		{
 			return _main;
@@ -162,14 +75,6 @@ package com.ffsys.swat.core {
 		public function set main( main:IApplicationPreloader ):void
 		{
 			_main = main;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get phase():String
-		{
-			return _phase;
 		}
 		
 		/**
@@ -208,8 +113,10 @@ package com.ffsys.swat.core {
 		/**
 		*	@inheritDoc
 		*/
-		public function load():void
+		override public function load():ILoaderQueue
 		{
+			_assets = new LoaderQueue();
+			
 			//should definitely have a parser assigned by now
 			var interpreter:ConfigurationInterpreter = new ConfigurationInterpreter();
 			interpreter.flashvars = DefaultFlashVariables( _flashvars );
@@ -219,6 +126,8 @@ package com.ffsys.swat.core {
 			trace("BootstrapLoader::load(), ",
 				_configurationLoader.parser, interpreter, _flashvars );
 			*/
+			
+			trace("BootstrapLoader::load()", _configurationLoader, _flashvars, DefaultFlashVariables( _flashvars ).classPathConfiguration );
 				
 			_configurationLoader.root =
 				DefaultFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
@@ -239,12 +148,31 @@ package com.ffsys.swat.core {
 				LoadEvent.DATA,
 				configurationLoadComplete, false, 0, false );
 				
-			_phase = CONFIGURATION_PHASE;
+			_phase = ResourceLoadPhase.CONFIGURATION_PHASE;
 				
 			var path:String = DefaultFlashVariables( _flashvars ).configuration;
 			_configurationLoader.request = new URLRequest( path );
-			_configurationLoader.load();
+			
+			//
+			//_configurationLoader.load();
+			
+			_assets.addLoader( _configurationLoader );
+			_assets.load();
+			return _assets;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			_flashvars = null;
+			_configurationLoader = null;
+			_configuration = null;
+			_view = null;
+			_main = null;
+		}		
 		
 		/**
 		*	@private
@@ -254,6 +182,8 @@ package com.ffsys.swat.core {
 		{
 			//keep a reference to the configuration
 			_configuration = _configurationLoader.configuration;
+			
+			trace("BootstrapLoader::configurationLoadComplete()", _configuration );
 
 			//update the selected locale
 			//_configuration.locales.lang = DefaultFlashVariables( _flashvars ).lang;
@@ -273,12 +203,15 @@ package com.ffsys.swat.core {
 			_configurationLoader.removeEventListener(
 				LoadEvent.DATA,
 				configurationLoadComplete );
-				
-			this.view.configuration( new RslEvent(
-				RslEvent.LOADED,
-				this,
-				event ) );
-				
+			
+			if( this.view )
+			{
+				this.view.configuration( new RslEvent(
+					RslEvent.LOADED,
+					this,
+					event ) );
+			}
+			
 			var evt:ConfigurationEvent = new ConfigurationEvent(
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
 				this,
@@ -286,367 +219,18 @@ package com.ffsys.swat.core {
 			
 			evt.configuration = _configurationLoader.configuration;
 			dispatchEvent( evt );
-
-			next();
-		}
-		
-		/**
-		*	@private	
-		*/
-		private function resourceNotFound(
-			event:LoadEvent ):void
-		{	
-			var evt:RslEvent = null;
 			
-			if( this.view )
-			{
-				evt = new RslEvent(
-					RslEvent.RESOURCE_NOT_FOUND,
-					this,
-					event );
-				
-				this.view.resourceNotFound( evt );
-			}
-		}
-		
-		/**
-		*	@private
-		*/
-		private function loadStart( event:LoadEvent ):void
-		{
-			var evt:RslEvent = null;
-			
-			if( this.view )
-			{
-				evt = new RslEvent(
-					RslEvent.LOAD_START,
-					this,
-					event );
-				
-				switch( this.phase )
-				{
-					case CONFIGURATION_PHASE:
-						this.view.configuration( evt );
-						break;
-					case MESSAGES_PHASE:
-						this.view.message( evt );
-						break;
-					case ERRORS_PHASE:
-						this.view.error( evt );
-						break;			
-					case FONTS_PHASE:
-						this.view.font( evt );
-						break;
-					case RSLS_PHASE:
-						this.view.rsl( evt );
-						break;
-					case BEANS_PHASE:
-						this.view.bean( evt );
-						break;				
-					case CSS_PHASE:
-						this.view.css( evt );
-						break;
-					case XML_PHASE:
-						this.view.xml( evt );
-						break;
-					case IMAGES_PHASE:
-						this.view.image( evt );
-						break;
-					case SOUNDS_PHASE:
-						this.view.sound( evt );
-						break;											
-				}
-			}
-		}
-		
-		/**
-		*	@private
-		*/
-		private function loadProgress( 
-			event:LoadEvent ):void
-		{
-			var evt:RslEvent = null;
-			
-			if( this.view )
-			{
-				evt = new RslEvent(
-					RslEvent.LOAD_PROGRESS,
-					this,
-					event );
-				evt.bytesLoaded = event.bytesLoaded;
-				evt.bytesTotal = event.bytesTotal;
-				
-				switch( this.phase )
-				{
-					case CONFIGURATION_PHASE:
-						this.view.configuration( evt );
-						break;
-					case MESSAGES_PHASE:
-						this.view.message( evt );
-						break;	
-					case ERRORS_PHASE:
-						this.view.error( evt );
-						break;
-					case FONTS_PHASE:
-						this.view.font( evt );
-						break;
-					case RSLS_PHASE:
-						this.view.rsl( evt );
-						break;
-					case BEANS_PHASE:
-						this.view.bean( evt );
-						break;						
-					case CSS_PHASE:
-						this.view.css( evt );
-						break;
-					case XML_PHASE:
-						this.view.xml( evt );
-						break;						
-					case IMAGES_PHASE:
-						this.view.image( evt );
-						break;
-					case SOUNDS_PHASE:
-						this.view.sound( evt );
-						break;
-				}
-			}
-		}	
-		
-		/**
-		*	@private
-		*/
-		private function itemLoaded( event:LoadEvent ):void
-		{
-			var evt:RslEvent = null;
-			
-			if( this.view )
-			{
-				evt = new RslEvent(
-					RslEvent.LOADED,
-					this,
-					event );	
-				
-				switch( this.phase )
-				{
-					case CONFIGURATION_PHASE:
-						this.view.configuration( evt );
-						break;
-					case MESSAGES_PHASE:
-						this.view.message( evt );
-						break;
-					case ERRORS_PHASE:
-						this.view.error( evt );
-						break;												
-					case FONTS_PHASE:
-						this.view.font( evt );
-						break;
-					case RSLS_PHASE:
-						this.view.rsl( evt );
-						break;
-					case BEANS_PHASE:
-						this.view.bean( evt );
-						break;						
-					case CSS_PHASE:
-						this.view.css( evt );
-						break;					
-					case XML_PHASE:
-						this.view.xml( evt );
-						break;						
-					case IMAGES_PHASE:
-						this.view.image( evt );
-						break;
-					case SOUNDS_PHASE:
-						this.view.sound( evt );
-						break;					
-				}
-			}
-		}
-		
-		/**
-		*	@private	
-		*/
-		private function addQueueListeners( complete:Function = null ):void
-		{
-			if( complete == null )
-			{
-				complete = loadComplete;
-			}
-			
-			_assets.addEventListener(
-				LoadEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound, false, 0, false );
-				
-			_assets.addEventListener(
-				LoadEvent.LOAD_START,
-				loadStart, false, 0, false );
-			
-			_assets.addEventListener(
-				LoadEvent.LOAD_PROGRESS,
-				loadProgress, false, 0, false );
-			
-			_assets.addEventListener(
-				LoadEvent.DATA,
-				itemLoaded, false, 0, false );
-				
-			_assets.addEventListener(
-				LoadEvent.LOAD_COMPLETE,
-				complete, false, 0, false );
-		}
-		
-		/**
-		*	@private
-		*/
-		private function removeQueueListeners( complete:Function = null ):void
-		{
-			if( complete == null )
-			{
-				complete = loadComplete;
-			}
-			
-			if( _assets )
-			{
-				_assets.removeEventListener(
-					LoadEvent.RESOURCE_NOT_FOUND,
-					resourceNotFound );
-			
-				_assets.removeEventListener(
-					LoadEvent.LOAD_START,
-					loadStart );
-			
-				_assets.removeEventListener(
-					LoadEvent.LOAD_PROGRESS,
-					loadProgress );
-				
-				_assets.removeEventListener(
-					LoadEvent.DATA,
-					itemLoaded );
-				
-				_assets.removeEventListener(
-					LoadEvent.LOAD_COMPLETE,
-					complete );
-			}
-		}
-		
-		/**
-		*	Moves on to the next load phase.
-		*/
-		private function next( event:LoadEvent = null ):void
-		{
-			_phaseIndex++;
-			
-			removeQueueListeners( next );
-			
-			//out of index so complete
-			if( _phaseIndex >= this.phases.length )
-			{
-				complete();
-				return;
-			}
-			
-			closeAssetsQueue();
-			
+			this.builder = _configuration.locales;
+			var targets:ILoaderQueue = getLoaderQueue( this.builder );
 			var queue:ILoaderQueue = null;
-			var phase:String = this.phases[ _phaseIndex ];
-			
-			trace("BootstrapLoader::next(), ", _phaseIndex, phase );
-			
-			switch( phase )
+			for( var i:int = 0;i < targets.length;i++ )
 			{
-				case MESSAGES_PHASE:
-					queue = this.configuration.locales.getMessagesQueue();
-					break;
-				case ERRORS_PHASE:
-					queue = this.configuration.locales.getErrorsQueue();
-					break;
-				case FONTS_PHASE:
-					queue = this.configuration.locales.getFontsQueue();
-					break;
-				case RSLS_PHASE:
-					queue = this.configuration.locales.getRslsQueue();
-					break;
-				case BEANS_PHASE:
-					queue = this.configuration.locales.getBeansQueue();
-					break;
-				case CSS_PHASE:
-					queue = this.configuration.locales.getCssQueue();
-					break;
-				case XML_PHASE:
-					queue = this.configuration.locales.getXmlQueue();
-					break;
-				case IMAGES_PHASE:
-					queue = this.configuration.locales.getImagesQueue();
-					break;
-				case SOUNDS_PHASE:
-					queue = this.configuration.locales.getSoundsQueue();
-					break;
-			}
-			
-			trace("BootstrapLoader::next(), TESTING QUEUE:  ", phase, queue, queue.length );
-			
-			if( queue )
-			{
-				//trace("BootstrapLoader::next(), ", queue.getLength() );
-				
-				//empty queue move on to the next phase
-				if( queue.isEmpty() )
+				queue = ILoaderQueue( targets.getLoaderAt( 0 ) );
+				if( !queue.isEmpty() )
 				{
-					next();
-					return;
+					trace("BootstrapLoader::configurationLoadComplete()", "INJECTING RESOURCE QUEUE", queue.id );
+					_assets.insertLoaderAt( queue, i + 1 );
 				}
-				
-				var lastPhase:Boolean = ( _phaseIndex == ( this.phases.length - 1 ) );
-				
-				_assets = queue;
-				addQueueListeners( lastPhase ? loadComplete : next );
-				_phase = phase;
-				
-				if( !_assets.loading )
-				{
-					_assets.load();
-				}
-			}
-		}
-		
-		/**
-		*	@private
-		*/
-		private function loadComplete( event:LoadEvent ):void
-		{
-			complete();
-		}	
-		
-		/**
-		*	@private
-		*/
-		private function complete():void
-		{
-			//reset the phase index
-			_phaseIndex = -1;
-			
-			//cleanup
-			removeQueueListeners();
-				
-			_assets = null;
-			
-			//now start the application rendering as we have all the runtime assets
-			var evt:RslEvent = new RslEvent(
-				RslEvent.LOAD_COMPLETE,
-				this );
-				
-			_view.complete( evt );
-				
-			dispatchEvent( evt );
-		}
-		
-		/**
-		*	@private	
-		*/
-		private function closeAssetsQueue():void
-		{
-			if( _assets )
-			{
-				_assets.close();
-				_assets = null;
 			}
 		}
 	}

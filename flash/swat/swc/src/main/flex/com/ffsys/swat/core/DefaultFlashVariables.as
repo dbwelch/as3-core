@@ -29,7 +29,7 @@ package com.ffsys.swat.core {
 		*	
 		*	@param root The root of the display list hierarchy.
 		*/
-		public function DefaultFlashVariables( root:DisplayObject )
+		public function DefaultFlashVariables( root:DisplayObject = null )
 		{
 			super( root );
 		}

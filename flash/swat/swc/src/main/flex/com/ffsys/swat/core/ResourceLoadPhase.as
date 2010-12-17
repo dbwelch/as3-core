@@ -1,0 +1,73 @@
+package com.ffsys.swat.core
+{
+	
+	
+	public class ResourceLoadPhase extends Object
+	{
+		static public var defaults:Array = [
+			MESSAGES_PHASE,
+			ERRORS_PHASE,
+			FONTS_PHASE,
+			RSLS_PHASE,
+			BEANS_PHASE,
+			CSS_PHASE,
+			XML_PHASE,
+			IMAGES_PHASE,
+			SOUNDS_PHASE ];
+		
+		/**
+		*	Represents the preload phase for the main application code.	
+		*/
+		public static const CODE_PHASE:String = "code";
+	
+		/**
+		*	Represents the preload phase for the configuration XML document.
+		*/
+		public static const CONFIGURATION_PHASE:String = "configuration";
+	
+		/**
+		*	Represents the preload phase for message files.
+		*/
+		public static const MESSAGES_PHASE:String = "messages";
+	
+		/**
+		*	Represents the preload phase for error files.
+		*/
+		public static const ERRORS_PHASE:String = "errors";
+	
+		/**
+		*	Represents the preload phase for font files.
+		*/
+		public static const FONTS_PHASE:String = "fonts";
+	
+		/**
+		*	Represents the preload phase for image files.
+		*/
+		public static const IMAGES_PHASE:String = "images";
+	
+		/**
+		*	Represents the preload phase for sound files.
+		*/
+		public static const SOUNDS_PHASE:String = "sounds";
+	
+		/**
+		*	Represents the preload phase for runtime shared libraries.	
+		*/
+		public static const RSLS_PHASE:String = "rsls";
+	
+		/**
+		*	Represents the preload phase for bean documents.	
+		*/
+		public static const BEANS_PHASE:String = "beans";
+	
+		/**
+		*	Represents the preload phase for XML documents.
+		*/
+		public static const XML_PHASE:String = "xml";
+	
+		/**
+		*	Represents the preload phase for CSS documents.	
+		*/
+		public static const CSS_PHASE:String = "css";
+	}
+}

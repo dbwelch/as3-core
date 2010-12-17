@@ -5,8 +5,7 @@ package com.ffsys.swat.configuration
 	
 	import com.ffsys.swat.AbstractUnit;
 	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	
+	import com.ffsys.swat.events.*;
 	import com.ffsys.swat.configuration.locale.*;
 	import com.ffsys.swat.configuration.rsls.*;
 	
@@ -35,12 +34,14 @@ package com.ffsys.swat.configuration
 		*	@inheritDoc	
 		*/
 		override protected function assertLoadedConfiguration(
-			event:LoadEvent,
+			event:ConfigurationEvent,
 			passThroughData:Object ):void
 		{
 			super.assertLoadedConfiguration( event, passThroughData );
 
-			var configuration:IConfiguration = this.configuration;
+			var configuration:IConfiguration = event.configuration;
+			
+			trace("ConfigurationLoadTest::assertLoadedConfiguration()",  configuration);			
 			
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );

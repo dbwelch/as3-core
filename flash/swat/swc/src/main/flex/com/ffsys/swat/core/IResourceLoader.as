@@ -2,6 +2,11 @@ package com.ffsys.swat.core {
 	
 	import flash.events.IEventDispatcher;
 	
+	import com.ffsys.core.IDestroy;
+	
+	import com.ffsys.io.loaders.core.ILoaderQueue;
+	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;	
+	
 	/**
 	*	Describes the contract for resource loaders.
 	*
@@ -12,7 +17,18 @@ package com.ffsys.swat.core {
 	*	@since  17.12.2010
 	*/
 	public interface IResourceLoader
-		extends IEventDispatcher {
+		extends IDestroy,
+				IEventDispatcher {
+					
+		/**
+		* 	A builder responsible for retrieving loader queues
+		* 	by load phase.
+		* 
+		* 	This reference must be set before any attempt is made
+		* 	to invoke <code>load</code>.
+		*/
+		function get builder():IResourceQueueBuilder;
+		function set builder( value:IResourceQueueBuilder ):void;
 		
 		/**
 		*	The current preload phase being loaded.
@@ -21,7 +37,9 @@ package com.ffsys.swat.core {
 		
 		/**
 		*	Starts a load operation.
+		* 
+		* 	@return The loader queue handling the load process.
 		*/
-		function load():void;
+		function load():ILoaderQueue;
 	}
 }

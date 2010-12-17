@@ -6,7 +6,7 @@ package com.ffsys.swat.events {
 	
 	import com.ffsys.io.loaders.events.ILoadEvent;
 	
-	import com.ffsys.swat.core.IBootstrapLoader;
+	import com.ffsys.swat.core.IResourceLoader;
 	
 	/**
 	*	Represents events dispatched while runtime assets
@@ -55,7 +55,7 @@ package com.ffsys.swat.events {
 		*/
 		public var bytesLoaded:int = 0;
 		
-		private var _preloader:IBootstrapLoader;
+		private var _preloader:IResourceLoader;
 		private var _uri:String;
 		
 		/**
@@ -67,7 +67,7 @@ package com.ffsys.swat.events {
 		*/
 		public function RslEvent(
 			type:String,
-			preloader:IBootstrapLoader,
+			preloader:IResourceLoader,
 			event:Event = null )
 		{
 			super( type, event );
@@ -79,7 +79,7 @@ package com.ffsys.swat.events {
 		*	
 		*	@return The runtime asset preloader.
 		*/
-		public function get preloader():IBootstrapLoader
+		public function get preloader():IResourceLoader
 		{
 			return _preloader;
 		}

@@ -17,6 +17,7 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.swat.configuration.rsls.IResourceManager;
 	import com.ffsys.swat.configuration.rsls.IResourceManagerAware;
+	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
 	
 	/**
 	*	Describes the contract for implementations
@@ -35,6 +36,7 @@ package com.ffsys.swat.configuration.locale {
 				IMediaAccess,
 		 		IDeserializeProperty,
 				IDeserializeComplete,
+				IResourceQueueBuilder,
 				IResourceManagerAware {
 		
 		/**
@@ -71,75 +73,5 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		function get lang():String;
 		function set lang( lang:String ):void;
-		
-		/**
-		*	Gets the loader queue used to load message
-		*	properties files for the application.
-		*	
-		*	@return The message loader queue.
-		*/
-		function getMessagesQueue():ILoaderQueue;
-		
-		/**
-		*	Gets the loader queue used to load error
-		*	properties files for the application.
-		*	
-		*	@return The error loader queue.
-		*/
-		function getErrorsQueue():ILoaderQueue;
-		
-		/**
-		*	Gets the loader queue used to load font
-		*	files for the application.
-		*	
-		*	@return The font loader queue.
-		*/
-		function getFontsQueue():ILoaderQueue;
-		
-		/**
-		*	Gets the loader queue used to load runtime
-		*	shared libraries.
-		*	
-		*	@return The rsl loader queue.
-		*/
-		function getRslsQueue():ILoaderQueue;
-		
-		/**
-		*	Gets the loader queue used to load bean documents.
-		*	
-		*	@return The bean document loader queue.
-		*/
-		function getBeansQueue():ILoaderQueue;
-		
-		/**
-		*	Gets the loader queue used to load runtime
-		*	CSS files.
-		*	
-		*	@return The css loader queue.
-		*/
-		function getCssQueue():ILoaderQueue;		
-		
-		/**
-		*	Gets the loader queue used to load XML documents.
-		*	
-		*	@return The XML loader queue.
-		*/
-		function getXmlQueue():ILoaderQueue;
-		
-		/**
-		*	Gets the loader queue used to load image
-		*	resources.
-		*	
-		*	@return The image loader queue.
-		*/
-		function getImagesQueue():ILoaderQueue;
-		
-		/**
-		*	Gets the loader queue used to load sound
-		*	resources.
-		*	
-		*	@return The sound loader queue.
-		*/
-		function getSoundsQueue():ILoaderQueue;
 	}
 }

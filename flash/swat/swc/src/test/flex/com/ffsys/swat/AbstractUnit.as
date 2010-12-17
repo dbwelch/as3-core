@@ -11,11 +11,9 @@ package com.ffsys.swat
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.Locale;
 	
-	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.configuration.Configuration;
-	import com.ffsys.swat.configuration.ConfigurationLoader;
-	import com.ffsys.swat.configuration.ConfigurationParser;
-	import com.ffsys.swat.events.ConfigurationEvent;
+	import com.ffsys.swat.configuration.*;
+	import com.ffsys.swat.core.*;	
+	import com.ffsys.swat.events.*;
 	
 	/**
 	*	Abstract super class for unit tests.
@@ -33,8 +31,8 @@ package com.ffsys.swat
 		public static const TEST_XML_PATH:String =
 			"mock-configuration.xml";
 		
-		private var _configurationLoader:ConfigurationLoader;		
-		private var _configuration:IConfiguration;
+		private var _bootstrapLoader:BootstrapLoader;
+		
 		/**
 		* 	Creates an <code>AbstractUnit</code> instance.
 		*/
@@ -46,24 +44,28 @@ package com.ffsys.swat
 		[Before( async )]
      	public function setUp():void
 		{
-			_configurationLoader = new ConfigurationLoader();
-			_configurationLoader.parser = new ConfigurationParser();
-			_configurationLoader.parser.classNodeNameMap.rootInstance =
+			var flashvars:DefaultFlashVariables = new DefaultFlashVariables();
+			flashvars.configuration = TEST_XML_PATH;
+			flashvars.classPathConfiguration = new ClassPathConfiguration();
+			var parser:IConfigurationParser = new ConfigurationParser();
+			parser.classNodeNameMap.rootInstance =
 				new Configuration();
-
-			_configurationLoader.addEventListener(
-				LoadEvent.DATA,
+			_bootstrapLoader = new BootstrapLoader(
+				flashvars,
+				parser );	
+			_bootstrapLoader.addEventListener(
+				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
 				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
 			
-			_configurationLoader.request = new URLRequest( TEST_XML_PATH );
-			_configurationLoader.load();
+			//_bootstrapLoader.request = new URLRequest( TEST_XML_PATH );
+			
+			_bootstrapLoader.load();
 		}
 		
 		[After]
      	public function tearDown():void
 		{
-			_configurationLoader = null;
-			_configuration = null;
+			_bootstrapLoader = null;
 		}
 		
 		/**
@@ -71,41 +73,18 @@ package com.ffsys.swat
 		*	loaded.
 		*/
 		protected function assertLoadedConfiguration(
-			event:LoadEvent,
+			event:ConfigurationEvent,
 			passThroughData:Object ):void
 		{
-			//trace("AbstractUnit::configuration(), ", configuration);
-						
-			var configuration:IConfiguration = _configurationLoader.configuration;	
-			
+			var configuration:IConfiguration = event.configuration;
 			Assert.assertNotNull( configuration );
-
 			var locale:ILocale = Locale.EN_GB;
-			
-			/*
-			trace("AbstractUnit::assertLoadedConfiguration(), ",
-				configuration,
-				configuration.locales,
-				configuration.settings,
-				configuration.assets );
-			*/
-			
 			configuration.locales.lang = locale.getLanguage();
-			
-			
-			Assert.assertNotNull( configuration.locales );
-			
-			_configuration = configuration;
 		}
 		
 		protected function fail( event:Event ):void
 		{
 			throw new Error( "An asynchronous test case failed." );
-		}
-		
-		public function get configuration():IConfiguration
-		{
-			return _configuration;
 		}
 	}
 }
