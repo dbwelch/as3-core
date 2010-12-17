@@ -2,9 +2,6 @@ package com.ffsys.io.loaders.resources {
 	
 	import flash.display.Loader;
 	
-	import com.ffsys.io.loaders.display.IDisplayMovie;
-	import com.ffsys.io.loaders.display.MovieDisplay;
-	
 	/**
 	*	Represents a remote resource that encapsulates
 	*	movie (swf) data that can be added to the display list.
@@ -49,24 +46,7 @@ package com.ffsys.io.loaders.resources {
 			{
 				loader.unload();
 			}
-			
 			super.destroy();
-		}
-		
-		public function get movie():IDisplayMovie
-		{
-			if( !data )
-			{
-				throw new Error(
-					"MovieResource, invalid data - content may have been unloaded via prior duplication." );
-			}
-			
-			var display:IDisplayMovie;
-			display = new MovieDisplay();
-			display.uri = uri;
-			display.loader = loader;
-			display.bytesTotal = bytesTotal;
-			return display;
 		}
 	}
 }

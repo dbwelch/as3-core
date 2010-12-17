@@ -21,8 +21,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.io.loaders.core.AbstractStreamLoader;
 	import com.ffsys.io.loaders.core.ILoadOptions;
-	import com.ffsys.io.loaders.display.IDisplayVideo;
-	import com.ffsys.io.loaders.display.VideoDisplay;	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.events.VideoStatusEvent;	
 	import com.ffsys.io.loaders.resources.VideoResource;
@@ -37,6 +35,16 @@ package com.ffsys.io.loaders.types {
 	*	@since  31.07.2007
 	*/
 	public class VideoLoader extends AbstractStreamLoader {
+		
+		/**
+		*	The default width for loaded videos.	
+		*/
+		static public const DEFAULT_VIDEO_WIDTH:int = 320;
+		
+		/**
+		*	The default height for loaded videos.	
+		*/
+		static public const DEFAULT_VIDEO_HEIGHT:int = 240;		
 	
 		static public const STREAM_NOT_FOUND:String = "NetStream.Play.StreamNotFound";
 		static public const STREAM_COMPLETE:String = "NetStream.Play.Complete";
@@ -49,7 +57,7 @@ package com.ffsys.io.loaders.types {
 		private var _timer:Timer;
 		private var _netConnection:NetConnection;
 		private var _netStream:NetStream;
-		private var _display:IDisplayVideo;
+		private var _display:Video;
 		
 		private var _duration:Number;
 		
@@ -65,11 +73,6 @@ package com.ffsys.io.loaders.types {
 		{
 			super( request, options );
 			initialize();
-		}
-		
-		public function get display():IDisplayVideo
-		{
-			return _display;
 		}
 		
 		public function get duration():Number
@@ -96,12 +99,14 @@ package com.ffsys.io.loaders.types {
 
 			_netStream.client = this;
 			
-			_display = new VideoDisplay();
+			_display = new Video();
+			_display.width = DEFAULT_VIDEO_WIDTH;
+			_display.height = DEFAULT_VIDEO_HEIGHT;
 			
-			_display.netStream = _netStream;
-			_display.netConnection = _netConnection;
+			//_display.netStream = _netStream;
+			//_display.netConnection = _netConnection;
 			
-			_display.video.attachNetStream( _netStream );
+			_display.attachNetStream( _netStream );
 		}
 
 		public function get netStream():NetStream
@@ -111,6 +116,8 @@ package com.ffsys.io.loaders.types {
 		
 		override public function load():void
 		{
+			this.resource = new VideoResource( _display, this.uri );
+			
 			//documentation says that the play method should
 			//accept a URLRequest instance - this does not seem
 			//to be the case so we use the underlying String
@@ -171,6 +178,25 @@ package com.ffsys.io.loaders.types {
 				
 				dispatchResourceNotFoundEvent( event, this );
 			}
+			
+			/*
+            trace ( "Net status : " + event.info.code );
+			trace ( "Net status duration : " + duration );
+			trace ( "Net status time : " + _netStream.time );
+			*/
+			
+			if( event.info.code == VideoLoader.STREAM_STOP
+			 	&& !isNaN( duration )
+				&& _netStream.time >= duration )
+			{
+				
+				var evt:VideoStatusEvent =
+					new VideoStatusEvent( VideoStatusEvent.COMPLETE, event.info );
+				
+				//trace( "Video complete " + evt );
+				
+				dispatchEvent( evt );
+			}			
 			
 			/*
 			if( event.info.code == STREAM_STOP
@@ -268,8 +294,6 @@ package com.ffsys.io.loaders.types {
 			
 			dispatchEvent( completeEvent );
 			
-			resource = new VideoResource( _display, uri );		
-			
 			var evt:LoadEvent =
 				new LoadEvent(
 					LoadEvent.DATA,
@@ -310,8 +334,6 @@ package com.ffsys.io.loaders.types {
            	//trace( "video.height: " + info.height );
 
 			_duration = info.duration;
-			
-			_display.duration = _duration;
 
 			if( !streaming )
 			{

@@ -12,7 +12,6 @@ package com.ffsys.io.loaders.types {
 	
 	import com.ffsys.io.loaders.core.AbstractDisplayLoader;
 	import com.ffsys.io.loaders.core.ILoadOptions;
-	import com.ffsys.io.loaders.display.IDisplayMovie;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.MovieResource;
 	

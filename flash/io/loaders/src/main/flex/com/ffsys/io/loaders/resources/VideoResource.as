@@ -1,6 +1,6 @@
 package com.ffsys.io.loaders.resources {
 	
-	import com.ffsys.io.loaders.display.IDisplayVideo;
+	import flash.media.Video;
 	
 	/**
 	* 	Represents a video resource.
@@ -31,14 +31,9 @@ package com.ffsys.io.loaders.resources {
 		/**
 		* 	The display object used to display the video.
 		*/
-		public function get video():IDisplayVideo
+		public function get video():Video
 		{
-			return IDisplayVideo( this.data );
-		}		
-		
-		public function set video( val:IDisplayVideo ):void
-		{
-			this.data = ( val as  Object );
+			return Video( this.data );
 		}
 	}
 }

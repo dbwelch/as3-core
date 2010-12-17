@@ -5,12 +5,8 @@ package com.ffsys.io.loaders.resources {
 	
 	import com.ffsys.core.IDispose;
 	
-	import com.ffsys.io.loaders.display.IDisplayImage;
-	import com.ffsys.io.loaders.display.ImageDisplay;
-	
 	/**
-	*	Represents a remote resource that encapsulates Bitmap data
-	*	that can be added to the display list.
+	*	Represents a remote resource that encapsulates bitmap data.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -43,13 +39,7 @@ package com.ffsys.io.loaders.resources {
 		{
 			if( bitmapData )
 			{
-				//trace("ImageResource::dispose(), " + this );
-				
 				bitmapData.dispose();
-				
-				//test forcing a runtime error as we've already disposed
-				//of the bitmap data - passes: runtime error is thrown
-				//trace( bitmapData.width );				
 			}
 		}
 		
@@ -70,18 +60,16 @@ package com.ffsys.io.loaders.resources {
 			return data as BitmapData;
 		}
 		
-		public function get image():IDisplayImage
+		/**
+		* 	Gets a bitmap display object.
+		*/
+		public function get bitmap():Bitmap
 		{
-			if( !bitmapData )
+			if( bitmapData )
 			{
-				throw new Error(
-					"ImageResource, invalid BitmapData - resource may have been disposed." );
+				return new Bitmap( bitmapData );
 			}
-			
-			var display:IDisplayImage;
-			display = new ImageDisplay();
-			display.bitmapData = bitmapData;
-			return display;
+			return null;
 		}
 	}
 }

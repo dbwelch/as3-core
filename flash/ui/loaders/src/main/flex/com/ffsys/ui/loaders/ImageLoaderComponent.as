@@ -1,5 +1,6 @@
 package com.ffsys.ui.loaders
 {
+	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -9,7 +10,6 @@ package com.ffsys.ui.loaders
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.ImageResource;
 	import com.ffsys.io.loaders.types.ImageLoader;
-	import com.ffsys.io.loaders.display.ImageDisplay;
 	
 	/**
 	*	Loads an image and adds it to the display list.
@@ -22,7 +22,7 @@ package com.ffsys.ui.loaders
 	*/
 	public class ImageLoaderComponent extends AbstractLoaderComponent
 	{
-		private var _sprites:Vector.<Sprite> = new Vector.<Sprite>();
+		private var _sprites:Vector.<Bitmap> = new Vector.<Bitmap>();
 		
 		/**
 		* 	Creates an <code>ImageLoaderComponent</code> instance.
@@ -71,15 +71,13 @@ package com.ffsys.ui.loaders
 		override protected function loadComplete(
 			event:LoadEvent ):void
 		{
-			var display:Sprite = Sprite( ImageResource( event.resource ).image );
-			
+			var display:Bitmap = Bitmap(
+				ImageResource( event.resource ).bitmap );
 			if( display )
 			{
-				display.mouseEnabled = false;
 				mouseChildren = false;	
 				_sprites.push( display );
 			}
-			
 			super.loadComplete( event );
 		}
 		
@@ -89,13 +87,16 @@ package com.ffsys.ui.loaders
 		override public function destroy():void
 		{
 			super.destroy();
-			
-			var display:ImageDisplay = null;
+			var display:Bitmap = null;
 			for( var i:int = 0;i < _sprites.length;i++ )
 			{
-				display = ImageDisplay( _sprites[ i ] );
-				display.destroy();
+				display = Bitmap( _sprites[ i ] );
+				if( display && display.bitmapData )
+				{
+					display.bitmapData.dispose();
+				}
 			}
+			_sprites = null;
 		}
 	}
 }
