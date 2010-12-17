@@ -70,6 +70,7 @@ package com.ffsys.ui.css {
 		{
 			super();
 			this.locked = false;
+			this.policy = BeanCreationPolicy.MERGE;
 		}
 		
 		/**
