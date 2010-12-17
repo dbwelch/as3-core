@@ -9,9 +9,9 @@ package com.ffsys.swat.view {
 	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.core.IFlashVariables;
-	import com.ffsys.swat.core.IRuntimeAssetPreloader;
-	import com.ffsys.swat.core.RuntimeAssetPreloader;
-	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.core.IBootstrapLoader;
+	import com.ffsys.swat.core.BootstrapLoader;
+	import com.ffsys.swat.core.DefaultFlashVariables;
 	
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.events.RslEvent;
@@ -177,7 +177,7 @@ package com.ffsys.swat.view {
 		{
 			var app:IApplication =
 				IApplication( _classes.getMainClassInstance() );
-			SwatFlashVariables(
+			DefaultFlashVariables(
 				_flashvars ).classPathConfiguration = _classes;
 			SwatApplication( app ).setFlashVariables( _flashvars );
 			app.preloader.view = _view;

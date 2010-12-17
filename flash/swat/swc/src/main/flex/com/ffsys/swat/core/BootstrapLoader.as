@@ -42,8 +42,8 @@ package com.ffsys.swat.core {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class RuntimeAssetPreloader extends EventDispatcher
-		implements IRuntimeAssetPreloader {
+	public class BootstrapLoader extends EventDispatcher
+		implements IBootstrapLoader {
 		
 		/**
 		*	Represents the preload phase for the main application code.	
@@ -121,13 +121,13 @@ package com.ffsys.swat.core {
 			SOUNDS_PHASE ];
 		
 		/**
-		*	Creates a <code>RuntimeAssetPreloader</code> instance.
+		*	Creates a <code>BootstrapLoader</code> instance.
 		* 
 		* 	@param flashvars The flash variables for the application.
 		*	@param parser A parser implementation to use when parsing the
 		*	configuration.
 		*/
-		public function RuntimeAssetPreloader(
+		public function BootstrapLoader(
 			flashvars:IFlashVariables,
 			parser:IConfigurationParser )
 		{
@@ -212,16 +212,16 @@ package com.ffsys.swat.core {
 		{
 			//should definitely have a parser assigned by now
 			var interpreter:ConfigurationInterpreter = new ConfigurationInterpreter();
-			interpreter.flashvars = SwatFlashVariables( _flashvars );
+			interpreter.flashvars = DefaultFlashVariables( _flashvars );
 			_configurationLoader.parser.interpreter = interpreter;
 			
 			/*
-			trace("RuntimeAssetPreloader::load(), ",
+			trace("BootstrapLoader::load(), ",
 				_configurationLoader.parser, interpreter, _flashvars );
 			*/
 				
 			_configurationLoader.root =
-				SwatFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
+				DefaultFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
 					
 			_configurationLoader.addEventListener(
 				LoadEvent.RESOURCE_NOT_FOUND,
@@ -241,7 +241,7 @@ package com.ffsys.swat.core {
 				
 			_phase = CONFIGURATION_PHASE;
 				
-			var path:String = SwatFlashVariables( _flashvars ).configuration;
+			var path:String = DefaultFlashVariables( _flashvars ).configuration;
 			_configurationLoader.request = new URLRequest( path );
 			_configurationLoader.load();
 		}
@@ -256,7 +256,7 @@ package com.ffsys.swat.core {
 			_configuration = _configurationLoader.configuration;
 
 			//update the selected locale
-			//_configuration.locales.lang = SwatFlashVariables( _flashvars ).lang;
+			//_configuration.locales.lang = DefaultFlashVariables( _flashvars ).lang;
 			
 			_configurationLoader.removeEventListener(
 				LoadEvent.RESOURCE_NOT_FOUND,
@@ -548,7 +548,7 @@ package com.ffsys.swat.core {
 			var queue:ILoaderQueue = null;
 			var phase:String = this.phases[ _phaseIndex ];
 			
-			//trace("RuntimeAssetPreloader::next(), ", _phaseIndex, phase );
+			//trace("BootstrapLoader::next(), ", _phaseIndex, phase );
 			
 			switch( phase )
 			{
@@ -581,11 +581,11 @@ package com.ffsys.swat.core {
 					break;
 			}
 			
-			//trace("RuntimeAssetPreloader::next(), ", phase, queue );
+			//trace("BootstrapLoader::next(), ", phase, queue );
 			
 			if( queue )
 			{
-				//trace("RuntimeAssetPreloader::next(), ", queue.getLength() );
+				//trace("BootstrapLoader::next(), ", queue.getLength() );
 				
 				//empty queue move on to the next phase
 				if( queue.isEmpty() )

@@ -1,6 +1,6 @@
 package com.ffsys.swat.core {
 	
-	import com.ffsys.swat.core.IRuntimeAssetPreloader;
+	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
@@ -15,9 +15,8 @@ package com.ffsys.swat.core {
 	*	@since  16.06.2010
 	*/
 	public interface IApplicationMainController {
-		
 		/**
-		*	Invoked when all runtime assets have been loaded
+		*	Invoked when all bootstrap assets have been loaded
 		*	all references to the configuration have been set
 		*	and the application is ready to start.
 		*	
@@ -26,14 +25,14 @@ package com.ffsys.swat.core {
 		*	
 		*	If this method returns false to defer removal of the preloader,
 		*	when you want to remove the preloader view from the stage you
-		*	should simply null the view reference on the runtime preloader.
+		*	should simply null the view reference on the bootstrap preloader.
 		*	
-		*	<code>runtime.view = null;</code>
+		*	<code>bootstrap.view = null;</code>
 		*	
 		* 	@param parent The application implementation that loaded the bootstrap data.
 		*	@param main The main application preloader that loaded
 		*	the main application code base.
-		*	@param runtime The runtime asset preloader.
+		*	@param bootstrap The bootstrap asset preloader.
 		*	@param view The view that handled the application preload.
 		*	
 		*	@return Whether the preloader view should be automatically
@@ -42,7 +41,7 @@ package com.ffsys.swat.core {
 		function ready(
 			parent:IApplication,
 			main:IApplicationPreloader,
-			runtime:IRuntimeAssetPreloader,
+			bootstrap:IBootstrapLoader,
 			view:IApplicationPreloadView ):Boolean;
 	}
 }

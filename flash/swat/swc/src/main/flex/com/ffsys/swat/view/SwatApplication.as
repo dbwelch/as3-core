@@ -12,8 +12,8 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.ioc.*;	
 	
-	import com.ffsys.swat.core.IRuntimeAssetPreloader;
-	import com.ffsys.swat.core.RuntimeAssetPreloader;
+	import com.ffsys.swat.core.IBootstrapLoader;
+	import com.ffsys.swat.core.BootstrapLoader;
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;
@@ -21,7 +21,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationParser;
-	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.core.IApplicationMainController;
 	
 	/**
@@ -36,7 +36,7 @@ package com.ffsys.swat.view  {
 	public class SwatApplication extends Sprite
 		implements IApplication {
 		
-		private var _preloader:IRuntimeAssetPreloader;
+		private var _preloader:IBootstrapLoader;
 		private var _flashvars:IFlashVariables;
 		private var _configuration:IConfiguration;
 		
@@ -52,7 +52,7 @@ package com.ffsys.swat.view  {
 		/**
 		*	@inheritDoc
 		*/
-		public function get preloader():IRuntimeAssetPreloader
+		public function get preloader():IBootstrapLoader
 		{
 			return _preloader;
 		}
@@ -78,7 +78,7 @@ package com.ffsys.swat.view  {
 				if( !_preloader )
 				{
 					var classPathConfiguration:IClassPathConfiguration = 
-						SwatFlashVariables( _flashvars ).classPathConfiguration;
+						DefaultFlashVariables( _flashvars ).classPathConfiguration;
 					
 					var parser:IConfigurationParser = 
 						classPathConfiguration.getConfigurationParserInstance() as IConfigurationParser;
@@ -88,7 +88,7 @@ package com.ffsys.swat.view  {
 						throw new Error( "Could not retrieve a valid configuration parser." );
 					}
 					
-					_preloader = new RuntimeAssetPreloader(
+					_preloader = new BootstrapLoader(
 						_flashvars,
 						parser );
 			

@@ -3,7 +3,7 @@ package com.ffsys.swat.view {
 	import flash.events.Event;
 	import flash.display.Sprite;
 	
-	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.configuration.ConfigurationParser;
 	
 	/**
@@ -39,7 +39,7 @@ package com.ffsys.swat.view {
 		{
 			return [
 				SwatApplication,
-				SwatFlashVariables,
+				DefaultFlashVariables,
 				ConfigurationParser,
 				ApplicationPreloadView ];
 		}

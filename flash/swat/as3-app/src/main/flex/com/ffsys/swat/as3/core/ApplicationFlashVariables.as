@@ -2,7 +2,7 @@ package com.ffsys.swat.as3.core {
 	
 	import flash.display.DisplayObject;
 	
-	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.core.DefaultFlashVariables;
 	
 	/**
 	*	Encapsulates the data passed in via flash variables
@@ -14,7 +14,7 @@ package com.ffsys.swat.as3.core {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class ApplicationFlashVariables extends SwatFlashVariables {
+	public class ApplicationFlashVariables extends DefaultFlashVariables {
 		
 		private var _mode:String = "auto";
 		

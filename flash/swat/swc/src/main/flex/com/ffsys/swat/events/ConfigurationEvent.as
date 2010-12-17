@@ -4,7 +4,7 @@ package com.ffsys.swat.events {
 	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IConfigurationAware;
-	import com.ffsys.swat.core.IRuntimeAssetPreloader;
+	import com.ffsys.swat.core.IBootstrapLoader;
 	
 	/**
 	*	Encapsulates events dispatched related to the configuration
@@ -30,7 +30,7 @@ package com.ffsys.swat.events {
 		*/
 		public function ConfigurationEvent(
 			type:String,
-			preloader:IRuntimeAssetPreloader,
+			preloader:IBootstrapLoader,
 			event:Event = null )
 		{
 			super( type, preloader, event );

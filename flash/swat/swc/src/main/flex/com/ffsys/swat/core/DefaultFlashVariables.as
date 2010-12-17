@@ -17,7 +17,7 @@ package com.ffsys.swat.core {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class SwatFlashVariables extends AbstractFlashVars {
+	public class DefaultFlashVariables extends AbstractFlashVars {
 		
 		private var _lang:String = "en-GB";
 		private var _configuration:String = "assets/common/xml/configuration.xml";
@@ -25,11 +25,11 @@ package com.ffsys.swat.core {
 		private var _classPathConfiguration:IClassPathConfiguration;
 		
 		/**
-		*	Creates a <code>SwatFlashVariables</code> instance.
+		*	Creates a <code>DefaultFlashVariables</code> instance.
 		*	
 		*	@param root The root of the display list hierarchy.
 		*/
-		public function SwatFlashVariables( root:DisplayObject )
+		public function DefaultFlashVariables( root:DisplayObject )
 		{
 			super( root );
 		}

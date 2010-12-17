@@ -13,7 +13,7 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.swat.core.DefaultApplicationController;
-	import com.ffsys.swat.core.IRuntimeAssetPreloader;
+	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.IApplicationMainController;
 	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
@@ -63,7 +63,7 @@ package com.ffsys.swat.as3.view {
 		public function ready(
 			parent:IApplication,
 			main:IApplicationPreloader,
-			runtime:IRuntimeAssetPreloader,
+			runtime:IBootstrapLoader,
 			view:IApplicationPreloadView ):Boolean
 		{
 			var preloader:SwatActionscriptApplicationPreloadView

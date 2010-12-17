@@ -100,7 +100,6 @@ package com.ffsys.io.loaders.core {
 						requests, ( target as ILoaderQueue ).getAllRequests() );
 				}				
 			}
-			
 			return requests;
 		}
 		

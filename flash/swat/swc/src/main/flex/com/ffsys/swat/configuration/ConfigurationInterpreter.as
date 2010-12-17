@@ -6,7 +6,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.utils.substitution.Binding;
 	import com.ffsys.swat.core.Bindings;
-	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
 	/**
@@ -20,7 +20,7 @@ package com.ffsys.swat.configuration {
 	*/
 	public class ConfigurationInterpreter extends DeserializeInterpreter {
 		
-		public var flashvars:SwatFlashVariables;
+		public var flashvars:DefaultFlashVariables;
 		
 		/**
 		*	Creates a <code>ConfigurationInterpreter</code> instance.

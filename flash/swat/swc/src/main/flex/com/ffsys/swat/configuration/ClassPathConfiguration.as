@@ -5,7 +5,7 @@ package com.ffsys.swat.configuration
 	
 	import com.ffsys.core.IFlashVariables;
 	
-	import com.ffsys.swat.core.SwatFlashVariables;
+	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
@@ -43,7 +43,7 @@ package com.ffsys.swat.configuration
 		*/
 		public function getFlashVariablesClassPath():String
 		{
-			return "com.ffsys.swat.core.SwatFlashVariables";
+			return "com.ffsys.swat.core.DefaultFlashVariables";
 		}
 		
 		/**

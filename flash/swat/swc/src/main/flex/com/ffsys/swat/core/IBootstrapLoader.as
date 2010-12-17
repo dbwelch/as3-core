@@ -7,7 +7,8 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.view.IApplicationPreloader;
 	
 	/**
-	*	Describes the contract for the bootstrap preloader.
+	*	Describes the contract for bootstrap loaders.
+	* 
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -15,8 +16,8 @@ package com.ffsys.swat.core {
 	*	@author Mischa Williamson
 	*	@since  14.06.2010
 	*/
-	public interface IRuntimeAssetPreloader
-		extends IEventDispatcher {
+	public interface IBootstrapLoader
+		extends IResourceLoader {
 		
 		/**
 		* 	The application preload view.
@@ -34,15 +35,5 @@ package com.ffsys.swat.core {
 		* 	Gets the runtime configuration.
 		*/
 		function get configuration():IConfiguration;
-		
-		/**
-		*	The current preload phase being loaded.
-		*/
-		function get phase():String;
-		
-		/**
-		*	Starts the preloading process.
-		*/
-		function load():void;
 	}
 }

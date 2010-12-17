@@ -13,17 +13,6 @@
 	-->
 	
 	<locales>
-		
-		<!-- TODO: deprecate
-		<settings>
-		</settings>
-		-->
-		
-		<!-- TODO: deprecate
-		<assets id="main">
-		</assets>
-		-->
-		
 		<!-- resources for all locales -->
 		<resources>
 			
