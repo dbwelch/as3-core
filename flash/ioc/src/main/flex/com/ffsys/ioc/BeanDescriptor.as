@@ -359,8 +359,30 @@ package com.ffsys.ioc
 			if( instance && parameters )
 			{
 				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( instance, parameters, true, [ IBeanResolver ] );
+				merger.merge( instance, parameters, true, [ IBeanResolver ], assign );
 			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assign(
+			target:Object,
+			source:Object,
+			name:String,
+			value:* ):Boolean
+		{
+			if( target is IBeanProperty )
+			{
+				var property:IBeanProperty = IBeanProperty( target );
+				if( property.shouldSetBeanProperty( name, value ) )
+				{
+					//delegate bean property assignment
+					property.setBeanProperty( name, value );
+					return false;
+				}
+			}
+			return true;
 		}
 		
 		/**

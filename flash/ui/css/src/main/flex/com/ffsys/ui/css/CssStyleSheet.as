@@ -348,7 +348,11 @@ package com.ffsys.ui.css {
 		/**
 		* 	@private
 		*/
-		public function assign( target:Object, source:Object, name:String, value:* ):Boolean
+		private function assign(
+			target:Object,
+			source:Object,
+			name:String,
+			value:* ):Boolean
 		{
 			if( target is IBeanProperty )
 			{
