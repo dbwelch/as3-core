@@ -1,7 +1,5 @@
 package com.ffsys.swat.configuration {
 	
-	import com.ffsys.swat.configuration.locale.ILocaleManager;
-	
 	/**
 	*	Describes the contract for objects that
 	*	encapsulate configuration information.
@@ -14,12 +12,6 @@ package com.ffsys.swat.configuration {
 	*/
 	public interface IConfiguration
 		extends IConfigurationElement {
-		
-		/**
-		*	The locale manager.
-		*/
-		function get locales():ILocaleManager;
-		function set locales( locales:ILocaleManager ):void;
 		
 		/**
 		*	Application meta data.

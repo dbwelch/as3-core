@@ -100,6 +100,9 @@ package com.ffsys.swat.events {
 			return ( bytesLoaded / bytesTotal );
 		}
 		
+		/**
+		* 	The uri the resource was loaded from.
+		*/
 		public function set uri( uri:String ):void
 		{
 			_uri = uri;
@@ -120,6 +123,9 @@ package com.ffsys.swat.events {
 			return null;
 		}
 		
+		/**
+		* 	The name of the resource.
+		*/
 		public function get name():String
 		{
 			var output:String = null;
@@ -132,14 +138,13 @@ package com.ffsys.swat.events {
 					return uri.substr( slash + 1 );
 				}
 			}
-			
 			return output;
 		}
 
 		/**
 		*	Creates a clone of this event.
 		*	
-		*	@return The cloned event.	
+		*	@return The cloned event.
 		*/
 		override public function clone():Event
 		{

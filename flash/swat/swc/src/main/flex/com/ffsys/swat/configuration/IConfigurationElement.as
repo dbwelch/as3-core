@@ -1,8 +1,12 @@
 package com.ffsys.swat.configuration {
 	
 	import flash.events.IEventDispatcher;
+	
+	import com.ffsys.core.IDestroy;
+	import com.ffsys.core.IStringIdentifier;
 	import com.ffsys.ioc.IBeanAccess;
 	import com.ffsys.swat.core.IFlashVariablesAware;
+	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	
 	/**
 	*	Describes the contract for objects that
@@ -15,11 +19,18 @@ package com.ffsys.swat.configuration {
 	*	@since  17.12.2010
 	*/
 	public interface IConfigurationElement
-		extends IFlashVariablesAware,
+		extends IDestroy,
+				IFlashVariablesAware,
 				IMessageAccess,
 				IMediaAccess,
 				IBeanAccess,
 				IEventDispatcher {
+		
+		/**
+		*	The locale manager.
+		*/
+		function get locales():ILocaleManager;
+		function set locales( locales:ILocaleManager ):void;			
 		
 		/**
 		* 	The path settings for this configuration.

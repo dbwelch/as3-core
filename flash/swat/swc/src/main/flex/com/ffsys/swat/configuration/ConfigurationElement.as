@@ -9,6 +9,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.utils.locale.ILocale;
+	import com.ffsys.swat.configuration.locale.ILocaleManager;	
 	
 	/**
 	*	Represents the application configuration.
@@ -22,6 +23,7 @@ package com.ffsys.swat.configuration {
 	public class ConfigurationElement extends EventDispatcher
 		implements IConfigurationElement {
 			
+		private var _locales:ILocaleManager;
 		private var _flashvars:IFlashVariables;
 		private var _paths:IPaths;
 		
@@ -32,6 +34,19 @@ package com.ffsys.swat.configuration {
 		{
 			super();
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get locales():ILocaleManager
+		{
+			return _locales;
+		}
+
+		public function set locales( locales:ILocaleManager ):void
+		{
+			_locales = locales;
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -68,23 +83,33 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getBean( beanName:String ):Object
 		{
+			if( _locales )
+			{
+				return _locales.getBean( beanName );
+			}
 			return null;
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function getMessage( id:String, ... replacements ):String
+		public function getMessage(
+			id:String, ... replacements ):String
 		{
-			return null;
+			verifyLocales();
+			replacements.unshift( id );
+			return _locales.getMessage.apply( _locales, replacements );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function getError( id:String, ... replacements ):String
+		public function getError(
+			id:String, ... replacements ):String
 		{
-			return null;
+			verifyLocales();
+			replacements.unshift( id );
+			return _locales.getError.apply( _locales, replacements );
 		}
 		
 		/**
@@ -92,7 +117,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getXmlDocument( id:String ):XML
 		{
-			return null;
+			verifyLocales();			
+			return _locales.getXmlDocument( id );
 		}		
 		
 		/**
@@ -100,7 +126,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function get styleManager():IStyleManager
 		{
-			return null;
+			verifyLocales();			
+			return _locales.styleManager;
 		}
 		
 		/**
@@ -108,7 +135,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function get stylesheet():ICssStyleSheet
 		{
-			return null;
+			verifyLocales();			
+			return _locales.stylesheet;
 		}
 		
 		/**
@@ -116,15 +144,18 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getStyle( id:String ):Object
 		{
-			return null;
+			verifyLocales();			
+			return _locales.getStyle( id );
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function setStyle( styleName:String, style:Object ):void
+		public function setStyle(
+			styleName:String, style:Object ):void
 		{
-			//
+			verifyLocales();			
+			_locales.setStyle( styleName, style );
 		}
 		
 		/**
@@ -132,7 +163,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getImage( id:String ):Bitmap
 		{
-			return null;
+			verifyLocales();			
+			return _locales.getImage( id );
 		}
 		
 		/**
@@ -140,7 +172,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getSound( id:String ):Sound
 		{
-			return null;
+			verifyLocales();			
+			return _locales.getSound( id );
 		}
 		
 		/**
@@ -148,7 +181,29 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getFilter( id:String ):BitmapFilter
 		{
-			return null;
+			verifyLocales();			
+			return _locales.getFilter( id );
+		}
+		
+		/**
+		* 	Cleans composite references.
+		*/
+		public function destroy():void
+		{
+			_locales = null;
+			_flashvars = null;
+			_paths = null;
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function verifyLocales():void
+		{
+			if( _locales == null )
+			{
+				throw new Error( "Cannot access configuration data with no defined locales." );
+			}
 		}
 	}
 }
