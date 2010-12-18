@@ -1,6 +1,6 @@
 package com.ffsys.swat.as3.view {
 	
-	import com.ffsys.swat.view.SwatApplicationMain;
+	import com.ffsys.swat.view.DefaultApplicationMain;
 	import com.ffsys.swat.as3.core.ApplicationFlashVariables;
 	import com.ffsys.swat.configuration.ConfigurationParser;
 	
@@ -17,7 +17,7 @@ package com.ffsys.swat.as3.view {
 	*	@since  08.06.2010
 	*/
 	[Frame(factoryClass="com.ffsys.swat.as3.view.SwatActionscriptApplicationPreloader")]
-	public class SwatMain extends SwatApplicationMain {
+	public class SwatMain extends DefaultApplicationMain {
 		
 		/**
 		*	Creates a <code>SwatMain</code> instance.

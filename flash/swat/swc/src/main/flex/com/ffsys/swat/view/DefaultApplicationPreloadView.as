@@ -13,13 +13,13 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  13.06.2010
 	*/
-	public class ApplicationPreloadView extends Sprite
+	public class DefaultApplicationPreloadView extends Sprite
 		implements IApplicationPreloadView {
 		
 		/**
-		*	Creates an <code>ApplicationPreloadView</code> instance.
+		*	Creates an <code>DefaultApplicationPreloadView</code> instance.
 		*/
-		public function ApplicationPreloadView()
+		public function DefaultApplicationPreloadView()
 		{
 			super();			
 		}

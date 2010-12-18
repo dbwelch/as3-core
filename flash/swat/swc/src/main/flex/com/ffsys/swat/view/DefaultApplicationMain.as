@@ -15,12 +15,12 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class SwatApplicationMain extends Sprite {
+	public class DefaultApplicationMain extends Sprite {
 		
 		/**
-		*	Creates a <code>SwatApplicationMain</code> instance.
+		*	Creates a <code>DefaultApplicationMain</code> instance.
 		*/
-		public function SwatApplicationMain()
+		public function DefaultApplicationMain()
 		{
 			super();
 		}
@@ -38,10 +38,10 @@ package com.ffsys.swat.view {
 		public function getRuntimeClasses():Array
 		{
 			return [
-				SwatApplication,
+				DefaultApplication,
 				DefaultFlashVariables,
 				ConfigurationParser,
-				ApplicationPreloadView ];
+				DefaultApplicationPreloadView ];
 		}
 	}
 }

@@ -34,7 +34,7 @@ package com.ffsys.swat.view  {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class SwatApplication extends Sprite
+	public class DefaultApplication extends Sprite
 		implements IApplication {
 		
 		private var _preloader:IBootstrapLoader;
@@ -42,9 +42,9 @@ package com.ffsys.swat.view  {
 		private var _configuration:IConfiguration;
 		
 		/**
-		*	Creates a <code>SwatApplication</code> instance.
+		*	Creates a <code>DefaultApplication</code> instance.
 		*/
-		public function SwatApplication()
+		public function DefaultApplication()
 		{
 			super();
 			addEventListener( Event.ADDED_TO_STAGE, created );
@@ -145,7 +145,7 @@ package com.ffsys.swat.view  {
 		*/
 		private function rslLoadComplete( event:RslEvent ):void
 		{
-			trace("SwatApplication::rslLoadComplete()", event );
+			trace("DefaultApplication::rslLoadComplete()", event );
 			removeEventListener( RslEvent.LOAD_COMPLETE, rslLoadComplete );
 			ready();
 		}
@@ -189,7 +189,7 @@ package com.ffsys.swat.view  {
 				DefaultBeanIdentifiers.CONFIGURATION, _configuration );
 			beans.addBeanDescriptor( descriptor );
 			
-			trace("SwatApplication::doWithBeans()", _configuration );
+			trace("DefaultApplication::doWithBeans()", _configuration );
 			
 			descriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.FLASH_VARIABLES, _configuration.flashvars );
@@ -230,7 +230,7 @@ package com.ffsys.swat.view  {
 			
 			if( application )
 			{
-				trace("SwatApplication::createMainController()", application, application.configuration );
+				trace("DefaultApplication::createMainController()", application, application.configuration );
 				
 				if( application is IConfigurationAware )
 				{

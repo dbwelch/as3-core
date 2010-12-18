@@ -1,6 +1,6 @@
 package com.ffsys.ui.suite.view {
 	
-	import com.ffsys.swat.view.SwatApplicationMain;
+	import com.ffsys.swat.view.DefaultApplicationMain;
 	
 	/**
 	*	Main entry point for the application.
@@ -12,7 +12,7 @@ package com.ffsys.ui.suite.view {
 	*	@since  08.06.2010
 	*/
 	[Frame(factoryClass="com.ffsys.ui.suite.view.ComponentSuitePreloader")]
-	public class ComponentSuiteMain extends SwatApplicationMain {
+	public class ComponentSuiteMain extends DefaultApplicationMain {
 		
 		/**
 		*	Creates a <code>ComponentSuiteMain</code> instance.

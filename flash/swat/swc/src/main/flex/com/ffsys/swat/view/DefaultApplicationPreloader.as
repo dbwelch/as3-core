@@ -29,7 +29,7 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class SwatApplicationPreloader extends Sprite
+	public class DefaultApplicationPreloader extends Sprite
 		implements IApplicationPreloader {
 		
 		private var _classes:IClassPathConfiguration;
@@ -37,9 +37,9 @@ package com.ffsys.swat.view {
 		private var _view:IApplicationPreloadView;
 		
 		/**
-		*	Creates a <code>SwatApplicationPreloader</code> instance.	
+		*	Creates a <code>DefaultApplicationPreloader</code> instance.	
 		*/
-		public function SwatApplicationPreloader()
+		public function DefaultApplicationPreloader()
 		{
 			super();
 			stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -179,7 +179,7 @@ package com.ffsys.swat.view {
 				IApplication( _classes.getMainClassInstance() );
 			DefaultFlashVariables(
 				_flashvars ).classPathConfiguration = _classes;
-			SwatApplication( app ).setFlashVariables( _flashvars );
+			DefaultApplication( app ).setFlashVariables( _flashvars );
 			app.preloader.view = _view;
 			app.preloader.main = this;
 			addChild( DisplayObject( app ) );

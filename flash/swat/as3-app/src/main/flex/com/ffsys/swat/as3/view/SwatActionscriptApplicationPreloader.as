@@ -1,6 +1,6 @@
 package com.ffsys.swat.as3.view
 {
-	import com.ffsys.swat.view.SwatApplicationPreloader;
+	import com.ffsys.swat.view.DefaultApplicationPreloader;
 	
 	import com.ffsys.swat.as3.configuration.SwatActionscriptClassPathConfiguration;
 	import com.ffsys.swat.as3.core.ApplicationFlashVariables;
@@ -15,7 +15,7 @@ package com.ffsys.swat.as3.view
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class SwatActionscriptApplicationPreloader extends SwatApplicationPreloader
+	public class SwatActionscriptApplicationPreloader extends DefaultApplicationPreloader
 	{		
 		/**
 		* 	Creates a <code>SwatActionscriptApplicationPreloader</code> instance.

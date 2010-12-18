@@ -5,7 +5,7 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.ui.text.core.MultiLineTextField;
 	
 	import com.ffsys.swat.events.RslEvent;
-	import com.ffsys.swat.view.ApplicationPreloadView;
+	import com.ffsys.swat.view.DefaultApplicationPreloadView;
 	
 	/**
 	*	Custom application preload view.
@@ -16,7 +16,7 @@ package com.ffsys.ui.suite.view {
 	*	@author Mischa Williamson
 	*	@since  13.06.2010
 	*/
-	public class ComponentSuitePreloadView extends ApplicationPreloadView {
+	public class ComponentSuitePreloadView extends DefaultApplicationPreloadView {
 		
 		private var _txt:MultiLineTextField;
 		

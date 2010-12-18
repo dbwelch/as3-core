@@ -164,12 +164,12 @@ package com.ffsys.swat.as3.view {
 		
 		public function set myPreloaderView(value:Object):void
 		{
-			trace("SwatApplication::set myLocales()",  "SET MY PRELOADER VIEW: " , value );
+			trace("DefaultApplication::set myLocales()",  "SET MY PRELOADER VIEW: " , value );
 		}		
 		
 		public function set myLocale(value:Object):void
 		{
-			trace("SwatApplication::set myLocales()",  "SET MY LOCALE: " , value, configuration );
+			trace("DefaultApplication::set myLocales()",  "SET MY LOCALE: " , value, configuration );
 		}		
 		
 		private function runtimeLoaded( event:LoadEvent ):void

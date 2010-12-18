@@ -1,6 +1,6 @@
 package com.ffsys.ui.suite.view
 {
-	import com.ffsys.swat.view.SwatApplicationPreloader;
+	import com.ffsys.swat.view.DefaultApplicationPreloader;
 	
 	import com.ffsys.ui.suite.configuration.ComponentSuiteClassPathConfiguration;
 	import com.ffsys.ui.suite.view.ComponentSuitePreloadView;
@@ -14,7 +14,7 @@ package com.ffsys.ui.suite.view
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class ComponentSuitePreloader extends SwatApplicationPreloader
+	public class ComponentSuitePreloader extends DefaultApplicationPreloader
 	{		
 		/**
 		* 	Creates a <code>ComponentSuitePreloader</code> instance.

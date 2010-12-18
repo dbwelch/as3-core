@@ -35,7 +35,7 @@ package com.ffsys.swat.configuration
 		*/
 		public function getMainClassPath():String
 		{
-			return "com.ffsys.swat.view.SwatApplication";
+			return "com.ffsys.swat.view.DefaultApplication";
 		}
 		
 		/**
