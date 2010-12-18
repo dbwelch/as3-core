@@ -170,11 +170,36 @@ package com.ffsys.swat.configuration {
 				META_NAME,
 				false );
 				
+			addPathMappings( this.classNodeNameMap );
+			addLocaleCollectionMappings( this.classNodeNameMap );				
+			addResourceCollectionMappings( this.classNodeNameMap );
+		}
+		
+		/**
+		* 	Adds class node name mappings for locale collections.
+		* 
+		* 	@param classNodeNameMap The class node name map to add the
+		* 	mappings to.
+		*/
+		public function addPathMappings(
+			classNodeNameMap:ClassNodeNameMap ):void
+		{
 			classNodeNameMap.add(
 				Paths,
 				PATHS_NAME,
 				PATHS_NAME,
-				false );
+				false );		
+		}		
+		
+		/**
+		* 	Adds class node name mappings for locale collections.
+		* 
+		* 	@param classNodeNameMap The class node name map to add the
+		* 	mappings to.
+		*/
+		public function addLocaleCollectionMappings(
+			classNodeNameMap:ClassNodeNameMap ):void
+		{
 			
 			classNodeNameMap.add(
 				LocaleManager,
@@ -192,13 +217,14 @@ package com.ffsys.swat.configuration {
 				ConfigurationLocale,
 				DEFAULT_LOCALE_NAME,
 				DEFAULT_LOCALE_PROPERTY_NAME,
-				false );
-				
-			addResourceCollectionMappings( this.classNodeNameMap );
-		}
+				false );			
+		}		
 		
 		/**
 		* 	Adds class node name mappings for resource collections.
+		* 
+		* 	@param classNodeNameMap The class node name map to add the
+		* 	mappings to.
 		*/
 		public function addResourceCollectionMappings(
 			classNodeNameMap:ClassNodeNameMap ):void
