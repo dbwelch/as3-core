@@ -13,9 +13,9 @@ package com.ffsys.swat.core
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  08.06.2010
+	*	@since  18.12.2010
 	*/
-	public interface IDefaultApplicationController
+	public interface IApplicationController
 		extends IDestroy,
 				IBeanAccess,
 				IMessageAccess,

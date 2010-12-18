@@ -60,7 +60,7 @@ package com.ffsys.swat.as3.view {
 		/**
 		*	@inheritDoc	
 		*/
-		public function ready(
+		override public function ready(
 			parent:IApplication,
 			main:IApplicationPreloader,
 			runtime:IBootstrapLoader,

@@ -21,8 +21,7 @@ package com.ffsys.swat.configuration {
 	*/
 	public class ConfigurationParser extends Parser
 		implements IConfigurationParser {
-			
-
+		
 		/**
 		*	The name of the property to set on deserialized opjects
 		*	that refers to their parent.
@@ -200,7 +199,6 @@ package com.ffsys.swat.configuration {
 		public function addLocaleCollectionMappings(
 			classNodeNameMap:ClassNodeNameMap ):void
 		{
-			
 			classNodeNameMap.add(
 				LocaleManager,
 				LOCALES_NAME,

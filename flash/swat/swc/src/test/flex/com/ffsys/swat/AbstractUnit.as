@@ -76,7 +76,7 @@ package com.ffsys.swat
 			event:ConfigurationEvent,
 			passThroughData:Object ):void
 		{
-			var configuration:IConfiguration = event.configuration;
+			var configuration:IConfiguration = IConfiguration( event.configuration );
 			Assert.assertNotNull( configuration );
 			var locale:ILocale = Locale.EN_GB;
 			configuration.locales.lang = locale.getLanguage();

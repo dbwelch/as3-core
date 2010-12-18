@@ -39,7 +39,7 @@ package com.ffsys.swat.configuration
 		{
 			super.assertLoadedConfiguration( event, passThroughData );
 
-			var configuration:IConfiguration = event.configuration;
+			var configuration:IConfiguration = IConfiguration( event.configuration );
 			
 			trace("ConfigurationLoadTest::assertLoadedConfiguration()",  configuration);			
 			

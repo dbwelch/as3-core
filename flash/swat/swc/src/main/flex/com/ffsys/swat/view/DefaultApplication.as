@@ -129,7 +129,7 @@ package com.ffsys.swat.view  {
 				configurationLoadComplete );
 			
 			//keep a reference to the configuration
-			_configuration = event.configuration;
+			_configuration = IConfiguration( event.configuration );
 			
 			//update the configuration with the flash variables
 			_configuration.flashvars = this.flashvars;

@@ -17,13 +17,13 @@ package com.ffsys.swat.configuration
 		* 
 		* 	@return The configuration data.
 		*/
-		function get configuration():IConfiguration;
+		function get configuration():IConfigurationElement;
 		
 		/**
 		* 	Sets the application configuration data.
 		* 
 		* 	@param configuration The configuration data.
 		*/
-		function set configuration( configuration:IConfiguration ):void;
+		function set configuration( configuration:IConfigurationElement ):void;
 	}
 }

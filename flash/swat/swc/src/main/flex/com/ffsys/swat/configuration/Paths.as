@@ -29,8 +29,6 @@ package com.ffsys.swat.configuration
 		private var _locales:String = "locales";
 		private var _locale:String;
 		
-		//private var _extensions:Object = new Object();
-		
 		/**
 		* 	Creates a <code>Paths</code> instance.
 		*/
@@ -227,21 +225,6 @@ package com.ffsys.swat.configuration
 			paths.locale = this.locale;
 			return paths;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		
-		/*
-		public function getSubstitutionLookup( id:String ):Object
-		{
-			trace("Paths::getSubstitutionLookup()", id );
-			
-			
-			
-			return null;
-		}
-		*/
 		
 		/**
 		* 	@private

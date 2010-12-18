@@ -19,10 +19,8 @@ package com.ffsys.swat.configuration {
 			"application";
 		
 		/**
-		*	A delimiter to use when automatically inferring
-		*	a version <code>String</code> from the
-		*	<code>majorVersion</code>, <code>minorVersion</code> 
-		*	and <code>revision</code>.
+		*	A delimiter to use when retrieving the version
+		* 	when no specific version has been specified.
 		*/
 		static public const VERSION_DELIMITER:String = ".";
 		

@@ -185,7 +185,7 @@ package com.ffsys.swat.core {
 			
 			_configuration = IConfiguration( IResource( event.resource ).data );
 			
-			trace("BootstrapLoader::configurationLoadComplete()", _configuration );
+			//trace("BootstrapLoader::configurationLoadComplete()", _configuration );
 
 			//update the selected locale
 			//_configuration.locales.lang = DefaultFlashVariables( _flashvars ).lang;

@@ -2,7 +2,7 @@ package com.ffsys.swat.events {
 	
 	import flash.events.Event;
 	
-	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IConfigurationElement;
 	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.core.IResourceLoader;
 	
@@ -19,13 +19,14 @@ package com.ffsys.swat.events {
 	public class ConfigurationEvent extends RslEvent
 		implements IConfigurationAware {
 			
-		private var _configuration:IConfiguration;
+		private var _configuration:IConfigurationElement;
 		
 		/**
 		* 	Events dispatched when the configuration XML has
 		* 	been loaded and parsed.
 		*/
-		public static const CONFIGURATION_LOAD_COMPLETE:String = "configurationLoadComplete";
+		public static const CONFIGURATION_LOAD_COMPLETE:String =
+			"configurationLoadComplete";
 		
 		/**
 		*	Creates a <code>ConfigurationEvent</code> instance.
@@ -41,7 +42,7 @@ package com.ffsys.swat.events {
 		/**
 		*	@inheritDoc
 		*/
-		public function get configuration():IConfiguration
+		public function get configuration():IConfigurationElement
 		{
 			return _configuration;
 		}
@@ -49,7 +50,7 @@ package com.ffsys.swat.events {
 		/**
 		*	@inheritDoc
 		*/
-		public function set configuration( configuration:IConfiguration ):void
+		public function set configuration( configuration:IConfigurationElement ):void
 		{
 			_configuration = configuration;
 		}

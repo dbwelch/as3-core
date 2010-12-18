@@ -18,6 +18,8 @@ package com.ffsys.swat.configuration {
 		*	
 		*	@param id The fully qualified identifier for the property.
 		*	@param replacements Replacement values for the located property.
+		* 
+		* 	@return The message string.
 		*/
 		function getMessage( id:String, ... replacements ):String;
 		
@@ -26,6 +28,8 @@ package com.ffsys.swat.configuration {
 		*	
 		*	@param id The fully qualified identifier for the property.
 		*	@param replacements Replacement values for the located property.
+		* 
+		* 	@return The error message string.
 		*/
 		function getError( id:String, ... replacements ):String;
 	}

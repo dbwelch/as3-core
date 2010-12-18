@@ -12,7 +12,7 @@ package com.ffsys.swat.configuration
 	public class ModuleConfiguration extends ConfigurationElement
 		implements IModuleConfiguration
 	{
-		private var _configuration:IConfiguration;
+		private var _configuration:IConfigurationElement;
 		
 		/**
 		* 	Creates a <code>ModuleConfiguration</code> instance.
@@ -25,12 +25,12 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@inheritDoc
 		*/
-		public function get configuration():IConfiguration
+		public function get configuration():IConfigurationElement
 		{
 			return _configuration;
 		}
 		
-		public function set configuration( value:IConfiguration ):void
+		public function set configuration( value:IConfigurationElement ):void
 		{
 			_configuration = value;
 		}
