@@ -9,9 +9,9 @@ package com.ffsys.swat.core {
 	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.resources.IResource;	
 	import com.ffsys.io.loaders.types.*;
 
-	import com.ffsys.swat.configuration.ConfigurationLoader;
 	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.configuration.IConfiguration;
 	
@@ -36,7 +36,7 @@ package com.ffsys.swat.core {
 		implements IBootstrapLoader {
 		
 		private var _flashvars:IFlashVariables;
-		private var _configurationLoader:ConfigurationLoader;
+		private var _configurationLoader:ParserAwareXmlLoader;
 		private var _view:IApplicationPreloadView;
 		private var _configuration:IConfiguration;
 		private var _main:IApplicationPreloader;
@@ -54,7 +54,7 @@ package com.ffsys.swat.core {
 		{
 			super();
 			_flashvars = flashvars;
-			_configurationLoader = new ConfigurationLoader();
+			_configurationLoader = new ParserAwareXmlLoader();
 			if( parser != null )
 			{
 				_configurationLoader.parser = parser;
@@ -181,7 +181,9 @@ package com.ffsys.swat.core {
 			event:LoadEvent ):void
 		{
 			//keep a reference to the configuration
-			_configuration = _configurationLoader.configuration;
+			//_configuration = _configurationLoader.configuration;
+			
+			_configuration = IConfiguration( IResource( event.resource ).data );
 			
 			trace("BootstrapLoader::configurationLoadComplete()", _configuration );
 
@@ -217,7 +219,7 @@ package com.ffsys.swat.core {
 				this,
 				event );
 			
-			evt.configuration = _configurationLoader.configuration;
+			evt.configuration = _configuration;
 			dispatchEvent( evt );
 			
 			this.builder = _configuration.locales;

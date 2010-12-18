@@ -1,7 +1,8 @@
 package com.ffsys.swat.configuration
 {
 	/**
-	*	Encapsulates constants that represent bean identifiers.
+	*	Encapsulates constants that represent bean identifiers
+	* 	exposed to loaded beans.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
