@@ -23,10 +23,15 @@ package com.ffsys.swat.configuration.locale {
 		
 		/**
 		*	Creates a <code>ConfigurationLocale</code> instance.
+		* 
+		*	@param lang The language code.
+		*	@param country The country code.
 		*/
-		public function ConfigurationLocale()
+		public function ConfigurationLocale(
+			lang:String = null,
+			country:String = null )
 		{
-			super();
+			super( lang, country );
 		}
 		
 		/**
@@ -58,11 +63,19 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		* 	@inheritDoc
 		*/
+		public function getPrefix( delimiter:String = "-" ):String
+		{
+			return this.lang + delimiter + this.country;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get prefix():String
 		{
 			if( _prefix == null )
 			{
-				return this.lang + "-" + this.country;
+				return getPrefix();
 			}
 			
 			return _prefix;
@@ -71,6 +84,14 @@ package com.ffsys.swat.configuration.locale {
 		public function set prefix( prefix:String ):void
 		{
 			_prefix = prefix;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():IConfigurationLocale
+		{
+			return new ConfigurationLocale( this.lang, this.country );
 		}
 	}
 }

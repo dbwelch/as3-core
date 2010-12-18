@@ -54,12 +54,13 @@ package com.ffsys.swat.configuration.locale {
 		*	Gets all the messages for the application merged into
 		*	a single properties representation.
 		*/
-		function get messages():IProperties;		
+		function get messages():IProperties;
 		
 		/**
 		* 	The currently selected locale.
 		*/
 		function get current():IConfigurationLocale;
+		function set current( value:IConfigurationLocale ):void;
 		
 		/**
 		*	A default locale to use when extracting

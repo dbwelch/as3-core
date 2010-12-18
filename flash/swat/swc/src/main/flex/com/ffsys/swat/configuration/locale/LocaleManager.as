@@ -119,14 +119,6 @@ package com.ffsys.swat.configuration.locale {
 		{
 			_resources = value;
 		}
-
-		/**
-		*	@inheritDoc	
-		*/
-		public function get current():IConfigurationLocale
-		{
-			return _current;
-		}
 		
 		/**
 		*	@inheritDoc	
@@ -293,6 +285,22 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
+		public function get current():IConfigurationLocale
+		{
+			return _current;
+		}
+		
+		public function set current( value:IConfigurationLocale ):void
+		{
+			if( value )
+			{
+				this.lang = value.prefix;
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get lang():String
 		{
 			return _lang;
@@ -343,7 +351,7 @@ package com.ffsys.swat.configuration.locale {
 
 				if( selected )
 				{
-					_current = IConfigurationLocale( selected );
+					_current = IConfigurationLocale( selected ).clone();
 				}else{
 					throw new Error( "Could not locate locale for language code '" + lang + "'" );
 				}

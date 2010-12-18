@@ -25,6 +25,18 @@ package com.ffsys.swat.configuration.locale {
 		function get parent():ILocaleManager;
 		function set parent( manager:ILocaleManager ):void;
 		
+		
+		/**
+		* 	Concatenates the <code>lang</code> and
+		* 	<code>country</code> using the specified delimiter.
+		* 	
+		* 	@param delimiter The delimiter to insert between the language and
+		* 	country.
+		* 	
+		* 	@return The language, delimiter and country concatenated.
+		*/
+		function getPrefix( delimiter:String = "-" ):String;
+		
 		/**
 		* 	Gets the prefix to use when loading locale specific
 		* 	resources.
@@ -35,5 +47,12 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		function get prefix():String;
 		function set prefix( prefix:String ):void;
+		
+		/**
+		* 	Creates a clone of this locale.
+		* 
+		* 	@return A copy of this locale.
+		*/	
+		function clone():IConfigurationLocale;
 	}
 }

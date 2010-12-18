@@ -4,7 +4,7 @@
 	<!-- override the default path configuration if necessary -->
 	<paths>
 		<absolute>false</absolute>
-		<base>assets</base>
+		<base>mock-assets</base>
 		<common>common</common>
 		<locales>locales</locales>
 	</paths>
@@ -56,7 +56,6 @@
 				</images>
 			</resources>
 		</current-locale>
-		
 		<!-- loads resources in the context of a specific locale -->
 		<locale lang="es" country="ES">
 			<resources>
