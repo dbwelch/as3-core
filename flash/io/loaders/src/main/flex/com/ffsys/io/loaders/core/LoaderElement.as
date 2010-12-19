@@ -264,13 +264,7 @@ package com.ffsys.io.loaders.core
 		public function destroy():void
 		{
 			close();
-			
-			if( _resource )
-			{
-				_resource.destroy();
-			}
 			_resource = null;
-			
 			_id = null;
 			_queue = null;
 			_customData = null;

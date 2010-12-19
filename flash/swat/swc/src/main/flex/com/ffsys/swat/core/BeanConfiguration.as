@@ -1,7 +1,10 @@
 package com.ffsys.swat.core
 {
 	import com.ffsys.ioc.*;
-	import com.ffsys.swat.configuration.*;
+	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
+	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IConfigurationAware;	
+	import com.ffsys.io.loaders.resources.IResourceList;
 		
 	/**
 	* 	Encpausulates the default bean configuration.
@@ -13,6 +16,7 @@ package com.ffsys.swat.core
 	*	@since  19.12.2010
 	*/
 	public class BeanConfiguration extends Object
+		implements IBeanConfiguration
 	{
 		
 		/**
@@ -26,20 +30,22 @@ package com.ffsys.swat.core
 		/**
 		* 	Configures the default injector beans for the application.
 		* 
-		* 	These are objects that have already been instantiated and
+		* 	Injector beans are objects that have already been instantiated and
 		* 	should be made available to bean documents.
 		* 
 		* 	@param beans The application beans document.
+		* 	@param configuration The application configuration.
+		* 	@param resources A global resource list.
 		*/
 		public function doWithBeans(
-			beans:IBeanDocument, configuration:IConfiguration ):void
+			beans:IBeanDocument,
+			configuration:IConfiguration,
+			resources:IResourceList = null ):void
 		{
 			if( beans == null )
 			{
 				throw new Error( "Cannot modify a null bean document." );
 			}
-			
-			//trace("BeanConfiguration::doWithBeans()", configuration.locales.stylesheet );
 			
 			//allow the main bean document to access all the beans
 			//in the style sheet bean document

@@ -6,8 +6,9 @@ package com.ffsys.swat.core {
 	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.core.*;
-	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.types.*;
+	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.loaders.resources.*;
+	import com.ffsys.io.loaders.types.*;	
 	
 	import com.ffsys.io.xml.IParser;
 
@@ -33,6 +34,7 @@ package com.ffsys.swat.core {
 		private var _configurationLoader:ParserAwareXmlLoader;
 		private var _builder:IResourceQueueBuilder;
 		private var _phases:Array = ResourceLoadPhase.defaults;
+		private var _resources:IResourceList;
 		
 		/**
 		* 	@private
@@ -58,7 +60,15 @@ package com.ffsys.swat.core {
 			super();
 			this.request = request;
 			this.parser = parser;
-		}		
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get resources():IResourceList
+		{
+			return _resources;
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -441,7 +451,11 @@ package com.ffsys.swat.core {
 			removeQueueListeners( _assets, loadComplete );
 			_phase = ResourceLoadPhase.COMPLETE_PHASE;
 			dispatchEvent( evt );
-			return evt;			
+			_resources = IResourceList( _assets.resource );
+			
+			//clean up the queue now we have the resources
+			_assets.destroy();
+			return evt;
 		}
 		
 		/**
@@ -459,6 +473,7 @@ package com.ffsys.swat.core {
 			}
 			_parser = null;
 			_request = null;
+			_resources = null;
 			_configuration = null;
 			_configurationLoader = null;
 			_assets = null;

@@ -26,6 +26,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.core.IMessagesAware;
 	import com.ffsys.swat.core.BeanConfiguration;
+	import com.ffsys.swat.core.IBeanConfiguration;
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;	
@@ -177,14 +178,35 @@ package com.ffsys.swat.view  {
 		*/
 		protected function ready():void
 		{
+			if( _configuration == null )
+			{
+				throw new Error( "Cannot start an application with no configuration." );
+			}
 			createMainController();
 		}
 		
-		protected function doWithBeans( beans:IBeanDocument ):void
+		/**
+		* 	Gets the bean configuration implementation
+		* 	to use when the application configures the beans
+		* 	after bootstrap.
+		* 
+		* 	@return The bean configuration implementation.
+		*/
+		protected function getBeanConfiguration():IBeanConfiguration
+		{
+			return new BeanConfiguration();
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function doWithBeans( beans:IBeanDocument ):void
 		{
 			//standard bean configuration
-			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
-			beanConfiguration.doWithBeans( beans, _configuration );
+			var beanConfiguration:IBeanConfiguration = getBeanConfiguration();
+			
+			//TODO: configure with global resources
+			beanConfiguration.doWithBeans( beans, _configuration  );
 			
 			//bean configuration specific to a view based bootstrap
 			var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
@@ -203,6 +225,8 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	@private
+		* 
 		*	Creates the main application controller.
 		* 
 		* 	If the main controller is a display object it will be added
@@ -211,7 +235,7 @@ package com.ffsys.swat.view  {
 		* 	If the main controller implements the <code>IApplicationMainController</code> interface
 		* 	it's <code>ready</code> implementation will be invoked.
 		*/
-		protected function createMainController():void
+		private function createMainController():void
 		{
 			var document:IBeanDocument = _configuration.locales.document;
 			doWithBeans( document );

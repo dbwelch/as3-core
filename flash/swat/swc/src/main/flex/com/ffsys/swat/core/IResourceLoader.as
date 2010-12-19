@@ -5,6 +5,7 @@ package com.ffsys.swat.core {
 	import com.ffsys.core.IDestroy;
 	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
+	import com.ffsys.io.loaders.resources.IResourceList;
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;	
 	
 	/**
@@ -19,6 +20,14 @@ package com.ffsys.swat.core {
 	public interface IResourceLoader
 		extends IDestroy,
 				IEventDispatcher {
+					
+		/**
+		* 	The list of resources loaded by this loader.
+		* 
+		* 	This property is only available after all resources
+		* 	are loaded.
+		*/
+		function get resources():IResourceList;
 		
 		/**
 		* 	A builder responsible for retrieving loader queues
