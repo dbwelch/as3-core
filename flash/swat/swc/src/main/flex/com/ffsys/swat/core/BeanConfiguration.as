@@ -3,7 +3,6 @@ package com.ffsys.swat.core
 	import com.ffsys.ioc.*;
 	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.io.loaders.resources.IResourceList;
 		
 	/**
 	* 	Encpausulates the default bean configuration.
@@ -27,19 +26,12 @@ package com.ffsys.swat.core
 		}
 		
 		/**
-		* 	Configures the default injector beans for the application.
-		* 
-		* 	Injector beans are objects that have already been instantiated and
-		* 	should be made available to bean documents.
-		* 
-		* 	@param beans The application beans document.
-		* 	@param configuration The application configuration.
-		* 	@param resources A global resource list.
+		* 	@inheritDoc
 		*/
 		public function doWithBeans(
 			beans:IBeanDocument,
 			configuration:IConfiguration,
-			resources:IResourceList = null ):void
+			resources:IResourceManager ):void
 		{
 			if( beans == null )
 			{
@@ -62,6 +54,8 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.PATHS, configuration.paths );
 			var localeBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.LOCALE, configuration.locales.current );
+			var resourcesBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.RESOURCES, resources );
 		
 			//application configuration
 			beans.addBeanDescriptor( configurationBean );
@@ -72,7 +66,9 @@ package com.ffsys.swat.core
 			//application messages
 			beans.addBeanDescriptor( messagesBean );
 			//resource paths
-			beans.addBeanDescriptor( pathsBean );	
+			beans.addBeanDescriptor( pathsBean );
+			//global resources
+			beans.addBeanDescriptor( resourcesBean );
 		
 			//set up the generic type injectors
 			beans.types.push( new BeanTypeInjector(
@@ -109,7 +105,13 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.LOCALE,
 				DefaultBeanIdentifiers.LOCALE,
 				ILocaleAware,
-				localeBean ) );			
+				localeBean ) );
+				
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.RESOURCES,
+				DefaultBeanIdentifiers.RESOURCES,
+				IResourcesAware,
+				resourcesBean ) );							
 		}		
 	}
 }

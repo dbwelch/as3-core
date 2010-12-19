@@ -206,7 +206,7 @@ package com.ffsys.swat.view  {
 			var beanConfiguration:IBeanConfiguration = getBeanConfiguration();
 			
 			//TODO: configure with global resources
-			beanConfiguration.doWithBeans( beans, _configuration  );
+			beanConfiguration.doWithBeans( beans, _configuration, _preloader.resources );
 			
 			//bean configuration specific to a view based bootstrap
 			var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(

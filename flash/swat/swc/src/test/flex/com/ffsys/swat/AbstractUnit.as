@@ -49,6 +49,14 @@ package com.ffsys.swat
 			super();
 		}
 		
+		/**
+		* 	The bootstrap loader.
+		*/
+		public function get bootstrap():BootstrapLoader
+		{
+			return _bootstrapLoader;
+		}
+		
 		private function getLinkedClasses():Array
 		{
 			var output:Array = new Array();

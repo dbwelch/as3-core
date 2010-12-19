@@ -2,7 +2,6 @@ package com.ffsys.swat.core
 {
 	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.io.loaders.resources.IResourceList;	
 	
 	/**
 	* 	Describes the contract for implementations that
@@ -26,11 +25,11 @@ package com.ffsys.swat.core
 		* 
 		* 	@param beans The application beans document.
 		* 	@param configuration The application configuration.
-		* 	@param resources A global resource list.
+		* 	@param resources A global resource manager.
 		*/
 		function doWithBeans(
 			beans:IBeanDocument,
 			configuration:IConfiguration,
-			resources:IResourceList = null ):void;
+			resources:IResourceManager ):void;
 	}
 }

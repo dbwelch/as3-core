@@ -1,10 +1,8 @@
 package com.ffsys.swat.core
 {
-	import com.ffsys.swat.configuration.IPaths;
-		
 	/**
 	*	Describes the contract for implementations that are aware
-	* 	of the global resource paths.
+	* 	of the global resources.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -12,12 +10,12 @@ package com.ffsys.swat.core
 	*	@author Mischa Williamson
 	*	@since  19.12.2010
 	*/
-	public interface IPathsAware
+	public interface IResourcesAware
 	{
 		/**
-		* 	The application resource path configuration.
+		* 	The global application resources.
 		*/
-		function get paths():IPaths;
-		function set paths( value:IPaths ):void;
+		function get resources():IResourceManager;
+		function set resources( value:IResourceManager ):void;
 	}
 }

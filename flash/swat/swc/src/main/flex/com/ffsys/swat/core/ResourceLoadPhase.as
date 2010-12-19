@@ -1,7 +1,15 @@
 package com.ffsys.swat.core
 {
 	
-	
+	/**
+	*	Encapsulates constants that represent the resource load phases.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  19.12.2010
+	*/
 	public class ResourceLoadPhase extends Object
 	{
 		static public var defaults:Array = [
@@ -9,8 +17,8 @@ package com.ffsys.swat.core
 			ERRORS_PHASE,
 			FONTS_PHASE,
 			RSLS_PHASE,
+			CSS_PHASE,			
 			BEANS_PHASE,
-			CSS_PHASE,
 			XML_PHASE,
 			IMAGES_PHASE,
 			SOUNDS_PHASE ];
@@ -56,7 +64,7 @@ package com.ffsys.swat.core
 		public static const RSLS_PHASE:String = "rsls";
 	
 		/**
-		*	Represents the preload phase for bean documents.	
+		*	Represents the preload phase for bean documents.
 		*/
 		public static const BEANS_PHASE:String = "beans";
 	
@@ -64,6 +72,11 @@ package com.ffsys.swat.core
 		*	Represents the preload phase for XML documents.
 		*/
 		public static const XML_PHASE:String = "xml";
+		
+		/**
+		*	Represents the preload phase for text documents.
+		*/
+		public static const TEXT_PHASE:String = "text";		
 	
 		/**
 		*	Represents the preload phase for CSS documents.	

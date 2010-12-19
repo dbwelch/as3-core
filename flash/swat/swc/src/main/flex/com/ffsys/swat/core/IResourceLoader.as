@@ -20,14 +20,12 @@ package com.ffsys.swat.core {
 	public interface IResourceLoader
 		extends IDestroy,
 				IEventDispatcher {
-					
+		
 		/**
-		* 	The list of resources loaded by this loader.
-		* 
-		* 	This property is only available after all resources
-		* 	are loaded.
+		* 	The resource manager managing
+		* 	access to the loaded resources.
 		*/
-		function get resources():IResourceList;
+		function get resources():IResourceManager;
 		
 		/**
 		* 	A builder responsible for retrieving loader queues

@@ -49,6 +49,12 @@ package com.ffsys.swat.configuration
 		public static const MESSAGES:String = "messages";
 		
 		/**
+		* 	The identifier of the injected bean that
+		* 	represents loaded global resources.
+		*/
+		public static const RESOURCES:String = "resources";
+		
+		/**
 		* 	The identifier of the injected main application preloader.
 		* 
 		* 	This instance is at the root of the display list hierarchy

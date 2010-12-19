@@ -105,7 +105,7 @@ package com.ffsys.swat.configuration
 			passThroughData:Object ):void
 		{
 			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
-			beanConfiguration.doWithBeans( configuration.locales.document, configuration );
+			beanConfiguration.doWithBeans( configuration.locales.document, configuration, bootstrap.resources );
 			
 			var mainBeanName:String = DefaultBeanIdentifiers.APPLICATION_BEAN;
 			
@@ -124,6 +124,7 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.messages );
 			Assert.assertNotNull( application.paths );
 			Assert.assertNotNull( application.locale );
+			Assert.assertNotNull( application.resources );
 		}
 	
 		[Test(async)]

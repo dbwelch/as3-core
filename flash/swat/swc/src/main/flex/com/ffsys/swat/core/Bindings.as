@@ -30,6 +30,6 @@ package com.ffsys.swat.core
 		/**
 		* 	Binding that exposes the paths for the application.
 		*/
-		public static const PATHS:String = "paths";		
+		public static const PATHS:String = "paths";
 	}
 }

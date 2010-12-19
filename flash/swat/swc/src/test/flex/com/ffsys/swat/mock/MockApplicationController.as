@@ -11,13 +11,15 @@ package com.ffsys.swat.mock
 		implements 	ILocalesAware,
 					IMessagesAware,
 					IPathsAware,
-					ILocaleAware
+					ILocaleAware,
+					IResourcesAware
 	{
 		private var _rectangle:RectangleGraphic;
 		private var _locales:ILocaleManager;
 		private var _locale:IConfigurationLocale;
 		private var _messages:IProperties;
 		private var _paths:IPaths;
+		private var _resources:IResourceManager;
 		
 		public function MockApplicationController()
 		{
@@ -87,6 +89,19 @@ package com.ffsys.swat.mock
 		public function set locale( value:IConfigurationLocale ):void
 		{
 			_locale = value;
+		}
+		
+		/**
+		* 	The global application resources.
+		*/
+		public function get resources():IResourceManager
+		{
+			return _resources;
+		}
+		
+		public function set resources( value:IResourceManager ):void
+		{
+			_resources = value;
 		}
 	}
 }

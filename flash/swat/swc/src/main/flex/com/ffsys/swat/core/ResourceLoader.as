@@ -34,7 +34,8 @@ package com.ffsys.swat.core {
 		private var _configurationLoader:ParserAwareXmlLoader;
 		private var _builder:IResourceQueueBuilder;
 		private var _phases:Array = ResourceLoadPhase.defaults;
-		private var _resources:IResourceList;
+		
+		private var _resources:IResourceManager;
 		
 		/**
 		* 	@private
@@ -65,12 +66,8 @@ package com.ffsys.swat.core {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get resources():IResourceList
+		public function get resources():IResourceManager
 		{
-			if( _resources == null && _assets != null )
-			{
-				_resources = IResourceList( _assets.resource );
-			}
 			return _resources;
 		}
 		
@@ -142,6 +139,14 @@ package com.ffsys.swat.core {
 			return _phase;
 		}
 		
+		protected function getMainLoaderQueue():ILoaderQueue
+		{
+			var queue:ILoaderQueue = new LoaderQueue();
+			_resources = new ResourceManager(
+				IResourceList( queue.resource ) );
+			return queue;
+		}
+		
 		/**
 		*	@inheritDoc
 		*/
@@ -157,7 +162,7 @@ package com.ffsys.swat.core {
 				throw new Error( "Cannot load resurces with a null url request." );
 			}			
 			
-			_assets = new LoaderQueue();
+			_assets = getMainLoaderQueue();
 			
 			var configurationQueue:ILoaderQueue = new LoaderQueue();
 			configurationQueue.customData = ResourceLoadPhase.CONFIGURATION_PHASE;
@@ -170,7 +175,6 @@ package com.ffsys.swat.core {
 			doWithConfigurationLoader( _configurationLoader );
 			configurationQueue.addLoader( _configurationLoader );
 			_assets.addLoader( configurationQueue );
-			//_assets.addLoader( _configurationLoader );
 			_assets.load();
 			return _assets;
 		}
@@ -262,16 +266,7 @@ package com.ffsys.swat.core {
 				}
 			}
 
-			//ensure the rslevent wrapper fires for the configuration document
-			//itemLoaded( event );			
-			
-			//update the phase
-			//if( _assets.length > 1 )
-			//{
-				//_phase = String( _assets.getLoaderAt( 1 ).customData );
-			//}
-			
-			addQueueListeners( _assets, loadComplete );		
+			addQueueListeners( _assets, loadComplete );
 		}
 		
 		/**
@@ -464,8 +459,7 @@ package com.ffsys.swat.core {
 			_phase = ResourceLoadPhase.COMPLETE_PHASE;
 			dispatchEvent( evt );
 			
-			//_resources = IResourceList( _assets.resource );
-			
+			/*
 			//ensure the resources property is set
 			trace("ResourceLoader::loadComplete()", "GET RESOURCES REFERENCE: ",
 				this.resources,
@@ -482,6 +476,7 @@ package com.ffsys.swat.core {
 					trace("ResourceLoader::loadComplete() GOT COMPOSITE LIST: ", IResourceList( resource ).length );
 				}
 			}
+			*/
 			
 			//clean up the queue now we have the resources
 			_assets.destroy();
