@@ -92,22 +92,6 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		* 	Provides access to stored beans.
-		* 
-		* 	@param beanName The name of the bean.
-		* 
-		* 	@return An instance of the bean.
-		*/
-		public function getBean( beanName:String ):Object
-		{
-			if( _locales )
-			{
-				return _locales.getBean( beanName );
-			}
-			return null;
-		}
-		
-		/**
 		*	@inheritDoc
 		*/
 		public function getMessage(
@@ -130,21 +114,41 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
+		* 	Provides access to stored beans.
+		* 
+		* 	@param beanName The name of the bean.
+		* 
+		* 	@return An instance of the bean.
+		*/
+		public function getBean( beanName:String ):Object
+		{
+			verifyResources();
+			return _resources.getBean( beanName );
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function get styleManager():IStyleManager
 		{
-			verifyLocales();
-			return _locales.styleManager;
+			verifyResources();
+			return _resources.styleManager;
 		}
+		
+		
+		public function set styleManager( value:IStyleManager ):void
+		{
+			verifyResources();
+			_resources.styleManager = value;
+		}		
 		
 		/**
 		*	@inheritDoc
 		*/
 		public function get stylesheet():ICssStyleSheet
 		{
-			verifyLocales();			
-			return _locales.stylesheet;
+			verifyResources();			
+			return _resources.stylesheet;
 		}
 		
 		/**
@@ -152,8 +156,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getStyle( id:String ):Object
 		{
-			verifyLocales();			
-			return _locales.getStyle( id );
+			verifyResources();			
+			return _resources.getStyle( id );
 		}
 		
 		/**
@@ -162,8 +166,8 @@ package com.ffsys.swat.configuration {
 		public function setStyle(
 			styleName:String, style:Object ):void
 		{
-			verifyLocales();			
-			_locales.setStyle( styleName, style );
+			verifyResources();			
+			_resources.setStyle( styleName, style );
 		}
 		
 		/**
@@ -171,8 +175,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getFilter( id:String ):BitmapFilter
 		{
-			verifyLocales();			
-			return _locales.getFilter( id );
+			verifyResources();			
+			return _resources.getFilter( id );
 		}		
 		
 		/**

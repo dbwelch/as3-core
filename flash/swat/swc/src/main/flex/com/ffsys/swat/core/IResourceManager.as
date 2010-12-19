@@ -4,6 +4,10 @@ package com.ffsys.swat.core
 	import flash.media.Sound;
 		
 	import com.ffsys.core.IDestroy;
+	import com.ffsys.ioc.IBeanAccess;
+	import com.ffsys.ioc.IBeanDocument;	
+	import com.ffsys.ioc.IBeanManager;
+	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
 	/**
@@ -17,8 +21,21 @@ package com.ffsys.swat.core
 	*/
 	public interface IResourceManager
 		extends	IDestroy,
+		 		IBeanAccess,
+				IStyleAccess,
 				IResourceAccess
 	{
+		/**
+		* 	The bean manager used to load the bean documents.
+		*/
+		function get beanManager():IBeanManager;
+		function set beanManager( value:IBeanManager ):void;
+		
+		/**
+		* 	The document containing the beans for the application.
+		*/
+		function get document():IBeanDocument;
+		
 		/**
 		* 	The main resource list being managed.
 		*/

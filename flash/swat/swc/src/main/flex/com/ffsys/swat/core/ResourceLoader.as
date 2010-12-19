@@ -4,6 +4,11 @@ package com.ffsys.swat.core {
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.net.URLRequest;
+
+	import com.ffsys.ioc.BeanManager;
+	import com.ffsys.ioc.IBeanManager;
+	import com.ffsys.ui.css.IStyleManager;
+	import com.ffsys.ui.css.StyleManager;
 	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.*;
@@ -27,7 +32,9 @@ package com.ffsys.swat.core {
 	*/
 	public class ResourceLoader extends EventDispatcher
 		implements IResourceLoader {
-
+			
+		private var _styleManager:IStyleManager;
+		private var _beanManager:IBeanManager;
 		private var _parser:IParser;
 		private var _request:URLRequest;
 		private var _configuration:IConfigurationElement;		
@@ -61,6 +68,40 @@ package com.ffsys.swat.core {
 			super();
 			this.request = request;
 			this.parser = parser;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get beanManager():IBeanManager
+		{
+			if( _beanManager == null )
+			{
+				_beanManager = new BeanManager();
+			}
+			return _beanManager;
+		}
+		
+		public function set beanManager( value:IBeanManager ):void
+		{
+			_beanManager = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			if( _styleManager == null )
+			{
+				_styleManager = new StyleManager();
+			}			
+			return _styleManager;
+		}
+		
+		public function set styleManager( value:IStyleManager ):void
+		{
+			_styleManager = value;
 		}
 		
 		/**
@@ -151,7 +192,7 @@ package com.ffsys.swat.core {
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			_resources = new ResourceManager(
-				IResourceList( queue.resource ) );
+				IResourceList( queue.resource ), this.beanManager, this.styleManager );
 			return queue;
 		}
 		
@@ -300,7 +341,7 @@ package com.ffsys.swat.core {
 			for( var i:int = 0;i < this.phases.length;i++ )
 			{
 				phase = this.phases[ i ];
-				queue = builder.getQueueByPhase( phase );
+				queue = builder.getQueueByPhase( phase, _beanManager, _styleManager );
 				if( queue && !queue.isEmpty() )
 				{
 					queue.customData = phase;
@@ -495,6 +536,8 @@ package com.ffsys.swat.core {
 			_phase = null;
 			_phases = null;
 			_builder = null;
+			_beanManager = null;
+			_styleManager = null;
 		}
 	}
 }

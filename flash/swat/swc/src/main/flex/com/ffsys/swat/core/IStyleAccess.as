@@ -1,4 +1,4 @@
-package com.ffsys.swat.configuration {
+package com.ffsys.swat.core {
 	
 	import flash.display.Bitmap;
 	import flash.filters.BitmapFilter;
@@ -17,12 +17,13 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  18.07.2010
 	*/
-	public interface IMediaAccess {
+	public interface IStyleAccess {
 		
 		/**
-		*	Gets the style manager for the application.
+		* 	The style manager used to load the style documents.
 		*/
 		function get styleManager():IStyleManager;
+		function set styleManager( value:IStyleManager ):void;
 		
 		/**
 		*	The style sheet for the application.

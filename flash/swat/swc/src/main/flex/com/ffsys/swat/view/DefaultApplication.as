@@ -15,7 +15,6 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.BootstrapLoader;
 	
-
 	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.configuration.IConfiguration;
@@ -141,7 +140,7 @@ package com.ffsys.swat.view  {
 			_configuration.flashvars = this.flashvars;
 			
 			//update the style bindings to match the xml bindings
-			_configuration.locales.styleManager.bindings = Deserializer.defaultBindings.clone();
+			_configuration.styleManager.bindings = Deserializer.defaultBindings.clone();
 			
 			configure( _configuration );
 		}
@@ -237,7 +236,7 @@ package com.ffsys.swat.view  {
 		*/
 		private function createMainController():void
 		{
-			var document:IBeanDocument = _configuration.locales.document;
+			var document:IBeanDocument = _configuration.resources.document;
 			doWithBeans( document );
 			
 			var application:Object = document.getBean(

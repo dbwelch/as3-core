@@ -1,19 +1,15 @@
 package com.ffsys.swat.configuration.locale {
-	
-
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
 	import com.ffsys.io.xml.IDeserializeComplete;
-	
-	import com.ffsys.ioc.*;	
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.ILocaleCollection;
 	import com.ffsys.utils.properties.IProperties;
 	
 	import com.ffsys.swat.configuration.IConfiguration;
+	
 	import com.ffsys.swat.configuration.IMessageAccess;
-	import com.ffsys.swat.configuration.IMediaAccess;
 	
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManager;
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
@@ -31,9 +27,9 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public interface ILocaleManager
 		extends ILocaleCollection,
-				IBeanAccess,
+		
 				IMessageAccess,
-				IMediaAccess,
+				
 		 		IDeserializeProperty,
 				IDeserializeComplete,
 				IResourceQueueBuilder,
@@ -54,11 +50,6 @@ package com.ffsys.swat.configuration.locale {
 		* 	cumulative representation of all loaded messages.
 		*/
 		function get messages():IProperties;
-		
-		/**
-		* 	The document containing the beans for the application.
-		*/
-		function get document():IBeanDocument;
 		
 		/**
 		* 	The parent configuration.

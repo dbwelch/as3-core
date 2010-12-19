@@ -207,6 +207,12 @@ package com.ffsys.swat.core
 			return this.configuration.styleManager;
 		}
 		
+		public function set styleManager( value:IStyleManager ):void
+		{
+			verifyConfiguration();
+			this.configuration.styleManager = value;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/

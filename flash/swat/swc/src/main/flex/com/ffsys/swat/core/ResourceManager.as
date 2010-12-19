@@ -2,8 +2,11 @@ package com.ffsys.swat.core
 {
 	import flash.display.Bitmap;
 	import flash.display.Loader;	
+	import flash.filters.BitmapFilter;	
 	import flash.media.Sound;
 	
+	import com.ffsys.ioc.*;
+	import com.ffsys.ui.css.*;
 	import com.ffsys.io.loaders.resources.*;
 	
 	/**
@@ -19,7 +22,10 @@ package com.ffsys.swat.core
 	*/
 	public class ResourceManager extends Object
 		implements IResourceManager
-	{
+	{		
+		private var _beanManager:IBeanManager;
+		private var _styleManager:IStyleManager;
+		
 		private var _list:IResourceList;
 
 		private var _settings:IResourceList;
@@ -33,12 +39,120 @@ package com.ffsys.swat.core
 		* 	Creates a <code>ResourceManager</code> instance.
 		* 
 		* 	@param list The resource list being managed.
+		* 	@param beanManager The bean manager.
+		* 	@param styleManager The style manager.
 		*/
-		public function ResourceManager( list:IResourceList = null )
+		public function ResourceManager(
+			list:IResourceList = null,
+			beanManager:IBeanManager = null,
+			styleManager:IStyleManager = null )
 		{
 			super();
 			this.list = list;
+			this.beanManager = beanManager;
+			this.styleManager = styleManager;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get beanManager():IBeanManager
+		{
+			return _beanManager;
+		}
+		
+		public function set beanManager( value:IBeanManager ):void
+		{
+			_beanManager = value;
+		}
+		
+		/**
+		* 	Provides access to stored beans.
+		* 
+		* 	@param beanName The name of the bean.
+		* 
+		* 	@return An instance of the bean.
+		*/
+		public function getBean( beanName:String ):Object
+		{
+			if( this.beanManager != null )
+			{
+				return this.beanManager.getBean( beanName );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get document():IBeanDocument
+		{
+			if( this.beanManager )
+			{
+				return this.beanManager.document;
+			}
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			return _styleManager;
+		}
+		
+		public function set styleManager( value:IStyleManager ):void
+		{
+			_styleManager = value;
+		}
+
+		/**
+		*	@inheritDoc	
+		*/
+		public function get stylesheet():ICssStyleSheet
+		{
+			if( this.styleManager != null )
+			{
+				return this.styleManager.stylesheet;
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getStyle( id:String ):Object
+		{
+			if( this.styleManager != null )
+			{
+				return this.styleManager.getStyle( id );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setStyle( styleName:String, style:Object ):void
+		{
+			if( this.styleManager ) 
+			{
+				this.styleManager.setStyle( styleName, style );
+			}
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getFilter( id:String ):BitmapFilter
+		{
+			if( this.styleManager )
+			{
+				return this.styleManager.getFilter( id );
+			}
+			return null;
+		}					
 		
 		/**
 		* 	@inheritDoc
@@ -220,6 +334,8 @@ package com.ffsys.swat.core
 			_rsls = null;
 			_images = null;
 			_sounds = null;
+			_beanManager = null;
+			_styleManager = null;
 		}
 	}
 }

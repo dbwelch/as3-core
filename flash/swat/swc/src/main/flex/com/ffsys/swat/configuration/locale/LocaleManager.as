@@ -11,11 +11,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	import com.ffsys.io.loaders.resources.*;
 	
-	import com.ffsys.ui.css.CssStyleSheet;
-	import com.ffsys.ui.css.ICssStyleSheet;
-	import com.ffsys.ui.css.IStyleManager;
-	import com.ffsys.ui.css.StyleManager;
-	import com.ffsys.ui.css.StyleSheetFactory;
+	import com.ffsys.ui.css.*;
 	
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
@@ -41,12 +37,6 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public class LocaleManager extends LocaleCollection
 		implements ILocaleManager {
-			
-		static internal var _styleManager:IStyleManager
-			= new StyleManager();
-			
-		static internal var _beanManager:IBeanManager
-			= new BeanManager();
 		
 		private var _lang:String;
 		private var _defaultLocale:IConfigurationLocale;
@@ -62,26 +52,6 @@ package com.ffsys.swat.configuration.locale {
 		public function LocaleManager()
 		{
 			super();
-		}
-		
-		/**
-		* 	Provides access to stored beans.
-		* 
-		* 	@param beanName The name of the bean.
-		* 
-		* 	@return An instance of the bean.
-		*/
-		public function getBean( beanName:String ):Object
-		{
-			return _beanManager.getBean( beanName );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get document():IBeanDocument
-		{
-			return _beanManager.document;
 		}
 		
 		/**
@@ -126,7 +96,10 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		* 	@inheritDoc
 		*/
-		public function getQueueByPhase( phase:String ):ILoaderQueue
+		public function getQueueByPhase(
+			phase:String,
+			beanManager:IBeanManager,
+			styleManager:IStyleManager ):ILoaderQueue
 		{
 			var queue:ILoaderQueue = null;
 			switch( phase )
@@ -144,10 +117,10 @@ package com.ffsys.swat.configuration.locale {
 					queue = getRslsQueue();
 					break;
 				case ResourceLoadPhase.BEANS_PHASE:
-					queue = getBeansQueue();
+					queue = getBeansQueue( beanManager );
 					break;
 				case ResourceLoadPhase.CSS_PHASE:
-					queue = getCssQueue();
+					queue = getCssQueue( styleManager );
 					break;
 				case ResourceLoadPhase.XML_PHASE:
 					queue = getXmlQueue();
@@ -157,7 +130,7 @@ package com.ffsys.swat.configuration.locale {
 					break;
 				case ResourceLoadPhase.SETTINGS_PHASE:
 					queue = getSettingsQueue();
-					break;					
+					break;
 				case ResourceLoadPhase.IMAGES_PHASE:
 					queue = getImagesQueue();
 					break;
@@ -166,64 +139,6 @@ package com.ffsys.swat.configuration.locale {
 					break;
 			}
 			return queue;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getMessage( id:String, ... replacements ):String
-		{
-			return getMessageFromQueue(
-				getMessagesQueue(), id, replacements );
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getError( id:String, ... replacements ):String
-		{
-			return getMessageFromQueue(
-				getErrorsQueue(), id, replacements );
-		}
-			
-		/**
-		*	@inheritDoc
-		*/
-		public function get styleManager():IStyleManager
-		{
-			return _styleManager;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get stylesheet():ICssStyleSheet
-		{
-			return _styleManager.stylesheet;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function getStyle( id:String ):Object
-		{
-			return _styleManager.getStyle( id );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function setStyle( styleName:String, style:Object ):void
-		{
-			_styleManager.setStyle( styleName, style );
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getFilter( id:String ):BitmapFilter
-		{
-			return _styleManager.getFilter( id );
 		}
 		
 		/**
@@ -343,6 +258,24 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
+		public function getMessage( id:String, ... replacements ):String
+		{
+			return getMessageFromQueue(
+				getMessagesQueue(), id, replacements );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getError( id:String, ... replacements ):String
+		{
+			return getMessageFromQueue(
+				getErrorsQueue(), id, replacements );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function getMessages():IProperties
 		{
 			var cumulative:IProperties = new Properties();
@@ -455,7 +388,6 @@ package com.ffsys.swat.configuration.locale {
 			}
 			return output;
 		}
-		
 		
 		/**
 		*	@private	
@@ -578,7 +510,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getBeansQueue():ILoaderQueue
+		private function getBeansQueue( manager:IBeanManager ):ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.beans )
@@ -599,11 +531,11 @@ package com.ffsys.swat.configuration.locale {
 			for( var i:int = 0;i < queue.length;i++ )
 			{
 				loader = ILoader( queue.getLoaderAt( i ) );
-				_beanManager.addBeanDocument( loader.request );
+				manager.addBeanDocument( loader.request );
 			}
 			//update our queue with the queue that the
 			//style manager will use
-			queue = _beanManager.getLoaderQueue();
+			queue = manager.getLoaderQueue();
 			return queue;
 		}
 		
@@ -683,7 +615,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getCssQueue():ILoaderQueue
+		private function getCssQueue( manager:IStyleManager ):ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.css )
@@ -711,13 +643,12 @@ package com.ffsys.swat.configuration.locale {
 				{
 					css.id = loader.id;
 				}
-				_styleManager.addStyleSheet( loader.request );
+				manager.addStyleSheet( loader.request );
 			}
 			
 			//update our queue with the queue that the
 			//style manager will use
-			queue = _styleManager.getLoaderQueue();
-			return queue;
+			return manager.getLoaderQueue();
 		}
 		
 		/**

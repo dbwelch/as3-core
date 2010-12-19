@@ -3,7 +3,8 @@ package com.ffsys.swat.core {
 	import flash.events.IEventDispatcher;
 	
 	import com.ffsys.core.IDestroy;
-	
+	import com.ffsys.ioc.IBeanManager;	
+	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;	
@@ -20,6 +21,18 @@ package com.ffsys.swat.core {
 	public interface IResourceLoader
 		extends IDestroy,
 				IEventDispatcher {
+					
+		/**
+		* 	The bean manager used to load bean resources.
+		*/
+		function get beanManager():IBeanManager;
+		function set beanManager( value:IBeanManager ):void;
+		
+		/**
+		* 	The style manager used to load style resources.
+		*/
+		function get styleManager():IStyleManager;
+		function set styleManager( value:IStyleManager ):void;
 		
 		/**
 		* 	The resource manager managing

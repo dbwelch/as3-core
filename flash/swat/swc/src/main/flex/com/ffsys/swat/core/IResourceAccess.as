@@ -54,5 +54,6 @@ package com.ffsys.swat.core
 		* 	otherwwise <code>null</code>.
 		*/
 		function getSound( id:String ):Sound;
+		
 	}
 }

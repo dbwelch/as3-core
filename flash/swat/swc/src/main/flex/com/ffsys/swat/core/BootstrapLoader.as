@@ -124,7 +124,7 @@ package com.ffsys.swat.core {
 			this.configuration = IConfiguration( IResource( event.resource ).data );
 			
 			//get the resource queue to inject
-			this.builder = this.configuration.locales;			
+			this.builder = this.configuration.locales;
 			
 			super.configurationLoadComplete( event );
 			

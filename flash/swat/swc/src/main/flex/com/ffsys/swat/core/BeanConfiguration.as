@@ -40,7 +40,7 @@ package com.ffsys.swat.core
 			
 			//allow the main bean document to access all the beans
 			//in the style sheet bean document
-			beans.xrefs.push( configuration.locales.stylesheet );
+			beans.xrefs.push( configuration.stylesheet );
 
 			var configurationBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.CONFIGURATION, configuration )

@@ -10,6 +10,7 @@ package com.ffsys.swat.configuration {
 	
 	import com.ffsys.swat.core.IResourcesAware;
 	import com.ffsys.swat.core.IResourceAccess;
+	import com.ffsys.swat.core.IStyleAccess;
 	
 	
 	/**
@@ -28,7 +29,7 @@ package com.ffsys.swat.configuration {
 				IResourcesAware,
 				IResourceAccess,
 				IMessageAccess,
-				IMediaAccess,
+				IStyleAccess,
 				IBeanAccess,
 				IEventDispatcher {
 		

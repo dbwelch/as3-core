@@ -109,7 +109,10 @@ package com.ffsys.swat.configuration
 			passThroughData:Object ):void
 		{
 			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
-			beanConfiguration.doWithBeans( configuration.locales.document, configuration, bootstrap.resources );
+			beanConfiguration.doWithBeans(
+				configuration.resources.document,
+				configuration,
+				configuration.resources );
 			
 			var mainBeanName:String = DefaultBeanIdentifiers.APPLICATION_BEAN;
 			

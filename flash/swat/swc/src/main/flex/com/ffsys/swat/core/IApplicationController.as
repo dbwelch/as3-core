@@ -3,7 +3,7 @@ package com.ffsys.swat.core
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.ioc.IBeanAccess;
 	import com.ffsys.swat.configuration.IMessageAccess;
-	import com.ffsys.swat.configuration.IMediaAccess;
+	import com.ffsys.swat.core.IStyleAccess;
 	
 	/**
 	*	Describes the contract for application controllers.
@@ -18,7 +18,7 @@ package com.ffsys.swat.core
 		extends IDestroy,
 				IBeanAccess,
 				IMessageAccess,
-				IMediaAccess,
+				IStyleAccess,
 				IConfigurationAware
 	{
 		//

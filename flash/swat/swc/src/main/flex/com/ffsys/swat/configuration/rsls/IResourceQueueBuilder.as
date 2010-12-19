@@ -1,5 +1,7 @@
 package com.ffsys.swat.configuration.rsls
 {
+	import com.ffsys.ioc.IBeanManager;
+	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
 	/**
@@ -19,9 +21,16 @@ package com.ffsys.swat.configuration.rsls
 		* 	Gets a queue for the specified load phase.
 		* 
 		* 	@param phase The load phase.
+		* 	@param beanManager The bean manager being
+		* 	used for the load operation.
+		* 	@param styleManager The style manager being
+		* 	used for the load operation.
 		* 
 		* 	@return A loader queue for the phase.
 		*/
-		function getQueueByPhase( phase:String ):ILoaderQueue;
+		function getQueueByPhase(
+			phase:String,
+			beanManager:IBeanManager,
+			styleManager:IStyleManager ):ILoaderQueue;
 	}
 }
