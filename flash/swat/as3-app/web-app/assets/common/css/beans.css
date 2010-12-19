@@ -1,7 +1,6 @@
 application {
 	instance-class: class( com.ffsys.swat.as3.view.SwatActionscriptContainer );
 	singleton: true;
-	configuration: ref( configuration );
 	my-locale: ref( locales );
 	my-preloader-view: ref( preloader-view );
 }

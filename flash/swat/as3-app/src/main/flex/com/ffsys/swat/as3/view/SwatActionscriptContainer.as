@@ -15,9 +15,12 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.swat.core.DefaultApplicationController;
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.IApplicationMainController;
+	import com.ffsys.swat.core.IMessagesAware;	
 	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
+	
+	import com.ffsys.utils.properties.IProperties;
 	
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.buttons.*;
@@ -39,13 +42,15 @@ package com.ffsys.swat.as3.view {
 	*	@since  15.06.2010
 	*/
 	public class SwatActionscriptContainer extends DefaultApplicationController
-		implements IApplicationMainController {
+		implements 	IApplicationMainController,
+		 			IMessagesAware {
 			
 		private var _stroke:Stroke;
 		private var _solidFill:SolidFill;
 			
 		private var _loader:IRuntimeLoader;
 		private var _document:IDocument;
+		private var _messages:IProperties;
 		
 		public var vbox:VerticalBox;
 		
@@ -73,6 +78,19 @@ package com.ffsys.swat.as3.view {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function get messages():IProperties
+		{
+			return _messages;
+		}
+		
+		public function set messages( value:IProperties ):void
+		{
+			_messages = value;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		private function createChildren( root:DisplayObjectContainer ):void
@@ -84,7 +102,7 @@ package com.ffsys.swat.as3.view {
 			root.addChild( vbox );
 			
 			trace("SwatActionscriptContainer::createChildren()", "GOT APPLICATION BEAN: ",
-				getBean( "application" ) );
+				getBean( "application" ), Object( messages ).common.message );
 			
 			/*
 			var rect:RectangleGraphic = RectangleGraphic( styleManager.getStyle( "rectangle" ) );

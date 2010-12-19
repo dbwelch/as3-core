@@ -15,8 +15,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.BootstrapLoader;
 	
-	import com.ffsys.swat.events.ConfigurationEvent;
-	import com.ffsys.swat.events.RslEvent;
+
 	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.configuration.IConfiguration;
@@ -25,6 +24,10 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.core.IApplicationMainController;
 	import com.ffsys.swat.core.IFlashVariablesAware;
+	import com.ffsys.swat.core.IMessagesAware;
+	
+	import com.ffsys.swat.events.ConfigurationEvent;
+	import com.ffsys.swat.events.RslEvent;	
 	
 	/**
 	*	Abstract super class for the application.
@@ -146,7 +149,6 @@ package com.ffsys.swat.view  {
 		*/
 		private function rslLoadComplete( event:RslEvent ):void
 		{
-			trace("DefaultApplication::rslLoadComplete()", event );
 			removeEventListener( RslEvent.LOAD_COMPLETE, rslLoadComplete );
 			ready();
 		}
@@ -189,37 +191,40 @@ package com.ffsys.swat.view  {
 			{
 				throw new Error( "Cannot modify a null bean document." );
 			}
-			
-			var descriptor:IBeanDescriptor = null;
-			
+
 			var configurationBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.CONFIGURATION, _configuration )
-				
 			var flashvarsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.FLASH_VARIABLES, _configuration.flashvars );
-			
-			descriptor = configurationBean;
-			beans.addBeanDescriptor( descriptor );
-		
-			trace("DefaultApplication::doWithBeans()", _configuration );
-		
-			descriptor = flashvarsBean;
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.PATHS, _configuration.paths );
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new InjectedBeanDescriptor(
+			var localesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.LOCALES, _configuration.locales );
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new InjectedBeanDescriptor(
+			var messagesBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.MESSAGES, _configuration.locales.messages );
+			var pathsBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.PATHS, _configuration.paths );
+			var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new InjectedBeanDescriptor(
+			var bootstrapLoaderBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER, preloader );
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new InjectedBeanDescriptor(
+			var preloaderViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
-			beans.addBeanDescriptor( descriptor );
+			
+			//application configuration
+			beans.addBeanDescriptor( configurationBean );
+			//flash variables
+			beans.addBeanDescriptor( flashvarsBean );
+			//locales manager
+			beans.addBeanDescriptor( localesBean );	
+			//application messages
+			beans.addBeanDescriptor( messagesBean );
+			//resource paths
+			beans.addBeanDescriptor( pathsBean );
+			//main application view
+			beans.addBeanDescriptor( mainApplicationViewBean );
+			//bootstrap loader
+			beans.addBeanDescriptor( bootstrapLoaderBean );	
+			//preloader view
+			beans.addBeanDescriptor( preloaderViewBean );	
 		
 			//set up the generic type injectors
 			beans.types.push( new BeanTypeInjector(
@@ -233,6 +238,12 @@ package com.ffsys.swat.view  {
 				DefaultBeanIdentifiers.FLASH_VARIABLES,
 				IFlashVariablesAware,
 				flashvarsBean ) );
+				
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.MESSAGES,
+				DefaultBeanIdentifiers.MESSAGES,
+				IMessagesAware,
+				messagesBean ) );
 		}
 		
 		/**

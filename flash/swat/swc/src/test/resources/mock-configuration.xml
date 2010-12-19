@@ -1,11 +1,17 @@
 <?xml version="1.0"?>
 <configuration>
 	
+	<!--
+		Application meta data.
+	-->
 	<meta>
 		<name>swat - mock application</name>
 		<version>0.1a</version>
 	</meta>
 	
+	<!--
+		Global path configuration.
+	-->
 	<paths>
 		<absolute>false</absolute>
 		<base>mock-assets</base>
@@ -14,12 +20,16 @@
 	</paths>
 	
 	<locales>
-		<!-- resources for all locales -->
+		<!--
+			Resources for all locales.
+			
+			Paths are resolved relative to the common directory.
+		-->
 		<resources>
 			<rsls>
 				<rsl>
 					<trusted>true</trusted>
-					<url>swf/application-assets.swf</url>
+					<url>swf/mock-assets.swf</url>
 				</rsl>
 			</rsls>
 			<beans>
@@ -34,14 +44,23 @@
 			</xml>
 			<css>
 				<resource>
-					<url>css/web-app.css</url>
+					<url>css/mock-ui-components.css</url>
 				</resource>
 				<resource>
-					<url>css/animations.css</url>
+					<url>css/mock-graphics.css</url>
 				</resource>				
 				<resource>
-					<url>css/filters.css</url>
+					<url>css/mock-text.css</url>
+				</resource>				
+				<resource>
+					<url>css/mock-animations.css</url>
+				</resource>				
+				<resource>
+					<url>css/mock-filters.css</url>
 				</resource>
+				<resource>
+					<url>css/mock-styles.css</url>
+				</resource>				
 			</css>
 			<messages>
 				<resource>
@@ -55,11 +74,9 @@
 			</errors>
 			<images>
 				<resource>
-					<id>garden-001</id>
 					<url>images/mock-image-001.jpg</url>
 				</resource>
 				<resource>
-					<id>garden-002</id>
 					<url>images/mock-image-002.jpg</url>
 				</resource>
 			</images>
@@ -121,5 +138,4 @@
 			</resources>
 		</locale>
 	</locales>
-	
 </configuration>

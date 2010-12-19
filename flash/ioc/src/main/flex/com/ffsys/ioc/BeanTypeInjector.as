@@ -82,12 +82,18 @@ package com.ffsys.ioc
 			{	
 				if( bean is type )
 				{
-					trace("BeanTypeInjector::resolve() GOT BEAN OF TYPE: ", type );
-					
 					if( bean.hasOwnProperty( this.name ) )
 					{
-						bean[ this.name ] = this.descriptor.getBean();
-						trace("BeanTypeInjector::resolve() ASSIGNED TYPE INJECTOR PROPERTY", bean[ this.name ] );
+						var value:Object = this.descriptor.getBean();
+						try
+						{
+							bean[ this.name ] = value;
+						}catch( e:Error )
+						{
+							throw new BeanError(
+								BeanError.TYPE_INJECTOR_PROPERTY_SET,
+									type, name, bean, value  );
+						}
 						return true;
 					}
 				}

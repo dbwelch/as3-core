@@ -38,6 +38,11 @@ package com.ffsys.swat.configuration
 		public static const LOCALES:String = "locales";
 		
 		/**
+		* 	The application messages.
+		*/
+		public static const MESSAGES:String = "messages";
+		
+		/**
 		* 	The identifier of the injected main application preloader.
 		* 
 		* 	This instance is at the root of the display list hierarchy

@@ -151,13 +151,11 @@ package com.ffsys.ioc {
 			{
 				loader = new BeanLoader( entry.request );
 				loader.document = this.document;
-				loader.addEventListener( LoadEvent.DATA, itemLoaded );
+				//higher priority
+				loader.addEventListener( LoadEvent.DATA, itemLoaded, false, 1024 );
 				_queue.addLoader( loader );
 			}
-			
-			//_queue.addEventListener( LoadEvent.LOAD_COMPLETE, documentsLoaded );
-			//_queue.load();
-			
+
 			return _queue;
 		}
 		
@@ -170,6 +168,11 @@ package com.ffsys.ioc {
 			
 			//TODO: destroy composite bindings
 			
+			if( _queue )
+			{
+				_queue.destroy();
+			}
+			
 			if( _document )
 			{
 				_document.destroy();
@@ -177,21 +180,27 @@ package com.ffsys.ioc {
 			
 			_document = null;
 			_beanDocuments = null;
+			_queue = null;
 		}
 		
 		
 		private function itemLoaded( event:LoadEvent ):void
 		{
+			trace("BeanManager::itemLoaded()", this.document.files.length );
+			
 			if( this.document.files
 				&& this.document.files.length )
 			{
 				var dependencies:ILoaderQueue = this.document.dependencies;
 				dependencies.addEventListener( LoadEvent.DATA, resolveFileDependency );
 				dependencies.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, resolveFileDependency );
-				dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );				
+				dependencies.addEventListener( LoadEvent.LOAD_COMPLETE, dependenciesLoaded );	
+				
 
 				//inject the dependency queue into the main loader queue
 				_queue.insertLoaderAt( dependencies, _queue.index + 1 );
+				
+				trace("BeanManager::itemLoaded()", "INSERTING DEPENDENCIES: ", dependencies, _queue.index, _queue.length );				
 			}
 		}
 		

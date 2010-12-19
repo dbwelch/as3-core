@@ -9,7 +9,7 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.ILocaleCollection;
-	import com.ffsys.utils.properties.IProperties;	
+	import com.ffsys.utils.properties.IProperties;
 	
 	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.IMessageAccess;
@@ -40,6 +40,22 @@ package com.ffsys.swat.configuration.locale {
 				IResourceManagerAware {
 		
 		/**
+		*	Builds a properties implementation from all the
+		* 	currently loaded message files.
+		*/
+		function getMessages():IProperties;
+		
+		/**
+		*	Gets all the messages for the application merged into
+		*	a single properties representation.
+		* 	
+		* 	This implementation will invoke the <code>getMessages</code>
+		* 	method the first time it is invoked to build the initial
+		* 	cumulative representation of all loaded messages.
+		*/
+		function get messages():IProperties;
+		
+		/**
 		* 	The document containing the beans for the application.
 		*/
 		function get document():IBeanDocument;
@@ -49,12 +65,6 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		function get parent():IConfiguration;
 		function set parent( parent:IConfiguration ):void;
-		
-		/**
-		*	Gets all the messages for the application merged into
-		*	a single properties representation.
-		*/
-		function get messages():IProperties;
 		
 		/**
 		* 	The currently selected locale.

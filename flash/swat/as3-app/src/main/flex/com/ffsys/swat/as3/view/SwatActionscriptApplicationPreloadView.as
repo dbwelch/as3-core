@@ -147,7 +147,7 @@ package com.ffsys.swat.as3.view {
 			
 			if( event )
 			{
-				output += " " + event.normalized * 100
+				output += " " + int(event.percent)
 					+ "% (" + event.bytesLoaded + "/" + event.bytesTotal + ") ["
 					+ event.type + "] " + event.name;
 			}

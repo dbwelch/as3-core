@@ -54,6 +54,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _resources:IResourceManager;
 		private	var _parent:IConfiguration;
 		private var _paths:IPaths;
+		private var _messages:IProperties;		
 		
 		//TODO: build these queues every time and do not maintain a reference
 		private var _beansQueue:ILoaderQueue;
@@ -396,42 +397,43 @@ package com.ffsys.swat.configuration.locale {
 			}
 		}
 		
-		
-		private var _messages:IProperties;
-		
 		/**
 		*	@inheritDoc	
+		*/
+		public function getMessages():IProperties
+		{
+			var cumulative:IProperties = new Properties();
+			
+			//TODO: check - this may need reversin
+			var properties:Vector.<IProperties> = getAllProperties( getMessagesQueue() );
+			var current:IProperties = null;
+			
+			//trace("LocaleManager::messages(), ", properties.length );
+			
+			var z:Object = null;
+			for( var i:int = 0;i < properties.length;i++ )
+			{
+				current = properties[ i ];
+				cumulative.merge( current );
+				
+				/*
+				trace("LocaleManager::message(), adding to cumulative ",
+					current.length, cumulative.length );
+				*/
+				
+			}	
+			return cumulative;
+		}
+		
+		/**
+		* 	@inheritDoc
 		*/
 		public function get messages():IProperties
 		{
 			if( !_messages )
 			{
-				var cumulative:IProperties = new Properties();
-				
-				//TODO: check - this may need reversin
-				var properties:Vector.<IProperties> = getAllProperties( getMessagesQueue() );
-				var current:IProperties = null;
-				
-				//trace("LocaleManager::messages(), ", properties.length );
-				
-				var z:Object = null;
-				for( var i:int = 0;i < properties.length;i++ )
-				{
-					current = properties[ i ];
-					cumulative.merge( current );
-					
-					/*
-					trace("LocaleManager::message(), adding to cumulative ",
-						current.length, cumulative.length );
-					*/
-					
-				}
-				
-				//trace("LocaleManager::messages(), ", cumulative );
-				
-				_messages = cumulative;
+				_messages = getMessages();
 			}
-			
 			return _messages;
 		}
 		

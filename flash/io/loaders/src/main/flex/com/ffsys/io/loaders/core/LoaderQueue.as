@@ -375,6 +375,8 @@ package com.ffsys.io.loaders.core {
 			{
 				_loading = false;
 				_force = false;
+				
+				trace("LoaderQueue::loadItemAtIndex() COMPLETE", index, this.customData );
 
 				dispatchLoadCompleteEvent();
 				
