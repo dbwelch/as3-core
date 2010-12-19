@@ -163,6 +163,9 @@ package com.ffsys.swat.configuration.locale {
 				case ResourceLoadPhase.XML_PHASE:
 					queue = getXmlQueue();
 					break;
+				case ResourceLoadPhase.TEXT_PHASE:
+					queue = getTextQueue();
+					break;					
 				case ResourceLoadPhase.IMAGES_PHASE:
 					queue = getImagesQueue();
 					break;
@@ -171,7 +174,7 @@ package com.ffsys.swat.configuration.locale {
 					break;
 			}
 			return queue;
-		}			
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -722,6 +725,30 @@ package com.ffsys.swat.configuration.locale {
 			}
 
 			return _xmlQueue;
+		}
+		
+		/**
+		*	@private
+		*/
+		private function getTextQueue():ILoaderQueue
+		{
+			var queue:ILoaderQueue = new LoaderQueue();
+
+			if( this.resources && this.resources.text )
+			{
+				queue.append(
+					this.resources.text.getLoaderQueue() );
+			}
+
+			if( _current
+				&& _current.resources
+				&& _current.resources.text )
+			{
+				queue.append(
+					_current.resources.text.getLoaderQueue() );
+			}
+				
+			return queue;
 		}
 		
 		/**

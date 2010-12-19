@@ -18,11 +18,6 @@ package com.ffsys.swat.configuration.rsls {
 	*/
 	dynamic public class ResourceCollection extends Array
 		implements IResourceCollection {
-			
-		/**
-		*	@private	
-		*/
-		protected var _queue:ILoaderQueue;
 		
 		private var _parent:IResourceDefinitionManager;
 		
@@ -52,25 +47,19 @@ package com.ffsys.swat.configuration.rsls {
 		*/
 		public function getLoaderQueue():ILoaderQueue
 		{
-			if( !_queue )
+			var queue:ILoaderQueue = new LoaderQueue();
+			var lib:IRuntimeResource = null;
+			var request:URLRequest = null;
+			var loader:ILoader = null;
+			for( var i:int = 0;i < this.length;i++ )
 			{
-				_queue = new LoaderQueue();
-
-				var lib:IRuntimeResource = null;
-				var request:URLRequest = null;
-				var loader:ILoader = null;
-
-				for( var i:int = 0;i < this.length;i++ )
-				{
-					lib = IRuntimeResource( this[ i ] );
-					request = new URLRequest( lib.getTranslatedPath() );
-					loader = getLoader( request );
-					initializeLoader( loader, lib );
-					_queue.addLoader( loader );
-				}
+				lib = IRuntimeResource( this[ i ] );
+				request = new URLRequest( lib.getTranslatedPath() );
+				loader = getLoader( request );
+				initializeLoader( loader, lib );
+				queue.addLoader( loader );
 			}
-			
-			return _queue;
+			return queue;
 		}
 		
 		/**

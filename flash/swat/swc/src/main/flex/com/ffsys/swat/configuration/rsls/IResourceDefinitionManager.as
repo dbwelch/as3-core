@@ -69,6 +69,12 @@ package com.ffsys.swat.configuration.rsls {
 		function set xml( rsls:IResourceCollection ):void;
 		
 		/**
+		*	The collection of text resources.
+		*/
+		function get text():IResourceCollection;
+		function set text( text:IResourceCollection ):void;
+		
+		/**
 		*	The collection of sound resources.
 		*/
 		function get sounds():IResourceCollection;

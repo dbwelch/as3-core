@@ -12,14 +12,18 @@ package com.ffsys.swat.core
 	*/
 	public class ResourceLoadPhase extends Object
 	{
+		/**
+		* 	The default resource load phase order.
+		*/
 		static public var defaults:Array = [
 			MESSAGES_PHASE,
 			ERRORS_PHASE,
+			XML_PHASE,
+			TEXT_PHASE,			
 			FONTS_PHASE,
 			RSLS_PHASE,
-			CSS_PHASE,			
+			CSS_PHASE,		
 			BEANS_PHASE,
-			XML_PHASE,
 			IMAGES_PHASE,
 			SOUNDS_PHASE ];
 		
@@ -76,7 +80,7 @@ package com.ffsys.swat.core
 		/**
 		*	Represents the preload phase for text documents.
 		*/
-		public static const TEXT_PHASE:String = "text";		
+		public static const TEXT_PHASE:String = "text";	
 	
 		/**
 		*	Represents the preload phase for CSS documents.	

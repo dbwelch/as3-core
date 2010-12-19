@@ -1,13 +1,7 @@
 package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
-	
-	import com.ffsys.io.loaders.core.LoaderQueue;
-	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.ILoader;
-	
 	import com.ffsys.ui.css.CssLoader;
 	
 	/**

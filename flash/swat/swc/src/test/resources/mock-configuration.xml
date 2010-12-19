@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <configuration>
-	
 	<!--
 		Application meta data.
 	-->
@@ -42,6 +41,11 @@
 					<url>xml/mock-xml.xml</url>
 				</resource>
 			</xml>
+			<text>
+				<resource>
+					<url>text/mock-text.txt</url>
+				</resource>
+			</text>
 			<css>
 				<resource>
 					<url>css/mock-ui-components.css</url>
@@ -64,12 +68,12 @@
 			</css>
 			<messages>
 				<resource>
-					<url>properties/messages.properties</url>
+					<url>properties/mock-messages.properties</url>
 				</resource>
 			</messages>
 			<errors>
 				<resource>
-					<url>properties/errors.properties</url>
+					<url>properties/mock-errors.properties</url>
 				</resource>
 			</errors>
 			<images>
@@ -82,7 +86,7 @@
 			</images>
 			<fonts>
 				<resource>
-					<url>fonts/fonts.swf</url>
+					<url>fonts/mock-fonts.swf</url>
 				</resource>
 			</fonts>
 			<sounds>

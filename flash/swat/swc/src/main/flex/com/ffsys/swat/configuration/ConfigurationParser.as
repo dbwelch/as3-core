@@ -107,6 +107,12 @@ package com.ffsys.swat.configuration {
 			"xml";
 			
 		/**
+		*	The node name for text documents.
+		*/
+		static public const TEXT_NAME:String =
+			"text";
+			
+		/**
 		*	The node name for application CSS documents.
 		*/
 		static public const CSS_NAME:String =
@@ -261,7 +267,13 @@ package com.ffsys.swat.configuration {
 				XmlCollection,
 				XML_NAME,
 				XML_NAME,
-				false );	
+				false );
+				
+			classNodeNameMap.add(
+				TextCollection,
+				TEXT_NAME,
+				TEXT_NAME,
+				false );					
 				
 			classNodeNameMap.add(
 				CssCollection,

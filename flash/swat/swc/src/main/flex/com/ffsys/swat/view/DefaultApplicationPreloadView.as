@@ -88,6 +88,9 @@ package com.ffsys.swat.view {
 				case ResourceLoadPhase.XML_PHASE:
 					xml( event );
 					break;
+				case ResourceLoadPhase.TEXT_PHASE:
+					text( event );
+					break;					
 				case ResourceLoadPhase.IMAGES_PHASE:
 					image( event );
 					break;
@@ -150,6 +153,14 @@ package com.ffsys.swat.view {
 		*	@inheritDoc
 		*/
 		protected function xml( event:RslEvent ):void
+		{
+			debug( event.preloader.phase, event );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		protected function text( event:RslEvent ):void
 		{
 			debug( event.preloader.phase, event );
 		}

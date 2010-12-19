@@ -132,18 +132,21 @@ package com.ffsys.swat.configuration
 			
 			//verify global resources
 			Assert.assertNotNull( application.resources.xml );
+			Assert.assertNotNull( application.resources.text );
 			Assert.assertNotNull( application.resources.rsls );
 			Assert.assertNotNull( application.resources.images );
 			Assert.assertNotNull( application.resources.sounds );
 
 			//check global resource list lengths
 			Assert.assertEquals( 1, application.resources.xml.length );
+			Assert.assertEquals( 1, application.resources.text.length );
 			Assert.assertEquals( 1, application.resources.rsls.length );			
 			Assert.assertEquals( 2, application.resources.images.length );	
 			Assert.assertEquals( 1, application.resources.sounds.length );
 			
 			//check the data associated with a type based resource list is correct
 			assertResourceListType( XML, application.resources.xml );
+			assertResourceListType( String, application.resources.text );
 			assertResourceListType( Loader, application.resources.rsls );
 			assertResourceListType( BitmapData, application.resources.images );
 			assertResourceListType( Sound, application.resources.sounds );

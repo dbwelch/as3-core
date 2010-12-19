@@ -41,33 +41,27 @@ package com.ffsys.swat.configuration.rsls {
 		*/
 		override public function getLoaderQueue():ILoaderQueue
 		{
-			if( !_queue )
-			{
-				_queue = new LoaderQueue();
-				
-				var lib:RuntimeSharedLibrary = null;
-				var request:URLRequest = null;
-				var loader:ILoader = null;
-				
-				for( var i:int = 0;i < this.length;i++ )
-				{
-					lib = RuntimeSharedLibrary( this[ i ] );
-					
-					request = new URLRequest( lib.getTranslatedPath() );
-					loader = getLoader( request );
-
-					if( lib.trusted )
-					{
-						MovieLoader( loader ).context =
-							new LoaderContext( false, ApplicationDomain.currentDomain );
-					}
-					
-					initializeLoader( loader, lib );				
-					_queue.addLoader( loader );
-				}
-			}
+			var queue:ILoaderQueue = new LoaderQueue();
+			var lib:RuntimeSharedLibrary = null;
+			var request:URLRequest = null;
+			var loader:ILoader = null;
 			
-			return super.getLoaderQueue();
+			for( var i:int = 0;i < this.length;i++ )
+			{
+				lib = RuntimeSharedLibrary( this[ i ] );
+				request = new URLRequest( lib.getTranslatedPath() );
+				loader = getLoader( request );
+
+				if( lib.trusted )
+				{
+					MovieLoader( loader ).context =
+						new LoaderContext( false, ApplicationDomain.currentDomain );
+				}
+				
+				initializeLoader( loader, lib );		
+				queue.addLoader( loader );
+			}
+			return queue;
 		}
 	}
 }

@@ -1,9 +1,6 @@
 package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
-	
-	import com.ffsys.io.loaders.core.LoaderQueue;
-	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.ILoader;
 	import com.ffsys.io.loaders.types.FontLoader;	
 	

@@ -85,7 +85,7 @@ package com.ffsys.swat.core
 					ResourceLoadPhase.RSLS_PHASE );
 			}
 			return _rsls;
-		}		
+		}
 		
 		/**
 		* 	@inheritDoc

@@ -298,6 +298,7 @@ package com.ffsys.swat.core {
 				if( queue && !queue.isEmpty() )
 				{
 					queue.customData = phase;
+					trace("ResourceLoader::getLoaderQueue()", "GOT LOADER QUEUE FOR PHASE: ", phase, queue.length );
 					output.addLoader( queue );
 				}
 			}
@@ -429,13 +430,8 @@ package com.ffsys.swat.core {
 				RslEvent.LOAD_PROGRESS,
 				this,
 				event );
-			//evt.bytesLoaded = event.bytesLoaded;
-			//evt.bytesTotal = event.bytesTotal;
-			
-			
 			evt.bytesLoaded = event.loader.bytesLoaded;
-			evt.bytesTotal = event.loader.bytesTotal;			
-			
+			evt.bytesTotal = event.loader.bytesTotal;
 			dispatchEvent( evt );
 			return evt;			
 		}	
@@ -466,26 +462,7 @@ package com.ffsys.swat.core {
 			removeQueueListeners( _assets, loadComplete );
 			_phase = ResourceLoadPhase.COMPLETE_PHASE;
 			dispatchEvent( evt );
-			
-			/*
-			//ensure the resources property is set
-			trace("ResourceLoader::loadComplete()", "GET RESOURCES REFERENCE: ",
-				this.resources,
-				this.resources.length );
-				
-			var resource:IResourceElement = null;
-			for( var i:int = 0;i < this.resources.length;i++ )
-			{
-				resource = this.resources.getResourceAt( i );
-				trace("ResourceLoader::loadComplete()", resource, resource.id );
-				
-				if( resource is IResourceList )
-				{
-					trace("ResourceLoader::loadComplete() GOT COMPOSITE LIST: ", IResourceList( resource ).length );
-				}
-			}
-			*/
-			
+
 			//clean up the queue now we have the resources
 			_assets.destroy();
 			return evt;

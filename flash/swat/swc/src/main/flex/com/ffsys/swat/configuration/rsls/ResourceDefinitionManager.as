@@ -13,18 +13,19 @@ package com.ffsys.swat.configuration.rsls {
 	*/
 	public class ResourceDefinitionManager extends Object
 		implements IResourceDefinitionManager {
+		
+		private var _parent:IResourceDefinitionManagerAware;
 
 		private var _beans:IResourceCollection;
 		private var _messages:IResourceCollection;
 		private var _errors:IResourceCollection;
+		private var _xml:IResourceCollection;
+		private var _text:IResourceCollection;
 		private var _fonts:IResourceCollection;
 		private var _rsls:IResourceCollection;
 		private var _css:IResourceCollection;
-		private var _xml:IResourceCollection;
 		private var _images:IResourceCollection;
 		private var _sounds:IResourceCollection;
-		
-		private var _parent:IResourceDefinitionManagerAware;
 		
 		/**
 		*	Creates a <code>ResourceDefinitionManager</code> instance.
@@ -89,6 +90,32 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		*	@inheritDoc
 		*/
+		public function get xml():IResourceCollection
+		{
+			return _xml;
+		}
+
+		public function set xml( value:IResourceCollection ):void
+		{
+			_xml = value;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get text():IResourceCollection
+		{
+			return _text;
+		}
+
+		public function set text( value:IResourceCollection ):void
+		{
+			_text = value;
+		}			
+		
+		/**
+		*	@inheritDoc
+		*/
 		public function get fonts():IResourceCollection
 		{
 			return _fonts;
@@ -136,19 +163,6 @@ package com.ffsys.swat.configuration.rsls {
 		public function set images( value:IResourceCollection ):void
 		{
 			_images = value;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get xml():IResourceCollection
-		{
-			return _xml;
-		}
-
-		public function set xml( value:IResourceCollection ):void
-		{
-			_xml = value;
 		}		
 		
 		/**
