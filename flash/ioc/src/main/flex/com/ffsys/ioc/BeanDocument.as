@@ -12,7 +12,7 @@ package com.ffsys.ioc
 	*	Encapsulates a collection of beans.
 	*
 	*	@langversion ActionScript 3.0
-	*	@playerversion Flash 9.0
+	*	@playerversion Flash 10.0
 	*
 	*	@author Mischa Williamson
 	*	@since  10.12.2010
@@ -29,6 +29,7 @@ package com.ffsys.ioc
 		private var _locked:Boolean = true;
 		private var _policy:String = null;
 		private var _types:Vector.<BeanTypeInjector> = new Vector.<BeanTypeInjector>();
+		private var _xrefs:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
 		
 		/**
 		* 	Creates a <code>BeanDocument</code> instance.
@@ -44,6 +45,14 @@ package com.ffsys.ioc
 		public function get types():Vector.<BeanTypeInjector>
 		{
 			return _types;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get xrefs():Vector.<IBeanDocument>
+		{
+			return _xrefs;
 		}
 		
 		/**
@@ -395,12 +404,49 @@ package com.ffsys.ioc
 		*/
 		public function getBean( beanName:String ):Object
 		{
+			var instance:Object = null;
 			var descriptor:IBeanDescriptor = getBeanDescriptor( beanName );
-			if( descriptor )
+			
+			trace("BeanDocument::getBean()", beanName, this.xrefs.length, this.xrefs, descriptor );
+			
+			if( descriptor != null )
 			{
-				return descriptor.getBean();
+				//look in this document first
+				instance = descriptor.getBean();
+				if( instance != null )
+				{
+					return instance;
+				}
 			}
-			return null;
+			
+			//check cross referenced documents
+			if( this.xrefs.length > 0 )
+			{
+				trace("BeanDocument::getBean()", "CHECKING XREFS", xrefs );
+				var document:IBeanDocument = null;
+				for( var i:int = 0;i < this.xrefs.length;i++ )
+				{
+					document = xrefs[ i ];
+					if( document != null )
+					{
+						instance = document.getBean( beanName );
+						if( instance )
+						{
+							return instance;
+						}
+					}
+				}
+			}
+			
+			//TODO: research re-implementing this error in conjunction with xrefs
+			/*
+			if( !instance )
+			{
+				throw new BeanError( BeanError.BEAN_NOT_FOUND, beanName );
+			}			
+			*/
+			
+			return instance;
 		}
 		
 		/**

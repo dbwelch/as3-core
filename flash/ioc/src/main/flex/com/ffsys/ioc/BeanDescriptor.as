@@ -438,12 +438,9 @@ package com.ffsys.ioc
 				for( var i:int = 0;i < this.document.types.length;i++ )
 				{
 					injector = this.document.types[ i ];
-					
-					trace("BeanDescriptor::doTypeInjection()", "FOUND INJECTOR: ", injector );
-					
 					//only perform injection if the corresponding property
 					//has not been manually wired
-					if( injector && !(parameters.hasOwnProperty( injector.name ) ) )
+					if( injector && !( parameters.hasOwnProperty( injector.name ) ) )
 					{
 						injector.resolve( this.document, this, instance );
 					}

@@ -9,8 +9,12 @@ package com.ffsys.swat.configuration
 	import com.ffsys.io.loaders.events.*;	
 	
 	import com.ffsys.swat.events.*;
+	import com.ffsys.swat.configuration.*;
 	import com.ffsys.swat.configuration.locale.*;
 	import com.ffsys.swat.configuration.rsls.*;
+	import com.ffsys.swat.core.*;	
+	
+	import com.ffsys.swat.mock.*;
 	
 	/**
 	*	Unit tests for ensuring the configuration data can
@@ -24,6 +28,7 @@ package com.ffsys.swat.configuration
 	*/
 	public class ConfigurationLoadTest extends AbstractUnit
 	{
+		public var configuration:IConfiguration;
 		
 		/**
 		* 	Creats a <code>ConfigurationLoadTest</code> instance.
@@ -41,8 +46,7 @@ package com.ffsys.swat.configuration
 			passThroughData:Object ):void
 		{
 			super.assertLoadedConfiguration( event, passThroughData );
-
-			var configuration:IConfiguration = IConfiguration( event.configuration );
+			configuration = IConfiguration( event.configuration );
 			
 			trace("ConfigurationLoadTest::assertLoadedConfiguration()",  configuration);			
 			
@@ -50,7 +54,6 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.locales.resources );
 			
-			/*
 			//test parent references are correct
 			Assert.assertNotNull( configuration.locales.parent );
 			Assert.assertEquals( configuration, configuration.locales.parent );
@@ -71,6 +74,7 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( locale.resources );
 			Assert.assertEquals( locale, locale.resources.parent );
 			
+			/*
 			//test global resources
 			var resources:IResourceManager = configuration.locales.resources;
 			var rsls:IResourceCollection = resources.rsls;
@@ -100,7 +104,20 @@ package com.ffsys.swat.configuration
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
-			trace("*********************** ConfigurationLoadTest::assertBootstrapData() !?!?!?!!?");
+			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
+			beanConfiguration.doWithBeans( configuration.locales.document, configuration );
+			
+			//get the main mock application controller
+			var application:MockApplicationController = configuration.getBean(
+				"application" ) as MockApplicationController;
+			Assert.assertNotNull( application );
+			
+			//bean xref from the stylesheet document
+			Assert.assertNotNull( application.rectangle );
+			
+			//check that the type injection by interface implementation works
+			Assert.assertNotNull( application.locales );
+			Assert.assertNotNull( application.messages );
 		}
 	
 		[Test(async)]

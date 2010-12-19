@@ -3,7 +3,7 @@ package com.ffsys.swat.core
 	import com.ffsys.utils.properties.IProperties;
 		
 	/**
-	*	Describes the contract for implementation that are aware
+	*	Describes the contract for implementations that are aware
 	* 	of the application messages.
 	*
 	*	@langversion ActionScript 3.0

@@ -25,6 +25,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.core.IApplicationMainController;
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.core.IMessagesAware;
+	import com.ffsys.swat.core.BeanConfiguration;
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;	
@@ -179,73 +180,26 @@ package com.ffsys.swat.view  {
 			createMainController();
 		}
 		
-		/**
-		* 	Configures the default injector beans for the application.
-		* 
-		* 	These are objects that have already been instantiated and
-		* 	should be made available to bean documents.
-		* 
-		* 	@param beans The application beans document.
-		*/
 		protected function doWithBeans( beans:IBeanDocument ):void
 		{
-			if( beans == null )
-			{
-				throw new Error( "Cannot modify a null bean document." );
-			}
-
-			var configurationBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.CONFIGURATION, _configuration )
-			var flashvarsBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.FLASH_VARIABLES, _configuration.flashvars );
-			var localesBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.LOCALES, _configuration.locales );
-			var messagesBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.MESSAGES, _configuration.locales.messages );
-			var pathsBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.PATHS, _configuration.paths );
+			//standard bean configuration
+			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
+			beanConfiguration.doWithBeans( beans, _configuration );
+			
+			//bean configuration specific to a view based bootstrap
 			var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
 			var bootstrapLoaderBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER, preloader );
 			var preloaderViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
-			
-			//application configuration
-			beans.addBeanDescriptor( configurationBean );
-			//flash variables
-			beans.addBeanDescriptor( flashvarsBean );
-			//locales manager
-			beans.addBeanDescriptor( localesBean );	
-			//application messages
-			beans.addBeanDescriptor( messagesBean );
-			//resource paths
-			beans.addBeanDescriptor( pathsBean );
+				
 			//main application view
 			beans.addBeanDescriptor( mainApplicationViewBean );
 			//bootstrap loader
 			beans.addBeanDescriptor( bootstrapLoaderBean );	
 			//preloader view
-			beans.addBeanDescriptor( preloaderViewBean );	
-		
-			//set up the generic type injectors
-			beans.types.push( new BeanTypeInjector(
-				DefaultBeanIdentifiers.CONFIGURATION,
-				DefaultBeanIdentifiers.CONFIGURATION,
-				IConfigurationAware,
-				configurationBean ) );
-				
-			beans.types.push( new BeanTypeInjector(
-				DefaultBeanIdentifiers.FLASH_VARIABLES,
-				DefaultBeanIdentifiers.FLASH_VARIABLES,
-				IFlashVariablesAware,
-				flashvarsBean ) );
-				
-			beans.types.push( new BeanTypeInjector(
-				DefaultBeanIdentifiers.MESSAGES,
-				DefaultBeanIdentifiers.MESSAGES,
-				IMessagesAware,
-				messagesBean ) );
+			beans.addBeanDescriptor( preloaderViewBean );					
 		}
 		
 		/**

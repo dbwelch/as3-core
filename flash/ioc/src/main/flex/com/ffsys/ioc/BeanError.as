@@ -14,6 +14,12 @@ package com.ffsys.ioc
 	public class BeanError extends AbstractError
 	{
 		/**
+		* 	Error thrown when a bean could not be found.
+		*/
+		public static const BEAN_NOT_FOUND:String = 
+			"Could locate bean '%s'.";
+		
+		/**
 		* 	Error thrown when a bean expression failed to resolve.
 		*/
 		public static const BEAN_REFERENCE_ERROR:String = 

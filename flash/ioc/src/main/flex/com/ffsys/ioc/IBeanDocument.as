@@ -26,6 +26,15 @@ package com.ffsys.ioc
 				IEventDispatcher {
 					
 		/**
+		* 	A list of document cross references.
+		* 
+		* 	Beans stored in this document can access
+		* 	all the beans defined in any of the documents
+		* 	contained in this list.
+		*/
+		function get xrefs():Vector.<IBeanDocument>;
+					
+		/**
 		* 	An injector to use when beans are retrieved from this document.
 		*/
 		function get injector():IBeanInjector;

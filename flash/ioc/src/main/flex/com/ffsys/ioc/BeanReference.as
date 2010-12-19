@@ -56,14 +56,14 @@ package com.ffsys.ioc
 
 					candidate = parts[ 0 ];
 					var property:String = parts[ 1 ];
-					var candidateStyle:Object = document.getBean( candidate );
-					if( !candidateStyle )
+					var candidateBean:Object = document.getBean( candidate );
+					if( !candidateBean )
 					{
 						throw new Error(
 							"Could not locate bean reference with value '" + candidate + "'." );					
 					}
 
-					found = candidateStyle[ property ];
+					found = candidateBean[ property ];
 				}else{
 					found = document.getBean( candidate );
 					if( found is IBeanResolver && found != this )
