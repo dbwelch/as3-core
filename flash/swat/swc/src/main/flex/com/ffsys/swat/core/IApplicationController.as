@@ -4,7 +4,6 @@ package com.ffsys.swat.core
 	import com.ffsys.ioc.IBeanAccess;
 	import com.ffsys.swat.configuration.IMessageAccess;
 	import com.ffsys.swat.configuration.IMediaAccess;
-	import com.ffsys.swat.configuration.IConfigurationAware;
 	
 	/**
 	*	Describes the contract for application controllers.

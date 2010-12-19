@@ -1,5 +1,7 @@
 package com.ffsys.swat.configuration
 {
+	import com.ffsys.swat.core.IConfigurationAware;
+	
 	/**
 	*	Describes the contract for module configuration implementations.
 	*

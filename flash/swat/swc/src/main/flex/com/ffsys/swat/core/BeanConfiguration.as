@@ -3,7 +3,6 @@ package com.ffsys.swat.core
 	import com.ffsys.ioc.*;
 	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.configuration.IConfigurationAware;	
 	import com.ffsys.io.loaders.resources.IResourceList;
 		
 	/**
@@ -87,16 +86,22 @@ package com.ffsys.swat.core
 				flashvarsBean ) );
 				
 			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.LOCALES,
+				DefaultBeanIdentifiers.LOCALES,
+				ILocalesAware,
+				localesBean ) );
+				
+			beans.types.push( new BeanTypeInjector(
 				DefaultBeanIdentifiers.MESSAGES,
 				DefaultBeanIdentifiers.MESSAGES,
 				IMessagesAware,
 				messagesBean ) );
 				
 			beans.types.push( new BeanTypeInjector(
-				DefaultBeanIdentifiers.LOCALES,
-				DefaultBeanIdentifiers.LOCALES,
-				ILocalesAware,
-				localesBean ) );
+				DefaultBeanIdentifiers.PATHS,
+				DefaultBeanIdentifiers.PATHS,
+				IPathsAware,
+				pathsBean ) );
 		}		
 	}
 }

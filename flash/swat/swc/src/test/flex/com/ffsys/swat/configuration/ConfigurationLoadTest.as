@@ -118,6 +118,7 @@ package com.ffsys.swat.configuration
 			//check that the type injection by interface implementation works
 			Assert.assertNotNull( application.locales );
 			Assert.assertNotNull( application.messages );
+			Assert.assertNotNull( application.paths );
 		}
 	
 		[Test(async)]

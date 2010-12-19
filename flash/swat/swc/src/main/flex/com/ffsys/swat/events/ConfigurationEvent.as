@@ -3,7 +3,7 @@ package com.ffsys.swat.events {
 	import flash.events.Event;
 	
 	import com.ffsys.swat.configuration.IConfigurationElement;
-	import com.ffsys.swat.configuration.IConfigurationAware;
+	import com.ffsys.swat.core.IConfigurationAware;
 	import com.ffsys.swat.core.IResourceLoader;
 	
 	/**

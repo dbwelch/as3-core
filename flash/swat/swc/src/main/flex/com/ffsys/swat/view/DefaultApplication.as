@@ -19,14 +19,14 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IClassPathConfiguration;
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.configuration.IConfigurationAware;
 	import com.ffsys.swat.configuration.IConfigurationParser;
+	import com.ffsys.swat.core.BeanConfiguration;
 	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.core.IApplicationMainController;
+	import com.ffsys.swat.core.IBeanConfiguration;	
+	import com.ffsys.swat.core.IConfigurationAware;
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.core.IMessagesAware;
-	import com.ffsys.swat.core.BeanConfiguration;
-	import com.ffsys.swat.core.IBeanConfiguration;
 	
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;	

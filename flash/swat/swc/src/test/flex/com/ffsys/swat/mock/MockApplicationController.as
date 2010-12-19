@@ -1,17 +1,21 @@
 package com.ffsys.swat.mock
 {
 	import com.ffsys.swat.core.*;
-	import com.ffsys.swat.configuration.locale.ILocaleManager;
+	import com.ffsys.swat.configuration.*;
+	import com.ffsys.swat.configuration.locale.*;
 	import com.ffsys.ui.graphics.*;
+	
 	import com.ffsys.utils.properties.IProperties;
 
 	public class MockApplicationController extends DefaultApplicationController
 		implements 	ILocalesAware,
-					IMessagesAware
+					IMessagesAware,
+					IPathsAware
 	{
 		private var _rectangle:RectangleGraphic;
 		private var _locales:ILocaleManager;
 		private var _messages:IProperties;
+		private var _paths:IPaths;
 		
 		public function MockApplicationController()
 		{
@@ -55,6 +59,19 @@ package com.ffsys.swat.mock
 		public function set messages( value:IProperties ):void
 		{
 			_messages = value;
+		}
+		
+		/**
+		* 	The resource path configuration.
+		*/
+		public function get paths():IPaths
+		{
+			return _paths;
+		}
+		
+		public function set paths( value:IPaths ):void
+		{
+			_paths = value;
 		}
 	}
 }

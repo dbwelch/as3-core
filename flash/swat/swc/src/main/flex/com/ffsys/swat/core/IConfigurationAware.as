@@ -1,5 +1,7 @@
-package com.ffsys.swat.configuration
+package com.ffsys.swat.core
 {
+	import com.ffsys.swat.configuration.IConfigurationElement;
+	
 	/**
 	*	Describes the contract for instances that are aware
 	* 	of the application configuration data.
