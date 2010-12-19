@@ -2,7 +2,7 @@ package com.ffsys.swat.configuration.rsls
 {
 	
 	/**
-	*	Common type for objects that are aware of a resource manager.
+	*	Common type for objects that are aware of a resource definition manager.
 	* 
 	* 	This allows parent reference within resource managers
 	* 	to use the same type allowing the locale manager to have
@@ -15,13 +15,12 @@ package com.ffsys.swat.configuration.rsls
 	*	@author Mischa Williamson
 	*	@since  20.10.2010
 	*/
-	public interface IResourceManagerAware
+	public interface IResourceDefinitionManagerAware
 	{
-
 		/**
-		*	The resource manager for this instance.
+		*	The resource definition manager for this instance.
 		*/
-		function get resources():IResourceManager;
-		function set resources( value:IResourceManager ):void;		
+		function get resources():IResourceDefinitionManager;
+		function set resources( value:IResourceDefinitionManager ):void;		
 	}
 }

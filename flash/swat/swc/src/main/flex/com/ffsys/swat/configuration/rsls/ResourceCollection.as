@@ -24,7 +24,7 @@ package com.ffsys.swat.configuration.rsls {
 		*/
 		protected var _queue:ILoaderQueue;
 		
-		private var _parent:IResourceManager;
+		private var _parent:IResourceDefinitionManager;
 		
 		/**
 		*	Creates an <code>ResourceCollection</code> instance.
@@ -37,12 +37,12 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get parent():IResourceManager
+		public function get parent():IResourceDefinitionManager
 		{
 			return _parent;
 		}
 		
-		public function set parent( manager:IResourceManager ):void
+		public function set parent( manager:IResourceDefinitionManager ):void
 		{
 			_parent = manager;
 		}

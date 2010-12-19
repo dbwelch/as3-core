@@ -4,7 +4,7 @@ package com.ffsys.swat.configuration
 	import com.ffsys.utils.string.AddressUtils;
 	
 	import com.ffsys.swat.configuration.rsls.IRuntimeResource;
-	import com.ffsys.swat.configuration.rsls.IResourceManagerAware;
+	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
 	
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
@@ -139,7 +139,7 @@ package com.ffsys.swat.configuration
 				return resource.url
 			}
 			
-			var manager:IResourceManagerAware = getResourceManagerAware( resource );
+			var manager:IResourceDefinitionManagerAware = getResourceDefinitionManagerAware( resource );
 			
 			//global resources for all locales
 			if( manager is ILocaleManager )
@@ -229,10 +229,10 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@private
 		*/
-		private function getResourceManagerAware(
-			resource:IRuntimeResource ):IResourceManagerAware
+		private function getResourceDefinitionManagerAware(
+			resource:IRuntimeResource ):IResourceDefinitionManagerAware
 		{
-			var manager:IResourceManagerAware = null;
+			var manager:IResourceDefinitionManagerAware = null;
 			
 			if( resource.parent
 			 	&& resource.parent.parent

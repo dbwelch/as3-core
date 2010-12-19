@@ -87,7 +87,7 @@ package com.ffsys.swat.configuration.rsls {
 		public function get configuration():IConfiguration
 		{
 			var config:IConfiguration = null;
-			var manager:IResourceManagerAware = null;
+			var manager:IResourceDefinitionManagerAware = null;
 			
 			if( parent
 			 	&& parent.parent

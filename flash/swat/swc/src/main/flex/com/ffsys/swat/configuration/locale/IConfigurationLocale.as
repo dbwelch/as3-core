@@ -2,7 +2,7 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.ILocale;
 	
-	import com.ffsys.swat.configuration.rsls.IResourceManagerAware;
+	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
 	
 	/**
 	*	Describes the contract for implementations
@@ -17,7 +17,7 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public interface IConfigurationLocale
 		extends ILocale,
-				IResourceManagerAware {
+				IResourceDefinitionManagerAware {
 			
 		/**
 		* 	The parent locale manager.

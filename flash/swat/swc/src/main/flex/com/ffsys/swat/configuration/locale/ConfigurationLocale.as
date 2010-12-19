@@ -2,7 +2,7 @@ package com.ffsys.swat.configuration.locale {
 	
 	import com.ffsys.utils.locale.Locale;
 	
-	import com.ffsys.swat.configuration.rsls.IResourceManager;
+	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManager;
 	
 	/**
 	*	Represents a locale with additional configuration
@@ -17,7 +17,7 @@ package com.ffsys.swat.configuration.locale {
 	public class ConfigurationLocale extends Locale
 		implements IConfigurationLocale {
 			
-		private var _resources:IResourceManager;
+		private var _resources:IResourceDefinitionManager;
 		private var _parent:ILocaleManager;
 		private var _prefix:String;
 		
@@ -50,12 +50,12 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get resources():IResourceManager
+		public function get resources():IResourceDefinitionManager
 		{
 			return _resources;
 		}
 		
-		public function set resources( value:IResourceManager ):void
+		public function set resources( value:IResourceDefinitionManager ):void
 		{
 			_resources = value;
 		}

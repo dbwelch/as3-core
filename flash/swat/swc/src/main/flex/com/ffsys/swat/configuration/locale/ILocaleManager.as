@@ -15,8 +15,8 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.swat.configuration.IMessageAccess;
 	import com.ffsys.swat.configuration.IMediaAccess;
 	
-	import com.ffsys.swat.configuration.rsls.IResourceManager;
-	import com.ffsys.swat.configuration.rsls.IResourceManagerAware;
+	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManager;
+	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
 	
 	/**
@@ -37,7 +37,7 @@ package com.ffsys.swat.configuration.locale {
 		 		IDeserializeProperty,
 				IDeserializeComplete,
 				IResourceQueueBuilder,
-				IResourceManagerAware {
+				IResourceDefinitionManagerAware {
 		
 		/**
 		*	Builds a properties implementation from all the

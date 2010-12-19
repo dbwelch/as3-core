@@ -51,7 +51,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _lang:String;
 		private var _defaultLocale:IConfigurationLocale;
 		private var _current:IConfigurationLocale;
-		private var _resources:IResourceManager;
+		private var _resources:IResourceDefinitionManager;
 		private	var _parent:IConfiguration;
 		private var _paths:IPaths;
 		private var _messages:IProperties;		
@@ -111,12 +111,12 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get resources():IResourceManager
+		public function get resources():IResourceDefinitionManager
 		{
 			return _resources;
 		}
 		
-		public function set resources( value:IResourceManager ):void
+		public function set resources( value:IResourceDefinitionManager ):void
 		{
 			_resources = value;
 		}

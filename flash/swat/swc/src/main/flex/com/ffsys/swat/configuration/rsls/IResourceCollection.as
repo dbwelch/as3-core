@@ -37,7 +37,7 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	The parent resource manager for this collection.
 		*/
-		function get parent():IResourceManager;
-		function set parent( manager:IResourceManager ):void;
+		function get parent():IResourceDefinitionManager;
+		function set parent( manager:IResourceDefinitionManager ):void;
 	}
 }

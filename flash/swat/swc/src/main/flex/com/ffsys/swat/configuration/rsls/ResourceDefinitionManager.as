@@ -11,8 +11,8 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  18.07.2010
 	*/
-	public class ResourceManager extends Object
-		implements IResourceManager {
+	public class ResourceDefinitionManager extends Object
+		implements IResourceDefinitionManager {
 
 		private var _beans:IResourceCollection;
 		private var _messages:IResourceCollection;
@@ -24,12 +24,12 @@ package com.ffsys.swat.configuration.rsls {
 		private var _images:IResourceCollection;
 		private var _sounds:IResourceCollection;
 		
-		private var _parent:IResourceManagerAware;
+		private var _parent:IResourceDefinitionManagerAware;
 		
 		/**
-		*	Creates a <code>ResourceManager</code> instance.
+		*	Creates a <code>ResourceDefinitionManager</code> instance.
 		*/
-		public function ResourceManager()
+		public function ResourceDefinitionManager()
 		{
 			super();
 		}
@@ -37,12 +37,12 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get parent():IResourceManagerAware
+		public function get parent():IResourceDefinitionManagerAware
 		{
 			return _parent;
 		}
 		
-		public function set parent( parent:IResourceManagerAware ):void
+		public function set parent( parent:IResourceDefinitionManagerAware ):void
 		{
 			_parent = parent;
 		}

@@ -76,7 +76,7 @@ package com.ffsys.swat.configuration
 			
 			/*
 			//test global resources
-			var resources:IResourceManager = configuration.locales.resources;
+			var resources:IResourceDefinitionManager = configuration.locales.resources;
 			var rsls:IResourceCollection = resources.rsls;
 			
 			var resource:IRuntimeResource = rsls[ 0 ];

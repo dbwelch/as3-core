@@ -7,7 +7,8 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.ILoader;
-	import com.ffsys.io.loaders.types.TextLoader;
+	
+	import com.ffsys.ui.css.CssLoader;
 	
 	/**
 	*	Encapsulates a collection of CSS runtime resources.
@@ -33,7 +34,7 @@ package com.ffsys.swat.configuration.rsls {
 		*/
 		override public function getLoader( request:URLRequest ):ILoader
 		{
-			return new TextLoader( request );
+			return new CssLoader( request );
 		}
 	}
 }

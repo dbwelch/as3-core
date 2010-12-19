@@ -288,7 +288,7 @@ package com.ffsys.swat.configuration {
 				false );
 				
 			classNodeNameMap.add(
-				ResourceManager,
+				ResourceDefinitionManager,
 				RESOURCES_NAME,
 				RESOURCES_NAME,
 				false );

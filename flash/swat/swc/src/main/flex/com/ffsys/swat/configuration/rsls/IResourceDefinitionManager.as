@@ -12,13 +12,13 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  17.07.2010
 	*/
-	public interface IResourceManager {
+	public interface IResourceDefinitionManager {
 		
 		/**
 		* 	The parent object encapsulating this resource manager.
 		*/
-		function get parent():IResourceManagerAware;
-		function set parent( parent:IResourceManagerAware ):void;
+		function get parent():IResourceDefinitionManagerAware;
+		function set parent( parent:IResourceDefinitionManagerAware ):void;
 		
 		/**
 		*	The collection of bean files.
