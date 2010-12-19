@@ -1,5 +1,9 @@
 package com.ffsys.swat.core
 {
+	import flash.display.Bitmap;
+	import flash.media.Sound;
+		
+	import com.ffsys.core.IDestroy;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
 	/**
@@ -12,12 +16,22 @@ package com.ffsys.swat.core
 	*	@since  19.12.2010
 	*/
 	public interface IResourceManager
+		extends	IDestroy,
+				IResourceAccess
 	{
 		/**
 		* 	The main resource list being managed.
 		*/
 		function get list():IResourceList;
 		function set list( value:IResourceList ):void;
+		
+		/**
+		* 	List of application setting resources.
+		* 
+		* 	This will be <code>null</code> if no settings
+		* 	resources have been defined.
+		*/
+		function get settings():IResourceList;
 		
 		/**
 		* 	List of xml resources.
@@ -57,6 +71,6 @@ package com.ffsys.swat.core
 		* 	This will be <code>null</code> if no sound
 		* 	resources have been defined.
 		*/
-		function get sounds():IResourceList;		
+		function get sounds():IResourceList;
 	}
 }

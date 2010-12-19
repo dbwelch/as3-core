@@ -18,6 +18,7 @@ package com.ffsys.swat.core
 		static public var defaults:Array = [
 			MESSAGES_PHASE,
 			ERRORS_PHASE,
+			SETTINGS_PHASE,
 			XML_PHASE,
 			TEXT_PHASE,			
 			FONTS_PHASE,
@@ -81,6 +82,11 @@ package com.ffsys.swat.core
 		*	Represents the preload phase for text documents.
 		*/
 		public static const TEXT_PHASE:String = "text";	
+		
+		/**
+		*	Represents the preload phase for application settings.
+		*/
+		public static const SETTINGS_PHASE:String = "settings";
 	
 		/**
 		*	Represents the preload phase for CSS documents.	

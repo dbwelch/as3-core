@@ -25,6 +25,11 @@
 			Paths are resolved relative to the common directory.
 		-->
 		<resources>
+			<settings>
+				<resource>
+					<url>properties/mock-settings.properties</url>
+				</resource>
+			</settings>
 			<rsls>
 				<rsl>
 					<trusted>true</trusted>

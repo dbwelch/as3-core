@@ -1,6 +1,9 @@
 package com.ffsys.swat.core
 {
-	import com.ffsys.io.loaders.resources.IResourceList;
+	import flash.display.Bitmap;
+	import flash.media.Sound;
+	
+	import com.ffsys.io.loaders.resources.*;
 	
 	/**
 	*	A resource manager implementation that exposes
@@ -17,7 +20,8 @@ package com.ffsys.swat.core
 		implements IResourceManager
 	{
 		private var _list:IResourceList;
-		
+
+		private var _settings:IResourceList;
 		private var _xml:IResourceList;
 		private var _text:IResourceList;
 		private var _rsls:IResourceList;
@@ -38,6 +42,60 @@ package com.ffsys.swat.core
 		/**
 		* 	@inheritDoc
 		*/
+		public function getXmlDocument( id:String ):XML
+		{
+			var xml:IResourceList = this.xml;
+			var resource:IResource = null;
+			if( xml != null )
+			{
+				resource = xml.getResourceById( id );
+				if( resource is XmlResource ) 
+				{
+					return XmlResource( resource ).xml;
+				}
+			}
+			return null;			
+		}		
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getSound( id:String ):Sound
+		{
+			var sounds:IResourceList = this.sounds;
+			var resource:IResource = null;
+			if( sounds != null )
+			{
+				resource = sounds.getResourceById( id );
+				if( resource is SoundResource ) 
+				{
+					return SoundResource( resource ).sound;
+				}
+			}
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getImage( id:String ):Bitmap
+		{
+			var images:IResourceList = this.images;
+			var resource:IResource = null;
+			if( images != null )
+			{
+				resource = images.getResourceById( id );
+				if( resource is ImageResource ) 
+				{
+					return ImageResource( resource ).bitmap;
+				}
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get list():IResourceList
 		{
 			return _list;
@@ -47,6 +105,19 @@ package com.ffsys.swat.core
 		{
 			_list = value;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get settings():IResourceList
+		{
+			if( _settings == null && ( this.list != null ) )
+			{
+				_settings = this.list.getResourceListById(
+					ResourceLoadPhase.SETTINGS_PHASE );
+			}
+			return _settings;
+		}		
 
 		/**
 		* 	@inheritDoc
@@ -111,6 +182,25 @@ package com.ffsys.swat.core
 					ResourceLoadPhase.SOUNDS_PHASE );
 			}
 			return _sounds;
+		}
+		
+		/**
+		* 	Destroys all resources enacpsulated by this
+		* 	resource manager and clear composite references.
+		*/
+		public function destroy():void
+		{
+			if( _list )
+			{
+				_list.destroy();
+			}
+			_list = null;
+			_settings = null;
+			_xml = null;
+			_text = null;
+			_rsls = null;
+			_images = null;
+			_sounds = null;
 		}
 	}
 }

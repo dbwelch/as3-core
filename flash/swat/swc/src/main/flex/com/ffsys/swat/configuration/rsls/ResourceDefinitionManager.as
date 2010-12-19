@@ -21,6 +21,7 @@ package com.ffsys.swat.configuration.rsls {
 		private var _errors:IResourceCollection;
 		private var _xml:IResourceCollection;
 		private var _text:IResourceCollection;
+		private var _settings:IResourceCollection;
 		private var _fonts:IResourceCollection;
 		private var _rsls:IResourceCollection;
 		private var _css:IResourceCollection;
@@ -111,7 +112,20 @@ package com.ffsys.swat.configuration.rsls {
 		public function set text( value:IResourceCollection ):void
 		{
 			_text = value;
-		}			
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get settings():IResourceCollection
+		{
+			return _settings;
+		}
+
+		public function set settings( value:IResourceCollection ):void
+		{
+			_settings = value;
+		}				
 		
 		/**
 		*	@inheritDoc

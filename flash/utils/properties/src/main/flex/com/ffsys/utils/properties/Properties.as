@@ -58,8 +58,15 @@ package com.ffsys.utils.properties {
 		public function Properties( locale:ILocale = null )
 		{
 			super();
-			_types = [ IProperties, String ];
 			this.locale = locale;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get types():Array
+		{
+			return [ IProperties, String ];
 		}
 		
 		/**
@@ -280,6 +287,18 @@ package com.ffsys.utils.properties {
 		}
 		
 		/**
+		* 	Gets the implementation to use when creating child
+		* 	property collections.
+		* 
+		* 	@return The properties implementation to use for
+		* 	child collections.
+		*/
+		protected function getChildProperties():IProperties
+		{
+			return new Properties();
+		}
+		
+		/**
 		*	@private	
 		*/
 		private function parsePropertyPath(
@@ -323,7 +342,7 @@ package com.ffsys.utils.properties {
 						//create the target collection if it doesn't exist
 						if( !existing )
 						{
-							existing = new Properties();
+							existing = getChildProperties();
 							//assign the collection
 							target[ element ] = existing;
 						}

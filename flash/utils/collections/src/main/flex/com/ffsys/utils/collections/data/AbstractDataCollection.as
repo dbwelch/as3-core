@@ -3,15 +3,11 @@ package com.ffsys.utils.collections.data {
 	import flash.utils.Dictionary;
 	import flash.utils.flash_proxy;
 	import flash.utils.Proxy;
+	import flash.utils.getQualifiedClassName;
 	
 	import com.ffsys.utils.object.ClassUtils;
 	
 	import com.ffsys.utils.locale.ILocale;	
-	
-	import com.ffsys.utils.inspector.IObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspector;
-	import com.ffsys.utils.inspector.ObjectInspectorOptions;
-	import com.ffsys.utils.inspector.IObjectInspectorClassName;
 	
 	/**
 	*	Represents a collection of Strings that behave
@@ -24,9 +20,7 @@ package com.ffsys.utils.collections.data {
 	*	@since  24.07.2007
 	*/
 	dynamic public class AbstractDataCollection extends Proxy
-		implements 	IDataCollection,
-					IObjectInspector,
-		 			IObjectInspectorClassName {
+		implements 	IDataCollection {
 			
 		private var _id:String;
 		private var _locale:ILocale;
@@ -44,7 +38,11 @@ package com.ffsys.utils.collections.data {
 		private var _elements:Array = new Array();
 		
 		//an array of classes representing the valid data types
-		protected var _types:Array = new Array();
+		
+		/**
+		* 	@private
+		*/
+		protected var _types:Array = null;
 		
 		/**
 		*	Creates an <code>AbstractDataCollection</code> instance.
@@ -301,7 +299,7 @@ package com.ffsys.utils.collections.data {
 				return;
 			}
 			
-			if( !ClassUtils.isType( types, value ) )
+			if( !ClassUtils.isType( this.types, value ) )
 			{
 				throw new TypeError(
 					"IDataCollection: unacceptable data type '" +
@@ -393,76 +391,14 @@ package com.ffsys.utils.collections.data {
 			return delete _data[ name ];
 		}
 		
-		/*
-		*	IObjectInspector implementation.	
+		/**
+		* 	Gets a string representation of this instance.
+		* 
+		* 	@return A string representing this instance.
 		*/
-		
-		public function getOutputClassName():String
-		{
-			return "AbstractDataCollection";
-		}
-		
-		public function getCommonStringOutputMethods():Object
-		{
-			var output:Object = new Object();
-			return output;
-		}
-
-		public function getCommonStringOutputProperties():Object
-		{
-			var output:Object = new Object();
-			
-			var key:String;
-			var value:Object;
-			
-			for( key in _data )
-			{
-				value = _data[ key ];
-				output[ key ] = value;
-			}
-			
-			return output;
-		}
-
-		public function getCommonStringOutputComposites():Array
-		{
-			return _children;
-		}
-
-		public function getDefaultStringOutputOptions():ObjectInspectorOptions
-		{
-			var output:ObjectInspectorOptions = new ObjectInspectorOptions();
-			return output;
-		}
-
-		public function toSimpleString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-				
-			return output.getSimpleInspection();
-		}
-
-		public function toObjectString():String
-		{
-			var output:ObjectInspector = new ObjectInspector(
-				this, getDefaultStringOutputOptions() );
-			
-			//pass in the default methods, properties and composites
-			output.methods = getCommonStringOutputMethods();
-			output.properties = getCommonStringOutputProperties();
-			output.composites = getCommonStringOutputComposites();
-			return output.getComplexInspection();
-		}
-		
-		public function getObjectString( complex:Boolean = false ):String
-		{
-			return complex ? toObjectString() : toSimpleString();
-		}
-
 		public function toString():String
 		{
-			return getObjectString( true );
+			return "[" + getQualifiedClassName( this ) + "]";
 		}
 	}
 }

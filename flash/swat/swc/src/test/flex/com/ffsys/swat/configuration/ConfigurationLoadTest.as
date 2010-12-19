@@ -131,6 +131,7 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.resources );
 			
 			//verify global resources
+			Assert.assertNotNull( application.resources.settings );
 			Assert.assertNotNull( application.resources.xml );
 			Assert.assertNotNull( application.resources.text );
 			Assert.assertNotNull( application.resources.rsls );
@@ -138,10 +139,11 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.resources.sounds );
 
 			//check global resource list lengths
+			Assert.assertEquals( 1, application.resources.settings.length );
 			Assert.assertEquals( 1, application.resources.xml.length );
 			Assert.assertEquals( 1, application.resources.text.length );
-			Assert.assertEquals( 1, application.resources.rsls.length );			
-			Assert.assertEquals( 2, application.resources.images.length );	
+			Assert.assertEquals( 1, application.resources.rsls.length );	
+			Assert.assertEquals( 2, application.resources.images.length );
 			Assert.assertEquals( 1, application.resources.sounds.length );
 			
 			//check the data associated with a type based resource list is correct
@@ -150,6 +152,15 @@ package com.ffsys.swat.configuration
 			assertResourceListType( Loader, application.resources.rsls );
 			assertResourceListType( BitmapData, application.resources.images );
 			assertResourceListType( Sound, application.resources.sounds );
+			
+			//assert on loaded assets via api access
+			var x:XML = configuration.getXmlDocument( "mockXml" );
+			Assert.assertNotNull( x );
+			var s:Sound = configuration.getSound( "mockSound" );			
+			Assert.assertNotNull( s );
+			
+			//TODO: settings need to be asserted individually
+			
 		}
 		
 		/**

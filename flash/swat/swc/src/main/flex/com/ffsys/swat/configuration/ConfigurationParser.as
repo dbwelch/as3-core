@@ -113,6 +113,12 @@ package com.ffsys.swat.configuration {
 			"text";
 			
 		/**
+		*	The node name for settings documents.
+		*/
+		static public const SETTINGS_NAME:String =
+			"settings";
+			
+		/**
 		*	The node name for application CSS documents.
 		*/
 		static public const CSS_NAME:String =
@@ -273,7 +279,13 @@ package com.ffsys.swat.configuration {
 				TextCollection,
 				TEXT_NAME,
 				TEXT_NAME,
-				false );					
+				false );
+				
+			classNodeNameMap.add(
+				SettingsCollection,
+				SETTINGS_NAME,
+				SETTINGS_NAME,
+				false );
 				
 			classNodeNameMap.add(
 				CssCollection,

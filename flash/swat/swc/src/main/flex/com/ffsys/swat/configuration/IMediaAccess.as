@@ -20,11 +20,6 @@ package com.ffsys.swat.configuration {
 	public interface IMediaAccess {
 		
 		/**
-		* 	Gets a loaded XML document by identifier.
-		*/
-		function getXmlDocument( id:String ):XML;
-		
-		/**
 		*	Gets the style manager for the application.
 		*/
 		function get styleManager():IStyleManager;
@@ -52,22 +47,6 @@ package com.ffsys.swat.configuration {
 		* 	@param style The object containing the style information.
 		*/
 		function setStyle( styleName:String, style:Object ):void;
-		
-		/**
-		*	Gets a loaded image bitmap.
-		*	
-		*	@param id The identifier for the loaded
-		*	resource.
-		*/
-		function getImage( id:String ):Bitmap;
-		
-		/**
-		*	Gets a loaded sound.
-		*	
-		*	@param id The identifier for the loaded
-		*	resource.
-		*/
-		function getSound( id:String ):Sound;
 		
 		/**
 		*	Gets a bitmap filter by identifier.

@@ -103,13 +103,5 @@ package com.ffsys.utils.collections.strings {
 			
 			throw new Error( "StringCollection: could not locate string with id : " + id );
 		}
-		
-		/*
-		*	IObjectInspector implementation.	
-		*/		
-		override public function getOutputClassName():String
-		{
-			return "StringCollection";
-		}
 	}
 }

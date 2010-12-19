@@ -273,6 +273,12 @@ package com.ffsys.swat.core {
 					_assets.addLoader( queue );
 				}
 			}
+			
+			if( this.configuration != null )
+			{
+				//ensure the configuration knows about the loaded resources
+				this.configuration.resources = this.resources;
+			}
 
 			addQueueListeners( _assets, loadComplete );
 		}
@@ -298,7 +304,6 @@ package com.ffsys.swat.core {
 				if( queue && !queue.isEmpty() )
 				{
 					queue.customData = phase;
-					trace("ResourceLoader::getLoaderQueue()", "GOT LOADER QUEUE FOR PHASE: ", phase, queue.length );
 					output.addLoader( queue );
 				}
 			}

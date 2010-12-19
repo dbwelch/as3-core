@@ -23,7 +23,22 @@ package com.ffsys.utils.properties {
 		public function PrimitiveProperties( locale:ILocale = null )
 		{
 			super( locale );
-			_types = [ IProperties, String, Number, Boolean, Array ];
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get types():Array
+		{
+			return [ IProperties, String, Number, Boolean, Array ];
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function getChildProperties():IProperties
+		{
+			return new PrimitiveProperties();
 		}
 		
 		/**

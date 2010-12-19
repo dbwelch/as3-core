@@ -8,6 +8,10 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	
+	import com.ffsys.swat.core.IResourcesAware;
+	import com.ffsys.swat.core.IResourceAccess;
+	
+	
 	/**
 	*	Describes the contract for objects that
 	*	encapsulate configuration information.
@@ -21,6 +25,8 @@ package com.ffsys.swat.configuration {
 	public interface IConfigurationElement
 		extends IDestroy,
 				IFlashVariablesAware,
+				IResourcesAware,
+				IResourceAccess,
 				IMessageAccess,
 				IMediaAccess,
 				IBeanAccess,

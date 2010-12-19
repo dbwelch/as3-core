@@ -73,6 +73,9 @@ package com.ffsys.swat.view {
 				case ResourceLoadPhase.ERRORS_PHASE:
 					error( event );
 					break;
+				case ResourceLoadPhase.SETTINGS_PHASE:
+					setting( event );
+					break;				
 				case ResourceLoadPhase.FONTS_PHASE:
 					font( event );
 					break;
@@ -108,6 +111,14 @@ package com.ffsys.swat.view {
 		{
 			debug( event.preloader.phase, event );
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		protected function setting( event:RslEvent ):void
+		{
+			debug( event.preloader.phase, event );
+		}		
 		
 		/**
 		*	@inheritDoc

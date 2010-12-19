@@ -6,10 +6,12 @@ package com.ffsys.swat.configuration {
 	import flash.media.Sound;
 	
 	import com.ffsys.core.IFlashVariables;
+	import com.ffsys.swat.core.IResourceManager;
+	
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.utils.locale.ILocale;
-	import com.ffsys.swat.configuration.locale.ILocaleManager;	
+	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	
 	/**
 	*	Represents the application configuration.
@@ -24,6 +26,7 @@ package com.ffsys.swat.configuration {
 		implements IConfigurationElement {
 			
 		private var _locales:ILocaleManager;
+		private var _resources:IResourceManager;
 		private var _flashvars:IFlashVariables;
 		private var _paths:IPaths;
 		
@@ -33,6 +36,19 @@ package com.ffsys.swat.configuration {
 		public function ConfigurationElement()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get resources():IResourceManager
+		{
+			return _resources;
+		}
+		
+		public function set resources( value:IResourceManager ):void
+		{
+			_resources = value;
 		}
 		
 		/**
@@ -113,20 +129,11 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
-		* 	@inheritDoc
-		*/
-		public function getXmlDocument( id:String ):XML
-		{
-			verifyLocales();			
-			return _locales.getXmlDocument( id );
-		}		
-		
-		/**
 		*	@inheritDoc
 		*/
 		public function get styleManager():IStyleManager
 		{
-			verifyLocales();			
+			verifyLocales();
 			return _locales.styleManager;
 		}
 		
@@ -159,12 +166,30 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
+		*	@inheritDoc	
+		*/
+		public function getFilter( id:String ):BitmapFilter
+		{
+			verifyLocales();			
+			return _locales.getFilter( id );
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getXmlDocument( id:String ):XML
+		{
+			verifyResources();			
+			return _resources.getXmlDocument( id );
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getImage( id:String ):Bitmap
 		{
-			verifyLocales();			
-			return _locales.getImage( id );
+			verifyResources();			
+			return _resources.getImage( id );
 		}
 		
 		/**
@@ -172,17 +197,8 @@ package com.ffsys.swat.configuration {
 		*/
 		public function getSound( id:String ):Sound
 		{
-			verifyLocales();			
-			return _locales.getSound( id );
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getFilter( id:String ):BitmapFilter
-		{
-			verifyLocales();			
-			return _locales.getFilter( id );
+			verifyResources();			
+			return _resources.getSound( id );
 		}
 		
 		/**
@@ -193,7 +209,19 @@ package com.ffsys.swat.configuration {
 			_locales = null;
 			_flashvars = null;
 			_paths = null;
+			_resources = null;
 		}
+		
+		/**
+		* 	@private
+		*/
+		private function verifyResources():void
+		{
+			if( _resources == null )
+			{
+				throw new Error( "Cannot access configuration data with no defined locales." );
+			}
+		}		
 		
 		/**
 		* 	@private
