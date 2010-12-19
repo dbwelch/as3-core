@@ -10,10 +10,12 @@ package com.ffsys.swat.mock
 	public class MockApplicationController extends DefaultApplicationController
 		implements 	ILocalesAware,
 					IMessagesAware,
-					IPathsAware
+					IPathsAware,
+					ILocaleAware
 	{
 		private var _rectangle:RectangleGraphic;
 		private var _locales:ILocaleManager;
+		private var _locale:IConfigurationLocale;
 		private var _messages:IProperties;
 		private var _paths:IPaths;
 		
@@ -72,6 +74,19 @@ package com.ffsys.swat.mock
 		public function set paths( value:IPaths ):void
 		{
 			_paths = value;
+		}
+		
+		/**
+		* 	The current locale.
+		*/
+		public function get locale():IConfigurationLocale
+		{
+			return _locale;
+		}
+		
+		public function set locale( value:IConfigurationLocale ):void
+		{
+			_locale = value;
 		}
 	}
 }

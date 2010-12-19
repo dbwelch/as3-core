@@ -60,6 +60,8 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.MESSAGES, configuration.locales.messages );
 			var pathsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.PATHS, configuration.paths );
+			var localeBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.LOCALE, configuration.locales.current );
 		
 			//application configuration
 			beans.addBeanDescriptor( configurationBean );
@@ -102,6 +104,12 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.PATHS,
 				IPathsAware,
 				pathsBean ) );
+				
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.LOCALE,
+				DefaultBeanIdentifiers.LOCALE,
+				ILocaleAware,
+				localeBean ) );			
 		}		
 	}
 }

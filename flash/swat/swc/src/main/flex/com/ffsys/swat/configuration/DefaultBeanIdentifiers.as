@@ -38,6 +38,12 @@ package com.ffsys.swat.configuration
 		public static const LOCALES:String = "locales";
 		
 		/**
+		* 	The identifier of the injected bean that
+		* 	represents the currently selected locale.
+		*/
+		public static const LOCALE:String = "locale";
+		
+		/**
 		* 	The application messages.
 		*/
 		public static const MESSAGES:String = "messages";

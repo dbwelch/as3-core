@@ -47,9 +47,7 @@ package com.ffsys.swat.configuration
 		{
 			super.assertLoadedConfiguration( event, passThroughData );
 			configuration = IConfiguration( event.configuration );
-			
-			trace("ConfigurationLoadTest::assertLoadedConfiguration()",  configuration);			
-			
+
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.locales.resources );
@@ -73,6 +71,8 @@ package com.ffsys.swat.configuration
 			
 			Assert.assertNotNull( locale.resources );
 			Assert.assertEquals( locale, locale.resources.parent );
+			
+			//TODO: re-implement these tests with the updated mock configuration
 			
 			/*
 			//test global resources
@@ -107,10 +107,14 @@ package com.ffsys.swat.configuration
 			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
 			beanConfiguration.doWithBeans( configuration.locales.document, configuration );
 			
+			var mainBeanName:String = DefaultBeanIdentifiers.APPLICATION_BEAN;
+			
 			//get the main mock application controller
-			var application:MockApplicationController = configuration.getBean(
-				"application" ) as MockApplicationController;
+			var application:MockApplicationController = configuration.getBean( mainBeanName ) as MockApplicationController;
 			Assert.assertNotNull( application );
+			
+			//verify singleton behaviour
+			Assert.assertEquals( application, configuration.getBean( mainBeanName ) );
 			
 			//bean xref from the stylesheet document
 			Assert.assertNotNull( application.rectangle );
@@ -119,6 +123,7 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.locales );
 			Assert.assertNotNull( application.messages );
 			Assert.assertNotNull( application.paths );
+			Assert.assertNotNull( application.locale );
 		}
 	
 		[Test(async)]
