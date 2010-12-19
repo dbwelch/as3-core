@@ -12,16 +12,16 @@ package com.ffsys.swat.core {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.IResource;	
 	import com.ffsys.io.loaders.types.*;
-
-	import com.ffsys.swat.configuration.IConfigurationParser;
-	import com.ffsys.swat.configuration.IConfiguration;
+	
+	import com.ffsys.io.xml.IParser;
 	
 	import com.ffsys.swat.events.RslEvent;
 	import com.ffsys.swat.events.ConfigurationEvent;
 	
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	import com.ffsys.swat.view.IApplicationPreloader;
-	
+
+	import com.ffsys.swat.configuration.IConfiguration;
 	import com.ffsys.swat.configuration.ConfigurationInterpreter;
 	
 	/**
@@ -37,29 +37,23 @@ package com.ffsys.swat.core {
 		implements IBootstrapLoader {
 		
 		private var _flashvars:IFlashVariables;
-		private var _configurationLoader:ParserAwareXmlLoader;
 		private var _view:IApplicationPreloadView;
-		private var _configuration:IConfiguration;
 		private var _main:IApplicationPreloader;
 		
 		/**
 		*	Creates a <code>BootstrapLoader</code> instance.
 		* 
-		* 	@param flashvars The flash variables for the application.
 		*	@param parser A parser implementation to use when parsing the
-		*	configuration.
+		*	configuration document.
+		* 	@param flashvars The flash variables for the application.
 		*/
 		public function BootstrapLoader(
-			flashvars:IFlashVariables,
-			parser:IConfigurationParser )
+			parser:IParser,
+			flashvars:IFlashVariables )
 		{
-			super();
 			_flashvars = flashvars;
-			_configurationLoader = new ParserAwareXmlLoader();
-			if( parser != null )
-			{
-				_configurationLoader.parser = parser;
-			}
+			var path:String = DefaultFlashVariables( flashvars ).configuration;
+			super( new URLRequest( path ), parser );
 		}
 		
 		/**
@@ -69,10 +63,7 @@ package com.ffsys.swat.core {
 		{
 			return _main;
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/
+
 		public function set main( main:IApplicationPreloader ):void
 		{
 			_main = main;
@@ -86,9 +77,6 @@ package com.ffsys.swat.core {
 			return _view;
 		}
 		
-		/**
-		*	@inheritDoc	
-		*/
 		public function set view( view:IApplicationPreloadView ):void
 		{
 			if( _view && !view )
@@ -106,139 +94,48 @@ package com.ffsys.swat.core {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get configuration():IConfiguration
+		override public function set parser( value:IParser ):void
 		{
-			return _configuration;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override public function load():ILoaderQueue
-		{
-			trace("****************************************************** BootstrapLoader::load()", "**************************************************************" );
+			super.parser = value;
 			
-			_assets = new LoaderQueue();
-			
-			//should definitely have a parser assigned by now
-			var interpreter:ConfigurationInterpreter = new ConfigurationInterpreter();
-			interpreter.flashvars = DefaultFlashVariables( _flashvars );
-			_configurationLoader.parser.interpreter = interpreter;
-	
-			_configurationLoader.root =
-				DefaultFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
-					
-			addLoaderListeners( _configurationLoader );
-				
-			_phase = ResourceLoadPhase.CONFIGURATION_PHASE;
-			_assets.customData = _phase;
-				
-			var path:String = DefaultFlashVariables( _flashvars ).configuration;
-			_configurationLoader.request = new URLRequest( path );
-			
-			_assets.addLoader( _configurationLoader );
-			_assets.load();
-			return _assets;
-		}
-		
-		protected function addLoaderListeners( loader:IEventDispatcher ):void
-		{
-			if( loader != null )
+			if( value != null )
 			{
-				loader.addEventListener(
-					LoadEvent.RESOURCE_NOT_FOUND,
-					resourceNotFound, false, 0, false );
-
-				loader.addEventListener(
-					LoadEvent.LOAD_START,
-					loadStart, false, 0, false );
-
-				loader.addEventListener(
-					LoadEvent.LOAD_PROGRESS,
-					loadProgress, false, 0, false );
-
-				loader.addEventListener(
-					LoadEvent.DATA,
-					configurationLoadComplete, false, 0, false );				
+				var interpreter:ConfigurationInterpreter = new ConfigurationInterpreter();
+				interpreter.flashvars = DefaultFlashVariables( _flashvars );
+				value.interpreter = interpreter;
 			}
 		}
-		
-		protected function removeLoaderListeners( loader:IEventDispatcher ):void
-		{
-			if( loader != null )
-			{			
-				loader.removeEventListener(
-					LoadEvent.RESOURCE_NOT_FOUND,
-					resourceNotFound );
-			
-				loader.removeEventListener(
-					LoadEvent.LOAD_START,
-					loadStart );
-				
-				loader.removeEventListener(
-					LoadEvent.LOAD_PROGRESS,
-					loadProgress );
-			
-				loader.removeEventListener(
-					LoadEvent.DATA,
-					configurationLoadComplete );				
-			}
-		}		
 		
 		/**
 		* 	@inheritDoc
 		*/
-		override public function destroy():void
+		override protected function doWithConfigurationLoader( loader:ParserAwareXmlLoader ):void
 		{
-			super.destroy();
-			_flashvars = null;
-			_configurationLoader = null;
-			_configuration = null;
-			_view = null;
-			_main = null;
+			loader.root =
+				DefaultFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
 		}		
 		
 		/**
 		*	@private
 		*/
-		private function configurationLoadComplete( 
+		override protected function configurationLoadComplete( 
 			event:LoadEvent ):void
 		{
-			removeLoaderListeners( _configurationLoader );
+			this.configuration = IConfiguration( IResource( event.resource ).data );
 			
-			_configuration = IConfiguration( IResource( event.resource ).data );
-
+			//get the resource queue to inject
+			this.builder = this.configuration.locales;			
+			
+			super.configurationLoadComplete( event );
+			
 			var evt:ConfigurationEvent = new ConfigurationEvent(
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
 				this,
 				event );
 			
-			evt.configuration = _configuration;
+			evt.configuration = this.configuration;
 			dispatchEvent( evt );
-			
-			//get the resource queue to inject
-			this.builder = _configuration.locales;
-			var targets:ILoaderQueue = getLoaderQueue( this.builder );
-			var queue:ILoaderQueue = null;
-			for( var i:int = 0;i < targets.length;i++ )
-			{
-				queue = ILoaderQueue( targets.getLoaderAt( i ) );
-				if( !queue.isEmpty() )
-				{
-					_assets.addLoader( queue );
-				}
-			}
-			
-			//update the phase
-			if( _assets.length > 1 )
-			{
-				_phase = String( _assets.getLoaderAt( 1 ).customData );
-			}
-			
-			addQueueListeners( _assets, loadComplete );
-			dispatchEvent( event );
 		}
-		
 		
 		/**
 		*	@private
@@ -292,5 +189,16 @@ package com.ffsys.swat.core {
 				view.resource( event );
 			}
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			_flashvars = null;
+			_view = null;
+			_main = null;
+		}		
 	}
 }

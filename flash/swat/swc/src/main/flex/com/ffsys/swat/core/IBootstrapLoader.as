@@ -29,10 +29,5 @@ package com.ffsys.swat.core {
 		*/
 		function get main():IApplicationPreloader;
 		function set main( main:IApplicationPreloader ):void;
-		
-		/**
-		* 	Gets the application configuration.
-		*/
-		function get configuration():IConfiguration;
 	}
 }

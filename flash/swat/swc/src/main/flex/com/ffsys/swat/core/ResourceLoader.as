@@ -2,13 +2,18 @@ package com.ffsys.swat.core {
 
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
+	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.types.*;
+	
+	import com.ffsys.io.xml.IParser;
 
-	import com.ffsys.swat.events.RslEvent;
+	import com.ffsys.swat.configuration.IConfigurationElement;	
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
+	import com.ffsys.swat.events.RslEvent;
 	
 	/**
 	*	Preloads runtime resources by type.
@@ -22,6 +27,10 @@ package com.ffsys.swat.core {
 	public class ResourceLoader extends EventDispatcher
 		implements IResourceLoader {
 
+		private var _parser:IParser;
+		private var _request:URLRequest;
+		private var _configuration:IConfigurationElement;		
+		private var _configurationLoader:ParserAwareXmlLoader;
 		private var _builder:IResourceQueueBuilder;
 		private var _phases:Array = ResourceLoadPhase.defaults;
 		
@@ -37,10 +46,57 @@ package com.ffsys.swat.core {
 		
 		/**
 		*	Creates a <code>ResourceLoader</code> instance.
+		* 
+		* 	@param request The url request to load the configuration document from.
+		*	@param parser A parser implementation to use when parsing the
+		*	configuration document.
 		*/
-		public function ResourceLoader()
+		public function ResourceLoader(
+			request:URLRequest,
+			parser:IParser)
 		{
 			super();
+			this.request = request;
+			this.parser = parser;
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get configuration():IConfigurationElement
+		{
+			return _configuration;
+		}
+		
+		public function set configuration( value:IConfigurationElement ):void
+		{
+			_configuration = value;
+		}
+		
+		/**
+		* 	A url request to load the configuration document from.
+		*/
+		public function get request():URLRequest
+		{
+			return _request;
+		}
+		
+		public function set request( value:URLRequest ):void
+		{
+			_request = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get parser():IParser
+		{
+			return _parser;
+		}
+		
+		public function set parser( value:IParser ):void
+		{
+			_parser = value;
 		}
 		
 		/**
@@ -77,42 +133,127 @@ package com.ffsys.swat.core {
 		*/
 		public function load():ILoaderQueue
 		{
-			if( this.builder == null )
+			if( this.parser == null )
 			{
-				throw new Error( "Cannot load resources with a null resource queue builder." );
+				throw new Error( "Cannot load resurces with a null configuration parser." );
 			}
-			if( this.phases == null )
+			
+			if( this.request == null )
 			{
-				throw new Error( "Cannot load resources with no load phases." );
-			}
-			if( _assets )
-			{
-				_assets.close();
-				removeQueueListeners( _assets, loadComplete );
-			}
-			_assets = getLoaderQueue( this.builder );
-			if( !_assets.isEmpty() )
-			{
-				_phase = String( _assets.first().customData );
-				addQueueListeners( _assets, loadComplete );
-				_assets.load();
-			}
+				throw new Error( "Cannot load resurces with a null url request." );
+			}			
+			
+			_assets = new LoaderQueue();
+			
+			var configurationQueue:ILoaderQueue = new LoaderQueue();
+			configurationQueue.customData = ResourceLoadPhase.CONFIGURATION_PHASE;
+			_configurationLoader = new ParserAwareXmlLoader();
+			_configurationLoader.request = this.request;
+			_configurationLoader.parser = this.parser;
+			addConfigurationListeners( _configurationLoader );
+			doWithConfigurationLoader( _configurationLoader );
+			configurationQueue.addLoader( _configurationLoader );
+			_assets.addLoader( configurationQueue );
+			//_assets.addLoader( _configurationLoader );
+			_assets.load();
 			return _assets;
 		}
 		
 		/**
-		* 	Closes any open connections and cleans composite references.
+		* 	Allows sub classes to perform operations on the configuration
+		* 	document loader.
+		* 
+		* 	@param loader The configuration document loader.
 		*/
-		public function destroy():void
+		protected function doWithConfigurationLoader( loader:ParserAwareXmlLoader ):void
 		{
-			if( _assets )
+			//
+		}
+		
+		/**
+		* 	Adds configuration document load listeners.
+		* 
+		* 	@param loader The event dispatcher.
+		*/
+		protected function addConfigurationListeners( loader:IEventDispatcher ):void
+		{
+			if( loader != null )
 			{
-				_assets.close();
+				
+				loader.addEventListener(
+					LoadEvent.RESOURCE_NOT_FOUND,
+					resourceNotFound, false, 0, false );
+
+				loader.addEventListener(
+					LoadEvent.LOAD_START,
+					loadStart, false, 0, false );
+
+				loader.addEventListener(
+					LoadEvent.LOAD_PROGRESS,
+					loadProgress, false, 0, false );
+
+				loader.addEventListener(
+					LoadEvent.DATA,
+					configurationLoadComplete, false, 0, false );				
 			}
-			_assets = null;
-			_phase = null;
-			_phases = null;
-			_builder = null;
+		}
+		
+		/**
+		* 	Removes configuration document load listeners.
+		* 
+		* 	@param loader The event dispatcher.
+		*/
+		protected function removeConfigurationListeners( loader:IEventDispatcher ):void
+		{
+			if( loader != null )
+			{			
+				loader.removeEventListener(
+					LoadEvent.RESOURCE_NOT_FOUND,
+					resourceNotFound );
+			
+				loader.removeEventListener(
+					LoadEvent.LOAD_START,
+					loadStart );
+				
+				loader.removeEventListener(
+					LoadEvent.LOAD_PROGRESS,
+					loadProgress );
+			
+				loader.removeEventListener(
+					LoadEvent.DATA,
+					configurationLoadComplete );				
+			}
+		}		
+		
+		/**
+		*	Invoked when the configuration document has been loaded.
+		* 
+		* 	@param event The load event.
+		*/
+		protected function configurationLoadComplete( 
+			event:LoadEvent ):void
+		{
+			removeConfigurationListeners( _configurationLoader );
+			
+			var targets:ILoaderQueue = getLoaderQueue( this.builder );
+			var queue:ILoaderQueue = null;
+			for( var i:int = 0;i < targets.length;i++ )
+			{
+				queue = ILoaderQueue( targets.getLoaderAt( i ) );
+				if( !queue.isEmpty() )
+				{
+					_assets.addLoader( queue );
+				}
+			}
+			
+			//update the phase
+			if( _assets.length > 1 )
+			{
+				_phase = String( _assets.getLoaderAt( 1 ).customData );
+			}
+			
+			addQueueListeners( _assets, loadComplete );
+			dispatchEvent( event );			
 		}
 		
 		/**
@@ -120,6 +261,12 @@ package com.ffsys.swat.core {
 		*/
 		protected function getLoaderQueue( builder:IResourceQueueBuilder ):ILoaderQueue
 		{
+			if( builder == null )
+			{
+				throw new Error(
+					"Cannot get a loader queue with a null resource queue builder." );
+			}
+			
 			var output:ILoaderQueue = new LoaderQueue();
 			var queue:ILoaderQueue = null;
 			var phase:String = null;
@@ -295,6 +442,29 @@ package com.ffsys.swat.core {
 			_phase = ResourceLoadPhase.COMPLETE_PHASE;
 			dispatchEvent( evt );
 			return evt;			
+		}
+		
+		/**
+		* 	Closes any open connections and cleans composite references.
+		*/
+		public function destroy():void
+		{
+			if( _configurationLoader )
+			{
+				_configurationLoader.destroy();
+			}
+			if( _assets )
+			{
+				_assets.destroy();
+			}
+			_parser = null;
+			_request = null;
+			_configuration = null;
+			_configurationLoader = null;
+			_assets = null;
+			_phase = null;
+			_phases = null;
+			_builder = null;
 		}
 	}
 }

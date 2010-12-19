@@ -94,8 +94,8 @@ package com.ffsys.swat.view  {
 					}
 					
 					_preloader = new BootstrapLoader(
-						_flashvars,
-						parser );
+						parser,
+						_flashvars );
 			
 					preloader.addEventListener(
 						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
@@ -184,6 +184,8 @@ package com.ffsys.swat.view  {
 		* 
 		* 	These are objects that have already been instantiated and
 		* 	should be made available to bean documents.
+		* 
+		* 	@param beans The application beans document.
 		*/
 		protected function doWithBeans( beans:IBeanDocument ):void
 		{
@@ -247,13 +249,13 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
-		*	Creates the main controller.
+		*	Creates the main application controller.
 		* 
 		* 	If the main controller is a display object it will be added
 		* 	to the display list.
 		* 
-		* 	If the main controller implements the IApplicationMainController interface
-		* 	it's ready implementation will be invoked.
+		* 	If the main controller implements the <code>IApplicationMainController</code> interface
+		* 	it's <code>ready</code> implementation will be invoked.
 		*/
 		protected function createMainController():void
 		{

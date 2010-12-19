@@ -74,8 +74,8 @@ package com.ffsys.swat
 			parser.classNodeNameMap.rootInstance =
 				new Configuration();
 			_bootstrapLoader = new BootstrapLoader(
-				flashvars,
-				parser );
+				parser,
+				flashvars );
 				
 			_bootstrapLoader.view = new DefaultApplicationPreloadView();
 			
