@@ -21,13 +21,18 @@ package com.ffsys.io.loaders.resources {
 		* 	@param data The data this resource encapsulates.
 		* 	@param uri The <code>URI</code> the data was loaded from.
 		* 	@param bytesTotal The total number of bytes loaded.
+		* 	@param properties A properties implementation to use.
 		*/
 		public function PropertiesResource(
 			data:Object = null,
 			uri:String = null,
-			bytesTotal:uint = 0 )
+			bytesTotal:uint = 0,
+			properties:IProperties = null )
 		{
-			var properties:IProperties = new Properties();
+			if( properties == null )
+			{
+				properties = new Properties();
+			}
 			properties.parse( data as String );
 			super( properties, uri, bytesTotal );
 		}

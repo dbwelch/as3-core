@@ -11,6 +11,8 @@ package com.ffsys.io.loaders.types {
 	import com.ffsys.io.loaders.events.LoadEvent;
 	import com.ffsys.io.loaders.resources.PropertiesResource;
 	
+	import com.ffsys.utils.properties.IProperties;	
+	
 	/**
 	*	Loads a properties file.
 	*
@@ -21,6 +23,8 @@ package com.ffsys.io.loaders.types {
 	*	@since  10.07.2007
 	*/
 	public class PropertiesLoader extends AbstractLoader {
+		
+		private var _properties:IProperties;
 		
 		/**
 		* 	Creates a <code>PropertiesLoader</code> instance.
@@ -34,6 +38,20 @@ package com.ffsys.io.loaders.types {
 		{
 			super( request, options );
 		}
+		
+		/**
+		* 	A properties implementation to use to parse the loaded
+		* 	text.
+		*/
+		public function get properties():IProperties
+		{
+			return _properties;
+		}
+		
+		public function set properties( value:IProperties ):void
+		{
+			_properties = value;
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -57,7 +75,11 @@ package com.ffsys.io.loaders.types {
 			
 			if( txt )
 			{
-				this.resource = new PropertiesResource( txt, uri );
+				this.resource = new PropertiesResource(
+					txt,
+					uri,
+					this.bytesTotal,
+					this.properties );
 				
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.DATA,
