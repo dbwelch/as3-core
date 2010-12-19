@@ -1,6 +1,7 @@
 package com.ffsys.swat.core
 {
 	import flash.display.Bitmap;
+	import flash.display.Loader;	
 	import flash.media.Sound;
 	
 	import com.ffsys.io.loaders.resources.*;
@@ -88,6 +89,24 @@ package com.ffsys.swat.core
 				if( resource is ImageResource ) 
 				{
 					return ImageResource( resource ).bitmap;
+				}
+			}
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getMovie( id:String ):Loader
+		{
+			var images:IResourceList = this.rsls;
+			var resource:IResource = null;
+			if( rsls != null )
+			{
+				resource = rsls.getResourceById( id );
+				if( resource is MovieResource ) 
+				{
+					return MovieResource( resource ).loader;
 				}
 			}
 			return null;

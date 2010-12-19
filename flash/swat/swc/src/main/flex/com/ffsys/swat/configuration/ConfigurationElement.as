@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration {
 	
 	import flash.display.Bitmap;
+	import flash.display.Loader;	
 	import flash.events.EventDispatcher;
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
@@ -200,6 +201,15 @@ package com.ffsys.swat.configuration {
 			verifyResources();			
 			return _resources.getSound( id );
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getMovie( id:String ):Loader
+		{
+			verifyResources();
+			return _resources.getMovie( id );
+		}		
 		
 		/**
 		* 	Cleans composite references.

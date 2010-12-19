@@ -1,6 +1,7 @@
 package com.ffsys.swat.core
 {
 	import flash.display.Bitmap;
+	import flash.display.Loader;
 	import flash.media.Sound;
 	
 	/**
@@ -24,6 +25,16 @@ package com.ffsys.swat.core
 		* 	otherwwise <code>null</code>.
 		*/
 		function getXmlDocument( id:String ):XML;
+		
+		/**
+		*	Gets a loaded flash movie by identifier.
+		* 
+		* 	@param id The identifier for the movie.
+		* 
+		* 	@return The <code>Loader</code> if it could be retrieved
+		* 	otherwwise <code>null</code>.
+		*/
+		function getMovie( id:String ):Loader;
 	
 		/**
 		*	Gets a loaded image bitmap.

@@ -158,9 +158,14 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( x );
 			var s:Sound = configuration.getSound( "mockSound" );			
 			Assert.assertNotNull( s );
+			var b:Bitmap = configuration.getImage( "mockImage001" );
+			Assert.assertNotNull( b );
+			b = configuration.getImage( "mockImage002" );
+			Assert.assertNotNull( b );
+			var l:Loader = configuration.getMovie( "mockAssets" );
+			Assert.assertNotNull( l );
 			
 			//TODO: settings need to be asserted individually
-			
 		}
 		
 		/**
