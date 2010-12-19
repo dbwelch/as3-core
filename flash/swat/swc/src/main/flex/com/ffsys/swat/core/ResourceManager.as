@@ -25,15 +25,7 @@ package com.ffsys.swat.core
 	{		
 		private var _beanManager:IBeanManager;
 		private var _styleManager:IStyleManager;
-		
 		private var _list:IResourceList;
-
-		private var _settings:IResourceList;
-		private var _xml:IResourceList;
-		private var _text:IResourceList;
-		private var _rsls:IResourceList;
-		private var _images:IResourceList;
-		private var _sounds:IResourceList;
 		
 		/**
 		* 	Creates a <code>ResourceManager</code> instance.
@@ -242,14 +234,40 @@ package com.ffsys.swat.core
 		/**
 		* 	@inheritDoc
 		*/
+		public function get messages():IResourceList
+		{
+			if( this.list != null )
+			{
+				return this.list.getResourceListById(
+					ResourceLoadPhase.MESSAGES_PHASE );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get errors():IResourceList
+		{
+			if( this.list != null )
+			{
+				return this.list.getResourceListById(
+					ResourceLoadPhase.ERRORS_PHASE );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get settings():IResourceList
 		{
-			if( _settings == null && ( this.list != null ) )
+			if( this.list != null )
 			{
-				_settings = this.list.getResourceListById(
+				return this.list.getResourceListById(
 					ResourceLoadPhase.SETTINGS_PHASE );
 			}
-			return _settings;
+			return null;
 		}		
 
 		/**
@@ -257,12 +275,12 @@ package com.ffsys.swat.core
 		*/
 		public function get xml():IResourceList
 		{
-			if( _xml == null && ( this.list != null ) )
+			if( this.list != null )
 			{
-				_xml = this.list.getResourceListById(
+				return this.list.getResourceListById(
 					ResourceLoadPhase.XML_PHASE );
 			}
-			return _xml;
+			return null;
 		}
 		
 		/**
@@ -270,25 +288,64 @@ package com.ffsys.swat.core
 		*/
 		public function get text():IResourceList
 		{
-			if( _text == null && ( this.list != null ) )
+			if( this.list != null )
 			{
-				_text = this.list.getResourceListById(
+				return this.list.getResourceListById(
 					ResourceLoadPhase.TEXT_PHASE );
 			}
-			return _text;
+			return null;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get beans():IResourceList
+		{
+			if( this.list != null )
+			{
+				return this.list.getResourceListById(
+					ResourceLoadPhase.BEANS_PHASE );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get css():IResourceList
+		{
+			if( this.list != null )
+			{
+				return this.list.getResourceListById(
+					ResourceLoadPhase.CSS_PHASE );
+			}
+			return null;
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get fonts():IResourceList
+		{
+			if( this.list != null )
+			{
+				return this.list.getResourceListById(
+					ResourceLoadPhase.FONTS_PHASE );
+			}
+			return null;
+		}		
 		
 		/**
 		* 	@inheritDoc
 		*/
 		public function get rsls():IResourceList
 		{
-			if( _rsls == null && ( this.list != null ) )
+			if( this.list != null )
 			{
-				_rsls = this.list.getResourceListById(
+				return this.list.getResourceListById(
 					ResourceLoadPhase.RSLS_PHASE );
 			}
-			return _rsls;
+			return null;
 		}
 		
 		/**
@@ -296,12 +353,12 @@ package com.ffsys.swat.core
 		*/
 		public function get images():IResourceList
 		{
-			if( _images == null && ( this.list != null ) )
+			if( this.list != null )
 			{
-				_images = this.list.getResourceListById(
+				return this.list.getResourceListById(
 					ResourceLoadPhase.IMAGES_PHASE );
 			}
-			return _images;
+			return null;
 		}
 		
 		/**
@@ -309,12 +366,12 @@ package com.ffsys.swat.core
 		*/
 		public function get sounds():IResourceList
 		{	
-			if( _sounds == null && ( this.list != null ) )
+			if( this.list != null )
 			{
-				_sounds = this.list.getResourceListById(
+				return this.list.getResourceListById(
 					ResourceLoadPhase.SOUNDS_PHASE );
 			}
-			return _sounds;
+			return null;
 		}
 		
 		/**
@@ -328,12 +385,6 @@ package com.ffsys.swat.core
 				_list.destroy();
 			}
 			_list = null;
-			_settings = null;
-			_xml = null;
-			_text = null;
-			_rsls = null;
-			_images = null;
-			_sounds = null;
 			_beanManager = null;
 			_styleManager = null;
 		}

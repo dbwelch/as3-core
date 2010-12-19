@@ -16,7 +16,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.collections.strings.IStringCollection;
 	
 	import com.ffsys.utils.locale.ILocale;
-	import com.ffsys.utils.locale.LocaleCollection;	
+	import com.ffsys.utils.locale.LocaleCollection;
 	import com.ffsys.utils.properties.IProperties;
 	import com.ffsys.utils.properties.Properties;
 	
@@ -255,6 +255,19 @@ package com.ffsys.swat.configuration.locale {
 			}
 		}
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/**
 		*	@inheritDoc	
 		*/
@@ -388,6 +401,33 @@ package com.ffsys.swat.configuration.locale {
 			}
 			return output;
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		/**
 		*	@private	

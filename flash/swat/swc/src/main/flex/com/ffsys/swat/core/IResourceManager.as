@@ -43,6 +43,22 @@ package com.ffsys.swat.core
 		function set list( value:IResourceList ):void;
 		
 		/**
+		* 	List of application message resources.
+		* 
+		* 	This will be <code>null</code> if no message
+		* 	resources have been defined.
+		*/
+		function get messages():IResourceList;
+		
+		/**
+		* 	List of application error message resources.
+		* 
+		* 	This will be <code>null</code> if no error
+		* 	message resources have been defined.
+		*/
+		function get errors():IResourceList;
+		
+		/**
 		* 	List of application setting resources.
 		* 
 		* 	This will be <code>null</code> if no settings
@@ -65,6 +81,30 @@ package com.ffsys.swat.core
 		* 	resources have been defined.
 		*/
 		function get text():IResourceList;
+		
+		/**
+		* 	List of bean resources.
+		* 
+		* 	This will be <code>null</code> if no bean
+		* 	resources have been defined.
+		*/
+		function get beans():IResourceList;
+		
+		/**
+		* 	List of css resources.
+		* 
+		* 	This will be <code>null</code> if no css
+		* 	resources have been defined.
+		*/
+		function get css():IResourceList;
+		
+		/**
+		* 	List of font resources.
+		* 
+		* 	This will be <code>null</code> if no font
+		* 	resources have been defined.
+		*/
+		function get fonts():IResourceList;		
 		
 		/**
 		* 	List of rsl resources.
