@@ -139,6 +139,14 @@ package com.ffsys.swat.core {
 			return _phase;
 		}
 		
+		/**
+		* 	Gets the main loader queue used for the load process.
+		* 
+		* 	This allows sub classes to change the loader queue implementation
+		* 	used for the load process.
+		* 
+		* 	@return The main loader queue.
+		*/
 		protected function getMainLoaderQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();

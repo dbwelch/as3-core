@@ -104,7 +104,7 @@ package com.ffsys.swat.core
 		* 	@inheritDoc
 		*/
 		public function get sounds():IResourceList
-		{
+		{	
 			if( _sounds == null && ( this.list != null ) )
 			{
 				_sounds = this.list.getResourceListById(

@@ -18,5 +18,45 @@ package com.ffsys.swat.core
 		*/
 		function get list():IResourceList;
 		function set list( value:IResourceList ):void;
+		
+		/**
+		* 	List of xml resources.
+		* 
+		* 	This will be <code>null</code> if no xml
+		* 	resources have been defined.
+		*/
+		function get xml():IResourceList;
+		
+		/**
+		* 	List of text resources.
+		* 
+		* 	This will be <code>null</code> if no text
+		* 	resources have been defined.
+		*/
+		function get text():IResourceList;
+		
+		/**
+		* 	List of rsl resources.
+		* 
+		* 	This will be <code>null</code> if no rsl
+		* 	resources have been defined.
+		*/
+		function get rsls():IResourceList;
+		
+		/**
+		* 	List of image resources.
+		* 
+		* 	This will be <code>null</code> if no image
+		* 	resources have been defined.
+		*/
+		function get images():IResourceList;
+		
+		/**
+		* 	List of sound resources.
+		* 
+		* 	This will be <code>null</code> if no sound
+		* 	resources have been defined.
+		*/
+		function get sounds():IResourceList;		
 	}
 }

@@ -1,12 +1,16 @@
 package com.ffsys.swat.configuration
 {
+	import flash.display.*;
+	import flash.media.*;
+	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
 	import com.ffsys.swat.AbstractUnit;
 	
 	import com.ffsys.io.loaders.core.*;	
-	import com.ffsys.io.loaders.events.*;	
+	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.swat.events.*;
 	import com.ffsys.swat.configuration.*;
@@ -125,6 +129,43 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.paths );
 			Assert.assertNotNull( application.locale );
 			Assert.assertNotNull( application.resources );
+			
+			//verify global resources
+			Assert.assertNotNull( application.resources.xml );
+			Assert.assertNotNull( application.resources.rsls );
+			Assert.assertNotNull( application.resources.images );
+			Assert.assertNotNull( application.resources.sounds );
+
+			//check global resource list lengths
+			Assert.assertEquals( 1, application.resources.xml.length );
+			Assert.assertEquals( 1, application.resources.rsls.length );			
+			Assert.assertEquals( 2, application.resources.images.length );	
+			Assert.assertEquals( 1, application.resources.sounds.length );
+			
+			//check the data associated with a type based resource list is correct
+			assertResourceListType( XML, application.resources.xml );
+			assertResourceListType( Loader, application.resources.rsls );
+			assertResourceListType( BitmapData, application.resources.images );
+			assertResourceListType( Sound, application.resources.sounds );
+		}
+		
+		/**
+		* 	Asserts that all the resources stored in a resource list are of the
+		* 	specified type.
+		* 
+		* 	@param type The expected type.
+		* 	@param list The resource list.
+		*/
+		protected function assertResourceListType(
+			type:Class, list:IResourceList ):void
+		{
+			var element:IResourceElement = null;
+			for( var i:int = 0;i < list.length;i++ )
+			{
+				element = list.getResourceAt( i );
+				Assert.assertTrue( element is IResource );
+				Assert.assertTrue( IResource( element ).data is type );
+			}
 		}
 	
 		[Test(async)]
