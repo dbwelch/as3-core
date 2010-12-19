@@ -406,9 +406,7 @@ package com.ffsys.ioc
 		{
 			var instance:Object = null;
 			var descriptor:IBeanDescriptor = getBeanDescriptor( beanName );
-			
-			trace("BeanDocument::getBean()", beanName, this.xrefs.length, this.xrefs, descriptor );
-			
+
 			if( descriptor != null )
 			{
 				//look in this document first
@@ -422,7 +420,6 @@ package com.ffsys.ioc
 			//check cross referenced documents
 			if( this.xrefs.length > 0 )
 			{
-				trace("BeanDocument::getBean()", "CHECKING XREFS", xrefs );
 				var document:IBeanDocument = null;
 				for( var i:int = 0;i < this.xrefs.length;i++ )
 				{
@@ -438,12 +435,13 @@ package com.ffsys.ioc
 				}
 			}
 			
-			//TODO: research re-implementing this error in conjunction with xrefs
+			//TODO: make this configurable (strict?), stylesheet bean documents need to be able to retrieve
+			//null for non-existent beans
 			/*
 			if( !instance )
 			{
 				throw new BeanError( BeanError.BEAN_NOT_FOUND, beanName );
-			}			
+			}
 			*/
 			
 			return instance;

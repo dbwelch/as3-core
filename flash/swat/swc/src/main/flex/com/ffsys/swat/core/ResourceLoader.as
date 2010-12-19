@@ -67,6 +67,10 @@ package com.ffsys.swat.core {
 		*/
 		public function get resources():IResourceList
 		{
+			if( _resources == null && _assets != null )
+			{
+				_resources = IResourceList( _assets.resource );
+			}
 			return _resources;
 		}
 		
@@ -157,6 +161,8 @@ package com.ffsys.swat.core {
 			
 			var configurationQueue:ILoaderQueue = new LoaderQueue();
 			configurationQueue.customData = ResourceLoadPhase.CONFIGURATION_PHASE;
+			configurationQueue.resource.id = ResourceLoadPhase.CONFIGURATION_PHASE;
+			_phase = ResourceLoadPhase.CONFIGURATION_PHASE;
 			_configurationLoader = new ParserAwareXmlLoader();
 			_configurationLoader.request = this.request;
 			_configurationLoader.parser = this.parser;
@@ -255,15 +261,17 @@ package com.ffsys.swat.core {
 					_assets.addLoader( queue );
 				}
 			}
+
+			//ensure the rslevent wrapper fires for the configuration document
+			//itemLoaded( event );			
 			
 			//update the phase
-			if( _assets.length > 1 )
-			{
-				_phase = String( _assets.getLoaderAt( 1 ).customData );
-			}
+			//if( _assets.length > 1 )
+			//{
+				//_phase = String( _assets.getLoaderAt( 1 ).customData );
+			//}
 			
-			addQueueListeners( _assets, loadComplete );
-			dispatchEvent( event );			
+			addQueueListeners( _assets, loadComplete );		
 		}
 		
 		/**
@@ -371,6 +379,10 @@ package com.ffsys.swat.core {
 				event );
 				
 			_phase = String( event.loader.customData );
+			
+			var list:IResourceList = IResourceList( ILoaderQueue( event.loader ).resource );
+			list.id = this.phase;
+			
 			dispatchEvent( evt );
 			return evt;
 		}
@@ -451,7 +463,25 @@ package com.ffsys.swat.core {
 			removeQueueListeners( _assets, loadComplete );
 			_phase = ResourceLoadPhase.COMPLETE_PHASE;
 			dispatchEvent( evt );
-			_resources = IResourceList( _assets.resource );
+			
+			//_resources = IResourceList( _assets.resource );
+			
+			//ensure the resources property is set
+			trace("ResourceLoader::loadComplete()", "GET RESOURCES REFERENCE: ",
+				this.resources,
+				this.resources.length );
+				
+			var resource:IResourceElement = null;
+			for( var i:int = 0;i < this.resources.length;i++ )
+			{
+				resource = this.resources.getResourceAt( i );
+				trace("ResourceLoader::loadComplete()", resource, resource.id );
+				
+				if( resource is IResourceList )
+				{
+					trace("ResourceLoader::loadComplete() GOT COMPOSITE LIST: ", IResourceList( resource ).length );
+				}
+			}
 			
 			//clean up the queue now we have the resources
 			_assets.destroy();
