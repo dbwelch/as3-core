@@ -21,7 +21,7 @@ package com.ffsys.swat.core
 		public static const CODE_PHASE:String = "code";
 	
 		/**
-		*	Represents the preload phase for the configuration XML document.
+		*	Represents the preload phase for a configuration document.
 		*/
 		public static const CONFIGURATION_PHASE:String = "configuration";
 	
@@ -69,5 +69,10 @@ package com.ffsys.swat.core
 		*	Represents the preload phase for CSS documents.	
 		*/
 		public static const CSS_PHASE:String = "css";
+		
+		/**
+		*	A phase that indicates that all loading is complete.
+		*/
+		public static const COMPLETE_PHASE:String = "complete";
 	}
 }

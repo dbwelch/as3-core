@@ -140,11 +140,10 @@ package com.ffsys.io.loaders.core {
 					{
 						ILoader( loader ).options = options;
 					}
-					ILoader( loader ).queue = this;
 				}
+				loader.queue = this;
 				_elements.push( loader );
 			}
-			
 			return loader;
 		}
 		
@@ -392,7 +391,8 @@ package com.ffsys.io.loaders.core {
 			if( element is ILoader )
 			{
 				var loader:ILoader = ILoader( element );
-			
+				
+				/*
 				//if we're set to only load ILoader instances
 				//that have the forceLoad flag set
 				if( _force )
@@ -405,9 +405,11 @@ package com.ffsys.io.loaders.core {
 						return;
 					}
 				}
+				*/
 			
 				var evt:LoadEvent = new LoadEvent(
 					LoadEvent.LOAD_ITEM_START ,null, loader );
+					
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			
@@ -416,9 +418,7 @@ package com.ffsys.io.loaders.core {
 				//if we were in a delay _loading may have been set to false
 				//for the duration of the delay period
 				_loading = true;
-			
 				loader.load();
-			
 			}else if( element is ILoaderQueue )
 			{
 				var child:ILoaderQueue = ILoaderQueue( element );
@@ -453,13 +453,13 @@ package com.ffsys.io.loaders.core {
 			//child queue listeners
 			if( target is ILoaderQueue )
 			{
+				target.addEventListener( LoadEvent.QUEUE_START, childEventProxy );
 				target.addEventListener( LoadEvent.LOAD_START, childEventProxy );
-				target.addEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
-				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );						
+				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );
 				target.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
 				target.addEventListener( LoadEvent.DATA, childEventProxy );
 				target.addEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
-			//child loader listeners				
+			//child loader listeners
 			}else if( target is ILoader )
 			{
 				target.addEventListener( LoadEvent.LOAD_START, childEventProxy );
@@ -477,9 +477,9 @@ package com.ffsys.io.loaders.core {
 			//child queue listeners
 			if( target is ILoaderQueue )
 			{
+				target.removeEventListener( LoadEvent.QUEUE_START, childEventProxy );
 				target.removeEventListener( LoadEvent.LOAD_START, childEventProxy );
-				target.removeEventListener( LoadEvent.LOAD_ITEM_START, childEventProxy );
-				target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );					
+				target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );		
 				target.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
 				target.removeEventListener( LoadEvent.DATA, childEventProxy );
 				target.removeEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
@@ -548,9 +548,13 @@ package com.ffsys.io.loaders.core {
 				close();
 				reset();
 			}
+			
+			var evt:LoadEvent = new LoadEvent(
+				LoadEvent.QUEUE_START, null, this, this.resource );
+			dispatchEvent( evt );
 
 			_loading = true;
-			_complete = false;			
+			_complete = false;	
 			loadItemAtIndex( _index );
 		}
 		
@@ -677,7 +681,6 @@ package com.ffsys.io.loaders.core {
 			{
 				//we're not loading while we're delaying
 				_loading = false;
-				
 				startDelay();
 			}else{
 				loadItemAtIndex( this.index + 1 );
@@ -774,7 +777,7 @@ package com.ffsys.io.loaders.core {
 					}
 				}
 			}
-			
+
 			dispatchEvent( event as Event );
 			next();
 		}

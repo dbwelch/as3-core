@@ -66,11 +66,11 @@ package com.ffsys.ioc {
 			request:URLRequest ):Boolean;
 			
 		/**
-		*	Loads all the beans associated with this
-		*	bean manager.
+		*	Gets a loader queue of all the external url requests
+		* 	associated with this manager.
 		*	
 		*	@return The loader queue used to load the beans.
 		*/
-		function load():ILoaderQueue;
+		function getLoaderQueue():ILoaderQueue;
 	}
 }

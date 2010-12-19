@@ -46,6 +46,11 @@ package com.ffsys.swat.events {
 		public static const LOAD_COMPLETE:String = "rslLoadComplete";
 		
 		/**
+		*	Event dispatched when the phase starts for a type of resource.
+		*/
+		public static const PHASE_START:String = "rslPhaseStart";
+		
+		/**
 		*	The total number of bytes.
 		*/
 		public var bytesTotal:int = 0;
@@ -98,6 +103,14 @@ package com.ffsys.swat.events {
 			}
 			
 			return ( bytesLoaded / bytesTotal );
+		}
+		
+		/**
+		* 	Gets a percentage value of the load progress.
+		*/
+		public function get percent():Number
+		{
+			return this.normalized * 100;
 		}
 		
 		/**

@@ -50,7 +50,7 @@ package com.ffsys.ioc
 			_beanManager = new BeanManager();
 			_beanManager.document.id = "master";
 			addRequests( _beanManager );
-			var queue:ILoaderQueue = _beanManager.load();
+			var queue:ILoaderQueue = _beanManager.getLoaderQueue();
 			queue.addEventListener(
 				LoadEvent.LOAD_COMPLETE,
 				Async.asyncHandler( this, assertBeanManagerAssets, TIMEOUT, null, fail ) );
@@ -60,6 +60,7 @@ package com.ffsys.ioc
 			queue.addEventListener( LoadEvent.LOAD_PROGRESS, loadHandler );
 			queue.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, loadHandler );
 			queue.addEventListener( LoadEvent.LOAD_COMPLETE, loadHandler );
+			queue.load();
 		}
 		
 		/**

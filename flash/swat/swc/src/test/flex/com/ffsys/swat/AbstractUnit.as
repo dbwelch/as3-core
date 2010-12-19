@@ -5,8 +5,12 @@ package com.ffsys.swat
 	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
+
+	import com.ffsys.effects.tween.*;
+	import com.ffsys.ui.graphics.*;
 	
-	import com.ffsys.io.loaders.events.LoadEvent;
+	import com.ffsys.io.loaders.core.*;	
+	import com.ffsys.io.loaders.events.*;
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.Locale;
@@ -14,6 +18,9 @@ package com.ffsys.swat
 	import com.ffsys.swat.configuration.*;
 	import com.ffsys.swat.core.*;	
 	import com.ffsys.swat.events.*;
+	import com.ffsys.swat.view.*;
+	
+	import com.ffsys.swat.mock.*;
 	
 	/**
 	*	Abstract super class for unit tests.
@@ -25,13 +32,14 @@ package com.ffsys.swat
 	*	@since  09.06.2010
 	*/
 	public class AbstractUnit extends Object
-	{
-		public static const TIMEOUT:Number = 1000;
+	{	
+		public static const TIMEOUT:Number = 60000;
 		
 		public static const TEST_XML_PATH:String =
 			"mock-configuration.xml";
 		
 		private var _bootstrapLoader:BootstrapLoader;
+		private var _queue:ILoaderQueue;
 		
 		/**
 		* 	Creates an <code>AbstractUnit</code> instance.
@@ -39,6 +47,21 @@ package com.ffsys.swat
 		public function AbstractUnit()
 		{
 			super();
+		}
+		
+		private function getLinkedClasses():Array
+		{
+			var output:Array = new Array();
+			output.push( MockApplicationController );
+			
+			output.push( RectangleGraphic );
+			output.push( SolidFill );
+			output.push( Stroke );	
+			
+			output.push( Tween );
+			output.push( TweenGroup );	
+			output.push( TweenSequence );											
+			return output;
 		}
 		
 		[Before( async )]
@@ -52,14 +75,37 @@ package com.ffsys.swat
 				new Configuration();
 			_bootstrapLoader = new BootstrapLoader(
 				flashvars,
-				parser );	
+				parser );
+				
+			_bootstrapLoader.view = new DefaultApplicationPreloadView();
+			
 			_bootstrapLoader.addEventListener(
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
-				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
+				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );			
 			
 			//_bootstrapLoader.request = new URLRequest( TEST_XML_PATH );
 			
-			_bootstrapLoader.load();
+			_queue = _bootstrapLoader.load();
+			
+			_queue.addEventListener(
+				LoadEvent.RESOURCE_NOT_FOUND,
+				resourceNotFound );			
+			
+			_queue.addEventListener(
+				LoadEvent.LOAD_START,
+				loadStart );		
+				
+			_queue.addEventListener(
+				LoadEvent.LOAD_PROGRESS,
+				loadProgress );
+				
+			_queue.addEventListener(
+				LoadEvent.DATA,
+				loaded );	
+
+			_queue.addEventListener(
+				LoadEvent.LOAD_COMPLETE,
+				Async.asyncHandler( this, assertBootstrapData, TIMEOUT, null, fail ) );			
 		}
 		
 		[After]
@@ -67,6 +113,42 @@ package com.ffsys.swat
 		{
 			_bootstrapLoader = null;
 		}
+		
+		/**
+		*	@private
+		*/
+		protected function loadStart(
+			event:LoadEvent ):void
+		{
+			//trace("AbstractUnit::loadStart()", event, event.type, event.uri );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function loadProgress(
+			event:LoadEvent ):void
+		{
+			//trace("AbstractUnit::loadProgress()", event, event.type, event.uri );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function loaded(
+			event:LoadEvent ):void
+		{
+			//trace("AbstractUnit::loaded()", event, event.type, event.uri );
+		}		
+		
+		/**
+		*	@private
+		*/
+		protected function resourceNotFound(
+			event:LoadEvent ):void
+		{
+			//trace("AbstractUnit::resourceNotFound()", event, event.type, event.uri );
+		}		
 		
 		/**
 		*	Performs assertions once the configuration data has been
@@ -81,6 +163,17 @@ package com.ffsys.swat
 			var locale:ILocale = Locale.EN_GB;
 			configuration.locales.lang = locale.getLanguage();
 		}
+		
+		/**
+		*	Performs assertions once the configuration data has been
+		*	loaded.
+		*/
+		protected function assertBootstrapData(
+			event:LoadEvent,
+			passThroughData:Object ):void
+		{
+			
+		}		
 		
 		protected function fail( event:Event ):void
 		{

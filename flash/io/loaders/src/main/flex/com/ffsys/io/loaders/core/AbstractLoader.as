@@ -172,7 +172,9 @@ package com.ffsys.io.loaders.core {
 			}
 			
 			addCompositeListeners( IEventDispatcher( _composite ) );
-				
+			
+			_bytesLoaded = 0;
+			_bytesTotal = 0;
 			_loading = true;
 			_loaded = false;
 			_complete = false;

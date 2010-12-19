@@ -5,6 +5,9 @@ package com.ffsys.swat.configuration
 	
 	import com.ffsys.swat.AbstractUnit;
 	
+	import com.ffsys.io.loaders.core.*;	
+	import com.ffsys.io.loaders.events.*;	
+	
 	import com.ffsys.swat.events.*;
 	import com.ffsys.swat.configuration.locale.*;
 	import com.ffsys.swat.configuration.rsls.*;
@@ -47,6 +50,7 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.locales.resources );
 			
+			/*
 			//test parent references are correct
 			Assert.assertNotNull( configuration.locales.parent );
 			Assert.assertEquals( configuration, configuration.locales.parent );
@@ -86,6 +90,17 @@ package com.ffsys.swat.configuration
 			
 			//trace("ConfigurationLoadTest::assertLoadedConfiguration", resource, resource.url, resource.getTranslatedPath() );
 			Assert.assertEquals( "mock-assets/locales/en-GB/properties/messages.properties", resource.getTranslatedPath() );
+			*/
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function assertBootstrapData(
+			event:LoadEvent,
+			passThroughData:Object ):void
+		{
+			trace("*********************** ConfigurationLoadTest::assertBootstrapData() !?!?!?!!?");
 		}
 	
 		[Test(async)]

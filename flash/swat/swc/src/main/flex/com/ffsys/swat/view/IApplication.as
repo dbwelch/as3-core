@@ -1,7 +1,6 @@
 package com.ffsys.swat.view
 {
 	import com.ffsys.core.IFlashVariables;
-	
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	

@@ -58,6 +58,7 @@ package com.ffsys.io.loaders.types {
 			event:Event, data:Object = null ):void
 		{
 			var fonts:Array = initializeFonts( this.loader );
+
 			this.resource = new ObjectResource(
 				fonts, uri, bytesTotal );
 			var evt:LoadEvent = new LoadEvent(

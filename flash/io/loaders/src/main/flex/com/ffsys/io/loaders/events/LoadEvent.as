@@ -49,6 +49,16 @@ package com.ffsys.io.loaders.events {
 		static public const LOAD_ITEM_START:String = "loadItemStart";
 		
 		/**
+		*	Event dispatched when a loader queue starts loading.
+		*/
+		static public const QUEUE_START:String = "loadQueueStart";		
+		
+		/**
+		*	Event dispatched when a loader queue is complete.
+		*/
+		static public const QUEUE_COMPLETE:String = "loadQueueComplete";		
+		
+		/**
 		*	Event dispatched when a runtime asset could not be found.	
 		*/
 		static public const RESOURCE_NOT_FOUND:String = "resourceNotFound";			
@@ -199,8 +209,9 @@ package com.ffsys.io.loaders.events {
 		*/
 		override public function clone():Event
 		{
+			//trace("LoadEvent::clone()", "CLONING", this.type );
 			return new LoadEvent(
-				type, triggerEvent, loader, resource );
+				this.type, this.triggerEvent, this.loader, this.resource );
 		}
 	}
 }

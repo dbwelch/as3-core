@@ -2,8 +2,8 @@
 <configuration>
 	
 	<meta>
-		<name>mock configuration document</name>
-		<version>0.4a</version>
+		<name>swat - mock application</name>
+		<version>0.1a</version>
 	</meta>
 	
 	<paths>
@@ -14,57 +14,60 @@
 	</paths>
 	
 	<locales>
-		
 		<!-- resources for all locales -->
 		<resources>
-			
 			<rsls>
 				<rsl>
 					<trusted>true</trusted>
-					<url>/////swf/application-assets.swf</url>
+					<url>swf/application-assets.swf</url>
 				</rsl>
 			</rsls>
-			
-				
+			<beans>
+				<resource>
+					<url>css/mock-beans.css</url>
+				</resource>
+			</beans>
 			<xml>
 				<resource>
-					<url>/xml/test.xml</url>
+					<url>xml/test.xml</url>
 				</resource>
 			</xml>
-			
 			<css>
 				<resource>
-					<id>test-css</id>
-					<url>/css/test.css</url>
+					<url>css/web-app.css</url>
 				</resource>
 				<resource>
-					<id>test-filters</id>
-					<url>/css/filters.css</url>
+					<url>css/animations.css</url>
+				</resource>				
+				<resource>
+					<url>css/filters.css</url>
 				</resource>
 			</css>
-			
 			<messages>
 				<resource>
-					<url>/properties/messages-common.properties</url>
+					<url>properties/messages.properties</url>
 				</resource>
 			</messages>
-		
 			<errors>
 				<resource>
-					<url>/properties/errors-common.properties</url>
+					<url>properties/errors.properties</url>
 				</resource>
 			</errors>
-			
 			<images>
 				<resource>
 					<id>garden-001</id>
-					<url>/images/garden-001.jpg</url>
+					<url>images/mock-image-001.jpg</url>
 				</resource>
 				<resource>
 					<id>garden-002</id>
-					<url>/images/garden-002.jpg</url>
+					<url>images/mock-image-002.jpg</url>
 				</resource>
 			</images>
+			<fonts>
+				<resource>
+					<url>fonts/fonts.swf</url>
+				</resource>
+			</fonts>			
 		</resources>
 		
 		<!-- The default fallback locale -->
@@ -76,21 +79,15 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>/properties/messages.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			
 				<errors>
 					<resource>
-						<url>/properties/errors.properties</url>
+						<url>properties/errors.properties</url>
 					</resource>
 				</errors>
-			
-				<fonts>
-					<resource>
-						<url>/fonts/fonts.swf</url>
-					</resource>
-				</fonts>
 				
 			</resources>
 		</locale>
@@ -99,7 +96,7 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>/properties/messages.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>
@@ -109,22 +106,20 @@
 			<resources>
 				<messages>
 					<resource>
-						<url>/properties/messages.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>
 		</locale>
-		
 		<locale lang="fr" country="FR">
 			<resources>
 				<messages>
 					<resource>
-						<url>/properties/messages.properties</url>
+						<url>properties/messages.properties</url>
 					</resource>
 				</messages>
 			</resources>
 		</locale>
-		
 	</locales>
 	
 </configuration>

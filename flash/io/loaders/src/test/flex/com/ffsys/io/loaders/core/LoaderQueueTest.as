@@ -58,8 +58,8 @@ package com.ffsys.io.loaders.core {
 			loader = new BinaryLoader( new URLRequest( "assets/test.osc" ) );
 			_queue.addLoader( loader );
 			
-			loader = new FontLoader( new URLRequest( "assets/test-fonts.swf" ) );
-			_queue.addLoader( loader );
+			//loader = new FontLoader( new URLRequest( "assets/test-fonts.swf" ) );
+			//_queue.addLoader( loader );
 			
 			loader = new ImageLoader( new URLRequest( "assets/test.jpg" ) );
 			_queue.addLoader( loader );
@@ -112,7 +112,7 @@ package com.ffsys.io.loaders.core {
 		{
 			Assert.assertNotNull( _queue.resources );
 			Assert.assertTrue( _queue.resources is IResourceList );	
-			Assert.assertEquals( 11, _queue.resources.length );
+			Assert.assertEquals( 10, _queue.resources.length );
 		}
 		
 		/**

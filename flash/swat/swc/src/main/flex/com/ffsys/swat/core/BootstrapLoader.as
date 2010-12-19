@@ -3,6 +3,7 @@ package com.ffsys.swat.core {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
 	import flash.net.URLRequest;	
 	
 	import com.ffsys.core.IFlashVariables;
@@ -115,51 +116,74 @@ package com.ffsys.swat.core {
 		*/
 		override public function load():ILoaderQueue
 		{
+			trace("****************************************************** BootstrapLoader::load()", "**************************************************************" );
+			
 			_assets = new LoaderQueue();
 			
 			//should definitely have a parser assigned by now
 			var interpreter:ConfigurationInterpreter = new ConfigurationInterpreter();
 			interpreter.flashvars = DefaultFlashVariables( _flashvars );
 			_configurationLoader.parser.interpreter = interpreter;
-			
-			/*
-			trace("BootstrapLoader::load(), ",
-				_configurationLoader.parser, interpreter, _flashvars );
-			*/
-			
-			trace("BootstrapLoader::load()", _configurationLoader, _flashvars, DefaultFlashVariables( _flashvars ).classPathConfiguration );
-				
+	
 			_configurationLoader.root =
 				DefaultFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
 					
-			_configurationLoader.addEventListener(
-				LoadEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound, false, 0, false );
-			
-			_configurationLoader.addEventListener(
-				LoadEvent.LOAD_START,
-				loadStart, false, 0, false );
-				
-			_configurationLoader.addEventListener(
-				LoadEvent.LOAD_PROGRESS,
-				loadProgress, false, 0, false );
-			
-			_configurationLoader.addEventListener(
-				LoadEvent.DATA,
-				configurationLoadComplete, false, 0, false );
+			addLoaderListeners( _configurationLoader );
 				
 			_phase = ResourceLoadPhase.CONFIGURATION_PHASE;
+			_assets.customData = _phase;
 				
 			var path:String = DefaultFlashVariables( _flashvars ).configuration;
 			_configurationLoader.request = new URLRequest( path );
-			
-			//
-			//_configurationLoader.load();
 			
 			_assets.addLoader( _configurationLoader );
 			_assets.load();
 			return _assets;
 		}
+		
+		protected function addLoaderListeners( loader:IEventDispatcher ):void
+		{
+			if( loader != null )
+			{
+				loader.addEventListener(
+					LoadEvent.RESOURCE_NOT_FOUND,
+					resourceNotFound, false, 0, false );
+
+				loader.addEventListener(
+					LoadEvent.LOAD_START,
+					loadStart, false, 0, false );
+
+				loader.addEventListener(
+					LoadEvent.LOAD_PROGRESS,
+					loadProgress, false, 0, false );
+
+				loader.addEventListener(
+					LoadEvent.DATA,
+					configurationLoadComplete, false, 0, false );				
+			}
+		}
+		
+		protected function removeLoaderListeners( loader:IEventDispatcher ):void
+		{
+			if( loader != null )
+			{			
+				loader.removeEventListener(
+					LoadEvent.RESOURCE_NOT_FOUND,
+					resourceNotFound );
+			
+				loader.removeEventListener(
+					LoadEvent.LOAD_START,
+					loadStart );
+				
+				loader.removeEventListener(
+					LoadEvent.LOAD_PROGRESS,
+					loadProgress );
+			
+				loader.removeEventListener(
+					LoadEvent.DATA,
+					configurationLoadComplete );				
+			}
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -180,40 +204,10 @@ package com.ffsys.swat.core {
 		private function configurationLoadComplete( 
 			event:LoadEvent ):void
 		{
-			//keep a reference to the configuration
-			//_configuration = _configurationLoader.configuration;
+			removeLoaderListeners( _configurationLoader );
 			
 			_configuration = IConfiguration( IResource( event.resource ).data );
-			
-			//trace("BootstrapLoader::configurationLoadComplete()", _configuration );
 
-			//update the selected locale
-			//_configuration.locales.lang = DefaultFlashVariables( _flashvars ).lang;
-			
-			_configurationLoader.removeEventListener(
-				LoadEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound );
-			
-			_configurationLoader.removeEventListener(
-				LoadEvent.LOAD_START,
-				loadStart );
-				
-			_configurationLoader.removeEventListener(
-				LoadEvent.LOAD_PROGRESS,
-				loadProgress );
-			
-			_configurationLoader.removeEventListener(
-				LoadEvent.DATA,
-				configurationLoadComplete );
-			
-			if( this.view )
-			{
-				this.view.configuration( new RslEvent(
-					RslEvent.LOADED,
-					this,
-					event ) );
-			}
-			
 			var evt:ConfigurationEvent = new ConfigurationEvent(
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
 				this,
@@ -222,17 +216,80 @@ package com.ffsys.swat.core {
 			evt.configuration = _configuration;
 			dispatchEvent( evt );
 			
+			//get the resource queue to inject
 			this.builder = _configuration.locales;
 			var targets:ILoaderQueue = getLoaderQueue( this.builder );
 			var queue:ILoaderQueue = null;
 			for( var i:int = 0;i < targets.length;i++ )
 			{
-				queue = ILoaderQueue( targets.getLoaderAt( 0 ) );
+				queue = ILoaderQueue( targets.getLoaderAt( i ) );
 				if( !queue.isEmpty() )
 				{
-					trace("BootstrapLoader::configurationLoadComplete()", "INJECTING RESOURCE QUEUE", queue.id );
-					_assets.insertLoaderAt( queue, i + 1 );
+					_assets.addLoader( queue );
 				}
+			}
+			
+			//update the phase
+			if( _assets.length > 1 )
+			{
+				_phase = String( _assets.getLoaderAt( 1 ).customData );
+			}
+			
+			addQueueListeners( _assets, loadComplete );
+			dispatchEvent( event );
+		}
+		
+		
+		/**
+		*	@private
+		*/
+		override protected function resourceNotFound(
+			event:LoadEvent ):RslEvent
+		{	
+			var rsl:RslEvent = super.resourceNotFound( event );
+			handleViewEvent( rsl );
+			return rsl;
+		}
+		
+		/**
+		*	@private
+		*/
+		override protected function loadStart( event:LoadEvent ):RslEvent
+		{
+			var rsl:RslEvent = super.loadStart( event );	
+			handleViewEvent( rsl );			
+			return rsl;			
+		}
+		
+		/**
+		*	@private
+		*/
+		override protected function loadProgress( 
+			event:LoadEvent ):RslEvent
+		{
+			var rsl:RslEvent = super.loadProgress( event );
+			handleViewEvent( rsl );
+			return rsl;			
+		}	
+		
+		/**
+		*	@private
+		*/
+		override protected function itemLoaded( event:LoadEvent ):RslEvent
+		{
+			var rsl:RslEvent = super.itemLoaded( event );
+			handleViewEvent( rsl );	
+			return rsl;					
+		}	
+		
+		/**
+		* 	@private
+		*/
+		private function handleViewEvent( event:RslEvent ):void
+		{
+			if( event != null && this.view )
+			{
+				view.resource( event );
 			}
 		}
 	}

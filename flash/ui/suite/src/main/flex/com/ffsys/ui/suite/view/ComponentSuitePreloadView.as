@@ -54,7 +54,7 @@ package com.ffsys.ui.suite.view {
 		/**
 		*	@inheritDoc
 		*/
-		override public function configuration( event:RslEvent ):void
+		override protected function configuration( event:RslEvent ):void
 		{
 			showLoadProgress( event.preloader.phase, event );
 		}
@@ -62,7 +62,7 @@ package com.ffsys.ui.suite.view {
 		/**
 		*	@inheritDoc
 		*/
-		override public function rsl( event:RslEvent ):void
+		override protected function rsl( event:RslEvent ):void
 		{
 			showLoadProgress( event.preloader.phase, event );
 		}
@@ -70,7 +70,7 @@ package com.ffsys.ui.suite.view {
 		/**
 		*	@inheritDoc
 		*/
-		override public function font( event:RslEvent ):void
+		override protected function font( event:RslEvent ):void
 		{
 			showLoadProgress( event.preloader.phase, event );
 		}

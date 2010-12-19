@@ -136,7 +136,7 @@ package com.ffsys.ioc {
 		/**
 		*	@inheritDoc
 		*/
-		public function load():ILoaderQueue
+		public function getLoaderQueue():ILoaderQueue
 		{
 			if( _queue )
 			{
@@ -156,7 +156,7 @@ package com.ffsys.ioc {
 			}
 			
 			//_queue.addEventListener( LoadEvent.LOAD_COMPLETE, documentsLoaded );
-			_queue.load();
+			//_queue.load();
 			
 			return _queue;
 		}

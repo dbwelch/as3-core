@@ -24,6 +24,7 @@ package com.ffsys.swat.view  {
 	import com.ffsys.swat.configuration.IConfigurationParser;
 	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.core.IApplicationMainController;
+	import com.ffsys.swat.core.IFlashVariablesAware;
 	
 	/**
 	*	Abstract super class for the application.
@@ -184,15 +185,25 @@ package com.ffsys.swat.view  {
 		*/
 		protected function doWithBeans( beans:IBeanDocument ):void
 		{
+			if( beans == null )
+			{
+				throw new Error( "Cannot modify a null bean document." );
+			}
+			
 			var descriptor:IBeanDescriptor = null;
-			descriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.CONFIGURATION, _configuration );
-			beans.addBeanDescriptor( descriptor );
 			
-			trace("DefaultApplication::doWithBeans()", _configuration );
-			
-			descriptor = new InjectedBeanDescriptor(
+			var configurationBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.CONFIGURATION, _configuration )
+				
+			var flashvarsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.FLASH_VARIABLES, _configuration.flashvars );
+			
+			descriptor = configurationBean;
+			beans.addBeanDescriptor( descriptor );
+		
+			trace("DefaultApplication::doWithBeans()", _configuration );
+		
+			descriptor = flashvarsBean;
 			beans.addBeanDescriptor( descriptor );
 			descriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.PATHS, _configuration.paths );
@@ -209,6 +220,19 @@ package com.ffsys.swat.view  {
 			descriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
 			beans.addBeanDescriptor( descriptor );
+		
+			//set up the generic type injectors
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.CONFIGURATION,
+				DefaultBeanIdentifiers.CONFIGURATION,
+				IConfigurationAware,
+				configurationBean ) );
+				
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.FLASH_VARIABLES,
+				DefaultBeanIdentifiers.FLASH_VARIABLES,
+				IFlashVariablesAware,
+				flashvarsBean ) );
 		}
 		
 		/**

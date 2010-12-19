@@ -2,6 +2,7 @@ package com.ffsys.io.loaders.core {
 	
 	import flash.events.Event;
 	import flash.net.URLRequest;
+	import flash.text.*;
 	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
@@ -53,29 +54,48 @@ package com.ffsys.io.loaders.core {
 		{
 			var loader:ILoader = null;
 			_queue = getLoaderQueue();
+			_queue.id = "main";
+			_queue.customData = "main-queue";
 			
+			//top-level loader
 			loader = new BinaryLoader( new URLRequest( "assets/test.osc" ) );
 			_queue.addLoader( loader );
 			
+			//nested queue
 			var nested:ILoaderQueue = new LoaderQueue();
+			nested.id = "nested";
+			nested.customData = "nested-queue";
 			
 			loader = new ImageLoader( new URLRequest( "assets/test.jpg" ) );
 			nested.addLoader( loader );
+			
+			//nested another level
+			var child:ILoaderQueue = new LoaderQueue();
+			child.id = "child";
+			child.customData = "child-queue";
+			
+			loader = new XmlLoader( new URLRequest( "assets/test.xml" ) );
+			child.addLoader( loader );
+			nested.addLoader( child );
 			_queue.addLoader( nested );
 			
-			/*
-			
-			loader = new FontLoader( new URLRequest( "assets/test-fonts.swf" ) );
-			_queue.addLoader( loader );			
+			//sibling to the initial nested queue
+			var sibling:ILoaderQueue = new LoaderQueue();
+			sibling.id = "sibling";	
+			sibling.customData = "sibling-queue";
 			
 			loader = new ImageLoader( new URLRequest( "assets/test.jpg" ) );
-			_queue.addLoader( loader );
+			sibling.addLoader( loader );
 			
 			loader = new MovieLoader( new URLRequest( "assets/test.swf" ) );
-			_queue.addLoader( loader );	
+			sibling.addLoader( loader );	
 			
 			loader = new PropertiesLoader( new URLRequest( "assets/test.properties" ) );
-			_queue.addLoader( loader );
+			sibling.addLoader( loader );
+			
+			_queue.addLoader( sibling );
+			
+			/*
 			
 			loader = new SoundLoader( new URLRequest( "assets/test.mp3" ) );
 			_queue.addLoader( loader );
@@ -97,6 +117,18 @@ package com.ffsys.io.loaders.core {
 			*/
 			
 			_queue.addEventListener(
+				LoadEvent.LOAD_START,
+				loadStart );		
+				
+			_queue.addEventListener(
+				LoadEvent.LOAD_PROGRESS,
+				loadProgress );
+				
+			_queue.addEventListener(
+				LoadEvent.DATA,
+				loaded );
+			
+			_queue.addEventListener(
 				LoadEvent.LOAD_COMPLETE,
 				Async.asyncHandler( this, assertLoadedAsset, TIMEOUT, null, fail ) );
 			_queue.load();
@@ -109,6 +141,33 @@ package com.ffsys.io.loaders.core {
 		}
 		
 		/**
+		*	@private
+		*/
+		protected function loadStart(
+			event:LoadEvent ):void
+		{
+			trace("TreeLoaderQueueTest::loadStart()", event, event.type, event.uri );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function loadProgress(
+			event:LoadEvent ):void
+		{
+			trace("TreeLoaderQueueTest::loadProgress()", event, event.type, event.uri );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function loaded(
+			event:LoadEvent ):void
+		{
+			trace("TreeLoaderQueueTest::loaded()", event, event.type, event.uri );
+		}
+		
+		/**
 		*	Performs assertions when the asset is loaded.
 		*	
 		*	@param event The event that loaded the asset.
@@ -118,13 +177,33 @@ package com.ffsys.io.loaders.core {
 			event:LoadEvent,
 			passThroughData:Object ):void
 		{
+			trace("TreeLoaderQueueTest::assertLoadedAsset()", "CHECKING ASSERTIONS ON QUEUE", _queue );
+			
 			Assert.assertNotNull( _queue.resources );
 			Assert.assertTrue( _queue.resources is IResourceList );
-			Assert.assertEquals( 2, _queue.resources.length );
-			Assert.assertTrue( _queue.resources.getResourceAt( 0 ) is IResource );
+			Assert.assertEquals( 3, _queue.resources.length );
+			Assert.assertTrue( _queue.resources.getResourceAt( 0 ) is BinaryResource );
 			
+			//image loader in the initial nested queue
 			var list:Object = _queue.resources.getResourceAt( 1 );
 			Assert.assertTrue( list is IResourceList );
+			var nested:IResourceList = IResourceList( list );
+			Assert.assertTrue( nested.getResourceAt( 0 ) is ImageResource );
+			
+			//dig down to the next nested level
+			list = nested.getResourceAt( 1 );
+			Assert.assertTrue( list is IResourceList );
+			var child:IResourceList = IResourceList( list );
+			Assert.assertNotNull( child );
+			
+			Assert.assertTrue( child.getResourceAt( 0 ) is XmlResource );
+			
+			/*
+			var fonts:Object = ObjectResource( child.getResourceAt( 0 ) ).data;
+			Assert.assertTrue( fonts is Array );
+			Assert.assertEquals( 1, ( fonts as Array ).length );
+			Assert.assertTrue( fonts[ 0 ] is Font );
+			*/
 		}
 		
 		/**

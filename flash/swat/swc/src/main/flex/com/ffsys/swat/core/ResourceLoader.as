@@ -23,7 +23,6 @@ package com.ffsys.swat.core {
 		implements IResourceLoader {
 
 		private var _builder:IResourceQueueBuilder;
-		private var _phaseIndex:int = -1;
 		private var _phases:Array = ResourceLoadPhase.defaults;
 		
 		/**
@@ -34,7 +33,7 @@ package com.ffsys.swat.core {
 		/**
 		* 	@private
 		*/
-		protected var _phase:String = null;
+		protected var _phase:String = ResourceLoadPhase.CODE_PHASE;
 		
 		/**
 		*	Creates a <code>ResourceLoader</code> instance.
@@ -89,13 +88,13 @@ package com.ffsys.swat.core {
 			if( _assets )
 			{
 				_assets.close();
-				removeQueueListeners();
+				removeQueueListeners( _assets, loadComplete );
 			}
 			_assets = getLoaderQueue( this.builder );
 			if( !_assets.isEmpty() )
 			{
-				_phase = _assets.first().id;
-				addQueueListeners();
+				_phase = String( _assets.first().customData );
+				addQueueListeners( _assets, loadComplete );
 				_assets.load();
 			}
 			return _assets;
@@ -130,8 +129,7 @@ package com.ffsys.swat.core {
 				queue = builder.getQueueByPhase( phase );
 				if( queue && !queue.isEmpty() )
 				{
-					queue.id = phase;
-					queue.addEventListener( LoadEvent.LOAD_COMPLETE, phaseLoadComplete );
+					queue.customData = phase;
 					output.addLoader( queue );
 				}
 			}
@@ -141,134 +139,162 @@ package com.ffsys.swat.core {
 		/**
 		*	@private	
 		*/
-		protected function addQueueListeners():void
+		protected function addQueueListeners( queue:ILoaderQueue, complete:Function ):void
 		{
-			if( _assets )
+			if( queue != null )
 			{
-				_assets.addEventListener(
+				queue.addEventListener(
+					LoadEvent.QUEUE_START,
+					queueStart );
+				
+				queue.addEventListener(
 					LoadEvent.RESOURCE_NOT_FOUND,
-					resourceNotFound, false, 0, false );
+					resourceNotFound );
 				
-				_assets.addEventListener(
+				queue.addEventListener(
 					LoadEvent.LOAD_START,
-					loadStart, false, 0, false );
+					loadStart );
 			
-				_assets.addEventListener(
+				queue.addEventListener(
 					LoadEvent.LOAD_PROGRESS,
-					loadProgress, false, 0, false );
+					loadProgress );
 			
-				_assets.addEventListener(
+				queue.addEventListener(
 					LoadEvent.DATA,
-					itemLoaded, false, 0, false );
+					itemLoaded );
 				
-				_assets.addEventListener(
+				queue.addEventListener(
 					LoadEvent.LOAD_COMPLETE,
-					loadComplete, false, 0, false );
+					complete );
 			}
 		}
 		
 		/**
 		*	@private
 		*/
-		protected function removeQueueListeners():void
+		protected function removeQueueListeners( queue:ILoaderQueue, complete:Function ):void
 		{
-			if( _assets )
+			if( queue != null )
 			{
-				_assets.removeEventListener(
+				queue.removeEventListener(
+					LoadEvent.QUEUE_START,
+					queueStart );
+				
+				queue.removeEventListener(
 					LoadEvent.RESOURCE_NOT_FOUND,
 					resourceNotFound );
 			
-				_assets.removeEventListener(
+				queue.removeEventListener(
 					LoadEvent.LOAD_START,
 					loadStart );
 			
-				_assets.removeEventListener(
+				queue.removeEventListener(
 					LoadEvent.LOAD_PROGRESS,
 					loadProgress );
 				
-				_assets.removeEventListener(
+				queue.removeEventListener(
 					LoadEvent.DATA,
 					itemLoaded );
 				
-				_assets.removeEventListener(
+				queue.removeEventListener(
 					LoadEvent.LOAD_COMPLETE,
-					loadComplete );
+					complete );
 			}
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function queueStart(
+			event:LoadEvent ):RslEvent
+		{	
+			var evt:RslEvent = new RslEvent(
+				RslEvent.PHASE_START,
+				this,
+				event );
+				
+			_phase = String( event.loader.customData );
+			dispatchEvent( evt );
+			return evt;
 		}
 		
 		/**
 		*	@private
 		*/
 		protected function resourceNotFound(
-			event:LoadEvent ):void
+			event:LoadEvent ):RslEvent
 		{	
 			var evt:RslEvent = new RslEvent(
 				RslEvent.RESOURCE_NOT_FOUND,
 				this,
 				event );
 			dispatchEvent( evt );
+			return evt;
 		}
 		
 		/**
 		*	@private
 		*/
-		protected function loadStart( event:LoadEvent ):void
+		protected function loadStart( event:LoadEvent ):RslEvent
 		{
 			var evt:RslEvent = new RslEvent(
 				RslEvent.LOAD_START,
 				this,
 				event );
-			dispatchEvent( evt );	
+			evt.bytesLoaded = event.loader.bytesLoaded;
+			evt.bytesTotal = event.loader.bytesTotal;					
+			dispatchEvent( evt );
+			return evt;				
 		}
 		
 		/**
 		*	@private
 		*/
 		protected function loadProgress( 
-			event:LoadEvent ):void
+			event:LoadEvent ):RslEvent
 		{
 			var evt:RslEvent = new RslEvent(
 				RslEvent.LOAD_PROGRESS,
 				this,
 				event );
+			//evt.bytesLoaded = event.bytesLoaded;
+			//evt.bytesTotal = event.bytesTotal;
+			
+			
+			evt.bytesLoaded = event.loader.bytesLoaded;
+			evt.bytesTotal = event.loader.bytesTotal;			
+			
 			dispatchEvent( evt );
+			return evt;			
 		}	
 		
 		/**
 		*	@private
 		*/
-		protected function itemLoaded( event:LoadEvent ):void
+		protected function itemLoaded( event:LoadEvent ):RslEvent
 		{
 			var evt:RslEvent = new RslEvent(
 				RslEvent.LOADED,
 				this,
 				event );
+			evt.bytesLoaded = event.loader.bytesLoaded;
+			evt.bytesTotal = event.loader.bytesTotal;				
 			dispatchEvent( evt );
-		}		
-		
-		/**
-		*	@private
-		*/
-		protected function loadComplete( event:LoadEvent ):void
-		{
-			trace("ResourceLoader::loadComplete()", "ALL RESOURCES HAVE BEEN LOADED" );
-			
-			var evt:RslEvent = new RslEvent(
-				RslEvent.LOAD_COMPLETE,
-				this );	
-			dispatchEvent( evt );			
+			return evt;
 		}
 		
 		/**
 		*	@private
 		*/
-		protected function phaseLoadComplete( event:LoadEvent ):void
+		protected function loadComplete( event:LoadEvent ):RslEvent
 		{
-			event.target.removeEventListener(
-				event.type, arguments.callee );
-			_phase = event.loader.id;
-			trace("ResourceLoader::loadComplete()", "ALL RESOURCES FOR THE PHASE HAVE BEEN LOADED", _phase );	
-			_phaseIndex++;
+			var evt:RslEvent = new RslEvent(
+				RslEvent.LOAD_COMPLETE,
+				this );	
+			removeQueueListeners( _assets, loadComplete );
+			_phase = ResourceLoadPhase.COMPLETE_PHASE;
+			dispatchEvent( evt );
+			return evt;			
 		}
 	}
 }

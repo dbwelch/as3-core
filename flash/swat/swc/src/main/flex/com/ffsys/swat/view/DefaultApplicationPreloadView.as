@@ -3,6 +3,7 @@ package com.ffsys.swat.view {
 	import flash.display.Sprite;	
 	
 	import com.ffsys.swat.events.RslEvent;
+	import com.ffsys.swat.core.ResourceLoadPhase;
 	
 	/**
 	*	View for the application preload sequence.
@@ -37,7 +38,7 @@ package com.ffsys.swat.view {
 		*/
 		public function code( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
@@ -48,86 +49,133 @@ package com.ffsys.swat.view {
 			throw new Error(
 				"The requested runtime resource '" +
 			 		event.uri + "' could not be found." );
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function resource( event:RslEvent ):void
+		{	
+			if( event.type == RslEvent.RESOURCE_NOT_FOUND )
+			{
+				resourceNotFound( event );
+				return;
+			}
+					
+			switch( event.preloader.phase )
+			{
+				case ResourceLoadPhase.CONFIGURATION_PHASE:
+					configuration( event );
+					break;				
+				case ResourceLoadPhase.MESSAGES_PHASE:
+					message( event );
+					break;
+				case ResourceLoadPhase.ERRORS_PHASE:
+					error( event );
+					break;
+				case ResourceLoadPhase.FONTS_PHASE:
+					font( event );
+					break;
+				case ResourceLoadPhase.RSLS_PHASE:
+					rsl( event );
+					break;
+				case ResourceLoadPhase.BEANS_PHASE:
+					bean( event );
+					break;
+				case ResourceLoadPhase.CSS_PHASE:
+					css( event );
+					break;
+				case ResourceLoadPhase.XML_PHASE:
+					xml( event );
+					break;
+				case ResourceLoadPhase.IMAGES_PHASE:
+					image( event );
+					break;
+				case ResourceLoadPhase.SOUNDS_PHASE:
+					sound( event );
+					break;	
+			}
+		}
+		
+		
+		/**
+		*	@inheritDoc
+		*/
+		protected function configuration( event:RslEvent ):void
+		{
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function configuration( event:RslEvent ):void
+		protected function message( event:RslEvent ):void
 		{
-			//
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function message( event:RslEvent ):void
-		{
-			//
+			debug( event.preloader.phase, event );
 		}		
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function error( event:RslEvent ):void
+		protected function error( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}		
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function rsl( event:RslEvent ):void
+		protected function rsl( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function bean( event:RslEvent ):void
+		protected function bean( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}		
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function css( event:RslEvent ):void
+		protected function css( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function xml( event:RslEvent ):void
+		protected function xml( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function font( event:RslEvent ):void
+		protected function font( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function image( event:RslEvent ):void
+		protected function image( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		public function sound( event:RslEvent ):void
+		protected function sound( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
 		}
 		
 		/**
@@ -135,7 +183,21 @@ package com.ffsys.swat.view {
 		*/
 		public function complete( event:RslEvent ):void
 		{
-			//
+			debug( event.preloader.phase, event );
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function debug( phase:String, event:RslEvent ):void
+		{
+			trace("Loading: ",
+				phase,
+				event.type,
+				event.uri,
+				event.bytesLoaded,
+				event.bytesTotal,
+				int( event.percent ) + "%" );
 		}
 	}
 }

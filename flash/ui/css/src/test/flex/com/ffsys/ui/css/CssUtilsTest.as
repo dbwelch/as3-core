@@ -49,7 +49,7 @@ package com.ffsys.ui.css
 		{
 			_styleManager = new StyleManager();
 			addRequests( _styleManager );
-			var queue:ILoaderQueue = _styleManager.load();
+			var queue:ILoaderQueue = _styleManager.getLoaderQueue();
 			queue.addEventListener(
 				LoadEvent.LOAD_COMPLETE,
 				Async.asyncHandler( this, assertStyleManagerAssets, TIMEOUT, null, fail ) );
@@ -59,6 +59,7 @@ package com.ffsys.ui.css
 			queue.addEventListener( LoadEvent.LOAD_PROGRESS, loadHandler );
 			queue.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, loadHandler );
 			queue.addEventListener( LoadEvent.LOAD_COMPLETE, loadHandler );
+			queue.load();
 		}
 		
 		/**

@@ -1,0 +1,7 @@
+application {
+	instance-class: class( com.ffsys.swat.mock.MockApplicationController );
+	singleton: true;
+	configuration: ref( configuration );
+	my-locale: ref( locales );
+	my-preloader-view: ref( preloader-view );
+}

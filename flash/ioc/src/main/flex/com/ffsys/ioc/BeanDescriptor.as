@@ -334,6 +334,8 @@ package com.ffsys.ioc
 					
 					setBeanProperties( instance, parameters );
 					callBeanMethods( instance, parameters );
+					doTypeInjection( instance, parameters );
+					
 					if( inject && document && document.injector )
 					{
 						document.injector.inject( document, this.id, instance );
@@ -415,6 +417,35 @@ package com.ffsys.ioc
 									BeanError.BEAN_METHOD_RESULT_SET, z, instance, result );
 							}
 						}		
+					}
+				}
+			}
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Applies document level bean type injectors to an instantiated bean.
+		* 
+		* 	@param instance The bean instance.
+		* 	@param parameters The bean property parameters.
+		*/
+		private function doTypeInjection( instance:Object, parameters:Object ):void
+		{
+			if( this.document && this.document.types.length > 0 )
+			{
+				var injector:BeanTypeInjector = null;
+				for( var i:int = 0;i < this.document.types.length;i++ )
+				{
+					injector = this.document.types[ i ];
+					
+					trace("BeanDescriptor::doTypeInjection()", "FOUND INJECTOR: ", injector );
+					
+					//only perform injection if the corresponding property
+					//has not been manually wired
+					if( injector && !(parameters.hasOwnProperty( injector.name ) ) )
+					{
+						injector.resolve( this.document, this, instance );
 					}
 				}
 			}

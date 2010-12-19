@@ -32,6 +32,11 @@ package com.ffsys.ioc
 		function set injector( value:IBeanInjector ):void;
 		
 		/**
+		* 	A collection of type injectors used by the document.
+		*/
+		function get types():Vector.<BeanTypeInjector>;
+		
+		/**
 		* 	The delimiter to use when parsing array values.
 		* 
 		* 	The default value is a vertical bar.

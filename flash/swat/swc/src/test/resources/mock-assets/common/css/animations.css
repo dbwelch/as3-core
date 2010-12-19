@@ -1,0 +1,17 @@
+quad-ease-in {
+	static-class: class( com.ffsys.effects.easing.Quad );
+	method: method( easeIn );
+}
+
+alpha-tween {
+	instance-class: class( com.ffsys.effects.tween.Tween );
+	parameters: ref( alpha-tween-parameters );
+}
+
+alpha-tween-parameters {
+	instance-class: class( com.ffsys.effects.tween.TweenParameters );
+	properties: array( alpha );
+	easing: array( ref( quad-ease-in ) );
+	start-values: array( 0 );
+	end-values: array( 1 );
+}

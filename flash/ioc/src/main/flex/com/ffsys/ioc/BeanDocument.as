@@ -28,6 +28,7 @@ package com.ffsys.ioc
 		private var _injector:IBeanInjector;
 		private var _locked:Boolean = true;
 		private var _policy:String = null;
+		private var _types:Vector.<BeanTypeInjector> = new Vector.<BeanTypeInjector>();
 		
 		/**
 		* 	Creates a <code>BeanDocument</code> instance.
@@ -35,6 +36,14 @@ package com.ffsys.ioc
 		public function BeanDocument()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get types():Vector.<BeanTypeInjector>
+		{
+			return _types;
 		}
 		
 		/**
@@ -254,7 +263,7 @@ package com.ffsys.ioc
 				descriptor.document = this;				
 				var existing:IBeanDescriptor = getBeanDescriptor(
 					descriptor.id );
-					
+	
 				if( existing )
 				{
 					if( this.locked )
@@ -421,6 +430,7 @@ package com.ffsys.ioc
 			_bindings = null;
 			_beans = null;
 			_files = null;
+			_types = null;
 		}
 	}
 }
