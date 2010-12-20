@@ -120,6 +120,7 @@ package com.ffsys.ioc
 			Assert.assertNotNull( dependencies );
 
 			Assert.assertTrue( dependencies.propertyBitmap is BitmapData );
+			
 			Assert.assertTrue( dependencies.propertySound is Sound );
 			Assert.assertTrue( dependencies.propertyMovie is Loader );
 			Assert.assertTrue( dependencies.propertyXml is XML );

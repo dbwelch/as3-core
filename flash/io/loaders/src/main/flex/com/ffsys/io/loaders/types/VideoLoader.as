@@ -305,6 +305,8 @@ package com.ffsys.io.loaders.types {
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
 			
+			
+			
 			_netStream.removeEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
 			_netStream.removeEventListener( NetStatusEvent.NET_STATUS, netStatusHandler );
 			_netStream.removeEventListener( AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler );
@@ -318,6 +320,14 @@ package com.ffsys.io.loaders.types {
 			*/
 			
 			//dispatchLoadCompleteEvent();
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				completeEvent,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );
 		}
 		
         public function onMetaData( info:Object ):void

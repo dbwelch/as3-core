@@ -68,6 +68,14 @@ package com.ffsys.io.loaders.types {
 			//want the BitmapData
 			unload();
 			_composite = null;
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				event,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );			
         }
 	}
 }

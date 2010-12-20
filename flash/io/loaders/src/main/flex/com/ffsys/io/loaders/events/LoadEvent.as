@@ -38,15 +38,15 @@ package com.ffsys.io.loaders.events {
 		static public const DATA:String = "dataLoaded";
 		
 		/**
+		*	Event dispatched when a loader has already dispatched the data
+		*	event to indicate the load is completely finished.	
+		*/
+		static public const LOAD_FINISHED:String = "loadFinished";
+		
+		/**
 		*	Event dispatched when a load process is complete.
 		*/
 		static public const LOAD_COMPLETE:String = "loadComplete";
-		
-		/**
-		*	Event dispatched by a loader queue prior to loading
-		*	an item in the queue.	
-		*/
-		static public const LOAD_ITEM_START:String = "loadItemStart";
 		
 		/**
 		*	Event dispatched when a loader queue starts loading.

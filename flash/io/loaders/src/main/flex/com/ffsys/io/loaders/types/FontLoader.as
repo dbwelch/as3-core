@@ -74,6 +74,15 @@ package com.ffsys.io.loaders.types {
 
 			//clean our reference to the underlying Loader
 			_composite = null;
+			
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				event,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );
         }
 		
 		/**

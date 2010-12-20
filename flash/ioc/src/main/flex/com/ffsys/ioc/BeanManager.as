@@ -151,8 +151,7 @@ package com.ffsys.ioc {
 			{
 				loader = new BeanLoader( entry.request );
 				loader.document = this.document;
-				//higher priority
-				loader.addEventListener( LoadEvent.DATA, itemLoaded, false, 1024 );
+				loader.addEventListener( LoadEvent.DATA, itemLoaded );
 				_queue.addLoader( loader );
 			}
 
@@ -186,7 +185,7 @@ package com.ffsys.ioc {
 		
 		private function itemLoaded( event:LoadEvent ):void
 		{
-			trace("BeanManager::itemLoaded()", this.document.files.length );
+			trace("BeanManager::itemLoaded()", this.document.files.length, event.type );
 			
 			if( this.document.files
 				&& this.document.files.length )
@@ -210,6 +209,9 @@ package com.ffsys.ioc {
 		private function resolveFileDependency( event:LoadEvent ):void
 		{
 			var dependency:BeanFileDependency = event.loader.customData as BeanFileDependency;
+			
+			trace("BeanManager::resolveFileDependency()",  dependency );
+			
 			if( dependency )
 			{
 				//we change the bean property sent to be resolved

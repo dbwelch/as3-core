@@ -390,6 +390,8 @@ package com.ffsys.io.loaders.core {
 			
 			var element:ILoaderElement = _current;
 			
+			trace("LoaderQueue::loadItemAtIndex()", _index, element );
+			
 			if( element is ILoader )
 			{
 				var loader:ILoader = ILoader( element );
@@ -408,12 +410,6 @@ package com.ffsys.io.loaders.core {
 					}
 				}
 				*/
-			
-				var evt:LoadEvent = new LoadEvent(
-					LoadEvent.LOAD_ITEM_START ,null, loader );
-					
-				dispatchEvent( evt );
-				Notifier.dispatchEvent( evt );
 			
 				addCompositeListeners( loader );
 			
@@ -460,6 +456,7 @@ package com.ffsys.io.loaders.core {
 				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );
 				target.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
 				target.addEventListener( LoadEvent.DATA, childEventProxy );
+				target.addEventListener( LoadEvent.LOAD_FINISHED, childEventProxy );
 				target.addEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
 			//child loader listeners
 			}else if( target is ILoader )
@@ -467,7 +464,8 @@ package com.ffsys.io.loaders.core {
 				target.addEventListener( LoadEvent.LOAD_START, childEventProxy );
 				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );						
 				target.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundHandler );
-				target.addEventListener( LoadEvent.DATA, resourceLoaded );
+				target.addEventListener( LoadEvent.DATA, childEventProxy );
+				target.addEventListener( LoadEvent.LOAD_FINISHED, resourceLoaded );
 			}
 		}		
 		
@@ -484,6 +482,7 @@ package com.ffsys.io.loaders.core {
 				target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );		
 				target.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, childEventProxy );
 				target.removeEventListener( LoadEvent.DATA, childEventProxy );
+				target.removeEventListener( LoadEvent.LOAD_FINISHED, childEventProxy );
 				target.removeEventListener( LoadEvent.LOAD_COMPLETE, childQueueComplete );
 			//child loader listeners				
 			}else if( target is ILoader )
@@ -491,7 +490,8 @@ package com.ffsys.io.loaders.core {
 				target.removeEventListener( LoadEvent.LOAD_START, childEventProxy );
 				target.removeEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );
 				target.removeEventListener( LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundHandler );
-				target.removeEventListener( LoadEvent.DATA, resourceLoaded );
+				target.removeEventListener( LoadEvent.DATA, childEventProxy );
+				target.removeEventListener( LoadEvent.LOAD_FINISHED, resourceLoaded );
 			}
 		}
 		

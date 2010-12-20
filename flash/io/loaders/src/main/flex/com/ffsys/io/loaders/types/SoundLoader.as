@@ -111,6 +111,14 @@ package com.ffsys.io.loaders.types {
 			super.completeHandler( event, this.sound );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				event,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );			
         }
 	}
 }

@@ -52,12 +52,14 @@ package com.ffsys.io.loaders.types {
 			}else{
 				x = data as XML;
 			}
+			
+			var evt:LoadEvent = null;
 				
 			if( x )
 			{
 				resource = new XmlResource( x, uri );
 				
-				var evt:LoadEvent = new LoadEvent(
+				evt = new LoadEvent(
 					LoadEvent.DATA,
 					event,
 					this, 
@@ -71,6 +73,14 @@ package com.ffsys.io.loaders.types {
 				//clean our data reference
 				data = null;
 			}
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				event,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );
         }
 	}
 }

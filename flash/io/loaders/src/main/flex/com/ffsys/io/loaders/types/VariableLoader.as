@@ -56,11 +56,13 @@ package com.ffsys.io.loaders.types {
 				vars = data as URLVariables;
 			}
 			
+			var evt:LoadEvent = null;
+			
 			if( vars )
 			{
 				this.resource = new VariableResource( vars, uri );
 				
-				var evt:LoadEvent =
+				evt =
 					new LoadEvent(
 						LoadEvent.DATA,
 						event,
@@ -72,6 +74,14 @@ package com.ffsys.io.loaders.types {
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				event,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );
         }
 	}
 }

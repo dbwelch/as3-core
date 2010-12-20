@@ -64,7 +64,7 @@ package com.ffsys.io.loaders {
 			_loader = getLoader();
 			_loader.request = getLoadRequest();
 			_loader.addEventListener(
-				LoadEvent.DATA,
+				LoadEvent.LOAD_FINISHED,
 				Async.asyncHandler( this, assertLoadedAsset, TIMEOUT, null, fail ) );
 			_loader.load();
 		}

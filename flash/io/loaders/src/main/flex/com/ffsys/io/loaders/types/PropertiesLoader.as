@@ -73,6 +73,8 @@ package com.ffsys.io.loaders.types {
 				txt = data as String;
 			}
 			
+			var evt:LoadEvent = null;
+			
 			if( txt )
 			{
 				this.resource = new PropertiesResource(
@@ -81,7 +83,7 @@ package com.ffsys.io.loaders.types {
 					this.bytesTotal,
 					this.properties );
 				
-				var evt:LoadEvent = new LoadEvent(
+				evt = new LoadEvent(
 					LoadEvent.DATA,
 					event,
 					this,
@@ -92,6 +94,15 @@ package com.ffsys.io.loaders.types {
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}
+			
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				event,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );			
         }
 	}
 }

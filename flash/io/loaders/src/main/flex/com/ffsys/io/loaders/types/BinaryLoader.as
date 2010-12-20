@@ -62,11 +62,13 @@ package com.ffsys.io.loaders.types {
 				bytes = data as ByteArray;
 			}
 			
+			var evt:LoadEvent = null;
+			
 			if( bytes )
 			{
 				this.resource = new BinaryResource( bytes );
 				
-				var evt:LoadEvent = new LoadEvent(
+				evt = new LoadEvent(
 					LoadEvent.DATA,
 					event,
 					this,
@@ -77,6 +79,14 @@ package com.ffsys.io.loaders.types {
 				dispatchEvent( evt );
 				Notifier.dispatchEvent( evt );
 			}
+			
+			evt = new LoadEvent(
+				LoadEvent.LOAD_FINISHED,
+				event,
+				this,
+				this.resource
+			);
+			dispatchEvent( evt );			
         }
 	}
 }
