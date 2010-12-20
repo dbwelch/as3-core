@@ -44,115 +44,27 @@ package com.ffsys.swat.as3.view {
 		}
 		
 		/**
-		*	@inheritDoc	
+		* 	@private
 		*/
-		override public function code( event:RslEvent ):void
+		override protected function debug( phase:String, event:RslEvent ):String
 		{
-			showLoadProgress( "code", event );
+			var msg:String = super.debug( phase, event );
+			showLoadProgress( msg );
+			return msg;
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
-		override protected function configuration( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function message( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function error( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function rsl( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function bean( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function xml( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function font( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function image( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function css( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override protected function sound( event:RslEvent ):void
-		{
-			showLoadProgress( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		override public function complete( event:RslEvent ):void
+		override public function finished( event:RslEvent ):void
 		{
 			setText( "ready." );
 		}
 		
 		private function showLoadProgress(
-			message:String,
-			event:RslEvent = null ):void
+			message:String ):void
 		{
 			var output:String = message;
-			
-			if( event )
-			{
-				output += " " + int(event.percent)
-					+ "% (" + event.bytesLoaded + "/" + event.bytesTotal + ") ["
-					+ event.type + "] " + event.name;
-			}
-			
-			trace( output );
 			setText( output );
 		}
 		
@@ -162,10 +74,6 @@ package com.ffsys.swat.as3.view {
 		private function setText( text:String ):void
 		{
 			_txt.appendText( text + "\n" );
-			//_txt.scrollV = _txt.maxScrollV;
-			
-			//trace("SwatActionscriptApplicationPreloadView::setText()", _txt.scrollV, _txt.maxScrollV );
-			
 			if( _txt.height > stage.stageHeight )
 			{
 				_txt.y = ( stage.stageHeight - _txt.height );

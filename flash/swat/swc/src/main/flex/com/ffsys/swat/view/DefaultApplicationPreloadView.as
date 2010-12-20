@@ -16,13 +16,34 @@ package com.ffsys.swat.view {
 	*/
 	public class DefaultApplicationPreloadView extends Sprite
 		implements IApplicationPreloadView {
+			
+		private var _strict:Boolean = true;
 		
 		/**
 		*	Creates an <code>DefaultApplicationPreloadView</code> instance.
 		*/
-		public function DefaultApplicationPreloadView()
+		public function DefaultApplicationPreloadView(
+			strict:Boolean = true )
 		{
-			super();			
+			super();
+			this.strict = strict;
+		}
+		
+		/**
+		* 	Indicates whether this implementation is running
+		* 	in strict mode, the default value is <code>true</code>.
+		* 
+		* 	When running in strict mode a runtime exception is thrown
+		* 	as soon as a resource not found is encountered.
+		*/
+		public function get strict():Boolean
+		{
+			return _strict;
+		}
+		
+		public function set strict( value:Boolean ):void
+		{
+			_strict = value;
 		}
 		
 		/**
@@ -36,37 +57,24 @@ package com.ffsys.swat.view {
 		/**
 		*	@inheritDoc	
 		*/
-		public function code( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
 		public function resourceNotFound( event:RslEvent ):void
 		{
-			/*
-			throw new Error(
-				"The requested runtime resource '" +
-			 		event.uri + "' could not be found." );
-			*/
-		}		
+			if( this.strict )
+			{
+				throw new Error(
+					"The requested runtime resource '" +
+				 		event.uri + "' could not be found." );
+			}else{
+				debug( event.phase, event );
+			}
+		}
 		
 		/**
 		* 	@inheritDoc
 		*/
 		public function phase( event:RslEvent ):void
 		{
-			debug( event.preloader.phase, event );
-		}
-	
-		/**
-		*	@inheritDoc
-		*/
-		public function complete( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
+			debug( event.phase, event );
 		}		
 		
 		/**
@@ -80,10 +88,13 @@ package com.ffsys.swat.view {
 				return;
 			}
 			
-			//trace("DefaultApplicationPreloadView::resource()", event.preloader.phase );
+			//trace("DefaultApplicationPreloadView::resource()", event.phase );
 					
-			switch( event.preloader.phase )
+			switch( event.phase )
 			{
+				case ResourceLoadPhase.CODE_PHASE:
+					code( event );
+					break;				
 				case ResourceLoadPhase.CONFIGURATION_PHASE:
 					configuration( event );
 					break;				
@@ -123,101 +134,13 @@ package com.ffsys.swat.view {
 			}
 		}
 		
-		
+
 		/**
 		*	@inheritDoc
 		*/
-		protected function configuration( event:RslEvent ):void
+		public function complete( event:RslEvent ):void
 		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function setting( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}		
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function message( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}		
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function error( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}		
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function rsl( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function bean( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}		
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function css( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function xml( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function text( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function font( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function image( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		protected function sound( event:RslEvent ):void
-		{
-			debug( event.preloader.phase, event );
+			debug( event.phase, event );
 		}
 		
 		/**
@@ -225,13 +148,117 @@ package com.ffsys.swat.view {
 		*/
 		public function finished( event:RslEvent ):void
 		{
-			debug( event.preloader.phase, event );
+			debug( event.phase, event );
+		}		
+		
+		/**
+		*	@private
+		*/
+		protected function code( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function configuration( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function setting( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}		
+		
+		/**
+		*	@private
+		*/
+		protected function message( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}		
+		
+		/**
+		*	@private
+		*/
+		protected function error( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}		
+		
+		/**
+		*	@private
+		*/
+		protected function rsl( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function bean( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}		
+		
+		/**
+		*	@private
+		*/
+		protected function css( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function xml( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function text( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function font( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function image( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function sound( event:RslEvent ):void
+		{
+			debug( event.phase, event );
 		}
 		
 		/**
 		* 	@private
 		*/
-		private function debug( phase:String, event:RslEvent ):void
+		protected function getDebugMessage( phase:String, event:RslEvent ):String
 		{
 			var uri:String = "";
 			if( event.uri != null )
@@ -241,8 +268,19 @@ package com.ffsys.swat.view {
 			var msg:String = "[" + phase + " :: " + event.type + "]"
 				+ uri
 				+ " " + int( event.percent ) + "%"
-				+ " (" + event.bytesLoaded + "/" + event.bytesTotal + ")";	
+				+ " (" + event.bytesLoaded + "/" + event.bytesTotal + ")";
+				
+			return msg;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function debug( phase:String, event:RslEvent ):String
+		{
+			var msg:String = getDebugMessage( phase, event );
 			trace( msg );
+			return msg;
 		}
 	}
 }

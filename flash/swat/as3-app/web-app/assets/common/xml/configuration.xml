@@ -21,6 +21,14 @@
 					<trusted>true</trusted>
 					<url>swf/application-assets.swf</url>
 				</rsl>
+				
+				<!--
+				<rsl>
+					<trusted>true</trusted>
+					<url>swf/application-assets-404.swf</url>
+				</rsl>
+				-->
+							
 			</rsls>
 			
 			<beans>

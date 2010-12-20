@@ -20,7 +20,7 @@ package com.ffsys.swat.view {
 	*	The main application preloader.
 	*	
 	*	This handles loading of the main code base
-	*	and then defers to the runtime asset preloader
+	*	and then defers to a bootstrap loader
 	*	for the remaining resources.
 	*
 	*	@langversion ActionScript 3.0
@@ -133,9 +133,13 @@ package com.ffsys.swat.view {
 				_view.created();
 				
 				evt = new RslEvent(
+					RslEvent.PHASE_START, null, event );
+				_view.phase( evt );
+				
+				evt = new RslEvent(
 					RslEvent.LOAD_START, null, event );
 				evt.uri = LoaderInfo( this.loaderInfo ).loaderURL;
-				_view.code( evt );
+				_view.resource( evt );
 			}
 		}
 		
@@ -154,7 +158,7 @@ package com.ffsys.swat.view {
 			evt.bytesTotal = bt;
 			evt.bytesLoaded = bl;
 			evt.uri = LoaderInfo( this.loaderInfo ).loaderURL;
-			_view.code( evt );
+			_view.resource( evt );
 			
 			if( bl >= bt )
 			{
@@ -163,23 +167,30 @@ package com.ffsys.swat.view {
 				evt.bytesTotal = bt;
 				evt.bytesLoaded = bl;
 				evt.uri = LoaderInfo( this.loaderInfo ).loaderURL;
-				_view.code( evt );
+				_view.resource( evt );
 				
 				removeEventListener( Event.ENTER_FRAME, onEnterFrame );
-				init();
+				init( event, bl, bt );
 			}
 		}
 		
 		/**
 		*	@private	
 		*/
-		private function init():void
+		private function init( event:Event, bytesLoaded:Number, bytesTotal:Number ):void
 		{
 			var app:IApplication =
 				IApplication( _classes.getMainClassInstance() );
 			DefaultFlashVariables(
 				_flashvars ).classPathConfiguration = _classes;
 			DefaultApplication( app ).setFlashVariables( _flashvars );
+			
+			var evt:RslEvent = new RslEvent(
+				RslEvent.PHASE_COMPLETE, app.preloader, event );
+			evt.bytesTotal = bytesTotal;
+			evt.bytesLoaded = bytesLoaded;
+			_view.complete( evt );
+			
 			app.preloader.view = _view;
 			app.preloader.main = this;
 			addChild( DisplayObject( app ) );

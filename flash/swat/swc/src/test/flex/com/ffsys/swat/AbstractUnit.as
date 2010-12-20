@@ -85,7 +85,7 @@ package com.ffsys.swat
 				parser,
 				flashvars );
 				
-			_bootstrapLoader.view = new DefaultApplicationPreloadView();
+			_bootstrapLoader.view = new DefaultApplicationPreloadView( false );
 			
 			_bootstrapLoader.addEventListener(
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,

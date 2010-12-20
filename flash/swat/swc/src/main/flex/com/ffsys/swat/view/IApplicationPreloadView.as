@@ -21,12 +21,5 @@ package com.ffsys.swat.view {
 		*	Invoked when the instance is added to the display list.
 		*/
 		function created():void;
-		
-		/**
-		*	Invoked while the main code is being loaded.
-		* 
-		* 	@param event The load event.
-		*/
-		function code( event:RslEvent ):void;
 	}
 }

@@ -1,12 +1,10 @@
 package com.ffsys.swat.events {
 	
 	import flash.events.Event;
-	
 	import com.ffsys.events.AbstractEvent;
-	
 	import com.ffsys.io.loaders.events.ILoadEvent;
-	
 	import com.ffsys.swat.core.IResourceLoader;
+	import com.ffsys.swat.core.ResourceLoadPhase;
 	
 	/**
 	*	Represents events dispatched while runtime assets
@@ -139,6 +137,21 @@ package com.ffsys.swat.events {
 			}
 			
 			return null;
+		}
+		
+		/**
+		* 	Gets the current load phase.
+		* 
+		* 	If no resource loader is associated with this event
+		* 	the phase will be <code>ResourceLoadPhase.CODE_PHASE</code>.
+		*/
+		public function get phase():String
+		{
+			if( preloader != null )
+			{
+				return preloader.phase;
+			}
+			return ResourceLoadPhase.CODE_PHASE;
 		}
 		
 		/**
