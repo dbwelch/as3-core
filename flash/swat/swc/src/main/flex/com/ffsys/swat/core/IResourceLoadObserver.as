@@ -13,7 +13,15 @@ package com.ffsys.swat.core {
 	*	@author Mischa Williamson
 	*	@since  19.12.2010
 	*/
-	public interface IModuleLoadListener {
+	public interface IResourceLoadObserver {
+		
+		/**
+		* 	Invoked when the resource load phase changes.
+		* 
+		* 	@param phase The identifier for the resource load phase.
+		* 	@param event The load event.
+		*/
+		function phase( phase:String, event:RslEvent ):void;
 		
 		/**
 		* 	Invoked with resource related events.

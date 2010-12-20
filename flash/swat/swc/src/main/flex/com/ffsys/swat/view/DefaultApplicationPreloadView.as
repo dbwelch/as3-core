@@ -54,6 +54,14 @@ package com.ffsys.swat.view {
 		/**
 		* 	@inheritDoc
 		*/
+		public function phase( phase:String, event:RslEvent ):void
+		{
+			trace("DefaultApplicationPreloadView::phase()", phase, event );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function resource( event:RslEvent ):void
 		{	
 			if( event.type == RslEvent.RESOURCE_NOT_FOUND )

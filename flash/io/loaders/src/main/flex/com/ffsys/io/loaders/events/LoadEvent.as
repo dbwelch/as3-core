@@ -120,9 +120,9 @@ package com.ffsys.io.loaders.events {
 				return ProgressEvent( triggerEvent ).bytesLoaded;
 			}
 			
-			if( loader && ( loader is ILoader ) )
+			if( loader != null )
 			{
-				return ILoader( loader ).bytesLoaded;
+				return loader.bytesLoaded;
 			}
 			
 			return 0;
@@ -138,9 +138,9 @@ package com.ffsys.io.loaders.events {
 				return ProgressEvent( triggerEvent ).bytesTotal;
 			}
 			
-			if( loader && ( loader is ILoader ) )
+			if( loader != null )
 			{
-				return ILoader( loader ).bytesTotal;
+				return loader.bytesTotal;
 			}
 			
 			return 0;

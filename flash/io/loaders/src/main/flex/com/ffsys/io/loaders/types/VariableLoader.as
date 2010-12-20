@@ -60,7 +60,7 @@ package com.ffsys.io.loaders.types {
 			
 			if( vars )
 			{
-				this.resource = new VariableResource( vars, uri );
+				this.resource = new VariableResource( vars, uri, bytesTotal );
 				
 				evt =
 					new LoadEvent(

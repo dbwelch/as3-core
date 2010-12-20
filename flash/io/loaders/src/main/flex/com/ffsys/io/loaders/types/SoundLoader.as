@@ -101,7 +101,7 @@ package com.ffsys.io.loaders.types {
         override protected function completeHandler(
 			event:Event, data:Object = null ):void
 		{
-			this.resource = new SoundResource( this.sound, uri, this.bytesTotal );
+			this.resource = new SoundResource( this.sound, uri, bytesTotal );
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,
 				event,

@@ -81,6 +81,7 @@ package com.ffsys.swat.core {
 		{
 			if( _view && !view )
 			{
+				removeObserver( _view );
 				var display:DisplayObject = _view as DisplayObject;
 				if( display && display.parent )
 				{
@@ -89,6 +90,11 @@ package com.ffsys.swat.core {
 			}
 			
 			_view = view;
+			
+			if( view != null )
+			{
+				addObserver( view );
+			}
 		}
 		
 		/**
@@ -137,59 +143,6 @@ package com.ffsys.swat.core {
 			
 			evt.configuration = this.configuration;
 			dispatchEvent( evt );
-		}
-		
-		/**
-		*	@private
-		*/
-		override protected function resourceNotFound(
-			event:LoadEvent ):RslEvent
-		{	
-			var rsl:RslEvent = super.resourceNotFound( event );
-			handleViewEvent( rsl );
-			return rsl;
-		}
-		
-		/**
-		*	@private
-		*/
-		override protected function loadStart( event:LoadEvent ):RslEvent
-		{
-			var rsl:RslEvent = super.loadStart( event );	
-			handleViewEvent( rsl );			
-			return rsl;			
-		}
-		
-		/**
-		*	@private
-		*/
-		override protected function loadProgress( 
-			event:LoadEvent ):RslEvent
-		{
-			var rsl:RslEvent = super.loadProgress( event );
-			handleViewEvent( rsl );
-			return rsl;			
-		}	
-		
-		/**
-		*	@private
-		*/
-		override protected function itemLoaded( event:LoadEvent ):RslEvent
-		{
-			var rsl:RslEvent = super.itemLoaded( event );
-			handleViewEvent( rsl );	
-			return rsl;					
-		}	
-		
-		/**
-		* 	@private
-		*/
-		private function handleViewEvent( event:RslEvent ):void
-		{
-			if( event != null && this.view )
-			{
-				view.resource( event );	
-			}
 		}
 		
 		/**

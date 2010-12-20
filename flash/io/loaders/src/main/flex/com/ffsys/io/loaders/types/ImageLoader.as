@@ -51,7 +51,7 @@ package com.ffsys.io.loaders.types {
 			var bitmapData:BitmapData = bitmap.bitmapData;
 			
 			this.resource = new ImageResource(
-				bitmapData, uri );
+				bitmapData, uri, bytesTotal );
 			
 			var evt:LoadEvent = new LoadEvent(
 				LoadEvent.DATA,

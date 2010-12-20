@@ -57,7 +57,7 @@ package com.ffsys.io.loaders.types {
 				
 			if( x )
 			{
-				resource = new XmlResource( x, uri );
+				resource = new XmlResource( x, uri, bytesTotal );
 				
 				evt = new LoadEvent(
 					LoadEvent.DATA,

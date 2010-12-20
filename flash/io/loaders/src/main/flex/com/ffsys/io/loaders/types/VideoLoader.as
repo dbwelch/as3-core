@@ -305,8 +305,6 @@ package com.ffsys.io.loaders.types {
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );
 			
-			
-			
 			_netStream.removeEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
 			_netStream.removeEventListener( NetStatusEvent.NET_STATUS, netStatusHandler );
 			_netStream.removeEventListener( AsyncErrorEvent.ASYNC_ERROR, asyncErrorHandler );

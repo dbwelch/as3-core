@@ -80,7 +80,7 @@ package com.ffsys.io.loaders.types {
 				this.resource = new PropertiesResource(
 					txt,
 					uri,
-					this.bytesTotal,
+					bytesTotal,
 					this.properties );
 				
 				evt = new LoadEvent(

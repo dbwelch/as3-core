@@ -88,9 +88,9 @@ package com.ffsys.io.loaders.types {
 			{
 				if( !shouldParseText() )
 				{
-					this.resource = new TextResource( txt, uri );
+					this.resource = new TextResource( txt, uri, bytesTotal );
 				}else{
-					this.resource = new ObjectResource( parse( txt ), uri );
+					this.resource = new ObjectResource( parse( txt ), uri, bytesTotal );
 				}
 				
 				evt = new LoadEvent(

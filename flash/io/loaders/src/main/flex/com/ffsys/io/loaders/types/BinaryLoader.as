@@ -66,7 +66,7 @@ package com.ffsys.io.loaders.types {
 			
 			if( bytes )
 			{
-				this.resource = new BinaryResource( bytes );
+				this.resource = new BinaryResource( bytes, uri, bytesTotal );
 				
 				evt = new LoadEvent(
 					LoadEvent.DATA,

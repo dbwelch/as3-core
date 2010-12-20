@@ -349,7 +349,7 @@ package com.ffsys.io.loaders.core {
 			
 			var event:LoadEvent =
 				new LoadEvent(
-					LoadEvent.LOAD_COMPLETE, evt, _current, resources );
+					LoadEvent.LOAD_COMPLETE, evt, this, resources );
 				
 			dispatchEvent( event );
 		}
@@ -441,6 +441,14 @@ package com.ffsys.io.loaders.core {
 		*/
 		private function childQueueComplete( event:LoadEvent ):void
 		{	
+			//calculate bytes loaded and total for child queues too
+			_bytesLoaded += event.loader.bytesTotal;
+			
+			//TODO: ensure the the bytes total is only modified
+			//if this loader queue didn't have a bytes total explicitly set
+			//when that functionality is re-integrated
+			_bytesTotal += event.loader.bytesTotal;		
+			
 			removeCompositeListeners( event.loader );
 			//move on to the next item
 			next();
@@ -786,6 +794,17 @@ package com.ffsys.io.loaders.core {
 					{
 						resource.id = loader.id;
 						resources.addResource( resource );
+						
+						//
+						_bytesLoaded += resource.bytesTotal;
+						
+						//TODO: ensure the the bytes total is only modified
+						//if this loader queue didn't have a bytes total explicitly set
+						//when that functionality is re-integrated
+						_bytesTotal += resource.bytesTotal;
+						
+						trace("LoaderQueue::resourceLoaded()", "UPDATING BYTES LOADED/TOTAL",
+							this.bytesLoaded, this.bytesTotal );
 					}
 				}
 			}

@@ -203,7 +203,7 @@ package com.ffsys.io.loaders.core
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	The number of bytes loaded.
 		*/		
 		public function get bytesLoaded():uint
 		{

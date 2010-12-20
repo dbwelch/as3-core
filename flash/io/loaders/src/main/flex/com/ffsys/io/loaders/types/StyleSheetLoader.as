@@ -70,7 +70,7 @@ package com.ffsys.io.loaders.types {
 			var evt:LoadEvent = null;
 			if( sheet )
 			{
-				this.resource = new StyleSheetResource( sheet, uri );
+				this.resource = new StyleSheetResource( sheet, uri, bytesTotal );
 				evt = new LoadEvent(
 					LoadEvent.DATA,
 					event,

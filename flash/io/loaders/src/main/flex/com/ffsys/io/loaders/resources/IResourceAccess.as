@@ -39,7 +39,7 @@ package com.ffsys.io.loaders.resources {
 		* 	This includes all resources that belong to
 		* 	descendant implementations.
 		* 
-		* 	@return An array of all the load requests this implementation
+		* 	@return An array of all the resources this implementation
 		* 	encapsulates.
 		*/
 		function getAllResources():Array;

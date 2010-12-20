@@ -43,7 +43,7 @@ package com.ffsys.swat.core {
 		private var _configurationLoader:ParserAwareXmlLoader;
 		private var _builder:IResourceQueueBuilder;
 		private var _phases:Array = ResourceLoadPhase.defaults;
-		
+		private var _observers:Vector.<IResourceLoadObserver> = new Vector.<IResourceLoadObserver>();
 		private var _resources:IResourceManager;
 		
 		/**
@@ -70,6 +70,33 @@ package com.ffsys.swat.core {
 			super();
 			this.request = request;
 			this.parser = parser;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function addObserver( observer:IResourceLoadObserver ):Boolean
+		{
+			if( observer != null )
+			{
+				_observers.push( observer );
+				return true;
+			}
+			return false;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function removeObserver( observer:IResourceLoadObserver ):Boolean
+		{
+			var index:int = _observers.indexOf( observer );
+			if( index > -1 )
+			{
+				_observers.splice( index, 1 );
+				return true;
+			}
+			return false;
 		}
 		
 		/**
@@ -218,7 +245,6 @@ package com.ffsys.swat.core {
 			var configurationQueue:ILoaderQueue = new LoaderQueue();
 			configurationQueue.customData = ResourceLoadPhase.CONFIGURATION_PHASE;
 			configurationQueue.resource.id = ResourceLoadPhase.CONFIGURATION_PHASE;
-			_phase = ResourceLoadPhase.CONFIGURATION_PHASE;
 			_configurationLoader = new ParserAwareXmlLoader();
 			_configurationLoader.request = this.request;
 			_configurationLoader.parser = this.parser;
@@ -226,6 +252,7 @@ package com.ffsys.swat.core {
 			doWithConfigurationLoader( _configurationLoader );
 			configurationQueue.addLoader( _configurationLoader );
 			_assets.addLoader( configurationQueue );
+			addQueueListeners( _assets, loadComplete );
 			_assets.load();
 			return _assets;
 		}
@@ -251,6 +278,7 @@ package com.ffsys.swat.core {
 			if( loader != null )
 			{
 				
+				/*
 				loader.addEventListener(
 					LoadEvent.RESOURCE_NOT_FOUND,
 					resourceNotFound, false, 0, false );
@@ -262,7 +290,8 @@ package com.ffsys.swat.core {
 				loader.addEventListener(
 					LoadEvent.LOAD_PROGRESS,
 					loadProgress, false, 0, false );
-
+					*/
+					
 				loader.addEventListener(
 					LoadEvent.DATA,
 					configurationLoadComplete, false, 0, false );				
@@ -278,6 +307,8 @@ package com.ffsys.swat.core {
 		{
 			if( loader != null )
 			{			
+				
+				/*
 				loader.removeEventListener(
 					LoadEvent.RESOURCE_NOT_FOUND,
 					resourceNotFound );
@@ -289,7 +320,7 @@ package com.ffsys.swat.core {
 				loader.removeEventListener(
 					LoadEvent.LOAD_PROGRESS,
 					loadProgress );
-			
+					*/
 				loader.removeEventListener(
 					LoadEvent.DATA,
 					configurationLoadComplete );
@@ -327,8 +358,6 @@ package com.ffsys.swat.core {
 			}
 			
 			//trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
-
-			addQueueListeners( _assets, loadComplete );
 		}
 		
 		/**
@@ -449,6 +478,22 @@ package com.ffsys.swat.core {
 		}
 		
 		/**
+		* 	Sets the current load phase and notifies observers
+		* 	of the new phase.
+		* 
+		* 	@param phase The identifier for the load phase.
+		* 	@param event A resource load event.
+		*/
+		protected function setPhase( phase:String, event:RslEvent = null ):void
+		{
+			if( phase != null )
+			{
+				_phase = phase;
+				notifyObservers( [ this.phase, event ], "phase" );
+			}
+		}
+		
+		/**
 		*	@private
 		*/
 		protected function queueStart(
@@ -465,11 +510,13 @@ package com.ffsys.swat.core {
 			//to break the phase defined by a parent queue
 			if( queueData != null )
 			{
-				_phase = queueData;
+				setPhase( queueData, evt );
+				
+				//update the resource list identifier with the phase
+				var list:IResourceList =
+					IResourceList( ILoaderQueue( event.loader ).resource );
+				list.id = this.phase;
 			}
-			
-			var list:IResourceList = IResourceList( ILoaderQueue( event.loader ).resource );
-			list.id = this.phase;
 			
 			dispatchEvent( evt );
 			return evt;
@@ -499,9 +546,10 @@ package com.ffsys.swat.core {
 				this,
 				event );
 			evt.bytesLoaded = event.loader.bytesLoaded;
-			evt.bytesTotal = event.loader.bytesTotal;					
+			evt.bytesTotal = event.loader.bytesTotal;
+			notifyObservers( [ evt ] );	
 			dispatchEvent( evt );
-			return evt;				
+			return evt;
 		}
 		
 		/**
@@ -514,11 +562,9 @@ package com.ffsys.swat.core {
 				RslEvent.LOAD_PROGRESS,
 				this,
 				event );
-				
-			//trace("ResourceLoader::loadProgress()", event.uri );
-				
 			evt.bytesLoaded = event.loader.bytesLoaded;
 			evt.bytesTotal = event.loader.bytesTotal;
+			notifyObservers( [ evt ] );
 			dispatchEvent( evt );
 			return evt;			
 		}	
@@ -533,7 +579,8 @@ package com.ffsys.swat.core {
 				this,
 				event );
 			evt.bytesLoaded = event.loader.bytesLoaded;
-			evt.bytesTotal = event.loader.bytesTotal;				
+			evt.bytesTotal = event.loader.bytesTotal;
+			notifyObservers( [ evt ] );
 			dispatchEvent( evt );
 			return evt;
 		}
@@ -546,13 +593,36 @@ package com.ffsys.swat.core {
 			var evt:RslEvent = new RslEvent(
 				RslEvent.LOAD_COMPLETE,
 				this );	
+			evt.bytesLoaded = event.loader.bytesLoaded;
+			evt.bytesTotal = event.loader.bytesTotal;				
 			removeQueueListeners( _assets, loadComplete );
-			_phase = ResourceLoadPhase.COMPLETE_PHASE;
-			dispatchEvent( evt );			
-
+			setPhase( ResourceLoadPhase.COMPLETE_PHASE, evt );
+			notifyObservers( [ evt ], "complete" );
+			dispatchEvent( evt );
 			//clean up the queue now we have the resources
 			_assets.destroy();
 			return evt;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Notifies observers of resource load events.
+		* 
+		* 	@param event The resource load event.
+		*/
+		private function notifyObservers(
+			parameters:Array = null,
+			method:String = "resource" ):void
+		{
+			if( _observers != null && _observers.length > 0 && parameters != null )
+			{
+				var observer:IResourceLoadObserver = null;
+				for each( observer in _observers )
+				{
+					observer[ method ].apply( observer, parameters );
+				}
+			}
 		}
 		
 		/**
@@ -560,14 +630,25 @@ package com.ffsys.swat.core {
 		*/
 		public function destroy():void
 		{
-			if( _configurationLoader )
+			if( _configurationLoader != null )
 			{
 				_configurationLoader.destroy();
 			}
-			if( _assets )
+			if( _assets != null )
 			{
 				_assets.destroy();
 			}
+			
+			if( _observers != null )
+			{
+				var observer:IResourceLoadObserver = null;
+				for each( observer in _observers )
+				{
+					removeObserver( observer );
+				}
+			}
+			
+			_observers = null;
 			_parser = null;
 			_request = null;
 			_resources = null;

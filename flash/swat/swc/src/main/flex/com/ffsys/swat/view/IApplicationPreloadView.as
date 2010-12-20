@@ -2,7 +2,7 @@ package com.ffsys.swat.view {
 	
 	import com.ffsys.swat.events.RslEvent;
 	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.core.IModuleLoadListener;
+	import com.ffsys.swat.core.IResourceLoadObserver;
 	
 	/**
 	*	Describes the contract for views that handle the application
@@ -15,7 +15,7 @@ package com.ffsys.swat.view {
 	*	@since  13.06.2010
 	*/
 	public interface IApplicationPreloadView
-	 	extends IModuleLoadListener {
+	 	extends IResourceLoadObserver {
 		
 		/**
 		*	Invoked when the instance is added to the display list.
