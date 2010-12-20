@@ -59,6 +59,18 @@ package com.ffsys.ioc
 		public static const ID_PROPERTY:String = "id";
 		
 		/**
+		* 	The name of the property used to determine the file resolution
+		* 	policy for external file expressions.
+		* 
+		* 	By default all file expressions are resolved in the context of the
+		* 	bean document when the bean document is loaded.
+		* 
+		* 	To prevent this behaviour and have file dependencies handled
+		* 	at the bean level specify this property with a value <code>bean</code>.
+		*/
+		public static const FILE_POLICY_PROPERTY:String = "file-policy";
+		
+		/**
 		*	The delimiter used in reference expressions to delimit
 		* 	a property from the bean name.
 		*/

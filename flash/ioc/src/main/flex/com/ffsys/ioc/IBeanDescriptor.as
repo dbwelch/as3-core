@@ -14,8 +14,7 @@ package com.ffsys.ioc
 	*	@since  10.12.2010
 	*/
 	public interface IBeanDescriptor
-		extends	IStringIdentifier,
-				IDestroy
+		extends	IBeanElement
 	{
 		/**
 		* 	Clears this bean descriptor ready for an object

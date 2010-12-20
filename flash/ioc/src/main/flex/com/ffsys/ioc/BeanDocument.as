@@ -17,14 +17,12 @@ package com.ffsys.ioc
 	*	@author Mischa Williamson
 	*	@since  10.12.2010
 	*/
-	public class BeanDocument extends EventDispatcher
+	public class BeanDocument extends BeanElement
 		implements IBeanDocument
 	{		
-		private var _id:String;
 		private var _delimiter:String = "|";		
 		private var _bindings:IBindingCollection = new BindingCollection();
 		private var _beans:Vector.<IBeanDescriptor> = new Vector.<IBeanDescriptor>();
-		private var _files:Vector.<BeanFileDependency> = null;
 		private var _injector:IBeanInjector;
 		private var _locked:Boolean = true;
 		private var _policy:String = null;
@@ -33,10 +31,12 @@ package com.ffsys.ioc
 		
 		/**
 		* 	Creates a <code>BeanDocument</code> instance.
+		* 
+		* 	@param id An identifier for this bean element.
 		*/
-		public function BeanDocument()
+		public function BeanDocument( id:String = null )
 		{
-			super();
+			super( id );
 		}
 		
 		/**
@@ -124,35 +124,6 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
-		public function get files():Vector.<BeanFileDependency>
-		{
-			if( _files == null )
-			{
-				_files = new Vector.<BeanFileDependency>();
-			}
-			
-			return _files;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get dependencies():ILoaderQueue
-		{
-			var output:ILoaderQueue = new LoaderQueue();
-			if( this.files != null )
-			{
-				for( var i:int = 0;i < this.files.length;i++ )
-				{
-					output.addLoader( files[ i ].getLoader() );
-				}
-			}
-			return output;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function parse( text:String, parser:IBeanParser = null ):ILoaderQueue
 		{
 			if( parser == null )
@@ -188,19 +159,6 @@ package com.ffsys.ioc
 		public function clear():void
 		{
 			_beans = new Vector.<IBeanDescriptor>();
-		}
-		
-		/**
-		*	An identifier for this document.
-		*/
-		public function get id():String
-		{
-			return _id;
-		}
-		
-		public function set id( id:String ):void
-		{
-			_id = id;
 		}
 		
 		/**
@@ -450,8 +408,9 @@ package com.ffsys.ioc
 		/**
 		* 	Destroys this bean document.
 		*/
-		public function destroy():void
+		override public function destroy():void
 		{
+			super.destroy();
 			//destroy child bean descriptors
 			var bean:IBeanDescriptor = null;
 			for( var i:int = 0;i < _beans.length;i++ )
@@ -469,11 +428,9 @@ package com.ffsys.ioc
 			//TODO: ensure bindings are also destroyed
 			
 			//null references
-			_id = null;
 			_delimiter = null;
 			_bindings = null;
 			_beans = null;
-			_files = null;
 			_types = null;
 		}
 	}

@@ -2,13 +2,9 @@ package com.ffsys.ioc
 {
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.core.IDestroy;	
-	import com.ffsys.core.IStringIdentifier;
-	
 	import com.ffsys.io.loaders.core.ILoaderQueue;	
 	import com.ffsys.utils.substitution.IBindingCollection;	
-	
-	
+		
 	/**
 	*	Describes the contract for collections
 	*	of beans.
@@ -21,9 +17,7 @@ package com.ffsys.ioc
 	*/
 	public interface IBeanDocument
 		extends	IBeanAccess,
-				IStringIdentifier,
-				IDestroy,
-				IEventDispatcher {
+				IBeanElement {
 					
 		/**
 		* 	A list of document cross references.
@@ -51,19 +45,7 @@ package com.ffsys.ioc
 		* 	The default value is a vertical bar.
 		*/
 		function get delimiter():String;
-		function set delimiter( value:String ):void;					
-		
-		/**
-		* 	A collection of external file dependencies found when
-		* 	the bean document was parsed.
-		*/			
-		function get files():Vector.<BeanFileDependency>;
-		
-		/**
-		*	A queue that represents the dependencies that
-		*	were found when the beans were parsed.
-		*/
-		function get dependencies():ILoaderQueue;
+		function set delimiter( value:String ):void;
 	
 		/**
 		*	Parses the text into this instance

@@ -13,11 +13,10 @@ package com.ffsys.ioc
 	*	@author Mischa Williamson
 	*	@since  10.12.2010
 	*/
-	public class BeanDescriptor extends Object
+	public class BeanDescriptor extends BeanElement
 		implements IBeanDescriptor
 	{	
 		private var _document:IBeanDocument;
-		private var _id:String;
 		private var _staticClass:Class;
 		private var _singleton:Boolean = false;
 		private var _properties:Object;
@@ -57,6 +56,28 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
+		override public function get filePolicy():String
+		{
+			var policy:String = super.filePolicy;
+			if( policy != null )
+			{
+				return policy;
+			}
+			
+			//defer to the document file policy if none was explicitly set
+			if( this.document != null
+				&& this.document.filePolicy != null )
+			{
+				return this.document.filePolicy;
+			}
+			
+			//return the default policy
+			return BeanFilePolicy.DOCUMENT_FILE_POLICY;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function clear():void
 		{
 			_instanceClass = null;
@@ -64,7 +85,7 @@ package com.ffsys.ioc
 			_properties = null;
 			_singletonInstance = null;
 			_instanceClassConstant = null;
-			_staticClassConstant = null;		
+			_staticClassConstant = null;
 		}
 		
 		/**
@@ -78,19 +99,6 @@ package com.ffsys.ioc
 		public function set document( document:IBeanDocument ):void
 		{
 			_document = document;
-		}
-		
-		/**
-		* 	An identifier for the bean.
-		*/
-		public function get id():String
-		{
-			return _id;
-		}
-		
-		public function set id(value:String):void
-		{
-			_id = value;
 		}
 		
 		/**
@@ -520,6 +528,17 @@ package com.ffsys.ioc
 					}
 				}
 				
+				//copy a file policy property if present
+				if( target.hasOwnProperty( BeanConstants.FILE_POLICY_PROPERTY ) )
+				{
+					var filePolicyCandidate:Object = target[ BeanConstants.FILE_POLICY_PROPERTY ];
+					if( ( filePolicyCandidate is String ) )
+					{
+						this.filePolicy = ( filePolicyCandidate as String );
+						delete target[ BeanConstants.FILE_POLICY_PROPERTY ];
+					}
+				}
+				
 				//copy an identifier is appropriate
 				if( target.hasOwnProperty( BeanConstants.ID_PROPERTY ) )
 				{
@@ -540,11 +559,11 @@ package com.ffsys.ioc
 		/**
 		* 	Destroys this bean descriptor.
 		*/
-		public function destroy():void
+		override public function destroy():void
 		{
+			super.destroy();
 			clear();
 			_document = null;
-			_id = null;
 		}
 		
 		/**
