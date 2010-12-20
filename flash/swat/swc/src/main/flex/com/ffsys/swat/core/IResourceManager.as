@@ -9,6 +9,7 @@ package com.ffsys.swat.core
 	import com.ffsys.ioc.IBeanManager;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.io.loaders.resources.IResourceList;
+	import com.ffsys.io.loaders.resources.ResourceNotFound;
 	
 	import com.ffsys.utils.properties.IProperties;
 	import com.ffsys.utils.properties.Properties;
@@ -30,6 +31,11 @@ package com.ffsys.swat.core
 				IMessageAccess,
 				IResourceAccess
 	{
+		/**
+		* 	A list of resources that were not found.
+		*/
+		function get missing():Vector.<ResourceNotFound>;
+		
 		/**
 		* 	The bean manager used to load the bean documents.
 		*/

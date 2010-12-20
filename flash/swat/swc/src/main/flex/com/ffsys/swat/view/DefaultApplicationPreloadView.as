@@ -46,9 +46,11 @@ package com.ffsys.swat.view {
 		*/
 		public function resourceNotFound( event:RslEvent ):void
 		{
+			/*
 			throw new Error(
 				"The requested runtime resource '" +
 			 		event.uri + "' could not be found." );
+			*/
 		}		
 		
 		/**
@@ -231,13 +233,16 @@ package com.ffsys.swat.view {
 		*/
 		private function debug( phase:String, event:RslEvent ):void
 		{
-			trace("Loading: ",
-				phase,
-				event.type,
-				event.uri != null ? event.uri : phase,
-				event.bytesLoaded,
-				event.bytesTotal,
-				int( event.percent ) + "%" );
+			var uri:String = "";
+			if( event.uri != null )
+			{
+				uri = " [" + event.uri + "]";
+			}	
+			var msg:String = "[" + phase + " :: " + event.type + "]"
+				+ uri
+				+ " " + int( event.percent ) + "%"
+				+ " (" + event.bytesLoaded + "/" + event.bytesTotal + ")";	
+			trace( msg );
 		}
 	}
 }

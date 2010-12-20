@@ -540,7 +540,8 @@ package com.ffsys.swat.core {
 				RslEvent.PHASE_COMPLETE,
 				this,
 				event );
-			
+			evt.bytesLoaded = event.loader.bytesLoaded;
+			evt.bytesTotal = event.loader.bytesTotal;			
 			notifyObservers( [ evt ], "complete" );
 			dispatchEvent( evt );
 			return evt;
@@ -556,6 +557,12 @@ package com.ffsys.swat.core {
 				RslEvent.RESOURCE_NOT_FOUND,
 				this,
 				event );
+			
+			//create missing resources in the resource manager
+			_resources.missing.push(
+				new ResourceNotFound( null, event.uri, event.bytesLoaded ) );
+			
+			notifyObservers( [ evt ] );
 			dispatchEvent( evt );
 			return evt;
 		}
@@ -618,19 +625,16 @@ package com.ffsys.swat.core {
 				RslEvent.LOAD_COMPLETE,
 				this );	
 			evt.bytesLoaded = event.loader.bytesLoaded;
-			evt.bytesTotal = event.loader.bytesTotal;				
+			evt.bytesTotal = event.loader.bytesTotal;			
 			removeQueueListeners( _assets, loadComplete );
-			
+			//don't call setPhase() as we don't want a duplicate notification
 			_phase = ResourceLoadPhase.COMPLETE_PHASE;
-			
-			//setPhase( ResourceLoadPhase.COMPLETE_PHASE, evt );
-			
-			trace("ResourceLoader::loadComplete()", this );
-			
 			notifyObservers( [ evt ], "finished" );
 			dispatchEvent( evt );
+			
 			//clean up the queue now we have the resources
 			_assets.destroy();
+			
 			return evt;
 		}
 		

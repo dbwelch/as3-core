@@ -27,6 +27,7 @@ package com.ffsys.swat.core
 	public class ResourceManager extends Object
 		implements IResourceManager
 	{
+		private var _missing:Vector.<ResourceNotFound> = new Vector.<ResourceNotFound>();
 		private var _beanManager:IBeanManager;
 		private var _styleManager:IStyleManager;
 		private var _list:IResourceList;
@@ -50,6 +51,14 @@ package com.ffsys.swat.core
 			this.list = list;
 			this.beanManager = beanManager;
 			this.styleManager = styleManager;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get missing():Vector.<ResourceNotFound>
+		{
+			return _missing;
 		}
 		
 		/**

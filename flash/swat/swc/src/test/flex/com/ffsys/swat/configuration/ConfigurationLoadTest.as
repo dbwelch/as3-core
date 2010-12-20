@@ -120,6 +120,9 @@ package com.ffsys.swat.configuration
 			
 			var mainBeanName:String = DefaultBeanIdentifiers.APPLICATION_BEAN;
 			
+			//check the number of resources that were not found
+			Assert.assertEquals( 1, bootstrap.resources.missing.length );
+			
 			//get the main mock application controller
 			var application:MockApplicationController =
 				configuration.getBean( mainBeanName ) as MockApplicationController;

@@ -35,6 +35,10 @@
 					<trusted>true</trusted>
 					<url>swf/mock-assets.swf</url>
 				</rsl>
+				<rsl>
+					<trusted>true</trusted>
+					<url>swf/mock-missing-404-assets.swf</url>
+				</rsl>
 			</rsls>
 			<beans>
 				<resource>

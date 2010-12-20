@@ -451,13 +451,12 @@ package com.ffsys.io.loaders.core {
 			
 			removeCompositeListeners( event.loader );
 			
-
 			var evt:Event = new LoadEvent(
 				LoadEvent.QUEUE_COMPLETE,
 				event,
 				event.loader,
 				event.loader.resource );
-			dispatchEvent( evt );	
+			dispatchEvent( evt );
 			
 			//move on to the next item
 			next();
