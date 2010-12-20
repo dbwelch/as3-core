@@ -188,7 +188,7 @@ package com.ffsys.swat.core {
 		{
 			if( event != null && this.view )
 			{
-				view.resource( event );
+				view.resource( event );	
 			}
 		}
 		

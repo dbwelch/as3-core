@@ -162,7 +162,14 @@ package com.ffsys.swat.as3.view {
 		private function setText( text:String ):void
 		{
 			_txt.appendText( text + "\n" );
-			_txt.scrollV = _txt.maxScrollV;
+			//_txt.scrollV = _txt.maxScrollV;
+			
+			//trace("SwatActionscriptApplicationPreloadView::setText()", _txt.scrollV, _txt.maxScrollV );
+			
+			if( _txt.height > stage.stageHeight )
+			{
+				_txt.y = ( stage.stageHeight - _txt.height );
+			}
 		}
 	}
 }

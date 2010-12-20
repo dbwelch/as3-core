@@ -10,6 +10,12 @@
 	</paths>
 	
 	<locales>
+		
+		<!-- load resources in the context of the paths defined for the module -->
+		<resources>
+			
+		</resources>
+		
 		<!-- loads resources in the context of the current locale -->
 		<current-locale>
 			<resources>
