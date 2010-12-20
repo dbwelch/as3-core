@@ -257,12 +257,6 @@ package com.ffsys.ioc
 						"Unknown bean expression '" + extension + "'." );
 			}
 			
-			if( document && ( output is BeanFileDependency ) )
-			{
-				document.files.push(
-					BeanFileDependency( output ) );
-			}
-			
 			return output;
 		}
 		

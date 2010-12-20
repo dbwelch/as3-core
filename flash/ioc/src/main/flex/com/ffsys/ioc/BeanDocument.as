@@ -270,9 +270,39 @@ package com.ffsys.ioc
 				}else{
 					_beans.push( descriptor );
 				}
+				handleBeanDescriptorFileDependencies( descriptor );
 				return true;
 			}
 			return false;
+		}
+		
+		private function handleBeanDescriptorFileDependencies( descriptor:IBeanDescriptor ):void
+		{
+			
+			//handle storing file dependencies
+			if( descriptor != null )
+			{
+				var z:String = null;
+				var output:Object;
+				
+				for( z in descriptor.properties )
+				{
+					output = descriptor.properties[ z ];
+					if( output is BeanFileDependency )
+					{
+						trace("BeanDocument::handleBeanDescriptorFileDependencies()", descriptor.id, descriptor.filePolicy );
+
+						var files:Vector.<BeanFileDependency> = 
+							( descriptor.filePolicy == BeanFilePolicy.DOCUMENT_FILE_POLICY )
+								? this.files : descriptor.files;
+						if( files != null )
+						{
+							files.push(
+								BeanFileDependency( output ) );
+						}
+					}
+				}
+			}
 		}
 		
 		/**

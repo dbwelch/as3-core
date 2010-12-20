@@ -68,7 +68,7 @@ package com.ffsys.ioc
 		* 	To prevent this behaviour and have file dependencies handled
 		* 	at the bean level specify this property with a value <code>bean</code>.
 		*/
-		public static const FILE_POLICY_PROPERTY:String = "file-policy";
+		public static const FILE_POLICY_PROPERTY:String = "filePolicy";
 		
 		/**
 		*	The delimiter used in reference expressions to delimit

@@ -1,7 +1,16 @@
 package com.ffsys.ioc
 {
 	
-	
+	/**
+	*	Encapsulates constants that describe the available
+	* 	bean file dependency policies.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  20.12.2010
+	*/
 	public class BeanFilePolicy extends Object
 	{
 		/**

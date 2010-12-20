@@ -59,8 +59,12 @@ package com.ffsys.ioc
 		override public function get filePolicy():String
 		{
 			var policy:String = super.filePolicy;
+			
+			trace("BeanDescriptor::get filePolicy()", policy );
+			
 			if( policy != null )
 			{
+				trace("BeanDescriptor::get filePolicy()", "RETURNING EXPLICITLY SET POLICY: ", policy );
 				return policy;
 			}
 			
@@ -535,6 +539,7 @@ package com.ffsys.ioc
 					if( ( filePolicyCandidate is String ) )
 					{
 						this.filePolicy = ( filePolicyCandidate as String );
+						trace("BeanDescriptor::transfer()", "SETTING FILE POLICY : ", this.filePolicy );
 						delete target[ BeanConstants.FILE_POLICY_PROPERTY ];
 					}
 				}
