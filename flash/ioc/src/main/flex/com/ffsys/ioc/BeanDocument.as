@@ -287,18 +287,21 @@ package com.ffsys.ioc
 				
 				for( z in descriptor.properties )
 				{
-					output = descriptor.properties[ z ];
-					if( output is BeanFileDependency )
+					if( descriptor.properties.hasOwnProperty( z ) )
 					{
-						trace("BeanDocument::handleBeanDescriptorFileDependencies()", descriptor.id, descriptor.filePolicy );
-
-						var files:Vector.<BeanFileDependency> = 
-							( descriptor.filePolicy == BeanFilePolicy.DOCUMENT_FILE_POLICY )
-								? this.files : descriptor.files;
-						if( files != null )
+						output = descriptor.properties[ z ];
+						if( output is BeanFileDependency )
 						{
-							files.push(
-								BeanFileDependency( output ) );
+							trace("BeanDocument::handleBeanDescriptorFileDependencies()", descriptor.id, descriptor.filePolicy );
+
+							var files:Vector.<BeanFileDependency> = 
+								( descriptor.filePolicy == BeanFilePolicy.DOCUMENT_FILE_POLICY )
+									? this.files : descriptor.files;
+							if( files != null )
+							{
+								files.push(
+									BeanFileDependency( output ) );
+							}
 						}
 					}
 				}
