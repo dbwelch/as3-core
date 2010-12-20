@@ -26,6 +26,7 @@ package com.ffsys.swat.core
 		extends	IDestroy,
 		 		IBeanAccess,
 				IStyleAccess,
+				ISettingAccess,
 				IMessageAccess,
 				IResourceAccess
 	{
@@ -57,12 +58,9 @@ package com.ffsys.swat.core
 		function get errors():IProperties;
 		
 		/**
-		* 	List of application setting resources.
-		* 
-		* 	This will be <code>null</code> if no settings
-		* 	resources have been defined.
+		* 	The application settings.
 		*/
-		function get settings():IResourceList;
+		function get settings():IProperties;
 		
 		/**
 		* 	List of xml resources.

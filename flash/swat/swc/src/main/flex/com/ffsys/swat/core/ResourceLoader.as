@@ -354,6 +354,9 @@ package com.ffsys.swat.core {
 				}else if( phase == ResourceLoadPhase.ERRORS_PHASE )
 				{
 					properties = _resources.errors;
+				}else if( phase == ResourceLoadPhase.SETTINGS_PHASE )
+				{
+					properties = _resources.settings;
 				}
 				
 				if( queue && !queue.isEmpty() )

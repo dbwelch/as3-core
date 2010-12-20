@@ -52,6 +52,8 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.MESSAGES, configuration.resources.messages );
 			var errorsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.ERRORS, configuration.resources.errors );
+			var settingsBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.SETTINGS, configuration.resources.settings );
 			var pathsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.PATHS, configuration.paths );
 			var localeBean:IBeanDescriptor = new InjectedBeanDescriptor(
@@ -69,6 +71,8 @@ package com.ffsys.swat.core
 			beans.addBeanDescriptor( messagesBean );
 			//application error messages
 			beans.addBeanDescriptor( errorsBean );
+			//application settings
+			beans.addBeanDescriptor( settingsBean );
 			//resource paths
 			beans.addBeanDescriptor( pathsBean );
 			//global resources
@@ -104,6 +108,12 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.ERRORS,
 				IErrorMessagesAware,
 				errorsBean ) );
+				
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.SETTINGS,
+				DefaultBeanIdentifiers.SETTINGS,
+				ISettingsAware,
+				settingsBean ) );
 				
 			beans.types.push( new BeanTypeInjector(
 				DefaultBeanIdentifiers.PATHS,

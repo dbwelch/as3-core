@@ -11,8 +11,8 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.core.IMessageAccess;
 	import com.ffsys.swat.core.IResourcesAware;
 	import com.ffsys.swat.core.IResourceAccess;
-	import com.ffsys.swat.core.IStyleAccess;
-	
+	import com.ffsys.swat.core.ISettingAccess;
+	import com.ffsys.swat.core.IStyleAccess;	
 	
 	/**
 	*	Describes the contract for objects that
@@ -30,6 +30,7 @@ package com.ffsys.swat.configuration {
 				IResourcesAware,
 				IResourceAccess,
 				IMessageAccess,
+				ISettingAccess,
 				IStyleAccess,
 				IBeanAccess,
 				IEventDispatcher {

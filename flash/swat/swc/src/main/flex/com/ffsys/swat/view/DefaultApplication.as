@@ -244,8 +244,6 @@ package com.ffsys.swat.view  {
 			
 			if( application )
 			{
-				trace("DefaultApplication::createMainController()", application, application.configuration );
-				
 				if( application is IConfigurationAware )
 				{
 					IConfigurationAware( application ).configuration = _configuration;

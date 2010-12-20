@@ -13,6 +13,7 @@ package com.ffsys.swat.mock
 					IErrorMessagesAware,
 					IPathsAware,
 					ILocaleAware,
+					ISettingsAware,
 					IResourcesAware
 	{
 		private var _rectangle:RectangleGraphic;
@@ -20,6 +21,7 @@ package com.ffsys.swat.mock
 		private var _locale:IConfigurationLocale;
 		private var _messages:IProperties;
 		private var _errors:IProperties;
+		private var _settings:IProperties;
 		private var _paths:IPaths;
 		private var _resources:IResourceManager;
 		
@@ -78,7 +80,20 @@ package com.ffsys.swat.mock
 		public function set errors( value:IProperties ):void
 		{
 			_errors = value;
-		}		
+		}	
+		
+		/**
+		* 	The application settings.
+		*/
+		public function get settings():IProperties
+		{
+			return _settings;
+		}
+
+		public function set settings( value:IProperties ):void
+		{
+			_settings = value;
+		}	
 		
 		/**
 		* 	The resource path configuration.

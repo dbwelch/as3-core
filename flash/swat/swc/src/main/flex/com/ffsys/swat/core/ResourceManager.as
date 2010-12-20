@@ -10,12 +10,13 @@ package com.ffsys.swat.core
 	import com.ffsys.io.loaders.resources.*;
 	
 	import com.ffsys.utils.properties.IProperties;
-	import com.ffsys.utils.properties.Properties;	
+	import com.ffsys.utils.properties.Properties;
+	import com.ffsys.utils.properties.PrimitiveProperties;		
 	
 	/**
 	*	A resource manager implementation that exposes
 	* 	that nested resource lists that correspond to the
-	* 	various load phases as public properties.
+	* 	various load phases.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -31,6 +32,7 @@ package com.ffsys.swat.core
 		private var _list:IResourceList;
 		private var _messages:IProperties;
 		private var _errors:IProperties;
+		private var _settings:IProperties;	
 		
 		/**
 		* 	Creates a <code>ResourceManager</code> instance.
@@ -265,6 +267,18 @@ package com.ffsys.swat.core
 		/**
 		* 	@inheritDoc
 		*/
+		public function getSetting( id:String ):Object
+		{
+			if( this.settings != null )
+			{
+				return this.settings.getProperty.apply( this.settings, [ id ] );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get messages():IProperties
 		{
 			if( _messages == null )
@@ -289,15 +303,14 @@ package com.ffsys.swat.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function get settings():IResourceList
+		public function get settings():IProperties
 		{
-			if( this.list != null )
+			if( _settings == null )
 			{
-				return this.list.getResourceListById(
-					ResourceLoadPhase.SETTINGS_PHASE );
-			}
-			return null;
-		}		
+				_settings = new PrimitiveProperties();
+			}			
+			return _settings;
+		}
 
 		/**
 		* 	@inheritDoc
@@ -414,8 +427,11 @@ package com.ffsys.swat.core
 				_list.destroy();
 			}
 			_list = null;
+			//TODO: destroy these composite instances as well
 			_beanManager = null;
 			_styleManager = null;
+			_messages = null;
+			_errors = null;
 		}
 	}
 }

@@ -114,6 +114,15 @@ package com.ffsys.swat.configuration {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getSetting( id:String ):Object
+		{
+			verifyResources();
+			return _resources.getSetting.apply( _resources, [ id ] );
+		}
+		
+		/**
 		* 	Provides access to stored beans.
 		* 
 		* 	@param beanName The name of the bean.

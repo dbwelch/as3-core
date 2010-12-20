@@ -51,7 +51,12 @@ package com.ffsys.swat.configuration
 		/**
 		* 	The application error messages.
 		*/
-		public static const ERRORS:String = "errors";		
+		public static const ERRORS:String = "errors";
+		
+		/**
+		* 	The application settings.
+		*/
+		public static const SETTINGS:String = "settings";	
 		
 		/**
 		* 	The identifier of the injected bean that

@@ -131,6 +131,7 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.locales );
 			Assert.assertNotNull( application.messages );
 			Assert.assertNotNull( application.errors );
+			Assert.assertNotNull( application.settings );
 			Assert.assertNotNull( application.paths );
 			Assert.assertNotNull( application.locale );
 			Assert.assertNotNull( application.resources );
@@ -146,7 +147,6 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.resources.sounds );
 
 			//check global resource list lengths
-			Assert.assertEquals( 1, application.resources.settings.length );
 			Assert.assertEquals( 1, application.resources.xml.length );
 			Assert.assertEquals( 1, application.resources.text.length );
 			Assert.assertEquals( 1, application.resources.rsls.length );
@@ -184,7 +184,25 @@ package com.ffsys.swat.configuration
 			var l:Loader = configuration.getMovie( "mockAssets" );
 			Assert.assertNotNull( l );
 			
-			//TODO: settings need to be asserted individually
+			//application setting primitives
+			
+			//string setting
+			var expectedString:String = "3d";
+			Assert.assertEquals( expectedString,
+				Object( application.settings ).application.mode );
+			Assert.assertEquals( expectedString, configuration.getSetting( "application.mode" ) );
+			
+			//boolean false setting
+			Assert.assertFalse( Object( application.settings ).application.launch.enabled );
+			
+			
+			/*
+			Assert.assertFalse( configuration.getSetting( "application.launch.enabled" ) );
+			
+			//boolean true setting
+			Assert.assertTrue( Object( application.settings ).application.login.enabled );
+			Assert.assertTrue( configuration.getSetting( "application.login.enabled" ) );
+			*/
 		}
 		
 		/**
