@@ -106,23 +106,19 @@
 		
 		<!-- Locale definitions -->
 		<locale lang="en" country="GB">
-			
 			<resources>
 				<messages>
 					<resource>
-						<url>properties/messages.properties</url>
+						<url>properties/mock-messages.properties</url>
 					</resource>
 				</messages>
-			
 				<errors>
 					<resource>
-						<url>properties/errors.properties</url>
+						<url>properties/mock-errors.properties</url>
 					</resource>
 				</errors>
-				
 			</resources>
 		</locale>
-		
 		<locale lang="es" country="ES">
 			<resources>
 				<messages>
@@ -132,7 +128,6 @@
 				</messages>
 			</resources>
 		</locale>
-		
 		<locale lang="de" country="DE">
 			<resources>
 				<messages>

@@ -105,7 +105,7 @@ package com.ffsys.swat.configuration
 		* 	@inheritDoc
 		*/
 		override protected function assertBootstrapData(
-			event:LoadEvent,
+			event:RslEvent,
 			passThroughData:Object ):void
 		{
 			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
@@ -117,7 +117,8 @@ package com.ffsys.swat.configuration
 			var mainBeanName:String = DefaultBeanIdentifiers.APPLICATION_BEAN;
 			
 			//get the main mock application controller
-			var application:MockApplicationController = configuration.getBean( mainBeanName ) as MockApplicationController;
+			var application:MockApplicationController =
+				configuration.getBean( mainBeanName ) as MockApplicationController;
 			Assert.assertNotNull( application );
 			
 			//verify singleton behaviour
@@ -129,11 +130,14 @@ package com.ffsys.swat.configuration
 			//check that the type injection by interface implementation works
 			Assert.assertNotNull( application.locales );
 			Assert.assertNotNull( application.messages );
+			Assert.assertNotNull( application.errors );
 			Assert.assertNotNull( application.paths );
 			Assert.assertNotNull( application.locale );
 			Assert.assertNotNull( application.resources );
 			
 			//verify global resources
+			Assert.assertNotNull( application.resources.messages );
+			Assert.assertNotNull( application.resources.errors );
 			Assert.assertNotNull( application.resources.settings );
 			Assert.assertNotNull( application.resources.xml );
 			Assert.assertNotNull( application.resources.text );
@@ -145,7 +149,7 @@ package com.ffsys.swat.configuration
 			Assert.assertEquals( 1, application.resources.settings.length );
 			Assert.assertEquals( 1, application.resources.xml.length );
 			Assert.assertEquals( 1, application.resources.text.length );
-			Assert.assertEquals( 1, application.resources.rsls.length );	
+			Assert.assertEquals( 1, application.resources.rsls.length );
 			Assert.assertEquals( 2, application.resources.images.length );
 			Assert.assertEquals( 1, application.resources.sounds.length );
 			
@@ -155,6 +159,18 @@ package com.ffsys.swat.configuration
 			assertResourceListType( Loader, application.resources.rsls );
 			assertResourceListType( BitmapData, application.resources.images );
 			assertResourceListType( Sound, application.resources.sounds );
+			
+			var expected:String = "This is an english locale message override.";
+			//check dot style property access
+			Assert.assertEquals( expected, Object( application.messages ).common.message );
+			//check api style access
+			Assert.assertEquals( expected, configuration.getMessage( "common.message" ) );
+			
+			expected = "An error of type {0} en_GB occured.";
+			//check dot style property access
+			Assert.assertEquals( expected, Object( application.errors ).general );
+			//check api style access
+			Assert.assertEquals( expected, configuration.getError( "general" ) );
 			
 			//assert on loaded assets via api access
 			var x:XML = configuration.getXmlDocument( "mockXml" );

@@ -8,9 +8,6 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.properties.IProperties;
 	
 	import com.ffsys.swat.configuration.IConfiguration;
-	
-	import com.ffsys.swat.configuration.IMessageAccess;
-	
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManager;
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
@@ -27,29 +24,10 @@ package com.ffsys.swat.configuration.locale {
 	*/
 	public interface ILocaleManager
 		extends ILocaleCollection,
-		
-				IMessageAccess,
-				
 		 		IDeserializeProperty,
 				IDeserializeComplete,
 				IResourceQueueBuilder,
 				IResourceDefinitionManagerAware {
-		
-		/**
-		*	Builds a properties implementation from all the
-		* 	currently loaded message files.
-		*/
-		function getMessages():IProperties;
-		
-		/**
-		*	Gets all the messages for the application merged into
-		*	a single properties representation.
-		* 	
-		* 	This implementation will invoke the <code>getMessages</code>
-		* 	method the first time it is invoked to build the initial
-		* 	cumulative representation of all loaded messages.
-		*/
-		function get messages():IProperties;
 		
 		/**
 		* 	The parent configuration.

@@ -89,31 +89,29 @@ package com.ffsys.swat
 			
 			_bootstrapLoader.addEventListener(
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
-				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );			
+				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
 			
-			//_bootstrapLoader.request = new URLRequest( TEST_XML_PATH );
+			_bootstrapLoader.addEventListener(
+				RslEvent.RESOURCE_NOT_FOUND,
+				resourceNotFound );	
 			
-			_queue = _bootstrapLoader.load();
-			
-			_queue.addEventListener(
-				LoadEvent.RESOURCE_NOT_FOUND,
-				resourceNotFound );			
-			
-			_queue.addEventListener(
-				LoadEvent.LOAD_START,
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOAD_START,
 				loadStart );		
 				
-			_queue.addEventListener(
-				LoadEvent.LOAD_PROGRESS,
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOAD_PROGRESS,
 				loadProgress );
 				
-			_queue.addEventListener(
-				LoadEvent.DATA,
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOADED,
 				loaded );	
 
-			_queue.addEventListener(
-				LoadEvent.LOAD_COMPLETE,
-				Async.asyncHandler( this, assertBootstrapData, TIMEOUT, null, fail ) );			
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOAD_COMPLETE,
+				Async.asyncHandler( this, assertBootstrapData, TIMEOUT, null, fail ) );
+				
+			_queue = _bootstrapLoader.load();					
 		}
 		
 		[After]
@@ -126,7 +124,7 @@ package com.ffsys.swat
 		*	@private
 		*/
 		protected function loadStart(
-			event:LoadEvent ):void
+			event:RslEvent ):void
 		{
 			//trace("AbstractUnit::loadStart()", event, event.type, event.uri );
 		}
@@ -135,7 +133,7 @@ package com.ffsys.swat
 		*	@private
 		*/
 		protected function loadProgress(
-			event:LoadEvent ):void
+			event:RslEvent ):void
 		{
 			//trace("AbstractUnit::loadProgress()", event, event.type, event.uri );
 		}
@@ -144,7 +142,7 @@ package com.ffsys.swat
 		*	@private
 		*/
 		protected function loaded(
-			event:LoadEvent ):void
+			event:RslEvent ):void
 		{
 			//trace("AbstractUnit::loaded()", event, event.type, event.uri );
 		}		
@@ -153,7 +151,7 @@ package com.ffsys.swat
 		*	@private
 		*/
 		protected function resourceNotFound(
-			event:LoadEvent ):void
+			event:RslEvent ):void
 		{
 			//trace("AbstractUnit::resourceNotFound()", event, event.type, event.uri );
 		}		
@@ -177,7 +175,7 @@ package com.ffsys.swat
 		*	loaded.
 		*/
 		protected function assertBootstrapData(
-			event:LoadEvent,
+			event:RslEvent,
 			passThroughData:Object ):void
 		{
 			

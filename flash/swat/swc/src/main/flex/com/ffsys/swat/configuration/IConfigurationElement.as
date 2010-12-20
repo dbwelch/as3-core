@@ -8,6 +8,7 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.core.IFlashVariablesAware;
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	
+	import com.ffsys.swat.core.IMessageAccess;
 	import com.ffsys.swat.core.IResourcesAware;
 	import com.ffsys.swat.core.IResourceAccess;
 	import com.ffsys.swat.core.IStyleAccess;

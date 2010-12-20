@@ -2,7 +2,7 @@ package com.ffsys.swat.core
 {
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.ioc.IBeanAccess;
-	import com.ffsys.swat.configuration.IMessageAccess;
+	import com.ffsys.swat.core.IMessageAccess;
 	import com.ffsys.swat.core.IStyleAccess;
 	
 	/**

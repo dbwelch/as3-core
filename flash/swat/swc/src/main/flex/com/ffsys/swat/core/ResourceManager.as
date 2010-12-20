@@ -9,6 +9,9 @@ package com.ffsys.swat.core
 	import com.ffsys.ui.css.*;
 	import com.ffsys.io.loaders.resources.*;
 	
+	import com.ffsys.utils.properties.IProperties;
+	import com.ffsys.utils.properties.Properties;	
+	
 	/**
 	*	A resource manager implementation that exposes
 	* 	that nested resource lists that correspond to the
@@ -22,10 +25,12 @@ package com.ffsys.swat.core
 	*/
 	public class ResourceManager extends Object
 		implements IResourceManager
-	{		
+	{
 		private var _beanManager:IBeanManager;
 		private var _styleManager:IStyleManager;
 		private var _list:IResourceList;
+		private var _messages:IProperties;
+		private var _errors:IProperties;
 		
 		/**
 		* 	Creates a <code>ResourceManager</code> instance.
@@ -216,7 +221,7 @@ package com.ffsys.swat.core
 				}
 			}
 			return null;
-		}
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -232,14 +237,27 @@ package com.ffsys.swat.core
 		}
 		
 		/**
-		* 	@inheritDoc
+		*	@inheritDoc	
 		*/
-		public function get messages():IResourceList
+		public function getMessage( id:String, ... replacements ):String
 		{
-			if( this.list != null )
+			if( this.messages != null )
 			{
-				return this.list.getResourceListById(
-					ResourceLoadPhase.MESSAGES_PHASE );
+				replacements.unshift( id );
+				return this.messages.getProperty.apply( this.messages, replacements ) as String;
+			}
+			return null;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getError( id:String, ... replacements ):String
+		{
+			if( this.errors != null )
+			{
+				replacements.unshift( id );
+				return this.errors.getProperty.apply( this.errors, replacements ) as String;
 			}
 			return null;
 		}
@@ -247,14 +265,25 @@ package com.ffsys.swat.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function get errors():IResourceList
+		public function get messages():IProperties
 		{
-			if( this.list != null )
+			if( _messages == null )
 			{
-				return this.list.getResourceListById(
-					ResourceLoadPhase.ERRORS_PHASE );
+				_messages = new Properties();
 			}
-			return null;
+			return _messages;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get errors():IProperties
+		{
+			if( _errors == null )
+			{
+				_errors = new Properties();
+			}			
+			return _errors;
 		}
 		
 		/**

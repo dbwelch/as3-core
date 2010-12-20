@@ -10,6 +10,7 @@ package com.ffsys.swat.mock
 	public class MockApplicationController extends DefaultApplicationController
 		implements 	ILocalesAware,
 					IMessagesAware,
+					IErrorMessagesAware,
 					IPathsAware,
 					ILocaleAware,
 					IResourcesAware
@@ -18,6 +19,7 @@ package com.ffsys.swat.mock
 		private var _locales:ILocaleManager;
 		private var _locale:IConfigurationLocale;
 		private var _messages:IProperties;
+		private var _errors:IProperties;
 		private var _paths:IPaths;
 		private var _resources:IResourceManager;
 		
@@ -64,6 +66,19 @@ package com.ffsys.swat.mock
 		{
 			_messages = value;
 		}
+		
+		/**
+		* 	The application error messages.
+		*/
+		public function get errors():IProperties
+		{
+			return _errors;
+		}
+
+		public function set errors( value:IProperties ):void
+		{
+			_errors = value;
+		}		
 		
 		/**
 		* 	The resource path configuration.

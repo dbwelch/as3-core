@@ -21,6 +21,8 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
 	import com.ffsys.swat.events.RslEvent;
 	
+	import com.ffsys.utils.properties.IProperties;
+	
 	/**
 	*	Preloads runtime resources by type.
 	*
@@ -338,12 +340,33 @@ package com.ffsys.swat.core {
 			var output:ILoaderQueue = new LoaderQueue();
 			var queue:ILoaderQueue = null;
 			var phase:String = null;
+			var j:int = 0;
+			var properties:IProperties = null;
 			for( var i:int = 0;i < this.phases.length;i++ )
 			{
+				properties = null;
 				phase = this.phases[ i ];
 				queue = builder.getQueueByPhase( phase, _beanManager, _styleManager );
+				
+				if( phase == ResourceLoadPhase.MESSAGES_PHASE )
+				{
+					properties = _resources.messages;
+				}else if( phase == ResourceLoadPhase.ERRORS_PHASE )
+				{
+					properties = _resources.errors;
+				}
+				
 				if( queue && !queue.isEmpty() )
 				{
+					//inject a property reference
+					if( properties != null )
+					{
+						for( j = 0;j < queue.length;j++ )
+						{
+							PropertiesLoader(
+								queue.getLoaderAt( j ) ).properties = properties;
+						}
+					}
 					queue.customData = phase;
 					output.addLoader( queue );
 				}
@@ -507,7 +530,7 @@ package com.ffsys.swat.core {
 				this );	
 			removeQueueListeners( _assets, loadComplete );
 			_phase = ResourceLoadPhase.COMPLETE_PHASE;
-			dispatchEvent( evt );
+			dispatchEvent( evt );			
 
 			//clean up the queue now we have the resources
 			_assets.destroy();

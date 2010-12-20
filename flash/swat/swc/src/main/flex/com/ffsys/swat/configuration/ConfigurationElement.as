@@ -97,9 +97,9 @@ package com.ffsys.swat.configuration {
 		public function getMessage(
 			id:String, ... replacements ):String
 		{
-			verifyLocales();
+			verifyResources();
 			replacements.unshift( id );
-			return _locales.getMessage.apply( _locales, replacements );
+			return _resources.getMessage.apply( _resources, replacements );
 		}
 		
 		/**
@@ -108,9 +108,9 @@ package com.ffsys.swat.configuration {
 		public function getError(
 			id:String, ... replacements ):String
 		{
-			verifyLocales();
+			verifyResources();
 			replacements.unshift( id );
-			return _locales.getError.apply( _locales, replacements );
+			return _resources.getError.apply( _resources, replacements );
 		}
 		
 		/**
@@ -233,18 +233,7 @@ package com.ffsys.swat.configuration {
 		{
 			if( _resources == null )
 			{
-				throw new Error( "Cannot access configuration data with no defined locales." );
-			}
-		}		
-		
-		/**
-		* 	@private
-		*/
-		private function verifyLocales():void
-		{
-			if( _locales == null )
-			{
-				throw new Error( "Cannot access configuration data with no defined locales." );
+				throw new Error( "Cannot access loaded resource information with a null resource manager." );
 			}
 		}
 	}

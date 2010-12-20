@@ -10,6 +10,9 @@ package com.ffsys.swat.core
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.io.loaders.resources.IResourceList;
 	
+	import com.ffsys.utils.properties.IProperties;
+	import com.ffsys.utils.properties.Properties;
+	
 	/**
 	*	Describes the contract for resource manager implementations.
 	*
@@ -23,6 +26,7 @@ package com.ffsys.swat.core
 		extends	IDestroy,
 		 		IBeanAccess,
 				IStyleAccess,
+				IMessageAccess,
 				IResourceAccess
 	{
 		/**
@@ -43,20 +47,14 @@ package com.ffsys.swat.core
 		function set list( value:IResourceList ):void;
 		
 		/**
-		* 	List of application message resources.
-		* 
-		* 	This will be <code>null</code> if no message
-		* 	resources have been defined.
+		* 	The message manager for application messages.
 		*/
-		function get messages():IResourceList;
+		function get messages():IProperties;
 		
 		/**
-		* 	List of application error message resources.
-		* 
-		* 	This will be <code>null</code> if no error
-		* 	message resources have been defined.
+		* 	The message manager for error messages.
 		*/
-		function get errors():IResourceList;
+		function get errors():IProperties;
 		
 		/**
 		* 	List of application setting resources.

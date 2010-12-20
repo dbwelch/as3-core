@@ -1,4 +1,4 @@
-package com.ffsys.swat.configuration {
+package com.ffsys.swat.core {
 	
 	/**
 	*	Describes the contract for implementations that expose

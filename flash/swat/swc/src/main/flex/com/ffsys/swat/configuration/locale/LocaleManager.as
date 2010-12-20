@@ -254,196 +254,18 @@ package com.ffsys.swat.configuration.locale {
 						defaultLocale.country ) );
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getMessage( id:String, ... replacements ):String
-		{
-			return getMessageFromQueue(
-				getMessagesQueue(), id, replacements );
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getError( id:String, ... replacements ):String
-		{
-			return getMessageFromQueue(
-				getErrorsQueue(), id, replacements );
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function getMessages():IProperties
-		{
-			var cumulative:IProperties = new Properties();
-			
-			//TODO: check - this may need reversin
-			var properties:Vector.<IProperties> = getAllProperties( getMessagesQueue() );
-			var current:IProperties = null;
-			
-			//trace("LocaleManager::messages(), ", properties.length );
-			
-			var z:Object = null;
-			for( var i:int = 0;i < properties.length;i++ )
-			{
-				current = properties[ i ];
-				cumulative.merge( current );
-				
-				/*
-				trace("LocaleManager::message(), adding to cumulative ",
-					current.length, cumulative.length );
-				*/
-				
-			}	
-			return cumulative;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get messages():IProperties
-		{
-			if( !_messages )
-			{
-				_messages = getMessages();
-			}
-			return _messages;
-		}
-		
-		/**
-		*	@private
-		*/
-		private function getAllProperties(
-			queue:ILoaderQueue ):Vector.<IProperties>
-		{
-			var output:Vector.<IProperties> = new Vector.<IProperties>();
-			var list:IResourceList = queue.resources;
-			var resource:PropertiesResource = null;
-			var properties:IProperties = null;
-			
-			for( var i:int = 0;i < list.length;i++ )
-			{
-				resource = PropertiesResource( list.getResourceAt( i ) );
-				properties = resource.properties;
-				if( properties )
-				{
-					output.push( properties );
-				}
-			}
-			
-			return output;
-		}	
-		
-		/**
-		*	@private
-		*/
-		private function getMessageFromQueue(
-			queue:ILoaderQueue, id:String, replacements:Array ):String
-		{
-			var output:String = null;
-			var list:IResourceList = queue.resources;
-			var resource:PropertiesResource = null;
-			var properties:IProperties = null;
-			replacements.unshift( id );
-			for( var i:int = 0;i < list.length;i++ )
-			{
-				resource = PropertiesResource( list.getResourceAt( i ) );
-				properties = resource.properties;
-				
-				if( properties )
-				{
-					output = properties.getProperty.apply(
-						properties, replacements );
-				
-					if( output )
-					{
-						return output;
-					}
-				}
-			}
-			
-			return output;
-		}
-		
-		/**
-		*	@private	
-		*/
-		private function getResourceById(
-			queue:ILoaderQueue, id:String, type:Class ):IResource
-		{
-			var output:IResource = null;
-			var list:IResourceList = null;
-			
-			if( queue )
-			{
-				list = queue.resources;
-			}
-			if( list )
-			{
-				list = list.getResourcesByType( type );
-				output = list.getResourceById( id );
-			}
-			return output;
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		/**
 		*	@private	
 		*/
 		private function getMessagesQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
-			//add current properties first
-			//so they are retrieved first when locating properties
-			if( _current 
-				&& _current.resources
-				&& _current.resources.messages )
+			if( this.resources && this.resources.messages )
 			{
 				queue.append(
-					_current.resources.messages.getLoaderQueue() );
-			}
+					this.resources.messages.getLoaderQueue() );
+			}			
 			if( defaultLocale
 				&& ( defaultLocale != current )
 				&& defaultLocale.resources
@@ -452,11 +274,13 @@ package com.ffsys.swat.configuration.locale {
 				queue.append(
 					defaultLocale.resources.messages.getLoaderQueue() );
 			}
-			if( this.resources && this.resources.messages )
+			if( _current 
+				&& _current.resources
+				&& _current.resources.messages )
 			{
 				queue.append(
-					this.resources.messages.getLoaderQueue() );
-			}
+					_current.resources.messages.getLoaderQueue() );
+			}			
 			return queue;
 		}
 		
@@ -466,15 +290,11 @@ package com.ffsys.swat.configuration.locale {
 		private function getErrorsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();	
-			//add current properties first
-			//so they are retrieved first when locating properties
-			if( _current
-				&& _current.resources
-				&& _current.resources.errors )
+			if( this.resources && this.resources.errors )
 			{
 				queue.append(
-					_current.resources.errors.getLoaderQueue() );
-			}
+					this.resources.errors.getLoaderQueue() );
+			}			
 			if( defaultLocale
 				&& ( defaultLocale != current )
 				&& defaultLocale.resources
@@ -483,11 +303,13 @@ package com.ffsys.swat.configuration.locale {
 				queue.append(
 					defaultLocale.resources.errors.getLoaderQueue() );
 			}
-			if( this.resources && this.resources.errors )
+			if( _current
+				&& _current.resources
+				&& _current.resources.errors )
 			{
 				queue.append(
-					this.resources.errors.getLoaderQueue() );
-			}
+					_current.resources.errors.getLoaderQueue() );
+			}			
 			return queue;
 		}
 		

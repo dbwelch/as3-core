@@ -49,6 +49,11 @@ package com.ffsys.swat.configuration
 		public static const MESSAGES:String = "messages";
 		
 		/**
+		* 	The application error messages.
+		*/
+		public static const ERRORS:String = "errors";		
+		
+		/**
 		* 	The identifier of the injected bean that
 		* 	represents loaded global resources.
 		*/
