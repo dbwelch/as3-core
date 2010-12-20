@@ -17,11 +17,10 @@ package com.ffsys.swat.core {
 		
 		/**
 		* 	Invoked when the resource load phase changes.
-		* 
-		* 	@param phase The identifier for the resource load phase.
+		*
 		* 	@param event The load event.
 		*/
-		function phase( phase:String, event:RslEvent ):void;
+		function phase( event:RslEvent ):void;
 		
 		/**
 		* 	Invoked with resource related events.
@@ -31,10 +30,17 @@ package com.ffsys.swat.core {
 		function resource( event:RslEvent ):void;
 		
 		/**
-		*	Invoked when all runtime resources have been loaded.
+		*	Invoked when a load phase has completed.
 		* 
 		* 	@param event The load event.
 		*/
 		function complete( event:RslEvent ):void;
+		
+		/**
+		*	Invoked when all runtime resources have been loaded.
+		* 
+		* 	@param event The load event.
+		*/
+		function finished( event:RslEvent ):void;
 	}
 }

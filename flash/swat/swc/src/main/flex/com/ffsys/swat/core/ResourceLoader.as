@@ -421,6 +421,10 @@ package com.ffsys.swat.core {
 				queue.addEventListener(
 					LoadEvent.QUEUE_START,
 					queueStart );
+					
+				queue.addEventListener(
+					LoadEvent.QUEUE_COMPLETE,
+					queueComplete );
 				
 				queue.addEventListener(
 					LoadEvent.RESOURCE_NOT_FOUND,
@@ -454,6 +458,10 @@ package com.ffsys.swat.core {
 				queue.removeEventListener(
 					LoadEvent.QUEUE_START,
 					queueStart );
+					
+				queue.removeEventListener(
+					LoadEvent.QUEUE_COMPLETE,
+					queueComplete );					
 				
 				queue.removeEventListener(
 					LoadEvent.RESOURCE_NOT_FOUND,
@@ -489,7 +497,7 @@ package com.ffsys.swat.core {
 			if( phase != null )
 			{
 				_phase = phase;
-				notifyObservers( [ this.phase, event ], "phase" );
+				notifyObservers( [ event ], "phase" );
 			}
 		}
 		
@@ -518,6 +526,22 @@ package com.ffsys.swat.core {
 				list.id = this.phase;
 			}
 			
+			dispatchEvent( evt );
+			return evt;
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function queueComplete(
+			event:LoadEvent ):RslEvent
+		{	
+			var evt:RslEvent = new RslEvent(
+				RslEvent.PHASE_COMPLETE,
+				this,
+				event );
+			
+			notifyObservers( [ evt ], "complete" );
 			dispatchEvent( evt );
 			return evt;
 		}
@@ -596,8 +620,14 @@ package com.ffsys.swat.core {
 			evt.bytesLoaded = event.loader.bytesLoaded;
 			evt.bytesTotal = event.loader.bytesTotal;				
 			removeQueueListeners( _assets, loadComplete );
-			setPhase( ResourceLoadPhase.COMPLETE_PHASE, evt );
-			notifyObservers( [ evt ], "complete" );
+			
+			_phase = ResourceLoadPhase.COMPLETE_PHASE;
+			
+			//setPhase( ResourceLoadPhase.COMPLETE_PHASE, evt );
+			
+			trace("ResourceLoader::loadComplete()", this );
+			
+			notifyObservers( [ evt ], "finished" );
 			dispatchEvent( evt );
 			//clean up the queue now we have the resources
 			_assets.destroy();

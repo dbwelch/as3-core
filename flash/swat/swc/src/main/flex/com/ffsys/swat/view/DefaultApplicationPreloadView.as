@@ -54,10 +54,18 @@ package com.ffsys.swat.view {
 		/**
 		* 	@inheritDoc
 		*/
-		public function phase( phase:String, event:RslEvent ):void
+		public function phase( event:RslEvent ):void
 		{
-			trace("DefaultApplicationPreloadView::phase()", phase, event );
+			debug( event.preloader.phase, event );
 		}
+	
+		/**
+		*	@inheritDoc
+		*/
+		public function complete( event:RslEvent ):void
+		{
+			debug( event.preloader.phase, event );
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -213,7 +221,7 @@ package com.ffsys.swat.view {
 		/**
 		*	@inheritDoc
 		*/
-		public function complete( event:RslEvent ):void
+		public function finished( event:RslEvent ):void
 		{
 			debug( event.preloader.phase, event );
 		}
@@ -226,7 +234,7 @@ package com.ffsys.swat.view {
 			trace("Loading: ",
 				phase,
 				event.type,
-				event.uri,
+				event.uri != null ? event.uri : phase,
 				event.bytesLoaded,
 				event.bytesTotal,
 				int( event.percent ) + "%" );

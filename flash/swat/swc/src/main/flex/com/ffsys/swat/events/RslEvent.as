@@ -51,6 +51,11 @@ package com.ffsys.swat.events {
 		public static const PHASE_START:String = "rslPhaseStart";
 		
 		/**
+		*	Event dispatched when the phase completes for a type of resource.
+		*/
+		public static const PHASE_COMPLETE:String = "rslPhaseComplete";
+		
+		/**
 		*	The total number of bytes.
 		*/
 		public var bytesTotal:int = 0;

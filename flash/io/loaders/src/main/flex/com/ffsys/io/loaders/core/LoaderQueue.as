@@ -450,6 +450,15 @@ package com.ffsys.io.loaders.core {
 			_bytesTotal += event.loader.bytesTotal;		
 			
 			removeCompositeListeners( event.loader );
+			
+
+			var evt:Event = new LoadEvent(
+				LoadEvent.QUEUE_COMPLETE,
+				event,
+				event.loader,
+				event.loader.resource );
+			dispatchEvent( evt );	
+			
 			//move on to the next item
 			next();
 		}
@@ -802,9 +811,6 @@ package com.ffsys.io.loaders.core {
 						//if this loader queue didn't have a bytes total explicitly set
 						//when that functionality is re-integrated
 						_bytesTotal += resource.bytesTotal;
-						
-						trace("LoaderQueue::resourceLoaded()", "UPDATING BYTES LOADED/TOTAL",
-							this.bytesLoaded, this.bytesTotal );
 					}
 				}
 			}
