@@ -368,7 +368,8 @@ package com.ffsys.io.loaders.core {
 			//add any composite child queue resources to our list
 			if( this.resources && _current is ILoaderQueue )
 			{
-				this.resources.addResource( ILoaderQueue( _current ).resources );
+				this.resources.addResource(
+					ILoaderQueue( _current ).resources );
 			}
 			
 			if( index > ( _elements.length - 1 ) )
@@ -376,7 +377,7 @@ package com.ffsys.io.loaders.core {
 				_loading = false;
 				_force = false;
 				
-				trace("LoaderQueue::loadItemAtIndex() COMPLETE", index, this.customData );
+				//trace("LoaderQueue::loadItemAtIndex() COMPLETE", index, this.customData );
 
 				dispatchLoadCompleteEvent();
 				
@@ -390,7 +391,7 @@ package com.ffsys.io.loaders.core {
 			
 			var element:ILoaderElement = _current;
 			
-			trace("LoaderQueue::loadItemAtIndex()", _index, element );
+			//trace("LoaderQueue::loadItemAtIndex()", _index, element );
 			
 			if( element is ILoader )
 			{
@@ -412,6 +413,8 @@ package com.ffsys.io.loaders.core {
 				*/
 			
 				addCompositeListeners( loader );
+				
+				//trace("LoaderQueue::loadItemAtIndex()", "LOADING LOADER", loader.uri );
 			
 				//if we were in a delay _loading may have been set to false
 				//for the duration of the delay period
@@ -437,7 +440,7 @@ package com.ffsys.io.loaders.core {
 		* 	@private
 		*/
 		private function childQueueComplete( event:LoadEvent ):void
-		{
+		{	
 			removeCompositeListeners( event.loader );
 			//move on to the next item
 			next();
@@ -448,6 +451,11 @@ package com.ffsys.io.loaders.core {
 		*/
 		override protected function addCompositeListeners( target:IEventDispatcher ):void
 		{
+			if( target )
+			{
+				removeCompositeListeners( target );
+			}
+			
 			//child queue listeners
 			if( target is ILoaderQueue )
 			{
@@ -462,7 +470,7 @@ package com.ffsys.io.loaders.core {
 			}else if( target is ILoader )
 			{
 				target.addEventListener( LoadEvent.LOAD_START, childEventProxy );
-				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );						
+				target.addEventListener( LoadEvent.LOAD_PROGRESS, childEventProxy );		
 				target.addEventListener( LoadEvent.RESOURCE_NOT_FOUND, resourceNotFoundHandler );
 				target.addEventListener( LoadEvent.DATA, childEventProxy );
 				target.addEventListener( LoadEvent.LOAD_FINISHED, resourceLoaded );
@@ -720,6 +728,8 @@ package com.ffsys.io.loaders.core {
 		{
 			var element:ILoaderElement = event.loader;
 			
+			dispatchEvent( event );
+			
 			if( element is ILoader )
 			{
 				var loader:ILoader = ILoader( element );
@@ -779,7 +789,9 @@ package com.ffsys.io.loaders.core {
 					}
 				}
 			}
-
+			
+			trace("LoaderQueue::resourceLoaded()", "RESOURCE WAS LOADED", event.uri );
+			
 			dispatchEvent( event as Event );
 			next();
 		}

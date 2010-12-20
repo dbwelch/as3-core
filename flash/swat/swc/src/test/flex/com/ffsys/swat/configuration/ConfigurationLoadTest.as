@@ -20,6 +20,8 @@ package com.ffsys.swat.configuration
 	
 	import com.ffsys.swat.mock.*;
 	
+	import com.ffsys.utils.properties.IProperties;
+	
 	/**
 	*	Unit tests for ensuring the configuration data can
 	* 	be loaded and parsed.
@@ -51,6 +53,8 @@ package com.ffsys.swat.configuration
 		{
 			super.assertLoadedConfiguration( event, passThroughData );
 			configuration = IConfiguration( event.configuration );
+			
+			trace("ConfigurationLoadTest::assertLoadedConfiguration()", configuration );
 
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
@@ -150,7 +154,9 @@ package com.ffsys.swat.configuration
 			Assert.assertEquals( 1, application.resources.xml.length );
 			Assert.assertEquals( 1, application.resources.text.length );
 			Assert.assertEquals( 1, application.resources.rsls.length );
+			
 			Assert.assertEquals( 2, application.resources.images.length );
+			
 			Assert.assertEquals( 1, application.resources.sounds.length );
 			
 			//check the data associated with a type based resource list is correct
@@ -183,6 +189,19 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( b );
 			var l:Loader = configuration.getMovie( "mockAssets" );
 			Assert.assertNotNull( l );
+			
+			//check injected bean file resource dependencies have been resolved
+			var style:Object = configuration.getStyle( "css-dependency-test" );
+			
+			trace("ConfigurationLoadTest::ConfigurationLoadTest()", style, style.propertyBitmap );
+			
+			Assert.assertTrue( style.propertyBitmap is BitmapData );
+			Assert.assertTrue( style.propertySound is Sound );
+			Assert.assertTrue( style.propertyMovie is Loader );
+			Assert.assertTrue( style.propertyXml is XML );
+			Assert.assertTrue( style.propertyText is String );
+			Assert.assertTrue( style.propertyFont is Array );
+			Assert.assertTrue( style.propertyMessages is IProperties );
 			
 			//application setting primitives
 			

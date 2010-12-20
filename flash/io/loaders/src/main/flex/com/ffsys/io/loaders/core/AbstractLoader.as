@@ -97,22 +97,22 @@ package com.ffsys.io.loaders.core {
 			if( target )
 			{
 	            target.addEventListener(
-					Event.COMPLETE, completeHandler, false, 0, true );
+					Event.COMPLETE, completeHandler );
 				
 	            target.addEventListener(
-					Event.OPEN, openHandler, false, 0, true );
+					Event.OPEN, openHandler );
 				
 	            target.addEventListener(
-					ProgressEvent.PROGRESS, progressHandler, false, 0, true );
+					ProgressEvent.PROGRESS, progressHandler );
 				
 	            target.addEventListener(
-					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler, false, 0, true );
+					SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
 				
 	            target.addEventListener(
-					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler, false, 0, true );
+					HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
 				
 	            target.addEventListener(
-					IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true );
+					IOErrorEvent.IO_ERROR, ioErrorHandler );
 			}
         }
 

@@ -292,7 +292,7 @@ package com.ffsys.swat.core {
 			
 				loader.removeEventListener(
 					LoadEvent.DATA,
-					configurationLoadComplete );				
+					configurationLoadComplete );
 			}
 		}		
 		
@@ -304,6 +304,8 @@ package com.ffsys.swat.core {
 		protected function configurationLoadComplete( 
 			event:LoadEvent ):void
 		{
+			trace("ResourceLoader::configurationLoadComplete()", event);
+			
 			removeConfigurationListeners( _configurationLoader );
 			
 			var targets:ILoaderQueue = getLoaderQueue( this.builder );
@@ -313,6 +315,7 @@ package com.ffsys.swat.core {
 				queue = ILoaderQueue( targets.getLoaderAt( i ) );
 				if( !queue.isEmpty() )
 				{
+					trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
 					_assets.addLoader( queue );
 				}
 			}
@@ -322,6 +325,8 @@ package com.ffsys.swat.core {
 				//ensure the configuration knows about the loaded resources
 				this.configuration.resources = this.resources;
 			}
+			
+			trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
 
 			addQueueListeners( _assets, loadComplete );
 		}

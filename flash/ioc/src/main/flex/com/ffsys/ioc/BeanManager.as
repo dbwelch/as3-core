@@ -152,6 +152,7 @@ package com.ffsys.ioc {
 				loader = new BeanLoader( entry.request );
 				loader.document = this.document;
 				loader.addEventListener( LoadEvent.DATA, itemLoaded );
+				trace("BeanManager::getLoaderQueue() ADDING BEAN DEPENDENCY DATA LISTENER: ", loader.uri );
 				_queue.addLoader( loader );
 			}
 

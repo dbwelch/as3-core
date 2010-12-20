@@ -6,6 +6,8 @@ package com.ffsys.ioc
 	import flash.media.*;
 	import flash.net.*;
 	
+	import flash.utils.getQualifiedClassName;	
+	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
@@ -15,7 +17,7 @@ package com.ffsys.ioc
 	import com.ffsys.io.loaders.types.*;
 	import com.ffsys.io.loaders.resources.*;
 	
-	import flash.utils.getQualifiedClassName;
+	import com.ffsys.utils.properties.IProperties;
 	
 	/**
 	*	Unit tests for the bean manager.
@@ -117,6 +119,9 @@ package com.ffsys.ioc
 			Assert.assertTrue( dependencies.propertySound is Sound );
 			Assert.assertTrue( dependencies.propertyMovie is Loader );
 			Assert.assertTrue( dependencies.propertyXml is XML );
+			Assert.assertTrue( dependencies.propertyText is String );
+			Assert.assertTrue( dependencies.propertyFont is Array );
+			Assert.assertTrue( dependencies.propertyMessages is IProperties );
 
 			//test the filter declaration
 			assertFilterBean( _beanManager.document );
