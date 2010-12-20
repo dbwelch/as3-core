@@ -304,7 +304,7 @@ package com.ffsys.swat.core {
 		protected function configurationLoadComplete( 
 			event:LoadEvent ):void
 		{
-			trace("ResourceLoader::configurationLoadComplete()", event);
+			//trace("ResourceLoader::configurationLoadComplete()", event);
 			
 			removeConfigurationListeners( _configurationLoader );
 			
@@ -315,7 +315,7 @@ package com.ffsys.swat.core {
 				queue = ILoaderQueue( targets.getLoaderAt( i ) );
 				if( !queue.isEmpty() )
 				{
-					trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
+					//trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
 					_assets.addLoader( queue );
 				}
 			}
@@ -326,7 +326,7 @@ package com.ffsys.swat.core {
 				this.configuration.resources = this.resources;
 			}
 			
-			trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
+			//trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
 
 			addQueueListeners( _assets, loadComplete );
 		}
@@ -459,7 +459,14 @@ package com.ffsys.swat.core {
 				this,
 				event );
 				
-			_phase = String( event.loader.customData );
+			var queueData:String = event.loader.customData as String;
+			
+			//don't allow nested queues with no custom data phase
+			//to break the phase defined by a parent queue
+			if( queueData != null )
+			{
+				_phase = queueData;
+			}
 			
 			var list:IResourceList = IResourceList( ILoaderQueue( event.loader ).resource );
 			list.id = this.phase;
@@ -507,6 +514,9 @@ package com.ffsys.swat.core {
 				RslEvent.LOAD_PROGRESS,
 				this,
 				event );
+				
+			//trace("ResourceLoader::loadProgress()", event.uri );
+				
 			evt.bytesLoaded = event.loader.bytesLoaded;
 			evt.bytesTotal = event.loader.bytesTotal;
 			dispatchEvent( evt );

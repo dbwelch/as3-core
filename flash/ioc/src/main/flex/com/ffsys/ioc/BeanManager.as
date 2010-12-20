@@ -152,7 +152,7 @@ package com.ffsys.ioc {
 				loader = new BeanLoader( entry.request );
 				loader.document = this.document;
 				loader.addEventListener( LoadEvent.DATA, itemLoaded );
-				trace("BeanManager::getLoaderQueue() ADDING BEAN DEPENDENCY DATA LISTENER: ", loader.uri );
+				//trace("BeanManager::getLoaderQueue() ADDING BEAN DEPENDENCY DATA LISTENER: ", loader.uri );
 				_queue.addLoader( loader );
 			}
 
@@ -186,7 +186,7 @@ package com.ffsys.ioc {
 		
 		private function itemLoaded( event:LoadEvent ):void
 		{
-			trace("BeanManager::itemLoaded()", this.document.files.length, event.type );
+			//trace("BeanManager::itemLoaded()", this.document.files.length, event.type );
 			
 			if( this.document.files
 				&& this.document.files.length )
@@ -200,7 +200,7 @@ package com.ffsys.ioc {
 				//inject the dependency queue into the main loader queue
 				_queue.insertLoaderAt( dependencies, _queue.index + 1 );
 				
-				trace("BeanManager::itemLoaded()", "INSERTING DEPENDENCIES: ", dependencies, _queue.index, _queue.length );				
+				//trace("BeanManager::itemLoaded()", "INSERTING DEPENDENCIES: ", dependencies, _queue.index, _queue.length );				
 			}
 		}
 		
@@ -211,7 +211,7 @@ package com.ffsys.ioc {
 		{
 			var dependency:BeanFileDependency = event.loader.customData as BeanFileDependency;
 			
-			trace("BeanManager::resolveFileDependency()",  dependency );
+			//trace("BeanManager::resolveFileDependency()",  dependency );
 			
 			if( dependency )
 			{

@@ -59,9 +59,7 @@ package com.ffsys.io.loaders.types {
 				this,
 				resource
 			);
-			
-			trace("ImageLoader::completeHandler()", this.uri );
-			
+
 			super.completeHandler( event, bitmapData );
 			dispatchEvent( evt );
 			Notifier.dispatchEvent( evt );

@@ -61,6 +61,8 @@ package com.ffsys.swat.view {
 				resourceNotFound( event );
 				return;
 			}
+			
+			//trace("DefaultApplicationPreloadView::resource()", event.preloader.phase );
 					
 			switch( event.preloader.phase )
 			{

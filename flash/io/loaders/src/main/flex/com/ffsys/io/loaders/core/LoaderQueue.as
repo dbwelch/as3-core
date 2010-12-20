@@ -790,7 +790,7 @@ package com.ffsys.io.loaders.core {
 				}
 			}
 			
-			trace("LoaderQueue::resourceLoaded()", "RESOURCE WAS LOADED", event.uri );
+			//trace("LoaderQueue::resourceLoaded()", "RESOURCE WAS LOADED", event.uri );
 			
 			dispatchEvent( event as Event );
 			next();

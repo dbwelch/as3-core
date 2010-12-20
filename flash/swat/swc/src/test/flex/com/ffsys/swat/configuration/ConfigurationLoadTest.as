@@ -54,7 +54,7 @@ package com.ffsys.swat.configuration
 			super.assertLoadedConfiguration( event, passThroughData );
 			configuration = IConfiguration( event.configuration );
 			
-			trace("ConfigurationLoadTest::assertLoadedConfiguration()", configuration );
+			//trace("ConfigurationLoadTest::assertLoadedConfiguration()", configuration );
 
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
@@ -192,9 +192,6 @@ package com.ffsys.swat.configuration
 			
 			//check injected bean file resource dependencies have been resolved
 			var style:Object = configuration.getStyle( "css-dependency-test" );
-			
-			trace("ConfigurationLoadTest::ConfigurationLoadTest()", style, style.propertyBitmap );
-			
 			Assert.assertTrue( style.propertyBitmap is BitmapData );
 			Assert.assertTrue( style.propertySound is Sound );
 			Assert.assertTrue( style.propertyMovie is Loader );
@@ -213,7 +210,6 @@ package com.ffsys.swat.configuration
 			
 			//boolean false setting
 			Assert.assertFalse( Object( application.settings ).application.launch.enabled );
-			
 			
 			/*
 			Assert.assertFalse( configuration.getSetting( "application.launch.enabled" ) );

@@ -128,7 +128,7 @@ package com.ffsys.swat.core {
 			
 			super.configurationLoadComplete( event );
 			
-			trace("BootstrapLoader::configurationLoadComplete()", this.configuration, this.builder );
+			//trace("BootstrapLoader::configurationLoadComplete()", this.configuration, this.builder );
 			
 			var evt:ConfigurationEvent = new ConfigurationEvent(
 				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
