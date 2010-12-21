@@ -41,7 +41,7 @@ package com.ffsys.swat.as3.view {
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class SwatActionscriptContainer extends DefaultApplicationController
+	public class ApplicationController extends DefaultApplicationController
 		implements 	IApplicationMainController,
 		 			IMessagesAware {
 			
@@ -55,9 +55,9 @@ package com.ffsys.swat.as3.view {
 		public var vbox:VerticalBox;
 		
 		/**
-		*	Creates a <code>SwatActionscriptContainer</code> instance.
+		*	Creates a <code>ApplicationController</code> instance.
 		*/
-		public function SwatActionscriptContainer()
+		public function ApplicationController()
 		{
 			super();
 		}
@@ -71,8 +71,8 @@ package com.ffsys.swat.as3.view {
 			runtime:IBootstrapLoader,
 			view:IApplicationPreloadView ):Boolean
 		{
-			var preloader:SwatActionscriptApplicationPreloadView
-				= SwatActionscriptApplicationPreloadView( view );
+			var preloader:ApplicationPreloadView
+				= ApplicationPreloadView( view );
 			createChildren( DisplayObjectContainer( parent ) );
 			return true;
 		}
@@ -101,7 +101,7 @@ package com.ffsys.swat.as3.view {
 			vbox = new VerticalBox();
 			root.addChild( vbox );
 			
-			trace("SwatActionscriptContainer::createChildren()", "GOT APPLICATION BEAN: ",
+			trace("ApplicationController::createChildren()", "GOT APPLICATION BEAN: ",
 				getBean( "application" ), Object( messages ).common.message );
 			
 			/*
@@ -110,13 +110,13 @@ package com.ffsys.swat.as3.view {
 			var graphic:Graphic = new Graphic( rect );
 			vbox.addChild( graphic );
 			
-			trace("SwatActionscriptContainer::createChildren()", rect, rect.fill, rect.stroke, rect.width, rect.height, rect.preferredWidth, rect.preferredHeight );			
+			trace("ApplicationController::createChildren()", rect, rect.fill, rect.stroke, rect.width, rect.height, rect.preferredWidth, rect.preferredHeight );			
 			
 			return;
 			*/
 			
 			var substyle:Object = styleManager.getStyle( "sub" );
-			trace("SwatActionscriptContainer::createChildren()", substyle.substitution );			
+			trace("ApplicationController::createChildren()", substyle.substitution );			
 			
 			/*
 			var data:Array = [ "apples", "oranges", "pears" ];
@@ -194,23 +194,23 @@ package com.ffsys.swat.as3.view {
 		{
 			var btn:Button = Button( _loader.document.getElementById( "btn" ) );
 			btn.addEventListener( MouseEvent.CLICK, click );
-			trace("SwatActionscriptContainer::runtimeLoaded(), ", btn );
+			trace("ApplicationController::runtimeLoaded(), ", btn );
 			
 			var graphic:Graphic = Graphic( _loader.document.getElementById( "graphic" ) );
 			
-			trace("SwatActionscriptContainer::runtimeLoaded()", "GOT GRAPHIC", graphic );
+			trace("ApplicationController::runtimeLoaded()", "GOT GRAPHIC", graphic );
 			
 			var tween:ITween = ITween( getStyle( "alpha-tween" ) );
 			tween.target = graphic;
 			tween.initialize();
 			tween.start();
 			
-			trace("SwatActionscriptContainer::runtimeLoaded() GOT TWEEN", tween );			
+			trace("ApplicationController::runtimeLoaded() GOT TWEEN", tween );			
 		}
 		
 		private function click( event:MouseEvent ):void
 		{
-			trace("SwatActionscriptContainer::click()", Button( event.target ).text );
+			trace("ApplicationController::click()", Button( event.target ).text );
 		}
 		
 	}

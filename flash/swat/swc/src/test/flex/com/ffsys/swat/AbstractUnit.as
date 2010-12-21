@@ -61,6 +61,7 @@ package com.ffsys.swat
 		{
 			var output:Array = new Array();
 			output.push( MockApplicationController );
+			output.push( MockFileLoaderBean );
 			
 			output.push( RectangleGraphic );
 			output.push( SolidFill );

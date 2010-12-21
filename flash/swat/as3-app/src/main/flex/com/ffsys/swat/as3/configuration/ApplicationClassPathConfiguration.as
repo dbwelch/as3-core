@@ -11,12 +11,12 @@ package com.ffsys.swat.as3.configuration
 	*	@author Mischa Williamson
 	*	@since  09.06.2010
 	*/
-	public class SwatActionscriptClassPathConfiguration extends ClassPathConfiguration
+	public class ApplicationClassPathConfiguration extends ClassPathConfiguration
 	{		
 		/**
-		* 	Creates a <code>SwatActionscriptClassPathConfiguration</code> instance.
+		* 	Creates a <code>ApplicationClassPathConfiguration</code> instance.
 		*/
-		public function SwatActionscriptClassPathConfiguration()
+		public function ApplicationClassPathConfiguration()
 		{
 			super();
 		}
@@ -34,7 +34,7 @@ package com.ffsys.swat.as3.configuration
 		*/
 		override public function getPreloadViewClassPath():String
 		{
-			return "com.ffsys.swat.as3.view.SwatActionscriptApplicationPreloadView";
+			return "com.ffsys.swat.as3.view.ApplicationPreloadView";
 		}
 	}
 }

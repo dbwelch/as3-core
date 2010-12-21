@@ -16,14 +16,14 @@ package com.ffsys.swat.as3.view {
 	*	@author Mischa Williamson
 	*	@since  13.06.2010
 	*/
-	public class SwatActionscriptApplicationPreloadView extends DefaultApplicationPreloadView {
+	public class ApplicationPreloadView extends DefaultApplicationPreloadView {
 		
 		private var _txt:MultiLineTextField;
 		
 		/**
-		*	Creates a <code>SwatActionscriptApplicationPreloadView</code> instance.
+		*	Creates a <code>ApplicationPreloadView</code> instance.
 		*/
-		public function SwatActionscriptApplicationPreloadView()
+		public function ApplicationPreloadView()
 		{
 			super();
 		}

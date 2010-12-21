@@ -16,13 +16,13 @@ package com.ffsys.swat.as3.view {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	[Frame(factoryClass="com.ffsys.swat.as3.view.SwatActionscriptApplicationPreloader")]
-	public class SwatMain extends DefaultApplicationMain {
+	[Frame(factoryClass="com.ffsys.swat.as3.view.ApplicationPreloader")]
+	public class ApplicationMain extends DefaultApplicationMain {
 		
 		/**
-		*	Creates a <code>SwatMain</code> instance.
+		*	Creates a <code>ApplicationMain</code> instance.
 		*/
-		public function SwatMain()
+		public function ApplicationMain()
 		{
 			super();
 		}
@@ -33,7 +33,7 @@ package com.ffsys.swat.as3.view {
 		override public function getRuntimeClasses():Array
 		{
 			var output:Array = new Array();
-			output.push( SwatActionscriptContainer );
+			output.push( ApplicationController );
 			output.push( ConfigurationParser );
 			
 			output.push( Tween );

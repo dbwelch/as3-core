@@ -25,6 +25,8 @@ package com.ffsys.ioc
 		* 	
 		* 	@param element The bean element that triggered the load request.
 		* 	@param queue The loader queue handling resolving the files.
+		* 	@param target A target implementation that should have the resolved
+		* 	properties assigned to.
 		*/
 		public function BeanFileLoadResolver(
 			element:IBeanElement = null,

@@ -111,7 +111,7 @@
 				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>			
 				<configuration>
-					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/SwatMain.as</sourceFile>
+					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/ApplicationMain.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
 					<debug>true</debug>
 					<optimize>true</optimize>
