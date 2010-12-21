@@ -16,7 +16,7 @@ package com.ffsys.swat.mock
 	* 	and access resources.
 	*/
 	public class MockFileLoaderBean extends LoaderQueue
-		implements IBeanLoaderObserver
+		implements IBeanLoadObserver
 	{
 		private var _propertyBitmap:BitmapData;
 		private var _propertySound:Sound;
