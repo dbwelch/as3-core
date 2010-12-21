@@ -9,6 +9,7 @@ package com.ffsys.ioc
 	
 	import com.ffsys.utils.primitives.PrimitiveParser;
 	import com.ffsys.utils.properties.PropertiesMerge;
+	import com.ffsys.utils.properties.PrimitiveProperties;
 	import com.ffsys.utils.string.StringTrim;
 	
 	import com.ffsys.utils.substitution.*;
@@ -191,7 +192,18 @@ package com.ffsys.ioc
 					break;
 				case BeanExpressions.MESSAGES_EXPRESSION:
 					output = new BeanFileDependency(
-						beanName, beanProperty, value, PropertiesLoader );
+						beanName,
+						beanProperty,
+						value,
+						PropertiesLoader );
+					break;
+				case BeanExpressions.SETTINGS_EXPRESSION:
+					output = new BeanFileDependency(
+						beanName,
+						beanProperty,
+						value,
+						PropertiesLoader,
+						{ properties: new PrimitiveProperties() } );
 					break;
 				case BeanExpressions.REF_EXPRESSION:
 					output = new BeanReference( beanName, beanProperty, value );

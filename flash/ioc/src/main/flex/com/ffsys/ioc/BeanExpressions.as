@@ -102,6 +102,18 @@ package com.ffsys.ioc
 		public static const MESSAGES_EXPRESSION:String = "messages";
 		
 		/**
+		*	An expression to load a properties file containing simple
+		* 	types.
+		* 
+		* 	Supported types are <code>String</code>, <code>Number</code>,
+		* 	<code>Boolean</code> and <code>Array</code>.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to an <code>IProperties</code> implementation.
+		*/
+		public static const SETTINGS_EXPRESSION:String = "settings";
+		
+		/**
 		*	An expression to load a flash movie containing fonts.
 		* 
 		* 	When this expression is evaluated the resulting property

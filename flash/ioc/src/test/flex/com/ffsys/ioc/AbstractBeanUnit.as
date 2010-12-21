@@ -35,19 +35,21 @@ package com.ffsys.ioc
  			var dependencies:Object = document.getBean( "di-dependencies" );
 			Assert.assertNotNull( dependencies );
 
-			//test the file dependencies were added
-			Assert.assertEquals( 7, document.files.length );
+			//test the document level file dependencies were added
+			Assert.assertEquals( 8, document.files.length );
 			Assert.assertTrue( document.files[ 0 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 1 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 2 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 3 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 4 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 5 ] is BeanFileDependency );
+			Assert.assertTrue( document.files[ 6 ] is BeanFileDependency );
+			Assert.assertTrue( document.files[ 7 ] is BeanFileDependency );
 			
 			var queue:ILoaderQueue = document.dependencies;
 			
 			Assert.assertNotNull( queue );
-			Assert.assertEquals( 7, queue.length );
+			Assert.assertEquals( 8, queue.length );
 		}
 		
 		protected function assertFilterBean( document:IBeanDocument ):void

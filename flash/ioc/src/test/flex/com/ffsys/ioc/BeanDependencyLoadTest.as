@@ -129,6 +129,15 @@ package com.ffsys.ioc
 			Assert.assertTrue( dependencies.propertyText is String );
 			Assert.assertTrue( dependencies.propertyFont is Array );
 			Assert.assertTrue( dependencies.propertyMessages is IProperties );
+			Assert.assertTrue( dependencies.propertySettings is IProperties );
+			
+			//TODO: assertions on the loaded settings values
+			var settings:Object = Object( dependencies.propertySettings );
+			Assert.assertEquals( "3d", settings.application.mode );
+			Assert.assertFalse( settings.application.launch.enabled );
+			Assert.assertTrue( settings.application.login.enabled );
+			Assert.assertEquals( 512, settings.application.connections.maximum );
+			Assert.assertTrue( settings.application.sections.disabled is Array );
 
 			//assertions on the contents of loaded files
 			Assert.assertEquals( "hello xml world",

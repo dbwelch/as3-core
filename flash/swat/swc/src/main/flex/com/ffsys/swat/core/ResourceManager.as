@@ -15,7 +15,7 @@ package com.ffsys.swat.core
 	
 	/**
 	*	A resource manager implementation that exposes
-	* 	that nested resource lists that correspond to the
+	* 	the nested resource lists that correspond to the
 	* 	various load phases.
 	*
 	*	@langversion ActionScript 3.0
@@ -33,7 +33,7 @@ package com.ffsys.swat.core
 		private var _list:IResourceList;
 		private var _messages:IProperties;
 		private var _errors:IProperties;
-		private var _settings:IProperties;	
+		private var _settings:IProperties;
 		
 		/**
 		* 	Creates a <code>ResourceManager</code> instance.

@@ -6,7 +6,7 @@ package com.ffsys.ioc
 	/**
 	*	Unit tests for parsing file dependency expressions.
 	*/ 
-	public class BeanFileDependenyParseTest extends AbstractBeanUnit
+	public class BeanFileDependencyParseTest extends AbstractBeanUnit
 	{	
 		public var sample:String = 
 			(<![CDATA[
@@ -19,14 +19,15 @@ package com.ffsys.ioc
 				property-text: text( assets/mock-di-text.txt );
 				property-font: font( assets/mock-di-fonts.swf );
 				property-messages: messages( assets/mock-di-messages.properties );
+				property-settings: settings( assets/mock-di-settings.properties );
 			}
 				
 			]]>).toString();
 		
 		/**
-		*	Creates a <code>BeanFileDependenyParseTest</code> instance.
+		*	Creates a <code>BeanFileDependencyParseTest</code> instance.
 		*/ 
-		public function BeanFileDependenyParseTest()
+		public function BeanFileDependencyParseTest()
 		{
 			super();
 		}

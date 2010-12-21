@@ -3,6 +3,7 @@ package com.ffsys.ioc
 	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.core.ILoader;
+	import com.ffsys.utils.properties.PropertiesMerge;	
 	
 	/**
 	*	Represents a file dependency declared in a bean file.
@@ -17,6 +18,7 @@ package com.ffsys.ioc
 		implements IBeanResolver {
 		
 		private var _loaderClass:Class;
+		private var _properties:Object;
 
 		/**
 		* 	Creates a <code>BeanFileDependency</code> instance.
@@ -25,15 +27,18 @@ package com.ffsys.ioc
 		* 	@param name The name of the bean property.
 		* 	@param value The parsed value.
 		* 	@param loaderClass The class of loader to instantiate.
+		* 	@param properties Properties to assign to the instantiated loader.
 		*/
 		public function BeanFileDependency(
 			beanName:String = null,
 			name:String = null,
 			value:String = null,
-			loaderClass:Class = null ):void
+			loaderClass:Class = null,
+			properties:Object = null ):void
 		{
 			super( beanName, name, value );
 			this.loaderClass = loaderClass;
+			this.properties = properties;
 		}
 		
 		/**
@@ -50,6 +55,19 @@ package com.ffsys.ioc
 		}
 		
 		/**
+		* 	Properties to assign to the instantiated loader.
+		*/
+		public function get properties():Object
+		{
+			return _properties;
+		}
+		
+		public function set properties( value:Object ):void
+		{
+			_properties = value;
+		}
+		
+		/**
 		* 	Gets the loader repsonsible for loading this file dependency.
 		* 
 		* 	@return The loader to use to load the bean file dependency.
@@ -62,6 +80,11 @@ package com.ffsys.ioc
 				loader = ILoader(
 					new loaderClass( new URLRequest( String( this.value ) ) ) );
 				loader.customData = this;
+				if( this.properties != null )
+				{
+					var merger:PropertiesMerge = new PropertiesMerge();
+					merger.merge( loader, properties );
+				}
 			}
 			return loader;
 		}
