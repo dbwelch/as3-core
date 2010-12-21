@@ -526,7 +526,7 @@ package com.ffsys.ioc
 				}
 				
 				//no reference at the moment
-				var manager:BeanFileLoadResolver =
+				var fileResolver:BeanFileLoadResolver =
 					new BeanFileLoadResolver( this, target, instance );
 
 				var autoLoad:Boolean = true;

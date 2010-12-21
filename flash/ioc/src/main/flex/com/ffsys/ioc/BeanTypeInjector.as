@@ -24,6 +24,7 @@ package com.ffsys.ioc
 		* 
 		* 	@param beanName The name of the bean.
 		* 	@param name The name of the bean property.
+		* 	@param type The type that this type injection applies to.
 		* 	@param descriptor The descriptor that the type
 		* 	property should resolve to.
 		*/

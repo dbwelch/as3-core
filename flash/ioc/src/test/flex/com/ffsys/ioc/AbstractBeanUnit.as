@@ -34,9 +34,13 @@ package com.ffsys.ioc
 			//test the bean exists
  			var dependencies:Object = document.getBean( "di-dependencies" );
 			Assert.assertNotNull( dependencies );
+			
+			//9 document level dependencies declared in the main bean
+			//file and 4 document level dependencies declared in the imported bean file
+			var total:Number = 13;
 
 			//test the document level file dependencies were added
-			Assert.assertEquals( 8, document.files.length );
+			Assert.assertEquals( total, document.files.length );
 			Assert.assertTrue( document.files[ 0 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 1 ] is BeanFileDependency );
 			Assert.assertTrue( document.files[ 2 ] is BeanFileDependency );
@@ -49,7 +53,7 @@ package com.ffsys.ioc
 			var queue:ILoaderQueue = document.dependencies;
 			
 			Assert.assertNotNull( queue );
-			Assert.assertEquals( 8, queue.length );
+			Assert.assertEquals( total, queue.length );
 		}
 		
 		protected function assertFilterBean( document:IBeanDocument ):void

@@ -33,6 +33,7 @@ package com.ffsys.ioc
 		* 	the bean document was parsed.
 		*/
 		function get files():Vector.<BeanFileDependency>;
+		function set files( value:Vector.<BeanFileDependency> ):void;
 		
 		/**
 		*	A queue that represents the dependencies that

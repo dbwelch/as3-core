@@ -80,8 +80,12 @@ package com.ffsys.ioc
 				loader = ILoader(
 					new loaderClass( new URLRequest( String( this.value ) ) ) );
 				loader.customData = this;
+				
+				trace("BeanFileDependency::getLoader()", loader );				
+				
 				if( this.properties != null )
 				{
+					trace("BeanFileDependency::getLoader() merging properties...");
 					var merger:PropertiesMerge = new PropertiesMerge();
 					merger.merge( loader, properties );
 				}

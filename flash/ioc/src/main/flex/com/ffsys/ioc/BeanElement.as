@@ -73,7 +73,12 @@ package com.ffsys.ioc
 			}
 			
 			return _files;
-		}		
+		}
+		
+		public function set files( value:Vector.<BeanFileDependency> ):void
+		{
+			_files = value;
+		}
 		
 		/**
 		*	@inheritDoc

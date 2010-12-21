@@ -57,6 +57,7 @@ package com.ffsys.ioc {
 		public function set document( document:IBeanDocument ):void
 		{
 			_document = document;
+			trace("BeanLoader::set document()", document );
 		}
 		
 		/**
@@ -88,7 +89,7 @@ package com.ffsys.ioc {
 		override protected function shouldParseText():Boolean
 		{
 			return true;
-		}		
+		}
 		
 		/**
 		*	Parses the beans document text into a bean document.

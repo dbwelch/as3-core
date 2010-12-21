@@ -114,6 +114,15 @@ package com.ffsys.ioc
 		public static const SETTINGS_EXPRESSION:String = "settings";
 		
 		/**
+		*	An expression to import another bean document into this
+		* 	document.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to an <code>IBeanDocument</code> implementation.
+		*/
+		public static const IMPORT_EXPRESSION:String = "import";
+		
+		/**
 		*	An expression to load a flash movie containing fonts.
 		* 
 		* 	When this expression is evaluated the resulting property

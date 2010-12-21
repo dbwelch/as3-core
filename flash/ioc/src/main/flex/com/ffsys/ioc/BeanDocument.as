@@ -409,7 +409,7 @@ package com.ffsys.ioc
 		/**
 		*	@private
 		*/
-		private function handleBeanDescriptorFileDependencies( descriptor:IBeanDescriptor ):void
+		protected function handleBeanDescriptorFileDependencies( descriptor:IBeanDescriptor ):void
 		{
 			//handle storing file dependencies
 			if( descriptor != null )
@@ -427,6 +427,13 @@ package com.ffsys.ioc
 							var files:Vector.<BeanFileDependency> = 
 								( descriptor.filePolicy == BeanFilePolicy.DOCUMENT_FILE_POLICY )
 									? this.files : descriptor.files;
+								
+							//ensure import expressions have the correct document reference
+							if( BeanFileDependency( output ).loaderClass == BeanLoader )
+							{
+								BeanFileDependency( output ).properties = { document: this };
+							}
+								
 							if( files != null )
 							{
 								files.push(

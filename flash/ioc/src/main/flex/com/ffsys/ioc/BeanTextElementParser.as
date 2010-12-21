@@ -205,6 +205,13 @@ package com.ffsys.ioc
 						PropertiesLoader,
 						{ properties: new PrimitiveProperties() } );
 					break;
+				case BeanExpressions.IMPORT_EXPRESSION:
+					output = new BeanFileDependency(
+						beanName,
+						beanProperty,
+						value,
+						BeanLoader );
+					break;
 				case BeanExpressions.REF_EXPRESSION:
 					output = new BeanReference( beanName, beanProperty, value );
 					break;

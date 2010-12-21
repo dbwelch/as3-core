@@ -28,6 +28,7 @@ package com.ffsys.ioc.mock
 		private var _propertyFont:Array;
 		private var _propertyMessages:IProperties;
 		private var _propertySettings:IProperties;
+		private var _propertyImport:IBeanDocument;
 		
 		public var autoLoad:Boolean = false;
 		public var targetQueue:ILoaderQueue = null;
@@ -106,8 +107,14 @@ package com.ffsys.ioc.mock
 			Assert.assertNotNull( descriptor );
 			Assert.assertNotNull( dependency );
 			loadedResources.push( resource );
-			//mimic the default bean property setting behaviour
-			descriptor.setBeanProperty( this, dependency.name, resource.data );
+			
+			trace("MockFileLoaderBean::doWithResource()" , resource.data );
+			
+			if( this.hasOwnProperty( dependency.name ) )
+			{
+				//mimic the default bean property setting behaviour
+				descriptor.setBeanProperty( this, dependency.name, resource.data );
+			}
 		}
 		
 		/**
@@ -237,6 +244,20 @@ package com.ffsys.ioc.mock
 		public function set propertySettings( value:IProperties ):void
 		{
 			_propertySettings = value;
-		}		
+		}	
+		
+		/**
+		* 	A reference to the bean document created when
+		* 	the import dependency was resolved.
+		*/
+		public function get propertyImport():IBeanDocument
+		{
+			return _propertyImport;
+		}
+		
+		public function set propertyImport( value:IBeanDocument ):void
+		{
+			_propertyImport = value;
+		}
 	}
 }

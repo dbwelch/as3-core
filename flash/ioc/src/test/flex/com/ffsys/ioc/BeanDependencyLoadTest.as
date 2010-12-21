@@ -131,7 +131,7 @@ package com.ffsys.ioc
 			Assert.assertTrue( dependencies.propertyMessages is IProperties );
 			Assert.assertTrue( dependencies.propertySettings is IProperties );
 			
-			//TODO: assertions on the loaded settings values
+			//assertions on the loaded settings values
 			var settings:Object = Object( dependencies.propertySettings );
 			Assert.assertEquals( "3d", settings.application.mode );
 			Assert.assertFalse( settings.application.launch.enabled );
@@ -156,13 +156,29 @@ package com.ffsys.ioc
 			var lazilyLoaded:Object = document.getBean( "bean-dependencies" );
 			Assert.assertNotNull( lazilyLoaded );
 			
+			verifyDocumentLevelImports();
+			
 			Assert.assertTrue( lazilyLoaded is MockFileLoaderBean );
 			var loader:MockFileLoaderBean = MockFileLoaderBean( lazilyLoaded );
+			
+			//unlock the document to allow for the fact that we have declared
+			//a bean import twice for testing at the document and bean level
+			document.locked = false;
+			document.policy = BeanCreationPolicy.MERGE;
 			
 			//chain an async for loading the resources upon bean retrievel
 			loader.addEventListener(
 				LoadEvent.LOAD_COMPLETE,
 				Async.asyncHandler( this, assertBeanLoaderDependencies, TIMEOUT, loader, fail ) );
+		}
+		
+		protected function verifyDocumentLevelImports():void
+		{
+			var document:IBeanDocument = _beanManager.document;
+			
+			var imports:Object = document.getBean( "import-dependencies" );
+			trace("BeanDependencyLoadTest::verifyDocumentLevelImports()", imports, imports.propertyXml );
+			Assert.assertNotNull( imports );
 		}
 		
 		protected function assertBeanLoaderDependencies(
@@ -173,7 +189,7 @@ package com.ffsys.ioc
 			var loader:MockFileLoaderBean = MockFileLoaderBean( passThroughData );
 			
 			//the total number of expected resources
-			var total:Number = 8;
+			var total:Number = 9;
 			
 			Assert.assertNotNull( loader.propertyBitmap );
 			Assert.assertNotNull( loader.propertySound );
@@ -183,6 +199,7 @@ package com.ffsys.ioc
 			Assert.assertNotNull( loader.propertyFont );
 			Assert.assertNotNull( loader.propertyMessages );
 			Assert.assertNotNull( loader.propertySettings );
+			Assert.assertNotNull( loader.propertyImport );
 			
 			//verify observer methods fired
 			Assert.assertTrue( loader.autoLoad );
@@ -192,6 +209,14 @@ package com.ffsys.ioc
 			Assert.assertEquals( loader, loader.targetQueue );			
 			Assert.assertEquals( total, loader.targetResources.length );
 			Assert.assertEquals( total, loader.loadedResources.length );
+			
+			//test on the imported document reference
+			
+			//TODO: fix this
+			Assert.assertEquals( _beanManager.document, loader.propertyImport );
+			
+			var importedBean:Object = loader.propertyImport.getBean( "import-dependencies" );
+			trace("BeanDependencyLoadTest::addRequests()", importedBean, importedBean.propertyXml );
 		}
 		
 		[Test(async)]
