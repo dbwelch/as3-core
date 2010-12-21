@@ -75,7 +75,8 @@ package com.ffsys.ioc
 		*/
 		function doWithResource(
 			resource:IResource,
-			descriptor:IBeanDescriptor ):void;
+			descriptor:IBeanDescriptor,
+			dependency:BeanFileDependency ):void;
 		
 		/**
 		* 	Invoked when the loader queue is complete with the resource

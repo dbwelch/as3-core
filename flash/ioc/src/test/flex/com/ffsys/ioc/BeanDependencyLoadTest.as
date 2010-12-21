@@ -147,8 +147,6 @@ package com.ffsys.ioc
 			var lazilyLoaded:Object = document.getBean( "bean-dependencies" );
 			Assert.assertNotNull( lazilyLoaded );
 			
-			trace("BeanDependencyLoadTest::lazilyLoaded()", lazilyLoaded );
-			
 			Assert.assertTrue( lazilyLoaded is MockFileLoaderBean );
 			var loader:MockFileLoaderBean = MockFileLoaderBean( lazilyLoaded );
 			
@@ -164,6 +162,10 @@ package com.ffsys.ioc
 		{
 			Assert.assertTrue( passThroughData is MockFileLoaderBean );
 			var loader:MockFileLoaderBean = MockFileLoaderBean( passThroughData );
+			
+			//the total number of expected resources
+			var total:Number = 7;
+			
 			Assert.assertNotNull( loader.propertyBitmap );
 			Assert.assertNotNull( loader.propertySound );
 			Assert.assertNotNull( loader.propertyMovie );
@@ -171,6 +173,15 @@ package com.ffsys.ioc
 			Assert.assertNotNull( loader.propertyText );
 			Assert.assertNotNull( loader.propertyFont );
 			Assert.assertNotNull( loader.propertyMessages );
+			
+			//verify observer methods fired
+			Assert.assertTrue( loader.autoLoad );
+			Assert.assertNotNull( loader.targetResources );
+			Assert.assertNotNull( loader.queue );
+			//the bean is the loader queue implementation in this case
+			Assert.assertEquals( loader, loader.targetQueue );			
+			Assert.assertEquals( total, loader.targetResources.length );
+			Assert.assertEquals( total, loader.loadedResources.length );
 		}
 		
 		[Test(async)]

@@ -62,6 +62,13 @@ package com.ffsys.ioc
 		*/
 		override public function get filePolicy():String
 		{
+			//force non-bean descriptors to document level
+			//file dependencies for the moment
+			if( !isBean() )
+			{
+				BeanFilePolicy.DOCUMENT_FILE_POLICY;
+			}
+			
 			var policy:String = super.filePolicy;
 			if( policy != null )
 			{
@@ -495,8 +502,6 @@ package com.ffsys.ioc
 		{
 			var target:ILoaderQueue = null;
 			
-			trace("BeanDescriptor::doLoadResources()", this.filePolicy, this.files.length );
-
 			if( this.filePolicy == BeanFilePolicy.BEAN_FILE_POLICY
 				&& this.files.length > 0 )
 			{
@@ -517,16 +522,33 @@ package com.ffsys.ioc
 					target.append( this.dependencies );
 				}
 				
-				trace("BeanDescriptor::doLoadResources()", "LOAD RESOURCES FOR RETRIEVED BEAN", instance );
-				
-				_beanFileLoadManager.addLoader( target );
-				
+				//no reference at the moment
 				var manager:BeanFileLoadResolver =
 					new BeanFileLoadResolver( this, target, instance );
-				
-				if( !_beanFileLoadManager.loading )
+
+				var autoLoad:Boolean = true;
+				var observer:IBeanLoaderObserver =
+					( instance as IBeanLoaderObserver );
+				if( observer != null )
 				{
-					_beanFileLoadManager.load();
+					autoLoad = observer.getFileLoadBehaviour( target, this, this.files );
+					target = observer.doWithLoaderQueue( target, this, this.files );
+					//if the observer returns a null loader queue
+					//we discard starting any load process
+					if( target == null )
+					{
+						return;
+					}
+				}
+				
+				if( autoLoad )
+				{
+					//add the loader queue to our stacked based loader
+					_beanFileLoadManager.addLoader( target );
+					if( !_beanFileLoadManager.loading )
+					{
+						_beanFileLoadManager.load();
+					}
 				}
 			}
 		}

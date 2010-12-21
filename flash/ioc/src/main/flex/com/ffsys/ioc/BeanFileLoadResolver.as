@@ -119,9 +119,9 @@ package com.ffsys.ioc
 		* 	Determines whether the target object is an observer
 		* 	implementation.
 		*/
-		public function isObserver():Boolean
+		public function get observer():IBeanLoaderObserver
 		{
-			return ( this.target is IBeanLoaderObserver );
+			return ( this.target as IBeanLoaderObserver );
 		}
 		
 		/**
@@ -130,9 +130,7 @@ package com.ffsys.ioc
 		private function resolveFileDependency( event:LoadEvent ):void
 		{
 			var dependency:BeanFileDependency = event.loader.customData as BeanFileDependency;
-			
-			trace("BeanFileLoadResolver::resolveFileDependency()",  dependency );
-			
+
 			if( dependency != null )
 			{
 				//we change the bean property sent to be resolved
@@ -182,13 +180,28 @@ package com.ffsys.ioc
 			if( this.target != null && this.descriptor )
 			{
 				var hasProp:Boolean = this.target.hasOwnProperty( dependency.name );
+
+				//obey any observer implementation
+				if( this.observer )
+				{
+					var process:Boolean = observer.shouldProcessResource(
+						IResource( event.resource ), this.descriptor, dependency );
+					
+					//the bean processes the resource so we
+					//defer responsibility	
+					if( process )
+					{
+						//defer property setting to the observer
+						hasProp = false;
+						observer.doWithResource(
+							IResource( event.resource ), this.descriptor, dependency );
+					}
+				}
 				
-				trace("BeanFileLoadResolver::resolveBeanLevelFileDependency()", hasProp );
-				
-				//the instantiated bean has the corresponding property name
 				if( hasProp )
 				{
-					descriptor.setBeanProperty( target, dependency.name, result );
+					//attempt to set the property
+					descriptor.setBeanProperty( target, dependency.name, result );					
 				}
 			}
 		}
@@ -198,8 +211,14 @@ package com.ffsys.ioc
 		*/
 		private function dependenciesLoaded( event:LoadEvent ):void
 		{
+			if( this.observer != null
+				&& this.descriptor != null )
+			{
+				this.observer.doWithResourceList(
+					IResourceList( queue.resource ), this.descriptor );
+			}
 			removeQueueListeners();
-		}		
+		}
 		
 		/**
 		* 	@private

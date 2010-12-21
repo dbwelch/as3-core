@@ -87,8 +87,6 @@ package com.ffsys.ioc
 				var properties:Object = descriptor.properties;
 				if( properties )
 				{
-					trace("BeanFileDependency::resolve()", bean );
-					
 					//update the bean descriptor property
 					//with the loaded resource data
 					properties[ this.name ] = bean;

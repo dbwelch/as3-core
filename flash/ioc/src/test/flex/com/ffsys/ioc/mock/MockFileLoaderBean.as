@@ -6,7 +6,9 @@ package com.ffsys.ioc.mock
 	import flash.display.*;
 	import flash.media.*;
 	
-	import com.ffsys.io.loaders.core.LoaderQueue;
+	import com.ffsys.ioc.*;
+	import com.ffsys.io.loaders.core.*;
+	import com.ffsys.io.loaders.resources.*;
 	import com.ffsys.utils.properties.IProperties;
 	
 	/**
@@ -16,6 +18,7 @@ package com.ffsys.ioc.mock
 	* 	This implementation 
 	*/
 	public class MockFileLoaderBean extends LoaderQueue
+		implements IBeanLoaderObserver
 	{
 		private var _propertyBitmap:BitmapData;
 		private var _propertySound:Sound;
@@ -25,12 +28,95 @@ package com.ffsys.ioc.mock
 		private var _propertyFont:Array;
 		private var _propertyMessages:IProperties;
 		
+		public var autoLoad:Boolean = false;
+		public var targetQueue:ILoaderQueue = null;
+		public var loadedResources:Vector.<IResource> = new Vector.<IResource>();
+		public var targetResources:IResourceList;
+		
 		/**
 		* 	Creates a <code>MockFileLoaderBean</code> instance.
 		*/
 		public function MockFileLoaderBean()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getFileLoadBehaviour(
+			queue:ILoaderQueue,
+			descriptor:IBeanDescriptor,
+			files:Vector.<BeanFileDependency> ):Boolean
+		{
+			Assert.assertNotNull( queue );
+			Assert.assertNotNull( descriptor );
+			Assert.assertNotNull( files );
+			Assert.assertTrue( files.length > 0 );
+			autoLoad = true;
+			trace("MockFileLoaderBean::getFileLoadBehaviour()", queue, descriptor, files.length );
+			//allow the file dependencies to be loaded when this bean is retrieved
+			return true;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function doWithLoaderQueue(
+			queue:ILoaderQueue,
+			descriptor:IBeanDescriptor,
+			files:Vector.<BeanFileDependency> ):ILoaderQueue
+		{
+			Assert.assertNotNull( queue );
+			Assert.assertNotNull( descriptor );
+			Assert.assertNotNull( files );
+			Assert.assertTrue( files.length > 0 );	
+			trace("MockFileLoaderBean::doWithLoaderQueue()", queue, descriptor, files.length );
+			//we are the loader queue in this implementation
+			Assert.assertEquals( this, queue );
+			this.targetQueue = queue;
+			return queue;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function shouldProcessResource(
+			resource:IResource,
+			descriptor:IBeanDescriptor,
+			dependency:BeanFileDependency ):Boolean
+		{			
+			Assert.assertNotNull( resource );
+			Assert.assertNotNull( descriptor );
+			Assert.assertNotNull( dependency );
+			//we handle setting the property ourselves yet mimic the default behaviour
+			return true;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function doWithResource(
+			resource:IResource,
+			descriptor:IBeanDescriptor,
+			dependency:BeanFileDependency ):void
+		{
+			Assert.assertNotNull( resource );
+			Assert.assertNotNull( descriptor );
+			Assert.assertNotNull( dependency );
+			loadedResources.push( resource );
+			//mimic the default bean property setting behaviour
+			descriptor.setBeanProperty( this, dependency.name, resource.data );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function doWithResourceList(
+			resources:IResourceList,
+			descriptor:IBeanDescriptor ):void
+		{
+			this.targetResources = resources;
 		}
 		
 		/**
