@@ -55,6 +55,17 @@ package com.ffsys.ioc
 		function transfer( target:Object ):void;
 		
 		/**
+		* 	Sets a property on a target object.
+		* 
+		* 	@param target The bean target.
+		* 	@param name The property name.
+		* 	@param value The balue to set the property to.
+		* 
+		* 	@return A boolean indicating whether the property was successfully set.
+		*/
+		function setBeanProperty( target:Object, name:String, value:* ):Boolean;
+		
+		/**
 		* 	Merges the properties of a source bean descriptor
 		* 	into this descriptor overwriting any existing properties
 		* 	defined by this bean descriptor.

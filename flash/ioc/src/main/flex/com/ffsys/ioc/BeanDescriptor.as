@@ -2,6 +2,7 @@ package com.ffsys.ioc
 {	
 	import flash.utils.getQualifiedClassName;
 	
+	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.utils.properties.PropertiesMerge;	
 	
 	/**
@@ -15,7 +16,10 @@ package com.ffsys.ioc
 	*/
 	public class BeanDescriptor extends BeanElement
 		implements IBeanDescriptor
-	{	
+	{
+		static private var _beanFileLoadManager:BeanFileLoadManager
+			= new BeanFileLoadManager();
+			
 		private var _document:IBeanDocument;
 		private var _staticClass:Class;
 		private var _singleton:Boolean = false;
@@ -59,12 +63,8 @@ package com.ffsys.ioc
 		override public function get filePolicy():String
 		{
 			var policy:String = super.filePolicy;
-			
-			trace("BeanDescriptor::get filePolicy()", policy );
-			
 			if( policy != null )
 			{
-				trace("BeanDescriptor::get filePolicy()", "RETURNING EXPLICITLY SET POLICY: ", policy );
 				return policy;
 			}
 			
@@ -347,6 +347,7 @@ package com.ffsys.ioc
 					setBeanProperties( instance, parameters );
 					callBeanMethods( instance, parameters );
 					doTypeInjection( instance, parameters );
+					doLoadResources( instance, parameters );
 					
 					if( inject && document && document.injector )
 					{
@@ -386,6 +387,17 @@ package com.ffsys.ioc
 			name:String,
 			value:* ):Boolean
 		{
+			if( target is IBeanProperty
+				&& IBeanProperty( target ).shouldSetBeanProperty( name, value ) )
+			{
+				setBeanProperty( target, name, value );
+				return false;
+			}
+			return true;
+		}
+		
+		public function setBeanProperty( target:Object, name:String, value:* ):Boolean
+		{
 			if( target is IBeanProperty )
 			{
 				var property:IBeanProperty = IBeanProperty( target );
@@ -393,10 +405,20 @@ package com.ffsys.ioc
 				{
 					//delegate bean property assignment
 					property.setBeanProperty( name, value );
-					return false;
+					return true;
+				}
+			}else
+			{
+				try
+				{
+					target[ name ] = value;
+					return true;
+				}catch( e:Error )
+				{
+					throw e;
 				}
 			}
-			return true;
+			return false;
 		}
 		
 		/**
@@ -456,6 +478,55 @@ package com.ffsys.ioc
 					{
 						injector.resolve( this.document, this, instance );
 					}
+				}
+			}
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Handles file resources that should be instantiated when the bean
+		* 	is retrieved.
+		* 
+		* 	@param instance The bean instance.
+		* 	@param parameters The bean property parameters.
+		*/
+		private function doLoadResources( instance:Object, parameters:Object ):void
+		{
+			var target:ILoaderQueue = null;
+			
+			trace("BeanDescriptor::doLoadResources()", this.filePolicy, this.files.length );
+
+			if( this.filePolicy == BeanFilePolicy.BEAN_FILE_POLICY
+				&& this.files.length > 0 )
+			{
+			
+				if( instance is ILoaderQueue )
+				{
+					target = ILoaderQueue( instance );
+				}
+			
+				if( !target )
+				{
+					target = this.dependencies;
+				}
+				
+				//ensure the newly instantiated instance gets all the file loaders
+				if( target == instance )
+				{
+					target.append( this.dependencies );
+				}
+				
+				trace("BeanDescriptor::doLoadResources()", "LOAD RESOURCES FOR RETRIEVED BEAN", instance );
+				
+				_beanFileLoadManager.addLoader( target );
+				
+				var manager:BeanFileLoadResolver =
+					new BeanFileLoadResolver( this, target, instance );
+				
+				if( !_beanFileLoadManager.loading )
+				{
+					_beanFileLoadManager.load();
 				}
 			}
 		}
@@ -539,7 +610,6 @@ package com.ffsys.ioc
 					if( ( filePolicyCandidate is String ) )
 					{
 						this.filePolicy = ( filePolicyCandidate as String );
-						trace("BeanDescriptor::transfer()", "SETTING FILE POLICY : ", this.filePolicy );
 						delete target[ BeanConstants.FILE_POLICY_PROPERTY ];
 					}
 				}

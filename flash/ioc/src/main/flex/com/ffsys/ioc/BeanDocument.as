@@ -276,38 +276,6 @@ package com.ffsys.ioc
 			return false;
 		}
 		
-		private function handleBeanDescriptorFileDependencies( descriptor:IBeanDescriptor ):void
-		{
-			
-			//handle storing file dependencies
-			if( descriptor != null )
-			{
-				var z:String = null;
-				var output:Object;
-				
-				for( z in descriptor.properties )
-				{
-					if( descriptor.properties.hasOwnProperty( z ) )
-					{
-						output = descriptor.properties[ z ];
-						if( output is BeanFileDependency )
-						{
-							trace("BeanDocument::handleBeanDescriptorFileDependencies()", descriptor.id, descriptor.filePolicy );
-
-							var files:Vector.<BeanFileDependency> = 
-								( descriptor.filePolicy == BeanFilePolicy.DOCUMENT_FILE_POLICY )
-									? this.files : descriptor.files;
-							if( files != null )
-							{
-								files.push(
-									BeanFileDependency( output ) );
-							}
-						}
-					}
-				}
-			}
-		}
-		
 		/**
 		* 	@inheritDoc
 		*/
@@ -437,6 +405,38 @@ package com.ffsys.ioc
 			
 			return instance;
 		}
+		
+		/**
+		*	@private
+		*/
+		private function handleBeanDescriptorFileDependencies( descriptor:IBeanDescriptor ):void
+		{
+			//handle storing file dependencies
+			if( descriptor != null )
+			{
+				var z:String = null;
+				var output:Object;
+				
+				for( z in descriptor.properties )
+				{
+					if( descriptor.properties.hasOwnProperty( z ) )
+					{
+						output = descriptor.properties[ z ];
+						if( output is BeanFileDependency )
+						{
+							var files:Vector.<BeanFileDependency> = 
+								( descriptor.filePolicy == BeanFilePolicy.DOCUMENT_FILE_POLICY )
+									? this.files : descriptor.files;
+							if( files != null )
+							{
+								files.push(
+									BeanFileDependency( output ) );
+							}
+						}
+					}
+				}
+			}
+		}	
 		
 		/**
 		* 	Destroys this bean document.

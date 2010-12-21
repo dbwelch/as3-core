@@ -20,6 +20,8 @@ package com.ffsys.ioc
 	
 	import flash.utils.getQualifiedClassName;
 	
+	import com.ffsys.ioc.mock.*;
+	
 	/**
 	*	Unit tests for <code>BeanDependencyLoadTest</code>.
 	*/ 
@@ -140,6 +142,35 @@ package com.ffsys.ioc
 			var fonts:Array = ( dependencies.propertyFont as Array );
 			Assert.assertEquals( 1, fonts.length );
 			Assert.assertTrue( fonts[ 0 ] is Font );
+			
+			//check file dependecies declared to load when a bean is retrieved
+			var lazilyLoaded:Object = document.getBean( "bean-dependencies" );
+			Assert.assertNotNull( lazilyLoaded );
+			
+			trace("BeanDependencyLoadTest::lazilyLoaded()", lazilyLoaded );
+			
+			Assert.assertTrue( lazilyLoaded is MockFileLoaderBean );
+			var loader:MockFileLoaderBean = MockFileLoaderBean( lazilyLoaded );
+			
+			//chain an async for loading the resources upon bean retrievel
+			loader.addEventListener(
+				LoadEvent.LOAD_COMPLETE,
+				Async.asyncHandler( this, assertBeanLoaderDependencies, TIMEOUT, loader, fail ) );
+		}
+		
+		protected function assertBeanLoaderDependencies(
+			event:LoadEvent,
+			passThroughData:Object ):void		
+		{
+			Assert.assertTrue( passThroughData is MockFileLoaderBean );
+			var loader:MockFileLoaderBean = MockFileLoaderBean( passThroughData );
+			Assert.assertNotNull( loader.propertyBitmap );
+			Assert.assertNotNull( loader.propertySound );
+			Assert.assertNotNull( loader.propertyMovie );
+			Assert.assertNotNull( loader.propertyXml );
+			Assert.assertNotNull( loader.propertyText );
+			Assert.assertNotNull( loader.propertyFont );
+			Assert.assertNotNull( loader.propertyMessages );
 		}
 		
 		[Test(async)]

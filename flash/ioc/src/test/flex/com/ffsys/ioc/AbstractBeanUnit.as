@@ -10,8 +10,16 @@ package com.ffsys.ioc
 	
 	import com.ffsys.io.loaders.core.*;
 	
+	import com.ffsys.ioc.mock.*;
+	
 	public class AbstractBeanUnit extends Object
 	{
+		private var _mockDependencies:Array = [
+			MockAbstractController,
+			MockApplicationBean,
+			MockFileLoaderBean,
+			MockFactoryBean
+		];
 		
 		/**
 		* 	Creates an <code>AbstractBeanUnit</code> instance.
