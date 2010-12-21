@@ -121,9 +121,9 @@ package com.ffsys.ioc
 		* 	Determines whether the target object is an observer
 		* 	implementation.
 		*/
-		public function get observer():IBeanLoaderObserver
+		public function get observer():IBeanLoadObserver
 		{
-			return ( this.target as IBeanLoaderObserver );
+			return ( this.target as IBeanLoadObserver );
 		}
 		
 		/**

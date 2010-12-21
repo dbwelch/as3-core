@@ -4,7 +4,18 @@ package com.ffsys.ioc
 	import com.ffsys.io.loaders.resources.IResource;
 	import com.ffsys.io.loaders.resources.IResourceList;		
 	
-	public interface IBeanLoaderObserver
+	/**
+	*	Describes the contract for instantiated beans
+	* 	that declare file dependencies and wish
+	* 	to be notified as file dependencies are loaded.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  20.12.2010
+	*/
+	public interface IBeanLoadObserver
 	{
 		/**
 		* 	Determines what the load behaviour should be for file

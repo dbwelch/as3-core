@@ -1,7 +1,3 @@
-/**
-*	This package contains the classes and interfaces for a lightweight
-*	inversion of control container.
-*/
 package com.ffsys.ioc
 {
 	import flash.utils.getQualifiedClassName;

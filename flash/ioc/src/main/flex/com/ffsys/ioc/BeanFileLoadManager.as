@@ -4,8 +4,13 @@ package com.ffsys.ioc
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	/**
+	* 	@private
+	* 	
 	*	Responsible for managing all lazily instantiated bean
 	* 	file dependency loader queues.
+	* 	
+	* 	This implementation clears all stored loader
+	* 	implementations when a load has completed.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

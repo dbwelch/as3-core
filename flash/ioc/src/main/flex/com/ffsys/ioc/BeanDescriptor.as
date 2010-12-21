@@ -403,6 +403,9 @@ package com.ffsys.ioc
 			return true;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function setBeanProperty( target:Object, name:String, value:* ):Boolean
 		{
 			if( target is IBeanProperty )
@@ -527,8 +530,8 @@ package com.ffsys.ioc
 					new BeanFileLoadResolver( this, target, instance );
 
 				var autoLoad:Boolean = true;
-				var observer:IBeanLoaderObserver =
-					( instance as IBeanLoaderObserver );
+				var observer:IBeanLoadObserver =
+					( instance as IBeanLoadObserver );
 				if( observer != null )
 				{
 					autoLoad = observer.getFileLoadBehaviour( target, this, this.files );

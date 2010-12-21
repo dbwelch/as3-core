@@ -18,7 +18,7 @@ package com.ffsys.ioc.mock
 	* 	This implementation 
 	*/
 	public class MockFileLoaderBean extends LoaderQueue
-		implements IBeanLoaderObserver
+		implements IBeanLoadObserver
 	{
 		private var _propertyBitmap:BitmapData;
 		private var _propertySound:Sound;
