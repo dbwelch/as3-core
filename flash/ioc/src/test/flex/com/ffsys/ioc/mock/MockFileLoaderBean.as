@@ -27,6 +27,7 @@ package com.ffsys.ioc.mock
 		private var _propertyText:String;
 		private var _propertyFont:Array;
 		private var _propertyMessages:IProperties;
+		private var _propertySettings:IProperties;
 		
 		public var autoLoad:Boolean = false;
 		public var targetQueue:ILoaderQueue = null;
@@ -223,5 +224,19 @@ package com.ffsys.ioc.mock
 		{
 			_propertyMessages = value;
 		}
+		
+		/**
+		* 	Exposes a property to be populated with a loaded
+		* 	primitive properties file.
+		*/
+		public function get propertySettings():IProperties
+		{
+			return _propertySettings;
+		}
+		
+		public function set propertySettings( value:IProperties ):void
+		{
+			_propertySettings = value;
+		}		
 	}
 }

@@ -54,4 +54,5 @@ bean-dependencies {
 	property-text: text( assets/mock-di-text.txt );
 	property-font: font( assets/mock-di-fonts.swf );
 	property-messages: messages( assets/mock-di-messages.properties );
+	property-settings: settings( assets/mock-di-settings.properties );	
 }

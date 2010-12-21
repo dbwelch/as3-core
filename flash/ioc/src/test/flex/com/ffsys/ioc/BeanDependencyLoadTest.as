@@ -173,7 +173,7 @@ package com.ffsys.ioc
 			var loader:MockFileLoaderBean = MockFileLoaderBean( passThroughData );
 			
 			//the total number of expected resources
-			var total:Number = 7;
+			var total:Number = 8;
 			
 			Assert.assertNotNull( loader.propertyBitmap );
 			Assert.assertNotNull( loader.propertySound );
@@ -182,6 +182,7 @@ package com.ffsys.ioc
 			Assert.assertNotNull( loader.propertyText );
 			Assert.assertNotNull( loader.propertyFont );
 			Assert.assertNotNull( loader.propertyMessages );
+			Assert.assertNotNull( loader.propertySettings );
 			
 			//verify observer methods fired
 			Assert.assertTrue( loader.autoLoad );
