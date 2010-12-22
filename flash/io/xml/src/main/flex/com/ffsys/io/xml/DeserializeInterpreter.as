@@ -184,6 +184,14 @@ package com.ffsys.io.xml {
 		/**
 		*	@inheritDoc
 		*/
+		public function shouldProcessClass( node:XML, parent:Object, classReference:Class ):Boolean
+		{
+			return false;
+		}		
+		
+		/**
+		*	@inheritDoc
+		*/
 		public function processClass( node:XML, parent:Object, classReference:Class ):Object
 		{
 			return new Object();
@@ -192,7 +200,8 @@ package com.ffsys.io.xml {
 		/**
 		*	@inheritDoc
 		*/
-		public function shouldProcessClass( node:XML, classReference:Class ):Boolean
+		public function shouldParseClassInstanceChildren(
+			node:XML, parent:Object, classReference:Class, classInstance:Object ):Boolean
 		{
 			return false;
 		}

@@ -632,7 +632,7 @@ package com.ffsys.io.xml {
 			var hasExistingInstance:Boolean = (
 				obj
 				&& obj.hasOwnProperty( propertyName )
-				&& obj[ propertyName ] );
+				&& obj[ propertyName ] != null );
 				
 			//trace( "Has existing instance : " + hasExistingInstance );
 			
@@ -640,22 +640,30 @@ package com.ffsys.io.xml {
 			
 			if( hasInterpreter() )
 			{
-				interpreted = _interpreter.shouldProcessClass( node, classReference );
+				interpreted = _interpreter.shouldProcessClass( node, obj, classReference );
 				
 				if( interpreted )
 				{
-					return _interpreter.processClass( node, obj, classReference );
+					classInstance = _interpreter.processClass( node, obj, classReference );
+					
+					var proceed:Boolean = _interpreter.shouldParseClassInstanceChildren(
+						node, obj, classReference, classInstance );
+					
+					//the interpreter is handling parsing child elements
+					if( !proceed )
+					{
+						return classInstance;
+					}
 				}
 			}
 			
-			//--> TODO: Test classReference is null and throw runtime error
-			if( !classReference )
+			if( !hasExistingInstance && classInstance == null )
 			{
-				throw new Error( "Could not find a Class for complex node: " + name );
-			}
-			
-			if( !hasExistingInstance )
-			{
+				//--> TODO: Test classReference is null and throw runtime error
+				if( classReference == null )
+				{
+					throw new Error( "Could not find a Class for complex node: " + name );
+				}				
 			
 				try {
 					if( classReference == Date )
@@ -676,7 +684,8 @@ package com.ffsys.io.xml {
 					);
 				}
 			
-			}else{
+			}else if( hasExistingInstance && classInstance == null )
+			{
 				
 				//trace( "Has existing instance : " + obj );
 				//trace( "Has existing instance : " + propertyName );

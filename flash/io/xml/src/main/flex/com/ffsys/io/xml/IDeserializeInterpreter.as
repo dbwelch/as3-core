@@ -45,9 +45,16 @@ package com.ffsys.io.xml {
 		*/
 		function shouldProcessNode( node:XML, instance:Object ):Boolean;
 	
-		function shouldProcessClass( node:XML, classReference:Class ):Boolean;
+		
+		function shouldProcessClass( node:XML, parent:Object, classReference:Class ):Boolean;
 	
 		function processClass( node:XML, parent:Object, classReference:Class ):Object;
+		
+		/**
+		* 	Detrermines whether the parser should continue to parse child
+		* 	elements when an interpreter is processing a class.
+		*/
+		function shouldParseClassInstanceChildren( node:XML, parent:Object, classReference:Class, classInstance:Object ):Boolean;
 		
 		
 		/**
@@ -130,8 +137,6 @@ package com.ffsys.io.xml {
 		*/		
 		function processAttribute( target:Object, name:String, value:Object ):Boolean;
 		
-		function complete( instance:Object ):void;
-		
 		/**
 		*	Determines whether a property should be set on a parent instance.
 		*	
@@ -143,6 +148,14 @@ package com.ffsys.io.xml {
 		*	set by the deserializer.
 		*/
 		function shouldSetProperty( parent:Object, name:String, value:* ):Boolean;
+		
+		/**
+		* 	Invoked when parsing is complete.
+		* 
+		* 	@param instance The object the root element
+		* 	was deserialized to.
+		*/	
+		function complete( instance:Object ):void;		
 	}
 	
 }
