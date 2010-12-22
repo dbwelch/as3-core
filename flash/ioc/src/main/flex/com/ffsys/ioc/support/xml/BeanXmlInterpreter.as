@@ -1,7 +1,8 @@
 package com.ffsys.ioc.support.xml
 {
 	import com.ffsys.io.xml.DeserializeInterpreter;
-	
+
+	import com.ffsys.ioc.BeanError;
 	import com.ffsys.ioc.IBeanDocument;
 	
 	/**
@@ -59,7 +60,7 @@ package com.ffsys.ioc.support.xml
 			classReference:Class ):Boolean
 		{
 			//we must have a valid document to process the class
-			return ( document != null );
+			return ( this.document != null );
 		}
 		
 		/**
@@ -81,10 +82,18 @@ package com.ffsys.ioc.support.xml
 		{
 			var name:String = node.name().localName;
 			
-			trace("BeanXmlInterpreter::processClass()", name );
 			
 			var bean:Object = document.getBean( name );
-			return bean != null ? bean : new Object();
+			
+			//trace("BeanXmlInterpreter::processClass()", name, bean );
+			
+			if( bean == null )
+			{
+				throw new BeanError(
+					BeanError.XML_BEAN_NOT_FOUND, name );
+			}
+			
+			return bean;
 		}
 		
 		/**

@@ -642,6 +642,8 @@ package com.ffsys.io.xml {
 			{
 				interpreted = _interpreter.shouldProcessClass( node, obj, classReference );
 				
+				//trace("Deserializer::deserializeClass() hasInterpreter()", interpreted );
+				
 				if( interpreted )
 				{
 					classInstance = _interpreter.processClass( node, obj, classReference );
@@ -1255,7 +1257,9 @@ package com.ffsys.io.xml {
 					}
 					*/
 					
-					if( XmlUtils.isTextNode( node ) || isEmpty )
+					//trace("Deserializer::deserialize()", "PROCESSING: ", name, isEmpty );
+					
+					if( XmlUtils.isTextNode( node ) )
 					{
 						deserializePrimitive( node, obj, name );
 					//deal with complex types

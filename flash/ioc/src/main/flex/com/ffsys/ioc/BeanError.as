@@ -57,6 +57,13 @@ package com.ffsys.ioc
 		*/
 		public static const TYPE_INJECTOR_PROPERTY_SET:String = 
 			"Cannot set type (%s) injector property '%s' on '%s' with value '%s'.";
+			
+		/**
+		* 	Error thrown when a bean could not be found when attempting
+		* 	to locate a bean for an xml element.
+		*/
+		public static const XML_BEAN_NOT_FOUND:String = 
+			"Could not find bean for xml element '%s'.";
 
 		/**
 		* 	Creates a <code>BeanError</code> instance.

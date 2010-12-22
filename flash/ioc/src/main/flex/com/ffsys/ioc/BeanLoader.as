@@ -57,7 +57,6 @@ package com.ffsys.ioc {
 		public function set document( document:IBeanDocument ):void
 		{
 			_document = document;
-			trace("BeanLoader::set document()", document );
 		}
 		
 		/**

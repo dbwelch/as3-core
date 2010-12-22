@@ -57,7 +57,7 @@ package com.ffsys.ioc.support.xml
 		*/
 		override public function set interpreter( value:IDeserializeInterpreter ):void
 		{
-			_interpreter = value;
+			super.interpreter = value;
 			if( value != null && ( this.interpreter is BeanXmlInterpreter ) )
 			{
 				BeanXmlInterpreter( this.interpreter ).document = this.document;

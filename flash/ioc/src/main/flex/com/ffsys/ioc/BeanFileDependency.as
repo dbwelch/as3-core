@@ -81,11 +81,11 @@ package com.ffsys.ioc
 					new loaderClass( new URLRequest( String( this.value ) ) ) );
 				loader.customData = this;
 				
-				trace("BeanFileDependency::getLoader()", loader );				
+				//trace("BeanFileDependency::getLoader()", loader );				
 				
 				if( this.properties != null )
 				{
-					trace("BeanFileDependency::getLoader() merging properties...");
+					//trace("BeanFileDependency::getLoader() merging properties...");
 					var merger:PropertiesMerge = new PropertiesMerge();
 					merger.merge( loader, properties );
 				}
@@ -103,6 +103,7 @@ package com.ffsys.ioc
 		{
 			if( document != null )
 			{	
+				//TODO: refactor this to use a bean descriptor reference rather than an additional lookup
 				var descriptor:IBeanDescriptor = document.getBeanDescriptor( this.beanName );
 				
 				if( !descriptor )
