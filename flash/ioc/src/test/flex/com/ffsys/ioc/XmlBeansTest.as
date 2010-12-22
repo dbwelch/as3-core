@@ -41,7 +41,12 @@ package com.ffsys.ioc
 		public var xml:XML = <mock-root>
 			<mock-application-controller>
 				<mock-home-controller>
-					
+					<property-string>hello bean xml world</property-string>
+					<property-true>true</property-true>
+					<property-false>false</property-false>
+					<property-integer>64</property-integer>					
+					<property-float>1.67</property-float>
+					<property-null>null</property-null>
 				</mock-home-controller>
 			</mock-application-controller>
 		</mock-root>;
@@ -77,6 +82,30 @@ package com.ffsys.ioc
 				mockRoot.mockApplicationController is MockXmlApplicationController );
 			Assert.assertTrue(
 				mockRoot.mockApplicationController.mockHomeController is MockXmlHomeController );
+				
+			Assert.assertEquals(
+				"hello bean xml world",
+				mockRoot.mockApplicationController.mockHomeController.propertyString );
+			Assert.assertTrue(
+				mockRoot.mockApplicationController.mockHomeController.propertyTrue );
+			Assert.assertFalse(
+				mockRoot.mockApplicationController.mockHomeController.propertyFalse );				
+				
+			Assert.assertTrue(
+				mockRoot.mockApplicationController.mockHomeController.propertyInteger is Number );
+			Assert.assertTrue(
+				mockRoot.mockApplicationController.mockHomeController.propertyFloat is Number );				
+				
+			Assert.assertEquals(
+				64,
+				mockRoot.mockApplicationController.mockHomeController.propertyInteger );
+				
+			Assert.assertEquals(
+				1.67,
+				mockRoot.mockApplicationController.mockHomeController.propertyFloat );			
+				
+			Assert.assertNull(
+				mockRoot.mockApplicationController.mockHomeController.propertyNull );						
 		}
 	}
 }
