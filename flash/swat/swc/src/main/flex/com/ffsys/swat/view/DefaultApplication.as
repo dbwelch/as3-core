@@ -9,8 +9,10 @@ package com.ffsys.swat.view  {
 	import com.ffsys.io.loaders.events.*;
 	
 	import com.ffsys.io.xml.Deserializer;
+	import com.ffsys.io.xml.IParser;
 	
-	import com.ffsys.ioc.*;	
+	import com.ffsys.ioc.*;
+	import com.ffsys.ioc.support.xml.*;
 	
 	import com.ffsys.swat.core.*;
 	import com.ffsys.swat.configuration.*;
@@ -71,8 +73,11 @@ package com.ffsys.swat.view  {
 
 				if( !_preloader )
 				{
+					
+					/*
 					var classPathConfiguration:IClassPathConfiguration = 
 						DefaultFlashVariables( _flashvars ).classPathConfiguration;
+					
 					
 					var parser:IConfigurationParser = 
 						classPathConfiguration.getConfigurationParserInstance() as IConfigurationParser;
@@ -81,6 +86,9 @@ package com.ffsys.swat.view  {
 					{
 						throw new Error( "Could not retrieve a valid configuration parser." );
 					}
+					*/
+					
+					var parser:IParser = getConfigurationParser( this.document );
 					
 					_preloader = new BootstrapLoader(
 						parser,
@@ -128,6 +136,16 @@ package com.ffsys.swat.view  {
 			}
 			return _document;
 		}
+		
+		
+		/**
+		* 	Gets the parser implementation used to deserialize the
+		* 	configuration document.
+		*/
+		public function getConfigurationParser( document:IBeanDocument ):IParser
+		{
+			return new ConfigurationParser( document );
+		}		
 		
 		/**
 		* 	@private

@@ -20,6 +20,7 @@ package com.ffsys.swat.configuration {
 		public function Configuration()
 		{
 			super();
+			trace("Configuration::init()", this );
 		}
 		
 		/**

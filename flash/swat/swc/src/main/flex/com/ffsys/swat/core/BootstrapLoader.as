@@ -106,7 +106,8 @@ package com.ffsys.swat.core {
 			
 			if( value != null )
 			{
-				var interpreter:ConfigurationInterpreter = new ConfigurationInterpreter();
+				var interpreter:ConfigurationInterpreter =
+					new ConfigurationInterpreter();
 				interpreter.flashvars = DefaultFlashVariables( _flashvars );
 				value.interpreter = interpreter;
 			}
@@ -117,8 +118,10 @@ package com.ffsys.swat.core {
 		*/
 		override protected function doWithConfigurationLoader( loader:ParserAwareXmlLoader ):void
 		{
+			/*
 			loader.root =
 				DefaultFlashVariables( _flashvars ).classPathConfiguration.getConfigurationInstance();
+			*/
 		}		
 		
 		/**

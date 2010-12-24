@@ -201,6 +201,12 @@ package com.ffsys.ioc
 		public function set singleton( value:Boolean ):void
 		{
 			_singleton = value;
+			
+			if( value === false
+				&& ( _singletonInstance != null ) )
+			{
+				_singletonInstance = null;
+			}
 		}
 		
 		/**

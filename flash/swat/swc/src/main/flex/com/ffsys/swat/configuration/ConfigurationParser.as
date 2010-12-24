@@ -4,6 +4,9 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.io.xml.Parser;
 	import com.ffsys.io.xml.ClassNodeNameMap;
 
+	import com.ffsys.ioc.*;
+	import com.ffsys.ioc.support.xml.BeanXmlParser;
+
 	import com.ffsys.utils.collections.strings.StringCollection;
 	import com.ffsys.utils.locale.Locale;
 	
@@ -19,7 +22,7 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class ConfigurationParser extends Parser
+	public class ConfigurationParser extends BeanXmlParser
 		implements IConfigurationParser {
 		
 		/**
@@ -151,18 +154,11 @@ package com.ffsys.swat.configuration {
 		/**
 		*	Creates a <code>ConfigurationParser</code> instance.
 		*	
-		*	@param root The class to instantiate for the root node.
-		*	@param node The class to use when no mapping can be found.
+		*	@param document The bean document.
 		*/
-		public function ConfigurationParser(
-			root:Class = null, node:Class = null )
+		public function ConfigurationParser( document:IBeanDocument = null )
 		{
-			if( !root )
-			{
-				root = Configuration;
-			}
-			
-			super( root, node );
+			super( document );
 		}
 		
 		/**
@@ -175,6 +171,7 @@ package com.ffsys.swat.configuration {
 			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
 			this.deserializer.parentField = PARENT_FIELD;
 			
+			/*
 			classNodeNameMap.add(
 				ApplicationMeta,
 				META_NAME,
@@ -184,6 +181,7 @@ package com.ffsys.swat.configuration {
 			addPathMappings( this.classNodeNameMap );
 			addLocaleCollectionMappings( this.classNodeNameMap );				
 			addResourceCollectionMappings( this.classNodeNameMap );
+			*/
 		}
 		
 		/**
@@ -208,6 +206,8 @@ package com.ffsys.swat.configuration {
 		* 	@param classNodeNameMap The class node name map to add the
 		* 	mappings to.
 		*/
+		
+		/*
 		public function addLocaleCollectionMappings(
 			classNodeNameMap:ClassNodeNameMap ):void
 		{
@@ -229,6 +229,7 @@ package com.ffsys.swat.configuration {
 				DEFAULT_LOCALE_PROPERTY_NAME,
 				false );			
 		}		
+		*/
 		
 		/**
 		* 	Adds class node name mappings for resource collections.
@@ -236,6 +237,8 @@ package com.ffsys.swat.configuration {
 		* 	@param classNodeNameMap The class node name map to add the
 		* 	mappings to.
 		*/
+		
+		/*
 		public function addResourceCollectionMappings(
 			classNodeNameMap:ClassNodeNameMap ):void
 		{
@@ -323,6 +326,7 @@ package com.ffsys.swat.configuration {
 				RESOURCE_NAME,
 				false );			
 		}
+		*/
 		
 		/**
 		*	@inheritDoc

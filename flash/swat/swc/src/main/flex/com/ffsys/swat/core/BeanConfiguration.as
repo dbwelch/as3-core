@@ -42,11 +42,13 @@ package com.ffsys.swat.core
 			beans.xrefs.push( configuration.stylesheet );
 
 			var configurationBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.CONFIGURATION, configuration )
+				DefaultBeanIdentifiers.CONFIGURATION, configuration );
+			var localesBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.LOCALES, configuration.locales );		
+				
+				
 			var flashvarsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.FLASH_VARIABLES, configuration.flashvars );
-			var localesBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.LOCALES, configuration.locales );
 			var messagesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MESSAGES, configuration.resources.messages );
 			var errorsBean:IBeanDescriptor = new InjectedBeanDescriptor(

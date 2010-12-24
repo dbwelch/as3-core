@@ -1,8 +1,8 @@
 package com.ffsys.swat.configuration {
 	
-	import com.ffsys.io.xml.Deserializer;
+	import com.ffsys.ioc.support.xml.BeanXmlInterpreter;
 	
-	import com.ffsys.io.xml.DeserializeInterpreter;
+	import com.ffsys.io.xml.Deserializer;
 	
 	import com.ffsys.utils.substitution.Binding;
 	import com.ffsys.swat.core.Bindings;
@@ -18,7 +18,7 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  19.10.2010
 	*/
-	public class ConfigurationInterpreter extends DeserializeInterpreter {
+	public class ConfigurationInterpreter extends BeanXmlInterpreter {
 		
 		/**
 		* 	The application flash variables;
@@ -37,7 +37,9 @@ package com.ffsys.swat.configuration {
 			useStringReplacement:Boolean = true,
 			strictStringReplacement:Boolean = true )
 		{
-			super( useStringReplacement, strictStringReplacement );
+			super();
+			this.useStringReplacement = useStringReplacement;
+			this.strictStringReplacement = strictStringReplacement;
 		}
 		
 		/**

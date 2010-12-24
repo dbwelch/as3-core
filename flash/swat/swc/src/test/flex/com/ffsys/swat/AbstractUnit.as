@@ -6,11 +6,15 @@ package com.ffsys.swat
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 
+	import com.ffsys.ioc.*;
+	import com.ffsys.ioc.support.xml.*;
+
 	import com.ffsys.effects.tween.*;
 	import com.ffsys.ui.graphics.*;
 	
 	import com.ffsys.io.loaders.core.*;	
 	import com.ffsys.io.loaders.events.*;
+	import com.ffsys.io.xml.*;	
 	
 	import com.ffsys.utils.locale.ILocale;
 	import com.ffsys.utils.locale.Locale;
@@ -78,13 +82,18 @@ package com.ffsys.swat
 		{
 			var flashvars:DefaultFlashVariables = new DefaultFlashVariables();
 			flashvars.configuration = TEST_XML_PATH;
-			flashvars.classPathConfiguration = new ClassPathConfiguration();
-			var parser:IConfigurationParser = new ConfigurationParser();
-			parser.classNodeNameMap.rootInstance =
-				new Configuration();
+			
+			var document:IBeanDocument = BeanDocumentFactory.create();
+			var parser:IParser = new ConfigurationParser( document );
+			
+			trace("AbstractUnit::setUp()", parser, parser.interpreter );
+			
 			_bootstrapLoader = new BootstrapLoader(
 				parser,
 				flashvars );
+				
+			var configuration:IBeanConfiguration = new ApplicationBeanConfiguration();
+			configuration.doWithBeans( document );			
 				
 			_bootstrapLoader.view = new DefaultApplicationPreloadView( false );
 			

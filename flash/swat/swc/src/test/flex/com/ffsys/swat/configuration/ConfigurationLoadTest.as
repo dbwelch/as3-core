@@ -54,7 +54,7 @@ package com.ffsys.swat.configuration
 			super.assertLoadedConfiguration( event, passThroughData );
 			configuration = IConfiguration( event.configuration );
 			
-			//trace("ConfigurationLoadTest::assertLoadedConfiguration()", configuration );
+			trace("ConfigurationLoadTest::assertLoadedConfiguration()", configuration );
 
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );

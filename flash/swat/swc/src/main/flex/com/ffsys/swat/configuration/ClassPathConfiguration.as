@@ -53,14 +53,6 @@ package com.ffsys.swat.configuration
 		{
 			throw new Error(
 				"You must specify the application preload view class path in your concrete class configuration." );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function getConfigurationParserClassPath():String
-		{
-			return "com.ffsys.swat.configuration.ConfigurationParser";
 		}		
 		
 		/**
@@ -137,29 +129,6 @@ package com.ffsys.swat.configuration
 			}
 			
 			var instance:Object = new clz( root );
-			return instance;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function getConfigurationParserInstance():Object
-		{
-			var classPath:String = getConfigurationParserClassPath();
-			var clz:Class = null;
-			
-			try
-			{
-				clz = Class(
-					getDefinitionByName( classPath ) );
-			}catch( e:Error )
-			{
-				throw new Error(
-					"Could not configuration parser with class path '"
-					+ classPath + "'" );
-			}
-			
-			var instance:Object = new clz();
 			return instance;
 		}
 		
