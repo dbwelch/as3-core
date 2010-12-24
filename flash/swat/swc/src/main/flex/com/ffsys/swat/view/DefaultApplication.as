@@ -109,11 +109,22 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		*	The type of bean document to instantiate.
+		*/	
+		protected function getBeanDocumentClass():Class
+		{
+			return BeanDocument;
+		}
+		
+		/**
 		* 	@private
 		*/
 		private function created( event:Event ):void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, created );
+			
+			//TODO: create default beans here
+			
 			//start the load process
 			preloader.load();
 		}
