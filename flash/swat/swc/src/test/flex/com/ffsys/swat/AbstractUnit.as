@@ -44,6 +44,7 @@ package com.ffsys.swat
 		
 		private var _bootstrapLoader:BootstrapLoader;
 		private var _queue:ILoaderQueue;
+		private var _framework:IBeanDocument;
 		
 		/**
 		* 	Creates an <code>AbstractUnit</code> instance.
@@ -77,6 +78,11 @@ package com.ffsys.swat
 			return output;
 		}
 		
+		public function get framework():IBeanDocument
+		{
+			return _framework;
+		}
+		
 		[Before( async )]
      	public function setUp():void
 		{
@@ -84,7 +90,12 @@ package com.ffsys.swat
 			flashvars.configuration = TEST_XML_PATH;
 			
 			var document:IBeanDocument = BeanDocumentFactory.create();
-			var parser:IParser = new ConfigurationParser( document );
+			_framework = BeanDocumentFactory.create();
+			
+			var beanConfiguration:IBeanConfiguration = new ApplicationBeanConfiguration();
+			beanConfiguration.doWithBeans( _framework );
+			
+			var parser:IParser = new ConfigurationParser( _framework );
 			
 			trace("AbstractUnit::setUp()", parser, parser.interpreter );
 			

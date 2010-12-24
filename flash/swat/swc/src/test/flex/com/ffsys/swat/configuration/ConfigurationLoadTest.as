@@ -6,6 +6,8 @@ package com.ffsys.swat.configuration
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
+	import com.ffsys.ioc.*;
+	
 	import com.ffsys.swat.AbstractUnit;
 	
 	import com.ffsys.io.loaders.core.*;	
@@ -112,9 +114,12 @@ package com.ffsys.swat.configuration
 			event:RslEvent,
 			passThroughData:Object ):void
 		{
+			var document:IBeanDocument = configuration.resources.document;
+			document.xrefs.push( this.framework, configuration.stylesheet );
+			
 			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
 			beanConfiguration.doWithBeans(
-				configuration.resources.document,
+				document,
 				configuration,
 				configuration.resources );
 			
@@ -135,7 +140,10 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( application.rectangle );
 			
 			//check that the type injection by interface implementation works
+			
+			//TODO: fix type injection with document xrefs
 			Assert.assertNotNull( application.locales );
+			
 			Assert.assertNotNull( application.messages );
 			Assert.assertNotNull( application.errors );
 			Assert.assertNotNull( application.settings );
