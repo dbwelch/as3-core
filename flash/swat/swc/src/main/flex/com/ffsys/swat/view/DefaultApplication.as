@@ -12,21 +12,8 @@ package com.ffsys.swat.view  {
 	
 	import com.ffsys.ioc.*;	
 	
-	import com.ffsys.swat.core.IBootstrapLoader;
-	import com.ffsys.swat.core.BootstrapLoader;
-	
-	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
-	import com.ffsys.swat.configuration.IClassPathConfiguration;
-	import com.ffsys.swat.configuration.IConfiguration;
-	import com.ffsys.swat.configuration.IConfigurationParser;
-	import com.ffsys.swat.core.BeanConfiguration;
-	import com.ffsys.swat.core.DefaultFlashVariables;
-	import com.ffsys.swat.core.IApplicationMainController;
-	import com.ffsys.swat.core.IBeanConfiguration;	
-	import com.ffsys.swat.core.IConfigurationAware;
-	import com.ffsys.swat.core.IFlashVariablesAware;
-	import com.ffsys.swat.core.IMessagesAware;
-	
+	import com.ffsys.swat.core.*;
+	import com.ffsys.swat.configuration.*;
 	import com.ffsys.swat.events.ConfigurationEvent;
 	import com.ffsys.swat.events.RslEvent;	
 	
@@ -42,6 +29,7 @@ package com.ffsys.swat.view  {
 	public class DefaultApplication extends Sprite
 		implements IApplication {
 		
+		private var _document:IBeanDocument;
 		private var _preloader:IBootstrapLoader;
 		private var _flashvars:IFlashVariables;
 		private var _configuration:IConfiguration;
@@ -117,6 +105,31 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	Gets the default bean document to use for the application.
+		*/
+		protected function getBeanDocument():IBeanDocument
+		{
+			if( _document == null )
+			{
+				_document = BeanDocumentFactory.create(
+					getBeanDocumentClass() );
+			}
+			return _document;
+		}
+		
+		/**
+		* 	Exposes the main bean document for the application.
+		*/
+		public function get document():IBeanDocument
+		{
+			if( _document == null )
+			{
+				getBeanDocument();
+			}
+			return _document;
+		}
+		
+		/**
 		* 	@private
 		*/
 		private function created( event:Event ):void
@@ -124,6 +137,9 @@ package com.ffsys.swat.view  {
 			removeEventListener( Event.ADDED_TO_STAGE, created );
 			
 			//TODO: create default beans here
+			var beans:IBeanDocument = this.document;
+			var configuration:IBeanConfiguration = new ApplicationBeanConfiguration();
+			configuration.doWithBeans( beans );
 			
 			//start the load process
 			preloader.load();
@@ -196,24 +212,12 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
-		* 	Gets the bean configuration implementation
-		* 	to use when the application configures the beans
-		* 	after bootstrap.
-		* 
-		* 	@return The bean configuration implementation.
-		*/
-		protected function getBeanConfiguration():IBeanConfiguration
-		{
-			return new BeanConfiguration();
-		}
-		
-		/**
 		* 	@private
 		*/
 		private function doWithBeans( beans:IBeanDocument ):void
 		{
 			//standard bean configuration
-			var beanConfiguration:IBeanConfiguration = getBeanConfiguration();
+			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
 			
 			//TODO: configure with global resources
 			beanConfiguration.doWithBeans( beans, _configuration, _preloader.resources );

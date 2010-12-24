@@ -14,7 +14,6 @@ package com.ffsys.swat.core
 	*	@since  19.12.2010
 	*/
 	public class BeanConfiguration extends Object
-		implements IBeanConfiguration
 	{
 		
 		/**

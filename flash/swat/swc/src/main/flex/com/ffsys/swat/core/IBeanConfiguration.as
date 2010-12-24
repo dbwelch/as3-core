@@ -1,35 +1,25 @@
 package com.ffsys.swat.core
 {
-	import com.ffsys.ioc.IBeanDocument;
-	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.ioc.*;	
 	
 	/**
-	* 	Describes the contract for implementations that
-	* 	are responsible for configuring the application
-	* 	beans once the application has finished the bootstrap
-	* 	process.
+	* 	Describes the contract for implementations that perform
+	* 	configuration of a beans document.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  19.12.2010
+	*	@since  24.12.2010
 	*/
 	public interface IBeanConfiguration
 	{
 		/**
-		* 	Configures the default injector beans for the application.
+		* 	Performs configuration of the beans document.
 		* 
-		* 	Injector beans are objects that have already been instantiated and
-		* 	should be made available to bean documents.
-		* 
-		* 	@param beans The application beans document.
-		* 	@param configuration The application configuration.
-		* 	@param resources A global resource manager.
+		* 	@param beans The beans document.
 		*/
 		function doWithBeans(
-			beans:IBeanDocument,
-			configuration:IConfiguration,
-			resources:IResourceManager ):void;
+			beans:IBeanDocument ):void;
 	}
 }
