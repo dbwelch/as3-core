@@ -43,7 +43,7 @@ package com.ffsys.swat.configuration
 		* 
 		* 	@return The configuration class path.
 		*/
-		function getConfigurationClassPath():String;
+		//function getConfigurationClassPath():String;
 		
 		/**
 		* 	Gets the main application class instance.
@@ -71,6 +71,6 @@ package com.ffsys.swat.configuration
 		*	
 		*	@return The application configuration.
 		*/
-		function getConfigurationInstance():Object;
+		//function getConfigurationInstance():Object;
 	}
 }

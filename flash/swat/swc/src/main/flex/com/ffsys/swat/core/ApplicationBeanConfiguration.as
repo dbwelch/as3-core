@@ -17,8 +17,7 @@ package com.ffsys.swat.core
 	*/
 	public class ApplicationBeanConfiguration extends Object
 		implements IBeanConfiguration
-	{
-		
+	{	
 		/**
 		* 	Creates an <code>ApplicationBeanConfiguration</code> instance.
 		*/
@@ -59,6 +58,18 @@ package com.ffsys.swat.core
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.LOCALE );
+			descriptor.instanceClass = this.localeClass;		
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.DEFAULT_LOCALE );
+			descriptor.instanceClass = this.defaultLocaleClass;		
+			beans.addBeanDescriptor( descriptor );						
+			
+			//resource collections
+			
+			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.RESOURCES );
 			descriptor.instanceClass = this.resourcesClass;
 			beans.addBeanDescriptor( descriptor );
@@ -66,7 +77,7 @@ package com.ffsys.swat.core
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.RESOURCE );
 			descriptor.instanceClass = this.resourceClass;
-			beans.addBeanDescriptor( descriptor );
+			beans.addBeanDescriptor( descriptor );			
 			
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.RSLS );
@@ -76,7 +87,57 @@ package com.ffsys.swat.core
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.RSL );
 			descriptor.instanceClass = this.rslClass;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.MESSAGES );
+			descriptor.instanceClass = this.messagesClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.ERRORS );
+			descriptor.instanceClass = this.errorsClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.SETTINGS );
+			descriptor.instanceClass = this.settingsClass;
 			beans.addBeanDescriptor( descriptor );							
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.BEANS );
+			descriptor.instanceClass = this.beansClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.CSS );
+			descriptor.instanceClass = this.cssClass;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.FONTS );
+			descriptor.instanceClass = this.fontsClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.XML_RESOURCES );
+			descriptor.instanceClass = this.xmlClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.IMAGES );
+			descriptor.instanceClass = this.imagesClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.TEXT );
+			descriptor.instanceClass = this.textClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.SOUNDS );
+			descriptor.instanceClass = this.soundsClass;
+			beans.addBeanDescriptor( descriptor );
 		}
 		
 		/**
@@ -112,6 +173,22 @@ package com.ffsys.swat.core
 		}
 		
 		/**
+		* 	The class to use for a locale definition.
+		*/
+		public function get localeClass():Class
+		{
+			return ConfigurationLocale;
+		}
+		
+		/**
+		* 	The class to use for the default locale definition.
+		*/
+		public function get defaultLocaleClass():Class
+		{
+			return ConfigurationLocale;
+		}
+		
+		/**
 		* 	The class to use for resource definitions.
 		*/
 		public function get resourcesClass():Class
@@ -142,6 +219,86 @@ package com.ffsys.swat.core
 		public function get rslClass():Class
 		{
 			return RuntimeSharedLibrary;
-		}		
+		}
+		
+		/**
+		* 	The class to use for a collection of message resources.
+		*/
+		public function get messagesClass():Class
+		{
+			return PropertiesCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of error message resources.
+		*/
+		public function get errorsClass():Class
+		{
+			return PropertiesCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of settings.
+		*/
+		public function get settingsClass():Class
+		{
+			return SettingsCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of bean resources.
+		*/
+		public function get beansClass():Class
+		{
+			return BeansCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of css resources.
+		*/
+		public function get cssClass():Class
+		{
+			return CssCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of font resources.
+		*/
+		public function get fontsClass():Class
+		{
+			return FontCollection;
+		}	
+		
+		/**
+		* 	The class to use for a collection of xml resources.
+		*/
+		public function get xmlClass():Class
+		{
+			return XmlCollection;
+		}					
+		
+		/**
+		* 	The class to use for a collection of font resources.
+		*/
+		public function get imagesClass():Class
+		{
+			return ImageCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of text resources.
+		*/
+		public function get textClass():Class
+		{
+			return TextCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of sounds.
+		*/
+		public function get soundsClass():Class
+		{
+			return SoundCollection;
+		}
 	}
 }

@@ -13,6 +13,29 @@ package com.ffsys.swat.configuration
 	public class DefaultBeanIdentifiers extends Object
 	{
 		/**
+		* 	The identifier of the flash variables bean.
+		*/
+		public static const FLASH_VARIABLES:String = "flashvars";
+		
+		/**
+		* 	The identifier of the main application preloader.
+		* 
+		* 	This instance is at the root of the display list hierarchy
+		* 	for the application.
+		*/
+		public static const MAIN_APPLICATION_VIEW:String = "main-application-view";
+		
+		/**
+		* 	The identifier of the bootstrap preloader.
+		*/
+		public static const BOOTSTRAP_PRELOADER:String = "bootstrap-preloader";
+		
+		/**
+		* 	The identifier of the preloader view.
+		*/
+		public static const PRELOADER_VIEW:String = "preloader-view";
+		
+		/**
 		* 	The identifier of the bean that starts the application.
 		*/
 		public static const APPLICATION_BEAN:String = "application";
@@ -49,17 +72,12 @@ package com.ffsys.swat.configuration
 		public static const RSLS:String = "rsls";
 		
 		/**
-		* 	The identifier of the flash variables bean.
-		*/
-		public static const FLASH_VARIABLES:String = "flashvars";
-		
-		/**
 		* 	The identifier of the paths bean.
 		*/
 		public static const PATHS:String = "paths";
 		
 		/**
-		* 	The identifier of the locales bean.
+		* 	The identifier of the locale manager bean.
 		*/
 		public static const LOCALES:String = "locales";
 		
@@ -68,6 +86,12 @@ package com.ffsys.swat.configuration
 		* 	represents the currently selected locale.
 		*/
 		public static const LOCALE:String = "locale";
+		
+		/**
+		* 	The identifier of the bean that
+		* 	represents the default locale.
+		*/
+		public static const DEFAULT_LOCALE:String = "default-locale";
 		
 		/**
 		* 	The application messages.
@@ -85,21 +109,38 @@ package com.ffsys.swat.configuration
 		public static const SETTINGS:String = "settings";
 		
 		/**
-		* 	The identifier of the main application preloader.
-		* 
-		* 	This instance is at the root of the display list hierarchy
-		* 	for the application.
+		* 	An identifier for a bean resource collection.
 		*/
-		public static const MAIN_APPLICATION_VIEW:String = "main-application-view";
+		public static const BEANS:String = "beans";
 		
 		/**
-		* 	The identifier of the bootstrap preloader.
+		* 	An identifier for a css resource collection.
 		*/
-		public static const BOOTSTRAP_PRELOADER:String = "bootstrap-preloader";
+		public static const CSS:String = "css";
+	
+		/**
+		* 	An identifier for a fonts resource collection.
+		*/
+		public static const FONTS:String = "fonts";
 		
 		/**
-		* 	The identifier of the preloader view.
+		* 	An identifier for a images resource collection.
 		*/
-		public static const PRELOADER_VIEW:String = "preloader-view";
+		public static const IMAGES:String = "images";
+
+		/**
+		* 	An identifier for an xml resource collection.
+		*/
+		public static const XML_RESOURCES:String = "xml";
+
+		/**
+		* 	An identifier for a text resource collection.
+		*/
+		public static const TEXT:String = "text";	
+
+		/**
+		* 	An identifier for a sounds resource collection.
+		*/
+		public static const SOUNDS:String = "sounds";
 	}
 }

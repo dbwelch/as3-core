@@ -58,10 +58,13 @@ package com.ffsys.swat.configuration
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		public function getConfigurationClassPath():String
 		{
 			return "com.ffsys.swat.configuration.Configuration";
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
@@ -134,7 +137,9 @@ package com.ffsys.swat.configuration
 		
 		/**
 		* 	@inheritDoc
-		*/		
+		*/	
+		
+		/*	
 		public function getConfigurationInstance():Object
 		{
 			var classPath:String = getConfigurationClassPath();
@@ -154,5 +159,6 @@ package com.ffsys.swat.configuration
 			var instance:Object = new clz();
 			return instance;
 		}
+		*/
 	}
 }
