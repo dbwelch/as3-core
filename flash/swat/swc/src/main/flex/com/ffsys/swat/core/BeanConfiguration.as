@@ -39,16 +39,17 @@ package com.ffsys.swat.core
 			
 			//allow the main bean document to access all the beans
 			//in the style sheet bean document
-			beans.xrefs.push( configuration.stylesheet );
+			//beans.xrefs.push( configuration.stylesheet );
+			
 
-			var configurationBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.CONFIGURATION, configuration );
-			var localesBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.LOCALES, configuration.locales );		
-				
-				
 			var flashvarsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.FLASH_VARIABLES, configuration.flashvars );
+			
+			var configurationBean:IBeanDescriptor = beans.getBeanDescriptor(
+				DefaultBeanIdentifiers.CONFIGURATION );
+			var localesBean:IBeanDescriptor = beans.getBeanDescriptor(
+				DefaultBeanIdentifiers.LOCALES );
+				
 			var messagesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MESSAGES, configuration.resources.messages );
 			var errorsBean:IBeanDescriptor = new InjectedBeanDescriptor(
@@ -61,13 +62,19 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.LOCALE, configuration.locales.current );
 			var resourcesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.RESOURCES, resources );
-		
+			
+			/*
 			//application configuration
 			beans.addBeanDescriptor( configurationBean );
 			//flash variables
 			beans.addBeanDescriptor( flashvarsBean );
+			*/
+			
 			//locales manager
-			beans.addBeanDescriptor( localesBean );	
+			//beans.addBeanDescriptor( localesBean );	
+			
+			//flash variables
+			beans.addBeanDescriptor( flashvarsBean );
 			//application messages
 			beans.addBeanDescriptor( messagesBean );
 			//application error messages
@@ -132,7 +139,7 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.RESOURCES,
 				DefaultBeanIdentifiers.RESOURCES,
 				IResourcesAware,
-				resourcesBean ) );							
+				resourcesBean ) );		
 		}		
 	}
 }

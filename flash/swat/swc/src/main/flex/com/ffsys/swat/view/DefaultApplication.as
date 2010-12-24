@@ -31,7 +31,7 @@ package com.ffsys.swat.view  {
 	public class DefaultApplication extends Sprite
 		implements IApplication {
 		
-		private var _document:IBeanDocument;
+		private var _framework:IBeanDocument;
 		private var _preloader:IBootstrapLoader;
 		private var _flashvars:IFlashVariables;
 		private var _configuration:IConfiguration;
@@ -88,7 +88,8 @@ package com.ffsys.swat.view  {
 					}
 					*/
 					
-					var parser:IParser = getConfigurationParser( this.document );
+					var parser:IParser = getConfigurationParser(
+						this.framework );
 					
 					_preloader = new BootstrapLoader(
 						parser,
@@ -117,26 +118,25 @@ package com.ffsys.swat.view  {
 		*/
 		protected function getBeanDocument():IBeanDocument
 		{
-			if( _document == null )
+			if( _framework == null )
 			{
-				_document = BeanDocumentFactory.create(
+				_framework = BeanDocumentFactory.create(
 					getBeanDocumentClass() );
 			}
-			return _document;
+			return _framework;
 		}
 		
 		/**
 		* 	Exposes the main bean document for the application.
 		*/
-		public function get document():IBeanDocument
+		public function get framework():IBeanDocument
 		{
-			if( _document == null )
+			if( _framework == null )
 			{
 				getBeanDocument();
 			}
-			return _document;
+			return _framework;
 		}
-		
 		
 		/**
 		* 	Gets the parser implementation used to deserialize the
@@ -154,8 +154,8 @@ package com.ffsys.swat.view  {
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, created );
 			
-			//TODO: create default beans here
-			var beans:IBeanDocument = this.document;
+			//create default framework beans
+			var beans:IBeanDocument = this.framework;
 			var configuration:IBeanConfiguration = new ApplicationBeanConfiguration();
 			configuration.doWithBeans( beans );
 			
@@ -234,26 +234,34 @@ package com.ffsys.swat.view  {
 		*/
 		private function doWithBeans( beans:IBeanDocument ):void
 		{
-			//standard bean configuration
-			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
+			if( beans != null )
+			{
+				//allow the main application bean document to access all the beans
+				//in the style sheet bean document and the main framework beans
+				beans.xrefs.push( this.framework, _configuration.stylesheet );
 			
-			//TODO: configure with global resources
-			beanConfiguration.doWithBeans( beans, _configuration, _preloader.resources );
+				//standard bean configuration
+				var beanConfiguration:BeanConfiguration = new BeanConfiguration();
 			
-			//bean configuration specific to a view based bootstrap
-			var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
-			var bootstrapLoaderBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER, preloader );
-			var preloaderViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
+				//TODO: configure with global resources
+				beanConfiguration.doWithBeans( beans, _configuration, _preloader.resources );
+			
+				//bean configuration specific to a view based bootstrap
+				var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
+					DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
+				var bootstrapLoaderBean:IBeanDescriptor = new InjectedBeanDescriptor(
+					DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER, preloader );
+				var preloaderViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
+					DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
 				
-			//main application view
-			beans.addBeanDescriptor( mainApplicationViewBean );
-			//bootstrap loader
-			beans.addBeanDescriptor( bootstrapLoaderBean );	
-			//preloader view
-			beans.addBeanDescriptor( preloaderViewBean );					
+				//main application view
+				beans.addBeanDescriptor( mainApplicationViewBean );
+				//bootstrap loader
+				beans.addBeanDescriptor( bootstrapLoaderBean );	
+				//preloader view
+				beans.addBeanDescriptor( preloaderViewBean );
+			
+			}					
 		}
 		
 		/**
