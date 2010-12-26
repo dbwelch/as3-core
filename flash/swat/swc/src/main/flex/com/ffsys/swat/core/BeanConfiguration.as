@@ -46,9 +46,11 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.FLASH_VARIABLES, configuration.flashvars );
 			
 			var configurationBean:IBeanDescriptor = beans.getBeanDescriptor(
-				DefaultBeanIdentifiers.CONFIGURATION );
+				DefaultBeanIdentifiers.CONFIGURATION, true );
 			var localesBean:IBeanDescriptor = beans.getBeanDescriptor(
-				DefaultBeanIdentifiers.LOCALES );
+				DefaultBeanIdentifiers.LOCALES, true );
+			
+			trace("BeanConfiguration::init()", beans.xrefs.length, configurationBean, localesBean );
 				
 			var messagesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MESSAGES, configuration.resources.messages );

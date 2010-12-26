@@ -230,7 +230,7 @@ package com.ffsys.ioc
 				descriptor.document = this;				
 				var existing:IBeanDescriptor = getBeanDescriptor(
 					descriptor.id );
-	
+
 				if( existing )
 				{
 					if( this.locked )
@@ -300,7 +300,7 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
-		public function getBeanDescriptor( beanName:String ):IBeanDescriptor
+		public function getBeanDescriptor( beanName:String, xrefs:Boolean = false ):IBeanDescriptor
 		{
 			var bean:IBeanDescriptor = null;
 			for( var i:int = 0;i < _beans.length;i++ )
@@ -311,6 +311,25 @@ package com.ffsys.ioc
 					return bean;
 				}
 			}
+			
+			//search document xrefs for descriptors
+			if( xrefs === true && this.xrefs.length > 0 )
+			{
+				var document:IBeanDocument = null;
+				for( i = 0;i < this.xrefs.length;i++ )
+				{
+					document = this.xrefs[ i ];		
+					if( document != null )
+					{
+						bean = document.getBeanDescriptor( beanName );
+						if( bean != null )
+						{
+							return bean;
+						}
+					}
+				}
+			}
+			
 			return null;
 		}
 		
@@ -386,7 +405,7 @@ package com.ffsys.ioc
 					if( document != null )
 					{
 						instance = document.getBean( beanName );
-						if( instance )
+						if( instance != null )
 						{
 							return instance;
 						}
@@ -403,7 +422,7 @@ package com.ffsys.ioc
 			}
 			*/
 			
-			return instance;
+			return null;
 		}
 		
 		/**

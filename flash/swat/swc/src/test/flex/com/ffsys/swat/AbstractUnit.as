@@ -103,8 +103,8 @@ package com.ffsys.swat
 				parser,
 				flashvars );
 				
-			var configuration:IBeanConfiguration = new ApplicationBeanConfiguration();
-			configuration.doWithBeans( document );			
+			//var configuration:BeanConfiguration = new BeanConfiguration();
+			//configuration.doWithBeans( document );			
 				
 			_bootstrapLoader.view = new DefaultApplicationPreloadView( false );
 			

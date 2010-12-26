@@ -59,7 +59,8 @@ package com.ffsys.ioc.support.xml
 			parent:Object,
 			classReference:Class ):Boolean
 		{
-			trace("BeanXmlInterpreter::shouldProcessClass()", this.document );
+			//trace("BeanXmlInterpreter::shouldProcessClass()", this.document );
+			
 			//we must have a valid document to process the class
 			return ( this.document != null );
 		}
@@ -82,11 +83,9 @@ package com.ffsys.ioc.support.xml
 			classReference:Class ):Object
 		{
 			var name:String = node.name().localName;
-			
-			
 			var bean:Object = document.getBean( name );
 			
-			trace("BeanXmlInterpreter::processClass()", name, bean );
+			//trace("BeanXmlInterpreter::processClass()", name, bean );
 			
 			if( bean == null )
 			{

@@ -81,7 +81,7 @@ package com.ffsys.ioc
 				{
 					if( bean.hasOwnProperty( this.name ) )
 					{
-						var value:Object = this.descriptor.getBean();
+						var value:Object = this.descriptor.getBean();				
 						try
 						{
 							bean[ this.name ] = value;

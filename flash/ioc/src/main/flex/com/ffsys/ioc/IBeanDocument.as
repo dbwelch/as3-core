@@ -128,10 +128,11 @@ package com.ffsys.ioc
 		* 	Gets a bean descriptor by identifier.
 		* 
 		* 	@param beanName The identifier of the bean descriptor.
+		* 	@param xrefs Whether to also search in document cross references.
 		* 
 		* 	@return The bean descriptor if found otherwise <code>null</code>.
 		*/
-		function getBeanDescriptor( beanName:String ):IBeanDescriptor;
+		function getBeanDescriptor( beanName:String, xrefs:Boolean = false ):IBeanDescriptor;
 		
 		/**
 		* 	Retrieves a bean with the specified bean name that <em>is</em> of any
