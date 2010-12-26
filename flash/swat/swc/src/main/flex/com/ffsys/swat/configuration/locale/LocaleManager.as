@@ -24,10 +24,8 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.swat.configuration.rsls.*;
 	import com.ffsys.swat.core.ResourceLoadPhase;
 	
-	
 	/**
-	*	Manages all the runtime assets for a collection
-	*	of locales.
+	*	Manages the defined locales for the application.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -42,7 +40,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _defaultLocale:IConfigurationLocale;
 		private var _current:IConfigurationLocale;
 		private var _resources:IResourceDefinitionManager;
-		private	var _parent:IConfiguration;
+		private	var _parent:IConfigurationElement;
 		private var _paths:IPaths;
 		private var _messages:IProperties;
 		
@@ -57,12 +55,12 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get parent():IConfiguration
+		public function get parent():IConfigurationElement
 		{
 			return _parent;
 		}
 		
-		public function set parent( parent:IConfiguration ):void
+		public function set parent( parent:IConfigurationElement ):void
 		{
 			_parent = parent;
 		}

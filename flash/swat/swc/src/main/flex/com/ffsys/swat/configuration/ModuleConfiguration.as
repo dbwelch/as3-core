@@ -1,5 +1,7 @@
 package com.ffsys.swat.configuration
-{
+{	
+	import com.ffsys.swat.configuration.locale.ILocaleManager;
+	
 	/**
 	*	Represents the configuration for a module.
 	*
@@ -13,6 +15,7 @@ package com.ffsys.swat.configuration
 		implements IModuleConfiguration
 	{
 		private var _configuration:IConfigurationElement;
+		private var _moduleLocales:ILocaleManager;
 		
 		/**
 		* 	Creates a <code>ModuleConfiguration</code> instance.
@@ -33,6 +36,29 @@ package com.ffsys.swat.configuration
 		public function set configuration( value:IConfigurationElement ):void
 		{
 			_configuration = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get moduleLocales():ILocaleManager
+		{
+			return _moduleLocales;
+		}
+		
+		public function set moduleLocales( value:ILocaleManager ):void
+		{
+			_moduleLocales = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			_configuration = null;
+			_moduleLocales = null;
 		}
 	}
 }

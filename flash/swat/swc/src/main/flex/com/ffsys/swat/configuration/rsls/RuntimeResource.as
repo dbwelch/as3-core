@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration.rsls {
 	
 	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IConfigurationElement;	
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
@@ -20,6 +21,7 @@ package com.ffsys.swat.configuration.rsls {
 		private var _url:String;
 		private var _absolute:Boolean = false;
 		private var _parent:IResourceCollection;
+		private var _configuration:IConfigurationElement;
 		
 		/**
 		*	Creates a <code>RuntimeResource</code> instance.
@@ -84,6 +86,8 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		public function get configuration():IConfiguration
 		{
 			var config:IConfiguration = null;
@@ -97,17 +101,34 @@ package com.ffsys.swat.configuration.rsls {
 			}
 			
 			//global resources
-			if( manager is ILocaleManager )
+			if( manager is ILocaleManager
+				&& ( ILocaleManager( manager ).parent is IConfiguration ) )
 			{
-				config = ILocaleManager( manager ).parent;
+				config = IConfiguration( ILocaleManager( manager ).parent );
 				
 			//locale specific resources
-			}else if( manager is IConfigurationLocale )
+			}else if( manager is IConfigurationLocale
+			 	&& IConfigurationLocale( manager ).parent != null
+			 	&& ( IConfigurationLocale( manager ).parent.parent is IConfiguration ) )
 			{
-				config = IConfigurationLocale( manager ).parent.parent;
+				config = IConfiguration( IConfigurationLocale( manager ).parent.parent );
 			}
 			
 			return config;
+		}
+		*/
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get configuration():IConfigurationElement
+		{
+			return _configuration;
+		}
+
+		public function set configuration( configuration:IConfigurationElement ):void
+		{
+			_configuration = configuration;
 		}
 		
 		/**
@@ -117,7 +138,7 @@ package com.ffsys.swat.configuration.rsls {
 		{
 			var output:String = _url;
 			
-			var configuration:IConfiguration = this.configuration;
+			var configuration:IConfiguration = this.configuration as IConfiguration;
 			
 			if( !configuration )
 			{

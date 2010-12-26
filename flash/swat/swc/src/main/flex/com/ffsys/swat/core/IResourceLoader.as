@@ -23,6 +23,26 @@ package com.ffsys.swat.core {
 				IEventDispatcher {
 					
 		/**
+		* 	Adds an observer to this resource loader.
+		* 
+		* 	@param observer The observer implementation.
+		* 
+		* 	@return A boolean indicating whether the observer
+		* 	was added.
+		*/
+		function addObserver( observer:IResourceLoadObserver ):Boolean;
+		
+		/**
+		* 	Removes an observer from this resource loader.
+		* 
+		* 	@param observer The observer implementation.
+		* 
+		* 	@return A boolean indicating whether the observer
+		* 	was removed.
+		*/
+		function removeObserver( observer:IResourceLoadObserver ):Boolean;
+					
+		/**
 		* 	The bean manager used to load bean resources.
 		*/
 		function get beanManager():IBeanManager;

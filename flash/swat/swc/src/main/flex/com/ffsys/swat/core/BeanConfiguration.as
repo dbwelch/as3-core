@@ -37,20 +37,13 @@ package com.ffsys.swat.core
 				throw new Error( "Cannot modify a null bean document." );
 			}
 			
-			//allow the main bean document to access all the beans
-			//in the style sheet bean document
-			//beans.xrefs.push( configuration.stylesheet );
-			
-
 			var flashvarsBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.FLASH_VARIABLES, configuration.flashvars );
 			
-			var configurationBean:IBeanDescriptor = beans.getBeanDescriptor(
-				DefaultBeanIdentifiers.CONFIGURATION, true );
 			var localesBean:IBeanDescriptor = beans.getBeanDescriptor(
 				DefaultBeanIdentifiers.LOCALES, true );
 			
-			trace("BeanConfiguration::init()", beans.xrefs.length, configurationBean, localesBean );
+			trace("BeanConfiguration::init()", beans.xrefs.length, localesBean );
 				
 			var messagesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MESSAGES, configuration.resources.messages );
@@ -66,8 +59,6 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.RESOURCES, resources );
 			
 			/*
-			//application configuration
-			beans.addBeanDescriptor( configurationBean );
 			//flash variables
 			beans.addBeanDescriptor( flashvarsBean );
 			*/
@@ -89,12 +80,6 @@ package com.ffsys.swat.core
 			beans.addBeanDescriptor( resourcesBean );
 		
 			//set up the generic type injectors
-			beans.types.push( new BeanTypeInjector(
-				DefaultBeanIdentifiers.CONFIGURATION,
-				DefaultBeanIdentifiers.CONFIGURATION,
-				IConfigurationAware,
-				configurationBean ) );
-				
 			beans.types.push( new BeanTypeInjector(
 				DefaultBeanIdentifiers.FLASH_VARIABLES,
 				DefaultBeanIdentifiers.FLASH_VARIABLES,

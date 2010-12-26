@@ -41,9 +41,14 @@ package com.ffsys.swat.configuration
 		public static const APPLICATION_BEAN:String = "application";
 		
 		/**
-		* 	The identifier of the configuration bean.
+		* 	The identifier of the application configuration.
 		*/
 		public static const CONFIGURATION:String = "configuration";
+		
+		/**
+		* 	The identifier of a module configuration.
+		*/
+		public static const MODULE_CONFIGURATION:String = "module";
 		
 		/**
 		* 	The identifier of the application meta bean.
@@ -77,7 +82,7 @@ package com.ffsys.swat.configuration
 		public static const PATHS:String = "paths";
 		
 		/**
-		* 	The identifier of the locale manager bean.
+		* 	The identifier of the application locale manager.
 		*/
 		public static const LOCALES:String = "locales";
 		
@@ -86,6 +91,17 @@ package com.ffsys.swat.configuration
 		* 	represents the currently selected locale.
 		*/
 		public static const LOCALE:String = "locale";
+		
+		/**
+		* 	The identifier of the locale manager for a module.
+		*/
+		public static const MODULE_LOCALES:String = "module-locales";
+		
+		/**
+		* 	The identifier of the bean that
+		* 	represents the current locale.
+		*/
+		public static const CURRENT_LOCALE:String = "current-locale";
 		
 		/**
 		* 	The identifier of the bean that

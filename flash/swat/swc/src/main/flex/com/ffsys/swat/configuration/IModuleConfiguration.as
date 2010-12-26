@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration
 {
 	import com.ffsys.swat.core.IConfigurationAware;
+	import com.ffsys.swat.configuration.locale.ILocaleManager;	
 	
 	/**
 	*	Describes the contract for module configuration implementations.
@@ -15,6 +16,11 @@ package com.ffsys.swat.configuration
 		extends IConfigurationElement,
 				IConfigurationAware
 	{
-		//
+		
+		/**
+		* 	The locales defined for this module.
+		*/
+		function get moduleLocales():ILocaleManager;
+		function set moduleLocales( value:ILocaleManager ):void;		
 	}
 }

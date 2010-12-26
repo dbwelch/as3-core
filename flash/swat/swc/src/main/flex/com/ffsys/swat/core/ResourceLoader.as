@@ -275,8 +275,10 @@ package com.ffsys.swat.core {
 		*/
 		protected function addConfigurationListeners( loader:IEventDispatcher ):void
 		{
+			trace("ResourceLoader::addConfigurationListeners()");
 			if( loader != null )
 			{
+				trace("ResourceLoader::addConfigurationListeners() GOT LOADER : ", loader );
 				
 				/*
 				loader.addEventListener(
@@ -294,7 +296,7 @@ package com.ffsys.swat.core {
 					
 				loader.addEventListener(
 					LoadEvent.DATA,
-					configurationLoadComplete, false, 0, false );				
+					configurationLoadComplete );				
 			}
 		}
 		
@@ -305,6 +307,7 @@ package com.ffsys.swat.core {
 		*/
 		protected function removeConfigurationListeners( loader:IEventDispatcher ):void
 		{
+			trace("ResourceLoader::removeConfigurationListeners()", loader );
 			if( loader != null )
 			{			
 				
@@ -335,7 +338,7 @@ package com.ffsys.swat.core {
 		protected function configurationLoadComplete( 
 			event:LoadEvent ):void
 		{
-			//trace("ResourceLoader::configurationLoadComplete()", event);
+			trace("ResourceLoader::configurationLoadComplete()", event);
 			
 			removeConfigurationListeners( _configurationLoader );
 			
@@ -346,7 +349,7 @@ package com.ffsys.swat.core {
 				queue = ILoaderQueue( targets.getLoaderAt( i ) );
 				if( !queue.isEmpty() )
 				{
-					//trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
+					trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
 					_assets.addLoader( queue );
 				}
 			}
@@ -357,7 +360,7 @@ package com.ffsys.swat.core {
 				this.configuration.resources = this.resources;
 			}
 			
-			//trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
+			trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
 		}
 		
 		/**

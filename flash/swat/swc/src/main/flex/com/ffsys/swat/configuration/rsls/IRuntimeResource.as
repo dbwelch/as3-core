@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration.rsls {
 	
 	import com.ffsys.core.IStringIdentifier;
+	import com.ffsys.swat.core.IConfigurationAware;
 	
 	/**
 	*	Describes the contract for implementations that
@@ -13,7 +14,8 @@ package com.ffsys.swat.configuration.rsls {
 	*	@since  16.07.2010
 	*/
 	public interface IRuntimeResource
-		extends IStringIdentifier {
+		extends IStringIdentifier,
+		 		IConfigurationAware {
 		
 		/**
 		*	The URL to the runtime resource.

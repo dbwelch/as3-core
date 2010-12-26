@@ -32,13 +32,19 @@ package com.ffsys.swat.core
 		public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
-			trace("ApplicationBeanConfiguration::doWithBeans()", beans );
+			trace("ApplicationBeanConfiguration::doWithBeans()", beans );	
 			
 			var descriptor:IBeanDescriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.CONFIGURATION );
 			descriptor.instanceClass = this.configurationClass;
 			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
+			
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.CONFIGURATION,
+				DefaultBeanIdentifiers.CONFIGURATION,
+				IConfigurationAware,
+				descriptor ) );
 			
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.META );
@@ -54,7 +60,17 @@ package com.ffsys.swat.core
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.LOCALES );
 			descriptor.instanceClass = this.localesClass;
-			descriptor.singleton = true;			
+			descriptor.singleton = true;	
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.MODULE_LOCALES );
+			descriptor.instanceClass = this.moduleLocalesClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.MODULE_CONFIGURATION );
+			descriptor.instanceClass = this.moduleConfigurationClass;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor( 
@@ -65,10 +81,14 @@ package com.ffsys.swat.core
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.DEFAULT_LOCALE );
 			descriptor.instanceClass = this.defaultLocaleClass;		
-			beans.addBeanDescriptor( descriptor );						
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.CURRENT_LOCALE );
+			descriptor.instanceClass = this.currentLocaleClass;		
+			beans.addBeanDescriptor( descriptor );								
 			
 			//resource collections
-			
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.RESOURCES );
 			descriptor.instanceClass = this.resourcesClass;
@@ -149,6 +169,14 @@ package com.ffsys.swat.core
 		}
 		
 		/**
+		* 	The class to use for a module configuration.
+		*/
+		public function get moduleConfigurationClass():Class
+		{
+			return ModuleConfiguration;
+		}		
+		
+		/**
 		* 	The class to use for the application meta data.
 		*/
 		public function get metaClass():Class
@@ -165,11 +193,19 @@ package com.ffsys.swat.core
 		}
 		
 		/**
-		* 	The class to use for the locale manager.
+		* 	The class to use for the applicaton locale manager.
 		*/
 		public function get localesClass():Class
 		{
 			return LocaleManager;
+		}
+		
+		/**
+		* 	The class to use for a module locale manager.
+		*/
+		public function get moduleLocalesClass():Class
+		{
+			return ModuleLocaleManager;
 		}
 		
 		/**
@@ -184,6 +220,14 @@ package com.ffsys.swat.core
 		* 	The class to use for the default locale definition.
 		*/
 		public function get defaultLocaleClass():Class
+		{
+			return ConfigurationLocale;
+		}
+		
+		/**
+		* 	The class to use for a current locale definition.
+		*/
+		public function get currentLocaleClass():Class
 		{
 			return ConfigurationLocale;
 		}

@@ -9,78 +9,107 @@
 		<locales>locales</locales>
 	</paths>
 	
-	<locales>
+	<module-locales>
 		
-		<!-- load resources in the context of the paths defined for the module -->
+		<!-- load resources in the context of the common paths defined for the module -->
 		<resources>
-			
+			<settings>
+				<resource>
+					<url>properties/mock-settings.properties</url>
+				</resource>
+			</settings>
+			<rsls>
+				<rsl>
+					<trusted>true</trusted>
+					<url>swf/mock-assets.swf</url>
+				</rsl>
+				<rsl>
+					<trusted>true</trusted>
+					<url>swf/mock-missing-404-assets.swf</url>
+				</rsl>
+			</rsls>
+			<beans>
+				<resource>
+					<url>css/mock-beans.css</url>
+				</resource>
+			</beans>
+			<xml>
+				<resource>
+					<url>xml/mock-xml.xml</url>
+				</resource>
+			</xml>
+			<text>
+				<resource>
+					<url>text/mock-text.txt</url>
+				</resource>
+			</text>
+			<css>
+				<resource>
+					<url>css/mock-ui-components.css</url>
+				</resource>
+				<resource>
+					<url>css/mock-graphics.css</url>
+				</resource>
+				<resource>
+					<url>css/mock-text.css</url>
+				</resource>				
+				<resource>
+					<url>css/mock-animations.css</url>
+				</resource>				
+				<resource>
+					<url>css/mock-filters.css</url>
+				</resource>
+				<resource>
+					<url>css/mock-styles.css</url>
+				</resource>				
+			</css>
+			<messages>
+				<resource>
+					<url>properties/mock-messages.properties</url>
+				</resource>
+			</messages>
+			<errors>
+				<resource>
+					<url>properties/mock-errors.properties</url>
+				</resource>
+			</errors>
+			<images>
+				<resource>
+					<url>images/mock-image-001.jpg</url>
+				</resource>
+				<resource>
+					<url>images/mock-image-002.jpg</url>
+				</resource>
+			</images>
+			<fonts>
+				<resource>
+					<url>fonts/mock-fonts.swf</url>
+				</resource>
+			</fonts>
+			<sounds>
+				<resource>
+					<url>sounds/mock-sound.mp3</url>
+				</resource>
+			</sounds>
 		</resources>
-		
+	
 		<!-- loads resources in the context of the current locale -->
 		<current-locale>
 			<resources>
-				<rsls>
-					<rsl>
-						<trusted>true</trusted>
-						<url>/////swf/application-assets.swf</url>
-					</rsl>
-				</rsls>
-				<xml>
-					<resource>
-						<url>/xml/test.xml</url>
-					</resource>
-				</xml>
-				<css>
-					<resource>
-						<id>test-css</id>
-						<url>/css/test.css</url>
-					</resource>
-					<resource>
-						<id>test-filters</id>
-						<url>/css/filters.css</url>
-					</resource>
-				</css>
-				<messages>
-					<resource>
-						<url>/properties/messages-common.properties</url>
-					</resource>
-				</messages>
-				<errors>
-					<resource>
-						<url>/properties/errors-common.properties</url>
-					</resource>
-				</errors>
-				<images>
-					<resource>
-						<id>garden-001</id>
-						<url>/images/garden-001.jpg</url>
-					</resource>
-					<resource>
-						<id>garden-002</id>
-						<url>/images/garden-002.jpg</url>
-					</resource>
-				</images>
+				
 			</resources>
 		</current-locale>
+	
 		<!-- loads resources in the context of a specific locale -->
+	
+	
+		<!--
 		<locale lang="es" country="ES">
 			<resources>
-				<messages>
-					<resource>
-						<url>/properties/messages.properties</url>
-					</resource>
-				</messages>
-				<errors>
-					<resource>
-						<url>/properties/errors.properties</url>
-					</resource>
-				</errors>
-				<fonts>
-					<resource>
-						<url>/fonts/fonts.swf</url>
-					</resource>
-				</fonts>
+			
 			</resources>
 		</locale>
-	</locales>
+		-->
+	
+	</module-locales>
 </module>

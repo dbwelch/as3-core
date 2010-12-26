@@ -34,14 +34,14 @@ package com.ffsys.swat.configuration
 	*	@author Mischa Williamson
 	*	@since  09.06.2010
 	*/
-	public class ConfigurationLoadTest extends AbstractUnit
+	public class BootstrapLoadTest extends AbstractUnit
 	{
 		public var configuration:IConfiguration;
 		
 		/**
-		* 	Creats a <code>ConfigurationLoadTest</code> instance.
+		* 	Creats a <code>BootstrapLoadTest</code> instance.
 		*/
-		public function ConfigurationLoadTest()
+		public function BootstrapLoadTest()
 		{
 			super();
 		}
@@ -56,7 +56,7 @@ package com.ffsys.swat.configuration
 			super.assertLoadedConfiguration( event, passThroughData );
 			configuration = IConfiguration( event.configuration );
 			
-			trace("ConfigurationLoadTest::assertLoadedConfiguration()", configuration );
+			trace("BootstrapLoadTest::assertLoadedConfiguration()", configuration );
 
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
@@ -102,7 +102,7 @@ package com.ffsys.swat.configuration
 			resources = locale.resources;
 			resource = resources.messages[ 0 ];
 			
-			//trace("ConfigurationLoadTest::assertLoadedConfiguration", resource, resource.url, resource.getTranslatedPath() );
+			//trace("BootstrapLoadTest::assertLoadedConfiguration", resource, resource.url, resource.getTranslatedPath() );
 			Assert.assertEquals( "mock-assets/locales/en-GB/properties/messages.properties", resource.getTranslatedPath() );
 			*/
 		}

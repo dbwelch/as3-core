@@ -21,7 +21,7 @@ package com.ffsys.swat.configuration {
 	public class ConfigurationInterpreter extends BeanXmlInterpreter {
 		
 		/**
-		* 	The application flash variables;
+		* 	The application flash variables.
 		*/
 		public var flashvars:DefaultFlashVariables;
 		
@@ -62,6 +62,8 @@ package com.ffsys.swat.configuration {
 			
 			//update the selected locale
 			configuration.locales.lang = flashvars.lang;
+			
+			trace("ConfigurationInterpreter::complete()", "SET CURRENT LOCALE: ", flashvars.lang, configuration.locales.lang, configuration.locales.current );
 			
 			//add the current locale as a default namespace
 			Deserializer.defaultBindings.addBinding(

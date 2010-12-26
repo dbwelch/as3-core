@@ -7,7 +7,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.utils.locale.ILocaleCollection;
 	import com.ffsys.utils.properties.IProperties;
 	
-	import com.ffsys.swat.configuration.IConfiguration;
+	import com.ffsys.swat.configuration.IConfigurationElement;
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManager;
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
@@ -32,8 +32,8 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		* 	The parent configuration.
 		*/
-		function get parent():IConfiguration;
-		function set parent( parent:IConfiguration ):void;
+		function get parent():IConfigurationElement;
+		function set parent( parent:IConfigurationElement ):void;
 		
 		/**
 		* 	The currently selected locale.

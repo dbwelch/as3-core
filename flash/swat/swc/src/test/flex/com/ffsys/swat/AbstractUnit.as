@@ -43,8 +43,16 @@ package com.ffsys.swat
 			"mock-configuration.xml";
 		
 		private var _bootstrapLoader:BootstrapLoader;
-		private var _queue:ILoaderQueue;
-		private var _framework:IBeanDocument;
+		
+		/**
+		* 	@private
+		*/
+		protected var _queue:ILoaderQueue;
+		
+		/**
+		* 	@private
+		*/
+		protected var _framework:IBeanDocument;
 		
 		/**
 		* 	Creates an <code>AbstractUnit</code> instance.
