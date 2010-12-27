@@ -27,6 +27,7 @@ package com.ffsys.swat.configuration.rsls {
 		private var _css:IResourceCollection;
 		private var _images:IResourceCollection;
 		private var _sounds:IResourceCollection;
+		private var _components:IResourceCollection;
 		
 		/**
 		*	Creates a <code>ResourceDefinitionManager</code> instance.
@@ -190,6 +191,19 @@ package com.ffsys.swat.configuration.rsls {
 		public function set sounds( value:IResourceCollection ):void
 		{
 			_sounds = value;
-		}		
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get components():IResourceCollection
+		{
+			return _components;
+		}
+
+		public function set components( value:IResourceCollection ):void
+		{
+			_components = value;
+		}
 	}
 }

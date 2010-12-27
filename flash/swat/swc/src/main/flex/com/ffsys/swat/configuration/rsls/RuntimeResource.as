@@ -86,41 +86,6 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	@inheritDoc
 		*/
-		
-		/*
-		public function get configuration():IConfiguration
-		{
-			var config:IConfiguration = null;
-			var manager:IResourceDefinitionManagerAware = null;
-			
-			if( parent
-			 	&& parent.parent
-				&& parent.parent.parent )
-			{
-				manager = this.parent.parent.parent;
-			}
-			
-			//global resources
-			if( manager is ILocaleManager
-				&& ( ILocaleManager( manager ).parent is IConfiguration ) )
-			{
-				config = IConfiguration( ILocaleManager( manager ).parent );
-				
-			//locale specific resources
-			}else if( manager is IConfigurationLocale
-			 	&& IConfigurationLocale( manager ).parent != null
-			 	&& ( IConfigurationLocale( manager ).parent.parent is IConfiguration ) )
-			{
-				config = IConfiguration( IConfigurationLocale( manager ).parent.parent );
-			}
-			
-			return config;
-		}
-		*/
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function get configuration():IConfigurationElement
 		{
 			return _configuration;

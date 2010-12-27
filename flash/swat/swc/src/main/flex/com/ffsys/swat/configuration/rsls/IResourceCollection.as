@@ -2,7 +2,7 @@ package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
 	
-	import com.ffsys.io.loaders.core.ILoader;
+	import com.ffsys.io.loaders.core.ILoaderElement;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
 	
@@ -19,13 +19,24 @@ package com.ffsys.swat.configuration.rsls {
 	public interface IResourceCollection extends IDeserializeProperty {
 		
 		/**
+		* 	The number of resources in this collection.
+		*/
+		function get length():uint;
+		
+		/**
+		* 	The parent resource definition manager.
+		*/
+		function get parent():IResourceDefinitionManager;
+		function set parent( manager:IResourceDefinitionManager ):void;		
+		
+		/**
 		*	Gets the loader used to load runtime resources for this collection.
 		*	
 		*	@param request The request for the load operation.
 		*	
 		*	@return The loader used to load the runtime resource.
 		*/
-		function getLoader( request:URLRequest ):ILoader;
+		function getLoader( request:URLRequest ):ILoaderElement;
 		
 		/**
 		* 	Gets the loader queue used to load the runtime resources.
@@ -33,11 +44,5 @@ package com.ffsys.swat.configuration.rsls {
 		* 	@return The runtime resource loader queue.
 		*/
 		function getLoaderQueue():ILoaderQueue;
-		
-		/**
-		* 	The parent resource manager for this collection.
-		*/
-		function get parent():IResourceDefinitionManager;
-		function set parent( manager:IResourceDefinitionManager ):void;
 	}
 }

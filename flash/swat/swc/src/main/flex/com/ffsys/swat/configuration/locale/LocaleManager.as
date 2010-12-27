@@ -256,7 +256,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private	
 		*/
-		private function getMessagesQueue():ILoaderQueue
+		protected function getMessagesQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.messages )
@@ -285,7 +285,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private	
 		*/
-		private function getErrorsQueue():ILoaderQueue
+		protected function getErrorsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();	
 			if( this.resources && this.resources.errors )
@@ -314,7 +314,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getFontsQueue():ILoaderQueue
+		protected function getFontsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();	
 			if( this.resources && this.resources.fonts )
@@ -349,7 +349,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getRslsQueue():ILoaderQueue
+		protected function getRslsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.rsls )
@@ -370,7 +370,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getBeansQueue( manager:IBeanManager ):ILoaderQueue
+		protected function getBeansQueue( manager:IBeanManager ):ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.beans )
@@ -402,7 +402,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getXmlQueue():ILoaderQueue
+		protected function getXmlQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.xml )
@@ -423,7 +423,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getTextQueue():ILoaderQueue
+		protected function getTextQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.text )
@@ -444,7 +444,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private	
 		*/
-		private function getSettingsQueue():ILoaderQueue
+		protected function getSettingsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			//add current properties first
@@ -475,7 +475,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getCssQueue( manager:IStyleManager ):ILoaderQueue
+		protected function getCssQueue( manager:IStyleManager ):ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( this.resources && this.resources.css )
@@ -514,7 +514,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getImagesQueue():ILoaderQueue
+		protected function getImagesQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( _current
@@ -523,7 +523,7 @@ package com.ffsys.swat.configuration.locale {
 			{
 				queue.append(
 					_current.resources.images.getLoaderQueue() );
-			}				
+			}
 			if( this.resources
 				&& this.resources.images )
 			{
@@ -536,7 +536,7 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		*	@private
 		*/
-		private function getSoundsQueue():ILoaderQueue
+		protected function getSoundsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			if( _current

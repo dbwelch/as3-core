@@ -158,6 +158,16 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.SOUNDS );
 			descriptor.instanceClass = this.soundsClass;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.COMPONENTS );
+			descriptor.instanceClass = this.componentsClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.COMPONENT );
+			descriptor.instanceClass = this.componentClass;
+			beans.addBeanDescriptor( descriptor );			
 		}
 		
 		/**
@@ -294,7 +304,7 @@ package com.ffsys.swat.core
 		*/
 		public function get beansClass():Class
 		{
-			return BeansCollection;
+			return BeanCollection;
 		}
 		
 		/**
@@ -343,6 +353,22 @@ package com.ffsys.swat.core
 		public function get soundsClass():Class
 		{
 			return SoundCollection;
+		}
+		
+		/**
+		* 	The class to use for a collection of components.
+		*/
+		public function get componentsClass():Class
+		{
+			return ComponentCollection;
+		}
+		
+		/**
+		* 	The class to use for a component definition.
+		*/
+		public function get componentClass():Class
+		{
+			return ComponentResource;
 		}
 	}
 }

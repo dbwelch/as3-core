@@ -78,12 +78,18 @@ package com.ffsys.swat.configuration.rsls {
 		*	The collection of settings resources.
 		*/
 		function get settings():IResourceCollection;
-		function set settings( text:IResourceCollection ):void;	
+		function set settings( text:IResourceCollection ):void;
 		
 		/**
 		*	The collection of sound resources.
 		*/
 		function get sounds():IResourceCollection;
 		function set sounds( rsls:IResourceCollection ):void;
+		
+		/**
+		*	A collection of component resources.
+		*/
+		function get components():IResourceCollection;
+		function set components( value:IResourceCollection ):void;
 	}
 }

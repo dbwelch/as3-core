@@ -56,7 +56,7 @@ package com.ffsys.swat.configuration
 			super.assertLoadedConfiguration( event, passThroughData );
 			configuration = IConfiguration( event.configuration );
 			
-			trace("BootstrapLoadTest::assertLoadedConfiguration()", configuration );
+			//trace("BootstrapLoadTest::assertLoadedConfiguration()", configuration.locales.resources.components );
 
 			Assert.assertNotNull( configuration );
 			Assert.assertNotNull( configuration.locales );
@@ -84,7 +84,6 @@ package com.ffsys.swat.configuration
 			
 			//TODO: re-implement these tests with the updated mock configuration
 			
-			/*
 			//test global resources
 			var resources:IResourceDefinitionManager = configuration.locales.resources;
 			var rsls:IResourceCollection = resources.rsls;
@@ -96,15 +95,18 @@ package com.ffsys.swat.configuration
 			
 			Assert.assertEquals( configuration.locales, resource.parent.parent.parent );
 			Assert.assertEquals( configuration, ILocaleManager( resource.parent.parent.parent ).parent );
-			Assert.assertEquals( "mock-assets/common/swf/application-assets.swf", resource.getTranslatedPath() );
+			Assert.assertEquals( "mock-assets/common/swf/mock-assets.swf", resource.getTranslatedPath() );
 			
-			//test a locale specific load process
+			//test a locale specific resource definition
 			resources = locale.resources;
 			resource = resources.messages[ 0 ];
 			
 			//trace("BootstrapLoadTest::assertLoadedConfiguration", resource, resource.url, resource.getTranslatedPath() );
-			Assert.assertEquals( "mock-assets/locales/en-GB/properties/messages.properties", resource.getTranslatedPath() );
-			*/
+			Assert.assertEquals( "mock-assets/locales/en-GB/properties/mock-messages.properties", resource.getTranslatedPath() );
+			
+			//check component definitions
+			Assert.assertNotNull( configuration.locales.resources.components );
+			Assert.assertEquals( 1, configuration.locales.resources.components.length );
 		}
 		
 		/**

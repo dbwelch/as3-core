@@ -25,6 +25,18 @@
 			Paths are resolved relative to the common directory.
 		-->
 		<resources>
+			
+			<components>
+				<component>
+					<id>header</id>
+					<beans>
+						<resource>
+							<url>css/mock-component-beans.css</url>
+						</resource>
+					</beans>
+				</component>
+			</components>
+			
 			<settings>
 				<resource>
 					<url>properties/mock-settings.properties</url>

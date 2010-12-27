@@ -74,7 +74,7 @@ package com.ffsys.swat.core {
 			
 			super.configurationLoadComplete( event );
 			
-			trace("ModuleLoader::configurationLoadComplete()", this.configuration, this.builder );
+			//trace("ModuleLoader::configurationLoadComplete()", this.configuration, this.builder );
 			
 			var evt:ConfigurationEvent = new ConfigurationEvent(
 				ConfigurationEvent.MODULE_CONFIGURATION_LOAD_COMPLETE,
@@ -83,6 +83,6 @@ package com.ffsys.swat.core {
 			
 			evt.configuration = this.configuration;
 			dispatchEvent( evt );
-		}	
+		}
 	}
 }

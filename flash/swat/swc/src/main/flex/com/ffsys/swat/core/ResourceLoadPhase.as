@@ -20,13 +20,14 @@ package com.ffsys.swat.core
 			ERRORS_PHASE,
 			SETTINGS_PHASE,
 			XML_PHASE,
-			TEXT_PHASE,			
+			TEXT_PHASE,
 			FONTS_PHASE,
 			RSLS_PHASE,
 			CSS_PHASE,		
 			BEANS_PHASE,
 			IMAGES_PHASE,
-			SOUNDS_PHASE ];
+			SOUNDS_PHASE,
+			COMPONENTS_PHASE ];
 		
 		/**
 		*	Represents the preload phase for the main application code.	
@@ -92,6 +93,11 @@ package com.ffsys.swat.core
 		*	Represents the preload phase for CSS documents.	
 		*/
 		public static const CSS_PHASE:String = "css";
+		
+		/**
+		*	Represents the preload phase for component definitions.
+		*/
+		public static const COMPONENTS_PHASE:String = "components";		
 		
 		/**
 		*	A phase that indicates that all loading is complete.

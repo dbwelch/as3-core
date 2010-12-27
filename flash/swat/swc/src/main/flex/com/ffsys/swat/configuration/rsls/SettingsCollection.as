@@ -2,6 +2,7 @@ package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
 	import com.ffsys.io.loaders.core.ILoader;
+	import com.ffsys.io.loaders.core.ILoaderElement;	
 	import com.ffsys.io.loaders.types.PropertiesLoader;
 	
 	import com.ffsys.utils.properties.IProperties;
@@ -37,10 +38,10 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		*	@inheritDoc
 		*/
-		override public function getLoader( request:URLRequest ):ILoader
+		override public function getLoader( request:URLRequest ):ILoaderElement
 		{
 			//ensure our loader uses a primitive properties implementation
-			var loader:ILoader = super.getLoader( request );
+			var loader:ILoader = ILoader( super.getLoader( request ) );
 			var properties:IProperties = new PrimitiveProperties();
 			PropertiesLoader( loader ).properties = properties;
 			return loader;

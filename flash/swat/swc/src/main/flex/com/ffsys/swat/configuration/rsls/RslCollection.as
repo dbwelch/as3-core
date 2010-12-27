@@ -7,6 +7,7 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.ILoader;
+	import com.ffsys.io.loaders.core.ILoaderElement;
 	import com.ffsys.io.loaders.types.MovieLoader;
 	
 	/**
@@ -31,7 +32,7 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		*	@inheritDoc
 		*/
-		override public function getLoader( request:URLRequest ):ILoader
+		override public function getLoader( request:URLRequest ):ILoaderElement
 		{
 			return new MovieLoader( request );
 		}
@@ -50,7 +51,7 @@ package com.ffsys.swat.configuration.rsls {
 			{
 				lib = RuntimeSharedLibrary( this[ i ] );
 				request = new URLRequest( lib.getTranslatedPath() );
-				loader = getLoader( request );
+				loader = ILoader( getLoader( request ) );
 
 				if( lib.trusted )
 				{

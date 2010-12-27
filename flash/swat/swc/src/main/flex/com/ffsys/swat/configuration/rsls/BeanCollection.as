@@ -2,7 +2,7 @@ package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
 	import com.ffsys.ioc.BeanLoader;
-	import com.ffsys.io.loaders.core.ILoader;
+	import com.ffsys.io.loaders.core.ILoaderElement;
 	
 	/**
 	*	Encapsulates a collection of bean documents.
@@ -13,12 +13,12 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  12.12.2010
 	*/
-	dynamic public class BeansCollection extends ResourceCollection {
+	dynamic public class BeanCollection extends ResourceCollection {
 		
 		/**
-		*	Creates a <code>BeansCollection</code> instance.
+		*	Creates a <code>BeanCollection</code> instance.
 		*/
-		public function BeansCollection()
+		public function BeanCollection()
 		{
 			super();
 		}
@@ -26,7 +26,7 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		*	@inheritDoc
 		*/
-		override public function getLoader( request:URLRequest ):ILoader
+		override public function getLoader( request:URLRequest ):ILoaderElement
 		{
 			return new BeanLoader( request );
 		}

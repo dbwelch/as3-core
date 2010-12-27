@@ -1,7 +1,7 @@
 package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
-	import com.ffsys.io.loaders.core.ILoader;
+	import com.ffsys.io.loaders.core.ILoaderElement;
 	import com.ffsys.io.loaders.types.TextLoader;
 	
 	/**
@@ -26,7 +26,7 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		*	@inheritDoc
 		*/
-		override public function getLoader( request:URLRequest ):ILoader
+		override public function getLoader( request:URLRequest ):ILoaderElement
 		{
 			return new TextLoader( request );
 		}

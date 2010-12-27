@@ -158,5 +158,15 @@ package com.ffsys.swat.configuration
 		* 	An identifier for a sounds resource collection.
 		*/
 		public static const SOUNDS:String = "sounds";
+		
+		/**
+		* 	An identifier for a collection of components.
+		*/
+		public static const COMPONENTS:String = "components";
+		
+		/**
+		* 	An identifier for a single component.
+		*/
+		public static const COMPONENT:String = "component";
 	}
 }

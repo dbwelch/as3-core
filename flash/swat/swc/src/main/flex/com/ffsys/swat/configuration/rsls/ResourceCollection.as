@@ -3,6 +3,7 @@ package com.ffsys.swat.configuration.rsls {
 	import flash.net.URLRequest;
 	
 	import com.ffsys.io.loaders.core.ILoader;	
+	import com.ffsys.io.loaders.core.ILoaderElement;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	
@@ -50,13 +51,16 @@ package com.ffsys.swat.configuration.rsls {
 			var queue:ILoaderQueue = new LoaderQueue();
 			var lib:IRuntimeResource = null;
 			var request:URLRequest = null;
-			var loader:ILoader = null;
+			var loader:ILoaderElement = null;
 			for( var i:int = 0;i < this.length;i++ )
 			{
 				lib = IRuntimeResource( this[ i ] );
 				request = new URLRequest( lib.getTranslatedPath() );
 				loader = getLoader( request );
-				initializeLoader( loader, lib );
+				if( loader is ILoader )
+				{
+					initializeLoader( ILoader( loader ), lib );
+				}
 				queue.addLoader( loader );
 			}
 			return queue;
@@ -65,7 +69,7 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		*	@inheritDoc
 		*/
-		public function getLoader( request:URLRequest ):ILoader
+		public function getLoader( request:URLRequest ):ILoaderElement
 		{
 			throw new Error(
 				"You must specify the loader type in your concrete implementation." );
