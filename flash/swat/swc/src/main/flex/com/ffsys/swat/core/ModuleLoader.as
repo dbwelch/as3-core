@@ -76,27 +76,13 @@ package com.ffsys.swat.core {
 			
 			trace("ModuleLoader::configurationLoadComplete()", this.configuration, this.builder );
 			
-			//TODO: dispatch module configuration load complete
-			
-			/*
 			var evt:ConfigurationEvent = new ConfigurationEvent(
-				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
+				ConfigurationEvent.MODULE_CONFIGURATION_LOAD_COMPLETE,
 				this,
 				event );
 			
 			evt.configuration = this.configuration;
 			dispatchEvent( evt );
-			*/
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		/*
-		override public function destroy():void
-		{
-			super.destroy();
-		}
-		*/		
+		}	
 	}
 }

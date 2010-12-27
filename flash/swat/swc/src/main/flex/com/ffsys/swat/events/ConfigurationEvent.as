@@ -22,11 +22,18 @@ package com.ffsys.swat.events {
 		private var _configuration:IConfigurationElement;
 		
 		/**
-		* 	Events dispatched when the configuration XML has
+		* 	Events dispatched when the application configuration document has
 		* 	been loaded and parsed.
 		*/
 		public static const CONFIGURATION_LOAD_COMPLETE:String =
 			"configurationLoadComplete";
+			
+		/**
+		* 	Events dispatched when the a module configuration document has
+		* 	been loaded and parsed.
+		*/
+		public static const MODULE_CONFIGURATION_LOAD_COMPLETE:String =
+			"moduleConfigurationLoadComplete";
 		
 		/**
 		*	Creates a <code>ConfigurationEvent</code> instance.
