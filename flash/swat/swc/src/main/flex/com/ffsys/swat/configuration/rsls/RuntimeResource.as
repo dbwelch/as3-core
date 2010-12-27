@@ -4,6 +4,7 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.swat.configuration.IConfigurationElement;	
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
+	import com.ffsys.swat.configuration.IPaths;	
 	
 	/**
 	*	Represents a runtime resource definition.
@@ -20,7 +21,6 @@ package com.ffsys.swat.configuration.rsls {
 		private var _id:String;
 		private var _url:String;
 		private var _absolute:Boolean = false;
-		private var _parent:IResourceCollection;
 		private var _configuration:IConfigurationElement;
 		
 		/**
@@ -73,25 +73,13 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get parent():IResourceCollection
-		{
-			return _parent;
-		}
-		
-		public function set parent( parent:IResourceCollection ):void
-		{
-			_parent = parent;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function get configuration():IConfigurationElement
 		{
 			return _configuration;
 		}
 
-		public function set configuration( configuration:IConfigurationElement ):void
+		public function set configuration(
+			configuration:IConfigurationElement ):void
 		{
 			_configuration = configuration;
 		}
@@ -99,28 +87,54 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	@inheritDoc
 		*/
-		public function getTranslatedPath():String
+		public function getTranslatedPath(
+			paths:IPaths = null,
+			locale:IConfigurationLocale = null ):String
 		{
 			var output:String = _url;
 			
-			var configuration:IConfiguration = this.configuration as IConfiguration;
+			var configuration:IConfiguration =
+				this.configuration as IConfiguration;
 			
-			if( !configuration )
+			//use global paths if necessary
+			if( paths == null
+				&& configuration != null
+				&& configuration.paths != null )
 			{
-				throw new Error( "Cannot get the translated path for a resource with no configuration." );
+				paths = configuration.paths;
 			}
 			
-			if( configuration && !configuration.paths )
+			if( paths == null )
 			{
-				throw new Error( "Cannot get the translated path for a resource with no path configuration." );
+				throw new Error(
+					"Cannot retrieve a translated resource path with no path configuration." );
 			}
 			
-			if( configuration
-				&& configuration.paths )
+			var localeSpecific:Boolean = ( locale != null );
+			
+			//trace("RuntimeResource::getTranslatedPath() (paths/locale/base/url): ", paths, locale, paths.base, this.url );
+			
+			var parts:Array = [ paths.base ];
+
+			//if we are globally or individually flagged as absolute
+			//we always load using the raw url
+			if( paths.absolute || this.absolute )
 			{
-				output = configuration.paths.getTranslatedPath( this );
+				output = this.url;
+			}else{
+				//global resources for all locales
+				if( !localeSpecific )
+				{
+					parts.push( paths.common );
+					output = paths.join( parts, this.url );
+				//locale specific resources
+				}else
+				{
+					output = paths.join( [ paths.getLocalePath( locale ) ], this.url );
+				}
 			}
 			
+			//trace("RuntimeResource::getTranslatedPath() translated: ", paths, locale, output );
 			return output;
 		}
 	}

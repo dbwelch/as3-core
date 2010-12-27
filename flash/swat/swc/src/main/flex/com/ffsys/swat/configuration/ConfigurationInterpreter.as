@@ -63,7 +63,7 @@ package com.ffsys.swat.configuration {
 			//update the selected locale
 			configuration.locales.lang = flashvars.lang;
 			
-			trace("ConfigurationInterpreter::complete()", "SET CURRENT LOCALE: ", flashvars.lang, configuration.locales.lang, configuration.locales.current );
+			//trace("ConfigurationInterpreter::complete()", "SET CURRENT LOCALE: ", flashvars.lang, configuration.locales.lang, configuration.locales.current );
 			
 			//add the current locale as a default namespace
 			Deserializer.defaultBindings.addBinding(

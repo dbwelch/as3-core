@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration.rsls {
 	
 	import com.ffsys.swat.configuration.rsls.IResourceCollection;
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;	
 	
 	/**
 	*	Describes the contract for implementations that encapsulate
@@ -12,13 +13,8 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  17.07.2010
 	*/
-	public interface IResourceDefinitionManager {
-		
-		/**
-		* 	The parent object encapsulating this resource manager.
-		*/
-		function get parent():IResourceDefinitionManagerAware;
-		function set parent( parent:IResourceDefinitionManagerAware ):void;
+	public interface IResourceDefinitionManager
+		extends IResourceDefinitionElement {
 		
 		/**
 		*	The collection of bean files.

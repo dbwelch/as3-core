@@ -62,9 +62,6 @@ package com.ffsys.swat.configuration
 			Assert.assertNotNull( configuration.locales );
 			Assert.assertNotNull( configuration.locales.resources );
 			
-			//test parent references are correct
-			Assert.assertNotNull( configuration.locales.parent );
-			Assert.assertEquals( configuration, configuration.locales.parent );
 			Assert.assertEquals( 4, configuration.locales.length );
 			
 			var locales:Array = configuration.locales.getLocales();
@@ -73,14 +70,9 @@ package com.ffsys.swat.configuration
 			
 			var locale:IConfigurationLocale = IConfigurationLocale( locales[ 0 ] );
 			Assert.assertNotNull( locale );
-			Assert.assertNotNull( locale.parent );
-			Assert.assertEquals( configuration.locales, locale.parent );
 			
 			Assert.assertNotNull( configuration.locales.resources );
-			Assert.assertEquals( configuration.locales, configuration.locales.resources.parent );
-			
 			Assert.assertNotNull( locale.resources );
-			Assert.assertEquals( locale, locale.resources.parent );
 			
 			//TODO: re-implement these tests with the updated mock configuration
 			
@@ -91,10 +83,7 @@ package com.ffsys.swat.configuration
 			var resource:IRuntimeResource = rsls[ 0 ];
 
 			Assert.assertNotNull( resource );
-			Assert.assertEquals( rsls, resource.parent );
 			
-			Assert.assertEquals( configuration.locales, resource.parent.parent.parent );
-			Assert.assertEquals( configuration, ILocaleManager( resource.parent.parent.parent ).parent );
 			Assert.assertEquals( "mock-assets/common/swf/mock-assets.swf", resource.getTranslatedPath() );
 			
 			//test a locale specific resource definition
@@ -102,7 +91,8 @@ package com.ffsys.swat.configuration
 			resource = resources.messages[ 0 ];
 			
 			//trace("BootstrapLoadTest::assertLoadedConfiguration", resource, resource.url, resource.getTranslatedPath() );
-			Assert.assertEquals( "mock-assets/locales/en-GB/properties/mock-messages.properties", resource.getTranslatedPath() );
+			Assert.assertEquals( "mock-assets/locales/en-GB/properties/mock-messages.properties",
+				resource.getTranslatedPath( configuration.paths, locale ) );
 			
 			//check component definitions
 			Assert.assertNotNull( configuration.locales.resources.components );

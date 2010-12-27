@@ -6,6 +6,9 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.xml.IDeserializeProperty;
 	
+	import com.ffsys.swat.configuration.IPaths;	
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;	
+	
 	/**
 	*	Describes the contract for implementations that represent
 	*	a collection of runtime resources.
@@ -16,18 +19,14 @@ package com.ffsys.swat.configuration.rsls {
 	*	@author Mischa Williamson
 	*	@since  17.07.2010
 	*/
-	public interface IResourceCollection extends IDeserializeProperty {
+	public interface IResourceCollection
+		extends	IResourceDefinitionElement,
+				IDeserializeProperty {
 		
 		/**
 		* 	The number of resources in this collection.
 		*/
 		function get length():uint;
-		
-		/**
-		* 	The parent resource definition manager.
-		*/
-		function get parent():IResourceDefinitionManager;
-		function set parent( manager:IResourceDefinitionManager ):void;		
 		
 		/**
 		*	Gets the loader used to load runtime resources for this collection.
@@ -41,8 +40,15 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	Gets the loader queue used to load the runtime resources.
 		* 
+		* 	@param paths The paths implementation to use when
+		* 	building translated paths.
+		* 	@param locale A locale that indicates paths should
+		* 	be built in a locale specific manner.
+		* 
 		* 	@return The runtime resource loader queue.
 		*/
-		function getLoaderQueue():ILoaderQueue;
+		function getLoaderQueue(
+			paths:IPaths = null,
+			locale:IConfigurationLocale = null ):ILoaderQueue;
 	}
 }

@@ -1,7 +1,6 @@
 package com.ffsys.swat.configuration
 {	
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
-	import com.ffsys.swat.configuration.rsls.IRuntimeResource;
 
 	/**
 	*	Determines the contract for objects that represent
@@ -14,15 +13,9 @@ package com.ffsys.swat.configuration
 	*	@since  20.10.2010
 	*/
 	public interface IPaths
-	{
+	{		
 		/**
-		* 	The parent configuration.
-		*/
-		function get parent():IConfiguration;
-		function set parent( parent:IConfiguration ):void;
-		
-		/**
-		* 	A global setting that determines that all runtime
+		* 	A setting that determines whether runtime
 		* 	resources should be loaded using absolute paths.
 		*/
 		function get absolute():Boolean;
@@ -74,15 +67,6 @@ package com.ffsys.swat.configuration
 		*	@return A clone with fully qualified paths.
 		*/
 		function translate():IPaths;
-		
-		/**
-		* 	Gets the translated path to a resource.
-		* 
-		* 	@param resource The resource to calculate the path for.
-		* 
-		* 	@return The translated path.
-		*/
-		function getTranslatedPath( resource:IRuntimeResource ):String;
 		
 		/**
 		*	Gets the full path to the locale specific directory.

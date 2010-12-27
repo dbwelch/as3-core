@@ -3,6 +3,9 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.core.IStringIdentifier;
 	import com.ffsys.swat.core.IConfigurationAware;
 	
+	import com.ffsys.swat.configuration.IPaths;	
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;	
+	
 	/**
 	*	Describes the contract for implementations that
 	*	represent a runtime resource.
@@ -15,6 +18,7 @@ package com.ffsys.swat.configuration.rsls {
 	*/
 	public interface IRuntimeResource
 		extends IStringIdentifier,
+				IResourceDefinitionElement,
 		 		IConfigurationAware {
 		
 		/**
@@ -24,12 +28,6 @@ package com.ffsys.swat.configuration.rsls {
 		function set url( url:String ):void;
 		
 		/**
-		* 	@inheritDoc
-		*/
-		function get parent():IResourceCollection;
-		function set parent( parent:IResourceCollection ):void;
-		
-		/**
 		* 	Determines whether this resource is flagged as being
 		* 	absolute.
 		*/
@@ -37,9 +35,18 @@ package com.ffsys.swat.configuration.rsls {
 		function set absolute( absolute:Boolean ):void;
 		
 		/**
-		* 	Gets the path to load the asset from based
-		* 	on the parent object hierarchy settings.
+		* 	Gets a translated path to a resource based
+		* 	on a path configuration.
+		* 
+		* 	@param paths A path implementation to use
+		* 	when determining the translated path.
+		* 	@param locale A locale context used to determine
+		* 	the translated path.
+		* 
+		* 	@return The translated path to the resource.
 		*/
-		function getTranslatedPath():String;
+		function getTranslatedPath(
+			paths:IPaths = null,
+			locale:IConfigurationLocale = null ):String;
 	}
 }

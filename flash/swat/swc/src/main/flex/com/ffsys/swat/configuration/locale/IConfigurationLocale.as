@@ -18,13 +18,6 @@ package com.ffsys.swat.configuration.locale {
 	public interface IConfigurationLocale
 		extends ILocale,
 				IResourceDefinitionManagerAware {
-			
-		/**
-		* 	The parent locale manager.
-		*/
-		function get parent():ILocaleManager;
-		function set parent( manager:ILocaleManager ):void;
-		
 		
 		/**
 		* 	Concatenates the <code>lang</code> and

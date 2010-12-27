@@ -3,14 +3,13 @@ package com.ffsys.swat.configuration
 	import com.ffsys.core.address.*;
 	import com.ffsys.utils.string.AddressUtils;
 	
-	import com.ffsys.swat.configuration.rsls.IRuntimeResource;
-	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
+	import com.ffsys.swat.configuration.rsls.*;
 	
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
 	/**
-	* 	Encapsulates global paths for the application.
+	* 	Encapsulates a path configuration for the application.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -21,7 +20,6 @@ package com.ffsys.swat.configuration
 	public class Paths extends Object
 		implements IPaths
 	{
-		private var _parent:IConfiguration;
 		private var _absolute:Boolean = false;
 		
 		private var _base:String = "assets";
@@ -35,19 +33,6 @@ package com.ffsys.swat.configuration
 		public function Paths()
 		{
 			super();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get parent():IConfiguration
-		{
-			return _parent;
-		}
-		
-		public function set parent( parent:IConfiguration ):void
-		{
-			_parent = parent;
 		}
 		
 		/**
@@ -113,45 +98,6 @@ package com.ffsys.swat.configuration
 		public function set locale( locale:String ):void
 		{
 			_locale = locale;
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function getTranslatedPath( resource:IRuntimeResource ):String
-		{
-			if( !resource )
-			{
-				throw new Error( "Cannot get the translated path from a null resource." );
-			}
-			
-			var parts:Array = [ base ];
-			
-			//if we are globally or individually flagged as absolute
-			//we always load using the raw url
-			if( this.absolute || resource.absolute )
-			{
-				if( base && base.length > 0 )
-				{
-					return join( [ base ], resource.url )
-				}
-				
-				return resource.url
-			}
-			
-			var manager:IResourceDefinitionManagerAware = getResourceDefinitionManagerAware( resource );
-			
-			//global resources for all locales
-			if( manager is ILocaleManager )
-			{
-				parts.push( common );
-			//locale specific resources
-			}else if( manager is IConfigurationLocale )
-			{
-				return join( [ getLocalePath( IConfigurationLocale( manager ) ) ], resource.url )
-			}
-			
-			return join( parts, resource.url );
 		}
 		
 		/**
@@ -217,31 +163,12 @@ package com.ffsys.swat.configuration
 		public function clone():IPaths
 		{
 			var paths:IPaths = getCloneInstance();
-			paths.parent = this.parent;
 			paths.absolute = this.absolute;
 			paths.base = this.base;
 			paths.common = this.common;
 			paths.locales = this.locales;
 			paths.locale = this.locale;
 			return paths;
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function getResourceDefinitionManagerAware(
-			resource:IRuntimeResource ):IResourceDefinitionManagerAware
-		{
-			var manager:IResourceDefinitionManagerAware = null;
-			
-			if( resource.parent
-			 	&& resource.parent.parent
-				&& resource.parent.parent.parent )
-			{
-				manager = resource.parent.parent.parent;
-			}
-			
-			return manager;
 		}
 		
 		/**

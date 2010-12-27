@@ -11,6 +11,7 @@ package com.ffsys.swat.configuration.locale {
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManager;
 	import com.ffsys.swat.configuration.rsls.IResourceDefinitionManagerAware;
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
+	import com.ffsys.swat.core.IConfigurationAware;
 	
 	/**
 	*	Describes the contract for implementations
@@ -27,13 +28,14 @@ package com.ffsys.swat.configuration.locale {
 		 		IDeserializeProperty,
 				IDeserializeComplete,
 				IResourceQueueBuilder,
+				IConfigurationAware,
 				IResourceDefinitionManagerAware {
 		
 		/**
 		* 	The parent configuration.
 		*/
-		function get parent():IConfigurationElement;
-		function set parent( parent:IConfigurationElement ):void;
+		//function get parent():IConfigurationElement;
+		//function set parent( parent:IConfigurationElement ):void;
 		
 		/**
 		* 	The currently selected locale.

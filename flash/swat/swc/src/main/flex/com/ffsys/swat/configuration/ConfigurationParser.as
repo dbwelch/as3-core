@@ -33,9 +33,8 @@ package com.ffsys.swat.configuration {
 		override protected function initialize():void
 		{
 			super.initialize();
-			
-			this.deserializer.mode = DeserializationMode.POST_PROPERTY_SET;
-			this.deserializer.parentField = PARENT_FIELD;
+			this.deserializer.mode =
+				DeserializationMode.POST_PROPERTY_SET;
 		}
 		
 		/**

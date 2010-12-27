@@ -1,5 +1,10 @@
 package com.ffsys.swat.configuration.rsls
 {
+	import flash.net.URLRequest;
+	
+	import com.ffsys.io.loaders.core.ILoaderElement;
+	import com.ffsys.io.loaders.core.ILoaderQueue;
+	import com.ffsys.io.loaders.core.LoaderQueue;
 	
 	/**
 	*	Encapsulates a collection of component definitions.

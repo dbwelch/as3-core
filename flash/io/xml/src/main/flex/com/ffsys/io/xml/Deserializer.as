@@ -624,7 +624,7 @@ package com.ffsys.io.xml {
 			}
 			*/
 			
-			if( obj && obj is Array )
+			if( obj && obj is Array && !( obj.hasOwnProperty( propertyName ) ) )
 			{
 				propertyName = node.childIndex();
 			}

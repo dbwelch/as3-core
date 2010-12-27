@@ -40,9 +40,7 @@ package com.ffsys.swat.configuration.locale {
 		private var _defaultLocale:IConfigurationLocale;
 		private var _current:IConfigurationLocale;
 		private var _resources:IResourceDefinitionManager;
-		private	var _parent:IConfigurationElement;
-		private var _paths:IPaths;
-		private var _messages:IProperties;
+		private	var _configuration:IConfigurationElement;
 		
 		/**
 		*	Creates a <code>LocaleManager</code> instance.
@@ -55,14 +53,26 @@ package com.ffsys.swat.configuration.locale {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get parent():IConfigurationElement
+		public function get configuration():IConfigurationElement
 		{
-			return _parent;
+			return _configuration;
 		}
-		
-		public function set parent( parent:IConfigurationElement ):void
+
+		public function set configuration( configuration:IConfigurationElement ):void
 		{
-			_parent = parent;
+			_configuration = configuration;
+		}		
+		
+		/**
+		* 	The path configuration to be used when resolving resource paths.
+		*/
+		public function get paths():IPaths
+		{
+			if( this.configuration != null )
+			{
+				return this.configuration.paths;
+			}
+			return null;
 		}
 
 		/**
@@ -99,6 +109,8 @@ package com.ffsys.swat.configuration.locale {
 			beanManager:IBeanManager,
 			styleManager:IStyleManager ):ILoaderQueue
 		{
+			//trace("LocaleManager::getQueueByPhase()", phase, this.paths );
+			
 			var queue:ILoaderQueue = null;
 			switch( phase )
 			{
@@ -134,6 +146,9 @@ package com.ffsys.swat.configuration.locale {
 					break;
 				case ResourceLoadPhase.SOUNDS_PHASE:
 					queue = getSoundsQueue();
+					break;
+				case ResourceLoadPhase.COMPONENTS_PHASE:
+					queue = getComponentsQueue();
 					break;
 			}
 			return queue;
@@ -262,7 +277,8 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.messages )
 			{
 				queue.append(
-					this.resources.messages.getLoaderQueue() );
+					this.resources.messages.getLoaderQueue(
+						this.paths, null ) );
 			}			
 			if( defaultLocale
 				&& ( defaultLocale != current )
@@ -270,15 +286,18 @@ package com.ffsys.swat.configuration.locale {
 				&& defaultLocale.resources.messages )
 			{
 				queue.append(
-					defaultLocale.resources.messages.getLoaderQueue() );
+					defaultLocale.resources.messages.getLoaderQueue(
+						this.paths, defaultLocale ) );
 			}
+			
 			if( _current 
 				&& _current.resources
 				&& _current.resources.messages )
 			{
 				queue.append(
-					_current.resources.messages.getLoaderQueue() );
-			}			
+					_current.resources.messages.getLoaderQueue(
+						this.paths, _current ) );
+			}
 			return queue;
 		}
 		
@@ -291,7 +310,8 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.errors )
 			{
 				queue.append(
-					this.resources.errors.getLoaderQueue() );
+					this.resources.errors.getLoaderQueue(
+						this.paths, null ) );
 			}			
 			if( defaultLocale
 				&& ( defaultLocale != current )
@@ -299,14 +319,16 @@ package com.ffsys.swat.configuration.locale {
 				&& defaultLocale.resources.errors )
 			{
 				queue.append(
-					defaultLocale.resources.errors.getLoaderQueue() );
+					defaultLocale.resources.errors.getLoaderQueue(
+						this.paths, defaultLocale ) );
 			}
 			if( _current
 				&& _current.resources
 				&& _current.resources.errors )
 			{
 				queue.append(
-					_current.resources.errors.getLoaderQueue() );
+					_current.resources.errors.getLoaderQueue(
+						this.paths, _current ) );
 			}			
 			return queue;
 		}
@@ -320,7 +342,8 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.fonts )
 			{
 				queue.append(
-					this.resources.fonts.getLoaderQueue() );
+					this.resources.fonts.getLoaderQueue(
+						this.paths, null ) );
 			}
 			
 			//OVERRIDING WITH DEFAULT LOCALE FONTS CAN CAUSE
@@ -341,7 +364,8 @@ package com.ffsys.swat.configuration.locale {
 				&& _current.resources.fonts )
 			{
 				queue.append(
-					_current.resources.fonts.getLoaderQueue() );
+					_current.resources.fonts.getLoaderQueue(
+						this.paths, _current ) );
 			}
 			return queue;
 		}
@@ -355,14 +379,16 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.rsls )
 			{
 				queue.append(
-					this.resources.rsls.getLoaderQueue() );
+					this.resources.rsls.getLoaderQueue(
+						this.paths, null ) );
 			}
 			if( _current
 				&& _current.resources
 				&& _current.resources.rsls )
 			{
 				queue.append(
-					_current.resources.rsls.getLoaderQueue() );
+					_current.resources.rsls.getLoaderQueue(
+						this.paths, _current ) );
 			}
 			return queue;
 		}
@@ -376,17 +402,19 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.beans )
 			{
 				queue.append(
-					this.resources.beans.getLoaderQueue() );
+					this.resources.beans.getLoaderQueue(
+						this.paths, null ) );
 			}
 			if( _current
 				&& _current.resources
 				&& _current.resources.beans )
 			{
 				queue.append(
-					_current.resources.beans.getLoaderQueue() );
+					_current.resources.beans.getLoaderQueue(
+						this.paths, _current ) );
 			}
-			//massage the css queue so that it uses the style manager
-			//for loading, ensuring that style dependencies are resolved
+			//massage the beans queue so that it uses the bean manager
+			//for loading, ensuring that bean file dependencies are resolved
 			var loader:ILoader = null;
 			for( var i:int = 0;i < queue.length;i++ )
 			{
@@ -394,7 +422,7 @@ package com.ffsys.swat.configuration.locale {
 				manager.addBeanDocument( loader.request );
 			}
 			//update our queue with the queue that the
-			//style manager will use
+			//bean manager will use
 			queue = manager.getLoaderQueue();
 			return queue;
 		}
@@ -408,14 +436,16 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.xml )
 			{
 				queue.append(
-					this.resources.xml.getLoaderQueue() );
+					this.resources.xml.getLoaderQueue(
+						this.paths, null ) );
 			}
 			if( _current
 				&& _current.resources
 				&& _current.resources.xml )
 			{
 				queue.append(
-					_current.resources.xml.getLoaderQueue() );
+					_current.resources.xml.getLoaderQueue(
+						this.paths, _current ) );
 			}
 			return queue;
 		}
@@ -429,14 +459,16 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.text )
 			{
 				queue.append(
-					this.resources.text.getLoaderQueue() );
+					this.resources.text.getLoaderQueue(
+						this.paths, null ) );
 			}
 			if( _current
 				&& _current.resources
 				&& _current.resources.text )
 			{
 				queue.append(
-					_current.resources.text.getLoaderQueue() );
+					_current.resources.text.getLoaderQueue(
+						this.paths, _current ) );
 			}	
 			return queue;
 		}
@@ -447,14 +479,15 @@ package com.ffsys.swat.configuration.locale {
 		protected function getSettingsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
+			
 			//add current properties first
 			//so they are retrieved first when locating properties
-			if( _current 
-				&& _current.resources
-				&& _current.resources.settings )
+			if( this.resources
+				&& this.resources.settings )
 			{
 				queue.append(
-					_current.resources.settings.getLoaderQueue() );
+					this.resources.settings.getLoaderQueue(
+						this.paths, null ) );
 			}
 			if( defaultLocale
 				&& ( defaultLocale != current )
@@ -462,12 +495,17 @@ package com.ffsys.swat.configuration.locale {
 				&& defaultLocale.resources.settings )
 			{
 				queue.append(
-					defaultLocale.resources.settings.getLoaderQueue() );
+					defaultLocale.resources.settings.getLoaderQueue(
+						this.paths, defaultLocale ) );
 			}
-			if( this.resources && this.resources.settings )
+
+			if( _current 
+				&& _current.resources
+				&& _current.resources.settings )
 			{
 				queue.append(
-					this.resources.settings.getLoaderQueue() );
+					_current.resources.settings.getLoaderQueue(
+						this.paths, _current ) );
 			}
 			return queue;
 		}
@@ -481,14 +519,16 @@ package com.ffsys.swat.configuration.locale {
 			if( this.resources && this.resources.css )
 			{
 				queue.append(
-					this.resources.css.getLoaderQueue() );
+					this.resources.css.getLoaderQueue(
+						this.paths, null ) );
 			}
 			if( _current
 				&& _current.resources
 				&& _current.resources.css )
 			{
 				queue.append(
-					_current.resources.css.getLoaderQueue() );
+					_current.resources.css.getLoaderQueue(
+						this.paths, _current ) );
 			}
 		
 			//massage the css queue so that it uses the style manager
@@ -517,18 +557,20 @@ package com.ffsys.swat.configuration.locale {
 		protected function getImagesQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
+			if( this.resources
+				&& this.resources.images )
+			{
+				queue.append(
+					this.resources.images.getLoaderQueue(
+						this.paths, null ) );
+			}			
 			if( _current
 				&& _current.resources
 				&& _current.resources.images )
 			{
 				queue.append(
-					_current.resources.images.getLoaderQueue() );
-			}
-			if( this.resources
-				&& this.resources.images )
-			{
-				queue.append(
-					this.resources.images.getLoaderQueue() );
+					_current.resources.images.getLoaderQueue(
+						this.paths, _current ) );
 			}
 			return queue;
 		}
@@ -539,19 +581,45 @@ package com.ffsys.swat.configuration.locale {
 		protected function getSoundsQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
+			if( this.resources && this.resources.sounds )
+			{
+				queue.append(
+					this.resources.sounds.getLoaderQueue(
+						this.paths, null ) );
+			}			
 			if( _current
 				&& _current.resources
 				&& _current.resources.sounds )
 			{
 				queue.append(
-					_current.resources.sounds.getLoaderQueue() );
-			}				
-			if( this.resources && this.resources.sounds )
-			{
-				queue.append(
-					this.resources.sounds.getLoaderQueue() );
+					_current.resources.sounds.getLoaderQueue(
+						this.paths, _current ) );
 			}
 			return queue;
-		}		
+		}	
+		
+		/**
+		*	@private
+		*/
+		protected function getComponentsQueue():ILoaderQueue
+		{
+			var queue:ILoaderQueue = new LoaderQueue();				
+			if( this.resources
+				&& this.resources.components )
+			{
+				queue.append(
+					this.resources.components.getLoaderQueue(
+						this.paths, null ) );
+			}
+			if( _current
+				&& _current.resources
+				&& _current.resources.components )
+			{
+				queue.append(
+					_current.resources.components.getLoaderQueue(
+						this.paths, _current ) );
+			}			
+			return queue;
+		}
 	}
 }

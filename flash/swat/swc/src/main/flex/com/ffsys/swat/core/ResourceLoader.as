@@ -275,25 +275,8 @@ package com.ffsys.swat.core {
 		*/
 		protected function addConfigurationListeners( loader:IEventDispatcher ):void
 		{
-			trace("ResourceLoader::addConfigurationListeners()");
 			if( loader != null )
 			{
-				trace("ResourceLoader::addConfigurationListeners() GOT LOADER : ", loader );
-				
-				/*
-				loader.addEventListener(
-					LoadEvent.RESOURCE_NOT_FOUND,
-					resourceNotFound, false, 0, false );
-
-				loader.addEventListener(
-					LoadEvent.LOAD_START,
-					loadStart, false, 0, false );
-
-				loader.addEventListener(
-					LoadEvent.LOAD_PROGRESS,
-					loadProgress, false, 0, false );
-					*/
-					
 				loader.addEventListener(
 					LoadEvent.DATA,
 					configurationLoadComplete );				
@@ -307,28 +290,13 @@ package com.ffsys.swat.core {
 		*/
 		protected function removeConfigurationListeners( loader:IEventDispatcher ):void
 		{
-			trace("ResourceLoader::removeConfigurationListeners()", loader );
 			if( loader != null )
-			{			
-				
-				/*
-				loader.removeEventListener(
-					LoadEvent.RESOURCE_NOT_FOUND,
-					resourceNotFound );
-			
-				loader.removeEventListener(
-					LoadEvent.LOAD_START,
-					loadStart );
-				
-				loader.removeEventListener(
-					LoadEvent.LOAD_PROGRESS,
-					loadProgress );
-					*/
+			{
 				loader.removeEventListener(
 					LoadEvent.DATA,
 					configurationLoadComplete );
 			}
-		}		
+		}
 		
 		/**
 		*	Invoked when the configuration document has been loaded.
@@ -338,7 +306,7 @@ package com.ffsys.swat.core {
 		protected function configurationLoadComplete( 
 			event:LoadEvent ):void
 		{
-			trace("ResourceLoader::configurationLoadComplete()", event);
+			//trace("ResourceLoader::configurationLoadComplete()", event);
 			
 			removeConfigurationListeners( _configurationLoader );
 			
@@ -349,7 +317,7 @@ package com.ffsys.swat.core {
 				queue = ILoaderQueue( targets.getLoaderAt( i ) );
 				if( !queue.isEmpty() )
 				{
-					trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
+					//trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
 					_assets.addLoader( queue );
 				}
 			}
@@ -360,7 +328,7 @@ package com.ffsys.swat.core {
 				this.configuration.resources = this.resources;
 			}
 			
-			trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
+			//trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
 		}
 		
 		/**

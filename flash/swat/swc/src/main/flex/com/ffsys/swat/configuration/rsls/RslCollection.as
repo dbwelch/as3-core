@@ -10,6 +10,9 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.ILoaderElement;
 	import com.ffsys.io.loaders.types.MovieLoader;
 	
+	import com.ffsys.swat.configuration.IPaths;	
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
+	
 	/**
 	*	Encapsulates a collection of runtime shared libraries.
 	*
@@ -40,7 +43,9 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		*	@inheritDoc	
 		*/
-		override public function getLoaderQueue():ILoaderQueue
+		override public function getLoaderQueue(
+			paths:IPaths = null,
+			locale:IConfigurationLocale = null ):ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
 			var lib:RuntimeSharedLibrary = null;

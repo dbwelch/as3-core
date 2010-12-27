@@ -131,6 +131,9 @@ package com.ffsys.swat.view {
 				case ResourceLoadPhase.SOUNDS_PHASE:
 					sound( event );
 					break;	
+				case ResourceLoadPhase.COMPONENTS_PHASE:
+					component( event );
+					break;					
 			}
 		}
 		
@@ -251,6 +254,14 @@ package com.ffsys.swat.view {
 		*	@private
 		*/
 		protected function sound( event:RslEvent ):void
+		{
+			debug( event.phase, event );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function component( event:RslEvent ):void
 		{
 			debug( event.phase, event );
 		}

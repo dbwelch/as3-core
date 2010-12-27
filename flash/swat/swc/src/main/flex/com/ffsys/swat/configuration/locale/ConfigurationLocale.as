@@ -18,7 +18,6 @@ package com.ffsys.swat.configuration.locale {
 		implements IConfigurationLocale {
 			
 		private var _resources:IResourceDefinitionManager;
-		private var _parent:ILocaleManager;
 		private var _prefix:String;
 		
 		/**
@@ -32,19 +31,6 @@ package com.ffsys.swat.configuration.locale {
 			country:String = null )
 		{
 			super( lang, country );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get parent():ILocaleManager
-		{
-			return _parent;
-		}
-		
-		public function set parent( manager:ILocaleManager ):void
-		{
-			_parent = manager;
 		}
 		
 		/**
@@ -91,7 +77,11 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		public function clone():IConfigurationLocale
 		{
-			return new ConfigurationLocale( this.lang, this.country );
+			var output:IConfigurationLocale = new ConfigurationLocale(
+				this.lang, this.country );
+			output.resources = this.resources;
+			output.prefix = _prefix;
+			return output;
 		}
 	}
 }

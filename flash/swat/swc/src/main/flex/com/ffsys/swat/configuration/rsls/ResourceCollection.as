@@ -7,6 +7,9 @@ package com.ffsys.swat.configuration.rsls {
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.core.LoaderQueue;
 	
+	import com.ffsys.swat.configuration.IPaths;	
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;	
+	
 	/**
 	*	Abstract super class for configuration collections
 	*	that encapsulate a set of runtime resources.
@@ -20,8 +23,6 @@ package com.ffsys.swat.configuration.rsls {
 	dynamic public class ResourceCollection extends Array
 		implements IResourceCollection {
 		
-		private var _parent:IResourceDefinitionManager;
-		
 		/**
 		*	Creates an <code>ResourceCollection</code> instance.
 		*/
@@ -33,35 +34,56 @@ package com.ffsys.swat.configuration.rsls {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get parent():IResourceDefinitionManager
+		public function getLoaderQueue(
+			paths:IPaths = null,
+			locale:IConfigurationLocale = null ):ILoaderQueue
 		{
-			return _parent;
-		}
-		
-		public function set parent( manager:IResourceDefinitionManager ):void
-		{
-			_parent = manager;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function getLoaderQueue():ILoaderQueue
-		{
+			//trace("ResourceCollection::getLoaderQueue()", paths, locale, this.length );
+			
 			var queue:ILoaderQueue = new LoaderQueue();
-			var lib:IRuntimeResource = null;
+			var nested:ILoaderQueue = null;
+			var lib:IResourceDefinitionElement = null;
+			var resource:IRuntimeResource = null;	
+			var collection:IResourceCollection = null;
 			var request:URLRequest = null;
 			var loader:ILoaderElement = null;
 			for( var i:int = 0;i < this.length;i++ )
 			{
-				lib = IRuntimeResource( this[ i ] );
-				request = new URLRequest( lib.getTranslatedPath() );
-				loader = getLoader( request );
-				if( loader is ILoader )
+				lib = this[ i ] as IResourceDefinitionElement;
+				
+				//trace("ResourceCollection::getLoaderQueue() got lib: ", lib );
+				
+				if( lib is IRuntimeResource )
 				{
-					initializeLoader( ILoader( loader ), lib );
+					resource = IRuntimeResource( lib );
+					request = new URLRequest( resource.getTranslatedPath(
+						paths, locale ) );
+				
+					loader = getLoader( request );
+					if( loader != null )
+					{
+						if( loader is ILoader )
+						{
+							initializeLoader( ILoader( loader ), resource );
+						}
+						queue.addLoader( loader );
+					}
+				}else if( lib is IResourceCollection )
+				{
+					collection = IResourceCollection( lib );
+					
+					//trace("ResourceCollection::getLoaderQueue()", "FOUND NESTED RESOURCE COLLECTION", this, collection );
+					
+					nested = collection.getLoaderQueue( paths, locale );
+					
+					//trace("ResourceCollection::getLoaderQueue()", "FOUND NESTED RESOURCE COLLECTION", nested, nested.length );
+					
+					if( nested != null
+					 	&& !nested.isEmpty() )
+					{
+						queue.addLoader( nested );
+					}
 				}
-				queue.addLoader( loader );
 			}
 			return queue;
 		}
@@ -96,10 +118,13 @@ package com.ffsys.swat.configuration.rsls {
 		public function setDeserializedProperty(
 			name:String, value:Object ):void
 		{
-			if( value is IRuntimeResource )
+			if( this.hasOwnProperty( name ) )
+			{
+				this[ name ] = value;
+			}else if( value is IResourceDefinitionElement )
 			{
 				//store the library reference
-				this.push( IRuntimeResource( value ) );
+				this.push( IResourceDefinitionElement( value ) );
 			}
 		}
 	}

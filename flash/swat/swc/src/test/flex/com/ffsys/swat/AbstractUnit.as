@@ -105,7 +105,7 @@ package com.ffsys.swat
 			
 			var parser:IParser = new ConfigurationParser( _framework );
 			
-			trace("AbstractUnit::setUp()", parser, parser.interpreter );
+			//trace("AbstractUnit::setUp()", parser, parser.interpreter );
 			
 			_bootstrapLoader = new BootstrapLoader(
 				parser,

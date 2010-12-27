@@ -1,6 +1,7 @@
 package com.ffsys.swat.configuration.rsls {
 	
 	import com.ffsys.swat.configuration.rsls.IResourceCollection;
+	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	
 	/**
 	*	Encapsulates the resources for a locale.
@@ -13,8 +14,6 @@ package com.ffsys.swat.configuration.rsls {
 	*/
 	public class ResourceDefinitionManager extends Object
 		implements IResourceDefinitionManager {
-		
-		private var _parent:IResourceDefinitionManagerAware;
 
 		private var _beans:IResourceCollection;
 		private var _messages:IResourceCollection;
@@ -35,19 +34,6 @@ package com.ffsys.swat.configuration.rsls {
 		public function ResourceDefinitionManager()
 		{
 			super();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get parent():IResourceDefinitionManagerAware
-		{
-			return _parent;
-		}
-		
-		public function set parent( parent:IResourceDefinitionManagerAware ):void
-		{
-			_parent = parent;
 		}
 		
 		/**

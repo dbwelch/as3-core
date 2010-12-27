@@ -32,7 +32,7 @@ package com.ffsys.swat.core
 		public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
-			trace("ApplicationBeanConfiguration::doWithBeans()", beans );	
+			//trace("ApplicationBeanConfiguration::doWithBeans()", beans );	
 			
 			var descriptor:IBeanDescriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.CONFIGURATION );
@@ -40,6 +40,7 @@ package com.ffsys.swat.core
 			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 			
+			//configuration type injector
 			beans.types.push( new BeanTypeInjector(
 				DefaultBeanIdentifiers.CONFIGURATION,
 				DefaultBeanIdentifiers.CONFIGURATION,
@@ -60,7 +61,7 @@ package com.ffsys.swat.core
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.LOCALES );
 			descriptor.instanceClass = this.localesClass;
-			descriptor.singleton = true;	
+			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor( 
