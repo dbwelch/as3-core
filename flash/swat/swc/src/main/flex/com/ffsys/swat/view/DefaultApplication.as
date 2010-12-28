@@ -73,21 +73,6 @@ package com.ffsys.swat.view  {
 
 				if( !_preloader )
 				{
-					
-					/*
-					var classPathConfiguration:IClassPathConfiguration = 
-						DefaultFlashVariables( _flashvars ).classPathConfiguration;
-					
-					
-					var parser:IConfigurationParser = 
-						classPathConfiguration.getConfigurationParserInstance() as IConfigurationParser;
-						
-					if( parser == null )
-					{
-						throw new Error( "Could not retrieve a valid configuration parser." );
-					}
-					*/
-					
 					var parser:IParser = getConfigurationParser(
 						this.framework );
 					

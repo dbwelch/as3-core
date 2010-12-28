@@ -492,8 +492,10 @@ package com.ffsys.swat.core {
 			if( data != null
 				&& resources != null )
 			{
+				/*
 				trace("ResourceLoader::componentQueueComplete()", "GOT RESOURCES",
 					resources, resources.length, data );
+				*/
 					
 				var id:String = resources.id;
 				
@@ -526,7 +528,11 @@ package com.ffsys.swat.core {
 					 	+ id + "'." );
 				}
 				
+				resource.document = data.document;
 				resource.target = target;
+				
+				//trace("::::::::::: ResourceLoader::componentQueueComplete()", resource.id, resource.document, resource.target );
+				
 				_resources.components.push( resource );
 			}
 		}
@@ -539,7 +545,7 @@ package com.ffsys.swat.core {
 			event.target.removeEventListener( LoadEvent.QUEUE_COMPLETE, componentQueueComplete );
 			event.target.removeEventListener( event.type, arguments.callee );
 			
-			trace("ResourceLoader::componentsQueueComplete()", "ALL COMPONENTS LOADED", event, event.loader, event.resource );
+			//trace("ResourceLoader::componentsQueueComplete()", "ALL COMPONENTS LOADED", event, event.loader, event.resource );
 		}
 		
 		/**

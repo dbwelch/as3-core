@@ -46,16 +46,6 @@ package com.ffsys.swat.core
 		* 	The collection of component resources.
 		*/
 		function get components():Vector.<IComponentResource>;
-	
-		/**
-		* 	Gets the resource list for a component definition.
-		* 
-		* 	@param id The identifier for the component.
-		* 
-		* 	@return The resource list for the component or <code>null</code>
-		* 	if no matching component was found.
-		*/
-		function getComponentResourcesById( id:String ):IResourceList;
 		
 		/**
 		* 	Gets a component by identifier.

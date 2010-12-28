@@ -65,19 +65,6 @@ package com.ffsys.swat.core
 		/**
 		* 	@inheritDoc
 		*/	
-		public function getComponentResourcesById( id:String ):IResourceList
-		{
-			var component:IComponentResource = getComponentById( id );
-			if( component != null )
-			{
-				return component.resources;
-			}
-			return null;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/	
 		public function getComponentById( id:String ):IComponentResource
 		{
 			var component:IComponentResource = null;
