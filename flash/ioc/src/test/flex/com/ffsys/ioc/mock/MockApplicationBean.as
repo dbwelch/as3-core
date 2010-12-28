@@ -1,5 +1,7 @@
 package com.ffsys.ioc.mock
 {
+	import com.ffsys.ioc.*;
+	
 	/**
 	*	Represents a mock application bean.
 	*
@@ -10,6 +12,7 @@ package com.ffsys.ioc.mock
 	*	@since  13.12.2010
 	*/
 	public class MockApplicationBean extends Object
+		implements IBeanConstructed
 	{
 		private var _configuration:MockConfigurationBean;
 		private	var _messages:MockMessagesBean;
@@ -60,6 +63,14 @@ package com.ffsys.ioc.mock
 		public function set applicationController( value:MockApplicationControllerBean ):void
 		{
 			_applicationController = value;
+		}
+		
+		/**
+		* 	Tests that the constructed method executed.
+		*/
+		public function constructed():void
+		{
+			trace("MockApplicationBean::constructed()", this, configuration );
 		}
 	}
 }

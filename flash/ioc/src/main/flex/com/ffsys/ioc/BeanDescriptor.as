@@ -366,6 +366,8 @@ package com.ffsys.ioc
 					{
 						document.injector.inject( document, this.id, instance );
 					}
+					
+					finalize( instance, parameters );
 				}
 				
 				if( this.singleton )
@@ -571,6 +573,23 @@ package com.ffsys.ioc
 						_beanFileLoadManager.load();
 					}
 				}
+			}
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Handles file resources that should be instantiated when the bean
+		* 	is retrieved.
+		* 
+		* 	@param instance The bean instance.
+		* 	@param parameters The bean property parameters.
+		*/
+		private function finalize( instance:Object, parameters:Object ):void
+		{
+			if( instance is IBeanConstructed )
+			{
+				IBeanConstructed( instance ).constructed();
 			}
 		}
 		
