@@ -65,8 +65,11 @@ package com.ffsys.swat.configuration
 			trace("ModuleLoadTest::assertBootstrapData() LOADING MODULE CONFIGURATION DATA: ", this );
 			
 			var parser:IParser = new ConfigurationParser( _framework );
-			_moduleLoader = new ModuleLoader(
-				new URLRequest( "mock-assets/common/xml/mock-module.xml" ), parser );
+			_moduleLoader = this.framework.getBean(
+				DefaultBeanIdentifiers.MODULE_LOADER ) as IModuleLoader;
+				
+			_moduleLoader.request = new URLRequest( "mock-assets/common/xml/mock-module.xml" );
+			_moduleLoader.parser = parser;
 				
 			//get debug statements
 			_moduleLoader.addObserver( new DefaultApplicationPreloadView( false ) );

@@ -2,6 +2,8 @@ package com.ffsys.ioc
 {
 	import flash.utils.getQualifiedClassName;
 	
+	import com.ffsys.utils.string.PropertyNameConverter;	
+	
 	/**
 	*	Represents a mapping between a class type, bean property
 	* 	name and a bean descriptor that the type and property
@@ -34,6 +36,13 @@ package com.ffsys.ioc
 			type:Class = null,
 			descriptor:IBeanDescriptor = null ):void
 		{
+			//ensure property names are treated as camel case
+			if( name.indexOf( "-" ) > -1 )
+			{
+				var converter:PropertyNameConverter = new PropertyNameConverter();
+				name = converter.convert( name );
+			}
+			
 			super( beanName, name, null );
 			_type = type;
 			_descriptor = descriptor;

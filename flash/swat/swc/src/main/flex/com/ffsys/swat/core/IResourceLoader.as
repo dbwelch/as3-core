@@ -1,12 +1,15 @@
 package com.ffsys.swat.core {
 	
 	import flash.events.IEventDispatcher;
+	import flash.net.URLRequest;
 	
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.ioc.IBeanManager;	
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	import com.ffsys.io.loaders.resources.IResourceList;
+	import com.ffsys.io.xml.IParser;
+		
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;	
 	
 	/**
@@ -20,7 +23,21 @@ package com.ffsys.swat.core {
 	*/
 	public interface IResourceLoader
 		extends IDestroy,
-				IEventDispatcher {
+				IEventDispatcher,
+				IResourceManagerAware {
+					
+		/**
+		* 	A url request to load the configuration document from.
+		*/
+		function get request():URLRequest;
+		function set request( value:URLRequest ):void;
+					
+		/**
+		* 	A parser implementation to use when deserializing
+		* 	the configuration xml document.
+		*/
+		function get parser():IParser;
+		function set parser( value:IParser ):void;
 					
 		/**
 		* 	Adds an observer to this resource loader.
@@ -47,18 +64,6 @@ package com.ffsys.swat.core {
 		*/
 		function get beanManager():IBeanManager;
 		function set beanManager( value:IBeanManager ):void;
-		
-		/**
-		* 	The style manager used to load style resources.
-		*/
-		function get styleManager():IStyleManager;
-		function set styleManager( value:IStyleManager ):void;
-		
-		/**
-		* 	The resource manager managing
-		* 	access to the loaded resources.
-		*/
-		function get resources():IResourceManager;
 		
 		/**
 		* 	A builder responsible for retrieving loader queues

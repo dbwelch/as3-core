@@ -1,6 +1,7 @@
 package com.ffsys.swat.core
 {
 	import com.ffsys.ioc.*;	
+	import com.ffsys.ui.css.*;
 	import com.ffsys.swat.configuration.*;
 	import com.ffsys.swat.configuration.locale.*;	
 	import com.ffsys.swat.configuration.rsls.*;
@@ -35,6 +36,17 @@ package com.ffsys.swat.core
 			//trace("ApplicationBeanConfiguration::doWithBeans()", beans );	
 			
 			var descriptor:IBeanDescriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER );
+			descriptor.instanceClass = this.bootstrapLoaderClass;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.MODULE_LOADER );
+			descriptor.instanceClass = this.moduleLoaderClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.CONFIGURATION );
 			descriptor.instanceClass = this.configurationClass;
 			descriptor.singleton = true;
@@ -45,6 +57,48 @@ package com.ffsys.swat.core
 				DefaultBeanIdentifiers.CONFIGURATION,
 				DefaultBeanIdentifiers.CONFIGURATION,
 				IConfigurationAware,
+				descriptor ) );
+				
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.BEAN_MANAGER );
+			descriptor.instanceClass = this.beanManagerClass;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			
+			
+			/*
+			//bean manager type injector
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.BEAN_MANAGER,
+				DefaultBeanIdentifiers.BEAN_MANAGER,
+				IBeanManagerAware,
+				descriptor ) );
+			*/
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.STYLE_MANAGER );
+			descriptor.instanceClass = this.styleManagerClass;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			//bean manager type injector
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.STYLE_MANAGER,
+				DefaultBeanIdentifiers.STYLE_MANAGER,
+				IStyleManagerAware,
+				descriptor ) );
+			
+			descriptor = new BeanDescriptor(
+				DefaultBeanIdentifiers.RESOURCE_MANAGER );
+			descriptor.instanceClass = this.resourceManagerClass;
+			beans.addBeanDescriptor( descriptor );
+			
+			//bean manager type injector
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.RESOURCE_MANAGER,
+				"resources",
+				IResourceManagerAware,
 				descriptor ) );
 			
 			descriptor = new BeanDescriptor( 
@@ -177,11 +231,51 @@ package com.ffsys.swat.core
 		}
 		
 		/**
+		* 	The class to use for the bootstrap load process.
+		*/
+		public function get bootstrapLoaderClass():Class
+		{
+			return BootstrapLoader;
+		}
+		
+		/**
+		* 	The class used to load module data.
+		*/
+		public function get moduleLoaderClass():Class
+		{
+			return ModuleLoader;
+		}
+		
+		/**
 		* 	The class to use for the application configuration.
 		*/
 		public function get configurationClass():Class
 		{
 			return Configuration;
+		}
+		
+		/**
+		* 	The class to use for the application bean manager.
+		*/
+		public function get beanManagerClass():Class
+		{
+			return BeanManager;
+		}		
+		
+		/**
+		* 	The class to use for the application style manager.
+		*/
+		public function get styleManagerClass():Class
+		{
+			return StyleManager;
+		}
+		
+		/**
+		* 	The class to use for resource managers.
+		*/
+		public function get resourceManagerClass():Class
+		{
+			return ResourceManager;
 		}
 		
 		/**

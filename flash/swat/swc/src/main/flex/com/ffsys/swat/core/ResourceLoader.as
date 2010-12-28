@@ -19,7 +19,7 @@ package com.ffsys.swat.core {
 
 	import com.ffsys.swat.configuration.IConfigurationElement;	
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
-	import com.ffsys.swat.configuration.rsls.ComponentResourceCollection;		
+	import com.ffsys.swat.configuration.rsls.ComponentResourceCollection;
 	import com.ffsys.swat.events.RslEvent;
 	
 	import com.ffsys.utils.properties.IProperties;
@@ -34,13 +34,14 @@ package com.ffsys.swat.core {
 	*	@since  08.06.2010
 	*/
 	public class ResourceLoader extends EventDispatcher
-		implements IResourceLoader {
+		implements 	IResourceLoader,
+		 			IStyleManagerAware {
 			
 		private var _styleManager:IStyleManager;
 		private var _beanManager:IBeanManager;
 		private var _parser:IParser;
 		private var _request:URLRequest;
-		private var _configuration:IConfigurationElement;		
+		private var _configuration:IConfigurationElement;
 		private var _configurationLoader:ParserAwareXmlLoader;
 		private var _builder:IResourceQueueBuilder;
 		private var _phases:Array = ResourceLoadPhase.defaults;
@@ -71,7 +72,6 @@ package com.ffsys.swat.core {
 			super();
 			this.request = request;
 			this.parser = parser;
-			_assets = getMainLoaderQueue();
 		}
 		
 		/**
@@ -123,16 +123,12 @@ package com.ffsys.swat.core {
 		*/
 		public function get styleManager():IStyleManager
 		{
-			if( _styleManager == null )
-			{
-				_styleManager = new StyleManager();
-			}			
 			return _styleManager;
 		}
 		
-		public function set styleManager( value:IStyleManager ):void
+		public function set styleManager( manager:IStyleManager ):void
 		{
-			_styleManager = value;
+			_styleManager = manager;
 		}
 		
 		/**
@@ -141,6 +137,15 @@ package com.ffsys.swat.core {
 		public function get resources():IResourceManager
 		{
 			return _resources;
+		}
+		
+		public function set resources( resources:IResourceManager ):void
+		{
+			_resources = resources;
+			if( resources != null )
+			{
+				_assets = getMainLoaderQueue();
+			}
 		}
 		
 		/**
@@ -157,7 +162,7 @@ package com.ffsys.swat.core {
 		}
 		
 		/**
-		* 	A url request to load the configuration document from.
+		* 	@inheritDoc
 		*/
 		public function get request():URLRequest
 		{
@@ -222,8 +227,8 @@ package com.ffsys.swat.core {
 		protected function getMainLoaderQueue():ILoaderQueue
 		{
 			var queue:ILoaderQueue = new LoaderQueue();
-			_resources = new ResourceManager(
-				IResourceList( queue.resource ), this.beanManager, this.styleManager );
+			_resources.beanManager = this.beanManager;
+			_resources.list = IResourceList( queue.resource );
 			return queue;
 		}
 		
@@ -357,7 +362,10 @@ package com.ffsys.swat.core {
 			{
 				properties = null;
 				phase = this.phases[ i ];
-				queue = builder.getQueueByPhase( phase, _beanManager, _styleManager );
+				
+				trace("ResourceLoader::getLoaderQueue()", "getQueueByPhase", this.styleManager );
+				
+				queue = builder.getQueueByPhase( phase, _resources.beanManager, this.styleManager );
 				
 				if( phase == ResourceLoadPhase.MESSAGES_PHASE )
 				{

@@ -103,15 +103,27 @@ package com.ffsys.swat
 			_framework = BeanDocumentFactory.create();
 			
 			var beanConfiguration:IBeanConfiguration = new ApplicationBeanConfiguration();
-			beanConfiguration.doWithBeans( _framework );
+			beanConfiguration.doWithBeans( this.framework );
 			
-			var parser:IParser = new ConfigurationParser( _framework );
+			//set up the injected flash variables bean
+			var descriptor:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.FLASH_VARIABLES, flashvars );
+			this.framework.addBeanDescriptor( descriptor );
+
+			//configuration type injector
+			this.framework.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.FLASH_VARIABLES,
+				DefaultBeanIdentifiers.FLASH_VARIABLES,
+				IFlashVariablesAware,
+				descriptor ) );
+			
+			var parser:IParser = new ConfigurationParser( this.framework );
 			
 			//trace("AbstractUnit::setUp()", parser, parser.interpreter );
 			
-			_bootstrapLoader = new BootstrapLoader(
-				parser,
-				flashvars );
+			_bootstrapLoader = this.framework.getBean(
+				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER ) as BootstrapLoader;
+			_bootstrapLoader.parser = parser;
 				
 			//var configuration:BeanConfiguration = new BeanConfiguration();
 			//configuration.doWithBeans( document );			
@@ -196,6 +208,11 @@ package com.ffsys.swat
 			passThroughData:Object ):void
 		{
 			var configuration:IConfiguration = IConfiguration( event.configuration );
+			
+			//update the stylesheet xrefs
+			var beans:IBeanDocument = configuration.resources.document;
+			beans.xrefs.push( configuration.stylesheet );
+			
 			Assert.assertNotNull( configuration );
 			var locale:ILocale = Locale.EN_GB;
 			configuration.locales.lang = locale.getLanguage();

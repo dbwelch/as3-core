@@ -6,10 +6,14 @@ package com.ffsys.swat.configuration.rsls
 	import com.ffsys.swat.configuration.IConfigurationElement;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
 	import com.ffsys.swat.core.IConfigurationAware;
+	import com.ffsys.swat.core.IStyleManagerAware;	
 	
 	import com.ffsys.ioc.BeanManager;
 	import com.ffsys.ioc.IBeanDocument;	
 	import com.ffsys.ioc.IBeanManager;
+	
+	import com.ffsys.ui.css.IStyleManager;	
+	import com.ffsys.ui.css.ICssStyleSheet;
 	
 	/**
 	*	Encapsulates the resources for a component definition.
@@ -21,7 +25,8 @@ package com.ffsys.swat.configuration.rsls
 	*	@since  27.12.2010
 	*/
 	dynamic public class ComponentResourceCollection extends ResourceCollection
-		implements IConfigurationAware
+		implements 	IConfigurationAware,
+					IStyleManagerAware
 	{
 		private var _configuration:IConfigurationElement;
 		
@@ -30,6 +35,7 @@ package com.ffsys.swat.configuration.rsls
 		private var _css:CssCollection;
 		private var _xmlBeans:XmlBeanCollection;
 		private var _beanManager:IBeanManager;
+		private var _styleManager:IStyleManager;
 		
 		/**
 		* 	Creates a <code>ComponentResourceCollection</code> instance.
@@ -66,11 +72,37 @@ package com.ffsys.swat.configuration.rsls
 		
 		/**
 		* 	The bean document containing the bean definitions
-		* 	for the xml document.
+		* 	for the component.
 		*/
 		public function get document():IBeanDocument
 		{
 			return this.beanManager.document;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			return _styleManager;
+		}
+		
+		public function set styleManager( manager:IStyleManager ):void
+		{
+			_styleManager = manager;
+		}
+
+		/**
+		* 	The style document containing the style definitions
+		* 	for the component.
+		*/
+		public function get stylesheet():ICssStyleSheet
+		{
+			if( this.styleManager != null )
+			{
+				return this.styleManager.stylesheet;
+			}
+			return null;
 		}
 		
 		/**
@@ -201,6 +233,11 @@ package com.ffsys.swat.configuration.rsls
 		public function set css( value:CssCollection ):void
 		{
 			_css = value;
+			if( value != null )
+			{
+				trace("ComponentResourceCollection::set css()", "ASSIGNING GLOBAL CSS STYLE SHEET: ", this.styleManager );
+				value.stylesheet = this.styleManager.stylesheet;
+			}
 		}
 		
 		/**

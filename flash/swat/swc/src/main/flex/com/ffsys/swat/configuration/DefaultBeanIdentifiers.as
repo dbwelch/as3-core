@@ -46,6 +46,26 @@ package com.ffsys.swat.configuration
 		public static const CONFIGURATION:String = "configuration";
 		
 		/**
+		* 	The identifier of the application bean manager.
+		*/
+		public static const BEAN_MANAGER:String = "bean-manager";
+		
+		/**
+		* 	The identifier of the application style manager.
+		*/
+		public static const STYLE_MANAGER:String = "style-manager";
+		
+		/**
+		* 	The identifier for a resource manager.
+		*/
+		public static const RESOURCE_MANAGER:String = "resource-manager";
+		
+		/**
+		* 	The identifier for a module loader.
+		*/
+		public static const MODULE_LOADER:String = "module-loader";
+		
+		/**
 		* 	The identifier of a module configuration.
 		*/
 		public static const MODULE_CONFIGURATION:String = "module";

@@ -284,7 +284,7 @@ package com.ffsys.ui.css {
 			{
 				return new Array();
 			}
-
+			
 			var styles:Array = getStyles( styleName );
 			applyStyles( target, styles );
 			return styles;

@@ -37,9 +37,6 @@ package com.ffsys.swat.core
 				throw new Error( "Cannot modify a null bean document." );
 			}
 			
-			var flashvarsBean:IBeanDescriptor = new InjectedBeanDescriptor(
-				DefaultBeanIdentifiers.FLASH_VARIABLES, configuration.flashvars );
-			
 			var localesBean:IBeanDescriptor = beans.getBeanDescriptor(
 				DefaultBeanIdentifiers.LOCALES, true );
 			
@@ -58,16 +55,6 @@ package com.ffsys.swat.core
 			var resourcesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.RESOURCES, resources );
 			
-			/*
-			//flash variables
-			beans.addBeanDescriptor( flashvarsBean );
-			*/
-			
-			//locales manager
-			//beans.addBeanDescriptor( localesBean );	
-			
-			//flash variables
-			beans.addBeanDescriptor( flashvarsBean );
 			//application messages
 			beans.addBeanDescriptor( messagesBean );
 			//application error messages
@@ -80,12 +67,6 @@ package com.ffsys.swat.core
 			beans.addBeanDescriptor( resourcesBean );
 		
 			//set up the generic type injectors
-			beans.types.push( new BeanTypeInjector(
-				DefaultBeanIdentifiers.FLASH_VARIABLES,
-				DefaultBeanIdentifiers.FLASH_VARIABLES,
-				IFlashVariablesAware,
-				flashvarsBean ) );
-				
 			beans.types.push( new BeanTypeInjector(
 				DefaultBeanIdentifiers.LOCALES,
 				DefaultBeanIdentifiers.LOCALES,

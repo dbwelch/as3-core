@@ -34,7 +34,8 @@ package com.ffsys.swat.core {
 	*	@since  08.06.2010
 	*/
 	public class BootstrapLoader extends ResourceLoader
-		implements IBootstrapLoader {
+		implements 	IBootstrapLoader,
+					IFlashVariablesAware {
 		
 		private var _flashvars:IFlashVariables;
 		private var _view:IApplicationPreloadView;
@@ -45,15 +46,33 @@ package com.ffsys.swat.core {
 		* 
 		*	@param parser A parser implementation to use when parsing the
 		*	configuration document.
-		* 	@param flashvars The flash variables for the application.
 		*/
 		public function BootstrapLoader(
-			parser:IParser,
-			flashvars:IFlashVariables )
+			parser:IParser = null )
 		{
-			_flashvars = flashvars;
-			var path:String = DefaultFlashVariables( flashvars ).configuration;
-			super( new URLRequest( path ), parser );
+			super( null, parser );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get flashvars():IFlashVariables
+		{
+			return _flashvars;
+		}
+		
+		public function set flashvars( value:IFlashVariables ):void
+		{
+			_flashvars = value;
+			
+			trace("BootstrapLoader::set flashvars()", "SETTING BOOTSTRAP LOADER FLASH VARAIBLES", value );
+			
+			if( value != null
+				&& value is DefaultFlashVariables )
+			{
+				var path:String = DefaultFlashVariables( value ).configuration;
+				this.request = new URLRequest( path );
+			}
 		}
 		
 		/**

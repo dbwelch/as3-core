@@ -73,14 +73,41 @@ package com.ffsys.swat.view  {
 
 				if( !_preloader )
 				{
+					//create default framework beans
+					var beans:IBeanDocument = this.framework;
+					var configuration:IBeanConfiguration = new ApplicationBeanConfiguration();
+					configuration.doWithBeans( beans );			
+					
+					//set up the injected flash variables bean
+					var descriptor:IBeanDescriptor = new InjectedBeanDescriptor(
+						DefaultBeanIdentifiers.FLASH_VARIABLES, _flashvars );
+					this.framework.addBeanDescriptor( descriptor );
+
+					//configuration type injector
+					this.framework.types.push( new BeanTypeInjector(
+						DefaultBeanIdentifiers.FLASH_VARIABLES,
+						DefaultBeanIdentifiers.FLASH_VARIABLES,
+						IFlashVariablesAware,
+						descriptor ) );
+					
 					var parser:IParser = getConfigurationParser( this.framework );
 					
+					/*
 					_preloader = new BootstrapLoader(
 						parser,
 						_flashvars );
+					*/
+					
+					_preloader = this.framework.getBean(
+						DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER ) as BootstrapLoader;
+					_preloader.parser = parser;
+					
+					//_preloader.flashvars = _flashvars;
+					
+					trace("DefaultApplication::setFlashVariables()", _preloader );
 						
 					//update with the framework beans xref
-					var beans:IBeanDocument = _preloader.resources.document;
+					beans = _preloader.resources.document;
 					beans.xrefs.push( this.framework );
 
 					trace("DefaultApplication::setFlashVariables()", beans, beans.xrefs.length );						
@@ -143,11 +170,6 @@ package com.ffsys.swat.view  {
 		private function created( event:Event ):void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, created );
-			
-			//create default framework beans
-			var beans:IBeanDocument = this.framework;
-			var configuration:IBeanConfiguration = new ApplicationBeanConfiguration();
-			configuration.doWithBeans( beans );
 			
 			//start the load process
 			preloader.load();
