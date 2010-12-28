@@ -2,6 +2,7 @@ package com.ffsys.swat.configuration.rsls {
 	
 	import flash.net.URLRequest;
 	import com.ffsys.ioc.BeanLoader;
+	import com.ffsys.ioc.IBeanDocument;	
 	import com.ffsys.io.loaders.core.ILoaderElement;
 	
 	/**
@@ -15,6 +16,8 @@ package com.ffsys.swat.configuration.rsls {
 	*/
 	dynamic public class BeanCollection extends ResourceCollection {
 		
+		private var _document:IBeanDocument;	
+		
 		/**
 		*	Creates a <code>BeanCollection</code> instance.
 		*/
@@ -22,13 +25,28 @@ package com.ffsys.swat.configuration.rsls {
 		{
 			super();
 		}
+		
+		/**
+		* 	The bean document the beans should be loaded into.
+		*/
+		public function get document():IBeanDocument
+		{
+			return _document;
+		}
+		
+		public function set document( value:IBeanDocument ):void
+		{
+			_document = value;
+		}		
 
 		/**
 		*	@inheritDoc
 		*/
 		override public function getLoader( request:URLRequest ):ILoaderElement
 		{
-			return new BeanLoader( request );
+			var loader:BeanLoader = new BeanLoader( request );
+			loader.document = this.document;
+			return loader;
 		}
 	}
 }

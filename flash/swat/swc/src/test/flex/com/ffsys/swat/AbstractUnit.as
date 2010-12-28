@@ -25,6 +25,7 @@ package com.ffsys.swat
 	import com.ffsys.swat.view.*;
 	
 	import com.ffsys.swat.mock.*;
+	import com.ffsys.swat.mock.model.*;
 	
 	/**
 	*	Abstract super class for unit tests.
@@ -75,6 +76,7 @@ package com.ffsys.swat
 			var output:Array = new Array();
 			output.push( MockApplicationController );
 			output.push( MockFileLoaderBean );
+			output.push( MockApplicationModel );
 			
 			output.push( RectangleGraphic );
 			output.push( SolidFill );

@@ -27,6 +27,21 @@
 		<resources>
 			
 			<components>
+				<id>components</id>
+				<component>
+					<id>model</id>
+					<beans>
+						<resource>
+							<url>css/mock-model-beans.css</url>
+						</resource>
+					</beans>
+					<xml-beans>
+						<resource>
+							<url>xml/model.xml</url>
+						</resource>
+					</xml-beans>
+				</component>
+				
 				<component>
 					<id>header</id>
 					<beans>

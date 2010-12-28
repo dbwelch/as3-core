@@ -155,6 +155,13 @@ package com.ffsys.io.loaders.core
 		public function set id( val:String ):void
 		{
 			_id = val;
+			
+			if( val != null
+				&& this.resource != null
+				&& this.resource.id == null )
+			{
+				this.resource.id = val;
+			}
 		}
 		
 		/**

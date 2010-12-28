@@ -204,9 +204,20 @@ package com.ffsys.io.loaders.core {
 		/**
 		*	Appends all the loaders in the source queue
 		*	to this queue.
+		* 
+		* 	This flattens the target queue before appending
+		* 	the elements.
 		*	
 		*	@param source The source loader queue.
 		*/
 		function append( source:ILoaderQueue ):void;
+		
+		/**
+		*	Adds all the elements from a source loader
+		* 	queue to this loader queue.
+		*	
+		*	@param source The source loader queue.
+		*/
+		function addElements( source:ILoaderQueue ):void;
 	}
 }

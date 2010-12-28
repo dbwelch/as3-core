@@ -32,9 +32,40 @@ package com.ffsys.swat.core
 				IResourceAccess
 	{
 		/**
+		* 	The style manager used to load the style documents.
+		*/
+		function get styleManager():IStyleManager;
+		function set styleManager( value:IStyleManager ):void;		
+		
+		/**
 		* 	A list of resources that were not found.
 		*/
 		function get missing():Vector.<ResourceNotFound>;
+		
+		/**
+		* 	The collection of component resources.
+		*/
+		function get components():Vector.<IComponentResource>;
+	
+		/**
+		* 	Gets the resource list for a component definition.
+		* 
+		* 	@param id The identifier for the component.
+		* 
+		* 	@return The resource list for the component or <code>null</code>
+		* 	if no matching component was found.
+		*/
+		function getComponentResourcesById( id:String ):IResourceList;
+		
+		/**
+		* 	Gets a component by identifier.
+		* 
+		* 	@param id The identifier for the component.
+		* 
+		* 	@return The component or <code>null</code>
+		* 	if no matching component was found.
+		*/
+		function getComponent( id:String ):Object;
 		
 		/**
 		* 	The bean manager used to load the bean documents.

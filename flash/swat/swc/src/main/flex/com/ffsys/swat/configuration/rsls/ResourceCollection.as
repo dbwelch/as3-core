@@ -22,6 +22,8 @@ package com.ffsys.swat.configuration.rsls {
 	*/
 	dynamic public class ResourceCollection extends Array
 		implements IResourceCollection {
+			
+		private var _id:String;
 		
 		/**
 		*	Creates an <code>ResourceCollection</code> instance.
@@ -29,6 +31,16 @@ package com.ffsys.swat.configuration.rsls {
 		public function ResourceCollection()
 		{
 			super();
+		}
+		
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id( id:String ):void
+		{
+			_id = id;
 		}
 		
 		/**
@@ -41,9 +53,11 @@ package com.ffsys.swat.configuration.rsls {
 			//trace("ResourceCollection::getLoaderQueue()", paths, locale, this.length );
 			
 			var queue:ILoaderQueue = new LoaderQueue();
+			queue.id = this.id;
+			queue.customData = this;
 			var nested:ILoaderQueue = null;
 			var lib:IResourceDefinitionElement = null;
-			var resource:IRuntimeResource = null;	
+			var resource:IRuntimeResource = null;
 			var collection:IResourceCollection = null;
 			var request:URLRequest = null;
 			var loader:ILoaderElement = null;
@@ -118,6 +132,7 @@ package com.ffsys.swat.configuration.rsls {
 		public function setDeserializedProperty(
 			name:String, value:Object ):void
 		{
+			//trace("ResourceCollection::setDeserializedProperty()", name, this.hasOwnProperty( name ) );
 			if( this.hasOwnProperty( name ) )
 			{
 				this[ name ] = value;

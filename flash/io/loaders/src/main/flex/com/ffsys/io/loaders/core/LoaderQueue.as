@@ -318,12 +318,26 @@ package com.ffsys.io.loaders.core {
 		*/
 		public function append( source:ILoaderQueue ):void
 		{
-			if( source )
+			if( source != null )
 			{
 				var loaders:Array = source.getAllLoaders();
 				for( var i:int = 0;i < loaders.length;i++ )
 				{
 					addLoader( loaders[ i ] );
+				}
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function addElements( source:ILoaderQueue ):void
+		{
+			if( source != null )
+			{
+				for( var i:int = 0;i < source.length;i++ )
+				{
+					addLoader( source.getLoaderAt( i ) );
 				}
 			}
 		}
@@ -450,6 +464,8 @@ package com.ffsys.io.loaders.core {
 			_bytesTotal += event.loader.bytesTotal;		
 			
 			removeCompositeListeners( event.loader );
+			
+			//trace("LoaderQueue::childQueueComplete()", "CHILD QUEUE COMPLETE", this.id );
 			
 			var evt:Event = new LoadEvent(
 				LoadEvent.QUEUE_COMPLETE,

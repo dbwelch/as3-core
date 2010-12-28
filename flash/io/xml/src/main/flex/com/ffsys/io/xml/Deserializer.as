@@ -624,6 +624,8 @@ package com.ffsys.io.xml {
 			}
 			*/
 			
+			//trace("Deserializer::deserializeClass()", propertyName );
+			
 			if( obj && obj is Array && !( obj.hasOwnProperty( propertyName ) ) )
 			{
 				propertyName = node.childIndex();
@@ -814,6 +816,17 @@ package com.ffsys.io.xml {
 					name = nodeNameMapProperty;
 				}
 			}
+			
+			//trace("Deserializer::getPropertyName()", name, name.indexOf( "-" ), name.indexOf( "-" ) > -1 );
+			
+			//quick fix for hyphenated property names
+			//should be moved to a property converter implementation
+			//associated with the class node name map
+			if( name.indexOf( "-" ) > -1 )
+			{
+				var converter:PropertyNameConverter = new PropertyNameConverter();
+				name = converter.convert( name );
+			}			
 			
 			return name;
 		}

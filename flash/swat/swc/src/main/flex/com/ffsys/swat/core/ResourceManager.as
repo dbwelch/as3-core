@@ -34,6 +34,7 @@ package com.ffsys.swat.core
 		private var _messages:IProperties;
 		private var _errors:IProperties;
 		private var _settings:IProperties;
+		private var _components:Vector.<IComponentResource> = new Vector.<IComponentResource>();
 		
 		/**
 		* 	Creates a <code>ResourceManager</code> instance.
@@ -51,6 +52,58 @@ package com.ffsys.swat.core
 			this.list = list;
 			this.beanManager = beanManager;
 			this.styleManager = styleManager;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get components():Vector.<IComponentResource>
+		{
+			return _components;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/	
+		public function getComponentResourcesById( id:String ):IResourceList
+		{
+			var component:IComponentResource = getComponentById( id );
+			if( component != null )
+			{
+				return component.resources;
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/	
+		public function getComponentById( id:String ):IComponentResource
+		{
+			var component:IComponentResource = null;
+			for( var i:int = 0;i < _components.length;i++ )
+			{
+				component = _components[ i ];
+				if( component != null
+				 	&& component.id == id )
+				{
+					return component;
+				}
+			}
+			return null;
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getComponent( id:String ):Object
+		{
+			var component:IComponentResource = getComponentById( id );
+			if( component != null )
+			{
+				return component.target;
+			}			
+			return null;
 		}
 		
 		/**

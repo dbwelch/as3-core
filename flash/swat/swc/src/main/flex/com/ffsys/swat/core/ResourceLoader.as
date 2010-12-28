@@ -19,6 +19,7 @@ package com.ffsys.swat.core {
 
 	import com.ffsys.swat.configuration.IConfigurationElement;	
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
+	import com.ffsys.swat.configuration.rsls.ComponentResourceCollection;		
 	import com.ffsys.swat.events.RslEvent;
 	
 	import com.ffsys.utils.properties.IProperties;
@@ -362,6 +363,9 @@ package com.ffsys.swat.core {
 				}else if( phase == ResourceLoadPhase.SETTINGS_PHASE )
 				{
 					properties = _resources.settings;
+				}else if( phase == ResourceLoadPhase.COMPONENTS_PHASE )
+				{
+					addComponentQueueListeners( queue );
 				}
 				
 				if( queue && !queue.isEmpty() )
@@ -380,6 +384,12 @@ package com.ffsys.swat.core {
 				}
 			}
 			return output;
+		}
+		
+		private function addComponentQueueListeners( queue:ILoaderQueue ):void
+		{
+			queue.addEventListener( LoadEvent.QUEUE_COMPLETE, componentQueueComplete );
+			queue.addEventListener( LoadEvent.LOAD_COMPLETE, componentsQueueComplete );	
 		}
 		
 		/**
@@ -470,6 +480,66 @@ package com.ffsys.swat.core {
 				_phase = phase;
 				notifyObservers( [ event ], "phase" );
 			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function componentQueueComplete( event:LoadEvent ):void
+		{
+			var resources:IResourceList = event.resource as IResourceList;
+			var data:ComponentResourceCollection = event.loader.customData as ComponentResourceCollection;			
+			if( data != null
+				&& resources != null )
+			{
+				trace("ResourceLoader::componentQueueComplete()", "GOT RESOURCES",
+					resources, resources.length, data );
+					
+				var id:String = resources.id;
+				
+				if( id == null ) 
+				{
+					throw new Error( "Cannot add a component with a null identifier." );
+				}
+				
+				var xmlDefinition:Boolean =
+					data.xmlBeans != null && ( data.xmlBeans.length > 0 );
+				var resource:IComponentResource = new ComponentResource(
+					id, resources );
+					
+				var target:Object = null;
+				//look for an xml resource matching the component identifier
+				if( xmlDefinition )
+				{
+					var element:IResourceElement = resources.getResourceById( id );
+					if( element is ObjectResource )
+					{
+						target = ObjectResource( element ).data;
+					}
+				}else{
+					target = data.document.getBean( id );
+				}
+				
+				if( target == null )
+				{
+					throw new Error( "Could not find component target with identifier '"
+					 	+ id + "'." );
+				}
+				
+				resource.target = target;
+				_resources.components.push( resource );
+			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function componentsQueueComplete( event:LoadEvent ):void
+		{
+			event.target.removeEventListener( LoadEvent.QUEUE_COMPLETE, componentQueueComplete );
+			event.target.removeEventListener( event.type, arguments.callee );
+			
+			trace("ResourceLoader::componentsQueueComplete()", "ALL COMPONENTS LOADED", event, event.loader, event.resource );
 		}
 		
 		/**

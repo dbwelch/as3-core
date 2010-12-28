@@ -199,21 +199,6 @@ package com.ffsys.swat.core
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		public function get styleManager():IStyleManager
-		{
-			verifyConfiguration();
-			return this.configuration.styleManager;
-		}
-		
-		public function set styleManager( value:IStyleManager ):void
-		{
-			verifyConfiguration();
-			this.configuration.styleManager = value;
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function getStyle( id:String ):Object

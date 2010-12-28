@@ -43,7 +43,7 @@ package com.ffsys.swat.core
 			var localesBean:IBeanDescriptor = beans.getBeanDescriptor(
 				DefaultBeanIdentifiers.LOCALES, true );
 			
-			trace("BeanConfiguration::init()", beans.xrefs.length, localesBean );
+			//trace("BeanConfiguration::init()", beans.xrefs.length, localesBean );
 				
 			var messagesBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.MESSAGES, configuration.resources.messages );

@@ -133,22 +133,6 @@ package com.ffsys.swat.configuration {
 		{
 			verifyResources();
 			return _resources.getBean( beanName );
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function get styleManager():IStyleManager
-		{
-			verifyResources();
-			return _resources.styleManager;
-		}
-		
-		
-		public function set styleManager( value:IStyleManager ):void
-		{
-			verifyResources();
-			_resources.styleManager = value;
 		}		
 		
 		/**

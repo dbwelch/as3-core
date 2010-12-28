@@ -20,12 +20,6 @@ package com.ffsys.swat.core {
 	public interface IStyleAccess {
 		
 		/**
-		* 	The style manager used to load the style documents.
-		*/
-		function get styleManager():IStyleManager;
-		function set styleManager( value:IStyleManager ):void;
-		
-		/**
 		*	The style sheet for the application.
 		*/
 		function get stylesheet():ICssStyleSheet;

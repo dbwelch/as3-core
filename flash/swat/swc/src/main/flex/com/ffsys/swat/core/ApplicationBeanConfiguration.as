@@ -146,6 +146,11 @@ package com.ffsys.swat.core
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.XML_BEANS );
+			descriptor.instanceClass = this.xmlBeansClass;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.IMAGES );
 			descriptor.instanceClass = this.imagesClass;
 			beans.addBeanDescriptor( descriptor );
@@ -330,7 +335,15 @@ package com.ffsys.swat.core
 		public function get xmlClass():Class
 		{
 			return XmlCollection;
-		}					
+		}
+		
+		/**
+		* 	The class to use for a collection of xml bean resources.
+		*/
+		public function get xmlBeansClass():Class
+		{
+			return XmlBeanCollection;
+		}
 		
 		/**
 		* 	The class to use for a collection of font resources.
@@ -369,7 +382,7 @@ package com.ffsys.swat.core
 		*/
 		public function get componentClass():Class
 		{
-			return ComponentResource;
+			return ComponentResourceCollection;
 		}
 	}
 }

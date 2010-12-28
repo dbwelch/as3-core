@@ -603,11 +603,12 @@ package com.ffsys.swat.configuration.locale {
 		*/
 		protected function getComponentsQueue():ILoaderQueue
 		{
-			var queue:ILoaderQueue = new LoaderQueue();				
+			var queue:ILoaderQueue = new LoaderQueue();
+					
 			if( this.resources
 				&& this.resources.components )
 			{
-				queue.append(
+				queue.addElements(
 					this.resources.components.getLoaderQueue(
 						this.paths, null ) );
 			}
@@ -615,10 +616,10 @@ package com.ffsys.swat.configuration.locale {
 				&& _current.resources
 				&& _current.resources.components )
 			{
-				queue.append(
+				queue.addElements(
 					_current.resources.components.getLoaderQueue(
 						this.paths, _current ) );
-			}			
+			}
 			return queue;
 		}
 	}

@@ -148,6 +148,11 @@ package com.ffsys.swat.configuration
 		* 	An identifier for an xml resource collection.
 		*/
 		public static const XML_RESOURCES:String = "xml";
+		
+		/**
+		* 	An identifier for an xml beans resource collection.
+		*/
+		public static const XML_BEANS:String = "xml-beans";
 
 		/**
 		* 	An identifier for a text resource collection.

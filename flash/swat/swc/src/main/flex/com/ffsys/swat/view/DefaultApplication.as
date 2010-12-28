@@ -185,7 +185,7 @@ package com.ffsys.swat.view  {
 			_configuration.flashvars = this.flashvars;
 			
 			//update the style bindings to match the xml bindings
-			_configuration.styleManager.bindings = Deserializer.defaultBindings.clone();
+			_preloader.resources.styleManager.bindings = Deserializer.defaultBindings.clone();
 			
 			configure( _configuration );
 		}

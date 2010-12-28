@@ -21,6 +21,7 @@ package com.ffsys.swat.configuration
 	import com.ffsys.swat.core.*;	
 	
 	import com.ffsys.swat.mock.*;
+	import com.ffsys.swat.mock.model.*;
 	
 	import com.ffsys.utils.properties.IProperties;
 	
@@ -96,7 +97,7 @@ package com.ffsys.swat.configuration
 			
 			//check component definitions
 			Assert.assertNotNull( configuration.locales.resources.components );
-			Assert.assertEquals( 1, configuration.locales.resources.components.length );
+			Assert.assertEquals( 2, configuration.locales.resources.components.length );
 		}
 		
 		/**
@@ -168,6 +169,18 @@ package com.ffsys.swat.configuration
 			assertResourceListType( Loader, application.resources.rsls );
 			assertResourceListType( BitmapData, application.resources.images );
 			assertResourceListType( Sound, application.resources.sounds );
+			
+			/*
+			trace("BootstrapLoadTest::assertBootstrapData() checking components: ", application.resources.components, application.resources.components.length, application.resources.getComponent( "header" ) );
+			*/
+			
+			//xml bean component definition
+			var model:Object = application.resources.getComponent( "model" );
+			Assert.assertTrue( model is MockApplicationModel );
+			
+			//standard bean definition
+			var header:Object = application.resources.getComponent( "header" );
+			Assert.assertNotNull( header );
 			
 			var expected:String = "This is an english locale message override.";
 			//check dot style property access
