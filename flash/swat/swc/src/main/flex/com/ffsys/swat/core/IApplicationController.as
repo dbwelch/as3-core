@@ -4,6 +4,7 @@ package com.ffsys.swat.core
 	import com.ffsys.ioc.IBeanAccess;
 	import com.ffsys.swat.core.IMessageAccess;
 	import com.ffsys.swat.core.IStyleAccess;
+	import com.ffsys.ui.css.IStyleManager;
 	
 	/**
 	*	Describes the contract for application controllers.
@@ -21,6 +22,10 @@ package com.ffsys.swat.core
 				IStyleAccess,
 				IConfigurationAware
 	{
-		//
+
+		/**
+		* 	Gets the application style manager.
+		*/
+		function get styleManager():IStyleManager;
 	}
 }

@@ -119,6 +119,19 @@ package com.ffsys.swat.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function get styleManager():IStyleManager
+		{
+			verifyConfiguration();			
+			if( this.configuration.resources != null )
+			{
+				return this.configuration.resources.styleManager;
+			}
+			return null;
+		}		
+		
+		/**
 		* 	Provides access to stored beans.
 		* 
 		* 	@param beanName The name of the bean.
