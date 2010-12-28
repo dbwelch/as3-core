@@ -481,16 +481,28 @@ package com.ffsys.ioc
 		* 	@param parameters The bean property parameters.
 		*/
 		private function doTypeInjection( instance:Object, parameters:Object ):void
-		{
-			if( this.document && this.document.types.length > 0 )
+		{			
+			if( this.document != null )
 			{
-				var injector:BeanTypeInjector = null;
-				for( var i:int = 0;i < this.document.types.length;i++ )
+				var i:int = 0;
+				var types:Vector.<BeanTypeInjector> = this.document.types;
+				
+				/*
+				for( i = 0;i < this.document.xrefs.length;i++ )
 				{
-					injector = this.document.types[ i ];
+					trace("BeanDescriptor::doTypeInjection()", "ADDING DOCUMENT XREF TYPES" );
+					types.concat.apply( types, this.document.xrefs[ i ].types );
+				}
+				*/
+				
+				var injector:BeanTypeInjector = null;
+				for( i = 0;i < types.length;i++ )
+				{
+					injector = types[ i ];
 					//only perform injection if the corresponding property
 					//has not been manually wired
-					if( injector && !( parameters.hasOwnProperty( injector.name ) ) )
+					if( injector
+						&& !( parameters.hasOwnProperty( injector.name ) ) )
 					{
 						injector.resolve( this.document, this, instance );
 					}

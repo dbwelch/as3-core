@@ -12,7 +12,9 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.swat.core.IResourcesAware;
 	import com.ffsys.swat.core.IResourceAccess;
 	import com.ffsys.swat.core.ISettingAccess;
-	import com.ffsys.swat.core.IStyleAccess;	
+	import com.ffsys.swat.core.IStyleAccess;
+	
+	import com.ffsys.ui.css.IStyleManager;
 	
 	/**
 	*	Describes the contract for objects that
@@ -34,6 +36,21 @@ package com.ffsys.swat.configuration {
 				IStyleAccess,
 				IBeanAccess,
 				IEventDispatcher {
+		
+		/**
+		* 	Gets the style manager used to laod css documents.
+		*/
+		function get styleManager():IStyleManager;
+		
+		/**
+		* 	Gets a component by identifier.
+		* 
+		* 	@param id The identifier for the component.
+		* 
+		* 	@return The component if it could be found
+		* 	otherwise <code>null</code>.
+		*/
+		function getComponent( id:String ):Object;
 		
 		/**
 		*	The locale manager.

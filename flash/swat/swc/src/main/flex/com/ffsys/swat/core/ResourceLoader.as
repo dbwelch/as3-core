@@ -71,6 +71,7 @@ package com.ffsys.swat.core {
 			super();
 			this.request = request;
 			this.parser = parser;
+			_assets = getMainLoaderQueue();
 		}
 		
 		/**
@@ -239,9 +240,13 @@ package com.ffsys.swat.core {
 			if( this.request == null )
 			{
 				throw new Error( "Cannot load resurces with a null url request." );
-			}			
+			}
 			
-			_assets = getMainLoaderQueue();
+			if( _assets && _assets.loading )
+			{
+				_assets.destroy();
+				_assets = getMainLoaderQueue();
+			}
 			
 			var configurationQueue:ILoaderQueue = new LoaderQueue();
 			configurationQueue.customData = ResourceLoadPhase.CONFIGURATION_PHASE;
@@ -311,6 +316,12 @@ package com.ffsys.swat.core {
 			
 			removeConfigurationListeners( _configurationLoader );
 			
+			if( this.configuration != null )
+			{
+				//ensure the configuration knows about the loaded resources
+				this.configuration.resources = this.resources;
+			}			
+			
 			var targets:ILoaderQueue = getLoaderQueue( this.builder );
 			var queue:ILoaderQueue = null;
 			for( var i:int = 0;i < targets.length;i++ )
@@ -321,12 +332,6 @@ package com.ffsys.swat.core {
 					//trace("ResourceLoader::configurationLoadComplete()", "ADDING RESOURCE QUEUE", queue, queue.length );
 					_assets.addLoader( queue );
 				}
-			}
-			
-			if( this.configuration != null )
-			{
-				//ensure the configuration knows about the loaded resources
-				this.configuration.resources = this.resources;
 			}
 			
 			//trace("ResourceLoader::configurationLoadComplete()" , _assets.length, _assets.index );
@@ -514,11 +519,17 @@ package com.ffsys.swat.core {
 				if( xmlDefinition )
 				{
 					var element:IResourceElement = resources.getResourceById( id );
+					
+					
 					if( element is ObjectResource )
 					{
 						target = ObjectResource( element ).data;
 					}
+					trace("ResourceLoader::componentQueueComplete()", "SEARCHING FOR XML DEFINITION: ", id, element, target );
 				}else{
+					
+					trace("ResourceLoader::componentQueueComplete()", "SEARCHING FOR BEAN DEFINITION: ", id, data.document );
+					
 					target = data.document.getBean( id );
 				}
 				

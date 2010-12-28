@@ -27,5 +27,15 @@ package com.ffsys.swat.core
 		* 	Gets the application style manager.
 		*/
 		function get styleManager():IStyleManager;
+	
+		/**
+		* 	Gets a component by identifier.
+		* 
+		* 	@param id The identifier for the component.
+		* 
+		* 	@return The component if it could be found
+		* 	otherwise <code>null</code>.
+		*/
+		function getComponent( id:String ):Object;
 	}
 }

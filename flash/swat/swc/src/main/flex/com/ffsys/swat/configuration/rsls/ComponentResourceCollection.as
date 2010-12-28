@@ -2,8 +2,10 @@ package com.ffsys.swat.configuration.rsls
 {
 	import com.ffsys.io.loaders.core.*;
 	
-	import com.ffsys.swat.configuration.IPaths;	
+	import com.ffsys.swat.configuration.IPaths;
+	import com.ffsys.swat.configuration.IConfigurationElement;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
+	import com.ffsys.swat.core.IConfigurationAware;
 	
 	import com.ffsys.ioc.BeanManager;
 	import com.ffsys.ioc.IBeanDocument;	
@@ -19,7 +21,10 @@ package com.ffsys.swat.configuration.rsls
 	*	@since  27.12.2010
 	*/
 	dynamic public class ComponentResourceCollection extends ResourceCollection
+		implements IConfigurationAware
 	{
+		private var _configuration:IConfigurationElement;
+		
 		private var _rsls:RslCollection;
 		private var _beans:BeanCollection;
 		private var _css:CssCollection;
@@ -32,6 +37,19 @@ package com.ffsys.swat.configuration.rsls
 		public function ComponentResourceCollection()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get configuration():IConfigurationElement
+		{
+			return _configuration;
+		}
+		
+		public function set configuration( value:IConfigurationElement ):void
+		{
+			_configuration = value;
 		}
 		
 		/**
@@ -74,6 +92,36 @@ package com.ffsys.swat.configuration.rsls
 			trace("ComponentResourceCollection::getLoaderQueue()", "CHECKING COMPOSITE QUEUES",
 				this.rsls, this.beans, this.css, this.xmlBeans );
 			*/
+			
+			//trace("ComponentResourceCollection::getLoaderQueue()", this.document, configuration, configuration.resources );
+			
+			//add a bean document xref to the component
+			//bean document pointing to the main bean document
+			if( this.document != null
+				&& configuration != null
+				&& configuration.resources != null
+				&& configuration.resources.document != null )
+			{		
+				var main:IBeanDocument = configuration.resources.document;
+				
+				//main document xrefs
+				this.document.xrefs.push( main );
+				
+				//TODO: check composite xrefs are available
+				
+				//copy composite xrefs
+				for( var i:int = 0;i < main.xrefs.length;i++ )
+				{
+					this.document.xrefs.push( main.xrefs[ i ] );
+				}
+				
+				/*
+				trace("ComponentResourceCollection::getLoaderQueue(), ADDING BEAN DOCUMENT XREF!!!!",
+					this.document, this.document.xrefs, this.document.xrefs.length );
+				*/
+			}
+			
+			//TODO: integrate with the bean manager so references are resolved
 			
 			if( this.rsls != null )
 			{

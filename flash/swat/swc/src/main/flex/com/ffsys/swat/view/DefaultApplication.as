@@ -73,12 +73,17 @@ package com.ffsys.swat.view  {
 
 				if( !_preloader )
 				{
-					var parser:IParser = getConfigurationParser(
-						this.framework );
+					var parser:IParser = getConfigurationParser( this.framework );
 					
 					_preloader = new BootstrapLoader(
 						parser,
 						_flashvars );
+						
+					//update with the framework beans xref
+					var beans:IBeanDocument = _preloader.resources.document;
+					beans.xrefs.push( this.framework );
+
+					trace("DefaultApplication::setFlashVariables()", beans, beans.xrefs.length );						
 			
 					preloader.addEventListener(
 						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
@@ -196,6 +201,13 @@ package com.ffsys.swat.view  {
 			configuration:IConfiguration ):void
 		{
 			//
+			var beans:IBeanDocument = configuration.resources.document;
+			
+			//allow the main application bean document to access all the beans
+			//in the style sheet bean document and the main framework beans
+			beans.xrefs.push( configuration.stylesheet );
+		
+			trace("DefaultApplication::configure()", beans, beans.xrefs.length );
 		}
 		
 		/**
@@ -221,9 +233,7 @@ package com.ffsys.swat.view  {
 		{
 			if( beans != null )
 			{
-				//allow the main application bean document to access all the beans
-				//in the style sheet bean document and the main framework beans
-				beans.xrefs.push( this.framework, _configuration.stylesheet );
+
 			
 				//standard bean configuration
 				var beanConfiguration:BeanConfiguration = new BeanConfiguration();
@@ -284,7 +294,7 @@ package com.ffsys.swat.view  {
 						preloader,
 						preloader.view );
 			
-					if( cleanup ) 
+					if( cleanup )
 					{
 						//remove the preloader view from the display list
 						preloader.view = null;

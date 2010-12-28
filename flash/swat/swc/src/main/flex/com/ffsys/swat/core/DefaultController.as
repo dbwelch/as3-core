@@ -123,13 +123,18 @@ package com.ffsys.swat.core
 		*/
 		public function get styleManager():IStyleManager
 		{
-			verifyConfiguration();			
-			if( this.configuration.resources != null )
-			{
-				return this.configuration.resources.styleManager;
-			}
-			return null;
-		}		
+			verifyConfiguration();
+			return this.configuration.styleManager;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getComponent( id:String ):Object
+		{
+			verifyConfiguration();
+			return this.configuration.getComponent( id );
+		}
 		
 		/**
 		* 	Provides access to stored beans.

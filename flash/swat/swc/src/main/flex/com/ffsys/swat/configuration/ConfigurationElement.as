@@ -116,6 +116,24 @@ package com.ffsys.swat.configuration {
 		/**
 		* 	@inheritDoc
 		*/
+		public function get styleManager():IStyleManager
+		{
+			verifyResources();			
+			return _resources.styleManager;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getComponent( id:String ):Object
+		{
+			verifyResources();
+			return _resources.getComponent( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getSetting( id:String ):Object
 		{
 			verifyResources();
