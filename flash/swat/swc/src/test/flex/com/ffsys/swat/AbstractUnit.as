@@ -102,7 +102,7 @@ package com.ffsys.swat
 			var document:IBeanDocument = BeanDocumentFactory.create();
 			_framework = BeanDocumentFactory.create();
 			
-			var beanConfiguration:IBeanConfiguration = new ApplicationBeanConfiguration();
+			var beanConfiguration:IBeanConfiguration = new FrameworkBeanConfiguration();
 			beanConfiguration.doWithBeans( this.framework );
 			
 			//set up the injected flash variables bean

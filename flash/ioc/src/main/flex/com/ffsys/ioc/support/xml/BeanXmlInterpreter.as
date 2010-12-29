@@ -103,7 +103,7 @@ package com.ffsys.ioc.support.xml
 		*/
 		override public function postProcessClass( instance:Object, parent:Object ):void
 		{
-			trace("BeanXmlInterpreter::postProcessClass()", instance, ( instance is IBeanFinalized ) );
+			//trace("BeanXmlInterpreter::postProcessClass()", instance, ( instance is IBeanFinalized ) );
 			if( instance is IBeanFinalized )
 			{
 				IBeanFinalized( instance ).finalized();

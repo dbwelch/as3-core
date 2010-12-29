@@ -16,13 +16,13 @@ package com.ffsys.swat.core
 	*	@author Mischa Williamson
 	*	@since  24.12.2010
 	*/
-	public class ApplicationBeanConfiguration extends Object
+	public class FrameworkBeanConfiguration extends Object
 		implements IBeanConfiguration
 	{	
 		/**
-		* 	Creates an <code>ApplicationBeanConfiguration</code> instance.
+		* 	Creates an <code>FrameworkBeanConfiguration</code> instance.
 		*/
-		public function ApplicationBeanConfiguration()
+		public function FrameworkBeanConfiguration()
 		{
 			super();
 		}
@@ -33,7 +33,7 @@ package com.ffsys.swat.core
 		public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
-			//trace("ApplicationBeanConfiguration::doWithBeans()", beans );	
+			//trace("FrameworkBeanConfiguration::doWithBeans()", beans );	
 			
 			var descriptor:IBeanDescriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.BOOTSTRAP_LOADER );

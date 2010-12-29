@@ -62,6 +62,29 @@ package com.ffsys.swat.view  {
 		}
 		
 		/**
+		* 	Allows derived implementations to modify the
+		* 	framework beans document.
+		* 
+		* 	@param framework The framework beans document.
+		*/
+		protected function doWithFrameworkBeans(
+			framework:IBeanDocument ):void
+		{
+			//
+		}
+		
+		/**
+		* 	Allows derived implementations to modify the
+		* 	default framework bean configuration implementation.
+		* 
+		* 	@return The framework bean configuration implementation.
+		*/
+		protected function getFrameworkBeanConfiguration():IBeanConfiguration
+		{
+			return new FrameworkBeanConfiguration();
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		internal function setFlashVariables(
@@ -75,8 +98,8 @@ package com.ffsys.swat.view  {
 				{
 					//create default framework beans
 					var beans:IBeanDocument = this.framework;
-					var configuration:IBeanConfiguration = new ApplicationBeanConfiguration();
-					configuration.doWithBeans( beans );			
+					var configuration:IBeanConfiguration = getFrameworkBeanConfiguration();
+					configuration.doWithBeans( beans );	
 					
 					//set up the injected flash variables bean
 					var descriptor:IBeanDescriptor = new InjectedBeanDescriptor(
@@ -119,6 +142,8 @@ package com.ffsys.swat.view  {
 				
 					preloader.addEventListener(
 						RslEvent.LOAD_COMPLETE, rslLoadComplete );
+						
+					doWithFrameworkBeans( this.framework );
 				}
 			}
 		}
@@ -278,11 +303,7 @@ package com.ffsys.swat.view  {
 		*/
 		private function doWithBeans( beans:IBeanDocument ):void
 		{
-			if( beans != null )
-			{
-
-			
-			}					
+			//					
 		}
 		
 		/**
@@ -303,6 +324,12 @@ package com.ffsys.swat.view  {
 			
 			var application:Object = document.getBean(
 				DefaultBeanIdentifiers.APPLICATION );
+				
+			if( application == null )
+			{
+				throw new Error( "Could not locate main application controller with identifier '"
+				 	+ DefaultBeanIdentifiers.APPLICATION + "'.");
+			}
 			
 			if( application )
 			{
