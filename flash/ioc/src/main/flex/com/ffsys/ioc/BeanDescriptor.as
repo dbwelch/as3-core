@@ -489,13 +489,18 @@ package com.ffsys.ioc
 				var i:int = 0;
 				var types:Vector.<BeanTypeInjector> = this.document.types;
 				
-				/*
+				trace("BeanDescriptor::doTypeInjection()", types );
+				
+				var xref:IBeanDocument = null;
 				for( i = 0;i < this.document.xrefs.length;i++ )
 				{
-					trace("BeanDescriptor::doTypeInjection()", "ADDING DOCUMENT XREF TYPES" );
-					types.concat.apply( types, this.document.xrefs[ i ].types );
+					xref = this.document.xrefs[ i ];
+					trace("BeanDescriptor::doTypeInjection()", "ADDING DOCUMENT XREF TYPES", xref, xref.types, xref.types.length );
+					if( xref.types.length > 0 )
+					{
+						types.concat( xref.types );
+					}
 				}
-				*/
 				
 				var injector:BeanTypeInjector = null;
 				for( i = 0;i < types.length;i++ )

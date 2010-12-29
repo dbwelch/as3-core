@@ -278,6 +278,7 @@ package com.ffsys.ui.runtime {
 					DisplayObjectContainer( parent ).addChild( child );
 				}
 			}
+			super.postProcessClass( instance, parent );			
 		}
 	}
 }

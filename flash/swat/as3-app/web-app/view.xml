@@ -32,6 +32,11 @@
 			</label>
 			
 			<label>
+				<id>messages-test</id>
+				<identifier>common.message</identifier>
+			</label>
+			
+			<label>
 				<id>copy</id>
 				<styles>copy copy-override</styles>
 				<text>this is some copy text for you</text>

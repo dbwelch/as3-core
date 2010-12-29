@@ -6,7 +6,7 @@ package com.ffsys.ui.text
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	
-	import com.ffsys.ioc.IBeanConstructed;
+	import com.ffsys.ioc.IBeanFinalized;
 	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.data.IDataBindingNotification;
@@ -32,7 +32,7 @@ package com.ffsys.ui.text
 	public class TextComponent extends UIComponent
 		implements 	ICssTextFieldProxy,
 					IMessagesAware,
-					IBeanConstructed
+					IBeanFinalized
 	{
 		private var _textfield:ITypedTextField;
 		private var _identifier:String;
@@ -89,16 +89,16 @@ package com.ffsys.ui.text
 		* 	Invoked when this component is instantiated
 		* 	as a bean.
 		*/
-		public function constructed():void
+		public function finalized():void
 		{
-			trace("TextComponent::constructed()", this );
+			trace("TextComponent::finalized()", this, this.id, this.messages, this.identifier );
 			if( this.messages != null
 				&& this.identifier != null )
 			{
 				var msg:String = this.messages.getProperty.apply(
 					this.messages, [ this.identifier ] ) as String;
 				
-				trace("TextComponent::constructed()", msg );
+				trace("TextComponent::finalized() SEARCHING FOR MESSAGE TO SET: ", msg );
 				
 				if( msg != null )
 				{

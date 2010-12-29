@@ -4,6 +4,7 @@ package com.ffsys.ioc.support.xml
 
 	import com.ffsys.ioc.BeanError;
 	import com.ffsys.ioc.IBeanDocument;
+	import com.ffsys.ioc.IBeanFinalized;
 	
 	/**
 	*	An interpreter implementation that instantiates a bean
@@ -95,6 +96,18 @@ package com.ffsys.ioc.support.xml
 			}
 			
 			return bean;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function postProcessClass( instance:Object, parent:Object ):void
+		{
+			trace("BeanXmlInterpreter::postProcessClass()", instance, ( instance is IBeanFinalized ) );
+			if( instance is IBeanFinalized )
+			{
+				IBeanFinalized( instance ).finalized();
+			}
 		}
 		
 		/**
