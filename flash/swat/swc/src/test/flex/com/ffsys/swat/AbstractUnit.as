@@ -122,7 +122,7 @@ package com.ffsys.swat
 			//trace("AbstractUnit::setUp()", parser, parser.interpreter );
 			
 			_bootstrapLoader = this.framework.getBean(
-				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER ) as BootstrapLoader;
+				DefaultBeanIdentifiers.BOOTSTRAP_LOADER ) as BootstrapLoader;
 			_bootstrapLoader.parser = parser;
 				
 			//var configuration:BeanConfiguration = new BeanConfiguration();

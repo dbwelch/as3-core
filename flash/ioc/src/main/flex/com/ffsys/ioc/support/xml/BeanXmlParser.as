@@ -16,8 +16,12 @@ package com.ffsys.ioc.support.xml
 	*	@since  22.12.2010
 	*/
 	public class BeanXmlParser extends Parser
+		implements IBeanXmlParser
 	{
-		private var _document:IBeanDocument;
+		/**
+		* 	@private
+		*/
+		protected var _document:IBeanDocument;
 		
 		/**
 		* 	Creates a <code>BeanXmlParser</code> instance.
@@ -41,8 +45,7 @@ package com.ffsys.ioc.support.xml
 		}
 		
 		/**
-		* 	The bean document containing bean definitions used
-		* 	when instantiating an object for xml nodes.
+		* 	@inheritDoc
 		*/
 		public function get document():IBeanDocument
 		{

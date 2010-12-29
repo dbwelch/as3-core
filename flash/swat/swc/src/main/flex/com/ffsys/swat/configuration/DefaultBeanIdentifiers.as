@@ -11,7 +11,13 @@ package com.ffsys.swat.configuration
 	*	@since  13.12.2010
 	*/
 	public class DefaultBeanIdentifiers extends Object
-	{
+	{	
+		/**
+		* 	The identifier of the bean document containing bean
+		* 	definitions for the framework.
+		*/
+		public static const FRAMEWORK:String = "framework";		
+		
 		/**
 		* 	The identifier of the flash variables bean.
 		*/
@@ -28,7 +34,7 @@ package com.ffsys.swat.configuration
 		/**
 		* 	The identifier of the bootstrap preloader.
 		*/
-		public static const BOOTSTRAP_PRELOADER:String = "bootstrap-preloader";
+		public static const BOOTSTRAP_LOADER:String = "bootstrap-preloader";
 		
 		/**
 		* 	The identifier of the preloader view.
@@ -38,7 +44,7 @@ package com.ffsys.swat.configuration
 		/**
 		* 	The identifier of the bean that starts the application.
 		*/
-		public static const APPLICATION_BEAN:String = "application";
+		public static const APPLICATION:String = "application";
 		
 		/**
 		* 	The identifier of the application configuration.
@@ -193,5 +199,10 @@ package com.ffsys.swat.configuration
 		* 	An identifier for a single component.
 		*/
 		public static const COMPONENT:String = "component";
+		
+		/**
+		* 	An identifier for a view component.
+		*/
+		public static const VIEW:String = "view";
 	}
 }

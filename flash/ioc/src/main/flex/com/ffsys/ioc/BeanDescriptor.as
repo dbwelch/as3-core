@@ -357,6 +357,8 @@ package com.ffsys.ioc
 						return getMethod( parameters, instance ) as Function;
 					}
 					
+					trace("BeanDescriptor::getBean() instance: ", this.id, instance, this.document.id );
+					
 					setBeanProperties( instance, parameters );
 					callBeanMethods( instance, parameters );
 					doTypeInjection( instance, parameters );
@@ -366,6 +368,8 @@ package com.ffsys.ioc
 					{
 						document.injector.inject( document, this.id, instance );
 					}
+					
+					trace("BeanDescriptor::getBean() pre finalize: ", this.id, instance, this.document.id, parameters );
 					
 					finalize( instance, parameters );
 				}
@@ -489,23 +493,29 @@ package com.ffsys.ioc
 				var i:int = 0;
 				var types:Vector.<BeanTypeInjector> = this.document.types;
 				
-				trace("BeanDescriptor::doTypeInjection()", types );
+				trace("BeanDescriptor::doTypeInjection()", this.document.id, types.length, this.document.xrefs.length );
 				
 				var xref:IBeanDocument = null;
 				for( i = 0;i < this.document.xrefs.length;i++ )
 				{
 					xref = this.document.xrefs[ i ];
-					trace("BeanDescriptor::doTypeInjection()", "ADDING DOCUMENT XREF TYPES", xref, xref.types, xref.types.length );
 					if( xref.types.length > 0 )
 					{
-						types.concat( xref.types );
+						trace("BeanDescriptor::doTypeInjection()", "ADDING DOCUMENT XREF TYPES", xref, xref.id, xref.types, xref.types.length );
+						types = types.concat( xref.types );
+						trace("BeanDescriptor::doTypeInjection()", "AFTER ADDED XREF TYPES", types.length );
 					}
 				}
+				
+				trace("BeanDescriptor::doTypeInjection() TOTAL TYPES: ", types.length );
 				
 				var injector:BeanTypeInjector = null;
 				for( i = 0;i < types.length;i++ )
 				{
 					injector = types[ i ];
+					
+					trace("BeanDescriptor::doTypeInjection() checking type injector: ", injector, injector.type );
+					
 					//only perform injection if the corresponding property
 					//has not been manually wired
 					if( injector

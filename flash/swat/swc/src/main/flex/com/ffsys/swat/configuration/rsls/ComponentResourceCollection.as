@@ -76,7 +76,15 @@ package com.ffsys.swat.configuration.rsls
 		*/
 		public function get document():IBeanDocument
 		{
-			return this.beanManager.document;
+			var document:IBeanDocument = this.beanManager.document;
+			
+			if( document.id == null
+			 	&& this.id != null )
+			{
+				document.id = this.id;
+			}
+			
+			return document;
 		}
 		
 		/**
@@ -109,6 +117,10 @@ package com.ffsys.swat.configuration.rsls
 		* 	Gets a loader queue for the resources associated with this
 		* 	component.
 		* 
+		* 	@param paths The path configuration to use.
+		* 	@param locale A locale that resources should be loaded
+		* 	relative to.
+		* 
 		* 	@return A loader queue for all the resources
 		*/
 		override public function getLoaderQueue(
@@ -127,6 +139,10 @@ package com.ffsys.swat.configuration.rsls
 			
 			//trace("ComponentResourceCollection::getLoaderQueue()", this.document, configuration, configuration.resources );
 			
+			
+			
+			trace("ComponentResourceCollection::getLoaderQueue() CHECKING MAIN XREF: ", this.document, configuration, configuration.resources, configuration.resources.document );
+			
 			//add a bean document xref to the component
 			//bean document pointing to the main bean document
 			if( this.document != null
@@ -135,6 +151,8 @@ package com.ffsys.swat.configuration.rsls
 				&& configuration.resources.document != null )
 			{		
 				var main:IBeanDocument = configuration.resources.document;
+				
+				trace("ComponentResourceCollection::getLoaderQueue() ASSIGNING MAIN XREF: ", main, main.id );
 				
 				//main document xrefs
 				this.document.xrefs.push( main );
@@ -145,6 +163,7 @@ package com.ffsys.swat.configuration.rsls
 				for( var i:int = 0;i < main.xrefs.length;i++ )
 				{
 					this.document.xrefs.push( main.xrefs[ i ] );
+					trace("ComponentResourceCollection::getLoaderQueue() ADDING COMPOSITE XREF: ", main.xrefs[ i ], main.xrefs[ i ].id );
 				}
 				
 				/*
@@ -178,6 +197,8 @@ package com.ffsys.swat.configuration.rsls
 				queue.addLoader(
 					this.xmlBeans.getLoaderQueue( paths, locale ) );
 			}
+			
+			trace("ComponentResourceCollection::getLoaderQueue() GETTING DOCUMENT WITH XREFS ", this.document.xrefs, this.document.xrefs.length );
 			
 			/*
 			var loaders:Array = queue.getAllLoaders();

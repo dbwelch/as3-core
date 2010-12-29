@@ -20,6 +20,7 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.configuration.IConfigurationElement;	
 	import com.ffsys.swat.configuration.rsls.IResourceQueueBuilder;
 	import com.ffsys.swat.configuration.rsls.ComponentResourceCollection;
+	import com.ffsys.swat.configuration.rsls.ViewComponentCollection;
 	import com.ffsys.swat.events.RslEvent;
 	
 	import com.ffsys.utils.properties.IProperties;
@@ -363,7 +364,7 @@ package com.ffsys.swat.core {
 				properties = null;
 				phase = this.phases[ i ];
 				
-				trace("ResourceLoader::getLoaderQueue()", "getQueueByPhase", this.styleManager );
+				//trace("ResourceLoader::getLoaderQueue()", "getQueueByPhase", this.styleManager );
 				
 				queue = builder.getQueueByPhase( phase, _resources.beanManager, this.styleManager );
 				
@@ -517,23 +518,40 @@ package com.ffsys.swat.core {
 					throw new Error( "Cannot add a component with a null identifier." );
 				}
 				
+				var viewComponent:Boolean = ( data is ViewComponentCollection );
+				
 				var xmlDefinition:Boolean =
-					data.xmlBeans != null && ( data.xmlBeans.length > 0 );
+					viewComponent || ( data.xmlBeans != null && ( data.xmlBeans.length > 0 ) );
+					
 				var resource:IComponentResource = new ComponentResource(
 					id, resources );
+					
+				trace("ResourceLoader::componentQueueComplete()", id, data, viewComponent, xmlDefinition );
 					
 				var target:Object = null;
 				//look for an xml resource matching the component identifier
 				if( xmlDefinition )
 				{
 					var element:IResourceElement = resources.getResourceById( id );
-					
-					
-					if( element is ObjectResource )
+					if( viewComponent )
 					{
-						target = ObjectResource( element ).data;
+						trace("ResourceLoader::componentQueueComplete()", "FIND VIEW COMPONENT XML DOCUMENT" );
+						
+						if( !( element is XmlResource ) )
+						{
+							throw new Error( "A view component must be defined by an xml resource." );
+						}
+						
+						target = XmlResource( element ).xml;
+					}else{
+					
+					
+						if( element is ObjectResource )
+						{
+							target = ObjectResource( element ).data;
+						}
+						trace("ResourceLoader::componentQueueComplete()", "SEARCHING FOR XML DEFINITION: ", id, element, target );
 					}
-					trace("ResourceLoader::componentQueueComplete()", "SEARCHING FOR XML DEFINITION: ", id, element, target );
 				}else{
 					
 					trace("ResourceLoader::componentQueueComplete()", "SEARCHING FOR BEAN DEFINITION: ", id, data.document );

@@ -36,7 +36,7 @@ package com.ffsys.swat.core
 			//trace("ApplicationBeanConfiguration::doWithBeans()", beans );	
 			
 			var descriptor:IBeanDescriptor = new BeanDescriptor( 
-				DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER );
+				DefaultBeanIdentifiers.BOOTSTRAP_LOADER );
 			descriptor.instanceClass = this.bootstrapLoaderClass;
 			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );			
@@ -227,6 +227,11 @@ package com.ffsys.swat.core
 			descriptor = new BeanDescriptor( 
 				DefaultBeanIdentifiers.COMPONENT );
 			descriptor.instanceClass = this.componentClass;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor( 
+				DefaultBeanIdentifiers.VIEW );
+			descriptor.instanceClass = this.viewClass;
 			beans.addBeanDescriptor( descriptor );			
 		}
 		
@@ -477,6 +482,14 @@ package com.ffsys.swat.core
 		public function get componentClass():Class
 		{
 			return ComponentResourceCollection;
+		}
+		
+		/**
+		* 	The class to use for a view component definition.
+		*/
+		public function get viewClass():Class
+		{
+			return ViewComponentCollection;
 		}
 	}
 }

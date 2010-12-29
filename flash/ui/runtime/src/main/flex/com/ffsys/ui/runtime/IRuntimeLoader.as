@@ -4,6 +4,10 @@ package com.ffsys.ui.runtime {
 	import flash.events.IEventDispatcher;
 	import flash.net.URLRequest;
 	
+	import com.ffsys.io.loaders.core.ILoaderQueue;
+	
+	import com.ffsys.io.xml.IParser;	
+	
 	/**
 	*	Describes the contract for the loader that loads
 	*	the xml document that defines the view and any dependencies
@@ -24,6 +28,12 @@ package com.ffsys.ui.runtime {
 		function get document():IDocument;
 		
 		/**
+		* 	The parser to use for the runtime document.
+		*/
+		function get parser():IRuntimeParser;
+		function set parser( value:IRuntimeParser ):void;
+		
+		/**
 		*	Loads the xml document defining the runtime view to render.
 		*	
 		*	The parent display object that the view will be rendered into
@@ -35,9 +45,14 @@ package com.ffsys.ui.runtime {
 		* 	@param bindings Data bindings to expose when parsing the runtime
 		* 	xml document.
 		*/
-		function load(
+		function getLoaderQueue(
 			request:URLRequest,
 			parent:DisplayObjectContainer = null,
-			... bindings ):void;
+			... bindings ):ILoaderQueue;
+		
+		/**
+		* 	Start the load process on the encapsulated queue.
+		*/
+		function load():void;
 	}
 }

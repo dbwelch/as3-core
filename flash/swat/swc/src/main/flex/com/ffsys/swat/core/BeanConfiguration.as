@@ -39,6 +39,8 @@ package com.ffsys.swat.core
 				throw new Error( "Cannot modify a null bean document." );
 			}
 			
+			trace("BeanConfiguration::doWithBeans()", beans, beans.id );
+			
 			var localesBean:IBeanDescriptor = beans.getBeanDescriptor(
 				DefaultBeanIdentifiers.LOCALES, true );
 			

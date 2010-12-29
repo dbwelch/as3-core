@@ -6,6 +6,9 @@ package com.ffsys.swat.core
 	import flash.filters.BitmapFilter;
 	import flash.media.Sound;
 	import flash.net.URLRequest;
+
+	import com.ffsys.ioc.IBeanDocument;
+	import com.ffsys.ioc.support.xml.IBeanXmlParser;
 	
 	import com.ffsys.core.IFlashVariables;
 	import com.ffsys.ui.css.ICssStyleSheet;
@@ -204,8 +207,8 @@ package com.ffsys.swat.core
 		public function getXmlDocument( id:String ):XML
 		{
 			verifyConfiguration();
-			return this.configuration.getXmlDocument( id );			
-		}		
+			return this.configuration.getXmlDocument( id );
+		}
 		
 		/**
 		*	@inheritDoc
@@ -259,6 +262,102 @@ package com.ffsys.swat.core
 			var out:String = paths.join(
 				[ paths.getLocalePath( locale ) ], path );
 			return out;
+		}
+		
+		/**
+		* 	Override this method to specify a parser implementation
+		* 	to use when parsing view documents.
+		* 
+		* 	@return A parser implementation to use when retrieving
+		* 	view component documents.
+		*/
+		protected function getViewParser():IBeanXmlParser
+		{
+			return null;
+		}
+		
+		/**
+		* 	Performs actions on a bean document used when loading
+		* 	a view component.
+		* 
+		* 	The default implementation ensures that view bean
+		* 	documents have access to the other bean documents
+		* 	via cross references.
+		* 
+		* 	@param document The view component bean document.
+		*/
+		protected function doWithViewBeans( document:IBeanDocument ):void
+		{
+			verifyConfiguration();
+			
+			//TODO: add xrefs to the component bean document
+			
+			trace("::::::::::::>>>>>>>>>>>>>>>>>>>>>>>>> DefaultController::doWithViewBeans()",
+				document,
+				this.configuration.resources.document,
+				this.configuration.resources.document.id );
+			
+			var xrefs:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
+			var main:IBeanDocument = this.configuration.resources.document;
+			if( main != null )
+			{
+				xrefs = main.xrefs.slice();
+				xrefs.push( main );
+			}
+			
+			var xref:IBeanDocument = null;
+			for( var i:int = 0;i < xrefs.length;i++ )
+			{
+				xref = xrefs[ i ];
+				if( document.xrefs.indexOf( xref ) == -1 )
+				{
+					trace("DefaultController::doWithViewBeans()", "ADDING DOCUMENT XREF", xref, xref.id );
+					document.xrefs.push( xref );
+				}
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getView( id:String, ...bindings ):DisplayObject
+		{
+			verifyConfiguration();
+			var parser:IBeanXmlParser = getViewParser();
+			if( parser == null )
+			{
+				throw new Error(
+					"Cannot retrieve a view with no valid view parser." );
+			}
+			
+			var component:XML = getComponent( id ) as XML;
+			if( component == null )
+			{
+				throw new Error(
+					"Could not retrieve a view component with identifier '"
+					 + id + "'." );
+			}
+			
+			var bindingMethod:Function = parser[ "addDocumentBindings" ] as Function;
+			
+			if( bindingMethod != null )
+			{
+				//use the default runtime document assigned to the parser
+				bindings.unshift( null );
+				bindingMethod.apply( parser, bindings );
+			}
+			
+			trace("DefaultController::getView()", "BINDING METHOD: ", bindingMethod );
+			
+			var beans:IBeanDocument = parser.document;
+			if( beans != null )
+			{
+				doWithViewBeans( beans );
+			}
+			
+			var document:Object = parser.deserialize( component );
+			trace("DefaultController::getView()", id, document );
+			return document as DisplayObject;
 		}
 		
 		/**

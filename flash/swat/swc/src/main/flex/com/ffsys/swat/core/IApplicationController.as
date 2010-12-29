@@ -1,5 +1,7 @@
 package com.ffsys.swat.core
 {
+	import flash.display.DisplayObject;
+	
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.ioc.IBeanAccess;
 	import com.ffsys.swat.core.IMessageAccess;
@@ -37,5 +39,17 @@ package com.ffsys.swat.core
 		* 	otherwise <code>null</code>.
 		*/
 		function getComponent( id:String ):Object;
+		
+		/**
+		* 	Gets a view component.
+		* 
+		* 	@param id The identifier for the component.
+		* 	@param bindings Bindings to expose when parsing
+		* 	the view document.
+		* 
+		* 	@return The display object created when the view xml
+		* 	document was parsed.
+		*/
+		function getView( id:String, ...bindings ):DisplayObject;
 	}
 }

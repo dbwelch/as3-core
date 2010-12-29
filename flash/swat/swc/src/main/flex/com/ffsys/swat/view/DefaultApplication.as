@@ -99,7 +99,7 @@ package com.ffsys.swat.view  {
 					*/
 					
 					_preloader = this.framework.getBean(
-						DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER ) as BootstrapLoader;
+						DefaultBeanIdentifiers.BOOTSTRAP_LOADER ) as BootstrapLoader;
 					_preloader.parser = parser;
 					
 					//_preloader.flashvars = _flashvars;
@@ -108,9 +108,10 @@ package com.ffsys.swat.view  {
 						
 					//update with the framework beans xref
 					beans = _preloader.resources.document;
+					beans.id = DefaultBeanIdentifiers.APPLICATION;
 					beans.xrefs.push( this.framework );
 
-					trace("DefaultApplication::setFlashVariables()", beans, beans.xrefs.length );						
+					trace("DefaultApplication::setFlashVariables()", beans, beans.xrefs.length );
 			
 					preloader.addEventListener(
 						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
@@ -139,6 +140,7 @@ package com.ffsys.swat.view  {
 			{
 				_framework = BeanDocumentFactory.create(
 					getBeanDocumentClass() );
+				_framework.id = DefaultBeanIdentifiers.FRAMEWORK;
 			}
 			return _framework;
 		}
@@ -226,8 +228,31 @@ package com.ffsys.swat.view  {
 			var beans:IBeanDocument = configuration.resources.document;
 			
 			//allow the main application bean document to access all the beans
-			//in the style sheet bean document and the main framework beans
+			//in the style sheet bean document
 			beans.xrefs.push( configuration.stylesheet );
+			
+			//standard bean configuration
+			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
+			
+			trace("DefaultApplication::configure()", beans, configuration, preloader.resources );
+		
+			//TODO: configure with global resources
+			beanConfiguration.doWithBeans( beans, configuration, preloader.resources );
+		
+			//bean configuration specific to a view based bootstrap
+			var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
+			var bootstrapLoaderBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.BOOTSTRAP_LOADER, preloader );
+			var preloaderViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
+			
+			//main application view
+			beans.addBeanDescriptor( mainApplicationViewBean );
+			//bootstrap loader
+			beans.addBeanDescriptor( bootstrapLoaderBean );	
+			//preloader view
+			beans.addBeanDescriptor( preloaderViewBean );			
 		
 			trace("DefaultApplication::configure()", beans, beans.xrefs.length );
 		}
@@ -257,27 +282,6 @@ package com.ffsys.swat.view  {
 			{
 
 			
-				//standard bean configuration
-				var beanConfiguration:BeanConfiguration = new BeanConfiguration();
-			
-				//TODO: configure with global resources
-				beanConfiguration.doWithBeans( beans, _configuration, _preloader.resources );
-			
-				//bean configuration specific to a view based bootstrap
-				var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
-					DefaultBeanIdentifiers.MAIN_APPLICATION_VIEW, preloader.main );
-				var bootstrapLoaderBean:IBeanDescriptor = new InjectedBeanDescriptor(
-					DefaultBeanIdentifiers.BOOTSTRAP_PRELOADER, preloader );
-				var preloaderViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
-					DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
-				
-				//main application view
-				beans.addBeanDescriptor( mainApplicationViewBean );
-				//bootstrap loader
-				beans.addBeanDescriptor( bootstrapLoaderBean );	
-				//preloader view
-				beans.addBeanDescriptor( preloaderViewBean );
-			
 			}					
 		}
 		
@@ -298,7 +302,7 @@ package com.ffsys.swat.view  {
 			doWithBeans( document );
 			
 			var application:Object = document.getBean(
-				DefaultBeanIdentifiers.APPLICATION_BEAN );
+				DefaultBeanIdentifiers.APPLICATION );
 			
 			if( application )
 			{

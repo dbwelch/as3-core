@@ -32,10 +32,8 @@ package com.ffsys.ui.runtime {
 		implements IRuntimeLoader {
 			
 		private var _queue:ILoaderQueue;
-		private var _document:IDocument;
 		private var _loader:IParserAwareXmlLoader;
-		private var _parser:IParser;
-		private var _components:IBeanDocument;
+		private var _parser:IRuntimeParser;
 		
 		/**
 		*	Creates a <code>RuntimeLoader</code> instance.	
@@ -50,24 +48,11 @@ package com.ffsys.ui.runtime {
 		*/
 		public function get document():IDocument
 		{
-			return _document;
-		}
-		
-		/**
-		* 	The bean document containing component definitions.
-		*/
-		public function get components():IBeanDocument
-		{
-			if( _components == null )
+			if( this.parser != null )
 			{
-				_components = new RuntimeComponentDocument();
+				return this.parser.runtime;
 			}
-			return _components;
-		}
-		
-		public function set components( value:IBeanDocument ):void
-		{
-			_components = value;
+			return null;
 		}
 		
 		/**
@@ -81,17 +66,16 @@ package com.ffsys.ui.runtime {
 		/**
 		* 	The parser to use for the runtime document.
 		*/
-		public function get parser():IParser
+		public function get parser():IRuntimeParser
 		{
 			if( _parser == null )
 			{
-				trace("RuntimeLoader::get parser()", this.components );
-				_parser = new RuntimeParser( this.components );
+				_parser = new RuntimeParser();
 			}
 			return _parser;
 		}
 		
-		public function set parser( value:IParser ):void
+		public function set parser( value:IRuntimeParser ):void
 		{
 			_parser = value;
 		}
@@ -99,10 +83,10 @@ package com.ffsys.ui.runtime {
 		/**
 		*	@inheritDoc
 		*/
-		public function load(
+		public function getLoaderQueue(
 			request:URLRequest,
 			parent:DisplayObjectContainer = null,
-			... bindings ):void
+			... bindings ):ILoaderQueue
 		{
 			//clean any existing queue
 			if( _queue )
@@ -117,30 +101,10 @@ package com.ffsys.ui.runtime {
 			
 			_loader = new ParserAwareXmlLoader( request );
 			_loader.parser = this.parser;
-			
-			if( _document )
-			{
-				_document.destroy();
-			}
-			
-			_document = new Document();			
-			
-			if( bindings.length > 0 )
-			{
-				var binding:Object = null;
-				for( var i:int = 0;i < bindings.length;i++ )
-				{
-					binding = bindings[ i ];
-					for( var z:String in binding )
-					{
-						document.binding[ z ] = binding[ z ];
-					}
-				}
-				
-				_loader.parser.interpreter.bindings.addBinding(
-					new Binding( Runtime.BINDING, document.binding ) );
-			}
-			
+
+			bindings.unshift( this.document );
+			this.parser.addDocumentBindings.apply( this.parser, bindings );
+
 			//TODO: add binding for the stage dimensions
 			
 			_loader.root = document;
@@ -153,6 +117,20 @@ package com.ffsys.ui.runtime {
 			_queue.addLoader( _loader );
 
 			addLoaderListeners( _queue );
+			
+			return _queue;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function load():void
+		{
+			if( _queue == null )
+			{
+				throw new Error( "Cannot load a runtime with a null loader queue." );
+			}
+			
 			_queue.load();
 		}
 		
@@ -249,7 +227,6 @@ package com.ffsys.ui.runtime {
 			event:LoadEvent ):void
 		{
 			removeLoaderListeners( _queue );
-			trace("RuntimeLoader::itemLoaded()", "LOAD COMPLETE" );
 			dispatchEvent( event );
 		}
 	}

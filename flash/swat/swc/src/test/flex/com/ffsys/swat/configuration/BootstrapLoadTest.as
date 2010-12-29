@@ -116,7 +116,7 @@ package com.ffsys.swat.configuration
 				configuration,
 				configuration.resources );
 			
-			var mainBeanName:String = DefaultBeanIdentifiers.APPLICATION_BEAN;
+			var mainBeanName:String = DefaultBeanIdentifiers.APPLICATION;
 			
 			//check the number of resources that were not found
 			Assert.assertEquals( 1, bootstrap.resources.missing.length );

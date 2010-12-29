@@ -12,6 +12,8 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
+	import com.ffsys.io.xml.IParser;	
+	
 	import com.ffsys.swat.core.DefaultApplicationController;
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.IApplicationMainController;	
@@ -41,7 +43,7 @@ package com.ffsys.swat.as3.view {
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class ApplicationController extends DefaultApplicationController
+	public class ApplicationController extends AbstractApplicationController
 		implements 	IApplicationMainController,
 		 			IMessagesAware {
 			
@@ -65,7 +67,7 @@ package com.ffsys.swat.as3.view {
 		/**
 		*	@inheritDoc	
 		*/
-		override public function ready(
+		public function ready(
 			parent:IApplication,
 			main:IApplicationPreloader,
 			runtime:IBootstrapLoader,
@@ -165,9 +167,11 @@ package com.ffsys.swat.as3.view {
 			list.itemRendererClass = IconLabelListItemRenderer;
 			list.dataBinding = listBinding;
 			vbox.addChild( list );
-
-			_loader =
-				Runtime.load(
+			
+			/*
+			_loader = new RuntimeLoader();
+			
+			_loader.getLoaderQueue(
 					new URLRequest( "view.xml" ),
 					vbox,
 					{ title: "this is a test" },
@@ -177,7 +181,32 @@ package com.ffsys.swat.as3.view {
 				);
 			
 			_document = _loader.document;
+			
+			trace("ApplicationController::createChildren()", _document, _document.id );
+			
 			_loader.addEventListener( LoadEvent.LOAD_COMPLETE, runtimeLoaded );
+			_loader.load();
+			*/
+			
+			_document = IRuntimeParser( getViewParser() ).runtime;
+			
+			var view:DisplayObject = getView(
+				"view",
+				{ title: "this is a test" },
+				{ another: "another title :)" },
+				{ items: [ 1, 2, 3 ] },
+				{ locales: configuration.locales.getLocales(), fonts: Font.enumerateFonts() } );
+				
+			trace("ApplicationController::createChildren() GOT VIEW", view );
+			
+			if( view != null )
+			{
+			
+				trace("ApplicationController::createChildren()", _document, _document.identifiers );
+				
+				vbox.addChild( view );
+				runtimeLoaded();
+			}
 		}
 		
 		public function set myPreloaderView(value:Object):void
@@ -190,13 +219,17 @@ package com.ffsys.swat.as3.view {
 			trace("DefaultApplication::set myLocales()",  "SET MY LOCALE: " , value, configuration );
 		}		
 		
-		private function runtimeLoaded( event:LoadEvent ):void
+		private function runtimeLoaded():void
 		{
-			var btn:Button = Button( _loader.document.getElementById( "btn" ) );
+			var btn:Button = Button( _document.getElementById( "btn" ) );
+			
+			trace("ApplicationController::runtimeLoaded()", btn );
+			
 			btn.addEventListener( MouseEvent.CLICK, click );
+			
 			trace("ApplicationController::runtimeLoaded(), ", btn );
 			
-			var graphic:Graphic = Graphic( _loader.document.getElementById( "graphic" ) );
+			var graphic:Graphic = Graphic( _document.getElementById( "graphic" ) );
 			
 			trace("ApplicationController::runtimeLoaded()", "GOT GRAPHIC", graphic );
 			
@@ -205,7 +238,7 @@ package com.ffsys.swat.as3.view {
 			tween.initialize();
 			tween.start();
 			
-			trace("ApplicationController::runtimeLoaded() GOT TWEEN", tween );			
+			trace("ApplicationController::runtimeLoaded() GOT TWEEN", tween );		
 		}
 		
 		private function click( event:MouseEvent ):void

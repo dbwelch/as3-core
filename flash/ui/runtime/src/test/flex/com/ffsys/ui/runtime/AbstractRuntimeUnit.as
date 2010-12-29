@@ -47,10 +47,14 @@ package com.ffsys.ui.runtime
 		[Before( async )]
      	public function setUp():void
 		{
-			_loader = Runtime.load(
+			_loader = new RuntimeLoader();
+			
+			var queue:ILoaderQueue = _loader.getLoaderQueue(
 				new URLRequest( TEST_XML_PATH ),
 				null,
 				{ items: [ "apples", "oranges", "pears" ] } );
+			
+			_loader.load();
 
 			_loader.addEventListener(
 				LoadEvent.LOAD_COMPLETE,
