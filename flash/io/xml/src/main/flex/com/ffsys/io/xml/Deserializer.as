@@ -288,6 +288,8 @@ package com.ffsys.io.xml {
 			trace( "setProperty rawStringValue : " + rawStringValue );
 			*/
 			
+			//trace("Deserializer::setProperty()", hasInterpreter(), _interpreter, obj, prop, val );
+			
 			if( hasInterpreter()
 				&& !_interpreter.shouldSetProperty( obj, prop, val ) )
 			{

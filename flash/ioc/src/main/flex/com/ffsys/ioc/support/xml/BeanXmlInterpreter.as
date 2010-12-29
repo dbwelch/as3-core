@@ -25,9 +25,10 @@ package com.ffsys.ioc.support.xml
 		/**
 		* 	Creates a <code>BeanXmlInterpreter</code> instance.
 		*/
-		public function BeanXmlInterpreter()
+		public function BeanXmlInterpreter( document:IBeanDocument = null )
 		{
 			super();
+			this.document = document;
 		}
 		
 		/**

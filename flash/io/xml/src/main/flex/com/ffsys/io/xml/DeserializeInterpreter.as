@@ -57,14 +57,9 @@ package com.ffsys.io.xml {
 		
 		public function DeserializeInterpreter(
 			useStringReplacement:Boolean = false,
-			strictStringReplacement:Boolean = false )
+			strictStringReplacement:Boolean = true )
 		{
-			super();
-			
-			if( useStringReplacement )
-			{
-				_stringSubstitutionCandidates = [];
-			}			
+			super();		
 			
 			this.useStringReplacement = useStringReplacement;
 			this.strictStringReplacement = strictStringReplacement;
@@ -106,6 +101,13 @@ package com.ffsys.io.xml {
 		public function set useStringReplacement( val:Boolean ):void
 		{
 			_useStringReplacement = val;
+			
+			if( val )
+			{
+				_stringSubstitutionCandidates = [];
+			}else{
+				_stringSubstitutionCandidates = null;
+			}		
 		}
 		
 		public function get useStringReplacement():Boolean
@@ -161,7 +163,7 @@ package com.ffsys.io.xml {
 		*/
 		public function postProcessPrimitive( parent:Object, name:String, value:Object ):void
 		{
-			if( useStringReplacement )
+			if( useStringReplacement && _stringSubstitutionCandidates != null )
 			{
 				gatherSubstitutionCandidates( parent, name, value );
 			}
@@ -272,7 +274,7 @@ package com.ffsys.io.xml {
 		*/	
 		public function processAttribute( parent:Object, name:String, value:Object ):Boolean
 		{
-			if( useStringReplacement )
+			if( useStringReplacement && _stringSubstitutionCandidates != null )
 			{
 				gatherSubstitutionCandidates( parent, name, value );
 				return false;

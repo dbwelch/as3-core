@@ -19,7 +19,6 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.events.ConfigurationEvent;
 
 	import com.ffsys.swat.configuration.IModuleConfiguration;
-	import com.ffsys.swat.configuration.ModuleConfigurationInterpreter;
 	
 	/**
 	*	Preloads the resources for a module.
@@ -45,21 +44,7 @@ package com.ffsys.swat.core {
 			parser:IParser = null )
 		{
 			super( request, parser );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function set parser( value:IParser ):void
-		{
-			super.parser = value;
-			if( value != null )
-			{
-				var interpreter:ModuleConfigurationInterpreter =
-					new ModuleConfigurationInterpreter();
-				value.interpreter = interpreter;
-			}
-		}		
+		}	
 		
 		/**
 		*	@private

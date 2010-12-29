@@ -37,7 +37,7 @@ package com.ffsys.ui.runtime {
 		*/
 		function load(
 			request:URLRequest,
-			parent:DisplayObjectContainer,
-			...bindings ):void;
+			parent:DisplayObjectContainer = null,
+			... bindings ):void;
 	}
 }

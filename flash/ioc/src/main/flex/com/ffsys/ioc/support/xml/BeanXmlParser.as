@@ -27,9 +27,17 @@ package com.ffsys.ioc.support.xml
 		*/
 		public function BeanXmlParser( document:IBeanDocument = null )
 		{
-			super();
-			this.interpreter = new BeanXmlInterpreter();
 			this.document = document;
+			super();
+		}
+		
+		/**
+		*	Initializes this parser implementation.
+		*/
+		override protected function initialize():void
+		{
+			super.initialize();
+			this.interpreter = new BeanXmlInterpreter( this.document );
 		}
 		
 		/**
@@ -44,24 +52,6 @@ package com.ffsys.ioc.support.xml
 		public function set document( value:IBeanDocument ):void
 		{
 			_document = value;
-			
-			if( value != null && ( this.interpreter is BeanXmlInterpreter ) )
-			{
-				BeanXmlInterpreter( this.interpreter ).document = value;
-			}
-		}
-		
-		/**
-		* 	Ensures that the bean document reference is proxied to the bean
-		* 	xml interpreter.
-		*/
-		override public function set interpreter( value:IDeserializeInterpreter ):void
-		{
-			super.interpreter = value;
-			if( value != null && ( this.interpreter is BeanXmlInterpreter ) )
-			{
-				BeanXmlInterpreter( this.interpreter ).document = this.document;
-			}
 		}
 	}
 }

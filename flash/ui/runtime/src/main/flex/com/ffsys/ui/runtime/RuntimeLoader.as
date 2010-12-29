@@ -5,11 +5,16 @@ package com.ffsys.ui.runtime {
 	import flash.events.EventDispatcher;
 	import flash.net.URLRequest;
 	
+	import com.ffsys.ioc.IBeanDocument;
+	import com.ffsys.ioc.support.xml.BeanXmlParser;	
+	
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.LoadEvent;
 	
 	import com.ffsys.io.loaders.types.ParserAwareXmlLoader;
 	import com.ffsys.io.loaders.types.IParserAwareXmlLoader;
+	
+	import com.ffsys.io.xml.IParser;
 	
 	import com.ffsys.utils.substitution.Binding;
 	
@@ -29,6 +34,8 @@ package com.ffsys.ui.runtime {
 		private var _queue:ILoaderQueue;
 		private var _document:IDocument;
 		private var _loader:IParserAwareXmlLoader;
+		private var _parser:IParser;
+		private var _components:IBeanDocument;
 		
 		/**
 		*	Creates a <code>RuntimeLoader</code> instance.	
@@ -47,6 +54,23 @@ package com.ffsys.ui.runtime {
 		}
 		
 		/**
+		* 	The bean document containing component definitions.
+		*/
+		public function get components():IBeanDocument
+		{
+			if( _components == null )
+			{
+				_components = new RuntimeComponentDocument();
+			}
+			return _components;
+		}
+		
+		public function set components( value:IBeanDocument ):void
+		{
+			_components = value;
+		}
+		
+		/**
 		*	Gets the loader used to load the definition for the view.	
 		*/
 		public function get loader():IParserAwareXmlLoader
@@ -55,26 +79,31 @@ package com.ffsys.ui.runtime {
 		}
 		
 		/**
+		* 	The parser to use for the runtime document.
+		*/
+		public function get parser():IParser
+		{
+			if( _parser == null )
+			{
+				trace("RuntimeLoader::get parser()", this.components );
+				_parser = new RuntimeParser( this.components );
+			}
+			return _parser;
+		}
+		
+		public function set parser( value:IParser ):void
+		{
+			_parser = value;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function load(
 			request:URLRequest,
-			parent:DisplayObjectContainer,
-			...bindings ):void
+			parent:DisplayObjectContainer = null,
+			... bindings ):void
 		{
-			
-			if( !parent )
-			{
-				throw new Error(
-					"You must specify a parent display object when loading a runtime view." );
-			}
-			
-			if( !parent.stage )
-			{
-				throw new Error(
-					"The parent display object must be on the stage when loading a runtime view." );
-			}
-			
 			//clean any existing queue
 			if( _queue )
 			{
@@ -87,7 +116,7 @@ package com.ffsys.ui.runtime {
 			_queue = new LoaderQueue();
 			
 			_loader = new ParserAwareXmlLoader( request );
-			_loader.parser = new RuntimeParser();
+			_loader.parser = this.parser;
 			
 			if( _document )
 			{
@@ -115,7 +144,11 @@ package com.ffsys.ui.runtime {
 			//TODO: add binding for the stage dimensions
 			
 			_loader.root = document;
-			parent.addChild( DisplayObject( document ) );
+			
+			if( parent != null )
+			{
+				parent.addChild( DisplayObject( document ) );
+			}
 			
 			_queue.addLoader( _loader );
 

@@ -51,6 +51,11 @@ package com.ffsys.ui.graphics
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
+			if( isNaN( width ) || isNaN( height ) )
+			{
+				return;
+			}
+			
 			if( pointer == null )
 			{
 				graphics.drawRect( tx, ty, width, height );

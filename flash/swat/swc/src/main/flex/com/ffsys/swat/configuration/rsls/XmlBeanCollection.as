@@ -48,8 +48,7 @@ package com.ffsys.swat.configuration.rsls {
 		override public function getLoader( request:URLRequest ):ILoaderElement
 		{
 			var loader:ParserAwareXmlLoader = new ParserAwareXmlLoader( request );
-			var parser:BeanXmlParser = new BeanXmlParser();
-			parser.document = this.document;
+			var parser:BeanXmlParser = new BeanXmlParser( this.document );
 			loader.parser = parser;
 			return loader;
 		}

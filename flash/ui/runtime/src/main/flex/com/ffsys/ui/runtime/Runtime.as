@@ -50,7 +50,7 @@ package com.ffsys.ui.runtime {
 		*/
 		static public function load(
 			request:URLRequest,
-			parent:DisplayObjectContainer,
+			parent:DisplayObjectContainer = null,
 			...bindings ):IRuntimeLoader
 		{
 			var loader:IRuntimeLoader = new RuntimeLoader();

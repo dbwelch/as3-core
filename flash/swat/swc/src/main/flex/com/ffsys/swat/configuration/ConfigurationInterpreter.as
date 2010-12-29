@@ -1,5 +1,6 @@
 package com.ffsys.swat.configuration {
-	
+
+	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ioc.support.xml.BeanXmlInterpreter;
 	
 	import com.ffsys.io.xml.Deserializer;
@@ -28,18 +29,14 @@ package com.ffsys.swat.configuration {
 		/**
 		*	Creates a <code>ConfigurationInterpreter</code> instance.
 		*	
-		*	@param useStringReplacement Whether string replacement should be
-		*	performed.
-		*	@param strictStringReplacement Whether string replacement performs
-		*	in a strict manner.
+		*	@param document The bean document.
 		*/
 		public function ConfigurationInterpreter(
-			useStringReplacement:Boolean = true,
-			strictStringReplacement:Boolean = true )
+			document:IBeanDocument = null )
 		{
-			super();
-			this.useStringReplacement = useStringReplacement;
-			this.strictStringReplacement = strictStringReplacement;
+			super( document );
+			this.useStringReplacement = true;
+			this.strictStringReplacement = true;
 		}
 		
 		/**
@@ -53,56 +50,60 @@ package com.ffsys.swat.configuration {
 		*/
 		override public function complete( instance:Object ):void
 		{
-			var configuration:IConfiguration = IConfiguration( instance );
-			
-			if( configuration.locales == null )
+			//handle the main configuration
+			if( instance is IConfiguration )
 			{
-				throw new Error( "The locales element was not specified." );
+				var configuration:IConfiguration = IConfiguration( instance );
+			
+				if( configuration.locales == null )
+				{
+					throw new Error( "The locales element was not specified." );
+				}
+			
+				//update the selected locale
+				configuration.locales.lang = flashvars.lang;
+			
+				//trace("ConfigurationInterpreter::complete()", "SET CURRENT LOCALE: ", flashvars.lang, configuration.locales.lang, configuration.locales.current );
+			
+				//add the current locale as a default namespace
+				Deserializer.defaultBindings.addBinding(
+					new Binding(
+						Bindings.LOCALE,
+						configuration.locales.current )
+				);
+			
+				//add the configuration as a default binding
+				Deserializer.defaultBindings.addBinding(
+					new Binding(
+						Bindings.CONFIGURATION,
+						configuration )
+				);
+			
+				//add the locales as a default binding
+				Deserializer.defaultBindings.addBinding(
+					new Binding(
+						Bindings.LOCALES,
+						configuration.locales )
+				);
+			
+				//ensure we always have some path information
+				//even if none is declared in the config
+				if( configuration.paths == null )
+				{
+					configuration.paths = new Paths();
+				}
+			
+				//assign the path to the current locale
+				configuration.paths.locale = configuration.paths.getLocalePath(
+					IConfigurationLocale( configuration.locales.current ) );
+			
+				//add the paths as a default binding
+				Deserializer.defaultBindings.addBinding(
+					new Binding(
+						Bindings.PATHS,
+						configuration.paths )
+				);
 			}
-			
-			//update the selected locale
-			configuration.locales.lang = flashvars.lang;
-			
-			//trace("ConfigurationInterpreter::complete()", "SET CURRENT LOCALE: ", flashvars.lang, configuration.locales.lang, configuration.locales.current );
-			
-			//add the current locale as a default namespace
-			Deserializer.defaultBindings.addBinding(
-				new Binding(
-					Bindings.LOCALE,
-					configuration.locales.current )
-			);
-			
-			//add the configuration as a default binding
-			Deserializer.defaultBindings.addBinding(
-				new Binding(
-					Bindings.CONFIGURATION,
-					configuration )
-			);
-			
-			//add the locales as a default binding
-			Deserializer.defaultBindings.addBinding(
-				new Binding(
-					Bindings.LOCALES,
-					configuration.locales )
-			);
-			
-			//ensure we always have some path information
-			//even if none is declared in the config
-			if( configuration.paths == null )
-			{
-				configuration.paths = new Paths();
-			}
-			
-			//assign the path to the current locale
-			configuration.paths.locale = configuration.paths.getLocalePath(
-				IConfigurationLocale( configuration.locales.current ) );
-			
-			//add the paths as a default binding
-			Deserializer.defaultBindings.addBinding(
-				new Binding(
-					Bindings.PATHS,
-					configuration.paths )
-			);
 			
 			super.complete( instance );
 		}

@@ -2,18 +2,13 @@
 <document>
 	<canvas>
 		<vbox>
-			
-			<graphic>
-				<id>graphic</id>
-				<styles>rectangle</styles>
-			</graphic>
-			
+			<id>vbox</id>
+			<spacing>5</spacing>
 			<list>
 				<id>my-list</id>
 				<preferred-width>100</preferred-width>
 				<preferred-height>100</preferred-height>
 			</list>
-			
 			<button>
 				<id>btn</id>
 				<preferred-width>100</preferred-width>
@@ -21,19 +16,8 @@
 				<text>button text</text>
 			</button>
 			
-			<id>vbox</id>
-			<spacing>5</spacing>
-			
-			<label>
-				<text>Currently ({binding:title}) - ({binding:another}) running with locale path {paths:locale} as locale: {locale:country}</text>
-				<!-- <filters>drop-shadow</filters> -->
-				<blend-mode>invert</blend-mode>
-				<!-- <selectable>true</selectable> -->
-			</label>
-			
 			<label>
 				<id>copy</id>
-				<styles>copy copy-override</styles>
 				<text>this is some copy text for you</text>
 			</label>
 			
@@ -43,48 +27,6 @@
 					<text><![CDATA[{it:key} > {it:value}]]></text>
 				</label>
 			</iterator>
-			
-			<hbox>
-				<spacing>10</spacing>
-				<iterator>
-					<provider>{binding:locales}</provider>
-					<vbox>
-						<spacing>0</spacing>
-						<label>
-							<text><![CDATA[{it:value.lang}]]></text>
-						</label>
-						<label>
-							<text><![CDATA[{it:value.country}]]></text>
-						</label>
-						<label>
-							<text><![CDATA[{it:value.prefix}]]></text>
-						</label>
-					</vbox>
-				</iterator>
-			</hbox>
-			
-			<hbox>
-				<spacing>10</spacing>
-				
-				<!--
-				<rect>
-					<preferred-width>25</preferred-width>
-					<preferred-height>25</preferred-height>
-					<fill>
-						<color>0xff6600</color>
-						<alpha>.5</alpha>
-					</fill>
-					<stroke>
-						<thickness>1</thickness>
-						<color>0xff0000</color>
-					</stroke>
-				</rect>
-				-->
-				
-				<label styles="lbl">
-					<text>This is a graphic that was rendered from an xml declaration.</text>
-				</label>
-			</hbox>
 			
 			<hbox>
 				<spacing>10</spacing>
@@ -147,16 +89,6 @@
 					<box-model />
 				</cell>							
 			</hbox>
-			
-			
-			<!-- <target>{scrollTarget}</target> -->
-			<!--
-			<canvas>				
-				<scroller>
-					<preferred-width>200</preferred-width>
-					<preferred-height>200</preferred-height>		
-				</scroller>
-			</canvas>-->
 		</vbox>
 	</canvas>
 </document>

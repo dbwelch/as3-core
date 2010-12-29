@@ -12,6 +12,9 @@ package com.ffsys.ui.runtime {
 	
 	import com.ffsys.utils.substitution.*;
 	import com.ffsys.utils.xml.XmlUtils;
+
+	import com.ffsys.ioc.IBeanDocument;
+	import com.ffsys.ioc.support.xml.BeanXmlInterpreter;
 	
 	/**
 	*	Interpreter for the runtime view document parser.
@@ -22,7 +25,7 @@ package com.ffsys.ui.runtime {
 	*	@author Mischa Williamson
 	*	@since  22.10.2010
 	*/
-	public class RuntimeInterpreter extends DeserializeInterpreter {
+	public class RuntimeInterpreter extends BeanXmlInterpreter {
 		
 		/**
 		* 	Constant representing the id property field.
@@ -31,24 +34,20 @@ package com.ffsys.ui.runtime {
 	
 		/**
 		* 	Constant representing the filters property field.
-		*/		
+		*/
 		public static const FILTERS:String = "filters";
 		
-		private var _document:IDocument;
+		private var _runtime:IDocument;
 		
 		/**
 		*	Creates a <code>RuntimeInterpreter</code> instance.
-		*	
-		*	@param useStringReplacement Whether string replacement should be
-		*	performed.
-		*	@param strictStringReplacement Whether string replacement performs
-		*	in a strict manner.
 		*/
-		public function RuntimeInterpreter(
-			useStringReplacement:Boolean = true,
-			strictStringReplacement:Boolean = true )
+		public function RuntimeInterpreter( document:IBeanDocument = null )
 		{
-			super( useStringReplacement, strictStringReplacement );
+			super( document );
+			trace("RuntimeInterpreter::init()", document );
+			this.useStringReplacement = true;
+			this.strictStringReplacement = true;
 		}
 		
 		/**
@@ -61,7 +60,7 @@ package com.ffsys.ui.runtime {
 				throw new Error( "Invalid runtime document type for " + instance );
 			}
 			
-			_document = IDocument( instance );
+			_runtime = IDocument( instance );
 		}
 		
 		/**
@@ -72,7 +71,7 @@ package com.ffsys.ui.runtime {
 			super.complete( instance );
 			
 			//clean our reference
-			_document = null;
+			_runtime = null;
 		}
 		
 		/**
@@ -84,7 +83,7 @@ package com.ffsys.ui.runtime {
 			deserializer:Deserializer,
 			contract:ISerializeContract ):Boolean
 		{
-			if( node.name().localName == RuntimeParser.EACH_NODE_NAME )
+			if( node.name().localName == ComponentIdentifiers.ITERATOR )
 			{
 				return true;
 			}
@@ -102,7 +101,7 @@ package com.ffsys.ui.runtime {
 			contract:ISerializeContract ):Object
 		{
 			
-			if( node.name().localName == RuntimeParser.EACH_NODE_NAME )
+			if( node.name().localName == ComponentIdentifiers.ITERATOR )
 			{
 				var provider:String = null;
 			
@@ -132,7 +131,7 @@ package com.ffsys.ui.runtime {
 			
 				//attempt to retrieve the value for the provider
 				var substitutor:Substitutor =
-					new Substitutor( provider, _document );
+					new Substitutor( provider, _runtime );
 				substitutor.parent = instance;
 				substitutor.namespaces = this.bindings;
 				var value:Object = substitutor.substitute();
@@ -151,7 +150,7 @@ package com.ffsys.ui.runtime {
 			
 				//build up a temporary document to parse on each iteration
 				var sample:XML = XmlUtils.getSimpleXmlNode(
-					RuntimeParser.DOCUMENT_NAME );
+					ComponentIdentifiers.DOCUMENT );
 			
 				var i:int = 0;
 				var l:int = node.children().length();
@@ -163,7 +162,7 @@ package com.ffsys.ui.runtime {
 					sample.appendChild( child );
 				}
 			
-				var bindings:IBindingCollection = this.bindings.clone();
+				var bindings:IBindingCollection = null;
 				var binding:IBinding = null;
 				var z:Object = null;
 			
@@ -176,11 +175,14 @@ package com.ffsys.ui.runtime {
 				{
 					item = value[ z ];
 					iteration = new Document();				
-				
+					
+					bindings = this.bindings.clone();
 					binding = new Binding( Runtime.ITERATE_BINDING, { key: z, value: item } );
 					bindings.addBinding( binding );
+					
+					trace("RuntimeInterpreter::complete()", this.document );
 
-					var parser:RuntimeParser = new RuntimeParser();
+					var parser:RuntimeParser = new RuntimeParser( this.document );
 					parser.interpreter.bindings = bindings;
 					parser.deserialize( sample, iteration );
 				
@@ -202,11 +204,16 @@ package com.ffsys.ui.runtime {
 		override public function shouldSetProperty(
 			parent:Object, name:String, value:* ):Boolean
 		{
+			
+			var hasProp:Boolean = parent.hasOwnProperty( name );
+			
+			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );	
+			
 			//handle storing identifier reference on the document
 			if( value && value.hasOwnProperty( ID ) && ( value[ ID ] != null ) )
 			{
 				var id:String = value[ ID ];
-				_document.identifiers[ id ] = value;
+				_runtime.identifiers[ id ] = value;
 			}
 			
 			/*
@@ -244,9 +251,7 @@ package com.ffsys.ui.runtime {
 				return false;
 			}
 			
-			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value );
-			
-			return true;
+			return hasProp;
 		}
 		
 		/**
@@ -259,24 +264,17 @@ package com.ffsys.ui.runtime {
 			{
 				var child:DisplayObject = DisplayObject( instance );
 				
+				/*
 				if( child is IComponentGraphic )
 				{
 					var graphic:IComponentGraphic = IComponentGraphic( child );
 					graphic.draw(
 						graphic.preferredWidth, graphic.preferredHeight );
 				}
+				*/
 				
 				if( parent is DisplayObjectContainer )
 				{
-					
-					/*
-					//set the styles property after all other deserialization
-					if( child is IStyleAware )
-					{
-						IStyleAware( child ).applyStyles();
-					}
-					*/
-					
 					DisplayObjectContainer( parent ).addChild( child );
 				}
 			}

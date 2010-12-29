@@ -65,7 +65,7 @@ package com.ffsys.swat.core {
 		{
 			_flashvars = value;
 			
-			trace("BootstrapLoader::set flashvars()", "SETTING BOOTSTRAP LOADER FLASH VARAIBLES", value );
+			//trace("BootstrapLoader::set flashvars()", "SETTING BOOTSTRAP LOADER FLASH VARAIBLES", value );
 			
 			if( value != null
 				&& value is DefaultFlashVariables )
@@ -123,12 +123,11 @@ package com.ffsys.swat.core {
 		{
 			super.parser = value;
 			
-			if( value != null )
+			if( value != null
+				&& value.interpreter is ConfigurationInterpreter )
 			{
-				var interpreter:ConfigurationInterpreter =
-					new ConfigurationInterpreter();
-				interpreter.flashvars = DefaultFlashVariables( _flashvars );
-				value.interpreter = interpreter;
+				ConfigurationInterpreter( value.interpreter ).flashvars = 
+					DefaultFlashVariables( _flashvars );
 			}
 		}
 		
