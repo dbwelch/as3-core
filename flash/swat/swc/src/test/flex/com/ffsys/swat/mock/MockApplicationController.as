@@ -6,6 +6,7 @@ package com.ffsys.swat.mock
 	import com.ffsys.ui.graphics.*;
 	
 	import com.ffsys.utils.properties.IProperties;
+	import com.ffsys.utils.properties.IMessagesAware;	
 
 	public class MockApplicationController extends DefaultApplicationController
 		implements 	ILocalesAware,

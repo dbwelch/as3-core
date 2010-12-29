@@ -1,10 +1,8 @@
-package com.ffsys.swat.core
-{
-	import com.ffsys.utils.properties.IProperties;
-		
+package com.ffsys.utils.properties
+{		
 	/**
 	*	Describes the contract for implementations that are aware
-	* 	of the application messages.
+	* 	of a collection of properties that represent messages.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -15,7 +13,7 @@ package com.ffsys.swat.core
 	public interface IMessagesAware
 	{
 		/**
-		* 	The application messages.
+		* 	The message properties.
 		*/
 		function get messages():IProperties;
 		function set messages( value:IProperties ):void;

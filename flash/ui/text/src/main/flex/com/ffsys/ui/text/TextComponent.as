@@ -6,6 +6,8 @@ package com.ffsys.ui.text
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	
+	import com.ffsys.ioc.IBeanConstructed;
+	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.data.IDataBindingNotification;
 	import com.ffsys.ui.data.StringDataBinding;
@@ -13,6 +15,9 @@ package com.ffsys.ui.text
 	import com.ffsys.ui.data.CreateNotification;
 	import com.ffsys.ui.text.core.ITypedTextField;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
+	
+	import com.ffsys.utils.properties.IMessagesAware;
+	import com.ffsys.utils.properties.IProperties;
 	
 	/**
 	*	Abstract super class for all components
@@ -25,9 +30,13 @@ package com.ffsys.ui.text
 	*	@since  21.06.2010
 	*/
 	public class TextComponent extends UIComponent
-		implements ICssTextFieldProxy
+		implements 	ICssTextFieldProxy,
+					IMessagesAware,
+					IBeanConstructed
 	{
 		private var _textfield:ITypedTextField;
+		private var _identifier:String;
+		private var _messages:IProperties;
 		
 		/**
 		*	Creates a <code>TextComponent</code> instance.
@@ -46,6 +55,56 @@ package com.ffsys.ui.text
 			
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
+		}
+		
+		/**
+		* 	A collection of messages this text component
+		* 	should select text from based on the <code>identifier</code>.
+		*/
+		public function get messages():IProperties
+		{
+			return _messages;
+		}
+		
+		public function set messages( value:IProperties ):void
+		{
+			_messages = value;
+		}
+		
+		/**
+		* 	The message identifier used to locate a message
+		* 	from the known messages.
+		*/
+		public function get identifier():String
+		{
+			return _identifier;
+		}
+		
+		public function set identifier( value:String ):void
+		{
+			_identifier = value;
+		}
+		
+		/**
+		* 	Invoked when this component is instantiated
+		* 	as a bean.
+		*/
+		public function constructed():void
+		{
+			trace("TextComponent::constructed()", this );
+			if( this.messages != null
+				&& this.identifier != null )
+			{
+				var msg:String = this.messages.getProperty.apply(
+					this.messages, [ this.identifier ] ) as String;
+				
+				trace("TextComponent::constructed()", msg );
+				
+				if( msg != null )
+				{
+					this.text = msg;
+				}
+			}
 		}
 		
 		/**
@@ -366,6 +425,17 @@ package com.ffsys.ui.text
 		{
 			throw new Error(
 				"You must specify the textfield class in your concrete implementation." );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			_textfield = null;
+			_identifier = null;
+			_messages = null;			
 		}
 	}
 }

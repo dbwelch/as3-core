@@ -14,12 +14,12 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.swat.core.DefaultApplicationController;
 	import com.ffsys.swat.core.IBootstrapLoader;
-	import com.ffsys.swat.core.IApplicationMainController;
-	import com.ffsys.swat.core.IMessagesAware;	
+	import com.ffsys.swat.core.IApplicationMainController;	
 	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
 	
+	import com.ffsys.utils.properties.IMessagesAware;
 	import com.ffsys.utils.properties.IProperties;
 	
 	import com.ffsys.ui.core.*;

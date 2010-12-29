@@ -3,6 +3,8 @@ package com.ffsys.swat.core
 	import com.ffsys.ioc.*;
 	import com.ffsys.swat.configuration.DefaultBeanIdentifiers;
 	import com.ffsys.swat.configuration.IConfiguration;
+	
+	import com.ffsys.utils.properties.IMessagesAware;
 		
 	/**
 	* 	Encpausulates the default bean configuration.
