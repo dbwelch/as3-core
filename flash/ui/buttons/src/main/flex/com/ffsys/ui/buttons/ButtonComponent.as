@@ -2,7 +2,7 @@ package com.ffsys.ui.buttons
 {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import com.ffsys.ui.core.SkinAwareComponent;
+	import com.ffsys.ui.core.InteractiveComponent;
 	import com.ffsys.ui.states.State;
 	
 	/**
@@ -14,7 +14,7 @@ package com.ffsys.ui.buttons
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class ButtonComponent extends SkinAwareComponent
+	public class ButtonComponent extends InteractiveComponent
 		implements IButton
 	{
 		private var _loop:String;
@@ -83,9 +83,7 @@ package com.ffsys.ui.buttons
 			_selected = selected;
 			
 			if( selectable
-				&& this.selected
-				&& this.skin
-			 	&& this.skin.hasState( State.SELECTED ) )
+				&& this.selected )
 			{
 				state = State.SELECTED;
 			}
@@ -120,10 +118,7 @@ package com.ffsys.ui.buttons
 		override protected function onMouseDown(
 			event:MouseEvent ):void
 		{
-			if( this.skin && this.skin.hasState( State.DOWN ) )
-			{
-				this.state = State.DOWN;
-			}
+			this.state = State.DOWN;
 			
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
@@ -165,22 +160,13 @@ package com.ffsys.ui.buttons
 			}			
 			
 			/*
-			if( this.skin
-				&& this.skin.hasState( State.DOWN )
-				&& this.skin.hasState( State.OVER ) )
-			{
-				this.state = State.OVER;
-			}
-			*/
-			
-			/*
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
 				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			}
 			*/
 			
-			super.onMouseClick( event );			
+			super.onMouseClick( event );	
 		}
 		
 		/**
@@ -193,10 +179,7 @@ package com.ffsys.ui.buttons
 			
 			if( !event.buttonDown )
 			{
-				if( this.skin && this.skin.hasState( State.OVER ) )
-				{
-					this.state = State.OVER;
-				}
+				this.state = State.OVER;
 			
 				if( loop && loop == ButtonLoopMode.OVER )
 				{
@@ -217,19 +200,12 @@ package com.ffsys.ui.buttons
 		{
 			var state:String = null;
 			
-			if( this.skin )
+			if( selectable
+				&& selected )
 			{
-				if( this.skin.hasState( State.MAIN ) )
-				{
-					state = State.MAIN;
-				}
-			
-				if( selectable
-					&& selected
-				 	&& this.skin.hasState( State.SELECTED ) )
-				{
-					state = State.SELECTED;
-				}
+				state = State.SELECTED;
+			}else{
+				state = State.MAIN;
 			}
 		
 			this.state = state;

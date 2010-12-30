@@ -48,12 +48,12 @@ SubParagraph {
 	color: #a9a9a9;
 }
 
-TextButton:up {
-	font: Arial;
-	size: 11;
-	embed-fonts: false;
-	auto-size: left;
-	word-wrap: false;
-	multiline: false;
+TextButton {
+	underline: false;
 	color: #a9a9a9;
+}
+
+TextButton:over {
+	underline: true;
+	color: #393939;
 }

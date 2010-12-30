@@ -22,12 +22,61 @@ package com.ffsys.ui.core
 		*/
 		static private var _styleManager:IStyleManager = null;
 		
+		private var _state:String;
+		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
 		*/
 		public function UIComponent()
 		{
 			super();
+		}
+		
+		public function get state():String
+		{
+			return _state;
+		}
+		
+		public function set state( value:String ):void
+		{
+			//force to the main state
+			if( value == null )
+			{
+				value = State.MAIN;
+			}
+			
+			_state = value;
+			
+			if( styleManager != null )
+			{
+				var stylesheet:ICssStyleSheet = styleManager.stylesheet;
+				var styleNames:Array = stylesheet.getStyleNameList( this );
+				var allNames:Array = stylesheet.styleNames;
+				
+				//apply all normal styles
+				stylesheet.style( this );
+				
+				//find one matching a non-main state
+				if( this.state != State.MAIN )
+				{
+					var stateStyle:Object = null;
+  					for( var i:int = 0;i < styleNames.length;i++ )
+					{
+						stateStyle = stylesheet.getStyle( styleNames[ i ] + ":" + this.state );
+						if( stateStyle != null )
+						{
+							break;
+						}
+					}
+				
+					//trace("UIComponent::set state()", "SEARCHING FOR STATE IN STYLE MANAGER this/all: ", styleNames, allNames, stateStyle );
+					
+					if( stateStyle != null )
+					{
+						stylesheet.applyStyle( this, stateStyle );
+					}
+				}
+			}
 		}
 		
 		/**

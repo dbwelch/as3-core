@@ -26,8 +26,6 @@
 		<module>loaders</module>
 		<module>runtime</module>
 		<module>scrollbars</module>
-		<module>skins</module>
-		<module>skins-core</module>
 		<module>suite</module>
 		<module>tooltips</module>
 		<module>text</module>

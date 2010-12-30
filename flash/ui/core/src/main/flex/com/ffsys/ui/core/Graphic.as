@@ -121,7 +121,6 @@ package com.ffsys.ui.core
 		{
 			if( styleManager )
 			{
-				var styleNames:Array = styleManager.getStyleNameList( this );
 				var styles:Array = styleManager.getStyleObjects( this );
 				var style:Object = null;
 				for( var i:int = 0;i < styles.length;i++ )

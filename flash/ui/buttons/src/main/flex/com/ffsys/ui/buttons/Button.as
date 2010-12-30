@@ -66,37 +66,6 @@ package com.ffsys.ui.buttons {
 			}
 			
 			return height;
-		}		
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override protected function configureDefaultSkin():void
-		{
-			super.configureDefaultSkin();
-			
-			/*
-			//main state for this component
-			var main:IViewState = new ViewState();
-			
-			main.graphics.push(
-				new RectangleGraphic(
-					width,
-					height ) );
-					
-			main.fills.push(
-				new SolidFill( 0x212121 ) );
-			
-			this.skin.addState( main );
-			
-			var over:IViewState = new ViewState( 
-			 	State.OVER );
-					
-			over.fills.push(
-				new SolidFill( 0x62592e ) );
-			
-			this.skin.addState( over );
-			*/
 		}
 	}
 }

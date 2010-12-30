@@ -373,9 +373,9 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	@private	
+		*	@inheritDoc	
 		*/
-		private function applyStyle( target:Object, style:Object ):void
+		public function applyStyle( target:Object, style:Object ):void
 		{
 			if( style && target )
 			{

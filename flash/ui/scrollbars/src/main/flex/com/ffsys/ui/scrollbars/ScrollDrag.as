@@ -75,24 +75,5 @@ package com.ffsys.ui.scrollbars {
 			useHandCursor = false;
 			buttonMode = false;
 		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override protected function configureDefaultSkin():void
-		{
-			//main state for this component
-			var main:IViewState = new ViewState();
-			
-			main.graphics.push(
-				new RectangleGraphic(
-					width,
-					height ) );
-					
-			main.fills.push(
-				new SolidFill( 0x212121 ) );
-			
-			this.skin.addState( main );
-		}
 	}
 }

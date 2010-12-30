@@ -140,25 +140,6 @@ package com.ffsys.ui.scrollbars {
 					AbstractScrollBar( scrollBar ).scrollTrackJump( event );
 				}
 			}
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override protected function configureDefaultSkin():void
-		{
-			//main state for this component
-			var main:IViewState = new ViewState();
-			
-			main.graphics.push(
-				new RectangleGraphic(
-					width,
-					height ) );
-					
-			main.fills.push(
-				new SolidFill( 0x3d3c3c, 1 ) );
-			
-			this.skin.addState( main );
 		}		
 	}
 }

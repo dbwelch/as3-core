@@ -1,4 +1,4 @@
-package com.ffsys.ui.states {
+package com.ffsys.ui.core {
 	
 	/**
 	*	Encapsulates constants that refer to common states
@@ -13,7 +13,7 @@ package com.ffsys.ui.states {
 	public class State extends Object {
 		
 		/**
-		*	The main state for the skin.
+		*	The main state for the component.
 		*	
 		*	This is considered the up state for buttons.
 		*/
