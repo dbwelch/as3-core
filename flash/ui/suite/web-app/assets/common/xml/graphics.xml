@@ -6,6 +6,23 @@
 		<hbox>
 			<id>package-menu</id>
 			<spacing>25</spacing>			
+			
+			<button>
+				<id>buttons-link</id>
+				<identifier>buttons.heading</identifier>				
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</button>
+			
+			<text-button>
+				<id>buttons-link</id>
+				<identifier>buttons.heading</identifier>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</text-button>
+			
 			<text-button>
 				<id>buttons-link</id>
 				<label>
@@ -19,7 +36,7 @@
 					<styles>uppercase</styles>
 					<identifier>graphics.heading</identifier>
 				</label>
-			</text-button>			
+			</text-button>
 		</hbox>
 		
 		<heading>

@@ -30,6 +30,35 @@ package com.ffsys.ui.buttons {
 		{	
 			//paddings.padding = 4
 			super( text, width, height );
+		}		
+		
+		/**
+		* 	Ensures that the background is drawn to our preferred dimensions.
+		*/
+		override public function set text( value:String ):void
+		{
+			super.text = value;
+			if( this.background != null )
+			{
+				this.background.preferredWidth = this.preferredWidth;
+				this.background.preferredHeight = this.preferredHeight;
+				this.background.draw();
+			}
+		}
+		
+		/**
+		* 	Ensures that the background is drawn to our preferred dimensions.
+		*/
+		override public function set background( value:IComponentGraphic ):void
+		{
+			super.background = value;
+			if( this.background != null
+			 	&& this.label != null )
+			{
+				this.background.preferredWidth = this.preferredWidth;
+				this.background.preferredHeight = this.preferredHeight;
+				this.background.draw();
+			}
 		}
 		
 		/**

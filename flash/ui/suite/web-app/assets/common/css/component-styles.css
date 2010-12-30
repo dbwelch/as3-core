@@ -57,3 +57,43 @@ TextButton:over {
 	underline: true;
 	color: #393939;
 }
+
+Button {
+	size: 10;	
+	background: ref( button-background-main );
+	underline: false;
+	color: #a9a9a9;
+	padding: 5;
+}
+
+Button:over {
+	background: ref( button-background-over );
+	underline: true;
+	color: #393939;
+}
+
+button-background-main {
+	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	fill: ref( button-background-fill );
+	corner-width: 5;
+	corner-height: 5;	
+}
+
+button-background-over {
+	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	fill: ref( button-background-fill-over );
+	corner-width: 5;
+	corner-height: 5;
+}
+
+button-background-fill {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #333333;
+	alpha: 0.75;
+}
+
+button-background-fill-over {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #a9a9a9;
+	alpha: 0.75;
+}

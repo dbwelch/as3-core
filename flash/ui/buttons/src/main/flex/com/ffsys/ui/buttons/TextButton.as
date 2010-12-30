@@ -3,6 +3,7 @@ package com.ffsys.ui.buttons
 	import flash.text.TextField;
 	import com.ffsys.ui.text.Label;
 	
+	import com.ffsys.ioc.IBeanFinalized;	
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 
 	/**
@@ -16,10 +17,12 @@ package com.ffsys.ui.buttons
 	*	@since  16.06.2010
 	*/
 	public class TextButton extends ButtonComponent
-		implements ICssTextFieldProxy
+		implements  ICssTextFieldProxy,
+					IBeanFinalized
 	{
 		private var _text:String;
 		private var _label:Label;
+		private var _identifier:String;
 		
 		/**
 		* 	Creates a <code>TextButton</code> instance.
@@ -34,7 +37,10 @@ package com.ffsys.ui.buttons
 			height:Number = NaN )
 		{
 			super( width, height );
-			this.text = text;
+			if( text != null )
+			{
+				this.text = text;
+			}
 		}
 		
 		/**
@@ -60,19 +66,25 @@ package com.ffsys.ui.buttons
 		
 		public function set text( text:String ):void
 		{
-			if( ( !text || text == "" ) && _label && contains( _label ) )
+			if( _label == null && text != null )
 			{
-				removeChild( _label );
+				_label = new Label( text );
 			}
 			
 			_text = text;
 			
 			if( this.text && this.text != "" )
 			{
-				_label = new Label( text );
 				_label.x = paddings.left;
 				_label.y = paddings.top;
-				_label.applyStyles();
+				//_label.applyStyles();
+			}
+			
+			_label.text = text;
+			
+			if( !this.contains( _label ) )
+			{
+				addChild( _label );
 			}
 		}
 		
@@ -116,6 +128,50 @@ package com.ffsys.ui.buttons
 			}
 			
 			return height;
+		}
+		
+		/**
+		* 	A message identifier for this text button component.
+		*/
+		public function get identifier():String
+		{
+			return _identifier;
+		}
+		
+		public function set identifier(value:String):void
+		{
+			_identifier = value;
+		}
+		
+		/**
+		* 	Invoked when this component is instantiated
+		* 	as a bean.
+		*/
+		public function finalized():void
+		{
+			if( _label == null )
+			{
+				//TODO: get the label from a bean
+				//so the messages reference would be correct
+				_label = new Label();
+			}
+			
+			trace("TextButton::finalized()", this, this.id, this.label, this.identifier );
+			if( this.label != null
+				&& this.label.messages != null
+				&& this.identifier != null
+				&& this.label.identifier == null )
+			{
+				var msg:String = this.label.messages.getProperty.apply(
+					this.label.messages, [ this.identifier ] ) as String;
+				
+				trace("TextButton::finalized() SEARCHING FOR MESSAGE TO SET: ", msg );
+				
+				if( msg != null )
+				{
+					this.text = msg;
+				}
+			}	
 		}
 		
 		/**

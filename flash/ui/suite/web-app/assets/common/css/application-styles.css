@@ -12,3 +12,7 @@ SubHeading {
 uppercase {
 	text-transform: uppercase;
 }
+
+TextButton:over {
+	color: #0000ff;
+}
