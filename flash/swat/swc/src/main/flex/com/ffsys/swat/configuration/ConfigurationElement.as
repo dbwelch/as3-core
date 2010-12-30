@@ -7,6 +7,7 @@ package com.ffsys.swat.configuration {
 	import flash.media.Sound;
 	
 	import com.ffsys.core.IFlashVariables;
+	import com.ffsys.swat.core.IComponentResource;	
 	import com.ffsys.swat.core.IResourceManager;
 	
 	import com.ffsys.ui.css.ICssStyleSheet;
@@ -129,6 +130,15 @@ package com.ffsys.swat.configuration {
 		{
 			verifyResources();
 			return _resources.getComponent( id );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/	
+		public function getComponentById( id:String ):IComponentResource
+		{
+			verifyResources();
+			return _resources.getComponentById( id );
 		}
 		
 		/**

@@ -77,13 +77,11 @@ package com.ffsys.swat.configuration.rsls
 		public function get document():IBeanDocument
 		{
 			var document:IBeanDocument = this.beanManager.document;
-			
 			if( document.id == null
 			 	&& this.id != null )
 			{
 				document.id = this.id;
 			}
-			
 			return document;
 		}
 		
@@ -141,7 +139,7 @@ package com.ffsys.swat.configuration.rsls
 			
 			
 			
-			trace("ComponentResourceCollection::getLoaderQueue() CHECKING MAIN XREF: ", this.document, configuration, configuration.resources, configuration.resources.document );
+			//trace("ComponentResourceCollection::getLoaderQueue() CHECKING MAIN XREF: ", this.document, configuration, configuration.resources, configuration.resources.document );
 			
 			//add a bean document xref to the component
 			//bean document pointing to the main bean document
@@ -152,7 +150,7 @@ package com.ffsys.swat.configuration.rsls
 			{		
 				var main:IBeanDocument = configuration.resources.document;
 				
-				trace("ComponentResourceCollection::getLoaderQueue() ASSIGNING MAIN XREF: ", main, main.id );
+				//trace("ComponentResourceCollection::getLoaderQueue() ASSIGNING MAIN XREF: ", main, main.id );
 				
 				//main document xrefs
 				this.document.xrefs.push( main );
@@ -163,7 +161,7 @@ package com.ffsys.swat.configuration.rsls
 				for( var i:int = 0;i < main.xrefs.length;i++ )
 				{
 					this.document.xrefs.push( main.xrefs[ i ] );
-					trace("ComponentResourceCollection::getLoaderQueue() ADDING COMPOSITE XREF: ", main.xrefs[ i ], main.xrefs[ i ].id );
+					//trace("ComponentResourceCollection::getLoaderQueue() ADDING COMPOSITE XREF: ", main.xrefs[ i ], main.xrefs[ i ].id );
 				}
 				
 				/*
@@ -198,7 +196,7 @@ package com.ffsys.swat.configuration.rsls
 					this.xmlBeans.getLoaderQueue( paths, locale ) );
 			}
 			
-			trace("ComponentResourceCollection::getLoaderQueue() GETTING DOCUMENT WITH XREFS ", this.document.xrefs, this.document.xrefs.length );
+			//trace("ComponentResourceCollection::getLoaderQueue() GETTING DOCUMENT WITH XREFS ", this.document.xrefs, this.document.xrefs.length );
 			
 			/*
 			var loaders:Array = queue.getAllLoaders();
@@ -256,7 +254,7 @@ package com.ffsys.swat.configuration.rsls
 			_css = value;
 			if( value != null )
 			{
-				trace("ComponentResourceCollection::set css()", "ASSIGNING GLOBAL CSS STYLE SHEET: ", this.styleManager );
+				//trace("ComponentResourceCollection::set css()", "ASSIGNING GLOBAL CSS STYLE SHEET: ", this.styleManager );
 				value.stylesheet = this.styleManager.stylesheet;
 			}
 		}

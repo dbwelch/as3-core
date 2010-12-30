@@ -140,6 +140,15 @@ package com.ffsys.swat.core
 		}
 		
 		/**
+		*	@inheritDoc
+		*/
+		public function getComponentById( id:String ):IComponentResource
+		{
+			verifyConfiguration();
+			return this.configuration.getComponentById( id );
+		}
+		
+		/**
 		* 	Provides access to stored beans.
 		* 
 		* 	@param beanName The name of the bean.
@@ -277,6 +286,22 @@ package com.ffsys.swat.core
 		}
 		
 		/**
+		* 	Gets the bean document from the bean parser
+		* 	used to parse view documents.
+		* 
+		* 	@return The view bean document.
+		*/
+		protected function getViewDocument():IBeanDocument
+		{
+			var parser:IBeanXmlParser = getViewParser();
+			if( parser != null )
+			{
+				return parser.document;
+			}
+			return null;
+		}
+		
+		/**
 		* 	Performs actions on a bean document used when loading
 		* 	a view component.
 		* 
@@ -285,8 +310,12 @@ package com.ffsys.swat.core
 		* 	via cross references.
 		* 
 		* 	@param document The view component bean document.
+		* 	@param component The component resource that encapsulates
+		* 	the view definition.
 		*/
-		protected function doWithViewBeans( document:IBeanDocument ):void
+		protected function doWithViewBeans(
+			document:IBeanDocument,
+			component:IComponentResource ):void
 		{
 			verifyConfiguration();
 			
@@ -315,6 +344,14 @@ package com.ffsys.swat.core
 					document.xrefs.push( xref );
 				}
 			}
+			
+			//add component beans as available to the view document
+			if( component.document != null
+				&& document.xrefs.indexOf( component.document ) == -1 )
+			{
+				trace("DefaultController::getViewDocument()", "ADDING COMPONENT BEANS TO VIEW BEANS!?!!?!?!?!?!?!?!?!?" );
+				document.xrefs.push( component.document );
+			}
 		}
 		
 		/**
@@ -323,6 +360,7 @@ package com.ffsys.swat.core
 		public function getView( id:String, ...bindings ):DisplayObject
 		{
 			verifyConfiguration();
+			
 			var parser:IBeanXmlParser = getViewParser();
 			if( parser == null )
 			{
@@ -330,7 +368,9 @@ package com.ffsys.swat.core
 					"Cannot retrieve a view with no valid view parser." );
 			}
 			
-			var component:XML = getComponent( id ) as XML;
+			var componentResource:IComponentResource = 
+				getComponentById( id );
+			var component:XML = componentResource.target as XML;
 			if( component == null )
 			{
 				throw new Error(
@@ -352,11 +392,13 @@ package com.ffsys.swat.core
 			var beans:IBeanDocument = parser.document;
 			if( beans != null )
 			{
-				doWithViewBeans( beans );
+				doWithViewBeans( beans, componentResource );
 			}
 			
 			var document:Object = parser.deserialize( component );
+			
 			trace("DefaultController::getView()", id, document );
+			
 			return document as DisplayObject;
 		}
 		

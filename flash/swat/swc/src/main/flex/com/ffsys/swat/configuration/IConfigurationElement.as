@@ -5,9 +5,11 @@ package com.ffsys.swat.configuration {
 	import com.ffsys.core.IDestroy;
 	import com.ffsys.core.IStringIdentifier;
 	import com.ffsys.ioc.IBeanAccess;
-	import com.ffsys.swat.core.IFlashVariablesAware;
+
 	import com.ffsys.swat.configuration.locale.ILocaleManager;
 	
+	import com.ffsys.swat.core.IComponentResource;
+	import com.ffsys.swat.core.IFlashVariablesAware;	
 	import com.ffsys.swat.core.IMessageAccess;
 	import com.ffsys.swat.core.IResourcesAware;
 	import com.ffsys.swat.core.IResourceAccess;
@@ -51,6 +53,15 @@ package com.ffsys.swat.configuration {
 		* 	otherwise <code>null</code>.
 		*/
 		function getComponent( id:String ):Object;
+				
+		/**
+		* 	Gets a component resource by identifier.
+		* 
+		* 	@param id The identifier for the component.
+		* 
+		* 	@return The component resource.
+		*/	
+		function getComponentById( id:String ):IComponentResource;
 		
 		/**
 		*	The locale manager.

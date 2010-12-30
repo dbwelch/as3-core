@@ -58,6 +58,15 @@ package com.ffsys.swat.core
 		function getComponent( id:String ):Object;
 		
 		/**
+		* 	Gets a component resource by identifier.
+		* 
+		* 	@param id The identifier for the component.
+		* 
+		* 	@return The component resource.
+		*/	
+		function getComponentById( id:String ):IComponentResource;
+		
+		/**
 		* 	The bean manager used to load the bean documents.
 		*/
 		function get beanManager():IBeanManager;
