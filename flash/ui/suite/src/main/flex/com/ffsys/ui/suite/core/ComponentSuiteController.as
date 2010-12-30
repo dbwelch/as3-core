@@ -85,9 +85,11 @@ package com.ffsys.ui.suite.core {
 				vbox.addChild( view );
 			}
 			
+			/*
 			var graphicsSuite:GraphicsSuite = new GraphicsSuite();
 			vbox.addChild( graphicsSuite );		
 			graphicsSuite.y += 350;
+			*/
 			
 			/*
 			var loadersSuite:LoadersSuite = new LoadersSuite();

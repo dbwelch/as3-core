@@ -209,7 +209,7 @@ package com.ffsys.ui.runtime {
 			
 			var hasProp:Boolean = parent.hasOwnProperty( name );
 			
-			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );	
+			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );	
 			
 			if( value is RuntimeBeanReference )
 			{

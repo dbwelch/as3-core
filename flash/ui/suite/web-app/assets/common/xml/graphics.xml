@@ -3,6 +3,25 @@
 	<vbox>
 		<spacing>5</spacing>
 		
+		<hbox>
+			<id>package-menu</id>
+			<spacing>25</spacing>			
+			<text-button>
+				<id>buttons-link</id>
+				<label>
+					<styles>uppercase</styles>
+					<identifier>buttons.heading</identifier>
+				</label>
+			</text-button>
+			<text-button>
+				<id>graphics-link</id>
+				<label>
+					<styles>uppercase</styles>
+					<identifier>graphics.heading</identifier>
+				</label>
+			</text-button>			
+		</hbox>
+		
 		<heading>
 			<identifier>graphics.heading</identifier>
 		</heading>
