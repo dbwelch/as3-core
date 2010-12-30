@@ -246,10 +246,12 @@ package com.ffsys.ui.runtime {
 				return false;
 			}
 			
+			/*
 			if( value is DisplayObject )
 			{
 				return false;
 			}
+			*/
 			
 			return hasProp;
 		}

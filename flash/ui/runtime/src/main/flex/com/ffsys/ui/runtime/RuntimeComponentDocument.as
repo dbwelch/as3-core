@@ -83,6 +83,11 @@ package com.ffsys.ui.runtime
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BITMAP_GRAPHIC );
+			descriptor.instanceClass = BitmapGraphic;
+			beans.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.LABEL );
 			descriptor.instanceClass = Label;
 			beans.addBeanDescriptor( descriptor );
@@ -91,6 +96,11 @@ package com.ffsys.ui.runtime
 				ComponentIdentifiers.BUTTON );
 			descriptor.instanceClass = Button;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.ICON_BUTTON );
+			descriptor.instanceClass = IconButton;
+			beans.addBeanDescriptor( descriptor );		
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.TEXT_BUTTON );

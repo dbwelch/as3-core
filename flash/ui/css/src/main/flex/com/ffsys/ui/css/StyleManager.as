@@ -223,7 +223,7 @@ package com.ffsys.ui.css {
 		/**
 		*	@inheritDoc	
 		*/
-		public function style( target:IStyleAware, ...custom ):void
+		public function style( target:IStyleAware, ...custom ):Array
 		{
 			if( target && this.stylesheet )
 			{
@@ -232,8 +232,9 @@ package com.ffsys.ui.css {
 					custom = new Array();
 				}
 				custom.unshift( target );
-				this.stylesheet.style.apply( this.stylesheet, custom );
+				return this.stylesheet.style.apply( this.stylesheet, custom );
 			}
+			return null;
 		}
 	}
 }

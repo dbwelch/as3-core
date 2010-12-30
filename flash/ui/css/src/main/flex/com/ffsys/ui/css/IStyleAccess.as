@@ -153,7 +153,7 @@ package com.ffsys.ui.css
 		* 	@param ...custom Custom style objects to apply in addition
 		* 	to any styles found on the style aware instance.
 		*/
-		function style( target:IStyleAware, ...custom ):void;
+		function style( target:IStyleAware, ...custom ):Array;
 
 		/**
 		*	Attempts to retrieve a style as a bitmap filter.

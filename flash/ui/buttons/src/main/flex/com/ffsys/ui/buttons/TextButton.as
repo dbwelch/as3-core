@@ -125,5 +125,10 @@ package com.ffsys.ui.buttons
 		{
 			return _label;
 		}
+		
+		public function set label( value:Label ):void
+		{
+			_label = value;
+		}
 	}
 }

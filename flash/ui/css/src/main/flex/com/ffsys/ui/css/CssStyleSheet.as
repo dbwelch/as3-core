@@ -177,7 +177,7 @@ package com.ffsys.ui.css {
 		/**
 		*	@inheritDoc	
 		*/
-		public function style( target:IStyleAware, ...custom ):void
+		public function style( target:IStyleAware, ...custom ):Array
 		{
 			if( target )
 			{
@@ -187,7 +187,9 @@ package com.ffsys.ui.css {
 				{
 					applyStyles( target, styles );
 				}
+				return styles;
 			}
+			return null;
 		}
 		
 		/**

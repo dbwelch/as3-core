@@ -53,12 +53,13 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc
 		*/
-		override public function applyStyles():void
+		override public function applyStyles():Array
 		{
 			if( styleManager )
 			{
-				styleManager.style( this );
+				return styleManager.style( this );
 			}
+			return null;
 		}
 		
 		/**

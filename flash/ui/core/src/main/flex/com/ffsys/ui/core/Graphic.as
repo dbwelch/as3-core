@@ -117,7 +117,7 @@ package com.ffsys.ui.core
 		* 	behaviour. To prevent this, only ever apply a single graphic style declaration
 		* 	to this component.
 		*/
-		override public function applyStyles():void
+		override public function applyStyles():Array
 		{
 			if( styleManager )
 			{
@@ -134,6 +134,7 @@ package com.ffsys.ui.core
 					}
 				}
 			}
+			return null;
 		}
 		
 		/**

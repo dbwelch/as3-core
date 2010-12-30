@@ -77,12 +77,13 @@ package com.ffsys.ui.css
 		/**
 		*	@inheritDoc
 		*/
-		public function applyStyles():void
+		public function applyStyles():Array
 		{
 			if( _styleManager )
 			{
-				_styleManager.style( this );
+				return _styleManager.style( this );
 			}
+			return null;
 		}
 		
 		/**

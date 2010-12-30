@@ -22,6 +22,6 @@ package com.ffsys.ui.css {
 		*	Invoked to apply the styles associated with
 		*	this style aware implementation.
 		*/
-		function applyStyles():void;
+		function applyStyles():Array;
 	}
 }

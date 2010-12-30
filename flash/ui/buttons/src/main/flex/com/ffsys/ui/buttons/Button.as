@@ -75,6 +75,7 @@ package com.ffsys.ui.buttons {
 		{
 			super.configureDefaultSkin();
 			
+			/*
 			//main state for this component
 			var main:IViewState = new ViewState();
 			
@@ -95,6 +96,7 @@ package com.ffsys.ui.buttons {
 				new SolidFill( 0x62592e ) );
 			
 			this.skin.addState( over );
+			*/
 		}
 	}
 }

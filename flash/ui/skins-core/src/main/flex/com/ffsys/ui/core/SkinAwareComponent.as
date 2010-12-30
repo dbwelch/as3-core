@@ -167,13 +167,15 @@ package com.ffsys.ui.core
 		*	This method is automatically invoked when the state
 		*	of the component is set.
 		*/
-		override public function applyStyles():void
+		override public function applyStyles():Array
 		{
-			super.applyStyles();
+			var output:Array = super.applyStyles();
 			
 			applyGraphicStyles( preferredWidth, preferredHeight );
 			applyAlpha();
 			applyBlendMode();
+			
+			return output;
 		}
 		
 		/**

@@ -131,9 +131,9 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc
 		*/
-		public function applyStyles():void
+		public function applyStyles():Array
 		{
-			//
+			return null;
 		}
 		
 		/**

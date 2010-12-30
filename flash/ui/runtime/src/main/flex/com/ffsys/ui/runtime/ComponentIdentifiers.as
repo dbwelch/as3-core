@@ -70,6 +70,11 @@ package com.ffsys.ui.runtime
 		public static const GRAPHIC:String = "graphic";
 		
 		/**
+		* 	The identifier for a bitmap graphic component.
+		*/
+		public static const BITMAP_GRAPHIC:String = "bitmap-graphic";
+		
+		/**
 		* 	The identifier for a label component.
 		*/
 		public static const LABEL:String = "label";
@@ -78,6 +83,11 @@ package com.ffsys.ui.runtime
 		* 	The identifier for a button component.
 		*/
 		public static const BUTTON:String = "button";
+		
+		/**
+		* 	The identifier for an icon button component.
+		*/
+		public static const ICON_BUTTON:String = "icon-button";
 		
 		/**
 		* 	The identifier for a scroller component.
