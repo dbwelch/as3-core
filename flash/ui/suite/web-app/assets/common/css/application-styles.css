@@ -1,0 +1,10 @@
+Heading {
+	text-transform: uppercase;
+	size: 12;
+}
+
+SubHeading {
+	text-transform: uppercase;
+	underline: true;
+	size: 10;
+}

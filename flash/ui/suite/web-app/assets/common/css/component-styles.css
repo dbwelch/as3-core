@@ -1,0 +1,59 @@
+Label {
+	font: Arial;
+	size: 12;
+	embed-fonts: false;
+	auto-size: left;
+	word-wrap: false;
+	multiline: false;
+	color: #a9a9a9;
+}
+
+Paragraph {
+	font: Arial;
+	size: 12;
+	embed-fonts: false;
+	auto-size: left;
+	word-wrap: false;
+	multiline: false;
+	color: #a9a9a9;
+}
+
+Heading {
+	font: Arial;
+	size: 16;
+	embed-fonts: false;
+	auto-size: left;
+	word-wrap: false;
+	multiline: false;
+	color: #a9a9a9;
+}
+
+SubHeading {
+	font: Arial;
+	size: 14;
+	embed-fonts: false;
+	auto-size: left;
+	word-wrap: false;
+	multiline: false;
+	color: #a9a9a9;
+}
+
+SubParagraph {
+	font: Arial;
+	size: 11;
+	embed-fonts: false;
+	auto-size: left;
+	word-wrap: false;
+	multiline: false;
+	color: #a9a9a9;
+}
+
+TextButton:up {
+	font: Arial;
+	size: 11;
+	embed-fonts: false;
+	auto-size: left;
+	word-wrap: false;
+	multiline: false;
+	color: #a9a9a9;
+}

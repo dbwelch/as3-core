@@ -52,6 +52,9 @@ package com.ffsys.ui.graphics
 			}
 		}
 		
+		/**
+		* 	A width to apply to all corners.
+		*/
 		public function get cornerWidth():Number
 		{
 			return _cornerWidth;
@@ -63,12 +66,12 @@ package com.ffsys.ui.graphics
 			_corners[ 1 ].width = value;
 			_corners[ 2 ].width = value;
 			_corners[ 3 ].width = value;
-			
-			trace("CornerAwareRectangleGraphic::set cornerWidth()", this.id, value );
-			
 			_cornerWidth = value;
 		}
 		
+		/**
+		* 	A height to apply to all corners.
+		*/
 		public function get cornerHeight():Number
 		{
 			return _cornerHeight;
@@ -80,7 +83,6 @@ package com.ffsys.ui.graphics
 			_corners[ 1 ].height = value;
 			_corners[ 2 ].height = value;
 			_corners[ 3 ].height = value;
-			
 			_cornerHeight = value;
 		}
 		

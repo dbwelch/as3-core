@@ -125,6 +125,26 @@ package com.ffsys.ui.runtime
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HEADING );
+			descriptor.instanceClass = Heading;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SUB_HEADING );
+			descriptor.instanceClass = SubHeading;
+			beans.addBeanDescriptor( descriptor );						
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.PARAGRAPH );
+			descriptor.instanceClass = Paragraph;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SUB_PARAGRAPH );
+			descriptor.instanceClass = SubParagraph;
+			beans.addBeanDescriptor( descriptor );						
+			
+			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.BUTTON );
 			descriptor.instanceClass = Button;
 			beans.addBeanDescriptor( descriptor );

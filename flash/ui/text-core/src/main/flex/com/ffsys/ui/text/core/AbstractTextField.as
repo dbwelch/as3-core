@@ -220,7 +220,7 @@ package com.ffsys.ui.text.core {
 			}
 			
 			this.defaultTextFormat = tf;
-			setText( this.text );
+			//setText( this.text );
 		}
 		
 		/**

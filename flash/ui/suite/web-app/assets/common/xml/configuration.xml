@@ -21,25 +21,26 @@
 			
 			<beans>
 				<resource>
-					<url>css/beans.css</url>
+					<url>css/application.css</url>
 				</resource>
+				<resource>
+					<url>css/graphic-components.css</url>
+				</resource>				
 			</beans>
 			
 			<css>
 				<resource>
-					<url>css/graphics.css</url>
+					<url>css/component-styles.css</url>
 				</resource>
+				<resource>
+					<url>css/application-styles.css</url>
+				</resource>				
 			</css>
 			
 			<components>
 				<id>components</id>
 				<view>
 					<id>graphics</id>
-					<beans>
-						<resource>
-							<url>css/graphic-components.css</url>
-						</resource>
-					</beans>
 					<xml>
 						<resource>
 							<url>xml/graphics.xml</url>
@@ -47,6 +48,12 @@
 					</xml>
 				</view>						
 			</components>
+			
+			<messages>
+				<resource>
+					<url>messages/messages.properties</url>
+				</resource>
+			</messages>			
 		</resources>
 		
 		<!-- only english -->

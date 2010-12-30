@@ -42,12 +42,6 @@ package com.ffsys.ui.graphics
 			bitmap:IBitmapFill = null )
 		{
 			super();
-			
-			if( !solid )
-			{
-				solid = new SolidFill();
-			}
-			
 			this.solid = solid;
 			this.gradient = gradient;
 			this.bitmap = bitmap;
@@ -102,11 +96,12 @@ package com.ffsys.ui.graphics
 				_composites = new Array();
 			}
 			
+			
 			if( solid != null
 				&& _composites.indexOf( solid ) == -1 )
 			{
 				_composites.push( solid );
-			}
+			}			
 			
 			if( gradient != null
 				&& _composites.indexOf( gradient ) == -1 )
@@ -114,11 +109,12 @@ package com.ffsys.ui.graphics
 				_composites.push( gradient );
 			}
 			
+			
 			if( bitmap != null
 				&& _composites.indexOf( bitmap ) == -1 )
 			{
 				_composites.push( bitmap );
-			}			
+			}		
 			
 			return _composites;
 		}
@@ -142,6 +138,7 @@ package com.ffsys.ui.graphics
 				//composite solid color, gradient and bitmap
 				//or a custom composite collection
 				var layers:Array = this.composites;
+				//trace("CompositeFill::apply()", layers.length, component.id );
 				var layer:IGraphicElement = null;
 				for( var i:int = 0;i < layers.length;i++ )
 				{

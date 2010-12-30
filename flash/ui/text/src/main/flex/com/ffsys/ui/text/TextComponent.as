@@ -37,6 +37,7 @@ package com.ffsys.ui.text
 		private var _textfield:ITypedTextField;
 		private var _identifier:String;
 		private var _messages:IProperties;
+		private var _textTransform:String;
 		
 		/**
 		*	Creates a <code>TextComponent</code> instance.
@@ -55,6 +56,21 @@ package com.ffsys.ui.text
 			
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
+		}
+		
+		public function get textTransform():String
+		{
+			return _textTransform;
+		}
+		
+		public function set textTransform( value:String ):void
+		{
+			if( value != null )
+			{
+				value = value.toLowerCase();
+			}
+			trace("TextComponent::set textTransform()", value );
+			_textTransform = value;
 		}
 		
 		/**
@@ -293,11 +309,49 @@ package com.ffsys.ui.text
 			return textfield.getText();
 		}
 		
+		private function handleTextTransform( text:String ):String
+		{
+			if( this.textTransform == TextTransform.UPPERCASE )
+			{
+				text = text.toUpperCase();
+			}else if( this.textTransform == TextTransform.LOWERCASE )
+			{
+				text = text.toLowerCase();
+			}else if( this.textTransform == TextTransform.UNDERLINE )
+			{
+				trace("TextComponent::handleTextTransform()", "APPLYING UNDERLINE!!!!" );
+				_textfield.applyTextFormatProperties( { underline: true } );
+			}else if( this.textTransform == TextTransform.NONE )
+			{
+				_textfield.applyTextFormatProperties( { underline: false } );
+			}
+			
+			return text;
+		}
+		
+		/**
+		* 	Whether the text is underlined.
+		*/
+		public function get underline():Boolean
+		{
+			return _textfield.defaultTextFormat.underline;
+		}
+		
+		public function set underline( value:Boolean ):void
+		{
+			_textfield.defaultTextFormat.underline = value;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
 		public function set text( text:String ):void
-		{
+		{	
+			if( textTransform != null ) 
+			{
+				text = handleTextTransform( text );
+			}
+			
 			textfield.setText( text );
 			
 			/*
