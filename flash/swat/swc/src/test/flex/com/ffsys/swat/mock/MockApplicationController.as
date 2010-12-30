@@ -3,13 +3,15 @@ package com.ffsys.swat.mock
 	import com.ffsys.swat.core.*;
 	import com.ffsys.swat.configuration.*;
 	import com.ffsys.swat.configuration.locale.*;
+	import com.ffsys.swat.view.*;
 	import com.ffsys.ui.graphics.*;
 	
 	import com.ffsys.utils.properties.IProperties;
 	import com.ffsys.utils.properties.IMessagesAware;	
 
-	public class MockApplicationController extends DefaultApplicationController
-		implements 	ILocalesAware,
+	public class MockApplicationController extends DefaultController
+		implements 	IApplicationMainController,
+					ILocalesAware,
 					IMessagesAware,
 					IErrorMessagesAware,
 					IPathsAware,
@@ -29,6 +31,19 @@ package com.ffsys.swat.mock
 		public function MockApplicationController()
 		{
 			super();
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function ready(
+			parent:IApplication,
+			main:IApplicationPreloader,
+			runtime:IBootstrapLoader,
+			view:IApplicationPreloadView ):Boolean
+		{
+			//
+			return true;
 		}
 		
 		/**

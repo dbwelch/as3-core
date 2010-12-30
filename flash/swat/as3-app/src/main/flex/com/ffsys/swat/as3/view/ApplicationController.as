@@ -14,7 +14,6 @@ package com.ffsys.swat.as3.view {
 	
 	import com.ffsys.io.xml.IParser;	
 	
-	import com.ffsys.swat.core.DefaultApplicationController;
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.IApplicationMainController;	
 	import com.ffsys.swat.view.IApplication;
