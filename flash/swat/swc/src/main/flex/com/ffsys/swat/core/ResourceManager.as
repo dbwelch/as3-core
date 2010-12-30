@@ -6,6 +6,7 @@ package com.ffsys.swat.core
 	import flash.media.Sound;
 	
 	import com.ffsys.ioc.*;
+	import com.ffsys.ui.core.IStyleManagerAware;	
 	import com.ffsys.ui.css.*;
 	import com.ffsys.io.loaders.resources.*;
 	

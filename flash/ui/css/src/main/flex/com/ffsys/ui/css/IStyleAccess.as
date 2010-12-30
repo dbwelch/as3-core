@@ -3,6 +3,8 @@ package com.ffsys.ui.css
 	import flash.filters.BitmapFilter;
 	import flash.text.TextFormat;
 	
+	import com.ffsys.ui.common.IStyleAware;	
+	
 	/**
 	*	Describes the contract for implementations that provide access
 	* 	to loaded style data.

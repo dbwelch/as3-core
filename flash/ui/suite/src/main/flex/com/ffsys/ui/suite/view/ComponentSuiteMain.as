@@ -2,6 +2,10 @@ package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.swat.view.DefaultApplicationMain;
 	
+	import com.ffsys.ui.graphics.*;
+	
+	import com.ffsys.ui.suite.core.ComponentSuiteController;
+	
 	/**
 	*	Main entry point for the application.
 	*
@@ -25,7 +29,23 @@ package com.ffsys.ui.suite.view {
 		override public function getRuntimeClasses():Array
 		{
 			var output:Array = new Array();
-			output.push( ComponentSuiteContainer );
+			output.push( ComponentSuiteController );
+
+			output.push( RectangleGraphic );
+			output.push( SquareGraphic );
+			output.push( CircleGraphic );
+			output.push( EllipseGraphic );
+			output.push( ArrowGraphic );
+			output.push( BevelRectangleGraphic );
+			output.push( RoundedRectangleGraphic );
+			
+			output.push( ArrowPointer );
+			output.push( SolidFill );
+			output.push( BitmapFill );
+			output.push( GradientFill );
+			output.push( CompositeFill );
+			output.push( Gradient );
+			output.push( Stroke );
 			return output;
 		}
 	}

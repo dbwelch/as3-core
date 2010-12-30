@@ -6,9 +6,11 @@ package com.ffsys.ui.runtime {
 	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.graphics.IComponentGraphic;
-	import com.ffsys.ui.css.IStyleAware;
+	import com.ffsys.ui.common.IStyleAware;
 	
 	import com.ffsys.io.xml.*;
+	
+	import com.ffsys.ui.graphics.*;	
 	
 	import com.ffsys.utils.substitution.*;
 	import com.ffsys.utils.xml.XmlUtils;
@@ -209,6 +211,29 @@ package com.ffsys.ui.runtime {
 			
 			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );	
 			
+			if( value is RuntimeBeanReference )
+			{
+				var beanName:String = RuntimeBeanReference( value ).ref;
+				var bean:Object = this.document.getBean( beanName );
+				
+				if( bean == null )
+				{
+					throw new Error(
+						"Could not locate bean reference with identifier '"
+						 + beanName + "'." );
+				}
+				
+				//replace the 
+				//value = bean;
+				
+				if( hasProp )
+				{
+					//try to set the property to the bean value
+					parent[ name ] = bean;
+					return false;
+				}
+			}
+			
 			//handle storing identifier reference on the document
 			if( value && value.hasOwnProperty( ID ) && ( value[ ID ] != null ) )
 			{
@@ -262,6 +287,20 @@ package com.ffsys.ui.runtime {
 		override public function postProcessClass(
 			instance:Object, parent:Object ):void
 		{
+			/*
+			trace("RuntimeInterpreter::postProcessClass()", instance );
+			
+			if( instance is RectangleGraphic )
+			{
+				trace("RuntimeInterpreter::complete()", RectangleGraphic( instance ).pointer );
+				
+				if( RectangleGraphic( instance ).pointer )
+				{
+					trace("RuntimeInterpreter::complete()", RectangleGraphic( instance ).pointer.orientation );
+				}
+			}
+			*/
+			
 			if( instance is DisplayObject )
 			{
 				var child:DisplayObject = DisplayObject( instance );

@@ -16,27 +16,6 @@ test-style {
 	property-resource-not-found: img( assets/mock-css-image-resource-not-found.jpg );
 }
 
-rectangle {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
-	fill: ref( default-fill );
-	stroke: ref( default-stroke );
-	preferred-width: 20;
-	preferred-height: 20;
-}
-
-default-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #00ff00;
-	alpha: 0.5;
-}
-
-default-stroke {
-	instance-class: class( com.ffsys.ui.graphics.Stroke );
-	thickness: 1;
-	color: #ff0000;
-	alpha: 0.5;
-}
-
 references {
 	rectangle: ref( rectangle );
 }

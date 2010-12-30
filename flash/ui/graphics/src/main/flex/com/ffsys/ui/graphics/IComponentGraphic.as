@@ -2,6 +2,8 @@ package com.ffsys.ui.graphics
 {	
 	import flash.geom.Point;
 	
+	import com.ffsys.core.IStringIdentifier;
+	
 	import com.ffsys.ui.common.flash.IShape;
 	
 	import com.ffsys.ui.common.IMarginAware;
@@ -10,6 +12,7 @@ package com.ffsys.ui.graphics
 	import com.ffsys.ui.layout.ILayoutWidth;
 	import com.ffsys.ui.layout.ILayoutHeight;
 	
+	import com.ffsys.ui.common.IStyleAware;
 	
 	/**
 	*	Describes the contract for component graphics.
@@ -22,6 +25,8 @@ package com.ffsys.ui.graphics
 	*/
 	public interface IComponentGraphic
 		extends IShape,
+				IStringIdentifier,
+				IStyleAware,
 				IMarginAware,
 				IPaddingAware,
 				ILayoutWidth,

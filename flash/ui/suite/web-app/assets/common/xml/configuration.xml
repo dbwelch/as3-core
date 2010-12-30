@@ -23,14 +23,34 @@
 				<resource>
 					<url>css/beans.css</url>
 				</resource>
-			</beans>			
+			</beans>
 			
+			<css>
+				<resource>
+					<url>css/graphics.css</url>
+				</resource>
+			</css>
+			
+			<components>
+				<id>components</id>
+				<view>
+					<id>graphics</id>
+					<beans>
+						<resource>
+							<url>css/graphic-components.css</url>
+						</resource>
+					</beans>
+					<xml>
+						<resource>
+							<url>xml/graphics.xml</url>
+						</resource>
+					</xml>
+				</view>						
+			</components>
 		</resources>
 		
-		<!-- Locale definitions -->
-		<locale lang="en" country="GB">
-
-		</locale>
+		<!-- only english -->
+		<locale lang="en" country="GB" />
 		
 	</locales>
 	

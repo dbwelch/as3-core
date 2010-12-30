@@ -75,6 +75,41 @@ package com.ffsys.ui.runtime
 		public static const BITMAP_GRAPHIC:String = "bitmap-graphic";
 		
 		/**
+		* 	The identifier for a fill bean reference.
+		*/
+		public static const FILL:String = "fill";
+		
+		/**
+		* 	The identifier for a stroke bean reference.
+		*/
+		public static const STROKE:String = "stroke";
+		
+		/**
+		* 	The identifier for a gradient.
+		*/
+		public static const GRADIENT:String = "gradient";
+		
+		/**
+		* 	The identifier for a top left corner reference.
+		*/
+		public static const TOP_LEFT_CORNER:String = "top-left-corner";
+		
+		/**
+		* 	The identifier for a top right corner reference.
+		*/
+		public static const TOP_RIGHT_CORNER:String = "top-right-corner";
+		
+		/**
+		* 	The identifier for a bottom left corner reference.
+		*/
+		public static const BOTTOM_LEFT_CORNER:String = "bottom-left-corner";
+	
+		/**
+		* 	The identifier for a bottom right corner reference.
+		*/
+		public static const BOTTOM_RIGHT_CORNER:String = "bottom-right-corner";
+		
+		/**
 		* 	The identifier for a label component.
 		*/
 		public static const LABEL:String = "label";

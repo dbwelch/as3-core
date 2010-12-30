@@ -13,6 +13,8 @@ package com.ffsys.ui.graphics
 	public class CornerAwareRectangleGraphic extends RectangleGraphic
 	{
 		private var _corners:Vector.<ICorner>;
+		private var _cornerWidth:Number = 0;
+		private var _cornerHeight:Number = 0;
 		
 		/**
 		* 	Creates a <code>CornerAwareRectangleGraphic</code> instance.
@@ -29,15 +31,109 @@ package com.ffsys.ui.graphics
 			height:Number = 25,
 			stroke:IStroke = null,
 			fill:IFill = null,
-			cornerWidth:Number = 2,
-			cornerHeight:Number = NaN )
+			cornerWidth:Number = 0,
+			cornerHeight:Number = 0 )
 		{
 			super( width, height, stroke, fill );
 			_corners = new Vector.<ICorner>( 4, true );
-			_corners[ 0 ] = new Corner( cornerWidth, cornerHeight );
-			_corners[ 1 ] = new Corner( cornerWidth, cornerHeight );
-			_corners[ 2 ] = new Corner( cornerWidth, cornerHeight );
-			_corners[ 3 ] = new Corner( cornerWidth, cornerHeight );
+			_corners[ 0 ] = new Corner();
+			_corners[ 1 ] = new Corner();
+			_corners[ 2 ] = new Corner();
+			_corners[ 3 ] = new Corner();
+			
+			if( cornerWidth > 0 )
+			{
+				this.cornerWidth = cornerWidth;
+			}
+			
+			if( cornerHeight > 0 )
+			{
+				this.cornerHeight = cornerHeight;
+			}
+		}
+		
+		public function get cornerWidth():Number
+		{
+			return _cornerWidth;
+		}
+		
+		public function set cornerWidth( value:Number ):void
+		{
+			_corners[ 0 ].width = value;
+			_corners[ 1 ].width = value;
+			_corners[ 2 ].width = value;
+			_corners[ 3 ].width = value;
+			
+			trace("CornerAwareRectangleGraphic::set cornerWidth()", this.id, value );
+			
+			_cornerWidth = value;
+		}
+		
+		public function get cornerHeight():Number
+		{
+			return _cornerHeight;
+		}
+		
+		public function set cornerHeight( value:Number ):void
+		{
+			_corners[ 0 ].height = value;
+			_corners[ 1 ].height = value;
+			_corners[ 2 ].height = value;
+			_corners[ 3 ].height = value;
+			
+			_cornerHeight = value;
+		}
+		
+		/**
+		* 	The top left corner.
+		*/
+		public function get topLeftCorner():ICorner
+		{
+			return _corners[ 0 ];
+		}
+		
+		public function set topLeftCorner( value:ICorner ):void
+		{
+			_corners[ 0 ] = value;
+		}
+		
+		/**
+		* 	The top right corner.
+		*/
+		public function get topRightCorner():ICorner
+		{
+			return _corners[ 1 ];
+		}
+		
+		public function set topRightCorner( value:ICorner ):void
+		{
+			_corners[ 1 ] = value;
+		}
+		
+		/**
+		* 	The bottom right corner.
+		*/
+		public function get bottomRightCorner():ICorner
+		{
+			return _corners[ 2 ];
+		}
+		
+		public function set bottomRightCorner( value:ICorner ):void
+		{
+			_corners[ 2 ] = value;
+		}
+		
+		/**
+		* 	The bottom left corner.
+		*/
+		public function get bottomLeftCorner():ICorner
+		{
+			return _corners[ 3 ];
+		}
+		
+		public function set bottomLeftCorner( value:ICorner ):void
+		{
+			_corners[ 3 ] = value;
 		}
 		
 		/**

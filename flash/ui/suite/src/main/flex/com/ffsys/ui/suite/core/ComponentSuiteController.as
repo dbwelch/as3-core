@@ -1,6 +1,7 @@
-package com.ffsys.ui.suite.view {
+package com.ffsys.ui.suite.core {
 	
 	import flash.display.Bitmap;
+	import flash.display.DisplayObject;	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	
@@ -15,8 +16,10 @@ package com.ffsys.ui.suite.view {
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.tooltips.*;
 	
+	import com.ffsys.ui.suite.view.*;
+	
 	/**
-	*	The main view for the application.
+	*	The main controller for the application.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -24,15 +27,15 @@ package com.ffsys.ui.suite.view {
 	*	@author Mischa Williamson
 	*	@since  15.06.2010
 	*/
-	public class ComponentSuiteContainer extends Container
+	public class ComponentSuiteController extends AbstractApplicationController
 		implements IApplicationMainController {
 			
 		public var vbox:VerticalBox;
 		
 		/**
-		*	Creates a <code>ComponentSuiteContainer</code> instance.
+		*	Creates a <code>ComponentSuiteController</code> instance.
 		*/
-		public function ComponentSuiteContainer()
+		public function ComponentSuiteController()
 		{
 			super();
 		}
@@ -46,19 +49,10 @@ package com.ffsys.ui.suite.view {
 			runtime:IBootstrapLoader,
 			view:IApplicationPreloadView ):Boolean
 		{
-			var preloader:ComponentSuitePreloadView
-				= ComponentSuitePreloadView( view );
+			UIComponent.styleManager = styleManager;
 			
-			/*	
-			//get a bitmap grab of the preloader view
-			var text:MultiLineTextField = preloader.getTextField();
-			var bitmap:Bitmap = text.getBitmap();
-			addChild( bitmap );
-			*/
-			
+			//create the main view
 			createMainChildren( DisplayObjectContainer( parent ) );
-			
-			//remove the preloader view from the display list
 			return true;
 		}
 		
@@ -68,11 +62,12 @@ package com.ffsys.ui.suite.view {
  		private function createMainChildren( root:DisplayObjectContainer ):void
 		{	
 			/*
-			trace("ComponentSuiteContainer::createChildren(), creating initial vertical box: ",
+			trace("ComponentSuiteController::createChildren(), creating initial vertical box: ",
 				this, UIComponent.utilities, UIComponent.utilities.layer, UIComponent.utilities.layer.tooltips );
 			*/
 			
 			vbox = new VerticalBox();
+			vbox.spacing = 15;			
 			root.addChild( vbox );
 			
 			//initialize the tooltips
@@ -80,10 +75,21 @@ package com.ffsys.ui.suite.view {
 			tooltip.maximumTextWidth = 200;
 			
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
-			UIComponent.utilities.layer.tooltips.renderer = tooltip;
+			UIComponent.utilities.layer.tooltips.renderer = tooltip;			
 			
-			vbox.spacing = 15;
+			var view:DisplayObject = getView( "graphics" );
+			trace("ComponentSuiteController::createMainChildren()", "GOT VIEW: ", view );
 			
+			if( view != null )
+			{
+				vbox.addChild( view );
+			}
+			
+			var graphicsSuite:GraphicsSuite = new GraphicsSuite();
+			vbox.addChild( graphicsSuite );		
+			graphicsSuite.y += 350;
+			
+			/*
 			var loadersSuite:LoadersSuite = new LoadersSuite();
 			vbox.addChild( loadersSuite );
 			
@@ -98,18 +104,7 @@ package com.ffsys.ui.suite.view {
 			
 			var textSuite:TextSuite = new TextSuite();
 			vbox.addChild( textSuite );
-			
-			//test adding a new sibling - to check the root layer
-			//swaps itself to the top depth
-			var sp:Sprite = new Sprite();
-			
-			/*
-			sp.graphics.beginFill( 0xff0000, 1 );
-			sp.graphics.drawRect( 0, 0, 100, 100 );
-			sp.graphics.endFill();
 			*/
-			
-			//DisplayObjectContainer( this.root ).addChild( sp );
 		}
 	}
 }

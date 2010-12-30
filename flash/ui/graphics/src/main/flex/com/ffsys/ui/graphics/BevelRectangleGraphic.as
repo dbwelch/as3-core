@@ -28,8 +28,8 @@ package com.ffsys.ui.graphics
 			height:Number = 25,
 			stroke:IStroke = null,
 			fill:IFill = null,
-			cornerWidth:Number = 5,
-			cornerHeight:Number = 5 )
+			cornerWidth:Number = 0,
+			cornerHeight:Number = 0 )
 		{
 			super( width, height, stroke, fill, cornerWidth, cornerHeight );
 		}

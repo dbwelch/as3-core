@@ -38,6 +38,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.ui</groupId>
+			<artifactId>runtime</artifactId>
+			<version>${ffsys.lib.version}</version>
+			<type>swc</type>
+		</dependency>
+		<dependency>
+			<groupId>com.ffsys.ui</groupId>
 			<artifactId>tooltips</artifactId>
 			<version>${ffsys.lib.version}</version>
 			<type>swc</type>

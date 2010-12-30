@@ -11,6 +11,8 @@ package com.ffsys.ui.css {
 	
 	import com.ffsys.io.loaders.resources.StyleSheetResource;
 	
+	import com.ffsys.ui.common.IStyleAware;	
+	
 	/**
 	*	Responsible for managing a collection of style sheets.
 	*

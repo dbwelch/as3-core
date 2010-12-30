@@ -41,21 +41,21 @@ package com.ffsys.ui.common {
 		/**
 		*	Represents the top left corner of a rectangle.
 		*/
-		public static const TOP_LEFT:String = "topLeft";
+		public static const TOP_LEFT:String = "top-left";
 		
 		/**
 		*	Represents the top right corner of a rectangle.
 		*/
-		public static const TOP_RIGHT:String = "topRight";
+		public static const TOP_RIGHT:String = "top-right";
 	
 		/**
 		*	Represents the bottom right corner of a rectangle.
 		*/
-		public static const BOTTOM_RIGHT:String = "bottomRight";
+		public static const BOTTOM_RIGHT:String = "bottom-right";
 
 		/**
 		*	Represents the bottom left corner of a rectangle.
 		*/
-		public static const BOTTOM_LEFT:String = "bottomLeft";
+		public static const BOTTOM_LEFT:String = "bottom-left";
 	}
 }

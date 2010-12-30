@@ -4,6 +4,7 @@ package com.ffsys.ui.core
 	import flash.events.FocusEvent;
 	
 	import com.ffsys.ui.css.*;
+	import com.ffsys.ui.graphics.ComponentGraphic;
 	
 	/**
 	*	The default component implementation.
@@ -17,10 +18,9 @@ package com.ffsys.ui.core
 	public class UIComponent extends AbstractComponent
 	{
 		/**
-		*	The style manager responsible for managing loaded
-		*	style sheets and for applying styles to components.
+		*	@private
 		*/
-		static public var styleManager:IStyleManager = new StyleManager();
+		static private var _styleManager:IStyleManager = null;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -28,6 +28,20 @@ package com.ffsys.ui.core
 		public function UIComponent()
 		{
 			super();
+		}
+		
+		/**
+		* 	The style manager for the components.
+		*/
+		public static function get styleManager():IStyleManager
+		{
+			return _styleManager;
+		}
+		
+		public static function set styleManager( value:IStyleManager ):void
+		{
+			_styleManager = value;
+			ComponentGraphic.styleManager = value;
 		}
 		
 		/**

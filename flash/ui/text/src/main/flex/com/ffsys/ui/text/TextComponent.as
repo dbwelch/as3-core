@@ -91,14 +91,14 @@ package com.ffsys.ui.text
 		*/
 		public function finalized():void
 		{
-			trace("TextComponent::finalized()", this, this.id, this.messages, this.identifier );
+			//trace("TextComponent::finalized()", this, this.id, this.messages, this.identifier );
 			if( this.messages != null
 				&& this.identifier != null )
 			{
 				var msg:String = this.messages.getProperty.apply(
 					this.messages, [ this.identifier ] ) as String;
 				
-				trace("TextComponent::finalized() SEARCHING FOR MESSAGE TO SET: ", msg );
+				//trace("TextComponent::finalized() SEARCHING FOR MESSAGE TO SET: ", msg );
 				
 				if( msg != null )
 				{

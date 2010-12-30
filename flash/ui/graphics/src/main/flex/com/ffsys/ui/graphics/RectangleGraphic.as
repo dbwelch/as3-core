@@ -56,10 +56,15 @@ package com.ffsys.ui.graphics
 				return;
 			}
 			
+			//trace("RectangleGraphic::doDraw()", this, width, height, pointer );
+			
 			if( pointer == null )
 			{
 				graphics.drawRect( tx, ty, width, height );
 			}else{
+				
+				//trace("RectangleGraphic::doDraw()", "GOT POINTER: ", pointer.orientation );
+				
 				//set up the default offset (centred) depending upon edge
 				if( isNaN( pointer.offset ) )
 				{

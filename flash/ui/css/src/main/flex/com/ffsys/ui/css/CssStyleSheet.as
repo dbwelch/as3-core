@@ -16,6 +16,7 @@ package com.ffsys.ui.css {
 	
 	import com.ffsys.ui.common.IMarginAware;
 	import com.ffsys.ui.common.IPaddingAware;
+	import com.ffsys.ui.common.IStyleAware;
 	
 	import com.ffsys.core.IStringIdentifier;
 	
@@ -356,6 +357,8 @@ package com.ffsys.ui.css {
 			name:String,
 			value:* ):Boolean
 		{
+			//trace("CssStyleSheet::assign()", target, name, value );
+			
 			if( target is IBeanProperty )
 			{
 				var property:IBeanProperty = IBeanProperty( target );
@@ -396,6 +399,8 @@ package com.ffsys.ui.css {
 				{
 					targets = ICssTextFieldProxy( target ).getProxyTextFields();
 				}
+				
+				//trace("CssStyleSheet::applyStyle() APPLYING STYLE PROPERTIES: ", target, style );
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
 				merger.merge( target, style, true, null, assign );

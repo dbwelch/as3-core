@@ -477,12 +477,20 @@ package com.ffsys.ui.core
 			{
 				var graphic:IComponentGraphic = IComponentGraphic( child );
 				
+				//trace("AbstractComponent::afterChildAdded()", graphic.preferredWidth, graphic.preferredHeight );
+				
+				//update styles before deciding whether
+				//to defer dimensions to this component
+				graphic.applyStyles();
+				
+				//trace("AbstractComponent::afterChildAdded() AFTER APPLYING STYLES: ", graphic.preferredWidth, graphic.preferredHeight );				
+				
 				var width:Number = isNaN( graphic.preferredWidth )
 					? this.preferredWidth : graphic.preferredWidth;
 					
 				var height:Number = isNaN( graphic.preferredHeight )
 					? this.preferredHeight : graphic.preferredHeight;
-					
+				
 				graphic.draw( width, height );
 			}
 			

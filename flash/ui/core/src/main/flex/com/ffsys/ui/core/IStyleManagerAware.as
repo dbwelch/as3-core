@@ -1,4 +1,4 @@
-package com.ffsys.swat.core
+package com.ffsys.ui.core
 {
 	import com.ffsys.ui.css.IStyleManager;
 	

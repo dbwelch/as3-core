@@ -22,7 +22,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.IMarginAware;
 	import com.ffsys.ui.common.IPaddingAware;
 	
-	import com.ffsys.ui.css.IStyleAware;
+	import com.ffsys.ui.common.IStyleAware;
 	
 	/**
 	*	Describes the contract for all components.

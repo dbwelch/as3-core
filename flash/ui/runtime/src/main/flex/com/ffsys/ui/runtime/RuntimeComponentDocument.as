@@ -83,6 +83,38 @@ package com.ffsys.ui.runtime
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.FILL );
+			descriptor.instanceClass = RuntimeBeanReference;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.STROKE );
+			descriptor.instanceClass = RuntimeBeanReference;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.GRADIENT );
+			descriptor.instanceClass = Gradient;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TOP_LEFT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TOP_RIGHT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BOTTOM_LEFT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BOTTOM_RIGHT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.BITMAP_GRAPHIC );
 			descriptor.instanceClass = BitmapGraphic;
 			beans.addBeanDescriptor( descriptor );		

@@ -8,6 +8,9 @@ package com.ffsys.ui.graphics
 	import com.ffsys.ui.common.Margin;
 	import com.ffsys.ui.common.Padding;
 	
+	import com.ffsys.ui.css.IStyleManager;
+	import com.ffsys.ui.css.StyleManager;
+	
 	/**
 	*	Abstract super class for component graphics.
 	*
@@ -20,6 +23,13 @@ package com.ffsys.ui.graphics
 	public class ComponentGraphic extends Shape
 		implements IComponentGraphic
 	{
+		/**
+		*	@private
+		*/
+		static private var _styleManager:IStyleManager = null;
+		
+		private var _id:String;
+		
 		private var _margins:IMargin = new Margin();
 		private var _paddings:IPadding = new Padding();
 		private var _preferredWidth:Number;
@@ -31,6 +41,8 @@ package com.ffsys.ui.graphics
 		
 		private var _strokeApplied:Boolean;
 		private var _fillApplied:Boolean;
+		
+		private var _styles:String;
 		
 		/**
 		* 	Creates a <code>ComponentGraphic</code> instance.
@@ -57,6 +69,60 @@ package com.ffsys.ui.graphics
 			this.fill = fill;
 			this.tx = tx;
 			this.ty = ty;
+		}
+		
+		/**
+		* 	An identifier for this graphic.
+		*/
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id( value:String ):void
+		{
+			_id = value;
+		}
+		
+		/**
+		* 	The style manager for the graphic components.
+		*/
+		public static function get styleManager():IStyleManager
+		{
+			return _styleManager;
+		}
+		
+		public static function set styleManager( value:IStyleManager ):void
+		{
+			_styleManager = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get styles():String
+		{
+			return _styles;
+		}
+		
+		public function set styles( value:String ):void
+		{
+			_styles = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function applyStyles():Array
+		{
+			//trace("ComponentGraphic::applyStyles()", styleManager );
+			if( styleManager )
+			{
+				var styleNames:Array = styleManager.getStyleNameList( this );
+				//trace("ComponentGraphic::applyStyles()", styleNames );
+				return styleManager.style( this );
+			}
+			return null;
 		}
 		
 		/**

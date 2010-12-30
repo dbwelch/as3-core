@@ -1,4 +1,4 @@
-package com.ffsys.ui.css {
+package com.ffsys.ui.common {
 	
 	/**
 	*	Describes the contract for objects that are aware
@@ -13,7 +13,7 @@ package com.ffsys.ui.css {
 	public interface IStyleAware {
 		
 		/**
-		*	The space delimited list of styles to apply.	
+		*	The space delimited list of styles to apply.
 		*/
 		function get styles():String;
 		function set styles( styles:String ):void;

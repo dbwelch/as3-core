@@ -5,14 +5,14 @@ package com.ffsys.swat.configuration.rsls
 	import com.ffsys.swat.configuration.IPaths;
 	import com.ffsys.swat.configuration.IConfigurationElement;
 	import com.ffsys.swat.configuration.locale.IConfigurationLocale;
-	import com.ffsys.swat.core.IConfigurationAware;
-	import com.ffsys.swat.core.IStyleManagerAware;	
+	import com.ffsys.swat.core.IConfigurationAware;	
 	
 	import com.ffsys.ioc.BeanManager;
 	import com.ffsys.ioc.IBeanDocument;	
 	import com.ffsys.ioc.IBeanManager;
 	
-	import com.ffsys.ui.css.IStyleManager;	
+	import com.ffsys.ui.core.IStyleManagerAware;	
+	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.ICssStyleSheet;
 	
 	/**

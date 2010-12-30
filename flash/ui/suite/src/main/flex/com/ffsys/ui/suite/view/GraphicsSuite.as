@@ -45,6 +45,7 @@ package com.ffsys.ui.suite.view {
 			
 			var stroke:IStroke = new Stroke( 0, 0xff0000, 1 );
 			var fill:IFill = new SolidFill( 0xff0000, 0.5 );
+			
 			var gradient:IGradientFill = 
 				new GradientFill(
 					new Gradient(
@@ -213,7 +214,7 @@ package com.ffsys.ui.suite.view {
 				stroke,
 				fill );
 			cell = new Cell( width, height, new Graphic( graphic ) );
-			hbox.addChild( cell );				
+			hbox.addChild( cell );			
 			
 			graphic = new ArrowGraphic(
 				width / 2,
@@ -403,13 +404,14 @@ package com.ffsys.ui.suite.view {
 				height / 2 );
 			hbox.addChild( DisplayObject( graphic ) );
 			
-			
 			//normal rounded rectangle
 			graphic = new RoundedRectangleGraphic(
 				width,
 				height,
 				stroke,
-				fill );
+				fill,
+				4,
+				4 );
 				
 			hbox.addChild( DisplayObject( graphic ) );			
 			

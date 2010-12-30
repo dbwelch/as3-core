@@ -4,6 +4,8 @@ package com.ffsys.ui.css
 	
 	import com.ffsys.core.IStringIdentifier;
 	
+	import com.ffsys.ui.common.IStyleAware;	
+	
 	/**
 	* 	Example of implementing the style aware contract.
 	*

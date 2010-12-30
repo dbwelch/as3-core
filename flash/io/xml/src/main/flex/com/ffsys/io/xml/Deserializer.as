@@ -290,12 +290,6 @@ package com.ffsys.io.xml {
 			
 			//trace("Deserializer::setProperty()", hasInterpreter(), _interpreter, obj, prop, val );
 			
-			if( hasInterpreter()
-				&& !_interpreter.shouldSetProperty( obj, prop, val ) )
-			{
-				return;
-			}
-			
 			//quick fix for hyphenated property names
 			//should be moved to a property converter implementation
 			//associated with the class node name map
@@ -303,6 +297,12 @@ package com.ffsys.io.xml {
 			{
 				var converter:PropertyNameConverter = new PropertyNameConverter();
 				prop = converter.convert( prop );
+			}			
+			
+			if( hasInterpreter()
+				&& !_interpreter.shouldSetProperty( obj, prop, val ) )
+			{
+				return;
 			}
 			
 			if( obj is IDeserializeProperty )

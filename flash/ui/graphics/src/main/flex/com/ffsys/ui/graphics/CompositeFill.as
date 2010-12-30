@@ -97,27 +97,28 @@ package com.ffsys.ui.graphics
 		*/
 		public function get composites():Array
 		{
-			if( !_composites )
+			if( _composites == null )
 			{
-				var output:Array = new Array();
-				
-				if( solid )
-				{
-					output.push( solid );
-				}
-				
-				if( gradient )
-				{
-					output.push( gradient );
-				}
-				
-				if( bitmap )
-				{
-					output.push( bitmap );
-				}
-				
-				return output;
+				_composites = new Array();
 			}
+			
+			if( solid != null
+				&& _composites.indexOf( solid ) == -1 )
+			{
+				_composites.push( solid );
+			}
+			
+			if( gradient != null
+				&& _composites.indexOf( gradient ) == -1 )
+			{
+				_composites.push( gradient );
+			}
+			
+			if( bitmap != null
+				&& _composites.indexOf( bitmap ) == -1 )
+			{
+				_composites.push( bitmap );
+			}			
 			
 			return _composites;
 		}
