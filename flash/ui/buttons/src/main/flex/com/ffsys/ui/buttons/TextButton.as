@@ -3,6 +3,7 @@ package com.ffsys.ui.buttons
 	import flash.text.TextField;
 	import com.ffsys.ui.text.Label;
 		
+	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 
 	/**
@@ -66,27 +67,63 @@ package com.ffsys.ui.buttons
 		
 		public function set text( text:String ):void
 		{
-			if( _label == null && text != null )
-			{
-				_label = new Label( text );
-			}
-			
 			_text = text;
-			
-			if( this.text && this.text != "" )
+			updateLabelText( text );
+		}
+		
+		protected function updateLabelText( text:String ):void
+		{
+			if( _label != null )
 			{
-				_label.x = paddings.left;
-				_label.y = paddings.top;
-				//_label.applyStyles();
-			}
-			
-			_label.text = text;
-			
-			if( !this.contains( _label ) )
-			{
-				addChild( _label );
+				if( text != null && text != "" )
+				{
+					_label.x = paddings.left;
+					_label.y = paddings.top;
+					_label.text = text;
+				}else{
+					removeLabel();
+				}
 			}
 		}
+		
+		/**
+		* 	Creates the label component.
+		* 
+		* 	@return The created label or <code>null</code> if no
+		* 	component bean was found.
+		*/
+		protected function createLabel():Label
+		{
+			if( _label == null )
+			{
+				_label = getComponentBean(
+					ComponentIdentifiers.LABEL ) as Label;
+					
+				if( _label != null && !contains( _label ) )
+				{
+					addChild( _label );
+				}
+			}
+			return _label;
+		}
+		
+		/**
+		* 	Removed the label component.
+		* 
+		* 	@return The created label or <code>null</code> if no
+		* 	component bean was found.
+		*/
+		protected function removeLabel():void
+		{
+			if( _label != null )
+			{
+				if( contains( _label ) )
+				{
+					removeChild( _label );
+				}
+				_label = null;
+			}
+		}		
 		
 		/**
 		*	@inheritDoc	
@@ -149,11 +186,11 @@ package com.ffsys.ui.buttons
 		*/
 		override public function finalized():void
 		{
-			if( _label == null )
+			if( _label == null
+				&& this.identifier != null )
 			{
-				//TODO: get the label from a bean
-				//so the messages reference would be correct
-				_label = new Label();
+				createLabel();
+				trace("TextButton::finalized()", "GOT DEFAULT LABEL COMPONENT FROM BEAN DOCUMENT: ", _label );
 			}
 			
 			//trace("TextButton::finalized()", this, this.id, this.label, this.identifier );
@@ -171,7 +208,7 @@ package com.ffsys.ui.buttons
 				{
 					this.text = msg;
 				}
-			}	
+			}
 		}
 		
 		/**
@@ -185,6 +222,14 @@ package com.ffsys.ui.buttons
 		public function set label( value:Label ):void
 		{
 			_label = value;
+		}
+		
+		override public function destroy():void
+		{
+			super.destroy();
+			_text = null;
+			_identifier = null;
+			_label = null;
 		}
 	}
 }

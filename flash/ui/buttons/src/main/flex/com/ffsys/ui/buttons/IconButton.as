@@ -168,6 +168,15 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override protected function removeLabel():void
+		{
+			super.removeLabel();
+			position();
+		}
+		
+		/**
 		*	Positions the icon and label.
 		*/
 		protected function position():void

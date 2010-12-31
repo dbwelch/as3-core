@@ -53,11 +53,23 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getComponentBean( beanName:String ):DisplayObject
+		{
+			if( this.document != null )
+			{
+				return this.document.getBean( beanName ) as DisplayObject;
+			}
+			return null;
+		}
+		
+		/**
 		* 	Invoked when this component has been finalized.
 		*/
 		public function finalized():void
 		{
-			trace("UIComponent::finalized()", this.document );
+			//
 		}
 		
 		/**

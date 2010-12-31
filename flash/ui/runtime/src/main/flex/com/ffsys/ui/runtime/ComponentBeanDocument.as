@@ -2,6 +2,8 @@ package com.ffsys.ui.runtime
 {
 	import com.ffsys.ioc.*;
 	
+	import com.ffsys.ui.common.ComponentIdentifiers;
+	
 	import com.ffsys.ui.buttons.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.controls.*;
@@ -20,12 +22,12 @@ package com.ffsys.ui.runtime
 	*	@author Mischa Williamson
 	*	@since  28.12.2010
 	*/
-	public class RuntimeComponentDocument extends BeanDocument
+	public class ComponentBeanDocument extends BeanDocument
 	{
 		/**
-		* 	Creates a <code>RuntimeComponentDocument</code> instance.
+		* 	Creates a <code>ComponentBeanDocument</code> instance.
 		*/
-		public function RuntimeComponentDocument()
+		public function ComponentBeanDocument()
 		{
 			super();
 			this.locked = false;

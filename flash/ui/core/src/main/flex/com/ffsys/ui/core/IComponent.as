@@ -176,6 +176,17 @@ package com.ffsys.ui.core
 		function getMarginRectangle():Rectangle;
 		
 		/**
+		* 	Gets a component bean from the bean document
+		* 	associated with this component.
+		* 
+		* 	@param beanName The name of the component bean.
+		* 
+		* 	@return The component or <code>null</code> if no 
+		* 	component was found.
+		*/
+		function getComponentBean( beanName:String ):DisplayObject;
+		
+		/**
 		*	Sets the size of this component.
 		*	
 		*	@param width The preferred width for the component.

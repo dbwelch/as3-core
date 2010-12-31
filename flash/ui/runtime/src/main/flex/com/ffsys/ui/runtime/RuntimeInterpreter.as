@@ -4,11 +4,13 @@ package com.ffsys.ui.runtime {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
-	import com.ffsys.ui.core.UIComponent;
-	import com.ffsys.ui.graphics.IComponentGraphic;
-	import com.ffsys.ui.common.IStyleAware;
-	
 	import com.ffsys.io.xml.*;
+	
+	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.common.ComponentIdentifiers;	
+	import com.ffsys.ui.common.IStyleAware;
+		
+	import com.ffsys.ui.graphics.IComponentGraphic;
 
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.*;	

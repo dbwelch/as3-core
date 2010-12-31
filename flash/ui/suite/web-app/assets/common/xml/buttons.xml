@@ -11,18 +11,15 @@
 		
 		<text-button>
 			<identifier>buttons.examples.text</identifier>
-			<label />
 		</text-button>
 		
 		<text-button>
 			<identifier>buttons.examples.text.disabled</identifier>
 			<enabled>false</enabled>
-			<label />
 		</text-button>	
 		
 		<button>
 			<identifier>buttons.examples.standard</identifier>
-			<label />
 		</button>
 		<button>
 			<identifier>buttons.examples.standard.disabled</identifier>

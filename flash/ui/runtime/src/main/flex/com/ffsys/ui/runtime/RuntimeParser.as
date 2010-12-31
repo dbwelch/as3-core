@@ -56,7 +56,7 @@ package com.ffsys.ui.runtime {
 		{
 			if( _document == null )
 			{
-				_document = new RuntimeComponentDocument();
+				_document = new ComponentBeanDocument();
 			}
 			return _document;
 		}
