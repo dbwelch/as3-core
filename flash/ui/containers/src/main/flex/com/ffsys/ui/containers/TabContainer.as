@@ -109,6 +109,8 @@ package com.ffsys.ui.containers
 				
 				var child:DisplayObject = this.selectedItem;
 				
+				trace("TabContainer::set selectedIndex()", index, child, ( child is ISelectable ) );
+				
 				if( child is ISelectable )
 				{
 					ISelectable( child ).selected = true;
@@ -127,9 +129,11 @@ package com.ffsys.ui.containers
 		{
 			super.afterChildAdded( child, index );
 			
+			trace("TabContainer::afterChildAdded()", child, enabled, child is ISelectable );
+			
 			if( child && ( child is ISelectable ) && enabled )
 			{
-				child.addEventListener( MouseEvent.MOUSE_UP, childSelected );
+				child.addEventListener( MouseEvent.CLICK, childSelected );
 			}
 		}
 		
@@ -142,7 +146,7 @@ package com.ffsys.ui.containers
 		{
 			if( child && ( child is ISelectable ) )
 			{
-				child.removeEventListener( MouseEvent.MOUSE_UP, childSelected );
+				child.removeEventListener( MouseEvent.CLICK, childSelected );
 			}
 			
 			//constrain the selected index as children are removed

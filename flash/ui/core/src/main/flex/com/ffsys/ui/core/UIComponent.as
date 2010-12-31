@@ -123,7 +123,7 @@ package com.ffsys.ui.core
 				//if a state has been specified
 				if( styleNames != null
 					&& this.state != null
-					&& this.state != State.MAIN )
+					&& this.state.primary != State.MAIN_ID )
 				{
 					trace("UIComponent::applyStyles()", styleNames, this, this.id );
 					

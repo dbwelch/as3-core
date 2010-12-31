@@ -49,6 +49,12 @@
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
+		<dependency>
+			<groupId>com.ffsys.utils</groupId>
+			<artifactId>array</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>		
 	</dependencies>
 	<profiles>
 		<profile>

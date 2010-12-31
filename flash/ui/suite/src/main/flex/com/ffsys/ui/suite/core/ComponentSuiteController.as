@@ -37,6 +37,9 @@ package com.ffsys.ui.suite.core {
 		public var navigation:IDocument;
 		public var content:IDocument;
 		
+		private var _view:String;
+		private var _views:Object = new Object();
+		
 		/**
 		*	Creates a <code>ComponentSuiteController</code> instance.
 		*/
@@ -81,13 +84,23 @@ package com.ffsys.ui.suite.core {
 		*/
 		private function navigationLinkClick( event:MouseEvent ):void
 		{
-			trace("ComponentSuiteController::navigationLinkClick()", event.target, ( event.target is IComponent ) );
-			
 			if( event.target is IComponent )
 			{
 				//the view id
-				var id:String = IComponent( event.target ).customData as String
-				var view:DisplayObject = getView( id );
+				var id:String = IComponent( event.target ).customData as String;
+				
+				if( _view != null
+					&& id == _view )
+				{
+					return;
+				}
+				
+				var view:DisplayObject = _views[ id ];
+				
+				if( view == null )
+				{
+					view = getView( id );
+				}
 				
 				if( view == null )
 				{
@@ -95,8 +108,13 @@ package com.ffsys.ui.suite.core {
 					 	+ id + "'.");
 				}
 				
+				trace("ComponentSuiteController::navigationLinkClick()", view );
+				
 				content.removeAllChildren();
 				content.addChild( DisplayObject( view ) );
+				
+				_views[ id ] = view;
+				_view = id;
 			}
 		}
 		

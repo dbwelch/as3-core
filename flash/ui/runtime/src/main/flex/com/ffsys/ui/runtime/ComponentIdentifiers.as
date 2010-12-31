@@ -161,6 +161,16 @@ package com.ffsys.ui.runtime
 		public static const ICON_TEXT_BUTTON:String = "icon-text-button";
 		
 		/**
+		* 	The identifier for a link button component.
+		*/
+		public static const LINK_BUTTON:String = "link-button";
+		
+		/**
+		* 	The identifier for a tab button component.
+		*/
+		public static const TAB_BUTTON:String = "tab-button";
+		
+		/**
 		* 	The identifier for a scroller component.
 		*/
 		public static const SCROLLER:String = "scroller";

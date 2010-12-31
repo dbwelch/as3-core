@@ -20,6 +20,7 @@ package com.ffsys.ui.buttons
 		private var _loop:String;
 		private var _selectable:Boolean;
 		private var _selected:Boolean;
+		private var _currentState:State;
 		
 		/**
 		* 	Creates an ButtonComponent instance.
@@ -57,6 +58,36 @@ package com.ffsys.ui.buttons
 			_loop = value;
 		}
 		
+		protected function updateCurrentState( state:State ):void
+		{
+			if( state != null )
+			{
+				_currentState = state;
+				//no need to take selection into account
+				if( !this.selectable )
+				{
+					updateState( state );
+					return;
+				}
+				
+				if( this.selected )
+				{
+					if( state.primary == State.MAIN_ID )
+					{
+						updateState( new State( State.SELECTED_ID ) );
+					}else
+					{
+						//concatenate the selection state and the mouse related
+						//state
+						var states:Array = state.getStateElements();
+						var modified:State = new State();
+						modified.setStateElements( State.SELECTED_ID, states );
+						updateState( modified );
+					}
+				}
+			}
+		}
+		
 		/**
 		*	@inheritDoc
 		*/
@@ -82,10 +113,12 @@ package com.ffsys.ui.buttons
 		{
 			_selected = selected;
 			
-			if( selectable
-				&& this.selected )
+			trace("ButtonComponent::set selected()", "SETTING TO SELECTED STATE" );
+			
+			if( selectable )
 			{
-				updateState( State.SELECTED );
+				updateCurrentState(
+					_currentState != null ? _currentState : new State( State.MAIN_ID ) );
 			}
 		}
 		
@@ -118,7 +151,7 @@ package com.ffsys.ui.buttons
 		override protected function onMouseDown(
 			event:MouseEvent ):void
 		{
-			updateState( State.DOWN );
+			updateCurrentState( new State( State.DOWN_ID ) );
 			
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
@@ -179,7 +212,7 @@ package com.ffsys.ui.buttons
 			
 			if( !event.buttonDown )
 			{
-				updateState( State.OVER );
+				updateCurrentState( new State( State.OVER_ID ) );
 			
 				if( loop && loop == ButtonLoopMode.OVER )
 				{
@@ -198,13 +231,7 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOut(
 			event:MouseEvent ):void
 		{
-			if( selectable
-				&& selected )
-			{
-				updateState( State.SELECTED );
-			}else{
-				updateState( State.MAIN );
-			}
+			updateCurrentState( new State( State.MAIN_ID ) );
 			
 			if( loop && loop == ButtonLoopMode.OVER )
 			{

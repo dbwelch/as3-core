@@ -158,21 +158,26 @@ package com.ffsys.ui.runtime
 				ComponentIdentifiers.BUTTON );
 			descriptor.instanceClass = Button;
 			beans.addBeanDescriptor( descriptor );
-			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ICON_BUTTON );
 			descriptor.instanceClass = IconButton;
 			beans.addBeanDescriptor( descriptor );	
-			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ICON_TEXT_BUTTON );
 			descriptor.instanceClass = IconTextButton;
 			beans.addBeanDescriptor( descriptor );
-			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.TEXT_BUTTON );
 			descriptor.instanceClass = TextButton;
 			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.LINK_BUTTON );
+			descriptor.instanceClass = LinkButton;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TAB_BUTTON );
+			descriptor.instanceClass = TabButton;
+			beans.addBeanDescriptor( descriptor );						
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.BOX_MODEL );

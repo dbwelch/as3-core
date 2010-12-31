@@ -1,5 +1,6 @@
 package com.ffsys.ui.buttons {
 	
+	import com.ffsys.ui.common.ISelectable;
 	import com.ffsys.ui.core.IInteractiveComponent;
 	
 	/**
@@ -11,7 +12,9 @@ package com.ffsys.ui.buttons {
 	*	@author Mischa Williamson
 	*	@since  30.06.2010
 	*/
-	public interface IButton extends IInteractiveComponent {
+	public interface IButton 
+		extends IInteractiveComponent,
+		 		ISelectable {
 		
 		/**
 		*	Determines whether this button dispatches
@@ -33,15 +36,6 @@ package com.ffsys.ui.buttons {
 		*	it's selected value.
 		*/
 		function get selectable():Boolean;
-		function set selectable( selectable:Boolean ):void;
-		
-		/**
-		*	Determines whether this button is currently selected.
-		*	
-		*	If this button is not selectable then this value will
-		*	always be false.
-		*/
-		function get selected():Boolean;
-		function set selected( selected:Boolean ):void;		
+		function set selectable( selectable:Boolean ):void;	
 	}
 }

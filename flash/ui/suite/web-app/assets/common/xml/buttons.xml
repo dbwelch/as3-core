@@ -33,6 +33,11 @@
 		<icon-button>
 			<id>icon-state-test</id>
 			<styles>default-icon</styles>
+		</icon-button>
+		
+		<icon-button>
+			<id>icon-state-test</id>
+			<styles>default-icon</styles>
 			<identifier>buttons.examples.icon</identifier>
 			<label />
 		</icon-button>
@@ -43,7 +48,11 @@
 			<enabled>false</enabled>
 			<label />
 		</icon-button>
-		
+
+		<icon-text-button>
+			<id>icon-state-test</id>			
+			<styles>default-icon</styles>
+		</icon-text-button>		
 		<icon-text-button>
 			<id>icon-state-test</id>			
 			<styles>default-icon</styles>

@@ -850,11 +850,11 @@ package com.ffsys.ui.core
 		*	Invoked when a component is removed from the display list
 		*	of a parent component.
 		*	
-		*	By default this implemention removes child display objects.
+		*	By default this implemention does nothing.
 		*/
 		internal function removed():void
 		{
-			removeChildren();
+			//removeChildren();
 		}
 		
 		/**
