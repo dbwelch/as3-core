@@ -45,6 +45,26 @@ package com.ffsys.ui.containers {
 		}
 		
 		/**
+		*	The spacing for this container layout.
+		*/
+		public function get spacing():Number
+		{
+			if( layout )
+			{
+				return layout.spacing;
+			}
+			return 0;
+		}
+		
+		public function set spacing( spacing:Number ):void
+		{
+			if( layout )
+			{
+				layout.spacing = spacing;
+			}
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		override protected function afterChildAdded(

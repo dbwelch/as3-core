@@ -36,8 +36,8 @@ package com.ffsys.ui.containers {
 		*	at the preferred dimensions.
 		*/
 		public function Canvas(
-			width:Number = 100,
-			height:Number = 100,
+			width:Number = NaN,
+			height:Number = NaN,
 			clipped:Boolean = false )
 		{
 			super();

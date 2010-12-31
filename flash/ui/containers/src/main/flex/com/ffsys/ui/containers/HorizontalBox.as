@@ -24,7 +24,6 @@ package com.ffsys.ui.containers {
 			this.layout = new HorizontalLayout();
 		}
 		
-		
 		/**
 		*	Ensures the layout is a horizontal layout.	
 		*/
@@ -38,27 +37,6 @@ package com.ffsys.ui.containers {
 			}
 			
 			super.layout = layout;
-		}
-		
-		/**
-		*	The spacing for this horizontal box container.
-		*/
-		public function get spacing():Number
-		{
-			if( layout )
-			{
-				return HorizontalLayout( layout ).spacing;
-			}
-			
-			return -1;
-		}
-		
-		public function set spacing( spacing:Number ):void
-		{
-			if( layout )
-			{
-				HorizontalLayout( layout ).spacing = spacing;
-			}
 		}		
 	}
 }

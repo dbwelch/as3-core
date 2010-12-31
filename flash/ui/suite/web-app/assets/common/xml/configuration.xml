@@ -40,13 +40,45 @@
 			<components>
 				<id>components</id>
 				<view>
+					<id>navigation</id>
+					<xml>
+						<resource>
+							<url>xml/navigation.xml</url>
+						</resource>
+					</xml>
+				</view>
+				<view>
+					<id>content</id>
+					<xml>
+						<resource>
+							<url>xml/content.xml</url>
+						</resource>
+					</xml>
+				</view>
+				<view>
 					<id>graphics</id>
 					<xml>
 						<resource>
 							<url>xml/graphics.xml</url>
 						</resource>
 					</xml>
-				</view>						
+				</view>	
+				<view>
+					<id>text</id>
+					<xml>
+						<resource>
+							<url>xml/text.xml</url>
+						</resource>
+					</xml>
+				</view>	
+				<view>
+					<id>buttons</id>
+					<xml>
+						<resource>
+							<url>xml/buttons.xml</url>
+						</resource>
+					</xml>
+				</view>												
 			</components>
 			
 			<messages>

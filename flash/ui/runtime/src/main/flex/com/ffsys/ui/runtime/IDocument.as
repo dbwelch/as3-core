@@ -1,6 +1,6 @@
 package com.ffsys.ui.runtime {
 	
-	import com.ffsys.ui.core.IComponent;
+	import flash.display.DisplayObject;
 	import com.ffsys.ui.containers.ICanvas;
 	
 	/**
@@ -34,6 +34,18 @@ package com.ffsys.ui.runtime {
 		* 
 		* 	@return The child component if found otherwise null.
 		*/
-		function getElementById( id:String ):IComponent;
+		function getElementById( id:String ):DisplayObject;
+		
+		/**
+		* 	Gets a list of display objects whose identifier
+		* 	matches the specified regular expression.
+		* 	
+		* 	@param re The regular expression to use.
+		* 
+		* 	@return The elements whose identifier matches
+		* 	the specified regular expression. If no matches
+		* 	were found this will be an empty vector.
+		*/		
+		function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>;
 	}
 }

@@ -20,5 +20,15 @@ package com.ffsys.ui.containers {
 		*/
 		function get layout():ILayout;
 		function set layout( layout:ILayout ):void;
+		
+		
+		/**
+		*	The spacing for this container layout.
+		* 
+		* 	If no layout has been assigned to this container
+		* 	then this setting will have no effect.
+		*/
+		function get spacing():Number;
+		function set spacing( spacing:Number ):void;		
 	}
 }

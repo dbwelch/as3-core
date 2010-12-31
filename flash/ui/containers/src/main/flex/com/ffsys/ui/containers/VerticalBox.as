@@ -38,26 +38,5 @@ package com.ffsys.ui.containers {
 			
 			super.layout = layout;
 		}
-		
-		/**
-		*	The spacing for this vertical box container.
-		*/
-		public function get spacing():Number
-		{
-			if( layout )
-			{
-				return VerticalLayout( layout ).spacing;
-			}
-			
-			return -1;
-		}
-		
-		public function set spacing( spacing:Number ):void
-		{
-			if( layout )
-			{
-				VerticalLayout( layout ).spacing = spacing;
-			}
-		}
 	}
 }

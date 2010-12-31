@@ -3,73 +3,43 @@
 	<head>
 		<title>User Interface Component Suite</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<link rel="stylesheet" href="assets/common/css/common.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="assets/common/js/swfobject.js"></script>
+		<script type="text/javascript" src="assets/common/js/swat.js"></script>
 		<script type="text/javascript">
-			swfobject.registerObject( "ui-components-suite", "10", "assets/common/swf/expressInstall.swf" );
-		</script>
-		<style type="text/css" media="screen">
-			body {
-				margin: 15px 0px;
-				padding:0px;
-				text-align:center;
-				font-family: Helvetica, Georgia, sans-serif;
-				color: #ffffff;
-				background-color: #000000;
-			}
-
-			#wrapper {
-				width: 980px;
-				margin: 0px auto;
-				text-align: left;
-				padding: 0px 15px 15px 15px;
-				border: 1px dotted #333;
-				background-color: #030303;
-			}
-			
-			h1 {
-				color: #a9a9a9;
-				font-size: 1.6em;
-			}
 		
-			p.note, ul li {
-				color: #696969;
-				margin-bottom: 0.4em;
-				line-height: 1.4em;
-				font-size: 0.6em;
-			}
+			function init()
+			{
+				swat.config = {
+					id: "flash",
+					url: "ui-components-suite-1.1-SNAPSHOT.swf",
+					width: "980",
+					height: "480",
+					version: "10",
+					express: "assets/common/swf/expressInstall.swf",
+					flashvars: {
+						classes: "com.ffsys.ui.suite.configuration.ComponentSuiteClassPathConfiguration",
+						lang: "en-GB"
+					},
+					params: {
+						bgcolor: "#000000"
+					}
+				}
 			
-			a {
-				color: #a9a9a9;
-				text-decoration: none;
+				swat.embed();
+				swat.init( "locales", [ "en-GB" ] );
 			}
-
-			a:hover {
-				color: #696969;
-				border-bottom: 1px dotted #333;
-			}			
-		</style>
+		</script>
 	</head>
-	<body>
+	<body onload="init();">
 		<div id="wrapper">
+			<div id="header">
 			<h1>User Interface Component Suite</h1>
 			<p class="note">Built for Flash Player <strong>10.0</strong> and later player versions using Actionscript 3.</p>
-			<div>
-				<object id="ui-components-suite" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="980" height="1024">
-					<param name="movie" value="ui-components-suite-1.1-SNAPSHOT.swf" />
-					<param name="menu" value="false" />
-					<param name="flashvars" value="classes=com.ffsys.ui.suite.configuration.ComponentSuiteClassPathConfiguration&lang=en_GB" />
-	        		<!--[if !IE]>-->
-					<object type="application/x-shockwave-flash" data="ui-components-suite-1.1-SNAPSHOT.swf" width="980" height="1024">
-					<param name="flashvars" value="classes=com.ffsys.ui.suite.configuration.ComponentSuiteClassPathConfiguration&lang=en_GB" />
-					<!--<![endif]-->
-					<div>
-						<h1>Alternative content</h1>
-						<p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
-					</div>
-					<!--[if !IE]>-->
-					</object>
-					<!--<![endif]-->
-				</object>
+			<div id="locales" class="clearfix"></div>
+			</div>
+			<div id="flash">
+				<p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
 			</div>
 		</div>
 	</body>

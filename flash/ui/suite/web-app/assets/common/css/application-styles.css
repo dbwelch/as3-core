@@ -13,6 +13,10 @@ uppercase {
 	text-transform: uppercase;
 }
 
-TextButton:over {
-	color: #0000ff;
+default-icon {
+	icon: ref( default-icon-graphic );
+}
+
+default-icon-graphic {
+	instance-class: class( com.ffsys.ui.suite.DefaultIcon );
 }

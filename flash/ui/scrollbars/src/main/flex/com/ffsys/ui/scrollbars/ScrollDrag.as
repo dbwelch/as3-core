@@ -2,9 +2,7 @@ package com.ffsys.ui.scrollbars {
 	
 	import com.ffsys.ui.buttons.GraphicButton;
 	import com.ffsys.ui.graphics.*;
-	import com.ffsys.ui.states.IViewState;
-	import com.ffsys.ui.states.ViewState;
-	import com.ffsys.ui.states.State;
+	import com.ffsys.ui.core.State;
 	
 	import com.ffsys.ui.drag.DragOperation;
 	import com.ffsys.ui.drag.IDragOperation;

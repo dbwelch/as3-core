@@ -48,6 +48,12 @@ package com.ffsys.ui.core
 	{
 		
 		/**
+		* 	Custom data to associate with this component.
+		*/
+		function get customData():Object;
+		function set customData( value:Object ):void;	
+		
+		/**
 		* 	A data binding provider for this user interface component.
 		*/
 		function get dataBinding():IDataBinding;
@@ -192,6 +198,11 @@ package com.ffsys.ui.core
 		*	
 		*	@return An instance of the class.
 		*/
-		function getRuntimeInstance( clazz:Class ):Object;			
+		function getRuntimeInstance( clazz:Class ):Object;
+		
+		/**
+		* 	Removes all child display objects from this component.
+		*/
+		function removeAllChildren():void;
 	}
 }

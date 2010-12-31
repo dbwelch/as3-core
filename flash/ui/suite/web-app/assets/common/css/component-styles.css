@@ -16,6 +16,9 @@ Paragraph {
 	word-wrap: false;
 	multiline: false;
 	color: #a9a9a9;
+	preferred-width: 360;
+	preferred-height: 120;	
+	maximum-width: 320;
 }
 
 Heading {
@@ -48,28 +51,37 @@ SubParagraph {
 	color: #a9a9a9;
 }
 
-TextButton {
+TextButton, IconButton {
 	underline: false;
 	color: #a9a9a9;
 }
 
-TextButton:over {
+TextButton:over, IconButton:over {
 	underline: true;
-	color: #393939;
+	color: #fefefe;
 }
 
-Button {
-	size: 10;	
+TextButton:disabled, IconButton:disabled {
+	color: #6f6f6f;	
+}
+
+Button, IconButton {
+	size: 11;
 	background: ref( button-background-main );
 	underline: false;
 	color: #a9a9a9;
 	padding: 5;
 }
 
-Button:over {
+Button:disabled, IconButton:disabled {	
+	background: ref( button-background-disabled );
+	color: #6f6f6f;	
+}
+
+Button:over, IconButton:over {
 	background: ref( button-background-over );
 	underline: true;
-	color: #393939;
+	color: #fefefe;
 }
 
 button-background-main {
@@ -86,6 +98,13 @@ button-background-over {
 	corner-height: 5;
 }
 
+button-background-disabled {
+	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	fill: ref( button-background-fill-disabled );
+	corner-width: 5;
+	corner-height: 5;
+}
+
 button-background-fill {
 	instance-class: class( com.ffsys.ui.graphics.SolidFill );
 	color: #333333;
@@ -96,4 +115,10 @@ button-background-fill-over {
 	instance-class: class( com.ffsys.ui.graphics.SolidFill );
 	color: #a9a9a9;
 	alpha: 0.75;
+}
+
+button-background-fill-disabled {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #666666;
+	alpha: .25;
 }

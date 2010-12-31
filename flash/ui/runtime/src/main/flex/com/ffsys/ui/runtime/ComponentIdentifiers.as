@@ -65,6 +65,17 @@ package com.ffsys.ui.runtime
 		public static const LIST:String = "list";
 		
 		/**
+		* 	The identifier for a collection of buttons.
+		*/
+		public static const LINKS:String = "links";
+	
+		/**
+		* 	The identifier for a collection of buttons
+		* 	that maintain a single selection.
+		*/
+		public static const TABS:String = "tabs";	
+		
+		/**
 		* 	The identifier for a graphic component.
 		*/
 		public static const GRAPHIC:String = "graphic";
@@ -117,7 +128,7 @@ package com.ffsys.ui.runtime
 		/**
 		* 	The identifier for a heading component.
 		*/
-		public static const HEADING:String = "heading";
+		public static const HEADING:String = "heading";		
 		
 		/**
 		* 	The identifier for a sub heading component.

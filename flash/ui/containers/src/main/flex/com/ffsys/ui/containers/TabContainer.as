@@ -32,7 +32,6 @@ package com.ffsys.ui.containers
 		{
 			super();
 			this.layout = new HorizontalLayout();
-			this.layout.spacing = -1;
 		}
 		
 		/**

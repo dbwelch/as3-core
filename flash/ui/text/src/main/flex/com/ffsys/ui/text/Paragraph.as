@@ -36,7 +36,7 @@ package com.ffsys.ui.text
 			super.maximumWidth = maximumWidth;
 			if( !isNaN( maximumWidth ) && textfield )
 			{
-				textfield.width = maximumWidth;
+				textfield.maximumWidth = maximumWidth;
 			}
 		}
 		
@@ -48,7 +48,7 @@ package com.ffsys.ui.text
 			super.maximumHeight = maximumHeight;
 			if( !isNaN( maximumHeight ) && textfield )
 			{
-				textfield.height = maximumHeight;
+				textfield.maximumHeight = maximumHeight;
 			}
 		}
 		

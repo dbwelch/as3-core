@@ -22,7 +22,7 @@ package com.ffsys.ui.core
 		*/
 		static private var _styleManager:IStyleManager = null;
 		
-		private var _state:String;
+		private var _state:State;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -32,51 +32,44 @@ package com.ffsys.ui.core
 			super();
 		}
 		
-		public function get state():String
+		/**
+		* 	Ensures the state changes when the enabled
+		* 	property is set.
+		*/
+		override public function set enabled( enabled:Boolean ):void
 		{
-			return _state;
+			super.enabled = enabled;
+			updateState( this.enabled ? State.MAIN : State.DISABLED );
 		}
 		
-		public function set state( value:String ):void
+		/**
+		* 	The current state of this component.
+		*/
+		public function get state():State
+		{
+			return _state;
+		}				
+		
+		public function set state( value:State ):void
 		{
 			//force to the main state
 			if( value == null )
 			{
 				value = State.MAIN;
 			}
-			
+
 			_state = value;
-			
-			if( styleManager != null )
-			{
-				var stylesheet:ICssStyleSheet = styleManager.stylesheet;
-				var styleNames:Array = stylesheet.getStyleNameList( this );
-				var allNames:Array = stylesheet.styleNames;
-				
-				//apply all normal styles
-				stylesheet.style( this );
-				
-				//find one matching a non-main state
-				if( this.state != State.MAIN )
-				{
-					var stateStyle:Object = null;
-  					for( var i:int = 0;i < styleNames.length;i++ )
-					{
-						stateStyle = stylesheet.getStyle( styleNames[ i ] + ":" + this.state );
-						if( stateStyle != null )
-						{
-							break;
-						}
-					}
-				
-					//trace("UIComponent::set state()", "SEARCHING FOR STATE IN STYLE MANAGER this/all: ", styleNames, allNames, stateStyle );
-					
-					if( stateStyle != null )
-					{
-						stylesheet.applyStyle( this, stateStyle );
-					}
-				}
-			}
+		}
+		
+		/**
+		* 	Sets the state of this component and updates
+		* 	the styles applied to this component.
+		*/
+		protected function updateState(
+			state:State ):void
+		{
+			this.state = state;
+			applyStyles();
 		}
 		
 		/**
@@ -119,8 +112,42 @@ package com.ffsys.ui.core
 		override public function applyStyles():Array
 		{
 			if( styleManager )
-			{
-				return styleManager.style( this );
+			{	
+				var stylesheet:ICssStyleSheet = styleManager.stylesheet;
+				var styleNames:Array = stylesheet.getStyleNameList( this );
+				
+				//apply all normal styles
+				var output:Array = stylesheet.style( this );
+				
+				//find one matching a non-main state
+				//if a state has been specified
+				if( styleNames != null
+					&& this.state != null
+					&& this.state != State.MAIN )
+				{
+					var stateStyle:Object = null;
+					var name:String = null;
+  					for( var i:int = 0;i < styleNames.length;i++ )
+					{
+						//trace("UIComponent::applyStyles()", this.state, styleNames );
+						name = styleNames[ i ]
+							+ State.DELIMITER
+							+ this.state.toStateString();
+						
+						stateStyle = stylesheet.getStyle( name );
+						if( stateStyle != null )
+						{
+							break;
+						}
+					}
+
+					if( stateStyle != null )
+					{
+						output.push( stateStyle );
+						stylesheet.applyStyle( this, stateStyle );
+					}
+				}
+				return output;				
 			}
 			return null;
 		}

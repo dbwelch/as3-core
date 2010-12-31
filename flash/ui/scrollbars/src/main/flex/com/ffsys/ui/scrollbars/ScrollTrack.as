@@ -5,9 +5,7 @@ package com.ffsys.ui.scrollbars {
 	import com.ffsys.ui.buttons.ButtonLoopMode;
 	import com.ffsys.ui.buttons.GraphicButton;
 	import com.ffsys.ui.graphics.*;
-	import com.ffsys.ui.states.IViewState;
-	import com.ffsys.ui.states.ViewState;
-	import com.ffsys.ui.states.State;	
+	import com.ffsys.ui.core.State;	
 	
 	/**
 	*	Represents the scroll track for a scroll bar.

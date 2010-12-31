@@ -3,7 +3,7 @@ package com.ffsys.ui.buttons
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import com.ffsys.ui.core.InteractiveComponent;
-	import com.ffsys.ui.states.State;
+	import com.ffsys.ui.core.State;
 	
 	/**
 	*	Abstract super class for all buttons.
@@ -85,7 +85,7 @@ package com.ffsys.ui.buttons
 			if( selectable
 				&& this.selected )
 			{
-				state = State.SELECTED;
+				updateState( State.SELECTED );
 			}
 		}
 		
@@ -118,7 +118,7 @@ package com.ffsys.ui.buttons
 		override protected function onMouseDown(
 			event:MouseEvent ):void
 		{
-			this.state = State.DOWN;
+			updateState( State.DOWN );
 			
 			if( loop && loop == ButtonLoopMode.DOWN )
 			{
@@ -179,7 +179,7 @@ package com.ffsys.ui.buttons
 			
 			if( !event.buttonDown )
 			{
-				this.state = State.OVER;
+				updateState( State.OVER );
 			
 				if( loop && loop == ButtonLoopMode.OVER )
 				{
@@ -198,17 +198,13 @@ package com.ffsys.ui.buttons
 		override protected function onMouseOut(
 			event:MouseEvent ):void
 		{
-			var state:String = null;
-			
 			if( selectable
 				&& selected )
 			{
-				state = State.SELECTED;
+				updateState( State.SELECTED );
 			}else{
-				state = State.MAIN;
+				updateState( State.MAIN );
 			}
-		
-			this.state = state;
 			
 			if( loop && loop == ButtonLoopMode.OVER )
 			{

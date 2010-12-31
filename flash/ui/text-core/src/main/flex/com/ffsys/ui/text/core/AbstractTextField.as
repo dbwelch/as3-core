@@ -25,8 +25,7 @@ package com.ffsys.ui.text.core {
 		private var _html:Boolean = false;
 		
 		private var _maximumWidth:Number;
-		private var _maximumHeight:Number;		
-		
+		private var _maximumHeight:Number;
 		
 		private var _measuredWidth:Number;
 		private var _measuredHeight:Number;		
@@ -170,7 +169,8 @@ package com.ffsys.ui.text.core {
 		{
 			wordWrap = true;
 			multiline = true;
-			autoSize = TextFieldAutoSize.LEFT;			
+			autoSize = TextFieldAutoSize.LEFT;
+			trace("AbstractTextField::convertToMultiLine()", "CONVERT TO MULTILINE", this );
 		}
 		
 		/**

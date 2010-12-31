@@ -1,9 +1,7 @@
 package com.ffsys.ui.buttons {
 	
 	import com.ffsys.ui.graphics.*;
-	import com.ffsys.ui.states.IViewState;
-	import com.ffsys.ui.states.ViewState;
-	import com.ffsys.ui.states.State;
+	import com.ffsys.ui.core.State;
 	
 	/**
 	*	Represents a standard button.

@@ -58,7 +58,7 @@ package com.ffsys.ui.core
 		private var _border:IComponentGraphic;
 		private var _background:IComponentGraphic;
 		private var _styles:String;
-		
+		private var _customData:Object;
 		private var _dataBinding:IDataBinding;
 		
 		/**
@@ -79,6 +79,19 @@ package com.ffsys.ui.core
 			{
 				addEventListener( Event.ADDED_TO_STAGE, __initialize );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get customData():Object
+		{
+			return _customData;
+		}
+		
+		public function set customData( value:Object ):void
+		{
+			_customData = value;
 		}
 		
 		/**
@@ -701,7 +714,7 @@ package com.ffsys.ui.core
 		public function set enabled( enabled:Boolean ):void
 		{
 			mouseEnabled = enabled;
-		}	
+		}
 		
 		/**
 		* 	Performs clean up of this instance.

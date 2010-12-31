@@ -370,6 +370,13 @@ package com.ffsys.swat.core
 			
 			var componentResource:IComponentResource = 
 				getComponentById( id );
+				
+			//no matching component
+			if( componentResource == null )
+			{
+				return null;
+			}
+			
 			var component:XML = componentResource.target as XML;
 			if( component == null )
 			{

@@ -52,10 +52,33 @@ package com.ffsys.ui.text
 			maximumHeight:Number = NaN )
 		{
 			super();
-			createTextField( text );
-			
+			createTextField( text );		
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function set preferredWidth( value:Number ):void
+		{
+			super.preferredWidth = value;
+			if( textfield != null )
+			{
+				textfield.width = value;
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function set preferredHeight( value:Number ):void
+		{
+			super.preferredHeight = value;
+			if( textfield != null )
+			{
+				textfield.height = value;
+			}
 		}
 		
 		public function get textTransform():String
@@ -347,24 +370,23 @@ package com.ffsys.ui.text
 		*/
 		public function set text( text:String ):void
 		{	
-			if( textTransform != null ) 
+			if( textfield == null
+				&& text != null
+				&& text != "" )
 			{
-				text = handleTextTransform( text );
+				createTextField( text );
 			}
 			
-			textfield.setText( text );
+			if( textfield != null )
+			{
 			
-			/*
-			//TODO: remove this debug drawing
-			graphics.clear();
-			graphics.lineStyle( 0, 0xff6600 );
-			graphics.drawRect( textfield.x, textfield.y, textfield.width, textfield.height );
+				if( textTransform != null ) 
+				{
+					text = handleTextTransform( text );
+				}
 			
-			graphics.lineStyle( 0, 0x0066ff );
-			graphics.drawRect( 0, 0, textfield.textWidth, textfield.textHeight );
-			
-			graphics.endFill();
-			*/
+				textfield.setText( text );
+			}
 		}
 		
 		/**

@@ -42,10 +42,13 @@ package com.ffsys.ui.core
 		{
 			//child components of the root layer must be
 			//added lazily
+			
+			/*
 			if( !contains( DisplayObject( _tooltips ) ) )
 			{
 				addChild( DisplayObject( _tooltips ) );
 			}
+			*/
 			
 			return _tooltips;
 		}

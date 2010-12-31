@@ -78,6 +78,16 @@ package com.ffsys.ui.runtime
 			beans.addBeanDescriptor( descriptor );			
 			
 			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.LINKS );
+			descriptor.instanceClass = LinkContainer;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TABS );
+			descriptor.instanceClass = TabContainer;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.GRAPHIC );
 			descriptor.instanceClass = Graphic;
 			beans.addBeanDescriptor( descriptor );

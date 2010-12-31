@@ -1,6 +1,6 @@
 package com.ffsys.ui.runtime {
 
-	import com.ffsys.ui.core.IComponent;
+	import flash.display.DisplayObject;
 	import com.ffsys.ui.containers.Canvas;
 	
 	/**
@@ -20,7 +20,6 @@ package com.ffsys.ui.runtime {
 	public class Document extends Canvas
 		implements 	IDocument {
 			
-		private var _css:Array;
 		private var _binding:Object = new Object();
 		private var _identifiers:Object = new Object();
 		
@@ -30,19 +29,6 @@ package com.ffsys.ui.runtime {
 		public function Document()
 		{
 			super();
-		}
-		
-		/**
-		*	List of css files to load.
-		*/
-		public function get css():Array
-		{
-			return _css;
-		}
-		
-		public function set css( val:Array ):void
-		{
-			_css = val;
 		}
 		
 		/**
@@ -64,9 +50,34 @@ package com.ffsys.ui.runtime {
 		/**
 		* 	@inheritDoc
 		*/
-		public function getElementById( id:String ):IComponent
+		public function getElementById( id:String ):DisplayObject
 		{
 			return _identifiers[ id ];
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/		
+		public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
+		{
+			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+			if( re != null )
+			{
+				var id:String = null;
+				var display:DisplayObject = null;
+				for( id in _identifiers )
+				{
+					if( re.test( id ) )
+					{
+						display = _identifiers[ id ] as DisplayObject;
+						if( display != null )
+						{
+							output.push( display );
+						}
+					}
+				}
+			}
+			return output;
 		}
 		
 		/**
@@ -75,8 +86,6 @@ package com.ffsys.ui.runtime {
 		override public function destroy():void
 		{
 			super.destroy();
-			
-			_css = null;
 			_binding = null;
 			_identifiers = null;
 		}

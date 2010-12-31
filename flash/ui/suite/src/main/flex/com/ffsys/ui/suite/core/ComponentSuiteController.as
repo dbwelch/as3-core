@@ -4,6 +4,7 @@ package com.ffsys.ui.suite.core {
 	import flash.display.DisplayObject;	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
+	import flash.events.*;
 	
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.IApplicationMainController;
@@ -14,6 +15,7 @@ package com.ffsys.ui.suite.core {
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.graphics.*;
+	import com.ffsys.ui.runtime.*;
 	import com.ffsys.ui.tooltips.*;
 	
 	import com.ffsys.ui.suite.view.*;
@@ -31,6 +33,9 @@ package com.ffsys.ui.suite.core {
 		implements IApplicationMainController {
 			
 		public var vbox:VerticalBox;
+		
+		public var navigation:IDocument;
+		public var content:IDocument;
 		
 		/**
 		*	Creates a <code>ComponentSuiteController</code> instance.
@@ -57,6 +62,45 @@ package com.ffsys.ui.suite.core {
 		}
 		
 		/**
+		* 	@private
+		*/
+		private function doWithNavigationLinks( links:Vector.<DisplayObject> ):void
+		{
+			if( links != null )
+			{
+				var link:DisplayObject = null;
+				for each( link in links )
+				{
+					link.addEventListener( MouseEvent.CLICK, navigationLinkClick );
+				}
+			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function navigationLinkClick( event:MouseEvent ):void
+		{
+			trace("ComponentSuiteController::navigationLinkClick()", event.target, ( event.target is IComponent ) );
+			
+			if( event.target is IComponent )
+			{
+				//the view id
+				var id:String = IComponent( event.target ).customData as String
+				var view:DisplayObject = getView( id );
+				
+				if( view == null )
+				{
+					throw new Error( "Could not find view component for identifier '"
+					 	+ id + "'.");
+				}
+				
+				content.removeAllChildren();
+				content.addChild( DisplayObject( view ) );
+			}
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
  		private function createMainChildren( root:DisplayObjectContainer ):void
@@ -66,8 +110,7 @@ package com.ffsys.ui.suite.core {
 				this, UIComponent.utilities, UIComponent.utilities.layer, UIComponent.utilities.layer.tooltips );
 			*/
 			
-			vbox = new VerticalBox();
-			vbox.spacing = 15;			
+			vbox = new VerticalBox();			
 			root.addChild( vbox );
 			
 			//initialize the tooltips
@@ -77,13 +120,30 @@ package com.ffsys.ui.suite.core {
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
 			UIComponent.utilities.layer.tooltips.renderer = tooltip;			
 			
-			var view:DisplayObject = getView( "graphics" );
-			trace("ComponentSuiteController::createMainChildren()", "GOT VIEW: ", view );
+			navigation = getView( "navigation" ) as IDocument;
+
+			if( navigation != null )
+			{	
+				doWithNavigationLinks(
+					navigation.getElementsByMatch( /\-link$/ ) );
+				vbox.addChild( DisplayObject( navigation ) );
+			}
 			
-			if( view != null )
+			content = getView( "content" ) as IDocument;
+			if( content != null )
+			{	
+				vbox.addChild( DisplayObject( content ) );
+				trace("ComponentSuiteController::createMainChildren()", "ADDING CONTENT VIEW", content, content.parent );
+			}			
+			
+			/*
+			var view:DisplayObject = getView( "graphics" );
+			
+			if( view != null && document != null )
 			{
 				vbox.addChild( view );
 			}
+			*/
 			
 			/*
 			var graphicsSuite:GraphicsSuite = new GraphicsSuite();

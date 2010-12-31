@@ -31,7 +31,6 @@ package com.ffsys.ui.text.core {
 		{
 			this.selectable = false;
 			convertToMultiLine();
-			this.width = 150;
 			super( text, properties, textformat );
 		}
 	}

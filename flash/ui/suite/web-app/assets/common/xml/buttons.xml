@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<spacing>5</spacing>
+		<heading>
+			<identifier>buttons.heading</identifier>
+		</heading>
+		<sub-heading>
+			<identifier>buttons.package</identifier>
+		</sub-heading>
+		
+		<text-button>
+			<identifier>buttons.examples.text</identifier>
+			<label />
+		</text-button>
+		
+		<text-button>
+			<identifier>buttons.examples.text.disabled</identifier>
+			<enabled>false</enabled>
+			<label />
+		</text-button>	
+		
+		<button>
+			<identifier>buttons.examples.standard</identifier>
+			<label />
+		</button>
+		<button>
+			<identifier>buttons.examples.standard.disabled</identifier>
+			<enabled>false</enabled>
+			<label />
+		</button>
+		
+		<icon-button>
+			<styles>default-icon</styles>
+			<identifier>buttons.examples.icon</identifier>
+			<label />
+		</icon-button>
+		<icon-button>
+			<styles>default-icon</styles>			
+			<identifier>buttons.examples.icon.disabled</identifier>
+			<enabled>false</enabled>
+			<label />
+		</icon-button>
+	</vbox>
+</document>

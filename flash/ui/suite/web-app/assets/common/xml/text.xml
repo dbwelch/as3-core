@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<spacing>5</spacing>
+		<heading>
+			<identifier>text.heading</identifier>
+		</heading>
+		<sub-heading>
+			<identifier>text.package</identifier>
+		</sub-heading>
+		
+		<heading>
+			<identifier>text.examples.heading</identifier>
+		</heading>
+		<sub-heading>
+			<identifier>text.examples.subheading</identifier>
+		</sub-heading>
+		<label>
+			<identifier>text.examples.label</identifier>
+		</label>
+		<paragraph>
+			<identifier>text.examples.paragraph</identifier>
+		</paragraph>	
+		<sub-paragraph>
+			<identifier>text.examples.subparagraph</identifier>
+		</sub-paragraph>				
+	</vbox>
+</document>

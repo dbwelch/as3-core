@@ -4,9 +4,7 @@ package com.ffsys.ui.buttons
 	
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.graphics.*;
-	import com.ffsys.ui.states.IViewState;
-	import com.ffsys.ui.states.ViewState;
-	import com.ffsys.ui.states.State;	
+	import com.ffsys.ui.core.State;	
 	import com.ffsys.ui.text.Label;
 
 	/**
@@ -45,21 +43,6 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		*	@inheritDoc	
-		*/
-		override public function set text( text:String ):void
-		{
-			super.text = text;
-			if( label )
-			{
-				/*
-				utils.renderer.invalidate(
-					new ComponentRender( this, RenderPhase.REDRAW ) );
-				*/
-			}
-		}
-		
-		/**
 		*	The spacing between the icon and the label.	
 		*/
 		public function get spacing():Number
@@ -92,11 +75,6 @@ package com.ffsys.ui.buttons
 			if( this.icon && !this.contains( this.icon ) )
 			{
 				addChild( this.icon );
-				
-				/*
-				utils.renderer.invalidate(
-					new ComponentRender( this, RenderPhase.REDRAW ) );
-				*/
 			}
 		}
 		
@@ -171,9 +149,18 @@ package com.ffsys.ui.buttons
 		/**
 		* 	@inheritDoc
 		*/
-		override protected function layoutChildren(
-			width:Number, height:Number ):void
+		override public function finalized():void
 		{
+			super.finalized();
+			position();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function updateState( state:State ):void
+		{
+			super.updateState( state );
 			position();
 		}
 		
