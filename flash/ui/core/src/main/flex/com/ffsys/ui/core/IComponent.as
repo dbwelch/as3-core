@@ -13,7 +13,8 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.data.IDataBinding;
 	import com.ffsys.ui.data.IDataBindingNotification;
 	import com.ffsys.ui.data.IDataBindingNotificationObserver;
-	
+
+	import com.ffsys.ui.css.IStyleManagerAware;	
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
@@ -23,6 +24,8 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.IPaddingAware;
 	
 	import com.ffsys.ui.common.IStyleAware;
+	
+	import com.ffsys.ioc.IBeanFinalized;
 	
 	/**
 	*	Describes the contract for all components.
@@ -35,6 +38,8 @@ package com.ffsys.ui.core
 	*/
 	public interface IComponent
 		extends ISprite,
+				IStyleManagerAware,
+				IBeanFinalized,
 				IStyleAware,
 				ILayoutWidth,
 				ILayoutHeight,
@@ -46,6 +51,21 @@ package com.ffsys.ui.core
 				IDataBindingNotificationObserver,
 				IStringIdentifier
 	{
+		
+		/**
+		* 	The current state of this component.
+		*/
+		function get state():State;
+		function set state( value:State ):void;
+		
+		/**
+		* 	Sets the state of the component and forces
+		* 	a redraw using the styles associated with the
+		* 	state.
+		* 
+		* 	@param state The state for this component.
+		*/
+		function setState( state:State ):void;
 		
 		/**
 		* 	Custom data to associate with this component.
@@ -130,6 +150,8 @@ package com.ffsys.ui.core
 		/**
 		* 	Extra custom data to associate with the component.
 		*/
+		
+		//TODO: remove this in favour of customData !!!
 		function get extra():Object;
 		function set extra( extra:Object ):void;
 		

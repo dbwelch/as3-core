@@ -6,8 +6,6 @@ package com.ffsys.ui.text
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	
-	import com.ffsys.ioc.IBeanFinalized;
-	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.data.IDataBindingNotification;
 	import com.ffsys.ui.data.StringDataBinding;
@@ -31,8 +29,7 @@ package com.ffsys.ui.text
 	*/
 	public class TextComponent extends UIComponent
 		implements 	ICssTextFieldProxy,
-					IMessagesAware,
-					IBeanFinalized
+					IMessagesAware
 	{
 		private var _textfield:ITypedTextField;
 		private var _identifier:String;
@@ -92,7 +89,6 @@ package com.ffsys.ui.text
 			{
 				value = value.toLowerCase();
 			}
-			trace("TextComponent::set textTransform()", value );
 			_textTransform = value;
 		}
 		
@@ -125,10 +121,10 @@ package com.ffsys.ui.text
 		}
 		
 		/**
-		* 	Invoked when this component is instantiated
+		* 	Invoked when this component is finalized
 		* 	as a bean.
 		*/
-		public function finalized():void
+		override public function finalized():void
 		{
 			//trace("TextComponent::finalized()", this, this.id, this.messages, this.identifier );
 			if( this.messages != null
@@ -342,7 +338,6 @@ package com.ffsys.ui.text
 				text = text.toLowerCase();
 			}else if( this.textTransform == TextTransform.UNDERLINE )
 			{
-				trace("TextComponent::handleTextTransform()", "APPLYING UNDERLINE!!!!" );
 				_textfield.applyTextFormatProperties( { underline: true } );
 			}else if( this.textTransform == TextTransform.NONE )
 			{
@@ -511,7 +506,8 @@ package com.ffsys.ui.text
 			super.destroy();
 			_textfield = null;
 			_identifier = null;
-			_messages = null;			
+			_messages = null;
+			_textTransform = null		
 		}
 	}
 }

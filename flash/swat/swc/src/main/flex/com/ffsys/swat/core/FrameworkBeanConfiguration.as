@@ -6,7 +6,7 @@ package com.ffsys.swat.core
 	import com.ffsys.swat.configuration.locale.*;	
 	import com.ffsys.swat.configuration.rsls.*;
 	
-	import com.ffsys.ui.core.IStyleManagerAware;	
+	import com.ffsys.ui.css.IStyleManagerAware;	
 
 	/**
 	* 	Represents the default application beans configured before

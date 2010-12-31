@@ -9,7 +9,8 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.ui.common.IStyleAware;
 	
 	import com.ffsys.io.xml.*;
-	
+
+	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.*;	
 	
 	import com.ffsys.utils.substitution.*;
@@ -254,7 +255,13 @@ package com.ffsys.ui.runtime {
 			
 			if( name == FILTERS )
 			{
-				if( UIComponent.styleManager && parent is DisplayObject )
+				var styleManager:IStyleManager = null;
+				if( parent is IStyleManagerAware )
+				{
+					styleManager = IStyleManagerAware( parent ).styleManager;
+				}
+				
+				if( styleManager != null && parent is DisplayObject )
 				{
 					var display:DisplayObject = DisplayObject( parent );
 					var filters:Array = display.filters ? display.filters : new Array();
@@ -262,7 +269,7 @@ package com.ffsys.ui.runtime {
 					var filter:BitmapFilter = null
 					for( var i:int = 0;i < ids.length;i++ )
 					{
-						filter = UIComponent.styleManager.getFilter( ids[ i ] );
+						filter = styleManager.getFilter( ids[ i ] );
 						filters.push( filter );
 					}
 					display.filters = filters;

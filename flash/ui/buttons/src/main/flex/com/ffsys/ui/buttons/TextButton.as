@@ -2,8 +2,7 @@ package com.ffsys.ui.buttons
 {
 	import flash.text.TextField;
 	import com.ffsys.ui.text.Label;
-	
-	import com.ffsys.ioc.IBeanFinalized;	
+		
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 
 	/**
@@ -19,8 +18,7 @@ package com.ffsys.ui.buttons
 	*	@since  16.06.2010
 	*/
 	public class TextButton extends ButtonComponent
-		implements  ICssTextFieldProxy,
-					IBeanFinalized
+		implements  ICssTextFieldProxy
 	{
 		private var _text:String;
 		private var _label:Label;
@@ -149,7 +147,7 @@ package com.ffsys.ui.buttons
 		* 	Invoked when this component is instantiated
 		* 	as a bean.
 		*/
-		public function finalized():void
+		override public function finalized():void
 		{
 			if( _label == null )
 			{

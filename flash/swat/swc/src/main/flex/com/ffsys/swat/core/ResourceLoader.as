@@ -23,7 +23,7 @@ package com.ffsys.swat.core {
 	import com.ffsys.swat.configuration.rsls.ViewComponentCollection;
 	import com.ffsys.swat.events.RslEvent;
 	
-	import com.ffsys.ui.core.IStyleManagerAware;	
+	import com.ffsys.ui.css.IStyleManagerAware;	
 	
 	import com.ffsys.utils.properties.IProperties;
 	

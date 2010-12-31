@@ -14,6 +14,7 @@ package com.ffsys.ui.suite.core {
 	
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.runtime.*;
 	import com.ffsys.ui.tooltips.*;
@@ -57,7 +58,7 @@ package com.ffsys.ui.suite.core {
 			runtime:IBootstrapLoader,
 			view:IApplicationPreloadView ):Boolean
 		{
-			UIComponent.styleManager = styleManager;
+			//UIComponent.styleManager = styleManager;
 			
 			//create the main view
 			createMainChildren( DisplayObjectContainer( parent ) );

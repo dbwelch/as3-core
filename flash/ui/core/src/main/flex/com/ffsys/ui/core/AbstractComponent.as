@@ -16,8 +16,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.Margin;
 	import com.ffsys.ui.common.Padding;
 	
-	import com.ffsys.ui.data.IDataBinding;
-	import com.ffsys.ui.data.IDataBindingNotification;
+	import com.ffsys.ui.css.*;
 	
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
@@ -32,7 +31,6 @@ package com.ffsys.ui.core
 	*	@since  16.06.2010
 	*/
 	public class AbstractComponent extends Sprite
-		implements IComponent
 	{	
 		/**
 		*	@private	
@@ -59,7 +57,6 @@ package com.ffsys.ui.core
 		private var _background:IComponentGraphic;
 		private var _styles:String;
 		private var _customData:Object;
-		private var _dataBinding:IDataBinding;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -79,7 +76,7 @@ package com.ffsys.ui.core
 			{
 				addEventListener( Event.ADDED_TO_STAGE, __initialize );
 			}
-		}
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -92,40 +89,6 @@ package com.ffsys.ui.core
 		public function set customData( value:Object ):void
 		{
 			_customData = value;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get dataBinding():IDataBinding
-		{
-			return _dataBinding;
-		}
-		
-		public function set dataBinding( value:IDataBinding ):void
-		{
-			if( _dataBinding && value && ( _dataBinding != value ) )
-			{
-				_dataBinding.removeObserver( this );
-			}
-			
-			if( _dataBinding != value )
-			{
-				_dataBinding = value;
-			}
-			
-			if( _dataBinding )
-			{
-				_dataBinding.addObserver( this );
-			}
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function notify( notification:IDataBindingNotification ):void
-		{	
-			trace("AbstractComponent::notify()", notification, this );
 		}
 		
 		/**
@@ -717,22 +680,6 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Performs clean up of this instance.
-		* 
-		* 	The implementation of this method should clean any
-		* 	event listeners and null any references to complex objects.
-		*/
-		public function destroy():void
-		{
-			if( this.dataBinding )
-			{
-				this.dataBinding.removeObserver( this );
-			}
-			
-			//TODO: the core UIComponent destroy logic
-		}
-		
-		/**
 		*	@inheritDoc	
 		*/
 		public function getPaddingRectangle():Rectangle
@@ -896,6 +843,24 @@ package com.ffsys.ui.core
 					}
 				}
 			}
-		}		
+		}
+		
+		/**
+		* 	Performs clean up of this instance.
+		* 
+		* 	The implementation of this method should clean any
+		* 	event listeners and null any references to complex objects.
+		*/
+		public function destroy():void
+		{
+			_margins = null;
+			_paddings = null;
+			_id = null;
+			_extra = null;
+			_border = null;
+			_background = null;
+			_styles = null;
+			_customData = null;
+		}			
 	}
 }

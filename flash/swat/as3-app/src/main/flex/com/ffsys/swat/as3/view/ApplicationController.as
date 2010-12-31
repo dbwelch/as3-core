@@ -97,7 +97,7 @@ package com.ffsys.swat.as3.view {
 		private function createChildren( root:DisplayObjectContainer ):void
 		{
 			//update the style manager reference
-			UIComponent.styleManager = styleManager;
+			//UIComponent.styleManager = styleManager;
 			
 			vbox = new VerticalBox();
 			root.addChild( vbox );

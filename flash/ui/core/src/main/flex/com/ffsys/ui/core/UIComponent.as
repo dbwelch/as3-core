@@ -6,6 +6,9 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.ComponentGraphic;
 	
+	import com.ffsys.ui.data.IDataBinding;
+	import com.ffsys.ui.data.IDataBindingNotification;
+	
 	/**
 	*	The default component implementation.
 	*
@@ -16,13 +19,15 @@ package com.ffsys.ui.core
 	*	@since  16.06.2010
 	*/
 	public class UIComponent extends AbstractComponent
+		implements IComponent
 	{
 		/**
 		*	@private
 		*/
-		static private var _styleManager:IStyleManager = null;
+		private var _styleManager:IStyleManager = null;		
 		
 		private var _state:State;
+		private var _dataBinding:IDataBinding;		
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -30,6 +35,28 @@ package com.ffsys.ui.core
 		public function UIComponent()
 		{
 			super();
+		}
+		
+		/**
+		* 	Invoked when this component has been finalized.
+		*/
+		public function finalized():void
+		{
+			//
+		}
+		
+		/**
+		* 	The style manager for the component.
+		*/
+		public function get styleManager():IStyleManager
+		{
+			return _styleManager;
+		}
+		
+		public function set styleManager( value:IStyleManager ):void
+		{
+			_styleManager = value;
+			//ComponentGraphic.styleManager = value;
 		}
 		
 		/**
@@ -43,7 +70,7 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	The current state of this component.
+		* 	@inheritDoc
 		*/
 		public function get state():State
 		{
@@ -62,28 +89,24 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function setState( state:State ):void
+		{
+			updateState( state );
+		}
+		
+		/**
 		* 	Sets the state of this component and updates
 		* 	the styles applied to this component.
+		* 
+		* 	@param state The state for this component.
 		*/
 		protected function updateState(
 			state:State ):void
 		{
 			this.state = state;
 			applyStyles();
-		}
-		
-		/**
-		* 	The style manager for the components.
-		*/
-		public static function get styleManager():IStyleManager
-		{
-			return _styleManager;
-		}
-		
-		public static function set styleManager( value:IStyleManager ):void
-		{
-			_styleManager = value;
-			ComponentGraphic.styleManager = value;
 		}
 		
 		/**
@@ -155,6 +178,58 @@ package com.ffsys.ui.core
 				return output;				
 			}
 			return null;
+		}
+		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get dataBinding():IDataBinding
+		{
+			return _dataBinding;
+		}
+		
+		public function set dataBinding( value:IDataBinding ):void
+		{
+			if( _dataBinding && value && ( _dataBinding != value ) )
+			{
+				_dataBinding.removeObserver( this );
+			}
+			
+			if( _dataBinding != value )
+			{
+				_dataBinding = value;
+			}
+			
+			if( _dataBinding )
+			{
+				_dataBinding.addObserver( this );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function notify( notification:IDataBindingNotification ):void
+		{	
+			trace("AbstractComponent::notify()", notification, this );
+		}		
+		
+		/**
+		* 	Cleans composite references.
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			
+			if( this.dataBinding )
+			{
+				this.dataBinding.removeObserver( this );
+			}			
+			
+			_styleManager = null;
+			_state = null;
+			_dataBinding = null;
 		}
 		
 		/**

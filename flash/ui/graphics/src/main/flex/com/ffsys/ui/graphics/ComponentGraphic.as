@@ -8,6 +8,7 @@ package com.ffsys.ui.graphics
 	import com.ffsys.ui.common.Margin;
 	import com.ffsys.ui.common.Padding;
 	
+	import com.ffsys.ui.css.IStyleManagerAware;	
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.StyleManager;
 	
@@ -21,12 +22,13 @@ package com.ffsys.ui.graphics
 	*	@since  16.06.2010
 	*/
 	public class ComponentGraphic extends Shape
-		implements IComponentGraphic
+		implements 	IComponentGraphic,
+					IStyleManagerAware
 	{
 		/**
 		*	@private
 		*/
-		static private var _styleManager:IStyleManager = null;
+		private var _styleManager:IStyleManager = null;
 		
 		private var _id:String;
 		
@@ -87,12 +89,12 @@ package com.ffsys.ui.graphics
 		/**
 		* 	The style manager for the graphic components.
 		*/
-		public static function get styleManager():IStyleManager
+		public function get styleManager():IStyleManager
 		{
 			return _styleManager;
 		}
 		
-		public static function set styleManager( value:IStyleManager ):void
+		public function set styleManager( value:IStyleManager ):void
 		{
 			_styleManager = value;
 		}

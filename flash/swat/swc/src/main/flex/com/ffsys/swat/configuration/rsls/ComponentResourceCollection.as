@@ -11,7 +11,7 @@ package com.ffsys.swat.configuration.rsls
 	import com.ffsys.ioc.IBeanDocument;	
 	import com.ffsys.ioc.IBeanManager;
 	
-	import com.ffsys.ui.core.IStyleManagerAware;	
+	import com.ffsys.ui.css.IStyleManagerAware;	
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.ICssStyleSheet;
 	
