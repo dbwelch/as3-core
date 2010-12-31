@@ -10,15 +10,14 @@ Label {
 
 Paragraph {
 	font: Arial;
-	size: 12;
+	size: 13;
 	embed-fonts: false;
 	auto-size: left;
-	word-wrap: false;
-	multiline: false;
+	word-wrap: true;
+	multiline: true;
 	color: #a9a9a9;
 	preferred-width: 360;
-	preferred-height: 120;	
-	maximum-width: 320;
+	preferred-height: 120;
 }
 
 Heading {
@@ -43,11 +42,13 @@ SubHeading {
 
 SubParagraph {
 	font: Arial;
-	size: 11;
+	size: 10;
 	embed-fonts: false;
 	auto-size: left;
-	word-wrap: false;
-	multiline: false;
+	word-wrap: true;
+	multiline: true;
+	preferred-width: 360;
+	preferred-height: 120;
 	color: #a9a9a9;
 }
 
