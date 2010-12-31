@@ -218,7 +218,17 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.SCROLLER );
 			descriptor.instanceClass = Scroller;
-			beans.addBeanDescriptor( descriptor );						
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.IMAGE_DISPLAY );
+			descriptor.instanceClass = ImageDisplay;
+			beans.addBeanDescriptor( descriptor );							
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.IMAGE_CONTAINER );
+			descriptor.instanceClass = ImageContainer;
+			beans.addBeanDescriptor( descriptor );	
 			
 			//
 			descriptor = new BeanDescriptor(

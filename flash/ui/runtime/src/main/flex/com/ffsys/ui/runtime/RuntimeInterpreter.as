@@ -263,7 +263,10 @@ package com.ffsys.ui.runtime {
 					styleManager = IStyleManagerAware( parent ).styleManager;
 				}
 				
-				if( styleManager != null && parent is DisplayObject )
+				trace("RuntimeInterpreter::shouldSetProperty() FOUND FILTERS ELEMENT: ", parent, ( parent is IStyleManagerAware ) , styleManager  );
+				
+				if( styleManager != null
+					&& parent is DisplayObject )
 				{
 					var display:DisplayObject = DisplayObject( parent );
 					var filters:Array = display.filters ? display.filters : new Array();
@@ -272,6 +275,7 @@ package com.ffsys.ui.runtime {
 					for( var i:int = 0;i < ids.length;i++ )
 					{
 						filter = styleManager.getFilter( ids[ i ] );
+						trace("RuntimeInterpreter::shouldSetProperty() GOT FILTER: ", filter );
 						filters.push( filter );
 					}
 					display.filters = filters;

@@ -34,8 +34,20 @@
 				</resource>
 				<resource>
 					<url>css/application-styles.css</url>
-				</resource>				
+				</resource>
+				<resource>
+					<url>css/filters.css</url>
+				</resource>								
 			</css>
+			
+			<images>
+				<resource>
+					<url>images/thumbnail-001.jpg</url>
+				</resource>
+				<resource>
+					<url>images/thumbnail-002.jpg</url>
+				</resource>				
+			</images>
 			
 			<components>
 				<id>components</id>
@@ -94,7 +106,15 @@
 							<url>xml/assets.xml</url>
 						</resource>
 					</xml>
-				</view>																		
+				</view>	
+				<view>
+					<id>images</id>
+					<xml>
+						<resource>
+							<url>xml/images.xml</url>
+						</resource>
+					</xml>
+				</view>													
 			</components>
 			<messages>
 				<resource>

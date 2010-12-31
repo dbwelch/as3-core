@@ -314,3 +314,39 @@ tab-top-right-corner {
 	width: 6;
 	height: 6;	
 }
+
+ImageDisplay {
+	padding: 6;
+	background: ref( image-display-background );
+	border: ref( image-display-border );
+}
+
+image-display-background {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: ref( image-display-background-fill );
+}
+
+image-display-border {
+	instance-class: class( com.ffsys.ui.graphics.BorderGraphic );
+	fill: ref( image-display-border-fill );
+	stroke: ref( image-display-border-stroke );	
+}
+
+image-display-background-fill {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #000000;
+	alpha: .65;
+}
+
+image-display-border-fill {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #a9a9a9;
+	alpha: 1;
+}
+
+image-display-border-stroke {
+	instance-class: class( com.ffsys.ui.graphics.Stroke );
+	color: #a9a9a9;
+	thickness: 1;
+	alpha: 1;
+}

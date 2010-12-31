@@ -27,7 +27,15 @@
 				<label>
 					<styles>uppercase</styles>
 				</label>
-			</link-button>			
+			</link-button>
+			<link-button>
+				<id>image-link</id>
+				<identifier>imagecontainer.link</identifier>
+				<custom-data>images</custom-data>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</link-button>
 			<link-button>
 				<id>containers-link</id>
 				<identifier>containers.link</identifier>

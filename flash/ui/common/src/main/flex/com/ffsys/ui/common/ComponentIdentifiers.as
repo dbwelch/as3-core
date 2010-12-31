@@ -206,5 +206,15 @@ package com.ffsys.ui.common
 		* 	The identifier for an iterator component.
 		*/
 		public static const ITERATOR:String = "iterator";
+		
+		/**
+		* 	The identifier for an image display container.
+		*/
+		public static const IMAGE_CONTAINER:String = "image-container";
+		
+		/**
+		* 	The identifier for an image display.
+		*/
+		public static const IMAGE_DISPLAY:String = "image-display";
 	}
 }

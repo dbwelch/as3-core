@@ -38,6 +38,7 @@ package com.ffsys.ui.suite.view {
 			output.push( ArrowGraphic );
 			output.push( BevelRectangleGraphic );
 			output.push( RoundedRectangleGraphic );
+			output.push( BorderGraphic );
 			
 			output.push( ArrowPointer );
 			output.push( SolidFill );

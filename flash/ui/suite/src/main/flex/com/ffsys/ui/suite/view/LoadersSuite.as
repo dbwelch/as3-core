@@ -38,6 +38,7 @@ package com.ffsys.ui.suite.view {
 				new ImageLoaderComponent( [ "assets/images/mock/amazon.jpg" ] );
 			loader.preferredWidth = 192;
 			loader.preferredHeight = 112;
+			
 			loader.border = new BorderGraphic(
 				loader.preferredWidth,
 				loader.preferredHeight,

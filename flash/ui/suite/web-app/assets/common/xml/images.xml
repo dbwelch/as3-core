@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<spacing>5</spacing>
+		<vbox>
+			<styles>page-heading</styles>
+			<heading>
+				<identifier>imagecontainer.heading</identifier>
+			</heading>
+			<sub-heading>
+				<styles>page-sub-heading</styles>
+				<identifier>imagecontainer.package</identifier>
+			</sub-heading>
+		</vbox>
+		
+		<sub-paragraph>
+			<identifier>assets.examples.images.injected</identifier>
+		</sub-paragraph>
+		<image-container>
+			<id>injected-images</id>
+			<filters>image-display-filter</filters>
+			<spacing>5</spacing>
+		</image-container>
+		
+		<!--
+		<image-container>
+			<id>injected-images-interactive</id>
+			<spacing>5</spacing>
+		</image-container>
+		-->
+	</vbox>
+</document>

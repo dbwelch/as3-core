@@ -1,0 +1,21 @@
+heading-filter {
+	instance-class: class( flash.filters.GlowFilter );
+	angle: 45;
+	distance: 4;
+	color: #ffffff;
+	blur-x: 5;
+	blur-y: 5;
+	strength: .75;
+	alpha: .5;
+}
+
+image-display-filter {
+	instance-class: class( flash.filters.GlowFilter );
+	angle: 45;
+	distance: 4;
+	color: #a9a9a9;
+	blur-x: 8;
+	blur-y: 8;
+	strength: .75;
+	alpha: .75;
+}

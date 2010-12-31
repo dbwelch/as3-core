@@ -33,6 +33,21 @@ package com.ffsys.ui.suite.core {
 	public class ComponentSuiteController extends AbstractApplicationController
 		implements IApplicationMainController {
 			
+		/**
+		* 	The identifier of the navigation view.
+		*/
+		public static const NAVIGATION_ID:String = "navigation";
+		
+		/**
+		* 	The identifier of the content view.
+		*/
+		public static const CONTENT_ID:String = "content";		
+		
+		/**
+		* 	The identifier of the images view.
+		*/
+		public static const IMAGES_ID:String = "images";		
+			
 		public var vbox:VerticalBox;
 		
 		public var navigation:IDocument;
@@ -80,6 +95,26 @@ package com.ffsys.ui.suite.core {
 			}
 		}
 		
+		private function handleImagesInjection( view:IDocument ):void
+		{
+			var candidates:Vector.<DisplayObject> = view.getElementsByMatch( /^injected-images/ );
+			var display:DisplayObject = null;
+			var collection:IImageContainer = null;
+			for each( display in candidates )
+			{
+				collection = display as IImageContainer;
+
+				if( collection != null
+					&& collection.numChildren == 0 )
+				{
+					var images:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+					images.push( getImage( "thumbnail001" ) );
+					images.push( getImage( "thumbnail002" ) );
+					collection.inject( images );
+				}				
+			}
+		}
+		
 		/**
 		* 	@private
 		*/
@@ -107,6 +142,11 @@ package com.ffsys.ui.suite.core {
 				{
 					throw new Error( "Could not find view component for identifier '"
 					 	+ id + "'.");
+				}
+				
+				if( id == IMAGES_ID )
+				{
+					handleImagesInjection( view as IDocument );
 				}
 				
 				trace("ComponentSuiteController::navigationLinkClick()", view );
@@ -139,7 +179,7 @@ package com.ffsys.ui.suite.core {
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
 			UIComponent.utilities.layer.tooltips.renderer = tooltip;			
 			
-			navigation = getView( "navigation" ) as IDocument;
+			navigation = getView( NAVIGATION_ID ) as IDocument;
 
 			if( navigation != null )
 			{	
@@ -148,12 +188,10 @@ package com.ffsys.ui.suite.core {
 				vbox.addChild( DisplayObject( navigation ) );
 			}
 			
-			content = getView( "content" ) as IDocument;
+			content = getView( CONTENT_ID ) as IDocument;
 			if( content != null )
 			{	
 				vbox.addChild( DisplayObject( content ) );
-				//content.y += 20;				
-				trace("ComponentSuiteController::createMainChildren()", "ADDING CONTENT VIEW", content, content.parent );
 			}			
 			
 			/*
