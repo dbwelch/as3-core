@@ -4,38 +4,99 @@
 		<spacing>5</spacing>
 		<vbox>
 			<styles>page-heading</styles>
-			<heading>
-				<identifier>containers.heading</identifier>
-			</heading>
 			<sub-heading>
 				<styles>page-sub-heading</styles>
 				<identifier>containers.package</identifier>
 			</sub-heading>
 		</vbox>
 		
-		<tabs>
-			<id>package-menu</id>
-			<tab-button>
-				<identifier>text.heading</identifier>
-				<custom-data>text</custom-data>
+		<vbox>
+			<spacing>5</spacing>
+			<styles>example-group</styles>
+			<sub-paragraph>
+				<identifier>containers.examples.textlinks.copy</identifier>
+			</sub-paragraph>
+			<hbox>
+				<spacing>5</spacing>					
+				<links>
+					<spacing>4</spacing>
+					<id>example-text-links</id>
+					<text-button>
+						<identifier>fruit.apples</identifier>
+						<custom-data>text</custom-data>
+					</text-button>
+					<text-button>
+						<identifier>fruit.oranges</identifier>
+						<custom-data>buttons</custom-data>					
+					</text-button>
+					<text-button>
+						<identifier>fruit.pears</identifier>
+						<custom-data>graphics</custom-data>
+					</text-button>
+				</links>
 				<label>
-					<styles>uppercase</styles>
+					<id>example-text-links-result</id>
 				</label>
-			</tab-button>
-			<tab-button>
-				<identifier>buttons.heading</identifier>
-				<custom-data>buttons</custom-data>					
+			</hbox>
+		</vbox>		
+		
+		<vbox>
+			<spacing>5</spacing>
+			<styles>example-group</styles>
+			<sub-paragraph>
+				<identifier>containers.examples.links.copy</identifier>
+			</sub-paragraph>
+			<hbox>
+				<spacing>5</spacing>					
+				<links>
+					<spacing>4</spacing>
+					<id>example-links</id>
+					<link-button>
+						<identifier>fruit.apples</identifier>
+						<custom-data>text</custom-data>
+					</link-button>
+					<link-button>
+						<identifier>fruit.oranges</identifier>
+						<custom-data>buttons</custom-data>					
+					</link-button>
+					<link-button>
+						<identifier>fruit.pears</identifier>
+						<custom-data>graphics</custom-data>
+					</link-button>
+				</links>
 				<label>
-					<styles>uppercase</styles>
+					<id>example-links-result</id>
 				</label>
-			</tab-button>
-			<tab-button>
-				<identifier>graphics.heading</identifier>
-				<custom-data>graphics</custom-data>
+			</hbox>			
+		</vbox>		
+		
+		<vbox>
+			<spacing>5</spacing>
+			<styles>example-group</styles>
+			<sub-paragraph>
+				<identifier>containers.examples.tabs.copy</identifier>
+			</sub-paragraph>
+			<hbox>
+				<spacing>5</spacing>
+				<tabs>
+					<id>example-tabs</id>
+					<tab-button>
+						<identifier>fruit.apples</identifier>
+						<custom-data>text</custom-data>
+					</tab-button>
+					<tab-button>
+						<identifier>fruit.oranges</identifier>
+						<custom-data>buttons</custom-data>					
+					</tab-button>
+					<tab-button>
+						<identifier>fruit.pears</identifier>
+						<custom-data>graphics</custom-data>
+					</tab-button>
+				</tabs>
 				<label>
-					<styles>uppercase</styles>
+					<id>example-tabs-result</id>
 				</label>
-			</tab-button>
-		</tabs>	
+			</hbox>	
+		</vbox>
 	</vbox>
 </document>

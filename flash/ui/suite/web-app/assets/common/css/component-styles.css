@@ -53,6 +53,7 @@ SubParagraph {
 }
 
 TextButton, IconTextButton, IconButton {
+	size: 11;	
 	underline: false;
 	color: #a9a9a9;
 }

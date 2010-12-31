@@ -4,9 +4,6 @@
 		<spacing>5</spacing>
 		<vbox>
 			<styles>page-heading</styles>
-			<heading>
-				<identifier>graphics.heading</identifier>
-			</heading>
 			<sub-heading>
 				<styles>page-sub-heading</styles>
 				<identifier>graphics.package</identifier>

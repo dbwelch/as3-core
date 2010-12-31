@@ -4,66 +4,91 @@
 		<spacing>5</spacing>
 		<vbox>
 			<styles>page-heading</styles>
-			<heading>
-				<identifier>buttons.heading</identifier>
-			</heading>
 			<sub-heading>
 				<styles>page-sub-heading</styles>
 				<identifier>buttons.package</identifier>
 			</sub-heading>
 		</vbox>
 		
-		<toggle-button>
-			<identifier>buttons.examples.toggle</identifier>
-		</toggle-button>
+		<hbox>
+			<spacing>25</spacing>
+			<vbox>
 		
-		<text-button>
-			<identifier>buttons.examples.text</identifier>
-		</text-button>
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>
+					<sub-paragraph>
+						<identifier>buttons.examples.text.copy</identifier>
+					</sub-paragraph>		
+					<text-button>
+						<identifier>buttons.examples.text</identifier>
+					</text-button>
+					<text-button>
+						<identifier>buttons.examples.text.disabled</identifier>
+						<enabled>false</enabled>
+					</text-button>	
+				</vbox>
 		
-		<text-button>
-			<identifier>buttons.examples.text.disabled</identifier>
-			<enabled>false</enabled>
-		</text-button>	
-		
-		<button>
-			<identifier>buttons.examples.standard</identifier>
-		</button>
-		<button>
-			<identifier>buttons.examples.standard.disabled</identifier>
-			<enabled>false</enabled>
-		</button>
+				<vbox>
+					<spacing>5</spacing>			
+					<styles>example-group</styles>		
+					<sub-paragraph>			
+						<identifier>buttons.examples.standard.copy</identifier>
+					</sub-paragraph>
+					<button>
+						<identifier>buttons.examples.standard</identifier>
+					</button>
+					<button>
+						<identifier>buttons.examples.standard.disabled</identifier>
+						<enabled>false</enabled>
+					</button>
+				</vbox>
 	
-		<icon-button>
-			<id>icon-state-test</id>
-			<styles>default-icon</styles>
-		</icon-button>
-		<icon-button>
-			<id>icon-state-test</id>
-			<styles>default-icon</styles>
-			<identifier>buttons.examples.icon</identifier>
-		</icon-button>
-		<icon-button>
-			<id>icon-state-test</id>			
-			<styles>default-icon</styles>			
-			<identifier>buttons.examples.icon.disabled</identifier>
-			<enabled>false</enabled>
-		</icon-button>
-
-		<icon-text-button>
-			<id>icon-state-test</id>			
-			<styles>default-icon</styles>
-		</icon-text-button>		
-		<icon-text-button>
-			<id>icon-state-test</id>			
-			<styles>default-icon</styles>
-			<identifier>buttons.examples.icon.text</identifier>
-		</icon-text-button>
-		<icon-text-button>
-			<id>icon-state-test</id>			
-			<styles>default-icon</styles>			
-			<identifier>buttons.examples.icon..text.disabled</identifier>
-			<enabled>false</enabled>
-		</icon-text-button>
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>			
+						<identifier>buttons.examples.icon.copy</identifier>
+					</sub-paragraph>			
+					<icon-button>
+						<id>icon-state-test</id>
+						<styles>default-icon</styles>
+					</icon-button>
+					<icon-button>
+						<id>icon-state-test</id>
+						<styles>default-icon</styles>
+						<identifier>buttons.examples.icon</identifier>
+					</icon-button>
+					<icon-button>
+						<id>icon-state-test</id>			
+						<styles>default-icon</styles>			
+						<identifier>buttons.examples.icon.disabled</identifier>
+						<enabled>false</enabled>
+					</icon-button>
+				</vbox>	
+		
+			</vbox>
+			<vbox>
+				<icon-text-button>
+					<id>icon-state-test</id>			
+					<styles>default-icon</styles>
+				</icon-text-button>		
+				<icon-text-button>
+					<id>icon-state-test</id>			
+					<styles>default-icon</styles>
+					<identifier>buttons.examples.icon.text</identifier>
+				</icon-text-button>
+				<icon-text-button>
+					<id>icon-state-test</id>			
+					<styles>default-icon</styles>			
+					<identifier>buttons.examples.icon..text.disabled</identifier>
+					<enabled>false</enabled>
+				</icon-text-button>
+		
+				<toggle-button>
+					<identifier>buttons.examples.toggle</identifier>
+				</toggle-button>
+			</vbox>		
+		</hbox>
 	</vbox>
 </document>

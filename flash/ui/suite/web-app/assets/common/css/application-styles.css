@@ -40,13 +40,13 @@ interactive-runtime-asset:over, interactive-runtime-asset:down {
 
 page-heading {
 	margin-top: 20;
-	margin-bottom: 20;	
+	margin-bottom: 10;	
 }
 
 page-sub-heading {
 	margin-bottom: 20;
 }
 
-#content {
-	margin-top: 20;
+example-group {
+	margin-bottom: 10;
 }
