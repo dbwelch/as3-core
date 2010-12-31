@@ -351,6 +351,40 @@ package com.ffsys.ui.css {
 		/**
 		* 	@private
 		*/
+		private function applyMargin( target:IMarginAware, style:Object ):void
+		{
+			if( target && target.margins )
+			{
+				if( style.margin is Number )
+				{
+					target.margins.margin = style.margin;
+				}
+			
+				if( style.marginLeft is Number )
+				{
+					target.margins.left = style.marginLeft;
+				}
+				
+				if( style.marginTop is Number )
+				{
+					target.margins.top = style.marginTop;	
+				}
+				
+				if( style.marginRight is Number )
+				{
+					target.margins.right = style.marginRight;					
+				}
+				
+				if( style.marginBottom is Number )
+				{
+					target.margins.bottom = style.marginBottom;					
+				}				
+			}
+		}		
+		
+		/**
+		* 	@private
+		*/
 		private function assign(
 			target:Object,
 			source:Object,
@@ -383,6 +417,11 @@ package com.ffsys.ui.css {
 				if( target is IPaddingAware )
 				{
 					applyPadding( IPaddingAware( target ), style );
+				}
+				
+				if( target is IMarginAware )
+				{
+					applyMargin( IMarginAware( target ), style );
 				}
 				
 				var txt:TextField = null;

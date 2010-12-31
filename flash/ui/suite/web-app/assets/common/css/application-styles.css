@@ -1,6 +1,7 @@
 Heading {
 	text-transform: uppercase;
 	size: 12;
+	padding-top: 20;
 }
 
 SubHeading {
@@ -27,4 +28,17 @@ default-icon-graphic {
 
 default-icon-graphic-over {
 	instance-class: class( com.ffsys.ui.suite.DefaultIconOver );
+}
+
+page-heading {
+	margin-top: 20;
+	margin-bottom: 20;	
+}
+
+page-sub-heading {
+	margin-bottom: 20;
+}
+
+#content {
+	margin-top: 20;
 }

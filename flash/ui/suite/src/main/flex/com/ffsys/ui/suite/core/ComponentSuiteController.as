@@ -152,6 +152,7 @@ package com.ffsys.ui.suite.core {
 			if( content != null )
 			{	
 				vbox.addChild( DisplayObject( content ) );
+				//content.y += 20;				
 				trace("ComponentSuiteController::createMainChildren()", "ADDING CONTENT VIEW", content, content.parent );
 			}			
 			

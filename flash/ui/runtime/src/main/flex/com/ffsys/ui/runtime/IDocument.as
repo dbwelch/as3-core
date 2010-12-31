@@ -1,7 +1,7 @@
 package com.ffsys.ui.runtime {
 	
 	import flash.display.DisplayObject;
-	import com.ffsys.ui.containers.ICanvas;
+	import com.ffsys.ui.containers.IContainer;
 	
 	/**
 	*	Describes the contract for documents that encapsulate
@@ -13,7 +13,7 @@ package com.ffsys.ui.runtime {
 	*	@author Mischa Williamson
 	*	@since  22.10.2010
 	*/
-	public interface IDocument extends ICanvas {
+	public interface IDocument extends IContainer {
 		
 		/**
 		* 	The binding used to access data associated with the parsing

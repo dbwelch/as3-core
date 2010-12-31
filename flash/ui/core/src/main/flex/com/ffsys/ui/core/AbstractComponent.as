@@ -424,6 +424,13 @@ package com.ffsys.ui.core
 		protected function beforeChildAdded(
 			child:DisplayObject, index:int ):Boolean
 		{
+			var component:UIComponent = child as UIComponent;
+			if( component )
+			{
+				//invoke the internal before added method on the child
+				//component to get it to apply styles
+				component.beforeAdded();
+			}
 			return true;
 		}
 		
@@ -775,6 +782,18 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		*	Invoked when a component is about to be added to the display list
+		*	of a parent component.
+		*	
+		*	By default this implemention applies style information.
+		*/
+		internal function beforeAdded():void
+		{
+			//apply style information by default
+			applyStyles();
+		}
+		
+		/**
 		*	Invoked when a component is added to the display list
 		*	of a parent component.
 		*	
@@ -790,7 +809,7 @@ package com.ffsys.ui.core
 			//TODO: apply styles to child composite components
 			
 			//apply style information by default
-			applyStyles();
+			//applyStyles();
 		}
 		
 		/**

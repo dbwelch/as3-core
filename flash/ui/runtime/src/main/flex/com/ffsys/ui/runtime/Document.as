@@ -1,7 +1,7 @@
 package com.ffsys.ui.runtime {
 
 	import flash.display.DisplayObject;
-	import com.ffsys.ui.containers.Canvas;
+	import com.ffsys.ui.containers.Container;
 	
 	/**
 	*	A document is the top level view that the loaded
@@ -17,8 +17,8 @@ package com.ffsys.ui.runtime {
 	*	@author Mischa Williamson
 	*	@since  22.10.2010
 	*/
-	public class Document extends Canvas
-		implements 	IDocument {
+	public class Document extends Container
+		implements IDocument {
 			
 		private var _binding:Object = new Object();
 		private var _identifiers:Object = new Object();

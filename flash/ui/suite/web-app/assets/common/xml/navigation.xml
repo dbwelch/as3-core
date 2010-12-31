@@ -5,8 +5,16 @@
 			<id>package-menu</id>
 			<spacing>5</spacing>
 			<link-button>
+				<id>containers-link</id>
+				<identifier>containers.link</identifier>
+				<custom-data>containers</custom-data>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</link-button>			
+			<link-button>
 				<id>text-link</id>
-				<identifier>text.heading</identifier>
+				<identifier>text.link</identifier>
 				<custom-data>text</custom-data>
 				<label>
 					<styles>uppercase</styles>
@@ -14,7 +22,7 @@
 			</link-button>
 			<link-button>
 				<id>buttons-link</id>
-				<identifier>buttons.heading</identifier>
+				<identifier>buttons.link</identifier>
 				<custom-data>buttons</custom-data>					
 				<label>
 					<styles>uppercase</styles>
@@ -22,36 +30,12 @@
 			</link-button>
 			<link-button>
 				<id>graphics-link</id>
-				<identifier>graphics.heading</identifier>
+				<identifier>graphics.link</identifier>
 				<custom-data>graphics</custom-data>
 				<label>
 					<styles>uppercase</styles>
 				</label>
 			</link-button>
-		</links>
-		<tabs>
-			<id>package-menu</id>
-			<tab-button>
-				<identifier>text.heading</identifier>
-				<custom-data>text</custom-data>
-				<label>
-					<styles>uppercase</styles>
-				</label>
-			</tab-button>
-			<tab-button>
-				<identifier>buttons.heading</identifier>
-				<custom-data>buttons</custom-data>					
-				<label>
-					<styles>uppercase</styles>
-				</label>
-			</tab-button>
-			<tab-button>
-				<identifier>graphics.heading</identifier>
-				<custom-data>graphics</custom-data>
-				<label>
-					<styles>uppercase</styles>
-				</label>
-			</tab-button>
-		</tabs>	
+		</links>	
 	</vbox>
 </document>

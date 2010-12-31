@@ -72,6 +72,13 @@ package com.ffsys.ui.layout
 				}else{
 					y = previous.y + height + spacing;
 				}
+			}else
+			{
+				//no previous element and not collapsed obey margins
+				if( !collapsed && ( child is IMarginAware ) )
+				{
+					y = IMarginAware( child ).margins.top;
+				}
 			}
 			
 			if( child is IMarginAware )

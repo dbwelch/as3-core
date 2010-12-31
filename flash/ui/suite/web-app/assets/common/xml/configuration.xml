@@ -78,7 +78,15 @@
 							<url>xml/buttons.xml</url>
 						</resource>
 					</xml>
-				</view>												
+				</view>	
+				<view>
+					<id>containers</id>
+					<xml>
+						<resource>
+							<url>xml/containers.xml</url>
+						</resource>
+					</xml>
+				</view>															
 			</components>
 			
 			<messages>

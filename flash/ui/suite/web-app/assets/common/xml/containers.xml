@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<spacing>5</spacing>
+		<vbox>
+			<styles>page-heading</styles>
+			<heading>
+				<identifier>containers.heading</identifier>
+			</heading>
+			<sub-heading>
+				<styles>page-sub-heading</styles>
+				<identifier>containers.package</identifier>
+			</sub-heading>
+		</vbox>
+		
+		<tabs>
+			<id>package-menu</id>
+			<tab-button>
+				<identifier>text.heading</identifier>
+				<custom-data>text</custom-data>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</tab-button>
+			<tab-button>
+				<identifier>buttons.heading</identifier>
+				<custom-data>buttons</custom-data>					
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</tab-button>
+			<tab-button>
+				<identifier>graphics.heading</identifier>
+				<custom-data>graphics</custom-data>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</tab-button>
+		</tabs>	
+	</vbox>
+</document>

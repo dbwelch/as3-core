@@ -2,12 +2,16 @@
 <document>
 	<vbox>
 		<spacing>5</spacing>
-		<heading>
-			<identifier>buttons.heading</identifier>
-		</heading>
-		<sub-heading>
-			<identifier>buttons.package</identifier>
-		</sub-heading>
+		<vbox>
+			<styles>page-heading</styles>
+			<heading>
+				<identifier>buttons.heading</identifier>
+			</heading>
+			<sub-heading>
+				<styles>page-sub-heading</styles>
+				<identifier>buttons.package</identifier>
+			</sub-heading>
+		</vbox>
 		
 		<text-button>
 			<identifier>buttons.examples.text</identifier>
@@ -25,12 +29,11 @@
 			<identifier>buttons.examples.standard.disabled</identifier>
 			<enabled>false</enabled>
 		</button>
-		
+	
 		<icon-button>
 			<id>icon-state-test</id>
 			<styles>default-icon</styles>
 		</icon-button>
-		
 		<icon-button>
 			<id>icon-state-test</id>
 			<styles>default-icon</styles>

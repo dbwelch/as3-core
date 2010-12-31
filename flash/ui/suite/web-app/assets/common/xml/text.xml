@@ -2,12 +2,16 @@
 <document>
 	<vbox>
 		<spacing>5</spacing>
-		<heading>
-			<identifier>text.heading</identifier>
-		</heading>
-		<sub-heading>
-			<identifier>text.package</identifier>
-		</sub-heading>
+		<vbox>
+			<styles>page-heading</styles>
+			<heading>
+				<identifier>text.heading</identifier>
+			</heading>
+			<sub-heading>
+				<styles>page-sub-heading</styles>
+				<identifier>text.package</identifier>
+			</sub-heading>
+		</vbox>
 		
 		<heading>
 			<identifier>text.examples.heading</identifier>

@@ -2,12 +2,16 @@
 <document>
 	<vbox>
 		<spacing>5</spacing>
-		<heading>
-			<identifier>graphics.heading</identifier>
-		</heading>
-		<sub-heading>
-			<identifier>graphics.package</identifier>
-		</sub-heading>
+		<vbox>
+			<styles>page-heading</styles>
+			<heading>
+				<identifier>graphics.heading</identifier>
+			</heading>
+			<sub-heading>
+				<styles>page-sub-heading</styles>
+				<identifier>graphics.package</identifier>
+			</sub-heading>
+		</vbox>
 	
 		<!-- STROKE -->	
 		<hbox>
