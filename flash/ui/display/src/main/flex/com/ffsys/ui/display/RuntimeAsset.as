@@ -3,12 +3,13 @@ package com.ffsys.ui.display
 	import flash.display.DisplayObject;
 	import flash.utils.getQualifiedClassName;
 	
-	import com.ffsys.ui.core.InteractiveComponent;
+	import com.ffsys.ui.buttons.ButtonComponent;
 	import com.ffsys.ui.data.*;
 	
 	/**
 	*	Represents a component that adds a display list object
-	* 	at runtime based on a fully qualified class path.
+	* 	at runtime based on a fully qualified class path or
+	* 	instance reference.
 	* 
 	* 	These instances may be interactive (receive mouse events)
 	* 	but are not interactive by default.
@@ -19,7 +20,7 @@ package com.ffsys.ui.display
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class RuntimeAsset extends InteractiveComponent
+	public class RuntimeAsset extends ButtonComponent
 	{
 		private var _classPath:String;
 		private var _asset:DisplayObject;
@@ -33,12 +34,10 @@ package com.ffsys.ui.display
 		public function RuntimeAsset( classPath:String = null )
 		{
 			super();
-			
 			if( classPath != null )
 			{
 				this.classPath = classPath;
 			}
-			
 			this.interactive = false;
 		}
 		
@@ -47,8 +46,7 @@ package com.ffsys.ui.display
 		*/
 		override public function notify( notification:IDataBindingNotification ):void
 		{
-			trace("RuntimeAsset::notify()", notification, this, dataBinding );
-			
+			//trace("RuntimeAsset::notify()", notification, this, dataBinding );
 			if( ( notification is ChangeNotification || notification is CreateNotification )
 				&& ( this.dataBinding is DisplayObjectDataBinding ) )
 			{
@@ -67,11 +65,11 @@ package com.ffsys.ui.display
 		public function set classPath( classPath:String ):void
 		{
 			_classPath = classPath;
-			
-			if( !_asset )
+
+			if( _asset == null
+			 	&& this.classPath != null )
 			{
-				_asset = getRuntimeDisplayObject( classPath );
-				replaceAsset( _asset );
+				this.asset = getRuntimeDisplayObject( this.classPath );
 			}
 		}
 		
@@ -85,42 +83,43 @@ package com.ffsys.ui.display
 		
 		public function set asset( asset:DisplayObject ):void
 		{
+			if( _asset != null
+				&& contains( _asset ) )
+			{
+				removeChild( _asset );
+			}
+			
 			_asset = asset;
 			
-			if( _asset && !_classPath )
+			if( _asset != null
+				&& _classPath == null )
 			{
 				//keep the class path in sync when the asset
 				//is set directly
 				_classPath = getQualifiedClassName( _asset );
 			}
 			
-			if( !_asset && _classPath )
+			if( _asset == null
+				&& _classPath )
 			{
 				_classPath = null;
 			}
 			
-			replaceAsset( _asset );
+			if( _asset != null
+			 	&& !contains( _asset ) )
+			{
+				addChild( _asset );
+			}
 		}
 		
 		/**
-		* 	Sets the asset as a child of this instance.
-		* 
-		* 	If an existing asset exists and is on the display
-		* 	list it is removed.
-		* 
-		* 	@param asset The asset to add as a child of this instance.
+		* 	Cleans composite references.
 		*/
-		private function replaceAsset( asset:DisplayObject ):void
+		override public function destroy():void
 		{
-			if( this.asset && contains( this.asset ) )
-			{
-				removeChild( this.asset );
-			}
-			
-			if( asset )
-			{
-				addChild( asset );
-			}
+			super.destroy();
+			_classPath = null;
+			_asset = null;
 		}
 	}
 }

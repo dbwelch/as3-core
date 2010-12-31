@@ -96,6 +96,18 @@ package com.ffsys.ui.common
 		public static const STROKE:String = "stroke";
 		
 		/**
+		* 	The identifier for a runtime asset that determines
+		* 	it's underlying display object from either a string
+		* 	fully qualifed class path or a display object reference.
+		*/
+		public static const RUNTIME_ASSET:String = "runtime-asset";
+		
+		/**
+		* 	The identifier for an asset display object bean reference.
+		*/
+		public static const ASSET:String = "asset";
+		
+		/**
 		* 	The identifier for a gradient.
 		*/
 		public static const GRADIENT:String = "gradient";

@@ -5,13 +5,13 @@
 			<id>package-menu</id>
 			<spacing>5</spacing>
 			<link-button>
-				<id>containers-link</id>
-				<identifier>containers.link</identifier>
-				<custom-data>containers</custom-data>
+				<id>buttons-link</id>
+				<identifier>buttons.link</identifier>
+				<custom-data>buttons</custom-data>					
 				<label>
 					<styles>uppercase</styles>
 				</label>
-			</link-button>			
+			</link-button>					
 			<link-button>
 				<id>text-link</id>
 				<identifier>text.link</identifier>
@@ -21,9 +21,17 @@
 				</label>
 			</link-button>
 			<link-button>
-				<id>buttons-link</id>
-				<identifier>buttons.link</identifier>
-				<custom-data>buttons</custom-data>					
+				<id>assets-link</id>
+				<identifier>assets.link</identifier>
+				<custom-data>assets</custom-data>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</link-button>			
+			<link-button>
+				<id>containers-link</id>
+				<identifier>containers.link</identifier>
+				<custom-data>containers</custom-data>
 				<label>
 					<styles>uppercase</styles>
 				</label>

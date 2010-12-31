@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<spacing>5</spacing>
+		<vbox>
+			<styles>page-heading</styles>
+			<heading>
+				<identifier>assets.heading</identifier>
+			</heading>
+			<sub-heading>
+				<styles>page-sub-heading</styles>
+				<identifier>assets.package</identifier>
+			</sub-heading>
+		</vbox>
+		
+		<sub-paragraph>
+			<identifier>assets.examples.bean.ref</identifier>
+		</sub-paragraph>
+		<runtime-asset>
+			<asset>
+				<ref>default-icon-graphic</ref>
+			</asset>
+		</runtime-asset>
+		
+		<sub-paragraph>
+			<styles>note</styles>
+			<identifier>assets.examples.classpath.ref</identifier>
+		</sub-paragraph>
+		<runtime-asset>
+			<class-path>com.ffsys.ui.suite.DefaultIconOver</class-path>
+		</runtime-asset>
+		
+		<sub-paragraph>
+			<styles>note</styles>
+			<identifier>assets.examples.interactive.ref</identifier>
+		</sub-paragraph>
+		<runtime-asset>
+			<interactive>true</interactive>
+			<styles>interactive-runtime-asset</styles>
+		</runtime-asset>
+	</vbox>
+</document>

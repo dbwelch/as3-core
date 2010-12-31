@@ -30,6 +30,14 @@ default-icon-graphic-over {
 	instance-class: class( com.ffsys.ui.suite.DefaultIconOver );
 }
 
+interactive-runtime-asset {
+	asset: ref( default-icon-graphic );
+}
+
+interactive-runtime-asset:over, interactive-runtime-asset:down {
+	asset: ref( default-icon-graphic-over );
+}
+
 page-heading {
 	margin-top: 20;
 	margin-bottom: 20;	

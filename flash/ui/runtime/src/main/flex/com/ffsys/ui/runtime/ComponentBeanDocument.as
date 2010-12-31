@@ -105,6 +105,16 @@ package com.ffsys.ui.runtime
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.RUNTIME_ASSET );
+			descriptor.instanceClass = RuntimeAsset;
+			beans.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.ASSET );
+			descriptor.instanceClass = RuntimeBeanReference;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.GRADIENT );
 			descriptor.instanceClass = Gradient;
 			beans.addBeanDescriptor( descriptor );
