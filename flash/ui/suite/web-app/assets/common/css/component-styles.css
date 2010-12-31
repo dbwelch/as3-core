@@ -79,7 +79,7 @@ Button:disabled, IconButton:disabled {
 	color: #6f6f6f;	
 }
 
-Button:over, IconButton:over {
+Button:over, IconButton:over {	
 	background: ref( button-background-over );
 	underline: true;
 	color: #fefefe;

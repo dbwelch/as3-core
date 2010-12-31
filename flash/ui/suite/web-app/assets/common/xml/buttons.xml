@@ -24,7 +24,6 @@
 		<button>
 			<identifier>buttons.examples.standard.disabled</identifier>
 			<enabled>false</enabled>
-			<label />
 		</button>
 		
 		<icon-button>
@@ -36,14 +35,12 @@
 			<id>icon-state-test</id>
 			<styles>default-icon</styles>
 			<identifier>buttons.examples.icon</identifier>
-			<label />
 		</icon-button>
 		<icon-button>
 			<id>icon-state-test</id>			
 			<styles>default-icon</styles>			
 			<identifier>buttons.examples.icon.disabled</identifier>
 			<enabled>false</enabled>
-			<label />
 		</icon-button>
 
 		<icon-text-button>
@@ -54,14 +51,12 @@
 			<id>icon-state-test</id>			
 			<styles>default-icon</styles>
 			<identifier>buttons.examples.icon.text</identifier>
-			<label />
 		</icon-text-button>
 		<icon-text-button>
 			<id>icon-state-test</id>			
 			<styles>default-icon</styles>			
 			<identifier>buttons.examples.icon..text.disabled</identifier>
 			<enabled>false</enabled>
-			<label />
 		</icon-text-button>
 	</vbox>
 </document>

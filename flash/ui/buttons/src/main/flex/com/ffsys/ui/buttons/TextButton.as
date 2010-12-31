@@ -102,6 +102,11 @@ package com.ffsys.ui.buttons
 				if( _label != null && !contains( _label ) )
 				{
 					addChild( _label );
+					
+					if( styleManager != null )
+					{
+						styleManager.style( this );
+					}
 				}
 			}
 			return _label;
