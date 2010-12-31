@@ -9,6 +9,9 @@ package com.ffsys.ui.buttons
 
 	/**
 	*	Represents a button that contains an icon.
+	* 
+	* 	This component includes a background graphic
+	* 	in the default styles.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

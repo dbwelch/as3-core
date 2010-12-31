@@ -294,9 +294,9 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	@private	
+		*	@inheritDoc	
 		*/
-		private function applyStyles( target:Object, styles:Array ):void
+		public function applyStyles( target:Object, styles:Array ):void
 		{
 			//calling applyStyle() is potentially expensive
 			//so we merge all styles into a single object

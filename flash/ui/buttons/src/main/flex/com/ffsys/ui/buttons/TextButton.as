@@ -7,8 +7,10 @@ package com.ffsys.ui.buttons
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 
 	/**
-	*	Represents a button that consists of a single
-	* 	text field.
+	*	Represents a button that consists of a label.
+	* 
+	* 	This component does not include a background graphic
+	* 	in the default styles.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

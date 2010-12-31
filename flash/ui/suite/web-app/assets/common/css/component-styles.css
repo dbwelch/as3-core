@@ -51,17 +51,17 @@ SubParagraph {
 	color: #a9a9a9;
 }
 
-TextButton, IconButton {
+TextButton, IconTextButton, IconButton {
 	underline: false;
 	color: #a9a9a9;
 }
 
-TextButton:over, IconButton:over {
+TextButton:over, IconTextButton:over, IconButton:over {
 	underline: true;
 	color: #fefefe;
 }
 
-TextButton:disabled, IconButton:disabled {
+TextButton:disabled, IconTextButton:disabled, IconButton:disabled {
 	color: #6f6f6f;	
 }
 

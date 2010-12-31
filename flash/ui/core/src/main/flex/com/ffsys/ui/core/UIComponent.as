@@ -125,26 +125,31 @@ package com.ffsys.ui.core
 					&& this.state != null
 					&& this.state != State.MAIN )
 				{
+					trace("UIComponent::applyStyles()", styleNames, this, this.id );
+					
+					var stateStyles:Array = new Array();
 					var stateStyle:Object = null;
 					var name:String = null;
   					for( var i:int = 0;i < styleNames.length;i++ )
 					{
-						//trace("UIComponent::applyStyles()", this.state, styleNames );
+
 						name = styleNames[ i ]
 							+ State.DELIMITER
 							+ this.state.toStateString();
+							
+						trace("UIComponent::applyStyles() state style search name:", name );
 						
 						stateStyle = stylesheet.getStyle( name );
 						if( stateStyle != null )
 						{
-							break;
+							stateStyles.push( stateStyle );
 						}
 					}
 
-					if( stateStyle != null )
+					if( stateStyles.length > 0 )
 					{
-						output.push( stateStyle );
-						stylesheet.applyStyle( this, stateStyle );
+						output = output.concat( stateStyles );
+						stylesheet.applyStyles( this, stateStyles );
 					}
 				}
 				return output;				

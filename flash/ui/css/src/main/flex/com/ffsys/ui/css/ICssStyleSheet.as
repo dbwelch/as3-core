@@ -23,6 +23,13 @@ package com.ffsys.ui.css {
 		extends	IBeanDocument,
 		 		IStyleAccess {
 		
+		/**
+		*	Applies a collection of style objects to a target.
+		* 
+		* 	@param target The target object receiving the style properties.
+		* 	@param styles The list of style objects.
+		*/
+		function applyStyles( target:Object, styles:Array ):void;
 
 		/**
 		*	Applies a style object to a target.
@@ -31,6 +38,5 @@ package com.ffsys.ui.css {
 		* 	@param style The style object.
 		*/
 		function applyStyle( target:Object, style:Object ):void;
-		
 	}
 }

@@ -17,6 +17,14 @@ default-icon {
 	icon: ref( default-icon-graphic );
 }
 
+default-icon:over {
+	icon: ref( default-icon-graphic-over );
+}
+
 default-icon-graphic {
 	instance-class: class( com.ffsys.ui.suite.DefaultIcon );
+}
+
+default-icon-graphic-over {
+	instance-class: class( com.ffsys.ui.suite.DefaultIconOver );
 }

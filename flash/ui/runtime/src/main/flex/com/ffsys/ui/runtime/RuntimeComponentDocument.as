@@ -162,7 +162,12 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ICON_BUTTON );
 			descriptor.instanceClass = IconButton;
-			beans.addBeanDescriptor( descriptor );		
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.ICON_TEXT_BUTTON );
+			descriptor.instanceClass = IconTextButton;
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.TEXT_BUTTON );
