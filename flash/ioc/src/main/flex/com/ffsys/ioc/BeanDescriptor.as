@@ -349,7 +349,7 @@ package com.ffsys.ioc
 					//throw e;
 				}
 			
-				if( instance )
+				if( instance != null )
 				{
 					//instance method references
 					if( isMethodReference( parameters ) )
@@ -589,6 +589,11 @@ package com.ffsys.ioc
 		*/
 		private function finalize( instance:Object, parameters:Object ):void
 		{
+			if( instance is IBeanDocumentAware )
+			{
+				IBeanDocumentAware( instance ).document = this.document;
+			}
+			
 			if( instance is IBeanConstructed )
 			{
 				IBeanConstructed( instance ).constructed();

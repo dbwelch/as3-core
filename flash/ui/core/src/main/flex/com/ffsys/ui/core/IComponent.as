@@ -25,6 +25,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.common.IStyleAware;
 	
+	import com.ffsys.ioc.IBeanDocumentAware;	
 	import com.ffsys.ioc.IBeanFinalized;
 	
 	/**
@@ -40,6 +41,7 @@ package com.ffsys.ui.core
 		extends ISprite,
 				IStyleManagerAware,
 				IBeanFinalized,
+				IBeanDocumentAware,
 				IStyleAware,
 				ILayoutWidth,
 				ILayoutHeight,

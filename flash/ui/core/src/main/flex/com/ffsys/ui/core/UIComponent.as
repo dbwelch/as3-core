@@ -3,6 +3,7 @@ package com.ffsys.ui.core
 	import flash.display.DisplayObject;
 	import flash.events.FocusEvent;
 	
+	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.ComponentGraphic;
 	
@@ -26,8 +27,9 @@ package com.ffsys.ui.core
 		*/
 		private var _styleManager:IStyleManager = null;		
 		
+		private var _document:IBeanDocument;
 		private var _state:State;
-		private var _dataBinding:IDataBinding;		
+		private var _dataBinding:IDataBinding;	
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -38,11 +40,24 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	The bean document that instantiated this component.
+		*/
+		public function get document():IBeanDocument
+		{
+			return _document;
+		}
+		
+		public function set document( value:IBeanDocument ):void
+		{
+			_document = value;
+		}
+		
+		/**
 		* 	Invoked when this component has been finalized.
 		*/
 		public function finalized():void
 		{
-			//
+			trace("UIComponent::finalized()", this.document );
 		}
 		
 		/**
@@ -227,6 +242,7 @@ package com.ffsys.ui.core
 				this.dataBinding.removeObserver( this );
 			}			
 			
+			_document = null;
 			_styleManager = null;
 			_state = null;
 			_dataBinding = null;
