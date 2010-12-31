@@ -13,6 +13,10 @@
 			</sub-heading>
 		</vbox>
 		
+		<toggle-button>
+			<identifier>buttons.examples.toggle</identifier>
+		</toggle-button>
+		
 		<text-button>
 			<identifier>buttons.examples.text</identifier>
 		</text-button>

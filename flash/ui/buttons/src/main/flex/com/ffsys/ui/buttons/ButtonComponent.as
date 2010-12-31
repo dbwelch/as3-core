@@ -84,6 +84,9 @@ package com.ffsys.ui.buttons
 						modified.setStateElements( State.SELECTED_ID, states );
 						updateState( modified );
 					}
+				}else{
+					//use the normal state no selected state applies
+					updateState( state );
 				}
 			}
 		}
@@ -112,13 +115,11 @@ package com.ffsys.ui.buttons
 		public function set selected( selected:Boolean ):void
 		{
 			_selected = selected;
-			
-			trace("ButtonComponent::set selected()", "SETTING TO SELECTED STATE" );
-			
 			if( selectable )
 			{
 				updateCurrentState(
-					_currentState != null ? _currentState : new State( State.MAIN_ID ) );
+					_currentState != null ?
+						_currentState.clone() : new State( State.MAIN_ID ) );
 			}
 		}
 		
@@ -187,18 +188,6 @@ package com.ffsys.ui.buttons
 		override protected function onMouseClick(
 			event:MouseEvent ):void
 		{
-			if( selectable )
-			{
-				_selected = !_selected;
-			}			
-			
-			/*
-			if( loop && loop == ButtonLoopMode.DOWN )
-			{
-				removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
-			}
-			*/
-			
 			super.onMouseClick( event );	
 		}
 		

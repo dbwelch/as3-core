@@ -18,7 +18,7 @@ default-icon {
 	icon: ref( default-icon-graphic );
 }
 
-default-icon:over {
+default-icon:over, default-icon:down {
 	icon: ref( default-icon-graphic-over );
 }
 

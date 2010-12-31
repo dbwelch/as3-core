@@ -66,7 +66,7 @@ TextButton:disabled, IconTextButton:disabled, IconButton:disabled {
 	color: #6f6f6f;	
 }
 
-Button, IconButton {
+Button, IconButton, ToggleButton {
 	size: 11;
 	background: ref( button-background-main );
 	underline: false;
@@ -74,15 +74,29 @@ Button, IconButton {
 	padding: 5;
 }
 
-Button:disabled, IconButton:disabled {	
+Button:disabled, IconButton:disabled, ToggleButton:disabled {	
 	background: ref( button-background-disabled );
 	color: #6f6f6f;	
 }
 
-Button:over, IconButton:over {	
+Button:over, IconButton:over, ToggleButton:over, Button:down, IconButton:down, ToggleButton:down {
 	background: ref( button-background-over );
 	underline: true;
 	color: #fefefe;
+}
+
+ToggleButton:selected {
+	size: 11;
+	background: ref( button-background-selected );
+	underline: true;
+	color: #ffffff;
+	padding: 5;
+}
+
+ToggleButton:selected:over, ToggleButton:selected:down {
+	background: ref( button-background-selected-over );
+	underline: true;
+	color: #ffffff;
 }
 
 button-background-main {
@@ -95,6 +109,20 @@ button-background-main {
 button-background-over {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
 	fill: ref( button-background-fill-over );
+	corner-width: 5;
+	corner-height: 5;
+}
+
+button-background-selected {
+	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	fill: ref( button-background-fill-selected );
+	corner-width: 5;
+	corner-height: 5;
+}
+
+button-background-selected-over {
+	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	fill: ref( button-background-fill-selected-over );
 	corner-width: 5;
 	corner-height: 5;
 }
@@ -116,6 +144,18 @@ button-background-fill-over {
 	instance-class: class( com.ffsys.ui.graphics.SolidFill );
 	color: #a9a9a9;
 	alpha: 0.75;
+}
+
+button-background-fill-selected {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #696969;
+	alpha: 1;
+}
+
+button-background-fill-selected-over {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #a9a9a9;
+	alpha: 1;
 }
 
 button-background-fill-disabled {
@@ -181,23 +221,49 @@ TabButton {
 	background: ref( tab-button-background-main );
 	underline: false;
 	color: #a9a9a9;
-	padding: 5;
+	padding: 8;
 }
 
 TabButton:disabled {	
 	background: ref( tab-button-background-disabled );
-	color: #6f6f6f;		
+	color: #6f6f6f;
 }
 
-TabButton:over {
+TabButton:over, TabButton:down {
 	background: ref( tab-button-background-over );
 	underline: true;
-	color: #fefefe;	
+	color: #fefefe;
+}
+
+TabButton:selected {
+	size: 11;
+	background: ref( tab-button-background-selected );
+	underline: true;
+	color: #ffffff;
+	padding: 8;
+}
+
+TabButton:selected:over, TabButton:selected:down {
+	background: ref( tab-button-background-selected-over );
+	underline: true;
+	color: #ffffff;
 }
 
 tab-button-background-main {
 	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
 	fill: ref( tab-button-background-fill );
+	top-left-corner: ref( tab-top-left-corner );
+}
+
+tab-button-background-selected {
+	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	fill: ref( tab-button-background-fill-selected );
+	top-left-corner: ref( tab-top-left-corner );
+}
+
+tab-button-background-selected-over {
+	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	fill: ref( tab-button-background-fill-selected-over );
 	top-left-corner: ref( tab-top-left-corner );
 }
 
@@ -225,15 +291,26 @@ tab-button-background-fill-over {
 	alpha: 0.75;
 }
 
+tab-button-background-fill-selected {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #696969;
+	alpha: 1;
+}
+
+tab-button-background-fill-selected-over {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #a9a9a9;
+	alpha: 1;
+}
+
 tab-button-background-fill-disabled {
 	instance-class: class( com.ffsys.ui.graphics.SolidFill );
 	color: #666666;
 	alpha: .25;
 }
 
-
 tab-top-left-corner {
 	instance-class: class( com.ffsys.ui.graphics.Corner );
-	width: 8;
-	height: 8;	
+	width: 6;
+	height: 6;	
 }

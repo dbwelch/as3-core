@@ -161,6 +161,10 @@ package com.ffsys.ui.runtime
 			descriptor.instanceClass = Button;
 			beans.addBeanDescriptor( descriptor );
 			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TOGGLE_BUTTON );
+			descriptor.instanceClass = ToggleButton;
+			beans.addBeanDescriptor( descriptor );			
+			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ICON_BUTTON );
 			descriptor.instanceClass = IconButton;
 			beans.addBeanDescriptor( descriptor );	

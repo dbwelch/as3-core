@@ -151,6 +151,11 @@ package com.ffsys.ui.common
 		public static const BUTTON:String = "button";
 		
 		/**
+		* 	The identifier for a toggle button component.
+		*/
+		public static const TOGGLE_BUTTON:String = "toggle-button";
+		
+		/**
 		* 	The identifier for an icon button component.
 		*/
 		public static const ICON_BUTTON:String = "icon-button";
