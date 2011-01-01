@@ -119,6 +119,10 @@
 						<identifier>buttons.examples.radio</identifier>
 					</radio-button>
 					<radio-button>
+						<identifier>buttons.examples.radio.selected</identifier>
+						<selected>true</selected>
+					</radio-button>					
+					<radio-button>
 						<identifier>buttons.examples.radio.disabled</identifier>
 						<enabled>false</enabled>
 					</radio-button>

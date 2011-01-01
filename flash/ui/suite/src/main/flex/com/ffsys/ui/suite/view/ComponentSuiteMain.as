@@ -30,8 +30,7 @@ package com.ffsys.ui.suite.view {
 		{
 			var output:Array = new Array();
 			output.push( ComponentSuiteController );
-
-			output.push( GraphicSprite );			
+			
 			output.push( RectangleGraphic );
 			output.push( SquareGraphic );
 			output.push( CircleGraphic );

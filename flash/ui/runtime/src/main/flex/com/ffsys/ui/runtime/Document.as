@@ -50,7 +50,7 @@ package com.ffsys.ui.runtime {
 		/**
 		* 	@inheritDoc
 		*/
-		public function getElementById( id:String ):DisplayObject
+		override public function getElementById( id:String ):DisplayObject
 		{
 			return _identifiers[ id ];
 		}
@@ -58,7 +58,7 @@ package com.ffsys.ui.runtime {
 		/**
 		* 	@inheritDoc
 		*/		
-		public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
+		override public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
 		{
 			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();
 			if( re != null )

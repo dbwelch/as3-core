@@ -3,7 +3,9 @@ package com.ffsys.ui.core
 	import flash.display.DisplayObject;
 	import flash.events.FocusEvent;
 	
+	import com.ffsys.core.IStringIdentifier;
 	import com.ffsys.ioc.IBeanDocument;
+	
 	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.ComponentGraphic;
@@ -26,6 +28,7 @@ package com.ffsys.ui.core
 		/**
 		*	@private
 		*/
+		//TODO: migrate this to an IStyleSheetAware implementation
 		private var _styleManager:IStyleManager = null;		
 		
 		private var _document:IBeanDocument;
@@ -87,7 +90,6 @@ package com.ffsys.ui.core
 		public function set styleManager( value:IStyleManager ):void
 		{
 			_styleManager = value;
-			//ComponentGraphic.styleManager = value;
 		}
 		
 		public function get stylesheet():ICssStyleSheet
@@ -328,7 +330,99 @@ package com.ffsys.ui.core
 		public function notify( notification:IDataBindingNotification ):void
 		{	
 			trace("AbstractComponent::notify()", notification, this );
+		}	
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getElementById( id:String ):DisplayObject
+		{
+			if( id != null )
+			{
+				var child:DisplayObject = null;
+				for( var i:int = 0;i < numChildren;i++ )
+				{
+					child = getChildAt( i );
+					if( child is IStringIdentifier )
+					{
+						if( IStringIdentifier( child ).id == id )
+						{
+							return child;
+						}
+					}
+				}
+				return getChildByName( id );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getElementsByTypes( types:Vector.<Class> ):Vector.<DisplayObject>
+		{
+			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();		
+			if( types != null )
+			{
+				var type:Class = null;
+				for each( type in types )
+				{
+					output = output.concat(
+						getElementsByType( type ) );
+				}
+			}
+			return output;
 		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getElementsByType( type:Class ):Vector.<DisplayObject>
+		{
+			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();		
+			if( type != null )
+			{
+				var child:DisplayObject = null;
+				for( var i:int = 0;i < numChildren;i++ )
+				{
+					child = getChildAt( i );
+					if( child is type )
+					{
+						output.push( child );
+					}
+				}
+			}
+			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
+		{
+			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();			
+			if( re != null )
+			{
+				var child:DisplayObject = null;
+				var id:String = null;
+				for( var i:int = 0;i < numChildren;i++ )
+				{
+					child = getChildAt( i );
+					id = child.name;
+					if( child is IStringIdentifier )
+					{
+						id = IStringIdentifier( child ).id;
+					}
+					
+					if( id != null
+						&& re.test( id ) )
+					{
+						output.push( child );
+					}
+				}
+			}
+			return output;
+		}
 		
 		/**
 		* 	Cleans composite references.

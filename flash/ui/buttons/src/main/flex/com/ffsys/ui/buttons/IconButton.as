@@ -149,11 +149,9 @@ package com.ffsys.ui.buttons
 			return height;
 		}
 		
+		/*
 		private var _iconStyle:Object;
-		
-		/**
-		* 	
-		*/
+
 		public function get iconStyle():Object
 		{
 			return _iconStyle;
@@ -163,10 +161,7 @@ package com.ffsys.ui.buttons
 		{
 			_iconStyle = value;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
+
 		override public function applyStyles():Array
 		{
 			var output:Array = super.applyStyles();
@@ -182,6 +177,7 @@ package com.ffsys.ui.buttons
 			
 			return output;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc

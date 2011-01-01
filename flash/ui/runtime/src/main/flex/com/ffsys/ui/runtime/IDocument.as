@@ -26,26 +26,5 @@ package com.ffsys.ui.runtime {
 		* 	and the child element reference.
 		*/
 		function get identifiers():Object;
-		
-		/**
-		* 	Attempts to retrieve a child component by identifier.
-		* 
-		* 	@param id THe identifier for the child component.
-		* 
-		* 	@return The child component if found otherwise null.
-		*/
-		function getElementById( id:String ):DisplayObject;
-		
-		/**
-		* 	Gets a list of display objects whose identifier
-		* 	matches the specified regular expression.
-		* 	
-		* 	@param re The regular expression to use.
-		* 
-		* 	@return The elements whose identifier matches
-		* 	the specified regular expression. If no matches
-		* 	were found this will be an empty vector.
-		*/		
-		function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>;
 	}
 }

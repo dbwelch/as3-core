@@ -246,5 +246,54 @@ package com.ffsys.ui.core
 		* 	exist.
 		*/
 		function prefinalize():void;
+		
+		/**
+		* 	Attempts to retrieve a child component by identifier.
+		* 
+		* 	The default implementation of this method first tests
+		* 	against and <code>id</code> property before comparing
+		* 	against a <code>name</code> property.
+		* 
+		* 	@param id The identifier for the child component.
+		* 
+		* 	@return The child component if found otherwise null.
+		*/
+		function getElementById( id:String ):DisplayObject;
+		
+		/**
+		* 	Gets a list of display objects whose identifier
+		* 	matches the specified regular expression.
+		* 	
+		* 	@param re The regular expression to use.
+		* 
+		* 	@return The elements whose identifier matches
+		* 	the specified regular expression. If no matches
+		* 	were found this will be an empty vector.
+		*/		
+		function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>;
+		
+		/**
+		* 	Gets a collection of child display objects
+		* 	that are of the specified collection of types.
+		* 
+		* 	@param types The collection of types to test against.
+		* 
+		* 	@return The collection of display objects that are of the specified
+		* 	types. This collection will be empty when no child display objects
+		* 	were found matching the specified types.
+		*/
+		function getElementsByTypes( types:Vector.<Class> ):Vector.<DisplayObject>;
+	
+		/**
+		* 	Gets a collection of child display objects
+		* 	that are of the specified type.
+		* 
+		* 	@param type The type to test against.
+		* 
+		* 	@return The collection of display objects that are of the specified
+		* 	type. This collection will be empty when no child display objects
+		* 	were found matching the specified type.
+		*/
+		function getElementsByType( type:Class ):Vector.<DisplayObject>;
 	}
 }
