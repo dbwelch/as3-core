@@ -11,7 +11,15 @@
 				<label>
 					<styles>uppercase</styles>
 				</label>
-			</tab-button>					
+			</tab-button>
+			<tab-button>
+				<id>graphic-buttons-link</id>
+				<identifier>graphic.buttons.link</identifier>
+				<custom-data>graphic-buttons</custom-data>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</tab-button>								
 			<tab-button>
 				<id>text-link</id>
 				<identifier>text.link</identifier>

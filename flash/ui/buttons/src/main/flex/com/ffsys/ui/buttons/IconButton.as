@@ -190,30 +190,32 @@ package com.ffsys.ui.buttons
 			var lx:Number = paddings.left;
 			var ly:Number = paddings.top;
 			
-			//var w:Number = preferredWidth;
-			//var h:Number = preferredHeight;
+			var w:Number = _preferredWidth;
+			var h:Number = _preferredHeight;			
 			
 			if( hasIcon )
 			{
 				//w = icon.width + paddings.left + paddings.right;
 				//h = icon.height + paddings.top + paddings.bottom;
 				
+				//trace("IconButton::position()", this, this.id, hasLabel, icon.width, icon.height, w, h );
+				
 				//default to centring the icon if
 				//we have preferred dimensions
-				if( !isNaN( _preferredWidth ) )
+				if( !isNaN( w ) )
 				{
-					ix = ( _preferredWidth * 0.5 ) - ( icon.width * 0.5 );
+					ix = ( w * 0.5 ) - ( icon.width * 0.5 );
 				}
 				
-				if( !isNaN( _preferredHeight ) )
+				if( !isNaN( h ) )
 				{
-					iy = ( _preferredHeight * 0.5 ) - ( icon.height * 0.5 );
+					iy = ( h * 0.5 ) - ( icon.height * 0.5 );
 				}
 				
+				//modiy calculations when a label is available
 				if( hasLabel )
 				{
-					//ix -= Math.floor( label.layoutWidth / 2 );
-					
+					//only handling left align at the moment
 					ix = ( preferredWidth * 0.5 ) -
 						( ( icon.width + spacing + label.layoutWidth ) * 0.5 );
 					
@@ -232,18 +234,29 @@ package com.ffsys.ui.buttons
 				label.y = ly;
 			}
 			
-			/*
-			//trace("IconButton::positions(), ", this, preferredWidth, preferredHeight );
 			
-			if( icon ){
-				trace("IconButton::positions(), ", this, text, icon.width, icon.x );
-			}
-			
-			if( label )
+			if( isNaN( w ) )
 			{
-				trace("IconButton::positions(), ", this, text, label.layoutWidth );
+				w = this.preferredWidth;
 			}
-			*/
+			
+			if( isNaN( h ) )
+			{
+				h = this.preferredHeight;
+			}			
+			
+			//update graphic sizes 	
+			if( this.background )
+			{
+				this.background.draw(
+					this.preferredWidth, this.preferredHeight );				
+			}
+			
+			if( this.border )
+			{
+				this.border.draw(
+					this.preferredWidth, this.preferredHeight );
+			}
 		}
 	}
 }
