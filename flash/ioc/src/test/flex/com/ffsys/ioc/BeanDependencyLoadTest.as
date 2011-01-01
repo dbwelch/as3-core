@@ -10,7 +10,6 @@ package com.ffsys.ioc
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.ui.graphics.*;
 	import com.ffsys.io.loaders.core.*;
 	import com.ffsys.io.loaders.events.*;
 	import com.ffsys.io.loaders.types.*;
@@ -27,9 +26,6 @@ package com.ffsys.ioc
 	*/ 
 	public class BeanDependencyLoadTest extends AbstractBeanUnit
 	{
-		private var _rectangle:RectangleGraphic;
-		private var _stroke:Stroke;
-		private var _solidFill:SolidFill;
 		
 		/**
 		*	The timeout before the load operation fails.

@@ -87,16 +87,6 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Ensures the state changes when the enabled
-		* 	property is set.
-		*/
-		override public function set enabled( enabled:Boolean ):void
-		{
-			super.enabled = enabled;
-			updateState( this.enabled ? State.MAIN : State.DISABLED );
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function get state():State
@@ -175,7 +165,7 @@ package com.ffsys.ui.core
 					&& this.state != null
 					&& this.state.primary != State.MAIN_ID )
 				{
-					trace("UIComponent::applyStyles()", styleNames, this, this.id );
+					//trace("UIComponent::applyStyles()", styleNames, this, this.id );
 					
 					var stateStyles:Array = new Array();
 					var stateStyle:Object = null;
@@ -187,7 +177,7 @@ package com.ffsys.ui.core
 							+ State.DELIMITER
 							+ this.state.toStateString();
 							
-						trace("UIComponent::applyStyles() state style search name:", name );
+						//trace("UIComponent::applyStyles() state style search name:", name );
 						
 						stateStyle = stylesheet.getStyle( name );
 						if( stateStyle != null )

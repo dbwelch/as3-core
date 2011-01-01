@@ -8,8 +8,6 @@ package com.ffsys.ioc
 	
 	import com.ffsys.ioc.mock.*;
 	
-	import com.ffsys.ui.graphics.*;
-	
 	/**
 	*	Unit tests for automatic bean injection.
 	*/ 

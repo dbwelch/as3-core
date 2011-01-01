@@ -170,7 +170,6 @@ package com.ffsys.ui.text.core {
 			wordWrap = true;
 			multiline = true;
 			autoSize = TextFieldAutoSize.LEFT;
-			trace("AbstractTextField::convertToMultiLine()", "CONVERT TO MULTILINE", this );
 		}
 		
 		/**

@@ -527,9 +527,7 @@ package com.ffsys.swat.core {
 					
 				var resource:IComponentResource = new ComponentResource(
 					id, resources );
-					
-				trace("ResourceLoader::componentQueueComplete()", id, data, viewComponent, xmlDefinition );
-					
+						
 				var target:Object = null;
 				//look for an xml resource matching the component identifier
 				if( xmlDefinition )
@@ -537,8 +535,6 @@ package com.ffsys.swat.core {
 					var element:IResourceElement = resources.getResourceById( id );
 					if( viewComponent )
 					{
-						trace("ResourceLoader::componentQueueComplete()", "FIND VIEW COMPONENT XML DOCUMENT" );
-						
 						if( !( element is XmlResource ) )
 						{
 							throw new Error( "A view component must be defined by an xml resource." );
@@ -546,18 +542,12 @@ package com.ffsys.swat.core {
 						
 						target = XmlResource( element ).xml;
 					}else{
-					
-					
 						if( element is ObjectResource )
 						{
 							target = ObjectResource( element ).data;
 						}
-						trace("ResourceLoader::componentQueueComplete()", "SEARCHING FOR XML DEFINITION: ", id, element, target );
 					}
 				}else{
-					
-					trace("ResourceLoader::componentQueueComplete()", "SEARCHING FOR BEAN DEFINITION: ", id, data.document );
-					
 					target = data.document.getBean( id );
 				}
 				

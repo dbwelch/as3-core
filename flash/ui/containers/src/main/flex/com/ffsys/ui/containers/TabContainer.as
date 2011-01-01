@@ -109,7 +109,7 @@ package com.ffsys.ui.containers
 				
 				var child:DisplayObject = this.selectedItem;
 				
-				trace("TabContainer::set selectedIndex()", index, child, ( child is ISelectable ) );
+				//trace("TabContainer::set selectedIndex()", index, child, ( child is ISelectable ) );
 				
 				if( child is ISelectable )
 				{
@@ -128,9 +128,7 @@ package com.ffsys.ui.containers
 			index:int ):void
 		{
 			super.afterChildAdded( child, index );
-			
-			trace("TabContainer::afterChildAdded()", child, enabled, child is ISelectable );
-			
+
 			if( child && ( child is ISelectable ) && enabled )
 			{
 				child.addEventListener( MouseEvent.CLICK, childSelected );

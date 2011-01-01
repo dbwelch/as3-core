@@ -127,14 +127,14 @@ package com.ffsys.swat.view  {
 					
 					//_preloader.flashvars = _flashvars;
 					
-					trace("DefaultApplication::setFlashVariables()", _preloader );
+					//trace("DefaultApplication::setFlashVariables()", _preloader );
 						
 					//update with the framework beans xref
 					beans = _preloader.resources.document;
 					beans.id = DefaultBeanIdentifiers.APPLICATION;
 					beans.xrefs.push( this.framework );
 
-					trace("DefaultApplication::setFlashVariables()", beans, beans.xrefs.length );
+					//trace("DefaultApplication::setFlashVariables()", beans, beans.xrefs.length );
 			
 					preloader.addEventListener(
 						ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
@@ -259,7 +259,7 @@ package com.ffsys.swat.view  {
 			//standard bean configuration
 			var beanConfiguration:BeanConfiguration = new BeanConfiguration();
 			
-			trace("DefaultApplication::configure()", beans, configuration, preloader.resources );
+			//trace("DefaultApplication::configure()", beans, configuration, preloader.resources );
 		
 			//TODO: configure with global resources
 			beanConfiguration.doWithBeans( beans, configuration, preloader.resources );
@@ -279,7 +279,7 @@ package com.ffsys.swat.view  {
 			//preloader view
 			beans.addBeanDescriptor( preloaderViewBean );			
 		
-			trace("DefaultApplication::configure()", beans, beans.xrefs.length );
+			//trace("DefaultApplication::configure()", beans, beans.xrefs.length );
 		}
 		
 		/**

@@ -50,7 +50,6 @@ package com.ffsys.ui.runtime {
 		public function RuntimeInterpreter( document:IBeanDocument = null )
 		{
 			super( document );
-			trace("RuntimeInterpreter::init()", document );
 			this.useStringReplacement = true;
 			this.strictStringReplacement = true;
 		}

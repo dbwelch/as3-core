@@ -60,6 +60,12 @@ package com.ffsys.ui.buttons
 		
 		protected function updateCurrentState( state:State ):void
 		{
+			if( !this.enabled )
+			{
+				updateState( new State( State.DISABLED_ID ) );
+				return;
+			}
+			
 			if( state != null )
 			{
 				_currentState = state;
@@ -89,6 +95,18 @@ package com.ffsys.ui.buttons
 					updateState( state );
 				}
 			}
+		}
+		
+		/**
+		* 	Ensures the state changes when the enabled
+		* 	property is set.
+		*/
+		override public function set enabled( enabled:Boolean ):void
+		{
+			super.enabled = enabled;
+			updateCurrentState( this.enabled
+				? _currentState.clone()
+				: new State( State.DISABLED_ID ) );
 		}
 		
 		/**

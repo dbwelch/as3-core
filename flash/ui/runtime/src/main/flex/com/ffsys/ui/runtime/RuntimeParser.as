@@ -63,8 +63,6 @@ package com.ffsys.ui.runtime {
 		
 		public function addDocumentBindings( document:IDocument, ...bindings ):void
 		{
-			trace("RuntimeParser::addDocumentBindings()", bindings );
-			
 			if( document == null )
 			{
 				document = this.runtime;

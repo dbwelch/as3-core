@@ -5,8 +5,7 @@ package com.ffsys.ioc
 	
 	import flash.display.*;
 	import flash.filters.*;
-	import flash.net.*;	
-	import com.ffsys.ui.graphics.*;
+	import flash.net.*;
 	
 	import com.ffsys.io.loaders.core.*;
 	
@@ -93,24 +92,6 @@ package com.ffsys.ioc
 			Assert.assertEquals( 10, primitives.propertyArray[ 1 ] );
 			Assert.assertEquals( 3.14, primitives.propertyArray[ 2 ] );
 			Assert.assertEquals( true, primitives.propertyArray[ 3 ] );			
-		}
-		
-		protected function assertGraphicBeans( document:IBeanDocument ):void
-		{
-			var rectangle:RectangleGraphic = RectangleGraphic( document.getBean( "rectangle" ) );
-			var fill:SolidFill = SolidFill( document.getBean( "default-fill" ) );
-			var stroke:Stroke = Stroke( document.getBean( "default-stroke" ) );
-			
-			Assert.assertNotNull( rectangle );
-			Assert.assertNotNull( fill );
-			Assert.assertNotNull( stroke );
-			
-			Assert.assertNotNull( rectangle.fill );
-			
-			Assert.assertNotNull( rectangle.stroke );
-			Assert.assertEquals( 1, rectangle.stroke.thickness );
-			Assert.assertEquals( 16711680, rectangle.stroke.color );
-			Assert.assertEquals( 0.5, rectangle.stroke.alpha );			
 		}	
 		
 		protected function assertExpressions( document:IBeanDocument ):void

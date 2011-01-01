@@ -321,10 +321,12 @@ package com.ffsys.swat.core
 			
 			//TODO: add xrefs to the component bean document
 			
+			/*
 			trace("::::::::::::>>>>>>>>>>>>>>>>>>>>>>>>> DefaultController::doWithViewBeans()",
 				document,
 				this.configuration.resources.document,
 				this.configuration.resources.document.id );
+			*/
 			
 			var xrefs:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
 			var main:IBeanDocument = this.configuration.resources.document;
@@ -340,7 +342,7 @@ package com.ffsys.swat.core
 				xref = xrefs[ i ];
 				if( document.xrefs.indexOf( xref ) == -1 )
 				{
-					trace("DefaultController::doWithViewBeans()", "ADDING DOCUMENT XREF", xref, xref.id );
+					//trace("DefaultController::doWithViewBeans()", "ADDING DOCUMENT XREF", xref, xref.id );
 					document.xrefs.push( xref );
 				}
 			}
@@ -349,7 +351,7 @@ package com.ffsys.swat.core
 			if( component.document != null
 				&& document.xrefs.indexOf( component.document ) == -1 )
 			{
-				trace("DefaultController::getViewDocument()", "ADDING COMPONENT BEANS TO VIEW BEANS!?!!?!?!?!?!?!?!?!?" );
+				//trace("DefaultController::getViewDocument()", "ADDING COMPONENT BEANS TO VIEW BEANS!?!!?!?!?!?!?!?!?!?" );
 				document.xrefs.push( component.document );
 			}
 		}
@@ -394,7 +396,7 @@ package com.ffsys.swat.core
 				bindingMethod.apply( parser, bindings );
 			}
 			
-			trace("DefaultController::getView()", "BINDING METHOD: ", bindingMethod );
+			//trace("DefaultController::getView()", "BINDING METHOD: ", bindingMethod );
 			
 			var beans:IBeanDocument = parser.document;
 			if( beans != null )
@@ -404,7 +406,7 @@ package com.ffsys.swat.core
 			
 			var document:Object = parser.deserialize( component );
 			
-			trace("DefaultController::getView()", id, document );
+			//trace("DefaultController::getView()", id, document );
 			
 			return document as DisplayObject;
 		}

@@ -195,10 +195,8 @@ package com.ffsys.ui.buttons
 				&& this.identifier != null )
 			{
 				createLabel();
-				trace("TextButton::finalized()", "GOT DEFAULT LABEL COMPONENT FROM BEAN DOCUMENT: ", _label );
 			}
 			
-			//trace("TextButton::finalized()", this, this.id, this.label, this.identifier );
 			if( this.label != null
 				&& this.label.messages != null
 				&& this.identifier != null
@@ -206,8 +204,6 @@ package com.ffsys.ui.buttons
 			{
 				var msg:String = this.label.messages.getProperty.apply(
 					this.label.messages, [ this.identifier ] ) as String;
-				
-				//trace("TextButton::finalized() SEARCHING FOR MESSAGE TO SET: ", msg );
 				
 				if( msg != null )
 				{
