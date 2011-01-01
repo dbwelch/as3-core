@@ -6,6 +6,8 @@ package com.ffsys.ui.suite.core {
 	import flash.display.Sprite;
 	import flash.events.*;
 	
+	import com.ffsys.color.*;
+	
 	import com.ffsys.swat.core.IBootstrapLoader;
 	import com.ffsys.swat.core.IApplicationMainController;
 	import com.ffsys.swat.view.IApplication;
@@ -219,6 +221,22 @@ package com.ffsys.ui.suite.core {
 				
 				content.removeAllChildren();
 				content.addChild( DisplayObject( view ) );
+				
+				/*
+				var c:RgbColor = new RgbColor( 255, 128, 0 );
+				//c.rgb( 255, 128, 0 );
+				
+				//36 / 1 / 1
+				
+				//var h:HslColor = new HslColor( 36, 1, 1 );
+				
+				var h:HslColor = new HslColor();
+				h.hue = 36;
+				h.saturation = 1;
+				h.luminosity = 1;
+				
+				view.transform.colorTransform = c;
+				*/
 				
 				_views[ id ] = view;
 				_view = id;
