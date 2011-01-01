@@ -31,7 +31,7 @@ right-button {
 }
 
 up-button:over, up-button:down {
-	icon: ref( up-arrow-icon );
+	icon: ref( up-arrow-icon-over );
 	background: ref( image-display-background-over );	
 }
 
@@ -75,21 +75,49 @@ graphic-button-background-fill-over {
 up-arrow-icon {
 	instance-class: class( com.ffsys.ui.core.UIComponent );
 	layers: array( ref( up-arrow-icon-graphic ) );
+	alpha: .5;	
+}
+
+up-arrow-icon-over {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( up-arrow-icon-graphic ) );
+	alpha: 1;	
 }
 
 down-arrow-icon {
 	instance-class: class( com.ffsys.ui.core.UIComponent );
 	layers: array( ref( down-arrow-icon-graphic ) );
+	alpha: .5;		
+}
+
+down-arrow-icon-over {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( down-arrow-icon-graphic ) );
+	alpha: 1;	
 }
 
 left-arrow-icon {
 	instance-class: class( com.ffsys.ui.core.UIComponent );
 	layers: array( ref( left-arrow-icon-graphic ) );
+	alpha: .5;		
+}
+
+left-arrow-icon-over {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( left-arrow-icon-graphic ) );
+	alpha: 1;	
 }
 
 right-arrow-icon {
 	instance-class: class( com.ffsys.ui.core.UIComponent );
 	layers: array( ref( right-arrow-icon-graphic ) );
+	alpha: .5;		
+}
+
+right-arrow-icon-over {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( right-arrow-icon-graphic ) );
+	alpha: 1;	
 }
 
 up-arrow-icon-graphic {

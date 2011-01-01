@@ -90,6 +90,15 @@ package com.ffsys.ui.core
 			//ComponentGraphic.styleManager = value;
 		}
 		
+		public function get stylesheet():ICssStyleSheet
+		{
+			if( this.styleManager )
+			{
+				return this.styleManager.stylesheet;
+			}
+			return null;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
