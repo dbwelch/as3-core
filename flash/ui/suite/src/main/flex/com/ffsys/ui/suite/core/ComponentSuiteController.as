@@ -238,6 +238,16 @@ package com.ffsys.ui.suite.core {
 				view.transform.colorTransform = c;
 				*/
 				
+				/*
+					var c:RgbColor = new RgbColor( 255, 128, 0 );
+					c.tint( 0xff0000, 0.5 );
+					view.transform.colorTransform = c;
+				*/
+				
+					var h:HslColor = new HslColor( 36, 1, 1 );
+					h.tint( 0xff0000, 0.5 );
+					view.transform.colorTransform = h;
+				
 				_views[ id ] = view;
 				_view = id;
 			}

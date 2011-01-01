@@ -18,23 +18,71 @@ package com.ffsys.color
 			rgb( r, g, b );
 		}
 		
-		/*
-		function tintClip():void {
-		var color:uint=picker.selectedColor;
-		var mul:Number=slider.value/100;
-		var ctMul:Number=(1-mul);
-		var ctRedOff:Number=Math.round(mul*extractRed(color));
-		var ctGreenOff:Number=Math.round(mul*extractGreen(color));
-		var ctBlueOff:Number=Math.round(mul*extractBlue(color));
-		ct=new ColorTransform(ctMul,ctMul,ctMul,1,ctRedOff,ctGreenOff,ctBlueOff,0);
-		clip.transform.colorTransform=ct;
-		infoBox.text=String(mul*100)+"%";
-		}		
+		/**
+		* 	Tints this colour.
+		* 	
+		* 	@param color The colour to use for the tint.
+		* 	@param amount The amount of tint to apply in the range
+		* 	0 to 1.
 		*/
+		public function tint(
+			color:uint = NaN,
+			amount:Number = 1 ):void
+		{
+			if( isNaN( color ) )
+			{
+				color = this.color;
+			}
+			
+			//invert the amount
+			var inverted:Number = ( 1 - amount );
+			var tintRed:Number = Math.round( amount * getRed( color ) );
+			var tintGreen:Number = Math.round( amount * getGreen( color ) );
+			var tintBlue:Number = Math.round( amount * getBlue( color ) );
+
+			this.redMultiplier = this.greenMultiplier = this.blueMultiplier = inverted;
+			this.alphaMultiplier = 1;
+			this.redOffset = tintRed;
+			this.greenOffset = tintGreen;
+			this.blueOffset = tintBlue;
+			this.alphaOffset = 0;
+		}
+		
+		/**
+		* 	The brightness of this colour in the range 0 to 1.
+		*/
+	    public function get brightness():Number
+	    {
+	        return this.redOffset ? ( 1 - this.redMultiplier ) : ( this.redMultiplier - 1 );
+	    }
+
+		public function set brightness( value:Number ):void
+		{
+			if ( value > 1 ) 
+			{
+				value = 1;
+			}else if( value < -1 )
+			{
+				value = -1;
+			}
+			var percent:Number = 1 - Math.abs( value );
+			var offset:Number = 0;
+			if( value > 0 )
+			{
+				offset = value * 255;
+			}
+			
+			this.redMultiplier = this.greenMultiplier = this.blueMultiplier = percent;
+			this.redOffset     = this.greenOffset     = this.blueOffset     = offset;
+		}		
 		
 		/**
 		* 	Parses a string representation of a colour value
 		* 	into this instance.
+		* 
+		* 	@param hex A string representing a hexadecimal colour.
+		* 
+		* 	@return The parsed decimal value.
 		*/
 		public function parse( hex:String ):uint
 		{
@@ -47,13 +95,13 @@ package com.ffsys.color
 		
 		/**
 		* 	Sets this color value from the specified
-		* 	red, green and blue color parts.
+		* 	red, green and blue colour parts.
 		* 
 		* 	@param r The red value.
 		* 	@param g The green value.
 		* 	@param b The blue value.
 		* 
-		* 	@return The resulting decimal value for the color.
+		* 	@return The resulting decimal value for the colour.
 		*/
 		public function rgb( r:uint, g:uint, b:uint ):uint
 		{
@@ -62,27 +110,63 @@ package com.ffsys.color
 		}
 		
 		/**
-		* 	Gets the red part of the colour value.
+		* 	Gets the red part of this colour.
 		*/
 		public function get red():uint
 		{
-			return ( ( this.color >> 16 ) & 0xFF );
+			return getRed( this.color );
 		}
 
 		/**
-		* 	Gets the green part of the colour value.
+		* 	Gets the green part of this colour.
 		*/
 		public function get green():uint
 		{
-			return ( ( this.color >> 8 ) & 0xFF );
+			return getGreen( this.color );
 		}
 		
 		/**
-		* 	Gets the blue part of the colour value.
+		* 	Gets the blue part of this colour.
 		*/
 		public function get blue():uint
 		{
-			return ( this.color & 0xFF );
+			return getBlue( this.color );
 		}
+		
+		/**
+		* 	Gets the red part of a colour.
+		* 
+		* 	@param color The decimal colour.
+		* 
+		* 	@return The red part of the colour.
+		*/
+		public function getRed( color:uint = 0 ):uint
+		{
+			return ( ( color >> 16 ) & 0xFF );
+		}
+		
+		/**
+		* 	Gets the green part of a colour.
+		* 
+		* 	@param color The decimal colour.
+		* 
+		* 	@return The green part of the colour.
+		*/
+		public function getGreen( color:uint = 0 ):uint
+		{
+			return ( ( color >> 8 ) & 0xFF );
+		}
+		
+		/**
+		* 	Gets the blue part of a colour.
+		* 
+		* 	@param color The decimal colour.
+		* 
+		* 	@return The blue part of the colour.
+		*/
+		public function getBlue( color:uint = 0 ):uint
+		{
+			return ( color & 0xFF );
+		}						
 	}
 }
