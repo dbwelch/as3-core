@@ -1,16 +1,14 @@
 package com.ffsys.ui.css {
 	
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
+	import flash.display.DisplayObject;	
 	import flash.filters.BitmapFilter;
+	import flash.geom.ColorTransform;
 	import flash.net.URLRequest;
 	import flash.text.StyleSheet;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
-	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
-	import flash.utils.getDefinitionByName;
 	
 	import com.ffsys.ioc.*;
 	
@@ -20,18 +18,8 @@ package com.ffsys.ui.css {
 	
 	import com.ffsys.core.IStringIdentifier;
 	
-	import com.ffsys.io.loaders.core.*;
-	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.resources.*;
-	import com.ffsys.io.loaders.types.ImageLoader;
-	import com.ffsys.io.loaders.types.MovieLoader;
-	import com.ffsys.io.loaders.types.SoundLoader;
-	
 	import com.ffsys.utils.primitives.PrimitiveParser;
 	import com.ffsys.utils.properties.PropertiesMerge;
-	import com.ffsys.utils.string.StringTrim;
-	
-	import com.ffsys.utils.substitution.*;
 	
 	/**
 	*	Represents a collection of CSS styles.
@@ -391,8 +379,6 @@ package com.ffsys.ui.css {
 			name:String,
 			value:* ):Boolean
 		{
-			//trace("CssStyleSheet::assign()", target, name, value );
-			
 			if( target is IBeanProperty )
 			{
 				var property:IBeanProperty = IBeanProperty( target );
@@ -438,11 +424,19 @@ package com.ffsys.ui.css {
 				{
 					targets = ICssTextFieldProxy( target ).getProxyTextFields();
 				}
-				
-				//trace("CssStyleSheet::applyStyle() APPLYING STYLE PROPERTIES: ", target, style );
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
 				merger.merge( target, style, true, null, assign );
+				
+				//ensure color transforms are applied
+				if( target is DisplayObject )
+				{
+					if( style.colorTransform is ColorTransform )
+					{
+						DisplayObject( target ).transform.colorTransform =
+							ColorTransform( style.colorTransform );
+					}
+				}
 				
 				//we cannot guarantee the order that styles will
 				//be applied so we need to ensure that any width/height

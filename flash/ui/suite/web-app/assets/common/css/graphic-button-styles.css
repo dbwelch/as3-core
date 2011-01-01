@@ -3,7 +3,7 @@ up-button {
 	padding: 6;
 	background: ref( image-display-background );
 	preferred-width: 20;
-	preferred-height: 20;	
+	preferred-height: 20;
 }
 
 down-button {
