@@ -7,6 +7,8 @@ package com.ffsys.ioc
 	import flash.geom.*;
 	import flash.net.*;
 	
+	import com.ffsys.color.*;
+	
 	/**
 	*	Unit tests for bean expressions.
 	*/ 
@@ -41,6 +43,12 @@ package com.ffsys.ioc
 				singleton: true;
 				instance-class: class( flash.display.Sprite );
 			}
+			
+			colors {
+				rgb: rgb( 255, 128, 0 );
+				hsl: hsl( 36, 1, 1 );
+				tint: tint( #ff9900, 1 );
+			}
 
 			]]>).toString();
 		
@@ -62,7 +70,7 @@ package com.ffsys.ioc
 			document.parse( sample );
 			
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 4, document.length );
+			Assert.assertEquals( 5, document.length );
 			assertExpressions( document );
 			
 			var expressions:Object = document.getBean( "expressions" );
@@ -103,6 +111,12 @@ package com.ffsys.ioc
 			Assert.assertEquals( 12, c.greenOffset );
 			Assert.assertEquals( 14, c.blueOffset );
 			Assert.assertEquals( 16, c.alphaOffset );
+			
+			//TODO: add more assertions on rgb() / hsl() and tint() expressions
+			var colors:Object = document.getBean( "colors" );
+			Assert.assertTrue( colors.rgb is RgbColor );
+			Assert.assertTrue( colors.hsl is HslColor );
+			Assert.assertTrue( colors.tint is HslColor );
 		}
 	}
 }

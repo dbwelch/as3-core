@@ -5,6 +5,9 @@ package com.ffsys.ioc
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
 	
+	import com.ffsys.color.HslColor;
+	import com.ffsys.color.RgbColor;
+	
 	import com.ffsys.io.loaders.types.*;
 	
 	import com.ffsys.utils.primitives.PrimitiveParser;
@@ -147,6 +150,12 @@ package com.ffsys.ioc
 			var extension:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
 			var output:Object = null;
 			
+			var p:Point = null;
+			var r:Rectangle = null;
+			var m:Matrix = null;
+			var c:ColorTransform = null;
+			var h:HslColor = null;
+			
 			var value:String = candidate.replace( _extensionExpression, "$1" );
 			value = new StringTrim().trim( value );
 			var parameters:Array = null;
@@ -231,7 +240,7 @@ package com.ffsys.ioc
 					output = new Point();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 2, BeanExpressions.POINT_EXPRESSION );
-					var p:Point = Point( output );
+					p = Point( output );
 					p.x = parameters[ 0 ];
 					p.y = parameters[ 1 ];
 					break;					
@@ -239,7 +248,7 @@ package com.ffsys.ioc
 					output = new Rectangle();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 4, BeanExpressions.RECTANGLE_EXPRESSION );
-					var r:Rectangle = Rectangle( output );
+					r = Rectangle( output );
 					r.left = parameters[ 0 ];
 					r.top = parameters[ 1 ];
 					r.width = parameters[ 2 ];
@@ -249,7 +258,7 @@ package com.ffsys.ioc
 					output = new Matrix();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 6, BeanExpressions.MATRIX_EXPRESSION );
-					var m:Matrix = Matrix( output );
+					m = Matrix( output );
 					m.a = parameters[ 0 ];
 					m.b = parameters[ 1 ];
 					m.c = parameters[ 2 ];
@@ -261,7 +270,7 @@ package com.ffsys.ioc
 					output = new ColorTransform();
 					parameters = parseParts( descriptor, beanName, beanProperty, value );
 					validateNumericParameterExpression( parameters, 8, BeanExpressions.COLOR_TRANSFORM_EXPRESSION );
-					var c:ColorTransform = ColorTransform( output );
+					c = ColorTransform( output );
 					c.redMultiplier = parameters[ 0 ];
 					c.greenMultiplier = parameters[ 1 ];
 					c.blueMultiplier = parameters[ 2 ];
@@ -270,7 +279,28 @@ package com.ffsys.ioc
 					c.greenOffset = parameters[ 5 ];
 					c.blueOffset = parameters[ 6 ];
 					c.alphaOffset = parameters[ 7 ];
-					break;			
+					break;
+				case BeanExpressions.RGB_COLOR_TRANSFORM_EXPRESSION:
+					output = new RgbColor();
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
+					validateNumericParameterExpression( parameters, 3, BeanExpressions.RGB_COLOR_TRANSFORM_EXPRESSION );
+					var rgb:RgbColor = RgbColor( output );
+					rgb.rgb( parameters[ 0 ], parameters[ 1 ], parameters[ 2 ] );
+					break;
+				case BeanExpressions.HSL_COLOR_TRANSFORM_EXPRESSION:
+					output = new HslColor();
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
+					validateNumericParameterExpression( parameters, 3, BeanExpressions.HSL_COLOR_TRANSFORM_EXPRESSION );
+					h = HslColor( output );
+					h.hsl( parameters[ 0 ], parameters[ 1 ], parameters[ 2 ] );
+					break;
+				case BeanExpressions.TINT_COLOR_TRANSFORM_EXPRESSION:
+					output = new HslColor();
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
+					validateNumericParameterExpression( parameters, 2, BeanExpressions.TINT_COLOR_TRANSFORM_EXPRESSION );
+					h = HslColor( output );
+					h.tint( parameters[ 0 ], parameters[ 1 ] );
+					break;
 				default:
 					throw new Error(
 						"Unknown bean expression '" + extension + "'." );

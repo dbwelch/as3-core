@@ -165,6 +165,30 @@ package com.ffsys.ioc
 		public static const COLOR_TRANSFORM_EXPRESSION:String = "color";
 		
 		/**
+		*	An expression to declare a RGB color transform.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to a <code>RgbColor</code>.
+		*/
+		public static const RGB_COLOR_TRANSFORM_EXPRESSION:String = "rgb";
+		
+		/**
+		*	An expression to declare a HSL color transform.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to an <code>HslColor</code>.
+		*/
+		public static const HSL_COLOR_TRANSFORM_EXPRESSION:String = "hsl";
+		
+		/**
+		*	An expression to declare a tint color transform.
+		* 
+		* 	When this expression is evaluated the resulting property
+		* 	will be set to an <code>HslColor</code>.
+		*/
+		public static const TINT_COLOR_TRANSFORM_EXPRESSION:String = "tint";
+		
+		/**
 		*	An expression to declare a function reference.
 		* 
 		* 	When this expression is evaluated the resulting property
