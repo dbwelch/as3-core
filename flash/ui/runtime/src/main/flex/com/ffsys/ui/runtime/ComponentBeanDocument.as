@@ -139,7 +139,7 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.BITMAP_GRAPHIC );
 			descriptor.instanceClass = BitmapGraphic;
-			beans.addBeanDescriptor( descriptor );		
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.LABEL );
@@ -173,7 +173,11 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.TOGGLE_BUTTON );
 			descriptor.instanceClass = ToggleButton;
-			beans.addBeanDescriptor( descriptor );			
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.RADIO_BUTTON );
+			descriptor.instanceClass = RadioButton;
+			beans.addBeanDescriptor( descriptor );						
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ICON_BUTTON );
 			descriptor.instanceClass = IconButton;

@@ -402,10 +402,31 @@ package com.ffsys.swat.core
 			if( beans != null )
 			{
 				doWithViewBeans( beans, componentResource );
+				
+				/*
+				if( stylesheet != null )
+				{
+					//temporarily add a stylesheet xref
+					stylesheet.xrefs.push( beans );
+				}
+				*/
 			}
 			
+			//parse the document
 			var document:Object = parser.deserialize( component );
 			
+			/*
+			if( stylesheet != null )
+			{
+				//remove the stylesheet xref
+				var xrefIndex:int = stylesheet.xrefs.indexOf( beans );
+				if( xrefIndex > -1 )
+				{
+					//remove the temporary xref
+					stylesheet.xrefs.splice( xrefIndex, 1 );
+				}
+			}			
+			*/
 			//trace("DefaultController::getView()", id, document );
 			
 			return document as DisplayObject;

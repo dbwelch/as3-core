@@ -360,6 +360,11 @@ package com.ffsys.ioc
 						return getMethod( parameters, instance ) as Function;
 					}
 					
+					if( instance is IBeanDocumentAware )
+					{
+						IBeanDocumentAware( instance ).document = this.document;
+					}					
+					
 					setBeanProperties( instance, parameters );
 					callBeanMethods( instance, parameters );
 					doTypeInjection( instance, parameters );
@@ -592,11 +597,6 @@ package com.ffsys.ioc
 		*/
 		private function finalize( instance:Object, parameters:Object ):void
 		{
-			if( instance is IBeanDocumentAware )
-			{
-				IBeanDocumentAware( instance ).document = this.document;
-			}
-			
 			if( instance is IBeanConstructed )
 			{
 				IBeanConstructed( instance ).constructed();

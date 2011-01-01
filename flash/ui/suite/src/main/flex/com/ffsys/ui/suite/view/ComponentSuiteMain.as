@@ -1,7 +1,7 @@
 package com.ffsys.ui.suite.view {
 	
 	import com.ffsys.swat.view.DefaultApplicationMain;
-	
+
 	import com.ffsys.ui.graphics.*;
 	
 	import com.ffsys.ui.suite.core.ComponentSuiteController;
@@ -31,6 +31,7 @@ package com.ffsys.ui.suite.view {
 			var output:Array = new Array();
 			output.push( ComponentSuiteController );
 
+			output.push( GraphicSprite );			
 			output.push( RectangleGraphic );
 			output.push( SquareGraphic );
 			output.push( CircleGraphic );

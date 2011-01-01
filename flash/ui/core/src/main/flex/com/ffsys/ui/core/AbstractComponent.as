@@ -76,7 +76,7 @@ package com.ffsys.ui.core
 			{
 				addEventListener( Event.ADDED_TO_STAGE, __initialize );
 			}
-		}		
+		}
 		
 		/**
 		* 	@inheritDoc

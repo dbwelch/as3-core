@@ -69,26 +69,61 @@
 		
 			</vbox>
 			<vbox>
-				<icon-text-button>
-					<id>icon-state-test</id>			
-					<styles>default-icon</styles>
-				</icon-text-button>		
-				<icon-text-button>
-					<id>icon-state-test</id>			
-					<styles>default-icon</styles>
-					<identifier>buttons.examples.icon.text</identifier>
-				</icon-text-button>
-				<icon-text-button>
-					<id>icon-state-test</id>			
-					<styles>default-icon</styles>			
-					<identifier>buttons.examples.icon..text.disabled</identifier>
-					<enabled>false</enabled>
-				</icon-text-button>
-		
-				<toggle-button>
-					<identifier>buttons.examples.toggle</identifier>
-				</toggle-button>
-			</vbox>		
+				
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>			
+						<identifier>buttons.examples.icontext.copy</identifier>
+					</sub-paragraph>			
+				
+					<icon-text-button>
+						<id>icon-state-test</id>			
+						<styles>default-icon</styles>
+					</icon-text-button>		
+					<icon-text-button>
+						<id>icon-state-test</id>			
+						<styles>default-icon</styles>
+						<identifier>buttons.examples.icon.text</identifier>
+					</icon-text-button>
+					<icon-text-button>
+						<id>icon-state-test</id>			
+						<styles>default-icon</styles>			
+						<identifier>buttons.examples.icon..text.disabled</identifier>
+						<enabled>false</enabled>
+					</icon-text-button>
+				</vbox>	
+				
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>			
+						<identifier>buttons.examples.toggle.copy</identifier>
+					</sub-paragraph>
+					<toggle-button>
+						<identifier>buttons.examples.toggle</identifier>
+					</toggle-button>
+					<toggle-button>
+						<identifier>buttons.examples.toggle.disabled</identifier>
+						<enabled>false</enabled>
+					</toggle-button>					
+				</vbox>
+				
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>	
+						<identifier>buttons.examples.radio.copy</identifier>
+					</sub-paragraph>
+					<radio-button>
+						<identifier>buttons.examples.radio</identifier>
+					</radio-button>
+					<radio-button>
+						<identifier>buttons.examples.radio.disabled</identifier>
+						<enabled>false</enabled>
+					</radio-button>
+				</vbox>
+			</vbox>
 		</hbox>
 	</vbox>
 </document>

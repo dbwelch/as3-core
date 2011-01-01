@@ -26,5 +26,22 @@ package com.ffsys.ui.graphics
 		{
 			super( diameter, diameter, stroke, fill );
 		}
+		
+		/**
+		* 	Sets the size of this circle by radius.
+		*/
+		public function set radius( radius:Number ):void
+		{
+			this.diameter = ( radius * 2 );
+		}
+		
+		/**
+		* 	Sets the size of this circle by diameter.
+		*/
+		public function set diameter( diameter:Number ):void
+		{
+			this.preferredWidth = diameter;
+			this.preferredHeight = diameter;			
+		}
 	}
 }

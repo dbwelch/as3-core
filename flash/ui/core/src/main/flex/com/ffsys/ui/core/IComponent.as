@@ -53,7 +53,6 @@ package com.ffsys.ui.core
 				IDataBindingNotificationObserver,
 				IStringIdentifier
 	{
-		
 		/**
 		* 	The current state of this component.
 		*/

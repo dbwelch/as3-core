@@ -168,6 +168,11 @@ package com.ffsys.ui.common
 		public static const TOGGLE_BUTTON:String = "toggle-button";
 		
 		/**
+		* 	The identifier for a radio button component.
+		*/
+		public static const RADIO_BUTTON:String = "radio-button";
+		
+		/**
 		* 	The identifier for an icon button component.
 		*/
 		public static const ICON_BUTTON:String = "icon-button";

@@ -131,7 +131,7 @@ package com.ffsys.ui.containers
 
 			if( child && ( child is ISelectable ) && enabled )
 			{
-				child.addEventListener( MouseEvent.CLICK, childSelected );
+				child.addEventListener( MouseEvent.CLICK, childClick );
 			}
 		}
 		
@@ -144,7 +144,7 @@ package com.ffsys.ui.containers
 		{
 			if( child && ( child is ISelectable ) )
 			{
-				child.removeEventListener( MouseEvent.CLICK, childSelected );
+				child.removeEventListener( MouseEvent.CLICK, childClick );
 			}
 			
 			//constrain the selected index as children are removed
@@ -159,7 +159,7 @@ package com.ffsys.ui.containers
 		/**
 		* 	@private
 		*/
-		private function childSelected( event:MouseEvent ):void
+		protected function childClick( event:MouseEvent ):void
 		{
 			if( event.target
 				&& contains( DisplayObject( event.target ) ) )

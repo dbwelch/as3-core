@@ -351,3 +351,70 @@ image-display-border-stroke {
 	thickness: 1;
 	alpha: 1;
 }
+
+
+RadioButton {
+	size: 11;
+	underline: false;
+	color: #a9a9a9;
+	padding: 5;
+	icon: ref( radio-button-icon );
+}
+
+RadioButton:disabled {	
+	color: #636363;
+}
+
+RadioButton:over, RadioButton:down {
+	color: #fefefe;
+}
+
+RadioButton:selected {
+	size: 11;
+	underline: true;
+	color: #efefef;
+	padding: 5;
+	icon: ref( radio-button-icon-selected );
+}
+
+RadioButton:selected:over, RadioButton:selected:down {
+	underline: true;
+	color: #ffffff;
+	icon: ref( radio-button-icon-selected );	
+}
+
+radio-button-icon {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( radio-button-background ) );
+}
+
+radio-button-icon-selected {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( radio-button-background ), ref( radio-button-foreground ) );
+}
+
+radio-button-background {
+	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
+	fill: ref( radio-button-background-fill );
+	radius: 5;
+}
+
+radio-button-foreground {
+	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
+	fill: ref( radio-button-foreground-fill );
+	radius: 3;
+	x: 2;
+	y: 2;
+}
+
+radio-button-background-fill {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #a9a9a9;
+	alpha: 1;
+}
+
+radio-button-foreground-fill {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #333333;
+	alpha: 1;
+}

@@ -17,6 +17,7 @@ package com.ffsys.ui.suite.core {
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.runtime.*;
+	import com.ffsys.ui.text.*;	
 	import com.ffsys.ui.tooltips.*;
 	
 	import com.ffsys.ui.suite.view.*;
@@ -46,7 +47,12 @@ package com.ffsys.ui.suite.core {
 		/**
 		* 	The identifier of the images view.
 		*/
-		public static const IMAGES_ID:String = "images";		
+		public static const IMAGES_ID:String = "images";
+		
+		/**
+		* 	The identifier of the containers view.
+		*/
+		public static const CONTAINERS_ID:String = "containers";
 			
 		public var vbox:VerticalBox;
 		
@@ -115,6 +121,61 @@ package com.ffsys.ui.suite.core {
 			}
 		}
 		
+		private function handleContainerClick( event:MouseEvent ):void
+		{
+			trace("ComponentSuiteController::handleContainerClick()", event.target, event.currentTarget, event.target.id );
+			
+			var container:IContainer = event.target.parent as IContainer;
+			
+			trace("ComponentSuiteController::handleContainerClick()", container, container.id );
+			
+			if( container != null )
+			{
+				var result:Label = _views[ CONTAINERS_ID ].getElementById(
+					container.id + "-result" ) as Label;
+					
+				if( result != null )
+				{
+					var key:String = ( container is ISelectableContainer )
+						? "you.selected" : "you.clicked";
+						
+					trace("ComponentSuiteController::handleContainerClick()", event.target.text );
+						
+					result.text = getMessage( key, event.target.text );
+				}
+			}
+		}
+		
+		private function handleContainerExamples( view:IDocument ):void
+		{
+			var candidates:Vector.<DisplayObject> = view.getElementsByMatch( /^example\-/ );
+			
+			trace("ComponentSuiteController::handleContainerExamples()", candidates );
+			var display:DisplayObject = null;
+			for each( display in candidates )
+			{
+				display.addEventListener( MouseEvent.CLICK, handleContainerClick );
+			}
+			
+			/*
+			var display:DisplayObject = null;
+			var collection:IImageContainer = null;
+			for each( display in candidates )
+			{
+				collection = display as IImageContainer;
+
+				if( collection != null
+					&& collection.numChildren == 0 )
+				{
+					var images:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+					images.push( getImage( "thumbnail001" ) );
+					images.push( getImage( "thumbnail002" ) );
+					collection.inject( images );
+				}				
+			}
+			*/
+		}		
+		
 		/**
 		* 	@private
 		*/
@@ -147,6 +208,11 @@ package com.ffsys.ui.suite.core {
 				if( id == IMAGES_ID )
 				{
 					handleImagesInjection( view as IDocument );
+				}
+				
+				if( id == CONTAINERS_ID )
+				{
+					handleContainerExamples( view as IDocument );
 				}
 				
 				trace("ComponentSuiteController::navigationLinkClick()", view );

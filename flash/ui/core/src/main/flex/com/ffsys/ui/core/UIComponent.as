@@ -4,6 +4,7 @@ package com.ffsys.ui.core
 	import flash.events.FocusEvent;
 	
 	import com.ffsys.ioc.IBeanDocument;
+	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.ComponentGraphic;
 	
@@ -30,6 +31,8 @@ package com.ffsys.ui.core
 		private var _document:IBeanDocument;
 		private var _state:State;
 		private var _dataBinding:IDataBinding;	
+		private var _layers:Array;
+		private var _graphics:IComponent;		
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -59,7 +62,8 @@ package com.ffsys.ui.core
 		{
 			if( this.document != null )
 			{
-				return this.document.getBean( beanName ) as DisplayObject;
+				return this.document.getBean(
+					beanName ) as DisplayObject;
 			}
 			return null;
 		}
@@ -151,6 +155,9 @@ package com.ffsys.ui.core
 		*/
 		override public function applyStyles():Array
 		{
+			//add graphical layers
+			applyLayers();			
+			
 			if( styleManager )
 			{	
 				var stylesheet:ICssStyleSheet = styleManager.stylesheet;
@@ -166,7 +173,7 @@ package com.ffsys.ui.core
 					&& this.state.primary != State.MAIN_ID )
 				{
 
-					trace("UIComponent::applyStyles()", this.state.toStateString(), this, this.id, styleNames );
+					//trace("UIComponent::applyStyles()", this.state.toStateString(), this, this.id, styleNames );
 										
 					//trace("UIComponent::applyStyles()", styleNames, this, this.id );
 					
@@ -180,12 +187,12 @@ package com.ffsys.ui.core
 							+ State.DELIMITER
 							+ this.state.toStateString();
 							
-						trace("UIComponent::applyStyles() state style search name:", name );
+						//trace("UIComponent::applyStyles() state style search name:", name );
 						
 						stateStyle = stylesheet.getStyle( name );
 						if( stateStyle != null )
 						{
-							trace("UIComponent::applyStyles()", "GOT STATE STYLE", stateStyle, stateStyle.color );
+							//trace("UIComponent::applyStyles()", "GOT STATE STYLE", stateStyle, stateStyle.color );
 							stateStyles.push( stateStyle );
 						}
 					}
@@ -196,11 +203,89 @@ package com.ffsys.ui.core
 						stylesheet.applyStyles( this, stateStyles );
 					}
 				}
-				return output;				
+				return output;
 			}
 			return null;
 		}
 		
+		/**
+		* 	Applies graphical layers to this component.
+		*/
+		protected function applyLayers():void
+		{
+			if( _layers != null )
+			{
+				if( _graphics == null )
+				{
+					createLayers();
+				}
+				
+				_graphics.removeAllChildren();
+				
+				var element:Object = null;
+				for( var i:int = 0;i < layers.length;i++ )
+				{
+					element = layers[ i ];
+					if( element is DisplayObject )
+					{
+						_graphics.addChild( DisplayObject( element ) );
+					}
+				}
+			}else{
+				if( _graphics != null )
+				{
+					_graphics.removeAllChildren();					
+					if( contains( DisplayObject( _graphics ) ) )
+					{
+						removeChild( DisplayObject( _graphics ) );
+					}
+				}
+				_graphics = null;
+			}
+		}
+		
+		/**
+		* 	Creates the component used to store graphical
+		* 	layers.
+		* 
+		* 	@return The created component.
+		*/
+		protected function createLayers():IComponent
+		{
+			_graphics = new UIComponent();
+			if( numChildren <= 1 )
+			{
+				addChild( DisplayObject( _graphics ) );
+			}else{
+				addChildAt( DisplayObject( _graphics ), 1 );
+			}
+			return _graphics;
+		}		
+		
+		/**
+		* 	Gets the component used to render
+		* 	graphical layers.
+		* 
+		* 	@return The component used to store graphical layers.
+		*/
+		public function getGraphicLayers():IComponent
+		{
+			return _graphics;
+		}
+		
+		/**
+		* 	Sets the graphical layers from an array of
+		* 	display objects.
+		*/
+		public function get layers():Array
+		{
+			return _layers;
+		}
+		
+		public function set layers( layers:Array ):void
+		{
+			_layers = layers;
+		}
 		
 		/**
 		* 	@inheritDoc
