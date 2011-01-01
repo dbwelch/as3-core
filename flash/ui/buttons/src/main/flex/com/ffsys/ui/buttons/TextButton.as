@@ -186,17 +186,23 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		* 	Invoked when this component is instantiated
-		* 	as a bean.
+		* 	@inheritDoc
 		*/
-		override public function finalized():void
+		override public function prefinalize():void
 		{
 			if( _label == null
 				&& this.identifier != null )
 			{
 				createLabel();
 			}
-			
+		}
+		
+		/**
+		* 	Invoked when this component is instantiated
+		* 	as a bean.
+		*/
+		override public function finalized():void
+		{			
 			if( this.label != null
 				&& this.label.messages != null
 				&& this.identifier != null

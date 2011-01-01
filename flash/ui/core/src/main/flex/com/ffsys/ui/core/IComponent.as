@@ -239,5 +239,13 @@ package com.ffsys.ui.core
 		* 	Removes all child display objects from this component.
 		*/
 		function removeAllChildren():void;
+	
+		/**
+		* 	Invoked to inform this component it is about
+		* 	to be added to the stage and it should create
+		* 	any required child components that do not already
+		* 	exist.
+		*/
+		function prefinalize():void;
 	}
 }

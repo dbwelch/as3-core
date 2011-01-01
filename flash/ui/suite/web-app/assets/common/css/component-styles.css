@@ -53,7 +53,7 @@ SubParagraph {
 }
 
 TextButton, IconTextButton, IconButton {
-	size: 11;	
+	size: 11;
 	underline: false;
 	color: #a9a9a9;
 }
@@ -64,7 +64,7 @@ TextButton:over, IconTextButton:over, IconButton:over {
 }
 
 TextButton:disabled, IconTextButton:disabled, IconButton:disabled {
-	color: #ff6600;	
+	color: #636363;
 }
 
 Button, IconButton, ToggleButton {
@@ -77,7 +77,7 @@ Button, IconButton, ToggleButton {
 
 Button:disabled, IconButton:disabled, ToggleButton:disabled {	
 	background: ref( button-background-disabled );
-	color: #6f6f6f;	
+	color: #636363;
 }
 
 Button:over, IconButton:over, ToggleButton:over, Button:down, IconButton:down, ToggleButton:down {

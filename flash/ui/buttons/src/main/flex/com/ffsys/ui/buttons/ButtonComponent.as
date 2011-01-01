@@ -105,7 +105,7 @@ package com.ffsys.ui.buttons
 		{
 			super.enabled = enabled;
 			updateCurrentState( this.enabled
-				? _currentState.clone()
+				? ( _currentState != null ? _currentState.clone() : new State( State.MAIN_ID ) )
 				: new State( State.DISABLED_ID ) );
 		}
 		

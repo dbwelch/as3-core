@@ -158,6 +158,14 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function prefinalize():void
+		{
+			//
+		}		
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function get preferredHeight():Number

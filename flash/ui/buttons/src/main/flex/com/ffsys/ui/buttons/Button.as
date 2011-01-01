@@ -25,13 +25,12 @@ package com.ffsys.ui.buttons {
 		*	@param height The preferred height of the button.
 		*/
 		public function Button(
-			text:String = "",
+			text:String = null,
 			width:Number = NaN,
 			height:Number = NaN )
-		{	
-			//paddings.padding = 4
+		{
 			super( text, width, height );
-		}		
+		}
 		
 		/**
 		* 	Ensures that the background is drawn to our preferred dimensions.
@@ -65,14 +64,6 @@ package com.ffsys.ui.buttons {
 		/**
 		*	@inheritDoc	
 		*/
-		override protected function created():void
-		{
-			this.paddings.padding = 4;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
 		override public function get preferredWidth():Number
 		{
 			var width:Number = super.preferredWidth;
@@ -80,7 +71,6 @@ package com.ffsys.ui.buttons {
 			{
 				width = label.layoutWidth + paddings.left + paddings.right;
 			}
-			
 			return width;
 		}
 		
@@ -94,7 +84,6 @@ package com.ffsys.ui.buttons {
 			{
 				height = label.layoutHeight + paddings.left + paddings.right;
 			}
-			
 			return height;
 		}
 	}

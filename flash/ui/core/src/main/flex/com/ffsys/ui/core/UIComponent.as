@@ -165,6 +165,9 @@ package com.ffsys.ui.core
 					&& this.state != null
 					&& this.state.primary != State.MAIN_ID )
 				{
+
+					trace("UIComponent::applyStyles()", this.state.toStateString(), this, this.id, styleNames );
+										
 					//trace("UIComponent::applyStyles()", styleNames, this, this.id );
 					
 					var stateStyles:Array = new Array();
@@ -177,11 +180,12 @@ package com.ffsys.ui.core
 							+ State.DELIMITER
 							+ this.state.toStateString();
 							
-						//trace("UIComponent::applyStyles() state style search name:", name );
+						trace("UIComponent::applyStyles() state style search name:", name );
 						
 						stateStyle = stylesheet.getStyle( name );
 						if( stateStyle != null )
 						{
+							trace("UIComponent::applyStyles()", "GOT STATE STYLE", stateStyle, stateStyle.color );
 							stateStyles.push( stateStyle );
 						}
 					}

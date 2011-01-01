@@ -343,10 +343,13 @@ package com.ffsys.ioc
 					instance = new clazz();
 				}catch( e:Error )
 				{
+					/*
 					throw new Error(
-						"Could not instantiate bean instance with class '" + this.instanceClass + "'." );
-				
-					//throw e;
+						"Could not instantiate bean instance with class '" + this.instanceClass + "'."
+						+ "\n" + e.message );
+					*/
+					
+					throw e;
 				}
 			
 				if( instance != null )

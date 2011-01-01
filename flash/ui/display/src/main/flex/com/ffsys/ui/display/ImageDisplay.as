@@ -72,22 +72,24 @@ package com.ffsys.ui.display
 		{
 			var output:Array = super.applyStyles();
 			
-			trace("ImageDisplay::applyStyles()", _image );
+			//trace("ImageDisplay::applyStyles()", _image );
 			
 			if( _image != null )
 			{
 				_image.x = this.paddings.left;
 				_image.y = this.paddings.top;
 				
+				/*
 				trace("ImageDisplay::applyStyles()",
 					_image.x, _image.y, _image.width, _image.height, this.layoutWidth, this.layoutHeight );
+				*/
 				
 				if( this.background != null )
 				{
 					this.background.draw(
 						this.layoutWidth, this.layoutHeight );
 						
-					trace("ImageDisplay::applyStyles() BACKGOUND WIDTH: ", this.background.width );
+					//trace("ImageDisplay::applyStyles() BACKGOUND WIDTH: ", this.background.width );
 				}
 
 				if( this.border != null )

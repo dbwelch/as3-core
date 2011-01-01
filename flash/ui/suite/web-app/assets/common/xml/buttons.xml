@@ -26,7 +26,7 @@
 					<text-button>
 						<identifier>buttons.examples.text.disabled</identifier>
 						<enabled>false</enabled>
-					</text-button>	
+					</text-button>
 				</vbox>
 		
 				<vbox>

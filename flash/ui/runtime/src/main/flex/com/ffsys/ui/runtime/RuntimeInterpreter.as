@@ -7,6 +7,7 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.io.xml.*;
 	
 	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.core.IComponent;
 	import com.ffsys.ui.common.ComponentIdentifiers;	
 	import com.ffsys.ui.common.IStyleAware;
 		
@@ -184,7 +185,7 @@ package com.ffsys.ui.runtime {
 					binding = new Binding( Runtime.ITERATE_BINDING, { key: z, value: item } );
 					bindings.addBinding( binding );
 					
-					trace("RuntimeInterpreter::complete()", this.document );
+					//trace("RuntimeInterpreter::complete()", this.document );
 
 					var parser:RuntimeParser = new RuntimeParser( this.document );
 					parser.interpreter.bindings = bindings;
@@ -313,6 +314,11 @@ package com.ffsys.ui.runtime {
 			}
 			*/
 			
+			if( instance is IComponent )
+			{
+				IComponent( instance ).prefinalize();
+			}
+			
 			if( instance is DisplayObject )
 			{
 				var child:DisplayObject = DisplayObject( instance );
@@ -331,6 +337,7 @@ package com.ffsys.ui.runtime {
 					DisplayObjectContainer( parent ).addChild( child );
 				}
 			}
+			
 			super.postProcessClass( instance, parent );			
 		}
 	}
