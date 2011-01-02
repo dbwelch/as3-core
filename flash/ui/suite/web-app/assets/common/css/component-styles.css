@@ -363,6 +363,11 @@ RadioButton:selected:over, RadioButton:selected:down {
 	icon: ref( radio-button-icon-selected );	
 }
 
+RadioButton:selected:disabled {	
+	color: #636363;
+	icon: ref( radio-button-icon-selected );	
+}
+
 radio-button-icon {
 	instance-class: class( com.ffsys.ui.core.UIComponent );
 	layers: array( ref( radio-button-background ) );

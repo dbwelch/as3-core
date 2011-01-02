@@ -62,8 +62,10 @@ package com.ffsys.ui.buttons
 		{
 			if( !this.enabled )
 			{
-				updateState( new State( State.DISABLED_ID ) );
-				return;
+				//updateState( new State( State.DISABLED_ID ) );
+				//return;
+				
+				state = new State( State.DISABLED_ID );
 			}
 			
 			if( state != null )
