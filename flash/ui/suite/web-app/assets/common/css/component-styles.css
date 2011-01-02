@@ -109,54 +109,30 @@ button-background-main {
 
 button-background-over {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( button-background-fill-over );
+	fill: fill( #a9a9a9, .75 );
 	corner-width: 5;
 	corner-height: 5;
 }
 
 button-background-selected {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( button-background-fill-selected );
+	fill: fill( #696969, 1 );
 	corner-width: 5;
 	corner-height: 5;
 }
 
 button-background-selected-over {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( button-background-fill-selected-over );
+	fill: fill( #a9a9a9, 1 );
 	corner-width: 5;
 	corner-height: 5;
 }
 
 button-background-disabled {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( button-background-fill-disabled );
+	fill: fill( #666666, .25 );
 	corner-width: 5;
 	corner-height: 5;
-}
-
-button-background-fill-over {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 0.75;
-}
-
-button-background-fill-selected {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #696969;
-	alpha: 1;
-}
-
-button-background-fill-selected-over {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 1;
-}
-
-button-background-fill-disabled {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #666666;
-	alpha: .25;
 }
 
 LinkButton {
@@ -180,35 +156,17 @@ LinkButton:over {
 
 link-button-background-main {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( link-button-background-fill );
+	fill: fill( #333333, 1 );
 }
 
 link-button-background-over {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( link-button-background-fill-over );
+	fill: fill( #a9a9a9, .75 );
 }
 
 link-button-background-disabled {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( link-button-background-fill-disabled );
-}
-
-link-button-background-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #333333;
-	alpha: 1;
-}
-
-link-button-background-fill-over {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 0.75;
-}
-
-link-button-background-fill-disabled {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #666666;
-	alpha: .25;
+	fill: fill( #666666, .25 );
 }
 
 TabButton {
@@ -246,62 +204,32 @@ TabButton:selected:over, TabButton:selected:down {
 
 tab-button-background-main {
 	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
-	fill: ref( tab-button-background-fill );
+	fill: fill( #333333, 1 );
 	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-selected {
 	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
-	fill: ref( tab-button-background-fill-selected );
+	fill: fill( #696969, 1 );
 	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-selected-over {
 	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
-	fill: ref( tab-button-background-fill-selected-over );
+	fill: fill( #a9a9a9, 1 );
 	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-over {
 	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
-	fill: ref( tab-button-background-fill-over );
-	top-right-corner: ref( tab-top-right-corner );	
+	fill: fill( #a9a9a9, .75 );
+	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-disabled {
 	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
-	fill: ref( tab-button-background-fill-disabled );
+	fill: fill( #666666, .25 );
 	top-right-corner: ref( tab-top-right-corner );	
-}
-
-tab-button-background-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #333333;
-	alpha: 1;
-}
-
-tab-button-background-fill-over {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 0.75;
-}
-
-tab-button-background-fill-selected {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #696969;
-	alpha: 1;
-}
-
-tab-button-background-fill-selected-over {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 1;
-}
-
-tab-button-background-fill-disabled {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #666666;
-	alpha: .25;
 }
 
 tab-top-right-corner {
@@ -374,28 +302,16 @@ radio-button-icon-selected {
 
 radio-button-background {
 	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
-	fill: ref( radio-button-background-fill );
+	fill: fill( #a9a9a9, 1 );
 	radius: 5;
 }
 
 radio-button-foreground {
 	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
-	fill: ref( radio-button-foreground-fill );
+	fill: fill( #333333, 1 );
 	radius: 3;
 	x: 2;
 	y: 2;
-}
-
-radio-button-background-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 1;
-}
-
-radio-button-foreground-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #333333;
-	alpha: 1;
 }
 
 CheckBox {
@@ -445,28 +361,16 @@ check-box-icon-selected {
 
 check-box-background {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
-	fill: ref( check-box-background-fill );
+	fill: fill( #a9a9a9, 1 );
 	preferred-width: 9;
 	preferred-height: 9;
 }
 
 check-box-foreground {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
-	fill: ref( check-box-foreground-fill );
+	fill: fill( #333333, 1 );
 	preferred-width: 5;
 	preferred-height: 5;
 	x: 2;
 	y: 2;
-}
-
-check-box-background-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 1;
-}
-
-check-box-foreground-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #333333;
-	alpha: 1;
 }
