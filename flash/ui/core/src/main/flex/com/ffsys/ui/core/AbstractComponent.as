@@ -663,10 +663,10 @@ package com.ffsys.ui.core
 		* 
 		* 	@return An instance of the border graphic class.
 		*/
-		protected function getBorderGraphic():IComponentGraphic
+		protected function getBorderGraphic():IBorderGraphic
 		{
-			var graphic:Class = this.border.equal() ? BorderGraphic : RectangleGraphic;
-			var b:IComponentGraphic = new graphic() as IComponentGraphic;
+			var graphic:Class = BorderGraphic;
+			var b:IBorderGraphic = new graphic() as IBorderGraphic;
 			
 			if( b == null )
 			{
@@ -674,15 +674,7 @@ package com.ffsys.ui.core
 					"Could not locate a valid border graphic implementation using border graphic class '"
 				 	+ graphic + "'." );
 			}
-			
-			if( b.fill == null )
-			{
-				b.fill = new SolidFill(
-					this.border.color, this.border.alpha );
-				b.stroke = new Stroke(
-					0, this.border.color, this.border.alpha );
-			}
-			
+
 			return b;
 		}
 		
@@ -713,14 +705,19 @@ package com.ffsys.ui.core
 				removeAllChildren( _borderLayer );
 			}
 
-			var b:IComponentGraphic = null;
+			var b:IBorderGraphic = getBorderGraphic();
 			
 			var w:Number = layoutWidth;
 			var h:Number = layoutHeight;
 			
 			trace("AbstractComponent::applyBorders()",
 				w, h, border, border.top, border.right, border.bottom, border.left );
+				
+			b.border = this.border;
+			b.draw( w, h );
+			_borderLayer.addChild( DisplayObject( b ) );
 			
+			/*
 			//if all thickness values are the same
 			//we can use a single graphic
 			if( this.border.equal() )
@@ -773,6 +770,7 @@ package com.ffsys.ui.core
 					_borderLayer.addChild( DisplayObject( b ) );
 				}
 			}
+			*/
 			
 			trace("AbstractComponent::applyBorders() GOT BORDER LAYER: ", _borderLayer, _borderLayer.width, _borderLayer.height );
 		}

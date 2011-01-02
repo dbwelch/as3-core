@@ -3,6 +3,8 @@ package com.ffsys.ui.graphics
 	import flash.display.CapsStyle;
 	import flash.display.JointStyle;
 	
+	import com.ffsys.ui.common.IBorder;
+	
 	/**
 	*	Represents a rectangular graphic border.
 	* 
@@ -18,56 +20,43 @@ package com.ffsys.ui.graphics
 	public class BorderGraphic extends RectangleGraphic
 		implements IBorderGraphic
 	{
-		private var _sharp:Boolean = true;
+		private var _border:IBorder;
 		
 		/**
 		* 	Creates a <code>BorderGraphic</code> instance.
 		* 
 		* 	@param width The width of the rectangle.
 		* 	@param height The height of the rectangle.
-		* 	@param stroke The stroke for the border.
-		*	@param sharp Whether sharp corners should be drawm.
+		* 	@param fill The fill for the border.
+		*	@param border The border edge definitions.
 		*/
 		public function BorderGraphic(
-			width:Number = 25,
-			height:Number = 25,
-			stroke:IStroke = null,
+			width:Number = NaN,
+			height:Number = NaN,
 			fill:IFill = null,
-			sharp:Boolean = true )
+ 			border:IBorder = null )
 		{
 			super( width, height, stroke, fill );
-			this.sharp = sharp;
+			this.border = border;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		override public function set stroke( stroke:IStroke ):void
+		public function get border():IBorder
 		{
-			super.stroke = stroke;
-			
-			//trace("BorderGraphic::stroke(), ", stroke );
-			
-			if( sharp && this.stroke && !this.fill )
+			return _border;
+		}
+		
+		public function set border( value:IBorder ):void
+		{
+			_border = value;
+			if( _border != null
+			 	&& fill == null )
 			{
-				this.fill = new SolidFill(
-					this.stroke.color,
-					this.stroke.alpha );
+				fill = new SolidFill(
+					_border.color, _border.alpha );
 			}
-		}
-		
-		/**
-		* 	Determines whether the border should be drawn
-		* 	using a sharp method.
-		*/
-		public function get sharp():Boolean
-		{
-			return _sharp;
-		}
-		
-		public function set sharp( sharp:Boolean ):void
-		{
-			_sharp = sharp;
 		}
 		
 		/**
@@ -85,41 +74,48 @@ package com.ffsys.ui.graphics
 		*/
 		override protected function doDraw( width:Number, height:Number ):void
 		{
-			if( sharp && stroke )
-			{
-				var thickness:Number = stroke.thickness;
-				
-				//handle hairline strokes
-				if( thickness == 0 )
-				{
-					thickness = 0.5;
-				}
-				
+			if( this.border != null
+				&& this.border.valid() )
+			{	
 				//trace("BorderGraphic::doDraw(), ", tx, ty, width, thickness );
+				var thickness:Number = NaN;
 				
 				//top
-				graphics.drawRect( 
-					tx, ty,
-					width, thickness );
+				if( this.border.top > 0 )
+				{
+					thickness = this.border.top;
+					graphics.drawRect(
+						tx, ty,
+						width, thickness );
+				}
 
 				//right
-				graphics.drawRect(
-					tx + ( width - thickness ),
-					ty + thickness,
-					thickness,
-					height - ( thickness * 2 ) );
+				if( this.border.right > 0 )
+				{
+					thickness = this.border.right;					
+					graphics.drawRect(
+						tx + ( width - thickness ),
+						ty + thickness,
+						thickness,
+						height - ( thickness * 2 ) );
+				}
 				
-				//bottom
-				graphics.drawRect(
-					tx, ty + ( height - thickness ),
-					width, thickness );
+				//bottom				
+				if( this.border.bottom > 0 )
+				{
+					thickness = this.border.bottom;
+					graphics.drawRect(
+						tx, ty + ( height - thickness ),
+						width, thickness );
+				}
 
 				//left
-				graphics.drawRect( tx, ty + thickness,
-					thickness, height - ( thickness * 2 ) );
-			}else
-			{
-				graphics.drawRect( tx, ty, width, height );
+				if( this.border.left > 0 )
+				{
+					thickness = this.border.left;
+					graphics.drawRect( tx, ty + thickness,
+						thickness, height - ( thickness * 2 ) );
+				}
 			}
 		}
 	}

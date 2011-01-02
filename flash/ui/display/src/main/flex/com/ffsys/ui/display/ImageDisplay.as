@@ -61,8 +61,8 @@ package com.ffsys.ui.display
 			if( _image != null
 			 	&& !contains( _image ) )
 			{
-				addChild( _image );
-			}
+				addChild( _image );				
+			}			
 		}
 		
 		/**
@@ -79,24 +79,25 @@ package com.ffsys.ui.display
 				_image.x = this.paddings.left;
 				_image.y = this.paddings.top;
 				
-				/*
-				trace("ImageDisplay::applyStyles()",
-					_image.x, _image.y, _image.width, _image.height, this.layoutWidth, this.layoutHeight );
-				*/
 				
 				if( this.background != null )
 				{
 					this.background.draw(
 						this.layoutWidth, this.layoutHeight );
-						
+
 					//trace("ImageDisplay::applyStyles() BACKGOUND WIDTH: ", this.background.width );
 				}
 
-				if( this.borderGraphic != null )
+				if( this.border != null )
 				{
-					this.borderGraphic.draw(
-						this.layoutWidth, this.layoutHeight );
-				}
+					//re-apply borders
+					applyBorders();
+				}				
+				
+				/*
+				trace("ImageDisplay::applyStyles()",
+					_image.x, _image.y, _image.width, _image.height, this.layoutWidth, this.layoutHeight );
+				*/
 			}
 
 			return output;

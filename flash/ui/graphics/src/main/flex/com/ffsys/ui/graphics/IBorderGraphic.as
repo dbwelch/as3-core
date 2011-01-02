@@ -1,5 +1,6 @@
 package com.ffsys.ui.graphics
 {
+	import com.ffsys.ui.common.IBorder;
 	
 	/**
 	*	Describes the contract for graphics that represent
@@ -14,6 +15,11 @@ package com.ffsys.ui.graphics
 	public interface IBorderGraphic
 		extends IPointerAwareGraphic
 	{
-		//
+		/**
+		* 	The border definition to use when drawing
+		* 	the border edges.
+		*/
+		function get border():IBorder;
+		function set border( value:IBorder ):void;
 	}
 }

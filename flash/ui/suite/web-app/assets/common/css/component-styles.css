@@ -319,7 +319,7 @@ tab-top-right-corner {
 ImageDisplay {
 	padding: 6;
 	background: ref( image-display-background );
-	border-graphic: ref( image-display-border );
+	border: border( 1, 1, 1, 1, #a9a9a9, 1 );
 }
 
 image-display-background {
@@ -327,31 +327,11 @@ image-display-background {
 	fill: ref( image-display-background-fill );
 }
 
-image-display-border {
-	instance-class: class( com.ffsys.ui.graphics.BorderGraphic );
-	fill: ref( image-display-border-fill );
-	stroke: ref( image-display-border-stroke );	
-}
-
 image-display-background-fill {
 	instance-class: class( com.ffsys.ui.graphics.SolidFill );
 	color: #000000;
 	alpha: .65;
 }
-
-image-display-border-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #a9a9a9;
-	alpha: 1;
-}
-
-image-display-border-stroke {
-	instance-class: class( com.ffsys.ui.graphics.Stroke );
-	color: #a9a9a9;
-	thickness: 1;
-	alpha: 1;
-}
-
 
 RadioButton {
 	size: 11;
