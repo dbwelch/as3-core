@@ -80,8 +80,13 @@ package com.ffsys.ui.graphics
 				//trace("BorderGraphic::doDraw(), ", tx, ty, width, thickness );
 				var thickness:Number = NaN;
 				
+				var hasTop:Boolean = ( this.border.top > 0 );
+				var hasRight:Boolean = ( this.border.right > 0 );
+				var hasBottom:Boolean = ( this.border.bottom > 0 );
+				var hasLeft:Boolean = ( this.border.left > 0 );															
+				
 				//top
-				if( this.border.top > 0 )
+				if( hasTop )
 				{
 					thickness = this.border.top;
 					graphics.drawRect(
@@ -90,18 +95,18 @@ package com.ffsys.ui.graphics
 				}
 
 				//right
-				if( this.border.right > 0 )
+				if( hasRight )
 				{
 					thickness = this.border.right;					
 					graphics.drawRect(
 						tx + ( width - thickness ),
-						ty + thickness,
+						ty + border.top,
 						thickness,
-						height - ( thickness * 2 ) );
+						height - ( border.top + border.bottom ) );
 				}
 				
 				//bottom				
-				if( this.border.bottom > 0 )
+				if( hasBottom )
 				{
 					thickness = this.border.bottom;
 					graphics.drawRect(
@@ -110,11 +115,14 @@ package com.ffsys.ui.graphics
 				}
 
 				//left
-				if( this.border.left > 0 )
+				if( hasLeft )
 				{
 					thickness = this.border.left;
-					graphics.drawRect( tx, ty + thickness,
-						thickness, height - ( thickness * 2 ) );
+					graphics.drawRect(
+						tx,
+						ty + border.top,
+						thickness,
+						height - ( border.top + border.bottom ) );
 				}
 			}
 		}
