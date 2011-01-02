@@ -73,6 +73,11 @@ package com.ffsys.ui.suite.view {
 		*/
 		private function setText( text:String ):void
 		{
+			//debugging of bootstrap load messages
+			//this will be duplicated if the swat framework
+			//has been compiled with debugging enabled
+			trace( text );
+			
 			_txt.appendText( text + "\n" );
 			if( _txt.height > stage.stageHeight )
 			{

@@ -44,6 +44,8 @@ package com.ffsys.ui.runtime {
 		public static const FILTERS:String = "filters";
 		
 		private var _runtime:IDocument;
+		private var _references:Vector.<RuntimeIdentifierReference> =
+			new Vector.<RuntimeIdentifierReference>();
 		
 		/**
 		*	Creates a <code>RuntimeInterpreter</code> instance.
@@ -69,11 +71,57 @@ package com.ffsys.ui.runtime {
 		}
 		
 		/**
+		* 	Resolves document level identifier references.
+		* 
+		* 	@param document The document containing the identifier references.
+		*/
+		protected function resolveReferences( document:IDocument ):void
+		{
+			var reference:RuntimeIdentifierReference = null;
+			var id:String = null;
+			var parent:Object = null;
+			var target:Object = null;			
+			var name:String = null;
+			for( var i:int = 0;i < _references.length;i++ )
+			{
+				reference = _references[ i ];
+				id = reference.id;
+				name = reference.name;
+				parent = reference.parent;
+				target = _runtime.identifiers[ id ] as Object;
+				
+				if( target == null )
+				{
+					throw new Error(
+						"Could not locate a target for runtime document reference with identifier '"
+						+ id + "'." );
+				}
+				
+				try
+				{
+					if( parent.hasOwnProperty( name ) )
+					{
+						parent[ name ] = target;
+					}
+				}catch( e:Error )
+				{
+					//error setting the property - normally type coercion based
+					//pass through the original error for easier debugging
+					throw e;
+				}
+			}
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		override public function complete( instance:Object ):void
 		{
 			super.complete( instance );
+			
+			resolveReferences( _runtime );
+			
+			_runtime.prepared();
 			
 			//clean our reference
 			_runtime = null;
@@ -212,7 +260,16 @@ package com.ffsys.ui.runtime {
 			
 			var hasProp:Boolean = parent.hasOwnProperty( name );
 			
-			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );	
+			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
+			
+			if( value is RuntimeIdentifierReference )
+			{
+				var reference:RuntimeIdentifierReference = RuntimeIdentifierReference( value );
+				reference.parent = parent;
+				reference.name = name;
+				_references.push( reference );
+				return false;
+			}
 			
 			if( value is RuntimeBeanReference )
 			{
@@ -238,9 +295,12 @@ package com.ffsys.ui.runtime {
 			}
 			
 			//handle storing identifier reference on the document
-			if( value && value.hasOwnProperty( ID ) && ( value[ ID ] != null ) )
+			if( value
+				&& value.hasOwnProperty( ID )
+				&& ( value[ ID ] != null ) )
 			{
 				var id:String = value[ ID ];
+				//trace("RuntimeInterpreter::shouldSetProperty()", "ADDING DOCUMENT ID REFERENCE:", id, value );
 				_runtime.identifiers[ id ] = value;
 			}
 			
@@ -300,8 +360,9 @@ package com.ffsys.ui.runtime {
 		override public function postProcessClass(
 			instance:Object, parent:Object ):void
 		{
+			//trace("RuntimeInterpreter::postProcessClass()", instance );
+			
 			/*
-			trace("RuntimeInterpreter::postProcessClass()", instance );
 			
 			if( instance is RectangleGraphic )
 			{

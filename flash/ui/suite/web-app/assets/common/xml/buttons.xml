@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <document>
+	
+	<radio-button-group>
+		<id>fruit-radio-buttons</id>
+	</radio-button-group>
+	
 	<vbox>
 		<spacing>5</spacing>
 		<vbox>
@@ -115,6 +120,34 @@
 					</radio-button>					
 				</vbox>
 				
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>	
+						<identifier>buttons.examples.radio.copy</identifier>
+					</sub-paragraph>
+					<radio-button>
+						<identifier>fruit.apples</identifier>
+						<selected>true</selected>
+						<group-manager>
+							<id>fruit-radio-buttons</id>
+						</group-manager>
+					</radio-button>
+					<radio-button>
+						<identifier>fruit.oranges</identifier>
+						<selected>true</selected>
+						<group-manager>
+							<id>fruit-radio-buttons</id>
+						</group-manager>					
+					</radio-button>
+					<radio-button>
+						<identifier>fruit.pears</identifier>
+						<selected>true</selected>
+						<group-manager>
+							<id>fruit-radio-buttons</id>
+						</group-manager>						
+					</radio-button>
+				</vbox>
 
 				<vbox>
 					<spacing>5</spacing>

@@ -494,7 +494,7 @@ package com.ffsys.io.xml {
 			
 			}			
 			
-			if( nodeName )
+			if( nodeName != null )
 			{
 				name = nodeName;
 			}

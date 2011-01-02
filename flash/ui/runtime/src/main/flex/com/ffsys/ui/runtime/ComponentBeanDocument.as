@@ -201,7 +201,17 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.TAB_BUTTON );
 			descriptor.instanceClass = TabButton;
-			beans.addBeanDescriptor( descriptor );						
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.GROUP_MANAGER );
+			descriptor.instanceClass = RuntimeIdentifierReference;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.RADIO_BUTTON_GROUP );
+			descriptor.instanceClass = RadioButtonGroup;
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.BOX_MODEL );

@@ -226,5 +226,15 @@ package com.ffsys.ui.common
 		* 	The identifier for an image display.
 		*/
 		public static const IMAGE_DISPLAY:String = "image-display";
+		
+		/**
+		* 	The identifier for a group manager.
+		*/
+		public static const GROUP_MANAGER:String = "group-manager";
+		
+		/**
+		* 	The identifier for a radio button group manager.
+		*/
+		public static const RADIO_BUTTON_GROUP:String = "radio-button-group";		
 	}
 }

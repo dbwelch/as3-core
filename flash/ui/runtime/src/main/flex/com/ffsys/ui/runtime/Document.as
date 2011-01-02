@@ -34,6 +34,14 @@ package com.ffsys.ui.runtime {
 		/**
 		* 	@inheritDoc
 		*/
+		public function prepared():void
+		{
+			//trace("Document::prepared()", this );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get binding():Object
 		{
 			return _binding;
@@ -46,6 +54,28 @@ package com.ffsys.ui.runtime {
 		{
 			return _identifiers;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getElementsByType( type:Class ):Vector.<DisplayObject>
+		{
+			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();		
+			if( type != null )
+			{
+				var id:String = null;
+				var display:DisplayObject = null;
+				for( id in _identifiers )
+				{
+					display = _identifiers[ id ] as DisplayObject;
+					if( display is type )
+					{
+						output.push( display );
+					}
+				}				
+			}
+			return output;
+		}		
 		
 		/**
 		* 	@inheritDoc

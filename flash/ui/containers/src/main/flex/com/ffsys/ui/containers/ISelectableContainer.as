@@ -2,6 +2,9 @@ package com.ffsys.ui.containers
 {
 	import flash.display.DisplayObject;
 	
+	import com.ffsys.ui.common.ISelectedIndex;
+	import com.ffsys.ui.common.ISelectedDisplayObject;
+	
 	/**
 	*	Describes the contract for containers that allow
 	* 	child display objects to be selected.
@@ -12,26 +15,11 @@ package com.ffsys.ui.containers
 	*	@author Mischa Williamson
 	*	@since  22.06.2010
 	*/
-	public interface ISelectableContainer extends IContainer
+	public interface ISelectableContainer
+		extends IContainer,
+				ISelectedIndex,
+				ISelectedDisplayObject
 	{
-		/**
-		* 	Gets the currently selected item.
-		*/
-		function get selectedItem():DisplayObject;
-		
-		/**
-		* 	Sets the currently selected item.
-		*/
-		function set selectedItem( item:DisplayObject ):void;
-		
-		/**
-		* 	Gets the currently selected index.
-		*/
-		function get selectedIndex():int;
-		
-		/**
-		* 	Sets the currently selected index.
-		*/
-		function set selectedIndex( index:int ):void;
+		//
 	}
 }

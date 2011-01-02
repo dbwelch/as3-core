@@ -97,7 +97,8 @@
 				<configuration>
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/ui/suite/view/ComponentSuitePreloader.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
-					<debug>${compiler.debug}</debug>
+					<!-- <debug>${compiler.debug}</debug> -->
+					<debug>true</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>
 					<linkReport>true</linkReport>
