@@ -403,3 +403,76 @@ radio-button-foreground-fill {
 	color: #333333;
 	alpha: 1;
 }
+
+CheckBox {
+	size: 11;
+	underline: false;
+	color: #a9a9a9;
+	padding: 5;
+	icon: ref( check-box-icon );
+}
+
+CheckBox:disabled {	
+	color: #636363;
+}
+
+CheckBox:over, CheckBox:down {
+	color: #fefefe;
+}
+
+CheckBox:selected {
+	size: 11;
+	underline: true;
+	color: #efefef;
+	padding: 5;
+	icon: ref( check-box-icon-selected );
+}
+
+CheckBox:selected:over, CheckBox:selected:down {
+	underline: true;
+	color: #ffffff;
+	icon: ref( check-box-icon-selected );	
+}
+
+CheckBox:selected:disabled {	
+	color: #636363;
+	icon: ref( check-box-icon-selected );	
+}
+
+check-box-icon {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( check-box-background ) );
+}
+
+check-box-icon-selected {
+	instance-class: class( com.ffsys.ui.core.UIComponent );
+	layers: array( ref( check-box-background ), ref( check-box-foreground ) );
+}
+
+check-box-background {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: ref( check-box-background-fill );
+	preferred-width: 9;
+	preferred-height: 9;
+}
+
+check-box-foreground {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: ref( check-box-foreground-fill );
+	preferred-width: 5;
+	preferred-height: 5;
+	x: 2;
+	y: 2;
+}
+
+check-box-background-fill {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #a9a9a9;
+	alpha: 1;
+}
+
+check-box-foreground-fill {
+	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	color: #333333;
+	alpha: 1;
+}

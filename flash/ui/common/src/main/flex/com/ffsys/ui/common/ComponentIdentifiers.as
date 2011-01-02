@@ -173,6 +173,11 @@ package com.ffsys.ui.common
 		public static const RADIO_BUTTON:String = "radio-button";
 		
 		/**
+		* 	The identifier for a check box component.
+		*/
+		public static const CHECK_BOX:String = "check-box";
+		
+		/**
 		* 	The identifier for an icon button component.
 		*/
 		public static const ICON_BUTTON:String = "icon-button";

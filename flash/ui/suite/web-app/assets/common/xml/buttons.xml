@@ -66,9 +66,7 @@
 						<enabled>false</enabled>
 					</icon-button>
 				</vbox>	
-		
-			</vbox>
-			<vbox>
+				
 				
 				<vbox>
 					<spacing>5</spacing>
@@ -92,22 +90,10 @@
 						<identifier>buttons.examples.icon..text.disabled</identifier>
 						<enabled>false</enabled>
 					</icon-text-button>
-				</vbox>	
-				
-				<vbox>
-					<spacing>5</spacing>
-					<styles>example-group</styles>	
-					<sub-paragraph>			
-						<identifier>buttons.examples.toggle.copy</identifier>
-					</sub-paragraph>
-					<toggle-button>
-						<identifier>buttons.examples.toggle</identifier>
-					</toggle-button>
-					<toggle-button>
-						<identifier>buttons.examples.toggle.disabled</identifier>
-						<enabled>false</enabled>
-					</toggle-button>					
-				</vbox>
+				</vbox>				
+		
+			</vbox>
+			<vbox>
 				
 				<vbox>
 					<spacing>5</spacing>
@@ -128,7 +114,49 @@
 						<selected>true</selected>
 					</radio-button>					
 				</vbox>
+				
+
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>	
+						<identifier>buttons.examples.checkbox.copy</identifier>
+					</sub-paragraph>
+					<check-box>
+						<identifier>buttons.examples.checkbox</identifier>
+					</check-box>				
+					<check-box>
+						<identifier>buttons.examples.checkbox.disabled</identifier>
+						<enabled>false</enabled>
+					</check-box>
+					<check-box>
+						<identifier>buttons.examples.checkbox.selected</identifier>
+						<enabled>false</enabled>
+						<selected>true</selected>
+					</check-box>
+				</vbox>	
+				
+				
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>			
+						<identifier>buttons.examples.toggle.copy</identifier>
+					</sub-paragraph>
+					<toggle-button>
+						<identifier>buttons.examples.toggle</identifier>
+					</toggle-button>
+					<toggle-button>
+						<identifier>buttons.examples.toggle.disabled</identifier>
+						<enabled>false</enabled>
+					</toggle-button>					
+				</vbox>							
 			</vbox>
+
+			<vbox>
+
+				
+			</vbox>	
 		</hbox>
 	</vbox>
 </document>

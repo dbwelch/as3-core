@@ -179,6 +179,10 @@ package com.ffsys.ui.runtime
 			descriptor.instanceClass = RadioButton;
 			beans.addBeanDescriptor( descriptor );						
 			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CHECK_BOX );
+			descriptor.instanceClass = CheckBox;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ICON_BUTTON );
 			descriptor.instanceClass = IconButton;
 			beans.addBeanDescriptor( descriptor );	
