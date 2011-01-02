@@ -12,6 +12,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.graphics.*;
 
+	import com.ffsys.ui.common.Border;
 	import com.ffsys.ui.common.IBorder;	
 	import com.ffsys.ui.common.IMargin;
 	import com.ffsys.ui.common.IPadding;
@@ -51,8 +52,8 @@ package com.ffsys.ui.core
 		protected var _maximumWidth:Number = NaN;
 		protected var _maximumHeight:Number = NaN;
 		
-		private var _margins:IMargin = new Margin();
-		private var _paddings:IPadding = new Padding();
+		private var _margins:IMargin;
+		private var _paddings:IPadding;
 		private var _id:String;
 		private var _extra:Object;
 		private var _border:IBorder;
@@ -254,6 +255,48 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc	
 		*/
+		public function get actualWidth():Number
+		{
+			return layoutWidth + paddings.width;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get actualHeight():Number
+		{
+			return layoutHeight + paddings.height;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get innerWidth():Number
+		{
+			if( !isNaN( preferredWidth ) )
+			{
+				return preferredWidth - paddings.width - margins.width - border.width;
+			}
+			
+			return this.width;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get innerHeight():Number
+		{
+			if( !isNaN( preferredHeight ) )
+			{
+				return preferredHeight - paddings.height - margins.height - border.height;
+			}
+			
+			return this.height;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function get layoutWidth():Number
 		{
 			if( !isNaN( preferredWidth ) )
@@ -282,7 +325,39 @@ package com.ffsys.ui.core
 		*/
 		public function get paddings():IPadding
 		{
+			if( _paddings == null )
+			{
+				_paddings = new Padding();
+			}
 			return _paddings;
+		}
+		
+		/**
+		* 	Adds the padding, margin and border width values
+		* 	to a number.
+		* 
+		* 	@param value The numeric value.
+		* 	
+		* 	@return The value with padding, margin and border
+		* 	information added.
+		*/
+		protected function addLayoutWidthDimensions( value:Number ):Number
+		{
+			return value + ( paddings.width + margins.width + border.width );
+		}
+		
+		/**
+		* 	Adds the padding, margin and border height values
+		* 	to a number.
+		* 
+		* 	@param value The numeric value.
+		* 	
+		* 	@return The value with padding, margin and border
+		* 	information added.
+		*/
+		protected function addLayoutHeightDimensions( value:Number ):Number
+		{
+			return value + ( paddings.height + margins.height + border.height );
 		}
 		
 		/**
@@ -290,6 +365,10 @@ package com.ffsys.ui.core
 		*/
 		public function get margins():IMargin
 		{
+			if( _margins == null )
+			{
+				_margins = new Margin();
+			}
 			return _margins;
 		}
 		
@@ -585,6 +664,10 @@ package com.ffsys.ui.core
 		*/
 		public function get border():IBorder
 		{
+			if( _border == null )
+			{
+				_border = new Border();
+			}
 			return _border;
 		}
 		
@@ -707,72 +790,24 @@ package com.ffsys.ui.core
 
 			var b:IBorderGraphic = getBorderGraphic();
 			
-			var w:Number = layoutWidth;
-			var h:Number = layoutHeight;
+			var r:Rectangle = getBorderDimensions();
+			var w:Number = r.width;
+			var h:Number = r.height;
 			
-			trace("AbstractComponent::applyBorders()",
-				w, h, border, border.top, border.right, border.bottom, border.left );
-				
 			b.border = this.border;
 			b.draw( w, h );
 			_borderLayer.addChild( DisplayObject( b ) );
-			
-			/*
-			//if all thickness values are the same
-			//we can use a single graphic
-			if( this.border.equal() )
-			{
-				b = getBorderGraphic();
-				//doesn't matter which edge as they are all the same
-				b.stroke.thickness = this.border.left;
-				b.draw( w, h );
-				_borderLayer.addChild( DisplayObject( b ) );
-			}else
-			{	
-				//draw top border
-				if( this.border.top > 0 )
-				{
-					b = getBorderGraphic();
-					b.stroke.thickness = this.border.top;
-					b.draw( w, this.border.top );
-					
-					trace("AbstractComponent::applyBorders()", "DRAWING TOP", w, this.border.top );
-					
-					_borderLayer.addChild( DisplayObject( b ) );		
-				}
-				
-				//draw right border
-				if( this.border.right > 0 )
-				{
-					b = getBorderGraphic();
-					b.stroke.thickness = this.border.right;
-					b.draw( this.border.right, h );
-					b.x = w - this.border.right;
-					_borderLayer.addChild( DisplayObject( b ) );
-				}
-				
-				//draw bottom border
-				if( this.border.bottom > 0 )
-				{
-					b = getBorderGraphic();
-					b.stroke.thickness = this.border.bottom;
-					b.draw( w, this.border.bottom );
-					b.y = h - this.border.bottom;
-					_borderLayer.addChild( DisplayObject( b ) );
-				}				
-			
-				//draw left border
-				if( this.border.left > 0 )
-				{
-					b = getBorderGraphic();
-					b.stroke.thickness = this.border.left;
-					b.draw( this.border.left, h );
-					_borderLayer.addChild( DisplayObject( b ) );
-				}
-			}
-			*/
-			
-			trace("AbstractComponent::applyBorders() GOT BORDER LAYER: ", _borderLayer, _borderLayer.width, _borderLayer.height );
+		}
+		
+		/**
+		* 	Gets the rectangle that defines the border for the
+		* 	component.
+		* 
+		* 	@return The component border dimensions.
+		*/
+		protected function getBorderDimensions():Rectangle
+		{
+			return new Rectangle( 0, 0, layoutWidth, layoutHeight );
 		}
 		
 		/**
@@ -1065,6 +1100,7 @@ package com.ffsys.ui.core
 		{
 			_margins = null;
 			_paddings = null;
+			_border = null;
 			_id = null;
 			_extra = null;
 			_border = null;

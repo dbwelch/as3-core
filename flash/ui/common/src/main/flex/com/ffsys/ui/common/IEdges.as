@@ -13,6 +13,20 @@ package com.ffsys.ui.common {
 	*	@since  19.06.2010
 	*/
 	public interface IEdges extends IEventDispatcher {
+
+		
+		/**
+		* 	A width determined by adding the left and
+		* 	right edges.
+		*/
+		function get width():Number;
+		
+		/**
+		* 	A height determined by adding the top and
+		* 	bottom edges.
+		*/		
+		function get height():Number;
+		
 		/**
 		*	A number associated with the left edge of the rectangle.	
 		*/

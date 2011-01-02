@@ -41,6 +41,22 @@ package com.ffsys.ui.common {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function get width():Number
+		{
+			return left + right;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/		
+		public function get height():Number
+		{
+			return top + bottom;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function get left():Number

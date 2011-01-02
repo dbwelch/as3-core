@@ -80,6 +80,11 @@ package com.ffsys.ui.layout
 				}
 			}
 			
+			if( child is IMarginAware )
+			{
+				child.y = IMarginAware( child ).margins.top;
+			}
+			
 			child.x = x;
 		}
 	}

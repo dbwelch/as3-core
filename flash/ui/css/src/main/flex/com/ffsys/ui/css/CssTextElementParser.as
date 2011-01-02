@@ -65,8 +65,6 @@ package com.ffsys.ui.css
 						parameters[ 3 ],
 						parameters[ 4 ],
 						parameters[ 5 ] );
-						
-					trace("CssTextElementParser::doWithUnknownExpression()", "FOUND BORDER EXPRESSION ?!?!?!?!?!!?!!?", output, ( output as Border ).left );					
 					break;
 			}
 			

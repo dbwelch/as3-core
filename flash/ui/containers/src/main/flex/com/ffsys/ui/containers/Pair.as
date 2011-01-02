@@ -81,8 +81,6 @@ package com.ffsys.ui.containers {
 			_vertical = vertical;
 			this.layout = this.vertical
 				? new VerticalLayout() : new HorizontalLayout();
-				
-			
 		}
 	}
 }

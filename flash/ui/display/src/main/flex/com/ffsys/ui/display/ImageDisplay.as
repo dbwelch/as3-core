@@ -106,6 +106,30 @@ package com.ffsys.ui.display
 		/**
 		*	@inheritDoc	
 		*/
+		override public function get innerWidth():Number
+		{
+			if( _image != null )
+			{
+				return _image.width;
+			}
+			return 0;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		override public function get innerHeight():Number
+		{
+			if( _image != null )
+			{
+				return _image.height;
+			}
+			return 0;
+		}		
+		
+		/**
+		*	@inheritDoc	
+		*/
 		override public function get layoutWidth():Number
 		{
 			var w:Number = super.layoutWidth;

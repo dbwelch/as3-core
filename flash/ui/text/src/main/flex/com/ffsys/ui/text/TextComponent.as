@@ -3,6 +3,7 @@ package com.ffsys.ui.text
 	import flash.text.TextField;
 	
 	import flash.display.DisplayObject;
+	import flash.geom.Point;	
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	
@@ -31,10 +32,16 @@ package com.ffsys.ui.text
 		implements 	ICssTextFieldProxy,
 					IMessagesAware
 	{
+		/**
+		* 	A default gutter to offset textfield positions.
+		*/
+		public static const GUTTER:int = -2;
+		
 		private var _textfield:ITypedTextField;
 		private var _identifier:String;
 		private var _messages:IProperties;
 		private var _textTransform:String;
+		private var _offsets:Point;
 		
 		/**
 		*	Creates a <code>TextComponent</code> instance.
@@ -260,8 +267,7 @@ package com.ffsys.ui.text
 			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				//trace("TextComponent::layoutWidth(), returning text width:", textfield.textWidth );
-				return textfield.textWidth;
+				return textfield.textWidth + paddings.width;
 			}
 			
 			return this.width == 0 ? 0 : this.width - 4;
@@ -298,7 +304,7 @@ package com.ffsys.ui.text
 			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return textfield.textHeight;
+				return textfield.textHeight + paddings.height;
 			}
 			
 			return this.height == 0 ? 0 : this.height - 4;
@@ -382,6 +388,8 @@ package com.ffsys.ui.text
 				}
 			
 				textfield.setText( text );
+				
+				position();
 			}
 		}
 		
@@ -412,15 +420,44 @@ package com.ffsys.ui.text
 				getTextFieldClass(), text );
 			_textfield.enabled = false;
 			
-			//offset by the textfield gutter
-			_textfield.x = _textfield.y = -2;
-			
 			//TODO: investigate removing this and still
 			//allowing components to be added to non-component parent
 			//display objects
 			addChild( DisplayObject( _textfield ) );
 			
 			return _textfield;
+		}
+		
+		/**
+		* 	Offsets to use when positioning the textfield.
+		* 
+		* 	The default value is to offset by the <code>GUTTER</code>.
+		*/
+		public function get offsets():Point
+		{
+			if( _offsets == null )
+			{
+				_offsets = new Point( GUTTER, GUTTER );
+			}
+			return _offsets;
+		}
+		
+		public function set offsets( value:Point ):void
+		{
+			_offsets = value;
+		}
+		
+		/**
+		* 	Positions the textfield within this component.
+		*/
+		protected function position():void
+		{
+			if( _textfield != null )
+			{
+				//offset by the textfield gutter
+				_textfield.x = paddings.left + offsets.x;
+				_textfield.y = paddings.top + offsets.y;
+			}
 		}
 		
 		/**

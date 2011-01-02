@@ -1,7 +1,6 @@
 Heading {
 	text-transform: uppercase;
 	size: 12;
-	padding-top: 20;
 }
 
 SubHeading {
@@ -10,6 +9,7 @@ SubHeading {
 	size: 10;
 	border: border( 1,1,1,1,#ff0000,1 );
 	padding: 5;
+	margin-top: 0;
 }
 
 uppercase {
@@ -43,10 +43,6 @@ interactive-runtime-asset:over, interactive-runtime-asset:down {
 page-heading {
 	margin-top: 20;
 	margin-bottom: 10;	
-}
-
-page-sub-heading {
-	margin-bottom: 20;
 }
 
 example-group {
