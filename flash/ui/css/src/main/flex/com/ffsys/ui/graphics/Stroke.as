@@ -6,7 +6,7 @@ package com.ffsys.ui.graphics {
 	import flash.display.LineScaleMode;
 	
 	/**
-	*	Represents a solid stroke.
+	*	Represents a stroke.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -29,6 +29,15 @@ package com.ffsys.ui.graphics {
 		
 		/**
 		*	Creates a <code>Stroke</code> instance.
+		* 
+		* 	@param thickness The stroke thickness.
+		* 	@param color The colour of the stroke.
+		* 	@param alpha The alpha of the stroke.
+		* 	@param pixelHinting Whether pixel hinting is enabled.
+		* 	@param scaleMode The scale mode.
+		* 	@param caps The caps mode.
+		* 	@param joints The mode for joint rendering.
+		* 	@param miterLimit The miter limit.
 		*/
 		public function Stroke(
 			thickness:Number = 1,
@@ -50,7 +59,7 @@ package com.ffsys.ui.graphics {
 			this.joints = joints;
 			this.miterLimit = miterLimit;
 		}
-				
+		
 		/**
 		*	@inheritDoc 
 		*/

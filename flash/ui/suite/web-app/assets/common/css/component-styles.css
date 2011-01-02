@@ -102,9 +102,9 @@ ToggleButton:selected:over, ToggleButton:selected:down {
 
 button-background-main {
 	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
-	fill: ref( button-background-fill );
+	fill: fill( #333333, .75 );
 	corner-width: 5;
-	corner-height: 5;	
+	corner-height: 5;
 }
 
 button-background-over {
@@ -133,12 +133,6 @@ button-background-disabled {
 	fill: ref( button-background-fill-disabled );
 	corner-width: 5;
 	corner-height: 5;
-}
-
-button-background-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
-	color: #333333;
-	alpha: 0.75;
 }
 
 button-background-fill-over {
