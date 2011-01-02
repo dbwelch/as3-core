@@ -1,7 +1,7 @@
 package com.ffsys.ui.scrollbars
 {
 	import flash.display.DisplayObject;
-	import com.ffsys.ui.buttons.BackButton;
+	import com.ffsys.ui.buttons.IconButton;
 	
 	/**
 	*	Represents a button for scrolling left.
@@ -12,12 +12,8 @@ package com.ffsys.ui.scrollbars
 	*	@author Mischa Williamson
 	*	@since  06.07.2010
 	*/
-	public class ScrollLeftButton extends BackButton
+	public class ScrollLeftButton extends IconButton
 	{
-		//TODO: refactor this embed to a class level definition to avoid the flex framework compiler link problem		
-		[Embed(source="../../../../../resources/scroll-left.png")]
-		static private var _defaultIconClass:Class;
-				
 		/**
 		* 	Creates a <code>ScrollLeftButton</code> instance.
 		* 
@@ -31,12 +27,7 @@ package com.ffsys.ui.scrollbars
 			text:String = null,
 			width:Number = NaN,
 			height:Number = NaN )		
-		{
-			if( icon == null )
-			{
-				icon = DisplayObject( getRuntimeInstance( _defaultIconClass ) );
-			}
-						
+		{			
 			super( icon, text, width, height );
 		}
 		

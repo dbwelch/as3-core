@@ -12,8 +12,6 @@
 	<packaging>swf</packaging>
 	<name>swat-as3-app</name>
 	<dependencies>
-		
-		<!--
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>framework</artifactId>
@@ -21,8 +19,6 @@
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
-		-->
-		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ioc</artifactId>
@@ -111,9 +107,9 @@
 				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>			
 				<configuration>
-					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/ApplicationMain.as</sourceFile>
+					<sourceFile>${project.build.sourceDirectory}/com/ffsys/swat/as3/view/ApplicationPreloader.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
-					<debug>true</debug>
+					<debug>${compiler.debug}</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>
 					<linkReport>true</linkReport>
@@ -127,6 +123,36 @@
 					<locales>
 						<locale>en_US</locale>
 					</locales>
+					<frames>
+						<frame>
+							<label>main</label>
+							<classNames>
+								<className>com.ffsys.swat.as3.view.ApplicationController</className>
+								<className>com.ffsys.effects.tween.Tween</className>
+								<className>com.ffsys.effects.tween.TweenGroup</className>
+								<className>com.ffsys.effects.tween.TweenSequence</className>
+								<className>com.ffsys.effects.easing.Quad</className>
+							</classNames>
+							
+							<!--
+							output.push( ApplicationController );
+							output.push( ConfigurationParser );
+
+							output.push( Tween );
+							output.push( TweenGroup );
+							output.push( TweenSequence );
+
+							output.push( Quad );							
+							-->
+														
+							<!--
+							<classNames>
+								<className></className>
+								<className></className>
+							</classNames>
+							-->
+						</frame>
+					</frames>					
 					<sourcePaths>
 						<path>${project.basedir}/src/main/resources</path>
 						<path>${project.build.sourceDirectory}</path>

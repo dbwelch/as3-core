@@ -2,6 +2,7 @@ package com.ffsys.swat.view {
 	
 	import flash.display.DisplayObject;
 	import flash.display.LoaderInfo;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -29,7 +30,7 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class DefaultApplicationPreloader extends Sprite
+	public class DefaultApplicationPreloader extends MovieClip
 		implements IApplicationPreloader {
 		
 		private var _classes:IClassPathConfiguration;

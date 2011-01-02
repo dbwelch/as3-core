@@ -1,7 +1,7 @@
 package com.ffsys.ui.scrollbars
 {
 	import flash.display.DisplayObject;
-	import com.ffsys.ui.buttons.DownButton;
+	import com.ffsys.ui.buttons.IconButton;
 	
 	/**
 	*	Represents a button for scrolling down.
@@ -12,12 +12,8 @@ package com.ffsys.ui.scrollbars
 	*	@author Mischa Williamson
 	*	@since  06.07.2010
 	*/
-	public class ScrollDownButton extends DownButton
-	{
-		//TODO: refactor this embed to a class level definition to avoid the flex framework compiler link problem
-		[Embed(source="../../../../../resources/scroll-down.png")]
-		static private var _defaultIconClass:Class;
-				
+	public class ScrollDownButton extends IconButton
+	{			
 		/**
 		* 	Creates a <code>ScrollDownButton</code> instance.
 		* 
@@ -32,11 +28,6 @@ package com.ffsys.ui.scrollbars
 			width:Number = NaN,
 			height:Number = NaN )
 		{
-			if( icon == null )
-			{
-				icon = DisplayObject( getRuntimeInstance( _defaultIconClass ) );
-			}
-						
 			super( icon, text, width, height );
 		}
 		

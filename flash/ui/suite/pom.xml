@@ -13,6 +13,32 @@
 	<name>ui-components-suite</name>
 	<dependencies>
 		<dependency>
+			<groupId>com.adobe.flex.framework</groupId>
+			<artifactId>framework</artifactId>
+			<version>${flex.version}</version>
+			<type>swc</type>
+			<scope>external</scope>
+		</dependency>
+		
+		<!--
+		<dependency>
+			<groupId>com.adobe.flex.framework</groupId>
+			<artifactId>spark</artifactId>
+			<version>${flex.version}</version>
+			<type>swc</type>
+			<scope>external</scope>
+		</dependency>		
+		-->
+		
+		<dependency>
+			<groupId>com.adobe.flex.framework</groupId>
+			<artifactId>sparkskins</artifactId>
+			<version>${flex.version}</version>
+			<type>swc</type>
+			<scope>external</scope>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>effects</artifactId>
 			<version>${ffsys.lib.version}</version>
@@ -69,13 +95,14 @@
 				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<sourceFile>${project.build.sourceDirectory}/com/ffsys/ui/suite/view/ComponentSuiteMain.as</sourceFile>
+					<sourceFile>${project.build.sourceDirectory}/com/ffsys/ui/suite/view/ComponentSuitePreloader.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
-					<debug>true</debug>
+					<debug>${compiler.debug}</debug>
 					<optimize>true</optimize>
 					<incremental>true</incremental>
-					<linkReport>false</linkReport>
-					<configurationReport>false</configurationReport>
+					<linkReport>true</linkReport>
+					
+					<configurationReport>true</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
 					<defaultSize>
 						<width>980</width>
@@ -88,6 +115,31 @@
 							<manager-class>flash.fonts.AFEFontManager</manager-class>
 						</managers>
 					</fonts>
+					<frames>
+						<frame>
+							<label>main</label>
+							<classNames>
+								<className>com.ffsys.ui.suite.core.ComponentSuiteController</className>
+								
+								<className>com.ffsys.ui.graphics.RectangleGraphic</className>
+								<className>com.ffsys.ui.graphics.SquareGraphic</className>
+								<className>com.ffsys.ui.graphics.CircleGraphic</className>								
+								<className>com.ffsys.ui.graphics.EllipseGraphic</className>															
+								<className>com.ffsys.ui.graphics.ArrowGraphic</className>
+								<className>com.ffsys.ui.graphics.BevelRectangleGraphic</className>								
+								<className>com.ffsys.ui.graphics.RoundedRectangleGraphic</className>
+								<className>com.ffsys.ui.graphics.BorderGraphic</className>
+								
+								<className>com.ffsys.ui.graphics.ArrowPointer</className>
+								<className>com.ffsys.ui.graphics.SolidFill</className>								
+								<className>com.ffsys.ui.graphics.BitmapFill</className>																
+								<className>com.ffsys.ui.graphics.GradientFill</className>
+								<className>com.ffsys.ui.graphics.CompositeFill</className>
+								<className>com.ffsys.ui.graphics.Gradient</className>
+								<className>com.ffsys.ui.graphics.Stroke</className>
+							</classNames>
+						</frame>
+					</frames>
 					<locales>
 						<locale>en_US</locale>
 					</locales>

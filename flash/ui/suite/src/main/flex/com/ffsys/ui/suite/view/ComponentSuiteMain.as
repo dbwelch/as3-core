@@ -51,3 +51,72 @@ package com.ffsys.ui.suite.view {
 		}
 	}
 }
+
+
+/*
+
+
+
+
+
+
+
+
+
+package com.ffsys.ui.suite.view {
+	
+	import flash.display.Sprite;
+	
+	import com.ffsys.swat.view.DefaultApplicationMain;
+
+	import com.ffsys.ui.graphics.*;
+	
+	import com.ffsys.ui.suite.core.ComponentSuiteController;
+	
+	//	[Frame(factoryClass="com.ffsys.ui.suite.view.ComponentSuitePreloader")]
+	//DefaultApplicationMain
+
+	public class ComponentSuiteMain extends Sprite {
+		
+		private var main:DefaultApplicationMain;
+
+		public function ComponentSuiteMain()
+		{
+			super();
+		}
+		
+		public function getRuntimeClasses():Array
+		{
+			var output:Array = new Array();
+			output.push( ComponentSuiteController );
+			
+			output.push( RectangleGraphic );
+			output.push( SquareGraphic );
+			output.push( CircleGraphic );
+			output.push( EllipseGraphic );
+			output.push( ArrowGraphic );
+			output.push( BevelRectangleGraphic );
+			output.push( RoundedRectangleGraphic );
+			output.push( BorderGraphic );
+			
+			output.push( ArrowPointer );
+			output.push( SolidFill );
+			output.push( BitmapFill );
+			output.push( GradientFill );
+			output.push( CompositeFill );
+			output.push( Gradient );
+			output.push( Stroke );
+			return output;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+*/

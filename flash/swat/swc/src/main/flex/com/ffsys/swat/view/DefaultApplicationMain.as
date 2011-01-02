@@ -1,7 +1,7 @@
 package com.ffsys.swat.view {
 	
 	import flash.events.Event;
-	import flash.display.Sprite;
+	import flash.display.MovieClip;
 	
 	import com.ffsys.swat.core.DefaultFlashVariables;
 	import com.ffsys.swat.configuration.ConfigurationParser;
@@ -15,7 +15,7 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class DefaultApplicationMain extends Sprite {
+	public class DefaultApplicationMain extends MovieClip {
 		
 		/**
 		*	Creates a <code>DefaultApplicationMain</code> instance.

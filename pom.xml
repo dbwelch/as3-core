@@ -59,8 +59,8 @@
 			<artifactId>spark</artifactId>
 			<type>swc</type>
 			<version>${flex.version}</version>
-			<scope>theme</scope>
-		</dependency>		
+			<scope>external</scope>
+		</dependency>	
 	</dependencies>
 	
 	<distributionManagement>
