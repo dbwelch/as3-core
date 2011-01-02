@@ -42,7 +42,6 @@ package com.ffsys.ioc
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 1, document.length );
 			
 			var easeIn:Object = document.getBean( "quad-ease-in" );
 			Assert.assertNotNull( easeIn );

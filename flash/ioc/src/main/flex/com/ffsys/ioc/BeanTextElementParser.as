@@ -33,6 +33,7 @@ package com.ffsys.ioc
 		private var _document:IBeanDocument;
 		private var _substitutor:Substitutor = null;
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*(.+)\s*\)$/;
+		private var _mapping:Object;
 		
 		/**
 		* 	Creates a <code>BeanTextElementParser</code> instance.
@@ -44,6 +45,19 @@ package com.ffsys.ioc
 		{
 			super();
 			this.document = document;
+		}
+		
+		/**
+		* 	The mapping between property names
+		* 	and expressions.
+		*/
+		public function get mapping():Object
+		{
+			if( _mapping == null )
+			{
+				_mapping = new Object();
+			}
+			return _mapping;
 		}
 		
 		/**
@@ -69,16 +83,18 @@ package com.ffsys.ioc
 			value:String ):Object
 		{
 			var output:Object = value;
-			var extension:Object = null;
+			var parsed:Object = null;
 			var hexExpression:RegExp = /^#[0-9a-fA-F]{2,6}$/;
 			var parser:PrimitiveParser = new PrimitiveParser();
 			var candidate:Boolean = getSubstitutor( value ).isCandidate();
+			var propertyExpression:Boolean = this.mapping.hasOwnProperty( propertyName );
+			
 			if( candidate )
 			{
 				output = parseBindingCandidate( descriptor, value );
 			}
 			if( output is String )
-			{
+			{	
 				output = parser.parse( String( output ), true, document.delimiter );
 				//only if still a string after primitive parsing
 				if( output is String )
@@ -86,12 +102,38 @@ package com.ffsys.ioc
 					if( hexExpression.test( String( output ) ) )
 					{
 						output = parseHexNumber( descriptor, String( output ) );
-					}else if( _extensionExpression.test( String( output ) ) )
+					}
+					
+					else if( propertyExpression )
 					{
-						extension = parseExtension( descriptor, String( output ), beanName, propertyName );
-						if( extension != null )
+						
+						//handle properties that are mapped to be handled
+						//as an expression	
+						parsed = handleExpression(
+							this.mapping[ propertyName ],
+							String( output ),
+							descriptor, beanName, propertyName );
+							
+						trace("BeanTextElementParser::parse()",
+							"FOUND MATCHING PROPERTY NAME EXPRESSION",
+							propertyName, this.mapping[ propertyName ], parsed );
+							
+						if( parsed != null )
 						{
-							output = extension;
+							output = parsed;
+						}						
+							
+					}
+
+					else if( _extensionExpression.test( String( output ) ) )
+					{
+						parsed = handleExpression(
+							getExpression( String( output ) ),
+							getExpressionValue( String( output ) ),
+							descriptor, beanName, propertyName );
+						if( parsed != null )
+						{
+							output = parsed;
 						}
 					}
 				}
@@ -126,28 +168,30 @@ package com.ffsys.ioc
 			return output;
 		}
 		
-		/**
-		*	@private	
-		*/
-		private function parseHexNumber(
-			descriptor:IBeanDescriptor,
-			candidate:String ):Number
+		protected function getExpression( candidate:String ):String
 		{
-			candidate = candidate.replace( /^#/, "0x" );
-			var parsed:Number = Number( candidate );
-			return parsed;
+			return candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
+		}
+		
+		protected function getExpressionValue( candidate:String ):String
+		{
+			var value:String = candidate.replace( _extensionExpression, "$1" );
+			value = new StringTrim().trim( value );
+			return value;
 		}
 		
 		/**
 		*	@private
 		*/
-		private function parseExtension(
+		protected function handleExpression(
+			expression:String,
+			value:String,
 			descriptor:IBeanDescriptor,
-			candidate:String,
 			beanName:String,
 			beanProperty:String = null ):Object
 		{
-			var extension:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
+			//var expression:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
+			
 			var output:Object = null;
 			
 			var p:Point = null;
@@ -156,11 +200,9 @@ package com.ffsys.ioc
 			var c:ColorTransform = null;
 			var h:HslColor = null;
 			
-			var value:String = candidate.replace( _extensionExpression, "$1" );
-			value = new StringTrim().trim( value );
 			var parameters:Array = null;
 			
-			switch( extension )
+			switch( expression )
 			{
 				case BeanExpressions.CLASS_EXPRESSION:
 					try
@@ -302,11 +344,38 @@ package com.ffsys.ioc
 					h.tint( parameters[ 0 ], parameters[ 1 ] );
 					break;
 				default:
-					throw new Error(
-						"Unknown bean expression '" + extension + "'." );
+					parameters = parseParts( descriptor, beanName, beanProperty, value );
+					var unknown:UnknownExpression = new UnknownExpression(
+						beanName,
+						beanProperty,
+						value,
+						expression,
+						parameters );
+					output = doWithUnknownExpression( unknown );
 			}
 			
 			return output;
+		}
+		
+		/**
+		* 	Invoked when an unknown expression is encountered.
+		* 
+		* 	The default implementation throws an error. Derived
+		* 	implementations may modify this behaviour to support
+		* 	more expressions.
+		* 
+		* 	@param target The unknown expression instance.
+		* 
+		* 	@return An object that should be assigned to the parsed
+		* 	bean descriptor.
+		* 
+		* 	@throws Error An error indicating the expression is unknown.
+		*/
+		protected function doWithUnknownExpression(
+			target:UnknownExpression ):Object
+		{
+			throw new Error(
+				"Unknown bean expression '" + target.expression + "'." );
 		}
 		
 		/**
@@ -319,7 +388,7 @@ package com.ffsys.ioc
 		* 	@param length The expected number of parameters.
 		* 	@param expression The expression being evaluated.
 		*/
-		private function validateNumericParameterExpression(
+		protected function validateNumericParameterExpression(
 			parameters:Array, length:int, expression:String ):void
 		{
 			if( parameters.length != length )
@@ -339,7 +408,7 @@ package com.ffsys.ioc
 		/**
 		* 	@private
 		*/
-		private function toParts( value:String, delimiter:String = "," ):Array
+		protected function toParts( value:String, delimiter:String = "," ):Array
 		{
 			var parts:Array = value.split( "," );
 			var part:String = null;
@@ -354,15 +423,32 @@ package com.ffsys.ioc
 		}
 		
 		/**
+		*	@private	
+		*/
+		protected function parseHexNumber(
+			descriptor:IBeanDescriptor,
+			candidate:String ):Number
+		{
+			candidate = candidate.replace( /^#/, "0x" );
+			var parsed:Number = Number( candidate );
+			return parsed;
+		}
+		
+		/**
 		* 	@private
 		*/
-		private function parseParts(
+		protected function parseParts(
 			descriptor:IBeanDescriptor,
 			beanName:String,
 			beanProperty:String,
 			value:String,			
 			delimiter:String = "," ):Array
 		{
+			if( value.indexOf( delimiter ) == -1 )
+			{
+				return [ parse( descriptor, beanName, beanProperty, value ) ];
+			}
+			
 			var output:Array = new Array();
 			var parts:Array = toParts( value, delimiter );
 			var part:String = null;			
@@ -376,7 +462,7 @@ package com.ffsys.ioc
 		/**
 		* 	@private
 		*/
-		private function getSubstitutor(
+		protected function getSubstitutor(
 			source:String, target:Object = null ):Substitutor
 		{
 			if( !_substitutor )

@@ -319,7 +319,7 @@ tab-top-right-corner {
 ImageDisplay {
 	padding: 6;
 	background: ref( image-display-background );
-	border: ref( image-display-border );
+	border-graphic: ref( image-display-border );
 }
 
 image-display-background {

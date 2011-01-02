@@ -45,9 +45,6 @@ package com.ffsys.ioc
 			Assert.assertEquals( 10, sprite.x );
 			Assert.assertEquals( 20, sprite.y );
 			Assert.assertEquals( 30, sprite.z );
-			
-			Assert.assertEquals( 1, document.length );
-			Assert.assertEquals( 1, document.beanNames.length );
 		}
 		
 		[Test]

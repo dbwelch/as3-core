@@ -70,7 +70,6 @@ package com.ffsys.ioc
 			document.parse( sample );
 			
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 5, document.length );
 			assertExpressions( document );
 			
 			var expressions:Object = document.getBean( "expressions" );

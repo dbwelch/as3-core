@@ -1,6 +1,7 @@
 package com.ffsys.ui.core
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.geom.Rectangle;
 	
 	import com.ffsys.core.IBitmapGrab;
@@ -8,22 +9,22 @@ package com.ffsys.ui.core
 	import com.ffsys.core.IEnabled;
 	import com.ffsys.core.IStringIdentifier;
 	
-	import com.ffsys.ui.common.flash.ISprite;
-	
 	import com.ffsys.ui.data.IDataBinding;
 	import com.ffsys.ui.data.IDataBindingNotification;
 	import com.ffsys.ui.data.IDataBindingNotificationObserver;
-
-	import com.ffsys.ui.css.IStyleManagerAware;	
+	
+	import com.ffsys.ui.css.IStyleManagerAware;		
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.layout.ILayout;
 	import com.ffsys.ui.layout.ILayoutWidth;
 	import com.ffsys.ui.layout.ILayoutHeight;
+
+	import com.ffsys.ui.common.IBorder;	
 	import com.ffsys.ui.common.IMarginAware;
 	import com.ffsys.ui.common.IPaddingAware;
-	
 	import com.ffsys.ui.common.IStyleAware;
+	import com.ffsys.ui.common.flash.ISprite;	
 	
 	import com.ffsys.ioc.IBeanDocumentAware;	
 	import com.ffsys.ioc.IBeanFinalized;
@@ -127,15 +128,10 @@ package com.ffsys.ui.core
 		function get textFieldFactory():ITextFieldFactory;
 	
 		/**
-		*	A border graphic for the component.
-		*	
-		*	A border component graphic is special in
-		*	that it's depth is maintained at the top
-		*	of the display hierarchy as child display
-		*	objects are added to this component.
+		* 	The border definition for this component.
 		*/
-		function get border():IComponentGraphic;
-		function set border( border:IComponentGraphic ):void;
+		function get border():IBorder;
+		function set border( border:IBorder ):void;
 	
 		/**
 		*	A background graphic for the component.
@@ -235,9 +231,13 @@ package com.ffsys.ui.core
 		function getRuntimeInstance( clazz:Class ):Object;
 		
 		/**
-		* 	Removes all child display objects from this component.
+		* 	Removes all child display objects from this component
+		* 	or optionally another display object container.
+		* 
+		* 	@param target An optional display object container to remove
+		* 	the child display objects from.
 		*/
-		function removeAllChildren():void;
+		function removeAllChildren( target:DisplayObjectContainer = null ):void;
 	
 		/**
 		* 	Invoked to inform this component it is about

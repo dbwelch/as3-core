@@ -216,6 +216,7 @@ package com.ffsys.ui.buttons
 					this.text = msg;
 				}
 			}
+			super.finalized();
 		}
 		
 		/**

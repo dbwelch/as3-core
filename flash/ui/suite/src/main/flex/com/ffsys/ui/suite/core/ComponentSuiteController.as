@@ -158,24 +158,6 @@ package com.ffsys.ui.suite.core {
 			{
 				display.addEventListener( MouseEvent.CLICK, handleContainerClick );
 			}
-			
-			/*
-			var display:DisplayObject = null;
-			var collection:IImageContainer = null;
-			for each( display in candidates )
-			{
-				collection = display as IImageContainer;
-
-				if( collection != null
-					&& collection.numChildren == 0 )
-				{
-					var images:Vector.<DisplayObject> = new Vector.<DisplayObject>();
-					images.push( getImage( "thumbnail001" ) );
-					images.push( getImage( "thumbnail002" ) );
-					collection.inject( images );
-				}				
-			}
-			*/
 		}		
 		
 		/**
@@ -216,40 +198,10 @@ package com.ffsys.ui.suite.core {
 				{
 					handleContainerExamples( view as IDocument );
 				}
-				
-				trace("ComponentSuiteController::navigationLinkClick()", view );
-				
+
 				content.removeAllChildren();
 				content.addChild( DisplayObject( view ) );
-				
-				/*
-				var c:RgbColor = new RgbColor( 255, 128, 0 );
-				//c.rgb( 255, 128, 0 );
-				
-				//36 / 1 / 1
-				
-				//var h:HslColor = new HslColor( 36, 1, 1 );
-				
-				var h:HslColor = new HslColor();
-				h.hue = 36;
-				h.saturation = 1;
-				h.luminosity = 1;
-				
-				view.transform.colorTransform = c;
-				*/
-				
-				/*
-					var c:RgbColor = new RgbColor( 255, 128, 0 );
-					c.tint( 0xff0000, 0.5 );
-					view.transform.colorTransform = c;
-				*/
-				
-				/*
-					var h:HslColor = new HslColor( 36, 1, 1 );
-					h.tint( 0xff0000, 0.5 );
-					view.transform.colorTransform = h;
-				*/
-				
+
 				_views[ id ] = view;
 				_view = id;
 			}
@@ -260,11 +212,6 @@ package com.ffsys.ui.suite.core {
 		*/
  		private function createMainChildren( root:DisplayObjectContainer ):void
 		{	
-			/*
-			trace("ComponentSuiteController::createChildren(), creating initial vertical box: ",
-				this, UIComponent.utilities, UIComponent.utilities.layer, UIComponent.utilities.layer.tooltips );
-			*/
-			
 			vbox = new VerticalBox();			
 			root.addChild( vbox );
 			
@@ -288,39 +235,7 @@ package com.ffsys.ui.suite.core {
 			if( content != null )
 			{	
 				vbox.addChild( DisplayObject( content ) );
-			}			
-			
-			/*
-			var view:DisplayObject = getView( "graphics" );
-			
-			if( view != null && document != null )
-			{
-				vbox.addChild( view );
 			}
-			*/
-			
-			/*
-			var graphicsSuite:GraphicsSuite = new GraphicsSuite();
-			vbox.addChild( graphicsSuite );		
-			graphicsSuite.y += 350;
-			*/
-			
-			/*
-			var loadersSuite:LoadersSuite = new LoadersSuite();
-			vbox.addChild( loadersSuite );
-			
-			var buttonSuite:ButtonSuite = new ButtonSuite();
-			vbox.addChild( buttonSuite );
-	
-			var containersSuite:ContainersSuite = new ContainersSuite();
-			vbox.addChild( containersSuite );
-			
-			var graphicsSuite:GraphicsSuite = new GraphicsSuite();
-			vbox.addChild( graphicsSuite );
-			
-			var textSuite:TextSuite = new TextSuite();
-			vbox.addChild( textSuite );
-			*/
 		}
 	}
 }

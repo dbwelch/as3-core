@@ -39,7 +39,6 @@ package com.ffsys.ioc
 			var parser:BeanTextParser = new BeanTextParser();
 			var document:IBeanDocument = parser.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 1, document.length );
 			assertPrimitivesBean( document );
 		}
 	}

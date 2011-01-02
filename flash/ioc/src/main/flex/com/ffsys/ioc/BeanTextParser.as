@@ -40,8 +40,9 @@ package com.ffsys.ioc
 				_beanSheet = new StyleSheet();
 				_beanSheet.parseCSS( text );
 				
-				//TODO: refactor this so it is only instantiated for each call to parse() not to processBean()
-				var parser:BeanTextElementParser = new BeanTextElementParser( this.document );				
+				var parser:IBeanPropertyParser =
+					IBeanPropertyParser(
+						this.document.getBean( BeanNames.BEAN_ELEMENT_PARSER ) );
 			
 				var bean:Object = null;
 				var names:Array = _beanSheet.styleNames;

@@ -35,6 +35,23 @@ package com.ffsys.ui.common {
 		*	A number associated with the bottom edge of the rectangle.
 		*/
 		function get bottom():Number;
-		function set bottom( bottom:Number ):void;		
+		function set bottom( bottom:Number ):void;
+		
+		
+		/**
+		* 	Determines whether all edge values
+		* 	are equal.
+		* 
+		* 	@return Whether all edge values are equal.
+		*/
+		function equal():Boolean;
+		
+		/**
+		* 	Determines whether any edge values are greater
+		* 	than zero.
+		* 
+		* 	@return Whether any edge values are valid.
+		*/
+		function valid():Boolean;
 	}
 }

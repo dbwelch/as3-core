@@ -2,7 +2,7 @@ package com.ffsys.ui.suite.view
 {
 	import com.ffsys.swat.view.DefaultApplicationPreloader;
 	
-	import com.ffsys.ui.suite.configuration.ComponentSuiteClassPathConfiguration;
+	import com.ffsys.ui.suite.core.ComponentSuiteClassPathConfiguration;
 	import com.ffsys.ui.suite.view.ComponentSuitePreloadView;
 	
 	/**

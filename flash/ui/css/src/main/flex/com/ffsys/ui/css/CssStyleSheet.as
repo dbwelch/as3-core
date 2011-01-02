@@ -63,6 +63,18 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	Configures the default beans for this
+		* 	style sheet.
+		*/
+		override protected function configure():void
+		{
+			var descriptor:IBeanDescriptor = new BeanDescriptor(
+				BeanNames.BEAN_ELEMENT_PARSER );
+			descriptor.instanceClass = CssTextElementParser;
+			addBeanDescriptor( descriptor );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function hasStyle( styleName:String ):Boolean

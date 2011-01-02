@@ -44,6 +44,18 @@ package com.ffsys.ioc
 		* 	The refrerence value extracted when this reference was parsed.
 		*/
 		function get value():Object;
-		function set value( value:Object ):void;		
+		function set value( value:Object ):void;
+		
+		/**
+		* 	Validates parsed parameters against a collection of known types.
+		* 
+		* 	If no parameters are specified this implementation
+		* 	validates against the parameters assigned to this expression.
+		* 
+		* 	@param types The collection of types to validate the
+		* 	parameters against.
+		* 	@param parameters A specific array of parameters to test against.
+		*/
+		function validate( types:Vector.<Class>, parameters:Array = null ):void;
 	}
 }

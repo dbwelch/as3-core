@@ -1,4 +1,4 @@
-package com.ffsys.ui.suite.configuration
+package com.ffsys.ui.suite.core
 {
 	import com.ffsys.swat.configuration.ClassPathConfiguration;
 	

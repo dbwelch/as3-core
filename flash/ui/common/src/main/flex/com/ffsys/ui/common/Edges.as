@@ -22,22 +22,22 @@ package com.ffsys.ui.common {
 		/**
 		*	Creates an <code>Edges</code> instance.	
 		*	
-		*	@param left A value for the left edge.
 		*	@param top A value for the top edge.
 		*	@param right A value for the right edge.
 		*	@param bottom A value for the bottom edge.
+		*	@param left A value for the left edge.
 		*/
 		public function Edges(
-			left:Number = 0,
 			top:Number = 0,
 			right:Number = 0,
-			bottom:Number = 0 )
+			bottom:Number = 0,
+			left:Number = 0 )
 		{
 			super();
-			this.left = left;
 			this.top = top;
 			this.right = right;
 			this.bottom = bottom;
+			this.left = left;
 		}
 		
 		/**
@@ -91,5 +91,21 @@ package com.ffsys.ui.common {
 		{
 			_bottom = bottom;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function equal():Boolean
+		{
+			return ( left == top == right == bottom );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function valid():Boolean
+		{
+			return ( left > 0 || top > 0 || right > 0 || bottom > 0 );
+		}		
 	}
 }

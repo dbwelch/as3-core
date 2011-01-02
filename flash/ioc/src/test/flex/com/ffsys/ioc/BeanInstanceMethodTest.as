@@ -50,7 +50,6 @@ package com.ffsys.ioc
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 1, document.length );
 			
 			var instanceMethod:Object = document.getBean( "instance-method" );
 			Assert.assertNotNull( instanceMethod );

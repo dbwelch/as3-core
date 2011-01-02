@@ -13,6 +13,8 @@ package com.ffsys.ioc
 	public class BeanResolver extends Object 
 		implements IBeanResolver {
 		
+		private var _expression:String;
+		private var _parameters:Array;
 		private var _beanName:String;
 		private var _name:String;
 		private var _value:Object;
@@ -84,6 +86,75 @@ package com.ffsys.ioc
 		{
 			_value = value;
 		}
+		
+		/**
+		* 	The expression string.
+		*/
+		public function get expression():String
+		{
+			return _expression;
+		}
+		
+		public function set expression( value:String ):void
+		{
+			_expression = value;
+		}
+		
+		/**
+		* 	Parameters found when the expression was parsed.
+		*/
+		public function get parameters():Array
+		{
+			return _parameters;
+		}
+		
+		public function set parameters( value:Array ):void
+		{
+			_parameters = value;
+		}
+				
+		/**
+		* 	@inheritDoc
+		*/
+		public function validate( types:Vector.<Class>, parameters:Array = null ):void
+		{
+			var params:Array = parameters;
+			
+			if( params == null )
+			{
+				params = this.parameters;
+			}
+			
+			if( params == null )
+			{
+				params = new Array();
+			}
+			
+			if( types != null )
+			{
+				if( types.length != params.length )
+				{
+					throw new Error(
+						"Incorrect parameter count for expression '"
+							+ expression + "', expected " + types.length + "." );
+				}
+				
+				var parameter:Object = null;
+				var type:Class = null;
+				for( var i:int = 0;i < types.length;i++ )
+				{
+					type = types[ i ];
+					parameter = params[ i ];
+					
+					if( !( parameter is type ) )
+					{
+						throw new Error( "The parameter at index " + i + " for expression '"
+							+ expression + "' is not of the expected type '"
+							+ type + "'." );
+					}
+				}
+			}
+		}		
 		
 		/**
 		* 	@private

@@ -40,11 +40,9 @@ package com.ffsys.ioc
 			
 			//add the first bean
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
-			Assert.assertEquals( 1, document.length );
 			
 			//with the default policy we can't add a duplicate
 			Assert.assertFalse( document.addBeanDescriptor( d2 ) );
-			Assert.assertEquals( 1, document.length );	
 			
 			//should be the original values untouched
 			retrieved = document.getBean( id );
@@ -53,7 +51,6 @@ package com.ffsys.ioc
 			
 			//remove the existing definition
 			Assert.assertTrue( document.removeBeanDescriptor( d1 ) );
-			Assert.assertEquals( 0, document.length );
 		}
 		
 		[Test]
@@ -78,14 +75,12 @@ package com.ffsys.ioc
 
 			//add the first bean and check the initial bean property value
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
-			Assert.assertEquals( 1, document.length );
 			retrieved = document.getBean( id );
 			Assert.assertTrue( retrieved is Sprite );
 			Assert.assertEquals( 10, retrieved.x );
 			
 			//replace the first bean definition with the new one
 			Assert.assertTrue( document.addBeanDescriptor( d2 ) );
-			Assert.assertEquals( 1, document.length );
 			
 			//check the replaced bean property value
 			retrieved = document.getBean( id );
@@ -94,7 +89,6 @@ package com.ffsys.ioc
 			
 			//remove the existing definition
 			Assert.assertTrue( document.removeBeanDescriptor( d2 ) );
-			Assert.assertEquals( 0, document.length );			
 		}
 		
 		[Test]
@@ -120,7 +114,6 @@ package com.ffsys.ioc
 			
 			//add the first bean and check the initial bean property value
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
-			Assert.assertEquals( 1, document.length );
 			retrieved = document.getBean( id );
 			Assert.assertTrue( retrieved is Sprite );
 			Assert.assertEquals( 10, retrieved.x );
@@ -135,8 +128,7 @@ package com.ffsys.ioc
 			Assert.assertEquals( 10, retrieved.x );
 			
 			//remove the existing definition
-			Assert.assertTrue( document.removeBeanDescriptor( d1 ) );
-			Assert.assertEquals( 0, document.length );			
+			Assert.assertTrue( document.removeBeanDescriptor( d1 ) );		
 		}
 		
 		[Test]
@@ -162,7 +154,6 @@ package com.ffsys.ioc
 			
 			//add the first bean and check the initial bean property value
 			Assert.assertTrue( document.addBeanDescriptor( d1 ) );
-			Assert.assertEquals( 1, document.length );
 			retrieved = document.getBean( id );
 			Assert.assertTrue( retrieved is Sprite );
 			Assert.assertEquals( 10, retrieved.x );
@@ -180,7 +171,6 @@ package com.ffsys.ioc
 			
 			//remove the existing definition
 			Assert.assertTrue( document.removeBeanDescriptor( d1 ) );
-			Assert.assertEquals( 0, document.length );			
 		}		
 	}
 }

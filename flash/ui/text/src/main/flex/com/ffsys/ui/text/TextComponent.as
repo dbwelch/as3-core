@@ -140,6 +140,7 @@ package com.ffsys.ui.text
 					this.text = msg;
 				}
 			}
+			super.finalized();
 		}
 		
 		/**

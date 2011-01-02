@@ -10,7 +10,7 @@ package com.ffsys.ioc
 	*	@since  10.12.2010
 	*/
 	public class BeanConstants extends Object
-	{
+	{		
 		/**
 		* 	The name of the bean property that indicates a bean
 		* 	should be treated as a singleton instance.

@@ -92,9 +92,9 @@ package com.ffsys.ui.display
 					//trace("ImageDisplay::applyStyles() BACKGOUND WIDTH: ", this.background.width );
 				}
 
-				if( this.border != null )
+				if( this.borderGraphic != null )
 				{
-					this.border.draw(
+					this.borderGraphic.draw(
 						this.layoutWidth, this.layoutHeight );
 				}
 			}

@@ -15,6 +15,15 @@ package com.ffsys.ioc
 	public class BeanNames extends Object
 	{
 		/**
+		* 	The name of the bean that defines the element parser
+		* 	to use when parsing the bean definition.
+		* 
+		* 	All bean documents must delare this bean.
+		*/
+		public static const BEAN_ELEMENT_PARSER:String =
+			"bean-element-parser";
+		
+		/**
 		* 	The name of the bean that defines constants for the
 		* 	bean document.
 		*/

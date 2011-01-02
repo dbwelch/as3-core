@@ -84,7 +84,6 @@ package com.ffsys.ioc
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 9, document.length );
 			
 			var application:Object = document.getBean( "application" );
 			Assert.assertNotNull( application );

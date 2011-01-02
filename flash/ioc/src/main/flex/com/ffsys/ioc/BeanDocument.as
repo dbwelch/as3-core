@@ -37,6 +37,20 @@ package com.ffsys.ioc
 		public function BeanDocument( id:String = null )
 		{
 			super( id );
+			configure();
+		}
+		
+		/**
+		* 	Configures the default beans for this document.
+		*/
+		protected function configure():void
+		{
+			//BEAN_ELEMENT_PARSER
+			
+			var descriptor:IBeanDescriptor = new BeanDescriptor(
+				BeanNames.BEAN_ELEMENT_PARSER );
+			descriptor.instanceClass = BeanTextElementParser;
+			addBeanDescriptor( descriptor );
 		}
 		
 		/**

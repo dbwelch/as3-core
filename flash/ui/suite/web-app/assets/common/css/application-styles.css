@@ -8,6 +8,8 @@ SubHeading {
 	text-transform: uppercase;
 	underline: true;
 	size: 10;
+	border: border( 1,1,1,1,#ff0000,1 );
+	padding: 5;
 }
 
 uppercase {

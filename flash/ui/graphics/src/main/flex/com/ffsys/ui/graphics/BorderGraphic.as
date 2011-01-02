@@ -16,6 +16,7 @@ package com.ffsys.ui.graphics
 	*	@since  16.06.2010
 	*/
 	public class BorderGraphic extends RectangleGraphic
+		implements IBorderGraphic
 	{
 		private var _sharp:Boolean = true;
 		
@@ -107,6 +108,7 @@ package com.ffsys.ui.graphics
 					ty + thickness,
 					thickness,
 					height - ( thickness * 2 ) );
+				
 				//bottom
 				graphics.drawRect(
 					tx, ty + ( height - thickness ),

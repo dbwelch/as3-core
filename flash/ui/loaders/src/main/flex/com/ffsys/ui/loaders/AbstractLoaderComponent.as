@@ -834,11 +834,6 @@ package com.ffsys.ui.loaders
 			var w:Number = this.preferredWidth;
 			var h:Number = this.preferredHeight;
 			
-			if( this.border )
-			{
-				this.border.draw( w, h );
-			}
-		
 			if( this.background )
 			{
 				this.background.draw( w, h );

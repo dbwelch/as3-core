@@ -281,12 +281,6 @@ package com.ffsys.ui.buttons
 				this.background.draw(
 					this.preferredWidth, this.preferredHeight );				
 			}
-			
-			if( this.border )
-			{
-				this.border.draw(
-					this.preferredWidth, this.preferredHeight );
-			}
 		}
 	}
 }

@@ -49,7 +49,6 @@ package com.ffsys.ioc
 			var document:IBeanDocument = new BeanDocument();
 			document.parse( sample );
 			Assert.assertNotNull( document );
-			Assert.assertEquals( 3, document.length );
 			var quad:Object = document.getBean( "quad" );
 			Assert.assertTrue( quad is Class );
 			var quadConstant:Object = document.getBean( "quad-constant" );

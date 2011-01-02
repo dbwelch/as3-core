@@ -3,14 +3,16 @@ package com.ffsys.ui.core
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;
 	
-	import com.ffsys.ui.graphics.IComponentGraphic;
-	
+	import com.ffsys.ui.graphics.*;
+
+	import com.ffsys.ui.common.IBorder;	
 	import com.ffsys.ui.common.IMargin;
 	import com.ffsys.ui.common.IPadding;
 	import com.ffsys.ui.common.Margin;
@@ -53,10 +55,13 @@ package com.ffsys.ui.core
 		private var _paddings:IPadding = new Padding();
 		private var _id:String;
 		private var _extra:Object;
-		private var _border:IComponentGraphic;
+		private var _border:IBorder;
 		private var _background:IComponentGraphic;
 		private var _styles:String;
 		private var _customData:Object;
+		
+		private var _borderLayer:DisplayObjectContainer;
+		private var _borderGraphic:IComponentGraphic;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -163,7 +168,7 @@ package com.ffsys.ui.core
 		public function prefinalize():void
 		{
 			//
-		}		
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -366,11 +371,8 @@ package com.ffsys.ui.core
 			{
 				background.setSize( width, height );
 			}
-			
-			if( border )
-			{
-				border.setSize( width, height );
-			}	
+
+			//TODO: re-layout borders
 			
 			layoutChildren( width, height );
 		}
@@ -494,13 +496,16 @@ package com.ffsys.ui.core
 			}
 			
 			//ensure the border is always the last child
-			if( this.border
-				&& this.contains( DisplayObject( this.border ) )
+			var borderTarget:DisplayObject = _borderLayer != null
+				? _borderLayer : _borderGraphic as DisplayObject;
+			
+			if( borderTarget != null
+				&& contains( borderTarget )
 				&& numChildren > 1 )
 			{
-				this.setChildIndex( DisplayObject( this.border ), this.numChildren - 1 );
+				setChildIndex( borderTarget, this.numChildren - 1 );
 			}
-		}	
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -578,24 +583,198 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc	
 		*/
-		public function get border():IComponentGraphic
+		public function get border():IBorder
 		{
 			return _border;
 		}
 		
-		public function set border( border:IComponentGraphic ):void
+		public function set border( border:IBorder ):void
 		{
-			if( this.border && contains( this.border as DisplayObject ) )
-			{
-				removeChild( DisplayObject( this.border ) );
-			}
-			
 			_border = border;
-			
-			if( this.border )
+		}
+		
+		/**
+		* 	Creates the layer used to store border graphics.
+		*/
+		protected function createBorderLayer():void
+		{
+			if( _borderLayer && contains( _borderLayer ) )
 			{
-				addChild( DisplayObject( this.border ) );
+				removeChild( _borderLayer );
 			}
+			
+			this.borderLayer = new Sprite();
+		}
+		
+		/**
+		* 	A custom graphic to use as the border
+		* 	for this component.
+		*/
+		public function get borderGraphic():IComponentGraphic
+		{
+			return _borderGraphic;
+		}
+		
+		public function set borderGraphic( value:IComponentGraphic ):void
+		{
+			if( _borderGraphic != null
+			 	&& contains( DisplayObject( _borderGraphic ) ) )
+			{
+				removeChild( DisplayObject( _borderGraphic ) );
+			}
+			
+			_borderGraphic = value;
+			
+			if( _borderGraphic != null )
+			{
+				addChild( DisplayObject( _borderGraphic ) );
+			}
+		}
+		
+		/**
+		* 	The border layer used to render border graphics
+		* 	declared as css borders.
+		* 
+		* 	@return The border layer.
+		*/
+		public function get borderLayer():DisplayObjectContainer
+		{
+			return _borderLayer;
+		}
+		
+		public function set borderLayer( value:DisplayObjectContainer ):void
+		{
+			if( _borderLayer != null
+			 	&& contains( _borderLayer ) )
+			{
+				removeChild( _borderLayer );
+			}
+			
+			_borderLayer = value;
+			
+			if( _borderLayer != null )
+			{
+				addChild( _borderLayer );
+			}
+		}
+		
+		/**
+		* 	Gets an instance of the border graphic class.
+		* 
+		* 	@return An instance of the border graphic class.
+		*/
+		protected function getBorderGraphic():IComponentGraphic
+		{
+			var graphic:Class = this.border.equal() ? BorderGraphic : RectangleGraphic;
+			var b:IComponentGraphic = new graphic() as IComponentGraphic;
+			
+			if( b == null )
+			{
+				throw new Error(
+					"Could not locate a valid border graphic implementation using border graphic class '"
+				 	+ graphic + "'." );
+			}
+			
+			if( b.fill == null )
+			{
+				b.fill = new SolidFill(
+					this.border.color, this.border.alpha );
+				b.stroke = new Stroke(
+					0, this.border.color, this.border.alpha );
+			}
+			
+			return b;
+		}
+		
+		/**
+		* 	Creates border graphics and renders them in the
+		* 	border layer.
+		*/
+		protected function applyBorders():void
+		{
+			//no border information nothing to do
+			if( this.border == null
+			 	|| !this.border.valid() ) 
+			{
+				if( _borderLayer != null
+					&& contains( _borderLayer ) )
+				{
+					removeChild( _borderLayer );
+					_borderLayer = null;
+				}
+				return;
+			}
+			
+			if( _borderLayer == null )
+			{
+				createBorderLayer();
+			}else
+			{
+				removeAllChildren( _borderLayer );
+			}
+
+			var b:IComponentGraphic = null;
+			
+			var w:Number = layoutWidth;
+			var h:Number = layoutHeight;
+			
+			trace("AbstractComponent::applyBorders()",
+				w, h, border, border.top, border.right, border.bottom, border.left );
+			
+			//if all thickness values are the same
+			//we can use a single graphic
+			if( this.border.equal() )
+			{
+				b = getBorderGraphic();
+				//doesn't matter which edge as they are all the same
+				b.stroke.thickness = this.border.left;
+				b.draw( w, h );
+				_borderLayer.addChild( DisplayObject( b ) );
+			}else
+			{	
+				//draw top border
+				if( this.border.top > 0 )
+				{
+					b = getBorderGraphic();
+					b.stroke.thickness = this.border.top;
+					b.draw( w, this.border.top );
+					
+					trace("AbstractComponent::applyBorders()", "DRAWING TOP", w, this.border.top );
+					
+					_borderLayer.addChild( DisplayObject( b ) );		
+				}
+				
+				//draw right border
+				if( this.border.right > 0 )
+				{
+					b = getBorderGraphic();
+					b.stroke.thickness = this.border.right;
+					b.draw( this.border.right, h );
+					b.x = w - this.border.right;
+					_borderLayer.addChild( DisplayObject( b ) );
+				}
+				
+				//draw bottom border
+				if( this.border.bottom > 0 )
+				{
+					b = getBorderGraphic();
+					b.stroke.thickness = this.border.bottom;
+					b.draw( w, this.border.bottom );
+					b.y = h - this.border.bottom;
+					_borderLayer.addChild( DisplayObject( b ) );
+				}				
+			
+				//draw left border
+				if( this.border.left > 0 )
+				{
+					b = getBorderGraphic();
+					b.stroke.thickness = this.border.left;
+					b.draw( this.border.left, h );
+					_borderLayer.addChild( DisplayObject( b ) );
+				}
+			}
+			
+			trace("AbstractComponent::applyBorders() GOT BORDER LAYER: ", _borderLayer, _borderLayer.width, _borderLayer.height );
 		}
 		
 		/**
@@ -778,13 +957,19 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function removeAllChildren():void
+		public function removeAllChildren(
+			target:DisplayObjectContainer = null ):void
 		{
-			var child:DisplayObject = null;
-			for( var i:int = 0;i < numChildren;i++ )
+			if( target == null )
 			{
-				child = getChildAt( i );
-				removeChild( child );
+				target = this;
+			}
+			
+			var child:DisplayObject = null;
+			for( var i:int = 0;i < target.numChildren;i++ )
+			{
+				child = target.getChildAt( i );
+				target.removeChild( child );
 				i--;
 			}
 		}

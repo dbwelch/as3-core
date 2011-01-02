@@ -12,6 +12,7 @@ package com.ffsys.ioc
 	*	@since  10.12.2010
 	*/
 	public interface IBeanPropertyParser
+		extends IBeanDocumentAware
 	{
 		/**
 		* 	Parses a bean property.
@@ -27,6 +28,6 @@ package com.ffsys.ioc
 			descriptor:IBeanDescriptor,
 			beanName:String,
 			propertyName:String,
-			value:String ):Object;	
+			value:String ):Object;
 	}
 }

@@ -76,7 +76,8 @@ package com.ffsys.ui.core
 		*/
 		public function finalized():void
 		{
-			//
+			//apply border graphics
+			applyBorders();
 		}
 		
 		/**
@@ -214,6 +215,7 @@ package com.ffsys.ui.core
 						stylesheet.applyStyles( this, stateStyles );
 					}
 				}
+				
 				return output;
 			}
 			return null;
