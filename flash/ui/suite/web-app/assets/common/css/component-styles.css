@@ -320,14 +320,17 @@ CheckBox {
 	color: #a9a9a9;
 	padding: 5;
 	icon: ref( check-box-icon );
+	label.filters: null;
 }
 
 CheckBox:disabled {	
 	color: #636363;
+	label.filters: null;	
 }
 
 CheckBox:over, CheckBox:down {
 	color: #fefefe;
+	label.filters: null;	
 }
 
 CheckBox:selected {
@@ -336,17 +339,20 @@ CheckBox:selected {
 	color: #efefef;
 	padding: 5;
 	icon: ref( check-box-icon-selected );
+	label.filters: array( ref( heading-filter ) );
 }
 
 CheckBox:selected:over, CheckBox:selected:down {
 	underline: true;
 	color: #ffffff;
-	icon: ref( check-box-icon-selected );	
+	icon: ref( check-box-icon-selected );
+	label.filters: array( ref( heading-filter ) );
 }
 
-CheckBox:selected:disabled {	
+CheckBox:selected:disabled {
 	color: #636363;
-	icon: ref( check-box-icon-selected );	
+	icon: ref( check-box-icon-selected );
+	label.filters: array( ref( heading-filter ) );	
 }
 
 check-box-icon {

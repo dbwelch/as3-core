@@ -31,13 +31,13 @@ package com.ffsys.core.processor {
 		*/
 		public function AddressPathProcessor(
 			address:String = null,
-			target:Object = null )
+			target:Object = null,
+			delimiter:String = null )
 		{
 			super( target );
-			
-			if( address )
+			if( address != null )
 			{
-				addressPath = new AddressPath( address );
+				this.addressPath = new AddressPath( address, delimiter );
 			}
 		}
 		
@@ -47,10 +47,9 @@ package com.ffsys.core.processor {
 		public function set addressPath( val:IAddressPath ):void
 		{
 			_addressPath = val;
-			
-			if( val )
+			if( val != null )
 			{
-				length = val.getLength();
+				this.length = val.getLength();
 			}
 		}
 		
@@ -75,25 +74,13 @@ package com.ffsys.core.processor {
 			return addressPath.isRootPath();
 		}
 		
-		//--> move to super class and override?
-		public function get nextProperty():String
-		{
-			return addressPath.getPathElementAt( position + 1 );
-		}
-		
 		/**
-		*	@inheritDoc	
+		* 	@inheritDoc
 		*/
-		override public function process( index:int = 0 ):*
+		override public function get nextProperty():String
 		{
-			if( index > ( length - 1 ) )
-			{
-				return false;
-			}
-			
-			property = addressPath.getPathElementAt( index );
-			
-			super.process( index );
+			return addressPath.getPathElementAt(
+				this.position );
 		}
 	}
 }

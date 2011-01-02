@@ -398,7 +398,7 @@ package com.ffsys.ui.core
 			{
 				super.addChildAt( child, index );
 				afterChildAdded( child, index );
-			}			
+			}
 			
 			return child;
 		}

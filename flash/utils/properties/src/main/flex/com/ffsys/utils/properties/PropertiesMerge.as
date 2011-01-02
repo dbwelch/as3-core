@@ -38,13 +38,15 @@ package com.ffsys.utils.properties {
 		*	be strict.
 		* 	@param ignore An array of class types that should
 		* 	be ignored if the value type is contained in this array.
+		* 	@param callback A method used to perform the property assignment.
 		*/
 		public function merge(
 			target:Object,
 			source:Object,
 			strict:Boolean = true,
 			ignore:Array = null,
-			callback:Function = null ):void
+			callback:Function = null,
+			interceptor:Function = null ):void
 		{
 			if( target && source )
 			{
@@ -55,6 +57,16 @@ package com.ffsys.utils.properties {
 				{
 					value = source[ z ];
 					assign = !strict || ( strict && target.hasOwnProperty( z ) );
+					
+					if( !assign && interceptor != null )
+					{
+						var intercepted:Boolean = interceptor.call( null, target, source, z, value );
+						if( intercepted )
+						{
+							continue;
+						}
+					}
+					
 					if( assign && ignore )
 					{
 						var clazz:Class = null;

@@ -12,6 +12,8 @@ package com.ffsys.ui.css {
 	
 	import com.ffsys.ioc.*;
 	
+	import com.ffsys.core.processor.*;
+	
 	import com.ffsys.ui.common.IMarginAware;
 	import com.ffsys.ui.common.IPaddingAware;
 	import com.ffsys.ui.common.IStyleAware;
@@ -405,6 +407,31 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	@private
+		*/
+		private function intercept(
+			target:Object,
+			source:Object,
+			name:String,
+			value:* ):Boolean
+		{	
+			if( name.indexOf( "." ) > -1 )
+			{
+				trace("CssStyleSheet::assign() FOUND DOT STYLE PROPERTY NAME: ", target, name, value );
+				var assignment:IPropertyProcessor = new PropertyAssignmentProcessor(
+					name, target, value );
+				assignment.process();
+				
+			
+				trace("CssStyleSheet::assign() AFTER ASSIGNMENT: ",
+					assignment.currentTarget, assignment.targets );
+				
+			}
+
+			return true;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function applyStyle( target:Object, style:Object ):void
@@ -438,7 +465,7 @@ package com.ffsys.ui.css {
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( target, style, true, null, assign );
+				merger.merge( target, style, true, null, assign, intercept );
 				
 				//ensure color transforms are applied
 				if( target is DisplayObject )

@@ -1,12 +1,12 @@
 heading-filter {
-	instance-class: class( flash.filters.GlowFilter );
+	instance-class: class( flash.filters.DropShadowFilter );
 	angle: 45;
-	distance: 4;
+	distance: 2;
 	color: #ffffff;
 	blur-x: 5;
 	blur-y: 5;
 	strength: .75;
-	alpha: .5;
+	alpha: .75;
 }
 
 image-display-filter {
