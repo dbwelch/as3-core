@@ -445,15 +445,15 @@ package com.ffsys.ui.core
 			
 			preferredWidth = width;
 			preferredHeight = height;
-			
-			if( background )
-			{
-				background.setSize( width, height );
-			}
 
 			//TODO: re-layout borders
 			
+			trace("AbstractComponent::setSize()", this, width, height );
+			
 			layoutChildren( width, height );
+			
+			applyBorders();
+			applyBackground();			
 		}
 		
 		/**
@@ -762,6 +762,21 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	Updates the background graphics to match
+		* 	the preferred dimensions.
+		*/
+		protected function applyBackground():void
+		{
+			trace("AbstractComponent::applyBackground()", this, this.background );
+			if( this.background != null )
+			{
+				this.background.preferredWidth = this.preferredWidth;
+				this.background.preferredHeight = this.preferredHeight;				
+				this.background.draw( this.preferredWidth, this.preferredHeight );
+			}
+		}
+		
+		/**
 		* 	Creates border graphics and renders them in the
 		* 	border layer.
 		*/
@@ -787,16 +802,24 @@ package com.ffsys.ui.core
 			{
 				removeAllChildren( _borderLayer );
 			}
-
-			var b:IBorderGraphic = getBorderGraphic();
+	
+			var r:Rectangle = getBorderDimensions();			
 			
-			var r:Rectangle = getBorderDimensions();
-			var w:Number = r.width;
-			var h:Number = r.height;
-			
-			b.border = this.border;
-			b.draw( w, h );
-			_borderLayer.addChild( DisplayObject( b ) );
+			//no custom graphic
+			if( _borderGraphic == null )
+			{
+				var b:IBorderGraphic = getBorderGraphic();
+				b.border = this.border;
+				b.draw( r.width, r.height );
+				_borderLayer.addChild( DisplayObject( b ) );
+			}else{
+				var c:IComponentGraphic = _borderGraphic;
+				c.draw( r.width, r.height );
+				if( !_borderLayer.contains( DisplayObject( c ) ) )
+				{
+					_borderLayer.addChild( DisplayObject( c ) );
+				}
+			}
 		}
 		
 		/**
@@ -820,7 +843,8 @@ package com.ffsys.ui.core
 
 		public function set background( background:IComponentGraphic ):void
 		{
-			if( this.background && contains( this.background as DisplayObject ) )
+			if( this.background
+				&& contains( this.background as DisplayObject ) )
 			{
 				removeChild( DisplayObject( this.background ) );
 			}
@@ -830,6 +854,10 @@ package com.ffsys.ui.core
 			if( this.background )
 			{
 				addChildAt( DisplayObject( this.background ), 0 );
+				
+				//ensure background dimensions are kept in sync
+				//as style states change
+				//applyBackground();
 			}
 		}
 		

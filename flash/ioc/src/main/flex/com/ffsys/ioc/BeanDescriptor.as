@@ -273,7 +273,7 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
-		public function getBean( inject:Boolean = true ):Object
+		public function getBean( inject:Boolean = true, finalize:Boolean = true ):Object
 		{			
 			//prefer singletons to static classes
 			if( this.singleton && _singletonInstance )
@@ -375,7 +375,7 @@ package com.ffsys.ioc
 						document.injector.inject( document, this.id, instance );
 					}
 	
-					finalize( instance, parameters );
+					doFinalization( instance, parameters, finalize );
 				}
 				
 				if( this.singleton )
@@ -589,17 +589,22 @@ package com.ffsys.ioc
 		/**
 		* 	@private
 		* 
-		* 	Handles file resources that should be instantiated when the bean
-		* 	is retrieved.
+		* 	Handles finalization of a bean instantiation.
 		* 
 		* 	@param instance The bean instance.
 		* 	@param parameters The bean property parameters.
+		* 	@param notify Whether a bean finalization implementation
+		* 	should in be notified that finalization has occured.
 		*/
-		private function finalize( instance:Object, parameters:Object ):void
+		private function doFinalization(
+			instance:Object,
+			parameters:Object,
+			notify:Boolean = true ):void
 		{
-			if( instance is IBeanConstructed )
+			if( notify === true
+				&& instance is IBeanFinalized )
 			{
-				IBeanConstructed( instance ).constructed();
+				IBeanFinalized( instance ).finalized();
 			}
 		}
 		

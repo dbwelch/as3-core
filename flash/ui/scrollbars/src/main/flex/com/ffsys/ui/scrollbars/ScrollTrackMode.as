@@ -27,7 +27,6 @@ package com.ffsys.ui.scrollbars
 		*/
 		public static const JUMP_SCROLL:String = "jumpScrollTrackMode";
 		
-		
 		/**
 		* 	Represents the loop scroll track mode.
 		* 

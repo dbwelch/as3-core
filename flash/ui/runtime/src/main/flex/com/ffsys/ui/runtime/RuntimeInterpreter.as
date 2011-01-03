@@ -44,8 +44,8 @@ package com.ffsys.ui.runtime {
 		public static const FILTERS:String = "filters";
 		
 		private var _runtime:IDocument;
-		private var _references:Vector.<RuntimeIdentifierReference> =
-			new Vector.<RuntimeIdentifierReference>();
+		private var _references:Vector.<RuntimeDocumentReference> =
+			new Vector.<RuntimeDocumentReference>();
 		
 		/**
 		*	Creates a <code>RuntimeInterpreter</code> instance.
@@ -77,7 +77,7 @@ package com.ffsys.ui.runtime {
 		*/
 		protected function resolveReferences( document:IDocument ):void
 		{
-			var reference:RuntimeIdentifierReference = null;
+			var reference:RuntimeDocumentReference = null;
 			var id:String = null;
 			var parent:Object = null;
 			var target:Object = null;			
@@ -95,6 +95,12 @@ package com.ffsys.ui.runtime {
 					throw new Error(
 						"Could not locate a target for runtime document reference with identifier '"
 						+ id + "'." );
+				}
+				
+				//we have property lookup defined
+				if( reference.property != null )
+				{
+					trace("RuntimeInterpreter::resolveReferences() RESOLVING PROPERTIES: ", reference.property );
 				}
 				
 				try
@@ -262,18 +268,18 @@ package com.ffsys.ui.runtime {
 			
 			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
 			
-			if( value is RuntimeIdentifierReference )
+			if( value is RuntimeDocumentReference )
 			{
-				var reference:RuntimeIdentifierReference = RuntimeIdentifierReference( value );
+				var reference:RuntimeDocumentReference = RuntimeDocumentReference( value );
 				reference.parent = parent;
 				reference.name = name;
 				_references.push( reference );
 				return false;
 			}
 			
-			if( value is RuntimeBeanReference )
+			if( value is RuntimeStyleReference )
 			{
-				var beanName:String = RuntimeBeanReference( value ).ref;
+				var beanName:String = RuntimeStyleReference( value ).style;
 				var bean:Object = this.document.getBean( beanName );
 				
 				if( bean == null )
@@ -285,7 +291,7 @@ package com.ffsys.ui.runtime {
 				
 				//replace the 
 				//value = bean;
-				
+
 				if( hasProp )
 				{
 					//try to set the property to the bean value

@@ -15,7 +15,7 @@
 		</sub-paragraph>
 		<runtime-asset>
 			<asset>
-				<ref>default-icon-graphic</ref>
+				<style>default-icon-graphic</style>
 			</asset>
 		</runtime-asset>
 		

@@ -4,6 +4,7 @@ package com.ffsys.ioc.support.xml
 
 	import com.ffsys.ioc.BeanError;
 	import com.ffsys.ioc.IBeanDocument;
+	import com.ffsys.ioc.IBeanDescriptor;	
 	import com.ffsys.ioc.IBeanFinalized;
 	
 	/**
@@ -85,15 +86,25 @@ package com.ffsys.ioc.support.xml
 			classReference:Class ):Object
 		{
 			var name:String = node.name().localName;
-			var bean:Object = document.getBean( name );
+			var descriptor:IBeanDescriptor = document.getBeanDescriptor( name, true );
 			
 			//trace("BeanXmlInterpreter::processClass()", name, bean );
 			
-			if( bean == null )
+			//TODO: different error message
+			if( descriptor == null )
 			{
 				throw new BeanError(
 					BeanError.XML_BEAN_NOT_FOUND, name );
 			}
+			
+			var bean:Object = descriptor.getBean(
+				true, false );
+				
+			if( bean == null )
+			{
+				throw new BeanError(
+					BeanError.XML_BEAN_NOT_FOUND, name );
+			}			
 			
 			return bean;
 		}

@@ -397,7 +397,7 @@ package com.ffsys.ioc
 		public function getBean( beanName:String ):Object
 		{
 			var instance:Object = null;
-			var descriptor:IBeanDescriptor = getBeanDescriptor( beanName );
+			var descriptor:IBeanDescriptor = getBeanDescriptor( beanName, true );
 
 			if( descriptor != null )
 			{
@@ -410,6 +410,8 @@ package com.ffsys.ioc
 			}
 			
 			//check cross referenced documents
+			
+			/*
 			if( this.xrefs.length > 0 )
 			{
 				var document:IBeanDocument = null;
@@ -426,6 +428,7 @@ package com.ffsys.ioc
 					}
 				}
 			}
+			*/
 			
 			//TODO: make this configurable (strict?), stylesheet bean documents need to be able to retrieve
 			//null for non-existent beans

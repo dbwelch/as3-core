@@ -60,6 +60,14 @@
 					<styles>uppercase</styles>
 				</label>
 			</tab-button>
+			<tab-button>
+				<id>scrollbars-link</id>
+				<identifier>scrollbars.link</identifier>
+				<custom-data>scrollbars</custom-data>
+				<label>
+					<styles>uppercase</styles>
+				</label>
+			</tab-button>			
 		</tabs>
 	</vbox>
 </document>

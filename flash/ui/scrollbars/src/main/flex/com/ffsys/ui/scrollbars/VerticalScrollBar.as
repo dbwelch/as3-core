@@ -4,7 +4,8 @@ package com.ffsys.ui.scrollbars {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
-	
+
+	import com.ffsys.ui.buttons.IButton;	
 	import com.ffsys.ui.common.Direction;
 	
 	import com.ffsys.ui.graphics.RectangleGraphic;
@@ -37,7 +38,6 @@ package com.ffsys.ui.scrollbars {
 			super( target, height );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
-			this.paddings.padding = 1;
 		}
 		
 		/**
@@ -81,30 +81,30 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	@inheritDoc
+		* 	The scroll up button.
 		*/
-		override protected function createChildren():void
+		public function get scrollUpButton():IButton
 		{
-			super.createChildren();
-			
-			//set up the scroll track
-			scrollTrack = new ScrollTrack();
-			
-			negativeScrollButton = new ScrollDownButton(
-				null, null, fixedSize, fixedSize );
-			
-			positiveScrollButton = new ScrollUpButton(
-				null, null, fixedSize, fixedSize );
-				
-			scrollDrag = new ScrollDrag(
-				fixedSize, fixedSize );
-				
-			background = new RectangleGraphic(
-				preferredWidth,
-				preferredHeight,
-				null,
-				new SolidFill( 0x3d3c3c, 1 ) );
+			return this.positiveScrollButton;
+		}		
+		
+		public function set scrollUpButton( value:IButton ):void
+		{
+			this.positiveScrollButton = value;
 		}
+		
+		/**
+		* 	The scroll down button.
+		*/
+		public function get scrollDownButton():IButton
+		{
+			return this.negativeScrollButton;
+		}
+		
+		public function set scrollDownButton( value:IButton ):void
+		{
+			this.negativeScrollButton = value;
+		}		
 
 		/**
 		*	@inheritDoc	
@@ -112,11 +112,17 @@ package com.ffsys.ui.scrollbars {
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{	
+			
+			trace("VerticalScrollBar::layoutChildren()", negativeScrollButton, positiveScrollButton, scrollDrag, scrollTrack );
+			
 			if( negativeScrollButton )
 			{
 				negativeScrollButton.x = paddings.left;
 				negativeScrollButton.y =
 					size - ( fixedSize + paddings.bottom );
+					
+				
+				trace("VerticalScrollBar::layoutChildren()", "SETTING SCROLL BUTTON SIZE", fixedSize );					
 					
 				negativeScrollButton.setSize( fixedSize, fixedSize );
 			}			

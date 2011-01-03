@@ -184,6 +184,7 @@ package com.ffsys.ui.buttons
 		*/
 		override public function finalized():void
 		{
+			trace("IconButton::finalized()", this, this.id, preferredWidth, preferredHeight );
 			super.finalized();
 			position();
 		}
@@ -275,12 +276,8 @@ package com.ffsys.ui.buttons
 				h = this.preferredHeight;
 			}			
 			
-			//update graphic sizes 	
-			if( this.background )
-			{
-				this.background.draw(
-					this.preferredWidth, this.preferredHeight );				
-			}
+			//update background graphic size
+			applyBackground();
 		}
 	}
 }

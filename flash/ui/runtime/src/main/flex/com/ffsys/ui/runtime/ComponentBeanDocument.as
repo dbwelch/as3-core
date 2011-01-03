@@ -3,6 +3,7 @@ package com.ffsys.ui.runtime
 	import com.ffsys.ioc.*;
 	
 	import com.ffsys.ui.common.ComponentIdentifiers;
+	import com.ffsys.utils.string.PropertyNameConverter;
 	
 	import com.ffsys.ui.buttons.*;
 	import com.ffsys.ui.containers.*;
@@ -11,6 +12,7 @@ package com.ffsys.ui.runtime
 	import com.ffsys.ui.display.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.layout.*;
+	import com.ffsys.ui.scrollbars.*;
 	import com.ffsys.ui.text.*;
 
 	/**
@@ -44,6 +46,9 @@ package com.ffsys.ui.runtime
 		public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
+			var data:Object = null;
+			var converter:PropertyNameConverter = new PropertyNameConverter();
+			
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				ComponentIdentifiers.DOCUMENT );
 			descriptor.instanceClass = Document;
@@ -96,12 +101,12 @@ package com.ffsys.ui.runtime
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.FILL );
-			descriptor.instanceClass = RuntimeBeanReference;
+			descriptor.instanceClass = RuntimeStyleReference;
 			beans.addBeanDescriptor( descriptor );			
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.STROKE );
-			descriptor.instanceClass = RuntimeBeanReference;
+			descriptor.instanceClass = RuntimeStyleReference;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
@@ -111,8 +116,8 @@ package com.ffsys.ui.runtime
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ASSET );
-			descriptor.instanceClass = RuntimeBeanReference;
-			beans.addBeanDescriptor( descriptor );			
+			descriptor.instanceClass = RuntimeStyleReference;
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.GRADIENT );
@@ -205,8 +210,13 @@ package com.ffsys.ui.runtime
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.GROUP_MANAGER );
-			descriptor.instanceClass = RuntimeIdentifierReference;
+			descriptor.instanceClass = RuntimeDocumentReference;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TARGET );
+			descriptor.instanceClass = RuntimeDocumentReference;
+			beans.addBeanDescriptor( descriptor );			
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.RADIO_BUTTON_GROUP );
@@ -236,8 +246,95 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.SCROLLER );
 			descriptor.instanceClass = Scroller;
-			beans.addBeanDescriptor( descriptor );	
+			beans.addBeanDescriptor( descriptor );
 			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_TRACK );
+			descriptor.instanceClass = ScrollTrack;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_DRAG );
+			descriptor.instanceClass = ScrollDrag;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_UP_BUTTON );
+			descriptor.instanceClass = ScrollUpButton;
+			beans.addBeanDescriptor( descriptor );									
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_DOWN_BUTTON );
+			descriptor.instanceClass = ScrollDownButton;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_LEFT_BUTTON );
+			descriptor.instanceClass = ScrollLeftButton;
+			beans.addBeanDescriptor( descriptor );									
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_RIGHT_BUTTON );
+			descriptor.instanceClass = ScrollRightButton;
+			beans.addBeanDescriptor( descriptor );			
+			
+			data = new Object();
+			data.scrollTrack = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_TRACK ),
+				ComponentIdentifiers.SCROLL_TRACK );
+			data.scrollDrag = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_DRAG ),
+				ComponentIdentifiers.SCROLL_DRAG );
+				
+			/*
+			data.negativeScrollButton = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_LEFT_BUTTON );	
+			data.positiveScrollButton = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_RIGHT_BUTTON );							
+			*/
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HSCROLL, data );
+			descriptor.instanceClass = HorizontalScrollBar;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.scrollTrack = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_TRACK ),
+				ComponentIdentifiers.SCROLL_TRACK );
+			data.scrollDrag = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_DRAG ),
+				ComponentIdentifiers.SCROLL_DRAG );
+				
+			/*
+			data.negativeScrollButton = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_DOWN_BUTTON );
+			data.positiveScrollButton = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_UP_BUTTON );					
+			*/
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.VSCROLL, data );
+			descriptor.instanceClass = VerticalScrollBar;
+			beans.addBeanDescriptor( descriptor );
+
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CUSTOM_DATA );
+			descriptor.instanceClass = Object;
+			beans.addBeanDescriptor( descriptor );			
+
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.IMAGE_DISPLAY );
 			descriptor.instanceClass = ImageDisplay;

@@ -203,6 +203,51 @@ package com.ffsys.ui.common
 		public static const SCROLLER:String = "scroller";
 		
 		/**
+		* 	The identifier for a horizontal scrollbar component.
+		*/
+		public static const HSCROLL:String = "hscroll";
+		
+		/**
+		* 	The identifier for a vertical scrollbar component.
+		*/
+		public static const VSCROLL:String = "vscroll";
+		
+		/**
+		* 	The identifier for a scroll track component.
+		*/
+		public static const SCROLL_TRACK:String = "scroll-track";
+		
+		/**
+		* 	The identifier for a scroll drag component.
+		*/
+		public static const SCROLL_DRAG:String = "scroll-drag";
+		
+		/**
+		* 	The identifier for a scroll up button.
+		*/
+		public static const SCROLL_UP_BUTTON:String = "scroll-up-button";
+				
+		/**
+		* 	The identifier for a scroll down button.
+		*/
+		public static const SCROLL_DOWN_BUTTON:String = "scroll-down-button";
+		
+		/**
+		* 	The identifier for a scroll left button.
+		*/
+		public static const SCROLL_LEFT_BUTTON:String = "scroll-left-button";
+			
+		/**
+		* 	The identifier for a scroll right button.
+		*/
+		public static const SCROLL_RIGHT_BUTTON:String = "scroll-right-button";
+		
+		/**
+		* 	The identifier for a custom data declaration.
+		*/
+		public static const CUSTOM_DATA:String = "custom-data";
+		
+		/**
 		* 	The identifier for a text button component.
 		*/
 		public static const TEXT_BUTTON:String = "text-button";
@@ -235,6 +280,11 @@ package com.ffsys.ui.common
 		/**
 		* 	The identifier for a radio button group manager.
 		*/
-		public static const RADIO_BUTTON_GROUP:String = "radio-button-group";		
+		public static const RADIO_BUTTON_GROUP:String = "radio-button-group";
+		
+		/**
+		* 	The identifier for a target reference.
+		*/
+		public static const TARGET:String = "target";
 	}
 }

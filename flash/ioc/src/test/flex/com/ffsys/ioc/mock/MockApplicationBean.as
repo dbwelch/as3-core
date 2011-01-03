@@ -12,7 +12,7 @@ package com.ffsys.ioc.mock
 	*	@since  13.12.2010
 	*/
 	public class MockApplicationBean extends Object
-		implements IBeanConstructed
+		implements IBeanFinalized
 	{
 		private var _configuration:MockConfigurationBean;
 		private	var _messages:MockMessagesBean;
@@ -68,9 +68,9 @@ package com.ffsys.ioc.mock
 		/**
 		* 	Tests that the constructed method executed.
 		*/
-		public function constructed():void
+		public function finalized():void
 		{
-			trace("MockApplicationBean::constructed()", this, configuration );
+			trace("MockApplicationBean::finalized()", this, configuration );
 		}
 	}
 }

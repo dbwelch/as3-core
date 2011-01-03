@@ -33,6 +33,9 @@
 					<url>css/component-styles.css</url>
 				</resource>
 				<resource>
+					<url>css/scroll-styles.css</url>
+				</resource>				
+				<resource>
 					<url>css/graphic-button-styles.css</url>
 				</resource>				
 				<resource>
@@ -115,6 +118,14 @@
 					<xml>
 						<resource>
 							<url>xml/images.xml</url>
+						</resource>
+					</xml>
+				</view>
+				<view>
+					<id>scrollbars</id>
+					<xml>
+						<resource>
+							<url>xml/scrollbars.xml</url>
 						</resource>
 					</xml>
 				</view>

@@ -25,8 +25,8 @@ package com.ffsys.ui.scrollbars
 		public function ScrollDownButton(
 			icon:DisplayObject = null,
 			text:String = null,
-			width:Number = NaN,
-			height:Number = NaN )
+			width:Number = 12,
+			height:Number = 12 )
 		{
 			super( icon, text, width, height );
 		}

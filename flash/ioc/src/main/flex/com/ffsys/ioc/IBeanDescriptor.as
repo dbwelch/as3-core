@@ -81,10 +81,12 @@ package com.ffsys.ioc
 		* 
 		* 	@param inject Whether dependency injection is enabled when retrieving
 		* 	the bean instance.
+		* 	@param finalize Whether the bean should be notified as being
+		* 	finalized when the instantiation is complete.
 		* 
 		* 	@return The bean instance.
 		*/
-		function getBean( inject:Boolean = true ):Object;
+		function getBean( inject:Boolean = true, finalize:Boolean = true ):Object;
 		
 		/**
 		* 	Determines whether this descriptor

@@ -11,18 +11,18 @@ package com.ffsys.ui.runtime
 	*	@author Mischa Williamson
 	*	@since  30.12.2010
 	*/
-	public class RuntimeBeanReference extends Object
+	public class RuntimeStyleReference extends Object
 	{
 		/**
-		* 	The name of the bean that this value
+		* 	The name of the css style bean that this value
 		* 	references.
 		*/
-		public var ref:String;
+		public var style:String;
 		
 		/**
-		* 	Creates a <code>RuntimeBeanReference</code> instance.
+		* 	Creates a <code>RuntimeStyleReference</code> instance.
 		*/
-		public function RuntimeBeanReference()
+		public function RuntimeStyleReference()
 		{
 			super();
 		}

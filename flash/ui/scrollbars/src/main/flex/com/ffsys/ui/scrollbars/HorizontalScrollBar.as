@@ -5,6 +5,7 @@ package com.ffsys.ui.scrollbars {
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	
+	import com.ffsys.ui.buttons.IButton;	
 	import com.ffsys.ui.common.Direction;
 	
 	import com.ffsys.ui.graphics.RectangleGraphic;
@@ -37,7 +38,6 @@ package com.ffsys.ui.scrollbars {
 			super( target, width );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
-			this.paddings.padding = 1;
 		}
 		
 		/**
@@ -63,6 +63,32 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
+		* 	The scroll left button.
+		*/
+		public function get scrollLeftButton():IButton
+		{
+			return this.negativeScrollButton;
+		}		
+		
+		public function set scrollLeftButton( value:IButton ):void
+		{
+			this.negativeScrollButton = value;
+		}
+		
+		/**
+		* 	The scroll right button.
+		*/
+		public function get scrollRightButton():IButton
+		{
+			return this.positiveScrollButton;
+		}
+		
+		public function set scrollRightButton( value:IButton ):void
+		{
+			this.positiveScrollButton = value;
+		}
+		
+		/**
 		*	Scrolls the target left by the current scroll amount.
 		*/
 		public function scrollLeft():void
@@ -81,42 +107,19 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		override protected function createChildren():void
-		{
-			super.createChildren();
-			
-			//set up the scroll track
-			scrollTrack = new ScrollTrack();
-				
-			//set up the scroll buttons
-			negativeScrollButton = new ScrollLeftButton(
-				null, null, fixedSize, fixedSize );
-			
-			positiveScrollButton = new ScrollRightButton(
-				null, null, fixedSize, fixedSize );
-				
-			scrollDrag = new ScrollDrag(
-				fixedSize, fixedSize );
-				
-			background = new RectangleGraphic(
-				preferredWidth,
-				preferredHeight,
-				null,
-				new SolidFill( 0x3d3c3c, 1 ) );	
-		}
-		
-		/**
 		*	@inheritDoc	
 		*/
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{
+			trace("HorizontalScrollBar::layoutChildren()", target, negativeScrollButton, positiveScrollButton, scrollDrag, scrollTrack );			
+			
 			if( negativeScrollButton )
 			{
 				negativeScrollButton.x = paddings.left;
 				negativeScrollButton.y = paddings.top;
+				
+				trace("HorizontalScrollBar::layoutChildren()", "SETTING SCROLL BUTTON SIZE", fixedSize );
 				
 				negativeScrollButton.setSize( fixedSize, fixedSize );
 			}
@@ -133,6 +136,9 @@ package com.ffsys.ui.scrollbars {
 			if( scrollDrag )
 			{
 				scrollDrag.y = paddings.top;
+				
+				//scrollDrag.preferredWidth = fixedSize;
+				//scrollDrag.preferredHeight = fixedSize;
 			}
 			
 			measure();

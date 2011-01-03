@@ -8,6 +8,9 @@ package com.ffsys.ui.buttons {
 	*	
 	*	Examples of this type of button are the scroll track
 	*	and scroll drag components used by the scroll bar.
+	* 
+	* 	The <code>background</code> is used as the graphic
+	* 	for the button.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -23,6 +26,19 @@ package com.ffsys.ui.buttons {
 		public function GraphicButton()
 		{
 			super();
-		}		
+		}
+		
+		/**
+		* 	Ensures the background graphic is kept in sync
+		* 	with the dimensions of this component.
+		*/
+		override public function set background( value:IComponentGraphic ):void
+		{
+			super.background = value;
+			
+			//ensure the background graphic dimensions are kept in
+			//sync with our dimensions as style states change
+			applyBackground();
+		}
 	}
 }

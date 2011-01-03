@@ -254,25 +254,25 @@ package com.ffsys.ui.scrollbars {
 		
 		public function set negativeScrollButton( button:IButton ):void
 		{
-			if( negativeScrollButton
-				&& contains( DisplayObject( negativeScrollButton ) ) )
+			if( _negativeScrollButton != null
+				&& contains( DisplayObject( _negativeScrollButton ) ) )
 			{
-				negativeScrollButton.removeEventListener(
+				_negativeScrollButton.removeEventListener(
 					MouseEvent.MOUSE_DOWN, negativeScroll );
 				
-				removeChild( DisplayObject( negativeScrollButton ) );
+				removeChild( DisplayObject( _negativeScrollButton ) );
 			}
 			
 			_negativeScrollButton = button;
 			
-			if( negativeScrollButton )
+			if( _negativeScrollButton != null )
 			{
-				negativeScrollButton.loop = this.loop;
+				_negativeScrollButton.loop = this.loop;
 				
-				negativeScrollButton.addEventListener(
+				_negativeScrollButton.addEventListener(
 					MouseEvent.MOUSE_DOWN, negativeScroll );				
 				
-				addChild( DisplayObject( negativeScrollButton ) );
+				addChild( DisplayObject( _negativeScrollButton ) );
 			}
 		}
 		
@@ -286,25 +286,25 @@ package com.ffsys.ui.scrollbars {
 		
 		public function set positiveScrollButton( button:IButton ):void
 		{
-			if( positiveScrollButton
-				&& contains( DisplayObject( positiveScrollButton ) ) )
+			if( _positiveScrollButton != null
+				&& contains( DisplayObject( _positiveScrollButton ) ) )
 			{
-				positiveScrollButton.removeEventListener(
+				_positiveScrollButton.removeEventListener(
 					MouseEvent.MOUSE_DOWN, positiveScroll );
 				
-				removeChild( DisplayObject( positiveScrollButton ) );
+				removeChild( DisplayObject( _positiveScrollButton ) );
 			}
 			
 			_positiveScrollButton = button;
 			
-			if( positiveScrollButton )
+			if( _positiveScrollButton != null )
 			{
-				positiveScrollButton.loop = this.loop;
+				_positiveScrollButton.loop = this.loop;
 				
-				positiveScrollButton.addEventListener(
+				_positiveScrollButton.addEventListener(
 					MouseEvent.MOUSE_DOWN, positiveScroll );
 				
-				addChild( DisplayObject( positiveScrollButton ) );
+				addChild( DisplayObject( _positiveScrollButton ) );
 			}
 		}
 		
@@ -384,9 +384,13 @@ package com.ffsys.ui.scrollbars {
 		{
 			_target = target;
 			
+			trace("AbstractScrollBar::set target()", "SETTING TARGET OF SCROLL BAR TO : ", target );
+			
 			if( this.target )
 			{
 				_maximumScrollPosition = measuredPosition;
+				
+				measure();
 			}
 		}
 		
@@ -784,6 +788,8 @@ package com.ffsys.ui.scrollbars {
 						scrollTrack.preferredWidth,
 						scrollTrack.preferredHeight );
 				}
+				
+				trace("AbstractScrollBar::layoutChildren()", scrollTrack.preferredWidth );
 					
 				if( direction == Direction.HORIZONTAL )
 				{

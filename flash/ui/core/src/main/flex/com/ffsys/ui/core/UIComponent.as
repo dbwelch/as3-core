@@ -76,8 +76,12 @@ package com.ffsys.ui.core
 		*/
 		public function finalized():void
 		{
-			//apply border graphics
+			//apply border and background graphics
 			applyBorders();
+			applyBackground();
+			
+			//update any child positioning
+			layoutChildren( preferredWidth, preferredHeight );
 		}
 		
 		/**

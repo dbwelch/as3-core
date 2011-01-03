@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<spacing>5</spacing>
+		<vbox>
+			<styles>page-heading</styles>
+			<sub-heading>
+				<identifier>scrollbars.package</identifier>
+			</sub-heading>
+		</vbox>
+		
+		<hbox>
+			<spacing>5</spacing>
+		
+			<hbox>
+				<square-graphic>
+					<id>vscroll-target</id>
+					<preferred-width>100</preferred-width>
+					<preferred-height>200</preferred-height>
+					<fill>
+						<style>default-gradient-fill</style>
+					</fill>
+				</square-graphic>
+				<vscroll>
+					<target>
+						<id>vscroll-target</id>
+					</target>
+					<scroll-down-button />
+					<scroll-up-button />
+				</vscroll>
+			</hbox>
+			
+			<vbox>
+				<square-graphic>
+					<id>hscroll-target</id>
+					<preferred-width>200</preferred-width>
+					<preferred-height>100</preferred-height>
+					<fill>
+						<style>default-gradient-fill</style>
+					</fill>
+				</square-graphic>
+				<hscroll>
+					<preferred-width>150</preferred-width>
+					<target>
+						<id>hscroll-target</id>
+					</target>
+					<scroll-left-button />
+					<scroll-right-button />
+				</hscroll>
+			</vbox>
+		</hbox>
+	</vbox>
+</document>

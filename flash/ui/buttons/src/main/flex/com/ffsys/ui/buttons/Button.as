@@ -40,9 +40,7 @@ package com.ffsys.ui.buttons {
 			super.text = value;
 			if( this.background != null )
 			{
-				this.background.preferredWidth = this.preferredWidth;
-				this.background.preferredHeight = this.preferredHeight;
-				this.background.draw();
+				applyBackground();
 			}
 		}
 		
@@ -55,9 +53,7 @@ package com.ffsys.ui.buttons {
 			if( this.background != null
 			 	&& this.label != null )
 			{
-				this.background.preferredWidth = this.preferredWidth;
-				this.background.preferredHeight = this.preferredHeight;
-				this.background.draw();
+				applyBackground();
 			}
 		}
 		

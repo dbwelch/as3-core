@@ -12,26 +12,27 @@ package com.ffsys.ui.runtime
 	*	@author Mischa Williamson
 	*	@since  02.01.2011
 	*/
-	public class RuntimeIdentifierReference extends Object
+	public class RuntimeDocumentReference extends Object
 		implements IStringIdentifier
 	{
 		private var _id:String;
+		private var _property:String;
 		
 		/**
 		* 	The parent object this reference applies to.
 		*/
-		public var parent:Object;
+		internal var parent:Object;
 		
 		/**
 		* 	The name of the property to be set on the parent
 		* 	when the reference has been resolved.
 		*/
-		public var name:String;
+		internal var name:String;
 		
 		/**
-		* 	Creates a <code>RuntimeIdentifierReference</code> instance.
+		* 	Creates a <code>RuntimeDocumentReference</code> instance.
 		*/
-		public function RuntimeIdentifierReference()
+		public function RuntimeDocumentReference()
 		{
 			super();
 		}
@@ -48,6 +49,20 @@ package com.ffsys.ui.runtime
 		public function set id( value:String ):void
 		{
 			_id = value;
+		}
+		
+		/**
+		* 	A property path look up to resolve on the target
+		* 	object when resolving this reference.
+		*/
+		public function get property():String
+		{
+			return _property;
+		}
+		
+		public function set property( value:String ):void
+		{
+			_property = value;
 		}
 	}
 }
