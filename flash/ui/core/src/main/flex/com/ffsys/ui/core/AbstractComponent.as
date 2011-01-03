@@ -23,6 +23,9 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
+	
+	import com.ffsys.utils.properties.IMessagesAware;
+	import com.ffsys.utils.properties.IProperties;	
 
 	/**
 	*	Abstract super class for all components.
@@ -34,6 +37,7 @@ package com.ffsys.ui.core
 	*	@since  16.06.2010
 	*/
 	public class AbstractComponent extends Sprite
+		implements IMessagesAware
 	{	
 		/**
 		*	@private	
@@ -64,6 +68,9 @@ package com.ffsys.ui.core
 		private var _borderLayer:DisplayObjectContainer;
 		private var _borderGraphic:IComponentGraphic;
 		
+		private var _identifier:String;
+		private var _messages:IProperties;		
+		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
 		*/
@@ -83,6 +90,34 @@ package com.ffsys.ui.core
 				addEventListener( Event.ADDED_TO_STAGE, __initialize );
 			}
 		}
+		
+		/**
+		* 	A collection of messages this text component
+		* 	should select text from based on the <code>identifier</code>.
+		*/
+		public function get messages():IProperties
+		{
+			return _messages;
+		}
+		
+		public function set messages( value:IProperties ):void
+		{
+			_messages = value;
+		}
+		
+		/**
+		* 	The message identifier used to locate a message
+		* 	from the known messages.
+		*/
+		public function get identifier():String
+		{
+			return _identifier;
+		}
+		
+		public function set identifier( value:String ):void
+		{
+			_identifier = value;
+		}				
 		
 		/**
 		* 	@inheritDoc
@@ -767,7 +802,6 @@ package com.ffsys.ui.core
 		*/
 		protected function applyBackground():void
 		{
-			trace("AbstractComponent::applyBackground()", this, this.background );
 			if( this.background != null )
 			{
 				this.background.preferredWidth = this.preferredWidth;
@@ -1135,6 +1169,8 @@ package com.ffsys.ui.core
 			_background = null;
 			_styles = null;
 			_customData = null;
-		}			
+			_identifier = null;
+			_messages = null;			
+		}
 	}
 }

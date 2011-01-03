@@ -15,9 +15,6 @@ package com.ffsys.ui.text
 	import com.ffsys.ui.text.core.ITypedTextField;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 	
-	import com.ffsys.utils.properties.IMessagesAware;
-	import com.ffsys.utils.properties.IProperties;
-	
 	/**
 	*	Abstract super class for all components
 	* 	that encapsulate single textfield.
@@ -29,8 +26,7 @@ package com.ffsys.ui.text
 	*	@since  21.06.2010
 	*/
 	public class TextComponent extends UIComponent
-		implements 	ICssTextFieldProxy,
-					IMessagesAware
+		implements 	ICssTextFieldProxy
 	{
 		/**
 		* 	A default gutter to offset textfield positions.
@@ -38,8 +34,6 @@ package com.ffsys.ui.text
 		public static const GUTTER:int = -2;
 		
 		private var _textfield:ITypedTextField;
-		private var _identifier:String;
-		private var _messages:IProperties;
 		private var _textTransform:String;
 		private var _offsets:Point;
 		
@@ -97,34 +91,6 @@ package com.ffsys.ui.text
 				value = value.toLowerCase();
 			}
 			_textTransform = value;
-		}
-		
-		/**
-		* 	A collection of messages this text component
-		* 	should select text from based on the <code>identifier</code>.
-		*/
-		public function get messages():IProperties
-		{
-			return _messages;
-		}
-		
-		public function set messages( value:IProperties ):void
-		{
-			_messages = value;
-		}
-		
-		/**
-		* 	The message identifier used to locate a message
-		* 	from the known messages.
-		*/
-		public function get identifier():String
-		{
-			return _identifier;
-		}
-		
-		public function set identifier( value:String ):void
-		{
-			_identifier = value;
 		}
 		
 		/**
@@ -543,8 +509,6 @@ package com.ffsys.ui.text
 		{
 			super.destroy();
 			_textfield = null;
-			_identifier = null;
-			_messages = null;
 			_textTransform = null		
 		}
 	}

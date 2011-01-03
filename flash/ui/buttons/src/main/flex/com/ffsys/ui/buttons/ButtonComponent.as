@@ -5,6 +5,9 @@ package com.ffsys.ui.buttons
 	import com.ffsys.ui.core.InteractiveComponent;
 	import com.ffsys.ui.core.State;
 	
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
+	
 	/**
 	*	Abstract super class for all buttons.
 	*
@@ -21,9 +24,11 @@ package com.ffsys.ui.buttons
 		private var _selectable:Boolean;
 		private var _selected:Boolean;
 		private var _currentState:State;
+		private var _url:String;
+		private var _urlIdentifier:String;
 		
 		/**
-		* 	Creates an ButtonComponent instance.
+		* 	Creates a <code>ButtonComponent</code> instance.
 		*	
 		*	@param width The preferred width of the button.
 		*	@param height The preferred height of the button.
@@ -36,6 +41,52 @@ package com.ffsys.ui.buttons
 			this.preferredWidth = width;
 			this.preferredHeight = height;
 			this.mouseChildren = false;
+		}
+		
+		/**
+		* 	A url to navigate to when this button is clicked.
+		*/
+		public function get url():String
+		{
+			return _url;
+		}
+		
+		public function set url( value:String ):void
+		{
+			_url = value;
+		}
+		
+		/**
+		* 	A message identifier for a <code>url</code>
+		* 	associated with this button.
+		*/
+		public function get urlIdentifier():String
+		{
+			return _urlIdentifier;
+		}
+		
+		public function set urlIdentifier( value:String ):void
+		{
+			_urlIdentifier = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function finalized():void
+		{			
+			if( this.urlIdentifier != null
+				&& this.url == null )
+			{
+				var uri:String = this.messages.getProperty.apply(
+					this.messages, [ this.urlIdentifier ] ) as String;
+				
+				if( uri != null )
+				{
+					this.url = uri;
+				}
+			}
+			super.finalized();
 		}
 		
 		/**
@@ -208,7 +259,12 @@ package com.ffsys.ui.buttons
 		override protected function onMouseClick(
 			event:MouseEvent ):void
 		{
-			super.onMouseClick( event );	
+			super.onMouseClick( event );
+			
+			if( this.url != null )
+			{
+				navigateToURL( new URLRequest( this.url ) );
+			}
 		}
 		
 		/**
@@ -272,9 +328,12 @@ package com.ffsys.ui.buttons
 		*/
 		override public function destroy():void
 		{
+			super.destroy();
 			_loop = null;
 			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
-			super.destroy();
+			_currentState = null;
+			_url = null;
+			_urlIdentifier = null;
 		}
 		
 		/**

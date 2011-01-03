@@ -183,11 +183,22 @@
 						<identifier>buttons.examples.toggle.disabled</identifier>
 						<enabled>false</enabled>
 					</toggle-button>					
-				</vbox>							
+				</vbox>										
 			</vbox>
 
 			<vbox>
-
+				
+				<vbox>
+					<spacing>5</spacing>
+					<styles>example-group</styles>	
+					<sub-paragraph>			
+						<identifier>buttons.examples.urllink.copy</identifier>
+					</sub-paragraph>
+					<text-button>
+						<identifier>buttons.examples.urllink.uri</identifier>
+						<url-identifier>buttons.examples.urllink.uri</url-identifier>						
+					</text-button>					
+				</vbox>
 				
 			</vbox>	
 		</hbox>

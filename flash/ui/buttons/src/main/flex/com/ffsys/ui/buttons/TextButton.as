@@ -23,7 +23,6 @@ package com.ffsys.ui.buttons
 	{
 		private var _text:String;
 		private var _label:Label;
-		private var _identifier:String;
 		
 		/**
 		* 	Creates a <code>TextButton</code> instance.
@@ -173,19 +172,6 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		* 	A message identifier for this text button component.
-		*/
-		public function get identifier():String
-		{
-			return _identifier;
-		}
-		
-		public function set identifier(value:String):void
-		{
-			_identifier = value;
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		override public function prefinalize():void
@@ -198,18 +184,17 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		* 	Invoked when this component is instantiated
-		* 	as a bean.
+		* 	@inheritDoc
 		*/
 		override public function finalized():void
 		{			
 			if( this.label != null
-				&& this.label.messages != null
+				&& this.messages != null
 				&& this.identifier != null
 				&& this.label.identifier == null )
 			{
-				var msg:String = this.label.messages.getProperty.apply(
-					this.label.messages, [ this.identifier ] ) as String;
+				var msg:String = this.messages.getProperty.apply(
+					this.messages, [ this.identifier ] ) as String;
 				
 				if( msg != null )
 				{
@@ -236,7 +221,6 @@ package com.ffsys.ui.buttons
 		{
 			super.destroy();
 			_text = null;
-			_identifier = null;
 			_label = null;
 		}
 	}
