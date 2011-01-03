@@ -420,7 +420,7 @@ package com.ffsys.ui.text
 		{
 			if( _textfield != null )
 			{
-				//offset by the textfield gutter
+				//offset by the padding, border and textfield gutter
 				_textfield.x = paddings.left + offsets.x;
 				_textfield.y = paddings.top + offsets.y;
 			}

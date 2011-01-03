@@ -1,19 +1,22 @@
-Heading {
-	text-transform: uppercase;
-	size: 12;
-}
-
-SubHeading {
+package-heading {
 	text-transform: uppercase;
 	underline: true;
 	size: 10;
-	border: border( 1,1,1,1,#ff0000,1 );
+	border: border( 1, 1, 1, 1, #ff0000, 1 );
 	padding: 5;
 	margin-top: 0;
 }
 
 uppercase {
 	text-transform: uppercase;
+}
+
+lowercase {
+	text-transform: lowercase;
+}
+
+underline {
+	text-transform: underline;
 }
 
 default-icon {
@@ -47,4 +50,9 @@ page-heading {
 
 example-group {
 	margin-bottom: 10;
+}
+
+sub-heading-border-left {
+	border: border( 0, 0, 0, 2, #ffffff, 1 );
+	padding-left: 5;
 }

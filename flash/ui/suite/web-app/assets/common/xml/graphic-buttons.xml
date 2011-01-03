@@ -5,7 +5,7 @@
 		<vbox>
 			<styles>page-heading</styles>
 			<sub-heading>
-				<styles>page-sub-heading</styles>
+				<styles>package-heading</styles>
 				<identifier>buttons.package</identifier>
 			</sub-heading>
 		</vbox>
