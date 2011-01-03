@@ -184,12 +184,17 @@ package com.ffsys.ui.css {
 		{
 			if( target )
 			{
+				//trace("::::::::::::::::::::::::::::::::::::: CssStyleSheet::style() styling target: ", target );
+				
 				custom.unshift( target );
 				var styles:Array = getStyleObjects.apply( this, custom );
 				if( styles.length > 0 )
 				{
 					applyStyles( target, styles );
 				}
+				
+				//trace("::::::::::::::::::::::::::::::::::::: CssStyleSheet::style() finished styling target: ", target );
+				
 				return styles;
 			}
 			return null;
@@ -270,10 +275,15 @@ package com.ffsys.ui.css {
 			{
 				custom.unshift( target );
 				var styles:String = getStyleNames.apply( this, custom );
+				
+				//trace(">>>>>>>>>>>>>>>>>>>>> CssStyleSheet::getStyleObjects() got styles: ", styles );
+				
 				if( styles.length > 0 )
 				{
 					output = getStyles( styles );
 				}
+				
+				//trace(">>>>>>>>>>>>>>>>>>>>> CssStyleSheet::getStyleObjects() got style objects: ", output );
 			}
 			return output;
 		}
@@ -300,18 +310,26 @@ package com.ffsys.ui.css {
 		*/
 		public function applyStyles( target:Object, styles:Array ):void
 		{
+			//trace(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> !!! CssStyleSheet::applyStyles()", target, styles );
+			
 			//calling applyStyle() is potentially expensive
 			//so we merge all styles into a single object
 			//in the order styles are declared and apply
 			//the cumulative style			
 			if( target && styles )
 			{
+				
+				
 				var cumulative:Object = new Object();
 				var merger:PropertiesMerge = new PropertiesMerge();
 				for( var i:int = 0;i < styles.length;i++ )
 				{
 					merger.merge( cumulative, styles[ i ], false );
 				}
+				
+				
+				//trace("|||||||||||||||||||||| CssStyleSheet::applyStyles()", target, cumulative );				
+				
 				applyStyle( target, cumulative );
 			}
 		}
@@ -321,8 +339,12 @@ package com.ffsys.ui.css {
 		*/
 		private function applyPadding( target:IPaddingAware, style:Object ):void
 		{
+			//trace("CssStyleSheet::applyPadding()", target, style );
+			
 			if( target && target.paddings )
 			{
+				//trace("CssStyleSheet::applyPadding()", style.padding );
+				
 				if( style.padding is Number )
 				{
 					target.paddings.padding = style.padding;
@@ -417,15 +439,15 @@ package com.ffsys.ui.css {
 		{	
 			if( name.indexOf( "." ) > -1 )
 			{
-				trace("CssStyleSheet::assign() FOUND DOT STYLE PROPERTY NAME: ", target, name, value );
+				//trace("CssStyleSheet::assign() FOUND DOT STYLE PROPERTY NAME: ", target, name, value );
 				var assignment:IPropertyProcessor = new PropertyAssignmentProcessor(
 					name, target, value );
 				assignment.process();
 				
-			
+				/*
 				trace("CssStyleSheet::assign() AFTER ASSIGNMENT: ",
 					assignment.currentTarget, assignment.targets );
-				
+				*/
 			}
 
 			return true;
@@ -436,8 +458,11 @@ package com.ffsys.ui.css {
 		*/
 		public function applyStyle( target:Object, style:Object ):void
 		{
+			//trace("CssStyleSheet::applyStyle()", target, style, target is IPaddingAware  );
 			if( style && target )
 			{
+				
+				//trace("CssStyleSheet::applyStyle() CHECKING PADDING AWARE: ", target, ( target is IPaddingAware ) );
 				
 				if( target is IPaddingAware )
 				{

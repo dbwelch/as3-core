@@ -2,24 +2,25 @@ package-heading {
 	text-transform: uppercase;
 	underline: true;
 	size: 10;
-	border: border( 1, 1, 1, 1, #ff0000, 1 );
-	padding: 5;
 	margin-top: 0;
 }
 
 element {
 	font: Courier;
 	size: 11;
-	color: #ff6600;
+	color: #ffffff;
 	margin-bottom: 5;
-	padding: 5;
-	background: ref( element-background );
-	border: border( 1, 1, 1, 1, #ffffff, 1 );	
+	padding-left: 5;
+	padding-top: 5;
+	padding-right: 5;
+	padding-bottom: 3;	
+	text-transform: uppercase;
+	background: ref( element-background );	
 }
 
 element-background {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
-	fill: fill( #a9a9a9, 1 );
+	fill: fill( #333333, .75 );
 }
 
 note {
@@ -74,6 +75,15 @@ example-group {
 sub-heading-border-left {
 	border: border( 0, 0, 0, 2, #ffffff, 1 );
 	padding-left: 5;
+}
+
+sub-heading-border-example {
+	text-transform: uppercase;
+	underline: true;
+	size: 10;
+	border: border( 1, 1, 1, 1, #ffffff, 1 );
+	padding: 5;
+	margin-top: 0;
 }
 
 container-example {

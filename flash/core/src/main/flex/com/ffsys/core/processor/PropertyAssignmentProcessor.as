@@ -55,11 +55,13 @@ package com.ffsys.core.processor
 			//the current property name
 			var name:String = this.property;
 			
+			/*
 			trace("PropertyAssignmentProcessor::assignProperty()",
 				target,
 				getQualifiedClassName( target ),
 				name,
 				this.value, target.hasOwnProperty( name ) );
+			*/
 			
 			try
 			{
@@ -77,11 +79,11 @@ package com.ffsys.core.processor
 		*/
 		override public function process( index:int = 0 ):*
 		{			
-			trace("PropertyAssignmentProcessor::process() PROCESSING INDEX ", index );
+			//trace("PropertyAssignmentProcessor::process() PROCESSING INDEX ", index );
 			
 			super.process( index );
 			
-			trace("PropertyAssignmentProcessor::process() length/index/position", this.completed, this.length, index, this.position, this.currentTarget, index > this.length - 1 );
+			//trace("PropertyAssignmentProcessor::process() length/index/position", this.completed, this.length, index, this.position, this.currentTarget, index > this.length - 1 );
 			
 			//
 			if( completed )
@@ -92,7 +94,7 @@ package com.ffsys.core.processor
 			//not running asynchronously continue processing
 			if( !isFinished() && !async )
 			{
-				trace("PropertyAssignmentProcessor::process() CALLING NEXT ");
+				//trace("PropertyAssignmentProcessor::process() CALLING NEXT ");
 				next();
 			}			
 		}			

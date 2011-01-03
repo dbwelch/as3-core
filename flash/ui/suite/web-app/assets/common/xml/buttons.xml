@@ -18,10 +18,16 @@
 		<hbox>
 			<spacing>25</spacing>
 			<vbox>
-		
+				<styles>column</styles>
 				<vbox>
 					<spacing>5</spacing>
 					<styles>example-group</styles>
+					
+					<label>
+						<styles>element</styles>
+						<identifier>elements.textbutton</identifier>
+					</label>					
+					
 					<sub-paragraph>
 						<identifier>buttons.examples.text.copy</identifier>
 					</sub-paragraph>		
@@ -33,10 +39,18 @@
 						<enabled>false</enabled>
 					</text-button>
 				</vbox>
+				
+				<hrule />
 		
 				<vbox>
 					<spacing>5</spacing>			
-					<styles>example-group</styles>		
+					<styles>example-group</styles>
+					
+					<label>
+						<styles>element</styles>
+						<identifier>elements.button</identifier>
+					</label>					
+					
 					<sub-paragraph>			
 						<identifier>buttons.examples.standard.copy</identifier>
 					</sub-paragraph>
@@ -48,10 +62,18 @@
 						<enabled>false</enabled>
 					</button>
 				</vbox>
+				
+				<hrule />
 	
 				<vbox>
 					<spacing>5</spacing>
 					<styles>example-group</styles>	
+					
+					<label>
+						<styles>element</styles>
+						<identifier>elements.iconbutton</identifier>
+					</label>					
+					
 					<sub-paragraph>			
 						<identifier>buttons.examples.icon.copy</identifier>
 					</sub-paragraph>			
@@ -72,10 +94,17 @@
 					</icon-button>
 				</vbox>	
 				
+				<hrule />
 				
 				<vbox>
 					<spacing>5</spacing>
-					<styles>example-group</styles>	
+					<styles>example-group</styles>
+					
+					<label>
+						<styles>element</styles>
+						<identifier>elements.icontextbutton</identifier>
+					</label>					
+						
 					<sub-paragraph>			
 						<identifier>buttons.examples.icontext.copy</identifier>
 					</sub-paragraph>			
@@ -98,11 +127,20 @@
 				</vbox>				
 		
 			</vbox>
+			
+			<vrule />
+			
 			<vbox>
-				
+				<styles>column</styles>
 				<vbox>
 					<spacing>5</spacing>
 					<styles>example-group</styles>	
+					
+					<label>
+						<styles>element</styles>
+						<identifier>elements.radiobutton</identifier>
+					</label>					
+					
 					<sub-paragraph>	
 						<identifier>buttons.examples.radio.copy</identifier>
 					</sub-paragraph>
@@ -148,10 +186,18 @@
 						</group-manager>						
 					</radio-button>
 				</vbox>
+				
+				<hrule />
 
 				<vbox>
 					<spacing>5</spacing>
 					<styles>example-group</styles>	
+					
+					<label>
+						<styles>element</styles>
+						<identifier>elements.checkbox</identifier>
+					</label>
+					
 					<sub-paragraph>	
 						<identifier>buttons.examples.checkbox.copy</identifier>
 					</sub-paragraph>
@@ -169,10 +215,17 @@
 					</check-box>
 				</vbox>	
 				
+				<hrule />
 				
 				<vbox>
 					<spacing>5</spacing>
 					<styles>example-group</styles>	
+					
+					<label>
+						<styles>element</styles>
+						<identifier>elements.togglebutton</identifier>
+					</label>					
+					
 					<sub-paragraph>			
 						<identifier>buttons.examples.toggle.copy</identifier>
 					</sub-paragraph>
@@ -195,9 +248,11 @@
 					</toggle-button>										
 				</vbox>										
 			</vbox>
+			
+			<vrule />
 
 			<vbox>
-				
+				<styles>column</styles>
 				<vbox>
 					<spacing>5</spacing>
 					<styles>example-group</styles>	

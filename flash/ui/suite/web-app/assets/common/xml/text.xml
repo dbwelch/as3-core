@@ -10,84 +10,104 @@
 			</sub-heading>
 		</vbox>
 		
+		
 		<hbox>
-			<spacing>5</spacing>
-			<heading>
-				<identifier>text.examples.heading</identifier>
-			</heading>
-			<heading>
-				<styles>uppercase</styles>
-				<identifier>uppercase</identifier>
-			</heading>
-			<heading>
-				<styles>lowercase</styles>
-				<identifier>lowercase</identifier>
-			</heading>
-			<heading>
-				<styles>underline</styles>
-				<identifier>underline</identifier>
-			</heading>			
-		</hbox>
-		<hbox>
-			<spacing>5</spacing>
-			<sub-heading>
-				<identifier>text.examples.subheading</identifier>
-			</sub-heading>
+			<spacing>25</spacing>
+			<vbox>
+				<spacing>5</spacing>
+				<hbox>
+					<spacing>5</spacing>
+					<heading>
+						<identifier>text.examples.heading</identifier>
+					</heading>
+					<heading>
+						<styles>uppercase</styles>
+						<identifier>uppercase</identifier>
+					</heading>
+					<heading>
+						<styles>lowercase</styles>
+						<identifier>lowercase</identifier>
+					</heading>
+					<heading>
+						<styles>underline</styles>
+						<identifier>underline</identifier>
+					</heading>
+				</hbox>
+				<hbox>
+					<spacing>5</spacing>
+					<sub-heading>
+						<identifier>text.examples.subheading</identifier>
+					</sub-heading>
 			
-			<sub-heading>
-				<styles>uppercase</styles>
-				<identifier>uppercase</identifier>
-			</sub-heading>
-			<sub-heading>
-				<styles>lowercase</styles>
-				<identifier>lowercase</identifier>
-			</sub-heading>
-			<sub-heading>
-				<styles>underline</styles>
-				<identifier>underline</identifier>
-			</sub-heading>									
-		</hbox>
-		<hbox>
-			<spacing>5</spacing>		
-			<label>
-				<identifier>text.examples.label</identifier>
-			</label>			
-			<label>
-				<styles>uppercase</styles>
-				<identifier>uppercase</identifier>
-			</label>
-			<label>
-				<styles>lowercase</styles>
-				<identifier>lowercase</identifier>
-			</label>
-			<label>
-				<styles>underline</styles>
-				<identifier>underline</identifier>
-			</label>			
-		</hbox>
-		<label>
-			<identifier>text.label.constrain</identifier>
-			<maximum-width>160</maximum-width>
-		</label>
+					<sub-heading>
+						<styles>uppercase</styles>
+						<identifier>uppercase</identifier>
+					</sub-heading>
+					<sub-heading>
+						<styles>lowercase</styles>
+						<identifier>lowercase</identifier>
+					</sub-heading>
+					<sub-heading>
+						<styles>underline</styles>
+						<identifier>underline</identifier>
+					</sub-heading>									
+				</hbox>
+				<hbox>
+					<spacing>5</spacing>		
+					<label>
+						<identifier>text.examples.label</identifier>
+					</label>			
+					<label>
+						<styles>uppercase</styles>
+						<identifier>uppercase</identifier>
+					</label>
+					<label>
+						<styles>lowercase</styles>
+						<identifier>lowercase</identifier>
+					</label>
+					<label>
+						<styles>underline</styles>
+						<identifier>underline</identifier>
+					</label>			
+				</hbox>
+				<label>
+					<identifier>text.label.constrain</identifier>
+					<maximum-width>160</maximum-width>
+				</label>
 		
-		<text-input>
-			<text>text.label.constrain</text>
-		</text-input>
+				<text-input>
+					<identifier>text.label.constrain</identifier>
+				</text-input>
 		
-		<text-area>
-			<text>text.label.constrain</text>
-		</text-area>
+				<text-area>
+					<identifier>text.label.constrain</identifier>
+				</text-area>
 				
-		<paragraph>
-			<identifier>text.examples.paragraph</identifier>
-		</paragraph>			
-		<sub-paragraph>
-			<identifier>text.examples.subparagraph</identifier>
-		</sub-paragraph>
+				<paragraph>
+					<identifier>text.examples.paragraph</identifier>
+				</paragraph>			
+				<sub-paragraph>
+					<identifier>text.examples.subparagraph</identifier>
+				</sub-paragraph>
 		
-		<sub-heading>
-			<styles>sub-heading-border-left</styles>
-			<identifier>text.examples.subheading.border.left</identifier>
-		</sub-heading>						
+			</vbox>	
+		
+			<vbox>
+				<spacing>5</spacing>
+				<sub-heading>
+					<styles>sub-heading-border-example</styles>
+					<identifier>text.examples.subheading.border.example</identifier>
+					<maximum-width>260</maximum-width>
+				</sub-heading>
+				
+				<!-- <hrule /> -->
+				
+				<sub-heading>
+					<styles>sub-heading-border-left</styles>
+					<identifier>text.examples.subheading.border.left</identifier>
+				</sub-heading>
+			</vbox>		
+		
+		</hbox>				
 	</vbox>
 </document>

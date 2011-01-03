@@ -387,7 +387,7 @@ package com.ffsys.ui.scrollbars {
 			{
 				_maximumScrollPosition = measuredPosition;
 				measure();
-				setTargetScrollRect( target );
+				//setTargetScrollRect( target );
 			}
 		}
 		
@@ -632,13 +632,13 @@ package com.ffsys.ui.scrollbars {
 				if( target.scrollRect != null )
 				{
 				
-					trace("AbstractScrollBar::set scrollPosition()", target.scrollRect, property, position );		
+					//trace("AbstractScrollBar::set scrollPosition()", target.scrollRect, property, position );		
 				
 					var rect:Rectangle = target.scrollRect;
 					rect[ property ] = ( position * -1 );
 					target.scrollRect = rect;
 					
-					trace("AbstractScrollBar::set scrollPosition() after assignment:", target.scrollRect[ property ] );										
+					//trace("AbstractScrollBar::set scrollPosition() after assignment:", target.scrollRect[ property ] );										
 				}else
 				{
 					target[ property ] = position;

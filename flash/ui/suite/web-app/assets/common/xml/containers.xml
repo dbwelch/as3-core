@@ -13,8 +13,7 @@
 		<vbox>
 			<spacing>5</spacing>
 			<styles>example-group</styles>
-			
-					
+								
 			<label>
 				<styles>element</styles>
 				<identifier>elements.container</identifier>
@@ -24,7 +23,7 @@
 				<spacing>5</spacing>
 				<vbox>
 					<spacing>5</spacing>
-					
+					<styles>example-group</styles>
 					<hbox>
 						<spacing>5</spacing>
 						<container>
@@ -81,7 +80,12 @@
 
 				</vbox>
 			
-			</hbox>			
+			</hbox>	
+			
+			<label>
+				<styles>element</styles>
+				<identifier>elements.links</identifier>
+			</label>					
 			
 			<sub-paragraph>
 				<identifier>containers.examples.textlinks.copy</identifier>
@@ -138,7 +142,12 @@
 					<id>example-links-result</id>
 				</label>
 			</hbox>			
-		</vbox>		
+		</vbox>	
+		
+		<label>
+			<styles>element</styles>
+			<identifier>elements.tabs</identifier>
+		</label>			
 		
 		<vbox>
 			<spacing>5</spacing>

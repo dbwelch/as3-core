@@ -180,6 +180,7 @@ package com.ffsys.ui.core
 				var styleNames:Array = stylesheet.getStyleNameList( this );
 				
 				//apply all normal styles
+				//trace("UIComponent::applyStyles() UICOMPONENT: ", this );
 				var output:Array = stylesheet.style( this );
 				
 				//find one matching a non-main state

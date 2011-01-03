@@ -359,6 +359,38 @@ package com.ffsys.ui.runtime
 			descriptor.instanceClass = MaskComponent;
 			beans.addBeanDescriptor( descriptor );
 			
+			data = new Object();
+			data.color = 0xa9a9a9;
+			data.alpha = 1;
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.DEFAULT_FILL, data );
+			descriptor.instanceClass = SolidFill;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.fill = new BeanReference(
+				ComponentIdentifiers.DIVIDER_GRAPHIC,
+				null,
+				ComponentIdentifiers.DEFAULT_FILL );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.DIVIDER_GRAPHIC, data );
+			descriptor.instanceClass = BorderGraphic;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.DIVIDER );
+			descriptor.instanceClass = Divider;
+			beans.addBeanDescriptor( descriptor );			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HRULE );
+			descriptor.instanceClass = HorizontalRule;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.VRULE );
+			descriptor.instanceClass = VerticalRule;
+			beans.addBeanDescriptor( descriptor );
+			
 			//
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ITERATOR );

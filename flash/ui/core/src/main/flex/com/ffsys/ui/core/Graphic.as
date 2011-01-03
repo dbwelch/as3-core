@@ -63,26 +63,26 @@ package com.ffsys.ui.core
 		
 		public function set graphic( graphic:IComponentGraphic ):void
 		{
-			if( this.graphic && this.contains( DisplayObject( graphic ) ) )
+			if( _graphic && contains( DisplayObject( _graphic ) ) )
 			{
-				this.removeChild( DisplayObject( graphic ) );
+				removeChild( DisplayObject( _graphic ) );
 			}
 			
 			_graphic = graphic;
 			
-			if( this.graphic )
+			if( _graphic )
 			{
-				if( isNaN( this.graphic.preferredWidth ) )
+				if( isNaN( _graphic.preferredWidth ) )
 				{
-					this.graphic.preferredWidth = preferredWidth;
+					_graphic.preferredWidth = preferredWidth;
 				}
 				
-				if( isNaN( this.graphic.preferredHeight ) )
+				if( isNaN( _graphic.preferredHeight ) )
 				{
-					this.graphic.preferredHeight = preferredHeight;
+					_graphic.preferredHeight = preferredHeight;
 				}
 				
-				addChild( DisplayObject( this.graphic ) );
+				addChild( DisplayObject( _graphic ) );
 			}
 		}
 		
@@ -121,17 +121,26 @@ package com.ffsys.ui.core
 		{
 			if( styleManager )
 			{
-				var styles:Array = styleManager.getStyleObjects( this );
-				var style:Object = null;
-				for( var i:int = 0;i < styles.length;i++ )
+				var styles:Array = super.applyStyles();
+				
+				//no graphic from normal style application
+				//search for the first style definition that
+				//is a graphic
+				if( this.graphic == null )
 				{
-					style = styles[ i ];
-					if( style is IComponentGraphic )
+					var style:Object = null;
+					for( var i:int = 0;i < styles.length;i++ )
 					{
-						this.graphic = IComponentGraphic( style );
-						break;
+						style = styles[ i ];
+						if( style is IComponentGraphic )
+						{
+							this.graphic = IComponentGraphic( style );
+							break;
+						}
 					}
+				
 				}
+				return styles;
 			}
 			return null;
 		}

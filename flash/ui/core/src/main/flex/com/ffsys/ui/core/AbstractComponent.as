@@ -310,7 +310,7 @@ package com.ffsys.ui.core
 		{
 			if( !isNaN( preferredWidth ) )
 			{
-				return preferredWidth - paddings.width - margins.width - border.width;
+				return preferredWidth - paddings.width - border.width;
 			}
 			
 			return this.width;
@@ -323,7 +323,7 @@ package com.ffsys.ui.core
 		{
 			if( !isNaN( preferredHeight ) )
 			{
-				return preferredHeight - paddings.height - margins.height - border.height;
+				return preferredHeight - paddings.height - border.height;
 			}
 			
 			return this.height;
@@ -804,10 +804,21 @@ package com.ffsys.ui.core
 		{
 			if( this.background != null )
 			{
-				this.background.preferredWidth = this.preferredWidth;
-				this.background.preferredHeight = this.preferredHeight;				
+				var rect:Rectangle = getBackgroundRect();
+				this.background.x = rect.x;
+				this.background.y = rect.y;
+				
+				this.background.preferredWidth = rect.width;
+				this.background.preferredHeight = rect.height;
 				this.background.draw( this.preferredWidth, this.preferredHeight );
 			}
+		}
+		
+		protected function getBackgroundRect():Rectangle
+		{
+			var w:Number = this.preferredWidth - border.width;
+			var h:Number = this.preferredHeight - border.height;
+			return new Rectangle( border.left, border.top, w, h );
 		}
 		
 		/**

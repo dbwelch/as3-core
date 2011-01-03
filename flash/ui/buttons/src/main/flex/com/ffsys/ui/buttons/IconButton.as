@@ -184,7 +184,7 @@ package com.ffsys.ui.buttons
 		*/
 		override public function finalized():void
 		{
-			trace("IconButton::finalized()", this, this.id, preferredWidth, preferredHeight );
+			//trace("IconButton::finalized()", this, this.id, preferredWidth, preferredHeight );
 			super.finalized();
 			position();
 		}

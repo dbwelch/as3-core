@@ -286,7 +286,7 @@ package com.ffsys.core.processor {
 		{
 			if( index > ( length - 1 ) )
 			{
-				trace("AbstractProcessor::process()", "SETTING AS COMPLETE ON INDEX: ", index );
+				//trace("AbstractProcessor::process()", "SETTING AS COMPLETE ON INDEX: ", index );
 				_completed = true;
 				position = length;
 				return false;
@@ -323,7 +323,7 @@ package com.ffsys.core.processor {
 				_targets.push( currentTarget );
 			}
 			
-			trace("AbstractProcessor::process()", length, index, position, property, currentTarget );
+			//trace("AbstractProcessor::process()", length, index, position, property, currentTarget );
 			
 			if( currentTarget is IProcessorNotification )
 			{

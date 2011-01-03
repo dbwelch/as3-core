@@ -94,6 +94,38 @@ package com.ffsys.ui.text
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override protected function applyBackground():void
+		{
+			super.applyBackground();
+			if( this.background != null )
+			{
+				trace("TextComponent::applyBackground()",
+					this.background,
+					this.background.preferredWidth,
+					this.background.preferredHeight );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function getBackgroundRect():Rectangle
+		{
+			var rect:Rectangle = super.getBackgroundRect();
+			if( isNaN( rect.width ) )
+			{
+				rect.width = layoutWidth - border.width;
+			}
+			if( isNaN( rect.height ) )
+			{
+				rect.height = layoutHeight - border.height;
+			}
+			return rect;
+		}
+		
+		/**
 		* 	Invoked when this component is finalized
 		* 	as a bean.
 		*/
@@ -233,7 +265,7 @@ package com.ffsys.ui.text
 			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return textfield.textWidth + paddings.width;
+				return textfield.textWidth + paddings.width + border.width;
 			}
 			
 			return this.width == 0 ? 0 : this.width - 4;
@@ -270,7 +302,7 @@ package com.ffsys.ui.text
 			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return textfield.textHeight + paddings.height;
+				return textfield.textHeight + paddings.height + border.height;
 			}
 			
 			return this.height == 0 ? 0 : this.height - 4;
@@ -356,6 +388,9 @@ package com.ffsys.ui.text
 				textfield.setText( text );
 				
 				position();
+				
+				//update the background
+				applyBackground();
 			}
 		}
 		
@@ -421,8 +456,8 @@ package com.ffsys.ui.text
 			if( _textfield != null )
 			{
 				//offset by the padding, border and textfield gutter
-				_textfield.x = paddings.left + offsets.x;
-				_textfield.y = paddings.top + offsets.y;
+				_textfield.x = paddings.left + border.left + offsets.x;
+				_textfield.y = paddings.top + border.top + offsets.y;
 			}
 		}
 		

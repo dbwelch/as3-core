@@ -48,6 +48,7 @@ package com.ffsys.ui.text
 				this.mouseChildren = true;
 				textfield.autoSize = TextFieldAutoSize.NONE;
 				textfield.wordWrap = false;
+				useHandCursor = false;
 				
 				//
 				textfield.width = this.innerWidth;

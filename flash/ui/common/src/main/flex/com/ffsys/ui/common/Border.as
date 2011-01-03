@@ -28,10 +28,10 @@ package com.ffsys.ui.common
 		* 	@param alpha A default alpha.
 		*/
 		public function Border(
-			top:Number = NaN,
-			right:Number = NaN,
-			bottom:Number = NaN,
-			left:Number = NaN,
+			top:Number = 0,
+			right:Number = 0,
+			bottom:Number = 0,
+			left:Number = 0,
 			color:Number = 0xFFFFFF,
 			alpha:Number = 1 )
 		{

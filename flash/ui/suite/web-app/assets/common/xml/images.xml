@@ -19,6 +19,8 @@
 			<spacing>5</spacing>
 		</image-container>
 		
+		<!-- <hrule /> -->
+		
 		<!--
 		<image-container>
 			<id>injected-images-interactive</id>

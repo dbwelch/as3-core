@@ -301,5 +301,30 @@ package com.ffsys.ui.common
 		* 	The identifier for a mask component.
 		*/
 		public static const MASK:String = "mask";
+		
+		/**
+		* 	The identifier for the default graphic used by divider components.
+		*/
+		public static const DIVIDER_GRAPHIC:String = "divider-graphic";
+		
+		/**
+		* 	The identifier for the fill used by default graphics.
+		*/
+		public static const DEFAULT_FILL:String = "default-component-graphic-fill";
+		
+		/**
+		* 	The identifier for the graphic divider component.
+		*/
+		public static const DIVIDER:String = "divider";
+		
+		/**
+		* 	The identifier for a hrule component.
+		*/
+		public static const HRULE:String = "hrule";	
+		
+		/**
+		* 	The identifier for a vrule component.
+		*/
+		public static const VRULE:String = "vrule";		
 	}
 }
