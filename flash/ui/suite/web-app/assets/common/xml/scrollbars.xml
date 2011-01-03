@@ -11,6 +11,26 @@
 		
 		<hbox>
 			<spacing>5</spacing>
+			
+			<container>
+				<container>
+					<id>mask-target</id>
+					<mask>
+						<preferred-width>100</preferred-width>
+						<preferred-height>100</preferred-height>
+						<target>
+							<id>mask-target</id>
+						</target>
+					</mask>
+					<square-graphic>
+						<preferred-width>200</preferred-width>
+						<preferred-height>200</preferred-height>
+						<fill>
+							<style>default-gradient-fill</style>
+						</fill>
+					</square-graphic>
+				</container>
+			</container>
 		
 			<hbox>
 				<square-graphic>

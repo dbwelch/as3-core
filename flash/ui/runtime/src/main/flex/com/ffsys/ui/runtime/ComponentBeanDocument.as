@@ -343,7 +343,12 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.IMAGE_CONTAINER );
 			descriptor.instanceClass = ImageContainer;
-			beans.addBeanDescriptor( descriptor );	
+			beans.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.MASK );
+			descriptor.instanceClass = MaskComponent;
+			beans.addBeanDescriptor( descriptor );
 			
 			//
 			descriptor = new BeanDescriptor(

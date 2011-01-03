@@ -286,5 +286,10 @@ package com.ffsys.ui.common
 		* 	The identifier for a target reference.
 		*/
 		public static const TARGET:String = "target";
+		
+		/**
+		* 	The identifier for a mask component.
+		*/
+		public static const MASK:String = "mask";
 	}
 }

@@ -380,3 +380,12 @@ check-box-foreground {
 	x: 2;
 	y: 2;
 }
+
+MaskComponent {
+	background: ref( mask-background-graphic );	
+}
+
+mask-background-graphic {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: fill( #ff0000, .75 );
+}

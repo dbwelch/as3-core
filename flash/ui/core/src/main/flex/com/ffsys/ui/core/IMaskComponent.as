@@ -1,5 +1,7 @@
 package com.ffsys.ui.core {
 	
+	import flash.display.DisplayObject;
+	
 	import com.ffsys.ui.graphics.IComponentGraphic;
 	import com.ffsys.ui.layout.IFixedLayout;
 	
@@ -15,12 +17,11 @@ package com.ffsys.ui.core {
 	public interface IMaskComponent
 		extends IComponent,
 		 		IFixedLayout {
-		
 		/**
-		*	The graphic that serves as the mask when this
-		*	component is applied as a mask.
+		* 	A target display object to be masked by
+		* 	this component.
 		*/
-		function get graphic():IComponentGraphic;
-		function set graphic( value:IComponentGraphic ):void;
+		function get target():DisplayObject;
+		function set target( value:DisplayObject ):void;
 	}
 }

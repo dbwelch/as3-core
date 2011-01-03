@@ -66,32 +66,30 @@ package com.ffsys.ui.containers {
 		{
 			if( clipped != _clipped )
 			{
-				var graphic:IComponentGraphic = null;
-				
+					/*
 				if( _clipped && !clipped && this.masker )
 				{
 					if( this.contains( DisplayObject( this.masker ) ) )
 					{
-						graphic = this.masker.graphic;
+						_masker.target = null;
 						removeChild( DisplayObject( this.masker ) );
 						this.mask = null;
 						_masker = null;
 					}
 				}
+			*/
 			
 				_clipped = clipped;
 			
-				if( this.clipped )
+				/*
+				if( this.masker )
 				{
 					_masker = new MaskComponent(
 						this.preferredWidth, this.preferredHeight );
-					if( graphic )
-					{
-						_masker.graphic = graphic;
-					}
+					_masker.target = this;
 					addChild( DisplayObject( _masker ) );
-					this.mask = DisplayObject( _masker );
 				}
+				*/
 			}
 		}
 		
