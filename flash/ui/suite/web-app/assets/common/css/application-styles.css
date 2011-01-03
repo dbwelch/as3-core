@@ -7,6 +7,25 @@ package-heading {
 	margin-top: 0;
 }
 
+element {
+	font: Courier;
+	size: 11;
+	color: #ff6600;
+	margin-bottom: 5;
+	padding: 5;
+	background: ref( element-background );
+	border: border( 1, 1, 1, 1, #ffffff, 1 );	
+}
+
+element-background {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: fill( #a9a9a9, 1 );
+}
+
+note {
+	size: 10;
+}
+
 uppercase {
 	text-transform: uppercase;
 }
@@ -55,4 +74,63 @@ example-group {
 sub-heading-border-left {
 	border: border( 0, 0, 0, 2, #ffffff, 1 );
 	padding-left: 5;
+}
+
+container-example {
+	preferred-width: 25;
+	preferred-height: 25;
+}
+
+container-border-example {
+	border: border( 1, 1, 1, 1, #ffffff, 1 );	
+}
+
+container-border-background-example {
+	background: ref( container-background );
+}
+
+container-background {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: fill( #ffffff, .5 );
+}
+
+toggle-button-filter {
+	size: 11;
+	underline: false;
+	color: #a9a9a9;
+	padding: 5;
+	icon: ref( check-box-icon );
+	label.filters: null;
+}
+
+toggle-button-filter:disabled {	
+	color: #636363;
+	label.filters: null;	
+}
+
+toggle-button-filter:over, toggle-button-filter:down {
+	color: #fefefe;
+	label.filters: null;	
+}
+
+toggle-button-filter:selected {
+	size: 11;
+	underline: true;
+	color: #efefef;
+	padding: 5;
+	icon: ref( check-box-icon-selected );
+	label.filters: array( ref( heading-filter ) );
+}
+
+toggle-button-filter:selected:over, toggle-button-filter:selected:down {
+	underline: true;
+	color: #ffffff;
+	icon: ref( check-box-icon-selected );
+	label.filters: array( ref( heading-filter ) );
+}
+
+toggle-button-filter:selected:disabled {
+	color: #636363;
+	icon: ref( check-box-icon-selected );
+	label.filters: array( ref( heading-filter ) );	
 }

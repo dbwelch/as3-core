@@ -461,12 +461,15 @@ package com.ffsys.ui.text
 		
 		override public function set width( width:Number ):void
 		{
+			//TODO: fix this so the textfield is resized to inner dimensions			
 			_textfield.width = width;
 			super.width = width;
 		}
 		
 		override public function set height( height:Number ):void
 		{
+			
+			//TODO: fix this so the textfield is resized to inner dimensions
 			_textfield.height = height;
 			super.height = height;
 		}

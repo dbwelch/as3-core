@@ -68,7 +68,16 @@
 		<label>
 			<identifier>text.label.constrain</identifier>
 			<maximum-width>160</maximum-width>
-		</label>		
+		</label>
+		
+		<text-input>
+			<text>text.label.constrain</text>
+		</text-input>
+		
+		<text-area>
+			<text>text.label.constrain</text>
+		</text-area>
+				
 		<paragraph>
 			<identifier>text.examples.paragraph</identifier>
 		</paragraph>			

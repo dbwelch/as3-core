@@ -383,15 +383,22 @@ package com.ffsys.ui.scrollbars {
 		public function set target( target:DisplayObject ):void
 		{
 			_target = target;
-			
-			trace("AbstractScrollBar::set target()", "SETTING TARGET OF SCROLL BAR TO : ", target );
-			
 			if( this.target )
 			{
 				_maximumScrollPosition = measuredPosition;
-				
 				measure();
+				setTargetScrollRect( target );
 			}
+		}
+		
+		/**
+		* 	Configures the scroll rectangle on the target display object.
+		* 
+		* 	@param target The target display object being scrolled.
+		*/
+		protected function setTargetScrollRect( target:DisplayObject ):void
+		{
+			//
 		}
 		
 		/**
@@ -622,7 +629,20 @@ package com.ffsys.ui.scrollbars {
 				
 				//trace("AbstractScrollBar::scrollPosition(), after constrain ", position );
 				
-				target[ property ] = position;
+				if( target.scrollRect != null )
+				{
+				
+					trace("AbstractScrollBar::set scrollPosition()", target.scrollRect, property, position );		
+				
+					var rect:Rectangle = target.scrollRect;
+					rect[ property ] = ( position * -1 );
+					target.scrollRect = rect;
+					
+					trace("AbstractScrollBar::set scrollPosition() after assignment:", target.scrollRect[ property ] );										
+				}else
+				{
+					target[ property ] = position;
+				}
 			}
 			
 			afterScroll();

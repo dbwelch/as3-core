@@ -176,13 +176,23 @@
 					<sub-paragraph>			
 						<identifier>buttons.examples.toggle.copy</identifier>
 					</sub-paragraph>
+					
+					<hbox>
+						<spacing>5</spacing>
+						<toggle-button>
+							<identifier>buttons.examples.toggle</identifier>
+						</toggle-button>
+	
+						<toggle-button>
+							<identifier>buttons.examples.toggle.disabled</identifier>
+							<enabled>false</enabled>
+						</toggle-button>					
+					</hbox>
+					
 					<toggle-button>
-						<identifier>buttons.examples.toggle</identifier>
-					</toggle-button>
-					<toggle-button>
-						<identifier>buttons.examples.toggle.disabled</identifier>
-						<enabled>false</enabled>
-					</toggle-button>					
+						<styles>toggle-button-filter</styles>
+						<identifier>buttons.examples.toggle.filter</identifier>
+					</toggle-button>										
 				</vbox>										
 			</vbox>
 

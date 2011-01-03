@@ -142,14 +142,19 @@ package com.ffsys.ui.runtime
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
-				ComponentIdentifiers.BITMAP_GRAPHIC );
-			descriptor.instanceClass = BitmapGraphic;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.LABEL );
 			descriptor.instanceClass = Label;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TEXT_INPUT );
+			descriptor.instanceClass = TextInput;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TEXT_AREA );
+			descriptor.instanceClass = TextArea;
+			beans.addBeanDescriptor( descriptor );					
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.HEADING );
@@ -175,6 +180,10 @@ package com.ffsys.ui.runtime
 				ComponentIdentifiers.BUTTON );
 			descriptor.instanceClass = Button;
 			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.GRAPHIC_BUTTON );
+			descriptor.instanceClass = GraphicButton;
+			beans.addBeanDescriptor( descriptor );			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.TOGGLE_BUTTON );
 			descriptor.instanceClass = ToggleButton;

@@ -2,7 +2,7 @@ heading-filter {
 	instance-class: class( flash.filters.DropShadowFilter );
 	angle: 45;
 	distance: 2;
-	color: #ffffff;
+	color: #0000ff;
 	blur-x: 5;
 	blur-y: 5;
 	strength: .75;

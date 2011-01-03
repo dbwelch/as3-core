@@ -3,8 +3,36 @@ Label {
 	size: 12;
 	embed-fonts: false;
 	auto-size: left;
-	word-wrap: false;
-	multiline: false;
+	color: #a9a9a9;
+}
+
+TextInput {
+	font: Arial;
+	size: 12;
+	embed-fonts: false;
+	color: #a9a9a9;
+}
+
+TextArea {
+	font: Arial;
+	size: 12;
+	embed-fonts: false;
+	color: #a9a9a9;
+}
+
+Heading {
+	font: Arial;
+	size: 16;
+	embed-fonts: false;
+	auto-size: left;
+	color: #a9a9a9;
+}
+
+SubHeading {
+	font: Arial;
+	size: 14;
+	embed-fonts: false;
+	auto-size: left;
 	color: #a9a9a9;
 }
 
@@ -18,26 +46,6 @@ Paragraph {
 	color: #a9a9a9;
 	preferred-width: 360;
 	preferred-height: 120;
-}
-
-Heading {
-	font: Arial;
-	size: 16;
-	embed-fonts: false;
-	auto-size: left;
-	word-wrap: false;
-	multiline: false;
-	color: #a9a9a9;
-}
-
-SubHeading {
-	font: Arial;
-	size: 14;
-	embed-fonts: false;
-	auto-size: left;
-	word-wrap: false;
-	multiline: false;
-	color: #a9a9a9;
 }
 
 SubParagraph {
@@ -320,17 +328,14 @@ CheckBox {
 	color: #a9a9a9;
 	padding: 5;
 	icon: ref( check-box-icon );
-	label.filters: null;
 }
 
 CheckBox:disabled {	
-	color: #636363;
-	label.filters: null;	
+	color: #636363;	
 }
 
 CheckBox:over, CheckBox:down {
 	color: #fefefe;
-	label.filters: null;	
 }
 
 CheckBox:selected {
@@ -339,20 +344,17 @@ CheckBox:selected {
 	color: #efefef;
 	padding: 5;
 	icon: ref( check-box-icon-selected );
-	label.filters: array( ref( heading-filter ) );
 }
 
 CheckBox:selected:over, CheckBox:selected:down {
 	underline: true;
 	color: #ffffff;
 	icon: ref( check-box-icon-selected );
-	label.filters: array( ref( heading-filter ) );
 }
 
 CheckBox:selected:disabled {
 	color: #636363;
 	icon: ref( check-box-icon-selected );
-	label.filters: array( ref( heading-filter ) );	
 }
 
 check-box-icon {

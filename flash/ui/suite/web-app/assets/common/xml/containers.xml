@@ -13,6 +13,76 @@
 		<vbox>
 			<spacing>5</spacing>
 			<styles>example-group</styles>
+			
+					
+			<label>
+				<styles>element</styles>
+				<identifier>elements.container</identifier>
+			</label>			
+			
+			<hbox>
+				<spacing>5</spacing>
+				<vbox>
+					<spacing>5</spacing>
+					
+					<hbox>
+						<spacing>5</spacing>
+						<container>
+							<styles>container-example container-border-example</styles>
+						</container>
+						<label>
+							<styles>note</styles>
+							<identifier>container.border.example</identifier>
+							<maximum-width>220</maximum-width>
+						</label>				
+					</hbox>
+			
+					<hbox>
+						<spacing>5</spacing>
+						<container>
+							<styles>container-example container-border-example container-border-background-example</styles>
+						</container>
+						<label>
+							<styles>note</styles>
+							<identifier>container.border.background.example</identifier>
+							<maximum-width>220</maximum-width>
+						</label>
+					</hbox>
+
+				</vbox>
+			
+				<vbox>
+					<spacing>5</spacing>
+					
+					<hbox>
+						<spacing>5</spacing>
+						<container>
+							<styles>container-example container-border-background-example</styles>
+						</container>
+						<label>
+							<styles>note</styles>
+							<identifier>container.background.example</identifier>
+							<maximum-width>220</maximum-width>
+						</label>
+					</hbox>					
+					
+					<hbox>
+						<spacing>5</spacing>
+						<container>
+							<styles>container-example</styles>
+							<box-model />
+						</container>
+						<label>
+							<styles>note</styles>
+							<identifier>container.boxmodel.example</identifier>
+							<maximum-width>220</maximum-width>
+						</label>				
+					</hbox>
+
+				</vbox>
+			
+			</hbox>			
+			
 			<sub-paragraph>
 				<identifier>containers.examples.textlinks.copy</identifier>
 			</sub-paragraph>

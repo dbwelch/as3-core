@@ -91,12 +91,14 @@ package com.ffsys.ui.display {
 		/**
 		*	@inheritDoc	
 		*/
-		override protected function createChildren():void
+		override public function finalized():void
 		{
 			var component:IComponent = IComponent( this.parent );
 			var graphic:IComponentGraphic = null;
 			
 			var rect:Rectangle = component.getRectangle();
+			
+			//trace("BoxModelComponent::finalized()", rect );
 			
 			graphic = new RectangleGraphic(
 				rect.width,

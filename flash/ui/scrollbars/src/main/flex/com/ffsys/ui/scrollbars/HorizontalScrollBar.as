@@ -41,6 +41,16 @@ package com.ffsys.ui.scrollbars {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override protected function setTargetScrollRect( target:DisplayObject ):void
+		{
+			var r:Rectangle = new Rectangle(
+				0, 0, preferredWidth, measuredSize );
+			this.target.scrollRect = r;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		override public function set preferredWidth( width:Number ):void

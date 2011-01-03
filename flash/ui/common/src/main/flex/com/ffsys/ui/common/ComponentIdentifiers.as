@@ -81,11 +81,6 @@ package com.ffsys.ui.common
 		public static const GRAPHIC:String = "graphic";
 		
 		/**
-		* 	The identifier for a bitmap graphic component.
-		*/
-		public static const BITMAP_GRAPHIC:String = "bitmap-graphic";
-		
-		/**
 		* 	The identifier for a fill bean reference.
 		*/
 		public static const FILL:String = "fill";
@@ -138,6 +133,16 @@ package com.ffsys.ui.common
 		public static const LABEL:String = "label";
 		
 		/**
+		* 	The identifier for a text input component.
+		*/
+		public static const TEXT_INPUT:String = "text-input";
+		
+		/**
+		* 	The identifier for a text area component.
+		*/
+		public static const TEXT_AREA:String = "text-area";		
+		
+		/**
 		* 	The identifier for a heading component.
 		*/
 		public static const HEADING:String = "heading";		
@@ -161,6 +166,11 @@ package com.ffsys.ui.common
 		* 	The identifier for a button component.
 		*/
 		public static const BUTTON:String = "button";
+		
+		/**
+		* 	The identifier for a graphic button component.
+		*/
+		public static const GRAPHIC_BUTTON:String = "graphic-button";
 		
 		/**
 		* 	The identifier for a toggle button component.

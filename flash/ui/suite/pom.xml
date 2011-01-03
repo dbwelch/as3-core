@@ -106,8 +106,8 @@
 					<configurationReport>true</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
 					<defaultSize>
-						<width>980</width>
-						<height>1024</height>
+						<width>960</width>
+						<height>580</height>
 					</defaultSize>					
 					
 					<defaultFrameRate>30</defaultFrameRate>
