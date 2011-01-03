@@ -15,8 +15,15 @@
 			<spacing>25</spacing>
 			<vbox>
 				<spacing>5</spacing>
+					
+				<label>
+					<styles>element</styles>
+					<identifier>elements.heading</identifier>
+				</label>
+				
 				<hbox>
-					<spacing>5</spacing>
+					<spacing>5</spacing>					
+					
 					<heading>
 						<identifier>text.examples.heading</identifier>
 					</heading>
@@ -33,8 +40,15 @@
 						<identifier>underline</identifier>
 					</heading>
 				</hbox>
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.subheading</identifier>
+				</label>				
+				
 				<hbox>
 					<spacing>5</spacing>
+					
 					<sub-heading>
 						<identifier>text.examples.subheading</identifier>
 					</sub-heading>
@@ -52,8 +66,14 @@
 						<identifier>underline</identifier>
 					</sub-heading>									
 				</hbox>
+					
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label</identifier>
+				</label>
+								
 				<hbox>
-					<spacing>5</spacing>		
+					<spacing>5</spacing>												
 					<label>
 						<identifier>text.examples.label</identifier>
 					</label>			
@@ -70,37 +90,78 @@
 						<identifier>underline</identifier>
 					</label>			
 				</hbox>
+				
 				<label>
 					<identifier>text.label.constrain</identifier>
 					<maximum-width>160</maximum-width>
 				</label>
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.textinput</identifier>
+				</label>				
 		
 				<text-input>
 					<identifier>text.label.constrain</identifier>
 				</text-input>
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.textarea</identifier>
+				</label>				
 		
 				<text-area>
 					<identifier>text.label.constrain</identifier>
 				</text-area>
 				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.paragraph</identifier>
+				</label>				
+				
 				<paragraph>
 					<identifier>text.examples.paragraph</identifier>
-				</paragraph>			
+				</paragraph>
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.subparagraph</identifier>
+				</label>
+						
 				<sub-paragraph>
 					<identifier>text.examples.subparagraph</identifier>
 				</sub-paragraph>
-		
 			</vbox>	
 		
 			<vbox>
 				<spacing>5</spacing>
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label.html</identifier>
+				</label>
+				
+				<label>
+					<identifier>text.examples.subparagraph.html</identifier>
+					<html>true</html>
+					<maximum-width>260</maximum-width>
+				</label>
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label.border.padding</identifier>
+				</label>
+				
 				<sub-heading>
 					<styles>sub-heading-border-example</styles>
 					<identifier>text.examples.subheading.border.example</identifier>
 					<maximum-width>260</maximum-width>
 				</sub-heading>
 				
-				<!-- <hrule /> -->
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label.leftborder</identifier>
+				</label>
 				
 				<sub-heading>
 					<styles>sub-heading-border-left</styles>

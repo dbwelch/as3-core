@@ -1,6 +1,7 @@
 package com.ffsys.ui.css {
 	
 	import flash.filters.BitmapFilter;
+	import flash.text.StyleSheet;	
 	import flash.text.TextFormat;
 	
 	import com.ffsys.ioc.*;	
@@ -22,6 +23,17 @@ package com.ffsys.ui.css {
 	public interface ICssStyleSheet
 		extends	IBeanDocument,
 		 		IStyleAccess {
+			
+		/**
+		* 	Gets a <code>StyleSheet</code> representation
+		* 	of this css style sheet.
+		* 
+		* 	Note this implementation creates a <code>StyleSheet</code> instance
+		* 	each time it is invoked so should be invoked with care.
+		* 
+		* 	@return The created <code>StyleSheet</code>.
+		*/
+		function toStyleSheet():StyleSheet;
 		
 		/**
 		*	Applies a collection of style objects to a target.

@@ -65,6 +65,25 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function toStyleSheet():StyleSheet
+		{
+			var styles:StyleSheet = new StyleSheet();
+			
+			var names:Array = this.styleNames;
+			var style:Object = null;
+			var name:String = null;
+			for( var i:int = 0;i < names.length;i++ )
+			{
+				name = names[ i ];
+				style = getStyle( name );
+				styles.setStyle( name, style );
+			}
+			return styles;
+		}
+		
+		/**
 		* 	Configures the default beans for this
 		* 	style sheet.
 		*/

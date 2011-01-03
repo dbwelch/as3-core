@@ -99,6 +99,15 @@ package com.ffsys.ioc
 				//only if still a string after primitive parsing
 				if( output is String )
 				{
+					//escaped hex value to be treated as a hex string
+					if( /^\\#/.test( String( output ) ) )
+					{
+						
+						output = String( output ).replace( /^\\/, "" );
+						trace("BeanTextElementParser::parse HANDLING ESCAPED HEX VALUE: ", output );
+						return output;
+					}
+					
 					if( hexExpression.test( String( output ) ) )
 					{
 						output = parseHexNumber( descriptor, String( output ) );

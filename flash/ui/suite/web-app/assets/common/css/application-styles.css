@@ -5,10 +5,18 @@ package-heading {
 	margin-top: 0;
 }
 
+.letter-spacing {
+	letter-spacing: 10;
+}
+
+.inline-html-example {
+	leading: 5;	
+}
+
 element {
 	font: Courier;
 	size: 11;
-	color: #ffffff;
+	color: #000000;
 	margin-bottom: 5;
 	padding-left: 5;
 	padding-top: 5;
@@ -20,7 +28,7 @@ element {
 
 element-background {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
-	fill: fill( #333333, .75 );
+	fill: fill( #ffffff, 1 );
 }
 
 note {

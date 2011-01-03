@@ -218,8 +218,10 @@ package com.ffsys.ui.text.core {
 				applyProperties( tf, properties );
 			}
 			
-			this.defaultTextFormat = tf;
-			//setText( this.text );
+			if( styleSheet == null )
+			{
+				this.defaultTextFormat = tf;
+			}
 		}
 		
 		/**

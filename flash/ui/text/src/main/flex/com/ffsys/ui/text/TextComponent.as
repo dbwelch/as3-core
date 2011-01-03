@@ -1,5 +1,6 @@
 package com.ffsys.ui.text
 {
+	import flash.text.StyleSheet;
 	import flash.text.TextField;
 	
 	import flash.display.DisplayObject;
@@ -14,6 +15,7 @@ package com.ffsys.ui.text
 	import com.ffsys.ui.data.CreateNotification;
 	import com.ffsys.ui.text.core.ITypedTextField;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
+	import com.ffsys.ui.css.IStyleManager;
 	
 	/**
 	*	Abstract super class for all components
@@ -26,7 +28,8 @@ package com.ffsys.ui.text
 	*	@since  21.06.2010
 	*/
 	public class TextComponent extends UIComponent
-		implements 	ICssTextFieldProxy
+		implements 	ITextComponent,
+					ICssTextFieldProxy
 	{
 		/**
 		* 	A default gutter to offset textfield positions.
@@ -384,10 +387,33 @@ package com.ffsys.ui.text
 				{
 					text = handleTextTransform( text );
 				}
+
+				//ensure inline styles work as expected
+				//with html textfields
+				if( this.styleManager && html )
+				{
+					var sheet:StyleSheet = this.stylesheet.toStyleSheet();
+					//trace("TextComponent::set text()", "UPDATING TEXTFIELD STYLE SHEET", sheet, sheet.styleNames );
+					//_textfield.defaultTextFormat = null;
+					_textfield.styleSheet = sheet;
+					
+					//_textfield.background = true;
+				}				
 			
 				textfield.setText( text );
 				
+				//
+				
+				/*
+				if( this.styleManager && html )
+				{
+					trace("TextComponent::set text()", _textfield.getText(), _textfield.styleSheet, _textfield.defaultTextFormat );
+				}				
+				*/
+				
 				position();
+				
+				
 				
 				//update the background
 				applyBackground();
@@ -527,7 +553,37 @@ package com.ffsys.ui.text
 		public function set antiAliasType( antiAliasType:String ):void
 		{
 			_textfield.antiAliasType = antiAliasType;
-		}		
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get html():Boolean
+		{
+			if( _textfield != null )
+			{
+				return _textfield.html;
+			}			
+			return false;
+		}
+		
+		public function set html( value:Boolean ):void
+		{
+			if( _textfield != null )
+			{
+				_textfield.html = value;
+				
+				//html textfields can have links - need to toggle interactivity
+				
+				this.interactive = value;
+				
+				if( value )  
+				{
+					mouseChildren = true;
+					useHandCursor = false;
+				}
+			}
+		}
 		
 		/**
 		* 	Gets the class of textfield to instantiate.
