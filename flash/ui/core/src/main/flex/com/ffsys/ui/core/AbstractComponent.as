@@ -980,6 +980,7 @@ package com.ffsys.ui.core
 		public function set enabled( enabled:Boolean ):void
 		{
 			mouseEnabled = enabled;
+			trace("AbstractComponent::set enabled()", this.stage );
 		}
 		
 		/**

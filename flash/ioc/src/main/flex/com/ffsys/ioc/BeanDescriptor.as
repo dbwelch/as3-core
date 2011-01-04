@@ -365,16 +365,21 @@ package com.ffsys.ioc
 						IBeanDocumentAware( instance ).document = this.document;
 					}					
 					
-					setBeanProperties( instance, parameters );
-					callBeanMethods( instance, parameters );
+					//handle dependency injection by type first
 					doTypeInjection( instance, parameters );
-					doLoadResources( instance, parameters );
-					
 					if( inject && document && document.injector )
 					{
 						document.injector.inject( document, this.id, instance );
 					}
-	
+					
+					//then call properties and invoke methods
+					setBeanProperties( instance, parameters );
+					callBeanMethods( instance, parameters );
+					
+					//handle resource dependencies
+					doLoadResources( instance, parameters );
+					
+					//finalize at the end
 					doFinalization( instance, parameters, finalize );
 				}
 				
