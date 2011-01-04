@@ -6,23 +6,17 @@
 	</radio-button-group>
 	
 	<vbox>
-		<spacing>5</spacing>
-		<vbox>
-			<!-- <page-header> -->
-				<styles>page-heading</styles>
-				<sub-heading>
-					<styles>package-heading</styles>
-					<identifier>buttons.package</identifier>
-				</sub-heading>
-			<!-- </page-header> -->
-		</vbox>
+		<styles>page-heading</styles>
+		<sub-heading>
+			<styles>package-heading</styles>
+			<identifier>buttons.package</identifier>
+		</sub-heading>
 		
 		<hbox>
 			<spacing>25</spacing>
 			<vbox>
 				<styles>column</styles>
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>
 					
 					<label>
@@ -44,8 +38,7 @@
 				
 				<hrule />
 		
-				<vbox>
-					<spacing>5</spacing>			
+				<vbox>			
 					<styles>example-group</styles>
 					
 					<label>
@@ -68,7 +61,6 @@
 				<hrule />
 	
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>	
 					
 					<label>
@@ -99,7 +91,6 @@
 				<hrule />
 				
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>
 					
 					<label>
@@ -135,7 +126,6 @@
 			<vbox>
 				<styles>column</styles>
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>	
 					
 					<label>
@@ -161,7 +151,6 @@
 				</vbox>
 				
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>	
 					<sub-paragraph>	
 						<identifier>buttons.examples.radio.copy.group</identifier>
@@ -192,7 +181,6 @@
 				<hrule />
 
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>	
 					
 					<label>
@@ -220,7 +208,6 @@
 				<hrule />
 				
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>	
 					
 					<label>
@@ -233,7 +220,6 @@
 					</sub-paragraph>
 					
 					<hbox>
-						<spacing>5</spacing>
 						<toggle-button>
 							<identifier>buttons.examples.toggle</identifier>
 						</toggle-button>
@@ -256,7 +242,6 @@
 			<vbox>
 				<styles>column</styles>
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>	
 					<sub-paragraph>			
 						<identifier>buttons.examples.urllink.copy</identifier>

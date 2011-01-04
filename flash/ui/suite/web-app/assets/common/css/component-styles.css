@@ -1,39 +1,9 @@
-font-offsets {
-	arial: point( -2, -2 );
-	courier: point( -2, -3 );
-	geargia: point( -2, -2 );
+TabContainer {
+	spacing: 0;
 }
 
-p {
-	font-family: Arial;
-	font-size: 11;
-	embed-fonts: false;
-}
-
-em, i {
-	font-style: italic;
-	display: inline;
-}
-
-strong, b {
-	font-weight: bold;
-	display: inline;	
-	color: \#ffffff;	
-}
-
-a {
-	color: \#ffffff;
-	text-decoration: none;
-}
-
-a:link {
-	color: \#ffffff;
-	text-decoration: none;
-}
-
-a:hover {
-	color: \#a9a9a9;	
-	text-decoration: underline;
+HorizontalBox, VerticalBox, LinkContainer, ImageContainer {
+	spacing: 0;
 }
 
 Label {
@@ -76,6 +46,7 @@ Heading {
 	embed-fonts: false;
 	auto-size: left;
 	color: #a9a9a9;
+	textfield.background: true;
 }
 
 SubHeading {
@@ -110,12 +81,7 @@ SubParagraph {
 	color: #a9a9a9;
 }
 
-HorizontalBox, VerticalBox {
-	spacing: 5;
-}
-
 HorizontalRule {
-	margin-bottom: 10;
 	graphic: ref( rule-graphic );
 }
 
@@ -454,4 +420,37 @@ MaskComponent {
 mask-background-graphic {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
 	fill: fill( #ff0000, .75 );
+}
+
+
+p {
+	font-family: Arial;
+	font-size: 11;
+	embed-fonts: false;
+}
+
+em, i {
+	font-style: italic;
+	display: inline;
+}
+
+strong, b {
+	font-weight: bold;
+	display: inline;	
+	color: \#ffffff;	
+}
+
+a {
+	color: \#ffffff;
+	text-decoration: none;
+}
+
+a:link {
+	color: \#ffffff;
+	text-decoration: none;
+}
+
+a:hover {
+	color: \#a9a9a9;	
+	text-decoration: underline;
 }

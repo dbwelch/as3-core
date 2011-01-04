@@ -3,6 +3,7 @@ package com.ffsys.ui.containers {
 	import flash.display.DisplayObject;
 	
 	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.core.IComponentStyleCache;
 	import com.ffsys.ui.layout.ILayout;	
 	
 	/**
@@ -45,6 +46,22 @@ package com.ffsys.ui.containers {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override protected function doWithStyleCache(
+			cache:IComponentStyleCache ):void
+		{
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.spacing is Number )
+			{
+				this.spacing = Number( cache.main.spacing );
+			}
+			
+			trace("Container::doWithStyleCache()", this, layout, this.parent, cache, cache.main, cache.main.spacing, this.spacing );
+		}
+		
+		/**
 		*	The spacing for this container layout.
 		*/
 		public function get spacing():Number
@@ -58,7 +75,6 @@ package com.ffsys.ui.containers {
 		
 		public function set spacing( spacing:Number ):void
 		{
-			trace("Container::set spacing()", layout );
 			if( layout )
 			{
 				layout.spacing = spacing;
@@ -68,6 +84,8 @@ package com.ffsys.ui.containers {
 		/**
 		*	@inheritDoc	
 		*/
+		
+		/*
 		override protected function afterChildAdded(
 			child:DisplayObject,
 			index:int ):void
@@ -78,10 +96,13 @@ package com.ffsys.ui.containers {
 				layout.added( child, this, index );
 			}
 		}
+		*/
 		
 		/**
 		*	@inheritDoc	
 		*/
+		
+		/*
 		override protected function afterChildRemoved(
 			child:DisplayObject,
 			index:int ):void
@@ -91,6 +112,27 @@ package com.ffsys.ui.containers {
 			{
 				layout.removed( child, this, index );
 			}
-		}		 
+		}
+		*/
+		
+		public function update():void
+		{
+			if( layout != null )
+			{
+				layout.update( this );
+			}			
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function finalized():void
+		{
+			super.finalized();
+			if( numChildren > 0 )
+			{
+				update();
+			}
+		}
 	}
 }

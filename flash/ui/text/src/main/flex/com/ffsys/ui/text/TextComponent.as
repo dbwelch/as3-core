@@ -4,6 +4,7 @@ package com.ffsys.ui.text
 	import flash.text.TextField;
 	
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.geom.Point;	
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
@@ -17,6 +18,8 @@ package com.ffsys.ui.text
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 	import com.ffsys.ui.css.IStyleManager;
 	
+	import com.ffsys.ui.layout.*;
+	
 	/**
 	*	Abstract super class for all components
 	* 	that encapsulate single textfield.
@@ -29,7 +32,8 @@ package com.ffsys.ui.text
 	*/
 	public class TextComponent extends UIComponent
 		implements 	ITextComponent,
-					ICssTextFieldProxy
+					ICssTextFieldProxy,
+					IAdjustLayoutValue
 	{
 		/**
 		* 	A default gutter to offset textfield positions.
@@ -126,6 +130,7 @@ package com.ffsys.ui.text
 		}
 		*/
 		
+
 		/**
 		* 	@inheritDoc
 		*/
@@ -138,14 +143,17 @@ package com.ffsys.ui.text
 			}
 			if( isNaN( rect.height ) )
 			{
-				rect.height = layoutHeight - border.height + GUTTER_TOP;
+				rect.height = layoutHeight - border.height;
 			}
+			
+			rect.height -= GUTTER_TOP;
+			
 			return rect;
 		}
 		
 		override protected function getBorderDimensions():Rectangle
 		{
-			return new Rectangle( 0, 0, layoutWidth, layoutHeight + ( GUTTER_TOP * 2 ) );
+			return new Rectangle( 0, 0, layoutWidth, layoutHeight );
 		}		
 		
 		/**
@@ -170,9 +178,10 @@ package com.ffsys.ui.text
 				}
 			}
 			
+			/*
 			var rect:Rectangle = calculateTextMetrics();
-			
 			trace("TextComponent::finalized() this/id/h/metrics.width/metrics.height/x: ", this, this.id, rect.width, rect.height, rect.x );			
+			*/
 			
 			super.finalized();
 		}
@@ -337,10 +346,35 @@ package com.ffsys.ui.text
 			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return textfield.textHeight + paddings.height + border.height - ( GUTTER_TOP * 2 );
+				return textfield.textHeight + paddings.height + border.height;
 			}
 			
 			return this.height == 0 ? 0 : this.height - 4;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function adjustLayoutValue(
+			layout:ILayout,
+			value:Object,
+			parent:DisplayObjectContainer,
+			child:DisplayObject,
+			previous:DisplayObject = null ):Object
+		{
+			trace("TextComponent::adjustLayoutValue()", this, child, this == child, previous, previous != null );
+			if( previous is TextComponent )
+			{
+				trace("TextComponent::adjustLayoutValue() ADJUSTING TEXT COMPONENT LAYOUT TO INCLUDE GUTTER TOP");
+				if( layout is VerticalLayout )
+				{
+					return Number( value ) - GUTTER_TOP;
+				}else if( layout is HorizontalLayout )
+				{
+					return Number( value ) - GUTTER_LEFT;
+				}
+			}
+			return value;
 		}
 		
 		/**

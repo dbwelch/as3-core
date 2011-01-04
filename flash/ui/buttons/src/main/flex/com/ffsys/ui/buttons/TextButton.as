@@ -44,6 +44,50 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutWidth():Number
+		{
+			//some border data - use border dimensions
+			if( this.border.valid() )
+			{
+				return getBorderDimensions().width;
+			}else if( this.background != null )
+			{
+				return this.background.preferredWidth;
+			}else if( this.label != null
+			 	&& this.label.text != null
+			 	&& this.label.text.length > 0 )
+			{ 
+				return this.label.layoutWidth;
+			}
+			
+			return super.layoutWidth;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutHeight():Number
+		{
+			//some border data - use border dimensions
+			if( this.border.valid() )
+			{
+				return getBorderDimensions().height;
+			}else if( this.background != null )
+			{
+				return this.background.preferredHeight;
+			}else if( this.label != null
+			 	&& this.label.text != null
+			 	&& this.label.text.length > 0 )
+			{ 
+				return this.label.layoutHeight;
+			}
+			
+			return super.layoutHeight;
+		}		
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function getProxyTextFields():Vector.<TextField>

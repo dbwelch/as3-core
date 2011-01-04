@@ -150,6 +150,64 @@ package com.ffsys.ui.buttons
 			return height;
 		}
 		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutWidth():Number
+		{
+			var hasIcon:Boolean = ( icon != null ) && contains( icon );
+			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			
+			//some border data - use border dimensions
+			if( this.border.valid() )
+			{
+				return getBorderDimensions().width;
+			}else if( this.background != null )
+			{
+				return this.background.preferredWidth;
+			}else if( hasIcon && hasLabel )
+			{
+				return icon.width + spacing + label.layoutWidth;
+			}else if( hasIcon )
+			{
+				return icon.width;
+			}else if( hasLabel )
+			{
+				return label.layoutWidth;
+			}
+			
+			return super.layoutWidth;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutHeight():Number
+		{
+			var hasIcon:Boolean = ( icon != null ) && contains( icon );
+			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			
+			if( this.border.valid() )
+			{
+				return getBorderDimensions().height;
+			}else if( this.background != null )
+			{
+				return this.background.preferredHeight;
+			}else if( hasIcon && hasLabel )
+			{
+				return Math.max( icon.height, label.layoutHeight );
+			}else if( hasIcon )
+			{
+				return icon.height;
+			}else if( hasLabel )
+			{
+				return label.layoutHeight;
+			}
+			
+			return super.layoutHeight;
+		}		
+		
 		/*
 		private var _iconStyle:Object;
 
@@ -253,7 +311,7 @@ package com.ffsys.ui.buttons
 					
 					//default label positions when an icon is specified
 					lx = ix + icon.width + spacing;
-					ly = iy + ( icon.height * 0.5 ) - ( ( label.layoutHeight + TextComponent.GUTTER_TOP ) * 0.5 );
+					ly = iy + ( icon.height * 0.5 ) - ( label.layoutHeight * 0.5 );
 				}
 				
 				icon.x = ix;

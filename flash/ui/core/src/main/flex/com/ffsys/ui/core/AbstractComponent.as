@@ -483,7 +483,7 @@ package com.ffsys.ui.core
 
 			//TODO: re-layout borders
 			
-			trace("AbstractComponent::setSize()", this, width, height );
+			//trace("AbstractComponent::setSize()", this, width, height );
 			
 			layoutChildren( width, height );
 			
@@ -1089,7 +1089,8 @@ package com.ffsys.ui.core
 		internal function beforeAdded():void
 		{
 			//apply style information by default
-			applyStyles();
+			//applyStyles();
+			//updateState( State.MAIN );
 		}
 		
 		/**

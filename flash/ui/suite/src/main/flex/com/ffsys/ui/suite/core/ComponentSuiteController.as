@@ -236,6 +236,8 @@ package com.ffsys.ui.suite.core {
 			{	
 				vbox.addChild( DisplayObject( content ) );
 			}
+			
+			vbox.update();
 		}
 	}
 }

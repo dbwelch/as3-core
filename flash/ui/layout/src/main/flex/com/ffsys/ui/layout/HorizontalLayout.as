@@ -85,6 +85,16 @@ package com.ffsys.ui.layout
 				child.y = IMarginAware( child ).margins.top;
 			}
 			
+			if( child is IAdjustLayoutValue )
+			{
+				x = Number( IAdjustLayoutValue( child ).adjustLayoutValue(
+					this,
+					x,
+					parent,
+					child,
+					previous ) );
+			}			
+			
 			child.x = x;
 		}
 	}

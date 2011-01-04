@@ -2,7 +2,7 @@ package-heading {
 	text-transform: uppercase;
 	underline: true;
 	size: 10;
-	margin-top: 0;
+	margin-top: 20;
 }
 
 .letter-spacing {
@@ -17,7 +17,6 @@ element {
 	font: Courier;
 	size: 11;
 	color: #000000;
-	margin-bottom: 5;
 	padding-left: 5;
 	padding-top: 5;
 	padding-right: 5;
@@ -72,16 +71,16 @@ interactive-runtime-asset:over, interactive-runtime-asset:down {
 }
 
 page-heading {
-	margin-top: 20;
-	margin-bottom: 10;	
+	margin-top: 0;
+	margin-bottom: 0;	
 }
 
 example-group {
-	margin-bottom: 10;
+	margin-bottom: 0;
 }
 
 sub-heading-border-left {
-	border: border( 0, 0, 0, 2, #a9a9a9, 1 );
+	border: border( 0, 0, 0, 2, #ffffff, 1 );
 	padding-left: 5;
 }
 

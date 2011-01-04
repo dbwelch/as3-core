@@ -1,28 +1,20 @@
 <?xml version="1.0"?>
 <document>
 	<vbox>
-		<spacing>5</spacing>
-		<vbox>
-			<styles>page-heading</styles>
-			<sub-heading>
-				<styles>package-heading</styles>
-				<identifier>buttons.package</identifier>
-			</sub-heading>
-		</vbox>
-		
+		<sub-heading>
+			<styles>package-heading</styles>
+			<identifier>buttons.package</identifier>
+		</sub-heading>
 		<hbox>
 			<spacing>25</spacing>
 			<vbox>
-		
 				<vbox>
-					<spacing>5</spacing>
 					<styles>example-group</styles>
 					<sub-paragraph>
 						<identifier>graphic.buttons.examples.copy</identifier>
 					</sub-paragraph>
 					
 					<hbox>
-						<spacing>5</spacing>
 						<icon-button>
 							<styles>up-button</styles>
 						</icon-button>

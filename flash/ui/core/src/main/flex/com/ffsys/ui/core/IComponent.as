@@ -61,6 +61,29 @@ package com.ffsys.ui.core
 		function set state( value:State ):void;
 		
 		/**
+		* 	Determines whether this component has a style cache.
+		* 
+		* 	@return A boolean indicating whether a style cache is
+		* 	available.
+		*/
+		function hasStyleCache():Boolean;
+		
+		/**
+		* 	Clears the style cache.
+		*/
+		function clearStyleCache():void;
+		
+		/**
+		* 	Gets the style cache for this component.
+		* 
+		* 	If a style cache does not exist this method
+		* 	will attempt to create a style cache.
+		* 
+		* 	@return The component style cache.
+		*/
+		function getStyleCache():IComponentStyleCache;		
+		
+		/**
 		* 	Sets the state of the component and forces
 		* 	a redraw using the styles associated with the
 		* 	state.

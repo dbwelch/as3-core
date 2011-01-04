@@ -84,6 +84,103 @@ package com.ffsys.ui.core
 			layoutChildren( preferredWidth, preferredHeight );
 		}
 		
+		private var _styleCache:IComponentStyleCache = null;
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function hasStyleCache():Boolean
+		{
+			return _styleCache != null;
+		}
+		
+		/**
+		* 	Clears the style cache.
+		*/
+		public function clearStyleCache():void
+		{
+			_styleCache = null;
+		}
+		
+		/**
+		* 	Gets the style cache for this component.
+		* 
+		* 	@return The component style cache.
+		*/
+		public function getStyleCache():IComponentStyleCache
+		{
+			//trace("UIComponent::getStyleCache() GET STYLE CACHE: ", hasStyleCache() );
+			if( !hasStyleCache()
+			 	&& _styleManager != null )
+			{
+				_styleCache = getComponentStyleCache();
+				doWithStyleCache( _styleCache );
+			}
+			
+			return _styleCache;
+		}
+		
+		/**
+		* 	Retrieves a cache of the styles associated with this
+		* 	component.
+		* 
+		* 	@return The component style cache.
+		*/
+		protected function getComponentStyleCache():IComponentStyleCache
+		{
+			var output:IComponentStyleCache = null;
+			
+			if( this.stylesheet != null )
+			{
+				var data:Array = stylesheet.getStyleInformation( this );
+
+				
+				output = new ComponentStyleCache();
+				output.styleNames = data[ 0 ];
+				output.styleObjects = data[ 1 ];
+				output.styles = this.styles;
+				output.main = stylesheet.getFlatStyle( data[ 1 ] );
+				
+				
+				
+				trace("UIComponent::getComponentStyleCache() this/styleNames: ", this, data[0], this.styles != null, output.main, output.main.spacing );
+			}
+			
+			return output;
+		}
+		
+		/**
+		* 	Invoked when a style cache is generated.
+		* 
+		* 	This allows derived implementations to access
+		* 	style properties prior to the styles being
+		* 	applied to the component.
+		* 
+		* 	@param cache The component style cache.
+		*/
+		protected function doWithStyleCache(
+			cache:IComponentStyleCache ):void
+		{
+			//
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function set styles( value:String ):void
+		{
+			super.styles = value;
+			
+			//this will currently only work when the styles property is declared
+			//in the xml document as we can be sure the style manager has already
+			//been injected then - TODO add support for this property in plain bean declarations
+			if( this.styles != null )
+			{
+				//update the style cache
+				getStyleCache();
+			}
+		}
+		
 		/**
 		* 	The style manager for the component.
 		*/
@@ -109,6 +206,15 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		override public function prefinalize():void
+		{
+			//trace("::::::::::::::::: UIComponent::prefinalize()", this, this.id, this.styles );
+
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get state():State
 		{
 			return _state;
@@ -123,6 +229,13 @@ package com.ffsys.ui.core
 			}
 
 			_state = value;
+		}
+		
+		override internal function beforeAdded():void
+		{
+			//apply style information by default
+			//applyStyles();
+			updateState( this.state == null ? State.MAIN : state.clone() );
 		}
 		
 		/**
@@ -176,40 +289,59 @@ package com.ffsys.ui.core
 			
 			if( styleManager )
 			{	
-				var stylesheet:ICssStyleSheet = styleManager.stylesheet;
-				var styleNames:Array = stylesheet.getStyleNameList( this );
+				//trace("UIComponent::applyStyles()APPLY STYLES: ", this, this.id, this.styles );
+				
+				if( _styleCache == null )
+				{
+					_styleCache = getStyleCache();
+				}
+				
+				//var styleNames:Array = stylesheet.getStyleNameList( this );
+				var styleNames:Array = _styleCache.styleNames;
+				var styleObjects:Array = _styleCache.styleObjects;
+				var main:Object = _styleCache.main;
 				
 				//apply all normal styles
-				//trace("UIComponent::applyStyles() UICOMPONENT: ", this );
-				var output:Array = stylesheet.style( this );
+				//trace("UIComponent::applyStyles() UICOMPONENT: ", this, styleNames, styleObjects, main );
+				stylesheet.style( this );
+				
+				//apply the main flattened style object
+				//stylesheet.applyStyle( this, main );
+				
+				var output:Array = styleObjects;
 				
 				//find one matching a non-main state
 				//if a state has been specified
+				//and apply state level styles over the top
+				//of the main style data
 				if( styleNames != null
 					&& this.state != null
 					&& this.state.primary != State.MAIN_ID )
 				{
 
-					//trace("UIComponent::applyStyles()", this.state.toStateString(), this, this.id, styleNames );
-										
-					//trace("UIComponent::applyStyles()", styleNames, this, this.id );
+					//trace("UIComponent::applyStyles()", this, this.id, styleNames, this.state.toStateString() );
 					
 					var stateStyles:Array = new Array();
 					var stateStyle:Object = null;
 					var name:String = null;
   					for( var i:int = 0;i < styleNames.length;i++ )
 					{
-
+						
+						//TODO: attempt to locate style objects for every element in a state
+						
 						name = styleNames[ i ]
 							+ State.DELIMITER
 							+ this.state.toStateString();
 							
 						//trace("UIComponent::applyStyles() state style search name:", name );
 						
+						//stateStyle = stylesheet.getStyle( name );
+						
 						stateStyle = stylesheet.getStyle( name );
+						
 						if( stateStyle != null )
 						{
-							//trace("UIComponent::applyStyles()", "GOT STATE STYLE", stateStyle, stateStyle.color );
+							//trace("UIComponent::applyStyles()", "GOT STATE STYLE", name, stateStyle, stateStyle.icon );
 							stateStyles.push( stateStyle );
 						}
 					}
@@ -336,7 +468,7 @@ package com.ffsys.ui.core
 		*/
 		public function notify( notification:IDataBindingNotification ):void
 		{	
-			trace("AbstractComponent::notify()", notification, this );
+			//trace("AbstractComponent::notify()", notification, this );
 		}	
 		
 		/**

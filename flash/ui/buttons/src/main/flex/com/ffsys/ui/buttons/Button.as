@@ -56,7 +56,7 @@ package com.ffsys.ui.buttons {
 			{
 				applyBackground();
 			}
-		}
+		}		
 		
 		/**
 		*	@inheritDoc	
@@ -79,7 +79,7 @@ package com.ffsys.ui.buttons {
 			var height:Number = super.preferredHeight;
 			if( label )
 			{
-				height = label.layoutHeight + paddings.height + TextComponent.GUTTER_TOP;
+				height = label.layoutHeight + paddings.height;
 			}
 			return height;
 		}

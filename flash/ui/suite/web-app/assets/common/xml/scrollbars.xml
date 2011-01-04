@@ -1,18 +1,12 @@
 <?xml version="1.0"?>
 <document>
 	<vbox>
-		<spacing>5</spacing>
-		<vbox>
-			<styles>page-heading</styles>
-			<sub-heading>
-				<styles>package-heading</styles>
-				<identifier>scrollbars.package</identifier>
-			</sub-heading>
-		</vbox>
+		<sub-heading>
+			<styles>package-heading</styles>
+			<identifier>scrollbars.package</identifier>
+		</sub-heading>
 		
 		<hbox>
-			<spacing>5</spacing>
-			
 			<container>
 				<container>
 					<id>mask-target</id>

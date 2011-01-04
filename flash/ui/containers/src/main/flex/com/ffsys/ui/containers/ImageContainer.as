@@ -74,6 +74,14 @@ package com.ffsys.ui.containers
 					if( !this.contains( DisplayObject( component ) ) )
 					{
 						addChild( DisplayObject( component ) );
+						
+						if( layout != null )
+						{
+							layout.added(
+								DisplayObject( component ),
+								this,
+								numChildren - 1 );
+						}
 					}
 				}
 			}

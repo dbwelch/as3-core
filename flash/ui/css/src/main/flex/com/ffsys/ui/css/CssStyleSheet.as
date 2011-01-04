@@ -308,6 +308,29 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getStyleInformation( target:IStyleAware, ... custom ):Array
+		{
+			var output:Array = new Array();
+			if( target )
+			{
+				custom.unshift( target );
+				var styleNames:Array = getStyleNameList.apply( this, custom );
+				var styleObjects:Array = new Array();
+				for( var i:int = 0;i < styleNames.length;i++ )
+				{
+					styleObjects.push( getStyle( styleNames[ i ] ) );
+				}
+				output[ 0 ] = styleNames;
+				output[ 1 ] = styleObjects;				
+				
+				//trace(">>>>>>>>>>>>>>>>>>>>> CssStyleSheet::getStyleObjects() got style objects: ", output );
+			}
+			return output;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function apply(
@@ -325,6 +348,25 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getFlatStyle( styles:Array ):Object
+		{
+			var cumulative:Object = new Object();
+			
+			if( styles != null )
+			{
+				var merger:PropertiesMerge = new PropertiesMerge();
+				for( var i:int = 0;i < styles.length;i++ )
+				{
+					merger.merge( cumulative, styles[ i ], false );
+				}
+			}
+			
+			return cumulative;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function applyStyles( target:Object, styles:Array ):void
@@ -339,13 +381,7 @@ package com.ffsys.ui.css {
 			{
 				
 				
-				var cumulative:Object = new Object();
-				var merger:PropertiesMerge = new PropertiesMerge();
-				for( var i:int = 0;i < styles.length;i++ )
-				{
-					merger.merge( cumulative, styles[ i ], false );
-				}
-				
+				var cumulative:Object = getFlatStyle( styles );
 				
 				//trace("|||||||||||||||||||||| CssStyleSheet::applyStyles()", target, cumulative );				
 				
