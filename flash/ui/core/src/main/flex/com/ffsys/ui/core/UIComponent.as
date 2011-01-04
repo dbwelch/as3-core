@@ -5,7 +5,11 @@ package com.ffsys.ui.core
 	import flash.events.FocusEvent;
 	
 	import com.ffsys.core.IStringIdentifier;
-	import com.ffsys.ioc.IBeanDocument;
+	
+	import com.ffsys.io.loaders.core.ILoaderQueue;
+	
+	import com.ffsys.ioc.IBeanDescriptor;
+	import com.ffsys.ioc.IBeanDocument;	
 	
 	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.*;
@@ -85,6 +89,59 @@ package com.ffsys.ui.core
 			
 			//update any child positioning
 			layoutChildren( preferredWidth, preferredHeight );
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked after dependencies injected by
+		* 	type have been resolved.
+		* 
+		* 	@param descriptor The bean descriptor that
+		* 	created the bean.
+		*/
+		public function afterInjection(
+			descriptor:IBeanDescriptor ):void
+		{	
+			//trace("UIComponent::afterInjection()", this, descriptor );
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked after bean properties have been set.
+		* 
+		* 	Method calls are handled prior to setting properties
+		* 	so method calls have also been handled when this
+		* 	method is invoked.
+		* 
+		* 	@param descriptor The bean descriptor that
+		* 	created the bean.
+		*/
+		public function afterProperties(
+			descriptor:IBeanDescriptor ):void
+		{
+			//trace("UIComponent::afterProperties()", this, descriptor );
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked after any external file resources
+		* 	declared by the bean have been handled.
+		* 
+		* 	This does not imply the resources have been
+		* 	loaded simply that they have been resolved and
+		* 	a loader queue encapsulating the resources is available.
+		* 
+		*	@param descriptor The bean descriptor that
+		* 	created the bean.
+		*/
+		public function afterResources(
+			descriptor:IBeanDescriptor,
+			queue:ILoaderQueue = null ):void
+		{
+			trace("UIComponent::afterResources()", this, descriptor, queue );
 		}
 		
 		/**

@@ -363,7 +363,9 @@ package com.ffsys.ioc
 					if( instance is IBeanDocumentAware )
 					{
 						IBeanDocumentAware( instance ).document = this.document;
-					}					
+					}
+					
+					var bean:IBean = ( instance as IBean );
 					
 					//handle dependency injection by type first
 					doTypeInjection( instance, parameters );
@@ -372,12 +374,27 @@ package com.ffsys.ioc
 						document.injector.inject( document, this.id, instance );
 					}
 					
+					if( bean != null )
+					{
+						bean.afterInjection( this );
+					}
+					
 					//then call properties and invoke methods
-					setBeanProperties( instance, parameters );
 					callBeanMethods( instance, parameters );
+					setBeanProperties( instance, parameters );
+					
+					if( bean != null )
+					{
+						bean.afterProperties( this );
+					}					
 					
 					//handle resource dependencies
-					doLoadResources( instance, parameters );
+					var resources:ILoaderQueue = doLoadResources( instance, parameters );
+					
+					if( bean != null )
+					{
+						bean.afterResources( this, resources );
+					}
 					
 					//finalize at the end
 					doFinalization( instance, parameters, finalize );
@@ -536,7 +553,7 @@ package com.ffsys.ioc
 		* 	@param instance The bean instance.
 		* 	@param parameters The bean property parameters.
 		*/
-		private function doLoadResources( instance:Object, parameters:Object ):void
+		private function doLoadResources( instance:Object, parameters:Object ):ILoaderQueue
 		{
 			var target:ILoaderQueue = null;
 			
@@ -575,7 +592,7 @@ package com.ffsys.ioc
 					//we discard starting any load process
 					if( target == null )
 					{
-						return;
+						return null;
 					}
 				}
 				
@@ -589,6 +606,8 @@ package com.ffsys.ioc
 					}
 				}
 			}
+			
+			return target;
 		}
 		
 		/**

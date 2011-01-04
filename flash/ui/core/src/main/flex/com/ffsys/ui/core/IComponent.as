@@ -29,7 +29,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.css.*;
 	
 	import com.ffsys.ioc.IBeanDocumentAware;	
-	import com.ffsys.ioc.IBeanFinalized;
+	import com.ffsys.ioc.IBean;
 	
 	/**
 	*	Describes the contract for all components.
@@ -43,7 +43,7 @@ package com.ffsys.ui.core
 	public interface IComponent
 		extends ISprite,
 				IStyleManagerAware,
-				IBeanFinalized,
+				IBean,
 				IBeanDocumentAware,
 				IStyleAware,
 				ILayoutWidth,
