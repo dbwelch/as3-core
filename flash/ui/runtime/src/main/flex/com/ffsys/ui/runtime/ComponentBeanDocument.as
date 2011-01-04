@@ -47,7 +47,7 @@ package com.ffsys.ui.runtime
 			beans:IBeanDocument ):void
 		{
 			var data:Object = null;
-			var converter:PropertyNameConverter = new PropertyNameConverter();
+			var converter:PropertyNameConverter = new PropertyNameConverter();			
 			
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				ComponentIdentifiers.DOCUMENT );

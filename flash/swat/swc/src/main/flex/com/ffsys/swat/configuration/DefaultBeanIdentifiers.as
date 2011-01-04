@@ -204,5 +204,11 @@ package com.ffsys.swat.configuration
 		* 	An identifier for a view component.
 		*/
 		public static const VIEW:String = "view";
+		
+		/**
+		* 	An identifier for the stage bean.
+		*/
+		public static const STAGE:String = "stage";
+	
 	}
 }

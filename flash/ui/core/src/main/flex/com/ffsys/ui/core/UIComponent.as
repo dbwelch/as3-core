@@ -1,6 +1,7 @@
 package com.ffsys.ui.core
 {
 	import flash.display.DisplayObject;
+	import flash.display.Stage;	
 	import flash.events.FocusEvent;
 	
 	import com.ffsys.core.IStringIdentifier;
@@ -146,6 +147,16 @@ package com.ffsys.ui.core
 			}
 			
 			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function set stage( stage:Stage ):void
+		{
+			//_stage = value;
+			
+			trace("UIComponent::set stage()", stage );
 		}
 		
 		/**

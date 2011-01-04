@@ -14,6 +14,8 @@ package com.ffsys.swat.view  {
 	import com.ffsys.ioc.*;
 	import com.ffsys.ioc.support.xml.*;
 	
+	import com.ffsys.ui.core.IStageAware;
+	
 	import com.ffsys.swat.core.*;
 	import com.ffsys.swat.configuration.*;
 	import com.ffsys.swat.events.ConfigurationEvent;
@@ -263,6 +265,12 @@ package com.ffsys.swat.view  {
 		
 			//TODO: configure with global resources
 			beanConfiguration.doWithBeans( beans, configuration, preloader.resources );
+			
+			
+			var stageBean:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.STAGE, stage );
+				
+			trace("DefaultApplication::configure()", stage, stageBean );			
 		
 			//bean configuration specific to a view based bootstrap
 			var mainApplicationViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
@@ -271,7 +279,15 @@ package com.ffsys.swat.view  {
 				DefaultBeanIdentifiers.BOOTSTRAP_LOADER, preloader );
 			var preloaderViewBean:IBeanDescriptor = new InjectedBeanDescriptor(
 				DefaultBeanIdentifiers.PRELOADER_VIEW, preloader.view );
+				
+			beans.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.STAGE,
+				DefaultBeanIdentifiers.STAGE,
+				IStageAware,
+				stageBean ) );			
 			
+			//stage bean
+			beans.addBeanDescriptor( stageBean );			
 			//main application view
 			beans.addBeanDescriptor( mainApplicationViewBean );
 			//bootstrap loader
