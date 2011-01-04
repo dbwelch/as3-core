@@ -6,7 +6,6 @@ package com.ffsys.ui.suite.core
 
 	public class AbstractApplicationController extends DefaultController
 	{
-	
 		/**
 		* 	Creates an <code>AbstractApplicationController</code> instance.
 		*/
@@ -20,7 +19,11 @@ package com.ffsys.ui.suite.core
 		*/
 		override protected function getViewParser():IBeanXmlParser
 		{
-			return new RuntimeParser();
+			var parser:IRuntimeParser = new RuntimeParser();
+			
+			//ensure the document can parse embedded css correctly
+			parser.runtime.stylesheet = this.stylesheet;
+			return parser;
 		}
 	}
 }

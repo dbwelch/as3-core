@@ -5,7 +5,9 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.ioc.IBeanDocument;	
 	import com.ffsys.ioc.support.xml.BeanXmlParser;
 	
-	import com.ffsys.utils.substitution.Binding;	
+	import com.ffsys.utils.substitution.Binding;
+	
+	import com.ffsys.ui.common.ComponentIdentifiers;	
 	
 	/**
 	*	Responsible for parsing the runtime view definition document.
@@ -38,7 +40,9 @@ package com.ffsys.ui.runtime {
 		{
 			if( _runtime == null )
 			{
-				_runtime = new Document();
+				//_runtime = new Document();
+				_runtime = IDocument( this.document.getBean(
+					ComponentIdentifiers.DOCUMENT ) );
 			}
 			
 			return _runtime;
@@ -110,7 +114,12 @@ package com.ffsys.ui.runtime {
 				target = this.runtime;
 			}
 			
-			return super.deserialize( x, target );
+			var output:Object = super.deserialize( x, target );
+			//ensure the document runtime is recreated
+			//if this parser is reused
+			_runtime = null;
+			_document = null;
+			return output;
 		}
 	}
 }

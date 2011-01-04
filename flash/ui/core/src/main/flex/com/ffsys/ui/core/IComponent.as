@@ -26,6 +26,8 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.IStyleAware;
 	import com.ffsys.ui.common.flash.ISprite;	
 	
+	import com.ffsys.ui.css.*;
+	
 	import com.ffsys.ioc.IBeanDocumentAware;	
 	import com.ffsys.ioc.IBeanFinalized;
 	
@@ -48,6 +50,7 @@ package com.ffsys.ui.core
 				ILayoutHeight,
 				IMarginAware,
 				IPaddingAware,
+				IStageAware,
 				IBitmapGrab,
 				IDestroy,
 				IEnabled,
@@ -59,6 +62,12 @@ package com.ffsys.ui.core
 		*/
 		function get state():State;
 		function set state( value:State ):void;
+		
+		/**
+		* 	The stylesheet for this component.
+		*/
+		function get stylesheet():ICssStyleSheet;
+		function set stylesheet( value:ICssStyleSheet ):void;	
 		
 		/**
 		* 	Determines whether this component has a style cache.

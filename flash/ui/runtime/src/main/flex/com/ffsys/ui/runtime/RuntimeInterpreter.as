@@ -68,6 +68,8 @@ package com.ffsys.ui.runtime {
 			}
 			
 			_runtime = IDocument( instance );
+			
+			trace("RuntimeInterpreter::documentAvailable()", _runtime, _runtime.stylesheet );
 		}
 		
 		/**

@@ -1,5 +1,6 @@
 package com.ffsys.ui.drag {
-	
+
+	import flash.display.DisplayObject;	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -109,7 +110,7 @@ package com.ffsys.ui.drag {
 			{
 				_source = source;
 				
-				if( !source.stage )
+				if( !DisplayObject( source ).stage )
 				{
 					throw new Error(
 						"Cannot start a drag operation on a component that"
@@ -118,10 +119,10 @@ package com.ffsys.ui.drag {
 				
 				_target = Sprite( source );
 				
-				source.stage.addEventListener(
+				DisplayObject( source ).stage.addEventListener(
 					MouseEvent.MOUSE_UP, onMouseUp );
 					
-				source.stage.addEventListener(
+				DisplayObject( source ).stage.addEventListener(
 					Event.MOUSE_LEAVE, onMouseLeave );
 					
 				/*
@@ -199,9 +200,9 @@ package com.ffsys.ui.drag {
 		*/
 		private function onMouseUp( event:MouseEvent ):void
 		{
-			if( source && source.stage )
+			if( source && DisplayObject( source ).stage )
 			{
-				source.stage.removeEventListener(
+				DisplayObject( source ).stage.removeEventListener(
 					MouseEvent.MOUSE_UP, onMouseUp );
 			}
 			

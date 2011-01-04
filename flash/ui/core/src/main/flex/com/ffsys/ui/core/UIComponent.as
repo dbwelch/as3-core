@@ -38,6 +38,7 @@ package com.ffsys.ui.core
 		private var _dataBinding:IDataBinding;	
 		private var _layers:Array;
 		private var _graphics:IComponent;
+		private var _stage:Stage;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -154,9 +155,16 @@ package com.ffsys.ui.core
 		*/
 		public function set stage( stage:Stage ):void
 		{
-			//_stage = value;
-			
-			trace("UIComponent::set stage()", stage );
+			_stage = stage;
+		}
+		
+		override public function get stage():Stage
+		{
+			if( _stage != null )
+			{
+				return _stage;
+			}
+			return super.stage;
 		}
 		
 		/**
@@ -250,13 +258,20 @@ package com.ffsys.ui.core
 			_styleManager = value;
 		}
 		
+		private var _stylesheet:ICssStyleSheet;
+		
 		public function get stylesheet():ICssStyleSheet
 		{
 			if( this.styleManager )
 			{
 				return this.styleManager.stylesheet;
 			}
-			return null;
+			return _stylesheet;
+		}
+		
+		public function set stylesheet( value:ICssStyleSheet ):void
+		{
+			_stylesheet = value;
 		}
 		
 		/**
@@ -265,7 +280,8 @@ package com.ffsys.ui.core
 		override public function prefinalize():void
 		{
 			//trace("::::::::::::::::: UIComponent::prefinalize()", this, this.id, this.styles );
-
+			
+			trace("UIComponent::prefinalize()", this, this.stage, this.id );
 		}
 		
 		/**
@@ -635,6 +651,7 @@ package com.ffsys.ui.core
 			_styleManager = null;
 			_styleCache = null;
 			_state = null;
+			_stage = null;
 			_dataBinding = null;
 		}
 		
