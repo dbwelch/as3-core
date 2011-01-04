@@ -58,7 +58,7 @@ package com.ffsys.ui.containers {
 				this.spacing = Number( cache.main.spacing );
 			}
 			
-			trace("Container::doWithStyleCache()", this, layout, this.parent, cache, cache.main, cache.main.spacing, this.spacing );
+			//trace("Container::doWithStyleCache()", this, layout, this.parent, cache, cache.main, cache.main.spacing, this.spacing );
 		}
 		
 		/**

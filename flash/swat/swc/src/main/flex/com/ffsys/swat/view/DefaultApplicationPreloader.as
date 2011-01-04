@@ -30,7 +30,7 @@ package com.ffsys.swat.view {
 	*	@author Mischa Williamson
 	*	@since  08.06.2010
 	*/
-	public class DefaultApplicationPreloader extends MovieClip
+	public class DefaultApplicationPreloader extends Sprite
 		implements IApplicationPreloader {
 		
 		private var _classes:IClassPathConfiguration;

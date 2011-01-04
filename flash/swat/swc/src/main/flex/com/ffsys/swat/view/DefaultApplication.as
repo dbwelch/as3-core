@@ -338,6 +338,14 @@ package com.ffsys.swat.view  {
 					IConfigurationAware( application ).configuration = _configuration;
 				}
 				
+				//var config:IClassPathConfiguration = preloader.main.classes;
+				
+				//add to the stage if the application is a display list
+				if( application is DisplayObject )
+				{
+					addChild( DisplayObject( application ) );
+				}				
+				
 				if( application is IApplicationMainController )
 				{
 					//invoke the ready method
@@ -353,13 +361,6 @@ package com.ffsys.swat.view  {
 						preloader.view = null;
 					}
 				}
-			}
-			
-			//var config:IClassPathConfiguration = preloader.main.classes;
-
-			if( application && ( application is DisplayObject ) )
-			{
-				addChild( DisplayObject( application ) );
 			}
 		}
 	}

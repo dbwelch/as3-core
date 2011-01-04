@@ -809,7 +809,7 @@ package com.ffsys.ui.scrollbars {
 						scrollTrack.preferredHeight );
 				}
 				
-				trace("AbstractScrollBar::layoutChildren()", scrollTrack.preferredWidth );
+				//trace("AbstractScrollBar::layoutChildren()", scrollTrack.preferredWidth );
 					
 				if( direction == Direction.HORIZONTAL )
 				{

@@ -29,10 +29,10 @@ package com.ffsys.ui.text
 			height:Number = NaN )
 		{
 			super( text );
-			trace("TextInput::()", width, height );
+			//trace("TextInput::()", width, height );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
-			trace("TextInput::init()", preferredWidth, preferredHeight );
+			//trace("TextInput::init()", preferredWidth, preferredHeight );
 		}
 		
 		/**
@@ -80,7 +80,7 @@ package com.ffsys.ui.text
 				textfield.wordWrap = ( this is TextArea );
 			}
 			
-			trace("TextInput::createTextField()", textfield, textfield.type, textfield.selectable, textfield.autoSize );
+			//trace("TextInput::createTextField()", textfield, textfield.type, textfield.selectable, textfield.autoSize );
 			
 			return textfield;
 		}
@@ -102,7 +102,7 @@ package com.ffsys.ui.text
 				{
 					textfield.height = innerHeight;
 				}
-				trace("TextInput::finalized()", preferredWidth, preferredHeight,textfield.width, textfield.height, textfield.wordWrap, textfield.embedFonts );
+				//trace("TextInput::finalized()", preferredWidth, preferredHeight,textfield.width, textfield.height, textfield.wordWrap, textfield.embedFonts );
 			}
 		}
 		

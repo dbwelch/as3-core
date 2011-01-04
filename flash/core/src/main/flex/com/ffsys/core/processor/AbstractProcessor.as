@@ -180,7 +180,6 @@ package com.ffsys.core.processor {
 		*/
 		public function next():void
 		{
-			trace("AbstractProcessor::next()", this.position );
 			process( this.position + 1 );
 		}
 		

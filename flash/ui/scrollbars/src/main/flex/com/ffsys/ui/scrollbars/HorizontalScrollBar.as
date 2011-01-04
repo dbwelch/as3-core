@@ -122,14 +122,14 @@ package com.ffsys.ui.scrollbars {
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{
-			trace("HorizontalScrollBar::layoutChildren()", target, negativeScrollButton, positiveScrollButton, scrollDrag, scrollTrack );			
+			//trace("HorizontalScrollBar::layoutChildren()", target, negativeScrollButton, positiveScrollButton, scrollDrag, scrollTrack );			
 			
 			if( negativeScrollButton )
 			{
 				negativeScrollButton.x = paddings.left;
 				negativeScrollButton.y = paddings.top;
 				
-				trace("HorizontalScrollBar::layoutChildren()", "SETTING SCROLL BUTTON SIZE", fixedSize );
+				//trace("HorizontalScrollBar::layoutChildren()", "SETTING SCROLL BUTTON SIZE", fixedSize );
 				
 				negativeScrollButton.setSize( fixedSize, fixedSize );
 			}

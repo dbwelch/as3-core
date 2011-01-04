@@ -129,7 +129,6 @@ package com.ffsys.ui.text
 			}
 		}
 		*/
-		
 
 		/**
 		* 	@inheritDoc
@@ -362,10 +361,13 @@ package com.ffsys.ui.text
 			child:DisplayObject,
 			previous:DisplayObject = null ):Object
 		{
-			trace("TextComponent::adjustLayoutValue()", this, child, this == child, previous, previous != null );
+			//TODO: account for previous children as the last child of a previous sibling
+			//TODO: allow for lack of descenders - TextMetrics.descent on last line
+			
+			//trace("TextComponent::adjustLayoutValue()", this, child, this == child, previous, previous != null );
 			if( previous is TextComponent )
 			{
-				trace("TextComponent::adjustLayoutValue() ADJUSTING TEXT COMPONENT LAYOUT TO INCLUDE GUTTER TOP");
+				//trace("TextComponent::adjustLayoutValue() ADJUSTING TEXT COMPONENT LAYOUT TO INCLUDE GUTTER TOP");
 				if( layout is VerticalLayout )
 				{
 					return Number( value ) - GUTTER_TOP;

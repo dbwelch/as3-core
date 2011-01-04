@@ -89,6 +89,8 @@ package com.ffsys.ui.core
 			{
 				addEventListener( Event.ADDED_TO_STAGE, __initialize );
 			}
+			
+			addEventListener( Event.ADDED_TO_STAGE, addedToStage );
 		}
 		
 		/**
@@ -1093,6 +1095,43 @@ package com.ffsys.ui.core
 			//updateState( State.MAIN );
 		}
 		
+		private var _parents:Vector.<DisplayObjectContainer>;
+		
+		public function get parents():Vector.<DisplayObjectContainer>
+		{
+			if( _parents != null )
+			{
+				return _parents;
+			}
+			
+			var output:Vector.<DisplayObjectContainer> = new Vector.<DisplayObjectContainer>();
+			var p:DisplayObjectContainer = this.parent;
+			while( p != null )
+			{
+				//trace("AbstractComponent::added() adding parent reference: ", p );
+				output.push( p );
+				p = p.parent;
+			}
+			//reverse the output so the parents are stored with
+			//the stage at index zero the dirent parent being
+			//the last element
+			output.reverse();
+			return output;
+		}
+		
+		protected function addedToStage( event:Event ):void
+		{
+			//
+			if( event.target == this
+				&& this.parent != null
+				&& this.stage != null
+			 	&& this.root != null )
+			{
+				_parents = this.parents;
+				trace("AbstractComponent::addedToStage()", this, _parents );
+			}
+		}
+		
 		/**
 		*	Invoked when a component is added to the display list
 		*	of a parent component.
@@ -1106,6 +1145,19 @@ package com.ffsys.ui.core
 			layoutChildren( preferredWidth, preferredHeight );
 			childrenCreated();
 			
+			//_parents = new Vector.<DisplayObjectContainer>();
+			//var p:DisplayObjectContainer = this.parent;
+			
+			/*
+			while( p != null )
+			{
+				trace("AbstractComponent::added() adding parent reference: ", p );
+				_parents.push( p );
+				p = p.parent;
+			}
+			
+			trace("AbstractComponent::added()", _parents );
+			*/
 			//TODO: apply styles to child composite components
 			
 			//apply style information by default

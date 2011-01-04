@@ -29,13 +29,14 @@ package com.ffsys.ui.core
 		*	@private
 		*/
 		//TODO: migrate this to an IStyleSheetAware implementation
-		private var _styleManager:IStyleManager = null;		
+		private var _styleManager:IStyleManager = null;	
 		
+		private var _styleCache:IComponentStyleCache = null;
 		private var _document:IBeanDocument;
 		private var _state:State;
 		private var _dataBinding:IDataBinding;	
 		private var _layers:Array;
-		private var _graphics:IComponent;		
+		private var _graphics:IComponent;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -83,8 +84,6 @@ package com.ffsys.ui.core
 			//update any child positioning
 			layoutChildren( preferredWidth, preferredHeight );
 		}
-		
-		private var _styleCache:IComponentStyleCache = null;
 		
 		/**
 		* 	@inheritDoc
@@ -143,7 +142,7 @@ package com.ffsys.ui.core
 				
 				
 				
-				trace("UIComponent::getComponentStyleCache() this/styleNames: ", this, data[0], this.styles != null, output.main, output.main.spacing );
+				//trace("UIComponent::getComponentStyleCache() this/styleNames: ", this, data[0], this.styles != null, output.main, output.main.spacing );
 			}
 			
 			return output;
@@ -169,6 +168,17 @@ package com.ffsys.ui.core
 		*/
 		override public function set styles( value:String ):void
 		{
+			if( value == null )
+			{
+				_styleCache = null;
+			}
+			
+			//nothing to do
+			if( this.styles == value  )
+			{
+				return;
+			}
+			
 			super.styles = value;
 			
 			//this will currently only work when the styles property is declared
@@ -303,10 +313,10 @@ package com.ffsys.ui.core
 				
 				//apply all normal styles
 				//trace("UIComponent::applyStyles() UICOMPONENT: ", this, styleNames, styleObjects, main );
-				stylesheet.style( this );
+				//stylesheet.style( this );
 				
 				//apply the main flattened style object
-				//stylesheet.applyStyle( this, main );
+				stylesheet.applyStyle( this, main );
 				
 				var output:Array = styleObjects;
 				
@@ -577,6 +587,7 @@ package com.ffsys.ui.core
 			
 			_document = null;
 			_styleManager = null;
+			_styleCache = null;
 			_state = null;
 			_dataBinding = null;
 		}

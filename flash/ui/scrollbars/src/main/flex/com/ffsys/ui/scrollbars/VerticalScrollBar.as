@@ -123,7 +123,7 @@ package com.ffsys.ui.scrollbars {
 			width:Number, height:Number ):void
 		{	
 			
-			trace("VerticalScrollBar::layoutChildren()", negativeScrollButton, positiveScrollButton, scrollDrag, scrollTrack );
+			//trace("VerticalScrollBar::layoutChildren()", negativeScrollButton, positiveScrollButton, scrollDrag, scrollTrack );
 			
 			if( negativeScrollButton )
 			{
@@ -132,7 +132,7 @@ package com.ffsys.ui.scrollbars {
 					size - ( fixedSize + paddings.bottom );
 					
 				
-				trace("VerticalScrollBar::layoutChildren()", "SETTING SCROLL BUTTON SIZE", fixedSize );					
+				//trace("VerticalScrollBar::layoutChildren()", "SETTING SCROLL BUTTON SIZE", fixedSize );					
 					
 				negativeScrollButton.setSize( fixedSize, fixedSize );
 			}			

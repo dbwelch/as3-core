@@ -292,6 +292,7 @@ package com.ffsys.swat.core
 		*/
 		public function getMessage( id:String, ... replacements ):String
 		{
+			trace("ResourceManager::getMessage() messages/id/replacements: ", this.messages, id, replacements );
 			if( this.messages != null )
 			{
 				replacements.unshift( id );
