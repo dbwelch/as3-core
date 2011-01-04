@@ -97,7 +97,8 @@ package com.ffsys.ui.layout
 		*/
 		public function update( container:DisplayObjectContainer ):void
 		{
-			if( container )
+			if( container != null
+				&& container.numChildren > 0 )
 			{
 				var child:DisplayObject = null;
 				for( var i:int = 0;i < container.numChildren;i++ )
@@ -105,7 +106,21 @@ package com.ffsys.ui.layout
 					child = container.getChildAt( i );
 					dolayoutChild( child, container, i );
 				}
+				after( container );
 			}
+		}
+		
+		/**
+		* 	Invoked after an update operation has completed.
+		* 
+		* 	Derived implementations can utilize this method
+		* 	to perform post layout alignment operations.
+		* 
+		* 	@param container The container that was updated.
+		*/
+		protected function after( container:DisplayObjectContainer ):void
+		{
+			//
 		}
 		
 		/**

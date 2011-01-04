@@ -68,7 +68,20 @@
 
 				</vbox>
 			
-			</hbox>	
+			</hbox>
+			
+			<hbox>
+				<container>
+					<id>outer-container</id>
+					<styles>container-border-example outer-container</styles>
+					<preferred-width>100</preferred-width>
+					<preferred-height>50</preferred-height>
+					<container>
+						<id>inner-container</id>
+						<styles>inner-container</styles>
+					</container>
+				</container>
+			</hbox>
 			
 			<label>
 				<styles>element</styles>

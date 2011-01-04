@@ -32,6 +32,63 @@ package com.ffsys.ui.containers {
 		/**
 		* 	@inheritDoc
 		*/
+		override public function get preferredWidth():Number
+		{
+			//explicitly set
+			if( !isNaN( _preferredWidth ) )
+			{
+				return _preferredWidth;
+			}			
+		
+			//got some width content
+			if( this.width > 0 )
+			{
+				//flex container dimensions to child size
+				return this.width + paddings.width + border.width;
+			}
+			
+			//try parent hierarchy lookup
+			var parent:IContainer = getAncestorByType( IContainer ) as IContainer;
+			if( parent != null
+				&& !isNaN( parent.preferredWidth ) )
+			{
+				trace("Container::get preferredWidth() FOUND PARENT DIMENSION:", this.id, parent.id, parent, parent.innerWidth, margins.width, parent.paddings.width );
+				return parent.innerWidth - margins.width;
+			}
+			return super.preferredWidth;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get preferredHeight():Number
+		{
+			//explicitly set			
+			if( !isNaN( _preferredHeight ) )
+			{
+				return _preferredHeight;
+			}			
+			
+			//got some height content
+			if( this.height > 0 )
+			{
+				//flex container dimensions to child size
+				return this.height + paddings.height + border.height;
+			}
+			
+			//try parent hierarchy lookup			
+			var parent:IContainer = getAncestorByType( IContainer ) as IContainer;
+			if( parent != null
+				&& !isNaN( parent.preferredHeight ) )
+			{
+				return parent.innerHeight - margins.height;
+			}
+			return super.preferredHeight;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get layout():ILayout
 		{
 			return _layout;
@@ -51,6 +108,7 @@ package com.ffsys.ui.containers {
 		override protected function doWithStyleCache(
 			cache:IComponentStyleCache ):void
 		{
+			super.doWithStyleCache( cache );
 			if( cache != null
 			 	&& cache.main != null
 				&& cache.main.spacing is Number )

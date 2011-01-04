@@ -99,7 +99,15 @@ container-example {
 }
 
 container-border-example {
-	border: border( 1, 1, 1, 1, #ffffff, 1 );	
+	border: border( 1, 1, 1, 1, #ffffff, .5 );	
+}
+
+#outer-container, outer-container {
+	padding: 5;
+}
+
+inner-container {
+	border: border( 1, 1, 1, 1, #0000ff, 1 );	
 }
 
 container-border-background-example {

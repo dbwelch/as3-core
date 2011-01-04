@@ -318,5 +318,15 @@ package com.ffsys.ui.core
 		* 	were found matching the specified type.
 		*/
 		function getElementsByType( type:Class ):Vector.<DisplayObject>;
+		
+		/**
+		*	The inner width of this component.
+		*/
+		function get innerWidth():Number;
+		
+		/**
+		*	The inner height of this component.
+		*/
+		function get innerHeight():Number;		
 	}
 }

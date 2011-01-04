@@ -160,7 +160,42 @@ package com.ffsys.ui.core
 		protected function doWithStyleCache(
 			cache:IComponentStyleCache ):void
 		{
-			//
+			trace("UIComponent::doWithStyleCache()", cache.main.padding );
+			
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.padding is Number )
+			{
+				this.paddings.padding = cache.main.padding;
+			}
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingTop is Number )
+			{
+				this.paddings.top = cache.main.paddingTop;
+			}
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingRight is Number )
+			{
+				this.paddings.right = cache.main.paddingRight;
+			}							
+			
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingBottom is Number )
+			{
+				this.paddings.bottom = cache.main.paddingBottom;
+			}			
+			
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingLeft is Number )
+			{
+				this.paddings.left = cache.main.paddingLeft;
+			}
 		}
 		
 		/**

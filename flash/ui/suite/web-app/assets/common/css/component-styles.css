@@ -3,7 +3,7 @@ TabContainer {
 }
 
 HorizontalBox, VerticalBox, LinkContainer, ImageContainer {
-	spacing: 0;
+	spacing: 5;
 }
 
 Label {

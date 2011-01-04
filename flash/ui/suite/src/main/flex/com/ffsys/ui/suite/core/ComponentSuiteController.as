@@ -212,8 +212,14 @@ package com.ffsys.ui.suite.core {
 		*/
  		private function createMainChildren( root:DisplayObjectContainer ):void
 		{	
-			vbox = new VerticalBox();			
-			root.addChild( vbox );
+			var document:IDocument = new Document();
+			document.preferredWidth = root.stage.stageWidth;
+			document.preferredHeight = root.stage.stageHeight;
+			
+			root.addChild( DisplayObject( document ) );
+			
+			vbox = new VerticalBox();						
+			document.addChild( vbox );
 			
 			//initialize the tooltips
 			var tooltip:DefaultToolTipRenderer = new DefaultToolTipRenderer()

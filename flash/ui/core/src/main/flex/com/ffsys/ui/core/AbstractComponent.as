@@ -312,6 +312,7 @@ package com.ffsys.ui.core
 		{
 			if( !isNaN( preferredWidth ) )
 			{
+				trace("AbstractComponent::get innerWidth()", this, this.id, paddings.width, border.width );
 				return preferredWidth - paddings.width - border.width;
 			}
 			
@@ -1097,6 +1098,49 @@ package com.ffsys.ui.core
 		
 		private var _parents:Vector.<DisplayObjectContainer>;
 		
+		/**
+		* 	Attempts to find an ancestor display object
+		* 	of the specified type.
+		* 
+		* 	By default this implementation searches
+		* 	from the direct parent to the stage.
+		* 
+		* 	When the <code>reverse</code> parameter is false
+		* 	the search begins from the stage not from the direct
+		* 	parent of this component.
+		* 
+		* 	@param type The type of ancestor to search for.
+		* 	@param reverse Whether to reverse the parent hierarchy
+		* 	so the lookup is performed backwards from this component.
+		* 
+		* 	@return The ancestor if it was found otherwise <code>null</code>.
+		*/
+		public function getAncestorByType(
+			type:Class, reverse:Boolean = true ):DisplayObjectContainer
+		{
+			var ancestor:DisplayObjectContainer = null;
+			//get a copy of the parent hierarchy
+			var targets:Vector.<DisplayObjectContainer> = this.parents.slice();
+			
+			if( reverse )
+			{
+				targets.reverse();
+			}
+			
+			//trace("AbstractComponent::getAncestorByType()", targets );
+			
+			var target:DisplayObjectContainer = null;
+			for each( target in targets )
+			{
+				if( target is type )
+				{
+					ancestor = target;
+					break;
+				}
+			}
+			return ancestor;
+		}
+		
 		public function get parents():Vector.<DisplayObjectContainer>
 		{
 			if( _parents != null )
@@ -1128,7 +1172,7 @@ package com.ffsys.ui.core
 			 	&& this.root != null )
 			{
 				_parents = this.parents;
-				trace("AbstractComponent::addedToStage()", this, _parents );
+				//trace("AbstractComponent::addedToStage()", this, _parents );
 			}
 		}
 		
