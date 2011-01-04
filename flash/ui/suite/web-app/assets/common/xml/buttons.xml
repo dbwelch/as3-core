@@ -8,13 +8,13 @@
 	<vbox>
 		<spacing>5</spacing>
 		<vbox>
-			<page-header>
+			<!-- <page-header> -->
 				<styles>page-heading</styles>
 				<sub-heading>
 					<styles>package-heading</styles>
 					<identifier>buttons.package</identifier>
 				</sub-heading>
-			</page-header>
+			<!-- </page-header> -->
 		</vbox>
 		
 		<hbox>

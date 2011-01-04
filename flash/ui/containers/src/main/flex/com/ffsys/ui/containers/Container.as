@@ -58,6 +58,7 @@ package com.ffsys.ui.containers {
 		
 		public function set spacing( spacing:Number ):void
 		{
+			trace("Container::set spacing()", layout );
 			if( layout )
 			{
 				layout.spacing = spacing;

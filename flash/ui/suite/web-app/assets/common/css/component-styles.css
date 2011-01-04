@@ -110,6 +110,10 @@ SubParagraph {
 	color: #a9a9a9;
 }
 
+HorizontalBox, VerticalBox {
+	spacing: 5;
+}
+
 HorizontalRule {
 	margin-bottom: 10;
 	graphic: ref( rule-graphic );
