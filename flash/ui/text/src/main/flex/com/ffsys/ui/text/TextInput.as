@@ -1,5 +1,6 @@
 package com.ffsys.ui.text
 {
+	import flash.geom.Rectangle;
 	import flash.text.*;
 	
 	import com.ffsys.ui.text.core.*;
@@ -24,12 +25,38 @@ package com.ffsys.ui.text
 		*/
 		public function TextInput(
 			text:String = "",
-			width:Number = 160,
-			height:Number = 20 )
+			width:Number = 220,
+			height:Number = NaN )
 		{
+			super( text );
+			trace("TextInput::()", width, height );
 			this.preferredWidth = width;
 			this.preferredHeight = height;
-			super( text );
+			trace("TextInput::init()", preferredWidth, preferredHeight );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutWidth():Number
+		{
+			if( !isNaN( preferredWidth ) )
+			{
+				return preferredWidth;
+			}
+			return super.layoutWidth;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutHeight():Number
+		{
+			if( !isNaN( preferredHeight ) )
+			{
+				return preferredHeight
+			}
+			return super.layoutHeight;
 		}
 		
 		/**
@@ -49,15 +76,34 @@ package com.ffsys.ui.text
 				textfield.autoSize = TextFieldAutoSize.NONE;
 				textfield.wordWrap = false;
 				useHandCursor = false;
-				
-				//
-				textfield.width = this.innerWidth;
-				textfield.height = this.innerHeight;
+				textfield.multiline = ( this is TextArea );
+				textfield.wordWrap = ( this is TextArea );
 			}
 			
 			trace("TextInput::createTextField()", textfield, textfield.type, textfield.selectable, textfield.autoSize );
 			
 			return textfield;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function finalized():void
+		{
+			super.finalized();
+			if( textfield != null )
+			{
+				textfield.autoSize = TextFieldAutoSize.NONE;
+				var rect:Rectangle = getBackgroundRect();
+				
+				//TODO: add offset back to the inner dimensions
+				textfield.width = innerWidth;
+				if( this is TextArea )
+				{
+					textfield.height = innerHeight;
+				}
+				trace("TextInput::finalized()", preferredWidth, preferredHeight,textfield.width, textfield.height, textfield.wordWrap, textfield.embedFonts );
+			}
 		}
 		
 		/**

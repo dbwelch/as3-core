@@ -102,9 +102,7 @@ package com.ffsys.ioc
 					//escaped hex value to be treated as a hex string
 					if( /^\\#/.test( String( output ) ) )
 					{
-						
 						output = String( output ).replace( /^\\/, "" );
-						trace("BeanTextElementParser::parse HANDLING ESCAPED HEX VALUE: ", output );
 						return output;
 					}
 					

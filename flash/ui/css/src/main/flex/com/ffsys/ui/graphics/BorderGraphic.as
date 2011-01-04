@@ -118,6 +118,9 @@ package com.ffsys.ui.graphics
 				if( hasLeft )
 				{
 					thickness = this.border.left;
+					
+					//trace("BorderGraphic::doDraw()", "DRAWING BORDER LEFT WITH THICKNESS: ", thickness );
+					
 					graphics.drawRect(
 						tx,
 						ty + border.top,

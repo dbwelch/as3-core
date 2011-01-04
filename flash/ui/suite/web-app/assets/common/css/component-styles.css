@@ -1,3 +1,9 @@
+font-offsets {
+	arial: point( -2, -2 );
+	courier: point( -2, -3 );
+	geargia: point( -2, -2 );
+}
+
 p {
 	font-family: Arial;
 	font-size: 11;
@@ -39,21 +45,29 @@ Label {
 }
 
 TextInput {
-	font: Arial;
+	font: Georgia;
 	size: 12;
 	embed-fonts: false;
-	color: #a9a9a9;
-	background: ref( button-background-main );
+	color: #000000;
+	background: ref( text-input-background-main );
 	padding: 5;
 }
 
 TextArea {
-	font: Arial;
+	font: Georgia;
 	size: 12;
 	embed-fonts: false;
-	color: #a9a9a9;
-	background: ref( button-background-main );
+	color: #000000;
+	background: ref( text-input-background-main );
 	padding: 5;	
+}
+
+text-input-background-main {
+	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	fill: fill( #efefef, .8 );
+	stroke: stroke( 1, #666666, 1, true, normal, null, null, 3 );
+	corner-width: 5;
+	corner-height: 5;
 }
 
 Heading {
@@ -98,10 +112,16 @@ SubParagraph {
 
 HorizontalRule {
 	margin-bottom: 10;
+	graphic: ref( rule-graphic );
 }
 
 VerticalRule {
-	padding: 0;
+	graphic: ref( rule-graphic );
+}
+
+rule-graphic {
+	instance-class: class( com.ffsys.ui.graphics.BorderGraphic );
+	fill: fill( #333333, .75 );
 }
 
 TextButton, IconTextButton, IconButton {
@@ -311,7 +331,6 @@ RadioButton {
 	size: 11;
 	underline: false;
 	color: #a9a9a9;
-	padding: 5;
 	icon: ref( radio-button-icon );
 }
 
@@ -327,7 +346,6 @@ RadioButton:selected {
 	size: 11;
 	underline: true;
 	color: #efefef;
-	padding: 5;
 	icon: ref( radio-button-icon-selected );
 }
 
@@ -370,7 +388,6 @@ CheckBox {
 	size: 11;
 	underline: false;
 	color: #a9a9a9;
-	padding: 5;
 	icon: ref( check-box-icon );
 }
 
@@ -386,7 +403,6 @@ CheckBox:selected {
 	size: 11;
 	underline: true;
 	color: #efefef;
-	padding: 5;
 	icon: ref( check-box-icon-selected );
 }
 

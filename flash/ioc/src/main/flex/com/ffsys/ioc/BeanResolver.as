@@ -146,7 +146,9 @@ package com.ffsys.ioc
 					type = types[ i ];
 					parameter = params[ i ];
 					
-					if( !( parameter is type ) )
+					//null values are allowed
+					if( parameter != null
+						&& !( parameter is type ) )
 					{
 						throw new Error( "The parameter at index " + i + " for expression '"
 							+ expression + "' is not of the expected type '"

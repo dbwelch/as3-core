@@ -1,6 +1,7 @@
 package com.ffsys.ui.buttons {
 	
 	import com.ffsys.ui.graphics.*;
+	import com.ffsys.ui.text.TextComponent;	
 	import com.ffsys.ui.core.State;
 	
 	/**
@@ -65,7 +66,7 @@ package com.ffsys.ui.buttons {
 			var width:Number = super.preferredWidth;
 			if( label )
 			{
-				width = label.layoutWidth + paddings.left + paddings.right;
+				width = label.layoutWidth + paddings.width;
 			}
 			return width;
 		}
@@ -78,7 +79,7 @@ package com.ffsys.ui.buttons {
 			var height:Number = super.preferredHeight;
 			if( label )
 			{
-				height = label.layoutHeight + paddings.left + paddings.right;
+				height = label.layoutHeight + paddings.height + TextComponent.GUTTER_TOP;
 			}
 			return height;
 		}

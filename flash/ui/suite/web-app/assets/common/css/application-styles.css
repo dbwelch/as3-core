@@ -81,7 +81,7 @@ example-group {
 }
 
 sub-heading-border-left {
-	border: border( 0, 0, 0, 2, #ffffff, 1 );
+	border: border( 0, 0, 0, 2, #a9a9a9, 1 );
 	padding-left: 5;
 }
 
@@ -89,7 +89,7 @@ sub-heading-border-example {
 	text-transform: uppercase;
 	underline: true;
 	size: 10;
-	border: border( 1, 1, 1, 1, #ffffff, 1 );
+	border: border( 1, 1, 1, 1, #a9a9a9, 1 );
 	padding: 5;
 	margin-top: 0;
 }

@@ -36,6 +36,18 @@ package com.ffsys.ui.text
 		*/
 		public static const GUTTER:int = -2;
 		
+	
+		/**
+		* 	A left gutter for textfields.
+		*/
+		public static const GUTTER_LEFT:int = 2;
+		
+	
+		/**
+		* 	A top gutter for textfields.
+		*/
+		public static const GUTTER_TOP:int = 3;
+		
 		private var _textfield:ITypedTextField;
 		private var _textTransform:String;
 		private var _offsets:Point;
@@ -99,6 +111,8 @@ package com.ffsys.ui.text
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		override protected function applyBackground():void
 		{
 			super.applyBackground();
@@ -110,6 +124,7 @@ package com.ffsys.ui.text
 					this.background.preferredHeight );
 			}
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
@@ -123,17 +138,23 @@ package com.ffsys.ui.text
 			}
 			if( isNaN( rect.height ) )
 			{
-				rect.height = layoutHeight - border.height;
+				rect.height = layoutHeight - border.height + GUTTER_TOP;
 			}
 			return rect;
 		}
 		
+		override protected function getBorderDimensions():Rectangle
+		{
+			return new Rectangle( 0, 0, layoutWidth, layoutHeight + ( GUTTER_TOP * 2 ) );
+		}		
+		
 		/**
-		* 	Invoked when this component is finalized
-		* 	as a bean.
+		* 	@inheritDoc
 		*/
 		override public function finalized():void
 		{
+			position();
+			
 			//trace("TextComponent::finalized()", this, this.id, this.messages, this.identifier );
 			if( this.messages != null
 				&& this.identifier != null )
@@ -148,6 +169,11 @@ package com.ffsys.ui.text
 					this.text = msg;
 				}
 			}
+			
+			var rect:Rectangle = calculateTextMetrics();
+			
+			trace("TextComponent::finalized() this/id/h/metrics.width/metrics.height/x: ", this, this.id, rect.width, rect.height, rect.x );			
+			
 			super.finalized();
 		}
 		
@@ -240,32 +266,6 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutWidth():Number
 		{
-			/*
-			var metrics:TextLineMetrics = null;
-			
-			try
-			{
-				metrics = textfield.getLineMetrics( 0 );
-			}catch( e:Error )
-			{
-				throw e;
-			}
-			
-			if( metrics )
-			{
-				trace("TextComponent::layoutWidth(), ", metrics.width - metrics.x, metrics.width, metrics.x );
-				return metrics.width;
-			}
-			*/
-			
-			/*
-				
-			if( textfield && !isNaN( textfield.measuredWidth ) )
-			{
-				return textfield.measuredWidth;
-			}
-			*/
-			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
 				return textfield.textWidth + paddings.width + border.width;
@@ -274,38 +274,70 @@ package com.ffsys.ui.text
 			return this.width == 0 ? 0 : this.width - 4;
 		}
 		
+		protected function calculateTextMetrics():Rectangle
+		{
+			var output:Rectangle = new Rectangle();
+			if( textfield != null )
+			{
+				var isUpperCase:Boolean = false;
+				var x:Number = Number.MAX_VALUE;
+				var w:Number = 0;
+				var h:Number = 0;
+				var lineWidth:Number = 0;
+				var lineHeight:Number = 0;
+				var line:String = null;
+				var metrics:TextLineMetrics = null;
+				for( var i:int = 0;i < textfield.numLines;i++ )
+				{
+					metrics = textfield.getLineMetrics( i );
+					line = textfield.getLineText( i );
+					isUpperCase = line.toUpperCase() == line;
+					x = Math.min( x, metrics.x );
+					lineWidth = Math.max( lineWidth, metrics.width );
+					trace("TextComponent::calculateTextMetrics() this/line/x/width/height/ascent/descent/leading", this, i, metrics.x, metrics.width, metrics.height, metrics.ascent, metrics.descent, metrics.leading );
+					lineHeight = metrics.ascent;
+					
+					if( !isUpperCase )
+					{
+						lineHeight += metrics.descent;
+					}
+					
+					if( i < ( textfield.numLines - 1 ) )
+					{
+						lineHeight += metrics.leading;
+					}
+					h += lineHeight;
+				}
+				
+				w = lineWidth;
+				
+				trace("TextComponent::calculateTextMetrics() x/textfield.x:", x, textfield.x );
+				x = x - textfield.x;
+				
+				
+				//default gutter
+				if( x == ( textfield.x - 2 ) )
+				{
+					x = 2;
+				}
+				
+				output.x = x;
+				output.width = w;
+				output.height = h;
+			}
+			return output;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
 		override public function get layoutHeight():Number
 		{
-			/*
-			var metrics:TextLineMetrics = null;
-			
-			try
-			{
-				metrics = textfield.getLineMetrics( 0 );
-			}catch( e:Error )
-			{
-				throw e;
-			}
-			
-			if( metrics )
-			{
-				return metrics.height;
-			}
-			*/
-			
-			/*
-			if( textfield && !isNaN( textfield.measuredHeight ) )
-			{
-				return textfield.measuredHeight;
-			}
-			*/
+			var offsets:Point = this.offsets;
 			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
-				return textfield.textHeight + paddings.height + border.height;
+				return textfield.textHeight + paddings.height + border.height - ( GUTTER_TOP * 2 );
 			}
 			
 			return this.height == 0 ? 0 : this.height - 4;
@@ -411,8 +443,6 @@ package com.ffsys.ui.text
 				}				
 				*/
 				
-				position();
-				
 				
 				
 				//update the background
@@ -462,9 +492,49 @@ package com.ffsys.ui.text
 		*/
 		public function get offsets():Point
 		{
+			//temp
+			//return new Point();
+			
 			if( _offsets == null )
 			{
-				_offsets = new Point( GUTTER, GUTTER );
+				
+				/*
+				if( styleManager != null && textfield )
+				{
+					
+					
+					var offsets:Object = styleManager.getStyle( "font-offsets" );
+					
+					var font:String = textfield.defaultTextFormat.font;
+					font = font.replace( /\s/, "" );
+					
+					//trace("TextComponent::get offsets()", "GOT STYLE MANAGER OFFSETS: ", offsets );
+					
+					var z:String = null;
+					var value:Object = null;
+					for( z in offsets )
+					{
+						if( z.toLowerCase() == font.toLowerCase() )
+						{
+							value = offsets[ z ];
+							//trace("TextComponent::get offsets()", "FOUND MATCHING FONT OFFSET:", z, value );
+							
+							if( value is Point )
+							{
+								return Point( value );
+							}
+							
+							break; 
+						}
+					}
+				}
+				*/
+				
+				//var x:Number = paddings.left == 0 ? GUTTER : 0;
+				//var y:Number = paddings.top == 0 ? GUTTER : 0;
+				var x:Number = -( GUTTER_LEFT );
+				var y:Number = -( GUTTER_TOP );
+				_offsets = new Point( x, y );
 			}
 			return _offsets;
 		}

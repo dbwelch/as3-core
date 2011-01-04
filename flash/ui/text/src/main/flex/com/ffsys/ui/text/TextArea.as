@@ -24,7 +24,7 @@ package com.ffsys.ui.text
 		*/
 		public function TextArea(
 			text:String = "",
-			width:Number = 160,
+			width:Number = 220,
 			height:Number = 120 )
 		{
 			super( text, width, height );
@@ -33,26 +33,9 @@ package com.ffsys.ui.text
 		/**
 		* 	@inheritDoc
 		*/
-		override protected function createTextField( text:String ):ITypedTextField
-		{
-			super.createTextField( text );
-			
-			if( textfield != null )
-			{
-				textfield.multiline = true;
-			}
-			
-			trace("TextArea::createTextField()", textfield, textfield.type, textfield.selectable, textfield.autoSize );
-			
-			return textfield;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		override protected function getTextFieldClass():Class
 		{
-			return FixedSingleLineTextField;
+			return MultiLineTextField;
 		}
 	}
 }

@@ -5,6 +5,7 @@
 		<vbox>
 			<styles>page-heading</styles>
 			<sub-heading>
+				<id>text-heading</id>
 				<styles>package-heading</styles>
 				<identifier>text.package</identifier>
 			</sub-heading>
@@ -41,6 +42,8 @@
 					</heading>
 				</hbox>
 				
+				<hrule />
+				
 				<label>
 					<styles>element</styles>
 					<identifier>elements.subheading</identifier>
@@ -66,6 +69,8 @@
 						<identifier>underline</identifier>
 					</sub-heading>									
 				</hbox>
+				
+				<hrule />
 					
 				<label>
 					<styles>element</styles>
@@ -91,10 +96,13 @@
 					</label>			
 				</hbox>
 				
+				
 				<label>
 					<identifier>text.label.constrain</identifier>
 					<maximum-width>160</maximum-width>
 				</label>
+				
+				<hrule />
 				
 				<label>
 					<styles>element</styles>
@@ -105,6 +113,8 @@
 					<identifier>text.label.constrain</identifier>
 				</text-input>
 				
+				<hrule />
+				
 				<label>
 					<styles>element</styles>
 					<identifier>elements.textarea</identifier>
@@ -113,6 +123,11 @@
 				<text-area>
 					<identifier>text.label.constrain</identifier>
 				</text-area>
+			</vbox>	
+		
+			<vbox>
+				<spacing>5</spacing>
+				
 				
 				<label>
 					<styles>element</styles>
@@ -123,6 +138,8 @@
 					<identifier>text.examples.paragraph</identifier>
 				</paragraph>
 				
+				<hrule />
+				
 				<label>
 					<styles>element</styles>
 					<identifier>elements.subparagraph</identifier>
@@ -131,10 +148,8 @@
 				<sub-paragraph>
 					<identifier>text.examples.subparagraph</identifier>
 				</sub-paragraph>
-			</vbox>	
-		
-			<vbox>
-				<spacing>5</spacing>
+				
+				<hrule />				
 				
 				<label>
 					<styles>element</styles>
@@ -147,6 +162,8 @@
 					<maximum-width>260</maximum-width>
 				</label>
 				
+				<hrule />
+				
 				<label>
 					<styles>element</styles>
 					<identifier>elements.label.border.padding</identifier>
@@ -157,6 +174,8 @@
 					<identifier>text.examples.subheading.border.example</identifier>
 					<maximum-width>260</maximum-width>
 				</sub-heading>
+				
+				<hrule />				
 				
 				<label>
 					<styles>element</styles>

@@ -6,6 +6,7 @@ package com.ffsys.ui.buttons
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.core.State;	
 	import com.ffsys.ui.text.Label;
+	import com.ffsys.ui.text.TextComponent;	
 
 	/**
 	*	Represents a button that contains an icon.
@@ -248,11 +249,11 @@ package com.ffsys.ui.buttons
 				{
 					//only handling left align at the moment
 					ix = ( preferredWidth * 0.5 ) -
-						( ( icon.width + spacing + label.layoutWidth ) * 0.5 );
+						( ( icon.width + spacing + label.layoutWidth ) * 0.5 ) ;
 					
 					//default label positions when an icon is specified
 					lx = ix + icon.width + spacing;
-					ly = iy + ( icon.height * 0.5 ) - ( label.layoutHeight * 0.5 );
+					ly = iy + ( icon.height * 0.5 ) - ( ( label.layoutHeight + TextComponent.GUTTER_TOP ) * 0.5 );
 				}
 				
 				icon.x = ix;
