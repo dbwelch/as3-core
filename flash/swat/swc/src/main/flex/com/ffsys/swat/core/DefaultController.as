@@ -321,12 +321,12 @@ package com.ffsys.swat.core
 			
 			//TODO: add xrefs to the component bean document
 			
-			/*
+		
 			trace("::::::::::::>>>>>>>>>>>>>>>>>>>>>>>>> DefaultController::doWithViewBeans()",
 				document,
 				this.configuration.resources.document,
 				this.configuration.resources.document.id );
-			*/
+		
 			
 			var xrefs:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
 			var main:IBeanDocument = this.configuration.resources.document;
@@ -342,8 +342,14 @@ package com.ffsys.swat.core
 				xref = xrefs[ i ];
 				if( document.xrefs.indexOf( xref ) == -1 )
 				{
-					//trace("DefaultController::doWithViewBeans()", "ADDING DOCUMENT XREF", xref, xref.id );
+					trace("DefaultController::doWithViewBeans()", "ADDING DOCUMENT XREF", xref, xref.id );
 					document.xrefs.push( xref );
+				}
+				
+				if( component.document.xrefs.indexOf( xref ) == -1 )
+				{
+					trace("DefaultController::doWithViewBeans()", "ADDING COMPONENT DOCUMENT XREF", xref, xref.id );
+					component.document.xrefs.push( xref );
 				}
 			}
 			
@@ -351,7 +357,7 @@ package com.ffsys.swat.core
 			if( component.document != null
 				&& document.xrefs.indexOf( component.document ) == -1 )
 			{
-				//trace("DefaultController::getViewDocument()", "ADDING COMPONENT BEANS TO VIEW BEANS!?!!?!?!?!?!?!?!?!?" );
+				trace("DefaultController::getViewDocument()", "ADDING COMPONENT BEANS TO VIEW BEANS!?!!?!?!?!?!?!?!?!?", component.document, component.document.id, component.document.xrefs, component.document.xrefs.length );
 				document.xrefs.push( component.document );
 			}
 		}
@@ -378,6 +384,8 @@ package com.ffsys.swat.core
 			{
 				return null;
 			}
+			
+			trace("DefaultController::getView()", "RETRIEVING VIEW FROM COMPONENT", id, componentResource );
 			
 			var component:XML = componentResource.target as XML;
 			if( component == null )

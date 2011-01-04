@@ -1,0 +1,4 @@
+page-header {
+	instance-class: class( com.ffsys.ui.suite.view.PageHeader );
+	configuration: ref( configuration );
+}

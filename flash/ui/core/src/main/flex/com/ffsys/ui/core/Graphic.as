@@ -20,18 +20,18 @@ package com.ffsys.ui.core
 	public class Graphic extends InteractiveComponent
 		implements IGraphic, ICssProperty
 	{
-		private var _graphic:IComponentGraphic;
+		private var _graphic:DisplayObject;
 		
 		/**
 		* 	Creates a <code>Graphic</code> instance.
 		* 
 		* 	@param graphic The graphical shape.
 		*/
-		public function Graphic( graphic:IComponentGraphic = null )
+		public function Graphic( graphic:DisplayObject = null )
 		{
 			super();
 			this.interactive = false;
-			if( graphic )
+			if( graphic != null )
 			{
 				this.graphic = graphic;
 			}
@@ -42,7 +42,7 @@ package com.ffsys.ui.core
 		*/
 		public function shouldSetCssProperty( name:String, value:* ):Boolean
 		{
-			return ( value is IComponentGraphic );
+			return ( value is DisplayObject );
 		}
 		
 		/**
@@ -50,18 +50,18 @@ package com.ffsys.ui.core
 		*/
 		public function setCssProperty( name:String, value:* ):void
 		{
-			this.graphic = IComponentGraphic( value );
+			this.graphic = DisplayObject( value );
 		}
 		
 		/**
 		*	The graphic for this component.
 		*/
-		public function get graphic():IComponentGraphic
+		public function get graphic():DisplayObject
 		{
 			return _graphic;
 		}
 		
-		public function set graphic( graphic:IComponentGraphic ):void
+		public function set graphic( graphic:DisplayObject ):void
 		{
 			if( _graphic && contains( DisplayObject( _graphic ) ) )
 			{
@@ -72,14 +72,16 @@ package com.ffsys.ui.core
 			
 			if( _graphic )
 			{
-				if( isNaN( _graphic.preferredWidth ) )
+				if( _graphic is IComponentGraphic
+					&& isNaN( IComponentGraphic( _graphic ).preferredWidth ) )
 				{
-					_graphic.preferredWidth = preferredWidth;
+					IComponentGraphic( _graphic ).preferredWidth = preferredWidth;
 				}
 				
-				if( isNaN( _graphic.preferredHeight ) )
+				if( _graphic is IComponentGraphic
+					&& isNaN( IComponentGraphic( _graphic ).preferredHeight ) )
 				{
-					_graphic.preferredHeight = preferredHeight;
+					IComponentGraphic( _graphic ).preferredHeight = preferredHeight;
 				}
 				
 				addChild( DisplayObject( _graphic ) );
@@ -96,9 +98,9 @@ package com.ffsys.ui.core
 		public function draw(
 			width:Number = NaN, height:Number = NaN ):void
 		{
-			if( graphic )
+			if( graphic is IComponentGraphic )
 			{
-				graphic.draw( width, height );
+				IComponentGraphic( graphic ).draw( width, height );
 			}
 		}
 		
@@ -106,7 +108,7 @@ package com.ffsys.ui.core
 		* 	Custom style application logic.
 		* 
 		* 	This method inspects the style objects that would be applied
-		* 	searching for a style that is an <code>IComponentGraphic</code>
+		* 	searching for a style that is an <code>DisplayObject</code>
 		* 	implementation and adds it as a child if it corresponds to a valid
 		* 	graphic implementation.
 		* 
@@ -132,9 +134,9 @@ package com.ffsys.ui.core
 					for( var i:int = 0;i < styles.length;i++ )
 					{
 						style = styles[ i ];
-						if( style is IComponentGraphic )
+						if( style is DisplayObject )
 						{
-							this.graphic = IComponentGraphic( style );
+							this.graphic = DisplayObject( style );
 							break;
 						}
 					}

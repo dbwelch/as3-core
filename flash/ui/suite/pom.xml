@@ -121,6 +121,7 @@
 							<label>main</label>
 							<classNames>
 								<className>com.ffsys.ui.suite.core.ComponentSuiteController</className>
+								<className>com.ffsys.ui.suite.view.PageHeader</className>
 								
 								<className>com.ffsys.ui.graphics.RectangleGraphic</className>
 								<className>com.ffsys.ui.graphics.SquareGraphic</className>

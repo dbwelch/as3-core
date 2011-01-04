@@ -410,8 +410,6 @@ package com.ffsys.ioc
 			}
 			
 			//check cross referenced documents
-			
-			/*
 			if( this.xrefs.length > 0 )
 			{
 				var document:IBeanDocument = null;
@@ -428,7 +426,6 @@ package com.ffsys.ioc
 					}
 				}
 			}
-			*/
 			
 			//TODO: make this configurable (strict?), stylesheet bean documents need to be able to retrieve
 			//null for non-existent beans

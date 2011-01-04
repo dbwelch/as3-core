@@ -25,7 +25,10 @@
 				</resource>
 				<resource>
 					<url>css/graphic-components.css</url>
-				</resource>				
+				</resource>	
+				<resource>
+					<url>css/custom-view-components.css</url>
+				</resource>							
 			</beans>
 			
 			<css>

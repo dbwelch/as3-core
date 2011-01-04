@@ -1,5 +1,6 @@
 package com.ffsys.ui.display
 {
+	import flash.display.DisplayObject;	
 	import flash.geom.Rectangle;
 	
 	import com.ffsys.ui.common.Border;
@@ -50,7 +51,7 @@ package com.ffsys.ui.display
 		/**
 		* 	@inheritDoc
 		*/
-		override public function set graphic( graphic:IComponentGraphic ):void
+		override public function set graphic( graphic:DisplayObject ):void
 		{
 			super.graphic = graphic;
 			
@@ -100,12 +101,13 @@ package com.ffsys.ui.display
 		override public function draw(
 			width:Number = NaN, height:Number = NaN ):void
 		{
-			if( graphic != null )
+			if( graphic is IComponentGraphic )
 			{
+				var component:IComponentGraphic = IComponentGraphic( graphic );
 				var r:Rectangle = getGraphicRect();
-				graphic.preferredWidth = r.width;
-				graphic.preferredHeight = r.height;				
-				graphic.draw();
+				component.preferredWidth = r.width;
+				component.preferredHeight = r.height;				
+				component.draw();
 			}
 		}
 		
@@ -146,7 +148,7 @@ package com.ffsys.ui.display
 			if( this.graphic == null )
 			{
 				this.graphic = getComponentBean(
-					ComponentIdentifiers.DIVIDER_GRAPHIC ) as IComponentGraphic;
+					ComponentIdentifiers.DIVIDER_GRAPHIC ) as DisplayObject;
 			}
 		}
 		

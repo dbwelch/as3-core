@@ -107,7 +107,7 @@ package com.ffsys.ui.display {
 				
 			graphic.tx = rect.x;
 			graphic.ty = rect.y;
-			addChild( DisplayObject( new Graphic( graphic ) ) );
+			addChild( DisplayObject( new Graphic( DisplayObject( graphic ) ) ) );
 			
 			rect = component.getPaddingRectangle();
 						
@@ -118,7 +118,7 @@ package com.ffsys.ui.display {
 				
 			graphic.tx = rect.x;
 			graphic.ty = rect.y;
-			addChild( DisplayObject( new Graphic( graphic ) ) );
+			addChild( DisplayObject( new Graphic( DisplayObject( graphic ) ) ) );
 			
 			rect = component.getMarginRectangle();
 						
@@ -129,7 +129,7 @@ package com.ffsys.ui.display {
 				
 			graphic.tx = rect.x;
 			graphic.ty = rect.y;
-			addChild( DisplayObject( new Graphic( graphic ) ) );			
+			addChild( DisplayObject( new Graphic( DisplayObject( graphic ) ) ) );
 		}
 	}
 }
