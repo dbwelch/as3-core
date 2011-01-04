@@ -9,6 +9,7 @@ package com.ffsys.ui.core
 	import flash.geom.Rectangle;
 	import flash.geom.Matrix;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;	
 	
 	import com.ffsys.ui.graphics.*;
 
@@ -69,7 +70,9 @@ package com.ffsys.ui.core
 		private var _borderGraphic:IComponentGraphic;
 		
 		private var _identifier:String;
-		private var _messages:IProperties;		
+		private var _messages:IProperties;	
+		
+		private var _parents:Vector.<DisplayObjectContainer>;			
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -287,6 +290,116 @@ package com.ffsys.ui.core
 		public function set id( id:String ):void
 		{
 			_id = id;
+			//set a name from the id
+			if( this.name == null
+			 	&& _id != null )
+			{
+				this.name = _id;
+			}
+		}
+		
+		private var _class:Class;
+		
+		public function getClassPath( target:Object = null ):String
+		{
+			if( target == null )
+			{
+				target = this;
+			}
+			return getQualifiedClassName( target );
+		}
+		
+		/**
+		* 	Gets the concrete class used to instantiate this
+		* 	component.
+		* 
+		* 	@return The type of this component.
+		*/
+		public function getClass( target:Object = null ):Class
+		{
+			if( target is Class )
+			{
+				return target as Class;
+			}
+			
+			if( target == null )
+			{
+				target = this;
+			}
+			
+			if( _class == null )
+			{
+				_class = getDefinitionByName(
+					getClassPath( target ) ) as Class;
+			}
+			return _class;
+		}
+		
+		/**
+		*	Ensures that all components have a valid name.
+		*/
+		override public function get name():String
+		{	
+			var name:String = super.name;
+			var re:RegExp = /^instance([0-9]+)$/;
+			
+			if( re.test( name ) )
+			{
+				var className:String = getClassPath().replace( /^[^:]+::(.*)$/, "$1" );
+				className = className.toLowerCase();
+			
+				//keep the numeric id
+				name = name.replace( re, "$1" );
+			
+				if( this.parent != null )
+				{
+					//use an id of our index of we are on the display list
+					name = new String( this.parent.getChildIndex( this ) );
+				}
+			
+				name = className + name;
+			
+				trace("AbstractComponent::get name()", name );
+			}
+			return name;
+		}
+		
+		/**
+		* 	Gets a list of the instance names of all parent
+		* 	display object containers.
+		* 
+		* 	@param root Whether to include the root display list object
+		* 	name.
+		* 
+		* 	@return A list of the parent names.
+		*/
+		public function getAncestorNames( root:Boolean = false ):Vector.<String>
+		{
+			var output:Vector.<String> = new Vector.<String>();
+			var parents:Vector.<DisplayObjectContainer> = this.parents;
+			var i:int = 1;
+			if( !root )
+			{
+				i = 2;
+			}
+			var p:DisplayObjectContainer = null;
+			for( ;i < parents.length;i++ )
+			{
+				p = parents[ i ];
+				output.push( p.name );
+			}
+			return output;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function toNameString(
+			delimiter:String = ".", root:Boolean = false ):String
+		{
+			var names:Vector.<String> = getAncestorNames( root );
+			names.push( this.name );
+			return names.join( delimiter );
 		}
 		
 		/**
@@ -912,6 +1025,7 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		//TODO: deprecate		
 		public function getRuntimeAsset( classPath:String ):Object
 		{
 			var clz:Class = null;
@@ -933,6 +1047,7 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		//TODO: deprecate		
 		public function getRuntimeInstance( clazz:Class ):Object
 		{
 			var instance:Object = null;
@@ -953,6 +1068,7 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		//TODO: deprecate
 		public function getRuntimeDisplayObject( classPath:String ):DisplayObject
 		{
 			var instance:Object = getRuntimeAsset( classPath );
@@ -1097,8 +1213,6 @@ package com.ffsys.ui.core
 			//updateState( State.MAIN );
 		}
 		
-		private var _parents:Vector.<DisplayObjectContainer>;
-		
 		/**
 		* 	Attempts to find an ancestor display object
 		* 	of the specified type.
@@ -1157,6 +1271,9 @@ package com.ffsys.ui.core
 				output.push( p );
 				p = p.parent;
 			}
+			
+			trace("AbstractComponent::get parents()", "GOT PARENTS: ", this, output );
+			
 			//reverse the output so the parents are stored with
 			//the stage at index zero the dirent parent being
 			//the last element
@@ -1174,6 +1291,9 @@ package com.ffsys.ui.core
 			{
 				_parents = this.parents;
 				//trace("AbstractComponent::addedToStage()", this, _parents );
+				
+				trace("UIComponent::finalized() FINALIZED stage/this/name string:::::: ",
+					stage, this, this.toNameString() );				
 			}
 		}
 		
@@ -1280,6 +1400,7 @@ package com.ffsys.ui.core
 			_customData = null;
 			_identifier = null;
 			_messages = null;			
+			_parents = null;
 		}
 	}
 }

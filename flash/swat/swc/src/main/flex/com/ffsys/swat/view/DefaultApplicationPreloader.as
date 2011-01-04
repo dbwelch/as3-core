@@ -195,6 +195,15 @@ package com.ffsys.swat.view {
 			app.preloader.view = _view;
 			app.preloader.main = this;
 			addChild( DisplayObject( app ) );
+			
+			destroy();
+		}
+		
+		private function destroy():void
+		{
+			_view = null;
+			_classes = null;
+			_flashvars = null;		
 		}
 	}
 }

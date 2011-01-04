@@ -32,6 +32,11 @@ package com.ffsys.swat.view  {
 	*/
 	public class DefaultApplication extends Sprite
 		implements IApplication {
+			
+		/**
+		* 	The instance name assigned by default.
+		*/
+		public static const NAME:String = "application";
 		
 		private var _framework:IBeanDocument;
 		private var _preloader:IBootstrapLoader;
@@ -44,6 +49,7 @@ package com.ffsys.swat.view  {
 		public function DefaultApplication()
 		{
 			super();
+			this.name = NAME;
 			addEventListener( Event.ADDED_TO_STAGE, created );
 		}
 		

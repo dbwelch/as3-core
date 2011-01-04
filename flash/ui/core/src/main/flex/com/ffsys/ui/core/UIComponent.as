@@ -1,6 +1,7 @@
 package com.ffsys.ui.core
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;	
 	import flash.events.FocusEvent;
 	
@@ -82,7 +83,7 @@ package com.ffsys.ui.core
 		* 	Invoked when this component has been finalized.
 		*/
 		public function finalized():void
-		{
+		{			
 			//apply border and background graphics
 			applyBorders();
 			applyBackground();
@@ -225,56 +226,6 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Invoked when a style cache is generated.
-		* 
-		* 	This allows derived implementations to access
-		* 	style properties prior to the styles being
-		* 	applied to the component.
-		* 
-		* 	@param cache The component style cache.
-		*/
-		protected function doWithStyleCache(
-			cache:IComponentStyleCache ):void
-		{
-			trace("UIComponent::doWithStyleCache()", cache.main.padding );
-			
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.padding is Number )
-			{
-				this.paddings.padding = cache.main.padding;
-			}
-
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingTop is Number )
-			{
-				this.paddings.top = cache.main.paddingTop;
-			}
-
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingRight is Number )
-			{
-				this.paddings.right = cache.main.paddingRight;
-			}							
-			
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingBottom is Number )
-			{
-				this.paddings.bottom = cache.main.paddingBottom;
-			}			
-			
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingLeft is Number )
-			{
-				this.paddings.left = cache.main.paddingLeft;
-			}
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		override public function set styles( value:String ):void
@@ -338,7 +289,7 @@ package com.ffsys.ui.core
 		{
 			//trace("::::::::::::::::: UIComponent::prefinalize()", this, this.id, this.styles );
 			
-			trace("UIComponent::prefinalize()", this, this.stage, this.id );
+			//trace("UIComponent::prefinalize()", this, this.stage, this.id );
 		}
 		
 		/**
@@ -691,6 +642,104 @@ package com.ffsys.ui.core
 			}
 			return output;
 		}
+		
+		
+		/**
+		* 	Invoked when a style cache is generated.
+		* 
+		* 	This allows derived implementations to access
+		* 	style properties prior to the styles being
+		* 	applied to the component.
+		* 
+		* 	@param cache The component style cache.
+		*/
+		protected function doWithStyleCache(
+			cache:IComponentStyleCache ):void
+		{
+			//TODO: implement caching of borders and margins and remove
+			//the margin / paddign application in css style sheet
+			
+			//trace("UIComponent::doWithStyleCache()", cache.main.padding );
+
+			copyPaddingsFromStyleCache( cache );
+			copyMarginsFromStyleCache( cache );
+		}
+		
+		private function copyPaddingsFromStyleCache( cache:IComponentStyleCache ):void
+		{
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.padding is Number )
+			{
+				this.paddings.padding = cache.main.padding;
+			}
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingTop is Number )
+			{
+				this.paddings.top = cache.main.paddingTop;
+			}
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingRight is Number )
+			{
+				this.paddings.right = cache.main.paddingRight;
+			}							
+			
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingBottom is Number )
+			{
+				this.paddings.bottom = cache.main.paddingBottom;
+			}			
+			
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.paddingLeft is Number )
+			{
+				this.paddings.left = cache.main.paddingLeft;
+			}			
+		}		
+		
+		private function copyMarginsFromStyleCache( cache:IComponentStyleCache ):void
+		{
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.margin is Number )
+			{
+				this.margins.margin = cache.main.margin;
+			}
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.marginTop is Number )
+			{
+				this.margins.top = cache.main.marginTop;
+			}
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.marginRight is Number )
+			{
+				this.margins.right = cache.main.marginRight;
+			}							
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.marginBottom is Number )
+			{
+				this.margins.bottom = cache.main.marginBottom;
+			}			
+
+			if( cache != null
+			 	&& cache.main != null
+				&& cache.main.marginLeft is Number )
+			{
+				this.margins.left = cache.main.marginLeft;
+			}			
+		}		
 		
 		/**
 		* 	Cleans composite references.
