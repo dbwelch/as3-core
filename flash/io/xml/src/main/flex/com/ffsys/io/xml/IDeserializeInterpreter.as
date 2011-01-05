@@ -62,7 +62,7 @@ package com.ffsys.io.xml {
 		* 
 		* 	@param instance The root object for the document.
 		*/
-		function documentAvailable( instance:Object ):void;
+		function documentAvailable( instance:Object, x:XML ):void;
 		
 		/**
 		*	Should determine whether the interpreter handles the deserialization

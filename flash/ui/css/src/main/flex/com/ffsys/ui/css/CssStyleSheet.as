@@ -139,6 +139,9 @@ package com.ffsys.ui.css {
 			var style:Object = null;
 			if( styleName != null )
 			{
+				//the css parsing converts style names to lowercase
+				//so force this convention until we write a custom css parser
+				styleName = styleName.toLowerCase();
 				return getBean( styleName );
 			}
 			return null;

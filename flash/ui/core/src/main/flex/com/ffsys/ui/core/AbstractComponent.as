@@ -27,6 +27,8 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.utils.properties.IMessagesAware;
 	import com.ffsys.utils.properties.IProperties;	
+	
+	import com.ffsys.utils.string.PropertyNameConverter;
 
 	/**
 	*	Abstract super class for all components.
@@ -72,7 +74,8 @@ package com.ffsys.ui.core
 		private var _identifier:String;
 		private var _messages:IProperties;	
 		
-		private var _parents:Vector.<DisplayObjectContainer>;			
+		private var _parents:Vector.<DisplayObjectContainer>;
+		private var _class:Class;		
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -290,49 +293,13 @@ package com.ffsys.ui.core
 		public function set id( id:String ):void
 		{
 			_id = id;
+			
 			//set a name from the id
-			if( this.name == null
-			 	&& _id != null )
+			if( _id != null )
 			{
-				this.name = _id;
+				var converter:PropertyNameConverter = new PropertyNameConverter();	
+				this.name = converter.convert( _id );
 			}
-		}
-		
-		private var _class:Class;
-		
-		public function getClassPath( target:Object = null ):String
-		{
-			if( target == null )
-			{
-				target = this;
-			}
-			return getQualifiedClassName( target );
-		}
-		
-		/**
-		* 	Gets the concrete class used to instantiate this
-		* 	component.
-		* 
-		* 	@return The type of this component.
-		*/
-		public function getClass( target:Object = null ):Class
-		{
-			if( target is Class )
-			{
-				return target as Class;
-			}
-			
-			if( target == null )
-			{
-				target = this;
-			}
-			
-			if( _class == null )
-			{
-				_class = getDefinitionByName(
-					getClassPath( target ) ) as Class;
-			}
-			return _class;
 		}
 		
 		/**
@@ -358,20 +325,12 @@ package com.ffsys.ui.core
 				}
 			
 				name = className + name;
-			
-				trace("AbstractComponent::get name()", name );
 			}
 			return name;
 		}
 		
 		/**
-		* 	Gets a list of the instance names of all parent
-		* 	display object containers.
-		* 
-		* 	@param root Whether to include the root display list object
-		* 	name.
-		* 
-		* 	@return A list of the parent names.
+		*	@inheritDoc 
 		*/
 		public function getAncestorNames( root:Boolean = false ):Vector.<String>
 		{
@@ -390,6 +349,41 @@ package com.ffsys.ui.core
 			}
 			return output;
 		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function getClassPath( target:Object = null ):String
+		{
+			if( target == null )
+			{
+				target = this;
+			}
+			return getQualifiedClassName( target );
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function getClass( target:Object = null ):Class
+		{
+			if( target is Class )
+			{
+				return target as Class;
+			}
+			
+			if( target == null )
+			{
+				target = this;
+			}
+			
+			if( _class == null )
+			{
+				_class = getDefinitionByName(
+					getClassPath( target ) ) as Class;
+			}
+			return _class;
+		}		
 		
 		/**
 		*	@inheritDoc 
@@ -425,10 +419,8 @@ package com.ffsys.ui.core
 		{
 			if( !isNaN( preferredWidth ) )
 			{
-				trace("AbstractComponent::get innerWidth()", this, this.id, paddings.width, border.width );
 				return preferredWidth - paddings.width - border.width;
 			}
-			
 			return this.width;
 		}
 		
@@ -441,7 +433,6 @@ package com.ffsys.ui.core
 			{
 				return preferredHeight - paddings.height - border.height;
 			}
-			
 			return this.height;
 		}
 		
@@ -1096,7 +1087,6 @@ package com.ffsys.ui.core
 		public function set enabled( enabled:Boolean ):void
 		{
 			mouseEnabled = enabled;
-			trace("AbstractComponent::set enabled()", this.stage );
 		}
 		
 		/**
@@ -1272,7 +1262,7 @@ package com.ffsys.ui.core
 				p = p.parent;
 			}
 			
-			trace("AbstractComponent::get parents()", "GOT PARENTS: ", this, output );
+			//trace("AbstractComponent::get parents()", "GOT PARENTS: ", this, output );
 			
 			//reverse the output so the parents are stored with
 			//the stage at index zero the dirent parent being
@@ -1292,8 +1282,10 @@ package com.ffsys.ui.core
 				_parents = this.parents;
 				//trace("AbstractComponent::addedToStage()", this, _parents );
 				
+				/*
 				trace("UIComponent::finalized() FINALIZED stage/this/name string:::::: ",
 					stage, this, this.toNameString() );				
+				*/
 			}
 		}
 		
@@ -1309,24 +1301,6 @@ package com.ffsys.ui.core
 			createChildren();
 			layoutChildren( preferredWidth, preferredHeight );
 			childrenCreated();
-			
-			//_parents = new Vector.<DisplayObjectContainer>();
-			//var p:DisplayObjectContainer = this.parent;
-			
-			/*
-			while( p != null )
-			{
-				trace("AbstractComponent::added() adding parent reference: ", p );
-				_parents.push( p );
-				p = p.parent;
-			}
-			
-			trace("AbstractComponent::added()", _parents );
-			*/
-			//TODO: apply styles to child composite components
-			
-			//apply style information by default
-			//applyStyles();
 		}
 		
 		/**
@@ -1401,6 +1375,7 @@ package com.ffsys.ui.core
 			_identifier = null;
 			_messages = null;			
 			_parents = null;
+			_class = null;
 		}
 	}
 }

@@ -30,6 +30,20 @@ package com.ffsys.ui.runtime {
 		{
 			super();
 		}
+
+		/**
+		* 	@inheritDoc
+		*/
+		public function getRootDocument():IDocument
+		{
+			var document:IDocument = getAncestorByType(
+				IDocument, false ) as IDocument;
+			if( document == null )
+			{
+				document = this;
+			}
+			return document;
+		}
 		
 		/**
 		* 	@inheritDoc

@@ -128,7 +128,7 @@ package com.ffsys.io.xml {
 		/**
 		* 	@inheritDoc
 		*/
-		public function documentAvailable( instance:Object ):void
+		public function documentAvailable( instance:Object, x:XML ):void
 		{
 			//do nothing by default
 			//other implementations may want to to store a reference

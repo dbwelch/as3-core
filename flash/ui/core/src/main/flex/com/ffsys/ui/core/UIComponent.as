@@ -142,7 +142,8 @@ package com.ffsys.ui.core
 			descriptor:IBeanDescriptor,
 			queue:ILoaderQueue = null ):void
 		{
-			trace("UIComponent::afterResources()", this, descriptor, queue );
+			//TODO: verify this queue is correct when a bean declares file dependencies
+			//trace("UIComponent::afterResources()", this, descriptor, queue );
 		}
 		
 		/**

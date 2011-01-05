@@ -55,6 +55,11 @@ package com.ffsys.ui.suite.core {
 		* 	The identifier of the containers view.
 		*/
 		public static const CONTAINERS_ID:String = "containers";
+		
+		/**
+		* 	A custom instance name for the root document view.
+		*/
+		public static const DOCUMENT_NAME:String = "uiComponentSuite";
 			
 		public var vbox:VerticalBox;
 		
@@ -183,6 +188,8 @@ package com.ffsys.ui.suite.core {
 					view = getView( id );
 				}
 				
+				var document:IDocument = IDocument( view );
+				
 				if( view == null )
 				{
 					throw new Error( "Could not find view component for identifier '"
@@ -198,6 +205,8 @@ package com.ffsys.ui.suite.core {
 				{
 					handleContainerExamples( view as IDocument );
 				}
+				
+				trace("ComponentSuiteController::navigationLinkClick()", document, document.getRootDocument(), document.getRootDocument().id );
 
 				content.removeAllChildren();
 				content.addChild( DisplayObject( view ) );
@@ -213,6 +222,7 @@ package com.ffsys.ui.suite.core {
  		private function createMainChildren( root:DisplayObjectContainer ):void
 		{	
 			var document:IDocument = new Document();
+			document.name = DOCUMENT_NAME;
 			document.preferredWidth = root.stage.stageWidth;
 			document.preferredHeight = root.stage.stageHeight;
 			

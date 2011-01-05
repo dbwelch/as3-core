@@ -53,23 +53,45 @@ package com.ffsys.ui.runtime {
 		public function RuntimeInterpreter( document:IBeanDocument = null )
 		{
 			super( document );
-			this.useStringReplacement = true;
+			this.useStringReplacement = false;
 			this.strictStringReplacement = true;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		override public function documentAvailable( instance:Object ):void
+		override public function documentAvailable( instance:Object, x:XML ):void
 		{
 			if( !( instance is IDocument ) )
 			{
 				throw new Error( "Invalid runtime document type for " + instance );
 			}
-			
 			_runtime = IDocument( instance );
+			var list:XMLList = x..css;
+			if( list != null )
+			{
+				var node:XML = null;
+				for each( node in list )
+				{
+					var css:String = node.text()[ 0 ];
 			
-			trace("RuntimeInterpreter::documentAvailable()", _runtime, _runtime.stylesheet );
+					if( css != null
+					 	&& css != "" )
+					{
+						if( _runtime.stylesheet == null )
+						{
+							throw new Error(
+								"Cannot parse an inline css declaration for a view with"
+								+ " no style sheet assigned to the document." );
+						}
+
+						_runtime.stylesheet.parse( css );
+				
+						//clean the inline css xml definition(s)
+						delete x..css;
+					}
+				}
+			}
 		}
 		
 		/**

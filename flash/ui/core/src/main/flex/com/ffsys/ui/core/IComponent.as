@@ -336,6 +336,54 @@ package com.ffsys.ui.core
 		/**
 		*	The inner height of this component.
 		*/
-		function get innerHeight():Number;		
+		function get innerHeight():Number;	
+		
+		/**
+		* 	Gets a list of the instance names of all parent
+		* 	display object containers.
+		* 
+		* 	@param root Whether to include the root display list object
+		* 	name.
+		* 
+		* 	@return A list of the parent names.
+		*/
+		function getAncestorNames( root:Boolean = false ):Vector.<String>;
+	
+		/**
+		* 	Gets the class path to a target object.
+		* 
+		* 	If no target is specified then the class path
+		* 	for this instance is returned.
+		* 
+		* 	@param target The target object.
+		* 
+		* 	@return The fully qualified class path.
+		*/
+		function getClassPath( target:Object = null ):String;
+	
+		/**
+		* 	Retrieves the class of an object.
+		* 
+		* 	If the target is a <code>Class</code> the
+		* 	target is returned. If the target is <code>null</code>
+		* 	the <code>Class</code> of this component is returned.
+		* 
+		* 	@param target A target object to retrieve the class
+		* 	of.
+		* 
+		* 	@return The type of this component.
+		*/
+		function getClass( target:Object = null ):Class;
+	
+		/**
+		*	Gets a dot path to this instance.
+		* 
+		* 	@param delimiter The delimiter to use when building the path.
+		* 	@param root Whether to include the root instance.
+		* 
+		* 	@return The dot style path to this instance.
+		*/
+		function toNameString(
+			delimiter:String = ".", root:Boolean = false ):String;
 	}
 }

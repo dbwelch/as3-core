@@ -16,6 +16,17 @@ package com.ffsys.ui.runtime {
 	public interface IDocument extends IContainer {
 		
 		/**
+		* 	Attempts to retrieve the lowest document in the
+		* 	component hierarchy.
+		* 
+		* 	If there is no other document in the parent hierarchy
+		* 	of this component this document is returned.
+		* 
+		* 	@return The root document component of this hierarchy.
+		*/
+		function getRootDocument():IDocument;
+		
+		/**
 		* 	The binding used to access data associated with the parsing
 		* 	of this document.
 		*/

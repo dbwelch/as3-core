@@ -1187,7 +1187,7 @@ package com.ffsys.io.xml {
 			
 			if( obj && rootNode && _interpreter )
 			{
-				_interpreter.documentAvailable( obj );
+				_interpreter.documentAvailable( obj, x );
 			}
 			
 			var contract:ISerializeContract = null;

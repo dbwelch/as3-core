@@ -1,32 +1,34 @@
 <?xml version="1.0"?>
 <document>
-	
+	<css>
+		<![CDATA[
+			myTestInlineStyle {
+				color: #ff6600;
+			}
+		]]>
+	</css>
 	<radio-button-group>
 		<id>fruit-radio-buttons</id>
 	</radio-button-group>
-	
 	<vbox>
 		<styles>page-heading</styles>
 		<sub-heading>
 			<styles>package-heading</styles>
 			<identifier>buttons.package</identifier>
 		</sub-heading>
-		
 		<hbox>
 			<spacing>25</spacing>
 			<vbox>
 				<styles>column</styles>
 				<vbox>
 					<styles>example-group</styles>
-					
 					<label>
 						<styles>element</styles>
 						<identifier>elements.textbutton</identifier>
-					</label>					
-					
+					</label>
 					<sub-paragraph>
 						<identifier>buttons.examples.text.copy</identifier>
-					</sub-paragraph>		
+					</sub-paragraph>
 					<text-button>
 						<identifier>buttons.examples.text</identifier>
 					</text-button>
@@ -35,18 +37,14 @@
 						<enabled>false</enabled>
 					</text-button>
 				</vbox>
-				
-				<hrule />
-		
-				<vbox>			
+				<hrule/>
+				<vbox>
 					<styles>example-group</styles>
-					
 					<label>
 						<styles>element</styles>
 						<identifier>elements.button</identifier>
-					</label>					
-					
-					<sub-paragraph>			
+					</label>
+					<sub-paragraph>
 						<identifier>buttons.examples.standard.copy</identifier>
 					</sub-paragraph>
 					<button>
@@ -57,20 +55,16 @@
 						<enabled>false</enabled>
 					</button>
 				</vbox>
-				
-				<hrule />
-	
+				<hrule/>
 				<vbox>
-					<styles>example-group</styles>	
-					
+					<styles>example-group</styles>
 					<label>
 						<styles>element</styles>
 						<identifier>elements.iconbutton</identifier>
-					</label>					
-					
-					<sub-paragraph>			
+					</label>
+					<sub-paragraph>
 						<identifier>buttons.examples.icon.copy</identifier>
-					</sub-paragraph>			
+					</sub-paragraph>
 					<icon-button>
 						<id>icon-state-test</id>
 						<styles>default-icon</styles>
@@ -81,64 +75,54 @@
 						<identifier>buttons.examples.icon</identifier>
 					</icon-button>
 					<icon-button>
-						<id>icon-state-test</id>			
-						<styles>default-icon</styles>			
+						<id>icon-state-test</id>
+						<styles>default-icon</styles>
 						<identifier>buttons.examples.icon.disabled</identifier>
 						<enabled>false</enabled>
 					</icon-button>
-				</vbox>	
-				
-				<hrule />
-				
+				</vbox>
+				<hrule/>
 				<vbox>
 					<styles>example-group</styles>
-					
 					<label>
 						<styles>element</styles>
 						<identifier>elements.icontextbutton</identifier>
-					</label>					
-						
-					<sub-paragraph>			
+					</label>
+					<sub-paragraph>
 						<identifier>buttons.examples.icontext.copy</identifier>
-					</sub-paragraph>			
-				
+					</sub-paragraph>
 					<icon-text-button>
-						<id>icon-state-test</id>			
+						<id>icon-state-test</id>
 						<styles>default-icon</styles>
-					</icon-text-button>		
+					</icon-text-button>
 					<icon-text-button>
-						<id>icon-state-test</id>			
+						<id>icon-state-test</id>
 						<styles>default-icon</styles>
 						<identifier>buttons.examples.icon.text</identifier>
 					</icon-text-button>
 					<icon-text-button>
-						<id>icon-state-test</id>			
-						<styles>default-icon</styles>			
+						<id>icon-state-test</id>
+						<styles>default-icon</styles>
 						<identifier>buttons.examples.icon..text.disabled</identifier>
 						<enabled>false</enabled>
 					</icon-text-button>
-				</vbox>				
-		
+				</vbox>
 			</vbox>
-			
-			<vrule />
-			
+			<vrule/>
 			<vbox>
 				<styles>column</styles>
 				<vbox>
-					<styles>example-group</styles>	
-					
+					<styles>example-group</styles>
 					<label>
 						<styles>element</styles>
 						<identifier>elements.radiobutton</identifier>
-					</label>					
-					
-					<sub-paragraph>	
+					</label>
+					<sub-paragraph>
 						<identifier>buttons.examples.radio.copy</identifier>
 					</sub-paragraph>
 					<radio-button>
 						<identifier>buttons.examples.radio</identifier>
-					</radio-button>				
+					</radio-button>
 					<radio-button>
 						<identifier>buttons.examples.radio.disabled</identifier>
 						<enabled>false</enabled>
@@ -147,12 +131,11 @@
 						<identifier>buttons.examples.radio.selected</identifier>
 						<enabled>false</enabled>
 						<selected>true</selected>
-					</radio-button>					
+					</radio-button>
 				</vbox>
-				
 				<vbox>
-					<styles>example-group</styles>	
-					<sub-paragraph>	
+					<styles>example-group</styles>
+					<sub-paragraph>
 						<identifier>buttons.examples.radio.copy.group</identifier>
 					</sub-paragraph>
 					<radio-button>
@@ -167,33 +150,29 @@
 						<selected>true</selected>
 						<group-manager>
 							<id>fruit-radio-buttons</id>
-						</group-manager>					
+						</group-manager>
 					</radio-button>
 					<radio-button>
 						<identifier>fruit.pears</identifier>
 						<selected>true</selected>
 						<group-manager>
 							<id>fruit-radio-buttons</id>
-						</group-manager>						
+						</group-manager>
 					</radio-button>
 				</vbox>
-				
-				<hrule />
-
+				<hrule/>
 				<vbox>
-					<styles>example-group</styles>	
-					
+					<styles>example-group</styles>
 					<label>
 						<styles>element</styles>
 						<identifier>elements.checkbox</identifier>
 					</label>
-					
-					<sub-paragraph>	
+					<sub-paragraph>
 						<identifier>buttons.examples.checkbox.copy</identifier>
 					</sub-paragraph>
 					<check-box>
 						<identifier>buttons.examples.checkbox</identifier>
-					</check-box>				
+					</check-box>
 					<check-box>
 						<identifier>buttons.examples.checkbox.disabled</identifier>
 						<enabled>false</enabled>
@@ -203,56 +182,46 @@
 						<enabled>false</enabled>
 						<selected>true</selected>
 					</check-box>
-				</vbox>	
-				
-				<hrule />
-				
+				</vbox>
+				<hrule/>
 				<vbox>
-					<styles>example-group</styles>	
-					
+					<styles>example-group</styles>
 					<label>
 						<styles>element</styles>
 						<identifier>elements.togglebutton</identifier>
-					</label>					
-					
-					<sub-paragraph>			
+					</label>
+					<sub-paragraph>
 						<identifier>buttons.examples.toggle.copy</identifier>
 					</sub-paragraph>
-					
 					<hbox>
 						<toggle-button>
 							<identifier>buttons.examples.toggle</identifier>
 						</toggle-button>
-	
 						<toggle-button>
 							<identifier>buttons.examples.toggle.disabled</identifier>
 							<enabled>false</enabled>
-						</toggle-button>					
+						</toggle-button>
 					</hbox>
-					
 					<toggle-button>
 						<styles>toggle-button-filter</styles>
 						<identifier>buttons.examples.toggle.filter</identifier>
-					</toggle-button>										
-				</vbox>										
+					</toggle-button>
+				</vbox>
 			</vbox>
-			
-			<vrule />
-
+			<vrule/>
 			<vbox>
 				<styles>column</styles>
 				<vbox>
-					<styles>example-group</styles>	
-					<sub-paragraph>			
+					<styles>example-group</styles>
+					<sub-paragraph>
 						<identifier>buttons.examples.urllink.copy</identifier>
 					</sub-paragraph>
 					<text-button>
 						<identifier>buttons.examples.urllink.uri</identifier>
-						<url-identifier>buttons.examples.urllink.uri</url-identifier>						
-					</text-button>					
+						<url-identifier>buttons.examples.urllink.uri</url-identifier>
+					</text-button>
 				</vbox>
-				
-			</vbox>	
+			</vbox>
 		</hbox>
 	</vbox>
 </document>

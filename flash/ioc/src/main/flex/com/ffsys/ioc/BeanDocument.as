@@ -142,6 +142,7 @@ package com.ffsys.ioc
 		{
 			if( parser == null )
 			{
+				//TODO: retrieve feom a default bean for this document
 				parser = new BeanTextParser( this );
 			}
 			
