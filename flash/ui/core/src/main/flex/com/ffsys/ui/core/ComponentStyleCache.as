@@ -22,6 +22,25 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		public function copy():Object
+		{
+			//TODO: integrate deep copying using clone if the object implements IClone
+			//once the clone logic has been integrated with the component objects - graphics first!
+			var output:Object = new Object();
+			if( _main != null )
+			{
+				var z:String = null;
+				for( z in _main )
+				{
+					output[ z ] = _main[ z ];
+				}
+			}
+			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function update( styles:Array ):Object
 		{
 			if( styles != null )

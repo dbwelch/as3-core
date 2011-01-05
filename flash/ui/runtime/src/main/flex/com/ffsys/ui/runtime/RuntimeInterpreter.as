@@ -8,6 +8,7 @@ package com.ffsys.ui.runtime {
 	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.core.IRuntimeXmlAware;
 	import com.ffsys.ui.common.ComponentIdentifiers;	
 	import com.ffsys.ui.common.IStyleAware;
 		
@@ -382,6 +383,20 @@ package com.ffsys.ui.runtime {
 			*/
 			
 			return hasProp;
+		}
+		
+		override public function processClass(
+			node:XML,
+			parent:Object,
+			classReference:Class ):Object
+		{
+			var target:Object = super.processClass(
+				node, parent, classReference );
+			if( target is IRuntimeXmlAware )
+			{
+				IRuntimeXmlAware( target ).xml = node;
+			}
+			return target;
 		}
 		
 		/**

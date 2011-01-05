@@ -9,8 +9,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
-	import com.ffsys.ioc.IBeanDescriptor;
-	import com.ffsys.ioc.IBeanDocument;	
+	import com.ffsys.ioc.*;	
 	
 	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.*;
@@ -44,6 +43,8 @@ package com.ffsys.ui.core
 		private var _layers:Array;
 		private var _graphics:IComponent;
 		private var _stage:Stage;
+		private var _descriptor:IBeanDescriptor;
+		private var _xml:XML;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -80,44 +81,110 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Invoked when this component has been finalized.
+		* 	@inheritDoc
 		*/
-		public function finalized():void
-		{			
-			//apply border and background graphics
-			applyBorders();
-			applyBackground();
-			
-			//update any child positioning
-			layoutChildren( preferredWidth, preferredHeight );
+		public function get xml():XML
+		{
+			return _xml;
+		}
+		
+		public function set xml( value:XML ):void
+		{
+			_xml = value;
+			if( _xml != null )
+			{
+				trace("UIComponent::set xml()", _xml.toXMLString() );
+			}
+		}
+		
+		/**
+		* 	The name of the bean descriptor that instantiated
+		* 	this component.
+		*/
+		public function get beanName():String
+		{
+			return _descriptor.id;
+		}
+		
+		/**
+		* 	Gets a copy of this component in it's
+		* 	original initialization state.
+		* 
+		* 	@return A copy of this component.
+		*/
+		public function copy():IComponent
+		{
+			if( document == null )
+			{
+				throw new Error( "Cannot get a component copy with no bean document." );
+			}
+			if( beanName == null )
+			{
+				throw new Error( "Cannot get a component copy with no bean name." );
+			}
+			return document.getBean( beanName ) as IComponent;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		override public function getClass( target:Object = null ):Class
+		{
+			if( _descriptor != null )
+			{
+				return _descriptor.instanceClass;
+			}
+			return super.getClass( target );
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function getCloneInstance():Object
+		{
+			return copy();
+		}
+		
+		/**
+		* 	Gets the class of object used to create a clone
+		* 	of this component.
+		*/
+		public function getCloneClass():Class
+		{
+			return getClass();
+		}
+		
+		/**
+		* 	Creates a clone of this component
+		*/
+		public function clone():IComponent
+		{
+			var implementation:IComponent = copy();
+			//TODO: copy current properties
+			return implementation;
 		}
 		
 		/**
 		* 	@private
-		* 
-		* 	Invoked after dependencies injected by
-		* 	type have been resolved.
-		* 
-		* 	@param descriptor The bean descriptor that
-		* 	created the bean.
+		*/
+		public function afterConstructed(
+			descriptor:IBeanDescriptor ):void
+		{
+			_descriptor = descriptor;
+			trace("UIComponent::afterConstructed()", this, descriptor, descriptor.id );
+		}
+		
+		/**
+		* 	@private
 		*/
 		public function afterInjection(
 			descriptor:IBeanDescriptor ):void
 		{	
 			//trace("UIComponent::afterInjection()", this, descriptor );
-		}
+		}		
 		
 		/**
 		* 	@private
-		* 
-		* 	Invoked after bean properties have been set.
-		* 
-		* 	Method calls are handled prior to setting properties
-		* 	so method calls have also been handled when this
-		* 	method is invoked.
-		* 
-		* 	@param descriptor The bean descriptor that
-		* 	created the bean.
 		*/
 		public function afterProperties(
 			descriptor:IBeanDescriptor ):void
@@ -127,16 +194,6 @@ package com.ffsys.ui.core
 		
 		/**
 		* 	@private
-		* 
-		* 	Invoked after any external file resources
-		* 	declared by the bean have been handled.
-		* 
-		* 	This does not imply the resources have been
-		* 	loaded simply that they have been resolved and
-		* 	a loader queue encapsulating the resources is available.
-		* 
-		*	@param descriptor The bean descriptor that
-		* 	created the bean.
 		*/
 		public function afterResources(
 			descriptor:IBeanDescriptor,
@@ -144,6 +201,74 @@ package com.ffsys.ui.core
 		{
 			//TODO: verify this queue is correct when a bean declares file dependencies
 			//trace("UIComponent::afterResources()", this, descriptor, queue );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function setSize(
+			width:Number = 10, height:Number = 10 ):void
+		{
+			
+			//should we be less strict here? 
+			if( isNaN( width ) || width <= 0 )
+			{
+				//w = 10;
+				//throw new Error( "The component width parameter must be valid." );
+			}
+			
+			if( isNaN( height ) || height <= 0 )
+			{
+				//throw new Error( "The component height parameter must be valid." );
+			}
+			
+			_preferredWidth = width;
+			_preferredHeight = height;
+
+			//TODO: re-layout borders
+			
+			//trace("AbstractComponent::setSize()", this, width, height );
+			
+			applyBorders();
+			applyBackground();
+			
+			layoutChildren( width, height );
+		}
+		
+		/**
+		* 	Invoked when this component has been finalized.
+		*/
+		public function finalized():void
+		{	
+			
+			//apply border and background graphics
+			applyBorders();
+			applyBackground();
+			
+			//update any child positioning
+			layoutChildren( preferredWidth, preferredHeight );
+			
+			//setSize( preferredWidth, preferredHeight );
+		}
+		
+		/**
+		* 	Overriden so that the <code>width</code> property
+		* 	can be used as a shortcut for setting the <code>preferredWidth</code>.
+		*/
+		override public function set width( value:Number ):void
+		{
+			_preferredWidth = value;
+			super.width = value;
+		}
+		
+		/**
+		* 	Overriden so that the <code>height</code> property
+		* 	can be used as a shortcut for setting the <code>preferredHeight</code>.
+		*/
+		override public function set height( value:Number ):void
+		{
+			_preferredHeight = value;
+			super.height = value;
 		}
 		
 		/**
@@ -157,6 +282,8 @@ package com.ffsys.ui.core
 				getStyleCache();
 			}
 			
+			var existing:Object = _styleCache.copy();
+			
 			var output:Object = null;
 			if( style != null )
 			{
@@ -166,15 +293,61 @@ package com.ffsys.ui.core
 				}
 				styles.unshift( style );
 				output = _styleCache.update( styles );
-				invalidateStyles();
+				afterStyleCacheUpdated( existing, output );
 			}
 			return output;
 		}
 		
-		protected function invalidateStyles():void
+		/**
+		* 	Invoked after the style cache is updated.
+		* 
+		* 	@param previous The object containing the previous style data.
+		* 	@param updated The object containing the updated style data.
+		*/
+		protected function afterStyleCacheUpdated(
+			previous:Object, updated:Object ):void
 		{
 			//simply apply the styles for now.
 			applyStyles();
+			
+			if( invalidatesChildLayout( previous, updated ) )
+			{
+				layoutChildren( preferredWidth, preferredHeight );
+			}
+		}
+		
+		/**
+		* 	Determines whether a style change would invalidate
+		* 	the layout of child components.
+		* 
+		* 	@param previous The object containing the previous style data.
+		* 	@param updated The object containing the updated style data.
+		* 
+		* 	@return A boolean indicating whether the child layout should
+		* 	be updated after the styles have changed.
+		*/
+		protected function invalidatesDimensions(
+			previous:Object, updated:Object ):Boolean
+		{
+			//TODO: implement
+			return false;
+		}
+		
+		/**
+		* 	Determines whether a style change would invalidate
+		* 	the layout of child components.
+		* 
+		* 	@param previous The object containing the previous style data.
+		* 	@param updated The object containing the updated style data.
+		* 
+		* 	@return A boolean indicating whether the child layout should
+		* 	be updated after the styles have changed.
+		*/
+		protected function invalidatesChildLayout(
+			previous:Object, updated:Object ):Boolean
+		{
+			//TODO: implement
+			return false;
 		}
 		
 		/**
@@ -793,6 +966,8 @@ package com.ffsys.ui.core
 			_state = null;
 			_stage = null;
 			_dataBinding = null;
+			_descriptor = null;
+			_xml = null;
 		}
 		
 		/**

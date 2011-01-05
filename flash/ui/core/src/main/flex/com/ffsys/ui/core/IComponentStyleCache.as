@@ -3,6 +3,14 @@ package com.ffsys.ui.core
 
 	public interface IComponentStyleCache
 	{
+		
+		/**
+		* 	Creates a copy of the current flat style cache object.
+		* 
+		* 	@return A copy of the cached style object.
+		*/
+		function copy():Object;
+		
 		/**
 		* 	Updates this style cache with an array
 		* 	of objects whose enumerable properties

@@ -570,43 +570,6 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		public function setSize(
-			width:Number, height:Number ):void
-		{
-			if( isNaN( width ) || width <= 0 )
-			{
-				throw new Error( "The component width parameter must be valid." );
-			}
-			
-			if( isNaN( height ) || height <= 0 )
-			{
-				throw new Error( "The component height parameter must be valid." );
-			}
-			
-			preferredWidth = width;
-			preferredHeight = height;
-
-			//TODO: re-layout borders
-			
-			//trace("AbstractComponent::setSize()", this, width, height );
-			
-			layoutChildren( width, height );
-			
-			applyBorders();
-			applyBackground();			
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function redraw():void
-		{
-			setSize( preferredWidth, preferredHeight );
-		}
-		
-		/**
 		*	Invoked after the children have been created
 		*	to perform positioning of the child components
 		*	and when this component is resized.

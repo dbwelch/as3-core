@@ -52,11 +52,12 @@ package com.ffsys.ui.core
 				IPaddingAware,
 				IStageAware,
 				IBitmapGrab,
+				IRuntimeXmlAware,
 				IDestroy,
 				IEnabled,
 				IDataBindingNotificationObserver,
 				IStringIdentifier
-	{
+	{	
 		/**
 		* 	The current state of this component.
 		*/
@@ -235,13 +236,7 @@ package com.ffsys.ui.core
 		*	@param height The preferred height for the component.	
 		*/
 		function setSize(
-			width:Number, height:Number ):void;
-			
-		/**
-		* 	Forces a redraw of this component at the current preferred
-		* 	dimensions.
-		*/
-		function redraw():void;
+			width:Number = 10, height:Number = 10 ):void;
 		
 		/**
 		* 	Gets a runtime asset by fully qualified class path.

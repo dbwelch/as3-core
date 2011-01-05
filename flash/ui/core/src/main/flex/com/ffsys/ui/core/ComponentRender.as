@@ -10,6 +10,8 @@ package com.ffsys.ui.core {
 	*	@author Mischa Williamson
 	*	@since  13.07.2010
 	*/
+	
+	//TODO: remove this deprecated logic
 	public class ComponentRender extends Object
 		implements IComponentRender {
 		
@@ -69,7 +71,7 @@ package com.ffsys.ui.core {
 				switch( phase )
 				{
 					case RenderPhase.REDRAW:
-						component.redraw();
+						//component.redraw();
 						break;
 				}
 			}

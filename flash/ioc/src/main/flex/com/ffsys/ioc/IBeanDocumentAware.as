@@ -23,6 +23,4 @@ package com.ffsys.ioc
 		function get document():IBeanDocument;
 		function set document( document:IBeanDocument ):void;	
 	}
-
 }
-

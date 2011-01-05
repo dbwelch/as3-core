@@ -360,12 +360,17 @@ package com.ffsys.ioc
 						return getMethod( parameters, instance ) as Function;
 					}
 					
+					var bean:IBean = ( instance as IBean );					
+					
 					if( instance is IBeanDocumentAware )
 					{
 						IBeanDocumentAware( instance ).document = this.document;
 					}
 					
-					var bean:IBean = ( instance as IBean );
+					if( bean != null )
+					{
+						bean.afterConstructed( this );
+					}
 					
 					//handle dependency injection by type first
 					doTypeInjection( instance, parameters );

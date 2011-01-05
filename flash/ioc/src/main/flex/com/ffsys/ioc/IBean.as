@@ -15,6 +15,21 @@ package com.ffsys.ioc
 	public interface IBean extends IBeanFinalized
 	{
 		/**
+		* 	Invoked after the bean has been instantiated
+		* 	but before any properties or injection has been
+		* 	performed.
+		* 
+		* 	If the bean implements the <code>IBeanDocumentAware</code> interface
+		* 	the <code>document</code> setter method will have been invoked
+		* 	before this method is invoked.
+		* 
+		* 	@param descriptor The bean descriptor that
+		* 	created the bean.
+		*/
+		function afterConstructed(
+			descriptor:IBeanDescriptor ):void;
+		
+		/**
 		* 	Invoked after dependencies injected by
 		* 	type have been resolved.
 		* 
