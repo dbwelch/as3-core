@@ -149,6 +149,37 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		public function setStyle(
+			style:Object, ... styles ):Object
+		{
+			if( _styleCache == null )
+			{
+				getStyleCache();
+			}
+			
+			var output:Object = null;
+			if( style != null )
+			{
+				if( !( styles is Array ) )
+				{
+					styles = new Array();
+				}
+				styles.unshift( style );
+				output = _styleCache.update( styles );
+				invalidateStyles();
+			}
+			return output;
+		}
+		
+		protected function invalidateStyles():void
+		{
+			//simply apply the styles for now.
+			applyStyles();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function hasStyleCache():Boolean
 		{
 			return _styleCache != null;
@@ -385,6 +416,8 @@ package com.ffsys.ui.core
 				//apply all normal styles
 				//trace("UIComponent::applyStyles() UICOMPONENT: ", this, styleNames, styleObjects, main );
 				//stylesheet.style( this );
+				
+				//trace("UIComponent::applyStyles()", main, main.color );
 				
 				//apply the main flattened style object
 				stylesheet.applyStyle( this, main );

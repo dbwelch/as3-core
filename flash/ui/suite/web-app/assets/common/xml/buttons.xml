@@ -195,6 +195,7 @@
 					</sub-paragraph>
 					<hbox>
 						<toggle-button>
+							<id>toggle-button</id>
 							<identifier>buttons.examples.toggle</identifier>
 						</toggle-button>
 						<toggle-button>

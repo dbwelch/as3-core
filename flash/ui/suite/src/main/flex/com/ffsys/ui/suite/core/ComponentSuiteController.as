@@ -13,7 +13,8 @@ package com.ffsys.ui.suite.core {
 	import com.ffsys.swat.view.IApplication;
 	import com.ffsys.swat.view.IApplicationPreloader;
 	import com.ffsys.swat.view.IApplicationPreloadView;
-	
+
+	import com.ffsys.ui.buttons.*;	
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.css.*;
@@ -55,6 +56,11 @@ package com.ffsys.ui.suite.core {
 		* 	The identifier of the containers view.
 		*/
 		public static const CONTAINERS_ID:String = "containers";
+		
+		/**
+		* 	The identifier of the buttons view.
+		*/
+		public static const BUTTONS_ID:String = "buttons";
 		
 		/**
 		* 	A custom instance name for the root document view.
@@ -205,11 +211,27 @@ package com.ffsys.ui.suite.core {
 				{
 					handleContainerExamples( view as IDocument );
 				}
-				
-				trace("ComponentSuiteController::navigationLinkClick()", document, document.getRootDocument(), document.getRootDocument().id );
 
 				content.removeAllChildren();
 				content.addChild( DisplayObject( view ) );
+				
+				trace("ComponentSuiteController::navigationLinkClick()",
+					document, document.getRootDocument(), document.getRootDocument().id );
+					
+				if( id == BUTTONS_ID )
+				{
+					var btn:IButton = document.getElementById(
+						"toggle-button" ) as IButton;
+					
+					trace("ComponentSuiteController::navigationLinkClick()", btn );
+					
+					if( btn != null )
+					{
+						var result:Object = btn.setStyle( { color: 0xff0000 } );
+						trace("ComponentSuiteController::navigationLinkClick()",
+							0xff0000, result, result.color, result.color == 0xff0000 );
+					}
+				}				
 
 				_views[ id ] = view;
 				_view = id;

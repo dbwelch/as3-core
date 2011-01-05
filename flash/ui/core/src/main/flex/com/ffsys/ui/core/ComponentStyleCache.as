@@ -1,6 +1,7 @@
 package com.ffsys.ui.core
 {
 	
+	import com.ffsys.utils.properties.PropertiesMerge;	
 	
 	public class ComponentStyleCache extends Object
 		implements IComponentStyleCache
@@ -16,6 +17,28 @@ package com.ffsys.ui.core
 		public function ComponentStyleCache()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function update( styles:Array ):Object
+		{
+			if( styles != null )
+			{
+				if( _main == null )
+				{
+					_main = new Object();
+				}
+				var merger:PropertiesMerge = new PropertiesMerge();
+				var style:Object = null;
+				for( var i:int = 0;i < styles.length;i++ )
+				{
+					style = styles[ i ];
+					merger.merge( _main, style, false );
+				}
+			}
+			return _main;
 		}
 		
 		/**

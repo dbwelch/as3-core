@@ -4,6 +4,18 @@ package com.ffsys.ui.core
 	public interface IComponentStyleCache
 	{
 		/**
+		* 	Updates this style cache with an array
+		* 	of objects whose enumerable properties
+		* 	will be copied into the main style cache
+		* 	for the component.
+		* 
+		* 	@param styles The array of style objects.
+		* 
+		* 	@return The updated main style object.
+		*/
+		function update( styles:Array ):Object;
+		
+		/**
 		* 	A flat representation of the style objects
 		* 	located when this style cache was created.
 		*/

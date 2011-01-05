@@ -67,7 +67,22 @@ package com.ffsys.ui.core
 		* 	The stylesheet for this component.
 		*/
 		function get stylesheet():ICssStyleSheet;
-		function set stylesheet( value:ICssStyleSheet ):void;	
+		function set stylesheet( value:ICssStyleSheet ):void;
+		
+		/**
+		* 	Updates the cached style information associated with
+		* 	this component with the specified style objects.
+		* 
+		* 	The enumerable properties of the style objects are merged
+		* 	with the existing cached representation of the style information.
+		* 
+		* 	@param style The primary style object.
+		* 	@param styles Additional style objects to apply.
+		* 
+		* 	@return The object that contains the cached style properties.
+		*/
+		function setStyle(
+			style:Object, ... styles ):Object;		
 		
 		/**
 		* 	Determines whether this component has a style cache.
