@@ -91,38 +91,6 @@ package com.ffsys.ui.core
 		public function set xml( value:XML ):void
 		{
 			_xml = value;
-			if( _xml != null )
-			{
-				trace("UIComponent::set xml()", _xml.toXMLString() );
-			}
-		}
-		
-		/**
-		* 	The name of the bean descriptor that instantiated
-		* 	this component.
-		*/
-		public function get beanName():String
-		{
-			return _descriptor.id;
-		}
-		
-		/**
-		* 	Gets a copy of this component in it's
-		* 	original initialization state.
-		* 
-		* 	@return A copy of this component.
-		*/
-		public function copy():IComponent
-		{
-			if( document == null )
-			{
-				throw new Error( "Cannot get a component copy with no bean document." );
-			}
-			if( beanName == null )
-			{
-				throw new Error( "Cannot get a component copy with no bean name." );
-			}
-			return document.getBean( beanName ) as IComponent;
 		}
 		
 		/**
@@ -138,7 +106,13 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		*	@inheritDoc 
+		*	Gets an instance used to create clone
+		* 	of this component.
+		* 
+		* 	This implementation simply calls <code>copy</code>
+		* 	to retrieve a new instance using the bean descriptor.
+		* 
+		* 	@return A copy of this component.
 		*/
 		public function getCloneInstance():Object
 		{
@@ -148,6 +122,8 @@ package com.ffsys.ui.core
 		/**
 		* 	Gets the class of object used to create a clone
 		* 	of this component.
+		* 
+		* 	@return The class used to create this component.
 		*/
 		public function getCloneClass():Class
 		{
@@ -155,13 +131,43 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	Creates a clone of this component
+		* 	@inheritDoc
+		*/
+		public function get descriptor():IBeanDescriptor
+		{
+			return _descriptor;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function copy():IComponent
+		{
+			if( _descriptor == null )
+			{
+				throw new Error( "Cannot get a component copy with no bean descriptor." );
+			}
+			return _descriptor.getBean() as IComponent;
+			//return document.getBean( beanName ) as IComponent;
+		}
+		
+		/**
+		* 	@inheritDoc
 		*/
 		public function clone():IComponent
 		{
 			var implementation:IComponent = copy();
-			//TODO: copy current properties
+			transfer( this, implementation );
 			return implementation;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function transfer( source:IComponent, target:IComponent ):IComponent
+		{
+			trace("UIComponent::transfer() TODO TRANSFER PROPERTIES: ", source, target );
+			return target;
 		}
 		
 		/**

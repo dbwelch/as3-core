@@ -28,8 +28,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.css.*;
 	
-	import com.ffsys.ioc.IBeanDocumentAware;	
-	import com.ffsys.ioc.IBean;
+	import com.ffsys.ioc.*;
 	
 	/**
 	*	Describes the contract for all components.
@@ -395,5 +394,41 @@ package com.ffsys.ui.core
 		*/
 		function toNameString(
 			delimiter:String = ".", root:Boolean = false ):String;
+			
+		/**
+		* 	The bean descriptor that instantiated
+		* 	this component.
+		*/
+		function get descriptor():IBeanDescriptor;
+		
+		/**
+		* 	Gets a copy of this component in it's
+		* 	original initialization state.
+		* 
+		* 	@return A copy of this component.
+		*/
+		function copy():IComponent;			
+			
+		/**
+		* 	Copies the properties from a source component
+		* 	to a target component and returns the updated
+		* 	target component.
+		* 	
+		* 	@param source The source component containing
+		* 	properties to transfer.
+		* 	@param target The target component to receive
+		* 	the transferred properties.
+		* 
+		* 	@return The updated target component.
+		*/
+		function transfer( source:IComponent, target:IComponent ):IComponent;
+		
+		/**
+		* 	Creates a clone of this component in it's
+		* 	current state.
+		* 
+		* 	@return A clone of this component.
+		*/
+		function clone():IComponent;
 	}
 }
