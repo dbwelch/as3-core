@@ -122,6 +122,43 @@ package com.ffsys.ui.common {
 		public function valid():Boolean
 		{
 			return ( left > 0 || top > 0 || right > 0 || bottom > 0 );
-		}		
+		}
+		
+		/**
+		* 	Gets the class used to creates a clone of this
+		* 	implementation.
+		* 
+		* 	@return The class of this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return Edges;
+		}
+		
+		/**
+		* 	Gets an instance of the clone class.
+		* 
+		* 	@return A new instance of the clone class.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	Creates a clone of this implementation.
+		* 
+		* 	@return The cloned version of this implementation.
+		*/
+		public function clone():IEdges
+		{
+			var cloned:IEdges = IEdges( getCloneInstance() );
+			cloned.top = top;
+			cloned.right = right;
+			cloned.bottom = bottom;
+			cloned.left = left;
+			return cloned;
+		}
 	}
 }

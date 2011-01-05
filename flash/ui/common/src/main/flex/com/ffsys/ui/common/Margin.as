@@ -39,5 +39,13 @@ package com.ffsys.ui.common {
 			_bottom = margin;
 			_left = margin;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return Margin;
+		}		
 	}
 }

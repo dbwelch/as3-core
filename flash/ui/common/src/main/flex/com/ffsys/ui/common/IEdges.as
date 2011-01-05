@@ -2,6 +2,8 @@ package com.ffsys.ui.common {
 	
 	import flash.events.IEventDispatcher;
 	
+	import com.ffsys.core.IClone;
+	
 	/**
 	*	Describes the contract for objects that represent the
 	*	four edges of a rectangle.
@@ -12,9 +14,10 @@ package com.ffsys.ui.common {
 	*	@author Mischa Williamson
 	*	@since  19.06.2010
 	*/
-	public interface IEdges extends IEventDispatcher {
+	public interface IEdges
+		extends	IClone,
+				IEventDispatcher {
 
-		
 		/**
 		* 	A width determined by adding the left and
 		* 	right edges.

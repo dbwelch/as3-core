@@ -65,5 +65,24 @@ package com.ffsys.ui.common
 		{
 			_alpha = value;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return Border;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function clone():IEdges
+		{
+			var cloned:IBorder = IBorder( super.clone() );
+			cloned.color = color;
+			cloned.alpha = alpha;
+			return cloned;
+		}		
 	}
 }

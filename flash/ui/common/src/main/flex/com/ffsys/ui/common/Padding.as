@@ -39,5 +39,14 @@ package com.ffsys.ui.common {
 			_bottom = padding;
 			_left = padding;
 		}
+		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return Padding;
+		}		
 	}
 }
