@@ -167,11 +167,6 @@ package com.ffsys.ui.runtime {
 				_runtime.prepared();
 			}
 			
-			if( !( instance is IDocument ) )
-			{
-				finalizeXmlBean( instance );
-			}
-			
 			//clean our reference
 			_runtime = null;
 			_references = new Vector.<RuntimeDocumentReference>();
@@ -460,7 +455,7 @@ package com.ffsys.ui.runtime {
 		override public function postProcessClass(
 			instance:Object, parent:Object ):void
 		{
-			trace("RuntimeInterpreter::postProcessClass()", instance );
+			//trace("RuntimeInterpreter::postProcessClass()", instance );
 			
 			/*
 			

@@ -578,7 +578,10 @@ package com.ffsys.ui.css {
 				
 					for each( txt in targets )
 					{
-						txt.defaultTextFormat = format;
+						if( txt.styleSheet == null )
+						{
+							txt.defaultTextFormat = format;
+						}
 					
 						if( style.hasOwnProperty( "width" ) )
 						{

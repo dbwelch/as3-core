@@ -14,6 +14,12 @@ package com.ffsys.ui.common
 	public class Dimensions extends Rectangle
 		implements IDimensions
 	{
+		private var _maximumWidth:Number;
+		private var _maximumHeight:Number;
+		
+		private var _minimumWidth:Number;
+		private var _minimumHeight:Number;
+		
 		/**
 		* 	Creates a <code>Dimensions</code> instance.
 		* 
@@ -31,12 +37,64 @@ package com.ffsys.ui.common
 			super( left, top, width, height );
 		}
 		
+		/**
+		* 	A maximum width for this implementation.
+		*/
+		public function get maximumWidth():Number
+		{
+			return _maximumWidth;
+		}
+		
+		public function set maximumWidth( value:Number ):void
+		{
+			_maximumWidth = value;
+		}
+		
+		/**
+		* 	A maximum height for this implementation.
+		*/
+		public function get maximumHeight():Number
+		{
+			return _maximumHeight;
+		}
+
+		public function set maximumHeight( value:Number ):void
+		{
+			_maximumHeight = value;
+		}
+		
+		/**
+		* 	A minimum width for this implementation.
+		*/
+		public function get minimumWidth():Number
+		{
+			return _minimumWidth;
+		}
+
+		public function set minimumWidth( value:Number ):void
+		{
+			_minimumWidth = value;
+		}
+
+		/**
+		* 	A minimum height for this implementation.
+		*/
+		public function get minimumHeight():Number
+		{
+			return _minimumHeight;
+		}
+
+		public function set minimumHeight( value:Number ):void
+		{
+			_minimumHeight = value;
+		}				
+		
 		public function setPercentDimensions(
 			parent:IDimensions,
 			width:Number,
 			height:Number ):void
 		{
-			
+			//TODO
 		}
 	}
 }

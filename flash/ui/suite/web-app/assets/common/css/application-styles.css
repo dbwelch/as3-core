@@ -111,10 +111,11 @@ container-border-example {
 
 #outer-container, outer-container {
 	padding: 5;
+	display: block;	
 }
 
 inner-container {
-	border: border( 1, 1, 1, 1, #0000ff, 1 );	
+	border: border( 1, 1, 1, 1, #0000ff, 1 );
 }
 
 container-border-background-example {

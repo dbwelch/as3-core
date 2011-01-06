@@ -70,5 +70,12 @@ package com.ffsys.ui.common {
 		* 	@return Whether any edge values are valid.
 		*/
 		function valid():Boolean;
+		
+		/**
+		* 	Creates a clone of this implementation.
+		* 
+		* 	@return A clone of this implementation.
+		*/
+		function clone():IEdges;
 	}
 }

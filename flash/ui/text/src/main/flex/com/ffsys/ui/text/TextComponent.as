@@ -9,7 +9,8 @@ package com.ffsys.ui.text
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	
-	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.core.IComponentStyleCache;
+	import com.ffsys.ui.core.UIComponent;	
 	import com.ffsys.ui.data.IDataBindingNotification;
 	import com.ffsys.ui.data.StringDataBinding;
 	import com.ffsys.ui.data.ChangeNotification;
@@ -72,6 +73,19 @@ package com.ffsys.ui.text
 			createTextField( text );		
 			this.maximumWidth = maximumWidth;
 			this.maximumHeight = maximumHeight;
+		}
+		
+		override protected function doWithStyleCache(
+			cache:IComponentStyleCache ):void
+		{
+			super.doWithStyleCache( cache );
+			
+			trace("TextComponent::doWithStyleCache()", cache.main.textTransform );
+			
+			if( cache.main.textTransform )
+			{
+				this.textTransform = cache.main.textTransform;
+			}
 		}
 		
 		/**
@@ -183,6 +197,8 @@ package com.ffsys.ui.text
 			*/
 			
 			super.finalized();
+			
+			trace("TextComponent::finalized()", this.text );
 		}
 		
 		/**

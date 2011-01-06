@@ -1,6 +1,7 @@
 package com.ffsys.ui.graphics
 {
 	import com.ffsys.ui.common.IBorder;
+	import com.ffsys.ui.layout.IFixedLayout;
 	
 	/**
 	*	Describes the contract for graphics that represent
@@ -13,7 +14,8 @@ package com.ffsys.ui.graphics
 	*	@since  01.01.2011
 	*/
 	public interface IBorderGraphic
-		extends IPointerAwareGraphic
+		extends IPointerAwareGraphic,
+				IFixedLayout
 	{
 		/**
 		* 	The border definition to use when drawing

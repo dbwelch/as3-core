@@ -114,8 +114,7 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	The message identifier used to locate a message
-		* 	from the known messages.
+		* 	@inheritDoc
 		*/
 		public function get identifier():String
 		{
@@ -474,6 +473,11 @@ package com.ffsys.ui.core
 			return _paddings;
 		}
 		
+		public function set paddings( value:IPadding ):void
+		{
+			_paddings = value;
+		}
+		
 		/**
 		* 	Adds the padding, margin and border width values
 		* 	to a number.
@@ -512,6 +516,11 @@ package com.ffsys.ui.core
 				_margins = new Margin();
 			}
 			return _margins;
+		}
+		
+		public function set margins( value:IMargin ):void
+		{
+			_margins = value;
 		}
 		
 		/**

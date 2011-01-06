@@ -292,6 +292,7 @@ package com.ffsys.ui.layout
 			//we never layout fixed layout items
 			if( child is IFixedLayout )
 			{
+				trace("Layout::doLayoutChild() RETURNING EARLY ON FIXED LAYOUT :", child );
 				return;
 			}
 			

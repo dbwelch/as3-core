@@ -20,10 +20,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.layout.ILayoutWidth;
 	import com.ffsys.ui.layout.ILayoutHeight;
 
-	import com.ffsys.ui.common.IBorder;	
-	import com.ffsys.ui.common.IMarginAware;
-	import com.ffsys.ui.common.IPaddingAware;
-	import com.ffsys.ui.common.IStyleAware;
+	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.common.flash.ISprite;	
 	
 	import com.ffsys.ui.css.*;
@@ -126,12 +123,23 @@ package com.ffsys.ui.core
 		* 	A data binding provider for this user interface component.
 		*/
 		function get dataBinding():IDataBinding;
-		function set dataBinding( dataBinding:IDataBinding ):void;		
+		function set dataBinding( dataBinding:IDataBinding ):void;	
+		
+		/**
+		* 	The message identifier used to locate a message
+		* 	from the known messages.
+		*/
+		function get identifier():String;
+		function set identifier( value:String ):void;			
 		
 		/**
 		* 	Gets the utility methods and properties available to all components.
 		*/
 		function get utils():IComponentViewUtils;
+		
+		
+		//function set margins( value:IMargin ):void;
+		//function set paddings( value:IPadding ):void;
 		
 		/**
 		*	The preferred width for the component.	
@@ -405,9 +413,12 @@ package com.ffsys.ui.core
 		* 	Gets a copy of this component in it's
 		* 	original initialization state.
 		* 
+		* 	@param finalise Whether the copy should be finalized
+		* 	after instantiation.
+		* 
 		* 	@return A copy of this component.
 		*/
-		function copy():IComponent;			
+		function copy( finalize:Boolean = true ):IComponent;		
 			
 		/**
 		* 	Copies the properties from a source component

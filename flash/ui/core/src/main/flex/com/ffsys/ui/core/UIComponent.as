@@ -5,7 +5,7 @@ package com.ffsys.ui.core
 	import flash.display.Stage;	
 	import flash.events.FocusEvent;
 	
-	import com.ffsys.core.IStringIdentifier;
+	import com.ffsys.core.*;
 	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
@@ -13,7 +13,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.io.xml.IParser;
 	
-	import com.ffsys.ui.common.ComponentIdentifiers;
+	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.ComponentGraphic;
 	
@@ -157,7 +157,7 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function copy():IComponent
+		public function copy( finalize:Boolean = true ):IComponent
 		{
 			if( _descriptor == null )
 			{
@@ -190,14 +190,29 @@ package com.ffsys.ui.core
 				
 				if( component != null )
 				{
-					trace("UIComponent::copy() AFTER DESERIALIZE: ", component, component == this, component.id == this.id, component.styles == this.styles );
+					trace("UIComponent::copy() AFTER DESERIALIZE: ",
+						component, component == this, component.id == this.id, component.styles == this.styles );
 				}
 			}else{
 				//normal bean retrieval so finalize
 				component = _descriptor.getBean() as IComponent;
 			}
 			
+			if( finalize )
+			{
+				finalizeCopy( component );
+			}
+			
 			return component;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function finalizeCopy( component:IComponent ):void
+		{
+			component.prefinalize();
+			component.finalized();		
 		}
 		
 		/**
@@ -205,8 +220,9 @@ package com.ffsys.ui.core
 		*/
 		public function clone():IComponent
 		{
-			var implementation:IComponent = copy();
+			var implementation:IComponent = copy( false );
 			transfer( this, implementation );
+			finalizeCopy( implementation );
 			return implementation;
 		}
 		
@@ -215,7 +231,24 @@ package com.ffsys.ui.core
 		*/
 		public function transfer( source:IComponent, target:IComponent ):IComponent
 		{
-			trace("UIComponent::transfer() TODO TRANSFER PROPERTIES: ", source, target );
+			//trace("UIComponent::transfer() TODO TRANSFER PROPERTIES: ", source, target );
+			
+			if( source != null
+				&& target != null )
+			{
+				target.id = new String( this.id );
+				target.identifier = new String( this.identifier );
+				target.customData = this.customData;
+				target.preferredWidth = source.preferredWidth;
+				target.preferredHeight = source.preferredHeight;
+				target.maximumWidth = source.maximumWidth;
+				target.maximumHeight = source.maximumHeight;
+				target.border = IBorder( this.border.clone() );
+				UIComponent( target ).margins = IMargin( this.margins.clone() );
+				UIComponent( target ).paddings = IPadding( this.paddings.clone() );
+				
+				//TODO: merge style cache properties
+			}
 			return target;
 		}
 		
@@ -226,7 +259,7 @@ package com.ffsys.ui.core
 			descriptor:IBeanDescriptor ):void
 		{
 			_descriptor = descriptor;
-			trace("UIComponent::afterConstructed()", this, descriptor, descriptor.id );
+			//trace("UIComponent::afterConstructed()", this, descriptor, descriptor.id );
 		}
 		
 		/**
@@ -295,7 +328,7 @@ package com.ffsys.ui.core
 		*/
 		public function finalized():void
 		{	
-			trace("UIComponent::finalized()", this, this.id );
+			//updateState( this.state == null ? State.MAIN : state.clone() );
 			
 			//apply border and background graphics
 			applyBorders();
@@ -303,6 +336,8 @@ package com.ffsys.ui.core
 			
 			//update any child positioning
 			layoutChildren( preferredWidth, preferredHeight );
+			
+			//trace("UIComponent::finalized()", this, this.id );			
 			
 			//setSize( preferredWidth, preferredHeight );
 		}
@@ -596,6 +631,7 @@ package com.ffsys.ui.core
 		protected function updateState(
 			state:State ):void
 		{
+			//trace("UIComponent::updateState()", state );
 			this.state = state;
 			applyStyles();
 		}
@@ -630,12 +666,17 @@ package com.ffsys.ui.core
 			
 			if( styleManager )
 			{	
-				//trace("UIComponent::applyStyles()APPLY STYLES: ", this, this.id, this.styles );
-				
 				if( _styleCache == null )
 				{
 					_styleCache = getStyleCache();
 				}
+				
+				//
+				
+				/*
+				trace("UIComponent::applyStyles() APPLY STYLES: ",
+					this, this.id, this.styles, _styleCache, _styleCache.main.textTransform );
+				*/
 				
 				//var styleNames:Array = stylesheet.getStyleNameList( this );
 				var styleNames:Array = _styleCache.styleNames;
@@ -661,7 +702,6 @@ package com.ffsys.ui.core
 					&& this.state != null
 					&& this.state.primary != State.MAIN_ID )
 				{
-
 					//trace("UIComponent::applyStyles()", this, this.id, styleNames, this.state.toStateString() );
 					
 					var stateStyles:Array = new Array();

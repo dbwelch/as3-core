@@ -2,9 +2,11 @@ package com.ffsys.ui.containers {
 	
 	import flash.display.DisplayObject;
 	
-	import com.ffsys.ui.core.UIComponent;
-	import com.ffsys.ui.core.IComponentStyleCache;
-	import com.ffsys.ui.layout.ILayout;	
+	import com.ffsys.ioc.*;
+	
+	import com.ffsys.ui.core.*;
+	import com.ffsys.ui.common.*;	
+	import com.ffsys.ui.layout.*;
 	
 	/**
 	*	Component implementation that is aware of a layout,
@@ -19,8 +21,13 @@ package com.ffsys.ui.containers {
 	public class Container extends UIComponent
 		implements IContainer {
 		
+		public static const INLINE:String = "inline";
+		public static const BLOCK:String = "block";
+		
 		private var _layout:ILayout;
 		private var _finalized:Boolean = false;
+		private var _display:String;
+		private var _spacing:Number = 0;
 		
 		/**
 		*	Creates a <code>Container</code> instance.
@@ -33,13 +40,46 @@ package com.ffsys.ui.containers {
 		/**
 		* 	@inheritDoc
 		*/
+		public function get display():String
+		{
+			return _display;
+		}
+		
+		public function set display( value:String ):void
+		{
+			_display = value;
+			
+			if( _display != null )
+			{
+				switch( _display )
+				{
+					case INLINE:
+						layout = new HorizontalLayout( this.spacing );
+						break;
+					case BLOCK:
+						layout = new VerticalLayout( this.spacing );
+						break;
+					default:
+						throw new Error( "Unknown container display property '" + _display + "'." );
+				}
+				
+				if( numChildren > 0 )
+				{
+					update();
+				}
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function get preferredWidth():Number
 		{
 			//explicitly set
 			if( !isNaN( _preferredWidth ) )
 			{
 				return _preferredWidth;
-			}			
+			}
 		
 			//got some width content
 			if( this.width > 0 )
@@ -53,7 +93,7 @@ package com.ffsys.ui.containers {
 			if( parent != null
 				&& !isNaN( parent.preferredWidth ) )
 			{
-				trace("Container::get preferredWidth() FOUND PARENT DIMENSION:", this.id, parent.id, parent, parent.innerWidth, margins.width, parent.paddings.width );
+				//trace("Container::get preferredWidth() FOUND PARENT DIMENSION:", this.id, parent.id, parent, parent.innerWidth, margins.width, parent.paddings.width );
 				return parent.innerWidth - margins.width;
 			}
 			return super.preferredWidth;
@@ -125,20 +165,31 @@ package com.ffsys.ui.containers {
 		*/
 		public function get spacing():Number
 		{
-			if( layout )
-			{
-				return layout.spacing;
-			}
-			return 0;
+			return _spacing;
 		}
 		
 		public function set spacing( spacing:Number ):void
 		{
+			_spacing = spacing;
 			if( layout )
 			{
-				layout.spacing = spacing;
-			}
+				layout.spacing = this.spacing;
+			}			
 		}
+		
+		/**
+		* 	@private
+		*/
+		override public function afterProperties(
+			descriptor:IBeanDescriptor ):void
+		{
+			super.afterProperties( descriptor );
+			if( layout )
+			{
+				layout.spacing = this.spacing;
+			}
+			//trace("UIComponent::afterProperties()", this, descriptor );
+		}		
 		
 		/**
 		*	@inheritDoc	
@@ -156,9 +207,8 @@ package com.ffsys.ui.containers {
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc
 		*/
-		
 		override protected function afterChildRemoved(
 			child:DisplayObject,
 			index:int ):void
@@ -167,15 +217,39 @@ package com.ffsys.ui.containers {
 			if( layout && child && _finalized )
 			{
 				layout.removed( child, this, index );
-				//TODO: update here for alignment				
+				//TODO: update here for alignment
 			}
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function update():void
 		{
+			trace("Container::update() UPDATING: ", this, this.id, this.layout );
 			if( layout != null )
 			{
 				layout.update( this );
+			}else if( numChildren > 0 )
+			{
+				trace("Container::update() UPDATING CONTAINER WITH NO LAYOUT: ", this, this.id );
+				//
+				var child:DisplayObject = null;
+				for( var i:int = 0;i < numChildren;i++ )
+				{
+					child = getChildAt( i );
+					if( child is IComponent )
+					{
+						trace("Container::update() UPDATING NON LAYOUT CHILD: ", child, child.name );
+						child.x = this.paddings.left;
+						child.y = this.paddings.top;
+						if( child is IMarginAware )
+						{
+							child.x += IMarginAware( child ).margins.left;
+							child.y += IMarginAware( child ).margins.top;
+						}
+					}
+				}
 			}
 		}
 		
@@ -190,6 +264,16 @@ package com.ffsys.ui.containers {
 				update();
 			}
 			_finalized = true;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function destroy():void
+		{
+			super.destroy();
+			_layout = null;
+			_display = null;
 		}
 	}
 }

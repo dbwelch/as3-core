@@ -29,6 +29,21 @@ package com.ffsys.ui.containers {
 		* 	then this setting will have no effect.
 		*/
 		function get spacing():Number;
-		function set spacing( spacing:Number ):void;		
+		function set spacing( spacing:Number ):void;
+		
+		/**
+		* 	The display mode for this container.
+		*/
+		function get display():String;
+		function set display( value:String ):void;
+		
+		/**
+		* 	Updates this container layout.
+		* 
+		* 	If no layout is assigned to this container
+		* 	this method will ensure child display objects
+		* 	obey the paddings of this container.
+		*/
+		function update():void;
 	}
 }

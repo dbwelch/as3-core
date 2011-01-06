@@ -235,7 +235,7 @@ package com.ffsys.ui.suite.core {
 					var heading:IComponent = document.getElementById(
 						"page-package-heading" ) as IComponent;
 					
-					var newHeading:IComponent = heading.copy( true );
+					var newHeading:IComponent = heading.copy();
 					var container:VerticalBox = document.getElementById(
 						"text-buttons" ) as VerticalBox;
 					container.addChild( DisplayObject( newHeading ) );
@@ -267,7 +267,10 @@ package com.ffsys.ui.suite.core {
 							0xff0000, result, result.color, result.color == 0xff0000 );
 						*/
 					}
-				}				
+					
+					var newButton:IButton = btn.clone() as IButton;
+					container.addChild( DisplayObject( newButton ) );
+				}
 
 				_views[ id ] = view;
 				_view = id;

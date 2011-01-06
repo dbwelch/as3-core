@@ -19,10 +19,13 @@ package com.ffsys.ui.layout
 	{	
 		/**
 		* 	Creates a <code>HorizontalLayout</code> instance.
+		* 
+		* 	@param spacing The spacing for this layout.
 		*/
-		public function HorizontalLayout()
+		public function HorizontalLayout( spacing:Number = 0 )
 		{
 			super();
+			this.spacing = spacing;
 		}
 		
 		/**
@@ -42,6 +45,12 @@ package com.ffsys.ui.layout
 			child:DisplayObject,
 			previous:DisplayObject = null ):void
 		{
+			//we never layout fixed layout items
+			if( child is IFixedLayout )
+			{
+				return;
+			}
+			
 			var x:Number = 0;
 				
 			var spacing:Number = horizontalSpacing;
