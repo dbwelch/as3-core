@@ -156,6 +156,11 @@ package com.ffsys.io.xml {
 			{
 				_deserializer.interpreter = val;
 			}
+			
+			if( _interpreter != null )
+			{
+				_interpreter.parser = this;
+			}
 		}
 		
 		public function get interpreter():IDeserializeInterpreter

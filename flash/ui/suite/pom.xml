@@ -102,7 +102,6 @@
 					<optimize>true</optimize>
 					<incremental>true</incremental>
 					<linkReport>true</linkReport>
-					
 					<configurationReport>true</configurationReport>
 					<defaultBackgroundColor>000000</defaultBackgroundColor>
 					<defaultSize>

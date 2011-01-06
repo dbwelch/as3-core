@@ -3,6 +3,8 @@ package com.ffsys.ui.suite.core
 	import com.ffsys.ioc.support.xml.IBeanXmlParser;
 	import com.ffsys.swat.core.DefaultController;	
 	import com.ffsys.ui.runtime.*;
+	
+	import com.ffsys.io.xml.IParser;
 
 	public class AbstractApplicationController extends DefaultController
 	{
@@ -23,6 +25,9 @@ package com.ffsys.ui.suite.core
 			
 			//ensure the document can parse embedded css correctly
 			parser.runtime.stylesheet = this.stylesheet;
+			
+			trace("AbstractApplicationController::getViewParser() GET VIEW PARSER: ", parser, parser is IParser );
+			
 			return parser;
 		}
 	}

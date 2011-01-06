@@ -15,6 +15,9 @@ package com.ffsys.io.xml {
 	*	@since  05.07.2007
 	*/
 	public interface IDeserializeInterpreter {
+		
+		function get parser():IParser;
+		function set parser( value:IParser ):void;
 	
 		function set deserializer( val:Deserializer ):void;
 		function get deserializer():Deserializer;

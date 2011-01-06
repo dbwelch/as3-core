@@ -58,16 +58,26 @@ package com.ffsys.ui.runtime {
 			this.strictStringReplacement = true;
 		}
 		
+		public function set runtime( value:IDocument ):void
+		{
+			_runtime = value;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
 		override public function documentAvailable( instance:Object, x:XML ):void
 		{
-			if( !( instance is IDocument ) )
+			if( instance is IDocument )
 			{
-				throw new Error( "Invalid runtime document type for " + instance );
+				_runtime = IDocument( instance );
+				_runtime.xml = x;
 			}
-			_runtime = IDocument( instance );
+			
+			//doWithComponent( _runtime, x );
+			//addComponentDynamicMethods( x, _runtime );
+			
+			//parse inline css declarations
 			var list:XMLList = x..css;
 			if( list != null )
 			{
@@ -152,10 +162,19 @@ package com.ffsys.ui.runtime {
 			
 			resolveReferences( _runtime );
 			
-			_runtime.prepared();
+			if( _runtime != null )
+			{
+				_runtime.prepared();
+			}
+			
+			if( !( instance is IDocument ) )
+			{
+				finalizeXmlBean( instance );
+			}
 			
 			//clean our reference
 			_runtime = null;
+			_references = new Vector.<RuntimeDocumentReference>();
 		}
 		
 		/**
@@ -278,7 +297,6 @@ package com.ffsys.ui.runtime {
 				}
 				return parent;
 			}
-			
 			return instance;
 		}
 		
@@ -314,9 +332,6 @@ package com.ffsys.ui.runtime {
 						 + beanName + "'." );
 				}
 				
-				//replace the 
-				//value = bean;
-
 				if( hasProp )
 				{
 					//try to set the property to the bean value
@@ -385,6 +400,18 @@ package com.ffsys.ui.runtime {
 			return hasProp;
 		}
 		
+		protected function doWithComponent( component:IComponent, xml:XML ):void
+		{
+			trace("RuntimeInterpreter::doWithComponent()", component, this.parser, ( this.parser is IParser ) );
+			
+			if( component is IRuntimeXmlAware )
+			{
+				var target:IRuntimeXmlAware = IRuntimeXmlAware( component );
+				target.xml = xml;
+				target.parser = this.parser;
+			}
+		}
+		
 		override public function processClass(
 			node:XML,
 			parent:Object,
@@ -392,11 +419,39 @@ package com.ffsys.ui.runtime {
 		{
 			var target:Object = super.processClass(
 				node, parent, classReference );
-			if( target is IRuntimeXmlAware )
+
+			doWithComponent( target as IComponent, node );
+			
+			/*
+			if( target is IComponent )
 			{
-				IRuntimeXmlAware( target ).xml = node;
+				addComponentDynamicMethods(
+					node, IComponent( target ) );
 			}
+			*/
+			
 			return target;
+		}
+		
+		protected function addComponentDynamicMethods( node:XML, component:IComponent ):void
+		{
+			//trace("RuntimeInterpreter::addComponentDynamicMethods()", node, component );
+			
+			node.component = component;
+			node.debug = function():void
+			{
+				trace("Node::debug()", this.component );
+			}
+			
+			
+			XML.prototype.hello = function():void
+			{
+				trace("RuntimeInterpreter::addComponentDynamicMethods()", this );
+			}
+			
+			var n:XML = new XML();			
+			
+			trace("RuntimeInterpreter::addComponentDynamicMethods()", node.debug is Function, n.hello is Function );
 		}
 		
 		/**
@@ -405,7 +460,7 @@ package com.ffsys.ui.runtime {
 		override public function postProcessClass(
 			instance:Object, parent:Object ):void
 		{
-			//trace("RuntimeInterpreter::postProcessClass()", instance );
+			trace("RuntimeInterpreter::postProcessClass()", instance );
 			
 			/*
 			

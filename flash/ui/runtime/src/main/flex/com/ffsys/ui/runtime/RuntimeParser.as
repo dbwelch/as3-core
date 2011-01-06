@@ -43,6 +43,7 @@ package com.ffsys.ui.runtime {
 				//_runtime = new Document();
 				_runtime = IDocument( this.document.getBean(
 					ComponentIdentifiers.DOCUMENT ) );
+				_runtime.parser = this;
 			}
 			
 			return _runtime;
@@ -113,6 +114,9 @@ package com.ffsys.ui.runtime {
 			{
 				target = this.runtime;
 			}
+			
+			//store a reference to this parser in the xml document
+			x.parser = this;
 			
 			var output:Object = super.deserialize( x, target );
 			//ensure the document runtime is recreated

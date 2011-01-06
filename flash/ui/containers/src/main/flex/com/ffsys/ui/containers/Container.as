@@ -20,6 +20,7 @@ package com.ffsys.ui.containers {
 		implements IContainer {
 		
 		private var _layout:ILayout;
+		private var _finalized:Boolean = false;
 		
 		/**
 		*	Creates a <code>Container</code> instance.
@@ -142,43 +143,40 @@ package com.ffsys.ui.containers {
 		/**
 		*	@inheritDoc	
 		*/
-		
-		/*
 		override protected function afterChildAdded(
 			child:DisplayObject,
 			index:int ):void
 		{
 			super.afterChildAdded( child, index );
-			if( layout && child )
+			if( layout && child && _finalized )
 			{
 				layout.added( child, this, index );
+				//TODO: update here for alignment
 			}
 		}
-		*/
 		
 		/**
 		*	@inheritDoc	
 		*/
 		
-		/*
 		override protected function afterChildRemoved(
 			child:DisplayObject,
 			index:int ):void
 		{
 			super.afterChildRemoved( child, index );
-			if( layout && child )
+			if( layout && child && _finalized )
 			{
 				layout.removed( child, this, index );
+				//TODO: update here for alignment				
 			}
 		}
-		*/
 		
 		public function update():void
 		{
 			if( layout != null )
 			{
 				layout.update( this );
-			}			
+			}
 		}
 		
 		/**
@@ -191,6 +189,7 @@ package com.ffsys.ui.containers {
 			{
 				update();
 			}
+			_finalized = true;
 		}
 	}
 }

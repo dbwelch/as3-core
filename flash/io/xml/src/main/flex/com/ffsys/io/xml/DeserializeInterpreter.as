@@ -55,6 +55,8 @@ package com.ffsys.io.xml {
 		*/
 		private var _stringSubstitutionCandidates:Array;
 		
+		private var _parser:IParser;
+		
 		public function DeserializeInterpreter(
 			useStringReplacement:Boolean = false,
 			strictStringReplacement:Boolean = true )
@@ -76,6 +78,19 @@ package com.ffsys.io.xml {
 					_bindings.addBinding( binding.clone() );
 				}
 			}
+		}
+		
+		/**
+		* 	A parser associated with this interpreter.
+		*/
+		public function get parser():IParser
+		{
+			return _parser;
+		}
+		
+		public function set parser( value:IParser ):void
+		{
+			_parser = value;
 		}
 		
 		public function set deserializer( val:Deserializer ):void

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <document
+	xmlns:framework="http://freeformsystems.com/as3/framework"
 	xmlns:ui="http://freeformsystems.com/as3/ui"
 	xmlns:application="http://freeformsystems.com/as3/ui/suite"
 	xmlns:css="http://freeformsystems.com/as3/ui/suite/css">
@@ -16,20 +17,22 @@
 	
 	<vbox>
 		
-		<!--
+		<framework:configuration />
+		
 		<css:test-css-xml-namespace-bean>
 		
 		</css:test-css-xml-namespace-bean>
-		-->
 		
 		<styles>page-heading</styles>
 		<sub-heading>
+			<id>page-package-heading</id>
 			<styles>package-heading</styles>
 			<identifier>buttons.package</identifier>
 		</sub-heading>
 		<hbox>
 			<spacing>25</spacing>
 			<vbox>
+				<id>text-buttons</id>
 				<styles>column</styles>
 				<vbox>
 					<styles>example-group</styles>
@@ -114,7 +117,7 @@
 					<icon-text-button>
 						<id>icon-state-test</id>
 						<styles>default-icon</styles>
-						<identifier>buttons.examples.icon..text.disabled</identifier>
+						<identifier>buttons.examples.icon.text.disabled</identifier>
 						<enabled>false</enabled>
 					</icon-text-button>
 				</vbox>

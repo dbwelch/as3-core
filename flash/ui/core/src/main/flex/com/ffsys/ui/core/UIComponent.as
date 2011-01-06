@@ -11,6 +11,8 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ioc.*;	
 	
+	import com.ffsys.io.xml.IParser;
+	
 	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.graphics.ComponentGraphic;
@@ -45,6 +47,7 @@ package com.ffsys.ui.core
 		private var _stage:Stage;
 		private var _descriptor:IBeanDescriptor;
 		private var _xml:XML;
+		private var _parser:Object;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -141,14 +144,60 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		public function get parser():Object
+		{
+			return _parser;
+		}
+		
+		public function set parser( value:Object ):void
+		{
+			_parser = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function copy():IComponent
 		{
 			if( _descriptor == null )
 			{
 				throw new Error( "Cannot get a component copy with no bean descriptor." );
 			}
-			return _descriptor.getBean() as IComponent;
+			
+			var xmlDefinition:Boolean = 
+				xml is XML
+				&& parser != null
+				&& parser.deserialize is Function;
+			
+			var component:IComponent = null;
 			//return document.getBean( beanName ) as IComponent;
+			
+			//xml component definition recreate from our xml
+			if( xmlDefinition )
+			{
+				//don't finalize the bean when deserializing using an xml partial 
+				component = _descriptor.getBean( true, false ) as IComponent;
+				
+				//TODO: ensure the runtime reference is the same document used to create this component
+				
+				//recreate a new document to parse into
+				parser.runtime = null;
+				
+				trace("UIComponent::copy()", this.xml.copy(), parser, parser.deserialize );
+				
+				component = parser.deserialize(
+					this.xml.copy(), component ) as IComponent;
+				
+				if( component != null )
+				{
+					trace("UIComponent::copy() AFTER DESERIALIZE: ", component, component == this, component.id == this.id, component.styles == this.styles );
+				}
+			}else{
+				//normal bean retrieval so finalize
+				component = _descriptor.getBean() as IComponent;
+			}
+			
+			return component;
 		}
 		
 		/**
@@ -246,6 +295,7 @@ package com.ffsys.ui.core
 		*/
 		public function finalized():void
 		{	
+			trace("UIComponent::finalized()", this, this.id );
 			
 			//apply border and background graphics
 			applyBorders();

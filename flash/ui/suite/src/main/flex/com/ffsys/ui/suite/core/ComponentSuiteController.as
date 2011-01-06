@@ -215,21 +215,57 @@ package com.ffsys.ui.suite.core {
 				content.removeAllChildren();
 				content.addChild( DisplayObject( view ) );
 				
+				/*
 				trace("ComponentSuiteController::navigationLinkClick()",
-					document, document.getRootDocument(), document.getRootDocument().id );
+					document, document.xml, document.xml.component );
+				*/
+				
+				/*
+				var ex:TestExpando = new TestExpando();
+				ex.debug = function():void
+				{
+					trace("ComponentSuiteController::navigationLinkClick()", "expando debug", this );
+				}
+				*/
+				
+				//ex.debug();
 					
 				if( id == BUTTONS_ID )
 				{
+					var heading:IComponent = document.getElementById(
+						"page-package-heading" ) as IComponent;
+					
+					var newHeading:IComponent = heading.copy( true );
+					var container:VerticalBox = document.getElementById(
+						"text-buttons" ) as VerticalBox;
+					container.addChild( DisplayObject( newHeading ) );
+					//container.update();
+					
+					/*
+					trace( "Document xml component circular reference: ", document.xml.component, radioButtonGroup, radioButtonGroup.component );
+					
+					if( radioButtonGroup.component )
+					{
+						trace("ComponentSuiteController::navigationLinkClick()", "GOT XML COMPONENT REFERENCE!!!!",
+							radioButtonGroup.component.toString() );
+					}
+					*/
+					
+					//radioButtonGroup.debug();
+					
 					var btn:IButton = document.getElementById(
 						"toggle-button" ) as IButton;
 					
-					trace("ComponentSuiteController::navigationLinkClick()", btn );
+					//trace("ComponentSuiteController::navigationLinkClick()", btn );
 					
 					if( btn != null )
 					{
 						var result:Object = btn.setStyle( { color: 0xff0000 } );
+						
+						/*
 						trace("ComponentSuiteController::navigationLinkClick()",
 							0xff0000, result, result.color, result.color == 0xff0000 );
+						*/
 					}
 				}				
 
@@ -279,3 +315,9 @@ package com.ffsys.ui.suite.core {
 		}
 	}
 }
+
+/*
+dynamic final class TestExpando extends Object {
+	
+}
+*/
