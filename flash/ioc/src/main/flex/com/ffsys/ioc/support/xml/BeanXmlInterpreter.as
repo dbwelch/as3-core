@@ -12,7 +12,10 @@ package com.ffsys.ioc.support.xml
 	* 	for each xml node based on the node name.
 	* 
 	* 	It will search the associated bean document for a bean
-	* 	matching the xml node name 
+	* 	matching the xml node name.
+	* 
+	* 	This implementation also supports locating a bean from
+	* 	a specific bean document using a namespace prefix.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -85,10 +88,49 @@ package com.ffsys.ioc.support.xml
 			parent:Object,
 			classReference:Class ):Object
 		{
-			var name:String = node.name().localName;
-			var descriptor:IBeanDescriptor = document.getBeanDescriptor( name, true );
+			if( this.document == null )
+			{
+				throw new Error( "Cannot process an xml bean with no bean document." );
+			}
 			
-			//trace("BeanXmlInterpreter::processClass()", name, bean );
+			//whether we search bean document xrefs
+			//when no namespace is specified bean document xrefs
+			//are resolved otherwise when a namespace is specified
+			//it indicates a specific bean document therefore no xref
+			//resolution is performed
+			var searchXrefs:Boolean = true;
+			
+			var name:String = node.name().localName;
+			var target:IBeanDocument = this.document;
+			
+			var ns:Namespace = node.namespace();
+			if( ns
+				&& ns.uri.length > 0
+				&& ns.prefix.length > 0 )
+			{	
+				var documents:Vector.<IBeanDocument> = target.xrefs.slice();
+				documents.push( target );
+				var doc:IBeanDocument = null;
+				for( var i:int = 0;i < documents.length;i++ )
+				{
+					doc = documents[ i ];
+					if( doc.id == ns.prefix )
+					{
+						target = doc;
+						searchXrefs = false;
+						break;
+					}
+				}
+				
+				if( target == this.document )
+				{
+					throw new Error( "No bean document found matching xml namespace prefix '"
+				 		+ ns.prefix + "'." );
+				}
+			}
+			
+			var descriptor:IBeanDescriptor = target.getBeanDescriptor(
+				name, searchXrefs );
 			
 			//TODO: different error message
 			if( descriptor == null )
@@ -97,15 +139,15 @@ package com.ffsys.ioc.support.xml
 					BeanError.XML_BEAN_NOT_FOUND, name );
 			}
 			
+			//don't finalize the bean now as we have additional
+			//properties to set from the xml declaration
 			var bean:Object = descriptor.getBean(
-				true, false );
-				
+				true, false );	
 			if( bean == null )
 			{
 				throw new BeanError(
 					BeanError.XML_BEAN_NOT_FOUND, name );
-			}			
-			
+			}
 			return bean;
 		}
 		

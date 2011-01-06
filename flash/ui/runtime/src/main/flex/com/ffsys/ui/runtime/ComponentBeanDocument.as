@@ -27,11 +27,17 @@ package com.ffsys.ui.runtime
 	public class ComponentBeanDocument extends BeanDocument
 	{
 		/**
+		* 	The default name for component bean documents.
+		*/
+		public static const NAME:String = "ui";
+		
+		/**
 		* 	Creates a <code>ComponentBeanDocument</code> instance.
 		*/
 		public function ComponentBeanDocument()
 		{
 			super();
+			this.id  = NAME;
 			this.locked = false;
 			this.policy = BeanCreationPolicy.MERGE;			
 			doWithBeans( this );

@@ -104,6 +104,7 @@ package com.ffsys.ioc
 			//null references
 			_id = null;
 			_files = null;
+			_filePolicy = null;
 		}
 	}
 }

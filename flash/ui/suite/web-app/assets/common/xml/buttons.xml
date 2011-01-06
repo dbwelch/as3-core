@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<document>
+<document
+	xmlns:ui="http://freeformsystems.com/as3/ui"
+	xmlns:application="http://freeformsystems.com/as3/ui/suite"
+	xmlns:css="http://freeformsystems.com/as3/ui/suite/css">
 	<css>
 		<![CDATA[
 			myTestInlineStyle {
@@ -10,7 +13,15 @@
 	<radio-button-group>
 		<id>fruit-radio-buttons</id>
 	</radio-button-group>
+	
 	<vbox>
+		
+		<!--
+		<css:test-css-xml-namespace-bean>
+		
+		</css:test-css-xml-namespace-bean>
+		-->
+		
 		<styles>page-heading</styles>
 		<sub-heading>
 			<styles>package-heading</styles>

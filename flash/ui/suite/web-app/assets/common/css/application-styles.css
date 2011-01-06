@@ -25,6 +25,13 @@ element {
 	background: ref( element-background );	
 }
 
+test-css-xml-namespace-bean {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: fill( #ffffff, 1 );
+	preferred-width: 25;
+	preferred-height: 25;	
+}
+
 element-background {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
 	fill: fill( #ffffff, 1 );

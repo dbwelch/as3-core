@@ -50,6 +50,11 @@ package com.ffsys.ui.css {
 		implements ICssStyleSheet {
 			
 		/**
+		* 	The default name for css bean documents.
+		*/
+		public static const NAME:String = "css";			
+			
+		/**
 		* 	The delimiter used to delimit style names in a string value.
 		*/
 		public static const STYLE_DELIMITER:String = " ";
@@ -60,6 +65,7 @@ package com.ffsys.ui.css {
 		public function CssStyleSheet()
 		{
 			super();
+			this.id = NAME;
 			this.locked = false;
 			this.policy = BeanCreationPolicy.MERGE;
 		}
