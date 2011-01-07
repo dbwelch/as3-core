@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics {
 	
+	import com.ffsys.core.IClone;	
+	
 	/**
 	*	Common type for all fills.
 	*
@@ -10,6 +12,14 @@ package com.ffsys.ui.graphics {
 	*	@since  19.06.2010
 	*/
 	public interface IFill
-		extends IGraphicElement {
+		extends IGraphicElement,
+		 		IClone {
+			
+		/**
+		* 	Creates a clone of this fill.
+		* 
+		* 	@return A clone of this fill.
+		*/
+		function clone():IFill;
 	}
 }

@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics {
 	
+	import com.ffsys.core.IClone;
+	
 	/**
 	*	Describes the contract for instances that
 	*	represent the corner of a graphic.
@@ -10,7 +12,8 @@ package com.ffsys.ui.graphics {
 	*	@author Mischa Williamson
 	*	@since  21.06.2010
 	*/
-	public interface ICorner {
+	public interface ICorner
+		extends IClone {
 		
 		/**
 		*	The width of the corner.
@@ -41,5 +44,12 @@ package com.ffsys.ui.graphics {
 		*	and therefore no drawing is required.
 		*/
 		function isEmpty():Boolean;
+	
+		/**
+		* 	Gets a clone of this corner.
+		* 
+		* 	@return A clone of this corner.
+		*/
+		function clone():ICorner;
 	}
 }

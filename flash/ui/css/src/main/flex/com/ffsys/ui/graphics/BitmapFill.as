@@ -138,5 +138,45 @@ package com.ffsys.ui.graphics {
 					bitmap, matrix, repeat, smooth );
 			}
 		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return BitmapFill;
+		}	
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():IFill
+		{
+			var bmp:IBitmapFill =
+				IBitmapFill( getCloneInstance() );
+			bmp.angle = this.angle;
+			//TODO: clone the matrix
+			bmp.matrix = this.matrix;
+			bmp.repeat = this.repeat;
+			bmp.smooth = this.smooth;
+			if( this.bitmap != null )
+			{
+				bmp.bitmap = this.bitmap.clone();
+			}
+			return bmp;
+		}
 	}
 }

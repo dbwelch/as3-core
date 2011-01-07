@@ -112,5 +112,26 @@ package com.ffsys.ui.graphics {
 		{
 			_inside = value;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return ArrowPointer;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function clone():IComponentGraphic
+		{
+			var graphic:IPointer =
+				IPointer( super.clone() );
+			graphic.inside = inside;
+			graphic.offset = offset;
+			graphic.edge = edge;
+			return graphic;
+		}
 	}
 }

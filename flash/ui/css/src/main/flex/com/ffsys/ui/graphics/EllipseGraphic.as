@@ -33,5 +33,13 @@ package com.ffsys.ui.graphics
 		{
 			graphics.drawEllipse( tx, ty, width, height );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return EllipseGraphic;
+		}		
 	}
 }

@@ -255,5 +255,13 @@ package com.ffsys.ui.graphics
 				}
 			}
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return RectangleGraphic;
+		}		
 	}
 }

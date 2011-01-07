@@ -43,5 +43,13 @@ package com.ffsys.ui.graphics
 			this.preferredWidth = diameter;
 			this.preferredHeight = diameter;			
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return CircleGraphic;
+		}
 	}
 }

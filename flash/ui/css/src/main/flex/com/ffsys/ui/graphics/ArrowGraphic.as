@@ -116,5 +116,24 @@ package com.ffsys.ui.graphics {
 			setTrianglePointsFromOrientation( width, height );
 			super.doDraw( width, height );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return ArrowGraphic;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function clone():IComponentGraphic
+		{
+			var graphic:IOrientationAware =
+				IOrientationAware( super.clone() );
+			graphic.orientation = orientation;
+			return IComponentGraphic( graphic );
+		}
 	}
 }

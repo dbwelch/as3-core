@@ -1,7 +1,9 @@
 package com.ffsys.ui.core
 {
+	
+	import com.ffsys.core.IClone;
 
-	public interface IComponentStyleCache
+	public interface IComponentStyleCache extends IClone
 	{
 		
 		/**
@@ -52,7 +54,14 @@ package com.ffsys.ui.core
 		*/
 		function get styles():String;
 		function set styles( value:String ):void;
+		
+		/**
+		* 	Creates a clone of this style cache
+		* 	in it's current state.
+		* 
+		* 	@return A clone of this style cache.
+		*/
+		function clone():IComponentStyleCache;
 	}
 
 }
-

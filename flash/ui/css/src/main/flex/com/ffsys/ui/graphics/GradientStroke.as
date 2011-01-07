@@ -37,5 +37,24 @@ package com.ffsys.ui.graphics
 			super( thickness, 0, 1, pixelHinting, scaleMode, caps, joints, miterLimit );
 			this.gradient = gradient;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return GradientStroke;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function clone():IStroke
+		{
+			var stroke:GradientStroke =
+				GradientStroke( super.clone() );
+			stroke.gradient = this.gradient.clone();
+			return stroke;
+		}
 	}
 }

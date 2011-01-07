@@ -129,5 +129,27 @@ package com.ffsys.ui.graphics
 				}
 			}
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return BorderGraphic;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function clone():IComponentGraphic
+		{
+			var graphic:IBorderGraphic =
+				IBorderGraphic( super.clone() );
+			if( this.border != null )
+			{
+				graphic.border = IBorder( this.border.clone() );
+			}
+			return graphic;
+		}
 	}
 }

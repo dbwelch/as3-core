@@ -152,5 +152,53 @@ package com.ffsys.ui.graphics
 				}
 			}
 		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return CompositeFill;
+		}
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}	
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():IFill
+		{
+			var fill:ICompositeFill =
+				ICompositeFill( super.clone() );
+			if( solid != null )
+			{
+				fill.solid = ISolidFill( solid.clone() );
+			}
+			if( gradient != null )
+			{
+				fill.gradient = IGradientFill( gradient.clone() );
+			}
+			if( bitmap != null )
+			{
+				fill.bitmap = IBitmapFill( bitmap.clone() );
+			}
+			if( composites != null )
+			{
+				//TODO: deep clone the layer graphics
+				fill.composites = composites.slice();
+			}
+			return fill;
+		}					
 	}
 }

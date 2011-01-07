@@ -61,5 +61,40 @@ package com.ffsys.ui.graphics {
 				gradient.fill( graphics, width, height );
 			}
 		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return GradientFill;
+		}
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():IFill
+		{
+			var fill:IGradientFill =
+				IGradientFill( getCloneInstance() );
+			if( this.gradient != null )
+			{
+				fill.gradient = this.gradient.clone();
+			}
+			return fill;
+		}			
 	}
 }

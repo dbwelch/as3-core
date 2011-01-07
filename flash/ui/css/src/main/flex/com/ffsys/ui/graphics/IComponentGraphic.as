@@ -1,7 +1,8 @@
 package com.ffsys.ui.graphics
 {	
 	import flash.geom.Point;
-	
+
+	import com.ffsys.core.IClone;	
 	import com.ffsys.core.IStringIdentifier;
 	
 	import com.ffsys.ui.common.flash.IShape;
@@ -31,7 +32,8 @@ package com.ffsys.ui.graphics
 				IPaddingAware,
 				ILayoutWidth,
 				ILayoutHeight,
-				IComponentDraw
+				IComponentDraw,
+				IClone
 	{
 		
 		/**

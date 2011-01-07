@@ -229,5 +229,44 @@ package com.ffsys.ui.graphics {
 				}
 			}
 		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return Stroke;
+		}	
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():IStroke
+		{
+			var stroke:IStroke =
+				IStroke( getCloneInstance() );
+			stroke.thickness = this.thickness;
+			stroke.color = this.color;
+			stroke.alpha = this.alpha;
+			stroke.pixelHinting = this.pixelHinting;
+			stroke.scaleMode = this.scaleMode;
+			stroke.caps = this.caps;
+			stroke.joints = this.joints;
+			stroke.miterLimit = this.miterLimit;
+			return stroke;
+		}
 	}
 }

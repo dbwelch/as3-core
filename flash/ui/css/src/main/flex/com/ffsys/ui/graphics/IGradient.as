@@ -97,6 +97,13 @@ package com.ffsys.ui.graphics {
 		function fill(
 			graphics:Graphics,
 			width:Number,
-			height:Number ):void;		
+			height:Number ):void;
+			
+		/**
+		* 	Creates a clone of this gradient.
+		* 
+		* 	@return A clone of this gradient.
+		*/
+		function clone():IGradient;
 	}
 }

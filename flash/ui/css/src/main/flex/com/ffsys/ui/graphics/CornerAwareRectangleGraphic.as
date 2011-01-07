@@ -213,5 +213,40 @@ package com.ffsys.ui.graphics
 			}
 			return found;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return CornerAwareRectangleGraphic;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function clone():IComponentGraphic
+		{
+			var graphic:CornerAwareRectangleGraphic =
+				CornerAwareRectangleGraphic( super.clone() );
+			if( this.topLeftCorner != null )
+			{
+				graphic.topLeftCorner = this.topLeftCorner.clone();			
+			}
+			if( this.topRightCorner != null )
+			{
+				graphic.topRightCorner = this.topRightCorner.clone();
+			}	
+			
+			if( this.bottomLeftCorner != null )
+			{
+				graphic.bottomLeftCorner = this.bottomLeftCorner.clone();			
+			}
+			if( this.bottomRightCorner != null )
+			{
+				graphic.bottomRightCorner = this.bottomRightCorner.clone();
+			}					
+			return graphic;
+		}				
 	}
 }

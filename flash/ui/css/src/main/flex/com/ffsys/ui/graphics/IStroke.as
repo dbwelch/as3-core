@@ -1,5 +1,7 @@
 package com.ffsys.ui.graphics {
 	
+	import com.ffsys.core.IClone;
+	
 	/**
 	*	Describes the contract for graphic elements
 	*	that represent a stroke.
@@ -12,7 +14,8 @@ package com.ffsys.ui.graphics {
 	*/
 	public interface IStroke
 		extends IGraphicElement,
-		 		IGradientAware {
+		 		IGradientAware,
+				IClone {
 		
 		/**
 		*	@inheritDoc 
@@ -61,5 +64,12 @@ package com.ffsys.ui.graphics {
 		*/
 		function get miterLimit():Number;
 		function set miterLimit( val:Number ):void;
+		
+		/**
+		* 	Creates a clone of this stroke.
+		* 
+		* 	@return A clone of this stroke.
+		*/
+		function clone():IStroke;
 	}
 }

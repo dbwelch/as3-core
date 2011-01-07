@@ -38,7 +38,7 @@ package com.ffsys.ui.core
 		//TODO: migrate this to an IStyleSheetAware implementation
 		private var _styleManager:IStyleManager = null;	
 		
-		private var _styleCache:IComponentStyleCache = null;
+		internal var _styleCache:IComponentStyleCache = null;
 		private var _document:IBeanDocument;
 		private var _state:State;
 		private var _dataBinding:IDataBinding;	
@@ -246,8 +246,8 @@ package com.ffsys.ui.core
 				target.border = IBorder( this.border.clone() );
 				UIComponent( target ).margins = IMargin( this.margins.clone() );
 				UIComponent( target ).paddings = IPadding( this.paddings.clone() );
-				
 				//TODO: merge style cache properties
+				UIComponent( target )._styleCache = this._styleCache.clone();
 			}
 			return target;
 		}

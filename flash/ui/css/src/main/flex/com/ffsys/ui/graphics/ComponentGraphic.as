@@ -31,9 +31,6 @@ package com.ffsys.ui.graphics
 		private var _styleManager:IStyleManager = null;
 		
 		private var _id:String;
-		
-		private var _margins:IMargin = new Margin();
-		private var _paddings:IPadding = new Padding();
 		private var _preferredWidth:Number;
 		private var _preferredHeight:Number;
 		private var _tx:Number = 0;
@@ -44,6 +41,9 @@ package com.ffsys.ui.graphics
 		private var _strokeApplied:Boolean;
 		private var _fillApplied:Boolean;
 		
+		//TODO: deprecate
+		private var _margins:IMargin = new Margin();
+		private var _paddings:IPadding = new Padding();		
 		private var _styles:String;
 		
 		/**
@@ -396,6 +396,52 @@ package com.ffsys.ui.graphics
 			{
 				graphics.curveTo( control.x, control.y, anchor.x, anchor.y );
 			}
+		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return ComponentGraphic;
+		}
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	Creates a clone of this graphic.
+		* 
+		* 	@return A clone of this graphic.
+		*/
+		public function clone():IComponentGraphic
+		{
+			var graphic:IComponentGraphic =
+				IComponentGraphic( getCloneInstance() );
+			graphic.preferredWidth = preferredWidth;
+			graphic.preferredHeight = preferredHeight;
+			graphic.tx = tx;
+			graphic.ty = ty;
+			graphic.id = this.id;
+			if( fill != null )
+			{
+				graphic.fill = fill.clone();
+			}
+			if( stroke != null )
+			{
+				graphic.stroke = stroke.clone();			
+			}
+			return graphic;			
 		}
 	}
 }

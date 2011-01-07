@@ -1,5 +1,6 @@
 package com.ffsys.ui.core
 {
+	import com.ffsys.core.IClone;
 	
 	import com.ffsys.utils.properties.PropertiesMerge;	
 	
@@ -10,6 +11,7 @@ package com.ffsys.ui.core
 		private var _styleObjects:Array;
 		private var _styles:String;
 		private var _main:Object;
+		//private var _customStyles:Vector.<Object> = new Vector.<Object>();
 		
 		/**
 		* 	Creates a <code>ComponentStyleCache</code> instance.
@@ -30,9 +32,16 @@ package com.ffsys.ui.core
 			if( _main != null )
 			{
 				var z:String = null;
+				var target:*;
 				for( z in _main )
 				{
-					output[ z ] = _main[ z ];
+					target = _main[ z ];
+					if( target is IClone
+						&& Object( target ).clone is Function )
+					{
+						target = target.clone();
+					}
+					output[ z ] = target;
 				}
 			}
 			return output;
@@ -55,6 +64,14 @@ package com.ffsys.ui.core
 				{
 					style = styles[ i ];
 					merger.merge( _main, style, false );
+					
+					/*
+					if( style != null
+					 	&& _customStyles.indexOf( style ) == -1 )
+					{
+						_customStyles.push( style );
+					}
+					*/
 				}
 			}
 			return _main;
@@ -110,6 +127,42 @@ package com.ffsys.ui.core
 		public function set styles( value:String ):void
 		{
 			_styles = value;
+		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return ComponentStyleCache;
+		}
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():IComponentStyleCache
+		{
+			var cache:IComponentStyleCache =
+				IComponentStyleCache( getCloneInstance() );
+			cache.styleNames = styleNames.slice();
+			cache.styles = new String( this.styles );
+			//TODO: deep clone style objects
+			cache.styleObjects = styleObjects.slice();
+			cache.main = copy();
+			return cache;
 		}
 	}
 }

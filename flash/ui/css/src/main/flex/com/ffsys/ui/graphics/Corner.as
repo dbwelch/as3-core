@@ -87,5 +87,38 @@ package com.ffsys.ui.graphics {
 		{
 			return ( width == 0 && height == 0 );
 		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return Corner;
+		}	
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():ICorner
+		{
+			var corner:ICorner =
+				ICorner( getCloneInstance() );
+			corner.width = this.width;
+			corner.height = this.height;
+			return corner;
+		}				
 	}
 }

@@ -267,5 +267,47 @@ package com.ffsys.ui.graphics {
 			
 			matrix.createGradientBox( width, height, radians, 0, 0 );			
 		}
+		
+		/**
+		* 	Gets the class used to clone this implementation.
+		* 
+		* 	@return The class used to clone this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return Gradient;
+		}	
+		
+		/**
+		* 	Gets an instance for use as a clone.
+		* 
+		* 	@return The instance to use as a clone.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function clone():IGradient
+		{
+			var gradient:IGradient =
+				IGradient( getCloneInstance() );
+				
+			gradient.type = this.type;
+			
+			gradient.colors = this.colors.slice();
+			gradient.alphas = this.alphas.slice();
+			gradient.ratios = this.ratios.slice();
+			//TODO: clone the matrix
+			gradient.matrix = this.matrix;
+			gradient.spreadMethod = this.spreadMethod;
+			gradient.interpolationMethod = this.interpolationMethod;
+			gradient.focalPointRatio = this.focalPointRatio;
+			return gradient;
+		}
 	}
 }

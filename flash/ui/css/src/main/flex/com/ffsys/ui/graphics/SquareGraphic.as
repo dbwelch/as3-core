@@ -23,5 +23,13 @@ package com.ffsys.ui.graphics
 		{
 			super( size, size, stroke, fill );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return SquareGraphic;
+		}		
 	}
 }

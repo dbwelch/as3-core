@@ -101,5 +101,13 @@ package com.ffsys.ui.graphics {
 			this.preferredWidth = this.width;
 			this.preferredHeight = this.height;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function getCloneClass():Class
+		{
+			return TriangleGraphic;
+		}
 	}
 }
