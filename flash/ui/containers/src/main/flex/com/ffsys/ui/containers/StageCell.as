@@ -48,8 +48,8 @@ package com.ffsys.ui.containers {
 			if( stage )
 			{
 				trace("StageCell::resized()", stage.stageWidth, stage.stageHeight );
-				this.preferredWidth = stage.stageWidth;
-				this.preferredHeight = stage.stageHeight;
+				this.width = stage.stageWidth;
+				this.height = stage.stageHeight;
 			}
 			
 			if( this.layout && this.content )

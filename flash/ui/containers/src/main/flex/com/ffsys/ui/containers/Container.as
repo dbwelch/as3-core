@@ -71,32 +71,100 @@ package com.ffsys.ui.containers {
 			}
 		}
 		
+		override public function measure():IComponentDimensions
+		{	
+			var output:IComponentDimensions = super.measure();
+			
+			trace("*************************** STARTING Container::measure() ***************************");
+			trace("Container::measure() this/id: ", this, this.id );
+			
+			trace("Container::measure() CHECKING EXPLICIT DIMENSIONS: ", this, this.id, output.hasExplicitWidth(), output.hasExplicitHeight(), output );
+			
+			if( output.hasExplicitWidth() )
+			{
+				output.preferredWidth =
+					Rectangle( dimensions ).width;
+			}
+			
+			if( output.hasExplicitHeight() )
+			{
+				output.preferredHeight =
+					Rectangle( dimensions ).width;
+			}
+			
+			trace("Container::measure() width/ width > 0:", this, this.id, this.width, this.width > 0 );
+			
+			if( this.width > 0
+				&& !output.hasExplicitWidth() )
+			{
+				output.preferredWidth = this.width + paddings.width + border.width;
+			}
+			
+			//TODO: handle percentage values here
+			
+			trace("Container::measure() height/ height > 0:", this, this.id, this.height, this.height > 0 );
+			
+			if( this.height > 0
+				&& !output.hasExplicitHeight() )
+			{
+				output.preferredHeight = this.height + paddings.height + border.height;
+			}
+			
+			//still no valid dimensions try looking in the hierarchy
+			if( isNaN( output.preferredWidth )
+				|| isNaN( output.preferredHeight ) )
+			{
+
+				
+				var parent:IContainer = getAncestorByType( IContainer ) as IContainer;
+				
+				trace("Container::measure()", "STILL NO VALID DIMENSONS SEARCHING PARENT CONTAINER: ", parent );				
+				
+				if( parent != null )
+				{
+					if( !isNaN( parent.dimensions.preferredWidth ) )
+					{
+						output.preferredWidth = parent.innerWidth - margins.width;
+					}
+					
+					if( !isNaN( parent.dimensions.preferredHeight ) )
+					{
+						output.preferredHeight = parent.innerHeight - margins.height;
+					}
+				}
+			}
+			
+			if( isNaN( output.preferredWidth ) )
+			{
+				trace( "[WARNING] Could not determine width of component '"
+					+ this + "' with id '" + this.id + "', setting to 16 pixels" );
+				output.preferredWidth = 16;
+			}
+			
+			if( isNaN( output.preferredHeight ) )
+			{
+				trace( "[WARNING] Could not determine height of component '"
+					+ this + "' with id '" + this.id + "', setting to 16 pixels" );
+				output.preferredHeight = 16;
+			}
+			
+			trace("*************************** FINISHED Container::measure() ***************************");			
+			
+			return output;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		override public function get preferredWidth():Number
 		{
 			//explicitly set
-			
-			/*
-			if( dimensions.hasExplicitWidth() )
-			{
-				return Rectangle( dimensions ).width;
-			}
-			*/
-			
 			if( !isNaN( _preferredWidth ) )
 			{
 				return _preferredWidth;
 			}			
-			
-			/*
-			if( dimensions.hasPercentWidth() )
-			{
-				return getPercentWidth();
-			}
-			*/
-			
 			//got some width content
 			if( this.width > 0 )
 			{
@@ -115,32 +183,20 @@ package com.ffsys.ui.containers {
 			}
 			return super.preferredWidth;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		override public function get preferredHeight():Number
 		{
 			//explicitly set
-			
-			/*			
-			if( dimensions.hasExplicitHeight() )
-			{
-				return Rectangle( dimensions ).height;
-			}	
-			*/
-			
 			if( !isNaN( _preferredHeight ) )
 			{
 				return _preferredHeight;
 			}
-			
-			/*
-			if( dimensions.hasPercentHeight() )
-			{
-				return getPercentHeight();
-			}					
-			*/
 			
 			//got some height content
 			if( this.height > 0 )
@@ -156,8 +212,10 @@ package com.ffsys.ui.containers {
 			{
 				return parent.innerHeight - margins.height;
 			}
+			
 			return super.preferredHeight;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
@@ -265,7 +323,12 @@ package com.ffsys.ui.containers {
 
 			if( this.id != null )
 			{
-				trace("Container::update()", this, this.id, this.layout, dimensions.hasExplicitWidth(), dimensions.hasExplicitHeight() );
+				trace("Container::update()",
+					this,
+					this.id,
+					this.layout,
+					dimensions.hasExplicitWidth(),
+					dimensions.hasExplicitHeight() );
 			}
 			
 			//trace("Container::update() UPDATING: ", this, this.id, this.layout );			
@@ -322,13 +385,18 @@ package com.ffsys.ui.containers {
 		/**
 		* 	@inheritDoc
 		*/
+		override protected function layoutChildren(
+			width:Number, height:Number ):void
+		{
+			update();
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function finalized():void
 		{
 			super.finalized();
-			if( numChildren > 0 )
-			{
-				update();
-			}
 			_finalized = true;
 		}
 		

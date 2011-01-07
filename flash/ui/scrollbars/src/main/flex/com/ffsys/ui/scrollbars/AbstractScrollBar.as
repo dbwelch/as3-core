@@ -7,10 +7,10 @@ package com.ffsys.ui.scrollbars {
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	
-	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.buttons.IButton;
 	import com.ffsys.ui.buttons.ButtonLoopMode;
-	import com.ffsys.ui.core.UIComponent;
+	import com.ffsys.ui.common.*;	
+	import com.ffsys.ui.core.*;
 	
 	/**
 	*	Abstract super class for scroll bar implementations.
@@ -435,9 +435,9 @@ package com.ffsys.ui.scrollbars {
 		/**
 		* 	@inheritDoc
 		*/
-		override public function measure():IDimensions
+		override public function measure():IComponentDimensions
 		{
-			var output:IDimensions = super.measure();
+			var output:IComponentDimensions = super.measure();
 			updateScrollProperties();
 			updateScrollDragSize();
 			updateScrollDragPosition();

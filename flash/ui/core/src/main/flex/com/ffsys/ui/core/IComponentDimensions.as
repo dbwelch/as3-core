@@ -28,6 +28,6 @@ package com.ffsys.ui.core
 		function measure(
 			preferredWidth:Number,
 			preferredHeight:Number,
-			component:IComponent ):IDimensions;
+			component:IComponent ):IComponentDimensions;
 	}
 }

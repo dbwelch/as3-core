@@ -41,8 +41,8 @@ package com.ffsys.ui.containers {
 			clipped:Boolean = false )
 		{
 			super();
-			this.preferredWidth = width;
-			this.preferredHeight = height;
+			this.width = width;
+			this.height = height;
 			this.clipped = clipped;
 		}
 		

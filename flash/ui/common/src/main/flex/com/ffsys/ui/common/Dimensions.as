@@ -17,6 +17,9 @@ package com.ffsys.ui.common
 		private var _preferredWidth:Number = NaN;
 		private var _preferredHeight:Number = NaN;
 		
+		private var _measuredWidth:Number = NaN;
+		private var _measuredHeight:Number = NaN;
+		
 		private var _calculatedWidth:Number = NaN;
 		private var _calculatedHeight:Number = NaN;
 		
@@ -53,9 +56,35 @@ package com.ffsys.ui.common
 		/**
 		* 	@inheritDoc
 		*/
+		public function get measuredWidth():Number
+		{
+			return _measuredWidth;
+		}
+		
+		public function set measuredWidth( value:Number ):void
+		{
+			_measuredWidth = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get measuredHeight():Number
+		{
+			return _measuredHeight;
+		}
+		
+		public function set measuredHeight( value:Number ):void
+		{
+			_measuredHeight = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function hasExplicitWidth():Boolean
 		{
-			return !isNaN( this.width );
+			return !isNaN( this.width ) && this.width > 0;
 		}
 		
 		/**
@@ -63,8 +92,8 @@ package com.ffsys.ui.common
 		*/
 		public function hasExplicitHeight():Boolean
 		{
-			return !isNaN( this.height );
-		}				
+			return !isNaN( this.height ) && this.height > 0;
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -236,8 +265,8 @@ package com.ffsys.ui.common
 			return new Rectangle(
 				0,
 				0,
-				_preferredWidth,
-				_preferredHeight );
+				preferredWidth,
+				preferredHeight );
 		}
 		
 		/**
@@ -246,7 +275,7 @@ package com.ffsys.ui.common
 		public function getRectangle():Rectangle
 		{
 			//TODO: change to calculated dimensions
-			return new Rectangle( 0, 0, _preferredWidth, _preferredHeight );
+			return new Rectangle( 0, 0, preferredWidth, preferredHeight );
 		}		
 		
 		/**
@@ -258,43 +287,79 @@ package com.ffsys.ui.common
 			return new Rectangle(
 				-margins.left,
 				-margins.top,
-				_preferredWidth + margins.width,
-				_preferredHeight + margins.height );
-		}			
+				preferredWidth + margins.width,
+				preferredHeight + margins.height );
+		}
 		
 		/**
 		*	The preferred width specified the last
-		* 	time the <code>calculate</code> method was invoked.
+		* 	time the <code>calculate</code> method was invoked
+		* 	or a value explicitly set as the component
+		* 	calculated it's preferred dimensions.
 		*/
 		public function get preferredWidth():Number
 		{
+			if( hasExplicitWidth() )
+			{
+				return this.width;
+			}
 			return _preferredWidth;
+		}
+		
+		public function set preferredWidth( value:Number ):void
+		{
+			_preferredWidth = value;
 		}
 		
 		/**
 		*	The preferred height specified the last
-		* 	time the <code>calculate</code> method was invoked.
+		* 	time the <code>calculate</code> method was invoked
+		* 	or a value explicitly set as the component
+		* 	calculated it's preferred dimensions.
 		*/
 		public function get preferredHeight():Number
 		{
+			if( hasExplicitHeight() )
+			{
+				return this.height;
+			}
 			return _preferredHeight;
+		}
+		
+		public function set preferredHeight( value:Number ):void
+		{
+			_preferredHeight = value;
 		}
 		
 		/**
 		*	The width calculated the last
 		* 	time the <code>calculate</code> method was invoked.
+		* 
+		* 	If the <code>calculate</code> method has not been
+		* 	invoked this will return the preferred width.
 		*/
 		public function get calculatedWidth():Number
 		{
+			if( isNaN( _calculatedWidth ) )
+			{
+				return preferredWidth;
+			}
 			return _calculatedWidth;
 		}
 		
 		/**
 		*	The height calculated the last
 		* 	time the <code>calculate</code> method was invoked.
+		* 
+		* 	If the <code>calculate</code> method has not been
+		* 	invoked this will return the preferred height.
 		*/
 		public function get calculatedHeight():Number
 		{
+			if( isNaN( _calculatedHeight ) )
+			{
+				return preferredHeight;
+			}
 			return _calculatedHeight;
 		}
 				
@@ -305,6 +370,7 @@ package com.ffsys.ui.common
 			preferredWidth:Number,
 			preferredHeight:Number ):IDimensions
 		{
+			var output:IDimensions = IDimensions( clone() );
 			_preferredWidth = preferredWidth;
 			_preferredHeight = preferredHeight;
 			
@@ -314,7 +380,7 @@ package com.ffsys.ui.common
 			_calculatedWidth = cw;
 			_calculatedHeight = ch;
 			
-			return this;
+			return output;
 		}
 		
 		/**

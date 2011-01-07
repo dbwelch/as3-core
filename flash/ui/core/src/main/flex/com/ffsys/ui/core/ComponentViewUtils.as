@@ -29,7 +29,7 @@ package com.ffsys.ui.core
 		/**
 		*	@private	
 		*/
-		internal var _renderer:IComponentRenderer;		
+		internal var _renderer:IComponentRenderer;
 		
 		/**
 		* 	@private

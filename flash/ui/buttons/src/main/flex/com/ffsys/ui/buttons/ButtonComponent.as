@@ -38,8 +38,8 @@ package com.ffsys.ui.buttons
 			height:Number = NaN )
 		{
 			super();
-			this.preferredWidth = width;
-			this.preferredHeight = height;
+			this.width = width;
+			this.height = height;
 			this.mouseChildren = false;
 		}
 		

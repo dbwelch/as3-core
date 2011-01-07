@@ -275,6 +275,8 @@ package com.ffsys.ui.suite.core {
 				_views[ id ] = view;
 				_view = id;
 			}
+			
+			vbox.update();
 		}
 		
 		/**
@@ -314,7 +316,7 @@ package com.ffsys.ui.suite.core {
 				vbox.addChild( DisplayObject( content ) );
 			}
 			
-			vbox.update();
+			vbox.finalized();
 		}
 	}
 }

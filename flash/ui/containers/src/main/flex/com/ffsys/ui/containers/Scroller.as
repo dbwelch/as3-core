@@ -43,8 +43,8 @@ package com.ffsys.ui.containers {
 			height:Number = NaN )
 		{
 			super();
-			preferredWidth = width;
-			preferredHeight = height;
+			width = width;
+			height = height;
 		}
 		
 		/**

@@ -39,8 +39,8 @@ package com.ffsys.ui.containers {
 		{
 			super();
 			this.layout = new CellLayout();
-			this.preferredWidth = width;
-			this.preferredHeight = height;
+			this.width = width;
+			this.height = height;
 			this.content = content;
 		}
 		

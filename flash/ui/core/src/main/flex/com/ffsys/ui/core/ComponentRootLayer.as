@@ -98,8 +98,8 @@ package com.ffsys.ui.core
 				this.parent.addEventListener( Event.ADDED, checkSiblingAdded );
 				
 				_tooltips = new ToolTipManager();
-				_tooltips.preferredWidth = stage.stageWidth;
-				_tooltips.preferredHeight = stage.stageHeight;				
+				_tooltips.width = stage.stageWidth;
+				_tooltips.height = stage.stageHeight;				
 				
 				_initialized = true;
 			}

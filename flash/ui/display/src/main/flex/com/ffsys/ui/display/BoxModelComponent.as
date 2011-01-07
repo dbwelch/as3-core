@@ -125,7 +125,9 @@ package com.ffsys.ui.display {
 			{								
 				
 				var parentComponent:IComponent = IComponent( _target );
-				var rect:Rectangle = parentComponent.getRectangle();
+				var rect:Rectangle = parentComponent.dimensions.getRectangle();
+				
+				trace("BoxModelComponent::set target() main rect: ", target, target.id, rect );
 				
 				//trace("BoxModelComponent::target()", component, content, outer, component.fill );
 				//trace("BoxModelComponent::target()", parentComponent, rect.width, rect.height );
@@ -145,15 +147,22 @@ package com.ffsys.ui.display {
 				
 				var border:IBorderGraphic = null;
 				
-				if( component != null )
+				if( component != null
+					&& !isNaN( rect.width )
+					&& !isNaN( rect.height ) )
 				{
 					component.tx = rect.x;
 					component.ty = rect.y;
 					component.draw( rect.width, rect.height );
 				}
 
-				rect = parentComponent.getPaddingRectangle();
-				if( content != null )
+				rect = parentComponent.dimensions.getPaddingRectangle();
+				
+				trace("BoxModelComponent::set target() padding rect: ", target, target.id, rect );				
+				
+				if( content != null
+					&& !isNaN( rect.width )
+					&& !isNaN( rect.height ) )
 				{	
 					if( content is IBorderGraphic )
 					{
@@ -168,8 +177,13 @@ package com.ffsys.ui.display {
 					content.draw( rect.width, rect.height );
 				}
 					
-				rect = parentComponent.getMarginRectangle();
-				if( outer != null )
+				rect = parentComponent.dimensions.getMarginRectangle();
+				
+				trace("BoxModelComponent::set target() margin rect: ", target, target.id, rect );
+				
+				if( outer != null
+					&& !isNaN( rect.width )
+					&& !isNaN( rect.height ) )
 				{
 					if( outer is IBorderGraphic )
 					{

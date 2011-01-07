@@ -6,13 +6,13 @@
 			<spacing>5</spacing>
 			<list>
 				<id>my-list</id>
-				<preferred-width>100</preferred-width>
-				<preferred-height>100</preferred-height>
+				<width>100</width>
+				<height>100</height>
 			</list>
 			<button>
 				<id>btn</id>
-				<preferred-width>100</preferred-width>
-				<preferred-height>16</preferred-height>
+				<width>100</width>
+				<height>16</height>
 				<text>button text</text>
 			</button>
 			
@@ -31,8 +31,8 @@
 			<hbox>
 				<spacing>10</spacing>
 				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
+					<width>80</width>
+					<height>80</height>
 					<label styles="lbl">
 						<text>Box Model</text>
 					</label>
@@ -41,8 +41,8 @@
 					</box-model>
 				</cell>
 				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
+					<width>80</width>
+					<height>80</height>
 					<layout>
 						<horizontal-align>left</horizontal-align>
 						<vertical-align>top</vertical-align>
@@ -53,8 +53,8 @@
 					<box-model />
 				</cell>
 				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
+					<width>80</width>
+					<height>80</height>
 					<layout>
 						<horizontal-align>right</horizontal-align>
 						<vertical-align>top</vertical-align>
@@ -65,8 +65,8 @@
 					<box-model />
 				</cell>
 				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
+					<width>80</width>
+					<height>80</height>
 					<layout>
 						<horizontal-align>right</horizontal-align>
 						<vertical-align>bottom</vertical-align>
@@ -77,8 +77,8 @@
 					<box-model />
 				</cell>
 				<cell>
-					<preferred-width>80</preferred-width>
-					<preferred-height>80</preferred-height>
+					<width>80</width>
+					<height>80</height>
 					<layout>
 						<horizontal-align>left</horizontal-align>
 						<vertical-align>bottom</vertical-align>

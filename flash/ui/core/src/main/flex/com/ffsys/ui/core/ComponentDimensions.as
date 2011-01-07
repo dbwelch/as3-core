@@ -46,7 +46,7 @@ package com.ffsys.ui.core
 		public function measure(
 			w:Number,
 			h:Number,
-			component:IComponent ):IDimensions
+			component:IComponent ):IComponentDimensions
 		{
 			//force explicit dimension overrides
 			if( hasExplicitWidth() )
@@ -58,8 +58,8 @@ package com.ffsys.ui.core
 				h = this.height;
 			}
 			
-			var output:IDimensions = calculate(
-				preferredWidth, preferredHeight );
+			var output:IComponentDimensions = IComponentDimensions(
+				calculate( preferredWidth, preferredHeight ) );
 				
 			//completely explicit dimensions
 			//no further calculation necessary

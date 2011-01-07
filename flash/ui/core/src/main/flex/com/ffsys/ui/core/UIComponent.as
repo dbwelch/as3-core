@@ -3,6 +3,7 @@ package com.ffsys.ui.core
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;	
+	import flash.geom.Rectangle;
 	import flash.events.FocusEvent;
 	
 	import com.ffsys.core.*;
@@ -19,6 +20,8 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.data.IDataBinding;
 	import com.ffsys.ui.data.IDataBindingNotification;
+	
+	import com.ffsys.ui.support.*;	
 	
 	/**
 	*	The default component implementation.
@@ -48,6 +51,7 @@ package com.ffsys.ui.core
 		private var _descriptor:IBeanDescriptor;
 		private var _xml:XML;
 		private var _parser:Object;
+		private var _depth:IComponentDepth;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -55,6 +59,24 @@ package com.ffsys.ui.core
 		public function UIComponent()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get depth():IComponentDepth
+		{
+			if( _depth == null )
+			{
+				//TODO: retrieve from a bean
+				_depth = new ComponentDepth();
+			}
+			return _depth;
+		}
+		
+		public function set depth( value:IComponentDepth ):void
+		{
+			_depth = value;
 		}
 		
 		/**
@@ -308,6 +330,10 @@ package com.ffsys.ui.core
 				//throw new Error( "The component height parameter must be valid." );
 			}
 			
+			//TODO: implement !?!?!!?!?
+			
+			
+			/*
 			_preferredWidth = width;
 			_preferredHeight = height;
 
@@ -319,6 +345,7 @@ package com.ffsys.ui.core
 			applyBackground();
 			
 			layoutChildren( width, height );
+			*/
 		}
 		
 		
@@ -341,12 +368,17 @@ package com.ffsys.ui.core
 		* 
 		* 	@return The measured dimensions.
 		*/
-		public function measure():IDimensions
+		public function measure():IComponentDimensions
 		{
-			return this.dimensions.measure(	
+			var output:IComponentDimensions = this.dimensions.measure(	
 				preferredWidth,
 				preferredHeight,
 				this );
+				
+			//update the measured width values
+			output.measuredWidth = this.width;
+			output.measuredHeight = this.height;
+			return output;
 		}
 		
 		/**
@@ -356,20 +388,33 @@ package com.ffsys.ui.core
 		{	
 			//updateState( this.state == null ? State.MAIN : state.clone() );
 			
-			var d:IDimensions = measure();
+			//measure the dimensions and re-assign
+			//the calculated values
+			this.dimensions = measure();
 			
-			trace("UIComponent::finalized() MEASURED DIMENSIONS: ", d );
+			trace("UIComponent::finalized() MEASURED DIMENSIONS (this/id/explicit[WxH]/preferred[WxH]): ",
+				this, this.id, Rectangle( dimensions ).width, Rectangle( dimensions ).height, dimensions.preferredWidth, dimensions.preferredHeight );
 			
 			//apply border and background graphics
 			applyBorders();
 			applyBackground();
 			
+			var childLayoutWidth:Number = preferredWidth;
+			var childLayoutHeight:Number = preferredHeight;
+			
 			//update any child positioning
-			layoutChildren( preferredWidth, preferredHeight );
-			
-			//trace("UIComponent::finalized()", this, this.id );			
-			
-			//setSize( preferredWidth, preferredHeight );
+			if( shouldLayoutChildren(
+				childLayoutWidth, childLayoutHeight ) )
+			{
+				layoutChildren(
+					childLayoutWidth, childLayoutHeight );
+			}
+		}
+		
+		protected function shouldLayoutChildren(
+			width:Number, height:Number ):Boolean
+		{
+			return numChildren > 0;
 		}
 		
 		/**
@@ -378,8 +423,10 @@ package com.ffsys.ui.core
 		*/
 		override public function set width( value:Number ):void
 		{
-			_preferredWidth = value;
-			Dimensions( this.dimensions ).width = width;
+			trace("UIComponent::set width() SETTING WIDTH: ", this, this.id, value );
+			//_preferredWidth = value;			
+			Dimensions( this.dimensions ).width = value;
+			this.dimensions.preferredWidth = value;
 		}
 		
 		/**
@@ -388,8 +435,10 @@ package com.ffsys.ui.core
 		*/
 		override public function set height( value:Number ):void
 		{
-			_preferredHeight = value;
-			Dimensions( this.dimensions ).height = height;
+			trace("UIComponent::set height() SETTING HEIGHT: ", this, this.id, value );
+			//_preferredHeight = value;
+			Dimensions( this.dimensions ).height = value;
+			this.dimensions.preferredHeight = value;
 		}
 		
 		/**
@@ -797,7 +846,6 @@ package com.ffsys.ui.core
 			}
 		}
 		
-		
 		/**
 		* 	@inheritDoc
 		*/
@@ -983,7 +1031,6 @@ package com.ffsys.ui.core
 			return output;
 		}
 		
-		
 		/**
 		* 	Invoked when a style cache is generated.
 		* 
@@ -1017,12 +1064,16 @@ package com.ffsys.ui.core
 			{				
 				if( cache.main.width is Number )
 				{
-					Dimensions( this.dimensions ).width = cache.main.width;
+					this.width = cache.main.width;
+					
+					trace("UIComponent::extractDimensions() EXTRACTING EXPLICIT WIDTH: ", this.id, cache.main.width );
 				}
 			
 				if( cache.main.height is Number )
 				{
-					Dimensions( this.dimensions ).height = cache.main.height;
+					this.height = cache.main.height;
+					
+					trace("UIComponent::extractDimensions() EXTRACTING EXPLICIT HEIGHT: ", this.id, cache.main.height );
 				}
 			
 				if( cache.main.minWidth is Number )
@@ -1134,8 +1185,14 @@ package com.ffsys.ui.core
 			if( this.dataBinding )
 			{
 				this.dataBinding.removeObserver( this );
-			}			
+			}	
 			
+			if( _depth )
+			{
+				_depth.destroy();
+			}
+			
+			_depth = null;
 			_document = null;
 			_styleManager = null;
 			_styleCache = null;

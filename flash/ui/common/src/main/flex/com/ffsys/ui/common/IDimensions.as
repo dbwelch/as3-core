@@ -23,6 +23,28 @@ package com.ffsys.ui.common
 				IClone
 	{
 		/**
+		* 	A measured width that represents a width
+		* 	calculated by measuring some display content
+		* 	such as child display objects.
+		* 
+		* 	The default behaviour is that this is equivalent
+		* 	to the <code>width</code> property of the component.
+		*/
+		function get measuredWidth():Number;
+		function set measuredWidth( value:Number ):void;
+		
+		/**
+		* 	A measured height that represents a height
+		* 	calculated by measuring some display content
+		* 	such as child display objects.
+		* 
+		* 	The default behaviour is that this is equivalent
+		* 	to the <code>height</code> property of the component.
+		*/
+		function get measuredHeight():Number;
+		function set measuredHeight( value:Number ):void;		
+		
+		/**
 		* 	Determines whether this implementation has an explicitly
 		* 	set width.
 		* 
@@ -146,7 +168,25 @@ package com.ffsys.ui.common
 		*/
 		function calculate(
 			preferredWidth:Number,
-			preferredHeight:Number ):IDimensions;		
+			preferredHeight:Number ):IDimensions;
+			
+		/**
+		*	The preferred width specified the last
+		* 	time the <code>calculate</code> method was invoked
+		* 	or a value explicitly set as the component
+		* 	calculates it's preferred dimensions.
+		*/
+		function get preferredWidth():Number;
+		function set preferredWidth( value:Number ):void;
+		
+		/**
+		*	The preferred height specified the last
+		* 	time the <code>calculate</code> method was invoked
+		* 	or a value explicitly set as the component
+		* 	calculates it's preferred dimensions.
+		*/
+		function get preferredHeight():Number;
+		function set preferredHeight( value:Number ):void;
 		
 		/**
 		* 	Creates a clone of these dimensions.

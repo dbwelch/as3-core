@@ -40,8 +40,8 @@ package com.ffsys.ui.core {
 			background:IComponentGraphic = null )
 		{
 			super();
-			this.preferredWidth = width;
-			this.preferredHeight = height;
+			this.width = width;
+			this.height = height;
 			this.background = background;
 		}
 		

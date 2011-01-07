@@ -24,6 +24,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.flash.ISprite;	
 	
 	import com.ffsys.ui.css.*;
+	import com.ffsys.ui.support.*;
 	
 	import com.ffsys.ioc.*;
 	
@@ -220,7 +221,7 @@ package com.ffsys.ui.core
 		*/
 				
 		//TODO: move to dimensions
-		function getPaddingRectangle():Rectangle;
+		//function getPaddingRectangle():Rectangle;
 		
 		/**
 		*	Gets a rectangle that represents the dimensions
@@ -228,7 +229,7 @@ package com.ffsys.ui.core
 		*/
 		
 		//TODO: move to dimensions		
-		function getRectangle():Rectangle;	
+		//function getRectangle():Rectangle;	
 		
 		/**
 		*	Gets a rectangle that represents the outer
@@ -236,7 +237,7 @@ package com.ffsys.ui.core
 		*/
 		
 		//TODO: move to dimensions		
-		function getMarginRectangle():Rectangle;
+		//function getMarginRectangle():Rectangle;
 		
 		/**
 		* 	Gets a component bean from the bean document
@@ -255,7 +256,7 @@ package com.ffsys.ui.core
 		* 
 		* 	@return The measured dimensions.
 		*/
-		function measure():IDimensions;		
+		function measure():IComponentDimensions;
 		
 		/**
 		*	Sets the size of this component.
@@ -433,6 +434,13 @@ package com.ffsys.ui.core
 		* 	this component.
 		*/
 		function get descriptor():IBeanDescriptor;
+		
+		/**
+		* 	A support implementation for managing
+		* 	the depth of this component.
+		*/
+		function get depth():IComponentDepth;
+		function set depth( value:IComponentDepth ):void;
 		
 		/**
 		* 	Gets a copy of this component in it's

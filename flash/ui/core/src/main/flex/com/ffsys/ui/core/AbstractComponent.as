@@ -169,13 +169,13 @@ package com.ffsys.ui.core
 		*/
 		public function get preferredWidth():Number
 		{
-			return _preferredWidth;
+			//
+			return this.dimensions.preferredWidth;
 		}
 		
 		public function set preferredWidth( value:Number ):void
-		{
-			Dimensions( this.dimensions ).width = value;		
-			_preferredWidth = value;
+		{		
+			this.dimensions.preferredWidth = value;	
 		}
 		
 		/**
@@ -183,13 +183,13 @@ package com.ffsys.ui.core
 		*/
 		public function get preferredHeight():Number
 		{
-			return _preferredHeight;
+			///
+			return this.dimensions.preferredHeight;
 		}
 		
 		public function set preferredHeight( value:Number ):void
 		{
-			Dimensions( this.dimensions ).height = value;
-			_preferredHeight = value;
+			this.dimensions.preferredHeight = value;
 		}
 		
 		/**
@@ -479,6 +479,10 @@ package com.ffsys.ui.core
 			{
 				//TODO: get from a bean
 				_dimensions = new ComponentDimensions();
+				
+				//configure the initial measurements
+				_dimensions.measuredWidth = this.width;
+				_dimensions.measuredHeight = this.height;
 			}
 			return _dimensions;
 		}
@@ -1076,6 +1080,8 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc	
 		*/
+		
+		/*
 		public function getPaddingRectangle():Rectangle
 		{
 			return new Rectangle(
@@ -1084,18 +1090,24 @@ package com.ffsys.ui.core
 				preferredWidth,
 				preferredHeight );
 		}
+		*/
 		
 		/**
 		*	@inheritDoc	
 		*/
+		
+		/*
 		public function getRectangle():Rectangle
 		{
 			return new Rectangle( 0, 0, this.preferredWidth, this.preferredHeight );
 		}
+		*/
 		
 		/**
 		*	@inheritDoc	
 		*/
+		
+		/*
 		public function getMarginRectangle():Rectangle
 		{
 			return new Rectangle(
@@ -1104,6 +1116,7 @@ package com.ffsys.ui.core
 				preferredWidth + margins.width,
 				preferredHeight + margins.height );
 		}
+		*/
 		
 		/**
 		*	@inheritDoc	
