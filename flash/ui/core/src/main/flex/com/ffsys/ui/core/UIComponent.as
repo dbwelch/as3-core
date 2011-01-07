@@ -349,7 +349,6 @@ package com.ffsys.ui.core
 		override public function set width( value:Number ):void
 		{
 			_preferredWidth = value;
-			super.width = value;
 		}
 		
 		/**
@@ -359,7 +358,6 @@ package com.ffsys.ui.core
 		override public function set height( value:Number ):void
 		{
 			_preferredHeight = value;
-			super.height = value;
 		}
 		
 		/**

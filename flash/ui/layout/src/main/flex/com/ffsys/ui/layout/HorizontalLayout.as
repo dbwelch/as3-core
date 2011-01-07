@@ -3,7 +3,7 @@ package com.ffsys.ui.layout
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
-	import com.ffsys.ui.common.IMarginAware;
+	import com.ffsys.ui.common.*;
 	
 	/**
 	*	Handles laying out components in a horizontal
@@ -45,11 +45,21 @@ package com.ffsys.ui.layout
 			child:DisplayObject,
 			previous:DisplayObject = null ):void
 		{
-			//we never layout fixed layout items
-			if( child is IFixedLayout )
+			var parentPaddingAware:IPaddingAware = parent as IPaddingAware;
+			
+			if( parentPaddingAware != null )
 			{
-				return;
-			}
+				child.y = parentPaddingAware.paddings.top;
+				if( child is IMarginAware )
+				{
+					child.y += IMarginAware( child ).margins.top;
+				}
+			}else{			
+				if( child is IMarginAware )
+				{
+					child.y = IMarginAware( child ).margins.top;
+				}				
+			}			
 			
 			var x:Number = 0;
 				
@@ -82,16 +92,16 @@ package com.ffsys.ui.layout
 				}
 			}else
 			{
+				if( parentPaddingAware )
+				{
+					x = parentPaddingAware.paddings.left;
+				}
+				
 				//no previous element and not collapsed obey margins
 				if( !collapsed && ( child is IMarginAware ) )
 				{
-					x = IMarginAware( child ).margins.left;
+					x += IMarginAware( child ).margins.left;
 				}
-			}
-			
-			if( child is IMarginAware )
-			{
-				child.y = IMarginAware( child ).margins.top;
 			}
 			
 			if( child is IAdjustLayoutValue )

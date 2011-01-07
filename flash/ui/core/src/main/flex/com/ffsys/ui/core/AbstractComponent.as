@@ -68,7 +68,7 @@ package com.ffsys.ui.core
 		private var _styles:String;
 		private var _customData:Object;
 		
-		private var _borderLayer:DisplayObjectContainer;
+		private var _borderLayer:IComponentBorderLayer;
 		private var _borderGraphic:IComponentGraphic;
 		
 		private var _identifier:String;
@@ -204,6 +204,22 @@ package com.ffsys.ui.core
 		{
 			_preferredWidth = value;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function isFlexibleWidth():Boolean
+		{
+			return isNaN( _preferredWidth );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function isFlexibleHeight():Boolean
+		{
+			return isNaN( _preferredHeight );
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -523,6 +539,16 @@ package com.ffsys.ui.core
 			_margins = value;
 		}
 		
+		private var _children:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+		
+		/**
+		* 	The child display objects of this component.
+		*/
+		public function get children():Vector.<DisplayObject>
+		{
+			return _children;
+		}
+		
 		/**
 		*	@inheritDoc	
 		*/
@@ -533,6 +559,10 @@ package com.ffsys.ui.core
 			if( shouldAdd )
 			{
 				super.addChild( child );
+				if( _children.indexOf( child ) == -1 )
+				{
+					_children.push( child );
+				}
 				afterChildAdded( child, numChildren - 1 );
 			}
 			return child;
@@ -548,6 +578,10 @@ package com.ffsys.ui.core
 			if( shouldAdd )
 			{
 				super.addChildAt( child, index );
+				if( _children.indexOf( child ) == -1 )
+				{
+					_children.push( child );
+				}
 				afterChildAdded( child, index );
 			}
 			
@@ -690,7 +724,7 @@ package com.ffsys.ui.core
 			
 			//ensure the border is always the last child
 			var borderTarget:DisplayObject = _borderLayer != null
-				? _borderLayer : _borderGraphic as DisplayObject;
+				? DisplayObject( _borderLayer ) : _borderGraphic as DisplayObject;
 			
 			if( borderTarget != null
 				&& contains( borderTarget )
@@ -712,6 +746,11 @@ package com.ffsys.ui.core
 			if( shouldRemove )
 			{
 				super.removeChild( child );
+				var ci:int =  _children.indexOf( child );
+				if( ci > -1 )
+				{
+					_children.splice( ci, 1 );
+				}
 				afterChildRemoved( child, index );
 			}
 			return child;
@@ -728,6 +767,11 @@ package com.ffsys.ui.core
 			if( shouldRemove )
 			{			
 				super.removeChildAt( index );
+				var ci:int =  _children.indexOf( child );
+				if( ci > -1 )
+				{
+					_children.splice( ci, 1 );
+				}				
 				afterChildRemoved( child, index );
 			}
 			return child;
@@ -795,12 +839,8 @@ package com.ffsys.ui.core
 		*/
 		protected function createBorderLayer():void
 		{
-			if( _borderLayer && contains( _borderLayer ) )
-			{
-				removeChild( _borderLayer );
-			}
-			
-			this.borderLayer = new Sprite();
+			//TODO: get from a component bean
+			this.borderLayer = new ComponentBorderLayer();
 		}
 		
 		/**
@@ -834,24 +874,24 @@ package com.ffsys.ui.core
 		* 
 		* 	@return The border layer.
 		*/
-		public function get borderLayer():DisplayObjectContainer
+		public function get borderLayer():IComponentBorderLayer
 		{
 			return _borderLayer;
 		}
 		
-		public function set borderLayer( value:DisplayObjectContainer ):void
+		public function set borderLayer( value:IComponentBorderLayer ):void
 		{
 			if( _borderLayer != null
-			 	&& contains( _borderLayer ) )
+			 	&& contains( DisplayObject( _borderLayer ) ) )
 			{
-				removeChild( _borderLayer );
+				removeChild( DisplayObject( _borderLayer ) );
 			}
 			
 			_borderLayer = value;
 			
 			if( _borderLayer != null )
 			{
-				addChild( _borderLayer );
+				addChild( DisplayObject( _borderLayer ) );
 			}
 		}
 		
@@ -911,9 +951,9 @@ package com.ffsys.ui.core
 			 	|| !this.border.valid() ) 
 			{
 				if( _borderLayer != null
-					&& contains( _borderLayer ) )
+					&& contains( DisplayObject( _borderLayer ) ) )
 				{
-					removeChild( _borderLayer );
+					removeChild( DisplayObject( _borderLayer ) );
 					_borderLayer = null;
 				}
 				return;
@@ -924,10 +964,10 @@ package com.ffsys.ui.core
 				createBorderLayer();
 			}else
 			{
-				removeAllChildren( _borderLayer );
+				removeAllChildren( DisplayObjectContainer( _borderLayer ) );
 			}
 	
-			var r:Rectangle = getBorderDimensions();			
+			var r:Rectangle = getBorderDimensions();
 			
 			//no custom graphic
 			if( _borderGraphic == null )
@@ -935,6 +975,7 @@ package com.ffsys.ui.core
 				var b:IBorderGraphic = getBorderGraphic();
 				b.border = this.border;
 				b.draw( r.width, r.height );
+				trace("AbstractComponent::applyBorders()", "DRAWING BORDER", r.width, r.height );
 				_borderLayer.addChild( DisplayObject( b ) );
 			}else{
 				var c:IComponentGraphic = _borderGraphic;

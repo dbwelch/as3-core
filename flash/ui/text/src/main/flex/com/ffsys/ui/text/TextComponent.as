@@ -80,7 +80,7 @@ package com.ffsys.ui.text
 		{
 			super.doWithStyleCache( cache );
 			
-			trace("TextComponent::doWithStyleCache()", cache.main.textTransform );
+			//trace("TextComponent::doWithStyleCache()", cache.main.textTransform );
 			
 			if( cache.main.textTransform )
 			{
@@ -198,7 +198,7 @@ package com.ffsys.ui.text
 			
 			super.finalized();
 			
-			trace("TextComponent::finalized()", this.text );
+			//trace("TextComponent::finalized()", this.text );
 		}
 		
 		/**

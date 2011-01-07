@@ -218,6 +218,7 @@
 						</toggle-button>
 					</hbox>
 					<toggle-button>
+						<id>filter-toggle-button</id>
 						<styles>toggle-button-filter</styles>
 						<identifier>buttons.examples.toggle.filter</identifier>
 					</toggle-button>

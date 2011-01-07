@@ -20,7 +20,7 @@ element {
 	padding-left: 5;
 	padding-top: 5;
 	padding-right: 5;
-	padding-bottom: 3;	
+	padding-bottom: 5;
 	text-transform: uppercase;
 	background: ref( element-background );	
 }
@@ -101,21 +101,42 @@ sub-heading-border-example {
 }
 
 container-example {
-	preferred-width: 25;
-	preferred-height: 25;
+	preferred-width: 40;
+	preferred-height: 40;
 }
 
 container-border-example {
 	border: border( 1, 1, 1, 1, #ffffff, .5 );	
 }
 
+#example-hbox, #example-vbox {
+	padding: 5;
+	spacing: 10;
+	margin: 10;
+}
+
+box-example-container {
+	border: border( 1, 1, 1, 1, #0000ff, .5 );
+	width: 10;
+	height: 10;
+}
+
+#box-model-example-target {
+	width: 30;
+	height: 30;
+	padding: 5;
+	margin: 5;
+}
+
 #outer-container, outer-container {
 	padding: 5;
-	display: block;	
+	display: inline;
 }
 
 inner-container {
 	border: border( 1, 1, 1, 1, #0000ff, 1 );
+	margin-left: 5;
+	margin-right: 10;
 }
 
 container-border-background-example {

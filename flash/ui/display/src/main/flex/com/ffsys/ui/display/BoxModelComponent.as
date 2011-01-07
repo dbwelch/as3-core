@@ -14,7 +14,7 @@ package com.ffsys.ui.display {
 	
 	/**
 	*	A utiity component that draws a rectangle
-	*	for the bounds of a component around the margins,
+	*	for the bounds of a component around the outers,
 	*	another rectangle around the object dimensions
 	*	and the last around the padding.
 	*
@@ -27,109 +27,166 @@ package com.ffsys.ui.display {
 	public class BoxModelComponent extends UIComponent
 		implements IFixedLayout {
 		
-		private var _outer:Number;
-		private var _component:Number;
-		private var _inner:Number;
+		private var _outer:IComponentGraphic;
+		private var _component:IComponentGraphic;
+		private var _content:IComponentGraphic;
+		
+		private var _target:IComponent;
 		
 		/**
 		*	Creates a <code>BoxModelComponent</code> instance.
 		*	
-		*	@param outer A color for the outer rectangle.
-		*	@param component A color for the component rectangle.
-		*	@param inner A color for the inner rectangle.
+		*	@param outer A rectangle used to display the parent
+		* 	component outer.
+		*	@param component A rectangle used to display the parent component
+		* 	dimensions.
+		*	@param content A rectangle used to display the inner content
+		* 	area of the parent component taking into account it's padding.
 		*/
 		public function BoxModelComponent(
-			outer:Number = 0xff0000,
-			component:Number = 0x00ff00, 
-			inner:Number = 0x0000ff )
+			outer:IComponentGraphic = null,
+			component:IComponentGraphic = null, 
+			content:IComponentGraphic = null )
 		{
 			super();
 			this.outer = outer;
 			this.component = component;
-			this.inner = inner;
+			this.content = content;
 		}
 		
 		/**
-		*	A colour for the outer rectangle.	
+		*	A rectangle used to display the parent
+		* 	component outer.	
 		*/
-		public function get outer():Number
+		public function get outer():IComponentGraphic
 		{
 			return _outer;
 		}
 		
-		public function set outer( outer:Number ):void
+		public function set outer( outer:IComponentGraphic ):void
 		{
+			if( _outer != null && contains( DisplayObject( _outer ) ) )
+			{
+				removeChild( DisplayObject( _outer ) );
+			}
+			
 			_outer = outer;
 		}
 		
 		/**
-		*	A colour for the component rectangle.	
+		*	A rectangle used to display the component
+		* 	dimensions.
 		*/
-		public function get component():Number
+		public function get component():IComponentGraphic
 		{
 			return _component;
 		}
 
-		public function set component( component:Number ):void
+		public function set component( component:IComponentGraphic ):void
 		{
-			_component = component;
+			if( _component != null && contains( DisplayObject( _component ) ) )
+			{
+				removeChild( DisplayObject( _component ) );
+			}
+			
+			_component = component;			
 		}
 		
 		/**
-		*	A colour for the inner rectangle.	
+		*	A rectangle used to display the inner content
+		* 	area of a component taking into account it's padding.	
 		*/
-		public function get inner():Number
+		public function get content():IComponentGraphic
 		{
-			return _inner;
+			return _content;
 		}
 
-		public function set inner( inner:Number ):void
+		public function set content( content:IComponentGraphic ):void
 		{
-			_inner = inner;
-		}	
+			if( _content != null && contains( DisplayObject( _content ) ) )
+			{
+				removeChild( DisplayObject( _content ) );
+			}			
+			
+			_content = content;			
+		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		override public function finalized():void
+		public function get target():IComponent
 		{
-			var component:IComponent = IComponent( this.parent );
-			var graphic:IComponentGraphic = null;
-			
-			var rect:Rectangle = component.getRectangle();
-			
-			//trace("BoxModelComponent::finalized()", rect );
-			
-			graphic = new RectangleGraphic(
-				rect.width,
-				rect.height,
-				new Stroke( 0, this.component, 1 ) );
+			return _target;
+		}
+		
+		public function set target( value:IComponent ):void
+		{
+			_target = value;
+			trace("BoxModelComponent::target()", this, this.id );
+			if( _target != null )
+			{								
 				
-			graphic.tx = rect.x;
-			graphic.ty = rect.y;
-			addChild( DisplayObject( new Graphic( DisplayObject( graphic ) ) ) );
-			
-			rect = component.getPaddingRectangle();
-						
-			graphic = new RectangleGraphic(
-				rect.width,
-				rect.height,
-				new Stroke( 0, this.inner, 1 ) );
+				var parentComponent:IComponent = IComponent( _target );
+				var rect:Rectangle = parentComponent.getRectangle();
 				
-			graphic.tx = rect.x;
-			graphic.ty = rect.y;
-			addChild( DisplayObject( new Graphic( DisplayObject( graphic ) ) ) );
-			
-			rect = component.getMarginRectangle();
-						
-			graphic = new RectangleGraphic(
-				rect.width,
-				rect.height,
-				new Stroke( 0, this.outer, 1 ) );
+				trace("BoxModelComponent::target()", component, content, outer, component.fill );
+				trace("BoxModelComponent::target()", parentComponent, rect.width, rect.height );
 				
-			graphic.tx = rect.x;
-			graphic.ty = rect.y;
-			addChild( DisplayObject( new Graphic( DisplayObject( graphic ) ) ) );
+				if( numChildren > 1 )
+				{
+					if( contains( DisplayObject( content ) ) )
+					{
+						setChildIndex( DisplayObject( content ), 0 );
+					}
+					
+					if( contains( DisplayObject( outer ) ) )
+					{
+						setChildIndex( DisplayObject( outer ), numChildren - 1 );
+					}
+				}
+				
+				if( component != null )
+				{
+					component.tx = rect.x;
+					component.ty = rect.x;
+					component.draw( rect.width, rect.height );
+				}
+
+				rect = parentComponent.getPaddingRectangle();
+				if( content != null )
+				{
+					content.tx = rect.x;
+					content.ty = rect.x;
+					content.draw( rect.width, rect.height );
+				}
+					
+				rect = parentComponent.getMarginRectangle();
+				if( outer != null )
+				{
+					outer.tx = rect.x;
+					outer.ty = rect.x;
+					outer.draw( rect.width, rect.height );
+				}
+				
+		
+				if( _outer != null
+				 	&& !contains( DisplayObject( _outer ) ) )
+				{
+					addChild( DisplayObject( _outer ) );
+				}
+			
+				if( _component != null
+				 	&& !contains( DisplayObject( _component ) ) )
+				{
+					addChild( DisplayObject( _component ) );
+				}
+			
+				if( _content != null
+				 	&& !contains( DisplayObject( _content ) ) )
+				{
+					addChild( DisplayObject( _content ) );
+				}				
+			}	
 		}
 	}
 }

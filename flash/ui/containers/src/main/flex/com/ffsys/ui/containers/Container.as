@@ -94,7 +94,7 @@ package com.ffsys.ui.containers {
 				&& !isNaN( parent.preferredWidth ) )
 			{
 				//trace("Container::get preferredWidth() FOUND PARENT DIMENSION:", this.id, parent.id, parent, parent.innerWidth, margins.width, parent.paddings.width );
-				return parent.innerWidth - margins.width;
+				return ( parent.innerWidth / parent.numChildren ) - margins.width;
 			}
 			return super.preferredWidth;
 		}
@@ -226,29 +226,56 @@ package com.ffsys.ui.containers {
 		*/
 		public function update():void
 		{
-			trace("Container::update() UPDATING: ", this, this.id, this.layout );
-			if( layout != null )
+			if( layout == null )
 			{
-				layout.update( this );
-			}else if( numChildren > 0 )
+				layout = new VerticalLayout();
+			}
+			
+			trace("Container::update() UPDATING: ", this, this.id, this.layout );			
+			//measureChildDimensions();
+			layout.update( this );
+		}
+		
+		/**
+		* 	@private
+		*/
+		//TODO: move to the layout manager
+		protected function measureChildDimensions():void
+		{
+			var child:DisplayObject = null;
+			var component:IComponent = null;
+			for each( child in children )
 			{
-				trace("Container::update() UPDATING CONTAINER WITH NO LAYOUT: ", this, this.id );
-				//
-				var child:DisplayObject = null;
-				for( var i:int = 0;i < numChildren;i++ )
+				if( child is IComponent )
 				{
-					child = getChildAt( i );
-					if( child is IComponent )
+					component = IComponent( child );
+					
+					if( layout is VerticalLayout )
 					{
-						trace("Container::update() UPDATING NON LAYOUT CHILD: ", child, child.name );
-						child.x = this.paddings.left;
-						child.y = this.paddings.top;
-						if( child is IMarginAware )
+						if( component.isFlexibleWidth() )
 						{
-							child.x += IMarginAware( child ).margins.left;
-							child.y += IMarginAware( child ).margins.top;
+							//force the component to use it's looked up dimensions
+							component.preferredWidth = this.innerWidth;
+						}
+						if( component.isFlexibleHeight() )
+						{
+							component.preferredHeight = component.preferredHeight;
+						}
+					}else if( layout is HorizontalLayout )
+					{
+						if( component.isFlexibleWidth() )
+						{
+							//force the component to use it's looked up dimensions
+							component.preferredWidth = component.preferredWidth;
+						}
+						if( component.isFlexibleHeight() )
+						{
+							component.preferredHeight = this.innerHeight;
 						}
 					}
+					
+					trace("Container::measureChildDimensions()",
+						component, component.id, component.isFlexibleWidth(), component.isFlexibleHeight() );
 				}
 			}
 		}

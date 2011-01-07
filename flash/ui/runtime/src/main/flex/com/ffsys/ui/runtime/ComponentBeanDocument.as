@@ -2,10 +2,8 @@ package com.ffsys.ui.runtime
 {
 	import com.ffsys.ioc.*;
 	
-	import com.ffsys.ui.common.ComponentIdentifiers;
-	import com.ffsys.utils.string.PropertyNameConverter;
-	
 	import com.ffsys.ui.buttons.*;
+	import com.ffsys.ui.common.*;	
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.controls.*;
 	import com.ffsys.ui.core.*;
@@ -14,6 +12,8 @@ package com.ffsys.ui.runtime
 	import com.ffsys.ui.layout.*;
 	import com.ffsys.ui.scrollbars.*;
 	import com.ffsys.ui.text.*;
+	
+	import com.ffsys.utils.string.PropertyNameConverter;	
 
 	/**
 	*	Defines the default bean components for runtime xml documents.
@@ -238,8 +238,103 @@ package com.ffsys.ui.runtime
 			descriptor.instanceClass = RadioButtonGroup;
 			beans.addBeanDescriptor( descriptor );
 			
+			//
+			data = new Object();
+			data.color = 0x999999;
+			data.alpha = .5;
+			data.top = 1;
+			data.right = 1;
+			data.bottom = 1;
+			data.left = 1;							
+			
 			descriptor = new BeanDescriptor(
-				ComponentIdentifiers.BOX_MODEL );
+				ComponentIdentifiers.CONTENT_BOX_MODEL_BORDER, data );
+			descriptor.instanceClass = Border;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.border = new BeanReference(
+				ComponentIdentifiers.CONTENT_BOX_MODEL,
+				null,
+				ComponentIdentifiers.CONTENT_BOX_MODEL_BORDER );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CONTENT_BOX_MODEL, data );
+			descriptor.instanceClass = BorderGraphic;
+			beans.addBeanDescriptor( descriptor );
+			//
+			
+			//
+			data = new Object();
+			data.color = 0x00ff00;
+			data.alpha = 1;
+			data.top = 1;
+			data.right = 1;
+			data.bottom = 1;
+			data.left = 1;							
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER, data );
+			descriptor.instanceClass = Border;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.border = new BeanReference(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL,
+				null,
+				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL, data );
+			descriptor.instanceClass = BorderGraphic;
+			beans.addBeanDescriptor( descriptor );
+			//			
+			
+			//
+			data = new Object();
+			data.color = 0x0000ff;
+			data.alpha = 1;
+			data.top = 1;
+			data.right = 1;
+			data.bottom = 1;
+			data.left = 1;					
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.MARGIN_BOX_MODEL_BORDER, data );
+			descriptor.instanceClass = Border;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.border = new BeanReference(
+				ComponentIdentifiers.MARGIN_BOX_MODEL,
+				null,
+				ComponentIdentifiers.MARGIN_BOX_MODEL_BORDER );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.MARGIN_BOX_MODEL, data );
+			descriptor.instanceClass = BorderGraphic;
+			beans.addBeanDescriptor( descriptor );
+			//
+			
+			////			
+			data = new Object();
+			data.content = new BeanReference(
+				ComponentIdentifiers.BOX_MODEL,
+				null,
+				ComponentIdentifiers.CONTENT_BOX_MODEL );
+			data.component = new BeanReference(
+				ComponentIdentifiers.BOX_MODEL,
+				null,
+				ComponentIdentifiers.COMPONENT_BOX_MODEL );
+			data.outer = new BeanReference(
+				ComponentIdentifiers.BOX_MODEL,
+				null,
+				ComponentIdentifiers.MARGIN_BOX_MODEL );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BOX_MODEL, data );
 			descriptor.instanceClass = BoxModelComponent;
 			beans.addBeanDescriptor( descriptor );
 			

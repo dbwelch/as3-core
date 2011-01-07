@@ -397,7 +397,7 @@ package com.ffsys.ui.runtime {
 		
 		protected function doWithComponent( component:IComponent, xml:XML ):void
 		{
-			trace("RuntimeInterpreter::doWithComponent()", component, this.parser, ( this.parser is IParser ) );
+			//trace("RuntimeInterpreter::doWithComponent()", component, this.parser, ( this.parser is IParser ) );
 			
 			if( component is IRuntimeXmlAware )
 			{
@@ -488,7 +488,8 @@ package com.ffsys.ui.runtime {
 				}
 				*/
 				
-				if( parent is DisplayObjectContainer )
+				if( parent is DisplayObjectContainer
+				 	&& !parent.contains( child ) )
 				{
 					DisplayObjectContainer( parent ).addChild( child );
 				}

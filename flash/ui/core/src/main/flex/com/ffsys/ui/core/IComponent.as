@@ -151,7 +151,25 @@ package com.ffsys.ui.core
 		*	The preferred height for the component.	
 		*/
 		function get preferredHeight():Number;
-		function set preferredHeight( value:Number ):void;		
+		function set preferredHeight( value:Number ):void;	
+		
+		/**
+		* 	Determines whether this component has no explicitly
+		* 	set width.
+		* 
+		* 	@return A boolean indicating whether the width
+		* 	of this component is flexible.
+		*/
+		function isFlexibleWidth():Boolean;
+		
+		/**
+		* 	Determines whether this component has no explicitly
+		* 	set height.
+		* 
+		* 	@return A boolean indicating whether the height
+		* 	of this component is flexible.
+		*/
+		function isFlexibleHeight():Boolean;
 		
 		/**
 		*	A minimum width for the component.

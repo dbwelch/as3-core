@@ -9,6 +9,58 @@
 		
 		<vbox>
 			<styles>example-group</styles>
+			
+			<label>
+				<styles>element</styles>
+				<identifier>elements.hbox</identifier>
+			</label>
+			<sub-paragraph>
+				<identifier>containers.examples.hbox.copy</identifier>
+			</sub-paragraph>			
+			<hbox>
+				<id>example-hbox</id>
+				<styles>example-hbox</styles>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<box-model>
+					<target>
+						<id>example-hbox</id>
+					</target>
+				</box-model>
+			</hbox>
+		
+			<label>
+				<styles>element</styles>
+				<identifier>elements.vbox</identifier>
+			</label>
+			<sub-paragraph>
+				<identifier>containers.examples.vbox.copy</identifier>
+			</sub-paragraph>			
+			<vbox>
+				<id>example-vbox</id>
+				<styles>example-vbox</styles>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<box-model>
+					<target>
+						<id>example-vbox</id>
+					</target>
+				</box-model>
+			</vbox>	
 								
 			<label>
 				<styles>element</styles>
@@ -56,18 +108,21 @@
 					
 					<hbox>
 						<container>
-							<styles>container-example</styles>
-							<box-model />
+							<id>box-model-example-target</id>
+							<box-model>
+								<id>box-model-example</id>
+								<target>
+									<id>box-model-example-target</id>
+								</target>
+							</box-model>
 						</container>
 						<label>
 							<styles>note</styles>
 							<identifier>container.boxmodel.example</identifier>
 							<maximum-width>220</maximum-width>
-						</label>				
+						</label>
 					</hbox>
-
 				</vbox>
-			
 			</hbox>
 			
 			<hbox>
@@ -80,6 +135,10 @@
 						<id>inner-container</id>
 						<styles>inner-container</styles>
 					</container>
+					<container>
+						<id>inner-container</id>
+						<styles>inner-container</styles>
+					</container>					
 				</container>
 			</hbox>
 			

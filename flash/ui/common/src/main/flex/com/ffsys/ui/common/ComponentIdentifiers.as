@@ -325,6 +325,61 @@ package com.ffsys.ui.common
 		/**
 		* 	The identifier for a vrule component.
 		*/
-		public static const VRULE:String = "vrule";		
+		public static const VRULE:String = "vrule";
+		
+		/**
+		* 	The identifier for the box model
+		* 	content graphic.
+		*/
+		public static const CONTENT_BOX_MODEL:String = "box-model-content";
+		
+		/**
+		* 	The identifier for the box model
+		* 	component graphic.
+		*/
+		public static const COMPONENT_BOX_MODEL:String = "box-model-component";
+		
+		/**
+		* 	The identifier for the box model
+		* 	margin graphic.
+		*/
+		public static const MARGIN_BOX_MODEL:String = "box-model-margin";
+		
+		/**
+		* 	The identifier for the box model
+		* 	content graphic fill.
+		*/
+		public static const CONTENT_BOX_MODEL_FILL:String = "box-model-content-fill";
+		
+		/**
+		* 	The identifier for the box model
+		* 	component graphic fill.
+		*/
+		public static const COMPONENT_BOX_MODEL_FILL:String = "box-model-component-fill";
+		
+		/**
+		* 	The identifier for the box model
+		* 	margin graphic fill.
+		*/
+		public static const MARGIN_BOX_MODEL_FILL:String = "box-model-margin-fill";
+		
+		
+		/**
+		* 	The identifier for the box model
+		* 	content graphic border.
+		*/
+		public static const CONTENT_BOX_MODEL_BORDER:String = "box-model-content-border";
+		
+		/**
+		* 	The identifier for the box model
+		* 	component graphic border.
+		*/
+		public static const COMPONENT_BOX_MODEL_BORDER:String = "box-model-component-border";
+		
+		/**
+		* 	The identifier for the box model
+		* 	margin graphic border.
+		*/
+		public static const MARGIN_BOX_MODEL_BORDER:String = "box-model-margin-border";		
 	}
 }
