@@ -1,5 +1,7 @@
-TabContainer {
+Document, TabContainer {
 	spacing: 0;
+	padding: 0;
+	margin: 0;
 }
 
 HorizontalBox, VerticalBox, LinkContainer, ImageContainer {

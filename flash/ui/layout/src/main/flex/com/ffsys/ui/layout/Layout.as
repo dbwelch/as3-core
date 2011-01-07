@@ -217,10 +217,14 @@ package com.ffsys.ui.layout
 		{
 			if( index > 0 )
 			{
-				return parent.getChildAt( index - 1 );
+				var previous:DisplayObject =  parent.getChildAt( index - 1 );
+				if( previous is IFixedLayout )
+				{
+					previous = getPreviousDisplayObject( parent, index - 1 );
+				}
 			}
 			
-			return null;
+			return previous;
 		}
 		
 		/**

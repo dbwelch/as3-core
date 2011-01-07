@@ -62,22 +62,25 @@ package com.ffsys.ui.layout
 				}
 			}
 			
+			var isFirst:Boolean = ( index == 0 && parent.getChildIndex( child ) == 0 );
+			
 			var x:Number = 0;
 				
-			var spacing:Number = horizontalSpacing;
-
-			if( previous is IMarginAware )
+			if( !isFirst
+				&& previous != null )
 			{
-				spacing += IMarginAware( previous ).margins.right;
-			}
+				var spacing:Number = horizontalSpacing;				
 
-			if( child is IMarginAware )
-			{
-				spacing += IMarginAware( child ).margins.left;
-			}
+				if( previous is IMarginAware && !collapsed )
+				{
+					spacing += IMarginAware( previous ).margins.right;
+				}
+
+				if( child is IMarginAware && !collapsed )
+				{
+					spacing += IMarginAware( child ).margins.left;
+				}
 				
-			if( previous )
-			{
 				var width:Number = previous.width;
 				var index:int = previous.parent.getChildIndex( previous );
 				
@@ -93,10 +96,15 @@ package com.ffsys.ui.layout
 				}
 			}else
 			{
-				//no previous element and not collapsed obey margins
-				if( !collapsed && ( child is IMarginAware ) )
+				//no previous element and not collapsed obey paddings
+				if( parentPaddingAware != null )
 				{
-					x = IMarginAware( child ).margins.left;
+					x = parentPaddingAware.paddings.left;
+				}
+				
+				if( child is IMarginAware )
+				{
+					x += IMarginAware( child ).margins.left;
 				}
 			}
 			
@@ -108,7 +116,9 @@ package com.ffsys.ui.layout
 					parent,
 					child,
 					previous ) );
-			}			
+			}
+			
+			trace("HorizontalLayout::layoutChild()", parent, parent.name, child, child.name, x );
 			
 			child.x = x;
 		}

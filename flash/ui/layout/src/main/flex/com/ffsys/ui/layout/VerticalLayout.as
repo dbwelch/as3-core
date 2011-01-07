@@ -62,22 +62,25 @@ package com.ffsys.ui.layout
 				}				
 			}
 			
-			var y:Number = 0;		
-
-			var spacing:Number = verticalSpacing;
+			var isFirst:Boolean = ( index == 0 && parent.getChildIndex( child ) == 0 );
 			
-			if( previous is IMarginAware )
-			{
-				spacing += IMarginAware( previous ).margins.bottom;
-			}
-			
-			if( child is IMarginAware )
-			{
-				spacing += IMarginAware( child ).margins.top;
-			}
+			var y:Number = 0;
 				
-			if( previous != null )
+			if( !isFirst
+				&& previous != null )
 			{
+				var spacing:Number = verticalSpacing;
+
+				if( previous is IMarginAware && !collapsed )
+				{
+					spacing += IMarginAware( previous ).margins.bottom;
+				}
+
+				if( child is IMarginAware && !collapsed )
+				{
+					spacing += IMarginAware( child ).margins.top;
+				}				
+				
 				var height:Number = previous.height;
 				
 				var index:int = previous.parent.getChildIndex( previous );
@@ -94,10 +97,15 @@ package com.ffsys.ui.layout
 				}
 			}else
 			{
-				//no previous element and not collapsed obey margins
-				if( !collapsed && ( child is IMarginAware ) )
+				//no previous element and not collapsed obey paddings
+				if( parentPaddingAware != null )
 				{
-					y = IMarginAware( child ).margins.top;
+					y = parentPaddingAware.paddings.top;
+				}
+				
+				if( child is IMarginAware )
+				{
+					y += IMarginAware( child ).margins.top;
 				}
 			}
 			

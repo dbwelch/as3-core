@@ -276,7 +276,7 @@ package com.ffsys.ui.suite.core {
 				_view = id;
 			}
 			
-			vbox.update();
+			//vbox.update();
 		}
 		
 		/**
@@ -291,7 +291,7 @@ package com.ffsys.ui.suite.core {
 			
 			root.addChild( DisplayObject( document ) );
 			
-			vbox = new VerticalBox();						
+			vbox = new VerticalBox();
 			document.addChild( vbox );
 			
 			//initialize the tooltips
