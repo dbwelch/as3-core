@@ -11,15 +11,15 @@
 				<container>
 					<id>mask-target</id>
 					<mask>
-						<preferred-width>100</preferred-width>
-						<preferred-height>100</preferred-height>
+						<width>100</width>
+						<height>100</height>
 						<target>
 							<id>mask-target</id>
 						</target>
 					</mask>
 					<square-graphic>
-						<preferred-width>200</preferred-width>
-						<preferred-height>200</preferred-height>
+						<width>200</width>
+						<height>200</height>
 						<fill>
 							<style>default-gradient-fill</style>
 						</fill>
@@ -30,8 +30,8 @@
 			<hbox>
 				<square-graphic>
 					<id>vscroll-target</id>
-					<preferred-width>100</preferred-width>
-					<preferred-height>200</preferred-height>
+					<width>100</width>
+					<height>200</height>
 					<fill>
 						<style>default-gradient-fill</style>
 					</fill>
@@ -48,14 +48,14 @@
 			<vbox>
 				<square-graphic>
 					<id>hscroll-target</id>
-					<preferred-width>200</preferred-width>
-					<preferred-height>100</preferred-height>
+					<width>200</width>
+					<height>100</height>
 					<fill>
 						<style>default-gradient-fill</style>
 					</fill>
 				</square-graphic>
 				<hscroll>
-					<preferred-width>150</preferred-width>
+					<width>150</width>
 					<target>
 						<id>hscroll-target</id>
 					</target>

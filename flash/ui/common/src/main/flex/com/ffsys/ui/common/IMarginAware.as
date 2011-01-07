@@ -19,5 +19,6 @@ package com.ffsys.ui.common {
 		*	object that implements this interface.
 		*/
 		function get margins():IMargin;
+		function set margins( value:IMargin ):void;
 	}
 }

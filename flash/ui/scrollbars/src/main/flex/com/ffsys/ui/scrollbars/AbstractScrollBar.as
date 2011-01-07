@@ -7,7 +7,7 @@ package com.ffsys.ui.scrollbars {
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	
-	import com.ffsys.ui.common.Direction;
+	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.buttons.IButton;
 	import com.ffsys.ui.buttons.ButtonLoopMode;
 	import com.ffsys.ui.core.UIComponent;
@@ -435,12 +435,14 @@ package com.ffsys.ui.scrollbars {
 		/**
 		* 	@inheritDoc
 		*/
-		public function measure():void
+		override public function measure():IDimensions
 		{
+			var output:IDimensions = super.measure();
 			updateScrollProperties();
 			updateScrollDragSize();
 			updateScrollDragPosition();
 			updateScrollDragBounds();
+			return output;
 		}
 		
 		/**

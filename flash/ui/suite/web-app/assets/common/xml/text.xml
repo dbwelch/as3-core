@@ -87,7 +87,7 @@
 				
 				<label>
 					<identifier>text.label.constrain</identifier>
-					<maximum-width>160</maximum-width>
+					<max-width>160</max-width>
 				</label>
 				
 				<hrule />
@@ -144,7 +144,7 @@
 				<label>
 					<identifier>text.examples.subparagraph.html</identifier>
 					<html>true</html>
-					<maximum-width>260</maximum-width>
+					<max-width>260</max-width>
 				</label>
 				
 				<hrule />
@@ -157,7 +157,7 @@
 				<sub-heading>
 					<styles>sub-heading-border-example</styles>
 					<identifier>text.examples.subheading.border.example</identifier>
-					<maximum-width>260</maximum-width>
+					<max-width>260</max-width>
 				</sub-heading>
 				
 				<hrule />				

@@ -1,3 +1,14 @@
+percentage-container {
+	width: 100%;
+	height: 100%;
+}
+
+percentage-parent-container {
+	width: 50;
+	height: 50;
+	padding: 5;
+}
+
 package-heading {
 	text-transform: uppercase;
 	underline: true;
@@ -28,8 +39,8 @@ element {
 test-css-xml-namespace-bean {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
 	fill: fill( #ffffff, 1 );
-	preferred-width: 25;
-	preferred-height: 25;	
+	width: 25;
+	height: 25;	
 }
 
 element-background {
@@ -101,8 +112,8 @@ sub-heading-border-example {
 }
 
 container-example {
-	preferred-width: 40;
-	preferred-height: 40;
+	width: 40;
+	height: 40;
 }
 
 container-border-example {

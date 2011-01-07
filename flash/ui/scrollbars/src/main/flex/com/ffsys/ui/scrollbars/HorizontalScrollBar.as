@@ -68,7 +68,7 @@ package com.ffsys.ui.scrollbars {
 
 			if( scrollDrag )
 			{
-				scrollDrag.minimumWidth = minimumScrollDragSize;
+				scrollDrag.minWidth = minimumScrollDragSize;
 			}
 		}
 		

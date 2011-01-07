@@ -135,12 +135,22 @@ package com.ffsys.ui.graphics
 			return _margins;
 		}
 		
+		public function set margins( value:IMargin ):void
+		{
+			_margins = value;
+		}
+		
 		/**
 		*	@inheritDoc 
 		*/
 		public function get paddings():IPadding
 		{
 			return _paddings;
+		}
+		
+		public function set paddings( value:IPadding ):void
+		{
+			_paddings = value;
 		}
 		
 		/**
@@ -188,6 +198,28 @@ package com.ffsys.ui.graphics
 		{
 			_preferredHeight = preferredHeight;
 		}
+		
+		/**
+		* 	Overriden so that the <code>width</code> property
+		* 	can be used as a shortcut for setting the <code>preferredWidth</code>.
+		*/
+		override public function set width( value:Number ):void
+		{
+			_preferredWidth = value;
+			
+			//Dimensions( this.dimensions ).width = width;
+		}
+		
+		/**
+		* 	Overriden so that the <code>height</code> property
+		* 	can be used as a shortcut for setting the <code>preferredHeight</code>.
+		*/
+		override public function set height( value:Number ):void
+		{
+			_preferredHeight = value;
+			
+			//Dimensions( this.dimensions ).height = height;
+		}		
 		
 		/**
 		*	@inheritDoc 

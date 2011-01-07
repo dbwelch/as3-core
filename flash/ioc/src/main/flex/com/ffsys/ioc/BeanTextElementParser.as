@@ -76,6 +76,17 @@ package com.ffsys.ioc
 		/**
 		* 	@inheritDoc
 		*/
+		public function doWithProperty(
+			descriptor:IBeanDescriptor,
+			name:String,
+			value:* ):Object
+		{
+			return { name: name, value: value };
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function parse(
 			descriptor:IBeanDescriptor,
 			beanName:String,
@@ -121,9 +132,11 @@ package com.ffsys.ioc
 							String( output ),
 							descriptor, beanName, propertyName );
 							
+						/*
 						trace("BeanTextElementParser::parse()",
 							"FOUND MATCHING PROPERTY NAME EXPRESSION",
 							propertyName, this.mapping[ propertyName ], parsed );
+						*/
 							
 						if( parsed != null )
 						{

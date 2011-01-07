@@ -29,5 +29,22 @@ package com.ffsys.ioc
 			beanName:String,
 			propertyName:String,
 			value:String ):Object;
+			
+		/**
+		* 	Allows text element parsers to modify the property
+		* 	name or value.
+		* 
+		* 	@param descriptor The bean descriptor.
+		* 	@param name The property name.
+		* 	@param value The value being assigned to the property.
+		* 
+		* 	@return An object with <code>name</code> and <code>value</code>
+		* 	properties containing either the original parsed name and value
+		* 	or modifications of those properties.
+		*/
+		function doWithProperty(
+			descriptor:IBeanDescriptor,
+			name:String,
+			value:* ):Object;
 	}
 }

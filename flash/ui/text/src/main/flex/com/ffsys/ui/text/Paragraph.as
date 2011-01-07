@@ -31,30 +31,6 @@ package com.ffsys.ui.text
 		/**
 		* 	@inheritDoc
 		*/
-		override public function set maximumWidth( maximumWidth:Number ):void
-		{
-			super.maximumWidth = maximumWidth;
-			if( !isNaN( maximumWidth ) && textfield )
-			{
-				textfield.maximumWidth = maximumWidth;
-			}
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function set maximumHeight( maximumHeight:Number ):void
-		{
-			super.maximumHeight = maximumHeight;
-			if( !isNaN( maximumHeight ) && textfield )
-			{
-				textfield.maximumHeight = maximumHeight;
-			}
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		override protected function getTextFieldClass():Class
 		{
 			return MultiLineTextField;

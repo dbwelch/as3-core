@@ -254,7 +254,7 @@ package com.ffsys.ui.suite.core {
 					//radioButtonGroup.debug();
 					
 					var btn:IButton = document.getElementById(
-						"toggle-button" ) as IButton;
+						"filter-toggle-button" ) as IButton;
 					
 					//trace("ComponentSuiteController::navigationLinkClick()", btn );
 					

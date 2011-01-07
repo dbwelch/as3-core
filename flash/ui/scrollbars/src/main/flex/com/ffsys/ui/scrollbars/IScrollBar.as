@@ -93,19 +93,6 @@ package com.ffsys.ui.scrollbars {
 		function scrollTo( child:DisplayObject ):Boolean;
 		
 		/**
-		*	Inspects the scroll target and updates the distance
-		*	and minimum and maximum scroll positions.
-		*	
-		*	Note that the maximmum scroll position is determined when
-		*	the scroll target is assigned and equates to the measured
-		*	position at the time the scroll target is assigned.
-		*	
-		*	Invoke this method after the size of the target has
-		*	changed so that the scroll bar updates it's properties.
-		*/
-		function measure():void;
-		
-		/**
 		*	The direction this scroll bar is operating in.	
 		*/
 		function get direction():String;

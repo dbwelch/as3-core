@@ -242,18 +242,8 @@ package com.ffsys.ui.core
 				target.id = new String( this.id );
 				target.identifier = new String( this.identifier );
 				target.customData = this.customData;
+				target.dimensions = IComponentDimensions( source.dimensions.clone() );
 				
-				//TODO: deprecate
-				target.preferredWidth = source.preferredWidth;
-				target.preferredHeight = source.preferredHeight;
-				target.maximumWidth = source.maximumWidth;
-				target.maximumHeight = source.maximumHeight;
-				
-				
-				target.dimensions = IDimensions( source.dimensions.clone() );
-				target.border = IBorder( this.border.clone() );
-				UIComponent( target ).margins = IMargin( this.margins.clone() );
-				UIComponent( target ).paddings = IPadding( this.paddings.clone() );
 				//TODO: merge style cache properties
 				UIComponent( target )._styleCache = this._styleCache.clone();
 			}
@@ -331,12 +321,44 @@ package com.ffsys.ui.core
 			layoutChildren( width, height );
 		}
 		
+		
+		/**
+		* 	Invoked prior to a display object being added to
+		* 	the display list.
+		* 
+		* 	Derived implementations can create default child
+		* 	display objects that have not been defined in this
+		* 	method.
+		*/
+		public function prefinalize():void
+		{
+			//
+		}
+		
+		/**
+		* 	Measures this component based on it's
+		* 	preferred rendering dimensions.
+		* 
+		* 	@return The measured dimensions.
+		*/
+		public function measure():IDimensions
+		{
+			return this.dimensions.measure(	
+				preferredWidth,
+				preferredHeight,
+				this );
+		}
+		
 		/**
 		* 	Invoked when this component has been finalized.
 		*/
 		public function finalized():void
 		{	
 			//updateState( this.state == null ? State.MAIN : state.clone() );
+			
+			var d:IDimensions = measure();
+			
+			trace("UIComponent::finalized() MEASURED DIMENSIONS: ", d );
 			
 			//apply border and background graphics
 			applyBorders();
@@ -584,16 +606,6 @@ package com.ffsys.ui.core
 		public function set stylesheet( value:ICssStyleSheet ):void
 		{
 			_stylesheet = value;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function prefinalize():void
-		{
-			//trace("::::::::::::::::: UIComponent::prefinalize()", this, this.id, this.styles );
-			
-			//trace("UIComponent::prefinalize()", this, this.stage, this.id );
 		}
 		
 		/**
@@ -994,11 +1006,15 @@ package com.ffsys.ui.core
 			copyMarginsFromStyleCache( cache );
 		}
 		
-		private function extractDimensions( cache:IComponentStyleCache ):void
+		/**
+		* 	@private
+		*/
+		private function extractDimensions(
+			cache:IComponentStyleCache ):void
 		{
 			if( cache != null
 			 	&& cache.main != null )
-			{
+			{				
 				if( cache.main.width is Number )
 				{
 					Dimensions( this.dimensions ).width = cache.main.width;
@@ -1027,8 +1043,20 @@ package com.ffsys.ui.core
 				if( cache.main.maxHeight is Number )
 				{
 					this.dimensions.maxHeight = cache.main.maxHeight;
-				}				
-			}						
+				}
+				
+				if( cache.main.percentWidth is Number )
+				{
+					this.dimensions.percentWidth = cache.main.percentWidth;
+					trace("UIComponent::extractDimensions() GOT PERCENTAGE WIDTH: ", dimensions.percentWidth );
+				}
+				
+				if( cache.main.percentHeight is Number )
+				{
+					this.dimensions.percentHeight = cache.main.percentHeight;
+					trace("UIComponent::extractDimensions() GOT PERCENTAGE HEIGHT: ", dimensions.percentHeight );
+				}
+			}					
 		}
 		
 		private function copyPaddingsFromStyleCache( cache:IComponentStyleCache ):void

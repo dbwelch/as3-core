@@ -2,32 +2,32 @@ up-button {
 	icon: ref( up-arrow-icon );
 	padding: 6;
 	background: ref( image-display-background );
-	preferred-width: 20;
-	preferred-height: 20;
+	width: 20;
+	height: 20;
 }
 
 down-button {
 	icon: ref( down-arrow-icon );
 	padding: 6;
 	background: ref( image-display-background );
-	preferred-width: 20;
-	preferred-height: 20;
+	width: 20;
+	height: 20;
 }
 
 left-button {
 	icon: ref( left-arrow-icon );
 	padding: 6;
 	background: ref( image-display-background );
-	preferred-width: 20;
-	preferred-height: 20;
+	width: 20;
+	height: 20;
 }
 
 right-button {
 	icon: ref( right-arrow-icon );
 	padding: 6;
 	background: ref( image-display-background );
-	preferred-width: 20;
-	preferred-height: 20;
+	width: 20;
+	height: 20;
 }
 
 up-button:over, up-button:down {
@@ -124,32 +124,32 @@ up-arrow-icon-graphic {
 	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: top;
-	preferred-width: 8;
-	preferred-height: 8;
+	width: 8;
+	height: 8;
 }
 
 down-arrow-icon-graphic {
 	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: bottom;
-	preferred-width: 8;
-	preferred-height: 8;
+	width: 8;
+	height: 8;
 }
 
 left-arrow-icon-graphic {
 	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: left;
-	preferred-width: 8;
-	preferred-height: 8;
+	width: 8;
+	height: 8;
 }
 
 right-arrow-icon-graphic {
 	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: right;
-	preferred-width: 8;
-	preferred-height: 8;
+	width: 8;
+	height: 8;
 }
 
 graphic-icon-fill {

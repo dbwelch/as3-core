@@ -16,5 +16,6 @@ package com.ffsys.ui.common {
 		*	The paddings associated with this instance.
 		*/
 		function get paddings():IPadding;
+		function set paddings( value:IPadding ):void;
 	}
 }

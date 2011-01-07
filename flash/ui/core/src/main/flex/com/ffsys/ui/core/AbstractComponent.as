@@ -46,17 +46,7 @@ package com.ffsys.ui.core
 		protected var _preferredWidth:Number = NaN;
 		protected var _preferredHeight:Number = NaN;
 		
-		protected var _minimumWidth:Number = NaN;
-		protected var _minimumHeight:Number = NaN;
-		
-		protected var _maximumWidth:Number = NaN;
-		protected var _maximumHeight:Number = NaN;
-		
-		private var _margins:IMargin;
-		private var _paddings:IPadding;
 		private var _id:String;
-		private var _extra:Object;
-		private var _border:IBorder;
 		private var _background:IComponentGraphic;
 		private var _styles:String;
 		private var _customData:Object;
@@ -69,7 +59,7 @@ package com.ffsys.ui.core
 		
 		private var _parents:Vector.<DisplayObjectContainer>;
 		private var _class:Class;
-		private var _dimensions:IDimensions;
+		private var _dimensions:IComponentDimensions;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -168,22 +158,10 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
+		//TODO: deprecate
 		public function get utils():IComponentViewUtils
 		{
 			return _utils;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get extra():Object
-		{
-			return _extra;
-		}
-		
-		public function set extra( extra:Object ):void
-		{
-			_extra = extra;
 		}
 		
 		/**
@@ -196,16 +174,8 @@ package com.ffsys.ui.core
 		
 		public function set preferredWidth( value:Number ):void
 		{
-			Dimensions( this.dimensions ).width = value;			
+			Dimensions( this.dimensions ).width = value;		
 			_preferredWidth = value;
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function prefinalize():void
-		{
-			//
 		}
 		
 		/**
@@ -225,53 +195,53 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc	
 		*/
-		public function get minimumWidth():Number
+		public function get minWidth():Number
 		{
-			return _minimumWidth;
+			return this.dimensions.minWidth;
 		}
 
-		public function set minimumWidth( value:Number ):void
+		public function set minWidth( value:Number ):void
 		{
-			_minimumWidth = value;
+			this.dimensions.minWidth = value;
 		}
 
 		/**
 		*	@inheritDoc	
 		*/
-		public function get minimumHeight():Number
+		public function get minHeight():Number
 		{
-			return _minimumHeight;
+			return this.dimensions.minHeight;
 		}
 
-		public function set minimumHeight( value:Number ):void
+		public function set minHeight( value:Number ):void
 		{
-			_minimumHeight = value;
+			this.dimensions.minHeight = value;
 		}
 		
 		/**
 		*	@inheritDoc	
 		*/
-		public function get maximumWidth():Number
+		public function get maxWidth():Number
 		{
-			return _maximumWidth;
+			return this.dimensions.maxWidth;
 		}
 
-		public function set maximumWidth( value:Number ):void
+		public function set maxWidth( value:Number ):void
 		{
-			_maximumWidth = value;
+			this.dimensions.maxWidth = value;
 		}
 
 		/**
 		*	@inheritDoc	
 		*/
-		public function get maximumHeight():Number
+		public function get maxHeight():Number
 		{
-			return _maximumHeight;
+			return this.dimensions.maxHeight;
 		}
 
-		public function set maximumHeight( value:Number ):void
+		public function set maxHeight( value:Number ):void
 		{
-			_maximumHeight = value;
+			this.dimensions.maxHeight = value;
 		}				
 		
 		/**
@@ -473,23 +443,6 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		public function get paddings():IPadding
-		{
-			if( _paddings == null )
-			{
-				_paddings = new Padding();
-			}
-			return _paddings;
-		}
-		
-		public function set paddings( value:IPadding ):void
-		{
-			_paddings = value;
-		}
-		
-		/**
 		* 	Adds the padding, margin and border width values
 		* 	to a number.
 		* 
@@ -520,16 +473,17 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function get dimensions():IDimensions
+		public function get dimensions():IComponentDimensions
 		{
 			if( _dimensions == null )
 			{
-				_dimensions = new Dimensions();
+				//TODO: get from a bean
+				_dimensions = new ComponentDimensions();
 			}
 			return _dimensions;
 		}
 		
-		public function set dimensions( value:IDimensions ):void
+		public function set dimensions( value:IComponentDimensions ):void
 		{
 			_dimensions = value;
 		}
@@ -539,17 +493,39 @@ package com.ffsys.ui.core
 		*/
 		public function get margins():IMargin
 		{
-			if( _margins == null )
-			{
-				_margins = new Margin();
-			}
-			return _margins;
+			return this.dimensions.margins;
 		}
 		
 		public function set margins( value:IMargin ):void
 		{
-			_margins = value;
+			this.dimensions.margins = value;
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get paddings():IPadding
+		{
+			return this.dimensions.paddings;
+		}
+		
+		public function set paddings( value:IPadding ):void
+		{
+			this.dimensions.paddings = value;
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function get border():IBorder
+		{
+			return this.dimensions.border;
+		}
+		
+		public function set border( border:IBorder ):void
+		{
+			this.dimensions.border = border;
+		}		
 		
 		private var _children:Vector.<DisplayObject> = new Vector.<DisplayObject>();
 		
@@ -830,23 +806,6 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		*	@inheritDoc	
-		*/
-		public function get border():IBorder
-		{
-			if( _border == null )
-			{
-				_border = new Border();
-			}
-			return _border;
-		}
-		
-		public function set border( border:IBorder ):void
-		{
-			_border = border;
-		}
-		
-		/**
 		* 	Creates the layer used to store border graphics.
 		*/
 		protected function createBorderLayer():void
@@ -1112,7 +1071,7 @@ package com.ffsys.ui.core
 			var w:Number = this.preferredWidth - border.width;
 			var h:Number = this.preferredHeight - border.height;
 			return new Rectangle( border.left, border.top, w, h );
-		}		
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -1271,6 +1230,9 @@ package com.ffsys.ui.core
 			return ancestor;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get parents():Vector.<DisplayObjectContainer>
 		{
 			if( _parents != null )
@@ -1293,6 +1255,24 @@ package com.ffsys.ui.core
 			//the stage at index zero the dirent parent being
 			//the last element
 			output.reverse();
+			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get ancestors():Vector.<IComponent>
+		{	
+			var output:Vector.<IComponent> = new Vector.<IComponent>();
+			var targets:Vector.<DisplayObjectContainer> = this.parents.slice();
+			var p:DisplayObjectContainer = null;
+			for each( p in targets )
+			{
+				if( p is IComponent )
+				{
+					output.push( IComponent( p ) );
+				}
+			}
 			return output;
 		}
 		
@@ -1388,12 +1368,15 @@ package com.ffsys.ui.core
 		*/
 		public function destroy():void
 		{
-			_margins = null;
-			_paddings = null;
-			_border = null;
+			if( _dimensions != null )
+			{
+				_dimensions.destroy();
+			}
+			
+			//TODO: remove border/background/layers etc
+			
+			_dimensions = null;
 			_id = null;
-			_extra = null;
-			_border = null;
 			_background = null;
 			_styles = null;
 			_customData = null;

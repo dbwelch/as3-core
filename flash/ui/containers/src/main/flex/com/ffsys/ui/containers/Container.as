@@ -1,6 +1,7 @@
 package com.ffsys.ui.containers {
 	
 	import flash.display.DisplayObject;
+	import flash.geom.*;
 	
 	import com.ffsys.ioc.*;
 	
@@ -76,11 +77,26 @@ package com.ffsys.ui.containers {
 		override public function get preferredWidth():Number
 		{
 			//explicitly set
+			
+			/*
+			if( dimensions.hasExplicitWidth() )
+			{
+				return Rectangle( dimensions ).width;
+			}
+			*/
+			
 			if( !isNaN( _preferredWidth ) )
 			{
 				return _preferredWidth;
+			}			
+			
+			/*
+			if( dimensions.hasPercentWidth() )
+			{
+				return getPercentWidth();
 			}
-		
+			*/
+			
 			//got some width content
 			if( this.width > 0 )
 			{
@@ -105,11 +121,26 @@ package com.ffsys.ui.containers {
 		*/
 		override public function get preferredHeight():Number
 		{
-			//explicitly set			
+			//explicitly set
+			
+			/*			
+			if( dimensions.hasExplicitHeight() )
+			{
+				return Rectangle( dimensions ).height;
+			}	
+			*/
+			
 			if( !isNaN( _preferredHeight ) )
 			{
 				return _preferredHeight;
-			}			
+			}
+			
+			/*
+			if( dimensions.hasPercentHeight() )
+			{
+				return getPercentHeight();
+			}					
+			*/
 			
 			//got some height content
 			if( this.height > 0 )
@@ -234,7 +265,7 @@ package com.ffsys.ui.containers {
 
 			if( this.id != null )
 			{
-				trace("Container::update()", this, this.id, this.layout, dimensions.isFlexibleWidth(), dimensions.isFlexibleHeight() );
+				trace("Container::update()", this, this.id, this.layout, dimensions.hasExplicitWidth(), dimensions.hasExplicitHeight() );
 			}
 			
 			//trace("Container::update() UPDATING: ", this, this.id, this.layout );			
@@ -258,23 +289,23 @@ package com.ffsys.ui.containers {
 					
 					if( layout is VerticalLayout )
 					{
-						if( component.dimensions.isFlexibleWidth() )
+						if( component.dimensions.hasExplicitWidth() )
 						{
 							//force the component to use it's looked up dimensions
 							component.width = this.innerWidth;
 						}
-						if( component.dimensions.isFlexibleHeight() )
+						if( component.dimensions.hasExplicitHeight() )
 						{
 							component.height = component.preferredHeight;
 						}
 					}else if( layout is HorizontalLayout )
 					{
-						if( component.dimensions.isFlexibleWidth() )
+						if( component.dimensions.hasExplicitWidth() )
 						{
 							//force the component to use it's looked up dimensions
 							component.width = component.preferredWidth;
 						}
-						if( component.dimensions.isFlexibleHeight() )
+						if( component.dimensions.hasExplicitHeight() )
 						{
 							component.height = this.innerHeight;
 						}
@@ -282,7 +313,7 @@ package com.ffsys.ui.containers {
 					
 					/*
 					trace("Container::measureChildDimensions()",
-						component, component.id, component.isFlexibleWidth(), component.isFlexibleHeight() );
+						component, component.id, component.hasExplicitWidth(), component.hasExplicitHeight() );
 					*/
 				}
 			}

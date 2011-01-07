@@ -65,8 +65,8 @@ Paragraph {
 	word-wrap: true;
 	multiline: true;
 	color: #a9a9a9;
-	preferred-width: 360;
-	preferred-height: 120;
+	width: 360;
+	height: 120;
 }
 
 SubParagraph {
@@ -76,8 +76,8 @@ SubParagraph {
 	auto-size: left;
 	word-wrap: true;
 	multiline: true;
-	preferred-width: 360;
-	preferred-height: 120;
+	width: 360;
+	height: 120;
 	color: #a9a9a9;
 }
 
@@ -400,15 +400,15 @@ check-box-icon-selected {
 check-box-background {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
 	fill: fill( #a9a9a9, 1 );
-	preferred-width: 9;
-	preferred-height: 9;
+	width: 9;
+	height: 9;
 }
 
 check-box-foreground {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
 	fill: fill( #333333, 1 );
-	preferred-width: 5;
-	preferred-height: 5;
+	width: 5;
+	height: 5;
 	x: 2;
 	y: 2;
 }

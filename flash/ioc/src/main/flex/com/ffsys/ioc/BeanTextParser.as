@@ -86,6 +86,7 @@ package com.ffsys.ioc
 			var z:String = null;
 			var value:*;
 			var output:Object = new Object();
+			var result:Object = null;
 			for( z in bean )
 			{
 				value = bean[ z ];
@@ -94,9 +95,11 @@ package com.ffsys.ioc
 					value = parser.parse( descriptor, beanName, z, String( value ) );
 				}
 				
+				result = parser.doWithProperty( descriptor, z, value );
+				
 				//parser.setBeanProperty( bean, z, value );
 				
-				output[ z ] = value;
+				output[ result.name ] = result.value;
 			}
 			return output;
 		}

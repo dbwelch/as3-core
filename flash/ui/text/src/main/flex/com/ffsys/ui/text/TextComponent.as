@@ -71,8 +71,8 @@ package com.ffsys.ui.text
 		{
 			super();
 			createTextField( text );		
-			this.maximumWidth = maximumWidth;
-			this.maximumHeight = maximumHeight;
+			this.maxWidth = maximumWidth;
+			this.maxHeight = maximumHeight;
 		}
 		
 		override protected function doWithStyleCache(
@@ -264,9 +264,9 @@ package com.ffsys.ui.text
 		* 	The maximum width before the label wraps to a
 		* 	multiline textfield.
 		*/
-		override public function set maximumWidth( value:Number ):void
+		override public function set maxWidth( value:Number ):void
 		{
-			super.maximumWidth = value
+			super.maxWidth = value;
 			if( !isNaN( value ) && textfield )
 			{
 				textfield.maximumWidth = value;
@@ -277,8 +277,9 @@ package com.ffsys.ui.text
 		* 	The maximum height that a multiline textfield
 		* 	will resize before it becomes a fixed size.
 		*/
-		override public function set maximumHeight( value:Number ):void
+		override public function set maxHeight( value:Number ):void
 		{
+			super.maxHeight = value;
 			if( !isNaN( value ) && textfield )
 			{
 				textfield.maximumHeight = value;

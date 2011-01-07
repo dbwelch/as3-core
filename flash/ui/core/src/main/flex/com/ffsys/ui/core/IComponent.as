@@ -137,15 +137,24 @@ package com.ffsys.ui.core
 		*/
 		function get utils():IComponentViewUtils;
 		
+		/**
+		* 	A list of parent display object containers
+		* 	calculated when this component was added to the
+		* 	display list.
+		*/
+		function get parents():Vector.<DisplayObjectContainer>;
 		
-		//function set margins( value:IMargin ):void;
-		//function set paddings( value:IPadding ):void;
+		/**
+		* 	Retrieves a list of the parents that are component
+		* 	implementations.
+		*/
+		function get ancestors():Vector.<IComponent>;
 		
 		/**
 		* 	The dimensions of this component.
 		*/
-		function get dimensions():IDimensions;
-		function set dimensions( value:IDimensions ):void;
+		function get dimensions():IComponentDimensions;
+		function set dimensions( value:IComponentDimensions ):void;
 		
 		/**
 		*	The preferred width for the component.	
@@ -162,26 +171,26 @@ package com.ffsys.ui.core
 		/**
 		*	A minimum width for the component.
 		*/
-		function get minimumWidth():Number;
-		function set minimumWidth( value:Number ):void;
+		function get minWidth():Number;
+		function set minWidth( value:Number ):void;
 
 		/**
 		*	A minimum height for the component.
 		*/
-		function get minimumHeight():Number;
-		function set minimumHeight( value:Number ):void;
+		function get minHeight():Number;
+		function set minHeight( value:Number ):void;
 		
 		/**
 		*	A maximum width for the component.
 		*/
-		function get maximumWidth():Number;
-		function set maximumWidth( value:Number ):void;
+		function get maxWidth():Number;
+		function set maxWidth( value:Number ):void;
 
 		/**
 		*	A maximum height for the component.
 		*/
-		function get maximumHeight():Number;
-		function set maximumHeight( value:Number ):void;					
+		function get maxHeight():Number;
+		function set maxHeight( value:Number ):void;					
 		
 		/**
 		* 	The text field factory used to create textfields.
@@ -206,29 +215,27 @@ package com.ffsys.ui.core
 		function set background( background:IComponentGraphic ):void;
 		
 		/**
-		* 	Extra custom data to associate with the component.
-		*/
-		
-		//TODO: remove this in favour of customData !!!
-		function get extra():Object;
-		function set extra( extra:Object ):void;
-		
-		/**
 		*	Gets a rectangle that represents the inner
 		*	area inside any padding settings.	
 		*/
+				
+		//TODO: move to dimensions
 		function getPaddingRectangle():Rectangle;
 		
 		/**
 		*	Gets a rectangle that represents the dimensions
 		*	of this component.
 		*/
+		
+		//TODO: move to dimensions		
 		function getRectangle():Rectangle;	
 		
 		/**
 		*	Gets a rectangle that represents the outer
 		*	area outside any margin settings.
 		*/
+		
+		//TODO: move to dimensions		
 		function getMarginRectangle():Rectangle;
 		
 		/**
@@ -241,6 +248,14 @@ package com.ffsys.ui.core
 		* 	component was found.
 		*/
 		function getComponentBean( beanName:String ):DisplayObject;
+		
+		/**
+		* 	Measures this component based on it's
+		* 	preferred rendering dimensions.
+		* 
+		* 	@return The measured dimensions.
+		*/
+		function measure():IDimensions;		
 		
 		/**
 		*	Sets the size of this component.
@@ -354,11 +369,15 @@ package com.ffsys.ui.core
 		/**
 		*	The inner width of this component.
 		*/
+		
+		//TODO: move to dimensions
 		function get innerWidth():Number;
 		
 		/**
 		*	The inner height of this component.
 		*/
+		
+		//TODO: move to dimensions		
 		function get innerHeight():Number;	
 		
 		/**

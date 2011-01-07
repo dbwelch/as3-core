@@ -18,7 +18,19 @@ package com.ffsys.ui.css
 	*	@since  01.01.2011
 	*/
 	public class CssTextElementParser extends BeanTextElementParser
-	{	
+	{
+		/**
+		* 	A regular expression used to determine if a number is a
+		* 	percentage expression.
+		*/	
+		public static const PERCENT_EXPRESSION:RegExp = /^([0-1]{1,3})%$/;
+		
+		/**
+		*	A prefix to adjust a property name with when encountering
+		* 	percentage expressions.
+		*/
+		public static const PERCENT_NAME_PREFIX:String = "percent";
+		
 		/**
 		* 	The name of the expression used to define css border
 		* 	information.
@@ -56,6 +68,54 @@ package com.ffsys.ui.css
 		public function CssTextElementParser()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function doWithProperty(
+			descriptor:IBeanDescriptor,
+			name:String,
+			value:* ):Object
+		{
+			var result:Object = super.doWithProperty(
+				descriptor, name, value );
+				
+			if( value is CssPercent )
+			{
+				//TODO: prefix the property name to differentiate
+				//between dimension properties
+				
+				result.name = PERCENT_NAME_PREFIX
+					+ name.charAt( 0 ).toUpperCase() + name.substr( 1 );
+				
+				//assign the underlying numeric value
+				result.value = CssPercent( value ).value;
+			}
+			return result;
+		}		
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function parse(
+			descriptor:IBeanDescriptor,
+			beanName:String,
+			propertyName:String,
+			value:String ):Object
+		{
+			var output:Object = super.parse(
+				descriptor, beanName, propertyName, value );
+				
+			if( output is String )
+			{
+				//handle percentage expressions
+				if( PERCENT_EXPRESSION.test( String( output ) ) )
+				{
+					output = new CssPercent( String( output ) );
+				}
+			}
+			return output;
 		}
 		
 		/**
@@ -190,6 +250,36 @@ package com.ffsys.ui.css
 			
 			//default to the error behaviour
 			return super.doWithUnknownExpression( target );
+		}
+	}
+}
+
+final class CssPercent extends Object {
+	
+	import com.ffsys.ui.css.CssTextElementParser;
+	
+	/**
+	* 	The numeric percentage value.
+	*/
+	public var value:Number;
+	
+	/**
+	* 	@private
+	*/
+	public function CssPercent( source:String )
+	{
+		super();
+		if( source != null )
+		{
+			source = source.replace( CssTextElementParser.PERCENT_EXPRESSION, "$1" );
+			value = Number( source );
+			
+			//clamp the number between 0-100
+			if( !isNaN( value ) )
+			{
+				value = Math.max( 0, value );
+				value = Math.min( 100, value );				
+			}
 		}
 	}
 }
