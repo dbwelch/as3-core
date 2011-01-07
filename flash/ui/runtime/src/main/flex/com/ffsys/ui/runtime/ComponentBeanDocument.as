@@ -238,14 +238,41 @@ package com.ffsys.ui.runtime
 			descriptor.instanceClass = RadioButtonGroup;
 			beans.addBeanDescriptor( descriptor );
 			
-			//
+			//CONTENT AREA			
 			data = new Object();
 			data.color = 0x999999;
-			data.alpha = .5;
+			data.alpha = .6;
 			data.top = 1;
 			data.right = 1;
 			data.bottom = 1;
-			data.left = 1;							
+			data.left = 1;									
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER, data );
+			descriptor.instanceClass = Border;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.border = new BeanReference(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL,
+				null,
+				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL, data );
+			descriptor.instanceClass = RectangleGraphic;
+			beans.addBeanDescriptor( descriptor );
+			//
+			
+			//PADDING DISPLAY AREA
+			data = new Object();
+			data.color = 0x00ff00;
+			data.alpha = .6;
+			data.top = 1;
+			data.right = 1;
+			data.bottom = 1;
+			data.left = 1;			
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.CONTENT_BOX_MODEL_BORDER, data );
@@ -263,43 +290,16 @@ package com.ffsys.ui.runtime
 				ComponentIdentifiers.CONTENT_BOX_MODEL, data );
 			descriptor.instanceClass = BorderGraphic;
 			beans.addBeanDescriptor( descriptor );
-			//
+			//						
 			
-			//
-			data = new Object();
-			data.color = 0x00ff00;
-			data.alpha = 1;
-			data.top = 1;
-			data.right = 1;
-			data.bottom = 1;
-			data.left = 1;							
-			
-			descriptor = new BeanDescriptor(
-				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER, data );
-			descriptor.instanceClass = Border;
-			descriptor.singleton = true;
-			beans.addBeanDescriptor( descriptor );
-			
-			data = new Object();
-			data.border = new BeanReference(
-				ComponentIdentifiers.COMPONENT_BOX_MODEL,
-				null,
-				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER );
-			
-			descriptor = new BeanDescriptor(
-				ComponentIdentifiers.COMPONENT_BOX_MODEL, data );
-			descriptor.instanceClass = BorderGraphic;
-			beans.addBeanDescriptor( descriptor );
-			//			
-			
-			//
+			//MARGIN DISPLAY AREA
 			data = new Object();
 			data.color = 0x0000ff;
-			data.alpha = 1;
+			data.alpha = .6;
 			data.top = 1;
 			data.right = 1;
 			data.bottom = 1;
-			data.left = 1;					
+			data.left = 1;			
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.MARGIN_BOX_MODEL_BORDER, data );

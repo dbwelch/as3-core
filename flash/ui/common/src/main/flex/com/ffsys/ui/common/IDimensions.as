@@ -2,6 +2,8 @@ package com.ffsys.ui.common
 {
 	import flash.geom.Rectangle;
 	
+	import com.ffsys.core.IClone;
+	
 	/**
 	*	Describes the contract for implementations
 	* 	that represent a set of dimensions.
@@ -12,8 +14,8 @@ package com.ffsys.ui.common
 	*	@author Mischa Williamson
 	*	@since  07.01.2011
 	*/
-	public interface IDimensions
-	{				
+	public interface IDimensions extends IClone
+	{
 		/**
 		* 	Determines whether this implementation has no explicitly
 		* 	set width.
@@ -55,5 +57,24 @@ package com.ffsys.ui.common
 		*/
 		function get minHeight():Number;
 		function set minHeight( value:Number ):void;
+		
+		/**
+		* 	A percentage width for these dimensions.
+		*/
+		function get percentWidth():Number;
+		function set percentWidth( value:Number ):void;
+		
+		/**
+		* 	A percentage height for these dimensions.
+		*/
+		function get percentHeight():Number;
+		function set percentHeight( value:Number ):void;
+		
+		/**
+		* 	Creates a clone of these dimensions.
+		* 
+		* 	@return The cloned version of these dimensions.
+		*/
+		function clone():Rectangle;
 	}
 }

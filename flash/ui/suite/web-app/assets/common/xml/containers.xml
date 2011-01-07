@@ -7,6 +7,8 @@
 			<identifier>containers.package</identifier>
 		</sub-heading>
 		
+		<hbox>
+		
 		<vbox>
 			<styles>example-group</styles>
 			
@@ -20,20 +22,20 @@
 			<hbox>
 				<id>example-hbox</id>
 				<styles>example-hbox</styles>
-				<container>
-					<styles>box-example-container</styles>
-				</container>
-				<container>
-					<styles>box-example-container</styles>
-				</container>
-				<container>
-					<styles>box-example-container</styles>
-				</container>
 				<box-model>
 					<target>
 						<id>example-hbox</id>
 					</target>
-				</box-model>
+				</box-model>				
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
 			</hbox>
 		
 			<label>
@@ -46,20 +48,20 @@
 			<vbox>
 				<id>example-vbox</id>
 				<styles>example-vbox</styles>
-				<container>
-					<styles>box-example-container</styles>
-				</container>
-				<container>
-					<styles>box-example-container</styles>
-				</container>
-				<container>
-					<styles>box-example-container</styles>
-				</container>
 				<box-model>
 					<target>
 						<id>example-vbox</id>
 					</target>
-				</box-model>
+				</box-model>				
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
 			</vbox>	
 								
 			<label>
@@ -127,6 +129,33 @@
 			
 			<hbox>
 				<container>
+					<id>box-model-1</id>
+					<box-model>
+						<target>
+							<id>box-model-1</id>
+						</target>
+					</box-model>					
+					<container>
+						<styles>box-example-container</styles>
+					</container>					
+				</container>
+			</hbox>
+			
+			<hbox>
+				<container>
+					<id>outer-container</id>
+					<styles>container-border-example outer-container</styles>
+					<preferred-width>100</preferred-width>
+					<preferred-height>50</preferred-height>
+					<container>
+						<id>inner-container</id>
+						<styles>inner-container</styles>
+					</container>				
+				</container>
+			</hbox>			
+			
+			<hbox>
+				<container>
 					<id>outer-container</id>
 					<styles>container-border-example outer-container</styles>
 					<preferred-width>100</preferred-width>
@@ -141,7 +170,11 @@
 					</container>					
 				</container>
 			</hbox>
+		</vbox>	
+		
+		<vbox>	
 			
+			<vbox>
 			<label>
 				<styles>element</styles>
 				<identifier>elements.links</identifier>
@@ -170,65 +203,69 @@
 					<id>example-text-links-result</id>
 				</label>
 			</hbox>
-		</vbox>		
+			</vbox>
 		
-		<vbox>
-			<styles>example-group</styles>
-			<sub-paragraph>
-				<identifier>containers.examples.links.copy</identifier>
-			</sub-paragraph>
-			<hbox>					
-				<links>
-					<id>example-links</id>
-					<link-button>
-						<identifier>fruit.apples</identifier>
-						<custom-data>text</custom-data>
-					</link-button>
-					<link-button>
-						<identifier>fruit.oranges</identifier>
-						<custom-data>buttons</custom-data>					
-					</link-button>
-					<link-button>
-						<identifier>fruit.pears</identifier>
-						<custom-data>graphics</custom-data>
-					</link-button>
-				</links>
-				<label>
-					<id>example-links-result</id>
-				</label>
-			</hbox>			
-		</vbox>	
+			<vbox>
+				<styles>example-group</styles>
+				<sub-paragraph>
+					<identifier>containers.examples.links.copy</identifier>
+				</sub-paragraph>
+				<hbox>					
+					<links>
+						<id>example-links</id>
+						<link-button>
+							<identifier>fruit.apples</identifier>
+							<custom-data>text</custom-data>
+						</link-button>
+						<link-button>
+							<identifier>fruit.oranges</identifier>
+							<custom-data>buttons</custom-data>					
+						</link-button>
+						<link-button>
+							<identifier>fruit.pears</identifier>
+							<custom-data>graphics</custom-data>
+						</link-button>
+					</links>
+					<label>
+						<id>example-links-result</id>
+					</label>
+				</hbox>			
+			</vbox>	
 		
-		<label>
-			<styles>element</styles>
-			<identifier>elements.tabs</identifier>
-		</label>			
+			<label>
+				<styles>element</styles>
+				<identifier>elements.tabs</identifier>
+			</label>			
 		
-		<vbox>
-			<styles>example-group</styles>
-			<sub-paragraph>
-				<identifier>containers.examples.tabs.copy</identifier>
-			</sub-paragraph>
-			<hbox>
-				<tabs>
-					<id>example-tabs</id>
-					<tab-button>
-						<identifier>fruit.apples</identifier>
-						<custom-data>text</custom-data>
-					</tab-button>
-					<tab-button>
-						<identifier>fruit.oranges</identifier>
-						<custom-data>buttons</custom-data>					
-					</tab-button>
-					<tab-button>
-						<identifier>fruit.pears</identifier>
-						<custom-data>graphics</custom-data>
-					</tab-button>
-				</tabs>
-				<label>
-					<id>example-tabs-result</id>
-				</label>
-			</hbox>	
+			<vbox>
+				<styles>example-group</styles>
+				<sub-paragraph>
+					<identifier>containers.examples.tabs.copy</identifier>
+				</sub-paragraph>
+				<hbox>
+					<tabs>
+						<id>example-tabs</id>
+						<tab-button>
+							<identifier>fruit.apples</identifier>
+							<custom-data>text</custom-data>
+						</tab-button>
+						<tab-button>
+							<identifier>fruit.oranges</identifier>
+							<custom-data>buttons</custom-data>					
+						</tab-button>
+						<tab-button>
+							<identifier>fruit.pears</identifier>
+							<custom-data>graphics</custom-data>
+						</tab-button>
+					</tabs>
+					<label>
+						<id>example-tabs-result</id>
+					</label>
+				</hbox>	
+			</vbox>
+		
 		</vbox>
+		
+	</hbox>
 	</vbox>
 </document>

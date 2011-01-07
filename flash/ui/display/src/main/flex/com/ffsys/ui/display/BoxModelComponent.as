@@ -6,9 +6,7 @@ package com.ffsys.ui.display {
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.core.IComponent;
 	import com.ffsys.ui.core.Graphic;
-	import com.ffsys.ui.graphics.IComponentGraphic;
-	import com.ffsys.ui.graphics.RectangleGraphic;
-	import com.ffsys.ui.graphics.Stroke;
+	import com.ffsys.ui.graphics.*;
 	
 	import com.ffsys.ui.layout.IFixedLayout;
 	
@@ -122,15 +120,15 @@ package com.ffsys.ui.display {
 		public function set target( value:IComponent ):void
 		{
 			_target = value;
-			trace("BoxModelComponent::target()", this, this.id );
+			//trace("BoxModelComponent::target()", this, this.id );
 			if( _target != null )
 			{								
 				
 				var parentComponent:IComponent = IComponent( _target );
 				var rect:Rectangle = parentComponent.getRectangle();
 				
-				trace("BoxModelComponent::target()", component, content, outer, component.fill );
-				trace("BoxModelComponent::target()", parentComponent, rect.width, rect.height );
+				//trace("BoxModelComponent::target()", component, content, outer, component.fill );
+				//trace("BoxModelComponent::target()", parentComponent, rect.width, rect.height );
 				
 				if( numChildren > 1 )
 				{
@@ -145,26 +143,45 @@ package com.ffsys.ui.display {
 					}
 				}
 				
+				var border:IBorderGraphic = null;
+				
 				if( component != null )
 				{
 					component.tx = rect.x;
-					component.ty = rect.x;
+					component.ty = rect.y;
 					component.draw( rect.width, rect.height );
 				}
 
 				rect = parentComponent.getPaddingRectangle();
 				if( content != null )
-				{
+				{	
+					if( content is IBorderGraphic )
+					{
+						border = IBorderGraphic( content );
+						border.border.top = parentComponent.paddings.top;
+						border.border.right = parentComponent.paddings.right;						
+						border.border.bottom = parentComponent.paddings.bottom;
+						border.border.left = parentComponent.paddings.left;
+					}				
 					content.tx = rect.x;
-					content.ty = rect.x;
+					content.ty = rect.y;
 					content.draw( rect.width, rect.height );
 				}
 					
 				rect = parentComponent.getMarginRectangle();
 				if( outer != null )
 				{
+					if( outer is IBorderGraphic )
+					{
+						border = IBorderGraphic( outer );
+						border.border.top = parentComponent.margins.top;
+						border.border.right = parentComponent.margins.right;						
+						border.border.bottom = parentComponent.margins.bottom;						
+						border.border.left = parentComponent.margins.left;
+					}
+					
 					outer.tx = rect.x;
-					outer.ty = rect.x;
+					outer.ty = rect.y;
 					outer.draw( rect.width, rect.height );
 				}
 				

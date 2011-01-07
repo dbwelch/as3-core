@@ -18,7 +18,10 @@ package com.ffsys.ui.common
 		private var _maxHeight:Number;
 		
 		private var _minWidth:Number;
-		private var _minHeight:Number;
+		private var _minHeight:Number;	
+		
+		private var _percentWidth:Number;
+		private var _percentHeight:Number;
 		
 		/**
 		* 	Creates a <code>Dimensions</code> instance.
@@ -103,17 +106,83 @@ package com.ffsys.ui.common
 		public function set minHeight( value:Number ):void
 		{
 			_minHeight = value;
-		}				
+		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function setPercentDimensions(
-			parent:IDimensions,
-			width:Number,
-			height:Number ):void
+		public function get percentWidth():Number
+		{
+			return _percentWidth;
+		}
+		
+		public function set percentWidth( value:Number ):void
+		{
+			_percentWidth = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get percentHeight():Number
+		{
+			return _percentHeight;
+		}
+		
+		public function set percentHeight( value:Number ):void
+		{
+			_percentHeight = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getRenderDimensions(
+			calculatedWidth:Number,
+			calculatedHeight:Number,
+			parentPercentWidth:IDimensions,
+			parentPercentHeight:IDimensions ):void
 		{
 			//TODO
+		}
+		
+		/**
+		* 	Gets the class used to creates a clone of this
+		* 	implementation.
+		* 
+		* 	@return The class of this implementation.
+		*/
+		public function getCloneClass():Class
+		{
+			return Dimensions;
+		}
+		
+		/**
+		* 	Gets an instance of the clone class.
+		* 
+		* 	@return A new instance of the clone class.
+		*/
+		public function getCloneInstance():Object
+		{
+			var clazz:Class = getCloneClass();
+			return new clazz( left, top, width, height );
+		}
+		
+		/**
+		* 	Creates a clone of this implementation.
+		* 
+		* 	@return The cloned version of this implementation.
+		*/
+		override public function clone():Rectangle
+		{
+			var cloned:IDimensions = IDimensions( getCloneInstance() );
+			cloned.minWidth = minWidth;
+			cloned.minHeight = minHeight;
+			cloned.maxWidth = maxWidth;
+			cloned.maxHeight = maxHeight;
+			cloned.percentWidth = percentWidth;
+			cloned.percentHeight = percentHeight;
+			return Rectangle( cloned );
 		}
 	}
 }

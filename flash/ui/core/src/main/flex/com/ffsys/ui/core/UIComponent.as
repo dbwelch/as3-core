@@ -242,10 +242,15 @@ package com.ffsys.ui.core
 				target.id = new String( this.id );
 				target.identifier = new String( this.identifier );
 				target.customData = this.customData;
+				
+				//TODO: deprecate
 				target.preferredWidth = source.preferredWidth;
 				target.preferredHeight = source.preferredHeight;
 				target.maximumWidth = source.maximumWidth;
 				target.maximumHeight = source.maximumHeight;
+				
+				
+				target.dimensions = IDimensions( source.dimensions.clone() );
 				target.border = IBorder( this.border.clone() );
 				UIComponent( target ).margins = IMargin( this.margins.clone() );
 				UIComponent( target ).paddings = IPadding( this.paddings.clone() );
@@ -794,7 +799,6 @@ package com.ffsys.ui.core
 			{
 				output.push( _descriptor.id );
 			}
-			trace("AbstractComponent::getClassLevelStyleNames()", output );
 			return output;
 		}		
 		

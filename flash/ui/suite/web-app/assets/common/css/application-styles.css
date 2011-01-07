@@ -188,3 +188,8 @@ toggle-button-filter:selected:disabled {
 	icon: ref( check-box-icon-selected );
 	label.filters: array( ref( heading-filter ) );	
 }
+
+box-model-1 {
+	padding: 2;
+	margin: 2;
+}

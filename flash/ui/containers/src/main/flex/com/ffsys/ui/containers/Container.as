@@ -94,6 +94,7 @@ package com.ffsys.ui.containers {
 				&& !isNaN( parent.preferredWidth ) )
 			{
 				//trace("Container::get preferredWidth() FOUND PARENT DIMENSION:", this.id, parent.id, parent, parent.innerWidth, margins.width, parent.paddings.width );
+				//
 				return ( parent.innerWidth / parent.numChildren ) - margins.width;
 			}
 			return super.preferredWidth;
@@ -230,8 +231,13 @@ package com.ffsys.ui.containers {
 			{
 				layout = new VerticalLayout();
 			}
+
+			if( this.id != null )
+			{
+				trace("Container::update()", this, this.id, this.layout, dimensions.isFlexibleWidth(), dimensions.isFlexibleHeight() );
+			}
 			
-			trace("Container::update() UPDATING: ", this, this.id, this.layout );			
+			//trace("Container::update() UPDATING: ", this, this.id, this.layout );			
 			//measureChildDimensions();
 			layout.update( this );
 		}
@@ -252,30 +258,32 @@ package com.ffsys.ui.containers {
 					
 					if( layout is VerticalLayout )
 					{
-						if( component.isFlexibleWidth() )
+						if( component.dimensions.isFlexibleWidth() )
 						{
 							//force the component to use it's looked up dimensions
-							component.preferredWidth = this.innerWidth;
+							component.width = this.innerWidth;
 						}
-						if( component.isFlexibleHeight() )
+						if( component.dimensions.isFlexibleHeight() )
 						{
-							component.preferredHeight = component.preferredHeight;
+							component.height = component.preferredHeight;
 						}
 					}else if( layout is HorizontalLayout )
 					{
-						if( component.isFlexibleWidth() )
+						if( component.dimensions.isFlexibleWidth() )
 						{
 							//force the component to use it's looked up dimensions
-							component.preferredWidth = component.preferredWidth;
+							component.width = component.preferredWidth;
 						}
-						if( component.isFlexibleHeight() )
+						if( component.dimensions.isFlexibleHeight() )
 						{
-							component.preferredHeight = this.innerHeight;
+							component.height = this.innerHeight;
 						}
 					}
 					
+					/*
 					trace("Container::measureChildDimensions()",
 						component, component.id, component.isFlexibleWidth(), component.isFlexibleHeight() );
+					*/
 				}
 			}
 		}

@@ -50,7 +50,7 @@ package com.ffsys.ui.runtime {
 		*/
 		public function prepared():void
 		{
-			trace("Document::prepared()", this, numChildren, this.id );
+			//trace("Document::prepared()", this, numChildren, this.id );
 		}
 		
 		/**

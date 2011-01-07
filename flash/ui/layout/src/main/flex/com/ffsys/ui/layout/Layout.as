@@ -196,6 +196,7 @@ package com.ffsys.ui.layout
 		*	Performs layout on an individual child.
 		*/
 		protected function layoutChild(
+			index:int,
 			parent:DisplayObjectContainer,
 			child:DisplayObject,
 			previous:DisplayObject = null ):void
@@ -292,7 +293,6 @@ package com.ffsys.ui.layout
 			//we never layout fixed layout items
 			if( child is IFixedLayout )
 			{
-				trace("Layout::doLayoutChild() RETURNING EARLY ON FIXED LAYOUT :", child );
 				return;
 			}
 			
@@ -311,6 +311,7 @@ package com.ffsys.ui.layout
 			}
 			
 			layoutChild(
+				index,
 				parent,
 				child,
 				previous );

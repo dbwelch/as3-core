@@ -41,6 +41,7 @@ package com.ffsys.ui.layout
 		*	@inheritDoc	
 		*/
 		override protected function layoutChild(
+			index:int,
 			parent:DisplayObjectContainer,
 			child:DisplayObject,
 			previous:DisplayObject = null ):void
@@ -93,15 +94,10 @@ package com.ffsys.ui.layout
 				}
 			}else
 			{
-				if( parentPaddingAware )
-				{
-					y = parentPaddingAware.paddings.top;
-				}
-				
 				//no previous element and not collapsed obey margins
 				if( !collapsed && ( child is IMarginAware ) )
 				{
-					y += IMarginAware( child ).margins.top;
+					y = IMarginAware( child ).margins.top;
 				}
 			}
 			

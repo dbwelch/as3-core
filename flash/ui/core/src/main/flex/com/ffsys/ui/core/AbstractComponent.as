@@ -196,23 +196,8 @@ package com.ffsys.ui.core
 		
 		public function set preferredWidth( value:Number ):void
 		{
+			Dimensions( this.dimensions ).width = value;			
 			_preferredWidth = value;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function isFlexibleWidth():Boolean
-		{
-			return isNaN( _preferredWidth );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function isFlexibleHeight():Boolean
-		{
-			return isNaN( _preferredHeight );
 		}		
 		
 		/**
@@ -233,6 +218,7 @@ package com.ffsys.ui.core
 		
 		public function set preferredHeight( value:Number ):void
 		{
+			Dimensions( this.dimensions ).height = value;
 			_preferredHeight = value;
 		}
 		
@@ -959,13 +945,6 @@ package com.ffsys.ui.core
 			}
 		}
 		
-		protected function getBackgroundRect():Rectangle
-		{
-			var w:Number = this.preferredWidth - border.width;
-			var h:Number = this.preferredHeight - border.height;
-			return new Rectangle( border.left, border.top, w, h );
-		}
-		
 		/**
 		* 	Creates border graphics and renders them in the
 		* 	border layer.
@@ -1001,7 +980,7 @@ package com.ffsys.ui.core
 				var b:IBorderGraphic = getBorderGraphic();
 				b.border = this.border;
 				b.draw( r.width, r.height );
-				trace("AbstractComponent::applyBorders()", "DRAWING BORDER", r.width, r.height );
+				//trace("AbstractComponent::applyBorders()", "DRAWING BORDER", r.width, r.height );
 				_borderLayer.addChild( DisplayObject( b ) );
 			}else{
 				var c:IComponentGraphic = _borderGraphic;
@@ -1011,17 +990,6 @@ package com.ffsys.ui.core
 					_borderLayer.addChild( DisplayObject( c ) );
 				}
 			}
-		}
-		
-		/**
-		* 	Gets the rectangle that defines the border for the
-		* 	component.
-		* 
-		* 	@return The component border dimensions.
-		*/
-		protected function getBorderDimensions():Rectangle
-		{
-			return new Rectangle( 0, 0, layoutWidth, layoutHeight );
 		}
 		
 		/**
@@ -1129,15 +1097,33 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	Gets the rectangle that defines the border for the
+		* 	component.
+		* 
+		* 	@return The component border dimensions.
+		*/
+		protected function getBorderDimensions():Rectangle
+		{
+			return new Rectangle( 0, 0, layoutWidth, layoutHeight );
+		}
+		
+		protected function getBackgroundRect():Rectangle
+		{
+			var w:Number = this.preferredWidth - border.width;
+			var h:Number = this.preferredHeight - border.height;
+			return new Rectangle( border.left, border.top, w, h );
+		}		
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function getPaddingRectangle():Rectangle
 		{
 			return new Rectangle(
-				paddings.left,
-				paddings.top,
-				preferredWidth - ( paddings.left + paddings.right ),
-				preferredHeight - ( paddings.top + paddings.bottom ) );
+				0,
+				0,
+				preferredWidth,
+				preferredHeight );
 		}
 		
 		/**
@@ -1156,8 +1142,8 @@ package com.ffsys.ui.core
 			return new Rectangle(
 				-margins.left,
 				-margins.top,
-				preferredWidth + margins.left + margins.right,
-				preferredHeight + margins.top + margins.bottom );
+				preferredWidth + margins.width,
+				preferredHeight + margins.height );
 		}
 		
 		/**

@@ -22,12 +22,8 @@ package com.ffsys.ui.suite.core
 		override protected function getViewParser():IBeanXmlParser
 		{
 			var parser:IRuntimeParser = new RuntimeParser();
-			
 			//ensure the document can parse embedded css correctly
 			parser.runtime.stylesheet = this.stylesheet;
-			
-			trace("AbstractApplicationController::getViewParser() GET VIEW PARSER: ", parser, parser is IParser );
-			
 			return parser;
 		}
 	}

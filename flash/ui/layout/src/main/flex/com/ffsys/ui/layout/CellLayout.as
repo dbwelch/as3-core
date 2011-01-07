@@ -39,6 +39,7 @@ package com.ffsys.ui.layout
 		*	@inheritDoc	
 		*/
 		override protected function layoutChild(
+			index:int,
 			parent:DisplayObjectContainer,
 			child:DisplayObject,
 			previous:DisplayObject = null ):void
