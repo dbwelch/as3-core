@@ -170,6 +170,7 @@ package com.ffsys.ui.core
 				&& parser.deserialize is Function;
 			
 			var component:IComponent = null;
+			
 			//return document.getBean( beanName ) as IComponent;
 			
 			//xml component definition recreate from our xml
@@ -183,16 +184,18 @@ package com.ffsys.ui.core
 				//recreate a new document to parse into
 				parser.runtime = null;
 				
-				trace("UIComponent::copy()", this.xml.copy(), parser, parser.deserialize );
+				//trace("UIComponent::copy()", this.xml.copy(), parser, parser.deserialize );
 				
 				component = parser.deserialize(
 					this.xml.copy(), component ) as IComponent;
 				
+				/*
 				if( component != null )
 				{
 					trace("UIComponent::copy() AFTER DESERIALIZE: ",
 						component, component == this, component.id == this.id, component.styles == this.styles );
 				}
+				*/
 			}else{
 				//normal bean retrieval so finalize
 				component = _descriptor.getBean() as IComponent;
@@ -349,6 +352,7 @@ package com.ffsys.ui.core
 		override public function set width( value:Number ):void
 		{
 			_preferredWidth = value;
+			Dimensions( this.dimensions ).width = width;
 		}
 		
 		/**
@@ -358,6 +362,7 @@ package com.ffsys.ui.core
 		override public function set height( value:Number ):void
 		{
 			_preferredHeight = value;
+			Dimensions( this.dimensions ).height = height;
 		}
 		
 		/**
@@ -775,6 +780,24 @@ package com.ffsys.ui.core
 			}
 		}
 		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getClassLevelStyleNames():Vector.<String>
+		{
+			var output:Vector.<String> = new Vector.<String>();
+			var className:String = getClassName();
+			output.push( className );			
+			if( _descriptor != null
+				&& _descriptor.id != className.toLowerCase() )
+			{
+				output.push( _descriptor.id );
+			}
+			trace("AbstractComponent::getClassLevelStyleNames()", output );
+			return output;
+		}		
+		
 		/**
 		* 	Creates the component used to store graphical
 		* 	layers.
@@ -962,85 +985,112 @@ package com.ffsys.ui.core
 			
 			//trace("UIComponent::doWithStyleCache()", cache.main.padding );
 
+			extractDimensions( cache );
 			copyPaddingsFromStyleCache( cache );
 			copyMarginsFromStyleCache( cache );
+		}
+		
+		private function extractDimensions( cache:IComponentStyleCache ):void
+		{
+			if( cache != null
+			 	&& cache.main != null )
+			{
+				if( cache.main.width is Number )
+				{
+					Dimensions( this.dimensions ).width = cache.main.width;
+				}
+			
+				if( cache.main.height is Number )
+				{
+					Dimensions( this.dimensions ).height = cache.main.height;
+				}
+			
+				if( cache.main.minWidth is Number )
+				{
+					this.dimensions.minWidth = cache.main.minWidth;
+				}
+			
+				if( cache.main.minHeight is Number )
+				{
+					this.dimensions.minHeight = cache.main.minHeight;
+				}
+				
+				if( cache.main.maxWidth is Number )
+				{
+					this.dimensions.maxWidth = cache.main.maxWidth;
+				}
+			
+				if( cache.main.maxHeight is Number )
+				{
+					this.dimensions.maxHeight = cache.main.maxHeight;
+				}				
+			}						
 		}
 		
 		private function copyPaddingsFromStyleCache( cache:IComponentStyleCache ):void
 		{
 			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.padding is Number )
-			{
-				this.paddings.padding = cache.main.padding;
-			}
+			 	&& cache.main != null )
+			{			
+				if( cache.main.padding is Number )
+				{
+					this.paddings.padding = cache.main.padding;
+				}
 
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingTop is Number )
-			{
-				this.paddings.top = cache.main.paddingTop;
-			}
+				if( cache.main.paddingTop is Number )
+				{
+					this.paddings.top = cache.main.paddingTop;
+				}
 
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingRight is Number )
-			{
-				this.paddings.right = cache.main.paddingRight;
-			}							
+				if( cache.main.paddingRight is Number )
+				{
+					this.paddings.right = cache.main.paddingRight;
+				}							
 			
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingBottom is Number )
-			{
-				this.paddings.bottom = cache.main.paddingBottom;
-			}			
+				if( cache.main.paddingBottom is Number )
+				{
+					this.paddings.bottom = cache.main.paddingBottom;
+				}			
 			
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.paddingLeft is Number )
-			{
-				this.paddings.left = cache.main.paddingLeft;
-			}			
+				if( cache.main.paddingLeft is Number )
+				{
+					this.paddings.left = cache.main.paddingLeft;
+				}
+			}		
 		}		
 		
 		private function copyMarginsFromStyleCache( cache:IComponentStyleCache ):void
 		{
 			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.margin is Number )
+			 	&& cache.main != null )
 			{
-				this.margins.margin = cache.main.margin;
+				if( cache.main.margin is Number )
+				{
+					this.margins.margin = cache.main.margin;
+				}
+
+				if( cache.main.marginTop is Number )
+				{
+					this.margins.top = cache.main.marginTop;
+				}
+
+				if( cache.main.marginRight is Number )
+				{
+					this.margins.right = cache.main.marginRight;
+				}							
+
+				if( cache.main.marginBottom is Number )
+				{
+					this.margins.bottom = cache.main.marginBottom;
+				}			
+
+				if( cache.main.marginLeft is Number )
+				{
+					this.margins.left = cache.main.marginLeft;
+				}
 			}
-
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.marginTop is Number )
-			{
-				this.margins.top = cache.main.marginTop;
-			}
-
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.marginRight is Number )
-			{
-				this.margins.right = cache.main.marginRight;
-			}							
-
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.marginBottom is Number )
-			{
-				this.margins.bottom = cache.main.marginBottom;
-			}			
-
-			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.marginLeft is Number )
-			{
-				this.margins.left = cache.main.marginLeft;
-			}			
-		}		
+		}	
+		
 		
 		/**
 		* 	Cleans composite references.

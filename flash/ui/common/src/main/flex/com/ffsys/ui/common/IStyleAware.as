@@ -21,7 +21,17 @@ package com.ffsys.ui.common {
 		/**
 		*	Invoked to apply the styles associated with
 		*	this style aware implementation.
+		* 
+		* 	@return An array of the style objects that
+		* 	were applied.
 		*/
 		function applyStyles():Array;
+		
+		/**
+		* 	Gets the css class level string identifiers.
+		* 
+		* 	@return The class level identifiers.
+		*/
+		function getClassLevelStyleNames():Vector.<String>;
 	}
 }

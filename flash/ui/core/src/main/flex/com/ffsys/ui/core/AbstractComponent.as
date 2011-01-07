@@ -12,14 +12,7 @@ package com.ffsys.ui.core
 	import flash.utils.getQualifiedClassName;	
 	
 	import com.ffsys.ui.graphics.*;
-
-	import com.ffsys.ui.common.Border;
-	import com.ffsys.ui.common.IBorder;	
-	import com.ffsys.ui.common.IMargin;
-	import com.ffsys.ui.common.IPadding;
-	import com.ffsys.ui.common.Margin;
-	import com.ffsys.ui.common.Padding;
-	
+	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.css.*;
 	
 	import com.ffsys.ui.text.core.ITextFieldFactory;
@@ -75,7 +68,8 @@ package com.ffsys.ui.core
 		private var _messages:IProperties;	
 		
 		private var _parents:Vector.<DisplayObjectContainer>;
-		private var _class:Class;		
+		private var _class:Class;
+		private var _dimensions:IDimensions;
 		
 		/**
 		* 	Creates an <code>AbstractComponent</code> instance.
@@ -380,6 +374,21 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc 
 		*/
+		public function getClassName( target:Object = null ):String
+		{
+			var classPath:String = getClassPath( target );
+			var className:String = classPath;
+			var index:int = classPath.indexOf( "::" );
+			if( index > -1 )
+			{
+				className = classPath.substr( index + 2 );
+			}
+			return className;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
 		public function getClass( target:Object = null ):Class
 		{
 			if( target is Class )
@@ -520,6 +529,23 @@ package com.ffsys.ui.core
 		protected function addLayoutHeightDimensions( value:Number ):Number
 		{
 			return value + ( paddings.height + margins.height + border.height );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get dimensions():IDimensions
+		{
+			if( _dimensions == null )
+			{
+				_dimensions = new Dimensions();
+			}
+			return _dimensions;
+		}
+		
+		public function set dimensions( value:IDimensions ):void
+		{
+			_dimensions = value;
 		}
 		
 		/**

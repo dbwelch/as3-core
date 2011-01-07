@@ -234,8 +234,9 @@ package com.ffsys.ui.css {
 		public function getStyleNameList( target:IStyleAware, ... custom ):Array
 		{
 			var styles:Array = new Array();
-			if( target )
+			if( target != null )
 			{
+				var i:int = 0;
 				var styleParts:Array = target.styles ? target.styles.split( STYLE_DELIMITER ) : new Array();
 
 				//add identifier style name
@@ -245,22 +246,22 @@ package com.ffsys.ui.css {
 					styleParts.unshift( "#" + IStringIdentifier( target ).id );
 				}
 	
-				//add the class level style name
-				var className:String = getQualifiedClassName( target );
-				
-				//class name must be converted to lower case as the StyleSheet
-				//style parsing logic converts style names to lower case
-				className = className.substr( className.indexOf( "::" ) + 2 ).toLowerCase();
-				if( className )
+				//add the class level style names
+				var id:String = null;
+				var classes:Vector.<String> = target.getClassLevelStyleNames();
+				for each( id in classes )
 				{
-					styleParts.unshift( className );
+					if( id != null )
+					{
+						styleParts.unshift( id.toLowerCase() );
+					}
 				}
-				
+
 				styles = styleParts;
 				
 				if( custom.length > 0 )
 				{
-					for( var i:int = 0;i < custom.length;i++ )
+					for( i = 0;i < custom.length;i++ )
 					{
 						styles.push( custom[ i ] );
 					}
@@ -363,8 +364,44 @@ package com.ffsys.ui.css {
 		{
 			var cumulative:Object = new Object();
 			
-			if( styles != null )
+			//TODO: consider looping in reverse order and only 
+			//set the property if it hasn't already been set
+			//prevents re-instantiation on merge of objects with the
+			//same properties 
+			
+			if( styles != null && styles.length > 0 )
 			{
+				
+				//var merger:PropertiesMerge = new PropertiesMerge();
+				
+				/*
+				merge(
+					target:Object,
+					source:Object,
+					strict:Boolean = true,
+					ignore:Array = null,
+					callback:Function = null,
+					interceptor:Function = null ):void
+				*/
+				
+				/*
+				var props:Vector.<String> = new Vector.<String>();				
+				var style:Object = null;
+				var z:String = null;
+				for( var i:int = (styles.length - 1 );i >= 0;i-- )
+				{
+					style = styles[ i ];
+					for( z in style )
+					{
+						if( props.indexOf( z ) == -1 )
+						{
+							props.push( z );
+							cumulative[ z ] = styles[ z ];
+						}
+					}
+				}
+				*/
+				
 				var merger:PropertiesMerge = new PropertiesMerge();
 				for( var i:int = 0;i < styles.length;i++ )
 				{
@@ -388,8 +425,6 @@ package com.ffsys.ui.css {
 			//the cumulative style			
 			if( target && styles )
 			{
-				
-				
 				var cumulative:Object = getFlatStyle( styles );
 				
 				//trace("|||||||||||||||||||||| CssStyleSheet::applyStyles()", target, cumulative );				

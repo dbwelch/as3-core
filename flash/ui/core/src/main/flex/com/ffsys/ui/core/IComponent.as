@@ -142,6 +142,12 @@ package com.ffsys.ui.core
 		//function set paddings( value:IPadding ):void;
 		
 		/**
+		* 	The dimensions of this component.
+		*/
+		function get dimensions():IDimensions;
+		function set dimensions( value:IDimensions ):void;
+		
+		/**
 		*	The preferred width for the component.	
 		*/
 		function get preferredWidth():Number;

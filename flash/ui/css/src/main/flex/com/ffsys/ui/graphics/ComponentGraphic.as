@@ -399,6 +399,16 @@ package com.ffsys.ui.graphics
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getClassLevelStyleNames():Vector.<String>
+		{
+			var output:Vector.<String> = new Vector.<String>();
+			//output.push( getClassName() );
+			return output;
+		}
+		
+		/**
 		* 	Gets the class used to clone this implementation.
 		* 
 		* 	@return The class used to clone this implementation.

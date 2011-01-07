@@ -9,16 +9,16 @@ package com.ffsys.ui.common
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  19.06.2010
+	*	@since  07.01.2011
 	*/
 	public class Dimensions extends Rectangle
 		implements IDimensions
 	{
-		private var _maximumWidth:Number;
-		private var _maximumHeight:Number;
+		private var _maxWidth:Number;
+		private var _maxHeight:Number;
 		
-		private var _minimumWidth:Number;
-		private var _minimumHeight:Number;
+		private var _minWidth:Number;
+		private var _minHeight:Number;
 		
 		/**
 		* 	Creates a <code>Dimensions</code> instance.
@@ -31,64 +31,83 @@ package com.ffsys.ui.common
 		public function Dimensions(
 			left:Number = 0,
 			top:Number = 0,
-			width:Number = 0,
-			height:Number = 0 )
+			width:Number = NaN,
+			height:Number = NaN )
 		{
 			super( left, top, width, height );
 		}
 		
 		/**
-		* 	A maximum width for this implementation.
+		* 	@inheritDoc
 		*/
-		public function get maximumWidth():Number
+		public function isFlexibleWidth():Boolean
 		{
-			return _maximumWidth;
-		}
-		
-		public function set maximumWidth( value:Number ):void
-		{
-			_maximumWidth = value;
+			return isNaN( this.width );
 		}
 		
 		/**
-		* 	A maximum height for this implementation.
+		* 	@inheritDoc
 		*/
-		public function get maximumHeight():Number
+		public function isFlexibleHeight():Boolean
 		{
-			return _maximumHeight;
+			return isNaN( this.height );
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get maxWidth():Number
+		{
+			return _maxWidth;
 		}
-
-		public function set maximumHeight( value:Number ):void
+		
+		public function set maxWidth( value:Number ):void
 		{
-			_maximumHeight = value;
+			_maxWidth = value;
 		}
 		
 		/**
-		* 	A minimum width for this implementation.
+		* 	@inheritDoc
 		*/
-		public function get minimumWidth():Number
+		public function get maxHeight():Number
 		{
-			return _minimumWidth;
+			return _maxHeight;
 		}
 
-		public function set minimumWidth( value:Number ):void
+		public function set maxHeight( value:Number ):void
 		{
-			_minimumWidth = value;
+			_maxHeight = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get minWidth():Number
+		{
+			return _minWidth;
+		}
+
+		public function set minWidth( value:Number ):void
+		{
+			_minWidth = value;
 		}
 
 		/**
-		* 	A minimum height for this implementation.
+		* 	@inheritDoc
 		*/
-		public function get minimumHeight():Number
+		public function get minHeight():Number
 		{
-			return _minimumHeight;
+			return _minHeight;
 		}
 
-		public function set minimumHeight( value:Number ):void
+		public function set minHeight( value:Number ):void
 		{
-			_minimumHeight = value;
+			_minHeight = value;
 		}				
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function setPercentDimensions(
 			parent:IDimensions,
 			width:Number,

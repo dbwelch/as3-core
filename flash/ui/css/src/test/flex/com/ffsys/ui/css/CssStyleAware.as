@@ -45,6 +45,16 @@ package com.ffsys.ui.css
 		/**
 		* 	@inheritDoc
 		*/
+		public function getClassLevelStyleNames():Vector.<String>
+		{
+			var output:Vector.<String> = new Vector.<String>();
+			output.push( "CssStyleAware" );
+			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get id():String
 		{
 			return _id;
