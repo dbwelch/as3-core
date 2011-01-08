@@ -47,6 +47,7 @@ package com.ffsys.ui.core
 				ILayoutHeight,
 				IMarginAware,
 				IPaddingAware,
+				IBorderAware,
 				IStageAware,
 				IBitmapGrab,
 				IRuntimeXmlAware,
@@ -54,7 +55,7 @@ package com.ffsys.ui.core
 				IEnabled,
 				IDataBindingNotificationObserver,
 				IStringIdentifier
-	{	
+	{
 		/**
 		* 	The current state of this component.
 		*/
@@ -197,12 +198,6 @@ package com.ffsys.ui.core
 		* 	The text field factory used to create textfields.
 		*/
 		function get textFieldFactory():ITextFieldFactory;
-	
-		/**
-		* 	The border definition for this component.
-		*/
-		function get border():IBorder;
-		function set border( border:IBorder ):void;
 	
 		/**
 		*	A background graphic for the component.

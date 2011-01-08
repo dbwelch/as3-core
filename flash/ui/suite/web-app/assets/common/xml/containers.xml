@@ -7,6 +7,11 @@
 			<identifier>containers.package</identifier>
 		</sub-heading>
 		
+		<container>
+			<id>container-stretch-width</id>
+			<styles>box-example-container</styles>
+		</container>
+		
 		<hbox>
 		
 		<vbox>
@@ -126,35 +131,7 @@
 					</hbox>
 				</vbox>
 			</hbox>
-			
-			<hbox>
-				<container>
-					<id>percentage-container-example</id>
-					<styles>container-border-example percentage-parent-container</styles>
-					<box-model>
-						<target>
-							<id>percentage-container-example</id>
-						</target>
-					</box-model>
-					<container>
-						<styles>container-border-example percentage-container</styles>
-					</container>
-				</container>
-			</hbox>
-			
-			<hbox>
-				<container>
-					<id>box-model-1</id>
-					<box-model>
-						<target>
-							<id>box-model-1</id>
-						</target>
-					</box-model>					
-					<container>
-						<styles>box-example-container</styles>
-					</container>					
-				</container>
-			</hbox>
+
 			
 			<hbox>
 				<container>

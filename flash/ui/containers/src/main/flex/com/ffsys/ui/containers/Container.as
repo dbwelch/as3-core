@@ -139,11 +139,14 @@ package com.ffsys.ui.containers {
 					if( isNaN( output.preferredWidth ) )
 					{
 						//percent dimensions
-						if( dimensions.hasPercentWidth()
-							&& p.dimensions.hasExplicitWidth() )
+						if( dimensions.hasPercentWidth() )
 						{
-							trace("Container::measure()", "FIND PERCENT WIDTH: ", dimensions.percentWidth );
-							output.preferredWidth = p.dimensions.innerWidth * ( dimensions.percentWidth / 100 );
+							if( p.dimensions.hasExplicitWidth()
+								|| p.dimensions.measuredWidth > 0 )
+							{
+								trace("Container::measure()", "FIND PERCENT WIDTH: ", dimensions.percentWidth );
+								output.preferredWidth = p.dimensions.innerWidth * ( dimensions.percentWidth / 100 );
+							}
 						//inherited dimensions
 						}else if( p.dimensions.hasExplicitWidth() )
 						{
@@ -156,12 +159,14 @@ package com.ffsys.ui.containers {
 					if( isNaN( output.preferredHeight ) )
 					{
 						//percent dimensions						
-						if( dimensions.hasPercentHeight()
-							&& p.dimensions.hasExplicitHeight() )
+						if( dimensions.hasPercentHeight() )
 						{
-							trace("Container::measure()", "FIND PERCENT HEIGHT: ", dimensions.percentWidth );							
-							output.preferredHeight = p.dimensions.innerHeight * ( dimensions.percentHeight / 100 );	
-							
+							if( p.dimensions.hasExplicitHeight()
+								|| p.dimensions.measuredHeight > 0 )
+							{							
+								trace("Container::measure()", "FIND PERCENT HEIGHT: ", dimensions.percentWidth );							
+								output.preferredHeight = p.dimensions.innerHeight * ( dimensions.percentHeight / 100 );	
+							}
 						//inherited dimensions												
 						}else if( p.dimensions.hasExplicitHeight() )
 						{

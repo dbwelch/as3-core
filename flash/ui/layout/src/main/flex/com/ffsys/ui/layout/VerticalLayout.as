@@ -47,6 +47,7 @@ package com.ffsys.ui.layout
 			previous:DisplayObject = null ):void
 		{
 			var parentPaddingAware:IPaddingAware = parent as IPaddingAware;
+			var parentBorderAware:IBorderAware = parent as IBorderAware;
 			
 			if( parentPaddingAware != null )
 			{
@@ -62,9 +63,13 @@ package com.ffsys.ui.layout
 				}				
 			}
 			
-			var isFirst:Boolean = ( index == 0 && parent.getChildIndex( child ) == 0 );
-			
+			var isFirst:Boolean = ( index == 0 && parent.getChildIndex( child ) == 0 );		
 			var y:Number = 0;
+	
+			if( parentBorderAware != null )
+			{
+				child.x += parentBorderAware.border.left;				
+			}
 				
 			if( !isFirst
 				&& previous != null )
@@ -118,6 +123,11 @@ package com.ffsys.ui.layout
 				{
 					y += IMarginAware( child ).margins.top;
 				}
+				
+				if( parentBorderAware != null )
+				{
+					y += parentBorderAware.border.top;
+				}				
 			}
 			
 			if( child is IAdjustLayoutValue )

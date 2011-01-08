@@ -240,12 +240,7 @@ package com.ffsys.ui.runtime
 			
 			//CONTENT AREA			
 			data = new Object();
-			data.color = 0x999999;
-			data.alpha = .6;
-			data.top = 1;
-			data.right = 1;
-			data.bottom = 1;
-			data.left = 1;									
+			data.fill = new SolidFill( 0x999999, .6 );
 			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER, data );

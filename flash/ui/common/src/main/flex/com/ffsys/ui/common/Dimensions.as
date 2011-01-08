@@ -14,6 +14,75 @@ package com.ffsys.ui.common
 	public class Dimensions extends Rectangle
 		implements IDimensions
 	{
+		/*
+		
+		//WIDTH
+		width Syntax:
+		width: <length> | <percentage> | auto | inherit
+
+		length
+		A specific length (include unit of measure).
+		percentage
+		A percentage of the width of the parent element.
+		auto
+		Allows the user-agent to define the width based on inheritance and pre-set user-agent rules.
+		inherit
+		The element should have the same width setting as the parent.
+		
+		//UNITS
+		
+		%	percentage
+		in	inch
+		cm	centimeter
+		mm	millimeter
+		em	1em is equal to the current font size. 2em means 2 times the size of the current font. E.g., if an element is displayed with a font of 12 pt, then '2em' is 24 pt. The 'em' is a very useful unit in CSS, since it can adapt automatically to the font that the reader uses
+		ex	one ex is the x-height of a font (x-height is usually about half the font-size)
+		pt	point (1 pt is the same as 1/72 inch)
+		pc	pica (1 pc is the same as 12 points)
+		px	pixels (a dot on the computer screen)
+		
+		//COLORS
+		
+		Color Values
+
+		Value	Description
+		color_name	A color name (e.g. red)
+		rgb(x,x,x)	An RGB value (e.g. rgb(255,0,0))
+		rgb(x%, x%, x%)	An RGB percentage value (e.g. rgb(100%,0%,0%))
+		#rrggbb	A HEX number (e.g. #ff0000)
+		
+		//OVERFLOW
+		
+		visible	The overflow is not clipped. It renders outside the element's box. This is default
+		hidden	The overflow is clipped, and the rest of the content will be invisible
+		scroll	The overflow is clipped, but a scroll-bar is added to see the rest of the content
+		auto	If overflow is clipped, a scroll-bar should be added to see the rest of the content
+		inherit	Specifies that the value of the overflow property should be inherited from the parent element
+		
+		//DISPLAY
+		
+		none	The element will generate no box at all
+		block	The element will generate a block box (a line break before and after the element)
+		inline	The element will generate an inline box (no line break before or after the element). This is default
+		inline-block	The element will generate a block box, laid out as an inline box
+		inline-table	The element will generate an inline box (like <table>, with no line break before or after)
+		list-item	The element will generate a block box, and an inline box for the list marker
+		run-in	The element will generate a block or inline box, depending on context
+		table	The element will behave like a table (like <table>, with a line break before and after)
+		table-caption	The element will behave like a table caption (like <caption>)
+		table-cell	The element will behave like a table cell
+		table-column	The element will behave like a table column
+		table-column-group	The element will behave like a table column group (like <colgroup>)
+		table-footer-group	The element will behave like a table footer row group
+		table-header-group	The element will behave like a table header row group
+		table-row	The element will behave like a table row
+		table-row-group	The element will behave like a table row group
+		inherit	Specifies that the value of the display property should be inherited from the parent element		
+		
+		*/
+		
+		
+		
 		private var _preferredWidth:Number = NaN;
 		private var _preferredHeight:Number = NaN;
 		

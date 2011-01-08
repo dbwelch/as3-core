@@ -1,7 +1,7 @@
 package com.ffsys.ui.text
 {
-	import flash.text.StyleSheet;
-	import flash.text.TextField;
+	import flash.text.*;
+	import flash.text.engine.*;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
