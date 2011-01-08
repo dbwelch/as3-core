@@ -65,7 +65,15 @@
 			<label>
 				<styles>uppercase</styles>
 			</label>
-		</tab-button>				
+		</tab-button>
+		<tab-button>
+			<id>fte-link</id>
+			<identifier>fte.link</identifier>
+			<custom-data>fte</custom-data>
+			<label>
+				<styles>uppercase</styles>
+			</label>
+		</tab-button>
 	</tabs>
 	<box-model>
 		<target>

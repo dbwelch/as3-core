@@ -95,6 +95,7 @@
 				<version>${flexmojos.version}</version>
 				<extensions>true</extensions>
 				<configuration>
+					<!-- com/ffsys/ui/suite/view/ComponentSuitePreloader.as | FTEParagraph.as -->
 					<sourceFile>${project.build.sourceDirectory}/com/ffsys/ui/suite/view/ComponentSuitePreloader.as</sourceFile>
 					<targetPlayer>${target.player}</targetPlayer>
 					<!-- <debug>${compiler.debug}</debug> -->

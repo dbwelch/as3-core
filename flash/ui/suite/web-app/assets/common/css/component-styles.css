@@ -53,7 +53,6 @@ Heading {
 	embed-fonts: false;
 	auto-size: left;
 	color: #a9a9a9;
-	textfield.background: true;
 }
 
 SubHeading {
@@ -74,9 +73,10 @@ Paragraph {
 	color: #a9a9a9;
 	width: 360;
 	height: 120;
+	fte: true;	
 }
 
-SubParagraph {
+p, SubParagraph {
 	font: Arial;
 	size: 11;
 	embed-fonts: false;
@@ -86,6 +86,8 @@ SubParagraph {
 	width: 360;
 	height: 120;
 	color: #a9a9a9;
+	fte: true;	
+	leading: 2;
 }
 
 HorizontalRule {

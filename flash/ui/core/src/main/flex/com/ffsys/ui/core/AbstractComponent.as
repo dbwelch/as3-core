@@ -1076,6 +1076,11 @@ package com.ffsys.ui.core
 				target = this;
 			}
 			
+			/* ?
+			while (container.numChildren)
+				container.removeChildAt(0);
+			*/
+			
 			var child:DisplayObject = null;
 			for( var i:int = 0;i < target.numChildren;i++ )
 			{

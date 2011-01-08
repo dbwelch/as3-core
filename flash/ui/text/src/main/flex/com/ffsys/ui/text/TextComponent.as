@@ -102,6 +102,9 @@ package com.ffsys.ui.text
 		{
 			super.doWithStyleCache( cache );
 			
+			//set up a default maximum with
+			//this.maxWidth = 220;
+			
 			if( cache.main.fte is Boolean )
 			{
 				this.fte = cache.main.fte;
@@ -415,6 +418,11 @@ package com.ffsys.ui.text
 			child:DisplayObject,
 			previous:DisplayObject = null ):Object
 		{
+			if( fte )
+			{
+				return value;
+			}
+			
 			//TODO: account for previous children as the last child of a previous sibling
 			//TODO: allow for lack of descenders - TextMetrics.descent on last line
 			
@@ -519,10 +527,31 @@ package com.ffsys.ui.text
 				{
 					trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
 
+					var w:Number = 1000000;
+					
+					if( !isNaN( dimensions.preferredWidth ) )
+					{
+						w = dimensions.preferredWidth;
+					}
+					
+					if( dimensions.hasExplicitWidth() )
+					{
+						w = dimensions.innerWidth;
+					}
+					
+					//TODO :move to measure() and calculatedDimensions
+					if( dimensions.maxWidth > 0 )
+					{
+						w = dimensions.maxWidth;
+					}
+					
+					trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
+					
 					var converter:FteTextFormatConverter = new FteTextFormatConverter();
 					_area = converter.convert(
 						text,
-						textfield.defaultTextFormat );
+						textfield.defaultTextFormat,
+						w );
 					
 					trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
 					

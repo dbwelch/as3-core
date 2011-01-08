@@ -82,10 +82,17 @@
 							<styles>container-example container-border-example</styles>
 						</container>
 						<label>
+							<id>fte-position</id>
+							<fte>true</fte>
 							<styles>note</styles>
 							<identifier>container.border.example</identifier>
 							<max-width>220</max-width>
-						</label>				
+							<box-model>
+								<target>
+									<id>fte-position</id>
+								</target>
+							</box-model>
+						</label>			
 					</hbox>
 			
 					<hbox>
@@ -93,6 +100,7 @@
 							<styles>container-example container-border-example container-border-background-example</styles>
 						</container>
 						<label>
+							<fte>true</fte>
 							<styles>note</styles>
 							<identifier>container.border.background.example</identifier>
 							<max-width>220</max-width>
@@ -107,6 +115,7 @@
 							<styles>container-example container-border-background-example</styles>
 						</container>
 						<label>
+							<fte>true</fte>
 							<styles>note</styles>
 							<identifier>container.background.example</identifier>
 							<max-width>220</max-width>
@@ -124,6 +133,8 @@
 							</box-model>
 						</container>
 						<label>
+							<id>EXAMPLE-FTE</id>
+							<fte>true</fte>
 							<styles>note</styles>
 							<identifier>container.boxmodel.example</identifier>
 							<max-width>220</max-width>

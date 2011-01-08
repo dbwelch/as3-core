@@ -183,6 +183,8 @@ package com.ffsys.ui.display {
 						&& !isNaN( rect.width )
 						&& !isNaN( rect.height ) )
 					{
+						trace(":::::::::::::::::::::::: BoxModelComponent::set target() DRAWING CONTENT AREA: ", target, target.id, rect );	
+						
 						component.tx = rect.x;
 						component.ty = rect.y;
 						component.draw( rect.width, rect.height );
