@@ -71,7 +71,7 @@ package com.ffsys.ui.core
 			if( _depth == null )
 			{
 				//TODO: retrieve from a bean
-				_depth = new ComponentDepth();
+				_depth = new ComponentDepth( this );
 			}
 			return _depth;
 		}
@@ -441,6 +441,7 @@ package com.ffsys.ui.core
 				if( _descriptor == null
 					&& !isFinalized() )
 				{
+					trace("UIComponent::addedToStage() FINALIZING NON-BEAN COMPONENT: ", this, this.id );
 					finalized();
 				}
 			}

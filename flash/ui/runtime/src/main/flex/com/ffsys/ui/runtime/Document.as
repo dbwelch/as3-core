@@ -3,6 +3,8 @@ package com.ffsys.ui.runtime {
 	import flash.display.DisplayObject;
 	import com.ffsys.ui.containers.Container;
 	
+	import com.ffsys.ioc.*;
+	
 	/**
 	*	A document is the top level view that the loaded
 	*	view definition document is rendered into.
@@ -29,6 +31,18 @@ package com.ffsys.ui.runtime {
 		public function Document()
 		{
 			super();
+		}
+		
+		/**
+		* 	@private
+		*/
+		override public function afterProperties(
+			descriptor:IBeanDescriptor ):void
+		{
+			//we need to calculate inherited dimensions
+			//so prevent the default percentage settings
+			this.dimensions.percentWidth = NaN;
+			this.dimensions.percentHeight = NaN;
 		}
 
 		/**

@@ -368,20 +368,6 @@ package com.ffsys.ui.core
 		function getElementsByType( type:Class ):Vector.<DisplayObject>;
 		
 		/**
-		*	The inner width of this component.
-		*/
-		
-		//TODO: move to dimensions
-		function get innerWidth():Number;
-		
-		/**
-		*	The inner height of this component.
-		*/
-		
-		//TODO: move to dimensions		
-		function get innerHeight():Number;	
-		
-		/**
 		* 	Gets a list of the instance names of all parent
 		* 	display object containers.
 		* 

@@ -1,3 +1,8 @@
+Document {
+	padding: 20;
+	display: block;
+}
+
 Document, TabContainer {
 	spacing: 0;
 	padding: 0;

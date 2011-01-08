@@ -1,5 +1,7 @@
 package com.ffsys.ui.buttons
 {
+	import flash.events.MouseEvent;
+	
 	import com.ffsys.ui.core.IGroupManagerAware;
 	import com.ffsys.ui.core.IComponentGroupManager;
 	
@@ -23,6 +25,25 @@ package com.ffsys.ui.buttons
 		public function RadioButton()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function onMouseClick(
+			event:MouseEvent ):void
+		{
+			//only allow the standard toggling ability when 
+			//no group manager is available
+			if( groupManager == null )
+			{
+				super.onMouseClick( event );
+			}else{
+				if( selectable && !this.selected )
+				{
+					this.selected = true;
+				}
+			}
 		}
 		
 		/**

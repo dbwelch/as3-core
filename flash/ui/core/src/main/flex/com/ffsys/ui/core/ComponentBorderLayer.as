@@ -6,7 +6,7 @@ package com.ffsys.ui.core
 	{
 		
 		/**
-		* 	Creates a <code>ComponentBorderLayer<code> instance.
+		* 	Creates a <code>ComponentBorderLayer</code> instance.
 		*/
 		public function ComponentBorderLayer()
 		{

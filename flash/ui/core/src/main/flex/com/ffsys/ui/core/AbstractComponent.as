@@ -376,59 +376,6 @@ package com.ffsys.ui.core
 			return names.join( delimiter );
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get actualWidth():Number
-		{
-			return layoutWidth + paddings.width;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get actualHeight():Number
-		{
-			return layoutHeight + paddings.height;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		public function get innerWidth():Number
-		{
-			if( !isNaN( preferredWidth ) )
-			{
-				return preferredWidth - paddings.width - border.width;
-			}
-			return this.width;
-		}
-		
-		/**
-		*	@inheritDoc	s
-		*/
-		public function get innerHeight():Number
-		{
-			if( !isNaN( preferredHeight ) )
-			{
-				return preferredHeight - paddings.height - border.height;
-			}
-			return this.height;
-		}
-		
 		/**
 		*	@inheritDoc	
 		*/
@@ -452,52 +399,7 @@ package com.ffsys.ui.core
 			}
 			return this.height;
 		}
-		
-		/**
-		* 	Adds the padding, margin and border width values
-		* 	to a number.
-		* 
-		* 	@param value The numeric value.
-		* 	
-		* 	@return The value with padding, margin and border
-		* 	information added.
-		*/
-		protected function addLayoutWidthDimensions( value:Number ):Number
-		{
-			return value + ( paddings.width + margins.width + border.width );
-		}
-		
-		/**
-		* 	Adds the padding, margin and border height values
-		* 	to a number.
-		* 
-		* 	@param value The numeric value.
-		* 	
-		* 	@return The value with padding, margin and border
-		* 	information added.
-		*/
-		protected function addLayoutHeightDimensions( value:Number ):Number
-		{
-			return value + ( paddings.height + margins.height + border.height );
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		/**
 		* 	@inheritDoc
 		*/

@@ -170,6 +170,25 @@ package com.ffsys.ui.common
 			preferredWidth:Number,
 			preferredHeight:Number ):IDimensions;
 			
+		
+		/**
+		*	The preferred width for these dimensions
+		* 	taking into account paddings and border sizes.
+		* 
+		* 	If no preferred width has been set this will
+		* 	return the measured width.
+		*/
+		function get innerWidth():Number;
+		
+		/**
+		*	The preferred height for these dimensions
+		* 	taking into account paddings and border sizes.
+		* 
+		* 	If no preferred height has been set this will
+		* 	return the measured height.
+		*/
+		function get innerHeight():Number;
+			
 		/**
 		*	The preferred width specified the last
 		* 	time the <code>calculate</code> method was invoked

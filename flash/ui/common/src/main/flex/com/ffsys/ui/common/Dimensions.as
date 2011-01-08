@@ -29,8 +29,8 @@ package com.ffsys.ui.common
 		private var _minWidth:Number = NaN;
 		private var _minHeight:Number = NaN;	
 		
-		private var _percentWidth:Number = NaN;
-		private var _percentHeight:Number = NaN;
+		private var _percentWidth:Number = 100;
+		private var _percentHeight:Number = 100;
 		
 		private var _margins:IMargin;
 		private var _paddings:IPadding;
@@ -194,7 +194,7 @@ package com.ffsys.ui.common
 		*/
 		public function hasPercentWidth():Boolean
 		{
-			return !isNaN( _percentWidth );
+			return !isNaN( _percentWidth ) && _percentWidth > 0;
 		}
 		
 		/**
@@ -202,7 +202,7 @@ package com.ffsys.ui.common
 		*/
 		public function hasPercentHeight():Boolean
 		{
-			return !isNaN( _percentHeight );
+			return !isNaN( _percentHeight ) && _percentHeight > 0;
 		}
 		
 		/**
@@ -259,14 +259,38 @@ package com.ffsys.ui.common
 		/**
 		*	@inheritDoc	
 		*/
+		public function get innerWidth():Number
+		{
+			if( !isNaN( preferredWidth ) )
+			{
+				return preferredWidth - paddings.width - border.width;
+			}
+			return measuredWidth;
+		}
+		
+		/**
+		*	@inheritDoc	s
+		*/
+		public function get innerHeight():Number
+		{
+			if( !isNaN( preferredHeight ) )
+			{
+				return preferredHeight - paddings.height - border.height;
+			}
+			return measuredHeight;
+		}		
+		
+		/**
+		*	@inheritDoc	
+		*/
 		public function getPaddingRectangle():Rectangle
 		{
 			//TODO: change to calculated dimensions
 			return new Rectangle(
 				0,
 				0,
-				preferredWidth,
-				preferredHeight );
+				calculatedWidth,
+				calculatedHeight );
 		}
 		
 		/**
@@ -275,7 +299,7 @@ package com.ffsys.ui.common
 		public function getRectangle():Rectangle
 		{
 			//TODO: change to calculated dimensions
-			return new Rectangle( 0, 0, preferredWidth, preferredHeight );
+			return new Rectangle( 0, 0, calculatedWidth, calculatedHeight );
 		}
 		
 		/**
@@ -287,8 +311,8 @@ package com.ffsys.ui.common
 			return new Rectangle(
 				-margins.left,
 				-margins.top,
-				preferredWidth + margins.width,
-				preferredHeight + margins.height );
+				calculatedWidth + margins.width,
+				calculatedHeight + margins.height );
 		}
 		
 		/**

@@ -15,9 +15,11 @@ package com.ffsys.ui.suite.core {
 	import com.ffsys.swat.view.IApplicationPreloadView;
 
 	import com.ffsys.ui.buttons.*;	
-	import com.ffsys.ui.core.*;
+	import com.ffsys.ui.common.*;	
 	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.css.*;
+	import com.ffsys.ui.display.*;	
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.runtime.*;
 	import com.ffsys.ui.text.*;	
@@ -284,23 +286,10 @@ package com.ffsys.ui.suite.core {
 		{	
 			var document:IDocument = new Document();
 			document.id = DOCUMENT_NAME;
-			
-			//TODO: remove these explicit settings
-			document.width = root.stage.stageWidth;
-			document.height = root.stage.stageHeight;
-			
-			root.addChild( DisplayObject( document ) );
-			
+
 			vbox = new VerticalBox();
 			document.addChild( vbox );
-			//vbox.finalized();
-			
-			//initialize the tooltips
-			var tooltip:DefaultToolTipRenderer = new DefaultToolTipRenderer()
-			tooltip.maximumTextWidth = 200;
-			
-			//UIComponent.utilities.layer.tooltips.delay = 1000;
-			UIComponent.utilities.layer.tooltips.renderer = tooltip;			
+			//vbox.finalized();		
 			
 			navigation = getView( NAVIGATION_ID ) as IDocument;
 
@@ -313,9 +302,25 @@ package com.ffsys.ui.suite.core {
 			
 			content = getView( CONTENT_ID ) as IDocument;
 			if( content != null )
-			{	
+			{
 				vbox.addChild( DisplayObject( content ) );
 			}
+			
+			root.addChild( DisplayObject( document ) );
+			
+			//top level document box model
+			var docBoxModel:BoxModelComponent = BoxModelComponent( navigation.getComponentBean(
+				ComponentIdentifiers.BOX_MODEL ) );
+			vbox.addChild( docBoxModel );
+			docBoxModel.target = document;
+			
+			//TODO: refactor the entire tooltip logic
+			//initialize the tooltips
+			var tooltip:DefaultToolTipRenderer = new DefaultToolTipRenderer()
+			tooltip.maximumTextWidth = 200;
+			
+			//UIComponent.utilities.layer.tooltips.delay = 1000;
+			UIComponent.utilities.layer.tooltips.renderer = tooltip;			
 		}
 	}
 }

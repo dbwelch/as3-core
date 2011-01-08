@@ -30,8 +30,8 @@ package com.ffsys.ui.text
 		{
 			super( text );
 			//trace("TextInput::()", width, height );
-			this.preferredWidth = width;
-			this.preferredHeight = height;
+			this.width = width;
+			this.height = height;
 			//trace("TextInput::init()", preferredWidth, preferredHeight );
 		}
 		
@@ -97,10 +97,10 @@ package com.ffsys.ui.text
 				var rect:Rectangle = getBackgroundRect();
 				
 				//TODO: add offset back to the inner dimensions
-				textfield.width = innerWidth;
+				textfield.width = dimensions.innerWidth;
 				if( this is TextArea )
 				{
-					textfield.height = innerHeight;
+					textfield.height = dimensions.innerHeight;
 				}
 				//trace("TextInput::finalized()", preferredWidth, preferredHeight,textfield.width, textfield.height, textfield.wordWrap, textfield.embedFonts );
 			}

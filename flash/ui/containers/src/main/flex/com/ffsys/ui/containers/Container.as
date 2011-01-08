@@ -104,6 +104,19 @@ package com.ffsys.ui.containers {
 			{
 				return output;
 			}
+		
+			//default measured sizes
+			if( this.width > 0
+				&& !output.hasExplicitWidth() )
+			{
+				output.preferredWidth = this.width + paddings.width + border.width;
+			}
+
+			if( this.height > 0
+				&& !output.hasExplicitHeight() )
+			{
+				output.preferredHeight = this.height + paddings.height + border.height;
+			}
 			
 			//still no valid dimensions try looking in the hierarchy
 			if( isNaN( output.preferredWidth )
@@ -111,6 +124,8 @@ package com.ffsys.ui.containers {
 			{
 				var ancestors:Vector.<IComponent> = this.ancestors;
 				var p:IComponent = null;
+				
+				trace("Container::measure() SEARCHING PARENT HIERARCHY", this, this.id );
 				
 				//look in reverse up the hierarchy first
 				ancestors.reverse();
@@ -121,16 +136,40 @@ package com.ffsys.ui.containers {
 						break;
 					}
 					
-					if( p.dimensions.hasExplicitWidth()
-						&& isNaN( output.preferredWidth ) )
+					if( isNaN( output.preferredWidth ) )
 					{
-						output.preferredWidth = Rectangle( p.dimensions ).width;
-						trace("Container::measure()", "FOUND PARENT EXPLICIT WIDTH: ", output.preferredWidth );
-					}else if( p.dimensions.hasExplicitHeight()
-						&& isNaN( output.preferredHeight ) )
-					{
-						output.preferredHeight = Rectangle( p.dimensions ).height;						
+						//percent dimensions
+						if( dimensions.hasPercentWidth()
+							&& p.dimensions.hasExplicitWidth() )
+						{
+							trace("Container::measure()", "FIND PERCENT WIDTH: ", dimensions.percentWidth );
+							output.preferredWidth = p.dimensions.innerWidth * ( dimensions.percentWidth / 100 );
+						//inherited dimensions
+						}else if( p.dimensions.hasExplicitWidth() )
+						{
+							output.preferredWidth = p.dimensions.innerWidth;
+							trace("Container::measure()", "FOUND PARENT EXPLICIT WIDTH: ", output.preferredWidth );
+						}						
 					}
+					
+					
+					if( isNaN( output.preferredHeight ) )
+					{
+						//percent dimensions						
+						if( dimensions.hasPercentHeight()
+							&& p.dimensions.hasExplicitHeight() )
+						{
+							trace("Container::measure()", "FIND PERCENT HEIGHT: ", dimensions.percentWidth );							
+							output.preferredHeight = p.dimensions.innerHeight * ( dimensions.percentHeight / 100 );	
+							
+						//inherited dimensions												
+						}else if( p.dimensions.hasExplicitHeight() )
+						{
+							output.preferredHeight = p.dimensions.innerHeight;
+							trace("Container::measure()", "FOUND PARENT EXPLICIT HEIGHT: ", output.preferredHeight );
+						}
+					}	
+					
 				}
 				
 				//bubble back down the hierarchy for inner dimensions
@@ -152,49 +191,13 @@ package com.ffsys.ui.containers {
 						//output.preferredWidth = Rectangle( p.dimensions ).width;
 						//output.preferredHeight = Rectangle( p.dimensions ).height;
 						
-						//TODO: refactor to use inner value on the dimensions
-						output.preferredWidth = p.innerWidth;
-						output.preferredHeight = p.innerHeight;						
+						//output.preferredWidth = p.dimensions.innerWidth;
+						//output.preferredHeight = p.dimensions.innerHeight;						
 					}					
 				}
-				
-				/*
-				var parent:IContainer = getAncestorByType( IContainer ) as IContainer;
-				
-				trace("Container::measure()", "STILL NO VALID DIMENSONS SEARCHING PARENT CONTAINER: ", parent );
-				
-				if( parent != null )
-				{
-					if( !isNaN( parent.dimensions.preferredWidth ) )
-					{
-						output.preferredWidth = parent.innerWidth - margins.width;
-					}
-					
-					if( !isNaN( parent.dimensions.preferredHeight ) )
-					{
-						output.preferredHeight = parent.innerHeight - margins.height;
-					}
-				}
-				*/
 			}
 			
 			//if(debug) trace("Container::measure() width/ width > 0:", this, this.id, dimensions.measuredWidth, dimensions.measuredWidth > 0 );
-			
-			if( dimensions.measuredWidth > 0
-				&& !output.hasExplicitWidth() )
-			{
-				output.preferredWidth = dimensions.measuredWidth + paddings.width + border.width;
-			}
-			
-			//TODO: handle percentage values here
-			
-			//if(debug) trace("Container::measure() height/ height > 0:", this, this.id, dimensions.measuredHeight, dimensions.measuredHeight > 0 );
-			
-			if( dimensions.measuredHeight > 0
-				&& !output.hasExplicitHeight() )
-			{
-				output.preferredHeight = dimensions.measuredHeight + paddings.height + border.height;
-			}
 			
 			if( isNaN( output.preferredWidth ) )
 			{
@@ -328,65 +331,7 @@ package com.ffsys.ui.containers {
 				layout = new VerticalLayout();
 			}
 
-			if( this.id != null )
-			{
-				trace("Container::update()",
-					this,
-					this.id,
-					this.layout,
-					dimensions.hasExplicitWidth(),
-					dimensions.hasExplicitHeight() );
-			}
-			
-			//trace("Container::update() UPDATING: ", this, this.id, this.layout );			
-			//measureChildDimensions();
 			layout.update( this );
-		}
-		
-		/**
-		* 	@private
-		*/
-		//TODO: move to the layout manager
-		protected function measureChildDimensions():void
-		{
-			var child:DisplayObject = null;
-			var component:IComponent = null;
-			for each( child in children )
-			{
-				if( child is IComponent )
-				{
-					component = IComponent( child );
-					
-					if( layout is VerticalLayout )
-					{
-						if( component.dimensions.hasExplicitWidth() )
-						{
-							//force the component to use it's looked up dimensions
-							component.width = this.innerWidth;
-						}
-						if( component.dimensions.hasExplicitHeight() )
-						{
-							component.height = component.preferredHeight;
-						}
-					}else if( layout is HorizontalLayout )
-					{
-						if( component.dimensions.hasExplicitWidth() )
-						{
-							//force the component to use it's looked up dimensions
-							component.width = component.preferredWidth;
-						}
-						if( component.dimensions.hasExplicitHeight() )
-						{
-							component.height = this.innerHeight;
-						}
-					}
-					
-					/*
-					trace("Container::measureChildDimensions()",
-						component, component.id, component.hasExplicitWidth(), component.hasExplicitHeight() );
-					*/
-				}
-			}
 		}
 		
 		/**
