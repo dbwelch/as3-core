@@ -9,6 +9,8 @@ package com.ffsys.ui.text
 	import flash.geom.Rectangle;
 	import flash.text.TextLineMetrics;
 	
+	import com.ffsys.ioc.*;
+	
 	import com.ffsys.ui.core.IComponentStyleCache;
 	import com.ffsys.ui.core.UIComponent;	
 	import com.ffsys.ui.data.IDataBindingNotification;
@@ -20,6 +22,7 @@ package com.ffsys.ui.text
 	import com.ffsys.ui.css.IStyleManager;
 	
 	import com.ffsys.ui.layout.*;
+	import com.ffsys.ui.text.*;	
 	
 	/**
 	*	Abstract super class for all components
@@ -57,6 +60,9 @@ package com.ffsys.ui.text
 		private var _textTransform:String;
 		private var _offsets:Point;
 		
+		private var _fte:Boolean = false;
+		private var _area:FteTextArea;
+		
 		/**
 		*	Creates a <code>TextComponent</code> instance.
 		* 
@@ -75,10 +81,31 @@ package com.ffsys.ui.text
 			this.maxHeight = maximumHeight;
 		}
 		
+		/**
+		* 	Determines whether this component uses the flash
+		* 	text engine to render text.
+		* 
+		* 	The default value is <code>true</code>.
+		*/
+		public function get fte():Boolean
+		{
+			return _fte;
+		}
+		
+		public function set fte( value:Boolean ):void
+		{
+			_fte = value;
+		}
+		
 		override protected function doWithStyleCache(
 			cache:IComponentStyleCache ):void
 		{
 			super.doWithStyleCache( cache );
+			
+			if( cache.main.fte is Boolean )
+			{
+				this.fte = cache.main.fte;
+			}
 			
 			//trace("TextComponent::doWithStyleCache()", cache.main.textTransform );
 			
@@ -291,6 +318,11 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutWidth():Number
 		{
+			if( fte && _area )
+			{
+				return _area.dimensions.measuredWidth + paddings.width + border.width;
+			}
+			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
 			{
 				return textfield.textWidth + paddings.width + border.width;
@@ -358,6 +390,11 @@ package com.ffsys.ui.text
 		*/
 		override public function get layoutHeight():Number
 		{
+			if( fte && _area )
+			{
+				return _area.dimensions.measuredHeight + paddings.height + border.height - GUTTER_TOP;
+			}
+			
 			var offsets:Point = this.offsets;
 			
 			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
@@ -382,6 +419,8 @@ package com.ffsys.ui.text
 			//TODO: allow for lack of descenders - TextMetrics.descent on last line
 			
 			//trace("TextComponent::adjustLayoutValue()", this, child, this == child, previous, previous != null );
+			
+			//TODO: nly adjut for non-fte previous components
 			if( previous is TextComponent )
 			{
 				//trace("TextComponent::adjustLayoutValue() ADJUSTING TEXT COMPONENT LAYOUT TO INCLUDE GUTTER TOP");
@@ -411,14 +450,6 @@ package com.ffsys.ui.text
 		public function get textfield():ITypedTextField
 		{
 			return _textfield;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get text():String
-		{
-			return textfield.getText();
 		}
 		
 		private function handleTextTransform( text:String ):String
@@ -456,21 +487,53 @@ package com.ffsys.ui.text
 		/**
 		* 	@inheritDoc
 		*/
+		public function get text():String
+		{
+			return textfield.getText();
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function set text( text:String ):void
-		{	
+		{
+			if( textTransform != null ) 
+			{
+				text = handleTextTransform( text );
+			}			
+			
 			if( textfield == null
 				&& text != null
 				&& text != "" )
 			{
 				createTextField( text );
 			}
+
+			trace("TextComponent::set text() HAS FTE: ", fte, this.id );
 			
 			if( textfield != null )
 			{
-			
-				if( textTransform != null ) 
+				
+				
+				if( fte )
 				{
-					text = handleTextTransform( text );
+					trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
+
+					var converter:FteTextFormatConverter = new FteTextFormatConverter();
+					_area = converter.convert(
+						text,
+						textfield.defaultTextFormat );
+					
+					trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
+					
+					if( _area != null )
+					{
+						addChild( _area );
+					}
+					
+					position();
+
+					return;
 				}
 
 				//ensure inline styles work as expected
@@ -483,7 +546,7 @@ package com.ffsys.ui.text
 					_textfield.styleSheet = sheet;
 					
 					//_textfield.background = true;
-				}				
+				}
 			
 				textfield.setText( text );
 				
@@ -495,9 +558,7 @@ package com.ffsys.ui.text
 					trace("TextComponent::set text()", _textfield.getText(), _textfield.styleSheet, _textfield.defaultTextFormat );
 				}				
 				*/
-				
-				
-				
+
 				//update the background
 				applyBackground();
 			}
@@ -539,6 +600,27 @@ package com.ffsys.ui.text
 		}
 		
 		/**
+		* 	@private
+		*/
+		override public function prefinalize():void
+		{
+			trace("TextComponent::prefinalize()", this, this.id, fte );
+			
+			if( this.fte == true )
+			{
+				trace("TextComponent::prefinalize()", this, this.id, fte );			
+				
+				/*
+				//TODO: remove this when the textfield support is removed
+				if( _textfield && contains( DisplayObject( _textfield ) ) )
+				{
+					removeChild( DisplayObject( _textfield ) );
+				}
+				*/
+			}
+		}
+		
+		/**
 		* 	Offsets to use when positioning the textfield.
 		* 
 		* 	The default value is to offset by the <code>GUTTER</code>.
@@ -546,16 +628,20 @@ package com.ffsys.ui.text
 		public function get offsets():Point
 		{
 			//temp
-			//return new Point();
 			
 			if( _offsets == null )
 			{
 				
+			
+				if( fte )
+				{
+					_offsets = new Point( 0, -GUTTER_TOP );
+					return _offsets;
+				}
+				
 				/*
 				if( styleManager != null && textfield )
 				{
-					
-					
 					var offsets:Object = styleManager.getStyle( "font-offsets" );
 					
 					var font:String = textfield.defaultTextFormat.font;
@@ -607,6 +693,15 @@ package com.ffsys.ui.text
 				//offset by the padding, border and textfield gutter
 				_textfield.x = paddings.left + border.left + offsets.x;
 				_textfield.y = paddings.top + border.top + offsets.y;
+			}
+			
+			if( _area != null )
+			{
+				//offset by the padding and border
+				_area.x = paddings.left + border.left + offsets.x;
+				_area.y = paddings.top + border.top + offsets.y;
+				
+				trace("TextComponent::position() POSITIONING FTE TEXT AREA: ", _area.y, paddings.top, border.top );
 			}
 		}
 		

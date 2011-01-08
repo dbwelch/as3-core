@@ -28,12 +28,10 @@ element {
 	font: Courier;
 	size: 11;
 	color: #000000;
-	padding-left: 5;
-	padding-top: 5;
-	padding-right: 5;
-	padding-bottom: 5;
+	padding: 5;
+	fte: true;
 	text-transform: uppercase;
-	background: ref( element-background );	
+	background: ref( element-background );
 }
 
 test-css-xml-namespace-bean {

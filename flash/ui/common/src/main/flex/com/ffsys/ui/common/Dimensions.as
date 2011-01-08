@@ -77,7 +77,32 @@ package com.ffsys.ui.common
 		table-header-group	The element will behave like a table header row group
 		table-row	The element will behave like a table row
 		table-row-group	The element will behave like a table row group
-		inherit	Specifies that the value of the display property should be inherited from the parent element		
+		inherit	Specifies that the value of the display property should be inherited from the parent element
+		
+		//vertical-align
+		
+		length	Raises or lower an element by the specified length. Negative values are allowed
+		%	Raises or lower an element in a percent of the "line-height" property. Negative values are allowed
+		baseline	Align the baseline of the element with the baseline of the parent element. This is default
+		sub	Aligns the element as it was subscript
+		super	Aligns the element as it was superscript
+		top	The top of the element is aligned with the top of the tallest element on the line
+		text-top	The top of the element is aligned with the top of the parent element's font
+		middle	The element is placed in the middle of the parent element
+		bottom	The bottom of the element is aligned with the lowest element on the line
+		text-bottom	The bottom of the element is aligned with the bottom of the parent element's font
+		inherit	Specifies that the value of the vertical-align property should be inherited from the parent element	
+		
+		
+		//text-justify
+		
+		auto	The browser will determine the appropriate justification algorithm to use
+		distribute	Justification is handled similarly to the “newspaper” value, but this version is optimized for East Asian content (especially the Thai language.) In this justification method, the last line is not justified.
+		distribute-all-lines	Behavior and intent for this value is the same as with the “distribute” value, but the last line is also justified.
+		inter-cluster	Justifies content that does not have any inter-word spacing (such as with many East Asian languages.)
+		inter-ideograph	Used for justifying blocks of ideographic content. Justification is achieved by increasing or decreasing spacing between ideographic characters and words as well.
+		inter-word	Justification is achieved by increasing the spacing between words. It is the quickest method of justification and does not justify the last line of a content block.
+		newspaper	Spacing between letters and words are increased or decreased as necessary. The IE reference says “it is the most sophisticated form of justification for Latin alphabets.”	
 		
 		*/
 		
