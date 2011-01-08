@@ -337,6 +337,14 @@ package com.ffsys.ui.containers {
 		/**
 		* 	@inheritDoc
 		*/
+		override protected function getBorderDimensions():Rectangle
+		{
+			return dimensions.getBorderRectangle();
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		override protected function layoutChildren(
 			width:Number, height:Number ):void
 		{

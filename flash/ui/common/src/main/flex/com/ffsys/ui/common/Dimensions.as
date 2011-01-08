@@ -278,7 +278,7 @@ package com.ffsys.ui.common
 				return preferredHeight - paddings.height - border.height;
 			}
 			return measuredHeight;
-		}		
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -287,11 +287,23 @@ package com.ffsys.ui.common
 		{
 			//TODO: change to calculated dimensions
 			return new Rectangle(
+				border.left,
+				border.top,
+				calculatedWidth - border.width,
+				calculatedHeight - border.height );
+		}
+		
+		/**
+		*	@inheritDoc	
+		*/
+		public function getBorderRectangle():Rectangle
+		{
+			return new Rectangle(
 				0,
 				0,
 				calculatedWidth,
 				calculatedHeight );
-		}
+		}		
 		
 		/**
 		*	@inheritDoc	

@@ -1019,47 +1019,6 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc	
 		*/
-		
-		/*
-		public function getPaddingRectangle():Rectangle
-		{
-			return new Rectangle(
-				0,
-				0,
-				preferredWidth,
-				preferredHeight );
-		}
-		*/
-		
-		/**
-		*	@inheritDoc	
-		*/
-		
-		/*
-		public function getRectangle():Rectangle
-		{
-			return new Rectangle( 0, 0, this.preferredWidth, this.preferredHeight );
-		}
-		*/
-		
-		/**
-		*	@inheritDoc	
-		*/
-		
-		/*
-		public function getMarginRectangle():Rectangle
-		{
-			return new Rectangle(
-				-margins.left,
-				-margins.top,
-				preferredWidth + margins.width,
-				preferredHeight + margins.height );
-		}
-		*/
-		
-		/**
-		*	@inheritDoc	
-		*/
 		public function getBitmap( matrix:Matrix = null ):Bitmap
 		{
 			if( matrix == null )

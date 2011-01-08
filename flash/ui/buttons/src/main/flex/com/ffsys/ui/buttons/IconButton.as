@@ -150,7 +150,6 @@ package com.ffsys.ui.buttons
 			return height;
 		}
 		
-		
 		/**
 		* 	@inheritDoc
 		*/
@@ -206,37 +205,7 @@ package com.ffsys.ui.buttons
 			}
 			
 			return super.layoutHeight;
-		}		
-		
-		/*
-		private var _iconStyle:Object;
-
-		public function get iconStyle():Object
-		{
-			return _iconStyle;
 		}
-		
-		public function set iconStyle( value:Object ):void
-		{
-			_iconStyle = value;
-		}
-
-		override public function applyStyles():Array
-		{
-			var output:Array = super.applyStyles();
-			if( this.icon != null
-			 	&& styleManager != null
-				&& iconStyle != null )
-			{
-				if( !( this.icon is IStyleAware ) )
-				{
-					styleManager.stylesheet.applyStyle( this.icon, this.iconStyle );
-				}
-			}
-			
-			return output;
-		}
-		*/
 		
 		/**
 		* 	@inheritDoc

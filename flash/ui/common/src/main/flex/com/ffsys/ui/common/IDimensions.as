@@ -139,21 +139,40 @@ package com.ffsys.ui.common
 		
 		/**
 		*	Gets a rectangle that represents the inner
-		*	area inside any padding settings.	
+		*	area inside any padding and border settings.
+		* 
+		* 	@return The padding rectangle.
 		*/
 		function getPaddingRectangle():Rectangle;
 		
 		/**
-		*	Gets a rectangle that represents the dimensions
-		*	of this component.
+		*	Gets a rectangle that represents the content
+		* 	display dimensions of this component.
+		* 
+		* 	This is <em>not related</em> to the measured size
+		* 	of the content, it represents the available content
+		* 	display area given the current dimensions and border
+		* 	and padding settings.
+		* 
+		* 	@return The content display rectangle.
 		*/
 		function getRectangle():Rectangle;
 		
 		/**
 		*	Gets a rectangle that represents the outer
-		*	area outside any margin settings.
+		*	area outside any margins.
+		* 
+		* 	@return The margin rectangle.
 		*/
 		function getMarginRectangle():Rectangle;
+		
+		/**
+		*	Gets a rectangle that represents area outside
+		* 	the border of the dimensions.
+		* 
+		* 	@return The border rectangle.
+		*/
+		function getBorderRectangle():Rectangle;
 		
 		/**
 		* 	Calculates the width and height
