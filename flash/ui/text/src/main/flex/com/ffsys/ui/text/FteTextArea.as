@@ -6,6 +6,9 @@ package com.ffsys.ui.text
 	public class FteTextArea extends UIComponent
 	{
 	
+		/**
+		* 	Creates an <code>FteTextArea</code> instance.
+		*/
 		public function FteTextArea()
 		{
 			super();
@@ -14,4 +17,3 @@ package com.ffsys.ui.text
 	}
 
 }
-

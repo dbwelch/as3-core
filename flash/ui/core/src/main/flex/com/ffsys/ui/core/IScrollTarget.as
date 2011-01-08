@@ -1,4 +1,4 @@
-package com.ffsys.ui.scrollbars {
+package com.ffsys.ui.core {
 	
 	import flash.display.DisplayObject;
 	

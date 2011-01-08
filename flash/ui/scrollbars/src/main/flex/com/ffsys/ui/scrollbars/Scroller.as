@@ -1,11 +1,11 @@
-package com.ffsys.ui.containers {
+package com.ffsys.ui.scrollbars {
 	
 	import flash.display.DisplayObject;
 	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.scrollbars.HorizontalScrollBar;
 	import com.ffsys.ui.scrollbars.IScrollBar;
-	import com.ffsys.ui.scrollbars.IScrollTarget;
+	import com.ffsys.ui.core.IScrollTarget;
 	import com.ffsys.ui.scrollbars.ScrollTarget;
 	import com.ffsys.ui.scrollbars.VerticalScrollBar;
 	

@@ -5,6 +5,7 @@ package com.ffsys.ui.scrollbars {
 	import com.ffsys.ui.core.InteractiveComponent;
 	import com.ffsys.ui.core.IMaskComponent;
 	import com.ffsys.ui.core.MaskComponent;
+	import com.ffsys.ui.core.IScrollTarget;	
 	
 	/**
 	*	Encapsulates an arbitrary display object as a

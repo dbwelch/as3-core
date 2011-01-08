@@ -25,7 +25,7 @@ package com.ffsys.ui.containers {
 		
 		private var _masker:IMaskComponent;
 		private var _clipped:Boolean = false;
-		private var _scroller:IScroller;
+		//private var _scroller:IScroller;
 		
 		/**
 		*	Creates a <code>Canvas</code> instance.	
@@ -96,6 +96,8 @@ package com.ffsys.ui.containers {
 		/**
 		*	@inheritDoc	
 		*/
+		
+		/*
 		public function get scroller():IScroller
 		{
 			return _scroller;
@@ -117,5 +119,6 @@ package com.ffsys.ui.containers {
 				addChild( DisplayObject( this.scroller ) );
 			}
 		}
+		*/
 	}
 }

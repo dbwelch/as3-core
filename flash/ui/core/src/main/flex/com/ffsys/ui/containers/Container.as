@@ -71,6 +71,9 @@ package com.ffsys.ui.containers {
 			}
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function measure():IComponentDimensions
 		{	
 			var output:IComponentDimensions = super.measure();
@@ -331,12 +334,18 @@ package com.ffsys.ui.containers {
 		*/
 		public function update():void
 		{
+			
+			/*
 			if( layout == null )
 			{
 				layout = new VerticalLayout();
 			}
-
-			layout.update( this );
+			*/
+		
+			if( layout != null )
+			{
+				layout.update( this );
+			}
 		}
 		
 		/**

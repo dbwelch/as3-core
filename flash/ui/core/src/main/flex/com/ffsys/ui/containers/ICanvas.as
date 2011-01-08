@@ -32,7 +32,7 @@ package com.ffsys.ui.containers {
 		*	A scroller implementation representing
 		*	any scroll bars associated with this canvas.
 		*/
-		function get scroller():IScroller;
-		function set scroller( scroller:IScroller ):void;		
+		//function get scroller():IScroller;
+		//function set scroller( scroller:IScroller ):void;		
 	}
 }

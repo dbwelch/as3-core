@@ -24,13 +24,7 @@
 			<artifactId>ui-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.ui</groupId>
-			<artifactId>containers</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>		
+		</dependency>	
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>utils</artifactId>

@@ -1,10 +1,10 @@
-package com.ffsys.ui.containers {
+package com.ffsys.ui.scrollbars {
 	
 	import flash.display.DisplayObject;
 	
 	import com.ffsys.ui.core.IComponent;
 	import com.ffsys.ui.scrollbars.IScrollBar;
-	import com.ffsys.ui.scrollbars.IScrollTarget;
+	import com.ffsys.ui.core.IScrollTarget;
 	
 	/**
 	*	Describes the contract for a component

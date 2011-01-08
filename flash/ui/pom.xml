@@ -15,7 +15,6 @@
 	<modules>
 		<module>buttons</module>
 		<module>common</module>
-		<module>containers</module>
 		<module>controls</module>
 		<module>core</module>
 		<module>css</module>

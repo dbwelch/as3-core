@@ -1,10 +1,11 @@
-package com.ffsys.ui.containers
+package com.ffsys.ui.display
 {
 	import flash.display.DisplayObject;	
 	import flash.net.URLRequest;
 	import com.ffsys.io.loaders.core.ILoaderQueue;	
 	
 	import com.ffsys.ui.common.ComponentIdentifiers;
+	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.display.IImageDisplay;	
 	import com.ffsys.ui.layout.HorizontalLayout;
 	

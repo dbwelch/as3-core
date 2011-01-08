@@ -11,12 +11,9 @@ package com.ffsys.ui.text
 	
 	import com.ffsys.ioc.*;
 	
-	import com.ffsys.ui.core.IComponentStyleCache;
-	import com.ffsys.ui.core.UIComponent;	
-	import com.ffsys.ui.data.IDataBindingNotification;
-	import com.ffsys.ui.data.StringDataBinding;
-	import com.ffsys.ui.data.ChangeNotification;
-	import com.ffsys.ui.data.CreateNotification;
+	import com.ffsys.ui.core.*;
+	import com.ffsys.ui.containers.*;
+	import com.ffsys.ui.data.*;
 	import com.ffsys.ui.text.core.ITypedTextField;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 	import com.ffsys.ui.css.IStyleManager;
@@ -34,7 +31,7 @@ package com.ffsys.ui.text
 	*	@author Mischa Williamson
 	*	@since  21.06.2010
 	*/
-	public class TextComponent extends UIComponent
+	public class TextComponent extends Container
 		implements 	ITextComponent,
 					ICssTextFieldProxy,
 					IAdjustLayoutValue
@@ -194,10 +191,25 @@ package com.ffsys.ui.text
 			return rect;
 		}
 		
+		/*
 		override protected function getBorderDimensions():Rectangle
 		{
 			return new Rectangle( 0, 0, layoutWidth, layoutHeight );
-		}		
+		}	
+		*/
+		
+
+		/**
+		* 	@inheritDoc
+		*/
+		override public function measure():IComponentDimensions
+		{
+			var output:IComponentDimensions = super.measure();
+			output.preferredWidth = this.layoutWidth;
+			output.preferredHeight = this.layoutHeight - GUTTER_TOP;
+			trace("TextComponent::measure() MEASURING TEXT COMPONENT: ", output );
+			return output;
+		}
 		
 		/**
 		* 	@inheritDoc
