@@ -65,17 +65,27 @@ package com.ffsys.ui.layout
 			var isFirst:Boolean = ( index == 0 && parent.getChildIndex( child ) == 0 );
 			
 			var x:Number = 0;
-				
+			
 			if( !isFirst
 				&& previous != null )
 			{
 				var spacing:Number = horizontalSpacing;				
-
+				
+				/*
 				if( previous is IMarginAware && !collapsed )
 				{
 					spacing += IMarginAware( previous ).margins.right;
 				}
+				*/
+				
+				var previousMargin:IMarginAware = getPreviousMargin( previous );
 
+				//deal with margins as the last child of a previous sibling
+				if( previousMargin != null )
+				{
+					spacing += previousMargin.margins.right;
+				}
+				
 				if( child is IMarginAware && !collapsed )
 				{
 					spacing += IMarginAware( child ).margins.left;
@@ -118,7 +128,7 @@ package com.ffsys.ui.layout
 					previous ) );
 			}
 			
-			trace("HorizontalLayout::layoutChild()", parent, parent.name, child, child.name, x );
+			//trace("HorizontalLayout::layoutChild()", parent, parent.name, child, child.name, x );
 			
 			child.x = x;
 		}

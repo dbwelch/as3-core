@@ -26,7 +26,6 @@ package com.ffsys.ui.containers {
 		public static const BLOCK:String = "block";
 		
 		private var _layout:ILayout;
-		private var _finalized:Boolean = false;
 		private var _display:String;
 		private var _spacing:Number = 0;
 		
@@ -41,6 +40,7 @@ package com.ffsys.ui.containers {
 		/**
 		* 	@inheritDoc
 		*/
+		//TODO: move to DivContainer
 		public function get display():String
 		{
 			return _display;
@@ -75,10 +75,16 @@ package com.ffsys.ui.containers {
 		{	
 			var output:IComponentDimensions = super.measure();
 			
-			trace("*************************** STARTING Container::measure() ***************************");
-			trace("Container::measure() this/id: ", this, this.id );
+			//trace("*************************** STARTING Container::measure() ***************************");
+			//trace("Container::measure() this/id: ", this, this.id );
 			
+			/*
+			var debug:Boolean = id == "main-navigation";
+			if( debug )
+			{			
 			trace("Container::measure() CHECKING EXPLICIT DIMENSIONS: ", this, this.id, output.hasExplicitWidth(), output.hasExplicitHeight(), output );
+			}
+			*/
 			
 			if( output.hasExplicitWidth() )
 			{
@@ -92,33 +98,70 @@ package com.ffsys.ui.containers {
 					Rectangle( dimensions ).width;
 			}
 			
-			trace("Container::measure() width/ width > 0:", this, this.id, this.width, this.width > 0 );
-			
-			if( this.width > 0
-				&& !output.hasExplicitWidth() )
+			//nothing more to do fully explicit dimensions
+			if( output.hasExplicitWidth()
+				&& output.hasExplicitHeight() )
 			{
-				output.preferredWidth = this.width + paddings.width + border.width;
-			}
-			
-			//TODO: handle percentage values here
-			
-			trace("Container::measure() height/ height > 0:", this, this.id, this.height, this.height > 0 );
-			
-			if( this.height > 0
-				&& !output.hasExplicitHeight() )
-			{
-				output.preferredHeight = this.height + paddings.height + border.height;
+				return output;
 			}
 			
 			//still no valid dimensions try looking in the hierarchy
 			if( isNaN( output.preferredWidth )
 				|| isNaN( output.preferredHeight ) )
 			{
-
+				var ancestors:Vector.<IComponent> = this.ancestors;
+				var p:IComponent = null;
 				
+				//look in reverse up the hierarchy first
+				ancestors.reverse();
+				for each( p in ancestors )
+				{
+					if( !isNaN( output.preferredWidth ) && !isNaN( output.preferredHeight ) )
+					{
+						break;
+					}
+					
+					if( p.dimensions.hasExplicitWidth()
+						&& isNaN( output.preferredWidth ) )
+					{
+						output.preferredWidth = Rectangle( p.dimensions ).width;
+						trace("Container::measure()", "FOUND PARENT EXPLICIT WIDTH: ", output.preferredWidth );
+					}else if( p.dimensions.hasExplicitHeight()
+						&& isNaN( output.preferredHeight ) )
+					{
+						output.preferredHeight = Rectangle( p.dimensions ).height;						
+					}
+				}
+				
+				//bubble back down the hierarchy for inner dimensions
+				//overwriting as we go
+				if( isNaN( output.preferredWidth )
+					|| isNaN( output.preferredHeight ) )
+				{
+					ancestors.reverse();
+					for each( p in ancestors )
+					{
+						/*
+						if( !isNaN( output.preferredWidth )
+							&& !isNaN( output.preferredHeight ) )
+						{
+							break;
+						}
+						*/
+
+						//output.preferredWidth = Rectangle( p.dimensions ).width;
+						//output.preferredHeight = Rectangle( p.dimensions ).height;
+						
+						//TODO: refactor to use inner value on the dimensions
+						output.preferredWidth = p.innerWidth;
+						output.preferredHeight = p.innerHeight;						
+					}					
+				}
+				
+				/*
 				var parent:IContainer = getAncestorByType( IContainer ) as IContainer;
 				
-				trace("Container::measure()", "STILL NO VALID DIMENSONS SEARCHING PARENT CONTAINER: ", parent );				
+				trace("Container::measure()", "STILL NO VALID DIMENSONS SEARCHING PARENT CONTAINER: ", parent );
 				
 				if( parent != null )
 				{
@@ -132,90 +175,56 @@ package com.ffsys.ui.containers {
 						output.preferredHeight = parent.innerHeight - margins.height;
 					}
 				}
+				*/
+			}
+			
+			//if(debug) trace("Container::measure() width/ width > 0:", this, this.id, dimensions.measuredWidth, dimensions.measuredWidth > 0 );
+			
+			if( dimensions.measuredWidth > 0
+				&& !output.hasExplicitWidth() )
+			{
+				output.preferredWidth = dimensions.measuredWidth + paddings.width + border.width;
+			}
+			
+			//TODO: handle percentage values here
+			
+			//if(debug) trace("Container::measure() height/ height > 0:", this, this.id, dimensions.measuredHeight, dimensions.measuredHeight > 0 );
+			
+			if( dimensions.measuredHeight > 0
+				&& !output.hasExplicitHeight() )
+			{
+				output.preferredHeight = dimensions.measuredHeight + paddings.height + border.height;
 			}
 			
 			if( isNaN( output.preferredWidth ) )
 			{
+				var dw:Number = 16;
+				if( stage )
+				{
+					dw = stage.stageWidth;
+				}
 				trace( "[WARNING] Could not determine width of component '"
-					+ this + "' with id '" + this.id + "', setting to 16 pixels" );
-				output.preferredWidth = 16;
+					+ this + "' with id '" + this.id + "', setting to " + dw + " pixels" );
+				output.preferredWidth = dw;
 			}
 			
 			if( isNaN( output.preferredHeight ) )
 			{
+				var dh:Number = 16;
+				if( stage )
+				{
+					dh = stage.stageWidth;
+				}
 				trace( "[WARNING] Could not determine height of component '"
-					+ this + "' with id '" + this.id + "', setting to 16 pixels" );
-				output.preferredHeight = 16;
+					+ this + "' with id '" + this.id + "', setting to " + dh + " pixels" );
+				output.preferredHeight = dh;
 			}
 			
-			trace("*************************** FINISHED Container::measure() ***************************");			
+			//trace("Container::measure() FINAL PREFERRED DIMENSIONS: ", output.preferredWidth, output.preferredHeight );
+			//trace("*************************** FINISHED Container::measure() ***************************");
 			
 			return output;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		
-		/*
-		override public function get preferredWidth():Number
-		{
-			//explicitly set
-			if( !isNaN( _preferredWidth ) )
-			{
-				return _preferredWidth;
-			}			
-			//got some width content
-			if( this.width > 0 )
-			{
-				//flex container dimensions to child size
-				return this.width + paddings.width + border.width;
-			}
-			
-			//try parent hierarchy lookup
-			var parent:IContainer = getAncestorByType( IContainer ) as IContainer;
-			if( parent != null
-				&& !isNaN( parent.preferredWidth ) )
-			{
-				//trace("Container::get preferredWidth() FOUND PARENT DIMENSION:", this.id, parent.id, parent, parent.innerWidth, margins.width, parent.paddings.width );
-				//
-				return ( parent.innerWidth / parent.numChildren ) - margins.width;
-			}
-			return super.preferredWidth;
-		}
-		*/
-		
-		/**
-		* 	@inheritDoc
-		*/
-		
-		/*
-		override public function get preferredHeight():Number
-		{
-			//explicitly set
-			if( !isNaN( _preferredHeight ) )
-			{
-				return _preferredHeight;
-			}
-			
-			//got some height content
-			if( this.height > 0 )
-			{
-				//flex container dimensions to child size
-				return this.height + paddings.height + border.height;
-			}
-			
-			//try parent hierarchy lookup			
-			var parent:IContainer = getAncestorByType( IContainer ) as IContainer;
-			if( parent != null
-				&& !isNaN( parent.preferredHeight ) )
-			{
-				return parent.innerHeight - margins.height;
-			}
-			
-			return super.preferredHeight;
-		}
-		*/
 		
 		/**
 		* 	@inheritDoc
@@ -246,8 +255,6 @@ package com.ffsys.ui.containers {
 			{
 				this.spacing = Number( cache.main.spacing );
 			}
-			
-			//trace("Container::doWithStyleCache()", this, layout, this.parent, cache, cache.main, cache.main.spacing, this.spacing );
 		}
 		
 		/**
@@ -289,7 +296,7 @@ package com.ffsys.ui.containers {
 			index:int ):void
 		{
 			super.afterChildAdded( child, index );
-			if( layout && child && _finalized )
+			if( layout && child && isFinalized() )
 			{
 				layout.added( child, this, index );
 				//TODO: update here for alignment
@@ -304,7 +311,7 @@ package com.ffsys.ui.containers {
 			index:int ):void
 		{
 			super.afterChildRemoved( child, index );
-			if( layout && child && _finalized )
+			if( layout && child && isFinalized() )
 			{
 				layout.removed( child, this, index );
 				//TODO: update here for alignment
@@ -389,15 +396,6 @@ package com.ffsys.ui.containers {
 			width:Number, height:Number ):void
 		{
 			update();
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function finalized():void
-		{
-			super.finalized();
-			_finalized = true;
 		}
 		
 		/**

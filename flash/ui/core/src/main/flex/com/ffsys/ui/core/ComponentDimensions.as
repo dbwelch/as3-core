@@ -69,13 +69,14 @@ package com.ffsys.ui.core
 				return output;
 			}
 			
+			/*
 			if( component != null )
 			{
 				var measured:IDimensions = getMeasuredComponentDimensions(
 					w, h, component );
 					
 				trace("ComponentDimensions::measure()", preferredWidth, preferredHeight, measured );
-				
+				//
 				//preferredWidth = Rectangle( output ).width;
 				//preferredHeight = Rectangle( output ).height;	
 				
@@ -85,6 +86,7 @@ package com.ffsys.ui.core
 			
 				//TODO: constrain calculated values
 			}
+			*/
 			return output;
 		}
 		

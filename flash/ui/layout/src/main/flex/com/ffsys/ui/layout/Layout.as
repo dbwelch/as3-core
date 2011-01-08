@@ -2,6 +2,8 @@ package com.ffsys.ui.layout
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	
+	import com.ffsys.ui.common.*;
 
 	/**
 	*	Abstract super class for layout implmentations.
@@ -202,6 +204,30 @@ package com.ffsys.ui.layout
 			previous:DisplayObject = null ):void
 		{
 			//
+		}
+		
+		protected function getPreviousMargin( previous:DisplayObject ):IMarginAware
+		{
+			if( previous is IMarginAware )
+			{
+				return IMarginAware( previous );
+			}
+			
+			var output:IMarginAware = null;
+			//deal with margins as the last child of a previous sibling
+			var previousContainer:DisplayObjectContainer = previous as DisplayObjectContainer;
+			if( previousContainer != null
+			 	&& previousContainer.numChildren > 0 )
+			{
+				var last:DisplayObject = previousContainer.getChildAt(
+					previousContainer.numChildren - 1 );
+				//keep looking
+				if( !( last is IMarginAware ) )
+				{
+					return getPreviousMargin( last );
+				}
+			}
+			return output;
 		}
 		
 		/**

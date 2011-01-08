@@ -376,6 +376,19 @@ package com.ffsys.ui.core
 			return names.join( delimiter );
 		}
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/**
 		*	@inheritDoc	
 		*/
@@ -405,7 +418,7 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	@inheritDoc	s
 		*/
 		public function get innerHeight():Number
 		{
@@ -421,11 +434,10 @@ package com.ffsys.ui.core
 		*/
 		public function get layoutWidth():Number
 		{
-			if( !isNaN( preferredWidth ) )
+			if( dimensions.hasExplicitWidth() )
 			{
-				return preferredWidth;
+				return Rectangle( dimensions ).width;
 			}
-			
 			return this.width;
 		}
 		
@@ -434,11 +446,10 @@ package com.ffsys.ui.core
 		*/
 		public function get layoutHeight():Number
 		{
-			if( !isNaN( preferredHeight ) )
+			if( dimensions.hasExplicitHeight() )
 			{
-				return preferredHeight;
+				return Rectangle( dimensions ).height;
 			}
-			
 			return this.height;
 		}
 		
@@ -469,6 +480,23 @@ package com.ffsys.ui.core
 		{
 			return value + ( paddings.height + margins.height + border.height );
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		/**
 		* 	@inheritDoc
@@ -673,6 +701,11 @@ package com.ffsys.ui.core
 			child:DisplayObject,
 			index:int ):void
 		{
+			//update the measured dimensions
+			dimensions.measuredWidth = this.width;
+			dimensions.measuredHeight = this.height;
+			
+			//trace("AbstractComponent::afterChildAdded(): UPDATING MEASURED DIMENSIONS: ", this.width, dimensions.measuredWidth );
 			
 			var component:UIComponent = child as UIComponent;
 			if( component )
@@ -792,6 +825,10 @@ package com.ffsys.ui.core
 			child:DisplayObject,
 			index:int ):void
 		{
+			//update the measured dimensions
+			dimensions.measuredWidth = this.width;
+			dimensions.measuredHeight = this.height;			
+			
 			var component:UIComponent = child as UIComponent;
 			if( component )
 			{
@@ -1289,7 +1326,16 @@ package com.ffsys.ui.core
 			return output;
 		}
 		
-		protected function addedToStage( event:Event ):void
+		/**
+		* 	Invoked when a component is added to the display
+		* 	list.
+		* 
+		* 	@param event The source event.
+		* 
+		* 	@return A boolean indicating whether it was this
+		* 	component that was added to the stage.
+		*/
+		protected function addedToStage( event:Event ):Boolean
 		{
 			//
 			if( event.target == this
@@ -1304,7 +1350,9 @@ package com.ffsys.ui.core
 				trace("UIComponent::finalized() FINALIZED stage/this/name string:::::: ",
 					stage, this, this.toNameString() );				
 				*/
+				return true;
 			}
+			return false;
 		}
 		
 		/**

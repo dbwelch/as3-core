@@ -275,8 +275,6 @@ package com.ffsys.ui.suite.core {
 				_views[ id ] = view;
 				_view = id;
 			}
-			
-			//vbox.update();
 		}
 		
 		/**
@@ -285,14 +283,17 @@ package com.ffsys.ui.suite.core {
  		private function createMainChildren( root:DisplayObjectContainer ):void
 		{	
 			var document:IDocument = new Document();
-			document.name = DOCUMENT_NAME;
-			document.preferredWidth = root.stage.stageWidth;
-			document.preferredHeight = root.stage.stageHeight;
+			document.id = DOCUMENT_NAME;
+			
+			//TODO: remove these explicit settings
+			document.width = root.stage.stageWidth;
+			document.height = root.stage.stageHeight;
 			
 			root.addChild( DisplayObject( document ) );
 			
 			vbox = new VerticalBox();
 			document.addChild( vbox );
+			//vbox.finalized();
 			
 			//initialize the tooltips
 			var tooltip:DefaultToolTipRenderer = new DefaultToolTipRenderer()
@@ -315,8 +316,6 @@ package com.ffsys.ui.suite.core {
 			{	
 				vbox.addChild( DisplayObject( content ) );
 			}
-			
-			vbox.finalized();
 		}
 	}
 }

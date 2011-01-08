@@ -276,7 +276,7 @@ package com.ffsys.ui.common
 		{
 			//TODO: change to calculated dimensions
 			return new Rectangle( 0, 0, preferredWidth, preferredHeight );
-		}		
+		}
 		
 		/**
 		*	@inheritDoc	

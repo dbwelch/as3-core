@@ -5,7 +5,7 @@
 		<tab-button>
 			<id>buttons-link</id>
 			<identifier>buttons.link</identifier>
-			<custom-data>buttons</custom-data>					
+			<custom-data>buttons</custom-data>
 			<label>
 				<styles>uppercase</styles>
 			</label>
@@ -65,6 +65,11 @@
 			<label>
 				<styles>uppercase</styles>
 			</label>
-		</tab-button>			
+		</tab-button>				
 	</tabs>
+	<box-model>
+		<target>
+			<id>main-navigation</id>
+		</target>
+	</box-model>
 </document>

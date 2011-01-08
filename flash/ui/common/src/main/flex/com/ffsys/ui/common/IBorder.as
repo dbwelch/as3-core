@@ -12,7 +12,13 @@ package com.ffsys.ui.common
 	*	@since  01.01.2011
 	*/
 	public interface IBorder extends IEdges
-	{		
+	{
+		
+		/**
+		* 	A value for all borders.
+		*/
+		function set border( value:Number ):void;
+				
 		/**
 		* 	A default colour to use when drawing the border.
 		*/

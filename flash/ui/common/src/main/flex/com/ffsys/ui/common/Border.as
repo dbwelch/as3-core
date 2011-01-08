@@ -39,6 +39,17 @@ package com.ffsys.ui.common
 			this.color = color;
 			this.alpha = alpha;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function set border( value:Number ):void
+		{
+			top = value;
+			right = value;			
+			bottom = value;
+			left = value;			
+		}
 				
 		/**
 		* 	@inheritDoc

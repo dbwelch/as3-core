@@ -4,6 +4,7 @@ package com.ffsys.ui.core
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;	
 	import flash.geom.Rectangle;
+	import flash.events.Event;
 	import flash.events.FocusEvent;
 	
 	import com.ffsys.core.*;
@@ -52,6 +53,7 @@ package com.ffsys.ui.core
 		private var _xml:XML;
 		private var _parser:Object;
 		private var _depth:IComponentDepth;
+		private var _finalized:Boolean = false;		
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -370,14 +372,15 @@ package com.ffsys.ui.core
 		*/
 		public function measure():IComponentDimensions
 		{
+			//update the measured width values
+			this.dimensions.measuredWidth = this.width;
+			this.dimensions.measuredHeight = this.height;
+		
 			var output:IComponentDimensions = this.dimensions.measure(	
 				preferredWidth,
 				preferredHeight,
 				this );
-				
-			//update the measured width values
-			output.measuredWidth = this.width;
-			output.measuredHeight = this.height;
+			
 			return output;
 		}
 		
@@ -392,16 +395,19 @@ package com.ffsys.ui.core
 			//the calculated values
 			this.dimensions = measure();
 			
+			trace("UIComponent::finalized()", this, this.id );
+			
+			/*
 			trace("UIComponent::finalized() MEASURED DIMENSIONS (this/id/explicit[WxH]/preferred[WxH]): ",
 				this, this.id, Rectangle( dimensions ).width, Rectangle( dimensions ).height, dimensions.preferredWidth, dimensions.preferredHeight );
-			
+			*/
 			//apply border and background graphics
 			applyBorders();
 			applyBackground();
 			
 			var childLayoutWidth:Number = preferredWidth;
 			var childLayoutHeight:Number = preferredHeight;
-			
+
 			//update any child positioning
 			if( shouldLayoutChildren(
 				childLayoutWidth, childLayoutHeight ) )
@@ -409,6 +415,36 @@ package com.ffsys.ui.core
 				layoutChildren(
 					childLayoutWidth, childLayoutHeight );
 			}
+			
+			_finalized = true;
+		}
+		
+		/**
+		* 	Determines whether this component has been finalized.
+		*/
+		public function isFinalized():Boolean
+		{
+			return _finalized;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function addedToStage( event:Event ):Boolean
+		{
+			var valid:Boolean = super.addedToStage( event );
+			//
+			if( valid )
+			{
+				//no bean descriptor so direct instantiation
+				//finalize when added
+				if( _descriptor == null
+					&& !isFinalized() )
+				{
+					finalized();
+				}
+			}
+			return valid;
 		}
 		
 		protected function shouldLayoutChildren(
@@ -423,8 +459,7 @@ package com.ffsys.ui.core
 		*/
 		override public function set width( value:Number ):void
 		{
-			trace("UIComponent::set width() SETTING WIDTH: ", this, this.id, value );
-			//_preferredWidth = value;			
+			//trace("UIComponent::set width() SETTING WIDTH: ", this, this.id, value );			
 			Dimensions( this.dimensions ).width = value;
 			this.dimensions.preferredWidth = value;
 		}
@@ -435,8 +470,7 @@ package com.ffsys.ui.core
 		*/
 		override public function set height( value:Number ):void
 		{
-			trace("UIComponent::set height() SETTING HEIGHT: ", this, this.id, value );
-			//_preferredHeight = value;
+			//trace("UIComponent::set height() SETTING HEIGHT: ", this, this.id, value );
 			Dimensions( this.dimensions ).height = value;
 			this.dimensions.preferredHeight = value;
 		}
@@ -1065,15 +1099,11 @@ package com.ffsys.ui.core
 				if( cache.main.width is Number )
 				{
 					this.width = cache.main.width;
-					
-					trace("UIComponent::extractDimensions() EXTRACTING EXPLICIT WIDTH: ", this.id, cache.main.width );
 				}
 			
 				if( cache.main.height is Number )
 				{
 					this.height = cache.main.height;
-					
-					trace("UIComponent::extractDimensions() EXTRACTING EXPLICIT HEIGHT: ", this.id, cache.main.height );
 				}
 			
 				if( cache.main.minWidth is Number )
@@ -1201,6 +1231,7 @@ package com.ffsys.ui.core
 			_dataBinding = null;
 			_descriptor = null;
 			_xml = null;
+			_finalized = false;
 		}
 		
 		/**

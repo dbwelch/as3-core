@@ -70,12 +70,23 @@ package com.ffsys.ui.layout
 				&& previous != null )
 			{
 				var spacing:Number = verticalSpacing;
-
+				
+				/*
 				if( previous is IMarginAware && !collapsed )
 				{
 					spacing += IMarginAware( previous ).margins.bottom;
 				}
-
+				*/
+				
+			
+				var previousMargin:IMarginAware = getPreviousMargin( previous );
+			
+				//deal with margins as the last child of a previous sibling
+				if( previousMargin != null )
+				{
+					spacing += previousMargin.margins.bottom;
+				}	
+				
 				if( child is IMarginAware && !collapsed )
 				{
 					spacing += IMarginAware( child ).margins.top;
