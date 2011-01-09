@@ -52,7 +52,13 @@ package com.ffsys.ui.css {
 		/**
 		* 	The default name for css bean documents.
 		*/
-		public static const NAME:String = "css";			
+		public static const NAME:String = "css";	
+		
+		/**
+		* 	The name of the property to search for when
+		* 	mapping font family declarations.
+		*/
+		public static const FONT_PROPERTY:String = "font";
 			
 		/**
 		* 	The delimiter used to delimit style names in a string value.
@@ -535,13 +541,15 @@ package com.ffsys.ui.css {
 			source:Object,
 			name:String,
 			value:* ):Boolean
-		{	
+		{
 			if( name.indexOf( "." ) > -1 )
 			{
 				//trace("CssStyleSheet::assign() FOUND DOT STYLE PROPERTY NAME: ", target, name, value );
 				var assignment:IPropertyProcessor = new PropertyAssignmentProcessor(
 					name, target, value );
 				assignment.process();
+				
+				return false;
 				
 				/*
 				trace("CssStyleSheet::assign() AFTER ASSIGNMENT: ",
@@ -586,6 +594,23 @@ package com.ffsys.ui.css {
 				if( target is ICssTextFieldProxy )
 				{
 					targets = ICssTextFieldProxy( target ).getProxyTextFields();
+				}
+
+				//got a font family declaration
+				if( style.fontFamily is FontFamily )
+				{
+					var family:FontFamily = style.fontFamily as FontFamily
+					trace("CssStyleSheet::intercept() GOT FONT FAMILY DECLARATION: ", target, style, style.fontFamily.fontNames );
+					
+					var embed:Boolean = style.embedFonts is Boolean ? style.embedFonts as Boolean : false;
+					var fte:Boolean = style.fte is Boolean ? style.fte as Boolean : false;
+					var font:String = family.getFont( embed, fte );
+					if( font == null )
+					{
+						throw new Error( "Could not locate a valid font for font family declaration '"
+						 + family.fontNames + "'." );
+					}
+					style[ FONT_PROPERTY ] = font;
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();

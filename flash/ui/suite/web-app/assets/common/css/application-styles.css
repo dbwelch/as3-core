@@ -29,7 +29,7 @@ package-heading {
 }
 
 element {
-	font: Courier;
+	font-family: "Arial Narrow", Courier, Helvetica, Arial, Verdana, sans-serif;
 	size: 11;
 	color: #000000;
 	padding: 5;

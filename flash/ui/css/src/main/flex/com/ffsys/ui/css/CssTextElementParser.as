@@ -248,17 +248,18 @@ package com.ffsys.ui.css
 						parameters[ 0 ] );
 					break;
 				case FONT_FAMILY_EXPRESSION:
+					expected = new Vector.<Class>( 1, true );
+					expected[ 0 ] = Array;
 					
 					trace(":::::::::::::: CssTextElementParser::doWithUnknownExpression() GOT FONT FAMILY: ",
 						parameters, getQualifiedClassName( parameters ) );
 						
-						/*
-					expected = new Vector.<Class>( 1, true );
-					expected[ 0 ] = Array;
-					target.validate( expected );
-					//TODO: create a CssFontFamily
-					*/
-					output = parameters;
+					//we must wrap the array up in a nested array
+					target.validate( expected, [ parameters ] );
+					output = new FontFamily( parameters );
+					
+					trace(":::::::::::::: CssTextElementParser::doWithUnknownExpression() GOT FONT FAMILY: ",
+						output );
 					break;
 			}
 			
@@ -281,6 +282,25 @@ package com.ffsys.ui.css
 			propertyName:String,
 			value:String ):Object
 		{
+			if( parsed is String )
+			{
+				var source:String = parsed as String;
+				var quoted:RegExp = /^"[^"]+"$/;
+				
+				if( quoted.test( source ) )
+				{
+					
+					trace("CssTextElementParser::finalizePropertyValue() HANDLING QUOTED VALUE: ", source );
+					
+					//remove leading and trailing quotes from css string property values
+					//for example font name declarations that have whitespace in them
+					source = source.replace( /^"+/, "" );
+					source = source.replace( /"+$/, "" );
+					parsed = source;
+					
+				}
+			}
+			
 			if( parsed is Number )
 			{
 				//trace("CssTextElementParser::finalizePropertyValue() GOT PARSED NUMBER - CONVERT TO CssUnit: ", parsed );

@@ -456,9 +456,9 @@ package com.ffsys.ioc
 					break;
 				default:
 				
-					/*
+					
 					trace("BeanTextElementParser::handleExpression() DEALING WITH UNKNOWN EXPRESSION property/parameters/is array: ", beanProperty, parameters, parameters is Array );
-					*/
+					
 					
 					if( parameters == null )
 					{

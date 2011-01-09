@@ -437,6 +437,16 @@ package com.ffsys.ioc
 			name:String,
 			value:* ):Boolean
 		{
+			
+			//extract the value from a value of function to that
+			//complex implementations that wrap primitive values
+			//can return a primitive value if they wish
+			if( value is Object )
+			{
+				//trace("BeanDescriptor::setBeanProperties()", "EXTRACTING VALUE FROM VALUE OF FUNCTION: ", value );
+				value = Object( value ).valueOf();
+			}
+			
 			if( target is IBeanProperty
 				&& IBeanProperty( target ).shouldSetBeanProperty( name, value ) )
 			{
