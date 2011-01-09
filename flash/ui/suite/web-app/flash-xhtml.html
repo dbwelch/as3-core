@@ -1,8 +1,6 @@
+<?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html
-	xmlns="http://www.w3.org/1999/xhtml"
-	lang="en"
-	xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:framework="http://freeformsystems.com/as3/framework" xmlns:ui="http://freeformsystems.com/as3/ui" xmlns:application="http://freeformsystems.com/as3/ui/suite" xmlns:css="http://freeformsystems.com/as3/ui/suite/css" lang="en" xml:lang="en">
 	<head>
 		<title>User Interface Component Suite</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -22,6 +20,7 @@
 					express: "assets/common/swf/expressInstall.swf",
 					flashvars: {
 						classes: "com.ffsys.ui.suite.core.ComponentSuiteClassPathConfiguration",
+						configuration: "flash-xhtml.html",
 						lang: "en-GB"
 					},
 					params: {
@@ -35,14 +34,161 @@
 		</script>
 	</head>
 	<body onload="init();">
+		
+		<div id="cfg">
+			<configuration>
+				<locales>
+	<!-- resources for all locales -->
+					<resources>
+						<rsls>
+							<rsl>
+								<trusted>true</trusted>
+								<url>swf/application-assets.swf</url>
+							</rsl>
+						</rsls>
+						<beans>
+							<resource>
+								<url>css/application.css</url>
+							</resource>
+							<resource>
+								<url>css/graphic-components.css</url>
+							</resource>
+							<resource>
+								<url>css/custom-view-components.css</url>
+							</resource>
+						</beans>
+						<css>
+							<resource>
+								<url>css/component-styles.css</url>
+							</resource>
+							<resource>
+								<url>css/scroll-styles.css</url>
+							</resource>
+							<resource>
+								<url>css/graphic-button-styles.css</url>
+							</resource>
+							<resource>
+								<url>css/application-styles.css</url>
+							</resource>
+							<resource>
+								<url>css/filters.css</url>
+							</resource>
+						</css>
+						<images>
+							<resource>
+								<url>images/thumbnail-001.jpg</url>
+							</resource>
+							<resource>
+								<url>images/thumbnail-002.jpg</url>
+							</resource>
+						</images>
+						<components>
+							<id>components</id>
+							<view>
+								<id>navigation</id>
+								<xml>
+									<resource>
+										<url>xml/navigation.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>content</id>
+								<xml>
+									<resource>
+										<url>xml/content.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>graphics</id>
+								<xml>
+									<resource>
+										<url>xml/graphics.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>text</id>
+								<xml>
+									<resource>
+										<url>xml/text.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>buttons</id>
+								<xml>
+									<resource>
+										<url>xml/buttons.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>containers</id>
+								<xml>
+									<resource>
+										<url>xml/containers.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>assets</id>
+								<xml>
+									<resource>
+										<url>xml/assets.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>images</id>
+								<xml>
+									<resource>
+										<url>xml/images.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>scrollbars</id>
+								<xml>
+									<resource>
+										<url>xml/scrollbars.xml</url>
+									</resource>
+								</xml>
+							</view>
+							<view>
+								<id>graphic-buttons</id>
+								<xml>
+									<resource>
+										<id>graphic-buttons</id>
+										<url>xml/graphic-buttons.xml</url>
+									</resource>
+								</xml>
+							</view>
+						</components>
+						<messages>
+							<resource>
+								<url>messages/messages.properties</url>
+							</resource>
+						</messages>
+					</resources>
+	<!-- only english -->
+					<locale lang="en" country="GB" xml:lang="en"></locale>
+				</locales>
+			</configuration>
+		</div>
 		<div id="wrapper">
 			<div id="header">
-			<h1>User Interface Component Suite</h1>
-			<p class="note">Built for Flash Player <strong>10.0</strong> and later player versions using Actionscript 3.</p>
-			<div id="locales" class="clearfix"></div>
+				<h1>User Interface Component Suite</h1>
+				<p class="note">Built for Flash Player <strong>10.0</strong> and later player versions using Actionscript 3.</p>
+				<div id="locales" class="clearfix"></div>
 			</div>
 			<div id="flash">
-				<p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+				<p>
+					<a href="http://www.adobe.com/go/getflashplayer">
+						<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+					</a>
+				</p>
 			</div>
 		</div>
 	</body>

@@ -9,7 +9,7 @@ package com.ffsys.swat.configuration {
 	*	@author Mischa Williamson
 	*	@since  19.10.2010
 	*/
-	public class ApplicationMeta extends Object {
+	dynamic public class ApplicationMeta extends Object {
 		
 		/**
 		*	The default <code>name</code> used if none

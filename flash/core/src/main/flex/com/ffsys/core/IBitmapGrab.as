@@ -1,6 +1,7 @@
 package com.ffsys.core
 {
 	import flash.display.Bitmap;
+	import flash.display.DisplayObject;	
 	import flash.geom.Matrix;
 	
 	/**
@@ -18,6 +19,6 @@ package com.ffsys.core
 		/**
 		*	@inheritDoc	
 		*/
-		function getBitmap( matrix:Matrix = null ):Bitmap;
+		function getBitmap( target:DisplayObject = null, matrix:Matrix = null ):Bitmap;
 	}
 }

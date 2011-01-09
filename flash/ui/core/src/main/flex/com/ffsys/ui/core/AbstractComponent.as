@@ -1019,19 +1019,23 @@ package com.ffsys.ui.core
 		/**
 		*	@inheritDoc	
 		*/
-		public function getBitmap( matrix:Matrix = null ):Bitmap
+		public function getBitmap( target:DisplayObject = null, matrix:Matrix = null ):Bitmap
 		{
+			if( target == null )
+			{
+				target = this;
+			}
+			
 			if( matrix == null )
 			{
 				matrix = new Matrix();
 			}
 			
 			var bitmapData:BitmapData = new BitmapData(
-				this.width, this.height, true, 0x00000000 );
-			bitmapData.draw( this, matrix );
+				target.width, target.height, true, 0x00000000 );
+			bitmapData.draw( target, matrix );
 			return new Bitmap( bitmapData );
 		}
-		
 		
 		public function getVisibleBounds(
 			target:DisplayObject = null ):Rectangle 

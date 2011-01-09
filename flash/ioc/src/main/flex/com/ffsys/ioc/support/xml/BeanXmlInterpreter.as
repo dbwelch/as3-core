@@ -34,6 +34,7 @@ package com.ffsys.ioc.support.xml
 		{
 			super();
 			this.document = document;
+			this.useStringReplacement = false;
 		}
 		
 		/**
@@ -70,6 +71,24 @@ package com.ffsys.ioc.support.xml
 			//we must have a valid document to process the class
 			return ( this.document != null );
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function shouldProcessAttribute( parent:Object, name:String, value:Object ):Boolean
+		{
+			return true;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/	
+		override public function processAttribute( parent:Object, name:String, value:Object ):Boolean
+		{
+			return false;
+		}
+		
+		public var quiet:Boolean = true;
 		
 		/**
 		*	Processes an xml node that should correspond to a complex object.
@@ -131,6 +150,14 @@ package com.ffsys.ioc.support.xml
 			
 			var descriptor:IBeanDescriptor = target.getBeanDescriptor(
 				name, searchXrefs );
+				
+			if( descriptor == null
+			 	&& quiet )
+			{
+				return new Object();
+			}
+			
+			trace("BeanXmlInterpreter::processClass()", descriptor.id );
 			
 			//TODO: different error message
 			if( descriptor == null )

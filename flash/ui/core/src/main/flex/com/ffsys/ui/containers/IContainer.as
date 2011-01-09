@@ -1,6 +1,6 @@
 package com.ffsys.ui.containers {
 	
-	import com.ffsys.ui.core.IComponent;
+	import com.ffsys.ui.core.IInteractiveComponent;
 	import com.ffsys.ui.layout.ILayout;
 	
 	/**
@@ -13,7 +13,7 @@ package com.ffsys.ui.containers {
 	*	@since  20.06.2010
 	*/
 	public interface IContainer
-		extends IComponent {
+		extends IInteractiveComponent {
 		
 		/**
 		*	The layout implementation for the container.
@@ -32,17 +32,11 @@ package com.ffsys.ui.containers {
 		function set spacing( spacing:Number ):void;
 		
 		/**
-		* 	The display mode for this container.
-		*/
-		function get display():String;
-		function set display( value:String ):void;
-		
-		/**
 		* 	Updates this container layout.
 		* 
 		* 	If no layout is assigned to this container
-		* 	this method will ensure child display objects
-		* 	obey the paddings of this container.
+		* 	this implementation should ensure child display object positions
+		* 	respect the paddings and margins of this container.s
 		*/
 		function update():void;
 	}

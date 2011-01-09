@@ -23,7 +23,6 @@ package com.ffsys.ui.buttons
 	public class IconButton extends Button
 	{
 		private var _icon:DisplayObject;
-		private var _spacing:Number = 5;
 		
 		/**
 		* 	Creates an <code>IconButton</code> instance.
@@ -44,19 +43,6 @@ package com.ffsys.ui.buttons
 			{
 				this.icon = icon;
 			}
-		}
-		
-		/**
-		*	The spacing between the icon and the label.	
-		*/
-		public function get spacing():Number
-		{
-			return _spacing;
-		}
-		
-		public function set spacing( spacing:Number ):void
-		{
-			_spacing = spacing;
 		}
 		
 		/**

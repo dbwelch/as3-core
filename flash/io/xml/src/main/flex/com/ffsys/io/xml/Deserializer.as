@@ -1226,6 +1226,12 @@ package com.ffsys.io.xml {
 				for( ;i < l;i++ )
 				{
 					node = x.children()[ i ];
+					
+					if( !node || !node.name() )
+					{
+						continue;
+					}
+					
 					name = node.name().localName;
 					
 					isEmpty = XmlUtils.isEmptyNode( node );

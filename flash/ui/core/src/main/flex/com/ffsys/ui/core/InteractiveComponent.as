@@ -58,10 +58,10 @@ package com.ffsys.ui.core
 		
 		public function set interactive( interactive:Boolean ):void
 		{
-			buttonMode = interactive;
-			useHandCursor = interactive;
+			//buttonMode = interactive;
+			//useHandCursor = interactive;
 			enabled = interactive;
-			
+			mouseEnabled = interactive;
 			interactive ? addMouseListeners() : removeMouseListeners();
 		}
 		

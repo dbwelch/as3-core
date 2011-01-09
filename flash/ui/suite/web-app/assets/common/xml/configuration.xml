@@ -150,7 +150,10 @@
 		</resources>
 		
 		<!-- only english -->
-		<locale lang="en" country="GB" />
+		<locale>
+			<lang>en</lang>
+			<country>GB</country>
+		</locale>
 		
 	</locales>
 	

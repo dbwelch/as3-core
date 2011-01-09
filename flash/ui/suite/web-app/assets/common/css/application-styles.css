@@ -26,12 +26,12 @@ package-heading {
 
 element {
 	font: Courier;
-	size: 22;
-	color: #ff0000;
+	size: 11;
+	color: #000000;
 	padding: 5;
 	text-transform: uppercase;
 	background: ref( element-background );
-	fte: true;	
+	fte: true;
 }
 
 test-css-xml-namespace-bean {
@@ -123,6 +123,18 @@ container-border-example {
 	spacing: 15;
 	margin: 10;
 	border: border( 2, 2, 2, 2, #ff0000, .8 );
+	divider: ref( example-divider );
+}
+
+example-divider {
+	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	fill: fill( #ffffff, .5 );
+	width: 2;
+	height: 10;
+}
+
+example-middle {
+	margin: 0;
 }
 
 box-example-container {

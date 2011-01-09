@@ -79,10 +79,7 @@ package com.ffsys.ui.text
 		}
 		
 		/**
-		* 	Determines whether this component uses the flash
-		* 	text engine to render text.
-		* 
-		* 	The default value is <code>true</code>.
+		* 	@inheritDoc
 		*/
 		public function get fte():Boolean
 		{
@@ -232,15 +229,8 @@ package com.ffsys.ui.text
 					this.text = msg;
 				}
 			}
-			
-			/*
-			var rect:Rectangle = calculateTextMetrics();
-			trace("TextComponent::finalized() this/id/h/metrics.width/metrics.height/x: ", this, this.id, rect.width, rect.height, rect.x );			
-			*/
-			
+
 			super.finalized();
-			
-			//trace("TextComponent::finalized()", this.text );
 		}
 		
 		/**
@@ -280,26 +270,16 @@ package com.ffsys.ui.text
 		}
 		
 		/**
-		* 	Determines whether this text component is interactive.
-		* 
-		* 	When a text component is interactive it behaves as a
-		* 	button.
+		* 	@inheritDoc
 		*/
-		public function get interactive():Boolean
+		override public function set interactive( interactive:Boolean ):void
 		{
-			return this.enabled;
-		}
-		
-		public function set interactive( interactive:Boolean ):void
-		{
-			enabled = interactive;
-			buttonMode = interactive;
-			useHandCursor = interactive;
-			mouseEnabled = interactive;
-			
-			//we never mouse children to prevent the textfield
+			super.interactive = interactive;
+			//we never mouse children to prevent the textfield or TextLine(s)
 			//capturing events
 			mouseChildren = false;
+			//text components don't use the hand cursor
+			useHandCursor = false;
 		}
 		
 		/**
@@ -344,60 +324,6 @@ package com.ffsys.ui.text
 			}
 			
 			return this.width == 0 ? 0 : this.width - 4;
-		}
-		
-		protected function calculateTextMetrics():Rectangle
-		{
-			var output:Rectangle = new Rectangle();
-			if( textfield != null )
-			{
-				var isUpperCase:Boolean = false;
-				var x:Number = Number.MAX_VALUE;
-				var w:Number = 0;
-				var h:Number = 0;
-				var lineWidth:Number = 0;
-				var lineHeight:Number = 0;
-				var line:String = null;
-				var metrics:TextLineMetrics = null;
-				for( var i:int = 0;i < textfield.numLines;i++ )
-				{
-					metrics = textfield.getLineMetrics( i );
-					line = textfield.getLineText( i );
-					isUpperCase = line.toUpperCase() == line;
-					x = Math.min( x, metrics.x );
-					lineWidth = Math.max( lineWidth, metrics.width );
-					trace("TextComponent::calculateTextMetrics() this/line/x/width/height/ascent/descent/leading", this, i, metrics.x, metrics.width, metrics.height, metrics.ascent, metrics.descent, metrics.leading );
-					lineHeight = metrics.ascent;
-					
-					if( !isUpperCase )
-					{
-						lineHeight += metrics.descent;
-					}
-					
-					if( i < ( textfield.numLines - 1 ) )
-					{
-						lineHeight += metrics.leading;
-					}
-					h += lineHeight;
-				}
-				
-				w = lineWidth;
-				
-				trace("TextComponent::calculateTextMetrics() x/textfield.x:", x, textfield.x );
-				x = x - textfield.x;
-				
-				
-				//default gutter
-				if( x == ( textfield.x - 2 ) )
-				{
-					x = 2;
-				}
-				
-				output.x = x;
-				output.width = w;
-				output.height = h;
-			}
-			return output;
 		}
 		
 		/**
@@ -461,7 +387,10 @@ package com.ffsys.ui.text
 		override public function set enabled( enabled:Boolean ):void
 		{
 			super.enabled = enabled;
-			this.textfield.enabled = enabled;
+			if( textfield != null )
+			{
+				textfield.enabled = enabled;
+			}
 		}
 		
 		/**

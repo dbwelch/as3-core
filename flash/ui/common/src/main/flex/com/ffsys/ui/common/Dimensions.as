@@ -104,6 +104,39 @@ package com.ffsys.ui.common
 		inter-word	Justification is achieved by increasing the spacing between words. It is the quickest method of justification and does not justify the last line of a content block.
 		newspaper	Spacing between letters and words are increased or decreased as necessary. The IE reference says “it is the most sophisticated form of justification for Latin alphabets.”	
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//CURSOR
+		
+		
+		URL	A comma separated of URLs to custom cursors. Note: Always specify a generic cursor at the end of the list, in case none of the URL-defined cursors can be used
+		auto	Default. The browser sets a cursor
+		crosshair	The cursor render as a crosshair
+		default	The default cursor
+		e-resize	The cursor indicates that an edge of a box is to be moved right (east)
+		help	The cursor indicates that help is available
+		move	The cursor indicates something that should be moved
+		n-resize	The cursor indicates that an edge of a box is to be moved up (north)
+		ne-resize	The cursor indicates that an edge of a box is to be moved up and right (north/east)
+		nw-resize	The cursor indicates that an edge of a box is to be moved up and left (north/west)
+		pointer	The cursor render as a pointer
+		progress	The cursor indicates that the program is busy (in progress)
+		s-resize	The cursor indicates that an edge of a box is to be moved down (south)
+		se-resize	The cursor indicates that an edge of a box is to be moved down and right (south/east)
+		sw-resize	The cursor indicates that an edge of a box is to be moved down and left (south/west)
+		text	The cursor indicates text
+		w-resize	The cursor indicates that an edge of a box is to be moved left (west)
+		wait	The cursor indicates that the program is busy
+		inherit	Specifies that the value of the cursor property should be inherited from the parent element		
+		
 		*/
 		
 		

@@ -5,6 +5,8 @@ package com.ffsys.ui.containers {
 	
 	import com.ffsys.ioc.*;
 	
+	import com.ffsys.core.IClone;
+	
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.common.*;	
 	import com.ffsys.ui.layout.*;
@@ -19,14 +21,10 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class Container extends UIComponent
+	public class Container extends InteractiveComponent
 		implements IContainer {
 		
-		public static const INLINE:String = "inline";
-		public static const BLOCK:String = "block";
-		
 		private var _layout:ILayout;
-		private var _display:String;
 		private var _spacing:Number = 0;
 		
 		/**
@@ -35,40 +33,6 @@ package com.ffsys.ui.containers {
 		public function Container()
 		{
 			super();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		//TODO: move to DivContainer
-		public function get display():String
-		{
-			return _display;
-		}
-		
-		public function set display( value:String ):void
-		{
-			_display = value;
-			
-			if( _display != null )
-			{
-				switch( _display )
-				{
-					case INLINE:
-						layout = new HorizontalLayout( this.spacing );
-						break;
-					case BLOCK:
-						layout = new VerticalLayout( this.spacing );
-						break;
-					default:
-						throw new Error( "Unknown container display property '" + _display + "'." );
-				}
-				
-				if( numChildren > 0 )
-				{
-					update();
-				}
-			}
 		}
 		
 		/**
@@ -297,7 +261,24 @@ package com.ffsys.ui.containers {
 				layout.spacing = this.spacing;
 			}
 			//trace("UIComponent::afterProperties()", this, descriptor );
-		}		
+		}
+		
+		public var divider:DisplayObject;
+		
+		/**
+		*	@inheritDoc
+		*/
+		
+		/*
+		override protected function beforeChildAdded(
+			child:DisplayObject, index:int ):Boolean
+		{
+			var output:Boolean = super.beforeChildAdded( child, index );
+
+			
+			return output;
+		}
+		*/
 		
 		/**
 		*	@inheritDoc	
@@ -307,6 +288,34 @@ package com.ffsys.ui.containers {
 			index:int ):void
 		{
 			super.afterChildAdded( child, index );
+			
+			/*
+			if( divider != null )
+			{
+				trace("::::::::::::::::::::::::::: Container::beforeChildAdded() FOUND A DIVIDER TO DUPLCIATE");
+			
+				var duplicate:DisplayObject = null;
+			
+				if( divider is IClone
+				 	&& Object( divider ).clone is Function )
+				{
+					duplicate = DisplayObject( Object( divider ).clone() );
+				}else
+				{
+					addChild( divider );
+					duplicate = getBitmap( divider );
+					removeChild( divider );
+				}
+			
+				trace("::::::::::::::::::::::::::: Container::beforeChildAdded() GOT DUPLCIATE", duplicate);
+			
+				if( duplicate != null )
+				{
+					addChild( duplicate );
+				}
+			}			
+			*/
+			
 			if( layout && child && isFinalized() )
 			{
 				layout.added( child, this, index );
@@ -334,14 +343,6 @@ package com.ffsys.ui.containers {
 		*/
 		public function update():void
 		{
-			
-			/*
-			if( layout == null )
-			{
-				layout = new VerticalLayout();
-			}
-			*/
-		
 			if( layout != null )
 			{
 				layout.update( this );
@@ -372,7 +373,6 @@ package com.ffsys.ui.containers {
 		{
 			super.destroy();
 			_layout = null;
-			_display = null;
 		}
 	}
 }

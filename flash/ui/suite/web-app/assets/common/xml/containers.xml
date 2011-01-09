@@ -36,7 +36,7 @@
 					<styles>box-example-container</styles>
 				</container>
 				<container>
-					<styles>box-example-container</styles>
+					<styles>box-example-container example-middle</styles>
 				</container>
 				<container>
 					<styles>box-example-container</styles>
@@ -62,7 +62,7 @@
 					<styles>box-example-container</styles>
 				</container>
 				<container>
-					<styles>box-example-container</styles>
+					<styles>box-example-container example-middle</styles>
 				</container>
 				<container>
 					<styles>box-example-container</styles>

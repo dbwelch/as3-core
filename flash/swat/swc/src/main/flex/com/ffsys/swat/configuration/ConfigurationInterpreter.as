@@ -35,7 +35,7 @@ package com.ffsys.swat.configuration {
 			document:IBeanDocument = null )
 		{
 			super( document );
-			this.useStringReplacement = true;
+			this.useStringReplacement = false;
 			this.strictStringReplacement = true;
 		}
 		

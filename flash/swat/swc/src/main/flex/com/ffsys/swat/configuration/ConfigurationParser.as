@@ -37,12 +37,42 @@ package com.ffsys.swat.configuration {
 			this.interpreter = new ConfigurationInterpreter( this.document );
 		}
 		
+		override public function deserialize( x:XML, target:Object = null ):Object
+		{
+
+			
+			trace("ConfigurationParser::deserialize() GOT XML: ", target, x.toXMLString() );	
+			
+			if( x && x.name().localName != "configuration" )
+			{	
+				var nested:XMLList = x..configuration;
+				for each( var node:XML in nested )
+				{
+					x = node;
+					break;
+				}
+					
+				trace("ConfigurationParser::deserialize() RETRIEVED NESTED XML: ", x );
+				
+						
+			}
+			
+			
+			trace("ConfigurationParser::deserialize() AFTER: ", target, x.toXMLString() );
+			
+			return super.deserialize( x, target );
+		}		
+		
 		/**
 		*	@inheritDoc
 		*/
 		public function parse(
 			x:XML, target:IConfiguration = null ):IConfiguration
 		{
+			x = XML( x..configuration[ 0 ] );
+			
+			trace("ConfigurationParser::parse()", target, x.toXMLString() );
+			
 			return deserialize( x, target ) as IConfiguration;
 		}
 	}

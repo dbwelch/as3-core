@@ -2,11 +2,12 @@ package com.ffsys.ui.buttons
 {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import com.ffsys.ui.core.InteractiveComponent;
-	import com.ffsys.ui.core.State;
-	
+
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
+	
+	import com.ffsys.ui.containers.Container;
+	import com.ffsys.ui.core.State;
 	
 	/**
 	*	Abstract super class for all buttons.
@@ -17,7 +18,7 @@ package com.ffsys.ui.buttons
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class ButtonComponent extends InteractiveComponent
+	public class ButtonComponent extends Container
 		implements IButton
 	{
 		private var _loop:String;
@@ -44,8 +45,19 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function set interactive( interactive:Boolean ):void
+		{
+			super.interactive = interactive;
+			buttonMode = interactive;
+			useHandCursor = interactive;
+		}
+		
+		/**
 		* 	A url to navigate to when this button is clicked.
 		*/
+		//TODO : MIGRATE TO HREF
 		public function get url():String
 		{
 			return _url;
