@@ -1,11 +1,10 @@
 package com.ffsys.ui.css
 {
 	import flash.geom.*;
+	import flash.utils.getQualifiedClassName;
 	
-	import com.ffsys.ioc.*;	
-	
+	import com.ffsys.ioc.*;
 	import com.ffsys.ui.common.Border;
-	
 	import com.ffsys.ui.graphics.*;
 
 	/**
@@ -63,11 +62,18 @@ package com.ffsys.ui.css
 		public static const GRADIENT_EXPRESSION:String = "gradient";
 		
 		/**
+		* 	The name of the expression used to define a selection of
+		* 	font names to choose from.
+		*/
+		public static const FONT_FAMILY_EXPRESSION:String = "font-family";		
+		
+		/**
 		* 	Creates a <code>CssTextElementParser</code> instance.
 		*/
 		public function CssTextElementParser()
 		{
 			super();
+			this.mapping.fontFamily = FONT_FAMILY_EXPRESSION;
 		}
 		
 		/**
@@ -241,6 +247,19 @@ package com.ffsys.ui.css
 					output = new GradientFill(
 						parameters[ 0 ] );
 					break;
+				case FONT_FAMILY_EXPRESSION:
+					
+					trace(":::::::::::::: CssTextElementParser::doWithUnknownExpression() GOT FONT FAMILY: ",
+						parameters, getQualifiedClassName( parameters ) );
+						
+						/*
+					expected = new Vector.<Class>( 1, true );
+					expected[ 0 ] = Array;
+					target.validate( expected );
+					//TODO: create a CssFontFamily
+					*/
+					output = parameters;
+					break;
 			}
 			
 			if( output != null )
@@ -250,6 +269,24 @@ package com.ffsys.ui.css
 			
 			//default to the error behaviour
 			return super.doWithUnknownExpression( target );
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function finalizePropertyValue(
+			parsed:Object,
+			descriptor:IBeanDescriptor,
+			beanName:String,
+			propertyName:String,
+			value:String ):Object
+		{
+			if( parsed is Number )
+			{
+				//trace("CssTextElementParser::finalizePropertyValue() GOT PARSED NUMBER - CONVERT TO CssUnit: ", parsed );
+			}
+			
+			return parsed;
 		}
 	}
 }

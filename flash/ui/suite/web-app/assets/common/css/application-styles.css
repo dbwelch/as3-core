@@ -1,3 +1,7 @@
+body {
+	font-family: Helvetica, Arial, Verdana, sans-serif;
+}
+
 percentage-container {
 	width: 100%;
 	height: 100%;

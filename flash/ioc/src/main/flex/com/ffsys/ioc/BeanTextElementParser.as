@@ -34,6 +34,7 @@ package com.ffsys.ioc
 		private var _substitutor:Substitutor = null;
 		private var _extensionExpression:RegExp = /^[a-zA-Z0-9]+\s*\(\s*(.+)\s*\)$/;
 		private var _mapping:Object;
+		private var _delimiter:String = ",";
 		
 		/**
 		* 	Creates a <code>BeanTextElementParser</code> instance.
@@ -45,6 +46,22 @@ package com.ffsys.ioc
 		{
 			super();
 			this.document = document;
+		}
+		
+		/**
+		* 	A delimiter to use when parsing mapped
+		* 	property expressions to parameter values.
+		* 
+		* 	The default value is a comma.
+		*/
+		public function get delimiter():String
+		{
+			return _delimiter;
+		}
+		
+		public function set delimiter( value:String ):void
+		{
+			_delimiter = value;
 		}
 		
 		/**
@@ -107,58 +124,129 @@ package com.ffsys.ioc
 			if( output is String )
 			{	
 				output = parser.parse( String( output ), true, document.delimiter );
+				
+				/*
+				trace("BeanTextElementParser::parse() GOT PARSED PRIMITIVE TYPE: ",
+					getQualifiedClassName( output ), String( output ), String( output ).indexOf( "," ) > -1 );
+				
+				if( output is Array )
+				{
+					trace("BeanTextElementParser::parse() GOT PRIMITIVE ARRAY VALUE: ", output );
+				}
+				*/
+				
 				//only if still a string after primitive parsing
 				if( output is String )
 				{
+					var source:String = String( output );
+					
 					//escaped hex value to be treated as a hex string
-					if( /^\\#/.test( String( output ) ) )
+					if( /^\\#/.test( source ) )
 					{
-						output = String( output ).replace( /^\\/, "" );
-						return output;
-					}
+						output = source.replace( /^\\/, "" );
+					}else if( hexExpression.test( source ) )
+					{
+						output = parseHexNumber( descriptor, source );
+					}else
+					{					
+						var isExpressionCandidate:Boolean = _extensionExpression.test( source );
 					
-					if( hexExpression.test( String( output ) ) )
-					{
-						output = parseHexNumber( descriptor, String( output ) );
-					}
-					
-					else if( propertyExpression )
-					{
+						if( !isExpressionCandidate
+							&& source.indexOf( delimiter ) > -1 )
+						{
+							//trace("BeanTextElementParser::parse() FOUND SIMPLE PARAMETER ARRAY EXPRESSION!!!!!");
 						
-						//handle properties that are mapped to be handled
-						//as an expression	
-						parsed = handleExpression(
-							this.mapping[ propertyName ],
-							String( output ),
-							descriptor, beanName, propertyName );
+							output = parser.parse( source, true, delimiter );
 							
-						/*
-						trace("BeanTextElementParser::parse()",
-							"FOUND MATCHING PROPERTY NAME EXPRESSION",
-							propertyName, this.mapping[ propertyName ], parsed );
-						*/
-							
-						if( parsed != null )
-						{
-							output = parsed;
-						}						
-							
-					}
-
-					else if( _extensionExpression.test( String( output ) ) )
-					{
-						parsed = handleExpression(
-							getExpression( String( output ) ),
-							getExpressionValue( String( output ) ),
-							descriptor, beanName, propertyName );
-						if( parsed != null )
-						{
-							output = parsed;
+							/*
+							trace("BeanTextElementParser::parse() GOT PARSED SIMPLE ARRAY EXPRESSION: ",
+								output, getQualifiedClassName( output ) );
+							*/
 						}
+						
+						
+						var parameters:Array = ( output is Array ) ? output as Array : null;
+						
+						//if( output is String )
+						{
+							if( propertyExpression )
+							{
+								//handle properties that are mapped to be handled
+								//as an expression	
+								parsed = handleExpression(
+									this.mapping[ propertyName ],
+									String( output ),
+									descriptor,
+									beanName,
+									propertyName,
+									parameters );
+							
+								/*
+								trace("BeanTextElementParser::parse()",
+									"FOUND MATCHING PROPERTY NAME EXPRESSION",
+									propertyName, this.mapping[ propertyName ], parsed );
+								*/
+							
+								if( parsed != null )
+								{
+									output = parsed;
+								}						
+							
+							}else if( isExpressionCandidate )
+							{
+								parsed = handleExpression(
+									getExpression( source ),
+									getExpressionValue( source ),
+									descriptor,
+									beanName,
+									propertyName,
+									parameters );
+								
+								if( parsed != null )
+								{
+									output = parsed;
+								}
+							}
+						}
+					
 					}
 				}
 			}
+			
+			output = finalizePropertyValue(
+				output, descriptor, beanName, propertyName, value );
+			
 			return output;
+		}
+		
+		/**
+		* 	Finalizes a property value before it is returned
+		* 	to be assigned.
+		* 
+		* 	This allows derived implementations to perform
+		* 	interception after all standard parsing has completed
+		* 	for a property.
+		* 
+		* 	The default implementation returns the parsed object
+		* 	unmodified.
+		* 
+		* 	@param parsed The parsed value.
+		* 	@param descriptor The bean descriptor.
+		* 	@param beanName The name of the bean.
+		* 	@param propertyName The name of the property.
+		* 	@param value The raw string value before parsing.
+		* 
+		* 	@return The original parsed object or an alternative
+		* 	object to assign to the property.
+		*/
+		protected function finalizePropertyValue(
+			parsed:Object,
+			descriptor:IBeanDescriptor,
+			beanName:String,
+			propertyName:String,
+			value:String ):Object
+		{
+			return parsed;
 		}
 		
 		/**
@@ -208,7 +296,8 @@ package com.ffsys.ioc
 			value:String,
 			descriptor:IBeanDescriptor,
 			beanName:String,
-			beanProperty:String = null ):Object
+			beanProperty:String = null,
+			parameters:Array = null ):Object
 		{
 			//var expression:String = candidate.replace( /^([a-zA-Z]+)[^a-zA-Z].*$/, "$1" );
 			
@@ -220,7 +309,9 @@ package com.ffsys.ioc
 			var c:ColorTransform = null;
 			var h:HslColor = null;
 			
-			var parameters:Array = null;
+			//var parameters:Array = null;
+			
+			//trace("BeanTextElementParser::handleExpression()", expression, value, beanName, parameters );
 			
 			switch( expression )
 			{
@@ -364,16 +455,34 @@ package com.ffsys.ioc
 					h.tint( parameters[ 0 ], parameters[ 1 ] );
 					break;
 				default:
-					parameters = parseParts( descriptor, beanName, beanProperty, value );
+				
+					/*
+					trace("BeanTextElementParser::handleExpression() DEALING WITH UNKNOWN EXPRESSION property/parameters/is array: ", beanProperty, parameters, parameters is Array );
+					*/
+					
+					if( parameters == null )
+					{
+						parameters = parseParts( descriptor, beanName, beanProperty, value );
+					}
+					
+					/*
+					if( !( value is Array ) )
+					{
+						parameters = parseParts( descriptor, beanName, beanProperty, value );
+					}else{
+						parameters = ( value as Array );
+					}
+					*/
+					
 					var unknown:UnknownExpression = new UnknownExpression(
 						beanName,
 						beanProperty,
 						value,
 						expression,
 						parameters );
+					
 					output = doWithUnknownExpression( unknown );
 			}
-			
 			return output;
 		}
 		
@@ -461,12 +570,14 @@ package com.ffsys.ioc
 			descriptor:IBeanDescriptor,
 			beanName:String,
 			beanProperty:String,
-			value:String,			
+			value:String,
 			delimiter:String = "," ):Array
 		{
 			if( value.indexOf( delimiter ) == -1 )
 			{
-				return [ parse( descriptor, beanName, beanProperty, value ) ];
+				//we don't pass the propertyName back when parsing a single
+				//parameter value
+				return [ parse( descriptor, beanName, null, value ) ];
 			}
 			
 			var output:Array = new Array();
