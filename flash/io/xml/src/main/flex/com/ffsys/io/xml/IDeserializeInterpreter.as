@@ -16,6 +16,14 @@ package com.ffsys.io.xml {
 	*/
 	public interface IDeserializeInterpreter {
 		
+		function primitive(
+			node:XML = null,
+			target:Object = null,
+			name:String = null,
+			attribute:Boolean = false,
+			text:Boolean = false,
+			value:* = null ):*;
+		
 		function get parser():IParser;
 		function set parser( value:IParser ):void;
 	

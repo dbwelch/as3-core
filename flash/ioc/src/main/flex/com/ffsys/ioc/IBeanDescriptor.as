@@ -17,6 +17,12 @@ package com.ffsys.ioc
 		extends	IBeanElement
 	{
 		/**
+		* 	A collection of string aliases for this bean definition.
+		*/
+		function get names():Vector.<String>;
+		function set names( value:Vector.<String> ):void;
+		
+		/**
 		* 	Clears this bean descriptor ready for an object
 		* 	to be transferred into this descriptor. 
 		*/

@@ -467,9 +467,10 @@ package com.ffsys.io.xml {
 			obj:Object = null,
 			nodeName:String = null,
 			inputValue:* = null,
-			attribute:Boolean = false ):Object
+			attribute:Boolean = false,
+			text:Boolean = false ):Object
 		{
-			var name:String = node.name().localName;
+			var name:String = node.name().localName;		
 			
 			if( _propertyFieldType == PropertyFieldType.CHILD_NODE )
 			{
@@ -530,14 +531,30 @@ package com.ffsys.io.xml {
 				
 				//force to a blank String when a primitive node is empty
 				propertyValue = "";
-			}				
+			}						
 			
 			if( obj )
 			{
+			
 				//we only set the property value
 				//if we're not parsing from an attribute
 				if( !attribute )
 				{
+					if( hasInterpreter() )
+					{
+						trace("Deserializer::deserializePrimitive() CALLING INTERPRETER PRIMITIVE: ", name );
+
+						propertyValue = _interpreter.primitive( node, obj, name, attribute, text, propertyValue );
+
+						/*
+						if( !proceed )
+						{
+							return null;
+						}
+						*/
+					}
+					
+					
 					//setProperty( obj, name, propertyValue, getNodeTextValue( node ) );
 					
 					setProperty( obj, name, propertyValue );
@@ -1154,7 +1171,7 @@ package com.ffsys.io.xml {
 			//we're just deserializing a primitive value
 			if( XmlUtils.isTextNode( x ) )
 			{
-				return deserializePrimitive( x, null, name );
+				return deserializePrimitive( x, null, name, null, false, true );
 			}
 			
 			//no default object specified and the class node name
@@ -1282,7 +1299,7 @@ package com.ffsys.io.xml {
 					
 					if( XmlUtils.isTextNode( node ) )
 					{
-						deserializePrimitive( node, obj, name );
+						deserializePrimitive( node, obj, name, null, false, true );
 					//deal with complex types
 					}else{
 						//deal with null/NaN values

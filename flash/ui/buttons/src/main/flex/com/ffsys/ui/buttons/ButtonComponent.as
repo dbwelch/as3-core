@@ -25,7 +25,6 @@ package com.ffsys.ui.buttons
 		private var _selectable:Boolean;
 		private var _selected:Boolean;
 		private var _currentState:State;
-		private var _url:String;
 		private var _urlIdentifier:String;
 		
 		/**
@@ -55,20 +54,6 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		* 	A url to navigate to when this button is clicked.
-		*/
-		//TODO : MIGRATE TO HREF
-		public function get url():String
-		{
-			return _url;
-		}
-		
-		public function set url( value:String ):void
-		{
-			_url = value;
-		}
-		
-		/**
 		* 	A message identifier for a <code>url</code>
 		* 	associated with this button.
 		*/
@@ -88,14 +73,14 @@ package com.ffsys.ui.buttons
 		override public function finalized():void
 		{			
 			if( this.urlIdentifier != null
-				&& this.url == null )
+				&& this.href == null )
 			{
 				var uri:String = this.messages.getProperty.apply(
 					this.messages, [ this.urlIdentifier ] ) as String;
 				
 				if( uri != null )
 				{
-					this.url = uri;
+					this.href = uri;
 				}
 			}
 			super.finalized();
@@ -272,10 +257,10 @@ package com.ffsys.ui.buttons
 			event:MouseEvent ):void
 		{
 			super.onMouseClick( event );
-			
-			if( this.url != null )
+			if( this.href != null )
 			{
-				navigateToURL( new URLRequest( this.url ) );
+				navigateToURL(
+					new URLRequest( this.href ) );
 			}
 		}
 		
@@ -344,7 +329,6 @@ package com.ffsys.ui.buttons
 			_loop = null;
 			removeEventListener( Event.ENTER_FRAME, dispatchLoopEvent );
 			_currentState = null;
-			_url = null;
 			_urlIdentifier = null;
 		}
 		

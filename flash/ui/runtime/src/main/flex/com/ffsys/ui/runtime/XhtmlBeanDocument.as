@@ -72,6 +72,28 @@ package com.ffsys.ui.runtime
 				DomIdentifiers.DIV );
 			descriptor.instanceClass = DivContainer;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.PARAGRAPH );
+			descriptor.instanceClass = Paragraph;
+			beans.addBeanDescriptor( descriptor );
+			
+			//TODO: move to a bean name alias implementation
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.HEADING_1 );
+			descriptor.instanceClass = Heading;
+			descriptor.names.push(
+				DomIdentifiers.HEADING_2,
+				DomIdentifiers.HEADING_3,
+				DomIdentifiers.HEADING_4,
+				DomIdentifiers.HEADING_5,
+				DomIdentifiers.HEADING_6 );
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.ANCHOR );
+			descriptor.instanceClass = TextButton;
+			beans.addBeanDescriptor( descriptor );								
 		}
 	}
 }

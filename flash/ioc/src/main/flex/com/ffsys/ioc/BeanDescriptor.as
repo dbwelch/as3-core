@@ -27,6 +27,7 @@ package com.ffsys.ioc
 		private var _instanceClassConstant:BeanConstant;
 		private var _staticClassConstant:BeanConstant;
 		private var _factoryReference:BeanReference;
+		private var _names:Vector.<String>;
 		
 		/**
 		* 	@private
@@ -55,6 +56,23 @@ package com.ffsys.ioc
 			{
 				transfer( source );
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get names():Vector.<String>
+		{
+			if( _names == null )
+			{
+				_names = new Vector.<String>();
+			}
+			return _names;
+		}
+		
+		public function set names( value:Vector.<String> ):void
+		{
+			_names = value;
 		}
 		
 		/**

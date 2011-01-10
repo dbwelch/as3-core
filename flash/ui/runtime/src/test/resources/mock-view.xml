@@ -16,11 +16,6 @@
 				<text>button text</text>
 			</button>
 			
-			<label>
-				<id>copy</id>
-				<text>this is some copy text for you</text>
-			</label>
-			
 			<iterator>
 				<provider>{binding:items}</provider>
 				<label>
@@ -90,5 +85,13 @@
 				</cell>							
 			</hbox>
 		</vbox>
+		
+			
+			<label>
+				<id>copy</id>
+				<text>this is some copy text for you</text>
+			</label>		
+			
+		<p id="mock-test-paragraph">this is some copy text for you</p>
 	</canvas>
 </document>

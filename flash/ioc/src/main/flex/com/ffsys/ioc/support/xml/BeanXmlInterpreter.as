@@ -88,29 +88,8 @@ package com.ffsys.ioc.support.xml
 			return false;
 		}
 		
-		public var quiet:Boolean = true;
-		
-		/**
-		*	Processes an xml node that should correspond to a complex object.
-		* 
-		* 	This implementation attempts to retrieve an instance from a bean
-		* 	declared in the bean document associated with this interpreter.
-		* 
-		* 	@param node The xml node being parsed.
-		* 	@param parent The object instantiated for the parent node.
-		* 	@param classReference The class type for the node being instantiated.
-		* 	
-		* 	@return An object for the xml node.
-		*/
-		override public function processClass(
-			node:XML,
-			parent:Object,
-			classReference:Class ):Object
+		protected function getXmlBeanDescriptor( node:XML ):IBeanDescriptor
 		{
-			if( this.document == null )
-			{
-				throw new Error( "Cannot process an xml bean with no bean document." );
-			}
 			
 			//whether we search bean document xrefs
 			//when no namespace is specified bean document xrefs
@@ -151,13 +130,19 @@ package com.ffsys.ioc.support.xml
 			var descriptor:IBeanDescriptor = target.getBeanDescriptor(
 				name, searchXrefs );
 				
+			return descriptor;			
+		}
+		
+		protected function getBeanFromDescriptor( node:XML, descriptor:IBeanDescriptor ):Object
+		{
+			var name:String = node.name().localName;
 			if( descriptor == null
 			 	&& quiet )
 			{
 				return new Object();
 			}
 			
-			trace("BeanXmlInterpreter::processClass()", descriptor.id );
+			//trace("BeanXmlInterpreter::processClass()", descriptor.id );
 			
 			//TODO: different error message
 			if( descriptor == null )
@@ -175,7 +160,36 @@ package com.ffsys.ioc.support.xml
 				throw new BeanError(
 					BeanError.XML_BEAN_NOT_FOUND, name );
 			}
-			return bean;
+			
+			return bean;			
+		}
+		
+		public var quiet:Boolean = true;
+		
+		/**
+		*	Processes an xml node that should correspond to a complex object.
+		* 
+		* 	This implementation attempts to retrieve an instance from a bean
+		* 	declared in the bean document associated with this interpreter.
+		* 
+		* 	@param node The xml node being parsed.
+		* 	@param parent The object instantiated for the parent node.
+		* 	@param classReference The class type for the node being instantiated.
+		* 	
+		* 	@return An object for the xml node.
+		*/
+		override public function processClass(
+			node:XML,
+			parent:Object,
+			classReference:Class ):Object
+		{
+			if( this.document == null )
+			{
+				throw new Error( "Cannot process an xml bean with no bean document." );
+			}
+
+			var descriptor:IBeanDescriptor = getXmlBeanDescriptor( node );
+			return getBeanFromDescriptor( node, descriptor );
 		}
 		
 		/**

@@ -321,7 +321,8 @@ package com.ffsys.ioc
 			for( var i:int = 0;i < _beans.length;i++ )
 			{
 				bean = _beans[ i ];
-				if( bean.id == beanName )
+				if( bean.id == beanName
+					|| bean.names.indexOf( beanName ) > -1 )
 				{
 					return bean;
 				}

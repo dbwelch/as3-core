@@ -21,5 +21,11 @@ package com.ffsys.ui.dom
 				IDestroy
 	{
 		//
+		
+		/**
+		* 	A <code>URI</code> associated with this element.
+		*/
+		function get href():String;
+		function set href( value:String ):void;
 	}
 }

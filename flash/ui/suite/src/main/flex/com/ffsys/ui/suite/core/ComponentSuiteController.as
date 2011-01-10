@@ -344,6 +344,9 @@ package com.ffsys.ui.suite.core {
 				content = main.getElementById( CONTENT_ID ) as IDivContainer;
 				
 				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
+				
+				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT TEST P:: ", main.getElementById( "test" ) );
+				
 			
 				
 				root.addChild( DisplayObject( main ) );

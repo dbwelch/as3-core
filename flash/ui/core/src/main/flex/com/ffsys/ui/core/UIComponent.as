@@ -837,6 +837,9 @@ package com.ffsys.ui.core
 				&& _descriptor.id != className.toLowerCase() )
 			{
 				output.push( _descriptor.id );
+				
+				//add bean decsriptor name aliases
+				output.concat( _descriptor.names );
 			}
 			return output;
 		}		

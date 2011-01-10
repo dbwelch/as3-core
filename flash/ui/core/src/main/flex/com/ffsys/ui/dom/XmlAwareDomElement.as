@@ -25,6 +25,7 @@ package com.ffsys.ui.dom
 		implements IDomElement
 	{
 		private var _id:String;
+		private var _href:String;
 		private var _xml:XML;
 		private var _document:IBeanDocument;
 		private var _parser:Object;
@@ -68,6 +69,19 @@ package com.ffsys.ui.dom
 		/**
 		* 	@inheritDoc
 		*/
+		public function get href():String
+		{
+			return _href;
+		}
+		
+		public function set href( value:String ):void
+		{
+			_href = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get xml():XML
 		{
 			return _xml;
@@ -76,11 +90,6 @@ package com.ffsys.ui.dom
 		public function set xml( value:XML ):void
 		{
 			_xml = value;
-			
-			if( _xml != null )
-			{
-				trace("XmlAwareDomElement::set xml()", _xml );
-			}
 		}
 		
 		/**
@@ -235,6 +244,7 @@ package com.ffsys.ui.dom
 		public function destroy():void
 		{
 			_id = null;
+			_href = null;
 			_xml = null;
 			_document = null;
 			_descriptor = null;

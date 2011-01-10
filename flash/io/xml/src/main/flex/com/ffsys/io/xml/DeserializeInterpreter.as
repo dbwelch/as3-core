@@ -161,6 +161,20 @@ package com.ffsys.io.xml {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function primitive(
+			node:XML = null,
+			target:Object = null,
+			name:String = null,
+			attribute:Boolean = false,
+			text:Boolean = false,
+			value:* = null ):*
+		{
+			return value;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		public function shouldPostProcessPrimitive( parent:Object, name:String, value:Object ):Boolean

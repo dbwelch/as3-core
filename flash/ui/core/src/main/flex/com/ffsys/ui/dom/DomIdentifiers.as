@@ -222,32 +222,32 @@ package com.ffsys.ui.dom
 		/**
 		* 	Represents the <code>h1</code> element.
 		*/
-		public static const HEADER_1:String = "h1";
+		public static const HEADING_1:String = "h1";
 		
 		/**
 		* 	Represents the <code>h1</code> element.
 		*/
-		public static const HEADER_2:String = "h2";
+		public static const HEADING_2:String = "h2";
 		
 		/**
 		* 	Represents the <code>h1</code> element.
 		*/
-		public static const HEADER_3:String = "h3";
+		public static const HEADING_3:String = "h3";
 		
 		/**
 		* 	Represents the <code>h1</code> element.
 		*/
-		public static const HEADER_4:String = "h4";
+		public static const HEADING_4:String = "h4";
 		
 		/**
 		* 	Represents the <code>h1</code> element.
 		*/
-		public static const HEADER_5:String = "h5";
+		public static const HEADING_5:String = "h5";
 		
 		/**
 		* 	Represents the <code>h1</code> element.
 		*/
-		public static const HEADER_6:String = "h6";
+		public static const HEADING_6:String = "h6";
 		
 		/**
 		* 	Represents the object element.

@@ -4,6 +4,7 @@ package com.ffsys.ui.runtime {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
+	
 	import com.ffsys.io.xml.*;
 	
 	import com.ffsys.ui.core.UIComponent;
@@ -21,7 +22,7 @@ package com.ffsys.ui.runtime {
 	import com.ffsys.utils.substitution.*;
 	import com.ffsys.utils.xml.XmlUtils;
 
-	import com.ffsys.ioc.IBeanDocument;
+	import com.ffsys.ioc.*;
 	import com.ffsys.ioc.support.xml.BeanXmlInterpreter;
 	
 	/**
@@ -65,6 +66,41 @@ package com.ffsys.ui.runtime {
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function primitive(
+			node:XML = null,
+			target:Object = null,
+			name:String = null,
+			attribute:Boolean = false,
+			text:Boolean = false,
+			value:* = null ):*
+		{
+			
+			//getXmlBeanDescriptor
+			
+			trace("RuntimeInterpreter::primitive()", target, name, value);			
+			var result:* = value;
+			var descriptor:IBeanDescriptor = getXmlBeanDescriptor( node );
+			if( descriptor != null )
+			{
+				trace("RuntimeInterpreter::primitive() INSTANTIATING PRIMITIVE FROM BEAN DOCUMENT!!!!!!!");
+				result = getBeanFromDescriptor( node, descriptor );
+			}
+			
+			if( text && value is String && result.hasOwnProperty( "text" ) )
+			{
+				result.text = ( value as String );
+				
+
+					trace(":::::::::::::::::::::::::::::::::::::::::::::::::: RuntimeInterpreter::primitive() SETTING TEXT VALUE ::::::::::::::::::::::::::::::::::::::::::::::::::", result.text );
+				
+			}
+			trace("RuntimeInterpreter::primitive()", result );
+			return result;
+		}
+		
+		/**
 		*	@inheritDoc
 		*/
 		override public function shouldProcessAttribute( parent:Object, name:String, value:Object ):Boolean
@@ -74,13 +110,14 @@ package com.ffsys.ui.runtime {
 				return true;
 			}
 			return super.shouldProcessAttribute( parent, name, value );
-		}
+		}	
 		
 		/**
 		*	@inheritDoc
 		*/	
 		override public function processAttribute( parent:Object, name:String, value:Object ):Boolean
 		{
+			trace("RuntimeInterpreter::processAttribute()", parent, name, value );
 			if( name == ID )
 			{
 				return true;
@@ -339,7 +376,7 @@ package com.ffsys.ui.runtime {
 			
 			var hasProp:Boolean = parent.hasOwnProperty( name );
 			
-			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
+			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
 			
 			if( value is RuntimeDocumentReference )
 			{
@@ -376,7 +413,7 @@ package com.ffsys.ui.runtime {
 				&& ( value[ ID ] != null ) )
 			{
 				var id:String = value[ ID ];
-				//trace("RuntimeInterpreter::shouldSetProperty()", "ADDING DOCUMENT ID REFERENCE:", id, value );
+				trace("RuntimeInterpreter::shouldSetProperty()", "ADDING DOCUMENT ID REFERENCE:", id, value );
 				
 				
 				_runtime.identifiers[ id ] = value;
@@ -466,7 +503,7 @@ package com.ffsys.ui.runtime {
 		{
 			//trace("RuntimeInterpreter::addComponentDynamicMethods()", node, component );
 			
-			node.domComponent = component;
+			//node.domComponent = component;
 			
 			/*
 			node.debug = function():void
@@ -484,6 +521,16 @@ package com.ffsys.ui.runtime {
 			
 			trace("RuntimeInterpreter::addComponentDynamicMethods()", node.debug is Function, n.hello is Function );
 			*/
+		}
+		
+		//TODO: return false when all child text nodes
+		override public function shouldParseClassInstanceChildren(
+			node:XML,
+			parent:Object,
+			classReference:Class,
+			classInstance:Object ):Boolean
+		{
+			return true;
 		}
 		
 		/**
