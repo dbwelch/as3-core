@@ -1,3 +1,71 @@
+html {
+	padding: 0;
+	margin: 0;	
+}
+
+body {
+	padding: 20;
+}
+
+h1 {
+	font-family: Helvetica, Georgia, sans-serif;	
+	size: 20;
+	color: #ffffff;
+}
+
+h2 {
+	font-family: Helvetica, Georgia, sans-serif;	
+	size: 18;
+	color: #ffffff;
+}
+
+h3 {
+	font-family: Helvetica, Georgia, sans-serif;	
+	size: 16;
+	color: #ffffff;
+}
+
+h4 {
+	font-family: Helvetica, Georgia, sans-serif;	
+	size: 14;
+	color: #ffffff;
+}
+
+h5 {
+	font-family: Helvetica, Georgia, sans-serif;	
+	size: 12;
+	color: #ffffff;
+}
+
+h6 {
+	font-family: Helvetica, Georgia, sans-serif;	
+	size: 10;
+	color: #ffffff;
+}
+
+p {
+	font-family: Helvetica, Georgia, sans-serif;	
+	size: 20;
+		
+	embed-fonts: false;
+	auto-size: left;
+	word-wrap: true;
+	multiline: true;
+	width: 360;
+
+	color: #ffffff;
+	fte: true;	
+	leading: 2;
+}
+
+Label {
+	font: Arial;
+	size: 12;
+	embed-fonts: false;
+	auto-size: left;
+	color: #a9a9a9;
+}
+
 Document {
 	padding: 20;
 	display: block;
@@ -11,14 +79,6 @@ Document, TabContainer {
 
 HorizontalBox, VerticalBox, LinkContainer, ImageContainer {
 	spacing: 5;
-}
-
-Label {
-	font: Arial;
-	size: 12;
-	embed-fonts: false;
-	auto-size: left;
-	color: #a9a9a9;
 }
 
 TextInput {
@@ -61,33 +121,6 @@ SubHeading {
 	embed-fonts: false;
 	auto-size: left;
 	color: #a9a9a9;
-}
-
-Paragraph {
-	font: Arial;
-	size: 13;
-	embed-fonts: false;
-	auto-size: left;
-	word-wrap: true;
-	multiline: true;
-	color: #a9a9a9;
-	width: 360;
-	height: 120;
-	fte: true;	
-}
-
-p, SubParagraph {
-	font: Arial;
-	size: 11;
-	embed-fonts: false;
-	auto-size: left;
-	word-wrap: true;
-	multiline: true;
-	width: 360;
-	height: 120;
-	color: #a9a9a9;
-	fte: true;	
-	leading: 2;
 }
 
 HorizontalRule {
@@ -431,13 +464,6 @@ MaskComponent {
 mask-background-graphic {
 	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
 	fill: fill( #ff0000, .75 );
-}
-
-
-p {
-	font-family: Arial;
-	font-size: 11;
-	embed-fonts: false;
 }
 
 em, i {

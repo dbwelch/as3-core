@@ -99,8 +99,7 @@ package com.ffsys.ui.layout
 		*/
 		public function update( container:DisplayObjectContainer ):void
 		{
-			if( container != null
-				&& container.numChildren > 0 )
+			if( container != null )
 			{
 				var child:DisplayObject = null;
 				for( var i:int = 0;i < container.numChildren;i++ )

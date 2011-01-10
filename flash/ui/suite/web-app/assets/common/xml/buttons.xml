@@ -17,7 +17,9 @@
 	
 	<vbox>
 		
+		<!--
 		<framework:configuration />
+		-->
 		
 		<css:test-css-xml-namespace-bean>
 		
@@ -40,9 +42,9 @@
 						<styles>element</styles>
 						<identifier>elements.textbutton</identifier>
 					</label>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.text.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<text-button>
 						<identifier>buttons.examples.text</identifier>
 					</text-button>
@@ -58,9 +60,9 @@
 						<styles>element</styles>
 						<identifier>elements.button</identifier>
 					</label>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.standard.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<button>
 						<identifier>buttons.examples.standard</identifier>
 					</button>
@@ -76,9 +78,9 @@
 						<styles>element</styles>
 						<identifier>elements.iconbutton</identifier>
 					</label>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.icon.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<icon-button>
 						<id>icon-state-test</id>
 						<styles>default-icon</styles>
@@ -102,9 +104,9 @@
 						<styles>element</styles>
 						<identifier>elements.icontextbutton</identifier>
 					</label>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.icontext.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<icon-text-button>
 						<id>icon-state-test</id>
 						<styles>default-icon</styles>
@@ -131,9 +133,9 @@
 						<styles>element</styles>
 						<identifier>elements.radiobutton</identifier>
 					</label>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.radio.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<radio-button>
 						<identifier>buttons.examples.radio</identifier>
 					</radio-button>
@@ -149,9 +151,9 @@
 				</vbox>
 				<vbox>
 					<styles>example-group</styles>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.radio.copy.group</identifier>
-					</sub-paragraph>
+					</p>
 					<radio-button>
 						<identifier>fruit.apples</identifier>
 						<selected>true</selected>
@@ -181,9 +183,9 @@
 						<styles>element</styles>
 						<identifier>elements.checkbox</identifier>
 					</label>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.checkbox.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<check-box>
 						<identifier>buttons.examples.checkbox</identifier>
 					</check-box>
@@ -204,9 +206,9 @@
 						<styles>element</styles>
 						<identifier>elements.togglebutton</identifier>
 					</label>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.toggle.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<hbox>
 						<toggle-button>
 							<id>toggle-button</id>
@@ -229,9 +231,9 @@
 				<styles>column</styles>
 				<vbox>
 					<styles>example-group</styles>
-					<sub-paragraph>
+					<p>
 						<identifier>buttons.examples.urllink.copy</identifier>
-					</sub-paragraph>
+					</p>
 					<text-button>
 						<identifier>buttons.examples.urllink.uri</identifier>
 						<url-identifier>buttons.examples.urllink.uri</url-identifier>

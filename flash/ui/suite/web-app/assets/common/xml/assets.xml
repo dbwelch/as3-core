@@ -7,27 +7,27 @@
 		</sub-heading>
 		
 		<vbox>
-			<sub-paragraph>
+			<p>
 				<identifier>assets.examples.bean.ref</identifier>
-			</sub-paragraph>
+			</p>
 			<runtime-asset>
 				<asset>
 					<style>default-icon-graphic</style>
 				</asset>
 			</runtime-asset>
 		
-			<sub-paragraph>
+			<p>
 				<styles>note</styles>
 				<identifier>assets.examples.classpath.ref</identifier>
-			</sub-paragraph>
+			</p>
 			<runtime-asset>
 				<class-path>com.ffsys.ui.suite.DefaultIconOver</class-path>
 			</runtime-asset>
 		
-			<sub-paragraph>
+			<p>
 				<styles>note</styles>
 				<identifier>assets.examples.interactive.ref</identifier>
-			</sub-paragraph>
+			</p>
 			<runtime-asset>
 				<id>test-interactive-asset</id>
 				<interactive>true</interactive>

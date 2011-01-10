@@ -40,7 +40,6 @@ package com.ffsys.ui.text
 		* 	A default gutter to offset textfield positions.
 		*/
 		public static const GUTTER:int = -2;
-		
 	
 		/**
 		* 	A left gutter for textfields.
@@ -53,11 +52,12 @@ package com.ffsys.ui.text
 		*/
 		public static const GUTTER_TOP:int = 3;
 		
-		private var _textfield:ITypedTextField;
+		private var _textfield:TextField;
 		private var _textTransform:String;
 		private var _offsets:Point;
 		
-		private var _fte:Boolean = false;
+		private var _fte:Boolean = false;	
+		
 		private var _area:FteTextArea;
 		
 		/**
@@ -215,7 +215,8 @@ package com.ffsys.ui.text
 		{
 			position();
 			
-			//trace("TextComponent::finalized()", this, this.id, this.messages, this.identifier );
+			trace("::::::::::::::::::::: [FINALIZED] TextComponent::finalized()", this, this.id, this.text );
+			
 			if( this.messages != null
 				&& this.identifier != null )
 			{
@@ -291,7 +292,7 @@ package com.ffsys.ui.text
 			super.maxWidth = value;
 			if( !isNaN( value ) && textfield )
 			{
-				textfield.maximumWidth = value;
+				ITypedTextField( textfield ).maximumWidth = value;
 			}
 		}
 		
@@ -304,7 +305,7 @@ package com.ffsys.ui.text
 			super.maxHeight = value;
 			if( !isNaN( value ) && textfield )
 			{
-				textfield.maximumHeight = value;
+				ITypedTextField( textfield ).maximumHeight = value;
 			}
 		}
 		
@@ -318,9 +319,9 @@ package com.ffsys.ui.text
 				return _area.dimensions.measuredWidth + paddings.width + border.width;
 			}
 			
-			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
+			if( textfield && ( ITypedTextField( textfield ).width > 0 && ITypedTextField( textfield ).height > 0 ) )
 			{
-				return textfield.textWidth + paddings.width + border.width;
+				return ITypedTextField( textfield ).textWidth + paddings.width + border.width;
 			}
 			
 			return this.width == 0 ? 0 : this.width - 4;
@@ -338,7 +339,7 @@ package com.ffsys.ui.text
 			
 			var offsets:Point = this.offsets;
 			
-			if( textfield && ( textfield.width > 0 && textfield.height > 0 ) )
+			if( textfield && ( ITypedTextField( textfield ).width > 0 && ITypedTextField( textfield ).height > 0 ) )
 			{
 				return textfield.textHeight + paddings.height + border.height;
 			}
@@ -389,14 +390,14 @@ package com.ffsys.ui.text
 			super.enabled = enabled;
 			if( textfield != null )
 			{
-				textfield.enabled = enabled;
+				ITypedTextField( textfield ).enabled = enabled;
 			}
 		}
 		
 		/**
 		* 	Gets the textfield this label is using to render text.
 		*/
-		public function get textfield():ITypedTextField
+		public function get textfield():TextField
 		{
 			return _textfield;
 		}
@@ -411,10 +412,10 @@ package com.ffsys.ui.text
 				text = text.toLowerCase();
 			}else if( this.textTransform == TextTransform.UNDERLINE )
 			{
-				_textfield.applyTextFormatProperties( { underline: true } );
+				ITypedTextField( textfield ).applyTextFormatProperties( { underline: true } );
 			}else if( this.textTransform == TextTransform.NONE )
 			{
-				_textfield.applyTextFormatProperties( { underline: false } );
+				ITypedTextField( textfield ).applyTextFormatProperties( { underline: false } );
 			}
 			
 			return text;
@@ -438,8 +439,8 @@ package com.ffsys.ui.text
 		*/
 		public function get text():String
 		{
-			return textfield.getText();
-		}		
+			return ITypedTextField( textfield ).getText();
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -518,7 +519,7 @@ package com.ffsys.ui.text
 					//_textfield.background = true;
 				}
 			
-				textfield.setText( text );
+				ITypedTextField( textfield ).setText( text );
 				
 				//
 				
@@ -545,7 +546,7 @@ package com.ffsys.ui.text
 		public function set color( color:Number ):void
 		{
 			textfield.textColor = color;
-			textfield.applyTextFormatProperties( { color: color } );
+			ITypedTextField( textfield ).applyTextFormatProperties( { color: color } );
 		}
 		
 		/**
@@ -555,11 +556,11 @@ package com.ffsys.ui.text
 		* 	
 		*	@return The created textfield.
 		*/
-		protected function createTextField( text:String ):ITypedTextField
+		protected function createTextField( text:String ):TextField
 		{
 			_textfield = textFieldFactory.getTextFieldByClass(
-				getTextFieldClass(), text );
-			_textfield.enabled = false;
+				getTextFieldClass(), text ) as TextField;
+			ITypedTextField( _textfield ).enabled = false;
 			
 			//TODO: investigate removing this and still
 			//allowing components to be added to non-component parent
@@ -748,24 +749,24 @@ package com.ffsys.ui.text
 		*/
 		public function get html():Boolean
 		{
-			if( _textfield != null )
+			if( _textfield is ITypedTextField )
 			{
-				return _textfield.html;
+				return ITypedTextField( _textfield ).html;
 			}			
 			return false;
 		}
 		
 		public function set html( value:Boolean ):void
 		{
-			if( _textfield != null )
+			if( _textfield is ITypedTextField )
 			{
-				_textfield.html = value;
+				ITypedTextField( _textfield ).html = value;
 				
 				//html textfields can have links - need to toggle interactivity
 				
 				this.interactive = value;
 				
-				if( value )  
+				if( value ) 
 				{
 					mouseChildren = true;
 					useHandCursor = false;

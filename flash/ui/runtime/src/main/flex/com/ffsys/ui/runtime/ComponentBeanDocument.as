@@ -436,11 +436,13 @@ package com.ffsys.ui.runtime
 			descriptor.instanceClass = VerticalScrollBar;
 			beans.addBeanDescriptor( descriptor );
 
+			/*
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.CUSTOM_DATA );
 			descriptor.instanceClass = Object;
 			beans.addBeanDescriptor( descriptor );			
-
+			*/
+			
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.IMAGE_DISPLAY );
 			descriptor.instanceClass = ImageDisplay;

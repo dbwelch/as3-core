@@ -1,7 +1,8 @@
 package com.ffsys.ui.buttons
 {
+	import flash.display.DisplayObject;
 	import flash.text.TextField;
-	import com.ffsys.ui.text.Label;
+	import com.ffsys.ui.text.*;
 		
 	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
@@ -22,7 +23,7 @@ package com.ffsys.ui.buttons
 		implements  ICssTextFieldProxy
 	{
 		private var _text:String;
-		private var _label:Label;
+		private var _label:ITextComponent;
 		
 		/**
 		* 	Creates a <code>TextButton</code> instance.
@@ -135,19 +136,20 @@ package com.ffsys.ui.buttons
 		* 	@return The created label or <code>null</code> if no
 		* 	component bean was found.
 		*/
-		protected function createLabel():Label
+		protected function createLabel():ITextComponent
 		{
 			if( _label == null )
 			{
 				_label = getComponentBean(
-					ComponentIdentifiers.LABEL ) as Label;
+					ComponentIdentifiers.LABEL ) as ITextComponent;
 					
-				if( _label != null && !contains( _label ) )
+				if( _label != null && !contains( DisplayObject( _label ) ) )
 				{
-					addChild( _label );
+					addChild( DisplayObject( _label ) );
 					
 					if( styleManager != null )
 					{
+						//TODO: check this duplicate call
 						styleManager.style( this );
 					}
 				}
@@ -165,13 +167,13 @@ package com.ffsys.ui.buttons
 		{
 			if( _label != null )
 			{
-				if( contains( _label ) )
+				if( contains( DisplayObject( _label ) ) )
 				{
-					removeChild( _label );
+					removeChild( DisplayObject( _label ) );
 				}
 				_label = null;
 			}
-		}		
+		}
 		
 		/**
 		*	@inheritDoc	
@@ -179,12 +181,12 @@ package com.ffsys.ui.buttons
 		override protected function createChildren():void
 		{
 			if( _label 
-				&& !contains( _label ) )
+				&& !contains( DisplayObject( _label ) ) )
 			{
-				addChild( _label );
+				addChild( DisplayObject( _label ) );
 			}
 			
-			super.createChildren();			
+			super.createChildren();
 		}
 		
 		/**
@@ -251,12 +253,12 @@ package com.ffsys.ui.buttons
 		/**
 		* 	The label being used to render the text for this button.
 		*/
-		public function get label():Label
+		public function get label():ITextComponent
 		{
 			return _label;
 		}
 		
-		public function set label( value:Label ):void
+		public function set label( value:ITextComponent ):void
 		{
 			_label = value;
 		}

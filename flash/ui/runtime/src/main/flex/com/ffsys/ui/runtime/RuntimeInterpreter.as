@@ -40,6 +40,11 @@ package com.ffsys.ui.runtime {
 		* 	Constant representing the id property field.
 		*/
 		public static const ID:String = "id";
+		
+		/**
+		* 	Constant representing the href property field.
+		*/
+		public static const HREF:String = "href";
 	
 		/**
 		* 	Constant representing the filters property field.
@@ -65,6 +70,28 @@ package com.ffsys.ui.runtime {
 			_runtime = value;
 		}
 		
+		protected function handleNodeAttributes( node:XML, target:Object ):void
+		{
+			trace("RuntimeInterpreter::handleNodeAttributes()", node.name().localName, node.@id );
+			
+			//var nX:Number = (shape.@nY.toString()) ? shape@nY : 0;
+			
+			if( node )
+			{
+				trace("RuntimeInterpreter::handleNodeAttributes() HANDLE NODE ATTRIBUTES", target, node, node.@id );
+				
+				if( node.@id.length() )
+				{
+					handleIdentifier( node.@id, target );
+				}
+				
+				if( node.@href.length() )
+				{
+					handleHref( node.@href, target );
+				}
+			}
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
@@ -76,25 +103,37 @@ package com.ffsys.ui.runtime {
 			text:Boolean = false,
 			value:* = null ):*
 		{
-			
 			//getXmlBeanDescriptor
 			
-			trace("RuntimeInterpreter::primitive()", target, name, value);			
+			trace("RuntimeInterpreter::primitive() STATING PRIMITIVE PARSING: ", node, node.nodeKind, node.parent(), target, name, value);			
 			var result:* = value;
 			var descriptor:IBeanDescriptor = getXmlBeanDescriptor( node );
 			if( descriptor != null )
 			{
-				trace("RuntimeInterpreter::primitive() INSTANTIATING PRIMITIVE FROM BEAN DOCUMENT!!!!!!!");
 				result = getBeanFromDescriptor( node, descriptor );
+				
+				if( result != null )
+				{
+					handleNodeAttributes( node, result );
+					processClass( node, result, descriptor.instanceClass );
+				}
+				
+				trace("RuntimeInterpreter::primitive() INSTANTIATING PRIMITIVE FROM BEAN DOCUMENT!!!!!!!", result, text, value, result.hasOwnProperty( "text" ) );
 			}
 			
-			if( text && value is String && result.hasOwnProperty( "text" ) )
+			//handle text elements with no nested markup
+			if( result != null &&
+				text
+				&& value is String
+				&& result.hasOwnProperty( "text" ) )
 			{
-				result.text = ( value as String );
+					//result.text = ( value as String );
 				
-
-					trace(":::::::::::::::::::::::::::::::::::::::::::::::::: RuntimeInterpreter::primitive() SETTING TEXT VALUE ::::::::::::::::::::::::::::::::::::::::::::::::::", result.text );
+				trace(":::::::::::::::::::::::::::::::::::::::::::::::::: RuntimeInterpreter::primitive() SETTING TEXT VALUE ::::::::::::::::::::::::::::::::::::::::::::::::::", result.text );
+					
+				deserializer.setProperty( result, "text", value );
 				
+				postProcessClass( result, target );
 			}
 			trace("RuntimeInterpreter::primitive()", result );
 			return result;
@@ -367,6 +406,23 @@ package com.ffsys.ui.runtime {
 			return null;
 		}
 		
+		private function handleIdentifier( id:String, value:Object ):void
+		{
+			//trace("RuntimeInterpreter::shouldSetProperty()", "ADDING DOCUMENT ID REFERENCE:", id, value );
+			_runtime.identifiers[ id ] = value;
+		}
+		
+		private function handleHref( attribute:String, value:Object ):void
+		{
+			trace("RuntimeInterpreter::shouldSetProperty()", "HANDLE HREF PROPERTY", attribute, value );
+			
+			if( value.hasOwnProperty( HREF ) )
+			{
+				trace("RuntimeInterpreter::handleHref() SETTING HREF PROPERTY: ", value, attribute );
+				value[ HREF ] = attribute;
+			}
+		}		
+		
 		/**
 		*	@inheritDoc
 		*/
@@ -413,10 +469,7 @@ package com.ffsys.ui.runtime {
 				&& ( value[ ID ] != null ) )
 			{
 				var id:String = value[ ID ];
-				trace("RuntimeInterpreter::shouldSetProperty()", "ADDING DOCUMENT ID REFERENCE:", id, value );
-				
-				
-				_runtime.identifiers[ id ] = value;
+				handleIdentifier( id, value );
 			}
 			
 			/*

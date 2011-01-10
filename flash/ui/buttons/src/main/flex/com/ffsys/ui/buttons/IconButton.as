@@ -76,7 +76,7 @@ package com.ffsys.ui.buttons
 			var width:Number = super.preferredWidth;
 			
 			var hasIcon:Boolean = ( icon != null ) && contains( icon );
-			var hasLabel:Boolean = ( label != null ) && contains( label );
+			var hasLabel:Boolean = ( label != null ) && contains( DisplayObject( label ) );
 			
 			if( isNaN( _preferredWidth ) )
 			{
@@ -110,7 +110,7 @@ package com.ffsys.ui.buttons
 			var height:Number = super.preferredHeight;
 			
 			var hasIcon:Boolean = ( icon != null ) && contains( icon );
-			var hasLabel:Boolean = ( label != null ) && contains( label );
+			var hasLabel:Boolean = ( label != null ) && contains( DisplayObject( label ) );
 			
 			if( isNaN( _preferredHeight ) )
 			{
@@ -142,7 +142,7 @@ package com.ffsys.ui.buttons
 		override public function get layoutWidth():Number
 		{
 			var hasIcon:Boolean = ( icon != null ) && contains( icon );
-			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			var hasLabel:Boolean = ( label != null ) && contains( DisplayObject( label ) );			
 			
 			//some border data - use border dimensions
 			if( this.border.valid() )
@@ -171,7 +171,7 @@ package com.ffsys.ui.buttons
 		override public function get layoutHeight():Number
 		{
 			var hasIcon:Boolean = ( icon != null ) && contains( icon );
-			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			var hasLabel:Boolean = ( label != null ) && contains( DisplayObject( label ) );			
 			
 			if( this.border.valid() )
 			{
@@ -227,7 +227,7 @@ package com.ffsys.ui.buttons
 		protected function position():void
 		{
 			var hasIcon:Boolean = ( icon != null ) && contains( icon );
-			var hasLabel:Boolean = ( label != null ) && contains( label );			
+			var hasLabel:Boolean = ( label != null ) && contains( DisplayObject( label ) );
 			
 			var ix:Number = paddings.left;
 			var iy:Number = paddings.top;

@@ -6,6 +6,7 @@ body {
 	margin: 0px;
 	padding:0px;
 	font-family: Helvetica, Georgia, sans-serif;
+	font-size: 20px;
 	color: #ffffff;
 	background-color: #000000;
 }
@@ -16,7 +17,11 @@ body {
 	height: 100%;
 }
 
-#cfg {
+.cfg {
+	display: none;
+}
+
+.flash-element {
 	display: none;
 }
 

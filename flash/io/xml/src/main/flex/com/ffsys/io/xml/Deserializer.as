@@ -281,12 +281,12 @@ package com.ffsys.io.xml {
 			obj:*, prop:String, val:*,
 			rawStringValue:String = null ):void
 		{
-			/*
+			
 			trace( "setProperty obj : " + obj );
 			trace( "setProperty prop : " + prop );
 			trace( "setProperty value : " + val, getQualifiedClassName( val ) );
-			trace( "setProperty rawStringValue : " + rawStringValue );
-			*/
+			//trace( "setProperty rawStringValue : " + rawStringValue );
+			
 			
 			//trace("Deserializer::setProperty()", hasInterpreter(), _interpreter, obj, prop, val );
 			

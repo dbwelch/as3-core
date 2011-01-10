@@ -21,9 +21,9 @@
 				<styles>element</styles>
 				<identifier>elements.hbox</identifier>
 			</label>
-			<sub-paragraph>
+			<p>
 				<identifier>containers.examples.hbox.copy</identifier>
-			</sub-paragraph>			
+			</p>			
 			<hbox>
 				<id>example-hbox</id>
 				<styles>example-hbox</styles>
@@ -47,9 +47,9 @@
 				<styles>element</styles>
 				<identifier>elements.vbox</identifier>
 			</label>
-			<sub-paragraph>
+			<p>
 				<identifier>containers.examples.vbox.copy</identifier>
-			</sub-paragraph>			
+			</p>			
 			<vbox>
 				<id>example-vbox</id>
 				<styles>example-vbox</styles>
@@ -183,9 +183,9 @@
 				<identifier>elements.links</identifier>
 			</label>					
 			
-			<sub-paragraph>
+			<p>
 				<identifier>containers.examples.textlinks.copy</identifier>
-			</sub-paragraph>
+			</p>
 			<hbox>
 				<links>
 					<id>example-text-links</id>
@@ -210,9 +210,9 @@
 		
 			<vbox>
 				<styles>example-group</styles>
-				<sub-paragraph>
+				<p>
 					<identifier>containers.examples.links.copy</identifier>
-				</sub-paragraph>
+				</p>
 				<hbox>					
 					<links>
 						<id>example-links</id>
@@ -242,9 +242,9 @@
 		
 			<vbox>
 				<styles>example-group</styles>
-				<sub-paragraph>
+				<p>
 					<identifier>containers.examples.tabs.copy</identifier>
-				</sub-paragraph>
+				</p>
 				<hbox>
 					<tabs>
 						<id>example-tabs</id>

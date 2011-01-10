@@ -10,9 +10,9 @@
 			<vbox>
 				<vbox>
 					<styles>example-group</styles>
-					<sub-paragraph>
+					<p>
 						<identifier>graphic.buttons.examples.copy</identifier>
-					</sub-paragraph>
+					</p>
 					
 					<hbox>
 						<icon-button>

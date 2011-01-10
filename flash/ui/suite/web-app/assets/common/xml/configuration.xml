@@ -68,6 +68,8 @@
 						</resource>
 					</xml>
 				</view>
+				
+				<!--
 				<view>
 					<id>navigation</id>
 					<xml>
@@ -84,6 +86,8 @@
 						</resource>
 					</xml>
 				</view>
+				-->
+				
 				<view>
 					<id>graphics</id>
 					<xml>
@@ -156,13 +160,10 @@
 				</resource>
 			</messages>			
 		</resources>
-		
 		<!-- only english -->
 		<locale>
 			<lang>en</lang>
 			<country>GB</country>
 		</locale>
-		
 	</locales>
-	
 </configuration>

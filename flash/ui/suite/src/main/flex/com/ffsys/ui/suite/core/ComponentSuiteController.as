@@ -114,7 +114,7 @@ package com.ffsys.ui.suite.core {
 				var link:DisplayObject = null;
 				for each( link in links )
 				{
-					trace("ComponentSuiteController::doWithNavigationLinks()", "DO WITH NAV LINK", link );
+					trace("ComponentSuiteController::doWithNavigationLinks()", "DO WITH NAV LINK", link, Object( link ).customData );
 					link.addEventListener(
 						MouseEvent.CLICK, navigationLinkClick );
 				}
@@ -335,21 +335,30 @@ package com.ffsys.ui.suite.core {
 			main = getView( "global" ) as IDomDocument;
 			if( main != null )
 			{
+				root.addChild( DisplayObject( main ) );
+				
+				var z:String = null;
+				
+				for( z in main )
+				{
+					trace("ComponentSuiteController::createMainChildren() GOT DOCUMENT ELEMENT: ", z, main[ z ] );
+				}
+				
 				//TODO: re-integrate
 				
 				doWithNavigationLinks(
-					main.getElementsByMatch( /\-link$/ ) );				
+					main.getElementsByMatch( /\-link$/ ) );
 				
 				trace("ComponentSuiteController::createMainChildren() CONTENT: ", main.getElementById( CONTENT_ID ) );
 				content = main.getElementById( CONTENT_ID ) as IDivContainer;
 				
 				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
 				
-				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT TEST P:: ", main.getElementById( "test" ) );
+				var p:Object = main.getElementById( "test-link" ) as Object;
 				
-			
+				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT TEST P:: ", p, p.text, p.getStyleCache().main, p.getStyleCache().main.font, p.getStyleCache().main.color, p.parent, p.width, p.height );
 				
-				root.addChild( DisplayObject( main ) );
+				
 			}
 		}
 	}

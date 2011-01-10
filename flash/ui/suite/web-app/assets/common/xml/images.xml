@@ -7,9 +7,9 @@
 		</sub-heading>
 
 		<vbox>
-			<sub-paragraph>
+			<p>
 				<identifier>assets.examples.images.injected</identifier>
-			</sub-paragraph>
+			</p>
 			<image-container>
 				<id>injected-images</id>
 				<filters>image-display-filter</filters>

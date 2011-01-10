@@ -119,9 +119,9 @@
 					<identifier>elements.paragraph</identifier>
 				</label>				
 				
-				<paragraph>
+				<p>
 					<identifier>text.examples.paragraph</identifier>
-				</paragraph>
+				</p>
 				
 				<hrule />
 				
@@ -130,9 +130,9 @@
 					<identifier>elements.subparagraph</identifier>
 				</label>
 						
-				<sub-paragraph>
+				<p>
 					<identifier>text.examples.subparagraph</identifier>
-				</sub-paragraph>
+				</p>
 				
 				<hrule />				
 				

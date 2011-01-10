@@ -62,7 +62,7 @@ package com.ffsys.ui.text
 		/**
 		* 	@inheritDoc
 		*/
-		override protected function createTextField( text:String ):ITypedTextField
+		override protected function createTextField( text:String ):TextField
 		{
 			super.createTextField( text );
 			
