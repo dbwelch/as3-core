@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <document>
 	<vbox>
-		<sub-heading>
+		<h3 id="page-package-heading">
 			<styles>package-heading</styles>
 			<identifier>assets.package</identifier>
-		</sub-heading>
+		</h3>
 		
 		<vbox>
 			<p>

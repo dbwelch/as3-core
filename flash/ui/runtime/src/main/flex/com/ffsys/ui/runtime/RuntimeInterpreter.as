@@ -72,13 +72,13 @@ package com.ffsys.ui.runtime {
 		
 		protected function handleNodeAttributes( node:XML, target:Object ):void
 		{
-			trace("RuntimeInterpreter::handleNodeAttributes()", node.name().localName, node.@id );
+			//trace("RuntimeInterpreter::handleNodeAttributes()", node.name().localName, node.@id );
 			
 			//var nX:Number = (shape.@nY.toString()) ? shape@nY : 0;
 			
 			if( node )
 			{
-				trace("RuntimeInterpreter::handleNodeAttributes() HANDLE NODE ATTRIBUTES", target, node, node.@id );
+				//trace("RuntimeInterpreter::handleNodeAttributes() HANDLE NODE ATTRIBUTES", target, node, node.@id );				
 				
 				if( node.@id.length() )
 				{
@@ -88,6 +88,20 @@ package com.ffsys.ui.runtime {
 				if( node.@href.length() )
 				{
 					handleHref( node.@href, target );
+				}
+				
+				
+				if( node.@['class'].length()
+					&& target.hasOwnProperty( "styles" ) )
+				{
+					try
+					{
+						target.styles = node.@['class'];
+						//trace("RuntimeInterpreter::handleNodeAttributes() SET STYLES: ", target.styles );
+					}catch( e:Error )
+					{
+						//
+					}
 				}
 			}
 		}
@@ -105,7 +119,7 @@ package com.ffsys.ui.runtime {
 		{
 			//getXmlBeanDescriptor
 			
-			trace("RuntimeInterpreter::primitive() STATING PRIMITIVE PARSING: ", node, node.nodeKind, node.parent(), target, name, value);			
+			//trace("RuntimeInterpreter::primitive() STARTING PRIMITIVE PARSING: ", node.nodeKind, target, name, value);			
 			var result:* = value;
 			var descriptor:IBeanDescriptor = getXmlBeanDescriptor( node );
 			if( descriptor != null )
@@ -118,24 +132,24 @@ package com.ffsys.ui.runtime {
 					processClass( node, result, descriptor.instanceClass );
 				}
 				
-				trace("RuntimeInterpreter::primitive() INSTANTIATING PRIMITIVE FROM BEAN DOCUMENT!!!!!!!", result, text, value, result.hasOwnProperty( "text" ) );
+				//trace("RuntimeInterpreter::primitive() INSTANTIATING PRIMITIVE FROM BEAN DOCUMENT!!!!!!!", result, text, value, result.hasOwnProperty( "text" ) );
 			}
 			
 			//handle text elements with no nested markup
 			if( result != null &&
 				text
 				&& value is String
-				&& result.hasOwnProperty( "text" ) )
+				&& result.hasOwnProperty( "contentText" ) )
 			{
 					//result.text = ( value as String );
 				
-				trace(":::::::::::::::::::::::::::::::::::::::::::::::::: RuntimeInterpreter::primitive() SETTING TEXT VALUE ::::::::::::::::::::::::::::::::::::::::::::::::::", result.text );
+				//trace(":::::::::::::::::::::::::::::::::::::::::::::::::: RuntimeInterpreter::primitive() SETTING TEXT VALUE ::::::::::::::::::::::::::::::::::::::::::::::::::", result.text );
 					
-				deserializer.setProperty( result, "text", value );
+				deserializer.setProperty( result, "contentText", value );
 				
 				postProcessClass( result, target );
 			}
-			trace("RuntimeInterpreter::primitive()", result );
+			//trace("RuntimeInterpreter::primitive()", result );
 			return result;
 		}
 		
@@ -156,7 +170,7 @@ package com.ffsys.ui.runtime {
 		*/	
 		override public function processAttribute( parent:Object, name:String, value:Object ):Boolean
 		{
-			trace("RuntimeInterpreter::processAttribute()", parent, name, value );
+			//trace("RuntimeInterpreter::processAttribute()", parent, name, value );
 			if( name == ID )
 			{
 				return true;
@@ -414,11 +428,11 @@ package com.ffsys.ui.runtime {
 		
 		private function handleHref( attribute:String, value:Object ):void
 		{
-			trace("RuntimeInterpreter::shouldSetProperty()", "HANDLE HREF PROPERTY", attribute, value );
+			//trace("RuntimeInterpreter::shouldSetProperty()", "HANDLE HREF PROPERTY", attribute, value );
 			
 			if( value.hasOwnProperty( HREF ) )
 			{
-				trace("RuntimeInterpreter::handleHref() SETTING HREF PROPERTY: ", value, attribute );
+				//trace("RuntimeInterpreter::handleHref() SETTING HREF PROPERTY: ", value, attribute );
 				value[ HREF ] = attribute;
 			}
 		}		
@@ -432,7 +446,7 @@ package com.ffsys.ui.runtime {
 			
 			var hasProp:Boolean = parent.hasOwnProperty( name );
 			
-			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
+			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
 			
 			if( value is RuntimeDocumentReference )
 			{
@@ -541,6 +555,8 @@ package com.ffsys.ui.runtime {
 		{
 			var target:Object = super.processClass(
 				node, parent, classReference );
+				
+			handleNodeAttributes( node, target );
 
 			doWithComponent( target as IComponent, node );
 			if( target is IComponent )
@@ -593,20 +609,7 @@ package com.ffsys.ui.runtime {
 			instance:Object, parent:Object ):void
 		{
 			//trace("RuntimeInterpreter::postProcessClass()", instance );
-			
-			/*
-			
-			if( instance is RectangleGraphic )
-			{
-				trace("RuntimeInterpreter::complete()", RectangleGraphic( instance ).pointer );
-				
-				if( RectangleGraphic( instance ).pointer )
-				{
-					trace("RuntimeInterpreter::complete()", RectangleGraphic( instance ).pointer.orientation );
-				}
-			}
-			*/
-			
+
 			if( instance is IComponent )
 			{
 				IComponent( instance ).prefinalize();

@@ -2,10 +2,10 @@
 <document>
 	<vbox>
 		<styles>page-heading</styles>
-		<sub-heading>
+		<h3 id="page-package-heading">
 			<styles>package-heading</styles>
 			<identifier>containers.package</identifier>
-		</sub-heading>
+		</h3>
 		
 		<container>
 			<id>container-stretch-width</id>

@@ -7,6 +7,7 @@ package com.ffsys.ui.text
 		implements ITextComponent
 	{
 		private var _text:String;
+		private var _contentText:String;
 		
 		/**
 		* 	Creates an <code>FteTextArea</code> instance.
@@ -47,6 +48,22 @@ package com.ffsys.ui.text
 			return null;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get contentText():String
+		{
+			return _contentText;
+		}
+		
+		public function set contentText( value:String ):void
+		{
+			_contentText = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get text():String
 		{
 			return _text;

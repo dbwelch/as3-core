@@ -148,19 +148,9 @@ package com.ffsys.ui.common
 		public static const HEADING:String = "heading";		
 		
 		/**
-		* 	The identifier for a sub heading component.
-		*/
-		public static const SUB_HEADING:String = "sub-heading";
-		
-		/**
 		* 	The identifier for a paragraph component.
 		*/
 		public static const PARAGRAPH:String = "paragraph";
-		
-		/**
-		* 	The identifier for a sub paragraph component.
-		*/
-		public static const SUB_PARAGRAPH:String = "sub-paragraph";
 		
 		/**
 		* 	The identifier for a button component.

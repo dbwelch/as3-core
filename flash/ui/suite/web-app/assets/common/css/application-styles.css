@@ -6,6 +6,11 @@ body {
 	padding-top: 20;
 }
 
+#header,header {
+	fte: true;
+	color: #ff0000;
+}
+
 percentage-container {
 	width: 100%;
 	height: 100%;

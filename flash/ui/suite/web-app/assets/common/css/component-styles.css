@@ -46,15 +46,8 @@ h6 {
 p {
 	font-family: Helvetica, Georgia, sans-serif;	
 	size: 20;
-		
-	embed-fonts: false;
-	auto-size: left;
-	word-wrap: true;
-	multiline: true;
 	width: 360;
-
 	color: #ffffff;
-	fte: true;	
 	leading: 2;
 }
 
@@ -113,14 +106,6 @@ Heading {
 	embed-fonts: false;
 	auto-size: left;
 	color: #a9a9a9;	
-}
-
-SubHeading {
-	font: Arial;
-	size: 14;
-	embed-fonts: false;
-	auto-size: left;
-	color: #a9a9a9;
 }
 
 HorizontalRule {

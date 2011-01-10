@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <document>
 	<vbox>
-		<sub-heading>
-			<id>text-heading</id>
+		<h3 id="page-package-heading">
 			<styles>package-heading</styles>
 			<identifier>text.package</identifier>
-		</sub-heading>
+		</h3>
 		
 		<hbox>
 			<spacing>25</spacing>
@@ -41,22 +40,22 @@
 				</label>				
 				
 				<hbox>
-					<sub-heading>
+					<h3>
 						<identifier>text.examples.subheading</identifier>
-					</sub-heading>
+					</h3>
 			
-					<sub-heading>
+					<h3>
 						<styles>uppercase</styles>
 						<identifier>uppercase</identifier>
-					</sub-heading>
-					<sub-heading>
+					</h3>
+					<h3>
 						<styles>lowercase</styles>
 						<identifier>lowercase</identifier>
-					</sub-heading>
-					<sub-heading>
+					</h3>
+					<h3>
 						<styles>underline</styles>
 						<identifier>underline</identifier>
-					</sub-heading>									
+					</h3>									
 				</hbox>
 				
 				<hrule />
@@ -119,9 +118,9 @@
 					<identifier>elements.paragraph</identifier>
 				</label>				
 				
-				<p>
+				<paragraph>
 					<identifier>text.examples.paragraph</identifier>
-				</p>
+				</paragraph>
 				
 				<hrule />
 				
@@ -154,11 +153,11 @@
 					<identifier>elements.label.border.padding</identifier>
 				</label>
 				
-				<sub-heading>
-					<styles>sub-heading-border-example</styles>
+				<h3>
+					<styles>h3-border-example</styles>
 					<identifier>text.examples.subheading.border.example</identifier>
 					<max-width>260</max-width>
-				</sub-heading>
+				</h3>
 				
 				<hrule />				
 				
@@ -167,10 +166,10 @@
 					<identifier>elements.label.leftborder</identifier>
 				</label>
 				
-				<sub-heading>
-					<styles>sub-heading-border-left</styles>
+				<h3>
+					<styles>h3-border-left</styles>
 					<identifier>text.examples.subheading.border.left</identifier>
-				</sub-heading>
+				</h3>
 			</vbox>		
 		
 		</hbox>				

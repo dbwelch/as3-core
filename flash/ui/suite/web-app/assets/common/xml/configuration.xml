@@ -69,25 +69,6 @@
 					</xml>
 				</view>
 				
-				<!--
-				<view>
-					<id>navigation</id>
-					<xml>
-						<resource>
-							<url>xml/navigation.xml</url>
-						</resource>
-					</xml>
-				</view>
-				<view>
-					<id>content</id>
-					<xml>
-						<resource>
-							<url>xml/content.xml</url>
-						</resource>
-					</xml>
-				</view>
-				-->
-				
 				<view>
 					<id>graphics</id>
 					<xml>

@@ -3,6 +3,8 @@ package com.ffsys.ui.buttons
 	import flash.display.DisplayObject;
 	import flash.text.TextField;
 	import com.ffsys.ui.text.*;
+	
+	import com.ffsys.ioc.*;
 		
 	import com.ffsys.ui.common.ComponentIdentifiers;
 	import com.ffsys.ui.css.ICssTextFieldProxy;
@@ -111,10 +113,15 @@ package com.ffsys.ui.buttons
 		
 		public function set text( text:String ):void
 		{
+			removeLabel();
 			_text = text;
-			updateLabelText( text );
+			if( text != null )
+			{
+				createLabel( text );
+			}
 		}
 		
+		/*
 		protected function updateLabelText( text:String ):void
 		{
 			if( _label != null )
@@ -129,6 +136,7 @@ package com.ffsys.ui.buttons
 				}
 			}
 		}
+		*/
 		
 		/**
 		* 	Creates the label component.
@@ -136,32 +144,36 @@ package com.ffsys.ui.buttons
 		* 	@return The created label or <code>null</code> if no
 		* 	component bean was found.
 		*/
-		protected function createLabel():ITextComponent
+		protected function createLabel( text:String = null ):ITextComponent
 		{
 			if( _label == null )
-			{
-				_label = getComponentBean(
-					ComponentIdentifiers.LABEL ) as ITextComponent;
+			{		
+				var descriptor:IBeanDescriptor = this.document.getBeanDescriptor(
+					ComponentIdentifiers.LABEL );
+				
+				//ensure the label isn't finalized until it's added
+				_label = descriptor.getBean(
+					true, false ) as ITextComponent;
+				_label.id = this.id + "_text";
+				if( text != null )
+				{
+					_label.contentText = text;
+				}
+				
+				trace("[CREATING LABEL] ::::::::::::::::::::: TextButton::createLabel()", this, this.id, _label.fte, _label, text, _label.contentText, contains( DisplayObject( _label ) ) );
 					
 				if( _label != null && !contains( DisplayObject( _label ) ) )
 				{
 					addChild( DisplayObject( _label ) );
-					
-					if( styleManager != null )
-					{
-						//TODO: check this duplicate call
-						styleManager.style( this );
-					}
+					_label.finalized();
+					trace("[CREATING LABEL] ::::::::::::::::::::: ADDED CHILD LABEL()", _label.text );					
 				}
 			}
 			return _label;
 		}
 		
 		/**
-		* 	Removed the label component.
-		* 
-		* 	@return The created label or <code>null</code> if no
-		* 	component bean was found.
+		* 	Removes the label component.
 		*/
 		protected function removeLabel():void
 		{
@@ -225,8 +237,20 @@ package com.ffsys.ui.buttons
 			if( _label == null
 				&& this.identifier != null )
 			{
-				createLabel();
+				//createLabel();
 			}
+		}
+		
+		private var _contentText:String;
+		
+		public function get contentText():String
+		{
+			return _contentText;
+		}
+		
+		public function set contentText( value:String ):void
+		{
+			_contentText = value;
 		}
 		
 		/**
@@ -234,7 +258,10 @@ package com.ffsys.ui.buttons
 		*/
 		override public function finalized():void
 		{			
-			if( this.label != null
+			if( contentText != null )
+			{
+				this.text = contentText;
+			}else if( this.label != null
 				&& this.messages != null
 				&& this.identifier != null
 				&& this.label.identifier == null )

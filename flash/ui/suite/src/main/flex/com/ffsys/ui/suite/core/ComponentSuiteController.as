@@ -176,13 +176,15 @@ package com.ffsys.ui.suite.core {
 			{
 				display.addEventListener( MouseEvent.CLICK, handleContainerClick );
 			}
-		}		
+		}
 		
 		/**
 		* 	@private
 		*/
 		private function navigationLinkClick( event:MouseEvent ):void
 		{
+			//event.preventDefault();
+			
 			if( event.target is IComponent )
 			{
 				//the view id
@@ -239,6 +241,8 @@ package com.ffsys.ui.suite.core {
 					
 				if( id == BUTTONS_ID )
 				{
+					
+					/*
 					var heading:IComponent = document.getElementById(
 						"page-package-heading" ) as IComponent;
 					
@@ -247,16 +251,6 @@ package com.ffsys.ui.suite.core {
 						"text-buttons" ) as VerticalBox;
 					container.addChild( DisplayObject( newHeading ) );
 					//container.update();
-					
-					/*
-					trace( "Document xml component circular reference: ", document.xml.component, radioButtonGroup, radioButtonGroup.component );
-					
-					if( radioButtonGroup.component )
-					{
-						trace("ComponentSuiteController::navigationLinkClick()", "GOT XML COMPONENT REFERENCE!!!!",
-							radioButtonGroup.component.toString() );
-					}
-					*/
 					
 					//radioButtonGroup.debug();
 					
@@ -269,14 +263,13 @@ package com.ffsys.ui.suite.core {
 					{
 						var result:Object = btn.setStyle( { color: 0xff0000 } );
 						
-						/*
-						trace("ComponentSuiteController::navigationLinkClick()",
-							0xff0000, result, result.color, result.color == 0xff0000 );
-						*/
+						//trace("ComponentSuiteController::navigationLinkClick()",
+						//	0xff0000, result, result.color, result.color == 0xff0000 );
 					}
 					
 					var newButton:IButton = btn.clone() as IButton;
 					container.addChild( DisplayObject( newButton ) );
+					*/
 				}
 
 				_views[ id ] = view;
@@ -354,7 +347,7 @@ package com.ffsys.ui.suite.core {
 				
 				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
 				
-				var p:Object = main.getElementById( "test-link" ) as Object;
+				var p:Object = main.getElementById( "test-href" ) as Object;
 				
 				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT TEST P:: ", p, p.text, p.getStyleCache().main, p.getStyleCache().main.font, p.getStyleCache().main.color, p.parent, p.width, p.height );
 				

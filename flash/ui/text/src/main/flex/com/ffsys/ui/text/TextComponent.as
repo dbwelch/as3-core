@@ -31,7 +31,7 @@ package com.ffsys.ui.text
 	*	@author Mischa Williamson
 	*	@since  21.06.2010
 	*/
-	public class TextComponent extends Container
+	public class TextComponent extends InteractiveComponent	
 		implements 	ITextComponent,
 					ICssTextFieldProxy,
 					IAdjustLayoutValue
@@ -52,13 +52,15 @@ package com.ffsys.ui.text
 		*/
 		public static const GUTTER_TOP:int = 3;
 		
+		//TODO: implement a common interface
 		private var _textfield:TextField;
+		private var _area:FteTextArea;
+		
 		private var _textTransform:String;
 		private var _offsets:Point;
 		
-		private var _fte:Boolean = false;	
-		
-		private var _area:FteTextArea;
+		private var _fte:Boolean = true;
+		private var _textProperties:Object = new Object();
 		
 		/**
 		*	Creates a <code>TextComponent</code> instance.
@@ -73,7 +75,7 @@ package com.ffsys.ui.text
 			maximumHeight:Number = NaN )
 		{
 			super();
-			createTextField( text );		
+			//createTextField( text );
 			this.maxWidth = maximumWidth;
 			this.maxHeight = maximumHeight;
 		}
@@ -208,16 +210,35 @@ package com.ffsys.ui.text
 			return output;
 		}
 		
+		
+		/**
+		* 	@private
+		*/
+		override public function prefinalize():void
+		{
+			/*
+			///trace("TextComponent::prefinalize()", this, this.id, fte );
+			
+			if( this.fte == true )
+			{
+				//trace("TextComponent::prefinalize()", this, this.id, fte );			
+			}
+			*/
+		}		
+		
 		/**
 		* 	@inheritDoc
 		*/
 		override public function finalized():void
 		{
-			position();
+			//position();
 			
-			trace("::::::::::::::::::::: [FINALIZED] TextComponent::finalized()", this, this.id, this.text );
+			trace("::::::::::::::::::::: [FINALIZED] TextComponent::finalized()", this, this.id, this.text, contentText );
 			
-			if( this.messages != null
+			if( contentText != null )
+			{
+				this.text = contentText;
+			}else if( this.messages != null
 				&& this.identifier != null )
 			{
 				var msg:String = this.messages.getProperty.apply(
@@ -410,15 +431,29 @@ package com.ffsys.ui.text
 			}else if( this.textTransform == TextTransform.LOWERCASE )
 			{
 				text = text.toLowerCase();
-			}else if( this.textTransform == TextTransform.UNDERLINE )
-			{
-				ITypedTextField( textfield ).applyTextFormatProperties( { underline: true } );
-			}else if( this.textTransform == TextTransform.NONE )
-			{
-				ITypedTextField( textfield ).applyTextFormatProperties( { underline: false } );
 			}
 			
+			if( textfield is ITypedTextField )
+			{
+				if( this.textTransform == TextTransform.UNDERLINE )
+				{
+					ITypedTextField( textfield ).applyTextFormatProperties( { underline: true } );
+				}else if( this.textTransform == TextTransform.NONE )
+				{
+					ITypedTextField( textfield ).applyTextFormatProperties( { underline: false } );
+				}
+			}
 			return text;
+		}
+		
+		public function get contentText():String
+		{
+			return _textProperties.contentText is String ? _textProperties.contentText : null;
+		}
+		
+		public function set contentText( value:String ):void
+		{
+			_textProperties.contentText = value;
 		}
 		
 		/**
@@ -426,12 +461,16 @@ package com.ffsys.ui.text
 		*/
 		public function get underline():Boolean
 		{
-			return _textfield.defaultTextFormat.underline;
+			return _textProperties.underline is Boolean ? _textProperties.underline : false;
 		}
 		
 		public function set underline( value:Boolean ):void
 		{
-			_textfield.defaultTextFormat.underline = value;
+			if( _textfield is TextField )
+			{
+				_textfield.defaultTextFormat.underline = value;
+			}
+			_textProperties.underline = value;
 		}
 		
 		/**
@@ -439,100 +478,110 @@ package com.ffsys.ui.text
 		*/
 		public function get text():String
 		{
-			return ITypedTextField( textfield ).getText();
+			if( textfield is ITypedTextField )
+			{
+				return ITypedTextField( textfield ).getText();
+			}
+			return _textProperties.text is String ? _textProperties.text : null;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
 		public function set text( text:String ):void
-		{
+		{	
+			_textProperties.text = text;
+			
 			if( textTransform != null ) 
 			{
 				text = handleTextTransform( text );
-			}			
-			
-			if( textfield == null
-				&& text != null
-				&& text != "" )
-			{
-				createTextField( text );
 			}
-
-			trace("TextComponent::set text() HAS FTE: ", fte, this.id );
 			
-			if( textfield != null )
+			trace("TextComponent::set text() HAS FTE: ", fte, this.id );		
+				
+			if( fte )
 			{
-				
-				
-				if( fte )
-				{
-					trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
+				trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
 
-					var w:Number = 1000000;
-					
-					if( !isNaN( dimensions.preferredWidth ) )
-					{
-						w = dimensions.preferredWidth;
-					}
-					
-					if( dimensions.hasExplicitWidth() )
-					{
-						w = dimensions.innerWidth;
-					}
-					
-					//TODO :move to measure() and calculatedDimensions
-					if( dimensions.maxWidth > 0 )
-					{
-						w = dimensions.maxWidth;
-					}
-					
-					trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
-					
+				var w:Number = 1000000;
+				
+				if( !isNaN( dimensions.preferredWidth ) )
+				{
+					w = dimensions.preferredWidth;
+				}
+				
+				if( dimensions.hasExplicitWidth() )
+				{
+					w = dimensions.innerWidth;
+				}
+				
+				//TODO :move to measure() and calculatedDimensions
+				if( dimensions.maxWidth > 0 )
+				{
+					w = dimensions.maxWidth;
+				}
+				
+				trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
+				
+				try
+				{
+				
 					var converter:FteTextFormatConverter = new FteTextFormatConverter();
 					_area = converter.convert(
 						text,
-						textfield.defaultTextFormat,
+						stylesheet.transform( getStyleCache().main ),
 						w );
-					
+				
 					trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
-					
+				
 					if( _area != null )
 					{
 						addChild( _area );
 					}
-					
-					position();
-
-					return;
+				
+				}catch( e:Error )
+				{
+					// TODO
 				}
 
-				//ensure inline styles work as expected
-				//with html textfields
-				if( this.styleManager && html )
+			}else{			
+				if( textfield == null
+					&& text != null
+					&& text != "" )
 				{
-					var sheet:StyleSheet = this.stylesheet.toStyleSheet();
-					//trace("TextComponent::set text()", "UPDATING TEXTFIELD STYLE SHEET", sheet, sheet.styleNames );
-					//_textfield.defaultTextFormat = null;
-					_textfield.styleSheet = sheet;
-					
-					//_textfield.background = true;
+					createTextField( text );
 				}
 			
-				ITypedTextField( textfield ).setText( text );
-				
-				//
-				
-				/*
-				if( this.styleManager && html )
+				if( textfield is ITypedTextField )
 				{
-					trace("TextComponent::set text()", _textfield.getText(), _textfield.styleSheet, _textfield.defaultTextFormat );
-				}				
-				*/
-
-				//update the background
-				applyBackground();
+					//ensure inline styles work as expected
+					//with html textfields
+					if( this.styleManager && this.stylesheet && html )
+					{
+						var sheet:StyleSheet = this.stylesheet.toStyleSheet();
+						//trace("TextComponent::set text()", "UPDATING TEXTFIELD STYLE SHEET", sheet, sheet.styleNames );
+						//_textfield.defaultTextFormat = null;
+						_textfield.styleSheet = sheet;
+					
+						//_textfield.background = true;
+					}
+			
+					ITypedTextField( textfield ).setText( text );
+				
+					//
+				
+					/*
+					if( this.styleManager && html )
+					{
+						trace("TextComponent::set text()", _textfield.getText(), _textfield.styleSheet, _textfield.defaultTextFormat );
+					}				
+					*/
+				}
 			}
+			
+			//update the background
+			applyBackground();
+			position();		
 		}
 		
 		/**
@@ -540,13 +589,17 @@ package com.ffsys.ui.text
 		*/
 		public function get color():Number
 		{
-			return Number( textfield.defaultTextFormat.color );
+			return _textProperties.color is Number ? _textProperties.color : 0x990099;
 		}
 		
 		public function set color( color:Number ):void
 		{
-			textfield.textColor = color;
-			ITypedTextField( textfield ).applyTextFormatProperties( { color: color } );
+			if( textfield is ITypedTextField )
+			{
+				textfield.textColor = color;
+				ITypedTextField( textfield ).applyTextFormatProperties( { color: color } );
+			}
+			_textProperties.color = color;
 		}
 		
 		/**
@@ -560,7 +613,20 @@ package com.ffsys.ui.text
 		{
 			_textfield = textFieldFactory.getTextFieldByClass(
 				getTextFieldClass(), text ) as TextField;
-			ITypedTextField( _textfield ).enabled = false;
+				
+			if( _textfield is TextField )
+			{
+				TextField( _textfield ).embedFonts = this.embedFonts;
+				TextField( _textfield ).wordWrap = this.wordWrap;
+				TextField( _textfield ).multiline = this.multiline;
+				TextField( _textfield ).autoSize = this.autoSize;
+			}
+				
+			if( _textfield is ITypedTextField )
+			{
+				
+				ITypedTextField( _textfield ).enabled = false;
+			}
 			
 			//TODO: investigate removing this and still
 			//allowing components to be added to non-component parent
@@ -568,27 +634,6 @@ package com.ffsys.ui.text
 			addChild( DisplayObject( _textfield ) );
 			
 			return _textfield;
-		}
-		
-		/**
-		* 	@private
-		*/
-		override public function prefinalize():void
-		{
-			trace("TextComponent::prefinalize()", this, this.id, fte );
-			
-			if( this.fte == true )
-			{
-				trace("TextComponent::prefinalize()", this, this.id, fte );			
-				
-				/*
-				//TODO: remove this when the textfield support is removed
-				if( _textfield && contains( DisplayObject( _textfield ) ) )
-				{
-					removeChild( DisplayObject( _textfield ) );
-				}
-				*/
-			}
 		}
 		
 		/**
@@ -606,8 +651,10 @@ package com.ffsys.ui.text
 			
 				if( fte )
 				{
-					_offsets = new Point( 0, -GUTTER_TOP );
-					return _offsets;
+					//_offsets = new Point( 0, -GUTTER_TOP );
+					//return _offsets;
+					
+					return new Point( 0, 0 );
 				}
 				
 				/*
@@ -676,73 +723,6 @@ package com.ffsys.ui.text
 			}
 		}
 		
-		/**
-		*		
-		*/
-		public function get embedFonts():Boolean
-		{
-			return _textfield.embedFonts;
-		}
-		
-		public function set embedFonts( embedFonts:Boolean ):void
-		{
-			_textfield.embedFonts = embedFonts;
-		}
-		
-		public function get wordWrap():Boolean
-		{
-			return _textfield.wordWrap;
-		}
-
-		public function set wordWrap( wordWrap:Boolean ):void
-		{
-			_textfield.wordWrap = wordWrap;
-		}
-		
-		public function get multiline():Boolean
-		{
-			return _textfield.multiline;
-		}
-
-		public function set multiline( multiline:Boolean ):void
-		{
-			_textfield.multiline = multiline;
-		}				
-		
-		override public function set width( width:Number ):void
-		{
-			//TODO: fix this so the textfield is resized to inner dimensions			
-			_textfield.width = width;
-			super.width = width;
-		}
-		
-		override public function set height( height:Number ):void
-		{
-			
-			//TODO: fix this so the textfield is resized to inner dimensions
-			_textfield.height = height;
-			super.height = height;
-		}
-		
-		public function get autoSize():String
-		{
-			return _textfield.autoSize;
-		}
-		
-		public function set autoSize( autoSize:String ):void
-		{
-			_textfield.autoSize = autoSize;
-		}
-		
-		public function get antiAliasType():String
-		{
-			return _textfield.antiAliasType;
-		}
-
-		public function set antiAliasType( antiAliasType:String ):void
-		{
-			_textfield.antiAliasType = antiAliasType;
-		}
 		
 		/**
 		* 	@inheritDoc
@@ -752,7 +732,7 @@ package com.ffsys.ui.text
 			if( _textfield is ITypedTextField )
 			{
 				return ITypedTextField( _textfield ).html;
-			}			
+			}
 			return false;
 		}
 		
@@ -772,6 +752,84 @@ package com.ffsys.ui.text
 					useHandCursor = false;
 				}
 			}
+		}		
+		
+		public function get autoSize():String
+		{	
+			return _textProperties.autoSize is String
+				? _textProperties.autoSize : TextFieldAutoSize.NONE;
+		}
+		
+		public function set autoSize( autoSize:String ):void
+		{
+			_textProperties.autoSize = autoSize;
+		}
+		
+		public function get antiAliasType():String
+		{
+			return _textProperties.antiAliasType is String
+				? _textProperties.antiAliasType : "advanced";
+		}
+
+		public function set antiAliasType( antiAliasType:String ):void
+		{
+			_textProperties.antiAliasType = antiAliasType;
+		}
+		
+		/**
+		*	//	
+		*/
+		public function get embedFonts():Boolean
+		{
+			return _textProperties.embedFonts is Boolean
+				? _textProperties.embedFonts : false;
+		}
+		
+		public function set embedFonts( embedFonts:Boolean ):void
+		{
+			_textProperties.embedFonts = embedFonts;
+		}
+		
+		public function get wordWrap():Boolean
+		{
+			return _textProperties.wordWrap is Boolean
+				? _textProperties.wordWrap : false;
+		}
+
+		public function set wordWrap( wordWrap:Boolean ):void
+		{
+			_textProperties.wordWrap = wordWrap;
+		}
+		
+		public function get multiline():Boolean
+		{
+			return _textProperties.multiline is Boolean
+				? _textProperties.multiline : false;
+		}
+
+		public function set multiline( multiline:Boolean ):void
+		{
+			_textProperties.multiline = multiline;
+		}				
+		
+		override public function set width( width:Number ):void
+		{
+			if( _textfield is TextField )
+			{
+				//TODO: fix this so the textfield is resized to inner dimensions			
+				_textfield.width = width;
+			}
+			super.width = width;
+		}
+		
+		override public function set height( height:Number ):void
+		{
+			if( _textfield is TextField )
+			{
+				//TODO: fix this so the textfield is resized to inner dimensions
+				_textfield.height = height;
+			}
+			super.height = height;
 		}
 		
 		/**

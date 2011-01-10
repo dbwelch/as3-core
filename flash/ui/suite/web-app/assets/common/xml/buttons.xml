@@ -26,11 +26,11 @@
 		</css:test-css-xml-namespace-bean>
 		
 		<styles>page-heading</styles>
-		<sub-heading>
-			<id>page-package-heading</id>
-			<styles>package-heading</styles>
+		<h3 id="page-package-heading">
+			<!-- <id>page-package-heading</id>
+			<styles>package-heading</styles> -->
 			<identifier>buttons.package</identifier>
-		</sub-heading>
+		</h3>
 		<hbox>
 			<spacing>25</spacing>
 			<vbox>
@@ -234,10 +234,7 @@
 					<p>
 						<identifier>buttons.examples.urllink.copy</identifier>
 					</p>
-					<text-button>
-						<identifier>buttons.examples.urllink.uri</identifier>
-						<url-identifier>buttons.examples.urllink.uri</url-identifier>
-					</text-button>
+					<a href="http://google.com">http://google.com</a>
 				</vbox>
 			</vbox>
 		</hbox>

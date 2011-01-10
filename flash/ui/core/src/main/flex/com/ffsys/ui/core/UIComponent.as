@@ -385,7 +385,7 @@ package com.ffsys.ui.core
 				if( _descriptor == null
 					&& !isFinalized() )
 				{
-					trace("UIComponent::addedToStage() FINALIZING NON-BEAN COMPONENT: ", this, this.id );
+					//trace("UIComponent::addedToStage() FINALIZING NON-BEAN COMPONENT: ", this, this.id );
 					finalized();
 				}
 			}
@@ -395,7 +395,8 @@ package com.ffsys.ui.core
 		protected function shouldLayoutChildren(
 			width:Number, height:Number ):Boolean
 		{
-			return numChildren > 0;
+			//return numChildren > 0;
+			return true;
 		}
 		
 		/**
@@ -604,6 +605,15 @@ package com.ffsys.ui.core
 			{
 				//update the style cache
 				getStyleCache();
+				
+				/*
+				trace("UIComponent::set styles() SETTING CUSTOM STYLEs", this, this.id );
+				
+				for( var z:String in _styleCache.main )
+				{
+					trace("UIComponent::set styles()", z, _styleCache.main[ z ] );
+				}
+				*/
 			}
 		}
 		
@@ -1040,12 +1050,14 @@ package com.ffsys.ui.core
 		*/
 		public function doWithStyleObject( style:Object ):Object
 		{
+			/*
 			trace("UIComponent::doWithStyleObject()", style, style.font, style.fontFamily );
 			
 			if( style.fontFamily )
 			{
 				trace("UIComponent::doWithStyleObject()", FontFamily( style.fontFamily ).fontNames );
 			}
+			*/
 			
 			return style;
 		}

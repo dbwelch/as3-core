@@ -649,6 +649,11 @@ package com.ffsys.ui.css {
 				
 					for each( txt in targets )
 					{
+						if( !txt )
+						{
+							continue;
+						}
+						
 						if( txt.styleSheet == null )
 						{
 							txt.defaultTextFormat = format;

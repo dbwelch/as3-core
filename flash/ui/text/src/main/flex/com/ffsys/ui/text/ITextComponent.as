@@ -30,6 +30,14 @@ package com.ffsys.ui.text
 		function get textfield():TextField;
 		
 		/**
+		* 	A plain text string with no embedded markup
+		* 	to assign to the component <code>text</code>
+		* 	when it is finalized.
+		*/
+		function get contentText():String;
+		function set contentText( value:String ):void;
+		
+		/**
 		* 	The text to display in this component.
 		*/
 		function get text():String;
