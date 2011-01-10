@@ -16,6 +16,46 @@ package com.ffsys.ui.common
 	{
 		/*
 		
+		
+		//WEB SAFE FONTS
+		
+		font-family: Arial, Helvetica, sans-serif;
+		font-family: 'Arial Black', Gadget, sans-serif;
+		font-family: 'Bookman Old Style', serif;
+		font-family: 'Comic Sans MS', cursive;
+		font-family: Courier, monospace;
+		font-family: 'Courier New', Courier, monospace;
+		font-family: Garamond, serif;
+		font-family: Georgia, serif;
+		font-family: Impact, Charcoal, sans-serif;
+		font-family: 'Lucida Console', Monaco, monospace;
+		font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+		font-family: 'MS Sans Serif', Geneva, sans-serif;
+		font-family: 'MS Serif', 'New York', sans-serif;
+		font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+		font-family: Symbol, sans-serif;
+		font-family: Tahoma, Geneva, sans-serif;
+		font-family: 'Times New Roman', Times, serif;
+		font-family: 'Trebuchet MS', Helvetica, sans-serif;
+		font-family: Verdana, Geneva, sans-serif;
+		font-family: Webdings, sans-serif;
+		font-family: Wingdings, 'Zapf Dingbats', sans-serif;		
+		
+		// FONT SIZE
+		
+		xx-small	Sets the font-size to an xx-small size
+		x-small	Sets the font-size to an extra small size
+		small	Sets the font-size to a small size
+		medium	Sets the font-size to a medium size. This is default
+		large	Sets the font-size to a large size
+		x-large	Sets the font-size to an extra large size
+		xx-large	Sets the font-size to an xx-large size
+		smaller	Sets the font-size to a smaller size than the parent element
+		larger	Sets the font-size to a larger size than the parent element
+		length	Sets the font-size to a fixed size in px, cm, etc.
+		%	Sets the font-size to a percent of  the parent element's font size
+		inherit	Specifies that the font size should be inherited from the parent element		
+		
 		//WIDTH
 		width Syntax:
 		width: <length> | <percentage> | auto | inherit

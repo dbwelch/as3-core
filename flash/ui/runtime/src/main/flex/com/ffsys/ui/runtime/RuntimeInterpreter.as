@@ -8,9 +8,10 @@ package com.ffsys.ui.runtime {
 	
 	import com.ffsys.ui.core.UIComponent;
 	import com.ffsys.ui.core.IComponent;
-	import com.ffsys.ui.core.IRuntimeXmlAware;
 	import com.ffsys.ui.common.ComponentIdentifiers;	
 	import com.ffsys.ui.common.IStyleAware;
+	
+	import com.ffsys.ui.dom.*;	
 		
 	import com.ffsys.ui.graphics.IComponentGraphic;
 
@@ -399,9 +400,9 @@ package com.ffsys.ui.runtime {
 		{
 			//trace("RuntimeInterpreter::doWithComponent()", component, this.parser, ( this.parser is IParser ) );
 			
-			if( component is IRuntimeXmlAware )
+			if( component is IDomXmlAware )
 			{
-				var target:IRuntimeXmlAware = IRuntimeXmlAware( component );
+				var target:IDomXmlAware = IDomXmlAware( component );
 				target.xml = xml;
 				target.parser = this.parser;
 			}

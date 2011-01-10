@@ -8,6 +8,7 @@ package com.ffsys.ui.runtime
 	import com.ffsys.ui.controls.*;
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.display.*;
+	import com.ffsys.ui.dom.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.layout.*;
 	import com.ffsys.ui.scrollbars.*;
@@ -491,7 +492,7 @@ package com.ffsys.ui.runtime
 			descriptor = new BeanDescriptor(
 				ComponentIdentifiers.ITERATOR );
 			descriptor.instanceClass = RuntimeEachLoop;
-			beans.addBeanDescriptor( descriptor );	
+			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }

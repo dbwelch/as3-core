@@ -8,6 +8,8 @@ package com.ffsys.ui.runtime {
 	
 	import com.ffsys.io.xml.IParser;	
 	
+	import com.ffsys.ui.dom.*;	
+	
 	/**
 	*	Describes the contract for the loader that loads
 	*	the xml document that defines the view and any dependencies

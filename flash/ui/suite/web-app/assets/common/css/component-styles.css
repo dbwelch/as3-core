@@ -311,6 +311,7 @@ RadioButton {
 	underline: false;
 	color: #a9a9a9;
 	icon: ref( radio-button-icon );
+	spacing: 5;
 }
 
 RadioButton:disabled {	
@@ -368,6 +369,7 @@ CheckBox {
 	underline: false;
 	color: #a9a9a9;
 	icon: ref( check-box-icon );
+	spacing: 5;	
 }
 
 CheckBox:disabled {	

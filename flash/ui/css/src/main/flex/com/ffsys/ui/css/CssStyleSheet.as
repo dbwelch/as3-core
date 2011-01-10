@@ -599,8 +599,9 @@ package com.ffsys.ui.css {
 				//got a font family declaration
 				if( style.fontFamily is FontFamily )
 				{
-					var family:FontFamily = style.fontFamily as FontFamily
-					trace("CssStyleSheet::intercept() GOT FONT FAMILY DECLARATION: ", target, style, style.fontFamily.fontNames );
+					var family:FontFamily = style.fontFamily as FontFamily;
+					
+					//trace("CssStyleSheet::intercept() GOT FONT FAMILY DECLARATION: ", target, style, style.fontFamily.fontNames );
 					
 					var embed:Boolean = style.embedFonts is Boolean ? style.embedFonts as Boolean : false;
 					var fte:Boolean = style.fte is Boolean ? style.fte as Boolean : false;
@@ -611,6 +612,14 @@ package com.ffsys.ui.css {
 						 + family.fontNames + "'." );
 					}
 					style[ FONT_PROPERTY ] = font;
+				}
+				
+				//allow an target to perform last minute modification
+				//of the style object applied
+				
+				if( target is ICssStyleInterceptor )
+				{
+					style = ICssStyleInterceptor( target ).doWithStyleObject( style );
 				}
 			
 				var merger:PropertiesMerge = new PropertiesMerge();
@@ -625,6 +634,8 @@ package com.ffsys.ui.css {
 							ColorTransform( style.colorTransform );
 					}
 				}
+				
+				//TODO: handle cursor changes here
 				
 				//we cannot guarantee the order that styles will
 				//be applied so we need to ensure that any width/height

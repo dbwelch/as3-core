@@ -2,6 +2,8 @@ package com.ffsys.ui.runtime
 {
 	import com.ffsys.ioc.support.xml.IBeanXmlParser;
 	
+	import com.ffsys.ui.dom.*;	
+	
 	/**
 	*	Describes the contract for parser implementations that
 	* 	parse a runtime view xml document.

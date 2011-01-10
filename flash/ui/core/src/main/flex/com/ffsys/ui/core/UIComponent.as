@@ -1089,6 +1089,21 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function doWithStyleObject( style:Object ):Object
+		{
+			trace("UIComponent::doWithStyleObject()", style, style.font, style.fontFamily );
+			
+			if( style.fontFamily )
+			{
+				trace("UIComponent::doWithStyleObject()", FontFamily( style.fontFamily ).fontNames );
+			}
+			
+			return style;
+		}
+		
+		/**
 		* 	@private
 		*/
 		private function extractDimensions(

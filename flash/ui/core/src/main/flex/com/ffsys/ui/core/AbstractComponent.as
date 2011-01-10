@@ -55,7 +55,7 @@ package com.ffsys.ui.core
 		private var _borderGraphic:IComponentGraphic;
 		
 		private var _identifier:String;
-		private var _messages:IProperties;	
+		private var _messages:IProperties;
 		
 		private var _parents:Vector.<DisplayObjectContainer>;
 		private var _class:Class;
@@ -1256,6 +1256,7 @@ package com.ffsys.ui.core
 		* 	Performs intialization of the component root layer
 		*	the first time a component is added to the stage.
 		*/
+		//TODO: remove this stuff
 		private function __initialize( event:Event ):void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, __initialize );

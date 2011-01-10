@@ -9,8 +9,10 @@ package com.ffsys.ui.runtime {
 	
 	import com.ffsys.ui.common.ComponentIdentifiers;	
 	
+	import com.ffsys.ui.dom.*;	
+	
 	/**
-	*	Responsible for parsing the runtime view definition document.
+	*	Responsible for parsing a runtime <code>XML</code> document.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -41,8 +43,15 @@ package com.ffsys.ui.runtime {
 			if( _runtime == null )
 			{
 				//_runtime = new Document();
+				
 				_runtime = IDocument( this.document.getBean(
 					ComponentIdentifiers.DOCUMENT ) );
+				
+				/*
+				_runtime = IDomDocument( this.document.getBean(
+					DomIdentifiers.DOCUMENT ) );
+				*/
+				
 				_runtime.parser = this;
 			}
 			
@@ -61,7 +70,7 @@ package com.ffsys.ui.runtime {
 		{
 			if( _document == null )
 			{
-				_document = new ComponentBeanDocument();
+				_document = new XhtmlBeanDocument();
 			}
 			return _document;
 		}

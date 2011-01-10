@@ -61,6 +61,14 @@
 			<components>
 				<id>components</id>
 				<view>
+					<id>global</id>
+					<xml>
+						<resource>
+							<url>xml/global.html</url>
+						</resource>
+					</xml>
+				</view>
+				<view>
 					<id>navigation</id>
 					<xml>
 						<resource>

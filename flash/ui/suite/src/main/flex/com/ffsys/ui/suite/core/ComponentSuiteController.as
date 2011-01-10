@@ -20,6 +20,7 @@ package com.ffsys.ui.suite.core {
 	import com.ffsys.ui.core.*;
 	import com.ffsys.ui.css.*;
 	import com.ffsys.ui.display.*;
+	import com.ffsys.ui.dom.*;
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.runtime.*;
 	import com.ffsys.ui.text.*;	
@@ -320,7 +321,12 @@ package com.ffsys.ui.suite.core {
 			tooltip.maximumTextWidth = 200;
 			
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
-			UIComponent.utilities.layer.tooltips.renderer = tooltip;			
+			UIComponent.utilities.layer.tooltips.renderer = tooltip;
+			
+			
+			var globalView:DisplayObject = getView( "global" );
+			
+			trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", globalView );
 		}
 	}
 }

@@ -24,6 +24,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.common.flash.ISprite;	
 	
 	import com.ffsys.ui.css.*;
+	import com.ffsys.ui.dom.*;
 	import com.ffsys.ui.support.*;
 	
 	import com.ffsys.ioc.*;
@@ -42,6 +43,7 @@ package com.ffsys.ui.core
 				IStyleManagerAware,
 				IBean,
 				IBeanDocumentAware,
+				ICssStyleInterceptor,
 				IStyleAware,
 				ILayoutWidth,
 				ILayoutHeight,
@@ -50,7 +52,7 @@ package com.ffsys.ui.core
 				IBorderAware,
 				IStageAware,
 				IBitmapGrab,
-				IRuntimeXmlAware,
+				IDomXmlAware,
 				IDestroy,
 				IEnabled,
 				IDataBindingNotificationObserver,
