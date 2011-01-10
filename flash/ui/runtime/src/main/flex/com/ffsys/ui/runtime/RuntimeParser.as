@@ -23,7 +23,7 @@ package com.ffsys.ui.runtime {
 	public class RuntimeParser extends BeanXmlParser
 		implements IRuntimeParser {
 		
-		private var _runtime:IDocument;
+		private var _runtime:IDomDocument;
 		
 		/**
 		*	Creates a <code>RuntimeParser</code> instance.
@@ -38,19 +38,20 @@ package com.ffsys.ui.runtime {
 		/**
 		*	The runtime document to parse the view data into.
 		*/
-		public function get runtime():IDocument
+		public function get runtime():IDomDocument
 		{
 			if( _runtime == null )
 			{
 				//_runtime = new Document();
 				
+				/*
 				_runtime = IDocument( this.document.getBean(
 					ComponentIdentifiers.DOCUMENT ) );
+				*/
 				
-				/*
 				_runtime = IDomDocument( this.document.getBean(
 					DomIdentifiers.DOCUMENT ) );
-				*/
+				
 				
 				_runtime.parser = this;
 			}
@@ -58,7 +59,7 @@ package com.ffsys.ui.runtime {
 			return _runtime;
 		}
 		
-		public function set runtime( value:IDocument ):void
+		public function set runtime( value:IDomDocument ):void
 		{
 			_runtime = value;
 		}
@@ -75,6 +76,7 @@ package com.ffsys.ui.runtime {
 			return _document;
 		}
 		
+		/*
 		public function addDocumentBindings( document:IDocument, ...bindings ):void
 		{
 			if( document == null )
@@ -98,6 +100,7 @@ package com.ffsys.ui.runtime {
 					new Binding( Runtime.BINDING, document.binding ) );
 			}			
 		}
+		*/
 		
 		/**
 		*	@inheritDoc

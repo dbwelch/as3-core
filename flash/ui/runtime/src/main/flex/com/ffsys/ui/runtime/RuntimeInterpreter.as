@@ -45,7 +45,7 @@ package com.ffsys.ui.runtime {
 		*/
 		public static const FILTERS:String = "filters";
 		
-		private var _runtime:IDocument;
+		private var _runtime:IDomDocument;
 		private var _references:Vector.<RuntimeDocumentReference> =
 			new Vector.<RuntimeDocumentReference>();
 		
@@ -59,19 +59,43 @@ package com.ffsys.ui.runtime {
 			this.strictStringReplacement = true;
 		}
 		
-		public function set runtime( value:IDocument ):void
+		public function set runtime( value:IDomDocument ):void
 		{
 			_runtime = value;
 		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		override public function shouldProcessAttribute( parent:Object, name:String, value:Object ):Boolean
+		{
+			if( name == ID )
+			{
+				return true;
+			}
+			return super.shouldProcessAttribute( parent, name, value );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/	
+		override public function processAttribute( parent:Object, name:String, value:Object ):Boolean
+		{
+			if( name == ID )
+			{
+				return true;
+			}			
+			return super.processAttribute( parent, name, value );
+		}		
 		
 		/**
 		* 	@inheritDoc
 		*/
 		override public function documentAvailable( instance:Object, x:XML ):void
 		{
-			if( instance is IDocument )
+			if( instance is IDomDocument )
 			{
-				_runtime = IDocument( instance );
+				_runtime = IDomDocument( instance );
 				_runtime.xml = x;
 			}
 			
@@ -79,6 +103,8 @@ package com.ffsys.ui.runtime {
 			//addComponentDynamicMethods( x, _runtime );
 			
 			//parse inline css declarations
+			//TODO: re-integrate with DOM style element
+			/*
 			var list:XMLList = x..css;
 			if( list != null )
 			{
@@ -104,6 +130,7 @@ package com.ffsys.ui.runtime {
 					}
 				}
 			}
+			*/
 		}
 		
 		/**
@@ -111,7 +138,7 @@ package com.ffsys.ui.runtime {
 		* 
 		* 	@param document The document containing the identifier references.
 		*/
-		protected function resolveReferences( document:IDocument ):void
+		protected function resolveReferences( document:IDomDocument ):void
 		{
 			var reference:RuntimeDocumentReference = null;
 			var id:String = null;
@@ -199,7 +226,9 @@ package com.ffsys.ui.runtime {
 			deserializer:Deserializer,
 			contract:ISerializeContract ):Object
 		{
-			
+			//TODO: re-implement with ERB style declarations
+		
+			/*
 			if( node.name().localName == ComponentIdentifiers.ITERATOR )
 			{
 				var provider:String = null;
@@ -265,15 +294,16 @@ package com.ffsys.ui.runtime {
 				var binding:IBinding = null;
 				var z:Object = null;
 			
-			
-				var iteration:IDocument = null;
+				var iteration:IDomDocument = null;
 				var display:DisplayObject = null;
 				var item:Object = null;
 			
 				for( z in value )
 				{
 					item = value[ z ];
-					iteration = new Document();				
+					
+					//TODO: move to createDocument
+					iteration = new DomDocument();
 					
 					bindings = this.bindings.clone();
 					binding = new Binding( Runtime.ITERATE_BINDING, { key: z, value: item } );
@@ -293,7 +323,11 @@ package com.ffsys.ui.runtime {
 				}
 				return parent;
 			}
+			
 			return instance;
+			*/
+			
+			return null;
 		}
 		
 		/**
@@ -343,6 +377,8 @@ package com.ffsys.ui.runtime {
 			{
 				var id:String = value[ ID ];
 				//trace("RuntimeInterpreter::shouldSetProperty()", "ADDING DOCUMENT ID REFERENCE:", id, value );
+				
+				
 				_runtime.identifiers[ id ] = value;
 			}
 			
@@ -417,14 +453,11 @@ package com.ffsys.ui.runtime {
 				node, parent, classReference );
 
 			doWithComponent( target as IComponent, node );
-			
-			/*
 			if( target is IComponent )
 			{
 				addComponentDynamicMethods(
 					node, IComponent( target ) );
 			}
-			*/
 			
 			return target;
 		}
@@ -433,7 +466,9 @@ package com.ffsys.ui.runtime {
 		{
 			//trace("RuntimeInterpreter::addComponentDynamicMethods()", node, component );
 			
-			node.component = component;
+			node.domComponent = component;
+			
+			/*
 			node.debug = function():void
 			{
 				trace("Node::debug()", this.component );
@@ -448,6 +483,7 @@ package com.ffsys.ui.runtime {
 			var n:XML = new XML();			
 			
 			trace("RuntimeInterpreter::addComponentDynamicMethods()", node.debug is Function, n.hello is Function );
+			*/
 		}
 		
 		/**

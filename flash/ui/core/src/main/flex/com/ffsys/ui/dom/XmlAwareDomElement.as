@@ -1,6 +1,8 @@
 package com.ffsys.ui.dom
 {
 	import flash.display.Sprite;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;	
 	
 	import com.ffsys.ioc.*;
 	
@@ -25,8 +27,13 @@ package com.ffsys.ui.dom
 		private var _id:String;
 		private var _xml:XML;
 		private var _document:IBeanDocument;
-		private var _descriptor:IBeanDescriptor;
 		private var _parser:Object;
+		private var _class:Class;
+		
+		/**
+		* 	@private
+		*/
+		protected var _descriptor:IBeanDescriptor;
 	
 		/**
 		* 	Creates an <code>XmlAwareDomElement</code> instance.
@@ -69,6 +76,11 @@ package com.ffsys.ui.dom
 		public function set xml( value:XML ):void
 		{
 			_xml = value;
+			
+			if( _xml != null )
+			{
+				trace("XmlAwareDomElement::set xml()", _xml );
+			}
 		}
 		
 		/**
@@ -154,6 +166,64 @@ package com.ffsys.ui.dom
 		}
 		
 		/**
+		*	@inheritDoc 
+		*/
+		public function getClass( target:Object = null ):Class
+		{
+			if( target is Class )
+			{
+				return target as Class;
+			}
+			
+			if( _descriptor != null )
+			{
+				return _descriptor.instanceClass;
+			}
+			
+			if( target == null )
+			{
+				target = this;
+			}
+			
+			if( _class == null )
+			{
+				_class = getDefinitionByName(
+					getClassPath( target ) ) as Class;
+			}
+			return _class;			
+			
+			//return super.getClass( target );
+		}
+		
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function getClassPath( target:Object = null ):String
+		{
+			if( target == null )
+			{
+				target = this;
+			}
+			return getQualifiedClassName( target );
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function getClassName( target:Object = null ):String
+		{
+			var classPath:String = getClassPath( target );
+			var className:String = classPath;
+			var index:int = classPath.indexOf( "::" );
+			if( index > -1 )
+			{
+				className = classPath.substr( index + 2 );
+			}
+			return className;
+		}
+		
+		/**
 		* 	Performs clean up of this instance.
 		* 
 		* 	The implementation of this method should clean any
@@ -169,6 +239,7 @@ package com.ffsys.ui.dom
 			_document = null;
 			_descriptor = null;
 			_parser = null;
+			_class = null;
 		}		
 	}
 }

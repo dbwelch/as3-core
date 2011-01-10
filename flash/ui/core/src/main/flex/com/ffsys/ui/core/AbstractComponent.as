@@ -14,6 +14,7 @@ package com.ffsys.ui.core
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.css.*;
+	import com.ffsys.ui.dom.*;	
 	
 	import com.ffsys.ui.text.core.ITextFieldFactory;
 	import com.ffsys.ui.text.core.TextFieldFactory;
@@ -32,7 +33,7 @@ package com.ffsys.ui.core
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class AbstractComponent extends Sprite
+	public class AbstractComponent extends XmlAwareDomElement
 		implements IMessagesAware
 	{	
 		/**
@@ -46,7 +47,6 @@ package com.ffsys.ui.core
 		protected var _preferredWidth:Number = NaN;
 		protected var _preferredHeight:Number = NaN;
 		
-		private var _id:String;
 		private var _background:IComponentGraphic;
 		private var _styles:String;
 		private var _customData:Object;
@@ -247,23 +247,15 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function get id():String
+		override public function set id( id:String ):void
 		{
-			return _id;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function set id( id:String ):void
-		{
-			_id = id;
+			super.id = id;
 			
 			//set a name from the id
-			if( _id != null )
+			if( id != null )
 			{
 				var converter:PropertyNameConverter = new PropertyNameConverter();	
-				this.name = converter.convert( _id );
+				this.name = converter.convert( id );
 			}
 		}
 		
@@ -313,56 +305,6 @@ package com.ffsys.ui.core
 				output.push( p.name );
 			}
 			return output;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function getClassPath( target:Object = null ):String
-		{
-			if( target == null )
-			{
-				target = this;
-			}
-			return getQualifiedClassName( target );
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function getClassName( target:Object = null ):String
-		{
-			var classPath:String = getClassPath( target );
-			var className:String = classPath;
-			var index:int = classPath.indexOf( "::" );
-			if( index > -1 )
-			{
-				className = classPath.substr( index + 2 );
-			}
-			return className;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function getClass( target:Object = null ):Class
-		{
-			if( target is Class )
-			{
-				return target as Class;
-			}
-			
-			if( target == null )
-			{
-				target = this;
-			}
-			
-			if( _class == null )
-			{
-				_class = getDefinitionByName(
-					getClassPath( target ) ) as Class;
-			}
-			return _class;
 		}		
 		
 		/**
@@ -1298,8 +1240,10 @@ package com.ffsys.ui.core
 		* 	The implementation of this method should clean any
 		* 	event listeners and null any references to complex objects.
 		*/
-		public function destroy():void
+		override public function destroy():void
 		{
+			super.destroy();
+			
 			if( _dimensions != null )
 			{
 				_dimensions.destroy();
@@ -1308,7 +1252,6 @@ package com.ffsys.ui.core
 			//TODO: remove border/background/layers etc
 			
 			_dimensions = null;
-			_id = null;
 			_background = null;
 			_styles = null;
 			_customData = null;

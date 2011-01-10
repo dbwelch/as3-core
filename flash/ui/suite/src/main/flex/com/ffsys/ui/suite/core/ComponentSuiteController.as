@@ -69,11 +69,13 @@ package com.ffsys.ui.suite.core {
 		* 	A custom instance name for the root document view.
 		*/
 		public static const DOCUMENT_NAME:String = "uiComponentSuite";
-			
-		public var vbox:VerticalBox;
 		
-		public var navigation:IDocument;
-		public var content:IDocument;
+		public var main:IDomDocument;
+		public var content:IDivContainer;		
+			
+		//
+		public var vbox:VerticalBox;
+		public var navigation:IDomDocument;
 		
 		private var _view:String;
 		private var _views:Object = new Object();
@@ -112,12 +114,14 @@ package com.ffsys.ui.suite.core {
 				var link:DisplayObject = null;
 				for each( link in links )
 				{
-					link.addEventListener( MouseEvent.CLICK, navigationLinkClick );
+					trace("ComponentSuiteController::doWithNavigationLinks()", "DO WITH NAV LINK", link );
+					link.addEventListener(
+						MouseEvent.CLICK, navigationLinkClick );
 				}
 			}
 		}
 		
-		private function handleImagesInjection( view:IDocument ):void
+		private function handleImagesInjection( view:IDomDocument ):void
 		{
 			var candidates:Vector.<DisplayObject> = view.getElementsByMatch( /^injected-images/ );
 			var display:DisplayObject = null;
@@ -162,7 +166,7 @@ package com.ffsys.ui.suite.core {
 			}
 		}
 		
-		private function handleContainerExamples( view:IDocument ):void
+		private function handleContainerExamples( view:IDomDocument ):void
 		{
 			var candidates:Vector.<DisplayObject> = view.getElementsByMatch( /^example\-/ );
 			
@@ -197,7 +201,7 @@ package com.ffsys.ui.suite.core {
 					view = getView( id );
 				}
 				
-				var document:IDocument = IDocument( view );
+				var document:IDomDocument = IDomDocument( view );
 				
 				if( view == null )
 				{
@@ -207,12 +211,12 @@ package com.ffsys.ui.suite.core {
 				
 				if( id == IMAGES_ID )
 				{
-					handleImagesInjection( view as IDocument );
+					handleImagesInjection( view as IDomDocument );
 				}
 				
 				if( id == CONTAINERS_ID )
 				{
-					handleContainerExamples( view as IDocument );
+					handleContainerExamples( view as IDomDocument );
 				}
 
 				content.removeAllChildren();
@@ -285,14 +289,17 @@ package com.ffsys.ui.suite.core {
 		*/
  		private function createMainChildren( root:DisplayObjectContainer ):void
 		{	
-			var document:IDocument = new Document();
+			/*
+			var document:IDomDocument = new Document();
 			document.id = DOCUMENT_NAME;
 
 			vbox = new VerticalBox();
 			document.addChild( vbox );
-			//vbox.finalized();		
+			//vbox.finalized();
+			*/
 			
-			navigation = getView( NAVIGATION_ID ) as IDocument;
+			/*
+			navigation = getView( NAVIGATION_ID ) as IDomDocument;
 
 			if( navigation != null )
 			{	
@@ -301,7 +308,7 @@ package com.ffsys.ui.suite.core {
 				vbox.addChild( DisplayObject( navigation ) );
 			}
 			
-			content = getView( CONTENT_ID ) as IDocument;
+			content = getView( CONTENT_ID ) as IDomDocument;
 			if( content != null )
 			{
 				vbox.addChild( DisplayObject( content ) );
@@ -310,8 +317,9 @@ package com.ffsys.ui.suite.core {
 			root.addChild( DisplayObject( document ) );
 			
 			//top level document box model
-			var docBoxModel:BoxModelComponent = BoxModelComponent( navigation.getComponentBean(
-				ComponentIdentifiers.BOX_MODEL ) );
+			var docBoxModel:BoxModelComponent = BoxModelComponent(
+				navigation.getComponentBean(
+					ComponentIdentifiers.BOX_MODEL ) );
 			vbox.addChild( docBoxModel );
 			docBoxModel.target = document;
 			
@@ -322,11 +330,24 @@ package com.ffsys.ui.suite.core {
 			
 			//UIComponent.utilities.layer.tooltips.delay = 1000;
 			UIComponent.utilities.layer.tooltips.renderer = tooltip;
+			*/
 			
+			main = getView( "global" ) as IDomDocument;
+			if( main != null )
+			{
+				//TODO: re-integrate
+				
+				doWithNavigationLinks(
+					main.getElementsByMatch( /\-link$/ ) );				
+				
+				trace("ComponentSuiteController::createMainChildren() CONTENT: ", main.getElementById( CONTENT_ID ) );
+				content = main.getElementById( CONTENT_ID ) as IDivContainer;
+				
+				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
 			
-			var globalView:DisplayObject = getView( "global" );
-			
-			trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", globalView );
+				
+				root.addChild( DisplayObject( main ) );
+			}
 		}
 	}
 }

@@ -397,13 +397,20 @@ package com.ffsys.swat.core
 					 + id + "'." );
 			}
 			
-			var bindingMethod:Function = parser[ "addDocumentBindings" ] as Function;
 			
-			if( bindingMethod != null )
+			//TODO: refactor
+			if( parser && Object( parser ).hasOwnProperty( "addDocumentBindings" ) )
 			{
-				//use the default runtime document assigned to the parser
-				bindings.unshift( null );
-				bindingMethod.apply( parser, bindings );
+			
+				var bindingMethod:Function = parser[ "addDocumentBindings" ] as Function;
+			
+				if( bindingMethod != null )
+				{
+					//use the default runtime document assigned to the parser
+					bindings.unshift( null );
+					bindingMethod.apply( parser, bindings );
+				}
+			
 			}
 			
 			//trace("DefaultController::getView()", "BINDING METHOD: ", bindingMethod );

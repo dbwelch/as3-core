@@ -1,5 +1,7 @@
 package com.ffsys.ui.dom
 {	
+	import flash.display.*;
+	
 	/**
 	*	An abstract implementation of a <code>DOM</code>
 	* 	document.
@@ -12,11 +14,11 @@ package com.ffsys.ui.dom
 	*/
 	dynamic public class DomDocument extends Node
 		implements IDomDocument
-	{	
+	{
 		private var _head:IDocumentHead;
 		private var _body:IDocumentBody;
 		
-		
+		private var _identifiers:Object = new Object();
 		
 		/*
 
@@ -88,6 +90,31 @@ The elementId parameter is of type String.
 		*/
 		
 		/**
+		* 	@inheritDoc
+		*/		
+		public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
+		{
+			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();
+			if( re != null )
+			{
+				var id:String = null;
+				var display:DisplayObject = null;
+				for( id in _identifiers )
+				{
+					if( re.test( id ) )
+					{
+						display = _identifiers[ id ] as DisplayObject;
+						if( display != null )
+						{
+							output.push( display );
+						}
+					}
+				}
+			}
+			return output;
+		}
+		
+		/**
 		* 	Creates a <code>DomDocument</code> instance.
 		*/
 		public function DomDocument( xml:XML = null )
@@ -95,6 +122,33 @@ The elementId parameter is of type String.
 			_nodeType = Node.DOCUMENT_NODE;
 			super( xml );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get binding():Object
+		{
+			//return _binding;
+			
+			//TODO: re-implement with ERB style parsing
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get identifiers():Object
+		{
+			return _identifiers;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function prepared():void
+		{
+			//trace("Document::prepared()", this, numChildren, this.id );
+		}				
 		
 		/**
 		* 	@inheritDoc
@@ -128,6 +182,15 @@ The elementId parameter is of type String.
 		public function get documentElement():IDocumentBody
 		{
 			return _body;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		//TODO: change to Element return type
+		public function getElementById( id:String ):IDomElement
+		{
+			return _identifiers[ id ] as IDomElement;
 		}
 	}
 }

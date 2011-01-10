@@ -43,17 +43,13 @@ package com.ffsys.ui.core
 		private var _styleManager:IStyleManager = null;	
 		
 		internal var _styleCache:IComponentStyleCache = null;
-		private var _document:IBeanDocument;
 		private var _state:State;
 		private var _dataBinding:IDataBinding;	
 		private var _layers:Array;
 		private var _graphics:IComponent;
 		private var _stage:Stage;
-		private var _descriptor:IBeanDescriptor;
-		private var _xml:XML;
-		private var _parser:Object;
 		private var _depth:IComponentDepth;
-		private var _finalized:Boolean = false;		
+		private var _finalized:Boolean = false;
 		
 		/**
 		* 	Creates a <code>UIComponent</code> instance.
@@ -82,19 +78,6 @@ package com.ffsys.ui.core
 		}
 		
 		/**
-		* 	The bean document that instantiated this component.
-		*/
-		public function get document():IBeanDocument
-		{
-			return _document;
-		}
-		
-		public function set document( value:IBeanDocument ):void
-		{
-			_document = value;
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function getComponentBean( beanName:String ):DisplayObject
@@ -105,31 +88,6 @@ package com.ffsys.ui.core
 					beanName ) as DisplayObject;
 			}
 			return null;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get xml():XML
-		{
-			return _xml;
-		}
-		
-		public function set xml( value:XML ):void
-		{
-			_xml = value;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		override public function getClass( target:Object = null ):Class
-		{
-			if( _descriptor != null )
-			{
-				return _descriptor.instanceClass;
-			}
-			return super.getClass( target );
 		}
 		
 		/**
@@ -155,27 +113,6 @@ package com.ffsys.ui.core
 		public function getCloneClass():Class
 		{
 			return getClass();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get descriptor():IBeanDescriptor
-		{
-			return _descriptor;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get parser():Object
-		{
-			return _parser;
-		}
-		
-		public function set parser( value:Object ):void
-		{
-			_parser = value;
 		}
 		
 		/**
@@ -268,6 +205,8 @@ package com.ffsys.ui.core
 				target.customData = this.customData;
 				target.dimensions = IComponentDimensions( source.dimensions.clone() );
 				
+				//TODO: transfer a copy of the xml definition
+				
 				//TODO: merge style cache properties
 				UIComponent( target )._styleCache = this._styleCache.clone();
 			}
@@ -277,9 +216,10 @@ package com.ffsys.ui.core
 		/**
 		* 	@private
 		*/
-		public function afterConstructed(
+		override public function afterConstructed(
 			descriptor:IBeanDescriptor ):void
 		{
+			super.afterConstructed( descriptor );
 			_descriptor = descriptor;
 			//trace("UIComponent::afterConstructed()", this, descriptor, descriptor.id );
 		}
@@ -287,31 +227,71 @@ package com.ffsys.ui.core
 		/**
 		* 	@private
 		*/
-		public function afterInjection(
+		override public function afterInjection(
 			descriptor:IBeanDescriptor ):void
 		{	
+			super.afterInjection( descriptor );
 			//trace("UIComponent::afterInjection()", this, descriptor );
 		}		
 		
 		/**
 		* 	@private
 		*/
-		public function afterProperties(
+		override public function afterProperties(
 			descriptor:IBeanDescriptor ):void
 		{
+			super.afterProperties( descriptor );
 			//trace("UIComponent::afterProperties()", this, descriptor );
 		}
 		
 		/**
 		* 	@private
 		*/
-		public function afterResources(
+		override public function afterResources(
 			descriptor:IBeanDescriptor,
 			queue:ILoaderQueue = null ):void
 		{
+			super.afterResources( descriptor );
 			//TODO: verify this queue is correct when a bean declares file dependencies
 			//trace("UIComponent::afterResources()", this, descriptor, queue );
 		}
+
+		
+		/**
+		* 	Invoked when this component has been finalized.
+		*/
+		override public function finalized():void
+		{
+			super.finalized();	
+			//updateState( this.state == null ? State.MAIN : state.clone() );
+			
+			//measure the dimensions and re-assign
+			//the calculated values
+			this.dimensions = measure();
+			
+			trace("UIComponent::finalized()", this, this.id );
+			
+			/*
+			trace("UIComponent::finalized() MEASURED DIMENSIONS (this/id/explicit[WxH]/preferred[WxH]): ",
+				this, this.id, Rectangle( dimensions ).width, Rectangle( dimensions ).height, dimensions.preferredWidth, dimensions.preferredHeight );
+			*/
+			//apply border and background graphics
+			applyBorders();
+			applyBackground();
+			
+			var childLayoutWidth:Number = preferredWidth;
+			var childLayoutHeight:Number = preferredHeight;
+
+			//update any child positioning
+			if( shouldLayoutChildren(
+				childLayoutWidth, childLayoutHeight ) )
+			{
+				layoutChildren(
+					childLayoutWidth, childLayoutHeight );
+			}
+			
+			_finalized = true;
+		}		
 		
 		/**
 		*	@inheritDoc
@@ -333,7 +313,6 @@ package com.ffsys.ui.core
 			}
 			
 			//TODO: implement !?!?!!?!?
-			
 			
 			/*
 			_preferredWidth = width;
@@ -382,41 +361,6 @@ package com.ffsys.ui.core
 				this );
 			
 			return output;
-		}
-		
-		/**
-		* 	Invoked when this component has been finalized.
-		*/
-		public function finalized():void
-		{	
-			//updateState( this.state == null ? State.MAIN : state.clone() );
-			
-			//measure the dimensions and re-assign
-			//the calculated values
-			this.dimensions = measure();
-			
-			trace("UIComponent::finalized()", this, this.id );
-			
-			/*
-			trace("UIComponent::finalized() MEASURED DIMENSIONS (this/id/explicit[WxH]/preferred[WxH]): ",
-				this, this.id, Rectangle( dimensions ).width, Rectangle( dimensions ).height, dimensions.preferredWidth, dimensions.preferredHeight );
-			*/
-			//apply border and background graphics
-			applyBorders();
-			applyBackground();
-			
-			var childLayoutWidth:Number = preferredWidth;
-			var childLayoutHeight:Number = preferredHeight;
-
-			//update any child positioning
-			if( shouldLayoutChildren(
-				childLayoutWidth, childLayoutHeight ) )
-			{
-				layoutChildren(
-					childLayoutWidth, childLayoutHeight );
-			}
-			
-			_finalized = true;
 		}
 		
 		/**
@@ -1239,14 +1183,12 @@ package com.ffsys.ui.core
 			}
 			
 			_depth = null;
-			_document = null;
 			_styleManager = null;
 			_styleCache = null;
 			_state = null;
 			_stage = null;
 			_dataBinding = null;
 			_descriptor = null;
-			_xml = null;
 			_finalized = false;
 		}
 		

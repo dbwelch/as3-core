@@ -27,6 +27,7 @@ package com.ffsys.swat.as3.view {
 	import com.ffsys.ui.buttons.*;
 	import com.ffsys.ui.controls.*;
 	import com.ffsys.ui.data.*;
+	import com.ffsys.ui.dom.*;	
 	import com.ffsys.ui.graphics.*;
 	import com.ffsys.ui.containers.*;
 	import com.ffsys.ui.text.*;
@@ -50,7 +51,7 @@ package com.ffsys.swat.as3.view {
 		private var _solidFill:SolidFill;
 			
 		private var _loader:IRuntimeLoader;
-		private var _document:IDocument;
+		private var _document:IDomDocument;
 		private var _messages:IProperties;
 		
 		public var vbox:VerticalBox;

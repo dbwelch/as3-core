@@ -20,7 +20,7 @@ package com.ffsys.ui.dom
 		
 		
 		
-		Object Element
+		Object Element	
 		Element has the all the properties and methods of the Node object as well as the properties and methods defined below.
 		The Element object has the following properties:
 		tagName

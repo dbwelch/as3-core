@@ -374,6 +374,8 @@ package com.ffsys.ui.core
 		* 	@return A list of the parent names.
 		*/
 		function getAncestorNames( root:Boolean = false ):Vector.<String>;
+		
+		
 	
 		/**
 		* 	Gets the class path to a target object.
@@ -400,6 +402,15 @@ package com.ffsys.ui.core
 		* 	@return The type of this component.
 		*/
 		function getClass( target:Object = null ):Class;
+		
+		
+		/**
+		* 	The bean descriptor that instantiated
+		* 	this component.
+		*/
+		function get descriptor():IBeanDescriptor;
+		
+		
 	
 		/**
 		*	Gets a dot path to this instance.
@@ -411,12 +422,10 @@ package com.ffsys.ui.core
 		*/
 		function toNameString(
 			delimiter:String = ".", root:Boolean = false ):String;
-			
-		/**
-		* 	The bean descriptor that instantiated
-		* 	this component.
-		*/
-		function get descriptor():IBeanDescriptor;
+		
+		
+		
+		
 		
 		/**
 		* 	A support implementation for managing

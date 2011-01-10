@@ -27,7 +27,7 @@ package com.ffsys.ui.runtime {
 		/**
 		*	The document created for the last load request.
 		*/
-		function get document():IDocument;
+		function get document():IDomDocument;
 		
 		/**
 		* 	The parser to use for the runtime document.

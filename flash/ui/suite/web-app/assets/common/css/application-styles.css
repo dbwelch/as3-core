@@ -2,6 +2,10 @@ body {
 	font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 
+#content {
+	padding-top: 20;
+}
+
 percentage-container {
 	width: 100%;
 	height: 100%;

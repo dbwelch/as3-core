@@ -19,8 +19,8 @@ package com.ffsys.ui.runtime
 		/**
 		*	The runtime document to parse the view data into.
 		*/
-		function get runtime():IDocument;
-		function set runtime( value:IDocument ):void;
+		function get runtime():IDomDocument;
+		function set runtime( value:IDomDocument ):void;
 		
 		/**
 		* 	Adds the specified bindings to the runtime document.
@@ -28,7 +28,10 @@ package com.ffsys.ui.runtime
 		* 	@param document The runtime document to add the bindings to.
 		* 	@param bindings The bindings to expose when parsing the document.
 		*/
+		
+		/*
 		function addDocumentBindings(
 			document:IDocument, ...bindings ):void;
+		*/
 	}
 }

@@ -48,7 +48,7 @@ package com.ffsys.ui.runtime {
 		/**
 		*	@inheritDoc	
 		*/
-		public function get document():IDocument
+		public function get document():IDomDocument
 		{
 			if( this.parser != null )
 			{
@@ -105,7 +105,8 @@ package com.ffsys.ui.runtime {
 			_loader.parser = this.parser;
 
 			bindings.unshift( this.document );
-			this.parser.addDocumentBindings.apply( this.parser, bindings );
+			
+			//this.parser.addDocumentBindings.apply( this.parser, bindings );
 
 			//TODO: add binding for the stage dimensions
 			
