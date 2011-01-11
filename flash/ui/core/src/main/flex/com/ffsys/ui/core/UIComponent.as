@@ -267,11 +267,13 @@ package com.ffsys.ui.core
 			
 			trace("[FINALIZED] UIComponent::finalized()", this );
 				
+			/*
 			if( this is DomDocument )
 			{
 				trace("[DOM DOCUMENT FINALIZED] UIComponent::addedToStage() [UPDATING CHILD STYLE CACHE WITH INHERITANCE]", this );
 				getStyleCache().propagate( this );
 			}
+			*/
 			
 			updateState( this.state == null ? State.MAIN : state.clone() );
 			

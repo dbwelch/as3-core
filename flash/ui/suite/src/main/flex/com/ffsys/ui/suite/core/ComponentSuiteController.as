@@ -363,7 +363,7 @@ package com.ffsys.ui.suite.core {
 				*/
 				
 				
-				//main.finalized();
+				main.finalized();
 			}
 		}
 	}

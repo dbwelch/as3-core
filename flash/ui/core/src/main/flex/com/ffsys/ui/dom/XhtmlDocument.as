@@ -19,5 +19,13 @@ package com.ffsys.ui.dom
 		{
 			super( xml );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function prepared():void
+		{
+			trace("XhtmlDocument::prepared()", this, numChildren, this.id );
+		}
 	}
 }

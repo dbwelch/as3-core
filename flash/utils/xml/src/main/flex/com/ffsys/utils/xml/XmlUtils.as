@@ -125,6 +125,6 @@ package com.ffsys.utils.xml {
 			}
 			
 			return false;
-		}	
-	}	
+		}
+	}
 }

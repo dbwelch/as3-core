@@ -21,12 +21,6 @@
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>errors</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys</groupId>

@@ -28,12 +28,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys</groupId>
-			<artifactId>errors</artifactId>
-			<type>swc</type>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys</groupId>
 			<artifactId>events</artifactId>
 			<type>swc</type>
 			<version>1.1-SNAPSHOT</version>
