@@ -291,7 +291,24 @@ package com.ffsys.ui.core
 			}
 			
 			_finalized = true;
-		}		
+			
+			if( _styleCache
+				&& _styleCache.source
+				&& _styleCache.source.boxModel is String )
+			{
+				if( _styleCache.source.boxModel == BoxModelComponent.TOP
+					|| _styleCache.source.boxModel == BoxModelComponent.BOTTOM )
+				{
+					var box:BoxModelComponent = BoxModelComponent(
+						getComponentBean( ComponentIdentifiers.BOX_MODEL ) )
+					box.target = this;
+					( _styleCache.source.boxModel == BoxModelComponent.BOTTOM ) && numChildren > 1 ?
+						addChildAt( box, 0 ) : addChild( box );
+						
+					trace("UIComponent::finalized() ADDED BOX MODEL: ", box );
+				}
+			}
+		}
 		
 		/**
 		*	@inheritDoc
@@ -553,7 +570,7 @@ package com.ffsys.ui.core
 				output.styleNames = data[ 0 ];
 				output.styleObjects = data[ 1 ];
 				output.styles = this.styles;
-				output.main = stylesheet.getFlatStyle( data[ 1 ] );
+				output.source = stylesheet.getFlatStyle( data[ 1 ] );
 				
 				
 				
@@ -609,9 +626,9 @@ package com.ffsys.ui.core
 				/*
 				trace("UIComponent::set styles() SETTING CUSTOM STYLEs", this, this.id );
 				
-				for( var z:String in _styleCache.main )
+				for( var z:String in _styleCache.source )
 				{
-					trace("UIComponent::set styles()", z, _styleCache.main[ z ] );
+					trace("UIComponent::set styles()", z, _styleCache.source[ z ] );
 				}
 				*/
 			}
@@ -729,72 +746,7 @@ package com.ffsys.ui.core
 					_styleCache = getStyleCache();
 				}
 				
-				//
-				
-				/*
-				trace("UIComponent::applyStyles() APPLY STYLES: ",
-					this, this.id, this.styles, _styleCache, _styleCache.main.textTransform );
-				*/
-				
-				//var styleNames:Array = stylesheet.getStyleNameList( this );
-				var styleNames:Array = _styleCache.styleNames;
-				var styleObjects:Array = _styleCache.styleObjects;
-				var main:Object = _styleCache.main;
-				
-				//apply all normal styles
-				//trace("UIComponent::applyStyles() UICOMPONENT: ", this, styleNames, styleObjects, main );
-				//stylesheet.style( this );
-				
-				//trace("UIComponent::applyStyles()", main, main.color );
-				
-				//apply the main flattened style object
-				stylesheet.applyStyle( this, main );
-				
-				var output:Array = styleObjects;
-				
-				//find one matching a non-main state
-				//if a state has been specified
-				//and apply state level styles over the top
-				//of the main style data
-				if( styleNames != null
-					&& this.state != null
-					&& this.state.primary != State.MAIN_ID )
-				{
-					//trace("UIComponent::applyStyles()", this, this.id, styleNames, this.state.toStateString() );
-					
-					var stateStyles:Array = new Array();
-					var stateStyle:Object = null;
-					var name:String = null;
-  					for( var i:int = 0;i < styleNames.length;i++ )
-					{
-						
-						//TODO: attempt to locate style objects for every element in a state
-						
-						name = styleNames[ i ]
-							+ State.DELIMITER
-							+ this.state.toStateString();
-							
-						//trace("UIComponent::applyStyles() state style search name:", name );
-						
-						//stateStyle = stylesheet.getStyle( name );
-						
-						stateStyle = stylesheet.getStyle( name );
-						
-						if( stateStyle != null )
-						{
-							//trace("UIComponent::applyStyles()", "GOT STATE STYLE", name, stateStyle, stateStyle.icon );
-							stateStyles.push( stateStyle );
-						}
-					}
-
-					if( stateStyles.length > 0 )
-					{
-						output = output.concat( stateStyles );
-						stylesheet.applyStyles( this, stateStyles );
-					}
-				}
-				
-				return output;
+				return _styleCache.apply( this );
 			}
 			return null;
 		}
@@ -1038,7 +990,7 @@ package com.ffsys.ui.core
 			//TODO: implement caching of borders and margins and remove
 			//the margin / paddign application in css style sheet
 			
-			//trace("UIComponent::doWithStyleCache()", cache.main.padding );
+			//trace("UIComponent::doWithStyleCache()", cache.source.padding );
 
 			extractDimensions( cache );
 			copyPaddingsFromStyleCache( cache );
@@ -1069,47 +1021,47 @@ package com.ffsys.ui.core
 			cache:IComponentStyleCache ):void
 		{
 			if( cache != null
-			 	&& cache.main != null )
+			 	&& cache.source != null )
 			{				
-				if( cache.main.width is Number )
+				if( cache.source.width is Number )
 				{
-					this.width = cache.main.width;
+					this.width = cache.source.width;
 				}
 			
-				if( cache.main.height is Number )
+				if( cache.source.height is Number )
 				{
-					this.height = cache.main.height;
+					this.height = cache.source.height;
 				}
 			
-				if( cache.main.minWidth is Number )
+				if( cache.source.minWidth is Number )
 				{
-					this.dimensions.minWidth = cache.main.minWidth;
+					this.dimensions.minWidth = cache.source.minWidth;
 				}
 			
-				if( cache.main.minHeight is Number )
+				if( cache.source.minHeight is Number )
 				{
-					this.dimensions.minHeight = cache.main.minHeight;
+					this.dimensions.minHeight = cache.source.minHeight;
 				}
 				
-				if( cache.main.maxWidth is Number )
+				if( cache.source.maxWidth is Number )
 				{
-					this.dimensions.maxWidth = cache.main.maxWidth;
+					this.dimensions.maxWidth = cache.source.maxWidth;
 				}
 			
-				if( cache.main.maxHeight is Number )
+				if( cache.source.maxHeight is Number )
 				{
-					this.dimensions.maxHeight = cache.main.maxHeight;
+					this.dimensions.maxHeight = cache.source.maxHeight;
 				}
 				
-				if( cache.main.percentWidth is Number )
+				if( cache.source.percentWidth is Number )
 				{
-					this.dimensions.percentWidth = cache.main.percentWidth;
+					this.dimensions.percentWidth = cache.source.percentWidth;
 					trace("UIComponent::extractDimensions() GOT PERCENTAGE WIDTH: ", dimensions.percentWidth );
 				}
 				
-				if( cache.main.percentHeight is Number )
+				if( cache.source.percentHeight is Number )
 				{
-					this.dimensions.percentHeight = cache.main.percentHeight;
+					this.dimensions.percentHeight = cache.source.percentHeight;
 					trace("UIComponent::extractDimensions() GOT PERCENTAGE HEIGHT: ", dimensions.percentHeight );
 				}
 			}					
@@ -1118,31 +1070,31 @@ package com.ffsys.ui.core
 		private function copyPaddingsFromStyleCache( cache:IComponentStyleCache ):void
 		{
 			if( cache != null
-			 	&& cache.main != null )
+			 	&& cache.source != null )
 			{			
-				if( cache.main.padding is Number )
+				if( cache.source.padding is Number )
 				{
-					this.paddings.padding = cache.main.padding;
+					this.paddings.padding = cache.source.padding;
 				}
 
-				if( cache.main.paddingTop is Number )
+				if( cache.source.paddingTop is Number )
 				{
-					this.paddings.top = cache.main.paddingTop;
+					this.paddings.top = cache.source.paddingTop;
 				}
 
-				if( cache.main.paddingRight is Number )
+				if( cache.source.paddingRight is Number )
 				{
-					this.paddings.right = cache.main.paddingRight;
+					this.paddings.right = cache.source.paddingRight;
 				}							
 			
-				if( cache.main.paddingBottom is Number )
+				if( cache.source.paddingBottom is Number )
 				{
-					this.paddings.bottom = cache.main.paddingBottom;
+					this.paddings.bottom = cache.source.paddingBottom;
 				}			
 			
-				if( cache.main.paddingLeft is Number )
+				if( cache.source.paddingLeft is Number )
 				{
-					this.paddings.left = cache.main.paddingLeft;
+					this.paddings.left = cache.source.paddingLeft;
 				}
 			}		
 		}		
@@ -1150,31 +1102,31 @@ package com.ffsys.ui.core
 		private function copyMarginsFromStyleCache( cache:IComponentStyleCache ):void
 		{
 			if( cache != null
-			 	&& cache.main != null )
+			 	&& cache.source != null )
 			{
-				if( cache.main.margin is Number )
+				if( cache.source.margin is Number )
 				{
-					this.margins.margin = cache.main.margin;
+					this.margins.margin = cache.source.margin;
 				}
 
-				if( cache.main.marginTop is Number )
+				if( cache.source.marginTop is Number )
 				{
-					this.margins.top = cache.main.marginTop;
+					this.margins.top = cache.source.marginTop;
 				}
 
-				if( cache.main.marginRight is Number )
+				if( cache.source.marginRight is Number )
 				{
-					this.margins.right = cache.main.marginRight;
+					this.margins.right = cache.source.marginRight;
 				}							
 
-				if( cache.main.marginBottom is Number )
+				if( cache.source.marginBottom is Number )
 				{
-					this.margins.bottom = cache.main.marginBottom;
+					this.margins.bottom = cache.source.marginBottom;
 				}			
 
-				if( cache.main.marginLeft is Number )
+				if( cache.source.marginLeft is Number )
 				{
-					this.margins.left = cache.main.marginLeft;
+					this.margins.left = cache.source.marginLeft;
 				}
 			}
 		}	

@@ -1,13 +1,13 @@
 body {
-	font-family: Helvetica, Arial, Verdana, sans-serif;
+	font-family: "Arial Narrow", Helvetica, Arial, Verdana, sans-serif;
 }
 
 #content {
 	padding-top: 20;
 }
 
-#header,header {
-	fte: true;
+#header {
+	font-family: Verdana, sans-serif;
 	color: #ff0000;
 }
 
@@ -38,13 +38,12 @@ package-heading {
 }
 
 element {
-	font-family: "Arial Narrow", Courier, Helvetica, Arial, Verdana, sans-serif;
+	font-family: Courier;
 	size: 11;
 	color: #000000;
 	padding: 5;
 	text-transform: uppercase;
 	background: ref( element-background );
-	fte: true;
 }
 
 test-css-xml-namespace-bean {
@@ -136,7 +135,7 @@ container-border-example {
 	spacing: 15;
 	margin: 10;
 	border: border( 2, 2, 2, 2, #ff0000, .8 );
-	divider: ref( example-divider );
+	box-model: top;
 }
 
 example-divider {
@@ -161,6 +160,7 @@ box-example-container {
 	height: 30;
 	padding: 5;
 	margin: 5;
+	box-model: bottom;
 }
 
 #outer-container, outer-container {

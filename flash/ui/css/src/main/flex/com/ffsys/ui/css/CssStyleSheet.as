@@ -411,6 +411,14 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
+		* 	The default instance class to use for css beans.
+		*/
+		override public function getDefaultInstanceClass():Class
+		{
+			return CssStyle;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		public function applyStyles( target:Object, styles:Array ):void

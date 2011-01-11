@@ -15,7 +15,7 @@ package com.ffsys.ui.css
 	*	@author Mischa Williamson
 	*	@since  27.10.2010
 	*/
-	public class CssStyleAware extends Sprite
+	dynamic public class CssStyleAware extends Sprite
 		implements 	IStyleAware,
 					IStringIdentifier
 	{

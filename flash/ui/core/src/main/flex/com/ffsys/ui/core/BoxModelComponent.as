@@ -1,4 +1,4 @@
-package com.ffsys.ui.display {
+package com.ffsys.ui.core {
 	
 	import flash.display.DisplayObject;
 	import flash.geom.Rectangle;
@@ -24,6 +24,18 @@ package com.ffsys.ui.display {
 	*/
 	public class BoxModelComponent extends UIComponent
 		implements IFixedLayout {
+			
+		/**
+		*	Constants representing that the box model component
+		* 	should be added to the top of the display list. 
+		*/
+		public static const TOP:String = "top";
+		
+		/**
+		*	Constants representing that the box model component
+		* 	should be added to the bottom of the display list. 
+		*/
+		public static const BOTTOM:String = "bottom";
 		
 		private var _outer:IComponentGraphic;
 		private var _component:IComponentGraphic;

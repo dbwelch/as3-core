@@ -6,6 +6,33 @@ package com.ffsys.ui.containers
 	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.layout.*;
 	
+	/*
+	
+	
+	none	The element will generate no box at all
+	block	The element will generate a block box (a line break before and after the element)
+	inline	The element will generate an inline box (no line break before or after the element). This is default
+	inline-block	The element will generate a block box, laid out as an inline box
+	inline-table	The element will generate an inline box (like <table>, with no line break before or after)
+	list-item	The element will generate a block box, and an inline box for the list marker
+	run-in	The element will generate a block or inline box, depending on context
+	table	The element will behave like a table (like <table>, with a line break before and after)
+	table-caption	The element will behave like a table caption (like <caption>)
+	table-cell	The element will behave like a table cell
+	table-column	The element will behave like a table column
+	table-column-group	The element will behave like a table column group (like <colgroup>)
+	table-footer-group	The element will behave like a table footer row group
+	table-header-group	The element will behave like a table header row group
+	table-row	The element will behave like a table row
+	table-row-group	The element will behave like a table row group
+	inherit	Specifies that the value of the display property should be inherited from the parent element	
+	
+	
+	
+	
+	
+	*/
+	
 	/**
 	*	Handles laying out components whose positions
 	* 	are determined by css style properties.

@@ -41,6 +41,14 @@ package com.ffsys.ioc
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getDefaultInstanceClass():Class
+		{
+			return Object;
+		}
+		
+		/**
 		* 	Configures the default beans for this document.
 		*/
 		protected function configure():void

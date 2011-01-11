@@ -169,7 +169,7 @@ package com.ffsys.ui.buttons
 					
 					//TODO: !!
 					_label.finalized();
-					//trace("[CREATING LABEL] ::::::::::::::::::::: ADDED CHILD LABEL()", _label.text );					
+					trace("[CREATING LABEL] ::::::::::::::::::::: ADDED CHILD LABEL()", _label.text, this, this.id, _label.x, _label.y );
 				}
 			}
 			return _label;

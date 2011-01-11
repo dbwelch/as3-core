@@ -225,10 +225,10 @@ package com.ffsys.ui.containers {
 		{
 			super.doWithStyleCache( cache );
 			if( cache != null
-			 	&& cache.main != null
-				&& cache.main.spacing is Number )
+			 	&& cache.source != null
+				&& cache.source.spacing is Number )
 			{
-				this.spacing = Number( cache.main.spacing );
+				this.spacing = Number( cache.source.spacing );
 			}
 		}
 		

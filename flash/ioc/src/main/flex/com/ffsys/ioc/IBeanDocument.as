@@ -20,6 +20,17 @@ package com.ffsys.ioc
 				IBeanElement {
 					
 		/**
+		* 	Gets the default instance class to use
+		* 	when none has been specified for a bean
+		* 	definition.
+		* 
+		* 	The default implementation returns a dynamic object.
+		* 
+		* 	@return The default instance class.
+		*/
+		function getDefaultInstanceClass():Class;
+					
+		/**
 		* 	A list of document cross references.
 		* 
 		* 	Beans stored in this document can access

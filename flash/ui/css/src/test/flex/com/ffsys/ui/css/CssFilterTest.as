@@ -47,14 +47,23 @@ package com.ffsys.ui.css
 			var style:Object = stylesheet.getStyle( "bevel" );
 			Assert.assertNotNull( style );
 			
- 			var filter:BevelFilter = BevelFilter( stylesheet.getFilter( "bevel" ) );
+			/*
+			for( var z:String in style )
+			{
+				trace(">>>>>>>>>>>>> CssFilterTest::cssFilterTest()", z, style[ z ] );
+			}
+			
+			return;
+			*/
+			
+ 			var filter:BevelFilter = BevelFilter( style );
 			Assert.assertNotNull( filter );
 			Assert.assertEquals( 1, filter.distance );
 			Assert.assertEquals( 16711680, filter.highlightColor );
 			Assert.assertEquals( 6710886, filter.shadowColor );
 
 			Assert.assertEquals( 0.6, filter.shadowAlpha );
-			Assert.assertEquals( true, filter.knockout );
+			Assert.assertTrue( filter.knockout );
 			Assert.assertEquals( 5, filter.blurX );
 			Assert.assertEquals( 10, filter.blurY );
 			Assert.assertEquals( 20, filter.strength );

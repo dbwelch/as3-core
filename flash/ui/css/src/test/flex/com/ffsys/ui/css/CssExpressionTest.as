@@ -52,6 +52,15 @@ package com.ffsys.ui.css
 		[Test]
 		public function cssExpressionTest():void
 		{
+			/*
+			var style:Object = new CssStyle( { color: 0xff00ff, size: 20 } );
+			for( var z:String in style )
+			{
+				trace("************ CssExpressionTest::got style value: ()", z, style[ z ] );
+			}
+			return;			
+			*/			
+			
 			var stylable:CssStyleAware = null;
 			
 			var stylesheet:ICssStyleSheet = new CssStyleSheet();
@@ -59,6 +68,7 @@ package com.ffsys.ui.css
 			
 			var style:Object = stylesheet.getStyle( "expressions" );
 			Assert.assertNotNull( style );
+
 
 			Assert.assertTrue( style.classExpression is Class );
 			Assert.assertTrue( style.urlExpression is URLRequest );

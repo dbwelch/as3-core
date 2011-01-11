@@ -125,12 +125,6 @@
 					<hbox>
 						<container>
 							<id>box-model-example-target</id>
-							<box-model>
-								<id>box-model-example</id>
-								<target>
-									<id>box-model-example-target</id>
-								</target>
-							</box-model>
 						</container>
 						<label>
 							<id>EXAMPLE-FTE</id>

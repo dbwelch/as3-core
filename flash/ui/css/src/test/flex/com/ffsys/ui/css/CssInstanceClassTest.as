@@ -53,7 +53,7 @@ package com.ffsys.ui.css
 
 			var style:Object = stylesheet.getStyle( "style-aware" );
 			
-			trace("CssInstanceClassTest::cssInstanceClassTest()", "CHECKING STYLE AWARE: ", style );
+			trace("CssInstanceClassTest::cssInstanceClassTest()", "CHECKING STYLE AWARE: ", style, style.id, style.styles );
 			
 			Assert.assertNotNull( style );
 			//
@@ -62,6 +62,7 @@ package com.ffsys.ui.css
 			var stylable:CssStyleAware = CssStyleAware( style );
 			stylable.styleManager = styleManager;
 			Assert.assertEquals( "stylable-identifier", stylable.id );
+			
 			Assert.assertEquals( "stylable-test", stylable.styles );
 			
 			//TODO: change this to UIImpersonator and addChild()

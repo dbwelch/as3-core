@@ -102,6 +102,7 @@ package com.ffsys.ioc
 			Assert.assertTrue( style.classExpression is Class );
 			Assert.assertTrue( style.urlExpression is URLRequest );
 			Assert.assertEquals( Sprite, style.classExpression );
+			
 			Assert.assertEquals( 16711680, style.red );
 			
 			var singleton:Object = document.getBean( "stylable" );

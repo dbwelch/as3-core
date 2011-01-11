@@ -258,17 +258,41 @@ package com.ffsys.ioc
 			return merged;
 		}
 		
+		protected function getDefaultInstance():Object
+		{
+			var clazz:Class = document.getDefaultInstanceClass();
+			var instance:Object = null;
+			
+			if( clazz == null )
+			{
+				throw new Error( "Could not determine the class to use for a non bean definition." );
+			}
+			
+			try
+			{
+				instance = new clazz();
+			}catch( e:Error )
+			{
+				throw new Error( "Could not instantiate default bean class '" + clazz + "'." );
+			}
+			
+			return instance;
+		}		
+		
 		/**
 		* 	@inheritDoc
 		*/
-		public function copy():Object
+		public function copy( target:Object = null ):Object
 		{
-			var output:Object = {};
+			if( target == null )
+			{
+				target = getDefaultInstance();
+			}
 			for( var z:String in properties )
 			{
-				output[ z ] = properties[ z ];
+				target[ z ] = properties[ z ];
 			}
-			return output;
+			return target;
 		}
 		
 		/**
@@ -276,15 +300,59 @@ package com.ffsys.ioc
 		*/
 		public function getProperties():Object
 		{
-			var clone:Object = copy();
-			if( clone )
+			//
+			var z:String
+			
+			var clone:Object = getDefaultInstance();
+			if( clone != null )
 			{
+				trace(":::::::::::::: [START "
+					+ this.id + " BEAN] BeanDescriptor::getProperties()", this, this.id, " ::::::::::::::::::::::" );
+				
+				for( z in properties )
+				{
+					trace("[BEAN] BeanDescriptor::properties() properties: ", z, properties[ z ] );
+				}
+				
+				//copy properties in their unresolved state
+				copy( clone );
+
+				for( z in clone )
+				{
+					trace("[BEAN] BeanDescriptor::clone() original clone", z, clone[ z ] );
+				}
+				
 				//TODO: check if we should resolve constants when in a constant bean?
-				clone = resolveConstants( clone );
+				var resolvedConstants:Object = resolveConstants( clone );
+				
+				for( z in resolvedConstants )
+				{
+					trace("[BEAN] BeanDescriptor::clone() resolvedConstants", z, resolvedConstants[ z ] );
+				}				
 				
 				//resolve references
-				clone = resolve( clone );
+				var resolvedReferences:Object = resolve( clone );
+				
+				trace("[BEAN] BeanDescriptor::getProperties() clone/constants/references: ", clone, resolvedConstants, resolvedReferences );	
+				
+				for( z in resolvedReferences )
+				{
+					trace("[BEAN] BeanDescriptor::clone() resolvedReferences", z, resolvedReferences[ z ] );
+				}
+
+				var merger:PropertiesMerge = new PropertiesMerge();
+				merger.merge( clone, resolvedConstants, true );
+				merger.merge( clone, resolvedReferences, true );
 			}
+				
+			for( z in clone )
+			{
+				trace("[BEAN] BeanDescriptor::clone() FINAL PROPERTY VALUE: ", z, clone[ z ] );
+			}
+			
+			trace(":::::::::::::: [END "
+				+ this.id + " BEAN] BeanDescriptor::getProperties()", this, this.id, " ::::::::::::::::::::::" );
+			
 			return clone;
 		}
 		
@@ -317,6 +385,7 @@ package com.ffsys.ioc
 			//not an instance return the properties
 			if( !isBean() )
 			{
+				trace("[BEAN] BeanDescriptor::getBean() GETTING DEFAULT BEAN TYPE: ", this.id );
 				return getProperties();
 			}
 
@@ -834,7 +903,7 @@ package com.ffsys.ioc
 		private function resolveConstants( bean:Object ):Object
 		{
 			var output:Object = new Object();
-			if( bean )
+			if( bean != null )
 			{
 				var z:String = null;
 				for( z in bean )

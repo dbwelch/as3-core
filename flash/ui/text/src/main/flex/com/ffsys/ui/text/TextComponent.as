@@ -101,16 +101,16 @@ package com.ffsys.ui.text
 			//set up a default maximum with
 			//this.maxWidth = 220;
 			
-			if( cache.main.fte is Boolean )
+			if( cache.source.fte is Boolean )
 			{
-				this.fte = cache.main.fte;
+				this.fte = cache.source.fte;
 			}
 			
-			//trace("TextComponent::doWithStyleCache()", cache.main.textTransform );
+			//trace("TextComponent::doWithStyleCache()", cache.source.textTransform );
 			
-			if( cache.main.textTransform )
+			if( cache.source.textTransform )
 			{
-				this.textTransform = cache.main.textTransform;
+				this.textTransform = cache.source.textTransform;
 			}
 		}
 		
@@ -529,7 +529,7 @@ package com.ffsys.ui.text
 					var converter:FteTextFormatConverter = new FteTextFormatConverter();
 					_area = converter.convert(
 						text,
-						stylesheet.transform( getStyleCache().main ),
+						stylesheet.transform( getStyleCache().source ),
 						w );
 				
 					//trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
@@ -653,6 +653,11 @@ package com.ffsys.ui.text
 				{
 					//_offsets = new Point( 0, -GUTTER_TOP );
 					//return _offsets;
+					
+					if( paddings.top > 0 )
+					{
+						return new Point( 0, -GUTTER_TOP );
+					}
 					
 					return new Point( 0, 0 );
 				}

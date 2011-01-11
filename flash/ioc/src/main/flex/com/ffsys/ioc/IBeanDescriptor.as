@@ -107,7 +107,7 @@ package com.ffsys.ioc
 		* 
 		* 	@return A copy of the bean properties.
 		*/
-		function copy():Object;
+		function copy( target:Object = null ):Object;
 	
 		/**
 		* 	Gets the properties associated with this bean descriptor with
