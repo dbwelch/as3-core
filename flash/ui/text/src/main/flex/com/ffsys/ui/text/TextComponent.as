@@ -206,7 +206,7 @@ package com.ffsys.ui.text
 			var output:IComponentDimensions = super.measure();
 			output.preferredWidth = this.layoutWidth;
 			output.preferredHeight = this.layoutHeight - GUTTER_TOP;
-			trace("TextComponent::measure() MEASURING TEXT COMPONENT: ", output );
+			//trace("TextComponent::measure() MEASURING TEXT COMPONENT: ", output );
 			return output;
 		}
 		
@@ -233,7 +233,7 @@ package com.ffsys.ui.text
 		{
 			//position();
 			
-			trace("::::::::::::::::::::: [FINALIZED] TextComponent::finalized()", this, this.id, this.text, contentText );
+			//trace("::::::::::::::::::::: [FINALIZED] TextComponent::finalized()", this, this.id, this.text, contentText );
 			
 			if( contentText != null )
 			{
@@ -497,11 +497,11 @@ package com.ffsys.ui.text
 				text = handleTextTransform( text );
 			}
 			
-			trace("TextComponent::set text() HAS FTE: ", fte, this.id );		
+			//trace("TextComponent::set text() HAS FTE: ", fte, this.id );		
 				
 			if( fte )
 			{
-				trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
+				//trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
 
 				var w:Number = 1000000;
 				
@@ -521,7 +521,7 @@ package com.ffsys.ui.text
 					w = dimensions.maxWidth;
 				}
 				
-				trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
+				//trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
 				
 				try
 				{
@@ -532,7 +532,7 @@ package com.ffsys.ui.text
 						stylesheet.transform( getStyleCache().main ),
 						w );
 				
-					trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
+					//trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
 				
 					if( _area != null )
 					{
@@ -719,7 +719,7 @@ package com.ffsys.ui.text
 				_area.x = paddings.left + border.left + offsets.x;
 				_area.y = paddings.top + border.top + offsets.y;
 				
-				trace("TextComponent::position() POSITIONING FTE TEXT AREA: ", _area.y, paddings.top, border.top );
+				//trace("TextComponent::position() POSITIONING FTE TEXT AREA: ", _area.y, paddings.top, border.top );
 			}
 		}
 		

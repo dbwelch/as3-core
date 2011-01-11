@@ -25,6 +25,7 @@ package com.ffsys.ui.dom
 		implements IDomElement
 	{
 		private var _id:String;
+		private var _beanName:String;
 		private var _href:String;
 		private var _xml:XML;
 		private var _document:IBeanDocument;
@@ -48,6 +49,20 @@ package com.ffsys.ui.dom
 			{
 				this.xml = xml;
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		//TODO: receive from a IBeanNameAware implementation
+		public function get beanName():String
+		{
+			return _beanName;
+		}
+		
+		public function set beanName( value:String ):void
+		{
+			_beanName = value;
 		}
 		
 		/**
@@ -244,6 +259,7 @@ package com.ffsys.ui.dom
 		public function destroy():void
 		{
 			_id = null;
+			_beanName = null;
 			_href = null;
 			_xml = null;
 			_document = null;

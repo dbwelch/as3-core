@@ -279,7 +279,7 @@ package com.ffsys.ui.text.core {
 		
 		protected function measure():void
 		{
-			trace("TextComponent::measure(), ", this.width, this.height );
+			//trace("TextComponent::measure(), ", this.width, this.height );
 			if( this.width > 0 && this.height > 0 )
 			{
 				var bounds:Rectangle = getVisibleBounds();

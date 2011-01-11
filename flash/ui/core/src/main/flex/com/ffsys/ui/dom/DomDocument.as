@@ -91,6 +91,15 @@ The elementId parameter is of type String.
 		
 		/**
 		* 	@inheritDoc
+		*/
+		public function createAttribute( name:String ):Attr
+		{
+			var output:Attr = new Attr( this.xml, name );
+			return output;
+		}
+		
+		/**
+		* 	@inheritDoc
 		*/		
 		public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
 		{
@@ -148,7 +157,7 @@ The elementId parameter is of type String.
 		public function prepared():void
 		{
 			//trace("Document::prepared()", this, numChildren, this.id );
-		}				
+		}
 		
 		/**
 		* 	@inheritDoc

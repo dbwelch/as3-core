@@ -166,7 +166,10 @@ package com.ffsys.io.xml {
 		* 	@param instance The object the root element
 		* 	was deserialized to.
 		*/	
-		function complete( instance:Object ):void;		
+		function complete( instance:Object ):void;	
+		
+		//
+		function doWithAttributes( node:XML, target:Object ):Boolean;	
 	}
 	
 }

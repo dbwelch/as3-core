@@ -83,7 +83,7 @@ package com.ffsys.ui.dom
 		value
 		This property is of type String and can raise a DOMException object on setting.
 		ownerElement
-		This read-only property is a Element object.		
+		This read-only property is a Element object.
 		
 		
 		

@@ -86,7 +86,7 @@ package com.ffsys.ui.text
 			//if (!vertical) 
 			//fteFormat.textRotation = TextRotation.ROTATE_0;
 			
-			trace("FteTextFormatConverter::getContent() LINE BREAK OPPURTUNITY: ", fteFormat.breakOpportunity );
+			//trace("FteTextFormatConverter::getContent() LINE BREAK OPPURTUNITY: ", fteFormat.breakOpportunity );
 			
 			var txt:TextElement = new TextElement(
 				text, fteFormat );

@@ -77,6 +77,10 @@ package com.ffsys.ui.dom
 		*/	
 		protected var _nodeType:Number;
 		
+		private var _nodeValue:String;
+		private var _parentNode:IDomNode;
+		private var _ownerDocument:IDomDocument;
+		
 		/**
 		* 	Creates a <code>Node</code> instance.
 		* 
@@ -100,86 +104,174 @@ package com.ffsys.ui.dom
 			return null;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get localName():String
+		{
+			if( xml != null
+				&& xml.name() )
+			{
+				return xml.name().localName;
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get nodeType():Number
 		{
 			return _nodeType;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get nodeValue():String
+		{
+			return _nodeValue;
+		}
+		
+		public function set nodeValue( value:String ):void
+		{
+			_nodeValue = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function hasAttributes():Boolean
+		{
+			return this.xml != null && this.xml.attributes().length() > 0;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function childNodes():IDomNodeList
+		{
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get parentNode():IDomNode
+		{
+			return _parentNode;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get attributes():NamedNodeMap
+		{
+			//TODO
+			return null;
+		}
+		
+		public function get ownerDocument():IDomDocument
+		{
+			return _ownerDocument;
 		}
 		
 		/*
 
 		nodeName
 		This read-only property is of type String.
+		
 		nodeValue
 		This property is of type String, can raise a DOMException object on setting and can raise a DOMException object on retrieval.
+		
 		nodeType
 		This read-only property is of type Number.
+		
 		parentNode
 		This read-only property is a Node object.
+		
 		childNodes
 		This read-only property is a NodeList object.
+		
 		firstChild
 		This read-only property is a Node object.
+		
 		lastChild
 		This read-only property is a Node object.
+		
 		previousSibling
 		This read-only property is a Node object.
+		
 		nextSibling
 		This read-only property is a Node object.
+		
 		attributes
 		This read-only property is a NamedNodeMap object.
+		
 		ownerDocument
 		This read-only property is a Document object.
+		
 		namespaceURI
 		This read-only property is of type String.
+		
 		prefix
 		This property is of type String and can raise a DOMException object on setting.
+		
 		localName
-		This read-only property is of type String.		
+		This read-only property is of type String.
 		
 		*/
 		
 		/*
-		
-		
-		
-		
-		
-		
 		
 		insertBefore(newChild, refChild)
 		This method returns a Node object.
 		The newChild parameter is a Node object.
 		The refChild parameter is a Node object.
 		This method can raise a DOMException object.
+		
 		replaceChild(newChild, oldChild)
 		This method returns a Node object.
 		The newChild parameter is a Node object.
 		The oldChild parameter is a Node object.
 		This method can raise a DOMException object.
+		
 		removeChild(oldChild)
 		This method returns a Node object.
 		The oldChild parameter is a Node object.
 		This method can raise a DOMException object.
+		
 		appendChild(newChild)
 		This method returns a Node object.
 		The newChild parameter is a Node object.
 		This method can raise a DOMException object.
+		
 		hasChildNodes()
 		This method returns a Boolean.
+		
 		cloneNode(deep)
 		This method returns a Node object.
 		The deep parameter is of type Boolean.
+		
 		normalize()
 		This method has no return value.
+		
 		isSupported(feature, version)
 		This method returns a Boolean.
 		The feature parameter is of type String.
 		The version parameter is of type String.
+		
 		hasAttributes()
 		This method returns a Boolean.		
 		
 		
 		
 		*/
+		
+		//TODO
+		internal function setParentNode( node:IDomNode ):void
+		{
+			_parentNode = node;
+		}		
 	}
 }

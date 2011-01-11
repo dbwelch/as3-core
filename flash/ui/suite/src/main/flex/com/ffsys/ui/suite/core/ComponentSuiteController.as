@@ -126,7 +126,7 @@ package com.ffsys.ui.suite.core {
 			var candidates:Vector.<DisplayObject> = view.getElementsByMatch( /^injected-images/ );
 			var display:DisplayObject = null;
 			var collection:IImageContainer = null;
-			for each( display in candidates )
+			for each( display in candidates )	
 			{
 				collection = display as IImageContainer;
 
@@ -185,10 +185,14 @@ package com.ffsys.ui.suite.core {
 		{
 			//event.preventDefault();
 			
-			if( event.target is IComponent )
+			trace("ComponentSuiteController::navigationLinkClick()", IComponent( event.target ).id );
+			
+			if( event.target is IComponent && IComponent( event.target ).id is String )
 			{
 				//the view id
-				var id:String = IComponent( event.target ).customData as String;
+				var id:String = IComponent( event.target ).id.replace( /\-link$/, "" );
+				
+				trace("ComponentSuiteController::navigationLinkClick() GOT VIEW ID: ", id );
 				
 				if( _view != null
 					&& id == _view )
@@ -347,9 +351,12 @@ package com.ffsys.ui.suite.core {
 				
 				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
 				
+				
+				/*
 				var p:Object = main.getElementById( "test-href" ) as Object;
 				
 				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT TEST P:: ", p, p.text, p.getStyleCache().main, p.getStyleCache().main.font, p.getStyleCache().main.color, p.parent, p.width, p.height );
+				*/
 				
 				
 			}

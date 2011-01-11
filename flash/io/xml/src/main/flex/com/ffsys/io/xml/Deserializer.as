@@ -748,6 +748,7 @@ package com.ffsys.io.xml {
 			
 			if( _preAttributeParse )
 			{
+				//ATT
 				parseAttributes( node, classInstance );
 			}
 			
@@ -766,6 +767,7 @@ package com.ffsys.io.xml {
 					
 					if( !_preAttributeParse )
 					{
+						//ATT
 						parseAttributes( node, classInstance );
 					}												
 					
@@ -859,6 +861,16 @@ package com.ffsys.io.xml {
 				if( !Object( obj ).hasOwnProperty( _propertyField ) )
 				{
 					reserved.push( _propertyField );
+				}
+			}
+			
+			if( hasInterpreter() )
+			{
+				var proceed:Boolean = interpreter.doWithAttributes( node, obj );
+				
+				if( !proceed )
+				{
+					return null;
 				}
 			}
 		
@@ -1113,6 +1125,7 @@ package com.ffsys.io.xml {
 			
 			if( obj )
 			{
+				//ATT
 				parseAttributes( node, obj );
 			}
 		
@@ -1191,6 +1204,7 @@ package com.ffsys.io.xml {
 					try {
 						classReference = getClass( x );
 						obj = deserializeClass( classReference, obj, x, name );
+						//ATT
 						parseAttributes( x, obj );
 					
 					}catch( e:Error )

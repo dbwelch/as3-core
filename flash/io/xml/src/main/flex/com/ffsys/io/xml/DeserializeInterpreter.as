@@ -160,6 +160,11 @@ package com.ffsys.io.xml {
 			return true;
 		}
 		
+		public function doWithAttributes( node:XML, target:Object ):Boolean
+		{
+			return true;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/

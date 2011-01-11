@@ -269,7 +269,7 @@ package com.ffsys.ui.core
 			//the calculated values
 			this.dimensions = measure();
 			
-			trace("UIComponent::finalized()", this, this.id );
+			//trace("UIComponent::finalized()", this, this.id );
 			
 			/*
 			trace("UIComponent::finalized() MEASURED DIMENSIONS (this/id/explicit[WxH]/preferred[WxH]): ",

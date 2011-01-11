@@ -257,11 +257,16 @@ package com.ffsys.ui.buttons
 			event:MouseEvent ):void
 		{
 			super.onMouseClick( event );
+			
+			trace("ButtonComponent::onMouseClick()", this, this.id, this.href );
+			
+			/*
 			if( this.href != null )
 			{
 				navigateToURL(
 					new URLRequest( this.href ) );
 			}
+			*/
 		}
 		
 		/**

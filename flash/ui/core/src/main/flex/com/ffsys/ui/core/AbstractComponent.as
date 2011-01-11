@@ -33,7 +33,7 @@ package com.ffsys.ui.core
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class AbstractComponent extends XmlAwareDomElement
+	public class AbstractComponent extends Element
 		implements IMessagesAware
 	{	
 		/**
