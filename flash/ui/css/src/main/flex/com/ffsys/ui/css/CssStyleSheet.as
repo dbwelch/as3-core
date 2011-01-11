@@ -52,13 +52,7 @@ package com.ffsys.ui.css {
 		/**
 		* 	The default name for css bean documents.
 		*/
-		public static const NAME:String = "css";	
-		
-		/**
-		* 	The name of the property to search for when
-		* 	mapping font family declarations.
-		*/
-		public static const FONT_PROPERTY:String = "font";
+		public static const NAME:String = "css";
 			
 		/**
 		* 	The delimiter used to delimit style names in a string value.
@@ -164,13 +158,11 @@ package com.ffsys.ui.css {
 		*/
 		public function transform( style:Object ):TextFormat
 		{
-			var tf:TextFormat = new TextFormat();
-			if( style )
+			if( style != null )
 			{
-				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( tf, style );
+				return new CssStyle( style ).transform();
 			}
-			return tf;
+			return new TextFormat();
 		}
 		
 		/**
@@ -428,7 +420,7 @@ package com.ffsys.ui.css {
 			//calling applyStyle() is potentially expensive
 			//so we merge all styles into a single object
 			//in the order styles are declared and apply
-			//the cumulative style			
+			//the cumulative style
 			if( target && styles )
 			{
 				var cumulative:Object = getFlatStyle( styles );
@@ -436,128 +428,10 @@ package com.ffsys.ui.css {
 				//trace("|||||||||||||||||||||| CssStyleSheet::applyStyles()", target, cumulative );				
 				
 				applyStyle( target, cumulative );
+				
+				//var style:CssStyle = new CssStyle( cumulative );
+				//style.apply( target );
 			}
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function applyPadding( target:IPaddingAware, style:Object ):void
-		{
-			//trace("CssStyleSheet::applyPadding()", target, style );
-			
-			if( target && target.paddings )
-			{
-				//trace("CssStyleSheet::applyPadding()", style.padding );
-				
-				if( style.padding is Number )
-				{
-					target.paddings.padding = style.padding;
-				}
-			
-				if( style.paddingLeft is Number )
-				{
-					target.paddings.left = style.paddingLeft;
-				}
-				
-				if( style.paddingTop is Number )
-				{
-					target.paddings.top = style.paddingTop;	
-				}
-				
-				if( style.paddingRight is Number )
-				{
-					target.paddings.right = style.paddingRight;					
-				}
-				
-				if( style.paddingBottom is Number )
-				{
-					target.paddings.bottom = style.paddingBottom;					
-				}				
-			}
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function applyMargin( target:IMarginAware, style:Object ):void
-		{
-			if( target && target.margins )
-			{
-				if( style.margin is Number )
-				{
-					target.margins.margin = style.margin;
-				}
-			
-				if( style.marginLeft is Number )
-				{
-					target.margins.left = style.marginLeft;
-				}
-				
-				if( style.marginTop is Number )
-				{
-					target.margins.top = style.marginTop;	
-				}
-				
-				if( style.marginRight is Number )
-				{
-					target.margins.right = style.marginRight;					
-				}
-				
-				if( style.marginBottom is Number )
-				{
-					target.margins.bottom = style.marginBottom;					
-				}				
-			}
-		}		
-		
-		/**
-		* 	@private
-		*/
-		private function assign(
-			target:Object,
-			source:Object,
-			name:String,
-			value:* ):Boolean
-		{
-			if( target is IBeanProperty )
-			{
-				var property:IBeanProperty = IBeanProperty( target );
-				if( property.shouldSetBeanProperty( name, value ) )
-				{
-					//delegate bean property assignment
-					property.setBeanProperty( name, value );
-					return false;
-				}
-			}
-			return true;
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function intercept(
-			target:Object,
-			source:Object,
-			name:String,
-			value:* ):Boolean
-		{
-			if( name.indexOf( "." ) > -1 )
-			{
-				//trace("CssStyleSheet::assign() FOUND DOT STYLE PROPERTY NAME: ", target, name, value );
-				var assignment:IPropertyProcessor = new PropertyAssignmentProcessor(
-					name, target, value );
-				assignment.process();
-				
-				return false;
-				
-				/*
-				trace("CssStyleSheet::assign() AFTER ASSIGNMENT: ",
-					assignment.currentTarget, assignment.targets );
-				*/
-			}
-
-			return true;
 		}
 		
 		/**
@@ -565,118 +439,8 @@ package com.ffsys.ui.css {
 		*/
 		public function applyStyle( target:Object, style:Object ):void
 		{
-			//trace("CssStyleSheet::applyStyle()", target, style, target is IPaddingAware  );
-			if( style && target )
-			{
-				
-				//trace("CssStyleSheet::applyStyle() CHECKING PADDING AWARE: ", target, ( target is IPaddingAware ) );
-				
-				if( target is IPaddingAware )
-				{
-					applyPadding( IPaddingAware( target ), style );
-				}
-				
-				if( target is IMarginAware )
-				{
-					applyMargin( IMarginAware( target ), style );
-				}
-				
-				var txt:TextField = null;
-				var format:TextFormat = null;
-
-				var targets:Vector.<TextField> = new Vector.<TextField>(); 
-				
-				if( target is TextField )
-				{
-					targets.push( TextField( target ) );			
-				}
-				
-				if( target is ICssTextFieldProxy )
-				{
-					targets = ICssTextFieldProxy( target ).getProxyTextFields();
-				}
-
-				//got a font family declaration
-				if( style.fontFamily is FontFamily )
-				{
-					var family:FontFamily = style.fontFamily as FontFamily;
-					
-					//trace("CssStyleSheet::intercept() GOT FONT FAMILY DECLARATION: ", target, style, style.fontFamily.fontNames );
-					
-					var embed:Boolean = style.embedFonts is Boolean ? style.embedFonts as Boolean : false;
-					var fte:Boolean = style.fte is Boolean ? style.fte as Boolean : false;
-					var font:String = family.getFont( embed, fte );
-					if( font == null )
-					{
-						throw new Error( "Could not locate a valid font for font family declaration '"
-						 + family.fontNames + "'." );
-					}
-					style[ FONT_PROPERTY ] = font;
-				}
-				
-				//allow an target to perform last minute modification
-				//of the style object applied
-				
-				if( target is ICssStyleInterceptor )
-				{
-					style = ICssStyleInterceptor( target ).doWithStyleObject( style );
-				}
-			
-				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( target, style, true, null, assign, intercept );
-				
-				//ensure color transforms are applied
-				if( target is DisplayObject )
-				{
-					if( style.colorTransform is ColorTransform )
-					{
-						DisplayObject( target ).transform.colorTransform =
-							ColorTransform( style.colorTransform );
-					}
-				}
-				
-				//TODO: handle cursor changes here
-				
-				//we cannot guarantee the order that styles will
-				//be applied so we need to ensure that any width/height
-				//are applied after other properties such as autoSize
-				//for the textfield to render correctly
-				
-				if( targets.length )
-				{
-					format = new TextFormat();
-					format = transform( style );
-				
-					for each( txt in targets )
-					{
-						if( !txt )
-						{
-							continue;
-						}
-						
-						if( txt.styleSheet == null )
-						{
-							txt.defaultTextFormat = format;
-						}
-					
-						if( style.hasOwnProperty( "width" ) )
-						{
-							target.width = style.width;
-						}
-					
-						if( style.hasOwnProperty( "height" ) )
-						{
-							target.height = style.height;
-						}
-					
-						if( txt.text )
-						{
-							txt.text = txt.text;
-						}
-						
-					}
-				}
-			}			
+			var css:CssStyle = new CssStyle( style );
+			css.apply( target );
 		}
 	}
 }

@@ -70,7 +70,7 @@ package com.ffsys.ui.runtime
 			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.DIV );
-			descriptor.instanceClass = DivContainer;
+			descriptor.instanceClass = BlockElement;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
@@ -90,10 +90,35 @@ package com.ffsys.ui.runtime
 				DomIdentifiers.HEADING_6 );
 			beans.addBeanDescriptor( descriptor );
 			
+			//TODO: a custom anchor button
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.ANCHOR );
 			descriptor.instanceClass = TextButton;
-			beans.addBeanDescriptor( descriptor );								
+			beans.addBeanDescriptor( descriptor );
+			
+			//overwrite the normal component button descriptor?
+			
+			/*
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BUTTON );
+			descriptor.instanceClass = IconButton;
+			beans.addBeanDescriptor( descriptor );
+			*/
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.UL );
+			descriptor.instanceClass = UnorderedList;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.OL );
+			descriptor.instanceClass = OrderedList;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.LI );
+			descriptor.instanceClass = ListItem;
+			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }

@@ -54,34 +54,9 @@ package com.ffsys.ui.buttons {
 			if( this.background != null
 			 	&& this.label != null )
 			{
+				trace("Button::set background()", getBackgroundRect() );
 				applyBackground();
 			}
 		}		
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override public function get preferredWidth():Number
-		{
-			var width:Number = super.preferredWidth;
-			if( label )
-			{
-				width = label.layoutWidth + paddings.width;
-			}
-			return width;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override public function get preferredHeight():Number
-		{
-			var height:Number = super.preferredHeight;
-			if( label )
-			{
-				height = label.layoutHeight + paddings.height;
-			}
-			return height;
-		}
 	}
 }

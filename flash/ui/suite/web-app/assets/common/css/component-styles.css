@@ -4,11 +4,11 @@ html {
 }
 
 body {
+	font-family: Helvetica, Georgia, sans-serif;	
 	padding: 20;
 }
 
 h1 {
-	font-family: Helvetica, Georgia, sans-serif;	
 	size: 20;
 	color: #ffffff;
 }

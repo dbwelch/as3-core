@@ -71,7 +71,7 @@ package com.ffsys.ui.suite.core {
 		public static const DOCUMENT_NAME:String = "uiComponentSuite";
 		
 		public var main:IDomDocument;
-		public var content:IDivContainer;		
+		public var content:BlockElement;		
 			
 		//
 		public var vbox:VerticalBox;
@@ -347,7 +347,7 @@ package com.ffsys.ui.suite.core {
 					main.getElementsByMatch( /\-link$/ ) );
 				
 				trace("ComponentSuiteController::createMainChildren() CONTENT: ", main.getElementById( CONTENT_ID ) );
-				content = main.getElementById( CONTENT_ID ) as IDivContainer;
+				content = main.getElementById( CONTENT_ID ) as BlockElement;
 				
 				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
 				

@@ -1,6 +1,6 @@
 package com.ffsys.ui.dom
 {
-	import com.ffsys.ui.containers.Container;
+	import com.ffsys.ui.containers.BlockElement;
 	
 	/**
 	*	A container for the document body elements.
@@ -11,7 +11,7 @@ package com.ffsys.ui.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class BodyElement extends Container
+	dynamic public class BodyElement extends BlockElement
 		implements IDocumentBody
 	{
 		/**

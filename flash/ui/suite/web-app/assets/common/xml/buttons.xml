@@ -21,9 +21,11 @@
 		<framework:configuration />
 		-->
 		
+		<!--
 		<css:test-css-xml-namespace-bean>
 		
 		</css:test-css-xml-namespace-bean>
+		-->
 		
 		<styles>page-heading</styles>
 		<h3 id="page-package-heading">

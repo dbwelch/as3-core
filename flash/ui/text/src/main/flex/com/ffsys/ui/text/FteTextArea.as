@@ -20,6 +20,22 @@ package com.ffsys.ui.text
 		/**
 		* 	@inheritDoc
 		*/
+		override public function get layoutWidth():Number
+		{
+			return this.width;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get layoutHeight():Number
+		{
+			return this.height;
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get html():Boolean
 		{
 			return true;

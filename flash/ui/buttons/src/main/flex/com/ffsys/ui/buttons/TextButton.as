@@ -7,6 +7,7 @@ package com.ffsys.ui.buttons
 	import com.ffsys.ioc.*;
 		
 	import com.ffsys.ui.common.ComponentIdentifiers;
+	import com.ffsys.ui.core.IComponentDimensions;	
 	import com.ffsys.ui.css.ICssTextFieldProxy;
 
 	/**
@@ -88,7 +89,7 @@ package com.ffsys.ui.buttons
 			}
 			
 			return super.layoutHeight;
-		}		
+		}
 		
 		/**
 		*	@inheritDoc
@@ -160,13 +161,15 @@ package com.ffsys.ui.buttons
 					_label.contentText = text;
 				}
 				
-				trace("[CREATING LABEL] ::::::::::::::::::::: TextButton::createLabel()", this, this.id, _label.fte, _label, text, _label.contentText, contains( DisplayObject( _label ) ) );
+				//trace("[CREATING LABEL] ::::::::::::::::::::: TextButton::createLabel()", this, this.id, _label.fte, _label, text, _label.contentText, contains( DisplayObject( _label ) ) );
 					
 				if( _label != null && !contains( DisplayObject( _label ) ) )
 				{
 					addChild( DisplayObject( _label ) );
+					
+					//TODO: !!
 					_label.finalized();
-					trace("[CREATING LABEL] ::::::::::::::::::::: ADDED CHILD LABEL()", _label.text );					
+					//trace("[CREATING LABEL] ::::::::::::::::::::: ADDED CHILD LABEL()", _label.text );					
 				}
 			}
 			return _label;
@@ -202,34 +205,6 @@ package com.ffsys.ui.buttons
 		}
 		
 		/**
-		*	@inheritDoc	
-		*/
-		override public function get preferredWidth():Number
-		{
-			var width:Number = super.preferredWidth;
-			if( label )
-			{
-				width = label.layoutWidth + paddings.left + paddings.right;
-			}
-			
-			return width;
-		}
-		
-		/**
-		*	@inheritDoc	
-		*/
-		override public function get preferredHeight():Number
-		{
-			var height:Number = super.preferredHeight;
-			if( label )
-			{
-				height = label.layoutHeight + paddings.left + paddings.right;
-			}
-			
-			return height;
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		override public function prefinalize():void
@@ -257,14 +232,14 @@ package com.ffsys.ui.buttons
 		* 	@inheritDoc
 		*/
 		override public function finalized():void
-		{			
+		{
+			//trace("TextButton::finalized()", contentText, messages, identifier );
+			
 			if( contentText != null )
 			{
 				this.text = contentText;
-			}else if( this.label != null
-				&& this.messages != null
-				&& this.identifier != null
-				&& this.label.identifier == null )
+			}else if( this.messages != null
+				&& this.identifier != null )
 			{
 				var msg:String = this.messages.getProperty.apply(
 					this.messages, [ this.identifier ] ) as String;

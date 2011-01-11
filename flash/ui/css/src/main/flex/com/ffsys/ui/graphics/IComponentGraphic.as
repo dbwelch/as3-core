@@ -12,6 +12,7 @@ package com.ffsys.ui.graphics
 	
 	import com.ffsys.ui.layout.ILayoutWidth;
 	import com.ffsys.ui.layout.ILayoutHeight;
+	import com.ffsys.ui.layout.IFixedLayout;
 	
 	import com.ffsys.ui.common.IStyleAware;
 	
@@ -32,6 +33,7 @@ package com.ffsys.ui.graphics
 				IPaddingAware,
 				ILayoutWidth,
 				ILayoutHeight,
+				IFixedLayout,
 				IComponentDraw,
 				IClone
 	{
