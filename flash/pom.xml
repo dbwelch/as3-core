@@ -29,6 +29,7 @@
 	<modules>
 		<module>asdoc-utils</module>
 		<module>core</module>
+		<module>dom</module>
 		<module>effects</module>
 		<module>events</module>
 		<module>io</module>

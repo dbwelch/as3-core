@@ -1,26 +1,26 @@
-package com.ffsys.net.sax
+package com.ffsys.dom
 {
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
+	import asquery.$;
+	
 	/**
-	*	Unit tests for parsing simple primitive documents
-	* 	using a SAX parser.
+	*	Unit tests for the DOM implementation.
 	*/ 
-	public class SimpleSAXTest extends Object
+	public class SimpleDOMTest extends Object
 	{
-		
 		/**
-		*	Creates a <code>SimpleSAXTest</code> instance.
+		*	Creates a <code>SimpleDOMTest</code> instance.
 		*/ 
-		public function SimpleSAXTest()
+		public function SimpleDOMTest()
 		{
-			super();	
+			super();
 			XML.ignoreComments = false;
 			XML.ignoreProcessingInstructions = false;
 			XML.ignoreWhitespace = false;
 			XML.prettyIndent = 0;
-			XML.prettyPrinting = false;						
+			XML.prettyPrinting = false;					
 		}
 		
 		public function get sample():XML
@@ -48,13 +48,23 @@ package com.ffsys.net.sax
 			</object>;
 		}
 		
+		/*
+		
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+		    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">		
+		
+		*/
+		
 		[Test]
-		public function saxParserText():void
+		public function domTest():void
 		{
-			var parser:SAXParser = new SAXParser();
-			var handler:SAXHandler = new SAXHandler();
-			parser.handlers.push( handler );
-			parser.parse( sample );
+			var impl:DOMImplementation = new DOMImplementation();
+			var type:DocumentType = impl.getXhtmlDocumentType();
+			var document:Document = impl.createDocument( "http://www.w3.org/1999/xhtml", "html", type );
+			
+			trace("SimpleDOMTest::domTest()", document, document.head, document.body );
+			
+			//trace( $( ".links" ) );
 		}
 	}
 }
