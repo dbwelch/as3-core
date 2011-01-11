@@ -21,7 +21,7 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  20.06.2010
 	*/
-	public class Cell extends Canvas {
+	dynamic public class Cell extends Canvas {
 		
 		private var _content:IComponent;
 		

@@ -7,13 +7,6 @@ package com.ffsys.ui.core
 	public interface IComponentStyleCache extends IClone
 	{
 		/**
-		* 	The flat css style declaration used to apply
-		* 	style information to this component.
-		*/
-		function get css():CssStyle;
-		function set css( value:CssStyle ):void;
-		
-		/**
 		* 	Applies the styles associated with this
 		* 	style cache to the target component.
 		* 
@@ -26,7 +19,11 @@ package com.ffsys.ui.core
 		* 
 		* 	@return A copy of the cached style object.
 		*/
-		function copy():Object;
+		function copy():CssStyle;
+		
+		function propagate( component:IComponent ):void;
+		
+		function inherit( parent:IComponentStyleCache ):void;
 		
 		/**
 		* 	Updates this style cache with an array
@@ -44,8 +41,8 @@ package com.ffsys.ui.core
 		* 	A flat representation of the style objects
 		* 	located when this style cache was created.
 		*/
-		function get source():Object;
-		function set source( value:Object ):void;		
+		function get source():CssStyle;
+		function set source( value:CssStyle ):void;		
 		
 		/**
 		* 	The list of style names that applied to the component

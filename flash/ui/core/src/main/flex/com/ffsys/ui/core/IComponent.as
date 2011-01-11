@@ -423,9 +423,15 @@ package com.ffsys.ui.core
 		function toNameString(
 			delimiter:String = ".", root:Boolean = false ):String;
 		
+		/**
+		* 	@inheritDoc
+		*/
+		function get components():Vector.<IComponent>;
 		
-		
-		
+		/**
+		* 	The child display objects of this component.
+		*/
+		function get children():Vector.<DisplayObject>;
 		
 		/**
 		* 	A support implementation for managing

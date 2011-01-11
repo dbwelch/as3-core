@@ -20,7 +20,7 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  19.06.2010
 	*/
-	public class Canvas extends Container
+	dynamic public class Canvas extends Container
 		implements ICanvas {
 		
 		private var _masker:IMaskComponent;

@@ -137,7 +137,7 @@ package com.ffsys.ui.runtime {
 					doWithComponent( result as IComponent, node );
 				}
 				
-				trace("RuntimeInterpreter::primitive() INSTANTIATING PRIMITIVE FROM BEAN DOCUMENT!!!!!!!", result, result is IComponent, result.id );
+				//trace("RuntimeInterpreter::primitive() INSTANTIATING PRIMITIVE FROM BEAN DOCUMENT!!!!!!!", result, result is IComponent, result.id );
 			}
 			
 			//handle text elements with no nested markup
@@ -157,10 +157,12 @@ package com.ffsys.ui.runtime {
 			
 			if( result != null && result != value )
 			{
+				/*
 				if( result && result.hasOwnProperty( ID ) )
 				{
-					trace("[HANDLING POST PROCSSING ON PRIMITIVE] RuntimeInterpreter::primitive()", result, result.id, target );
+					//trace("[HANDLING POST PROCSSING ON PRIMITIVE] RuntimeInterpreter::primitive()", result, result.id, target );
 				}
+				*/
 				postProcessClass( result, target );
 			}
 			
@@ -440,7 +442,7 @@ package com.ffsys.ui.runtime {
 		
 		private function handleIdentifier( id:String, value:Object ):void
 		{
-			trace("::::::::::::: RuntimeInterpreter::handleIdentifier()", "ADDING DOCUMENT ID REFERENCE:", id, value );
+			//trace("::::::::::::: RuntimeInterpreter::handleIdentifier()", "ADDING DOCUMENT ID REFERENCE:", id, value );
 			
 			if( !( value is RuntimeDocumentReference ) )  
 			{
@@ -470,7 +472,7 @@ package com.ffsys.ui.runtime {
 			
 			var hasProp:Boolean = parent.hasOwnProperty( name );
 			
-			//trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
+			trace("RuntimeInterpreter::shouldSetProperty(), ", parent, name, value, hasProp );
 			
 			if( value is RuntimeDocumentReference )
 			{
@@ -548,7 +550,15 @@ package com.ffsys.ui.runtime {
 			}
 			*/
 			
-			return hasProp;
+			try
+			{
+				parent[ name ] = value;
+			}catch( e:Error )
+			{
+				//
+			}
+			
+			return false;
 		}
 		
 		protected function doWithComponent( component:IComponent, xml:XML ):void
@@ -572,7 +582,7 @@ package com.ffsys.ui.runtime {
 			var target:Object = super.processClass(
 				node, parent, classReference );
 				
-			trace("[RuntimeInterpreter::PROCESS CLASS]: ", node.name().localName, target );
+			//trace("[RuntimeInterpreter::PROCESS CLASS]: ", node.name().localName, target );
 
 			if( target is IComponent )
 			{
@@ -600,12 +610,12 @@ package com.ffsys.ui.runtime {
 		{
 			if( instance && instance.hasOwnProperty( ID ) )
 			{
-				trace("RuntimeInterpreter::postProcessClass()", instance, instance.id );
+				//trace("RuntimeInterpreter::postProcessClass()", instance, instance.id );
 			
 				//handle storing identifier reference on the document
 				if( instance && instance.id is String )
 				{
-					trace("RuntimeInterpreter::postProcessClass()[ !!!!!!!!!!!!!!!! CALLING TO ADD THE IDENTIFIER !!!!!!!!!!!!!!!! ]");
+					//trace("RuntimeInterpreter::postProcessClass()[ !!!!!!!!!!!!!!!! CALLING TO ADD THE IDENTIFIER !!!!!!!!!!!!!!!! ]");
 					handleIdentifier( instance.id, instance );
 				}
 			}
@@ -615,18 +625,16 @@ package com.ffsys.ui.runtime {
 				IComponent( instance ).prefinalize();
 			}
 			
+			if( instance is Node
+				&& parent is Node )
+			{
+				Node( parent ).appendChild( Node( instance ) );
+			}
+			
+			
 			if( instance is DisplayObject )
 			{
 				var child:DisplayObject = DisplayObject( instance );
-				
-				/*
-				if( child is IComponentGraphic )
-				{
-					var graphic:IComponentGraphic = IComponentGraphic( child );
-					graphic.draw(
-						graphic.preferredWidth, graphic.preferredHeight );
-				}
-				*/
 				
 				if( parent is DisplayObjectContainer
 				 	&& !parent.contains( child ) )

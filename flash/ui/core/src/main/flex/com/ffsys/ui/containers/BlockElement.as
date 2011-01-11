@@ -18,7 +18,7 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  08.01.2011
 	*/
-	public class BlockElement extends DocumentElement {
+	dynamic public class BlockElement extends DocumentElement {
 		
 		/**
 		*	Creates a <code>BlockElement</code> instance.

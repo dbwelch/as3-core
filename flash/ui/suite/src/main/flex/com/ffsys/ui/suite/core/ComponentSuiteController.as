@@ -332,6 +332,8 @@ package com.ffsys.ui.suite.core {
 			main = getView( "global" ) as IDomDocument;
 			if( main != null )
 			{
+				trace("[ADDING ROOT VIEW] ComponentSuiteController::createMainChildren()", root, main );
+				
 				root.addChild( DisplayObject( main ) );
 				
 				var z:String = null;
@@ -345,11 +347,13 @@ package com.ffsys.ui.suite.core {
 				
 				doWithNavigationLinks(
 					main.getElementsByMatch( /\-link$/ ) );
-				
-				trace("ComponentSuiteController::createMainChildren() CONTENT: ", main.getElementById( CONTENT_ID ) );
+					
 				content = main.getElementById( CONTENT_ID ) as BlockElement;
 				
-				trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
+				//trace("ComponentSuiteController::createMainChildren() CONTENT: ", main.getElementById( CONTENT_ID ) );
+				//content = main.getElementById( CONTENT_ID ) as BlockElement;
+				
+				//trace("::::::::::::::>>>>>>>>>>>>>>>>>>>>>> ComponentSuiteController::createMainChildren() GOT GLOBAL VIEW:: ", main, main.head, main.body, content );
 				
 				
 				/*
@@ -359,6 +363,7 @@ package com.ffsys.ui.suite.core {
 				*/
 				
 				
+				//main.finalized();
 			}
 		}
 	}

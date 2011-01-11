@@ -38,7 +38,7 @@ package com.ffsys.ui.css {
 		* 	@return A flat representation of all the style object
 		* 	properties.
 		*/
-		function getFlatStyle( styles:Array ):Object;
+		function getFlatStyle( styles:Array ):CssStyle;
 			
 		/**
 		* 	Gets a style name list and a list with the corresponding

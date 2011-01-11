@@ -21,7 +21,7 @@ package com.ffsys.ui.buttons
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class IconButton extends Button
+	dynamic public class IconButton extends Button
 	{
 		private var _icon:DisplayObject;
 		

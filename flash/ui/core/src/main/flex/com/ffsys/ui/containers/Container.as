@@ -21,7 +21,7 @@ package com.ffsys.ui.containers {
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class Container extends InteractiveComponent
+	dynamic public class Container extends InteractiveComponent
 		implements IContainer {
 		
 		private var _layout:ILayout;

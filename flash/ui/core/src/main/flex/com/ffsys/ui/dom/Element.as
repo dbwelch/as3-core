@@ -29,13 +29,13 @@ package com.ffsys.ui.dom
 		{
 			super.xml = value;
 			
-			if( !( this is IDomDocument ) ) trace("Element::set xml()", value );
+			//if( !( this is IDomDocument ) ) trace("Element::set xml()", value );
 			
 			if( value != null )
 			{
 				doWithAttributes( value, this );
 			}
-		}		
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -187,14 +187,16 @@ package com.ffsys.ui.dom
 		protected function doWithAttributes(
 			node:XML, target:Element ):void
 		{
-			trace("[DO WITH ATTRIBUTES] :::::::::::::: ", node.attributes().length(), node.name().localName );
+			//trace("[DO WITH ATTRIBUTES] :::::::::::::: ", node.attributes().length(), node.name().localName );
 			
 			if( node.attributes().length() > 0 && target )
 			{
+				/*
 				trace("::::::::::::::: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Element::doWithAttributes()",
 					this,
 					this.id,
 					node.attributes().length() );
+				*/
 				
 				var attrs:XMLList = node.@*;
 				var attr:XML = null;
@@ -204,7 +206,7 @@ package com.ffsys.ui.dom
 				{
 					name = attr.name();
 					value = node.@[ name ];
-					trace("Element::set xml()", name, value );
+					//trace("Element::set xml()", name, value );
 					target.setAttribute( name, value );
 				}
 			}
@@ -215,7 +217,7 @@ package com.ffsys.ui.dom
 		*/
 		protected function attributeSet( name:String, value:String ):void
 		{
-			trace("Element::attributeSet()", name, value, xml.@[name], hasOwnProperty( name ) );
+			//trace("Element::attributeSet()", name, value, xml.@[name], hasOwnProperty( name ) );
 			
 			if( hasOwnProperty( name ) )
 			{
@@ -233,7 +235,7 @@ package com.ffsys.ui.dom
 			//TODO: check for exception
 			this[ name ] = value;	
 			
-			trace("Element::doWithProperty() AFTER SETTING THE PROPERTY: ", this, name, this[ name ] );		
+			//trace("Element::doWithProperty() AFTER SETTING THE PROPERTY: ", this, name, this[ name ] );		
 		}
 		
 		/**

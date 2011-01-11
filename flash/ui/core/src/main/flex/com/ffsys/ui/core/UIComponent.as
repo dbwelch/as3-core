@@ -17,6 +17,7 @@ package com.ffsys.ui.core
 	
 	import com.ffsys.ui.common.*;
 	import com.ffsys.ui.css.*;
+	import com.ffsys.ui.dom.*;
 	import com.ffsys.ui.graphics.ComponentGraphic;
 	
 	import com.ffsys.ui.data.IDataBinding;
@@ -263,6 +264,17 @@ package com.ffsys.ui.core
 		override public function finalized():void
 		{
 			super.finalized();	
+			
+			trace("[FINALIZED] UIComponent::finalized()", this );
+				
+			if( this is DomDocument )
+			{
+				trace("[DOM DOCUMENT FINALIZED] UIComponent::addedToStage() [UPDATING CHILD STYLE CACHE WITH INHERITANCE]", this );
+				getStyleCache().propagate( this );
+			}
+			
+			updateState( this.state == null ? State.MAIN : state.clone() );
+			
 			//updateState( this.state == null ? State.MAIN : state.clone() );
 			
 			//measure the dimensions and re-assign
@@ -275,6 +287,9 @@ package com.ffsys.ui.core
 			trace("UIComponent::finalized() MEASURED DIMENSIONS (this/id/explicit[WxH]/preferred[WxH]): ",
 				this, this.id, Rectangle( dimensions ).width, Rectangle( dimensions ).height, dimensions.preferredWidth, dimensions.preferredHeight );
 			*/
+			
+			//applyStyles();
+			
 			//apply border and background graphics
 			applyBorders();
 			applyBackground();
@@ -292,6 +307,7 @@ package com.ffsys.ui.core
 			
 			_finalized = true;
 			
+			//handle adding a box model component using a box-model style property
 			if( _styleCache
 				&& _styleCache.source
 				&& _styleCache.source.boxModel is String )
@@ -402,7 +418,7 @@ package com.ffsys.ui.core
 				if( _descriptor == null
 					&& !isFinalized() )
 				{
-					//trace("UIComponent::addedToStage() FINALIZING NON-BEAN COMPONENT: ", this, this.id );
+					trace("UIComponent::addedToStage() FINALIZING NON-BEAN COMPONENT: ", this, this.id );
 					finalized();
 				}
 			}
@@ -686,7 +702,7 @@ package com.ffsys.ui.core
 		{
 			//apply style information by default
 			//applyStyles();
-			updateState( this.state == null ? State.MAIN : state.clone() );
+			//updateState( this.state == null ? State.MAIN : state.clone() );
 		}
 		
 		/**

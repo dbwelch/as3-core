@@ -142,18 +142,6 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		public function transform( style:Object ):TextFormat
-		{
-			if( style != null && this.stylesheet )
-			{
-				return this.stylesheet.transform( style );
-			}
-			return null;
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function getStyleNameList( target:IStyleAware, ... custom ):Array

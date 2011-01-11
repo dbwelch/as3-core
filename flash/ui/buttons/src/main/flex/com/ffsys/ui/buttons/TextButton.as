@@ -22,7 +22,7 @@ package com.ffsys.ui.buttons
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class TextButton extends ButtonComponent
+	dynamic public class TextButton extends ButtonComponent
 		implements  ICssTextFieldProxy
 	{
 		private var _text:String;

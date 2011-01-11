@@ -11,7 +11,7 @@ package com.ffsys.ui.text
 	*	@author Mischa Williamson
 	*	@since  16.06.2010
 	*/
-	public class Heading extends Label
+	dynamic public class Heading extends Label
 	{
 		/**
 		* 	Creates a <code>Heading</code> instance.

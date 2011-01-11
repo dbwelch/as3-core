@@ -3,7 +3,7 @@ package com.ffsys.ui.text
 	import flash.text.*;
 	import com.ffsys.ui.core.UIComponent;
 
-	public class FteTextArea extends UIComponent
+	dynamic public class FteTextArea extends UIComponent
 		implements ITextComponent
 	{
 		private var _text:String;

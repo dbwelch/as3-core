@@ -15,7 +15,7 @@ package com.ffsys.ui.containers
 	*	@author Mischa Williamson
 	*	@since  30.12.2010
 	*/
-	public class LinkContainer extends Container
+	dynamic public class LinkContainer extends Container
 	{	
 		/**
 		* 	Creates a <code>LinkContainer</code> instance.

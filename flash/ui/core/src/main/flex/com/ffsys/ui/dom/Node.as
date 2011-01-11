@@ -78,8 +78,9 @@ package com.ffsys.ui.dom
 		protected var _nodeType:Number;
 		
 		private var _nodeValue:String;
-		private var _parentNode:IDomNode;
+		private var _parentNode:Node;
 		private var _ownerDocument:IDomDocument;
+		private var _childNodes:NodeList;
 		
 		/**
 		* 	Creates a <code>Node</code> instance.
@@ -149,17 +150,26 @@ package com.ffsys.ui.dom
 		/**
 		* 	@inheritDoc
 		*/
-		public function childNodes():IDomNodeList
+		public function get childNodes():NodeList
 		{
-			return null;
+			if( _childNodes == null )
+			{
+				_childNodes = new NodeList();
+			}
+			return _childNodes;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function get parentNode():IDomNode
+		public function get parentNode():Node
 		{
 			return _parentNode;
+		}
+		
+		internal function setParentNode( parent:Node ):void
+		{
+			_parentNode = parent;
 		}
 		
 		/**
@@ -174,6 +184,18 @@ package com.ffsys.ui.dom
 		public function get ownerDocument():IDomDocument
 		{
 			return _ownerDocument;
+		}
+		
+		public function appendChild( child:Node ):Node
+		{
+			if( child != null )
+			{
+				childNodes.children.push( child );
+				child.setParentNode( this );
+				
+				trace("[ NODE -- APPENDING NODE ] Node::appendChild()", this, child );
+			}
+			return child;
 		}
 		
 		/*
@@ -268,10 +290,5 @@ package com.ffsys.ui.dom
 		
 		*/
 		
-		//TODO
-		internal function setParentNode( node:IDomNode ):void
-		{
-			_parentNode = node;
-		}		
 	}
 }

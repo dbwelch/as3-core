@@ -154,18 +154,6 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	@inheritDoc
-		*/
-		public function transform( style:Object ):TextFormat
-		{
-			if( style != null )
-			{
-				return new CssStyle( style ).transform();
-			}
-			return new TextFormat();
-		}
-		
-		/**
 		*	@inheritDoc	
 		*/
 		public function getFilter( styleName:String ):BitmapFilter
@@ -358,9 +346,9 @@ package com.ffsys.ui.css {
 		/**
 		* 	@inheritDoc
 		*/
-		public function getFlatStyle( styles:Array ):Object
+		public function getFlatStyle( styles:Array ):CssStyle
 		{
-			var cumulative:Object = new Object();
+			var cumulative:CssStyle = new CssStyle();
 			
 			//TODO: consider looping in reverse order and only 
 			//set the property if it hasn't already been set

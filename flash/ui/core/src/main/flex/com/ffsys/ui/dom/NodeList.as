@@ -10,9 +10,11 @@ package com.ffsys.ui.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	public class NodeList extends XmlAwareDomElement
+	dynamic public class NodeList extends XmlAwareDomElement
 		implements IDomNodeList
 	{
+		private var _children:Vector.<Node>;
+		
 		/**
 		* 	Creates a <code>NodeList</code> instance.
 		*/
@@ -20,22 +22,33 @@ package com.ffsys.ui.dom
 		{
 			super();
 		}
-	
-		/*
-	
-	
-		The NodeList object has the following properties:
-		length
-		This read-only property is of type Number.
-		The NodeList object has the following methods:
-		item(index)
-		This method returns a Node object.
-		The index parameter is of type Number.
-		Note: This object can also be dereferenced using square bracket notation (e.g. obj[1]). Dereferencing with an integer index is equivalent to invoking the item method with that index.	
-	
+		
+		/**
+		* 	The number of nodes in this list.
 		*/
-	
+		public function get length():uint
+		{
+			return children.length;
+		}
+		
+		/**
+		* 	Gets a node at the specified index.
+		*/
+		public function item( index:uint ):Node
+		{
+			return children[ index ];
+		}
+		
+		/**
+		* 	The child nodes in this list.
+		*/
+		public function get children():Vector.<Node>
+		{
+			if( _children == null )
+			{
+				_children = new Vector.<Node>();
+			}
+			return _children;
+		}
 	}
-
 }
-

@@ -12,11 +12,10 @@ package com.ffsys.ui.core
 		private var _styleNames:Array;
 		private var _styleObjects:Array;
 		private var _styles:String;
-		private var _source:Object;
-		private var _css:CssStyle;
+		private var _source:CssStyle;
 		//private var _customStyles:Vector.<Object> = new Vector.<Object>();
 		
-		private var _computedAncestorStyles:Object;
+		private var _computedAncestorStyles:CssStyle;
 		
 		private var _ancestors:Vector.<IComponentStyleCache>;
 		
@@ -28,16 +27,31 @@ package com.ffsys.ui.core
 			super();
 		}
 		
-		protected function computeAncestorStyles( ancestors:Vector.<IComponentStyleCache> ):Object
+		public function propagate( component:IComponent ):void
+		{
+			var child:IComponent = null;
+			for each( child in component.components )
+			{
+				child.getStyleCache().inherit( this );
+			}
+		}
+		
+		public function inherit( parent:IComponentStyleCache ):void
+		{
+			trace("[INHERITING STYLES] ComponentStyleCache::inherit()", parent );
+		}
+		
+		protected function computeAncestorStyles( ancestors:Vector.<IComponentStyleCache> ):CssStyle
 		{
 			if( _computedAncestorStyles == null )
 			{
-				//complete low level font defaults
-				_computedAncestorStyles = new Object();
+				_computedAncestorStyles = new CssStyle( {} );
 			}
-			
+					
 			if( ancestors != null )
 			{
+				trace("[COMPUTING ANCESTOR STYLES] ComponentStyleCache::computeAncestorStyles()", ancestors.length );
+				
 				var merger:PropertiesMerge = new PropertiesMerge();
 				var cache:IComponentStyleCache = null;
 				for( var i:int = 0;i < ancestors.length;i++ )
@@ -51,43 +65,28 @@ package com.ffsys.ui.core
 			return _computedAncestorStyles;
 		}
 		
-		protected function getAncestorStyleCache(	
+		protected function getAncestorStyleCache(
 			component:IComponent ):Vector.<IComponentStyleCache>
 		{
 			var output:Vector.<IComponentStyleCache> = new Vector.<IComponentStyleCache>();
 			var ancestors:Vector.<IComponent> = component.ancestors;
+			trace("[COMPONENT ANCESTORS] ComponentStyleCache::getAncestorStyleCache()", component, component.id, ancestors );
 			for( var i:int = 0;i < ancestors.length;i++ )
 			{
 				output.push( ancestors[ i ].getStyleCache() );
 			}
+			trace("ComponentStyleCache::computeAncestorStyles()", "RETURNING STYLE CACHE ANCESTORS: ", output );
 			return output;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function get css():CssStyle
-		{
-			return _css;
-		}
-		
-		public function set css( value:CssStyle ):void
-		{
-			_css = value;
-			if( value != null )
-			{
-				_source = value.source;
-			}
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function copy():Object
+		public function copy():CssStyle
 		{
 			//TODO: integrate deep copying using clone if the object implements IClone
 			//once the clone logic has been integrated with the component objects - graphics first!
-			var output:Object = new Object();
+			var output:CssStyle = new CssStyle();
 			if( _source != null )
 			{
 				var z:String = null;
@@ -115,7 +114,7 @@ package com.ffsys.ui.core
 			{
 				if( _source == null )
 				{
-					_source = new Object();
+					_source = new CssStyle( {} );
 				}
 				var merger:PropertiesMerge = new PropertiesMerge();
 				var style:Object = null;
@@ -139,19 +138,14 @@ package com.ffsys.ui.core
 		/**
 		* 	@inheritDoc
 		*/
-		public function get source():Object
+		public function get source():CssStyle
 		{
 			return _source;
 		}
 		
-		public function set source( value:Object ):void
+		public function set source( value:CssStyle ):void
 		{
 			_source = value;
-			_css = null;
-			if( value != null )
-			{
-				_css = new CssStyle( value );
-			}
 		}
 		
 		/**
@@ -210,6 +204,7 @@ package com.ffsys.ui.core
 				
 				//getAncestorStyleCache
 				
+				/*
 				var ancestors:Vector.<IComponentStyleCache> =
 					getAncestorStyleCache( target );
 				if( _computedAncestorStyles == null )
@@ -218,7 +213,13 @@ package com.ffsys.ui.core
 				}
 				
 				trace("[COMPUTED STYLE CHECK] ComponentStyleCache::apply()", _computedAncestorStyles );
-			
+				
+				for( var k:String in _computedAncestorStyles )
+				{
+					trace("[COMPUTED ANCESTOR STYLE CHECK] ComponentStyleCache::apply()", k, _computedAncestorStyles[k] );
+				}
+				*/
+				
 				//var styleNames:Array = stylesheet.getStyleNameList( this );
 				var styleNames:Array = styleNames;
 				var styleObjects:Array = styleObjects;
@@ -233,7 +234,7 @@ package com.ffsys.ui.core
 				//stylesheet.applyStyle( this, source );
 			
 				//
-				css.apply( target );
+				source.apply( target );
 			
 				var output:Array = styleObjects;
 			
@@ -248,7 +249,7 @@ package com.ffsys.ui.core
 					//trace("UIComponent::applyStyles()", this, target.id, styleNames, target.state.toStateString() );
 				
 					var stateStyles:Array = new Array();
-					var stateStyle:Object = null;
+					var stateStyle:CssStyle = null;
 					var name:String = null;
 					for( var i:int = 0;i < styleNames.length;i++ )
 					{
@@ -263,7 +264,7 @@ package com.ffsys.ui.core
 					
 						//stateStyle = stylesheet.getStyle( name );
 					
-						stateStyle = target.stylesheet.getStyle( name );
+						stateStyle = CssStyle( target.stylesheet.getStyle( name ) );
 					
 						if( stateStyle != null )
 						{
@@ -275,14 +276,15 @@ package com.ffsys.ui.core
 					if( stateStyles.length > 0 )
 					{
 						output = output.concat( stateStyles );
-						target.stylesheet.applyStyles( target, stateStyles );
+						
+						//target.stylesheet.applyStyles( target, stateStyles );
+						
+						var cumulative:CssStyle = target.stylesheet.getFlatStyle( stateStyles );
+						cumulative.apply( target );
 					}
 				}
-			
-				return output;	
-			
+				return output;
 			}
-			
 			return null;		
 		}
 		

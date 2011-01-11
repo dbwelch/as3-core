@@ -301,11 +301,13 @@ package com.ffsys.ioc
 		public function getProperties():Object
 		{
 			//
-			var z:String
+			//var z:String
 			
 			var clone:Object = getDefaultInstance();
 			if( clone != null )
 			{
+				
+				/*
 				trace(":::::::::::::: [START "
 					+ this.id + " BEAN] BeanDescriptor::getProperties()", this, this.id, " ::::::::::::::::::::::" );
 				
@@ -313,38 +315,46 @@ package com.ffsys.ioc
 				{
 					trace("[BEAN] BeanDescriptor::properties() properties: ", z, properties[ z ] );
 				}
+				*/
 				
 				//copy properties in their unresolved state
 				copy( clone );
-
+				
+				/*
 				for( z in clone )
 				{
 					trace("[BEAN] BeanDescriptor::clone() original clone", z, clone[ z ] );
 				}
+				*/
 				
 				//TODO: check if we should resolve constants when in a constant bean?
 				var resolvedConstants:Object = resolveConstants( clone );
 				
+				/*
 				for( z in resolvedConstants )
 				{
 					trace("[BEAN] BeanDescriptor::clone() resolvedConstants", z, resolvedConstants[ z ] );
 				}				
+				*/
 				
 				//resolve references
 				var resolvedReferences:Object = resolve( clone );
 				
+				/*
 				trace("[BEAN] BeanDescriptor::getProperties() clone/constants/references: ", clone, resolvedConstants, resolvedReferences );	
 				
 				for( z in resolvedReferences )
 				{
 					trace("[BEAN] BeanDescriptor::clone() resolvedReferences", z, resolvedReferences[ z ] );
 				}
-
+				*/
+				
 				var merger:PropertiesMerge = new PropertiesMerge();
 				merger.merge( clone, resolvedConstants, true );
 				merger.merge( clone, resolvedReferences, true );
 			}
-				
+			
+			/*	
 			for( z in clone )
 			{
 				trace("[BEAN] BeanDescriptor::clone() FINAL PROPERTY VALUE: ", z, clone[ z ] );
@@ -352,6 +362,7 @@ package com.ffsys.ioc
 			
 			trace(":::::::::::::: [END "
 				+ this.id + " BEAN] BeanDescriptor::getProperties()", this, this.id, " ::::::::::::::::::::::" );
+			*/
 			
 			return clone;
 		}
@@ -382,10 +393,10 @@ package com.ffsys.ioc
 				return clazz;
 			}
 
-			//not an instance return the properties
+			//not an instance return the default instance class
 			if( !isBean() )
 			{
-				trace("[BEAN] BeanDescriptor::getBean() GETTING DEFAULT BEAN TYPE: ", this.id );
+				//	trace("[BEAN] BeanDescriptor::getBean() GETTING DEFAULT BEAN TYPE: ", this.id );
 				return getProperties();
 			}
 

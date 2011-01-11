@@ -10,7 +10,7 @@ package com.ffsys.ui.containers {
 	import com.ffsys.ui.layout.*;
 	
 	/**
-	*	A container designed to behave like an html div element.
+	*	An abstract super class for block and inline elements.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

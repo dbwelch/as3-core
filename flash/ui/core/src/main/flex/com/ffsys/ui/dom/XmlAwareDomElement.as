@@ -51,6 +51,12 @@ package com.ffsys.ui.dom
 			}
 		}
 		
+		//TODO: remove when proxy is done
+		public function hasOwnProperty( name:String ):Boolean
+		{
+			return true;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/

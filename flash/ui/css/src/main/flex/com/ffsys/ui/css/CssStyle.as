@@ -123,12 +123,12 @@ package com.ffsys.ui.css
 		public function CssStyle( source:Object = null )
 		{
 			super( source );
-			trace("[ ::: CssStyle::init() ::: ]");
+			//trace("[ ::: CssStyle::init() ::: ]");
 		}
 		
 		override protected function doWithNewProperty( name:*, value:* ):*
 		{
-			trace("[ CSS ] [ CssStyle::doWithNewProperty ]", name, value );
+			//trace("[ CSS ] [ CssStyle::doWithNewProperty ]", name, value );
 			return value;
 		}
 		

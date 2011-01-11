@@ -28,15 +28,6 @@ package com.ffsys.ui.css
 		function hasStyle( styleName:String ):Boolean;
 
 		/**
-		*	Extends the native text format transform ability.	
-		*	
-		*	@param style The style object to transform to a text format.
-		*	
-		*	@return The transformed text format.
-		*/
-		function transform( style:Object ):TextFormat;
-
-		/**
 		*	The array of style names loaded into this style
 		*	collection.
 		*	

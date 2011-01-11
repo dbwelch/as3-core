@@ -20,7 +20,7 @@ package com.ffsys.ui.containers
 	*	@author Mischa Williamson
 	*	@since  22.06.2010
 	*/
-	public class TabContainer extends Container
+	dynamic public class TabContainer extends Container
 		implements ISelectableContainer
 	{
 		private var _selectedIndex:int = -1;

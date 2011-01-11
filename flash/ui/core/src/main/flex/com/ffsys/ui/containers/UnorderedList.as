@@ -1,9 +1,7 @@
 package com.ffsys.ui.containers
 {
-
-	public class UnorderedList extends DomList
+	dynamic public class UnorderedList extends DomList
 	{
-		
 		/**
 		* 	
 		*/

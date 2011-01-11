@@ -28,6 +28,11 @@ package com.ffsys.ui.css
 			return _source;
 		}
 		
+		public function get length():uint
+		{
+			return _elements != null ? _elements.length : 0;
+		}
+		
 		/**
 		* 	@private
 		*/
@@ -108,7 +113,7 @@ package com.ffsys.ui.css
 			
 			this.source[ name ] = value;
 			
-			trace("[CSS] CssElement::setProperty()", name, this.source[ name ] );
+			//trace("[CSS] CssElement::setProperty()", name, this.source[ name ] );
 	    }
 	
 		protected function doWithNewProperty( name:*, value:* ):*

@@ -14,19 +14,6 @@ package com.ffsys.ui.dom
 	*/
 	public interface IDomDocument extends IDomElement
 	{
-		/**
-		* 	The head of the document containing document meta data.
-		*/
-		function get head():IDocumentHead;
-		function set head( value:IDocumentHead ):void;
-		
-		/**
-		* 	The document element.
-		* 	
-		* 	The body of the document containg visual elements to render.
-		*/
-		function get body():IDocumentBody;
-		function set body( value:IDocumentBody ):void;
 		
 		function get documentElement():IDocumentBody;
 		

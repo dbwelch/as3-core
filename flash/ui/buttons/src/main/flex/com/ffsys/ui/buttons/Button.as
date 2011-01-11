@@ -16,7 +16,7 @@ package com.ffsys.ui.buttons {
 	*	@author Mischa Williamson
 	*	@since  22.06.2010
 	*/
-	public class Button extends TextButton {
+	dynamic public class Button extends TextButton {
 		
 		/**
 		*	Creates a <code>Button</code> instance.

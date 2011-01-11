@@ -529,7 +529,7 @@ package com.ffsys.ui.text
 					var converter:FteTextFormatConverter = new FteTextFormatConverter();
 					_area = converter.convert(
 						text,
-						stylesheet.transform( getStyleCache().source ),
+						getStyleCache().source.transform(),
 						w );
 				
 					//trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );

@@ -414,6 +414,23 @@ package com.ffsys.ui.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function get components():Vector.<IComponent>
+		{	
+			var output:Vector.<IComponent> = new Vector.<IComponent>();
+			var p:DisplayObject = null;
+			for each( p in _children )
+			{
+				if( p is IComponent )
+				{
+					output.push( IComponent( p ) );
+				}
+			}
+			return output;
+		}
+		
+		/**
 		*	@inheritDoc	
 		*/
 		override public function addChild(
@@ -1149,6 +1166,7 @@ package com.ffsys.ui.core
 		*/
 		protected function addedToStage( event:Event ):Boolean
 		{
+			trace("[ADDED TO STAGE] AbstractComponent::addedToStage()", event.target );
 			//
 			if( event.target == this
 				&& this.parent != null

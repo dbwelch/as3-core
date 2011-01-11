@@ -11,7 +11,7 @@ package com.ffsys.ui.text
 	*	@author Mischa Williamson
 	*	@since  21.06.2010
 	*/
-	public class Paragraph extends TextComponent
+	dynamic public class Paragraph extends TextComponent
 	{		
 		/**
 		* 	Creates a <code>Paragraph</code> instance.

@@ -12,12 +12,9 @@ package com.ffsys.ui.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class DomDocument extends Node
+	dynamic public class DomDocument extends Element
 		implements IDomDocument
 	{
-		private var _head:IDocumentHead;
-		private var _body:IDocumentBody;
-		
 		private var _identifiers:Object = new Object();
 		
 		/*
@@ -160,37 +157,12 @@ The elementId parameter is of type String.
 		}
 		
 		/**
-		* 	@inheritDoc
-		*/
-		public function get head():IDocumentHead
-		{
-			return _head;
-		}
-		
-		public function set head( value:IDocumentHead ):void
-		{
-			_head = value;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get body():IDocumentBody
-		{
-			return _body;
-		}
-		
-		public function set body( value:IDocumentBody ):void
-		{
-			_body = value;
-		}
-		
-		/**
 		* 	The document element.
 		*/
 		public function get documentElement():IDocumentBody
 		{
-			return _body;
+			//TODO
+			return null;
 		}
 		
 		/**
