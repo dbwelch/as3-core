@@ -20,14 +20,17 @@ package com.ffsys.dom
 		public function NodeList()
 		{
 			super();
+			
+			//update our proxy source to the child vector
+			setSource( children );
 		}
 		
 		/**
 		* 	The number of nodes in this list.
 		*/
-		public function get length():uint
+		override public function get length():uint
 		{
-			return children.length;
+			return _children.length;
 		}
 		
 		/**

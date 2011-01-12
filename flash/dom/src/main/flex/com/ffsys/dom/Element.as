@@ -6,7 +6,7 @@ package com.ffsys.dom
 	{		
 		public static const CLASS:String = "class";
 		
-		public static const STYLE_CLASS_NAMES:String = "styles";
+		public static const CLASS_NAMES:String = "classNames";
 		
 		/**
 		* 	Creates an <code>Element</code> instance.
@@ -246,7 +246,9 @@ package com.ffsys.dom
 			switch( name )
 			{
 				case CLASS:
-					this[ STYLE_CLASS_NAMES ] = value;
+					this[ CLASS_NAMES ] = value;
+					
+					trace("Element::doWithMissingProperty()", "[SETTING CLASS NAMES]", value );
 					break;
 			}
 		}			

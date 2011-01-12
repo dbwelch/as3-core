@@ -59,7 +59,7 @@ package com.ffsys.dom
 		/**
 		* 	The element that owns this attribute.
 		*/
-		public function get ownerElement():IDomElement
+		public function get ownerElement():Element
 		{
 			return null;
 		}

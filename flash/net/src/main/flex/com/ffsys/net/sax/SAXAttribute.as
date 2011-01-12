@@ -1,12 +1,12 @@
 package com.ffsys.net.sax
 {
 
-	public class SAXAttribute extends Object
+	public class SaxAttribute extends Object
 	{
 		
 		private var _xml:XML;
 	
-		public function SAXAttribute( xml:XML = null ) 
+		public function SaxAttribute( xml:XML = null ) 
 		{
 			super();
 			this.xml = xml;
@@ -30,7 +30,7 @@ package com.ffsys.net.sax
 		*/
 		public function get name():String
 		{
-			if( _xml )
+			if( _xml && _xml.name() )
 			{
 				return _xml.name().localName;
 			}

@@ -10,7 +10,7 @@ package com.ffsys.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class Head extends Node
+	dynamic public class Head extends Element
 	{
 		/**
 		* 	Creates a <code>Head</code> instance.

@@ -1,6 +1,5 @@
 package com.ffsys.dom
 {
-	
 	/**
 	*	A container for the document body elements.
 	*
@@ -10,7 +9,7 @@ package com.ffsys.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class Body extends Element
+	dynamic public class Body extends VisualElement
 	{
 		/**
 		* 	Creates a <code>Body</code> instance.

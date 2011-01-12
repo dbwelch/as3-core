@@ -51,8 +51,8 @@ package com.ffsys.net.sax
 		[Test]
 		public function saxParserText():void
 		{
-			var parser:SAXParser = new SAXParser();
-			var handler:SAXHandler = new SAXHandler();
+			var parser:SaxParser = new SaxParser();
+			var handler:SaxHandler = new SaxHandler();
 			parser.handlers.push( handler );
 			parser.parse( sample );
 		}

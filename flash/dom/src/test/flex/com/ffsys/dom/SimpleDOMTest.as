@@ -5,6 +5,8 @@ package com.ffsys.dom
 	
 	import asquery.$;
 	
+	import com.ffsys.dom.xhtml.*;
+	
 	/**
 	*	Unit tests for the DOM implementation.
 	*/ 
@@ -48,6 +50,27 @@ package com.ffsys.dom
 			</object>;
 		}
 		
+		
+		private function getTestDocument( namespaceURI:String, qualifiedName:String ):XML
+		{
+			var x:XML =
+				<html id="document">
+					<head>
+					</head>
+					<body id="body">
+						<div id="outer">
+							<div id="inner" class="border background">
+							
+							</div>
+						</div>
+					</body>
+				</html>;
+			x.@[ 'xmlns' ] = namespaceURI;
+			x.@[ 'xml:lang' ] = "en";
+			x.setName( qualifiedName );
+			return x;
+		}
+		
 		/*
 		
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
@@ -58,11 +81,25 @@ package com.ffsys.dom
 		[Test]
 		public function domTest():void
 		{
+			
+			var source:XML = getTestDocument( "http://www.w3.org/1999/xhtml", "html" );
+			var parser:DomSaxParser = new DomSaxParser();
+			parser.document = new XhtmlBeanDocument();
+			parser.parse( source );
+
+			/*
 			var impl:DOMImplementation = new DOMImplementation();
 			var type:DocumentType = impl.getXhtmlDocumentType();
 			var document:Document = impl.createDocument( "http://www.w3.org/1999/xhtml", "html", type );
 			
 			trace("SimpleDOMTest::domTest()", document, document.head, document.body );
+			
+			var elements:Object = $( ".links" );
+			*/
+			
+			var dom:Document = parser.dom;
+			
+			trace("SimpleDOMTest::domTest()", "GOT DOM dom/length: ", dom, dom.length, dom.head.length, dom.body.length, dom.outer );
 			
 			//trace( $( ".links" ) );
 		}

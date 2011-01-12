@@ -25,6 +25,8 @@ package com.ffsys.dom
 	public class XmlAwareDomElement extends Proxy
 		implements IDomElement
 	{
+		private static const ID:String = "id";
+		
 		private var _id:String;
 		private var _beanName:String;
 		private var _href:String;
@@ -33,6 +35,7 @@ package com.ffsys.dom
 		private var _parser:Object;
 		private var _class:Class;
 		private var _title:String;
+		private var _classNames:String;
 		
 		/**
 		* 	@private
@@ -41,7 +44,7 @@ package com.ffsys.dom
 		
 		private var _source:Object;
 		//an array of the values
-		private var _elements:Vector.<ElementMap>;
+		private var _mappings:Vector.<ElementMap>;
 	
 		/**
 		* 	Creates an <code>XmlAwareDomElement</code> instance.
@@ -70,6 +73,16 @@ package com.ffsys.dom
 			_title = value;
 		}
 		
+		public function get classNames():String
+		{
+			return _classNames;
+		}
+		
+		public function set classNames( value:String ):void
+		{
+			_classNames = value;
+		}
+		
 		/**
 		* 	The source object containing enumerable style properties.
 		*/
@@ -80,6 +93,36 @@ package com.ffsys.dom
 				_source = new Object();
 			}
 			return _source;
+		}
+		
+		public function get mappings():Vector.<ElementMap>
+		{
+			if( _mappings == null )
+			{
+				_mappings = new Vector.<ElementMap>();
+			}
+			return _mappings;
+		}		
+		
+		
+		public function get length():uint
+		{
+			return _mappings != null ? _mappings.length : 0;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function setSource( source:Object ):void
+		{
+			//ensure the element map vector is created
+			var mappings:Vector.<ElementMap> = this.mappings;
+			
+			for( var z:String in source )
+			{
+				this[ z ] = source[ z ];
+			}
+			_source = source;
 		}
 		
 		/*
@@ -109,6 +152,13 @@ package com.ffsys.dom
 		*/
 		public function get id():String
 		{
+			if( _id == null
+			 	&& _source != null
+				&& _source.hasOwnProperty( ID )
+				&& _source.id is String )
+			{
+				return String( _source.id );
+			}
 			return _id;
 		}
 		
@@ -333,8 +383,8 @@ package com.ffsys.dom
 				trace("[ CSS ] CssElement::getProperty() got stored property name: ", z, source[ z ] );
 			}
 			*/
-
-			return this.source[ name ];
+			
+			return propertyMissing( name );
 	    }
 
 		/**
@@ -349,16 +399,16 @@ package com.ffsys.dom
 
 			var hasProp:Boolean = ( this.source[ name ] != null );
 
-			//add all elements to the array of elements
+			//add all mappings to the array of mappings
 			if( !hasProp )
 			{
 				value = doWithNewProperty( name, value );
-				_elements.push(
-					new ElementMap( name, value, _elements.length ) );
+				mappings.push(
+					new ElementMap( name, value, mappings.length ) );
 			}else{
 				//update the stored value
 				var map:ElementMap = null;
-				for each( map in _elements )
+				for each( map in mappings )
 				{
 					if( map.name == name )
 					{
@@ -371,18 +421,55 @@ package com.ffsys.dom
 
 			//trace("[CSS] CssElement::setProperty()", name, this.source[ name ] );
 	    }
-
+		
+		/**
+		* 	Allows derived implementations to process
+		* 	properties as they are created for the first time.
+		* 
+		* 	@param name The property name.
+		* 	@param value The property value.
+		* 
+		* 	@return Either the value intact or an alternative value.
+		*/
 		protected function doWithNewProperty( name:*, value:* ):*
 		{
 			return value;
+		}
+		
+		/**
+		* 	Invoked when a method invocation could not be proxied.
+		* 
+		* 	@param methodName The method name.
+		* 	@param parameters The parameters passed to the method invocation.
+		* 
+		* 	@return A result of doing something with the missing method
+		* 	invocation.
+		*/
+		protected function methodMissing( methodName:*, parameters:Array ):*
+		{
+			trace("XmlAwareDomElement::methodMissing()", methodName, parameters );
+		}
+		
+		protected function propertyMissing( name:* ):*
+		{
+			return this.source[ name ];
 		}
 
 		/**
 		*	@private	
 		*/
-		override flash_proxy function callProperty( methodName:*, ...args ):*
+		override flash_proxy function callProperty( methodName:*, ...parameters ):*
 		{
-			//
+			
+			//trace("XmlAwareDomElement::callProperty()", this, methodName, parameters, _source );
+			
+			if( _source != null
+				&& _source[ methodName ] is Function )
+			{
+				return _source[ methodName ].apply( _source, parameters );
+			}
+			
+			return methodMissing( methodMissing, parameters );
 		}
 
 		/**
@@ -391,7 +478,7 @@ package com.ffsys.dom
 		override flash_proxy function nextNameIndex( index:int ):int
 		{
 			//trace("CssElement::nextNameIndex()", index );
-			if( index < _elements.length )
+			if( index < mappings.length )
 			{
 				return index + 1;
 			}
@@ -404,9 +491,9 @@ package com.ffsys.dom
 		*/
 		override flash_proxy function nextName( index:int ):String
 		{
-			if( index <= _elements.length )
+			if( index <= mappings.length )
 			{
-				var map:ElementMap = ElementMap( _elements[ index - 1 ] );
+				var map:ElementMap = ElementMap( mappings[ index - 1 ] );
 				return map.name;
 			}
 			return null;
@@ -417,7 +504,7 @@ package com.ffsys.dom
 		*/
 		override flash_proxy function nextValue( index:int ):*
 		{
-			return ElementMap( _elements[ index - 1 ] ).value;
+			return ElementMap( mappings[ index - 1 ] ).value;
 		}
 
 		/**
@@ -426,11 +513,11 @@ package com.ffsys.dom
 		override flash_proxy function deleteProperty( name:* ):Boolean
 		{
 			var map:ElementMap = null;
-			for each( map in _elements )
+			for each( map in mappings )
 			{
 				if( map.name == name )
 				{
-					_elements.splice( map.index, 1 );
+					mappings.splice( map.index, 1 );
 					break;
 				}
 			}
@@ -444,8 +531,18 @@ package com.ffsys.dom
 		*/
 		public function toString():String
 		{
-			return "[" + getQualifiedClassName( this ) + "]";
-		}				
+			var nm:String = "[object ";
+			nm += getQualifiedClassName( this );
+			
+			//trace("XmlAwareDomElement::toString()", this.id );
+			
+			if( this.id != null )
+			{
+				nm += "#" + this.id;
+			}
+			nm += "]";
+			return nm;
+		}
 	}
 }
 

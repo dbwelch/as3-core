@@ -92,6 +92,14 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function get length():uint
+		{
+			return childNodes.children.length;
+		}
+		
+		/**
 		* 	The local name of this node.
 		*/
 		public function get nodeName():String
@@ -100,7 +108,6 @@ package com.ffsys.dom
 			{
 				return this.xml.name().localName;
 			}
-			
 			return null;
 		}
 		
@@ -192,7 +199,8 @@ package com.ffsys.dom
 				childNodes.children.push( child );
 				child.setParentNode( this );
 				
-				trace("[ NODE -- APPENDING NODE ] Node::appendChild()", this, child );
+				trace("[ NODE -- APPENDING NODE ] Node::appendChild() this/child/length/children length: ",
+					this, child, this.length, childNodes.children.length );
 			}
 			return child;
 		}

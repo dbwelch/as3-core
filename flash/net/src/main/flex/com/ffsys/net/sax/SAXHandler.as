@@ -1,44 +1,88 @@
 package com.ffsys.net.sax
 {
 	
-	public class SAXHandler extends Object
+	public class SaxHandler extends Object
+		implements ISaxHandler
 	{
 		/**
-		* 	Creates a <code>SAXHandler</code> instance.
+		* 	Creates a <code>SaxHandler</code> instance.
 		*/
-		public function SAXHandler()
+		public function SaxHandler()
 		{
 			super();
 		}
 		
-		public function beginDocument( token:SAXToken ):void
+		/**
+		* 	@inheritDoc
+		*/
+		public function beginDocument( token:SaxToken ):void
 		{
-			trace("[BEGIN DOCUMENT] SAXHandler::beginDocument()", token.name, token.type );
+			trace("[BEGIN DOCUMENT] SaxHandler::beginDocument()", token.name, token.type );
 		}
 		
-		public function shouldSkipElement( token:SAXToken ):Boolean
+		/**
+		* 	@inheritDoc
+		*/
+		public function shouldTraverseElement( token:SaxToken ):Boolean
 		{
-			return false;
+			return true;
 		}
 		
-		public function startElement( token:SAXToken ):void
+		/**
+		* 	@inheritDoc
+		*/
+		public function beginElement( token:SaxToken ):void
 		{
-			trace("[START ELEMENT] SAXHandler::startElement()", token.name, token.type );
+			trace("[START ELEMENT] SaxHandler::beginElement()", token.name, token.type );
 		}
 		
-		public function doWithProcessingInstruction( token:SAXToken ):void
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function descended( token:SaxToken ):void
 		{
-			trace("[PROCESSING-INSTRUCTION] SAXHandler::doWithProcessingInstruction()", token.name, token.type );
+			//			
+		}	
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function doWithProcessingInstruction( token:SaxToken ):void
+		{
+			trace("[PROCESSING-INSTRUCTION] SaxHandler::doWithProcessingInstruction()", token.name, token.type );
+		}	
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function sibling( token:SaxToken, previous:SaxToken ):void
+		{
+			//
 		}
 		
-		public function endElement( token:SAXToken ):void
+		/**
+		* 	@inheritDoc
+		*/
+		public function ascended( token:SaxToken ):void
 		{
-			trace("[END ELEMENT] SAXHandler::endElement()", token.name, token.type );
+			//		
+		}				
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function endElement( token:SaxToken ):void
+		{
+			trace("[END ELEMENT] SaxHandler::endElement()", token.name, token.type );
 		}
 		
-		public function endDocument( token:SAXToken ):void
+		/**
+		* 	@inheritDoc
+		*/
+		public function endDocument( token:SaxToken ):void
 		{
-			trace("[END DOCUMENT] SAXHandler::endDocument()", token.name, token.type );
+			trace("[END DOCUMENT] SaxHandler::endDocument()", token.name, token.type );
 		}
 	}
 }

@@ -1,10 +1,10 @@
 package com.ffsys.net.sax
 {
 
-	public class SAXToken extends Object
+	public class SaxToken extends Object
 	{
 		private var _xml:XML;
-		private var _attributes:Vector.<SAXAttribute>;
+		private var _attributes:Vector.<SaxAttribute>;
 		
 		/**
 		* 	The depth in the element tree.
@@ -15,6 +15,7 @@ package com.ffsys.net.sax
 		* 	A flag that can be set on a token
 		* 	to quit any further processing.
 		*/
+		//TODO: implement
 		public var quit:Boolean = false;
 		
 		/**
@@ -24,12 +25,29 @@ package com.ffsys.net.sax
 		public var type:String;
 		
 		/**
-		* 	Creates a <code>SAXToken</code> instance.
+		* 	A parent token.
 		*/
-		public function SAXToken( xml:XML = null )
+		public var parent:SaxToken;
+		
+		/**
+		* 	A target object associated with this token.
+		*/
+		public var target:Object;
+		
+		/**
+		* 	Creates a <code>SaxToken</code> instance.
+		*/
+		public function SaxToken(
+			xml:XML = null,
+			parent:SaxToken = null,
+			depth:int = 0,
+			type:String = null )
 		{
 			super();
 			this.xml = xml;
+			this.parent = parent;
+			this.depth = depth;
+			this.type = type;
 		}
 		
 		/**
@@ -37,7 +55,7 @@ package com.ffsys.net.sax
 		*/
 		public function get name():String
 		{
-			if( _xml )
+			if( _xml && _xml.name() )
 			{
 				return _xml.name().localName;
 			}
@@ -48,11 +66,11 @@ package com.ffsys.net.sax
 		* 	A list of parsed attributes associated with
 		* 	this token.
 		*/
-		public function get attributes():Vector.<SAXAttribute>
+		public function get attributes():Vector.<SaxAttribute>
 		{
 			if( _attributes == null )
 			{
-				_attributes = new Vector.<SAXAttribute>();
+				_attributes = new Vector.<SaxAttribute>();
 			}
 			return _attributes;
 		}
@@ -79,14 +97,14 @@ package com.ffsys.net.sax
 		{
 			var attrs:XMLList = x.@*;
 			
-			//trace("SAXParser::doWithAttributes()", attrs.length() );
+			//trace("SaxParser::doWithAttributes()", attrs.length() );
 			
 			var attr:XML;
 			var name:String;
 			for each( attr in attrs )
 			{
 				attributes.push(
-					new SAXAttribute( attr ) );
+					new SaxAttribute( attr ) );
 			}
 		}		
 	}

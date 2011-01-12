@@ -1,6 +1,7 @@
 package com.ffsys.net.sax {
 
 	import flash.events.*;
+	import flash.utils.Dictionary;
 	
 	import com.ffsys.utils.string.PropertyNameConverter;
 	
@@ -13,7 +14,8 @@ package com.ffsys.net.sax {
 	*	@author Mischa Williamson
 	*	@since  11.01.2011
 	*/
-	public class SAXParser extends EventDispatcher {
+	public class SaxParser extends Object
+		implements ISaxHandler {
 		
 		/**
 		* 	Represents an element.
@@ -57,30 +59,67 @@ package com.ffsys.net.sax {
 		* 	A block element is an element that does not
 		* 	contain any direct child text elements.
 		*/
-		public static const BLOCK:String = "block";		
-		
-		private var _handlers:Vector.<SAXHandler>;
-		private var _depth:int = 0;
+		public static const BLOCK:String = "block";
 		
 		/**
-		*	Creates a <code>SAXParser</code> instance.
+		* 	The current depth of the traversal.
 		*/
-		public function SAXParser()
+		public var depth:int = 0;
+		
+		private var _handlers:Vector.<ISaxHandler>;
+		
+		private var _xml:XML;
+		private var _node:XML;
+		private var _token:SaxToken;
+		private var _tokens:Dictionary;
+		
+		/**
+		*	Creates a <code>SaxParser</code> instance.
+		* 
+		* 	@param xml An <code>XML</code> object to parse.	
+		*/
+		public function SaxParser( xml:XML = null, handlers:Vector.<ISaxHandler> = null )
 		{
 			super();
+			addHandlers( handlers );
+			if( xml != null )
+			{
+				parse( xml );
+			}
 		}
 		
 		/**
 		* 	The list of handlers that should be notified	
 		*	as the <code>XML</code> document is traversed.
 		*/
-		public function get handlers():Vector.<SAXHandler>
+		public function get handlers():Vector.<ISaxHandler>
 		{
 			if( _handlers == null )
 			{
-				_handlers = new Vector.<SAXHandler>();
+				_handlers = new Vector.<ISaxHandler>();
 			}
 			return _handlers;
+		}
+		
+		/**
+		* 	Adds handlers to this parser.
+		* 
+		* 	@param handlers The list of handlers for this parser.
+		*/
+		public function addHandlers( handlers:Vector.<ISaxHandler> ):void
+		{
+			if( handlers != null )
+			{
+				var target:Vector.<ISaxHandler> = this.handlers;
+				var handler:ISaxHandler = null;
+				for each( handler in handlers )
+				{
+					if( handler != null )
+					{
+						target.push( handler );
+					}
+				}
+			}			
 		}
 		
 		/**
@@ -92,27 +131,100 @@ package com.ffsys.net.sax {
 		{
 			if( x != null )
 			{
-				_depth = 0;
-				var tkn:SAXToken = new SAXToken( x );
-				notify( tkn, "beginDocument" );
+				_xml = x;
+				depth = 0;
 				deserialize( x );
-				notify( tkn, "endDocument" );
+				complete();
+				cleanup();
 			}
 		}
 		
-		private function notify( token:SAXToken, method:String, ...params ):void
+		/**
+		* 	The XML document being parsed.
+		*/
+		protected function get xml():XML
 		{
-			var handler:SAXHandler = null;
-			params.unshift( token );
+			return _xml;
+		}
+		
+		/**
+		* 	The current XML node being handled.
+		*/
+		protected function get node():XML
+		{
+			return _node;
+		}
+		
+		/**
+		* 	The token for the current node.
+		*/
+		protected function get token():SaxToken
+		{
+			return _token;
+		}
+		
+		protected function get tokens():Dictionary
+		{
+			if( _tokens == null )
+			{
+				_tokens = new Dictionary( true );
+			}
+			return _tokens;
+		}
+		
+		/**
+		* 	Cleans temporary cache data created during the
+		* 	parsing process, note that any handlers registered
+		* 	with this parser implementation are left intact.
+		* 
+		* 	This method is invoked automatically when parsing
+		* 	is complete.
+		*/
+		protected function cleanup():void
+		{
+			_xml = null;
+			_node = null;
+			_token = null;
+			_tokens = null;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Sends a token notification to all registered handlers.
+		*/
+		private function notify( token:SaxToken, method:String, ...parameters ):void
+		{
+			var handler:ISaxHandler = null;
 			for( var i:int = 0;i < handlers.length;i++ )
 			{
 				handler = handlers[ i ];
-				handler[ method ].apply( handler, params );
+				parameters.unshift( token );
+				handler[ method ].apply( handler, parameters );
 			}
 		}
-
-		private var _previous:SAXToken;	
-		private var _token:SAXToken;
+		
+		/**
+		* 	@private
+		* 
+		* 	Queries all handlers for a boolean response that differs from
+		* 	an expected boolean response.
+		*/
+		private function query( token:SaxToken, method:String, expected:Boolean = false ):Boolean
+		{
+			var handler:ISaxHandler = null;
+			var queried:Boolean = false;
+			for( var i:int = 0;i < handlers.length;i++ )
+			{
+				handler = handlers[ i ];
+				queried = handler[ method ].apply( handler, [ token ] );
+				if( queried !== expected )
+				{
+					return queried;
+				}
+			}
+			return expected;
+		}
 		
 		/**
 		* 	@private
@@ -127,7 +239,7 @@ package com.ffsys.net.sax {
 					//must be a non-whitespace text node that is a direct descendant
 					if( child.nodeKind() == TEXT && !( /^\s+$/.test( child.toString() ) ) )
 					{
-						//trace("SAXParser::hasTextChild()", "FOUND TEXT NODE '", child.toString(), "'", /^\s+$/.test( child.toString() ) );
+						//trace("SaxParser::hasTextChild()", "FOUND TEXT NODE '", child.toString(), "'", /^\s+$/.test( child.toString() ) );
 						return true;
 					}
 				}
@@ -143,7 +255,7 @@ package com.ffsys.net.sax {
 		{
 			var name:String = node.name().localName;
 			
-			//trace("SAXParser::getPropertyName()", name, name.indexOf( "-" ), name.indexOf( "-" ) > -1 );
+			//trace("SaxParser::getPropertyName()", name, name.indexOf( "-" ), name.indexOf( "-" ) > -1 );
 			
 			//quick fix for hyphenated property names
 			//should be moved to a property converter implementation
@@ -167,7 +279,106 @@ package com.ffsys.net.sax {
 			{
 				deserialize( child );
 			}
-		}			
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function beginDocument( token:SaxToken ):void
+		{
+			var methodName:String = "beginDocument";
+			//trace("[BEGIN DOCUMENT] SaxParser::beginDocument()", token.name, token.type );
+			notify( token, methodName );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function shouldTraverseElement( token:SaxToken ):Boolean
+		{
+			var methodName:String = "shouldTraverseElement";
+			
+			//trace("[SHOULD TRAVERSE] SaxParser::shouldTraverseElement()", token.name, token.type );
+			
+			//we expect to traverse into children by default
+			return query( token, methodName, true );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function beginElement( token:SaxToken ):void
+		{
+			var methodName:String = "beginElement";
+			//trace("[START ELEMENT] SaxParser::beginElement()", token.name, token.type );
+			notify( token, methodName );			
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function doWithProcessingInstruction( token:SaxToken ):void
+		{
+			var methodName:String = "doWithProcessingInstruction";
+			//trace("[PROCESSING-INSTRUCTION] SaxParser::doWithProcessingInstruction()", token.name, token.type );
+			notify( token, methodName );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function descended( token:SaxToken ):void
+		{
+			var methodName:String = "descended";
+			notify( token, methodName );			
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function sibling( token:SaxToken, previous:SaxToken ):void
+		{
+			var methodName:String = "sibling";
+			notify( token, methodName, previous );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function ascended( token:SaxToken ):void
+		{
+			var methodName:String = "ascended";
+			notify( token, methodName );		
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function endElement( token:SaxToken ):void
+		{
+			var methodName:String = "endElement";			
+			notify( token, methodName );			
+			//trace("[END ELEMENT] SaxParser::endElement()", token.name, token.type );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function endDocument( token:SaxToken ):void
+		{
+			var methodName:String = "endDocument";
+			notify( token, methodName );	
+			//trace("[END DOCUMENT] SaxParser::endDocument()", token.name, token.type );
+		}
+		
+		/**
+		* 	Invoked when parsing is complete but before
+		* 	any cleanup of cached data has been performed.
+		*/
+		protected function complete():void
+		{
+			//
+		}
 		
 		/**
 		* 	@private
@@ -190,66 +401,105 @@ package com.ffsys.net.sax {
 			var i:int = 0;
 			var l:int = x.children().length();
 			
+			//update the current node being processed
+			_node = x;
+			
+			_token = new SaxToken( x, _token, depth, x.nodeKind() );
+			this.tokens[ x ] = _token;
+			
+			//store a reference to the token in the current node
+			x.token = token;
+			
 			if( x.nodeKind() == PROCESSING_INSTRUCTION )
 			{
-				_token = new SAXToken( x );
-				notify( _token, "doWithProcessingInstruction" );
+				doWithProcessingInstruction( _token );
 				return;
-			}			
+			}
+			
+			var descend:Boolean = true;
 			
 			if( x.nodeKind() == ELEMENT )
 			{
-				_token = new SAXToken( x );
-				
 				//single text node, treat it as simple content
 				if( x.children().length() == 1 && x.text().length() == 1 )
 				{
-					//_token.text = x.text()[ 0 ];
-					_token.type = SIMPLE;
+					//token.text = x.text()[ 0 ];
+					token.type = SIMPLE;
 				}else if( hasTextChild( x ) )
 				{
 					//potentially mixed content - inline
 					//doWithInlineContent( x );
-					_token.type = INLINE;				
+					token.type = INLINE;				
 				}else if( x.children().hasComplexContent() )
 				{
 					//doWithBlockContent( x );
-					_token.type = BLOCK;
+					token.type = BLOCK;
 				}
 				
-				notify( _token, "startElement" );
-			}
-			
-			if( l > 0 )
-			{
-				//_previous = _token;
-				_depth++;
-			}
-			
-			for( ;i < l;i++ )
-			{
-				element = x.child( i );
-				if( element == null )
+				if( depth == 0 )
 				{
-					continue;
+					beginDocument( _token );
+				}else
+				{
+					beginElement( _token );
 				}
 				
-				if( element is XML )
+				descend = shouldTraverseElement( _token );
+			}
+			
+			//only parse child elements if we are configued to
+			//traverse this element
+			if( descend )
+			{	
+			
+				if( l > 0 )
 				{
-					deserialize( element as XML );
-				}else if( element is XMLList )
+					depth++;
+					descended( _token );
+				}
+				
+				var previous:SaxToken = _token;
+				for( ;i < l;i++ )
 				{
-					deserializeList( element as XMLList );
+					element = x.child( i );
+					if( element == null )
+					{
+						continue;
+					}
+					
+					if( element is XML )
+					{
+						deserialize( element as XML );
+					}else if( element is XMLList )
+					{
+						deserializeList( element as XMLList );
+					}
+					
+					sibling( _token, previous );
 				}
 			}
 			
-			//_depth--;
+			//depth--;
 			
 			if( x.nodeKind() == ELEMENT )
 			{
-				_depth--;
-				_token = new SAXToken( x );
-				notify( _token, "endElement" );				
+				if( l > 0
+					&& descend )
+				{
+					depth--;
+					_token = _token.parent;
+					ascended( _token );
+				}
+				
+				//TODO: ensure we don't reinstantiate a new token for the end element
+				//token = new SaxToken( x, depth );
+				
+				if( depth == 0 )
+				{
+					endDocument( _token );
+				}else{
+					endElement( _token );
+				}
 			}
 		}
 	}

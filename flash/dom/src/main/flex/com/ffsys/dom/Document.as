@@ -12,9 +12,19 @@ package com.ffsys.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class Document extends Element
+	dynamic public class Document extends VisualElement
 	{
 		private var _identifiers:Object = new Object();
+		private var _elements:Vector.<Element>;
+		
+		/**
+		* 	Creates a <code>Document</code> instance.
+		*/
+		public function Document( xml:XML = null )
+		{
+			_nodeType = Node.DOCUMENT_NODE;
+			super( xml );
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -23,6 +33,15 @@ package com.ffsys.dom
 		{
 			var output:Attr = new Attr( this.xml, name );
 			return output;
+		}
+		
+		public function get elements():Vector.<Element>
+		{
+			if( _elements == null )
+			{
+				_elements = new Vector.<Element>();
+			}
+			return _elements;
 		}
 		
 		/**
@@ -51,15 +70,6 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	Creates a <code>Document</code> instance.
-		*/
-		public function Document( xml:XML = null )
-		{
-			_nodeType = Node.DOCUMENT_NODE;
-			super( xml );
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function get binding():Object
@@ -83,7 +93,7 @@ package com.ffsys.dom
 		*/
 		public function prepared():void
 		{
-			//trace("Document::prepared()", this, numChildren, this.id );
+			trace("Document::prepared()", this, this.id );
 		}
 		
 		/**
@@ -99,9 +109,9 @@ package com.ffsys.dom
 		* 	@inheritDoc
 		*/
 		//TODO: change to Element return type
-		public function getElementById( id:String ):IDomElement
+		public function getElementById( id:String ):Element
 		{
-			return _identifiers[ id ] as IDomElement;
+			return _identifiers[ id ] as Element;
 		}
 		
 		
@@ -173,6 +183,35 @@ package com.ffsys.dom
 		This method returns a Element object.
 		The elementId parameter is of type String.
 
-				*/		
+				*/	
+		
+		override protected function propertyMissing( name:* ):*
+		{
+			var element:Element = _identifiers[ name ] as Element;
+			if( element != null )
+			{
+				return element;
+			}
+			return super.propertyMissing( name );
+		}				
+				
+		internal function registerElement( element:Element ):void
+		{
+			trace("[REGISTER ELEMENT] Document::registerElement()", element );
+			if( element != null )
+			{
+				if( element.id != null )
+				{
+					var existing:Element = _identifiers[ element.id ] as Element;
+					
+					if( existing != null )
+					{
+						throw new Error( "Duplicate id found '" + element.id + "' on " + element );
+					}
+					_identifiers[ element.id ] = element;
+				}
+				elements.push( element );
+			}
+		}
 	}
 }

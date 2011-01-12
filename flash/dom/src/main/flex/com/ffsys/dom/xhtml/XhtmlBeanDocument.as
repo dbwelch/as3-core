@@ -1,8 +1,10 @@
-package com.ffsys.dom
+package com.ffsys.dom.xhtml
 {
 	import com.ffsys.ioc.*;
 
 	import com.ffsys.utils.string.PropertyNameConverter;	
+	
+	import com.ffsys.dom.*;
 
 	/**
 	*	Defines the beans for <code>XHTML</code> documents.
@@ -16,7 +18,7 @@ package com.ffsys.dom
 	public class XhtmlBeanDocument extends BeanDocument
 	{
 		/**
-		* 	The default name for component bean documents.
+		* 	The default name for <code>XHTML</code> bean documents.
 		*/
 		public static const NAME:String = "xhtml";
 		
@@ -50,11 +52,16 @@ package com.ffsys.dom
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.HEAD );
 			descriptor.instanceClass = Head;
-			beans.addBeanDescriptor( descriptor );	
+			beans.addBeanDescriptor( descriptor );
 
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.BODY );
 			descriptor.instanceClass = Body;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.DIV );
+			descriptor.instanceClass = DivElement;
 			beans.addBeanDescriptor( descriptor );
 			
 			/*
