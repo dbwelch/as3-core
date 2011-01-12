@@ -73,6 +73,9 @@ package com.ffsys.dom
 			_title = value;
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get classNames():String
 		{
 			return _classNames;
@@ -81,6 +84,24 @@ package com.ffsys.dom
 		public function set classNames( value:String ):void
 		{
 			_classNames = value;
+			trace("[SET CLASS NAMES] XmlAwareDomElement::set classNames()", value );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get classes():Vector.<String>
+		{
+			var output:Vector.<String> = new Vector.<String>();
+			if( _classNames != null )
+			{
+				var parts:Array = _classNames.split( " " );
+				for( var i:int = 0;i < parts.length;i++ )
+				{
+					output.push( String( parts[ i ] ) );
+				}
+			}			
+			return output;
 		}
 		
 		/**

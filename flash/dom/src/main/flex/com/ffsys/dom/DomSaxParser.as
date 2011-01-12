@@ -3,7 +3,7 @@ package com.ffsys.dom
 	import com.ffsys.net.sax.*;
 	import com.ffsys.ioc.support.xml.BeanSaxParser;
 	
-	import asquery.$;	
+	import asquery.ActionscriptQuery;
 
 	public class DomSaxParser extends BeanSaxParser
 	{
@@ -67,13 +67,9 @@ package com.ffsys.dom
 		{
 			_dom = Document( this.root );
 		
-			//TODO: move this to an initialization routine
-			//DOM implementations that we are aware of
-			Object( $ ).doms = new Vector.<Document>();
+			ActionscriptQuery.doms.push( _dom );
 			
-			Object( $ ).doms.push( _dom );
-			
-			trace("[DOM COMPLETE] DomSaxParser::complete()", $, Object( $ ).doms );
+			trace("[DOM COMPLETE] DomSaxParser::complete()", ActionscriptQuery.doms );
 		}
 		
 		/**

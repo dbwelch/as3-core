@@ -99,7 +99,11 @@ package com.ffsys.dom
 			
 			var dom:Document = parser.dom;
 			
-			trace("SimpleDOMTest::domTest()", "GOT DOM dom/length: ", dom, dom.length, dom.head.length, dom.body.length, dom.outer );
+			var elements:Object = $( ".border" );
+			
+			trace("SimpleDOMTest::domTest()", elements );
+			
+			//trace("SimpleDOMTest::domTest()", "GOT DOM dom/length: ", dom, dom.length, dom.head.length, dom.body.length, dom.inner.classes );
 			
 			//trace( $( ".links" ) );
 		}
