@@ -25,17 +25,6 @@ package com.ffsys.dom
 			XML.prettyPrinting = false;					
 		}
 
-		/*
-		
-		
-	
-		<!--
-
-		-->		
-		
-		*/
-		
-		
 		private function getTestDocument( namespaceURI:String, qualifiedName:String ):XML
 		{
 			var x:XML =
@@ -73,6 +62,12 @@ package com.ffsys.dom
 		[Test]
 		public function domTest():void
 		{
+			
+			//register an onload closure
+			$( function():void
+			{
+				trace("[DOM ONLOAD CLOSURE HANDLER] SimpleDOMTest::domTest()", this );
+			} );
 			
 			var source:XML = getTestDocument( "http://www.w3.org/1999/xhtml", "html" );
 			var parser:DomSaxParser = new DomSaxParser();
@@ -131,6 +126,10 @@ package com.ffsys.dom
 			elements = $( "div,a" );
 			
 			trace("[MULTIPLE SELECTOR] SimpleDOMTest::domTest()", elements );
+			
+			$( document.body ).addClass( "test-css-class" );
+			
+			trace("SimpleDOMTest::domTest()", document.body.classNames );
 			
 			/*
 

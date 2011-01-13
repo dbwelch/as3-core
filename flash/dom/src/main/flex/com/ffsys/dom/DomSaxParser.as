@@ -3,7 +3,7 @@ package com.ffsys.dom
 	import com.ffsys.net.sax.*;
 	import com.ffsys.ioc.support.xml.BeanSaxParser;
 	
-	import asquery.ActionscriptQuery;
+	import asquery.*;
 
 	public class DomSaxParser extends BeanSaxParser
 	{
@@ -77,13 +77,10 @@ package com.ffsys.dom
 		{
 			_dom = Document( this.root );
 			
-			//ensure the actionscript query logic knows
-			//about the new DOM
-			ActionscriptQuery.doms.push( _dom );
+			//register the DOM with asquery
+			$().onload( _dom );
 			
 			trace("[DOM COMPLETE] DomSaxParser::complete()", ActionscriptQuery.doms );
-			
-			_dom.onload();
 		}
 		
 		/**

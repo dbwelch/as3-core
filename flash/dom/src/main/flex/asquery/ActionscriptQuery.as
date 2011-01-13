@@ -37,6 +37,8 @@ package asquery
 		private var _list:NodeList;
 		private var _contexts:Vector.<Element>;
 		
+		static private var _callbacks:Vector.<Function>;
+		
 		/**
 		* 	Creates an <code>ActionscriptQuery</code> instance.
 		*/
@@ -87,6 +89,15 @@ package asquery
 			_contexts = value;
 		}
 		
+		public function get callbacks():Vector.<Function>
+		{
+			if( _callbacks == null )
+			{
+				_callbacks = new Vector.<Function>();
+			}
+			return _callbacks;
+		}
+		
 		/**
 		* 	The query used to find elements. 
 		*/
@@ -135,6 +146,37 @@ package asquery
 				}
 			}
 			
+			return this;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Adds existing DOM element references to the elements
+		* 	matched by this query.
+		*/
+		private function addReferences( query:Object ):ActionscriptQuery
+		{
+			clear();
+			if( query is Element )
+			{	
+				addMatchedElement( Element( query ) );
+			}else if( query is NodeList )
+			{
+				addMatchedList( NodeList( query ) );
+			}
+			return this;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Retrieves a copy of this query suitable for chaining.
+		* 
+		* 	@return A query suitable for chaining.
+		*/
+		private function getChainedQuery():ActionscriptQuery
+		{
 			var output:ActionscriptQuery = new ActionscriptQuery();
 			//ensure the chain value has the correct matches
 			output.children = this.children;
@@ -148,7 +190,7 @@ package asquery
 				}
 			}
 			
-			//trace("[OUTPUT QUERY] ActionscriptQuery::find()", output, output.children, output.contexts );
+			//trace("[OUTPUT QUERY] ActionscriptQuery::getChainedQuery()", output, output.children, output.contexts );
 
 			return output;
 		}
@@ -342,16 +384,47 @@ package asquery
 			}
 		}
 		
+		/**
+		*	@private
+		*/
+		public function onload( dom:Document ):void
+		{
+			if( doms.indexOf( dom ) == -1 )  
+			{
+				doms.push( dom );
+				dom.onload();
+			}
+			
+			trace("[ASQUERY ONLOAD] ActionscriptQuery::onload()", callbacks );
+			
+			if( callbacks.length > 0 )
+			{
+				trace("[INVOKE ON LOAD CALLBACKS] ActionscriptQuery::onload()", dom );
+				
+				var f:Function = null;
+				for each( f in callbacks )
+				{
+					//invoke onlod callbacks in the scope of the document
+					f.apply( dom, [] );
+				}
+			}
+		}
+		
 		internal function handle( query:Object ):*
 		{
 			if( query == null || query is String || query is RegExp )
 			{
-				return find( query );
+				find( query );
+			}else if( query is Function )
+			{
+				trace("ActionscriptQuery::onload()" );
+				callbacks.push( query as Function );
+			}else if( query is Node || query is NodeList )
+			{
+				addReferences( query );
 			}
-			
-			//TODO: handle element and node list parameters
-			
-			return this;
+
+			return getChainedQuery();
 		}
 	}
 }
