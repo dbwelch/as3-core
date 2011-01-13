@@ -39,7 +39,7 @@ package com.ffsys.dom
 		private function getTestDocument():XML
 		{
 			var x:XML =
-				<html id="document" xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
+				<html id="document" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">	
 					<head>
 						<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 						<title>Example test document</title>
@@ -245,6 +245,38 @@ package com.ffsys.dom
 			elements = $( "h1, em, strong" );
 			
 			trace("[MULTIPLE INLINE] SimpleDOMTest::domTest()", elements );	
+			
+			//test the character data api
+			var cd:CharacterData = new CharacterData();
+			cd.data = "This is some text";
+			Assert.assertEquals( 4, cd.substringData( 0, 4 ).length );
+			Assert.assertEquals( "This", cd.substringData( 0, 4 ) );
+			cd.appendData( " for you" );
+			Assert.assertEquals( "This is some text for you", cd.data );
+			cd.insertData( 12, " new" );
+			Assert.assertEquals( "This is some new text for you", cd.data );
+			cd.deleteData( 12, 4 );
+			Assert.assertEquals( "This is some text for you", cd.data );
+			
+			/*
+			//iterate over characters and their character codes
+			for( var z:String in cd )
+			{
+				trace("[FOR IN] SimpleDOMTest::domTest()", z, cd[ z ] );
+			}
+			
+			//iterate over just the character codes
+			for each( var u:uint in cd )
+			{
+				trace("[FOR EACH] SimpleDOMTest::domTest()", u );
+			}
+			
+			//loop sequentially over the characters
+			for( var i:int = 0;i < cd.length;i++ )
+			{
+				trace("[FOR] SimpleDOMTest::domTest()", cd[ i ] );
+			}
+			*/
 			
 			/*
 

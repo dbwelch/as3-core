@@ -27,10 +27,14 @@ package com.ffsys.dom
 	{
 		private static const ID:String = "id";
 		
+		/**
+		* 	@private
+		*/
+		protected var _xml:XML;	
+		
 		private var _id:String;
 		private var _beanName:String;
 		private var _href:String;
-		private var _xml:XML;
 		private var _document:IBeanDocument;
 		private var _parser:Object;
 		private var _class:Class;

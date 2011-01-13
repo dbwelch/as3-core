@@ -54,14 +54,6 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
-		public function get identifiers():Object
-		{
-			return _identifiers;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function onload():void
 		{
 			trace("[ON LOAD] Document::onload()", this, this.id );
@@ -253,6 +245,8 @@ package com.ffsys.dom
 					}
 					_identifiers[ element.id ] = element;
 				}
+				
+				//all currently registered elements
 				elements.push( element );
 				
 				var nm:String = element.beanName;
