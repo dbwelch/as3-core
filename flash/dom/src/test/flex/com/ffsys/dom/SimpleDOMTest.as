@@ -32,6 +32,32 @@ package com.ffsys.dom
 			var x:XML =
 				<html id="document">
 					<head>
+						<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+						<title>Example test document</title>
+						<link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+						<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" />
+
+						<!-- rsls -->
+						<link rel="alternate" href="../swf/application-assets.swf" type="application/shockwave-flash" media="screen,flash" />
+
+						<!-- beans -->
+						<link rel="alternate" href="../css/application.css" type="text/css" media="screen,flash" />
+						<link rel="alternate" href="../css/graphic-components.css" type="text/css" media="screen,flash" />
+						<link rel="alternate" href="../css/custom-view-components.css" type="text/css" media="screen,flash" />
+
+						<!-- flash styles -->
+						<link rel="alternate" href="../css/component-styles.css" type="text/css" media="screen,flash" />
+						<link rel="alternate" href="../css/scroll-styles.css" type="text/css" media="screen,flash" />
+						<link rel="alternate" href="../css/graphic-button-styles.css" type="text/css" media="screen,flash" />
+						<link rel="alternate" href="../css/application-styles.css" type="text/css" media="screen,flash" />
+						<link rel="alternate" href="../css/filters.css" type="text/css" media="screen,flash" />
+
+						<!-- flash images -->
+						<link rel="alternate" href="../images/thumbnail-001.jpg" type="text/css" media="screen,flash" />
+						<link rel="alternate" href="../images/thumbnail-002.jpg" type="text/css" media="screen,flash" />
+
+						<!-- flash messages -->
+						<link rel="alternate" href="../messages/messages.properties" type="text/plain" media="screen,flash" />
 					</head>
 					<body id="body">
 						<!-- A COMMENT TO READ -->
@@ -39,15 +65,24 @@ package com.ffsys.dom
 							<div id="inner" class="border background">
 								<div id="inner-element-a" class="border red" />
 								<div id="inner-element-b">
-									<p>
-										<ul>
-											<li>
-												<a id="test-anchor" href="http://google.com"
-													title="This is a link">Some text</a>
-												<a id="another-anchor" href="http://google.com"
-													title="This is a another link">Some more text</a>
-											</li>
-										</ul>
+									<ul>
+										<li>
+											<a id="test-anchor" href="http://google.com"
+												title="This is a link">Some text</a>
+											<a id="another-anchor" href="http://google.com"
+												title="This is a another link">Some more text</a>
+										</li>
+									</ul>
+									<ul>
+										<li>
+											<a id="test-anchor-alt1" href="http://google.com"
+												title="This is a link">Some text</a>
+											<a id="another-anchor-alt2" href="http://google.com"
+												title="This is a another link">Some more text</a>
+										</li>
+									</ul>
+									<p class="special-paragraph">
+										This is a paragraph of text for you to read.
 									</p>
 								</div>
 							</div>
@@ -62,6 +97,7 @@ package com.ffsys.dom
 								<p>some content only for html renderings</p>
 							</div>
 						</div>
+						<a id="anchor-outside-div">a link</a>
 					</body>
 				</html>;
 			x.@[ 'xmlns' ] = namespaceURI;
@@ -114,8 +150,7 @@ package com.ffsys.dom
 			//style element access is preferred and recommended as
 			//it is more flexible as a DOM changes
 			
-			trace("[UL] SimpleDOMTest::domTest()", document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].ul );
-			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].ul[ 0 ].li[ 0 ].a as NodeList;
+			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].ul[ 0 ].li[ 0 ].a as NodeList;
 			Assert.assertNotNull( list );
 			Assert.assertEquals( 2, list.length );
 			Assert.assertTrue( list[ 0 ] is AnchorElement );
@@ -162,8 +197,8 @@ package com.ffsys.dom
 				}, "a string", 10, { property: 1.67 } ).click();			
 			
 			
-			//match by descendant
-			elements = $( "div a" );
+			//match by class name selector and descendant selector
+			elements = $( "div ul li a" );
 
 			trace("[DESCENDANT] SimpleDOMTest::domTest()", elements );
 			

@@ -194,19 +194,24 @@ package asquery
 			var output:ActionscriptQuery = new ActionscriptQuery();
 			//ensure the chain value has the correct matches
 			output.children = this.children;
-			output.contexts = new Vector.<Element>();
-			var node:Node = null;
-			for each( node in this.children )
-			{
-				if( node is Element )
-				{
-					output.contexts.push( Element( node ) );
-				}
-			}
+			output.setContexts( this );
 			
 			//trace("[OUTPUT QUERY] ActionscriptQuery::getChainedQuery()", output, output.children, output.contexts );
 
 			return output;
+		}
+		
+		public function setContexts( parent:ActionscriptQuery ):void
+		{
+			this.contexts = new Vector.<Element>();
+			var node:Node = null;
+			for each( node in parent.children )
+			{
+				if( node is Element )
+				{
+					this.contexts.push( Element( node ) );
+				}
+			}
 		}
 		
 		/**
@@ -433,10 +438,31 @@ package asquery
 		{
 			//find matches for the first part
 			var parts:Array = query.split( DESCENDANT_SELECTOR_DELIMITER );
-			var first:String = String( parts[ 0 ] );
+			var first:String = parts[ 0 ];
+			var part:String = null;
+			var tmp:ActionscriptQuery = new ActionscriptQuery();
+			tmp.doFindElement( first, context );
+			tmp.setContexts( tmp );
+			for( var i:int = 1;i < parts.length;i++ )
+			{
+				part = String( parts[ i ] );
+				tmp.query = part;
+				//find the matches for each descendant element
+				tmp.find( part );
+				
+				if( tmp.length == 0 )
+				{
+					break;
+				}
+				
+				//update the contexts to the matched elements
+				tmp.setContexts( tmp );
+			}
 			
-			var matches:ActionscriptQuery = new ActionscriptQuery( first );
-			trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", matches );
+			//update our matches to the temp
+			addMatchedList( tmp );
+			
+			trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", this );
 		}
 		
 		/**

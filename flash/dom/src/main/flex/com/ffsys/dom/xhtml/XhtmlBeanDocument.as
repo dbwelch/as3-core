@@ -53,6 +53,21 @@ package com.ffsys.dom.xhtml
 				DomIdentifiers.HEAD );
 			descriptor.instanceClass = Head;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.META );
+			descriptor.instanceClass = MetaElement;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.TITLE );
+			descriptor.instanceClass = TitleElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.LINK );
+			descriptor.instanceClass = LinkElement;
+			beans.addBeanDescriptor( descriptor );
 
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.BODY );
