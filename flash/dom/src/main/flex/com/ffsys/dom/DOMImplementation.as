@@ -14,13 +14,12 @@ package com.ffsys.dom
 	*/
 	public class DOMImplementation extends Object
 	{
+		/**
+		* 	The name of the bean document that
+		* 	contains components to attach to
+		* 	visual DOM elements.
+		*/
 		public static const COMPONENTS_NAME:String = "dom-components";
-		
-		public static const VERSION_1:String = "1.0";
-		
-		public static const VERSION_1_1:String = "1.1";		
-		
-		public static const VERSION_2_0:String = "2.0";
 		
 		private var _beanManager:IBeanManager;
 		private var _components:IBeanDocument;
@@ -84,18 +83,32 @@ package com.ffsys.dom
 			_components = value;
 		}
 		
-		public function parse( source:XML ):Document
+		/**
+		* 	Parses a source <code>XML</code> document
+		* 	as if it is an <code>XHTML<code> document.
+		* 
+		* 	@param source The source <code>XML</code> document.
+		* 	@param doctype A specific document type to use when
+		* 	parsing the source.
+		*/
+		public function parse(
+			source:XML, 
+			doctype:DocumentType = null ):Document
 		{
-			//qualifiedName:String, publicId:String, systemId:String
-			
 			if( source == null || !source.name() )
 			{
 				return null;
 			}
 			
+			if( doctype == null )
+			{
+				//default document type for the moment
+				doctype = DocumentType.XHTML_1_STRICT;
+			}
+			
 			var qualifiedName:String = source.name().localName;
 			var namespaceURI:String = source.@xmlns;
-			var docType:DocumentType = getXhtmlDocumentType();
+			var docType:DocumentType = doctype;
 			
 			var doc:Document = createDocument(
 				namespaceURI, qualifiedName, docType );
@@ -109,69 +122,50 @@ package com.ffsys.dom
 			return doc;
 		}
 		
-		public function hasFeature( feature:String, version:String ):Boolean
+		/**
+		* 	Determines whether this implementation
+		* 	has a specific feature.
+		*/
+		public function hasFeature(
+			feature:String, version:String ):Boolean
 		{
 			return false;
 		}
 		
-		private function getXhtmlDocumentType(
-			qualifiedName:String = null,
-			namespaceURI:String = null,
-			version:String = VERSION_1 ):DocumentType
-		{
-			var qualifiedName:String = "html";
-			var publicId:String = null;
-			var systemId:String = null;
-			
-			switch( version )
-			{
-				case VERSION_1:
-					systemId = "\"-//W3C//DTD XHTML 1.0 Strict//EN\"";
-					publicId = "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"";
-					break;
-			}
-			
-			
-			
-			/*
-			<!DOCTYPE html PUBLIC 
-				"-//W3C//DTD XHTML Basic 1.1//EN"
-				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
-			
-			*/
-			
-			// "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd"
-			
-			// "-//W3C//DTD XHTML Basic 1.1//EN"
-			
-			return createDocumentType( qualifiedName, publicId, systemId );
-		}
-		
+		/**
+		* 	Creates a document type.
+		* 
+		* 	@param qualifiedName The qualified name for the document type.
+		* 	@param publicId The public identifier for the document type.
+		* 	@param systemId The system identifier for the document type.
+		* 	
+		* 	@return The created document type.
+		*/
 		public function createDocumentType( 
-			qualifiedName:String, publicId:String, systemId:String ):DocumentType
+			qualifiedName:String,
+			publicId:String,
+			systemId:String ):DocumentType
 		{
-			var docType:DocumentType = new DocumentType();
-			
-			var x:XML = new XML( "<doctype><![CDATA[<!DOCTYPE "
-				+ qualifiedName
-				+ " PUBLIC \""
-				+ systemId
-				+ "\" \""
-				+ publicId + "\">]]></doctype>" );
-				
-			trace("[DOCTYPE] DOMImplementation::createDocumentType()", x.toXMLString() );
-			
-			docType.xml = x;
+			var docType:DocumentType = new DocumentType( qualifiedName, systemId, publicId );
 			return docType;
 		}
 		
+		/**
+		* 	Creates a document.
+		* 
+		* 	@param namespaceURI The <code>URI</code> for the document namespace.
+		* 	@param qualifiedName The qualified name for the document.
+		* 	@param doctype The document type definition.
+		*/
 		public function createDocument(
-			namespaceURI:String, qualifiedName:String, docType:DocumentType ):Document
+			namespaceURI:String,
+			qualifiedName:String,
+			doctype:DocumentType ):Document
 		{
 			var document:Document = Document( this.document.getBean(
 				qualifiedName ) );
 			document.setImplementation( this );
-			document.setDocumentType( docType );
+			document.setDocumentType( doctype );
 			return document;
 		}
 	
@@ -183,23 +177,22 @@ package com.ffsys.dom
 		This method returns a Boolean.
 		The feature parameter is of type String.
 		The version parameter is of type String.
+		
 		createDocumentType(qualifiedName, publicId, systemId)
 		This method returns a DocumentType object.
 		The qualifiedName parameter is of type String.
 		The publicId parameter is of type String.
 		The systemId parameter is of type String.
 		This method can raise a DOMException object.
+		
 		createDocument(namespaceURI, qualifiedName, doctype)
 		This method returns a Document object.
 		The namespaceURI parameter is of type String.
 		The qualifiedName parameter is of type String.
 		The doctype parameter is a DocumentType object.
-		This method can raise a DOMException object.	
-	
-	
+		This method can raise a DOMException object.
 	
 		*/
 	
 	}
-
 }
