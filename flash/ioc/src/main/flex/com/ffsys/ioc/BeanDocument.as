@@ -332,6 +332,7 @@ package com.ffsys.ioc
 				if( bean.id == beanName
 					|| bean.names.indexOf( beanName ) > -1 )
 				{
+					BeanDescriptor( bean )._beanName = beanName;
 					return bean;
 				}
 			}

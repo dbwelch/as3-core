@@ -21,7 +21,8 @@ package com.ffsys.dom
 	*	@since  09.01.2011
 	*/
 	public class XmlAwareDomElement extends Proxy
-		implements IDomElement
+		implements	IDomElement,
+					IBeanNameAware
 	{
 		private static const ID:String = "id";
 		
@@ -112,18 +113,9 @@ package com.ffsys.dom
 			_source = source;
 		}
 		
-		/*
-		//TODO: remove when proxy is done
-		public function hasOwnProperty( name:String ):Boolean
-		{
-			return true;
-		}
-		*/
-		
 		/**
 		* 	@inheritDoc
 		*/
-		//TODO: receive from a IBeanNameAware implementation
 		public function get beanName():String
 		{
 			return _beanName;
@@ -131,7 +123,6 @@ package com.ffsys.dom
 		
 		public function set beanName( value:String ):void
 		{
-			trace("[SETTING BEAN NAME] XmlAwareDomElement::set beanName()", value );
 			_beanName = value;
 		}
 		

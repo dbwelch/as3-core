@@ -7,7 +7,7 @@ package asquery
 		/**
 		* 	The delimiter between multiple queries.
 		*/
-		public static const QUERY_DELIMITER:String = " ";
+		public static const SELECTOR_DELIMITER:String = ",";
 		
 		/**
 		* 	The character used to indicate a query that
@@ -212,32 +212,26 @@ package asquery
 		*/
 		private function findInContext( query:String, context:Element ):void
 		{
-			var parts:Array = query.split( QUERY_DELIMITER );
+			var parts:Array = query.split( SELECTOR_DELIMITER );
 			//still no valid query
 			//find all elements
 			if( query == null || query == QUERY_WILDCARD )
 			{
 				findAll( context );
 			}else{
-				if( parts.length == 1 )
-				{
-					doFindElement( String( parts[ i ] ), context );
-				}else
-				{
-					for( var i:int = 0;i < parts.length;i++ )
-					{
-						doFind( String( parts[ i ] ) );
-					}
-				}
+				doFind( parts, context );
 			}
 		}
 		
 		/**
 		* 	@private
 		*/
-		private function doFind( query:String ):void
+		private function doFind( parts:Array, context:Element ):void
 		{
-			//TODO
+			for( var i:int = 0;i < parts.length;i++ )
+			{
+				doFindElement( parts[ i ], context );
+			}
 		}
 		
 		/**

@@ -127,10 +127,10 @@ package com.ffsys.dom
 			//elements = $( "#inner" ).find( "#inner-element-a" );
 			//Assert.assertEquals( 1, elements.length );
 			
-			//match by tag name
-			elements = $( "div" );
+			//match by multiple selector
+			elements = $( "div,a" );
 			
-			trace("SimpleDOMTest::domTest()", elements );
+			trace("[MULTIPLE SELECTOR] SimpleDOMTest::domTest()", elements );
 			
 			/*
 

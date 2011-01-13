@@ -20,6 +20,8 @@ package com.ffsys.ioc
 		static private var _beanFileLoadManager:BeanFileLoadManager
 			= new BeanFileLoadManager();
 			
+		internal var _beanName:String;
+			
 		private var _document:IBeanDocument;
 		private var _staticClass:Class;
 		private var _singleton:Boolean = false;
@@ -465,6 +467,11 @@ package com.ffsys.ioc
 						IBeanDocumentAware( instance ).document = this.document;
 					}
 					
+					if( instance is IBeanNameAware )
+					{
+						IBeanNameAware( instance ).beanName = _beanName != null ? _beanName : id;
+					}
+					
 					if( bean != null )
 					{
 						bean.afterConstructed( this );
@@ -852,6 +859,7 @@ package com.ffsys.ioc
 		{
 			super.destroy();
 			clear();
+			_beanName = null;
 			_document = null;
 		}
 		

@@ -249,7 +249,7 @@ package com.ffsys.dom
 				return element;
 			}
 			return super.propertyMissing( name );
-		}				
+		}
 				
 		internal function registerElement( element:Element ):void
 		{
@@ -268,6 +268,9 @@ package com.ffsys.dom
 					_identifiers[ element.id ] = element;
 				}
 				elements.push( element );
+				
+				//TODO: store elements by tag name
+				//this[  ]
 			}
 		}
 	}
