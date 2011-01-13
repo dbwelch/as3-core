@@ -192,15 +192,24 @@ package com.ffsys.dom
 			return _ownerDocument;
 		}
 		
+		internal function setOwnerDocument( owner:Document ):void
+		{
+			_ownerDocument = owner;
+		}
+		
 		public function appendChild( child:Node ):Node
 		{
 			if( child != null )
 			{
 				childNodes.children.push( child );
 				child.setParentNode( this );
+				child.setOwnerDocument( _ownerDocument );
 				
+				/*
 				trace("[ NODE -- APPENDING NODE ] Node::appendChild() this/child/length/children length: ",
 					this, child, this.length, childNodes.children.length );
+				*/
+				
 			}
 			return child;
 		}

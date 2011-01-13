@@ -58,7 +58,7 @@ package com.ffsys.dom
 					<head>
 					</head>
 					<body id="body">
-						<div id="outer">
+						<div id="outer" class="single">
 							<div id="inner" class="border background">
 								<div id="inner-element-a" class="border red" />
 								<div id="inner-element-b">
@@ -68,6 +68,7 @@ package com.ffsys.dom
 								</div>
 							</div>
 						</div>
+						<div id="another"></div>
 					</body>
 				</html>;
 			x.@[ 'xmlns' ] = namespaceURI;
@@ -122,20 +123,32 @@ package com.ffsys.dom
 			//elements = $( "*" );
 			
 			//match by regular expression test against element id
-			//elements = $( /^inner/ );
+			elements = $( /^inner/ );
+			Assert.assertEquals( 3, elements.length );
 			
 			//match by class expression
 			//elements = $( ".border" );
 			
-			//match by identifier
+			//match by identifier chain
 			elements = $( "#inner" ).find( "#inner-element-a" );
 			Assert.assertEquals( 1, elements.length );
+			
+			//match by tag name
+			elements = $( "div" );
+			
+			trace("SimpleDOMTest::domTest()", elements );
+			
+			/*
+
 			
 			trace("SimpleDOMTest::domTest()", elements, elements[ 0 ] );
 			
 			$( "#inner" ).find( "#inner-element-a" ).addClass( "runtime-css-class" );
 			
 			trace("SimpleDOMTest::domTest()", document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].a );
+			
+			trace( "[BY TAG NAME]", document.body.getElementsByTagName( "div" ) );
+			*/
 			
 			//Assert.assertTrue( elements[ 0 ] );
 			

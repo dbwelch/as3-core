@@ -192,24 +192,19 @@ package com.ffsys.dom
 		*/
 		public function getElementById( id:String ):Element
 		{
-			for each( var child:Element in elements )
-			{
-				if( child != null
-					&& id == child.id )
-				{
-					return child;
-				}
-			}
-			return null;
+			return ownerDocument.getElementById( id );
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	
 		*/
-		public function getElementsByTagName():NodeList
+		public function getElementsByTagName( tagName:String ):NodeList
 		{
-			//TODO:
-			return null;
+			if( this[ tagName ] == null )
+			{
+				return new NodeList();
+			}
+			return this[ tagName ] as NodeList;
 		}
 		
 		/*
@@ -238,21 +233,20 @@ package com.ffsys.dom
 		This method has no return value.
 		The name parameter is of type String.
 		This method can raise a DOMException object.
+		
 		getAttributeNode(name)
 		This method returns a Attr object.
 		The name parameter is of type String.
+		
 		setAttributeNode(newAttr)
 		This method returns a Attr object.
 		The newAttr parameter is a Attr object.
 		This method can raise a DOMException object.
+		
 		removeAttributeNode(oldAttr)
 		This method returns a Attr object.
 		The oldAttr parameter is a Attr object.
 		This method can raise a DOMException object.
-		
-		getElementsByTagName(name)
-		This method returns a NodeList object.
-		The name parameter is of type String.
 		
 		getAttributeNS(namespaceURI, localName)
 		This method returns a String.

@@ -45,15 +45,16 @@ package com.ffsys.net.sax
 					<child><![CDATA[This is some character data]]></child>
 					<ui:button />
 				</nested>
+				<nested-sibling />
 			</object>;
 		}
 		
 		[Test]
 		public function saxParserText():void
 		{
-			var parser:SaxParser = new SaxParser();
-			var handler:SaxHandler = new SaxHandler();
-			parser.handlers.push( handler );
+			var parser:SaxParser = new SaxObjectParser();
+			//var handler:SaxHandler = new SaxHandler();
+			//parser.handlers.push( handler );
 			parser.parse( sample );
 		}
 	}

@@ -30,7 +30,7 @@ package com.ffsys.dom
 		*/
 		override public function get length():uint
 		{
-			return _children.length;
+			return children.length;
 		}
 		
 		/**
@@ -46,7 +46,7 @@ package com.ffsys.dom
 		*/
 		public function clear():void
 		{
-			_children.splice( 0, _children.length );
+			children.splice( 0, children.length );
 		}
 		
 		/**
@@ -81,5 +81,21 @@ package com.ffsys.dom
 		{
 			return "[object " + getClassName() + "(" + length + ")] " + children.join( "," );
 		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function getNextName( index:int ):String
+		{
+			return ( index + 1 ).toString();
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function getNextValue( index:int ):*
+		{
+			return children[ index - 1 ];
+		}		
 	}
 }

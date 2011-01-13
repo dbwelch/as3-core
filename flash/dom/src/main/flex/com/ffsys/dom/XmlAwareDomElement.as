@@ -131,6 +131,7 @@ package com.ffsys.dom
 		
 		public function set beanName( value:String ):void
 		{
+			trace("[SETTING BEAN NAME] XmlAwareDomElement::set beanName()", value );
 			_beanName = value;
 		}
 		
@@ -384,6 +385,7 @@ package com.ffsys.dom
 				return;
 			}
 			
+			trace("[SET PROP] XmlAwareDomElement::setProperty() this/name/value: ", this, name, value );
 			
 			/*
 			//very simple pluralization logic for element group access
@@ -410,6 +412,8 @@ package com.ffsys.dom
 				}else{
 					value = NodeList( this.source[ name ] );
 					value.children.push( node );
+					
+					trace("[ADDING TO EXISTING TAG LIST] XmlAwareDomElement::setProperty() this/node: ", this, node );
 				}
 			}
 
@@ -494,13 +498,7 @@ package com.ffsys.dom
 		*/
 		override flash_proxy function nextNameIndex( index:int ):int
 		{
-			//trace("CssElement::nextNameIndex()", index );
-			if( index < mappings.length )
-			{
-				return index + 1;
-			}
-
-			return 0;
+			return getNextNameIndex( index );
 		}
 
 		/**
@@ -508,18 +506,49 @@ package com.ffsys.dom
 		*/
 		override flash_proxy function nextName( index:int ):String
 		{
-			if( index <= mappings.length )
-			{
-				var map:ElementMap = ElementMap( mappings[ index - 1 ] );
-				return map.name;
-			}
-			return null;
+			return getNextName( index );
 		}
 
 		/**
 		*	@private	
 		*/
 		override flash_proxy function nextValue( index:int ):*
+		{
+			return getNextValue( index );
+		}
+		
+		/**
+		* 	Allows derived implementations to modify the
+		* 	iteration of this object.
+		*/
+		protected function getNextNameIndex( index:int ):int
+		{
+			if( index < length )
+			{
+				return index + 1;
+			}
+			return 0;			
+		}
+		
+		/**
+		* 	Allows derived implementations to modify the
+		* 	iteration of this object.
+		*/
+		protected function getNextName( index:int ):String
+		{
+			if( index <= mappings.length )
+			{
+				var map:ElementMap = ElementMap( mappings[ index - 1 ] );
+				return map.name;
+			}
+			return null;			
+		}
+		
+		/**
+		* 	Allows derived implementations to modify the
+		* 	iteration of this object.
+		*/
+		protected function getNextValue( index:int ):*
 		{
 			return ElementMap( mappings[ index - 1 ] ).value;
 		}

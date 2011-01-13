@@ -93,6 +93,14 @@ package com.ffsys.net.sax
 			}
 		}
 		
+		/**
+		* 	TODO
+		*/
+		public function toString():String
+		{
+			return "[object SaxToken#" + name ? name : type + "]";
+		}
+		
 		protected function processAttributes( x:XML ):void
 		{
 			var attrs:XMLList = x.@*;

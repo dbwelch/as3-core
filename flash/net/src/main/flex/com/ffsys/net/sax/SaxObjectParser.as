@@ -139,6 +139,8 @@ package com.ffsys.net.sax
 				}
 			}
 			
+			//trace("[SAX OBJECT PARSER BEGIN ELEMENT] SaxObjectParser::beginElement() root/parent/current: ", root, parent, current );
+			
 			super.beginElement( token );			
 		}		
 		
@@ -152,7 +154,7 @@ package com.ffsys.net.sax
 		*/
 		protected function shouldCreateInstance( token:SaxToken ):Boolean
 		{
-			return false;
+			return true;
 		}
 		
 		/**
@@ -167,14 +169,15 @@ package com.ffsys.net.sax
 		*/
 		protected function getElementInstance( token:SaxToken ):Object
 		{
-			return null;
-		}
+			return new Object();
+		}		
 		
 		/**
 		* 	@inheritDoc
 		*/
 		override public function endElement( token:SaxToken ):void
 		{		
+			trace("[END ELEMENT UPDATING PARENT REFERENCE] SaxObjectParser::endElement()", token, this.parent );
 			//leaving an element
 			//so update the current reference
 			//to point to the parent

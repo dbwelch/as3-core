@@ -17,7 +17,7 @@ package com.ffsys.net.sax
 		*/
 		public function beginDocument( token:SaxToken ):void
 		{
-			trace("[BEGIN DOCUMENT] SaxHandler::beginDocument()", token.name, token.type );
+			//trace("[BEGIN DOCUMENT] SaxHandler::beginDocument()", token.name, token.type );
 		}
 		
 		/**
@@ -33,9 +33,8 @@ package com.ffsys.net.sax
 		*/
 		public function beginElement( token:SaxToken ):void
 		{
-			trace("[START ELEMENT] SaxHandler::beginElement()", token.name, token.type );
+			//trace("[START ELEMENT] SaxHandler::beginElement()", token.name, token.type );
 		}
-		
 		
 		/**
 		* 	@inheritDoc
@@ -50,8 +49,16 @@ package com.ffsys.net.sax
 		*/
 		public function doWithProcessingInstruction( token:SaxToken ):void
 		{
-			trace("[PROCESSING-INSTRUCTION] SaxHandler::doWithProcessingInstruction()", token.name, token.type );
-		}	
+			//trace("[PROCESSING-INSTRUCTION] SaxHandler::doWithProcessingInstruction()", token.name, token.type );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function leaf( token:SaxToken ):void
+		{
+			//
+		}			
 		
 		/**
 		* 	@inheritDoc
@@ -74,7 +81,7 @@ package com.ffsys.net.sax
 		*/
 		public function endElement( token:SaxToken ):void
 		{
-			trace("[END ELEMENT] SaxHandler::endElement()", token.name, token.type );
+			//trace("[END ELEMENT] SaxHandler::endElement()", token.name, token.type );
 		}
 		
 		/**
@@ -82,7 +89,7 @@ package com.ffsys.net.sax
 		*/
 		public function endDocument( token:SaxToken ):void
 		{
-			trace("[END DOCUMENT] SaxHandler::endDocument()", token.name, token.type );
+			//trace("[END DOCUMENT] SaxHandler::endDocument()", token.name, token.type );
 		}
 	}
 }

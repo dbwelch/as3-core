@@ -31,7 +31,7 @@ package com.ffsys.dom
 				IDomXmlAware( current ).xml = token.xml;
 			}
 			
-			trace("[DOM SAX PARSER BEGIN ELEMENT] DomSaxParser::beginElement() root/current/parent: ", root, current, parent );			
+			trace("[DOM SAX PARSER BEGIN ELEMENT] DomSaxParser::beginElement() root/parent/current: " , root, parent, current);			
 			
 			var ancestor:Object = this.parent;
 			
@@ -54,11 +54,21 @@ package com.ffsys.dom
 			
 			//TODO: instantiate and assign visual composite where applicable
 			
+			//TODO: allow a document to do this when the createElement() method is called
 			if( current is Element )
 			{
 				document.registerElement( Element( current ) );
 			}
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function endElement( token:SaxToken ):void
+		{		
+			trace("[DOM SAX PARSER END ELEMENT] DomSaxParser::endElement() root/parent/current: " , root, parent, current);
+			super.endElement( token );
+		}		
 		
 		/**
 		* 	Invoked when parsing is complete.

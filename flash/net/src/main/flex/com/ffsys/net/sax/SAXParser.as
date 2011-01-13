@@ -336,10 +336,11 @@ package com.ffsys.net.sax {
 		/**
 		* 	@inheritDoc
 		*/
-		public function sibling( token:SaxToken, previous:SaxToken ):void
+		public function sibling( token:SaxToken, branch:SaxToken ):void
 		{
 			var methodName:String = "sibling";
-			notify( token, methodName, previous );
+			trace("[SIBLING] SaxParser::sibling() xml/token.parent/branch.parent: ", token.xml, token.parent, token.target );
+			notify( token, methodName, branch );
 		}
 		
 		/**
@@ -349,6 +350,15 @@ package com.ffsys.net.sax {
 		{
 			var methodName:String = "ascended";
 			notify( token, methodName );		
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function leaf( token:SaxToken ):void
+		{
+			var methodName:String = "leaf";
+			notify( token, methodName );			
 		}
 		
 		/**
@@ -447,6 +457,13 @@ package com.ffsys.net.sax {
 				descend = shouldTraverseElement( _token );
 			}
 			
+			//reached a leaf node
+			if( l == 0 && depth > 0 )
+			{
+				//trace("[LEAF] SaxParser::deserialize()", x );
+				leaf( _token );
+			}
+			
 			//only parse child elements if we are configued to
 			//traverse this element
 			if( descend )
@@ -458,8 +475,11 @@ package com.ffsys.net.sax {
 					descended( _token );
 				}
 				
-				var previous:SaxToken = _token;
-				for( ;i < l;i++ )
+				var previous:Object = null;
+				var branchToken:SaxToken = _token;
+				
+				//descend into child nodes
+				for( i = 0;i < l;i++ )
 				{
 					element = x.child( i );
 					if( element == null )
@@ -467,6 +487,16 @@ package com.ffsys.net.sax {
 						continue;
 					}
 					
+
+					if( i > 0 && previous != null )
+					{
+						if( element.nodeKind() == ELEMENT )
+						{
+							sibling( branchToken, null );
+						}
+					}
+					
+					//this branch allows us to deal with inline text nodes
 					if( element is XML )
 					{
 						deserialize( element as XML );
@@ -475,11 +505,14 @@ package com.ffsys.net.sax {
 						deserializeList( element as XMLList );
 					}
 					
-					sibling( _token, previous );
+					//next element sibling
+					if( element.nodeKind() == ELEMENT )
+					{
+						previous = element;
+						branchToken = _token;						
+					}
 				}
 			}
-			
-			//depth--;
 			
 			if( x.nodeKind() == ELEMENT )
 			{

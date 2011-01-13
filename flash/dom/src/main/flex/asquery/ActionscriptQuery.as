@@ -167,18 +167,18 @@ package asquery
 		*/
 		override protected function methodMissing( methodName:*, parameters:Array ):*
 		{
-			trace("ActionscriptQuery::methodMissing()", methodName, parameters );
+			//trace("ActionscriptQuery::methodMissing()", methodName, parameters );
 			
 			//check out matched elements for the method
 			var node:Node = null;
 			for each( node in children )
 			{
-				trace("ActionscriptQuery::methodMissing()", node );
+				//trace("ActionscriptQuery::methodMissing()", node );
 				if( node != null
 				 	&& node.hasOwnProperty( methodName )
 					&& node[ methodName ] is Function )
 				{
-					trace("[CALLING CHILD METHOD] ActionscriptQuery::methodMissing()");
+					//trace("[CALLING CHILD METHOD] ActionscriptQuery::methodMissing()");
 					node[ methodName ].apply( node, parameters );
 				}
 			}
@@ -221,7 +221,7 @@ package asquery
 			}else{
 				if( parts.length == 1 )
 				{
-					doFindElement( String( parts[ i ] ) );
+					doFindElement( String( parts[ i ] ), context );
 				}else
 				{
 					for( var i:int = 0;i < parts.length;i++ )
@@ -237,11 +237,7 @@ package asquery
 		*/
 		private function doFind( query:String ):void
 		{
-			var dom:Document = null;
-			for each( dom in doms )
-			{
-				trace("ActionscriptQuery::doFind()", dom, query );
-			}
+			//TODO
 		}
 		
 		/**
@@ -263,7 +259,7 @@ package asquery
 		/**
 		* 	@private
 		*/
-		private function doFindElement( query:String ):void
+		private function doFindElement( query:String, context:Element ):void
 		{
 			var identifier:Boolean = isIdentifier( query );
 			var className:Boolean = isClassName( query );
@@ -271,26 +267,33 @@ package asquery
 			
 			var candidate:String = query.replace( /^(#|\.)/, "" );
 			
-			var dom:Document = null;
-			var element:Element = null;
-			for each( dom in doms )
+			/*
+			trace("ActionscriptQuery::doFindElement() dom/query/identifier/className/tagName:",
+				context, query, identifier, className, tagName );
+			*/
+			
+			if( identifier )
 			{
-				if( identifier )
+				//trace("[FIND BY ID] ActionscriptQuery::doFindElement()", candidate );
+				addMatchedElement( context.getElementById( candidate ) );
+				//trace("[FIND BY ID AFTER] ActionscriptQuery::doFindElement()", length );					
+			}else if( className )
+			{
+				//trace("[FIND BY CLASS] ActionscriptQuery::doFindElement()", candidate );					
+				findElementsByClassName( candidate, context );
+				//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );					
+			}else if( tagName )
+			{
+				//always look on the document body for tag elements
+				if( context is Document
+				 	&& context.body is Body )
 				{
-					//trace("[FIND BY ID] ActionscriptQuery::doFindElement()", candidate );
-					addMatchedElement( dom.getElementById( candidate ) );
-					//trace("[FIND BY ID AFTER] ActionscriptQuery::doFindElement()", length );					
-				}else if( className )
-				{
-					//trace("[FIND BY CLASS] ActionscriptQuery::doFindElement()", candidate );					
-					findElementsByClassName( candidate, dom );
-					//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );					
+					context = context.body;
 				}
 				
-				/*
-				trace("ActionscriptQuery::doFindElement() dom/query/identifier/className/tagName:",
-					dom, query, identifier, className, tagName );
-				*/
+				trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, context.getElementsByTagName( candidate ) );					
+				addMatchedList( context.getElementsByTagName( candidate ) );
+				trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
 			}
 		}
 		
@@ -305,7 +308,25 @@ package asquery
 			{
 				addMatchedElement( element );
 			}
-		}		
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function addMatchedList(
+			list:NodeList ):void
+		{
+			trace("[ADDING LIST] ActionscriptQuery::addMatchedList()", list );
+			var node:Node = null;
+			for each( node in list )
+			{
+				if( node is Element )
+				{
+					trace("[ADDING LIST ELEMENT] ActionscriptQuery::addMatchedList()", node );
+					addMatchedElement( Element( node ) );
+				}
+			}
+		}
 		
 		/**
 		* 	@private
@@ -322,10 +343,10 @@ package asquery
 		* 	@private
 		*/
 		private function findElementsByClassName(
-			className:String, dom:Document ):void
+			className:String, context:Element ):void
 		{
 			var element:Element = null;
-			for each( element in dom.elements )
+			for each( element in context.elements )
 			{
 				if( element.hasClass( className ) )
 				{
