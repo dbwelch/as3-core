@@ -402,6 +402,8 @@ package com.ffsys.net.sax {
 					token.type = SaxToken.BLOCK;
 				}
 				
+				descend = shouldTraverseElement( _token );
+				
 				if( depth == 0 )
 				{
 					beginDocument( _token );
@@ -409,8 +411,6 @@ package com.ffsys.net.sax {
 				{
 					beginElement( _token );
 				}
-				
-				descend = shouldTraverseElement( _token );
 			}
 			
 			//reached a leaf node

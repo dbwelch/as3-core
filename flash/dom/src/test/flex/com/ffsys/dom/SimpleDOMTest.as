@@ -73,7 +73,7 @@ package com.ffsys.dom
 												title="This is a another link">Some more text</a>
 										</li>
 									</ul>
-									<ul>
+									<ul id="alternative-navigation">
 										<li>
 											<a id="test-anchor-alt1" href="http://google.com"
 												title="This is a link">Some text</a>
@@ -81,12 +81,12 @@ package com.ffsys.dom
 												title="This is a another link">Some more text</a>
 										</li>
 									</ul>
-									<p class="special-paragraph">
-										This is a paragraph of text for you to read.
+									<p id="test-paragraph" class="special-paragraph">
+										This is a paragraph of text for you to read with an <a id="inline-link" href="http://google.com">inline link</a> why not have <a id="inline-alternative-link" href="http://google.com">another link</a> just to be certain.
 									</p>
 								</div>
 							</div>
-						</div>				
+						</div>
 						
 						<div id="footer">
 							<!-- A special processing instruction that indicates
@@ -94,7 +94,7 @@ package com.ffsys.dom
 								excluded when the DOM is created -->
 							<?flash-dom-exclude ?>
 							<div>
-								<p>some content only for html renderings</p>
+								<p id="html-only-paragraph">some content only for html renderings</p>
 							</div>
 						</div>
 						<a id="anchor-outside-div">a link</a>
@@ -116,7 +116,6 @@ package com.ffsys.dom
 		[Test]
 		public function domTest():void
 		{
-			
 			//register an onload closure
 			$( function():void
 			{
@@ -149,7 +148,6 @@ package com.ffsys.dom
 			//this style of element access is supported but jquery
 			//style element access is preferred and recommended as
 			//it is more flexible as a DOM changes
-			
 			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].ul[ 0 ].li[ 0 ].a as NodeList;
 			Assert.assertNotNull( list );
 			Assert.assertEquals( 2, list.length );
@@ -169,11 +167,12 @@ package com.ffsys.dom
 			Assert.assertEquals( 5, elements.length );
 			
 			//match by regular expression test against element id
-			//elements = $( /^inner/ );
-			//Assert.assertEquals( 3, elements.length );
+			elements = $( /^inner/ );
+			Assert.assertEquals( 3, elements.length );
 			
 			//match by class expression
-			//elements = $( ".border" );
+			elements = $( ".border" );
+			Assert.assertEquals( 2, elements.length );
 			
 			//match by identifier chain
 			//elements = $( "#inner" ).find( "#inner-element-a" );
@@ -181,7 +180,7 @@ package com.ffsys.dom
 			
 			/*
 			//match by multiple selector
-			elements = $( "div,a" );
+			elements = $( "div, a" );
 			
 			trace("[MULTIPLE SELECTOR] SimpleDOMTest::domTest()", elements );
 			
@@ -197,9 +196,28 @@ package com.ffsys.dom
 				}, "a string", 10, { property: 1.67 } ).click();			
 			
 			
-			//match by class name selector and descendant selector
-			elements = $( "div ul li a" );
+			//match by descendant selector
+			elements = $( "#inner-element-b ul li a" );
+			Assert.assertEquals( 4, elements.length );
+			Assert.assertTrue( elements[ 0 ] is AnchorElement );
+			Assert.assertTrue( elements[ 1 ] is AnchorElement );
+			Assert.assertTrue( elements[ 2 ] is AnchorElement );
+			Assert.assertTrue( elements[ 3 ] is AnchorElement );
 
+			//match by class name selector and descendant selector
+			elements = $( ".special-paragraph a" );
+			Assert.assertEquals( 2, elements.length );
+			Assert.assertTrue( elements[ 0 ] is AnchorElement );
+			Assert.assertTrue( elements[ 1 ] is AnchorElement );
+			
+			//match by identifier and descendant selector
+			elements = $( "#alternative-navigation li a" );
+			Assert.assertEquals( 2, elements.length );
+			Assert.assertTrue( elements[ 0 ] is AnchorElement );
+			Assert.assertTrue( elements[ 1 ] is AnchorElement );
+			
+			elements = $( "p" );
+			
 			trace("[DESCENDANT] SimpleDOMTest::domTest()", elements );
 			
 			/*

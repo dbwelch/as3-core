@@ -78,16 +78,22 @@ package com.ffsys.dom
 		public function concat( ...parameters ):void
 		{	
 			var param:Object = null;
+			var child:Node = null;
 			for( var i:int = 0;i < parameters.length;i++ )
 			{
 				param = parameters[ i ];
-				if( param is Node )
+				if( param is Node
+					&& children.indexOf( param ) == -1 )
 				{
 					children.push( Node( param ) );
 				}else if( param is NodeList
 					&& NodeList( param ).length > 0 )
 				{
-					children = children.concat( NodeList( param ).children );
+					//children = children.concat( NodeList( param ).children );
+					for each( child in NodeList( param ) )
+					{
+						concat( child );
+					}
 				}
 			}
 		}

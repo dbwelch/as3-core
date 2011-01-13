@@ -26,6 +26,20 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
+		override public function shouldTraverseElement( token:SaxToken ):Boolean
+		{
+			if( _excludeNextElement === true )
+			{
+				//trace("[SKIPPING EXCLUDED ELEMENT] DomSaxParser::beginElement()", token );
+				return false;
+			}
+			
+			return super.shouldTraverseElement( token );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function doWithProcessingInstruction( token:SaxToken ):void
 		{
 			//trace("[PROCESSING-INSTRUCTION] SaxParser::doWithProcessingInstruction()", token.name, token.type );

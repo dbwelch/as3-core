@@ -49,7 +49,7 @@ package com.ffsys.dom
 		*/
 		public function hasClass( name:String ):Boolean
 		{
-			return new RegExp( " " + name + " " ).test( classNames );
+			return new RegExp( " ?" + name + " ?" ).test( classNames );
 		}
 		
 		/**
@@ -204,7 +204,34 @@ package com.ffsys.dom
 			{
 				return new NodeList();
 			}
+			
+			/*
+			if( this[ tagName ] is NodeList )
+			{
+				list = NodeList( this[ tagName ] );
+			}
+			*/
+			
 			return this[ tagName ] as NodeList;
+		}
+		
+		public function getDescendantsByTagName( tagName:String ):NodeList
+		{
+			var list:NodeList = new NodeList();	
+			
+			if( this[ tagName ] is NodeList )
+			{
+				list.concat( NodeList( this[ tagName ] ) );
+			}
+
+			//append child element matches
+			var elems:Vector.<Element> = this.elements;
+			var child:Element = null;
+			for each( child in elems )
+			{
+				list.concat( child.getDescendantsByTagName( tagName ) );
+			}
+			return list;
 		}
 		
 		/*

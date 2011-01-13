@@ -393,7 +393,7 @@ package asquery
 		/**
 		* 	@private
 		*/
-		internal function doFindElement( query:String, context:Element ):void
+		internal function doFindElement( query:String, context:Element, descendants:Boolean = true ):void
 		{
 			var identifier:Boolean = isIdentifier( query );
 			var className:Boolean = isClassName( query );
@@ -415,18 +415,24 @@ package asquery
 			
 			if( identifier )
 			{
-				//trace("[FIND BY ID] ActionscriptQuery::doFindElement()", candidate );
+				trace("[FIND BY ID] ActionscriptQuery::doFindElement()", context, candidate );
 				addMatchedElement( context.getElementById( candidate ) );
-				//trace("[FIND BY ID AFTER] ActionscriptQuery::doFindElement()", length );					
+				trace("[FIND BY ID AFTER] ActionscriptQuery::doFindElement()", length );					
 			}else if( className )
 			{
-				//trace("[FIND BY CLASS] ActionscriptQuery::doFindElement()", candidate );					
+				//trace("[FIND BY CLASS] ActionscriptQuery::doFindElement()", candidate, context );					
 				findElementsByClassName( candidate, context );
-				//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );					
+				//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );
 			}else if( tagName )
 			{
-				trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, context.getElementsByTagName( candidate ) );					
-				addMatchedList( context.getElementsByTagName( candidate ) );
+				trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, context.getElementsByTagName( candidate ) );
+				
+				if( !descendants )
+				{				
+					addMatchedList( context.getElementsByTagName( candidate ) );
+				}else{
+					addMatchedList( context.getDescendantsByTagName( candidate ) );
+				}
 				trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
 			}
 		}
@@ -447,8 +453,13 @@ package asquery
 			{
 				part = String( parts[ i ] );
 				tmp.query = part;
+				//tmp.clear();
 				//find the matches for each descendant element
+				//tmp.doFindElement( part );
+				
 				tmp.find( part );
+				
+				trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp.length );
 				
 				if( tmp.length == 0 )
 				{
@@ -459,10 +470,10 @@ package asquery
 				tmp.setContexts( tmp );
 			}
 			
+			trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp );			
+			
 			//update our matches to the temp
 			addMatchedList( tmp );
-			
-			trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", this );
 		}
 		
 		/**
@@ -516,6 +527,7 @@ package asquery
 			var element:Element = null;
 			for each( element in context.elements )
 			{
+				//trace("ActionscriptQuery::findElementsByClassName()", className, context, element, element.hasClass( className ), element.classes );
 				if( element.hasClass( className ) )
 				{
 					addMatchedElement( element );
