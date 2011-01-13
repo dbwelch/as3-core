@@ -61,7 +61,9 @@ package com.ffsys.dom
 					</head>
 					<body id="body">
 						<!-- A COMMENT TO READ -->
+						<h1>My unit test document</h1>
 						<div id="outer" class="single">
+							<h3>Some markup to perform tests on</h3>
 							<div id="inner" class="border background">
 								<div id="inner-element-a" class="border red" />
 								<div id="inner-element-b">
@@ -82,7 +84,10 @@ package com.ffsys.dom
 										</li>
 									</ul>
 									<p id="test-paragraph" class="special-paragraph">
-										This is a paragraph of text for you to read with an <a id="inline-link" href="http://google.com">inline link</a> why not have <a id="inline-alternative-link" href="http://google.com">another link</a> just to be certain.
+										This <em>is a paragraph</em> of text for you to read with an <a id="inline-link" href="http://google.com">inline link</a> <strong>why not</strong> have <a id="inline-alternative-link" href="http://google.com">another link</a> just to be certain.
+									</p>
+									<p>
+										another paragraph for you to not bother reading.
 									</p>
 								</div>
 							</div>
@@ -90,10 +95,10 @@ package com.ffsys.dom
 						
 						<div id="footer">
 							<!-- A special processing instruction that indicates
-								that the next sibling element should be completely
+								that the next sibling element should be
 								excluded when the DOM is created -->
 							<?flash-dom-exclude ?>
-							<div>
+							<div id="html-only">
 								<p id="html-only-paragraph">some content only for html renderings</p>
 							</div>
 						</div>
@@ -144,6 +149,12 @@ package com.ffsys.dom
 			//should only have one registered DOM
 			Assert.assertEquals( 1, $().doms.length );
 			
+			//verify processing instruction to omit DOM elements
+			Assert.assertNull( document.getElementById( "html-only" ) );
+			Assert.assertNull( document.getElementById( "html-only-paragraph" ) );
+			//but the parent element should still exist in the DOM
+			Assert.assertTrue( document.getElementById( "footer" ) is DivElement );
+			
 			//assertions on dot style node list access
 			//this style of element access is supported but jquery
 			//style element access is preferred and recommended as
@@ -170,17 +181,15 @@ package com.ffsys.dom
 			elements = $( /^inner/ );
 			Assert.assertEquals( 3, elements.length );
 			
-			//match by class expression
-			elements = $( ".border" );
-			Assert.assertEquals( 2, elements.length );
+			//match by mutiple class expression
+			elements = $( ".border, .single" );
+			Assert.assertEquals( 3, elements.length );
 			
 			//match by identifier chain
 			//elements = $( "#inner" ).find( "#inner-element-a" );
 			//Assert.assertEquals( 1, elements.length );
 			
 			/*
-			//match by multiple selector
-			elements = $( "div, a" );
 			
 			trace("[MULTIPLE SELECTOR] SimpleDOMTest::domTest()", elements );
 			
@@ -193,8 +202,7 @@ package com.ffsys.dom
 				function( e:Event, ...parameters ):*
 				{
 					trace("[CLICK INVOKED]", this, this.id, e, parameters );
-				}, "a string", 10, { property: 1.67 } ).click();			
-			
+				}, "a string", 10, { property: 1.67 } ).click();
 			
 			//match by descendant selector
 			elements = $( "#inner-element-b ul li a" );
@@ -216,9 +224,17 @@ package com.ffsys.dom
 			Assert.assertTrue( elements[ 0 ] is AnchorElement );
 			Assert.assertTrue( elements[ 1 ] is AnchorElement );
 			
-			elements = $( "p" );
+			elements = $( "#inner-element-b p" );
+			Assert.assertEquals( 2, elements.length );
+			Assert.assertTrue( elements[ 0 ] is ParagraphElement );
+			Assert.assertTrue( elements[ 1 ] is ParagraphElement );
 			
 			trace("[DESCENDANT] SimpleDOMTest::domTest()", elements );
+			
+			//match by multiple selector
+			elements = $( "h1, em, strong" );
+			
+			trace("[MULTIPLE INLINE] SimpleDOMTest::domTest()", elements );	
 			
 			/*
 

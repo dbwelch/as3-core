@@ -84,21 +84,6 @@ package com.ffsys.dom.xhtml
 			descriptor.instanceClass = ParagraphElement;
 			beans.addBeanDescriptor( descriptor );
 
-			/*
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.HEADING_1 );
-			descriptor.instanceClass = Heading;
-			descriptor.names.push(
-				DomIdentifiers.HEADING_2,
-				DomIdentifiers.HEADING_3,
-				DomIdentifiers.HEADING_4,
-				DomIdentifiers.HEADING_5,
-				DomIdentifiers.HEADING_6 );
-			beans.addBeanDescriptor( descriptor );
-			*/
-			
-			//TODO: a custom anchor button
-			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.ANCHOR );
 			descriptor.instanceClass = AnchorElement;
@@ -117,23 +102,26 @@ package com.ffsys.dom.xhtml
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.LI );
 			descriptor.instanceClass = ListItemElement;
-			beans.addBeanDescriptor( descriptor );					
+			beans.addBeanDescriptor( descriptor );
 			
-			/*
 			descriptor = new BeanDescriptor(
-				DomIdentifiers.DIV );
-			descriptor.instanceClass = BlockElement;
-			beans.addBeanDescriptor( descriptor );
-
+				DomIdentifiers.STRONG );
+			descriptor.instanceClass = StrongElement;
+			beans.addBeanDescriptor( descriptor );								
+			
 			descriptor = new BeanDescriptor(
-				DomIdentifiers.PARAGRAPH );
-			descriptor.instanceClass = Paragraph;
+				DomIdentifiers.EM );
+			descriptor.instanceClass = EmElement;
 			beans.addBeanDescriptor( descriptor );
-
-			//TODO: move to a bean name alias implementation
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.SPAN );
+			descriptor.instanceClass = SpanElement;
+			beans.addBeanDescriptor( descriptor );
+			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.HEADING_1 );
-			descriptor.instanceClass = Heading;
+			descriptor.instanceClass = HeadingElement;
 			descriptor.names.push(
 				DomIdentifiers.HEADING_2,
 				DomIdentifiers.HEADING_3,
@@ -141,13 +129,6 @@ package com.ffsys.dom.xhtml
 				DomIdentifiers.HEADING_5,
 				DomIdentifiers.HEADING_6 );
 			beans.addBeanDescriptor( descriptor );
-
-			//TODO: a custom anchor button
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.ANCHOR );
-			descriptor.instanceClass = TextButton;
-			beans.addBeanDescriptor( descriptor );
-			*/
 		}
 	}
 }

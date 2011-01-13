@@ -316,6 +316,11 @@ package com.ffsys.dom
 		*/
 		public static const STRONG:String = "strong";
 		
+		/**
+		* 	Represents the span element.
+		*/
+		public static const SPAN:String = "span";
+		
 		//TODO: complete the inline elements
 		
 		//ATTRIBUTES

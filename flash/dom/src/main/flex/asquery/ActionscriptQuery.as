@@ -368,9 +368,13 @@ package asquery
 		*/
 		private function doFind( parts:Array, context:Element ):void
 		{
+			var part:String = null;
 			for( var i:int = 0;i < parts.length;i++ )
 			{
-				doFindElement( parts[ i ], context );
+				part = parts[ i ];
+				part = part.replace( /^\s+/, "" );
+				part = part.replace( /\s+$/, "" );
+				doFindElement( part, context );
 			}
 		}
 		
