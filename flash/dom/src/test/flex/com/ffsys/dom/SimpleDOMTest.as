@@ -40,13 +40,28 @@ package com.ffsys.dom
 								<div id="inner-element-a" class="border red" />
 								<div id="inner-element-b">
 									<p>
-										<a id="test-anchor" href="http://google.com" title="This is a link">Some text</a>
-										<a id="another-anchor" href="http://google.com" title="This is a another link">Some more text</a>
+										<ul>
+											<li>
+												<a id="test-anchor" href="http://google.com"
+													title="This is a link">Some text</a>
+												<a id="another-anchor" href="http://google.com"
+													title="This is a another link">Some more text</a>
+											</li>
+										</ul>
 									</p>
 								</div>
 							</div>
+						</div>				
+						
+						<div id="footer">
+							<!-- A special processing instruction that indicates
+								that the next sibling element should be completely
+								excluded when the DOM is created -->
+							<?flash-dom-exclude ?>
+							<div>
+								<p>some content only for html renderings</p>
+							</div>
 						</div>
-						<div id="another"><![CDATA[some cdata copy for you]]></div>
 					</body>
 				</html>;
 			x.@[ 'xmlns' ] = namespaceURI;
@@ -98,7 +113,9 @@ package com.ffsys.dom
 			//this style of element access is supported but jquery
 			//style element access is preferred and recommended as
 			//it is more flexible as a DOM changes
-			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].a as NodeList;
+			
+			trace("[UL] SimpleDOMTest::domTest()", document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].ul );
+			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].ul[ 0 ].li[ 0 ].a as NodeList;
 			Assert.assertNotNull( list );
 			Assert.assertEquals( 2, list.length );
 			Assert.assertTrue( list[ 0 ] is AnchorElement );
@@ -127,6 +144,7 @@ package com.ffsys.dom
 			//elements = $( "#inner" ).find( "#inner-element-a" );
 			//Assert.assertEquals( 1, elements.length );
 			
+			/*
 			//match by multiple selector
 			elements = $( "div,a" );
 			
@@ -134,13 +152,20 @@ package com.ffsys.dom
 			
 			$( document.body ).addClass( "test-css-class" );
 			
+			trace("SimpleDOMTest::domTest()", document.body.classNames );
+			*/
+			
 			$( "a" ).click(
 				function( e:Event, ...parameters ):*
 				{
 					trace("[CLICK INVOKED]", this, this.id, e, parameters );
-				}, "a string", 10, { property: 1.67 } ).click();
+				}, "a string", 10, { property: 1.67 } ).click();			
 			
-			trace("SimpleDOMTest::domTest()", document.body.classNames );
+			
+			//match by descendant
+			elements = $( "div a" );
+
+			trace("[DESCENDANT] SimpleDOMTest::domTest()", elements );
 			
 			/*
 

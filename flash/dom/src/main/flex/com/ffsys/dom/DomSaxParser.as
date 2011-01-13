@@ -7,7 +7,11 @@ package com.ffsys.dom
 
 	public class DomSaxParser extends BeanSaxParser
 	{
+		public static const EXCLUSION_PROCESSING_INSTRUCTION:String = "flash-dom-exclude";
+		
 		private var _dom:Document;
+		
+		private var _excludeNextElement:Boolean = false;
 		
 		/**
 		* 	Creates a <code>DomSaxParser</code> instance.
@@ -17,11 +21,36 @@ package com.ffsys.dom
 			super();
 		}
 		
+		//<?html ?>
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function doWithProcessingInstruction( token:SaxToken ):void
+		{
+			//trace("[PROCESSING-INSTRUCTION] SaxParser::doWithProcessingInstruction()", token.name, token.type );
+			
+			if( token.name == EXCLUSION_PROCESSING_INSTRUCTION )
+			{
+				//trace("[PROCESSING-INSTRUCTION - FOUND HTML ONLY ELEMENT] SaxParser::doWithProcessingInstruction()", token.name, token.type );	
+				_excludeNextElement = true;			
+			}
+			
+			super.doWithProcessingInstruction( token );
+		}		
+		
 		/**
 		* 	@inheritDoc
 		*/
 		override public function beginElement( token:SaxToken ):void
 		{
+			if( _excludeNextElement === true )
+			{
+				//trace("[SKIPPING EXCLUDED ELEMENT] DomSaxParser::beginElement()", token );
+				_excludeNextElement = false;
+				return;
+			}
+			
 			super.beginElement( token );
 			
 			var document:Document = Document( this.root );

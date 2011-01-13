@@ -3,23 +3,23 @@ package com.ffsys.dom.xhtml
 	import com.ffsys.dom.*;
 	
 	/**
-	*	Represents an anchor, the <code>a</code> element.
+	*	Represents a list item, the <code>li</code> element.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  13.01.2011
+	*	@since  14.01.2011
 	*/
-	dynamic public class AnchorElement extends InlineElement
+	dynamic public class ListItemElement extends InlineElement
 	{
 		/**
-		* 	Creates a <code>AnchorElement</code> instance.
+		* 	Creates a <code>ListItemElement</code> instance.
 		* 
 		* 	@param xml An <code>XML</code> fragment that
 		* 	defines the element.
 		*/
-		public function AnchorElement( xml:XML = null )
+		public function ListItemElement( xml:XML = null )
 		{
 			super( xml );
 		}

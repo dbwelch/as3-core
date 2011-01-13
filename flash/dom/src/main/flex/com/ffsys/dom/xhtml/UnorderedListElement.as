@@ -3,23 +3,23 @@ package com.ffsys.dom.xhtml
 	import com.ffsys.dom.*;
 	
 	/**
-	*	Represents an anchor, the <code>a</code> element.
+	*	Represents an unordered list, the <code>ul</code> element.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  13.01.2011
+	*	@since  14.01.2011
 	*/
-	dynamic public class AnchorElement extends InlineElement
+	dynamic public class UnorderedListElement extends BlockElement
 	{
 		/**
-		* 	Creates a <code>AnchorElement</code> instance.
+		* 	Creates a <code>UnorderedListElement</code> instance.
 		* 
 		* 	@param xml An <code>XML</code> fragment that
 		* 	defines the element.
 		*/
-		public function AnchorElement( xml:XML = null )
+		public function UnorderedListElement( xml:XML = null )
 		{
 			super( xml );
 		}

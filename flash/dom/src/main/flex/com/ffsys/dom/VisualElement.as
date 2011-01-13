@@ -38,7 +38,7 @@ package com.ffsys.dom
 		{
 			_visual = value;
 			
-			trace("VisualElement::set visual()", this );
+			//trace("VisualElement::set visual()", this );
 			
 			if( _visual != null )
 			{

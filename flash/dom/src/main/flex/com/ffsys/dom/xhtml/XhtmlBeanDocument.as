@@ -83,10 +83,26 @@ package com.ffsys.dom.xhtml
 			*/
 			
 			//TODO: a custom anchor button
+			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.ANCHOR );
 			descriptor.instanceClass = AnchorElement;
-			beans.addBeanDescriptor( descriptor );			
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.UL );
+			descriptor.instanceClass = UnorderedListElement;
+			beans.addBeanDescriptor( descriptor );
+
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.OL );
+			descriptor.instanceClass = OrderedListElement;
+			beans.addBeanDescriptor( descriptor );	
+
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.LI );
+			descriptor.instanceClass = ListItemElement;
+			beans.addBeanDescriptor( descriptor );					
 			
 			/*
 			descriptor = new BeanDescriptor(
@@ -115,21 +131,6 @@ package com.ffsys.dom.xhtml
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.ANCHOR );
 			descriptor.instanceClass = TextButton;
-			beans.addBeanDescriptor( descriptor );
-
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.UL );
-			descriptor.instanceClass = UnorderedList;
-			beans.addBeanDescriptor( descriptor );
-
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.OL );
-			descriptor.instanceClass = OrderedList;
-			beans.addBeanDescriptor( descriptor );	
-
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.LI );
-			descriptor.instanceClass = ListItem;
 			beans.addBeanDescriptor( descriptor );
 			*/
 		}
