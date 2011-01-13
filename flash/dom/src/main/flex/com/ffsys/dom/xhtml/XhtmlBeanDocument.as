@@ -30,7 +30,7 @@ package com.ffsys.dom.xhtml
 			super();
 			this.id  = NAME;
 			this.locked = false;
-			this.policy = BeanCreationPolicy.MERGE;			
+			this.policy = BeanCreationPolicy.MERGE;
 			doWithBeans( this );
 		}
 		
@@ -48,7 +48,8 @@ package com.ffsys.dom.xhtml
 				DomIdentifiers.DOCUMENT );
 			descriptor.instanceClass = XhtmlDocument;
 			beans.addBeanDescriptor( descriptor );
-
+			
+			//HEAD
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.HEAD );
 			descriptor.instanceClass = Head;
@@ -69,24 +70,26 @@ package com.ffsys.dom.xhtml
 			descriptor.instanceClass = LinkElement;
 			beans.addBeanDescriptor( descriptor );
 
+			//BODY
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.BODY );
 			descriptor.instanceClass = Body;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
-				DomIdentifiers.DIV );
-			descriptor.instanceClass = DivElement;
-			beans.addBeanDescriptor( descriptor );
+				DomIdentifiers.HEADING_1 );
+			descriptor.instanceClass = HeadingElement;
+			descriptor.names.push(
+				DomIdentifiers.HEADING_2,
+				DomIdentifiers.HEADING_3,
+				DomIdentifiers.HEADING_4,
+				DomIdentifiers.HEADING_5,
+				DomIdentifiers.HEADING_6 );
+			beans.addBeanDescriptor( descriptor );			
 			
 			descriptor = new BeanDescriptor(
-				DomIdentifiers.PARAGRAPH );
-			descriptor.instanceClass = ParagraphElement;
-			beans.addBeanDescriptor( descriptor );
-
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.ANCHOR );
-			descriptor.instanceClass = AnchorElement;
+				DomIdentifiers.DIV );
+			descriptor.instanceClass = DivElement;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
@@ -105,6 +108,16 @@ package com.ffsys.dom.xhtml
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				DomIdentifiers.PARAGRAPH );
+			descriptor.instanceClass = ParagraphElement;
+			beans.addBeanDescriptor( descriptor );
+
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.ANCHOR );
+			descriptor.instanceClass = AnchorElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				DomIdentifiers.STRONG );
 			descriptor.instanceClass = StrongElement;
 			beans.addBeanDescriptor( descriptor );								
@@ -117,17 +130,6 @@ package com.ffsys.dom.xhtml
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.SPAN );
 			descriptor.instanceClass = SpanElement;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.HEADING_1 );
-			descriptor.instanceClass = HeadingElement;
-			descriptor.names.push(
-				DomIdentifiers.HEADING_2,
-				DomIdentifiers.HEADING_3,
-				DomIdentifiers.HEADING_4,
-				DomIdentifiers.HEADING_5,
-				DomIdentifiers.HEADING_6 );
 			beans.addBeanDescriptor( descriptor );
 		}
 	}

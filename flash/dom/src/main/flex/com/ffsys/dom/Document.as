@@ -17,6 +17,9 @@ package com.ffsys.dom
 		private var _identifiers:Object = new Object();
 		private var _tags:Object = new Object();
 		
+		private var _doctype:DocumentType;
+		private var _implementation:DOMImplementation;
+		
 		/**
 		* 	Creates a <code>Document</code> instance.
 		*/
@@ -46,32 +49,6 @@ package com.ffsys.dom
 				_elements = new Vector.<Element>();
 			}
 			return _elements;
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/	
-		//TODO: deprecate in favour of $( /^match/ )
-		public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
-		{
-			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();
-			if( re != null )
-			{
-				var id:String = null;
-				var display:DisplayObject = null;
-				for( id in _identifiers )
-				{
-					if( re.test( id ) )
-					{
-						display = _identifiers[ id ] as DisplayObject;
-						if( display != null )
-						{
-							output.push( display );
-						}
-					}
-				}
-			}
-			return output;
 		}
 		
 		/**
@@ -93,10 +70,9 @@ package com.ffsys.dom
 		/**
 		* 	The document element.
 		*/
-		public function get documentElement():Body
+		public function get documentElement():Element
 		{
-			//TODO
-			return null;
+			return this;
 		}
 		
 		/**
@@ -127,6 +103,38 @@ package com.ffsys.dom
 			return _tags[ tagName ];
 		}
 		
+		/**
+		* 	The document type for this document.
+		*/
+		public function get doctype():DocumentType
+		{
+			return _doctype;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setDocumentType( doctype:DocumentType ):void
+		{
+			_doctype = doctype;
+		}
+		
+		/**
+		* 	The implementation that created this document.
+		*/
+		public function get implementation():DOMImplementation
+		{
+			return _implementation;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setImplementation( implementation:DOMImplementation ):void
+		{
+			_implementation = implementation;
+		}
+		
 				/*
 
 		Object Document
@@ -141,6 +149,7 @@ package com.ffsys.dom
 		
 		documentElement
 		This read-only property is a Element object.
+		
 		The Document object has the following methods:
 		
 		createElement(tagName)
@@ -257,9 +266,6 @@ package com.ffsys.dom
 					}
 					_tags[ nm ].children.push( element );
 				}
-				
-				//TODO: store elements by tag name
-				//this[  ]
 			}
 		}
 	}

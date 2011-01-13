@@ -26,11 +26,20 @@ package com.ffsys.dom
 			XML.prettyIndent = 0;
 			XML.prettyPrinting = false;					
 		}
+		
+		/*
+		
+			<!DOCTYPE html PUBLIC 
+				"-//W3C//DTD XHTML Basic 1.1//EN"
+				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+		
+		*/
 
-		private function getTestDocument( namespaceURI:String, qualifiedName:String ):XML
+		private function getTestDocument():XML
 		{
 			var x:XML =
-				<html id="document">
+				<html id="document" xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
 					<head>
 						<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 						<title>Example test document</title>
@@ -105,9 +114,6 @@ package com.ffsys.dom
 						<a id="anchor-outside-div">a link</a>
 					</body>
 				</html>;
-			x.@[ 'xmlns' ] = namespaceURI;
-			x.@[ 'xml:lang' ] = "en";
-			x.setName( qualifiedName );
 			return x;
 		}
 		
@@ -121,6 +127,8 @@ package com.ffsys.dom
 		[Test]
 		public function domTest():void
 		{
+			var document:Document = null;
+			
 			//register an onload closure
 			$( function():void
 			{
@@ -128,22 +136,21 @@ package com.ffsys.dom
 				trace("[PRIMARY DOCUMENT] SimpleDOMTest::domTest()", $().document );
 			} );
 			
-			var source:XML = getTestDocument( "http://www.w3.org/1999/xhtml", "html" );
+			/*
+			var source:XML = getTestDocument();
 			var parser:DomSaxParser = new DomSaxParser();
 			parser.document = new XhtmlBeanDocument();
 			parser.parse( source );
-
-			/*
-			var impl:DOMImplementation = new DOMImplementation();
-			var type:DocumentType = impl.getXhtmlDocumentType();
-			var document:Document = impl.createDocument( "http://www.w3.org/1999/xhtml", "html", type );
-			
-			trace("SimpleDOMTest::domTest()", document, document.head, document.body );
-			
-			var elements:Object = $( ".links" );
 			*/
 			
-			var document:Document = parser.dom;
+			var impl:DOMImplementation = new DOMImplementation();
+			document = impl.parse( getTestDocument() );
+			
+			//trace("SimpleDOMTest::domTest()", document.xml, document.xml.@["xml:lang"] );
+			
+			//return;
+			
+			//document = parser.dom;
 			var elements:NodeList = null;
 			
 			//should only have one registered DOM
@@ -153,6 +160,9 @@ package com.ffsys.dom
 			Assert.assertNull( document.getElementById( "html-only" ) );
 			Assert.assertNull( document.getElementById( "html-only-paragraph" ) );
 			//but the parent element should still exist in the DOM
+			
+			trace("SimpleDOMTest::domTest() [GOT FOOTER]", document.getElementById( "footer" ) );
+			
 			Assert.assertTrue( document.getElementById( "footer" ) is DivElement );
 			
 			//assertions on dot style node list access

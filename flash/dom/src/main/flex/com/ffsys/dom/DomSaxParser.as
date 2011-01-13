@@ -21,7 +21,33 @@ package com.ffsys.dom
 			super();
 		}
 		
-		//<?html ?>
+		/**
+		* 	@inheritDoc
+		*/
+		override public function beginDocument( token:SaxToken ):void
+		{
+			//treat document elements like any normal element
+			if( root == null )
+			{
+				super.beginDocument( token );
+			}
+			
+			if( root != null )
+			{
+				_dom = Document( this.root );
+			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function endDocument( token:SaxToken ):void
+		{
+			if( root == null )
+			{
+				super.endDocument( token );
+			}
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -30,7 +56,7 @@ package com.ffsys.dom
 		{
 			if( _excludeNextElement === true )
 			{
-				//trace("[SKIPPING EXCLUDED ELEMENT] DomSaxParser::beginElement()", token );
+				//trace("[SKIPPING EXCLUDED ELEMENT] DomSaxParser::beginElement()", token, token.target );
 				return false;
 			}
 			
@@ -74,7 +100,7 @@ package com.ffsys.dom
 				IDomXmlAware( current ).xml = token.xml;
 			}
 			
-			trace("[DOM SAX PARSER BEGIN ELEMENT] DomSaxParser::beginElement() root/parent/current: " , root, parent, current);			
+			//trace("[DOM SAX PARSER BEGIN ELEMENT] DomSaxParser::beginElement() root/parent/current: " , root, parent, current);			
 			
 			var ancestor:Object = this.parent;
 			
@@ -118,12 +144,10 @@ package com.ffsys.dom
 		*/
 		override protected function complete():void
 		{
-			_dom = Document( this.root );
-			
 			//register the DOM with asquery
-			$().onload( _dom );
+			$().onload( dom );
 			
-			trace("[DOM COMPLETE] DomSaxParser::complete()", ActionscriptQuery.doms );
+			//trace("[DOM COMPLETE] DomSaxParser::complete()", ActionscriptQuery.doms );
 		}
 		
 		/**

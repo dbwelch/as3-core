@@ -29,12 +29,26 @@ package com.ffsys.ioc {
 		*/
 		protected var _document:IBeanDocument;
 		
+		private var _children:Vector.<IBeanDocument>;
+		
 		/**
 		*	Creates a <code>BeanManager</code> instance.
 		*/
 		public function BeanManager()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get documents():Vector.<IBeanDocument>
+		{
+			if( _children == null )
+			{
+				_children = new Vector.<IBeanDocument>();
+			}
+			return _children;
 		}
 		
 		/**

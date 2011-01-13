@@ -27,6 +27,14 @@ package com.ffsys.ioc {
 				IDestroy,
 				ILoaderQueue,
 				IEventDispatcher {
+					
+
+		/**
+		* 	A list of other bean documents other than
+		* 	the primary document associated with this
+		* 	bean manager.
+		*/
+		function get documents():Vector.<IBeanDocument>;
 		
 		/**
 		* 	The document used to manage loaded bean definitions.

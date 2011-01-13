@@ -152,6 +152,7 @@ package com.ffsys.dom
 			}
 			
 			//TODO: handle registering event attributes
+			
 		}
 		
 		/**
@@ -177,6 +178,23 @@ package com.ffsys.dom
 			{
 				delete xml.@[ name ];
 			}
+		}
+		
+		/*
+		setAttributeNS(namespaceURI, qualifiedName, value)
+		This method has no return value.
+		The namespaceURI parameter is of type String.
+		The qualifiedName parameter is of type String.
+		The value parameter is of type String.
+		This method can raise a DOMException object.
+		*/
+		
+		public function setAttributeNS(
+			namespaceURI:String, qualifiedName:String, value:String ):void
+		{
+			var qn:QName = new QName( namespaceURI, qualifiedName );
+			xml.@[ qn ] = value;
+			trace("[SET ATTRIBUTE NS] Element::setAttributeNS()", xml.@[ qn ], qn.localName, qn.uri );
 		}
 		
 		/**
@@ -255,6 +273,7 @@ package com.ffsys.dom
 		The name parameter is of type String.
 		The value parameter is of type String.
 		This method can raise a DOMException object.
+		
 		removeAttribute(name)
 		
 		This method has no return value.
@@ -338,15 +357,35 @@ package com.ffsys.dom
 				
 				var attrs:XMLList = node.@*;
 				var attr:XML = null;
-				var name:String = null;
-				var value:String = null;
-				for each( attr in attrs )
+				var name:QName = null;
+				var value:String = null;			
+				
+				var namespaces:XMLList = node.attributes();
+				for each( attr in namespaces )
+				{
+					//trace("[GOT NAMESPACE ATTRIBUTE] Element::doWithAttributes()", attr );
+					name = attr.name();
+					value = attr.toString();
+					trace("Element::doWithAttributes()", name, value, name is QName, name.localName, name.uri );
+					
+					//no qualified name
+					if( !name.uri )
+					{
+						target.setAttribute( name.localName, value );
+					}else{
+						target.setAttributeNS( name.uri, name.localName, value );
+					}
+				}
+				
+				/*
+				for each( attr in node.attributes() )
 				{
 					name = attr.name();
 					value = node.@[ name ];
-					//trace("Element::set xml()", name, value );
+					trace("Element::doWithAttributes()", name, value, value is Namespace, value is QName );
 					target.setAttribute( name, value );
 				}
+				*/
 			}
 		}		
 		
