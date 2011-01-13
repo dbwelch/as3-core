@@ -111,10 +111,10 @@ package com.ffsys.dom
 			//match by tag name - all statements are equivalent
 			//matching the two main divs within the body tag
 			elements = $( "div" );
-			Assert.assertEquals( 2, elements.length );
+			Assert.assertEquals( 5, elements.length );
 			
-			elements = document.body.getElementsByTagName( "div" );
-			Assert.assertEquals( 2, elements.length );
+			elements = document.getElementsByTagName( "div" );
+			Assert.assertEquals( 5, elements.length );
 			
 			//match by regular expression test against element id
 			//elements = $( /^inner/ );
@@ -134,7 +134,6 @@ package com.ffsys.dom
 			
 			/*
 
-			
 			trace("SimpleDOMTest::domTest()", elements, elements[ 0 ] );
 			
 			$( "#inner" ).find( "#inner-element-a" ).addClass( "runtime-css-class" );

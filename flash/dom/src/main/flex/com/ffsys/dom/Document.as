@@ -15,6 +15,7 @@ package com.ffsys.dom
 	dynamic public class Document extends VisualElement
 	{
 		private var _identifiers:Object = new Object();
+		private var _tags:Object = new Object();
 		
 		/**
 		* 	Creates a <code>Document</code> instance.
@@ -123,31 +124,7 @@ package com.ffsys.dom
 		*/
 		override public function getElementsByTagName( tagName:String ):NodeList
 		{
-			var elements:NodeList = new NodeList();
-			
-			if( tagName == DomIdentifiers.HEAD
-				&& this.head is Head )
-			{
-				elements.push( this.head );
-				return elements;
-			}
-			
-			if( tagName == DomIdentifiers.BODY
-				&& this.body is Body )
-			{
-				elements.push( this.body );
-				return elements;
-			}
-			
-			if( this.head is Head )
-			{
-				elements.concat( Head( this.head ).getElementsByTagName( tagName ) );
-			}
-			if( this.body is Body )
-			{
-				elements.concat( Body( this.body ).getElementsByTagName( tagName ) );
-			}
-			return elements;
+			return _tags[ tagName ];
 		}
 		
 				/*
@@ -268,6 +245,18 @@ package com.ffsys.dom
 					_identifiers[ element.id ] = element;
 				}
 				elements.push( element );
+				
+				var nm:String = element.beanName;
+				if( nm != null )
+				{
+					//keep track of document elements by tag name
+					var exists:NodeList = _tags[ nm ] as NodeList;
+					if( exists == null )
+					{
+						_tags[ nm ] = new NodeList();
+					}
+					_tags[ nm ].children.push( element );
+				}
 				
 				//TODO: store elements by tag name
 				//this[  ]

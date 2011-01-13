@@ -178,6 +178,7 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
+		//TODO: deprecate
 		public function get parser():Object
 		{
 			return _parser;
@@ -378,18 +379,6 @@ package com.ffsys.dom
 			
 			//trace("[SET PROP] XmlAwareDomElement::setProperty() this/name/value: ", this, name, value );
 			
-			/*
-			//very simple pluralization logic for element group access
-			if( name is String
-				&& value is Node
-				&& /[^s]$/.test( String( name ) ) )
-			{
-				String( name ) += "s";
-			}
-			*/
-			
-			//TODO: implement mutating the name via a getGroupName() call
-
 			var hasProp:Boolean = ( this.source[ name ] != null );
 			
 			//mutate the property to a list for most nodes
