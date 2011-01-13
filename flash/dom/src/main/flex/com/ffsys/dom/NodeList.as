@@ -67,6 +67,32 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Adds parameters to this node list.
+		* 
+		* 	If a parameter is a node it is added, if a
+		* 	parameter is a node list the elements stored
+		* 	in the node list are added.
+		* 
+		* 	@param parameters Nodes to add to this list.
+		*/
+		public function concat( ...parameters ):void
+		{	
+			var param:Object = null;
+			for( var i:int = 0;i < parameters.length;i++ )
+			{
+				param = parameters[ i ];
+				if( param is Node )
+				{
+					children.push( Node( param ) );
+				}else if( param is NodeList
+					&& NodeList( param ).length > 0 )
+				{
+					children = children.concat( NodeList( param ).children );
+				}
+			}
+		}
+		
+		/**
 		* 	@private
 		*/
 		override protected function propertyMissing( name:* ):*

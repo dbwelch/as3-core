@@ -24,31 +24,16 @@ package com.ffsys.dom
 			XML.prettyIndent = 0;
 			XML.prettyPrinting = false;					
 		}
+
+		/*
 		
-		public function get sample():XML
-		{
-			return <object
-				id="root"
-				xmlns="http://example.com/sample"
-				xmlns:ui="http://example.com/nested-sample">
-				text
-	            <!-- comment -->
-	            <?instruction ?>
-				<string>
-					this is a <em>test</em> string
-				</string>
-				<booleanTrue>true</booleanTrue>
-				<booleanFalse>false</booleanFalse>
-				<nullValue>null</nullValue>
-				<integerValue>10</integerValue>
-				<floatValue>1.67</floatValue>
-				<hyphen-test>100</hyphen-test>
-				<nested id="my-identifier">
-					<child><![CDATA[This is some character data]]></child>
-					<ui:button />
-				</nested>
-			</object>;
-		}
+		
+	
+		<!--
+
+		-->		
+		
+		*/
 		
 		
 		private function getTestDocument( namespaceURI:String, qualifiedName:String ):XML
@@ -58,6 +43,7 @@ package com.ffsys.dom
 					<head>
 					</head>
 					<body id="body">
+						<!-- A COMMENT TO READ -->
 						<div id="outer" class="single">
 							<div id="inner" class="border background">
 								<div id="inner-element-a" class="border red" />
@@ -68,7 +54,7 @@ package com.ffsys.dom
 								</div>
 							</div>
 						</div>
-						<div id="another"></div>
+						<div id="another"><![CDATA[some cdata copy for you]]></div>
 					</body>
 				</html>;
 			x.@[ 'xmlns' ] = namespaceURI;
@@ -104,14 +90,14 @@ package com.ffsys.dom
 			*/
 			
 			var document:Document = parser.dom;
-			var elements:ActionscriptQuery = null;
+			var elements:NodeList = null;
 			
 			//should only have one registered DOM
 			Assert.assertEquals( 1, $().doms.length );
 			
 			//assertions on dot style node list access
-			//this style access is supported but jquery
-			//style access is preferred and recommended as
+			//this style of element access is supported but jquery
+			//style element access is preferred and recommended as
 			//it is more flexible as a DOM changes
 			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].a as NodeList;
 			Assert.assertNotNull( list );
@@ -122,16 +108,24 @@ package com.ffsys.dom
 			//elements = $();
 			//elements = $( "*" );
 			
+			//match by tag name - all statements are equivalent
+			//matching the two main divs within the body tag
+			elements = $( "div" );
+			Assert.assertEquals( 2, elements.length );
+			
+			elements = document.body.getElementsByTagName( "div" );
+			Assert.assertEquals( 2, elements.length );
+			
 			//match by regular expression test against element id
-			elements = $( /^inner/ );
-			Assert.assertEquals( 3, elements.length );
+			//elements = $( /^inner/ );
+			//Assert.assertEquals( 3, elements.length );
 			
 			//match by class expression
 			//elements = $( ".border" );
 			
 			//match by identifier chain
-			elements = $( "#inner" ).find( "#inner-element-a" );
-			Assert.assertEquals( 1, elements.length );
+			//elements = $( "#inner" ).find( "#inner-element-a" );
+			//Assert.assertEquals( 1, elements.length );
 			
 			//match by tag name
 			elements = $( "div" );

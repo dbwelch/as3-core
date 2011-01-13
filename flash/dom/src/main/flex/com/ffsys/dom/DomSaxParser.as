@@ -66,8 +66,8 @@ package com.ffsys.dom
 		*/
 		override public function endElement( token:SaxToken ):void
 		{		
-			trace("[DOM SAX PARSER END ELEMENT] DomSaxParser::endElement() root/parent/current: " , root, parent, current);
 			super.endElement( token );
+			//trace("[DOM SAX PARSER END ELEMENT] DomSaxParser::endElement() root/parent/current: " , root, parent, current);
 		}		
 		
 		/**
@@ -76,10 +76,14 @@ package com.ffsys.dom
 		override protected function complete():void
 		{
 			_dom = Document( this.root );
-		
+			
+			//ensure the actionscript query logic knows
+			//about the new DOM
 			ActionscriptQuery.doms.push( _dom );
 			
 			trace("[DOM COMPLETE] DomSaxParser::complete()", ActionscriptQuery.doms );
+			
+			_dom.onload();
 		}
 		
 		/**

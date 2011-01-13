@@ -47,10 +47,13 @@ package com.ffsys.net.sax
 
 			if( token != null )
 			{
+				//trace("[GET PARENT LOOKUP] SaxObjectParser::get parent()", token, token.parent);
+				
 				var p:SaxToken = token.parent as SaxToken;
 				while( p != null )
 				{
-					if( p.target is Object )
+					//valid parent element
+					if( ( p.target is Object ) && p.isElement() )
 					{
 						return p.target;
 					}
@@ -75,8 +78,8 @@ package com.ffsys.net.sax
 			var existing:Object = _current;
 			
 			/*
-			trace("[SET CURRENT TARGET OBJECT REFERENCE] SaxObjectParser::setCurrent() depth/token depth/value/existing: ",
-				depth, token.depth, value, existing );
+			trace("[SET CURRENT TARGET OBJECT REFERENCE] SaxObjectParser::setCurrent(): token/token.depth/value/existing/token.target: ",
+				token, token.depth, value, existing, token.target );
 			*/
 			
 			//IMPORTANT: we should only update the current
@@ -105,7 +108,7 @@ package com.ffsys.net.sax
 				_root = _current;
 			}
 			
-			//trace("[AFTER SET CURRENT TARGET OBJECT REFERENCE] current/parent/root: ", current, parent, root );
+			//trace("[AFTER SET CURRENT TARGET OBJECT REFERENCE] root/parent/current: : ", root, parent, current );
 		}
 		
 		/**
@@ -177,12 +180,14 @@ package com.ffsys.net.sax
 		*/
 		override public function endElement( token:SaxToken ):void
 		{		
-			trace("[END ELEMENT UPDATING PARENT REFERENCE] SaxObjectParser::endElement()", token, this.parent );
+			//trace("[DOM SAX PARSER] [END ELEMENT UPDATING PARENT REFERENCE] SaxObjectParser::endElement() token: ", token );
 			//leaving an element
 			//so update the current reference
 			//to point to the parent
 			setCurrent( token, this.parent );
 			super.endElement( token );
+			
+			//trace("[DOM SAX PARSER] [END ELEMENT] SaxObjectParser::endElement() root/parent/current: ", root, parent, current );
 		}
 		
 		/**

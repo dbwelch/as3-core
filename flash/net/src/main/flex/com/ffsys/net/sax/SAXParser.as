@@ -18,50 +18,6 @@ package com.ffsys.net.sax {
 		implements ISaxHandler {
 		
 		/**
-		* 	Represents an element.
-		*/
-		public static const ELEMENT:String = "element";	
-		
-		/**
-		* 	Represents a text element.
-		*/
-		public static const TEXT:String = "text";				
-		
-		/**
-		* 	Represents a comment element.
-		*/
-		public static const COMMENT:String = "comment";
-		
-		/**
-		* 	Represents a processing instruction.
-		*/
-		public static const PROCESSING_INSTRUCTION:String = "processing-instruction";
-		
-		/**
-		* 	Represents a simple element.
-		* 	
-		* 	A simple element is an element whose child
-		* 	elements are <em>only</em> text elements.
-		*/
-		public static const SIMPLE:String = "simple";
-		
-		/**
-		* 	Represents an inline element.
-		* 	
-		* 	An inline element is an element whose children
-		* 	are a mix of text and other elements.
-		*/
-		public static const INLINE:String = "inline";
-		
-		/**
-		* 	Represents a block element.
-		* 
-		* 	A block element is an element that does not
-		* 	contain any direct child text elements.
-		*/
-		public static const BLOCK:String = "block";
-		
-		/**
 		* 	The current depth of the traversal.
 		*/
 		public var depth:int = 0;
@@ -237,7 +193,7 @@ package com.ffsys.net.sax {
 				for each( child in x.children() )
 				{
 					//must be a non-whitespace text node that is a direct descendant
-					if( child.nodeKind() == TEXT && !( /^\s+$/.test( child.toString() ) ) )
+					if( child.nodeKind() == SaxToken.TEXT && !( /^\s+$/.test( child.toString() ) ) )
 					{
 						//trace("SaxParser::hasTextChild()", "FOUND TEXT NODE '", child.toString(), "'", /^\s+$/.test( child.toString() ) );
 						return true;
@@ -339,7 +295,7 @@ package com.ffsys.net.sax {
 		public function sibling( token:SaxToken, branch:SaxToken ):void
 		{
 			var methodName:String = "sibling";
-			trace("[SIBLING] SaxParser::sibling() xml/token.parent/branch.parent: ", token.xml, token.parent, token.target );
+			//trace("[SIBLING] SaxParser::sibling() xml/token.parent/branch.parent: ", token.xml, token.parent, token.target );
 			notify( token, methodName, branch );
 		}
 		
@@ -366,8 +322,8 @@ package com.ffsys.net.sax {
 		*/
 		public function endElement( token:SaxToken ):void
 		{
-			var methodName:String = "endElement";			
-			notify( token, methodName );			
+			var methodName:String = "endElement";
+			notify( token, methodName );
 			//trace("[END ELEMENT] SaxParser::endElement()", token.name, token.type );
 		}
 		
@@ -388,7 +344,7 @@ package com.ffsys.net.sax {
 		protected function complete():void
 		{
 			//
-		}
+		}	
 		
 		/**
 		* 	@private
@@ -417,10 +373,10 @@ package com.ffsys.net.sax {
 			_token = new SaxToken( x, _token, depth, x.nodeKind() );
 			this.tokens[ x ] = _token;
 			
-			//store a reference to the token in the current node
+			//store a reference to the token in the current node -- >>> ???
 			x.token = token;
 			
-			if( x.nodeKind() == PROCESSING_INSTRUCTION )
+			if( x.nodeKind() == SaxToken.PROCESSING_INSTRUCTION )
 			{
 				doWithProcessingInstruction( _token );
 				return;
@@ -428,22 +384,22 @@ package com.ffsys.net.sax {
 			
 			var descend:Boolean = true;
 			
-			if( x.nodeKind() == ELEMENT )
+			if( x.nodeKind() == SaxToken.ELEMENT )
 			{
 				//single text node, treat it as simple content
 				if( x.children().length() == 1 && x.text().length() == 1 )
 				{
 					//token.text = x.text()[ 0 ];
-					token.type = SIMPLE;
+					token.type = SaxToken.SIMPLE;
 				}else if( hasTextChild( x ) )
 				{
 					//potentially mixed content - inline
 					//doWithInlineContent( x );
-					token.type = INLINE;				
+					token.type = SaxToken.INLINE;				
 				}else if( x.children().hasComplexContent() )
 				{
 					//doWithBlockContent( x );
-					token.type = BLOCK;
+					token.type = SaxToken.BLOCK;
 				}
 				
 				if( depth == 0 )
@@ -487,10 +443,9 @@ package com.ffsys.net.sax {
 						continue;
 					}
 					
-
 					if( i > 0 && previous != null )
 					{
-						if( element.nodeKind() == ELEMENT )
+						if( element.nodeKind() == SaxToken.ELEMENT )
 						{
 							sibling( branchToken, null );
 						}
@@ -506,7 +461,7 @@ package com.ffsys.net.sax {
 					}
 					
 					//next element sibling
-					if( element.nodeKind() == ELEMENT )
+					if( element.nodeKind() == SaxToken.ELEMENT )
 					{
 						previous = element;
 						branchToken = _token;						
@@ -514,13 +469,31 @@ package com.ffsys.net.sax {
 				}
 			}
 			
-			if( x.nodeKind() == ELEMENT )
+			if( x.nodeKind() == SaxToken.ELEMENT )
 			{
 				if( l > 0
 					&& descend )
 				{
 					depth--;
-					_token = _token.parent;
+					//_token
+					//_token.depth--;
+					//_token = _token.parent;
+					
+					
+					//trace("[BEFORE TOKEN CHANGE] SaxParser::deserialize()", _token );
+					
+					//set the token back to the correct one for the current element
+					_token = tokens[ x ];
+					
+					//trace("[AFTER TOKEN CHANGE] SaxParser::deserialize()", _token );
+					
+					/*
+					if( _token.parent )
+					{
+						trace("[AFTER TOKEN CHANGE PARENT TARGET] SaxParser::deserialize()", _token.parent.target );						
+					}
+					*/
+					
 					ascended( _token );
 				}
 				

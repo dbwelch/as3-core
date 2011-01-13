@@ -359,7 +359,7 @@ package com.ffsys.dom
 				case CLASS:
 					this[ CLASS_NAMES ] = value;
 					
-					trace("Element::doWithMissingProperty()", "[SETTING CLASS NAMES]", value );
+					//trace("Element::doWithMissingProperty()", "[SETTING CLASS NAMES]", value );
 					break;
 			}
 		}			

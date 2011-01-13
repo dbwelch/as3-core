@@ -284,13 +284,6 @@ package asquery
 				//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );					
 			}else if( tagName )
 			{
-				//always look on the document body for tag elements
-				if( context is Document
-				 	&& context.body is Body )
-				{
-					context = context.body;
-				}
-				
 				trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, context.getElementsByTagName( candidate ) );					
 				addMatchedList( context.getElementsByTagName( candidate ) );
 				trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
@@ -316,13 +309,13 @@ package asquery
 		private function addMatchedList(
 			list:NodeList ):void
 		{
-			trace("[ADDING LIST] ActionscriptQuery::addMatchedList()", list );
+			//trace("[ADDING LIST] ActionscriptQuery::addMatchedList()", list );
 			var node:Node = null;
 			for each( node in list )
 			{
 				if( node is Element )
 				{
-					trace("[ADDING LIST ELEMENT] ActionscriptQuery::addMatchedList()", node );
+					//trace("[ADDING LIST ELEMENT] ActionscriptQuery::addMatchedList()", node );
 					addMatchedElement( Element( node ) );
 				}
 			}

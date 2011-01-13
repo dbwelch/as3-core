@@ -49,7 +49,8 @@ package com.ffsys.dom
 		
 		/**
 		* 	@inheritDoc
-		*/		
+		*/	
+		//TODO: deprecate in favour of $( /^match/ )
 		public function getElementsByMatch( re:RegExp ):Vector.<DisplayObject>
 		{
 			var output:Vector.<DisplayObject> = new Vector.<DisplayObject>();
@@ -75,17 +76,6 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
-		public function get binding():Object
-		{
-			//return _binding;
-			
-			//TODO: re-implement with ERB style parsing
-			return null;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function get identifiers():Object
 		{
 			return _identifiers;
@@ -94,9 +84,9 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
-		public function prepared():void
+		public function onload():void
 		{
-			trace("Document::prepared()", this, this.id );
+			trace("[ON LOAD] Document::onload()", this, this.id );
 		}
 		
 		/**
@@ -119,6 +109,45 @@ package com.ffsys.dom
 		override public function getElementById( id:String ):Element
 		{
 			return _identifiers[ id ] as Element;
+		}
+		
+		/**
+		* 	Ensures that a document attempts to retrieve
+		* 	tag elements from both the head and the body
+		* 	of the document.
+		* 
+		* 	@param tagName The name of the tag to retrieve.
+		* 
+		* 	@return A list of child elements that are the
+		* 	specified tag.
+		*/
+		override public function getElementsByTagName( tagName:String ):NodeList
+		{
+			var elements:NodeList = new NodeList();
+			
+			if( tagName == DomIdentifiers.HEAD
+				&& this.head is Head )
+			{
+				elements.push( this.head );
+				return elements;
+			}
+			
+			if( tagName == DomIdentifiers.BODY
+				&& this.body is Body )
+			{
+				elements.push( this.body );
+				return elements;
+			}
+			
+			if( this.head is Head )
+			{
+				elements.concat( Head( this.head ).getElementsByTagName( tagName ) );
+			}
+			if( this.body is Body )
+			{
+				elements.concat( Body( this.body ).getElementsByTagName( tagName ) );
+			}
+			return elements;
 		}
 		
 				/*

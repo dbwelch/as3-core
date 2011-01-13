@@ -3,6 +3,50 @@ package com.ffsys.net.sax
 
 	public class SaxToken extends Object
 	{
+		/**
+		* 	Represents an element.
+		*/
+		public static const ELEMENT:String = "element";	
+		
+		/**
+		* 	Represents a text element.
+		*/
+		public static const TEXT:String = "text";				
+		
+		/**
+		* 	Represents a comment element.
+		*/
+		public static const COMMENT:String = "comment";
+		
+		/**
+		* 	Represents a processing instruction.
+		*/
+		public static const PROCESSING_INSTRUCTION:String = "processing-instruction";
+		
+		/**
+		* 	Represents a simple element.
+		* 	
+		* 	A simple element is an element whose child
+		* 	elements are <em>only</em> text elements.
+		*/
+		public static const SIMPLE:String = "simple";
+		
+		/**
+		* 	Represents an inline element.
+		* 	
+		* 	An inline element is an element whose children
+		* 	are a mix of text and other elements.
+		*/
+		public static const INLINE:String = "inline";
+		
+		/**
+		* 	Represents a block element.
+		* 
+		* 	A block element is an element that does not
+		* 	contain any direct child text elements.
+		*/
+		public static const BLOCK:String = "block";		
+		
 		private var _xml:XML;
 		private var _attributes:Vector.<SaxAttribute>;
 		
@@ -22,7 +66,7 @@ package com.ffsys.net.sax
 		* 	Indicates the type of child content for
 		* 	the element.
 		*/
-		public var type:String;
+		public var type:String = "";
 		
 		/**
 		* 	A parent token.
@@ -48,6 +92,14 @@ package com.ffsys.net.sax
 			this.parent = parent;
 			this.depth = depth;
 			this.type = type;
+		}
+		
+		/**
+		* 	Determines whether this token represents an element.
+		*/
+		public function isElement():Boolean
+		{
+			return type == ELEMENT || type == SIMPLE || type == INLINE || type == BLOCK;
 		}
 		
 		/**
@@ -98,7 +150,7 @@ package com.ffsys.net.sax
 		*/
 		public function toString():String
 		{
-			return "[object SaxToken#" + name ? name : type + "]";
+			return "[object SaxToken#" + ( name != null ? name : type.toUpperCase() ) + "]";
 		}
 		
 		protected function processAttributes( x:XML ):void

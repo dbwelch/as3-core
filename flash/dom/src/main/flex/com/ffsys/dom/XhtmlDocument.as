@@ -19,13 +19,5 @@ package com.ffsys.dom
 		{
 			super( xml );
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function prepared():void
-		{
-			trace("XhtmlDocument::prepared()", this, this.id );
-		}
 	}
 }

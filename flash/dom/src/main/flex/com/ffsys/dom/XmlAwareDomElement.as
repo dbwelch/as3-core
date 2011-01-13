@@ -385,7 +385,7 @@ package com.ffsys.dom
 				return;
 			}
 			
-			trace("[SET PROP] XmlAwareDomElement::setProperty() this/name/value: ", this, name, value );
+			//trace("[SET PROP] XmlAwareDomElement::setProperty() this/name/value: ", this, name, value );
 			
 			/*
 			//very simple pluralization logic for element group access
@@ -401,8 +401,9 @@ package com.ffsys.dom
 
 			var hasProp:Boolean = ( this.source[ name ] != null );
 			
-			//mutate the property to a list for nodes
-			if( value is Node )
+			//mutate the property to a list for most nodes
+			if( value is Node
+				&& !( value is Head ) && !( value is Body ) )
 			{
 				var node:Node = Node( value );
 				if( !hasProp )
@@ -413,7 +414,7 @@ package com.ffsys.dom
 					value = NodeList( this.source[ name ] );
 					value.children.push( node );
 					
-					trace("[ADDING TO EXISTING TAG LIST] XmlAwareDomElement::setProperty() this/node: ", this, node );
+					//trace("[ADDING TO EXISTING TAG LIST] XmlAwareDomElement::setProperty() this/node: ", this, node );
 				}
 			}
 
