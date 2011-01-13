@@ -41,6 +41,7 @@ package com.ffsys.dom
 								<div id="inner-element-b">
 									<p>
 										<a id="test-anchor" href="http://google.com" title="This is a link">Some text</a>
+										<a id="another-anchor" href="http://google.com" title="This is a another link">Some more text</a>
 									</p>
 								</div>
 							</div>
@@ -69,14 +70,13 @@ package com.ffsys.dom
 			$( function():void
 			{
 				trace("[DOM ONLOAD CLOSURE HANDLER] SimpleDOMTest::domTest()", this );
+				trace("[PRIMARY DOCUMENT] SimpleDOMTest::domTest()", $().document );
 			} );
 			
 			var source:XML = getTestDocument( "http://www.w3.org/1999/xhtml", "html" );
 			var parser:DomSaxParser = new DomSaxParser();
 			parser.document = new XhtmlBeanDocument();
 			parser.parse( source );
-			
-			trace("[PRIMARY DOCUMENT] SimpleDOMTest::domTest()", $().document );
 
 			/*
 			var impl:DOMImplementation = new DOMImplementation();
@@ -100,8 +100,9 @@ package com.ffsys.dom
 			//it is more flexible as a DOM changes
 			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].a as NodeList;
 			Assert.assertNotNull( list );
-			Assert.assertEquals( 1, list.length );
+			Assert.assertEquals( 2, list.length );
 			Assert.assertTrue( list[ 0 ] is AnchorElement );
+			Assert.assertTrue( list[ 1 ] is AnchorElement );
 			
 			//matches all elements in all registered DOM implementations
 			//elements = $();

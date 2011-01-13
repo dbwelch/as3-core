@@ -1,6 +1,7 @@
 package asquery
 {
 	import flash.events.*;
+	import flash.utils.Dictionary;
 	
 	import com.ffsys.dom.*;
 
@@ -10,6 +11,11 @@ package asquery
 		* 	The delimiter between multiple queries.
 		*/
 		public static const SELECTOR_DELIMITER:String = ",";
+		
+		/**
+		* 	The delimiter between descendant queries.
+		*/
+		public static const DESCENDANT_SELECTOR_DELIMITER:String = " ";		
 		
 		/**
 		* 	The character used to indicate a query that
@@ -28,8 +34,6 @@ package asquery
 		* 	if a query is a class name identifier.
 		*/
 		public static const CLASS_NAME_QUERY:RegExp = /^\./;
-		
-		public static const CLICK:String = "click";
 		
 		/**
 		* 	A list of all registered DOM implementations.
@@ -216,7 +220,7 @@ package asquery
 		
 		private function isEventName( methodName:* ):Boolean
 		{
-			return ( methodName == CLICK );
+			return ( methodName == QueryEventProxy.CLICK );
 		}
 		
 		private function isEventTrigger( methodName:*, parameters:Array ):Boolean
@@ -237,34 +241,20 @@ package asquery
 			return mapping[ methodName ];
 		}
 		
+		static private var _eventCache:Dictionary = new Dictionary( true );
+		
 		private function bindEventHandler( methodName:*, handler:Function, parameters:Array ):void
 		{
-
 			var type:String = getDisplayListEventType( String( methodName ) );
-			
-			//TODO: keep track of event handler cache?
-
-			trace("[ASQUERY REGISTER EVENT HANDLER] ActionscriptQuery::bindEventHandler()",
-				methodName, handler, type );
-			
 			var node:Node = null;
+			var proxy:QueryEventProxy = new QueryEventProxy();
+			proxy.type = type;
+			proxy.methodName = methodName;
+			proxy.handler = handler;
+			proxy.parameters = parameters;
 			for each( node in this )
 			{
-				trace("[ASQUERY REGISTER EVENT HANDLER - CHECKING DISPATCHER] ActionscriptQuery::bindEventHandler()",
-					node, node.eventProxy is IEventDispatcher, node.addEventListener );
-					
-				if( node.addEventListener is Function )
-				{
-					var proxy:Function = function( event:Event ):*
-					{
-						trace("ActionscriptQuery::bindEventHandler()", "PROXY EVENT FIRED", event, this, handler );
-						
-						//TODO: add suport for parameters
-						handler.apply( node, [ event ].concat( parameters ) );
-					}
-				
-					node.addEventListener( type, proxy );
-				}
+				_eventCache[ node ] = proxy;
 			}
 		}
 		
@@ -272,9 +262,9 @@ package asquery
 		{
 			if( handler != null )
 			{
-				bindEventHandler( CLICK, handler, parameters );
+				bindEventHandler( QueryEventProxy.CLICK, handler, parameters );
 			}else{
-				triggerEventHandler( CLICK, parameters );
+				triggerEventHandler( QueryEventProxy.CLICK, parameters );
 			}
 			
 			return getChainedQuery();
@@ -286,19 +276,23 @@ package asquery
 			
 			//TODO: keep track of event handler cache?
 
+			/*
 			trace("[ASQUERY TRIGGER EVENT HANDLER] ActionscriptQuery::bindEventHandler()",
-				methodName, type );
+				methodName, type, length );
+			*/
 			
 			var node:Node = null;
+			var proxy:QueryEventProxy = null;			
 			for each( node in this )
 			{
-				trace("[ASQUERY TRIGGER EVENT HANDLER - CHECKING DISPATCHER] ActionscriptQuery::bindEventHandler()",
-					node, node.eventProxy is IEventDispatcher, node.hasEventListener( type ) );
-					
-				if( node.dispatchEvent is Function )
+				proxy = _eventCache[ node ] as QueryEventProxy;
+				if( proxy != null )
 				{
-					//TODO: generate a correct mouse event - co-ordinates !
-					node.dispatchEvent( new MouseEvent( type ) );
+					//trace("[FOUND QUERY PROXY EVENT TO TRIGGER] ActionscriptQuery::triggerEventHandler()", proxy, proxy.type );
+					
+					node.addEventListener(
+						proxy.type, proxy.accept );
+					proxy.execute( node );
 				}
 			}
 		}
@@ -394,11 +388,18 @@ package asquery
 		/**
 		* 	@private
 		*/
-		private function doFindElement( query:String, context:Element ):void
+		internal function doFindElement( query:String, context:Element ):void
 		{
 			var identifier:Boolean = isIdentifier( query );
 			var className:Boolean = isClassName( query );
 			var tagName:Boolean = !identifier && !className;
+			
+			
+			if( query.indexOf( DESCENDANT_SELECTOR_DELIMITER ) > -1 )
+			{
+				handleDescendantSelector( query, context );
+				return;
+			}
 			
 			var candidate:String = query.replace( /^(#|\.)/, "" );
 			
@@ -423,6 +424,19 @@ package asquery
 				addMatchedList( context.getElementsByTagName( candidate ) );
 				trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
 			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function handleDescendantSelector( query:String, context:Element ):void
+		{
+			//find matches for the first part
+			var parts:Array = query.split( DESCENDANT_SELECTOR_DELIMITER );
+			var first:String = String( parts[ 0 ] );
+			
+			var matches:ActionscriptQuery = new ActionscriptQuery( first );
+			trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", matches );
 		}
 		
 		/**
