@@ -3,7 +3,7 @@ package com.ffsys.dom
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import asquery.$;
+	import asquery.*;
 	
 	import com.ffsys.dom.xhtml.*;
 	
@@ -60,7 +60,8 @@ package com.ffsys.dom
 					<body id="body">
 						<div id="outer">
 							<div id="inner" class="border background">
-							
+								<div id="inner-element-a" class="border red" />
+								<div id="inner-element-b" />
 							</div>
 						</div>
 					</body>
@@ -98,10 +99,38 @@ package com.ffsys.dom
 			*/
 			
 			var dom:Document = parser.dom;
+			var elements:ActionscriptQuery = null;
 			
-			var elements:Object = $( ".border" );
+			//should only have one registered DOM
+			Assert.assertEquals( 1, $().doms.length );
 			
-			trace("SimpleDOMTest::domTest()", elements );
+			//matches all elements in all registered DOM implementations
+			//elements = $();
+			//elements = $( "*" );
+			
+			//match by regular expression test against element id
+			//elements = $( /^inner/ );
+			
+			//match by class expression
+			//elements = $( ".border" );
+			
+			//match by identifier
+			elements = $( "#inner" ).find( "#inner-element-a" );
+			Assert.assertEquals( 1, elements.length );
+			
+			trace("SimpleDOMTest::domTest()", elements, elements[ 0 ] );
+			
+			$( "#inner" ).find( "#inner-element-a" ).addClass( "runtime-css-class" );
+			
+			//Assert.assertTrue( elements[ 0 ] );
+			
+			//match by tag name
+			//elements = $( "div" );
+			
+			//var elements:Object = $( "#inner .border" );
+			
+			
+			//trace("SimpleDOMTest::domTest()", elements );
 			
 			//trace("SimpleDOMTest::domTest()", "GOT DOM dom/length: ", dom, dom.length, dom.head.length, dom.body.length, dom.inner.classes );
 			

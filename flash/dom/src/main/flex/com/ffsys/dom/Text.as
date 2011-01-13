@@ -4,7 +4,6 @@ package com.ffsys.dom
 	
 	dynamic public class Text extends CharacterData
 	{
-		
 		/**
 		* 	Creates a <code>Text</code> instance.
 		*/

@@ -15,7 +15,6 @@ package com.ffsys.dom
 	dynamic public class Document extends VisualElement
 	{
 		private var _identifiers:Object = new Object();
-		private var _elements:Vector.<Element>;
 		
 		/**
 		* 	Creates a <code>Document</code> instance.
@@ -35,14 +34,18 @@ package com.ffsys.dom
 			return output;
 		}
 		
-		public function get elements():Vector.<Element>
+		/**
+		* 	Ensures that the elements for a document
+		* 	are created from a fresh list.
+		*/
+		override public function get elements():Vector.<Element>
 		{
 			if( _elements == null )
 			{
 				_elements = new Vector.<Element>();
 			}
 			return _elements;
-		}
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -108,8 +111,7 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
-		//TODO: change to Element return type
-		public function getElementById( id:String ):Element
+		override public function getElementById( id:String ):Element
 		{
 			return _identifiers[ id ] as Element;
 		}
@@ -197,9 +199,10 @@ package com.ffsys.dom
 				
 		internal function registerElement( element:Element ):void
 		{
-			trace("[REGISTER ELEMENT] Document::registerElement()", element );
-			if( element != null )
+			if( element != null && element != this )
 			{
+				trace("[REGISTER ELEMENT] Document::registerElement()", element );
+				
 				if( element.id != null )
 				{
 					var existing:Element = _identifiers[ element.id ] as Element;

@@ -42,6 +42,14 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Clears the nodes stored by this list.
+		*/
+		public function clear():void
+		{
+			_children.splice( 0, _children.length );
+		}
+		
+		/**
 		* 	The child nodes in this list.
 		*/
 		public function get children():Vector.<Node>
@@ -51,6 +59,27 @@ package com.ffsys.dom
 				_children = new Vector.<Node>();
 			}
 			return _children;
+		}
+		
+		public function set children( value:Vector.<Node> ):void
+		{
+			_children = value;
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function propertyMissing( name:* ):*
+		{
+			return children[ name ];
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function toString():String
+		{
+			return "[object " + getClassName() + "(" + length + ")] " + children.join( "," );
 		}
 	}
 }

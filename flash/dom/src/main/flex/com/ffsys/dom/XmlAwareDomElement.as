@@ -10,8 +10,6 @@ package com.ffsys.dom
 	
 	import com.ffsys.io.loaders.core.ILoaderQueue;
 	
-	
-	
 	/**
 	*	Represents a <code>DOM</code> element that is aware
 	* 	of an xml definition.
@@ -35,7 +33,6 @@ package com.ffsys.dom
 		private var _parser:Object;
 		private var _class:Class;
 		private var _title:String;
-		private var _classNames:String;
 		
 		/**
 		* 	@private
@@ -71,37 +68,6 @@ package com.ffsys.dom
 		public function set title( value:String ):void
 		{
 			_title = value;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get classNames():String
-		{
-			return _classNames;
-		}
-		
-		public function set classNames( value:String ):void
-		{
-			_classNames = value;
-			trace("[SET CLASS NAMES] XmlAwareDomElement::set classNames()", value );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get classes():Vector.<String>
-		{
-			var output:Vector.<String> = new Vector.<String>();
-			if( _classNames != null )
-			{
-				var parts:Array = _classNames.split( " " );
-				for( var i:int = 0;i < parts.length;i++ )
-				{
-					output.push( String( parts[ i ] ) );
-				}
-			}			
-			return output;
 		}
 		
 		/**
@@ -484,13 +450,16 @@ package com.ffsys.dom
 			
 			//trace("XmlAwareDomElement::callProperty()", this, methodName, parameters, _source );
 			
+			//invoke on the source object if possible
 			if( _source != null
+				&& _source.hasOwnProperty( methodName )
 				&& _source[ methodName ] is Function )
 			{
 				return _source[ methodName ].apply( _source, parameters );
 			}
 			
-			return methodMissing( methodMissing, parameters );
+			//otherwise allow derived implementations to handle the method call
+			return methodMissing( methodName, parameters );
 		}
 
 		/**
@@ -553,7 +522,7 @@ package com.ffsys.dom
 		public function toString():String
 		{
 			var nm:String = "[object ";
-			nm += getQualifiedClassName( this );
+			nm += getClassName();
 			
 			//trace("XmlAwareDomElement::toString()", this.id );
 			

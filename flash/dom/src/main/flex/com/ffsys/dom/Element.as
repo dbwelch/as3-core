@@ -8,6 +8,10 @@ package com.ffsys.dom
 		
 		public static const CLASS_NAMES:String = "classNames";
 		
+		private var _classNames:String;
+		
+		protected var _elements:Vector.<Element>;
+		
 		/**
 		* 	Creates an <code>Element</code> instance.
 		*/
@@ -20,17 +24,114 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
+		public function get classNames():String
+		{
+			if( _classNames == null )
+			{
+				_classNames = "";
+			}
+			return _classNames;
+		}
+		
+		public function set classNames( value:String ):void
+		{
+			_classNames = value;
+		}
+		
+		/**
+		* 	Determines whether the specified class name
+		* 	exists on this instance.
+		* 
+		* 	@param name The class name to test for existence.
+		* 
+		* 	@return Whether the class name has been assigned to this
+		* 	implementation.
+		*/
+		public function hasClass( name:String ):Boolean
+		{
+			return new RegExp( " " + name + " " ).test( classNames );
+		}
+		
+		/**
+		* 	Adds a class name to this element.
+		*/
+		public function addClass( name:String ):void
+		{
+			var nm:String = this.classNames;
+			if( /[^\s]/.test( nm ) )
+			{
+				nm += " ";
+			}
+			
+			nm += name;
+			
+			this.classNames = nm;
+			
+			trace("Element::addClass()", this, this.classNames );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get classes():Vector.<String>
+		{
+			var output:Vector.<String> = new Vector.<String>();
+			if( _classNames != null )
+			{
+				var parts:Array = _classNames.split( " " );
+				for( var i:int = 0;i < parts.length;i++ )
+				{
+					output.push( String( parts[ i ] ) );
+				}
+			}			
+			return output;
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function get tagName():String
 		{
 			return beanName;
 		}
 		
+		/**
+		* 	Retrieves a list of child nodes that are elements.
+		*/
+		public function get elements():Vector.<Element>
+		{
+			var elements:Vector.<Element> = new Vector.<Element>();
+			var node:Node = null;
+			for each( node in childNodes )
+			{
+				if( node is Element )
+				{
+					elements.push( Element( node ) );
+				}
+			}
+			return elements;
+		}
+		
+		//TODO: implement as child nodes are added and removed
+		/*
+		private var _elements:Vector.<Element>;		
+		override public function get elements():Vector.<Element>
+		{
+			if( _elements == null )
+			{
+				_elements = new Vector.<Element>();
+			}
+			return _elements;
+		}
+		*/
+		
+		/**
+		* 	Ensures that attributes are assigned when an <code>XML</code>
+		* 	fragment is assigned to this implementation.
+		*/
 		override public function set xml( value:XML ):void
 		{
 			super.xml = value;
-			
-			//if( !( this is Document ) ) trace("Element::set xml()", value );
-			
 			if( value != null )
 			{
 				doWithAttributes( value, this );
@@ -84,6 +185,22 @@ package com.ffsys.dom
 		public function hasAttribute( name:String ):Boolean
 		{
 			return hasAttributes() && name != null && xml.@[ name ].length() > 0;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getElementById( id:String ):Element
+		{
+			for each( var child:Element in elements )
+			{
+				if( child != null
+					&& id == child.id )
+				{
+					return child;
+				}
+			}
+			return null;
 		}
 		
 		/**

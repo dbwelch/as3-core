@@ -2,8 +2,8 @@ package asquery
 {
 	import com.ffsys.dom.*;
 	
-	public var $:Function = function( query:String ):*
+	public var $:Function = function( query:Object = null ):ActionscriptQuery
 	{
-		return new ActionscriptQuery( null, ActionscriptQuery.doms ).find( query );
+		return new ActionscriptQuery().handle( query );
 	}
 }
