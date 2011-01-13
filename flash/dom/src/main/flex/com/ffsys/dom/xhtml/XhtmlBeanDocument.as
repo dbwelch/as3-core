@@ -64,6 +64,30 @@ package com.ffsys.dom.xhtml
 			descriptor.instanceClass = DivElement;
 			beans.addBeanDescriptor( descriptor );
 			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.PARAGRAPH );
+			descriptor.instanceClass = ParagraphElement;
+			beans.addBeanDescriptor( descriptor );
+
+			/*
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.HEADING_1 );
+			descriptor.instanceClass = Heading;
+			descriptor.names.push(
+				DomIdentifiers.HEADING_2,
+				DomIdentifiers.HEADING_3,
+				DomIdentifiers.HEADING_4,
+				DomIdentifiers.HEADING_5,
+				DomIdentifiers.HEADING_6 );
+			beans.addBeanDescriptor( descriptor );
+			*/
+			
+			//TODO: a custom anchor button
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.ANCHOR );
+			descriptor.instanceClass = AnchorElement;
+			beans.addBeanDescriptor( descriptor );			
+			
 			/*
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.DIV );

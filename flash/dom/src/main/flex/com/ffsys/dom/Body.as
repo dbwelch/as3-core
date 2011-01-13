@@ -9,7 +9,7 @@ package com.ffsys.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class Body extends VisualElement
+	dynamic public class Body extends BlockElement
 	{
 		/**
 		* 	Creates a <code>Body</code> instance.

@@ -61,7 +61,11 @@ package com.ffsys.dom
 						<div id="outer">
 							<div id="inner" class="border background">
 								<div id="inner-element-a" class="border red" />
-								<div id="inner-element-b" />
+								<div id="inner-element-b">
+									<p>
+										<a href="http://google.com" title="This is a link">Some text</a>
+									</p>
+								</div>
 							</div>
 						</div>
 					</body>
@@ -98,11 +102,20 @@ package com.ffsys.dom
 			var elements:Object = $( ".links" );
 			*/
 			
-			var dom:Document = parser.dom;
+			var document:Document = parser.dom;
 			var elements:ActionscriptQuery = null;
 			
 			//should only have one registered DOM
 			Assert.assertEquals( 1, $().doms.length );
+			
+			//assertions on dot style node list access
+			//this style access is supported but jquery
+			//style access is preferred and recommended as
+			//it is more flexible as a DOM changes
+			var list:NodeList = document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].a as NodeList;
+			Assert.assertNotNull( list );
+			Assert.assertEquals( 1, list.length );
+			Assert.assertTrue( list[ 0 ] is AnchorElement );
 			
 			//matches all elements in all registered DOM implementations
 			//elements = $();
@@ -122,6 +135,8 @@ package com.ffsys.dom
 			
 			$( "#inner" ).find( "#inner-element-a" ).addClass( "runtime-css-class" );
 			
+			trace("SimpleDOMTest::domTest()", document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].a );
+			
 			//Assert.assertTrue( elements[ 0 ] );
 			
 			//match by tag name
@@ -132,7 +147,7 @@ package com.ffsys.dom
 			
 			//trace("SimpleDOMTest::domTest()", elements );
 			
-			//trace("SimpleDOMTest::domTest()", "GOT DOM dom/length: ", dom, dom.length, dom.head.length, dom.body.length, dom.inner.classes );
+			//trace("SimpleDOMTest::domTest()", "GOT DOM dom/length: ", document, document.length, document.head.length, document.body.length, document.inner.classes );
 			
 			//trace( $( ".links" ) );
 		}

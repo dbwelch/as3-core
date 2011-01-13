@@ -383,8 +383,35 @@ package com.ffsys.dom
 			{
 				return;
 			}
+			
+			
+			/*
+			//very simple pluralization logic for element group access
+			if( name is String
+				&& value is Node
+				&& /[^s]$/.test( String( name ) ) )
+			{
+				String( name ) += "s";
+			}
+			*/
+			
+			//TODO: implement mutating the name via a getGroupName() call
 
 			var hasProp:Boolean = ( this.source[ name ] != null );
+			
+			//mutate the property to a list for nodes
+			if( value is Node )
+			{
+				var node:Node = Node( value );
+				if( !hasProp )
+				{
+					value = new NodeList();
+					value.children.push( node );
+				}else{
+					value = NodeList( this.source[ name ] );
+					value.children.push( node );
+				}
+			}
 
 			//add all mappings to the array of mappings
 			if( !hasProp )
@@ -393,7 +420,7 @@ package com.ffsys.dom
 				mappings.push(
 					new ElementMap( name, value, mappings.length ) );
 			}else{
-				//update the stored value
+				//update the stored map value
 				var map:ElementMap = null;
 				for each( map in mappings )
 				{
@@ -406,7 +433,7 @@ package com.ffsys.dom
 
 			this.source[ name ] = value;
 
-			//trace("[CSS] CssElement::setProperty()", name, this.source[ name ] );
+			//trace("[XmlAwareDomElement SET PROPERTY]", this, hasProp, name, value );
 	    }
 		
 		/**

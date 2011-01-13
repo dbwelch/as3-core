@@ -3,7 +3,7 @@ package com.ffsys.dom.xhtml
 	import com.ffsys.dom.*;
 	
 	/**
-	*	Represents a block container, the <code>div</code> element.
+	*	Represents an anchor, the <code>a</code> element.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -11,15 +11,15 @@ package com.ffsys.dom.xhtml
 	*	@author Mischa Williamson
 	*	@since  13.01.2011
 	*/
-	dynamic public class DivElement extends BlockElement
+	dynamic public class AnchorElement extends BlockElement
 	{
 		/**
-		* 	Creates a <code>DivElement</code> instance.
+		* 	Creates a <code>AnchorElement</code> instance.
 		* 
 		* 	@param xml An <code>XML</code> fragment that
 		* 	defines the element.
 		*/
-		public function DivElement( xml:XML = null )
+		public function AnchorElement( xml:XML = null )
 		{
 			super( xml );
 		}
