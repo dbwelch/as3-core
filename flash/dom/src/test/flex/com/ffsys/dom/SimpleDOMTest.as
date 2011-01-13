@@ -1,5 +1,7 @@
 package com.ffsys.dom
 {
+	import flash.events.*;
+	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
@@ -38,7 +40,7 @@ package com.ffsys.dom
 								<div id="inner-element-a" class="border red" />
 								<div id="inner-element-b">
 									<p>
-										<a href="http://google.com" title="This is a link">Some text</a>
+										<a id="test-anchor" href="http://google.com" title="This is a link">Some text</a>
 									</p>
 								</div>
 							</div>
@@ -73,6 +75,8 @@ package com.ffsys.dom
 			var parser:DomSaxParser = new DomSaxParser();
 			parser.document = new XhtmlBeanDocument();
 			parser.parse( source );
+			
+			trace("[PRIMARY DOCUMENT] SimpleDOMTest::domTest()", $().document );
 
 			/*
 			var impl:DOMImplementation = new DOMImplementation();
@@ -128,6 +132,12 @@ package com.ffsys.dom
 			trace("[MULTIPLE SELECTOR] SimpleDOMTest::domTest()", elements );
 			
 			$( document.body ).addClass( "test-css-class" );
+			
+			$( "a" ).click(
+				function( e:Event, ...parameters ):*
+				{
+					trace("[CLICK INVOKED]", this, this.id, e, parameters );
+				}, "a string", 10, { property: 1.67 } ).click();
 			
 			trace("SimpleDOMTest::domTest()", document.body.classNames );
 			

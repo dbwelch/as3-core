@@ -1,6 +1,7 @@
 package com.ffsys.dom
 {
 	import flash.display.Sprite;
+	import flash.events.*;	
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.*;
@@ -56,6 +57,14 @@ package com.ffsys.dom
 			{
 				this.xml = xml;
 			}
+		}
+		
+		/**
+		* 	An event dispatcher used for event dispatching.
+		*/
+		public function get eventProxy():IEventDispatcher
+		{
+			return null;
 		}
 		
 		/**
@@ -354,6 +363,13 @@ package com.ffsys.dom
 			{
 				return null;
 			}
+			
+			if( Object( eventProxy ) != null
+				&& Object( eventProxy ).hasOwnProperty( name )
+				&& Object( eventProxy )[ name ] is Function )
+			{
+				return Object( eventProxy )[ name ];
+			}
 
 			/*
 			trace("CssElement::getProperty()", this, name, this.source[ name ] );
@@ -461,6 +477,14 @@ package com.ffsys.dom
 		{
 			
 			//trace("XmlAwareDomElement::callProperty()", this, methodName, parameters, _source );
+			
+			//handle event proxying
+			if( Object( eventProxy ) != null
+				&& Object( eventProxy ).hasOwnProperty( methodName )
+				&& Object( eventProxy )[ methodName ] is Function )
+			{
+				return Object( eventProxy )[ methodName ].apply( Object( eventProxy ), parameters );
+			}
 			
 			//invoke on the source object if possible
 			if( _source != null

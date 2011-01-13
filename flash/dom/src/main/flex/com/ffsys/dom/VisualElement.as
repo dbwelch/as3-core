@@ -1,6 +1,7 @@
 package com.ffsys.dom
 {
-	import flash.display.DisplayObject;
+	import flash.display.*;
+	import flash.events.*;	
 
 	dynamic public class VisualElement extends Element
 	{
@@ -11,7 +12,18 @@ package com.ffsys.dom
 		*/
 		public function VisualElement( xml:XML = null )
 		{
+			//temporarily instantiate here for testing
+			this.visual = new Sprite();
 			super( xml );
+		}
+	
+		/**
+		* 	Ensures that visual elements use the visual as
+		* 	the event dispatcher proxy.
+		*/
+		override public function get eventProxy():IEventDispatcher
+		{
+			return _visual;
 		}
 		
 		/**

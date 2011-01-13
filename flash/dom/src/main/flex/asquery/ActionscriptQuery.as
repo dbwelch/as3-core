@@ -1,5 +1,7 @@
 package asquery
 {
+	import flash.events.*;
+	
 	import com.ffsys.dom.*;
 
 	dynamic public class ActionscriptQuery extends NodeList
@@ -27,6 +29,8 @@ package asquery
 		*/
 		public static const CLASS_NAME_QUERY:RegExp = /^\./;
 		
+		public static const CLICK:String = "click";
+		
 		/**
 		* 	A list of all registered DOM implementations.
 		*/
@@ -41,10 +45,16 @@ package asquery
 		
 		/**
 		* 	Creates an <code>ActionscriptQuery</code> instance.
+		* 
+		* 	@param query The query object.
 		*/
-		public function ActionscriptQuery()
+		public function ActionscriptQuery( query:Object = null )
 		{
 			super();
+			if( query != null )
+			{
+				handle( query );
+			}
 		}
 		
 		/**
@@ -204,13 +214,102 @@ package asquery
 			//trace("[FIND ALL] ActionscriptQuery::findAll()", context.elements, length );
 		}
 		
+		private function isEventName( methodName:* ):Boolean
+		{
+			return ( methodName == CLICK );
+		}
+		
+		private function isEventTrigger( methodName:*, parameters:Array ):Boolean
+		{
+			return parameters.length == 0;
+		}
+		
+		private function isEventHandler( methodName:*, parameters:Array ):Boolean
+		{
+			return parameters.length >= 1 && parameters[ 0 ] is Function;
+		}
+		
+		private function getDisplayListEventType( methodName:String ):String
+		{
+			var mapping:Object = {
+				click: MouseEvent.CLICK 
+			};
+			return mapping[ methodName ];
+		}
+		
+		private function bindEventHandler( methodName:*, handler:Function, parameters:Array ):void
+		{
+
+			var type:String = getDisplayListEventType( String( methodName ) );
+			
+			//TODO: keep track of event handler cache?
+
+			trace("[ASQUERY REGISTER EVENT HANDLER] ActionscriptQuery::bindEventHandler()",
+				methodName, handler, type );
+			
+			var node:Node = null;
+			for each( node in this )
+			{
+				trace("[ASQUERY REGISTER EVENT HANDLER - CHECKING DISPATCHER] ActionscriptQuery::bindEventHandler()",
+					node, node.eventProxy is IEventDispatcher, node.addEventListener );
+					
+				if( node.addEventListener is Function )
+				{
+					var proxy:Function = function( event:Event ):*
+					{
+						trace("ActionscriptQuery::bindEventHandler()", "PROXY EVENT FIRED", event, this, handler );
+						
+						//TODO: add suport for parameters
+						handler.apply( node, [ event ].concat( parameters ) );
+					}
+				
+					node.addEventListener( type, proxy );
+				}
+			}
+		}
+		
+		public function click( handler:Function = null, ...parameters ):*
+		{
+			if( handler != null )
+			{
+				bindEventHandler( CLICK, handler, parameters );
+			}else{
+				triggerEventHandler( CLICK, parameters );
+			}
+			
+			return getChainedQuery();
+		}
+		
+		private function triggerEventHandler( methodName:*, parameters:Array ):void
+		{
+			var type:String = getDisplayListEventType( String( methodName ) );
+			
+			//TODO: keep track of event handler cache?
+
+			trace("[ASQUERY TRIGGER EVENT HANDLER] ActionscriptQuery::bindEventHandler()",
+				methodName, type );
+			
+			var node:Node = null;
+			for each( node in this )
+			{
+				trace("[ASQUERY TRIGGER EVENT HANDLER - CHECKING DISPATCHER] ActionscriptQuery::bindEventHandler()",
+					node, node.eventProxy is IEventDispatcher, node.hasEventListener( type ) );
+					
+				if( node.dispatchEvent is Function )
+				{
+					//TODO: generate a correct mouse event - co-ordinates !
+					node.dispatchEvent( new MouseEvent( type ) );
+				}
+			}
+		}
+		
 		/**
 		* 	@private
 		*/
 		override protected function methodMissing( methodName:*, parameters:Array ):*
 		{
 			//trace("ActionscriptQuery::methodMissing()", methodName, parameters );
-			
+
 			//check out matched elements for the method
 			var node:Node = null;
 			for each( node in children )
@@ -417,7 +516,6 @@ package asquery
 				find( query );
 			}else if( query is Function )
 			{
-				trace("ActionscriptQuery::onload()" );
 				callbacks.push( query as Function );
 			}else if( query is Node || query is NodeList )
 			{
