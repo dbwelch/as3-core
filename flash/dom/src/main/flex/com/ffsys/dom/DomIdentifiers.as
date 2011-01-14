@@ -94,6 +94,47 @@ package com.ffsys.dom
 
 	public class DomIdentifiers extends Object
 	{
+		//CORE DOM ELEMENTS
+		
+		/**
+		* 	The identifier for <code>DOM</code> attributes.
+		*/
+		public static const ATTR:String = "attr";
+		
+		/**
+		* 	The identifier for <code>DOM</code> document fragments.
+		*/
+		public static const DOCUMENT_FRAGMENT:String = "document-fragment";
+		
+		/**
+		* 	The identifier for <code>DOM</code> text nodes.
+		*/
+		public static const TEXT:String = "text";
+		
+		/**
+		* 	The identifier for <code>DOM</code> processing instructions.
+		*/
+		public static const PROCESSING_INSTRUCTION:String = "processing-instruction";
+		
+		/**
+		* 	The identifier for <code>DOM</code> comments.
+		*/
+		public static const COMMENT:String = "comment";
+		
+		/**
+		* 	The identifier for <code>DOM</code> CDATA sections.
+		*/
+		public static const CDATA_SECTION:String = "cdata-section";
+		
+		/**
+		* 	The identifier for <code>DOM</code> entities.
+		*/
+		public static const ENTITY:String = "entity";
+		
+		/**
+		* 	The identifier for <code>DOM</code> entity references.
+		*/
+		public static const ENTITY_REFERENCE:String = "entity-reference";
 		
 		//ABSTRACT ELEMENTS
 		

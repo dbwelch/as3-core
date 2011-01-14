@@ -15,65 +15,32 @@ package com.ffsys.dom.xhtml
 	*	@author Mischa Williamson
 	*	@since  11.01.2011
 	*/
-	public class XhtmlBeanDocument extends BeanDocument
+	public class XhtmlBeanDocument extends DomBeanDocument
 	{
-		/**
-		* 	The default name for <code>XHTML</code> bean documents.
-		*/
-		public static const NAME:String = "xhtml";
-		
 		/**
 		* 	Creates a <code>XhtmlBeanDocument</code> instance.
 		*/
 		public function XhtmlBeanDocument()
 		{
 			super();
-			this.id  = NAME;
-			this.locked = false;
-			this.policy = BeanCreationPolicy.MERGE;
-			doWithBeans( this );
 		}
 		
 		/**
-		* 	Initialies the components beans on the specified document.
+		* 	Initializes the XHTML beans on the specified document.
 		* 
-		* 	@param beans The document to initialize with the bean definitions.
+		* 	@param beans The document to initialize with the
+		* 	bean definitions.
 		*/
-		public function doWithBeans(
+		override public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
+			super.doWithBeans( beans );
+			
 			var data:Object = null;
 			
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				DomIdentifiers.DOCUMENT );
 			descriptor.instanceClass = XhtmlDocument;
-			beans.addBeanDescriptor( descriptor );
-			
-			//HEAD
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.HEAD );
-			descriptor.instanceClass = Head;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.META );
-			descriptor.instanceClass = MetaElement;
-			beans.addBeanDescriptor( descriptor );			
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.TITLE );
-			descriptor.instanceClass = TitleElement;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.LINK );
-			descriptor.instanceClass = LinkElement;
-			beans.addBeanDescriptor( descriptor );
-
-			//BODY
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.BODY );
-			descriptor.instanceClass = Body;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(

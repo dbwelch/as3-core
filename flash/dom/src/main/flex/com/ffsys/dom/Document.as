@@ -2,6 +2,8 @@ package com.ffsys.dom
 {	
 	import flash.display.*;
 	
+	import com.ffsys.ioc.*;
+	
 	/**
 	*	An abstract implementation of a <code>DOM</code>
 	* 	document.
@@ -100,6 +102,12 @@ package com.ffsys.dom
 			return _tags[ tagName ];
 		}
 		
+		public function getElementsByTagNameNS( namespaceURI:String, localName:String ):NodeList
+		{
+			//
+			return null;
+		}
+		
 		/**
 		* 	The document type for this document.
 		*/
@@ -132,20 +140,128 @@ package com.ffsys.dom
 			_implementation = implementation;
 		}
 		
+		public function createElement( tagName:String ):Element
+		{
+			//
+			return null;
+		}
+		
+		public function createElementNS( 
+			namespaceURI:String, qualifiedName:String ):Element
+		{
+			return null;
+		}
+		
+		public function createDocumentFragment():DocumentFragment
+		{
+			//
+			return null;
+		}
+		
+		public function createTextNode( data:String ):Text
+		{
+			return null;
+		}
+		
+		public function createComment( data:String ):Comment
+		{
+			return null;
+		}
+		
+		public function createCDATASection( data:String ):CDATASection
+		{
+			//
+			return null;
+		}
+		
+		public function createProcessingInstruction():ProcessingInstruction
+		{
+			//
+			return null;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
 		public function createAttribute( name:String ):Attr
 		{
-			//TODO: retrieve from bean document
-			return new Attr( name, null, null );
-		}		
+			var attr:Attr = Attr( getDomBean(
+				DomIdentifiers.ATTR,
+					{ name: name } ) );
+			
+			//trace("Document::createAttribute()", attr, attr.name );
+			return attr;
+		}
 		
 		public function createAttributeNS(
 			namespaceURI:String, qualifiedName:String ):Attr
 		{
-			//TODO: retrieve from bean document			
-			return new Attr( qualifiedName, null, namespaceURI );
+			var attr:Attr = Attr( getDomBean(
+				DomIdentifiers.ATTR,
+					{ name: qualifiedName, uri: namespaceURI } ) );
+			
+			//trace("Document::createAttributeNS()", attr );
+			return attr;
+		}
+		
+		public function createEntityReference( name:String ):EntityReference
+		{
+			//
+			return null;
+		}	
+		
+		public function importNode( source:Node, deep:Boolean ):Node
+		{
+			//
+			return null;
+		}
+		
+		//TODO: implement and change return type to display object
+		public function getComponent( name:String ):Object
+		{
+			return null;
+		}
+		
+		private function getComponentBean( beanName:String ):Object
+		{
+			return null;
+		}
+		
+		private function getDomBean( beanName:String, properties:Object = null ):Object
+		{
+			if( this.document == null )
+			{
+				//TODO: move to DomException
+				throw new Error( "Cannot retrieve a DOM bean with no valid bean document." );
+			}
+			
+			var descriptor:IBeanDescriptor = this.document.getBeanDescriptor(
+				beanName );
+				
+			if( descriptor == null )
+			{
+				throw new Error( "Could not locate an implementation for bean identifier '"
+				 	+ beanName + "'." );
+			}
+			
+			var bean:Object = descriptor.getBean( true, false );
+			
+			trace("Document::getDomBean()", descriptor, bean );
+			
+			if( bean != null
+				&& properties != null )
+			{
+				var z:String = null;
+				for( z in properties )
+				{
+					if( bean.hasOwnProperty( z ) )
+					{
+						bean[ z ] = properties[ z ];
+					}
+				}
+			}
+			bean.finalized();
+			return bean;
 		}
 		
 				/*
@@ -188,30 +304,35 @@ package com.ffsys.dom
 		The name parameter is of type String.
 		This method can raise a DOMException object.
 		
-		createEntityReference(name)
-		This method returns a EntityReference object.
-		The name parameter is of type String.
-		This method can raise a DOMException object.
-		
-		importNode(importedNode, deep)
-		This method returns a Node object.
-		The importedNode parameter is a Node object.
-		The deep parameter is of type Boolean.
-		This method can raise a DOMException object.
-		
-		createElementNS(namespaceURI, qualifiedName)
-		This method returns a Element object.
-		The namespaceURI parameter is of type String.
-		The qualifiedName parameter is of type String.
-		This method can raise a DOMException object.
-		
 		createAttributeNS(namespaceURI, qualifiedName)
 		This method returns a Attr object.
 		The namespaceURI parameter is of type String.
 		The qualifiedName parameter is of type String.
 		This method can raise a DOMException object.
 		
+		createEntityReference(name)
+		This method returns a EntityReference object.
+		The name parameter is of type String.
+		This method can raise a DOMException object.
+		
+		importNode(importedNode, deep)
+		
+		This method returns a Node object.
+		The importedNode parameter is a Node object.
+		The deep parameter is of type Boolean.
+		
+		This method can raise a DOMException object.
+		
+		createElementNS(namespaceURI, qualifiedName)
+		This method returns a Element object.
+		
+		The namespaceURI parameter is of type String.
+		The qualifiedName parameter is of type String.
+		
+		This method can raise a DOMException object.
+		
 		getElementsByTagNameNS(namespaceURI, localName)
+		
 		This method returns a NodeList object.
 		The namespaceURI parameter is of type String.
 		The localName parameter is of type String.
