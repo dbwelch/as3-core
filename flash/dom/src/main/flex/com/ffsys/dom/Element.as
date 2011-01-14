@@ -153,7 +153,7 @@ package com.ffsys.dom
 				
 			attr.value = value;
 			
-			trace("Element::setAttribute() attr: ", this, attr, attr.name, attr.value, attributes.length );			
+			//trace("Element::setAttribute() attr: ", this, attr, attr.name, attr.value, attributes.length );			
 			
 			setAttributeNode( attr );
 		}
@@ -165,7 +165,7 @@ package com.ffsys.dom
 		{
 			var value:String = null;
 			var attr:Attr = getAttributeNode( name );
-			trace("Element::getAttribute()", name, attr, length );
+			//trace("Element::getAttribute()", name, attr, length );
 			if( attr != null )
 			{
 				value = attr.value;
@@ -323,12 +323,15 @@ package com.ffsys.dom
 		*/
 		public function getElementsByTagName( tagName:String ):NodeList
 		{
-			if( this[ tagName ] == null )
+			var list:NodeList = getChildrenByTagName( tagName );
+			//append child element matches
+			var elems:Vector.<Element> = this.elements;
+			var child:Element = null;
+			for each( child in elems )
 			{
-				return new NodeList();
+				list.concat( child.getChildrenByTagName( tagName ) );
 			}
-			
-			return this[ tagName ] as NodeList;
+			return list;
 		}
 		
 		/**
@@ -338,23 +341,13 @@ package com.ffsys.dom
 		* 
 		* 	@return A node list containing any matched elements.
 		*/
-		public function getDescendantsByTagName( tagName:String ):NodeList
+		public function getChildrenByTagName( tagName:String ):NodeList
 		{
-			var list:NodeList = new NodeList();	
-			
-			if( this[ tagName ] is NodeList )
+			if( this[ tagName ] == null )
 			{
-				list.concat( NodeList( this[ tagName ] ) );
+				return new NodeList();
 			}
-
-			//append child element matches
-			var elems:Vector.<Element> = this.elements;
-			var child:Element = null;
-			for each( child in elems )
-			{
-				list.concat( child.getDescendantsByTagName( tagName ) );
-			}
-			return list;
+			return this[ tagName ] as NodeList;
 		}
 		
 		/*
@@ -477,7 +470,9 @@ package com.ffsys.dom
 					name = child.name();
 					value = child.toString();
 					var local:Boolean = !name.uri;
-					trace("Element::importAttributes() beanName/name/value/local: ", beanName, name.localName, value, local );
+					
+					//trace("Element::importAttributes() beanName/name/value/local: ", beanName, name.localName, value, local );
+					
 					if( local )
 					{
 						target.setAttribute( name.localName, value );

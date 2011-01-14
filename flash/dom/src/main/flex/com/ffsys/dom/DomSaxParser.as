@@ -15,6 +15,13 @@ package com.ffsys.dom
 		*/
 		public static const EXCLUSION_PROCESSING_INSTRUCTION:String =
 			"flash-dom-exclude";
+			
+		/**
+		* 	The default namespace URI used if none
+		* 	is specified on the document.
+		*/
+		public static const DEFAULT_NAMESPACE_URI:String =
+			"http://www.w3.org/1999/xhtml";	
 		
 		private var _dom:Document;
 		private var _textData:String;
@@ -22,12 +29,81 @@ package com.ffsys.dom
 		private var _textType:String;
 		private var _excludeNextElement:Boolean = false;
 		
+		private var _implementation:DOMImplementation;
+		private var _namespaceURI:String;
+		private var _qualifiedName:String;
+		private var _doctype:DocumentType;
+		
 		/**
 		* 	Creates a <code>DomSaxParser</code> instance.
 		*/
-		public function DomSaxParser()
+		public function DomSaxParser(
+			implementation:DOMImplementation,
+			doctype:DocumentType )
 		{
 			super();
+			this.implementation = implementation;
+			this.doctype = doctype;						
+		}
+		
+		/**
+		* 	The implementation used to create the document
+		* 	when parsing entire documents.
+		*/
+		public function get implementation():DOMImplementation
+		{
+			return _implementation;
+		}
+		
+		public function set implementation( value:DOMImplementation ):void
+		{
+			_implementation = value;
+		}
+		
+		/**
+		* 	The document type.
+		*/
+		public function get doctype():DocumentType
+		{
+			return _doctype;
+		}
+		
+		public function set doctype( value:DocumentType ):void
+		{
+			_doctype = value;
+			
+			if( this.document == null
+				&& value != null
+				&& value.elements != null )
+			{
+				this.document = value.elements;
+			}
+		}		
+		
+		/**
+		* 	The namespace URI for the document.
+		*/
+		public function get namespaceURI():String
+		{
+			return _namespaceURI;
+		}
+		
+		public function set namespaceURI( value:String ):void
+		{
+			_namespaceURI = value;
+		}
+		
+		/**
+		* 	The qualified name for the document
+		*/
+		public function get qualifiedName():String
+		{
+			return _qualifiedName;
+		}
+		
+		public function set qualifiedName( value:String ):void
+		{
+			_qualifiedName = value;
 		}
 		
 		/**
@@ -35,11 +111,31 @@ package com.ffsys.dom
 		*/
 		override public function beginDocument( token:SaxToken ):void
 		{
-			if( root == null )
+			//var qualifiedName:String = null;
+			//var namespaceURI:String = null;
+			
+			//extract the qualified name and namespace URI
+			//if they have not been specified
+			if( token.xml != null )
 			{
-				super.beginDocument( token );
+				if( qualifiedName == null && token.xml.name() )
+				{
+					qualifiedName = token.xml.name().localName;
+				}
+			
+				if( namespaceURI == null )
+				{
+					namespaceURI = token.xml.@xmlns.length() > 0
+						? token.xml.@xmlns.toString() : DEFAULT_NAMESPACE_URI;
+				}
 			}
 			
+			//if( root == null )
+			//{
+				super.beginDocument( token );
+			//}
+			
+			/*
 			if( root != null
 				&& root is Document
 				&& _dom == null )
@@ -48,6 +144,7 @@ package com.ffsys.dom
 				_dom = Document( this.root );
 				importAttributes( token );
 			}
+			*/
 		}
 		
 		/**
@@ -75,7 +172,7 @@ package com.ffsys.dom
 				return;
 			}
 			
-			trace("[CONCATENTATING TEXT] DomSaxParser::text()", current, token.xml.toXMLString() );
+			//trace("[CONCATENTATING TEXT] DomSaxParser::text()", current, token.xml.toXMLString() );
 			
 			_textData += token.xml.toString();
 			
@@ -151,7 +248,7 @@ package com.ffsys.dom
 			
 			if( _textData != null )
 			{
-				trace("[CREATE TEXT BLOCK AT START] DomSaxParser::beginElement()", _textData );
+				//trace("[CREATE TEXT BLOCK AT START] DomSaxParser::beginElement()", _textData );
 				createTextBlock( _textType, _textData );
 			}
 			
@@ -182,7 +279,7 @@ package com.ffsys.dom
 				//TODO: property name conversion hyphens to camel case
 				name = token.name;
 				
-				trace("[ASSIGNING] DomSaxParser::beginElement()", ancestor, name, current );
+				trace("[ASSIGNING] DomSaxParser::beginElement() ancestor/name/current:", ancestor, name, current );
 					
 				//also assign a reference by property name
 				ancestor[ name ] = current;
@@ -199,7 +296,7 @@ package com.ffsys.dom
 			if( _textData != null )
 			{
 				createTextBlock( _textType, _textData );				
-				trace("[CREATE TEXT BLOCK AT END] DomSaxParser::endElement()", _textData );
+				//trace("[CREATE TEXT BLOCK AT END] DomSaxParser::endElement()", _textData );
 			}
 			
 			//
@@ -235,19 +332,45 @@ package com.ffsys.dom
 		*/
 		override protected function getElementInstance( token:SaxToken ):Object
 		{
-			var document:Document = this.root as Document;
-			
-			if( document == null )
+			if( implementation == null )
 			{
-				throw new Error( "Cannot parse a DOM document with no document implementation." );
+				throw new Error( "You must associate a DOM implementation when parsing DOM documents." );
 			}
 			
 			var qn:QName = token.xml.name();
-			var name:String = qn.localName;
+			var name:String = qn.localName;		
 			
 			if( name == null )
 			{
 				throw new Error( "Cannot retrieve a DOM element with no element name available." );
+			}				
+			
+			var document:Document = this.root as Document;			
+			
+			//create a document for the top-level element
+			//when appropriate
+			if( document == null
+				&& depth == 0
+				&& name == DomIdentifiers.DOCUMENT )
+			{
+				//TODO: validate these values: namespaceURI, qualifiedName, doctype
+				
+				document = implementation.createDocument(
+					namespaceURI, qualifiedName, doctype );
+				
+				//default identifier
+				document.id = namespaceURI;
+				
+				_dom = document;
+					
+				trace("[CREATE ROOT DOCUMENT INSTANCE] DomSaxParser::getElementInstance()", document );
+					
+				return document;
+			}
+			
+			if( document == null )
+			{
+				throw new Error( "Cannot parse a DOM document with no document implementation." );
 			}
 			
 			//TODO: add support for namespace usage
@@ -259,7 +382,8 @@ package com.ffsys.dom
 		{
 			var document:Document = this.root as Document;			
 			var output:CharacterData = null;
-			trace("DomSaxParser::getTextInstance()", type, data );
+			
+			//trace("DomSaxParser::getTextInstance()", type, data );
 			
 			switch( type )
 			{
@@ -274,12 +398,12 @@ package com.ffsys.dom
 					break;
 			}
 			
-			trace("DomSaxParser::createTextBlock()", output, current );
+			//trace("DomSaxParser::createTextBlock()", output, current );
 			
 			if( output != null
 				&& current is Node )
 			{
-				trace("[ADDING TEXT CHILD NODE] DomSaxParser::createTextBlock()", current, output );
+				//trace("[ADDING TEXT CHILD NODE] DomSaxParser::createTextBlock()", current, output );
 				Node( current ).appendChild( output );
 			}
 			

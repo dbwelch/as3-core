@@ -130,8 +130,7 @@ package com.ffsys.dom
 			//register an onload closure
 			$( function():void
 			{
-				trace("[DOM ONLOAD CLOSURE HANDLER] SimpleDOMTest::domTest()", this );
-				trace("[PRIMARY DOCUMENT] SimpleDOMTest::domTest()", $().document );
+				trace("[DOM ONLOAD CLOSURE HANDLER] SimpleDOMTest::domTest()", this, $( "#inner" ) );
 			} );
 			
 			/*
@@ -181,7 +180,7 @@ package com.ffsys.dom
 			//elements = $();
 			//elements = $( "*" );
 			
-			//match by tag name - all statements are equivalent
+			//match by tag name
 			//matching the two main divs within the body tag
 			elements = $( "div" );
 			Assert.assertEquals( 5, elements.length );

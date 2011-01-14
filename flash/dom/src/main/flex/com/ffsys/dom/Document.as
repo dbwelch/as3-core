@@ -99,7 +99,23 @@ package com.ffsys.dom
 		*/
 		override public function getElementsByTagName( tagName:String ):NodeList
 		{
+			trace("Document::getElementsByTagName()", tagName, _tags[ tagName ] );
 			return _tags[ tagName ];
+		}
+		
+		override public function getChildrenByTagName( tagName:String ):NodeList
+		{
+			//filter children for tag name matches
+			var output:NodeList = new NodeList();
+			var elem:Element = null;
+			for each( elem in elements )
+			{
+				if( elem.tagName == tagName )
+				{
+					output.concat( elem );
+				}
+			}
+			return output;
 		}
 		
 		public function getElementsByTagNameNS( namespaceURI:String, localName:String ):NodeList
@@ -328,7 +344,7 @@ package com.ffsys.dom
 			
 			var bean:Object = descriptor.getBean( true, false );
 			
-			trace("Document::getDomBean()", descriptor, bean );
+			//trace("Document::getDomBean()", descriptor, bean );
 			
 			if( bean != null
 				&& properties != null )
@@ -462,9 +478,7 @@ package com.ffsys.dom
 		internal function registerElement( element:Element ):void
 		{
 			if( element != null && element != this )
-			{
-				//trace("[REGISTER ELEMENT] Document::registerElement()", element );
-				
+			{				
 				if( element.id != null )
 				{
 					var existing:Element = _identifiers[ element.id ] as Element;
@@ -488,7 +502,10 @@ package com.ffsys.dom
 					{
 						_tags[ nm ] = new NodeList();
 					}
-					_tags[ nm ].children.push( element );
+					_tags[ nm ].concat( element );
+					
+				
+					trace("[REGISTER ELEMENT] Document::registerElement()", element, element.id, nm, _tags[ nm ].length );					
 				}
 			}
 		}

@@ -480,13 +480,13 @@ package asquery
 				//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );
 			}else if( tagName )
 			{
-				//trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, context.getElementsByTagName( candidate ) );
+				trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, descendants, context.getElementsByTagName( candidate ) );
 				
 				if( !descendants )
 				{				
-					addMatchedList( context.getElementsByTagName( candidate ) );
+					addMatchedList( context.getChildrenByTagName( candidate ) );	
 				}else{
-					addMatchedList( context.getDescendantsByTagName( candidate ) );
+					addMatchedList( context.getElementsByTagName( candidate ) );
 				}
 				//trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
 			}

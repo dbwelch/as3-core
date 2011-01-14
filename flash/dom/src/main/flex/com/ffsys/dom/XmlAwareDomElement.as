@@ -140,7 +140,7 @@ package com.ffsys.dom
 			if( value != null )
 			{
 				xml.setName( new QName( null, value ) );
-				trace("[SETTING XML ELEMENT NAME] XmlAwareDomElement::set beanName()", xml.toXMLString() );
+				//trace("[SETTING XML ELEMENT NAME] XmlAwareDomElement::set beanName()", xml.toXMLString() );
 			}
 		}
 		

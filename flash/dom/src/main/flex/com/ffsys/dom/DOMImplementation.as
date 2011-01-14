@@ -13,14 +13,7 @@ package com.ffsys.dom
 	*	@since  09.01.2011
 	*/
 	public class DOMImplementation extends Object
-	{
-		/**
-		* 	The default namespace URI used if none
-		* 	is specified on the document.
-		*/
-		public static const DEFAULT_NAMESPACE_URI:String =
-			"http://www.w3.org/1999/xhtml";
-			
+	{			
 		/**
 		* 	Represents the DOM level 2.
 		*/
@@ -95,21 +88,27 @@ package com.ffsys.dom
 				doctype = DocumentType.XHTML_1_STRICT;
 			}
 			
-			var qualifiedName:String = source.name().localName;
-			var namespaceURI:String = source.@xmlns.length() > 0 ? source.@xmlns.toString() : DEFAULT_NAMESPACE_URI;
+			//var qualifiedName:String = source.name().localName;
+			//var namespaceURI:String = source.@xmlns.length() > 0 ? source.@xmlns.toString() : DEFAULT_NAMESPACE_URI;
 			
+			/*
 			var doc:Document = createDocument(
 				namespaceURI, qualifiedName, doctype );
 			doc.xml = source;
+			*/
 			
-			var beans:IBeanDocument = doctype.elements;
+			//var beans:IBeanDocument = doctype.elements;
 			
-			var parser:DomSaxParser = new DomSaxParser();
-			parser.root = doc;
-			parser.document = beans;
-			parser.document.id = namespaceURI;
+			var parser:DomSaxParser = new DomSaxParser( this, doctype );
+				
+			//parser.root = doc;
+			//parser.document = beans;
+			
+			//parser.document.id = namespaceURI;
+			
 			parser.parse( source );
-			return doc;
+			
+			return parser.dom;
 		}
 		
 		/**
