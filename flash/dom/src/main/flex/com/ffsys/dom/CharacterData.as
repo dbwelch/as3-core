@@ -87,6 +87,14 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Ensures the string data is returned as the node value.
+		*/
+		override public function get nodeValue():String
+		{
+			return _data;
+		}
+		
+		/**
 		* 	Ensures the length of this implementation matches
 		* 	the length of the encapsulated data.
 		*/

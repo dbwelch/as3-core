@@ -12,7 +12,7 @@ package com.ffsys.dom
 	/**
 	*	Unit tests for the DOM implementation.
 	*/ 
-	public class SimpleDOMTest extends Object
+	dynamic public class SimpleDOMTest extends Object
 	{
 		/**
 		*	Creates a <code>SimpleDOMTest</code> instance.
@@ -127,10 +127,30 @@ package com.ffsys.dom
 		{
 			var document:Document = null;
 			
+			
+			//test parsing to a document fragment
+			var fragment:XML = new XML( "<p>this is a test paragraph</p>" );
+			var impl:DOMImplementation = new DOMImplementation();
+			var documentFragment:DocumentFragment = impl.fragment( fragment );
+			Assert.assertTrue( documentFragment is DocumentFragment );
+			Assert.assertTrue( documentFragment.childNodes[ 0 ] is ParagraphElement );
+			Assert.assertTrue( documentFragment.childNodes[ 0 ].childNodes[ 0 ] is Text );
+				
+			//test parsing a partial
+			fragment = new XML( "<p class=\"partial-paragraph\">this is a test paragraph</p>" );
+			var partial:ParagraphElement = impl.parse( fragment ) as ParagraphElement;
+			Assert.assertNotNull( partial );
+			Assert.assertEquals( "partial-paragraph", partial.classNames );
+			Assert.assertTrue( partial.childNodes[ 0 ] is Text );
+			
+			//trace("SimpleDOMTest::domTest()", partial.xml.toXMLString() );
+			
+			//return;			
+			
 			//register an onload closure
 			$( function():void
 			{
-				trace("[DOM ONLOAD CLOSURE HANDLER] SimpleDOMTest::domTest()", this, $( "#inner" ) );
+				trace("[DOM ONLOAD CLOSURE HANDLER] SimpleDOMTest::domTest()", this, this.childNodes );
 			} );
 			
 			/*
@@ -140,18 +160,14 @@ package com.ffsys.dom
 			parser.parse( source );
 			*/
 			
-			var impl:DOMImplementation = new DOMImplementation();
-			document = impl.parse( getTestDocument() );
-			
-			//trace("SimpleDOMTest::domTest()", document.xml, document.xml.@["xml:lang"] );
-			
-			//return;
+			//parse an entire document
+			document = Document( impl.parse( getTestDocument() ) );
 			
 			//document = parser.dom;
 			var elements:NodeList = null;
 			var child:Node;
 			
-			//should only have one registered DOM
+			//should only three registered DOM implementations
 			Assert.assertEquals( 1, $().doms.length );
 			
 			//verify document language

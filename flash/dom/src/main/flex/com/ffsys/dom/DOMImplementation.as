@@ -75,7 +75,7 @@ package com.ffsys.dom
 		*/
 		public function parse(
 			source:XML,
-			doctype:DocumentType = null ):Document
+			doctype:DocumentType = null ):Element
 		{
 			if( source == null || !source.name() )
 			{
@@ -84,31 +84,36 @@ package com.ffsys.dom
 			
 			if( doctype == null )
 			{
-				//default document type for the moment
-				doctype = DocumentType.XHTML_1_STRICT;
+				doctype = getDefaultDocumentType();
 			}
 			
-			//var qualifiedName:String = source.name().localName;
-			//var namespaceURI:String = source.@xmlns.length() > 0 ? source.@xmlns.toString() : DEFAULT_NAMESPACE_URI;
+			var parser:DomSaxParser = new DomSaxParser( this, doctype );
+			parser.parse( source );
+			return Element( parser.element );
+		}
+		
+		public function fragment(
+			source:XML,
+			doctype:DocumentType = null ):DocumentFragment
+		{
+			if( source == null || !source.name() )
+			{
+				return null;
+			}
 			
-			/*
-			var doc:Document = createDocument(
-				namespaceURI, qualifiedName, doctype );
-			doc.xml = source;
-			*/
-			
-			//var beans:IBeanDocument = doctype.elements;
+			if( doctype == null )
+			{
+				doctype = getDefaultDocumentType();
+			}
 			
 			var parser:DomSaxParser = new DomSaxParser( this, doctype );
-				
-			//parser.root = doc;
-			//parser.document = beans;
-			
-			//parser.document.id = namespaceURI;
-			
-			parser.parse( source );
-			
-			return parser.dom;
+			parser.fragment( source );
+			return DocumentFragment( parser.element );
+		}
+		
+		private function getDefaultDocumentType():DocumentType
+		{
+			return DocumentType.XHTML_1_STRICT;
 		}
 		
 		/**

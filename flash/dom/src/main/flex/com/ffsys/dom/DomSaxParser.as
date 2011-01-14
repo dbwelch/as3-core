@@ -23,7 +23,9 @@ package com.ffsys.dom
 		public static const DEFAULT_NAMESPACE_URI:String =
 			"http://www.w3.org/1999/xhtml";	
 		
-		private var _dom:Document;
+		private var _fragmented:Boolean;
+		private var _dom:Element;
+		private var _element:Node;
 		private var _textData:String;
 		private var _textStart:Object;
 		private var _textType:String;
@@ -47,8 +49,8 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	The implementation used to create the document
-		* 	when parsing entire documents.
+		* 	The implementation used to create the document which
+		* 	is used to create the document elements.
 		*/
 		public function get implementation():DOMImplementation
 		{
@@ -107,6 +109,19 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Creates a document fragment from a source XML
+		* 	document.
+		* 
+		* 	@param source The <code>XML</code> document.
+		*/
+		public function fragment( source:XML ):void
+		{
+			_fragmented = true;
+			trace("DomSaxParser::fragment()", _fragmented, source );
+			parse( source );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		override public function beginDocument( token:SaxToken ):void
@@ -152,10 +167,11 @@ package com.ffsys.dom
 		*/
 		override public function endDocument( token:SaxToken ):void
 		{
-			if( root == null )
-			{
-				super.endDocument( token );
-			}
+			_element = Node( root );
+			
+			//trace("DomSaxParser::endDocument()", _dom, root, _element );
+			
+			super.endDocument( token );
 		}
 		
 		override public function text( token:SaxToken ):void
@@ -175,8 +191,6 @@ package com.ffsys.dom
 			//trace("[CONCATENTATING TEXT] DomSaxParser::text()", current, token.xml.toXMLString() );
 			
 			_textData += token.xml.toString();
-			
-			
 			
 			//var text:Text = Text( getTextInstance( token, token.xml.toString() ) );
 			
@@ -206,21 +220,23 @@ package com.ffsys.dom
 			if( token.name == EXCLUSION_PROCESSING_INSTRUCTION )
 			{
 				//trace("[PROCESSING-INSTRUCTION - FOUND HTML ONLY ELEMENT] SaxParser::doWithProcessingInstruction()", token.name, token.type );	
-				_excludeNextElement = true;			
+				_excludeNextElement = true;
 			}
-			
 			super.doWithProcessingInstruction( token );
 		}	
 		
 		private function importAttributes( token:SaxToken ):void
 		{
-			var document:Document = this.root as Document;
+			var document:Document = getCreationDocument();
+			
+			trace("DomSaxParser::importAttributes()", document, current );
+			
 			if( document != null && current is Element )
 			{			
 				var saxattr:SaxAttribute = null;
 				for each( saxattr in token.attributes )
 				{
-					//trace("[SAX ATTR] DomSaxParser::importAttributes()", saxattr, saxattr.name, saxattr.isQualified() );
+					trace("[SAX ATTR] DomSaxParser::importAttributes()", saxattr, saxattr.name, saxattr.isQualified() );
 					if( !saxattr.isQualified() )
 					{
 						Element( current ).setAttribute(
@@ -259,8 +275,10 @@ package com.ffsys.dom
 			
 			super.beginElement( token );
 			
-			var document:Document = this.root as Document;
+			var document:Document = getCreationDocument();
 			var name:String = null;
+			
+			trace("[BEGIN ELEMENT] DomSaxParser::beginElement()", document, root, current );
 			
 			//import the list of attributes into the current element
 			importAttributes( token );
@@ -279,7 +297,7 @@ package com.ffsys.dom
 				//TODO: property name conversion hyphens to camel case
 				name = token.name;
 				
-				trace("[ASSIGNING] DomSaxParser::beginElement() ancestor/name/current:", ancestor, name, current );
+				trace("[ASSIGNING] DomSaxParser::beginElement() ancestor/name/current:", ancestor, name, current, root );
 					
 				//also assign a reference by property name
 				ancestor[ name ] = current;
@@ -345,45 +363,91 @@ package com.ffsys.dom
 				throw new Error( "Cannot retrieve a DOM element with no element name available." );
 			}				
 			
-			var document:Document = this.root as Document;			
+			var document:Document = getCreationDocument();	
+			
+			var isDocument:Boolean = depth == 0
+				&& name == DomIdentifiers.DOCUMENT;	
+			
+			var isFragment:Boolean = depth == 0
+			 	&& name != DomIdentifiers.DOCUMENT;	
 			
 			//create a document for the top-level element
 			//when appropriate
-			if( document == null
-				&& depth == 0
-				&& name == DomIdentifiers.DOCUMENT )
-			{
-				//TODO: validate these values: namespaceURI, qualifiedName, doctype
-				
-				document = implementation.createDocument(
-					namespaceURI, qualifiedName, doctype );
-				
-				//default identifier
-				document.id = namespaceURI;
-				
-				_dom = document;
-					
-				trace("[CREATE ROOT DOCUMENT INSTANCE] DomSaxParser::getElementInstance()", document );
-					
-				return document;
-			}
-			
 			if( document == null )
 			{
-				throw new Error( "Cannot parse a DOM document with no document implementation." );
+				
+				if( isDocument )
+				{
+					//TODO: validate these values: namespaceURI, qualifiedName, doctype
+				
+					document = implementation.createDocument(
+						namespaceURI, qualifiedName, doctype );
+					
+					trace("[CREATE ROOT DOCUMENT INSTANCE] DomSaxParser::getElementInstance()", document );
+			
+					//default identifier
+					document.id = namespaceURI;
+					_dom = document;					
+					
+					//we need to treat the document as the element itself
+					return document;
+				}else if( isFragment )
+				{
+					//create a valid document for fragments that
+					//do not have a document as the root element
+					
+					//we must use the document level identifier not
+					//the node name
+					document = implementation.createDocument(
+						namespaceURI, DomIdentifiers.DOCUMENT, doctype );	
+					
+					//update the qualified name so that we can verify	
+					qualifiedName = name;
+					
+					document.id = namespaceURI;
+					_dom = document;
+					
+					if( _fragmented )
+					{
+						_root = document.createDocumentFragment();
+					}
+					
+					trace("[CREATE DOM FRAGMENT] DomSaxParser::getElementInstance()!!!!!!!!!!!!!!!!!!!!!!!!!!", dom, _fragmented, _root );
+					
+					//fall through so the returned instance is the root element
+				}
+
+				
+				if( document == null )
+				{
+					throw new Error( "Cannot parse a DOM document with no document implementation." );
+				}
+					
+			
 			}
 			
 			//TODO: add support for namespace usage
 			
-			return document.createElement( name );
+			//default to creating an element with no namespace
+			var element:Element = document.createElement( name );
+			
+			if( isFragment
+				&& _root is Node )
+			{
+				Node( _root ).appendChild( element );
+			}
+			
+			trace("DomSaxParser::getElementInstance()", element, root );
+			
+			return element;
 		}
 		
 		private function createTextBlock( type:String, data:String ):CharacterData
 		{
-			var document:Document = this.root as Document;			
+			var document:Document = getCreationDocument();
 			var output:CharacterData = null;
 			
-			//trace("DomSaxParser::getTextInstance()", type, data );
+			trace("DomSaxParser::getTextInstance()", document );
 			
 			switch( type )
 			{
@@ -408,7 +472,19 @@ package com.ffsys.dom
 			}
 			
 			return output;
-		}		
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function getCreationDocument():Document
+		{
+			if( dom is Document )
+			{
+				return dom as Document;
+			}
+			return this.root as Document;
+		}
 		
 		/**
 		* 	Invoked when parsing is complete.
@@ -416,19 +492,31 @@ package com.ffsys.dom
 		override protected function complete():void
 		{
 			//register the DOM with asquery
-			$().onload( dom );
+			
+			if( !_fragmented && _element is Document )
+			{
+				$().onload( dom );
+			}
 			//trace("[DOM COMPLETE] DomSaxParser::complete()", ActionscriptQuery.doms );
 		}
 		
 		/**
-		* 	The document used to create the DOM.
+		* 	The element at the root of the document hierarchy.
 		*/
-		public function get dom():Document
+		public function get element():Node
+		{
+			return _element;
+		}
+		
+		/**
+		* 	The document used to create the DOM elements.
+		*/
+		public function get dom():Element
 		{
 			return _dom;
 		}
 		
-		public function set dom( value:Document ):void
+		public function set dom( value:Element ):void
 		{
 			_dom = value;
 		}

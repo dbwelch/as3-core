@@ -104,7 +104,7 @@ package com.ffsys.dom
 		/**
 		* 	The identifier for <code>DOM</code> document fragments.
 		*/
-		public static const DOCUMENT_FRAGMENT:String = "document-fragment";
+		public static const DOCUMENT_FRAGMENT:String = "fragment";
 		
 		/**
 		* 	The identifier for <code>DOM</code> text nodes.
