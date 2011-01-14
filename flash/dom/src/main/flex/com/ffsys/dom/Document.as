@@ -49,7 +49,7 @@ package com.ffsys.dom
 		*/
 		public function onload():void
 		{
-			trace("[ON LOAD] Document::onload()", this, this.id );
+			//trace("[ON LOAD] Document::onload()", this, this.id );
 		}
 		
 		/**
@@ -99,7 +99,7 @@ package com.ffsys.dom
 		*/
 		override public function getElementsByTagName( tagName:String ):NodeList
 		{
-			trace("Document::getElementsByTagName()", tagName, _tags[ tagName ] );
+			//trace("Document::getElementsByTagName()", tagName, _tags[ tagName ] );
 			return _tags[ tagName ];
 		}
 		
@@ -505,7 +505,7 @@ package com.ffsys.dom
 					_tags[ nm ].concat( element );
 					
 				
-					trace("[REGISTER ELEMENT] Document::registerElement()", element, element.id, nm, _tags[ nm ].length );					
+					//trace("[REGISTER ELEMENT] Document::registerElement()", element, element.id, nm, _tags[ nm ].length );					
 				}
 			}
 		}

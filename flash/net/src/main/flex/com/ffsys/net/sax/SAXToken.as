@@ -9,14 +9,19 @@ package com.ffsys.net.sax
 		public static const ELEMENT:String = "element";	
 		
 		/**
-		* 	Represents a text element.
+		* 	Represents a text node.
 		*/
 		public static const TEXT:String = "text";	
 		
 		/**
-		* 	Represents a comment element.
+		* 	Represents a comment node.
 		*/
 		public static const COMMENT:String = "comment";
+		
+		/**
+		* 	Represents a CDATA text node.
+		*/
+		public static const CDATA:String = "cdata";
 		
 		/**
 		* 	Represents a processing instruction.

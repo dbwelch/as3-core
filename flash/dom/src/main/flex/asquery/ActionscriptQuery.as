@@ -181,7 +181,6 @@ package asquery
 				child = first();
 				if( child is Element )
 				{
-					trace("ActionscriptQuery::attr()", child );
 					return child.getAttribute( String( key ) );
 				}
 			//assign a single attribute to all matches	
@@ -480,7 +479,7 @@ package asquery
 				//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );
 			}else if( tagName )
 			{
-				trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, descendants, context.getElementsByTagName( candidate ) );
+				//trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, descendants, context.getElementsByTagName( candidate ) );
 				
 				if( !descendants )
 				{				
@@ -514,7 +513,7 @@ package asquery
 				
 				tmp.find( part );
 				
-				trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp.length );
+				//trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp.length );
 				
 				if( tmp.length == 0 )
 				{
@@ -525,7 +524,7 @@ package asquery
 				tmp.setContexts( tmp );
 			}
 			
-			trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp );			
+			//trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp );			
 			
 			//update our matches to the temp
 			addMatchedList( tmp );
@@ -601,11 +600,11 @@ package asquery
 				dom.onload();
 			}
 			
-			trace("[ASQUERY ONLOAD] ActionscriptQuery::onload()", callbacks );
+			//trace("[ASQUERY ONLOAD] ActionscriptQuery::onload()", callbacks );
 			
 			if( callbacks.length > 0 )
 			{
-				trace("[INVOKE ON LOAD CALLBACKS] ActionscriptQuery::onload()", dom );
+				//trace("[INVOKE ON LOAD CALLBACKS] ActionscriptQuery::onload()", dom );
 				
 				var f:Function = null;
 				for each( f in callbacks )

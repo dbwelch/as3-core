@@ -19,28 +19,19 @@ package com.ffsys.dom
 		*/ 
 		public function SimpleDOMTest()
 		{
-			super();
-			XML.ignoreComments = false;
-			XML.ignoreProcessingInstructions = false;
-			XML.ignoreWhitespace = false;
-			XML.prettyIndent = 0;
-			XML.prettyPrinting = false;					
+			super();		
 		}
 		
-		/*
-		
-			<!DOCTYPE html PUBLIC 
-				"-//W3C//DTD XHTML Basic 1.1//EN"
-				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-	
-		
-		*/
-
 		private function getTestDocument():XML
 		{
 			var x:XML =
 				<html id="document" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">	
 					<head>
+						
+						<![CDATA[
+							A CDATA section with some character data in it.
+						]]>
+					
 						<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 						<title>Example test document</title>
 						<link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
@@ -140,12 +131,9 @@ package com.ffsys.dom
 			fragment = new XML( "<p class=\"partial-paragraph\">this is a test paragraph</p>" );
 			var partial:ParagraphElement = impl.parse( fragment ) as ParagraphElement;
 			Assert.assertNotNull( partial );
+			
 			Assert.assertEquals( "partial-paragraph", partial.classNames );
 			Assert.assertTrue( partial.childNodes[ 0 ] is Text );
-			
-			//trace("SimpleDOMTest::domTest()", partial.xml.toXMLString() );
-			
-			//return;			
 			
 			//register an onload closure
 			$( function():void
@@ -177,8 +165,6 @@ package com.ffsys.dom
 			Assert.assertNull( document.getElementById( "html-only" ) );
 			Assert.assertNull( document.getElementById( "html-only-paragraph" ) );
 			//but the parent element should still exist in the DOM
-			
-			trace("SimpleDOMTest::domTest() [GOT FOOTER]", document.getElementById( "footer" ) );
 			
 			Assert.assertTrue( document.getElementById( "footer" ) is DivElement );
 			
@@ -218,17 +204,14 @@ package com.ffsys.dom
 			
 			/*
 			
-			trace("[MULTIPLE SELECTOR] SimpleDOMTest::domTest()", elements );
-			
 			$( document.body ).addClass( "test-css-class" );
 			
-			trace("SimpleDOMTest::domTest()", document.body.classNames );
 			*/
 			
 			$( "a" ).click(
 				function( e:Event, ...parameters ):*
 				{
-					trace("[CLICK INVOKED]", this, this.id, e, parameters );
+					//trace("[CLICK INVOKED]", this, this.id, e, parameters );
 				}, "a string", 10, { property: 1.67 } ).click();
 			
 			//match by descendant selector
@@ -256,12 +239,12 @@ package com.ffsys.dom
 			Assert.assertTrue( elements[ 0 ] is ParagraphElement );
 			Assert.assertTrue( elements[ 1 ] is ParagraphElement );
 			
-			trace("[DESCENDANT] SimpleDOMTest::domTest()", elements );
+//			trace("[DESCENDANT] SimpleDOMTest::domTest()", elements );
 			
 			//match by multiple selector
 			elements = $( "h1, em, strong" );
 			
-			trace("[MULTIPLE INLINE] SimpleDOMTest::domTest()", elements );	
+//			trace("[MULTIPLE INLINE] SimpleDOMTest::domTest()", elements );	
 			
 			//test the character data api
 			var cd:CharacterData = new CharacterData();
@@ -295,47 +278,16 @@ package com.ffsys.dom
 			}
 			*/
 			
-			//trace("[ATTR] SimpleDOMTest::domTest()", $( document ).attr( "lang" ) );
-			
 			//modify an attribute for multiple elements at once
 			$( "p" ).attr( "title", "a new title" );
 			elements = $( "p" );
-			trace("[ATTR] SimpleDOMTest::domTest()", elements );
 			for each( child in elements )
 			{
-				trace("SimpleDOMTest::domTest()", child.xml.toXMLString() );
+				Assert.assertEquals( "a new title", child.getAttribute( "title" ) );
 			}
 			
-			trace("SimpleDOMTest::domTest()", document.childNodes.length, document.childNodes[ 0 ] );
-			
-			trace( document.xml.toXMLString() );
-			
-			//trace("SimpleDOMTest::domTest()", document.xml );
-			
-			/*
-
-			trace("SimpleDOMTest::domTest()", elements, elements[ 0 ] );
-			
-			$( "#inner" ).find( "#inner-element-a" ).addClass( "runtime-css-class" );
-			
-			trace("SimpleDOMTest::domTest()", document.body.div[ 0 ].div[ 0 ].div[ 1 ].p[ 0 ].a );
-			
-			trace( "[BY TAG NAME]", document.body.getElementsByTagName( "div" ) );
-			*/
-			
-			//Assert.assertTrue( elements[ 0 ] );
-			
-			//match by tag name
-			//elements = $( "div" );
-			
-			//var elements:Object = $( "#inner .border" );
-			
-			
-			//trace("SimpleDOMTest::domTest()", elements );
-			
-			//trace("SimpleDOMTest::domTest()", "GOT DOM dom/length: ", document, document.length, document.head.length, document.body.length, document.inner.classes );
-			
-			//trace( $( ".links" ) );
+			//trace("SimpleDOMTest::domTest()", document.childNodes.length, document.childNodes[ 0 ] );
+			//trace( document.xml.toXMLString() );
 		}
 	}
 }

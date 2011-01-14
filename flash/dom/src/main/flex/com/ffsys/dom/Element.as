@@ -141,13 +141,6 @@ package com.ffsys.dom
 		*/
 		public function setAttribute( name:String, value:String ):void
 		{
-			if( xml != null
-				&& name != null
-			 	&& value != null )
-			{
-				attributeSet( name, value );
-			}
-			
 			var attr:Attr = ownerDocument.createAttribute(
 				name );
 				
@@ -195,6 +188,9 @@ package com.ffsys.dom
 			var attr:Attr = ownerDocument.createAttributeNS(
 				namespaceURI, qualifiedName );
 			attr.value = value;	
+			
+			trace("Element::setAttributeNS()", attr.name, attr.value, attr.uri );
+			
 			setAttributeNode( attr );
 		}
 		
@@ -232,10 +228,20 @@ package com.ffsys.dom
 		{
 			if( attr != null )
 			{
-				var qn:QName = new QName( attr.uri, attr.name );
-				xml.@[ qn ] = attr.value;
+				var qn:QName = attr.qname;
+				this.xml.@[ qn ] = attr.value;
+								
+				if( xml != null
+					&& attr.name != null
+				 	&& attr.value != null )
+				{
+					attributeSet( attr );
+				}
+				
 				attr.setOwnerElement( this );
 				attributes.setNamedItem( attr );	
+				
+				//trace("Element::setAttributeNode()", attr, attr.isQualified(), attr.name, attr.value, attr.uri );
 			}
 			return attr;
 		}
@@ -486,9 +492,12 @@ package com.ffsys.dom
 		/**
 		* 	@private
 		*/
-		protected function attributeSet( name:String, value:String ):void
+		protected function attributeSet( attr:Attr ):void
 		{
 			//trace("Element::attributeSet()", name, value, xml.@[name], hasOwnProperty( name ) );
+			
+			var name:String = attr.name;
+			var value:String = attr.value;
 			
 			if( hasOwnProperty( name ) )
 			{

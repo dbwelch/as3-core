@@ -53,18 +53,17 @@ package com.ffsys.dom
 			_data = value;
 		}
 		
-		/*
-		
-		Object ProcessingInstruction
-		ProcessingInstruction has the all the properties and methods of the Node object as well as the properties and methods defined below.
-		The ProcessingInstruction object has the following properties:
-		
-		target
-		This read-only property is of type String.
-		
-		data
-		This property is of type String and can raise a DOMException object on setting.		
-		
+		/**
+		* 	Ensures that the representation of
+		* 	a processing instruction is correct.
 		*/
+		override public function get xml():XML
+		{
+			if( _xml == null || _xml.name().localName != data )
+			{
+				_xml = new XML( "<?" + data + " ?>" );
+			}
+			return _xml;
+		}
 	}
 }

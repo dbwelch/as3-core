@@ -42,7 +42,27 @@ package com.ffsys.dom
 		*/
 		public function get qname():QName
 		{
-			return new QName( this.uri, name );
+			if( isQualified() )
+			{
+				return new QName( this.uri, name );
+			}
+			
+			return new QName( name );
+		}
+		
+		/*
+		
+		var ns:Namespace = node.namespace();
+		if( ns
+			&& ns.uri.length > 0
+			&& ns.prefix.length > 0 )
+		{		
+		
+		*/
+		
+		public function isQualified():Boolean
+		{
+			return uri != null && uri.length > 0;
 		}
 		
 		/**

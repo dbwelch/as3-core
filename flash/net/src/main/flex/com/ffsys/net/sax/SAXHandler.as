@@ -39,9 +39,9 @@ package com.ffsys.net.sax
 		/**
 		* 	@inheritDoc
 		*/
-		public function doWithProcessingInstruction( token:SaxToken ):void
+		public function instruction( token:SaxToken ):void
 		{
-			//trace("[PROCESSING-INSTRUCTION] SaxHandler::doWithProcessingInstruction()", token.name, token.type );
+			//trace("[PROCESSING-INSTRUCTION] SaxHandler::instruction()", token.name, token.type );
 		}
 		
 		/**
@@ -58,6 +58,14 @@ package com.ffsys.net.sax
 		public function comment( token:SaxToken ):void
 		{
 			//
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function cdata( token:SaxToken ):void
+		{
+			//			
 		}
 		
 		/**

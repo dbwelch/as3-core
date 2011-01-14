@@ -117,7 +117,6 @@ package com.ffsys.dom
 		public function fragment( source:XML ):void
 		{
 			_fragmented = true;
-			//trace("DomSaxParser::fragment()", _fragmented, source );
 			parse( source );
 		}
 		
@@ -133,7 +132,8 @@ package com.ffsys.dom
 			//if they have not been specified
 			if( token.xml != null )
 			{
-				if( qualifiedName == null && token.xml.name() )
+				if( qualifiedName == null
+					&& token.xml.name() )
 				{
 					qualifiedName = token.xml.name().localName;
 				}
@@ -145,21 +145,7 @@ package com.ffsys.dom
 				}
 			}
 			
-			//if( root == null )
-			//{
-				super.beginDocument( token );
-			//}
-			
-			/*
-			if( root != null
-				&& root is Document
-				&& _dom == null )
-			{
-				_current = root;
-				_dom = Document( this.root );
-				importAttributes( token );
-			}
-			*/
+			super.beginDocument( token );
 		}
 		
 		/**
@@ -168,9 +154,6 @@ package com.ffsys.dom
 		override public function endDocument( token:SaxToken ):void
 		{
 			_element = Node( root );
-			
-			//trace("DomSaxParser::endDocument()", _dom, root, _element );
-			
 			super.endDocument( token );
 		}
 		
@@ -179,18 +162,17 @@ package com.ffsys.dom
 		*/
 		override public function comment( token:SaxToken ):void
 		{
-			if( _textData != null )
-			{
-				createTextBlock( _textType, _textData );				
-				//trace("[CREATE TEXT BLOCK AT END] DomSaxParser::endElement()", _textData );
-				
-				//
-				_textData = null;
-				_textType = null;
-				_textStart = null;
-			}			
-			
+			finalizeTextBlock( token );
 			createTextBlock( token.type, token.xml.toXMLString() );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function cdata( token:SaxToken ):void
+		{
+			finalizeTextBlock( token );
+			createTextBlock( SaxToken.CDATA, token.xml.toString() );
 		}
 		
 		override public function text( token:SaxToken ):void
@@ -207,13 +189,7 @@ package com.ffsys.dom
 				return;
 			}
 			
-			//trace("[CONCATENTATING TEXT] DomSaxParser::text()", current, token.xml.toXMLString() );
-			
 			_textData += token.xml.toString();
-			
-			//var text:Text = Text( getTextInstance( token, token.xml.toString() ) );
-			
-			//trace("[GOT TEXT LEAF NODE INSTANCE] DomSaxParser::text()", current, text, text.data, text.xml.toXMLString() );
 		}
 		
 		/**
@@ -221,55 +197,58 @@ package com.ffsys.dom
 		*/
 		override public function shouldTraverseElement( token:SaxToken ):Boolean
 		{
-			
-			if( _excludeNextElement === true
-				|| token.type == SaxToken.COMMENT )
+			if( _excludeNextElement === true )
 			{
-				//trace("[SKIPPING EXCLUDED ELEMENT] DomSaxParser::beginElement()", token, token.target );
 				return false;
 			}
-			
 			return super.shouldTraverseElement( token );
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		override public function doWithProcessingInstruction( token:SaxToken ):void
+		override public function instruction( token:SaxToken ):void
 		{
-			//trace("[PROCESSING-INSTRUCTION] SaxParser::doWithProcessingInstruction()", token.name, token.type );
+			finalizeTextBlock( token );
+			var document:Document = getCreationDocument();	
+			var instruction:ProcessingInstruction = document.createProcessingInstruction(
+				token.xml.toXMLString(), token.xml.name().localName );
+				
+			if( current is Node )
+			{
+				Node( current ).appendChild( instruction );
+			}
+			
 			if( token.name == EXCLUSION_PROCESSING_INSTRUCTION )
 			{
-				//trace("[PROCESSING-INSTRUCTION - FOUND HTML ONLY ELEMENT] SaxParser::doWithProcessingInstruction()", token.name, token.type );	
 				_excludeNextElement = true;
 			}
-			super.doWithProcessingInstruction( token );
+			super.instruction( token );
 		}	
 		
 		private function importAttributes( token:SaxToken ):void
 		{
 			var document:Document = getCreationDocument();
 			
-			trace("DomSaxParser::importAttributes()", document, current );
-			
 			if( document != null && current is Element )
 			{			
 				var saxattr:SaxAttribute = null;
+				var attr:Attr = null;
 				for each( saxattr in token.attributes )
 				{
-					trace("[SAX ATTR] DomSaxParser::importAttributes()", saxattr, saxattr.name, saxattr.isQualified() );
 					if( !saxattr.isQualified() )
 					{
-						Element( current ).setAttribute(
-							saxattr.name, saxattr.value );
+						attr = document.createAttribute( saxattr.name );
+							
 					}else
 					{
-						Element( current ).setAttributeNS(
-							saxattr.uri, saxattr.name, saxattr.value );
+						attr = document.createAttributeNS( saxattr.uri, saxattr.name )
 					}
+					attr.value = saxattr.value;
+					Element( current ).setAttributeNode( attr );
 				}
-			}		
-		}	
+			}
+		}
 		
 		/**
 		* 	@inheritDoc
@@ -278,28 +257,18 @@ package com.ffsys.dom
 		{
 			if( _excludeNextElement === true )
 			{
-				//trace("[SKIPPING EXCLUDED ELEMENT] DomSaxParser::beginElement()", token );
 				_excludeNextElement = false;
 				return;
 			}
 			
-			if( _textData != null )
-			{
-				//trace("[CREATE TEXT BLOCK AT START] DomSaxParser::beginElement()", _textData );
-				createTextBlock( _textType, _textData );
-			}
-			
-			//
-			_textData = null;
-			_textType = null;
-			_textStart = null;
+			finalizeTextBlock( token );
 			
 			super.beginElement( token );
 			
 			var document:Document = getCreationDocument();
 			var name:String = null;
 			
-			trace("[BEGIN ELEMENT] DomSaxParser::beginElement()", document, root, current );
+			//trace("[BEGIN ELEMENT] DomSaxParser::beginElement()", document, root, current );
 			
 			//import the list of attributes into the current element
 			importAttributes( token );
@@ -317,34 +286,20 @@ package com.ffsys.dom
 				
 				//TODO: property name conversion hyphens to camel case
 				name = token.name;
-				
-				trace("[ASSIGNING] DomSaxParser::beginElement() ancestor/name/current:", ancestor, name, current, root );
 					
 				//also assign a reference by property name
 				ancestor[ name ] = current;
 			}
 		}
 		
-		//_textData = null;
-		
 		/**
 		* 	@inheritDoc
 		*/
 		override public function endElement( token:SaxToken ):void
 		{					
-			if( _textData != null )
-			{
-				createTextBlock( _textType, _textData );				
-				//trace("[CREATE TEXT BLOCK AT END] DomSaxParser::endElement()", _textData );
-			}
-			
-			//
-			_textData = null;
-			_textType = null;
-			_textStart = null;
-			
+			finalizeTextBlock( token );
 			super.endElement( token );			
-		}		
+		}
 		
 		/**
 		* 	Determines whether an instance is created
@@ -403,8 +358,6 @@ package com.ffsys.dom
 				
 					document = implementation.createDocument(
 						namespaceURI, qualifiedName, doctype );
-					
-					trace("[CREATE ROOT DOCUMENT INSTANCE] DomSaxParser::getElementInstance()", document );
 			
 					//default identifier
 					document.id = namespaceURI;
@@ -433,18 +386,13 @@ package com.ffsys.dom
 						_root = document.createDocumentFragment();
 					}
 					
-					trace("[CREATE DOM FRAGMENT] DomSaxParser::getElementInstance()!!!!!!!!!!!!!!!!!!!!!!!!!!", dom, _fragmented, _root );
-					
 					//fall through so the returned instance is the root element
 				}
-
 				
 				if( document == null )
 				{
 					throw new Error( "Cannot parse a DOM document with no document implementation." );
 				}
-					
-			
 			}
 			
 			//TODO: add support for namespace usage
@@ -463,13 +411,23 @@ package com.ffsys.dom
 			return element;
 		}
 		
+		private function finalizeTextBlock( token:SaxToken ):void
+		{
+			if( _textData != null )
+			{
+				createTextBlock( _textType, _textData );
+			}
+			
+			//
+			_textData = null;
+			_textType = null;
+			_textStart = null;			
+		}
+		
 		private function createTextBlock( type:String, data:String ):CharacterData
 		{
 			var document:Document = getCreationDocument();
 			var output:CharacterData = null;
-			
-			//trace("DomSaxParser::getTextInstance()", document );
-			
 			switch( type )
 			{
 				case SaxToken.TEXT:
@@ -478,21 +436,15 @@ package com.ffsys.dom
 				case SaxToken.COMMENT:
 					output = document.createComment( data );
 					break;
-				//TODO: 
-				case "cdata":
+				case SaxToken.CDATA:
 					output = document.createCDATASection( data );
 					break;
 			}
-			
-			trace("DomSaxParser::createTextBlock()", output, current );
-			
 			if( output != null
 				&& current is Node )
 			{
-				//trace("[ADDING TEXT CHILD NODE] DomSaxParser::createTextBlock()", current, output );
 				Node( current ).appendChild( output );
 			}
-			
 			return output;
 		}
 		
@@ -513,13 +465,15 @@ package com.ffsys.dom
 		*/
 		override protected function complete():void
 		{
-			//register the DOM with asquery
+			super.complete();
 			
+			trace("[DOM SAX PARSER] Completed in ", ( this.time / 1000 ) + " seconds." );
+			
+			//register the DOM with asquery
 			if( !_fragmented && _element is Document )
 			{
 				$().onload( dom );
 			}
-			//trace("[DOM COMPLETE] DomSaxParser::complete()", ActionscriptQuery.doms );
 		}
 		
 		/**

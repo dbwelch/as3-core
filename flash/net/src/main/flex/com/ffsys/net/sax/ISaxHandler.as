@@ -10,7 +10,7 @@ package com.ffsys.net.sax
 		* 	
 		* 	@param token A SAX token for the processing instruction.
 		*/
-		function doWithProcessingInstruction( token:SaxToken ):void;
+		function instruction( token:SaxToken ):void;
 		
 		/**
 		* 	Invoked when parsing begins on the document.
@@ -54,7 +54,14 @@ package com.ffsys.net.sax
 		* 
 		* 	@param token A SAX token for the element.
 		*/
-		function text( token:SaxToken ):void;		
+		function text( token:SaxToken ):void;
+		
+		/**
+		* 	Invoked whenever a CDATA text node is encountered.
+		* 
+		* 	@param token A SAX token for the element.
+		*/
+		function cdata( token:SaxToken ):void;
 		
 		/**
 		* 	Invoked when the parser leaves an element.

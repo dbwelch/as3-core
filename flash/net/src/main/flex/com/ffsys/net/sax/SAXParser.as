@@ -16,6 +16,12 @@ package com.ffsys.net.sax {
 	*/
 	public class SaxParser extends Object
 		implements ISaxHandler {
+			
+		/**
+		* 	The regular expression used to determine if
+		* 	a text node is a <code>CDATA</code> section.
+		*/
+		public static const CDATA:RegExp = /^<\!\[CDATA\[/;
 		
 		/**
 		* 	The current depth of the traversal.
@@ -25,6 +31,7 @@ package com.ffsys.net.sax {
 		private var _handlers:Vector.<ISaxHandler>;
 		
 		private var _xml:XML;
+		private var _time:Number;
 		private var _node:XML;
 		private var _token:SaxToken;
 		private var _tokens:Dictionary;
@@ -87,9 +94,11 @@ package com.ffsys.net.sax {
 		{
 			if( x != null )
 			{
+				_time = new Date().getTime();
 				_xml = x;
 				depth = 0;
 				deserialize( x );
+				_time = new Date().getTime() - _time;
 				complete();
 				cleanup();
 			}
@@ -273,10 +282,10 @@ package com.ffsys.net.sax {
 		/**
 		* 	@inheritDoc
 		*/
-		public function doWithProcessingInstruction( token:SaxToken ):void
+		public function instruction( token:SaxToken ):void
 		{
-			var methodName:String = "doWithProcessingInstruction";
-			//trace("[PROCESSING-INSTRUCTION] SaxParser::doWithProcessingInstruction()", token.name, token.type );
+			var methodName:String = "instruction";
+			//trace("[PROCESSING-INSTRUCTION] SaxParser::instruction()", token.name, token.type );
 			notify( token, methodName );
 		}
 		
@@ -296,6 +305,15 @@ package com.ffsys.net.sax {
 		{
 			var methodName:String = "comment";
 			notify( token, methodName );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function cdata( token:SaxToken ):void
+		{
+			var methodName:String = "cdata";
+			notify( token, methodName );			
 		}
 		
 		/**
@@ -328,13 +346,38 @@ package com.ffsys.net.sax {
 		}
 		
 		/**
+		* 	A time value that during processing represents
+		* 	the time that parsing started and once processing
+		* 	complete it will represent the 
+		*/
+		public function get time():Number
+		{
+			return _time;
+		}
+		
+		/**
 		* 	Invoked when parsing is complete but before
 		* 	any cleanup of cached data has been performed.
 		*/
 		protected function complete():void
 		{
 			//
-		}	
+		}
+		
+		/**
+		* 	@private
+		*/
+		private static function initialize():Boolean
+		{
+			XML.ignoreComments = false;
+			XML.ignoreProcessingInstructions = false;
+			XML.ignoreWhitespace = false;
+			XML.prettyIndent = 0;
+			XML.prettyPrinting = false;
+			return true;
+		}
+		
+		static private var _initialized:Boolean = initialize();	
 		
 		/**
 		* 	@private
@@ -365,7 +408,7 @@ package com.ffsys.net.sax {
 			
 			if( x.nodeKind() == SaxToken.PROCESSING_INSTRUCTION )
 			{
-				doWithProcessingInstruction( _token );
+				instruction( _token );
 				return;
 			}
 			
@@ -404,6 +447,8 @@ package com.ffsys.net.sax {
 			if( l == 0 && depth > 0 )
 			{
 				//trace("[LEAF] SaxParser::deserialize()", x );
+				
+				//TODO: ensure this only fires for element nodes
 				leaf( _token );
 				
 				if( x.nodeKind() == SaxToken.COMMENT )
@@ -412,7 +457,18 @@ package com.ffsys.net.sax {
 					comment( _token );
 				}else if( x.nodeKind() == SaxToken.TEXT )
 				{
-					text( _token );
+					//this is potentially expensive but there
+					//does not seem to be any easier way to determine
+					//if a text node is a CDATA node
+					//both x.name() and x.locaName() yield nothing :(
+					if( CDATA.test( x.toXMLString() ) )
+					{
+						_token.type = SaxToken.CDATA;
+						cdata( _token );
+					}else
+					{
+						text( _token );
+					}
 				}
 			}
 			

@@ -25,7 +25,7 @@ package com.ffsys.dom
 		*/
 		override public function get xml():XML
 		{
-			if( _xml == null )
+			if( _xml == null || _xml.toString() != data )
 			{
 				_xml = new XML( "<![CDATA[" + data + "]]>" );
 			}

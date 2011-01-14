@@ -15,12 +15,7 @@ package com.ffsys.net.sax
 		*/ 
 		public function SimpleSAXTest()
 		{
-			super();	
-			XML.ignoreComments = false;
-			XML.ignoreProcessingInstructions = false;
-			XML.ignoreWhitespace = false;
-			XML.prettyIndent = 0;
-			XML.prettyPrinting = false;						
+			super();				
 		}
 		
 		public function get sample():XML
