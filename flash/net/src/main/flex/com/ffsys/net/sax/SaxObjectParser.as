@@ -1,5 +1,6 @@
 package com.ffsys.net.sax
 {
+	import com.ffsys.net.sax.*;
 
 	public class SaxObjectParser extends SaxParser
 	{

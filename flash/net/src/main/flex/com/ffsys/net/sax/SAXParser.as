@@ -399,6 +399,13 @@ package com.ffsys.net.sax {
 				
 				if( x.nodeKind() == SaxToken.TEXT )
 				{
+					/*
+					if( x.parent() )
+					{
+						x.parent().normalize();
+					}
+					*/
+					
 					text( _token );
 				}
 			}

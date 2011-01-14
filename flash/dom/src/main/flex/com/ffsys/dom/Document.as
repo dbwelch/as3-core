@@ -140,48 +140,112 @@ package com.ffsys.dom
 			_implementation = implementation;
 		}
 		
+		/**
+		* 	Creates an element by tag name.
+		* 
+		* 	@param tagName The tag name of the element to create.
+		* 
+		* 	@return The created element.
+		*/
 		public function createElement( tagName:String ):Element
 		{
-			//
-			return null;
+			var element:Element = Element( getDomBean(
+				tagName ) );
+			return element;
 		}
 		
+		/**
+		* 	Creates an element by tag name within a namespace.
+		* 
+		* 	@param namespaceURI The <code>URI</code> of the namespace.
+		* 	@param qualifiedName The qualified name of the tag.
+		* 
+		* 	@return The created element.
+		*/
 		public function createElementNS( 
 			namespaceURI:String, qualifiedName:String ):Element
 		{
-			return null;
-		}
-		
-		public function createDocumentFragment():DocumentFragment
-		{
-			//
-			return null;
-		}
-		
-		public function createTextNode( data:String ):Text
-		{
-			return null;
-		}
-		
-		public function createComment( data:String ):Comment
-		{
-			return null;
-		}
-		
-		public function createCDATASection( data:String ):CDATASection
-		{
-			//
-			return null;
-		}
-		
-		public function createProcessingInstruction():ProcessingInstruction
-		{
-			//
+			//TODO
 			return null;
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Creates a document fragment.
+		* 
+		* 	@return A document fragment.
+		*/
+		public function createDocumentFragment():DocumentFragment
+		{
+			var fragment:DocumentFragment = DocumentFragment( getDomBean(
+				DomIdentifiers.DOCUMENT_FRAGMENT ) );
+			return fragment;
+		}
+		
+		/**
+		* 	Creates a text node.
+		* 
+		* 	@param data The data for the text node.
+		* 
+		* 	@return A text node implementation.
+		*/
+		public function createTextNode( data:String ):Text
+		{
+			var text:Text = Text( getDomBean(
+				DomIdentifiers.TEXT, { data: data } ) );
+			return text;
+		}
+		
+		/**
+		* 	Creates a comment node.
+		* 
+		* 	@param data The data for the comment.
+		* 
+		* 	@return A comment node implementation.
+		*/
+		public function createComment( data:String ):Comment
+		{
+			var comment:Comment = Comment( getDomBean(
+				DomIdentifiers.COMMENT, { data: data } ) );
+			return comment;
+		}
+		
+		/**
+		* 	Creates a cdata node.
+		* 
+		* 	@param data The data for the cdata node.
+		* 
+		* 	@return A cdata node implementation.
+		*/
+		public function createCDATASection( data:String ):CDATASection
+		{
+			var cdata:CDATASection = CDATASection( getDomBean(
+				DomIdentifiers.CDATA_SECTION, { data: data } ) );
+			return cdata;
+		}
+		
+		/**
+		* 	Creates a processing instruction node.
+		* 
+		* 	@param target A target for the processing instruction.
+		* 	@param data The data for the processing instruction.
+		* 
+		* 	@return A processing instruction implementation.
+		*/
+		public function createProcessingInstruction(
+			target:String, data:String ):ProcessingInstruction
+		{
+			var instruction:ProcessingInstruction = ProcessingInstruction( getDomBean(
+				DomIdentifiers.PROCESSING_INSTRUCTION, { data: data } ) );
+			instruction.setTarget( target );
+			return instruction;
+		}
+		
+		/**
+		* 	Creates an attribute.
+		* 
+		* 	@param name The name of the attribute.
+		* 
+		* 	@return The created attribute.
 		*/
 		public function createAttribute( name:String ):Attr
 		{
@@ -193,6 +257,14 @@ package com.ffsys.dom
 			return attr;
 		}
 		
+		/**
+		* 	Creates an attribute in a namespace.
+		* 
+		* 	@param namespaceURI The URI of the namespace.
+		* 	@param qualifiedName The qualified name of the attribute.
+		* 
+		* 	@return The created attribute.
+		*/
 		public function createAttributeNS(
 			namespaceURI:String, qualifiedName:String ):Attr
 		{
@@ -204,11 +276,21 @@ package com.ffsys.dom
 			return attr;
 		}
 		
+		/**
+		* 	Creates an entity reference.
+		* 
+		* 	@param name The name of the entity reference.
+		* 
+		* 	@return An entity reference implementation.
+		*/
 		public function createEntityReference( name:String ):EntityReference
 		{
-			//
-			return null;
-		}	
+			//TODO: check this
+			//{ name: name }
+			var ref:EntityReference = EntityReference( getDomBean(
+				DomIdentifiers.ENTITY_REFERENCE ) );
+			return ref;
+		}
 		
 		public function importNode( source:Node, deep:Boolean ):Node
 		{
@@ -260,6 +342,20 @@ package com.ffsys.dom
 					}
 				}
 			}
+			
+			if( bean is Node )
+			{
+				Node( bean ).setOwnerDocument( this );
+			}
+			
+			//register the element with this document
+			/*
+			if( bean is Element )
+			{
+				registerElement( Element( bean ) );
+			}
+			*/
+			
 			bean.finalized();
 			return bean;
 		}
@@ -291,12 +387,13 @@ package com.ffsys.dom
 		createCDATASection(data)
 		This method returns a CDATASection object.
 		The data parameter is of type String.
+		
 		This method can raise a DOMException object.
 		
 		createProcessingInstruction(target, data)
 		This method returns a ProcessingInstruction object.
 		The target parameter is of type String.
-		The data parameter is of type String.
+		The data parameter is of type String.\
 		This method can raise a DOMException object.
 		
 		createAttribute(name)

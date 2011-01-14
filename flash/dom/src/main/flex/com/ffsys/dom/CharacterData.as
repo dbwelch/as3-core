@@ -42,6 +42,15 @@ package com.ffsys.dom
 			}
 		}
 		
+		override public function get xml():XML
+		{
+			if( _xml == null )
+			{
+				_xml = new XML( data );
+			}
+			return _xml;
+		}
+		
 		/**
 		* 	The data encapsulated by this character data.
 		*/
@@ -56,11 +65,16 @@ package com.ffsys.dom
 		
 		public function set data( value:String ):void
 		{
-			//_data = value;
+			if( value != _data )
+			{
+				//invalidate the xml
+				_xml = null;
+			}
+			
+			_data = value;
 			
 			if( value != null )
 			{
-				this.xml = new XML( "<![CDATA[" + value + "]]>" );
 			
 				if( source != _data )
 				{

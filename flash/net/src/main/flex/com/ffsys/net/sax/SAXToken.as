@@ -11,7 +11,7 @@ package com.ffsys.net.sax
 		/**
 		* 	Represents a text element.
 		*/
-		public static const TEXT:String = "text";				
+		public static const TEXT:String = "text";	
 		
 		/**
 		* 	Represents a comment element.
@@ -78,6 +78,9 @@ package com.ffsys.net.sax
 		*/
 		public var target:Object;
 		
+		
+		private var _name:String;
+		
 		/**
 		* 	Creates a <code>SaxToken</code> instance.
 		*/
@@ -111,8 +114,8 @@ package com.ffsys.net.sax
 			{
 				return _xml.name().localName;
 			}
-			return null;
-		}		
+			return type;
+		}
 		
 		/**
 		* 	A list of parsed attributes associated with

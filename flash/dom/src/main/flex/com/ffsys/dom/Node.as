@@ -252,6 +252,13 @@ package com.ffsys.dom
 				child.setOwnerDocument( _ownerDocument );
 				childNodes.concat( child );	
 				
+				if( _ownerDocument && child is Element )
+				{
+					_ownerDocument.registerElement( Element( child ) );
+				}
+				
+				this.xml.appendChild( child.xml );
+				
 				/*
 				trace("[ NODE -- APPENDING NODE ] Node::appendChild() this/child/length/children length: ",
 					this, child, this.length, childNodes.children.length );

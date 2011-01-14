@@ -19,5 +19,17 @@ package com.ffsys.dom
 			_nodeType = Node.CDATA_SECTION_NODE;
 			super( xml );
 		}
+		
+		/**
+		* 	An <code>XML</code> representation of this node.
+		*/
+		override public function get xml():XML
+		{
+			if( _xml == null )
+			{
+				_xml = new XML( "<![CDATA[" + data + "]]>" );
+			}
+			return _xml;
+		}
 	}
 }

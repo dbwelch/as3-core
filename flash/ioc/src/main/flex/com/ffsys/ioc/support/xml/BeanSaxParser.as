@@ -10,7 +10,11 @@ package com.ffsys.ioc.support.xml
 		*/
 		protected var _document:IBeanDocument;
 		
-		private var _descriptor:IBeanDescriptor = null;
+		/**
+		* 	@private
+		*/
+		protected var _descriptor:IBeanDescriptor = null;
+		
 		private var _wildcard:Boolean = true;
 		
 		/**

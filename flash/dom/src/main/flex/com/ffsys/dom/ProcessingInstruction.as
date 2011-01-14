@@ -33,6 +33,14 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	@private
+		*/
+		internal function setTarget( target:String ):void
+		{
+			_target = target;
+		}
+		
+		/**
 		* 	The data for the processing instruction.
 		*/
 		public function get data():String

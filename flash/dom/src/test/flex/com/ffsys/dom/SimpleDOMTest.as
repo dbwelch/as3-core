@@ -95,9 +95,7 @@ package com.ffsys.dom
 									<p id="test-paragraph" class="special-paragraph">
 										This <em>is a paragraph</em> of text for you to read with an <a id="inline-link" href="http://google.com">inline link</a> <strong>why not</strong> have <a id="inline-alternative-link" href="http://google.com">another link</a> just to be certain.
 									</p>
-									<p>
-										another paragraph for you to not bother reading.
-									</p>
+									<p>another paragraph for you to not bother reading.</p>
 								</div>
 							</div>
 						</div>
@@ -290,8 +288,10 @@ package com.ffsys.dom
 			trace("[ATTR] SimpleDOMTest::domTest()", elements );
 			for each( child in elements )
 			{
-				trace("SimpleDOMTest::domTest()", child, child.xml, child.xml.localName, child.xml.toXMLString() );
+				trace("SimpleDOMTest::domTest()", child.xml.toXMLString() );
 			}
+			
+			trace("SimpleDOMTest::domTest()", document.childNodes.length, document.childNodes[ 0 ] );
 			
 			//trace("SimpleDOMTest::domTest()", document.xml );
 			
