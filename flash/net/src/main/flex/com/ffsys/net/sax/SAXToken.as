@@ -102,6 +102,38 @@ package com.ffsys.net.sax
 			this.type = type;
 		}
 		
+		
+		/**
+		* 	Attempts to retrieve a namespace prefix matching
+		* 	the specified <code>URI</code> from
+		* 	the <code>XML</code> associated with this token.
+		* 	
+		* 	This method will return <code>null</code>
+		* 	if the specified <code>URI</code> is not valid or if
+		* 	there is no matching namespace bound.
+		* 
+		* 	@return A namespace prefix or null.
+		*/
+		public function getNamespacePrefix( uri:String ):String
+		{
+			if( uri == null || uri.length == 0 )
+			{
+				return null;
+			}
+			var prefix:String = null;
+			var declarations:Array = xml.namespaceDeclarations();
+			var ns:Namespace = null;
+			for each( ns in declarations )
+			{
+				if( ns.uri == uri )
+				{
+					prefix = ns.prefix;
+					break;
+				}
+			}
+			return prefix;
+		}
+		
 		/**
 		* 	Determines whether this token represents an element.
 		*/
@@ -168,14 +200,17 @@ package com.ffsys.net.sax
 		*/
 		protected function processAttributes( x:XML ):void
 		{
+			//trace("SaxToken::processAttributes()", x.toXMLString() );
 			var attrs:XMLList = x.attributes();
-			
-			//trace("SaxParser::doWithAttributes()", attrs.length() );
+			//var ns:XMLList = x.@xmlns.*;
+			//trace("SaxParser::doWithAttributes()", attrs.length(), ns.length() );
 			
 			var attr:XML;
 			var name:String;
-			for each( attr in attrs )
+			for( var i:int = 0;i < attrs.length();i++ )
 			{
+				attr = attrs[ i ];
+				//trace("SaxToken::processAttributes()", attr.toXMLString() );
 				attributes.push(
 					new SaxAttribute( attr ) );
 			}

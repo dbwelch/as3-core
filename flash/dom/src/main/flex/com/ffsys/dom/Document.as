@@ -21,6 +21,7 @@ package com.ffsys.dom
 		
 		private var _doctype:DocumentType;
 		private var _implementation:DOMImplementation;
+		private var _namespaceDeclarations:Array;
 		
 		/**
 		* 	Creates a <code>Document</code> instance.
@@ -42,6 +43,48 @@ package com.ffsys.dom
 				_elements = new Vector.<Element>();
 			}
 			return _elements;
+		}
+		
+		/**
+		* 	The namespace declarations for the document.
+		*/
+		public function get namespaceDeclarations():Array
+		{
+			return _namespaceDeclarations;
+		}
+		
+		public function set namespaceDeclarations( value:Array ):void
+		{
+			_namespaceDeclarations = value;
+		}
+		
+		/**
+		* 	Ensures namespace declarations for the document
+		* 	are included in the <code>XML</code> document.
+		*/
+		override public function get xml():XML
+		{
+			var x:XML = super.xml;
+			
+			if( namespaceDeclarations != null )
+			{
+				trace("[GOT NAMESPACE DECLARATION] Document::get xml()", namespaceDeclarations );
+				var ns:Namespace = null;
+				var nm:String = null;
+				for each( ns in namespaceDeclarations )
+				{
+					if( !ns.prefix )
+					{
+						continue;
+					}
+					nm = "xmlns:" + ns.prefix;
+					if( x.@[ nm ].length() == 0 )
+					{
+						x.@[ nm ] = ns.uri;
+					}
+				}
+			}
+			return x;
 		}
 		
 		/**

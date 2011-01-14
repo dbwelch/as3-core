@@ -11,11 +11,18 @@ package com.ffsys.dom
 	*/
 	public class Attr extends Node
 	{
+		/**
+		* 	The delimiter used to delimit <code>XML</code>
+		* 	namespace prefixes and the local name of the node.
+		*/
+		public static const NAMESPACE_DELIMITER:String = ":";
+		
 		private var _ownerElement:Element;
 		private var _specified:Boolean;
 		private var _uri:String;
 		private var _name:String;
 		private var _value:String;
+		private var _prefix:String;
 		
 		/**
 		* 	Creates an <code>Attr</code> instance.
@@ -70,7 +77,12 @@ package com.ffsys.dom
 		*/
 		public function get name():String
 		{
-			return _name;
+			var output:String = _name;
+			if( prefix != null )
+			{
+				output = prefix + NAMESPACE_DELIMITER + _name;
+			}
+			return output;
 		}
 		
 		public function set name( value:String ):void
@@ -110,6 +122,19 @@ package com.ffsys.dom
 		public function set uri( value:String ):void
 		{
 			_uri = value;
+		}
+		
+		/**
+		* 	A namespace prefix associated with this attribute.
+		*/
+		public function get prefix():String
+		{
+			return _prefix;
+		}
+		
+		public function set prefix( value:String ):void
+		{
+			_prefix = value;
 		}
 		
 		/**

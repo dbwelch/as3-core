@@ -229,13 +229,21 @@ package com.ffsys.dom
 		private function importAttributes( token:SaxToken ):void
 		{
 			var document:Document = getCreationDocument();
-			
 			if( document != null && current is Element )
-			{			
+			{	
+				if( current is Document )
+				{
+					Document( current ).namespaceDeclarations = token.xml.namespaceDeclarations();
+				}
+				
+				var prefix:String = null;
 				var saxattr:SaxAttribute = null;
 				var attr:Attr = null;
-				for each( saxattr in token.attributes )
+				for( var i:int = 0;i < token.attributes.length;i++  )
 				{
+					saxattr = token.attributes[ i ];
+					trace("[SAX ATTR] DomSaxParser::importAttributes()", saxattr.name, saxattr.value, saxattr.uri, saxattr.isQualified() );
+					
 					if( !saxattr.isQualified() )
 					{
 						attr = document.createAttribute( saxattr.name );
@@ -245,6 +253,14 @@ package com.ffsys.dom
 						attr = document.createAttributeNS( saxattr.uri, saxattr.name )
 					}
 					attr.value = saxattr.value;
+					if( saxattr.isQualified() )
+					{
+						prefix = token.getNamespacePrefix( saxattr.uri );
+						if( prefix != null )
+						{
+							attr.prefix = prefix;
+						}
+					}
 					Element( current ).setAttributeNode( attr );
 				}
 			}

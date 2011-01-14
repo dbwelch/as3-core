@@ -21,6 +21,7 @@ package com.ffsys.net.sax
 		public function get sample():XML
 		{
 			return <object
+				abc="123"
 				id="root"
 				xmlns="http://example.com/sample"
 				xmlns:ui="http://example.com/nested-sample">

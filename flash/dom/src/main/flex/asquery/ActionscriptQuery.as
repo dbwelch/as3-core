@@ -163,6 +163,13 @@ package asquery
 			return this;
 		}
 		
+		public function html( xml:String ):Object
+		{
+			
+			
+			return this;
+		}
+		
 		/**
 		* 	Retrieves a single attribute and sets multiple
 		* 	attributes.
@@ -210,7 +217,8 @@ package asquery
 					}
 				}
 			}
-			return getChainedQuery();
+			
+			return this;
 		}
 		
 		/**

@@ -14,6 +14,8 @@ package com.ffsys.dom
 	*/ 
 	dynamic public class SimpleDOMTest extends Object
 	{
+		private var _time:Number;
+		
 		/**
 		*	Creates a <code>SimpleDOMTest</code> instance.
 		*/ 
@@ -25,7 +27,10 @@ package com.ffsys.dom
 		private function getTestDocument():XML
 		{
 			var x:XML =
-				<html id="document" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">	
+				<html id="document"
+					xmlns="http://www.w3.org/1999/xhtml"
+					xmlns:xml="http://www.w3.org/XML/1998/namespace"
+					xml:lang="en">
 					<head>
 						
 						<![CDATA[
@@ -106,18 +111,12 @@ package com.ffsys.dom
 			return x;
 		}
 		
-		/*
-		
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
-		    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">		
-		
-		*/
-		
 		[Test]
 		public function domTest():void
 		{
-			var document:Document = null;
+			_time = new Date().getTime();
 			
+			var document:Document = null;
 			
 			//test parsing to a document fragment
 			var fragment:XML = new XML( "<p>this is a test paragraph</p>" );
@@ -286,8 +285,9 @@ package com.ffsys.dom
 				Assert.assertEquals( "a new title", child.getAttribute( "title" ) );
 			}
 			
-			//trace("SimpleDOMTest::domTest()", document.childNodes.length, document.childNodes[ 0 ] );
-			//trace( document.xml.toXMLString() );
+			trace("SimpleDOMTest::domTest()", getTestDocument() );
+			trace( document.xml.toXMLString() );
+			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
 		}
 	}
 }
