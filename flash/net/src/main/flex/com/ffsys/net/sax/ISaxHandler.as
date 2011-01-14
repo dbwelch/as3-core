@@ -43,6 +43,13 @@ package com.ffsys.net.sax
 		function leaf( token:SaxToken ):void;
 		
 		/**
+		* 	Invoked whenever a comment node is encountered.
+		* 
+		* 	@param token A SAX token for the element.
+		*/
+		function comment( token:SaxToken ):void;
+		
+		/**
 		* 	Invoked whenever a leaf text node is encountered.
 		* 
 		* 	@param token A SAX token for the element.

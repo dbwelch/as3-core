@@ -55,6 +55,14 @@ package com.ffsys.net.sax
 		/**
 		* 	@inheritDoc
 		*/
+		public function comment( token:SaxToken ):void
+		{
+			//
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function text( token:SaxToken ):void
 		{
 			//			

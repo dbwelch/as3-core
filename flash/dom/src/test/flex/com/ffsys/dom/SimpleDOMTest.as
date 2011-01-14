@@ -308,6 +308,8 @@ package com.ffsys.dom
 			
 			trace("SimpleDOMTest::domTest()", document.childNodes.length, document.childNodes[ 0 ] );
 			
+			trace( document.xml.toXMLString() );
+			
 			//trace("SimpleDOMTest::domTest()", document.xml );
 			
 			/*

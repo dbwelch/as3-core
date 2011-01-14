@@ -117,7 +117,7 @@ package com.ffsys.dom
 		public function fragment( source:XML ):void
 		{
 			_fragmented = true;
-			trace("DomSaxParser::fragment()", _fragmented, source );
+			//trace("DomSaxParser::fragment()", _fragmented, source );
 			parse( source );
 		}
 		
@@ -174,13 +174,32 @@ package com.ffsys.dom
 			super.endDocument( token );
 		}
 		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function comment( token:SaxToken ):void
+		{
+			if( _textData != null )
+			{
+				createTextBlock( _textType, _textData );				
+				//trace("[CREATE TEXT BLOCK AT END] DomSaxParser::endElement()", _textData );
+				
+				//
+				_textData = null;
+				_textType = null;
+				_textStart = null;
+			}			
+			
+			createTextBlock( token.type, token.xml.toXMLString() );
+		}
+		
 		override public function text( token:SaxToken ):void
 		{
 			if( _textData == null )
 			{
 				_textStart = current;
 				_textData = "";
-				_textType = "text";
+				_textType = SaxToken.TEXT;
 			}
 			
 			if( _textStart != null && current != _textStart )
@@ -202,7 +221,9 @@ package com.ffsys.dom
 		*/
 		override public function shouldTraverseElement( token:SaxToken ):Boolean
 		{
-			if( _excludeNextElement === true )
+			
+			if( _excludeNextElement === true
+				|| token.type == SaxToken.COMMENT )
 			{
 				//trace("[SKIPPING EXCLUDED ELEMENT] DomSaxParser::beginElement()", token, token.target );
 				return false;
@@ -437,7 +458,7 @@ package com.ffsys.dom
 				Node( _root ).appendChild( element );
 			}
 			
-			trace("DomSaxParser::getElementInstance()", element, root );
+			//trace("DomSaxParser::getElementInstance()", element, root );
 			
 			return element;
 		}
@@ -447,22 +468,23 @@ package com.ffsys.dom
 			var document:Document = getCreationDocument();
 			var output:CharacterData = null;
 			
-			trace("DomSaxParser::getTextInstance()", document );
+			//trace("DomSaxParser::getTextInstance()", document );
 			
 			switch( type )
 			{
-				case "text":
+				case SaxToken.TEXT:
 					output = document.createTextNode( data );
 					break;
-				case "comment":
+				case SaxToken.COMMENT:
 					output = document.createComment( data );
 					break;
+				//TODO: 
 				case "cdata":
 					output = document.createCDATASection( data );
 					break;
 			}
 			
-			//trace("DomSaxParser::createTextBlock()", output, current );
+			trace("DomSaxParser::createTextBlock()", output, current );
 			
 			if( output != null
 				&& current is Node )

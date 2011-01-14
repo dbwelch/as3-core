@@ -292,6 +292,15 @@ package com.ffsys.net.sax {
 		/**
 		* 	@inheritDoc
 		*/
+		public function comment( token:SaxToken ):void
+		{
+			var methodName:String = "comment";
+			notify( token, methodName );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function text( token:SaxToken ):void
 		{
 			var methodName:String = "text";
@@ -397,15 +406,12 @@ package com.ffsys.net.sax {
 				//trace("[LEAF] SaxParser::deserialize()", x );
 				leaf( _token );
 				
-				if( x.nodeKind() == SaxToken.TEXT )
+				if( x.nodeKind() == SaxToken.COMMENT )
 				{
-					/*
-					if( x.parent() )
-					{
-						x.parent().normalize();
-					}
-					*/
-					
+					//trace("SaxParser::deserialize()", "[FOUND COMMENT NODE]", x.toXMLString() );
+					comment( _token );
+				}else if( x.nodeKind() == SaxToken.TEXT )
+				{
 					text( _token );
 				}
 			}
