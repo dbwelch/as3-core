@@ -3,13 +3,24 @@ package com.ffsys.dom
 	
 	
 	dynamic public class Element extends Node
-	{		
+	{	
+		/**
+		* 	The attribute name that determines class style names.
+		*/
 		public static const CLASS:String = "class";
 		
+		/**
+		* 	The name of the property used internally to store
+		* 	class style names so that there is no conflict
+		* 	with the <code>class</code> actionscript keyword.
+		*/
 		public static const CLASS_NAMES:String = "classNames";
 		
 		private var _classNames:String;
 		
+		/**
+		*	@private	 
+		*/
 		protected var _elements:Vector.<Element>;
 		
 		/**
@@ -62,9 +73,7 @@ package com.ffsys.dom
 			{
 				nm += " ";
 			}
-			
 			nm += name;
-			
 			this.classNames = nm;
 			
 			trace("Element::addClass()", this, this.classNames );
@@ -134,7 +143,7 @@ package com.ffsys.dom
 			super.xml = value;
 			if( value != null )
 			{
-				doWithAttributes( value, this );
+				importAttributes( value, this );
 			}
 		}
 		
@@ -147,12 +156,18 @@ package com.ffsys.dom
 				&& name != null
 			 	&& value != null )
 			{
-				xml.@[ name ] = value;
 				attributeSet( name, value );
 			}
 			
-			//TODO: handle registering event attributes
-			
+			trace("Element::setAttribute() owner document: ", ownerDocument );
+
+			var attr:Attr = ownerDocument.createAttribute(
+				name );
+				
+			trace("Element::setAttribute() attr: ", attr );
+				
+			attr.value = value;
+			setAttributeNode( attr );
 		}
 		
 		/**
@@ -160,12 +175,13 @@ package com.ffsys.dom
 		*/
 		public function getAttribute( name:String ):String
 		{
-			if( xml != null
-			 	&& name != null )
+			var value:String = null;
+			var attr:Attr = getAttributeNode( name );
+			if( attr != null )
 			{
-				return xml.@[ name ];
+				value = attr.value;
 			}
-			return null;
+			return value;
 		}
 		
 		/**
@@ -173,10 +189,10 @@ package com.ffsys.dom
 		*/
 		public function removeAttribute( name:String ):void
 		{
-			if( xml != null
-			 	&& name != null )
+			var attr:Attr = getAttributeNode( name );
+			if( attr != null )
 			{
-				delete xml.@[ name ];
+				removeAttributeNode( attr );
 			}
 		}
 		
@@ -192,17 +208,119 @@ package com.ffsys.dom
 		public function setAttributeNS(
 			namespaceURI:String, qualifiedName:String, value:String ):void
 		{
-			var qn:QName = new QName( namespaceURI, qualifiedName );
-			xml.@[ qn ] = value;
-			trace("[SET ATTRIBUTE NS] Element::setAttributeNS()", xml.@[ qn ], qn.localName, qn.uri );
+			//var qn:QName = new QName( namespaceURI, qualifiedName );
+			//xml.@[ qn ] = value;
+			
+			//trace("[SET ATTRIBUTE NS] Element::setAttributeNS()", xml.@[ qn ], qn.localName, qn.uri );
+			
+			var attr:Attr = ownerDocument.createAttributeNS(
+				namespaceURI, qualifiedName );
+			attr.value = value;
+			setAttributeNode( attr );
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Retrieves an attribute node by name.
+		* 
+		* 	@param name The name of the attribute node.
+		* 
+		* 	@return The attribute node if it exists otherwise <code>null</code>.
+		*/
+		public function getAttributeNode( name:String ):Attr
+		{
+			var attr:Node = null;
+			for each( attr in attributes )
+			{
+				if( attr != null
+					&& attr is Attr
+				 	&& Attr( attr ).name == name )
+				{
+					break;
+				}
+			}
+			return attr as Attr;
+		}
+		
+		/**
+		* 	Adds an attribute node to this element.
+		* 
+		* 	@param attr The attribute to add.
+		* 
+		* 	@return The attribute that was added or <code>null</code>
+		* 	if the specified attribute was <code>null</code>.
+		*/
+		public function setAttributeNode( attr:Attr ):Attr
+		{
+			if( attr != null )
+			{
+				attr.setOwnerElement( this );
+				attributes.setNamedItem( attr );
+			}
+			return attr;
+		}
+		
+		/**
+		* 	Adds an attribute node to this element.
+		* 
+		* 	@param attr The attribute to add.
+		* 
+		* 	@return The attribute that was added or <code>null</code>
+		* 	if the specified attribute was <code>null</code>.
+		*/
+		public function removeAttributeNode( attr:Attr ):Attr
+		{
+			var child:Attr = null;
+			for( var i:int = 0;i < attributes.length;i++ )
+			{
+				child = attributes.item( i ) as Attr;
+				if( child == attr )
+				{
+					attributes.removeNamedItem( child.name );
+					break;
+				}
+			}
+			return attr;
+		}
+		
+		/**
+		* 	Determines whether this element has the specified attribute.
+		* 
+		* 	@param name The local name of the attribute.
+		* 
+		* 	@param A boolean indicating whether the named attribute exists.
 		*/
 		public function hasAttribute( name:String ):Boolean
 		{
-			return hasAttributes() && name != null && xml.@[ name ].length() > 0;
+			if( !hasAttributes() )
+			{
+				return false;
+			}
+			var attr:Node = null;
+			for each( attr in attributes )
+			{
+				if( attr is Attr
+					&& Attr( attr ).name == name )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		/**
+		* 	Determines this elements has an attribute in the specified
+		* 	namespace.
+		* 
+		* 	@param namespaceURI The <code>URI</code> for the namespace.
+		* 	@param localName The local name for the namespace.
+		* 
+		* 	@return A boolean indicating whether an attribute exists
+		* 	matching the specified namespace.
+		*/
+		public function hasAttributeNS( namespaceURI:String, localName:String ):Boolean
+		{
+			var attr:Attr = getAttributeNode( localName );
+			return attr != null && attr.uri == namespaceURI;
 		}
 		
 		/**
@@ -214,7 +332,11 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	
+		* 	Retrieves direct child elements by tag name.
+		* 
+		* 	@param tagName The name of the tag to retrieve elements for.
+		* 
+		* 	@return A node list containing any matched elements. 
 		*/
 		public function getElementsByTagName( tagName:String ):NodeList
 		{
@@ -223,16 +345,16 @@ package com.ffsys.dom
 				return new NodeList();
 			}
 			
-			/*
-			if( this[ tagName ] is NodeList )
-			{
-				list = NodeList( this[ tagName ] );
-			}
-			*/
-			
 			return this[ tagName ] as NodeList;
 		}
 		
+		/**
+		* 	Retrieves all descendants by tag name.
+		* 
+		* 	@param tagName The name of the tag to retrieve descendant elements for.
+		* 
+		* 	@return A node list containing any matched elements.
+		*/
 		public function getDescendantsByTagName( tagName:String ):NodeList
 		{
 			var list:NodeList = new NodeList();	
@@ -312,6 +434,8 @@ package com.ffsys.dom
 		The localName parameter is of type String.
 		This method can raise a DOMException object.
 		
+		
+		
 		getAttributeNodeNS(namespaceURI, localName)
 		This method returns a Attr object.
 		The namespaceURI parameter is of type String.
@@ -322,10 +446,14 @@ package com.ffsys.dom
 		The newAttr parameter is a Attr object.
 		This method can raise a DOMException object.
 		
+		
+		
 		getElementsByTagNameNS(namespaceURI, localName)
 		This method returns a NodeList object.
 		The namespaceURI parameter is of type String.
 		The localName parameter is of type String.
+		
+		
 		
 		hasAttribute(name)
 		This method returns a Boolean.
@@ -334,58 +462,46 @@ package com.ffsys.dom
 		hasAttributeNS(namespaceURI, localName)
 		This method returns a Boolean.
 		The namespaceURI parameter is of type String.
-		The localName parameter is of type String.		
-		
-		
+		The localName parameter is of type String.
 		
 		*/
 		
-		
-		protected function doWithAttributes(
+		/**
+		* 	@private
+		* 
+		* 	Handles configuring attributes when an
+		* 	XML node is associated with this element.
+		*/
+		protected function importAttributes(
 			node:XML, target:Element ):void
 		{
-			//trace("[DO WITH ATTRIBUTES] :::::::::::::: ", node.attributes().length(), node.name().localName );
-			
 			if( node.attributes().length() > 0 && target )
 			{
 				/*
-				trace("::::::::::::::: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Element::doWithAttributes()",
+				trace("::::::::::::::: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Element::importAttributes()",
 					this,
 					this.id,
 					node.attributes().length() );
 				*/
 				
-				var attrs:XMLList = node.@*;
-				var attr:XML = null;
+				var child:XML = null;
 				var name:QName = null;
-				var value:String = null;			
+				var value:String = null;
 				
-				var namespaces:XMLList = node.attributes();
-				for each( attr in namespaces )
+				var attrs:XMLList = node.attributes();
+				for each( child in attrs )
 				{
-					//trace("[GOT NAMESPACE ATTRIBUTE] Element::doWithAttributes()", attr );
-					name = attr.name();
-					value = attr.toString();
-					trace("Element::doWithAttributes()", name, value, name is QName, name.localName, name.uri );
-					
-					//no qualified name
-					if( !name.uri )
+					name = child.name();
+					value = child.toString();
+					var local:Boolean = !name.uri;
+					trace("Element::importAttributes() name/value/local: ", name, value, local );
+					if( local )
 					{
 						target.setAttribute( name.localName, value );
 					}else{
 						target.setAttributeNS( name.uri, name.localName, value );
 					}
 				}
-				
-				/*
-				for each( attr in node.attributes() )
-				{
-					name = attr.name();
-					value = node.@[ name ];
-					trace("Element::doWithAttributes()", name, value, value is Namespace, value is QName );
-					target.setAttribute( name, value );
-				}
-				*/
 			}
 		}		
 		

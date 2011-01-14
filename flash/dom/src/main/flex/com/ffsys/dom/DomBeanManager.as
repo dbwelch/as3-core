@@ -7,10 +7,9 @@ package com.ffsys.dom
 		/**
 		* 	Creates a <code>DomBeanManager</code> instance.
 		*/
-		public function DomBeanManager( elements:IBeanDocument = null )
+		public function DomBeanManager()
 		{
 			super();
-			this.document = elements;
 		}
 	}
 }

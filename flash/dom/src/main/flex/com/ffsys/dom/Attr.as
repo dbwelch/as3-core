@@ -11,23 +11,38 @@ package com.ffsys.dom
 	*/
 	public class Attr extends Node
 	{
+		private var _ownerElement:Element;
+		private var _specified:Boolean;
+		private var _uri:String;
 		private var _name:String;
+		private var _value:String;
 		
 		/**
 		* 	Creates an <code>Attr</code> instance.
 		* 
-		* 	@param xml The <code>XML</code> fragment
-		* 	that declared this attribute.
 		* 	@param name The name of the attribute.
+		* 	@param value The value of the attribute.
+		* 	@param uri A <code>URI</code> for the attribute
+		* 	that indicates it is a qualified attribute.
 		*/
-		public function Attr( xml:XML = null, name:String = null )
+		public function Attr(
+			name:String = null,
+			value:String = null,
+			uri:String = null )
 		{
 			_nodeType = Node.ATTRIBUTE_NODE;
-			super( xml );
-			if( name != null )
-			{
-				this.name = name;
-			}
+			super();
+			this.name = name;
+			this.value = value;
+			this.uri = uri;						
+		}
+		
+		/**
+		* 	A qualified name for this attribute.
+		*/
+		public function get qname():QName
+		{
+			return new QName( this.uri, name );
 		}
 		
 		/**
@@ -44,16 +59,43 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	Whether this attribute was specified.å
+		* 	The value for the attribute.
+		*/
+		public function get value():String
+		{
+			return _value;
+		}
+		
+		public function set value( value:String ):void
+		{
+			_value = value;
+		}
+		
+		/**
+		* 	A <code>URI</code> that indicates this is a qualified attribute.
+		*/
+		public function get uri():String
+		{
+			return _uri;
+		}
+		
+		public function set uri( value:String ):void
+		{
+			_uri = value;
+		}
+		
+		/**
+		* 	Whether this attribute was specified
+		* 	when a document element was parsed.
 		*/
 		public function get specified():Boolean
 		{
-			//return _specified;
-			
-			//TODO: determine whether an attribute of the given name was specified in the xml fragment
-			//associated with this element
-			
-			return true;
+			return _specified;
+		}
+		
+		internal function setSpecified( value:Boolean ):void
+		{
+			_specified = value;
 		}
 		
 		/**
@@ -61,7 +103,12 @@ package com.ffsys.dom
 		*/
 		public function get ownerElement():Element
 		{
-			return null;
+			return _ownerElement;
+		}
+		
+		internal function setOwnerElement( element:Element ):void
+		{
+			_ownerElement = element;
 		}
 		
 		/*
@@ -73,17 +120,18 @@ package com.ffsys.dom
 		Object Attr
 		Attr has the all the properties and methods of the Node object as well as the properties and methods defined below.
 		The Attr object has the following properties:
+		
 		name
 		This read-only property is of type String.
+		
 		specified
 		This read-only property is of type Boolean.
+		
 		value
 		This property is of type String and can raise a DOMException object on setting.
+		
 		ownerElement
 		This read-only property is a Element object.
-		
-		
-		
 		
 		*/
 	

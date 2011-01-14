@@ -1,5 +1,8 @@
 package com.ffsys.dom
 {
+	import com.ffsys.dom.xhtml.*;
+	import com.ffsys.ioc.*;
+		
 	/**
 	*	Represents the type of a document.
 	*
@@ -12,19 +15,11 @@ package com.ffsys.dom
 	public class DocumentType extends Node
 	{
 		/**
-		* 	Represents <code>XHTML</code> version 1.0.
+		* 	The name of the bean document that
+		* 	contains components to attach to
+		* 	visual DOM elements.
 		*/
-		public static const VERSION_1:String = "1.0";
-		
-		/**
-		* 	Represents <code>XHTML</code> version 1.1.
-		*/
-		public static const VERSION_1_1:String = "1.1";	
-		
-		/**
-		* 	Represents <code>XHTML</code> version 2.0.
-		*/
-		public static const VERSION_2_0:String = "2.0";
+		public static const COMPONENTS_NAME:String = "dom-components";
 		
 		/**
 		* 	Represents an <code>XHTML</code> 1.0 strict document type.
@@ -41,6 +36,9 @@ package com.ffsys.dom
 			"html",
 			"-//W3C//DTD XHTML 1.1//EN",
 			"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" );
+			
+		private var _elements:IBeanDocument;
+		private var _components:IBeanDocument;		
 		
 		private var _name:String;
 		private var _entities:NamedNodeMap;
@@ -74,6 +72,44 @@ package com.ffsys.dom
 				_systemId = systemId;
 			}
 		}
+		
+		/**
+		* 	The primary bean document that defines the
+		* 	DOM elements.
+		*/
+		public function get elements():IBeanDocument
+		{
+			if( _elements == null )
+			{
+				//TODO: generate from a factory
+				_elements = new XhtmlBeanDocument();
+			}
+			return _elements;
+		}	
+		
+		public function set elements( value:IBeanDocument ):void
+		{
+			_elements = value;
+		}
+		
+		/**
+		* 	A bean document that defines visual components
+		* 	to be attached to visual DOM elements.
+		*/
+		public function get components():IBeanDocument
+		{
+			if( _components == null )
+			{
+				_components = new BeanDocument();
+				_components.id = COMPONENTS_NAME;
+			}
+			return _components;
+		}
+		
+		public function set components( value:IBeanDocument ):void
+		{
+			_components = value;
+		}		
 		
 		/**
 		* 	An <code>XML</code> representation of the this document type.

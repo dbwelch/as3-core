@@ -27,15 +27,6 @@ package com.ffsys.dom
 		{
 			_nodeType = Node.DOCUMENT_NODE;
 			super( xml );
-		}		
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function createAttribute( name:String ):Attr
-		{
-			var output:Attr = new Attr( this.xml, name );
-			return output;
 		}
 		
 		/**
@@ -57,6 +48,20 @@ package com.ffsys.dom
 		public function onload():void
 		{
 			trace("[ON LOAD] Document::onload()", this, this.id );
+		}
+		
+		/**
+		* 	Ensures that when no owner document has been specified a document
+		* 	will consider itself as the owner.
+		*/
+		override public function get ownerDocument():Document
+		{
+			var doc:Document = super.ownerDocument;
+			if( doc == null )
+			{
+				doc = this;
+			}
+			return doc;
 		}
 		
 		/**
@@ -125,6 +130,22 @@ package com.ffsys.dom
 		internal function setImplementation( implementation:DOMImplementation ):void
 		{
 			_implementation = implementation;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function createAttribute( name:String ):Attr
+		{
+			//TODO: retrieve from bean document
+			return new Attr( name, null, null );
+		}		
+		
+		public function createAttributeNS(
+			namespaceURI:String, qualifiedName:String ):Attr
+		{
+			//TODO: retrieve from bean document			
+			return new Attr( qualifiedName, null, namespaceURI );
 		}
 		
 				/*

@@ -13,16 +13,8 @@ package com.ffsys.dom
 	*	@since  09.01.2011
 	*/
 	public class DOMImplementation extends Object
-	{
-		/**
-		* 	The name of the bean document that
-		* 	contains components to attach to
-		* 	visual DOM elements.
-		*/
-		public static const COMPONENTS_NAME:String = "dom-components";
-		
+	{		
 		private var _beanManager:IBeanManager;
-		private var _components:IBeanDocument;
 		
 		/**
 		* 	Creates a <code>DOMImplementation</code> instance.
@@ -44,8 +36,7 @@ package com.ffsys.dom
 		{
 			if( _beanManager == null )
 			{
-				_beanManager = new DomBeanManager(
-					new XhtmlBeanDocument() );
+				_beanManager = new DomBeanManager();
 			}
 			return _beanManager;
 		}
@@ -53,34 +44,6 @@ package com.ffsys.dom
 		public function set beanManager( value:IBeanManager ):void
 		{
 			_beanManager = value;
-		}
-		
-		/**
-		* 	The primary bean document that defines the
-		* 	DOM elements.
-		*/
-		public function get document():IBeanDocument
-		{
-			return beanManager.document;
-		}
-		
-		/**
-		* 	A bean document that defines visual components
-		* 	to be attached to visual DOM elements.
-		*/
-		public function get components():IBeanDocument
-		{
-			if( _components == null )
-			{
-				_components = new BeanDocument();
-				_components.id = COMPONENTS_NAME;
-			}
-			return _components;
-		}
-		
-		public function set components( value:IBeanDocument ):void
-		{
-			_components = value;
 		}
 		
 		/**
@@ -108,15 +71,17 @@ package com.ffsys.dom
 			
 			var qualifiedName:String = source.name().localName;
 			var namespaceURI:String = source.@xmlns;
-			var docType:DocumentType = doctype;
 			
 			var doc:Document = createDocument(
-				namespaceURI, qualifiedName, docType );
+				namespaceURI, qualifiedName, doctype );
 			doc.xml = source;
+			
+			var beans:IBeanDocument = doctype.elements;
 			
 			var parser:DomSaxParser = new DomSaxParser();
 			parser.root = doc;
-			parser.document = this.document;
+			parser.document = beans;
+			parser.document.id = namespaceURI;
 			parser.parse( source );
 				
 			return doc;
@@ -162,7 +127,7 @@ package com.ffsys.dom
 			qualifiedName:String,
 			doctype:DocumentType ):Document
 		{
-			var document:Document = Document( this.document.getBean(
+			var document:Document = Document( doctype.elements.getBean(
 				qualifiedName ) );
 			document.setImplementation( this );
 			document.setDocumentType( doctype );

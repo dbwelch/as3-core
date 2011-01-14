@@ -73,13 +73,14 @@ package com.ffsys.dom
 		
 		/**
 		* 	@private
-		*/	
+		*/
 		protected var _nodeType:Number;
 		
 		private var _nodeValue:String;
 		private var _parentNode:Node;
 		private var _ownerDocument:Document;
 		private var _childNodes:NodeList;
+		private var _attributes:NamedNodeMap;
 		
 		/**
 		* 	Creates a <code>Node</code> instance.
@@ -92,7 +93,8 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	The number of child nodes encapsulated
+		* 	by this node.
 		*/
 		override public function get length():uint
 		{
@@ -104,28 +106,19 @@ package com.ffsys.dom
 		*/
 		public function get nodeName():String
 		{
-			if( this.xml != null )
-			{
-				return this.xml.name().localName;
-			}
-			return null;
+			return beanName;
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	The local name of this node.
 		*/
 		public function get localName():String
 		{
-			if( xml != null
-				&& xml.name() )
-			{
-				return xml.name().localName;
-			}
-			return null;
+			return beanName;
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	The type of this node.
 		*/
 		public function get nodeType():Number
 		{
@@ -133,7 +126,7 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	A value for this node.
 		*/
 		public function get nodeValue():String
 		{
@@ -146,15 +139,19 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Determines whether this node has any attributes.
+		* 
+		* 	@return Whether this node has any attributes.
 		*/
 		public function hasAttributes():Boolean
 		{
-			return this.xml != null && this.xml.attributes().length() > 0;
+			return attributes.length  > 0;
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	The list of child nodes that belong to this node.
+		* 
+		* 	@return The list of child nodes.
 		*/
 		public function get childNodes():NodeList
 		{
@@ -166,13 +163,42 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Determines whether this node has any child nodes.
+		*/
+		public function hasChildNodes():Boolean
+		{
+			return length > 0;
+		}
+		
+		/**
+		* 	A first child node when this node
+		* 	has children.
+		*/
+		public function get firstChild():Node
+		{
+			return childNodes.first();
+		}
+		
+		/**
+		* 	A last child node when this node
+		* 	has children.
+		*/
+		public function get lastChild():Node
+		{
+			return childNodes.last();
+		}
+		
+		/**
+		* 	The parent of this node.
 		*/
 		public function get parentNode():Node
 		{
 			return _parentNode;
 		}
 		
+		/**
+		* 	@private
+		*/
 		internal function setParentNode( parent:Node ):void
 		{
 			_parentNode = parent;
@@ -183,27 +209,48 @@ package com.ffsys.dom
 		*/
 		public function get attributes():NamedNodeMap
 		{
-			//TODO
-			return null;
+			if( _attributes == null )
+			{
+				_attributes = new NamedNodeMap();
+			}
+			return _attributes;
 		}
 		
+		/**
+		* 	The document that owns this node.
+		*/
 		public function get ownerDocument():Document
 		{
 			return _ownerDocument;
 		}
 		
+		/**
+		* 	@private
+		*/
 		internal function setOwnerDocument( owner:Document ):void
 		{
 			_ownerDocument = owner;
 		}
 		
+		//TODO: modify the XML document as nodes are added and removed !!?!?!?!!?
+		
+		/**
+		* 	Appends a node to the children of this node.
+		* 
+		* 	If the specified node is <code>null</code> it will
+		* 	not be added.
+		* 
+		* 	@param child The node to append.
+		* 
+		* 	@return The specified child node.
+		*/
 		public function appendChild( child:Node ):Node
 		{
 			if( child != null )
 			{
-				childNodes.children.push( child );
 				child.setParentNode( this );
 				child.setOwnerDocument( _ownerDocument );
+				childNodes.concat( child );	
 				
 				/*
 				trace("[ NODE -- APPENDING NODE ] Node::appendChild() this/child/length/children length: ",
@@ -213,6 +260,26 @@ package com.ffsys.dom
 			}
 			return child;
 		}
+		
+		/**
+		* 	Ensures the xml representation is in sync
+		* 	with the attribute definitions for this node.
+		*/
+		override public function get xml():XML
+		{
+			var x:XML = super.xml;
+			//ensure the xml attribute representation is in sync
+			//with our attribute status
+			var attr:Node = null;
+			for each( attr in attributes )
+			{
+				if( attr is Attr )
+				{
+					x.@[ Attr( attr ).qname ] = Attr( attr ).value;
+				}
+			}
+			return x;
+		}		
 		
 		/*
 
@@ -237,6 +304,18 @@ package com.ffsys.dom
 		lastChild
 		This read-only property is a Node object.
 		
+		ownerDocument
+		This read-only property is a Document object.
+		
+		localName
+		This read-only property is of type String.
+		
+		
+		
+		
+		
+		
+		
 		previousSibling
 		This read-only property is a Node object.
 		
@@ -246,21 +325,20 @@ package com.ffsys.dom
 		attributes
 		This read-only property is a NamedNodeMap object.
 		
-		ownerDocument
-		This read-only property is a Document object.
-		
 		namespaceURI
 		This read-only property is of type String.
 		
 		prefix
-		This property is of type String and can raise a DOMException object on setting.
-		
-		localName
-		This read-only property is of type String.
+		This property is of type String and can raise a DOMException object on setting.		
 		
 		*/
 		
 		/*
+		
+		appendChild(newChild)
+		This method returns a Node object.
+		The newChild parameter is a Node object.
+		This method can raise a DOMException object.		
 		
 		insertBefore(newChild, refChild)
 		This method returns a Node object.
@@ -277,11 +355,6 @@ package com.ffsys.dom
 		removeChild(oldChild)
 		This method returns a Node object.
 		The oldChild parameter is a Node object.
-		This method can raise a DOMException object.
-		
-		appendChild(newChild)
-		This method returns a Node object.
-		The newChild parameter is a Node object.
 		This method can raise a DOMException object.
 		
 		hasChildNodes()

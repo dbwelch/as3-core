@@ -42,6 +42,32 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	The first node in this collection
+		* 	if it is not empty.
+		*/
+		public function first():Node
+		{
+			if( length > 0 ) 
+			{
+				return item( 0 );
+			}
+			return null;
+		}
+		
+		/**
+		* 	The last node in this collection
+		* 	if it is not empty.
+		*/
+		public function last():Node
+		{
+			if( length > 0 ) 
+			{
+				return item( length -1 );
+			}
+			return null;
+		}
+		
+		/**
 		* 	Clears the nodes stored by this list.
 		*/
 		public function clear():void

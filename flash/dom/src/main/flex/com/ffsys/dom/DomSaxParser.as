@@ -26,13 +26,14 @@ package com.ffsys.dom
 		*/
 		override public function beginDocument( token:SaxToken ):void
 		{
-			//treat document elements like any normal element
 			if( root == null )
 			{
 				super.beginDocument( token );
 			}
 			
-			if( root != null )
+			if( root != null
+				&& root is Document
+				&& _dom == null )
 			{
 				_dom = Document( this.root );
 			}
@@ -47,6 +48,11 @@ package com.ffsys.dom
 			{
 				super.endDocument( token );
 			}
+		}
+		
+		override public function text( token:SaxToken ):void
+		{
+			trace("[GOT TEXT LEAF NODE] DomSaxParser::text()", token );
 		}
 		
 		/**
@@ -93,7 +99,15 @@ package com.ffsys.dom
 			
 			super.beginElement( token );
 			
-			var document:Document = Document( this.root );
+			var document:Document = this.root as Document;
+			
+			trace("DomSaxParser::beginElement()", document, current );
+			
+			if( document != null
+				&& current is Node )
+			{
+				Node( current ).setOwnerDocument( document );
+			}
 			
 			if( current is IDomXmlAware )
 			{
@@ -124,7 +138,7 @@ package com.ffsys.dom
 			//TODO: instantiate and assign visual composite where applicable
 			
 			//TODO: allow a document to do this when the createElement() method is called
-			if( current is Element )
+			if( current is Element && document != null )
 			{
 				document.registerElement( Element( current ) );
 			}
@@ -156,6 +170,11 @@ package com.ffsys.dom
 		public function get dom():Document
 		{
 			return _dom;
+		}
+		
+		public function set dom( value:Document ):void
+		{
+			_dom = value;
 		}
 	}
 }
