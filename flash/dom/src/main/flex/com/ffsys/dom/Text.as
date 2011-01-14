@@ -15,6 +15,7 @@ package com.ffsys.dom
 		
 		public function splitText( offset:Number ):Text
 		{
+			//TODO: create a text element from the document
 			return null;
 		}
 		
@@ -22,6 +23,7 @@ package com.ffsys.dom
 		
 		Object Text
 		Text has the all the properties and methods of the CharacterData object as well as the properties and methods defined below.
+		
 		The Text object has the following methods:
 		splitText(offset)
 		This method returns a Text object.

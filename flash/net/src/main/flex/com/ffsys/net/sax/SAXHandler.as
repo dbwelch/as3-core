@@ -34,14 +34,6 @@ package com.ffsys.net.sax
 		public function beginElement( token:SaxToken ):void
 		{
 			//trace("[START ELEMENT] SaxHandler::beginElement()", token.name, token.type );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function descended( token:SaxToken ):void
-		{
-			//			
 		}	
 		
 		/**
@@ -58,22 +50,14 @@ package com.ffsys.net.sax
 		public function leaf( token:SaxToken ):void
 		{
 			//
-		}			
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function sibling( token:SaxToken, previous:SaxToken ):void
-		{
-			//
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function ascended( token:SaxToken ):void
+		public function text( token:SaxToken ):void
 		{
-			//		
+			//			
 		}				
 		
 		/**

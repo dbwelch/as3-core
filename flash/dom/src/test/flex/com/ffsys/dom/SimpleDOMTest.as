@@ -258,7 +258,7 @@ package com.ffsys.dom
 			cd.deleteData( 12, 4 );
 			Assert.assertEquals( "This is some text for you", cd.data );
 			
-			/*
+			
 			//iterate over characters and their character codes
 			for( var z:String in cd )
 			{
@@ -276,7 +276,7 @@ package com.ffsys.dom
 			{
 				trace("[FOR] SimpleDOMTest::domTest()", cd[ i ] );
 			}
-			*/
+			
 			
 			/*
 

@@ -128,7 +128,7 @@ package com.ffsys.net.sax
 		}
 		
 		/**
-		* 	The XML that defined the element being parsed.
+		* 	The <code>XML</code> that defined the element being parsed.
 		*/
 		public function get xml():XML
 		{
@@ -146,13 +146,18 @@ package com.ffsys.net.sax
 		}
 		
 		/**
-		* 	TODO
+		* 	Gets a string representation of this token.
+		* 
+		* 	@return The string representation of this token.
 		*/
 		public function toString():String
 		{
 			return "[object SaxToken#" + ( name != null ? name : type.toUpperCase() ) + "]";
 		}
 		
+		/**
+		*	@private 
+		*/
 		protected function processAttributes( x:XML ):void
 		{
 			var attrs:XMLList = x.@*;

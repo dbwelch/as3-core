@@ -27,17 +27,15 @@ package com.ffsys.dom
 			
 			if( value != null )
 			{
-				//TODO: implement in text
-				//value.normalize();
-				
-				_data = "";
-				
-				var text:XMLList = value.text();
-				var child:XML = null;
-				for each( child in text )
+				if( value.nodeKind() != "text"
+					&& value.nodeKind() != "comment" )
 				{
-					_data += child.toString();
+					throw new Error( "Invalid node type '" + value.nodeKind() + "' for character data." );
 				}
+				
+				_data = value.toString();
+				
+				trace("CharacterData::set xml()", value.toXMLString(), _data );
 			}
 		}
 		
@@ -55,16 +53,20 @@ package com.ffsys.dom
 		
 		public function set data( value:String ):void
 		{
-			_data = value;
+			//_data = value;
 			
-			_xml = new XML( value );
-			
-			if( source != _data )
+			if( value != null )
 			{
-				setSource( _data );
-			}
+				this.xml = new XML( "<![CDATA[" + value + "]]>" );
 			
-			//TODO: verify the xml is the right node kind: text
+				if( source != _data )
+				{
+					setSource( _data );
+				}
+			}else{
+				_data = null;
+				setSource( null );
+			}
 		}
 		
 		/**

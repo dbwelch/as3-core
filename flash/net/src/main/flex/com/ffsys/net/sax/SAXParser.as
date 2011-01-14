@@ -283,37 +283,18 @@ package com.ffsys.net.sax {
 		/**
 		* 	@inheritDoc
 		*/
-		public function descended( token:SaxToken ):void
+		public function leaf( token:SaxToken ):void
 		{
-			var methodName:String = "descended";
+			var methodName:String = "leaf";
 			notify( token, methodName );			
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function sibling( token:SaxToken, branch:SaxToken ):void
+		public function text( token:SaxToken ):void
 		{
-			var methodName:String = "sibling";
-			//trace("[SIBLING] SaxParser::sibling() xml/token.parent/branch.parent: ", token.xml, token.parent, token.target );
-			notify( token, methodName, branch );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function ascended( token:SaxToken ):void
-		{
-			var methodName:String = "ascended";
-			notify( token, methodName );		
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function leaf( token:SaxToken ):void
-		{
-			var methodName:String = "leaf";
+			var methodName:String = "text";
 			notify( token, methodName );			
 		}
 		
@@ -418,6 +399,11 @@ package com.ffsys.net.sax {
 			{
 				//trace("[LEAF] SaxParser::deserialize()", x );
 				leaf( _token );
+				
+				if( x.nodeKind() == SaxToken.TEXT )
+				{
+					text( _token );
+				}
 			}
 			
 			//only parse child elements if we are configued to
@@ -428,11 +414,7 @@ package com.ffsys.net.sax {
 				if( l > 0 )
 				{
 					depth++;
-					descended( _token );
 				}
-				
-				var previous:Object = null;
-				var branchToken:SaxToken = _token;
 				
 				//descend into child nodes
 				for( i = 0;i < l;i++ )
@@ -443,14 +425,6 @@ package com.ffsys.net.sax {
 						continue;
 					}
 					
-					if( i > 0 && previous != null )
-					{
-						if( element.nodeKind() == SaxToken.ELEMENT )
-						{
-							sibling( branchToken, null );
-						}
-					}
-					
 					//this branch allows us to deal with inline text nodes
 					if( element is XML )
 					{
@@ -458,13 +432,6 @@ package com.ffsys.net.sax {
 					}else if( element is XMLList )
 					{
 						deserializeList( element as XMLList );
-					}
-					
-					//next element sibling
-					if( element.nodeKind() == SaxToken.ELEMENT )
-					{
-						previous = element;
-						branchToken = _token;						
 					}
 				}
 			}
@@ -475,26 +442,8 @@ package com.ffsys.net.sax {
 					&& descend )
 				{
 					depth--;
-					//_token
-					//_token.depth--;
-					//_token = _token.parent;
-					
-					
-					//trace("[BEFORE TOKEN CHANGE] SaxParser::deserialize()", _token );
-					
 					//set the token back to the correct one for the current element
 					_token = tokens[ x ];
-					
-					//trace("[AFTER TOKEN CHANGE] SaxParser::deserialize()", _token );
-					
-					/*
-					if( _token.parent )
-					{
-						trace("[AFTER TOKEN CHANGE PARENT TARGET] SaxParser::deserialize()", _token.parent.target );						
-					}
-					*/
-					
-					ascended( _token );
 				}
 				
 				//TODO: ensure we don't reinstantiate a new token for the end element
