@@ -21,6 +21,10 @@ package com.ffsys.dom
 			super( xml );
 		}
 		
+		/**
+		* 	Updates the underlying data
+		* 	as the XML fragment changes.
+		*/
 		override public function set xml( value:XML ):void
 		{
 			super.xml = value;
@@ -34,8 +38,7 @@ package com.ffsys.dom
 				}
 				
 				_data = value.toString();
-				
-				trace("CharacterData::set xml()", value.toXMLString(), _data );
+				//trace("CharacterData::set xml()", value.toXMLString(), _data );
 			}
 		}
 		
@@ -89,6 +92,7 @@ package com.ffsys.dom
 		*/
 		public function substringData( offset:Number, count:Number ):String
 		{
+			//This method can raise a DOMException object.
 			return data.substr( offset, count );
 		}
 		
@@ -99,6 +103,7 @@ package com.ffsys.dom
 		*/
 		public function appendData( value:String ):void
 		{
+			//This method can raise a DOMException object.
 			if( value != null )
 			{
 				data += value;
@@ -113,6 +118,7 @@ package com.ffsys.dom
 		*/
 		public function insertData( offset:Number, value:String ):void
 		{
+			//This method can raise a DOMException object.
 			var start:String = offset > 0 ? data.substr( 0, offset ) : "";
 			var end:String = data.substr( offset );
 			data = start + value + end;
@@ -126,6 +132,7 @@ package com.ffsys.dom
 		*/
 		public function deleteData( offset:Number, count:Number ):void
 		{
+			//This method can raise a DOMException object.
 			var start:String = offset > 0 ? data.substr( 0, offset ) : "";
 			var end:String = data.substr( offset + count );
 			data = start + end;
@@ -150,6 +157,7 @@ package com.ffsys.dom
 		*/
 		override protected function propertyMissing( name:* ):*
 		{	
+			//This method can raise a DOMException object.
 			var integer:Number = Number( name );
 			
 			//trace("CharacterData::propertyMissing()", name, name is String, integer );
@@ -180,65 +188,5 @@ package com.ffsys.dom
 		{
 			return data.charCodeAt( index - 1 );
 		}
-		
-		/*
-		
-		Object CharacterData
-		CharacterData has the all the properties and methods of the Node object as well as the properties and methods defined below.
-		The CharacterData object has the following properties:
-		
-		data
-		This property is of type String, can raise a DOMException object on setting and can raise a DOMException object on retrieval.
-		
-		length
-		This read-only property is of type Number.
-		
-		The CharacterData object has the following methods:
-		
-		substringData(offset, count)
-		This method returns a String.
-		The offset parameter is of type Number.
-		The count parameter is of type Number.
-		
-		//TODO
-		This method can raise a DOMException object.
-		
-		appendData(arg)
-		This method has no return value.
-		The arg parameter is of type String.
-		
-		//TODO
-		This method can raise a DOMException object.
-		
-		insertData(offset, arg)
-		
-		This method has no return value.
-		The offset parameter is of type Number.
-		The arg parameter is of type String.
-		
-		//TODO
-		This method can raise a DOMException object.
-		
-		deleteData(offset, count)
-		
-		This method has no return value.
-		
-		The offset parameter is of type Number.
-		The count parameter is of type Number.
-		
-		//TODO
-		This method can raise a DOMException object.
-		
-		replaceData(offset, count, arg)
-		This method has no return value.
-		
-		The offset parameter is of type Number.
-		The count parameter is of type Number.
-		The arg parameter is of type String.
-		
-		//TODO
-		This method can raise a DOMException object.
-		
-		*/
 	}
 }

@@ -59,6 +59,14 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Ensures the local name matches the attribute name.
+		*/
+		override public function get localName():String
+		{
+			return name;
+		}
+		
+		/**
 		* 	The value for the attribute.
 		*/
 		public function get value():String
@@ -110,32 +118,5 @@ package com.ffsys.dom
 		{
 			_ownerElement = element;
 		}
-		
-		/*
-		
-		
-		
-		
-		
-		Object Attr
-		Attr has the all the properties and methods of the Node object as well as the properties and methods defined below.
-		The Attr object has the following properties:
-		
-		name
-		This read-only property is of type String.
-		
-		specified
-		This read-only property is of type Boolean.
-		
-		value
-		This property is of type String and can raise a DOMException object on setting.
-		
-		ownerElement
-		This read-only property is a Element object.
-		
-		*/
-	
 	}
-
 }
-

@@ -9,9 +9,8 @@ package com.ffsys.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	public class CDATASection extends Text
+	dynamic public class CDATASection extends CharacterData
 	{
-		
 		/**
 		* 	Creates a <code>CDATASection</code> instance.
 		*/

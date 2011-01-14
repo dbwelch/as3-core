@@ -3,9 +3,20 @@ package com.ffsys.net.sax
 
 	public class SaxObjectParser extends SaxParser
 	{
-		private var _root:Object;
-		private var _parent:Object;
-		private var _current:Object;
+		/**
+		* 	@private
+		*/
+		protected var _root:Object;
+		
+		/**
+		* 	@private
+		*/
+		protected var _parent:Object;
+		
+		/**
+		* 	@private
+		*/
+		protected var _current:Object;
 		
 		/**
 		* 	Creates a <code>SaxObjectParser</code> instance.

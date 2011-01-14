@@ -268,18 +268,13 @@ package com.ffsys.dom
 		override public function get xml():XML
 		{
 			var x:XML = super.xml;
-			//ensure the xml attribute representation is in sync
-			//with our attribute status
-			var attr:Node = null;
-			for each( attr in attributes )
+			//
+			if( x != null && !( this is Document ) )
 			{
-				if( attr is Attr )
-				{
-					x.@[ Attr( attr ).qname ] = Attr( attr ).value;
-				}
+				x.removeNamespace( x.@xmlns );
 			}
 			return x;
-		}		
+		}
 		
 		/*
 

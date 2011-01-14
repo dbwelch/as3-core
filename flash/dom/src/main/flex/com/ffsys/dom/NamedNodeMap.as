@@ -68,6 +68,7 @@ package com.ffsys.dom
 		*/
 		public function setNamedItem( item:Node ):Node
 		{
+			trace("NamedNodeMap::setNamedItem()", item, item.localName );
 			if( item != null && item.localName != null )
 			{
 				var existing:Node = getNamedItem( item.localName );

@@ -137,6 +137,11 @@ package com.ffsys.dom
 		public function set beanName( value:String ):void
 		{
 			_beanName = value;
+			if( value != null )
+			{
+				xml.setName( new QName( null, value ) );
+				trace("[SETTING XML ELEMENT NAME] XmlAwareDomElement::set beanName()", xml.toXMLString() );
+			}
 		}
 		
 		/**
@@ -180,33 +185,26 @@ package com.ffsys.dom
 		*/
 		public function get xml():XML
 		{
+			if( _xml == null )
+			{
+				_xml = new XML( "<node />" );
+			}
 			return _xml;
 		}
 		
 		public function set xml( value:XML ):void
 		{
 			_xml = value;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		//TODO: deprecate
-		public function get parser():Object
-		{
-			return _parser;
-		}
-		
-		public function set parser( value:Object ):void
-		{
-			_parser = value;
-		}		
+			
+			//TODO: run this through the SAX parser to create child elements???
+		}	
 		
 		/**
 		* 	The bean document that instantiated this component.
 		*/
 		
-		//TODO: refactor to beans
+		//TODO: refactor to beans - ensure we all need this reference
+		//as everything needs to instantiated from the ownerDocument
 		public function get document():IBeanDocument
 		{
 			return _document;

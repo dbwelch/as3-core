@@ -65,8 +65,10 @@ package com.ffsys.dom
 		
 		/**
 		* 	Adds a class name to this element.
+		* 
+		* 	@param name The class name to add.
 		*/
-		public function addClass( name:String ):void
+		public function addClass( name:String ):String
 		{
 			var nm:String = this.classNames;
 			if( /[^\s]/.test( nm ) )
@@ -75,12 +77,12 @@ package com.ffsys.dom
 			}
 			nm += name;
 			this.classNames = nm;
-			
-			trace("Element::addClass()", this, this.classNames );
+			//trace("Element::addClass()", this, this.classNames );
+			return nm;
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	An array of class names.
 		*/
 		public function get classes():Vector.<String>
 		{
@@ -97,7 +99,7 @@ package com.ffsys.dom
 		}		
 		
 		/**
-		* 	@inheritDoc
+		* 	The name of the tag that created this element.
 		*/
 		public function get tagName():String
 		{
@@ -135,20 +137,7 @@ package com.ffsys.dom
 		*/
 		
 		/**
-		* 	Ensures that attributes are assigned when an <code>XML</code>
-		* 	fragment is assigned to this implementation.
-		*/
-		override public function set xml( value:XML ):void
-		{
-			super.xml = value;
-			if( value != null )
-			{
-				importAttributes( value, this );
-			}
-		}
-		
-		/**
-		* 	@inheritDoc
+		* 	TODO
 		*/
 		public function setAttribute( name:String, value:String ):void
 		{
@@ -159,24 +148,24 @@ package com.ffsys.dom
 				attributeSet( name, value );
 			}
 			
-			trace("Element::setAttribute() owner document: ", ownerDocument );
-
 			var attr:Attr = ownerDocument.createAttribute(
 				name );
 				
-			trace("Element::setAttribute() attr: ", attr );
-				
 			attr.value = value;
+			
+			trace("Element::setAttribute() attr: ", this, attr, attr.name, attr.value, attributes.length );			
+			
 			setAttributeNode( attr );
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	TODO
 		*/
 		public function getAttribute( name:String ):String
 		{
 			var value:String = null;
 			var attr:Attr = getAttributeNode( name );
+			trace("Element::getAttribute()", name, attr, length );
 			if( attr != null )
 			{
 				value = attr.value;
@@ -185,7 +174,7 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	TODO
 		*/
 		public function removeAttribute( name:String ):void
 		{
@@ -196,26 +185,16 @@ package com.ffsys.dom
 			}
 		}
 		
-		/*
-		setAttributeNS(namespaceURI, qualifiedName, value)
-		This method has no return value.
-		The namespaceURI parameter is of type String.
-		The qualifiedName parameter is of type String.
-		The value parameter is of type String.
-		This method can raise a DOMException object.
+		/**
+		* 	TODO
 		*/
-		
 		public function setAttributeNS(
 			namespaceURI:String, qualifiedName:String, value:String ):void
 		{
-			//var qn:QName = new QName( namespaceURI, qualifiedName );
-			//xml.@[ qn ] = value;
-			
-			//trace("[SET ATTRIBUTE NS] Element::setAttributeNS()", xml.@[ qn ], qn.localName, qn.uri );
-			
+			//This method can raise a DOMException object.
 			var attr:Attr = ownerDocument.createAttributeNS(
 				namespaceURI, qualifiedName );
-			attr.value = value;
+			attr.value = value;	
 			setAttributeNode( attr );
 		}
 		
@@ -253,8 +232,10 @@ package com.ffsys.dom
 		{
 			if( attr != null )
 			{
+				var qn:QName = new QName( attr.uri, attr.name );
+				xml.@[ qn ] = attr.value;
 				attr.setOwnerElement( this );
-				attributes.setNamedItem( attr );
+				attributes.setNamedItem( attr );	
 			}
 			return attr;
 		}
@@ -275,6 +256,8 @@ package com.ffsys.dom
 				child = attributes.item( i ) as Attr;
 				if( child == attr )
 				{
+					var qn:QName = new QName( attr.uri, attr.name );
+					delete xml.@[ qn ];
 					attributes.removeNamedItem( child.name );
 					break;
 				}
@@ -494,7 +477,7 @@ package com.ffsys.dom
 					name = child.name();
 					value = child.toString();
 					var local:Boolean = !name.uri;
-					trace("Element::importAttributes() name/value/local: ", name, value, local );
+					trace("Element::importAttributes() beanName/name/value/local: ", beanName, name.localName, value, local );
 					if( local )
 					{
 						target.setAttribute( name.localName, value );

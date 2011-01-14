@@ -152,9 +152,13 @@ package com.ffsys.dom
 			
 			//document = parser.dom;
 			var elements:NodeList = null;
+			var child:Node;
 			
 			//should only have one registered DOM
 			Assert.assertEquals( 1, $().doms.length );
+			
+			//verify document language
+			Assert.assertEquals( "en", $( document ).attr( "lang" ) );
 			
 			//verify processing instruction to omit DOM elements
 			Assert.assertNull( document.getElementById( "html-only" ) );
@@ -278,6 +282,18 @@ package com.ffsys.dom
 			}
 			*/
 			
+			//trace("[ATTR] SimpleDOMTest::domTest()", $( document ).attr( "lang" ) );
+			
+			//modify an attribute for multiple elements at once
+			$( "p" ).attr( "title", "a new title" );
+			elements = $( "p" );
+			trace("[ATTR] SimpleDOMTest::domTest()", elements );
+			for each( child in elements )
+			{
+				trace("SimpleDOMTest::domTest()", child, child.xml, child.xml.localName, child.xml.toXMLString() );
+			}
+			
+			//trace("SimpleDOMTest::domTest()", document.xml );
 			
 			/*
 

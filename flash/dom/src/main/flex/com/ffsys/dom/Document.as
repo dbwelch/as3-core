@@ -152,22 +152,13 @@ package com.ffsys.dom
 
 		Object Document
 		Document has the all the properties and methods of the Node object as well as the properties and methods defined below.
-		The Document object has the following properties:
-		
-		doctype
-		This read-only property is a DocumentType object.
-		
-		implementation
-		This read-only property is a DOMImplementation object.
-		
-		documentElement
-		This read-only property is a Element object.
-		
+
 		The Document object has the following methods:
 		
 		createElement(tagName)
 		This method returns a Element object.
 		The tagName parameter is of type String.
+		
 		This method can raise a DOMException object.
 		
 		createDocumentFragment()

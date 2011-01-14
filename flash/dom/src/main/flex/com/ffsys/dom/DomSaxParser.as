@@ -35,7 +35,9 @@ package com.ffsys.dom
 				&& root is Document
 				&& _dom == null )
 			{
+				_current = root;
 				_dom = Document( this.root );
+				importAttributes( token );
 			}
 		}
 		
@@ -52,7 +54,7 @@ package com.ffsys.dom
 		
 		override public function text( token:SaxToken ):void
 		{
-			trace("[GOT TEXT LEAF NODE] DomSaxParser::text()", token );
+			//trace("[GOT TEXT LEAF NODE] DomSaxParser::text()", token );
 		}
 		
 		/**
@@ -83,7 +85,28 @@ package com.ffsys.dom
 			}
 			
 			super.doWithProcessingInstruction( token );
-		}		
+		}	
+		
+		private function importAttributes( token:SaxToken ):void
+		{
+			var document:Document = this.root as Document;
+			if( document != null && current is Element )
+			{			
+				var saxattr:SaxAttribute = null;
+				for each( saxattr in token.attributes )
+				{
+					trace("[SAX ATTR] DomSaxParser::beginElement()", saxattr, saxattr.name, saxattr.isQualified() );
+			
+					if( !saxattr.isQualified() )
+					{
+						Element( current ).setAttribute( saxattr.name, saxattr.value );
+					}else
+					{
+						Element( current ).setAttributeNS( saxattr.uri, saxattr.name, saxattr.value );
+					}
+				}
+			}		
+		}	
 		
 		/**
 		* 	@inheritDoc
@@ -109,10 +132,14 @@ package com.ffsys.dom
 				Node( current ).setOwnerDocument( document );
 			}
 			
+			/*
 			if( current is IDomXmlAware )
 			{
-				IDomXmlAware( current ).xml = token.xml;
+				IDomXmlAware( current ).xml = token.xml.copy();
 			}
+			*/
+			
+			importAttributes( token );
 			
 			//trace("[DOM SAX PARSER BEGIN ELEMENT] DomSaxParser::beginElement() root/parent/current: " , root, parent, current);			
 			
@@ -125,8 +152,6 @@ package com.ffsys.dom
 				//ensure the initial DOM hierarchy is correct
 				Node( ancestor ).appendChild(
 					Node( current ) );
-				
-				//TODO: group elements of the same type
 				
 				//TODO: property name conversion hyphens to camel case
 				var name:String = token.name;

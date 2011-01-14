@@ -13,7 +13,25 @@ package com.ffsys.dom
 	*	@since  09.01.2011
 	*/
 	public class DOMImplementation extends Object
-	{		
+	{
+		/**
+		* 	The default namespace URI used if none
+		* 	is specified on the document.
+		*/
+		public static const DEFAULT_NAMESPACE_URI:String =
+			"http://www.w3.org/1999/xhtml";
+			
+		/**
+		* 	Represents the DOM level 2.
+		*/
+		public static const LEVEL_2:uint = 2;
+		
+		/**
+		* 	Represents the DOM level 3.
+		*/
+		public static const LEVEL_3:uint = 3;
+				
+		//
 		private var _beanManager:IBeanManager;
 		
 		/**
@@ -27,6 +45,14 @@ package com.ffsys.dom
 		{
 			super();
 			this.beanManager = manager;
+		}
+		
+		/**
+		* 	Gets the current target DOM implementation level.
+		*/
+		public function get level():uint
+		{
+			return LEVEL_2;
 		}
 		
 		/**
@@ -48,14 +74,14 @@ package com.ffsys.dom
 		
 		/**
 		* 	Parses a source <code>XML</code> document
-		* 	as if it is an <code>XHTML<code> document.
+		* 	as if it is an <code>XHTML</code> document.
 		* 
 		* 	@param source The source <code>XML</code> document.
 		* 	@param doctype A specific document type to use when
 		* 	parsing the source.
 		*/
 		public function parse(
-			source:XML, 
+			source:XML,
 			doctype:DocumentType = null ):Document
 		{
 			if( source == null || !source.name() )
@@ -70,7 +96,7 @@ package com.ffsys.dom
 			}
 			
 			var qualifiedName:String = source.name().localName;
-			var namespaceURI:String = source.@xmlns;
+			var namespaceURI:String = source.@xmlns.length() > 0 ? source.@xmlns.toString() : DEFAULT_NAMESPACE_URI;
 			
 			var doc:Document = createDocument(
 				namespaceURI, qualifiedName, doctype );
@@ -83,7 +109,6 @@ package com.ffsys.dom
 			parser.document = beans;
 			parser.document.id = namespaceURI;
 			parser.parse( source );
-				
 			return doc;
 		}
 		
@@ -111,6 +136,7 @@ package com.ffsys.dom
 			publicId:String,
 			systemId:String ):DocumentType
 		{
+			//This method can raise a DOMException object.
 			var docType:DocumentType = new DocumentType( qualifiedName, systemId, publicId );
 			return docType;
 		}
@@ -127,37 +153,12 @@ package com.ffsys.dom
 			qualifiedName:String,
 			doctype:DocumentType ):Document
 		{
+			//This method can raise a DOMException object.
 			var document:Document = Document( doctype.elements.getBean(
 				qualifiedName ) );
 			document.setImplementation( this );
 			document.setDocumentType( doctype );
 			return document;
 		}
-	
-		/*
-	
-		Object DOMImplementation
-		The DOMImplementation object has the following methods:
-		hasFeature(feature, version)
-		This method returns a Boolean.
-		The feature parameter is of type String.
-		The version parameter is of type String.
-		
-		createDocumentType(qualifiedName, publicId, systemId)
-		This method returns a DocumentType object.
-		The qualifiedName parameter is of type String.
-		The publicId parameter is of type String.
-		The systemId parameter is of type String.
-		This method can raise a DOMException object.
-		
-		createDocument(namespaceURI, qualifiedName, doctype)
-		This method returns a Document object.
-		The namespaceURI parameter is of type String.
-		The qualifiedName parameter is of type String.
-		The doctype parameter is a DocumentType object.
-		This method can raise a DOMException object.
-	
-		*/
-	
 	}
 }

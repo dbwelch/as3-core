@@ -210,32 +210,5 @@ package com.ffsys.dom
 			return compare != null && ( compare == this
 				|| ( compare.name == name && compare.publicId == publicId && compare.systemId ) );
 		}
-	
-		/*
-	
-		Object DocumentType
-		DocumentType has the all the properties and methods of the Node object as well as the properties and methods defined below.
-		The DocumentType object has the following properties:
-		
-		name
-		This read-only property is of type String.
-		
-		entities
-		This read-only property is a NamedNodeMap object.
-		
-		notations
-		This read-only property is a NamedNodeMap object.
-		
-		publicId
-		This read-only property is of type String.
-		
-		systemId
-		This read-only property is of type String.
-		
-		internalSubset
-		This read-only property is of type String.	
-	
-		*/
-	
 	}
 }

@@ -160,7 +160,7 @@ package com.ffsys.net.sax
 		*/
 		protected function processAttributes( x:XML ):void
 		{
-			var attrs:XMLList = x.@*;
+			var attrs:XMLList = x.attributes();
 			
 			//trace("SaxParser::doWithAttributes()", attrs.length() );
 			
@@ -171,6 +171,6 @@ package com.ffsys.net.sax
 				attributes.push(
 					new SaxAttribute( attr ) );
 			}
-		}		
+		}
 	}
 }

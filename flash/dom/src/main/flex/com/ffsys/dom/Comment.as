@@ -1,6 +1,5 @@
 package com.ffsys.dom
 {
-	
 	/**
 	*	Represents a comment element.
 	*
@@ -12,7 +11,6 @@ package com.ffsys.dom
 	*/
 	public class Comment extends CharacterData
 	{
-		
 		/**
 		* 	Creates a <code>Comment</code> instance.
 		*/
@@ -21,12 +19,5 @@ package com.ffsys.dom
 			_nodeType = Node.COMMENT_NODE;
 			super( xml );
 		}
-	
-		/*
-	
-		Object Comment
-		Comment has the all the properties and methods of the CharacterData object as well as the properties and methods defined below.	
-	
-		*/
 	}
 }

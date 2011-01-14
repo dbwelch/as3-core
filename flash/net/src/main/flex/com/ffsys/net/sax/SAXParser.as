@@ -354,9 +354,6 @@ package com.ffsys.net.sax {
 			_token = new SaxToken( x, _token, depth, x.nodeKind() );
 			this.tokens[ x ] = _token;
 			
-			//store a reference to the token in the current node -- >>> ???
-			x.token = token;
-			
 			if( x.nodeKind() == SaxToken.PROCESSING_INSTRUCTION )
 			{
 				doWithProcessingInstruction( _token );

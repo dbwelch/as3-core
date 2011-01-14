@@ -164,6 +164,57 @@ package asquery
 		}
 		
 		/**
+		* 	Retrieves a single attribute and sets multiple
+		* 	attributes.
+		* 
+		* 	@param key The attribute key.
+		* 	@param value The attribute value.
+		* 	
+		* 	@return Either the value of a matched attribute or
+		* 	a chained query.
+		*/
+		public function attr( key:Object, value:Object = null ):Object
+		{
+			var child:Node = null;
+			if( key is String && value == null )
+			{
+				child = first();
+				if( child is Element )
+				{
+					trace("ActionscriptQuery::attr()", child );
+					return child.getAttribute( String( key ) );
+				}
+			//assign a single attribute to all matches	
+			}else if( key is String && value is String )
+			{
+				for each( child in this )
+				{
+					if( child is Element )
+					{
+						Element( child ).setAttribute(
+							String( key ), String( value ) );
+					}
+				}
+			//assign all attributes to all matches
+			}else if( key is Object && value is Object )
+			{
+				var prop:String = null;
+				for each( child in this )
+				{
+					if( child is Element )
+					{
+						for( prop in value )
+						{
+							Element( child ).setAttribute(
+								prop, value[ prop ] );
+						}
+					}
+				}
+			}
+			return getChainedQuery();
+		}
+		
+		/**
 		* 	@private
 		* 
 		* 	Adds existing DOM element references to the elements
@@ -419,9 +470,9 @@ package asquery
 			
 			if( identifier )
 			{
-				trace("[FIND BY ID] ActionscriptQuery::doFindElement()", context, candidate );
+				//trace("[FIND BY ID] ActionscriptQuery::doFindElement()", context, candidate );
 				addMatchedElement( context.getElementById( candidate ) );
-				trace("[FIND BY ID AFTER] ActionscriptQuery::doFindElement()", length );					
+				//trace("[FIND BY ID AFTER] ActionscriptQuery::doFindElement()", length );					
 			}else if( className )
 			{
 				//trace("[FIND BY CLASS] ActionscriptQuery::doFindElement()", candidate, context );					
@@ -429,7 +480,7 @@ package asquery
 				//trace("[FIND BY CLASS AFTER] ActionscriptQuery::doFindElement()", length );
 			}else if( tagName )
 			{
-				trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, context.getElementsByTagName( candidate ) );
+				//trace("[FIND BY TAG] ActionscriptQuery::doFindElement()", context, candidate, context.getElementsByTagName( candidate ) );
 				
 				if( !descendants )
 				{				
@@ -437,7 +488,7 @@ package asquery
 				}else{
 					addMatchedList( context.getDescendantsByTagName( candidate ) );
 				}
-				trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
+				//trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
 			}
 		}
 		
@@ -559,12 +610,15 @@ package asquery
 				var f:Function = null;
 				for each( f in callbacks )
 				{
-					//invoke onlod callbacks in the scope of the document
+					//invoke onload callbacks in the scope of the document
 					f.apply( dom, [] );
 				}
 			}
 		}
 		
+		/**
+		* 	@private
+		*/
 		internal function handle( query:Object ):*
 		{
 			if( query == null || query is String || query is RegExp )
