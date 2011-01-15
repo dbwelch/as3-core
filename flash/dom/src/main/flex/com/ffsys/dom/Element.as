@@ -50,6 +50,25 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getClassLevelStyleNames():Vector.<String>
+		{
+			var output:Vector.<String> = new Vector.<String>();
+			var className:String = getClassName();
+			output.push( className );
+			if( _descriptor != null
+				&& _descriptor.id != className.toLowerCase() )
+			{
+				output.push( _descriptor.id );
+				
+				//add bean decsriptor name aliases
+				output.concat( _descriptor.names );
+			}
+			return output;
+		}		
+		
+		/**
 		* 	Determines whether the specified class name
 		* 	exists on this instance.
 		* 

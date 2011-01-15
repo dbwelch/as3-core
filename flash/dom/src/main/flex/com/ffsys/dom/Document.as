@@ -68,7 +68,7 @@ package com.ffsys.dom
 			
 			if( namespaceDeclarations != null )
 			{
-				trace("[GOT NAMESPACE DECLARATION] Document::get xml()", namespaceDeclarations );
+				//trace("[GOT NAMESPACE DECLARATION] Document::get xml()", namespaceDeclarations );
 				var ns:Namespace = null;
 				var nm:String = null;
 				for each( ns in namespaceDeclarations )

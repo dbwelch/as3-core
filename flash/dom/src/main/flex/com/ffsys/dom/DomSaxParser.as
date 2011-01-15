@@ -242,7 +242,7 @@ package com.ffsys.dom
 				for( var i:int = 0;i < token.attributes.length;i++  )
 				{
 					saxattr = token.attributes[ i ];
-					trace("[SAX ATTR] DomSaxParser::importAttributes()", saxattr.name, saxattr.value, saxattr.uri, saxattr.isQualified() );
+					//trace("[SAX ATTR] DomSaxParser::importAttributes()", saxattr.name, saxattr.value, saxattr.uri, saxattr.isQualified() );
 					
 					if( !saxattr.isQualified() )
 					{

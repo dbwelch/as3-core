@@ -281,7 +281,7 @@ package com.ffsys.dom
 			
 			if( _descriptor != null )
 			{
-				return _descriptor.instanceClass;
+				_class = _descriptor.instanceClass;
 			}
 			
 			if( target == null )
@@ -289,42 +289,46 @@ package com.ffsys.dom
 				target = this;
 			}
 			
+			var path:String = getQualifiedClassName( target );
+			
 			if( _class == null )
 			{
-				_class = getDefinitionByName(
-					getClassPath( target ) ) as Class;
+				_class = getDefinitionByName( path ) as Class;
 			}
-			return _class;			
 			
-			//return super.getClass( target );
+			//classes are dynamic so cache our path and name
+			if( _class != null )
+			{
+				Object( _class ).path = path;
+				
+				var classPath:String = path;
+				var className:String = classPath;
+				var index:int = classPath.indexOf( "::" );
+				if( index > -1 )
+				{
+					className = classPath.substr( index + 2 );
+				}
+				Object( _class ).name = className;
+			}
+			return _class;
 		}
-		
 		
 		/**
 		*	@inheritDoc 
 		*/
 		public function getClassPath( target:Object = null ):String
 		{
-			if( target == null )
-			{
-				target = this;
-			}
-			return getQualifiedClassName( target );
+			var clazz:Class = getClass();
+			return String( clazz.path );
 		}
 		
 		/**
 		*	@inheritDoc 
 		*/
 		public function getClassName( target:Object = null ):String
-		{
-			var classPath:String = getClassPath( target );
-			var className:String = classPath;
-			var index:int = classPath.indexOf( "::" );
-			if( index > -1 )
-			{
-				className = classPath.substr( index + 2 );
-			}
-			return className;
+		{	
+			var clazz:Class = getClass();
+			return String( clazz.name );
 		}
 		
 		/**
