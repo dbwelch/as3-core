@@ -285,7 +285,8 @@ package com.ffsys.dom
 				Assert.assertEquals( "a new title", child.getAttribute( "title" ) );
 			}
 			
-			trace("SimpleDOMTest::domTest()", getTestDocument() );
+			//trace("SimpleDOMTest::domTest()", getTestDocument() );
+			
 			trace( document.xml.toXMLString() );
 			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
 		}

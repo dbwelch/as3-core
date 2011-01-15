@@ -226,6 +226,8 @@ package com.ffsys.ui.css {
 				var styleParts:Array = target.styles ? target.styles.split( STYLE_DELIMITER ) : new Array();
 
 				//add identifier style name
+				
+				//TODO: remove this as the style aware target supplies class level identifiers
 				if( target is IStringIdentifier
 					&& IStringIdentifier( target ).id )
 				{

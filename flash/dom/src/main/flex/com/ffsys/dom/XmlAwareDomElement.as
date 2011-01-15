@@ -327,7 +327,7 @@ package com.ffsys.dom
 		*	@inheritDoc 
 		*/
 		public function getClassName( target:Object = null ):String
-		{	
+		{
 			var clazz:Class = getClass();
 			return String( clazz.name );
 		}

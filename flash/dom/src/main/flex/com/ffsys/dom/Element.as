@@ -17,6 +17,7 @@ package com.ffsys.dom
 		public static const CLASS_NAMES:String = "classNames";
 		
 		private var _classNames:String;
+		private var _classStyleNameCache:Vector.<String> = null;
 		
 		/**
 		*	@private	 
@@ -46,7 +47,15 @@ package com.ffsys.dom
 		
 		public function set classNames( value:String ):void
 		{
+			//invalidate the style name cache
+			if( value != _classNames )
+			{
+				_classStyleNameCache = null;
+			}
+			
 			_classNames = value;
+			
+			getClassLevelStyleNames();
 		}
 		
 		/**
@@ -54,19 +63,45 @@ package com.ffsys.dom
 		*/
 		public function getClassLevelStyleNames():Vector.<String>
 		{
-			var output:Vector.<String> = new Vector.<String>();
-			var className:String = getClassName();
-			output.push( className );
-			if( _descriptor != null
-				&& _descriptor.id != className.toLowerCase() )
+			if( _classStyleNameCache == null )
 			{
-				output.push( _descriptor.id );
+				var output:Vector.<String> = new Vector.<String>();
 				
-				//add bean decsriptor name aliases
-				output.concat( _descriptor.names );
+				var clazz:Class = getClass();
+				
+				var hash:String = "#";
+				var wildcard:String = "*";				
+				
+				//wildcard first
+				output.push( wildcard );
+				
+				//then the raw class name
+				output.push( clazz.name );
+				
+				//add any bean descriptor identifier and aliases
+				if( _descriptor != null
+					&& _descriptor.id != clazz.name.toLowerCase() )
+				{
+					output.push( _descriptor.id );
+					//add bean descriptor name aliases
+					output = output.concat( _descriptor.names );
+				}
+				
+				//our own identifier
+				if( id != null )
+				{
+					output.push( hash + id );
+				}				
+				
+				//finally add the set of styles currently assigned
+				output = output.concat( this.classes );
+				
+				trace("[CREATED CLASS STYLE NAME CACHE] Element::getClassLevelStyleNames()", output );
+				
+				_classStyleNameCache = output;
 			}
-			return output;
-		}		
+			return _classStyleNameCache;
+		}
 		
 		/**
 		* 	Determines whether the specified class name
@@ -101,7 +136,8 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	An array of class names.
+		* 	Retrieves a list of class names that correspond to the names
+		* 	specified in the <code>classNames</code> property.
 		*/
 		public function get classes():Vector.<String>
 		{
@@ -113,9 +149,9 @@ package com.ffsys.dom
 				{
 					output.push( String( parts[ i ] ) );
 				}
-			}			
+			}
 			return output;
-		}		
+		}	
 		
 		/**
 		* 	The name of the tag that created this element.
