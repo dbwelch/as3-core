@@ -279,37 +279,38 @@ package com.ffsys.dom
 				return target as Class;
 			}
 			
-			if( _descriptor != null )
-			{
-				_class = _descriptor.instanceClass;
-			}
-			
 			if( target == null )
 			{
 				target = this;
 			}
 			
-			var path:String = getQualifiedClassName( target );
-			
 			if( _class == null )
-			{
-				_class = getDefinitionByName( path ) as Class;
+			{	
+				var path:String = getQualifiedClassName( target );
+				if( _descriptor != null )
+				{
+					_class = _descriptor.instanceClass;
+				}else
+				{
+					_class = getDefinitionByName( path ) as Class;
+				}
+				
+				//classes are dynamic so cache our path and name
+				if( _class != null )
+				{
+					Object( _class ).path = path;
+
+					var classPath:String = path;
+					var className:String = classPath;
+					var index:int = classPath.indexOf( "::" );
+					if( index > -1 )
+					{
+						className = classPath.substr( index + 2 );
+					}
+					Object( _class ).name = className;
+				}				
 			}
 			
-			//classes are dynamic so cache our path and name
-			if( _class != null )
-			{
-				Object( _class ).path = path;
-				
-				var classPath:String = path;
-				var className:String = classPath;
-				var index:int = classPath.indexOf( "::" );
-				if( index > -1 )
-				{
-					className = classPath.substr( index + 2 );
-				}
-				Object( _class ).name = className;
-			}
 			return _class;
 		}
 		
