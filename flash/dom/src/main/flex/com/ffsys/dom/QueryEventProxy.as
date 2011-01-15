@@ -1,7 +1,6 @@
-package asquery
+package com.ffsys.dom
 {
 	import flash.events.*;
-	import com.ffsys.dom.*;
 	
 	public class QueryEventProxy extends Object {
 		

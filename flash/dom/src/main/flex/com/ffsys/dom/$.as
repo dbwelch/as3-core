@@ -1,7 +1,5 @@
-package asquery
-{
-	import com.ffsys.dom.*;
-	
+package com.ffsys.dom
+{	
 	/**
 	* 	The dollar alias for the asquery implementation.
 	* 

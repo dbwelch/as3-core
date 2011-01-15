@@ -1,28 +1,10 @@
-package asquery
+package com.ffsys.dom
 {
 	import flash.events.*;
 	import flash.utils.Dictionary;
-	
-	import com.ffsys.dom.*;
 
 	dynamic public class ActionscriptQuery extends NodeList
-	{
-		/**
-		* 	The delimiter between multiple queries.
-		*/
-		public static const SELECTOR_DELIMITER:String = ",";
-		
-		/**
-		* 	The delimiter between descendant queries.
-		*/
-		public static const DESCENDANT_SELECTOR_DELIMITER:String = " ";		
-		
-		/**
-		* 	The character used to indicate a query that
-		* 	matches all descendant elements.
-		*/
-		public static const QUERY_WILDCARD:String = "*";
-		
+	{	
 		/**
 		* 	The regular expression used to determine
 		* 	if a query is an element identifier.
@@ -165,7 +147,7 @@ package asquery
 		
 		public function html( xml:String ):Object
 		{
-			
+			//TODO
 			
 			return this;
 		}
@@ -190,7 +172,7 @@ package asquery
 				{
 					return child.getAttribute( String( key ) );
 				}
-			//assign a single attribute to all matches	
+			//assign a single attribute to all matches
 			}else if( key is String && value is String )
 			{
 				for each( child in this )
@@ -410,10 +392,10 @@ package asquery
 		*/
 		private function findInContext( query:String, context:Element ):void
 		{
-			var parts:Array = query.split( SELECTOR_DELIMITER );
+			var parts:Array = query.split( Selector.DELIMITER );
 			//still no valid query
 			//find all elements
-			if( query == null || query == QUERY_WILDCARD )
+			if( query == null || query == Selector.WILDCARD )
 			{
 				findAll( context );
 			}else{
@@ -462,7 +444,7 @@ package asquery
 			var tagName:Boolean = !identifier && !className;
 			
 			
-			if( query.indexOf( DESCENDANT_SELECTOR_DELIMITER ) > -1 )
+			if( query.indexOf( Selector.DESCENDANT ) > -1 )
 			{
 				handleDescendantSelector( query, context );
 				return;
@@ -505,7 +487,7 @@ package asquery
 		private function handleDescendantSelector( query:String, context:Element ):void
 		{
 			//find matches for the first part
-			var parts:Array = query.split( DESCENDANT_SELECTOR_DELIMITER );
+			var parts:Array = query.split( Selector.DESCENDANT );
 			var first:String = parts[ 0 ];
 			var part:String = null;
 			var tmp:ActionscriptQuery = new ActionscriptQuery();

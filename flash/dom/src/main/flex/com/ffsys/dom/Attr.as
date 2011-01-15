@@ -1,5 +1,7 @@
 package com.ffsys.dom
 {
+	import com.ffsys.utils.primitives.PrimitiveParser;
+	
 	/**
 	*	Represents a <code>DOM</code> attribute.
 	*
@@ -129,8 +131,9 @@ package com.ffsys.dom
 				&& value != null )
 			{
 				//TODO: CREATE DEFAULT DATA AS A PRIMITIVE VALUE
+				var parser:PrimitiveParser = new PrimitiveParser();
+				_data = parser.parse( value, true );
 			}
-			
 			return _data;
 		}
 		

@@ -69,8 +69,8 @@ package com.ffsys.dom
 				
 				var clazz:Class = getClass();
 				
-				var hash:String = "#";
-				var wildcard:String = "*";				
+				var hash:String = Selector.IDENTIFIER;
+				var wildcard:String = Selector.WILDCARD;				
 				
 				//wildcard first
 				output.push( wildcard );

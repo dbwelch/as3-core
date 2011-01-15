@@ -5,8 +5,6 @@ package com.ffsys.dom
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import asquery.*;
-	
 	import com.ffsys.dom.xhtml.*;
 	
 	/**

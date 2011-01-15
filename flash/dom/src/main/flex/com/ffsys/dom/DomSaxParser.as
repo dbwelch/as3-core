@@ -3,9 +3,6 @@ package com.ffsys.dom
 	import com.ffsys.net.sax.*;
 	import com.ffsys.ioc.support.xml.BeanSaxParser;
 	
-	import asquery.*;
-	
-	
 	public class DomSaxParser extends BeanSaxParser
 	{
 		/**
@@ -262,11 +259,8 @@ package com.ffsys.dom
 					}
 					Element( current ).setAttributeNode( attr );
 					
-					trace("[PROPERTY NAME] DomSaxParser::importAttributes()", attr.propertyName );
-					
-					//assign the attribute to the element
-					//TOOD: assign the primitive data value ?
-					current[ attr.propertyName ] = attr.value;
+					//assign the attribute data to the element
+					current[ attr.propertyName ] = attr.data;
 				}
 			}
 		}
