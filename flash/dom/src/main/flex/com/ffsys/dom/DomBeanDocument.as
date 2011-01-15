@@ -1,8 +1,6 @@
 package com.ffsys.dom
 {
 	import com.ffsys.ioc.*;
-
-	import com.ffsys.utils.string.PropertyNameConverter;	
 	
 	import com.ffsys.dom.xhtml.*;
 

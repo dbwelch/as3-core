@@ -287,6 +287,8 @@ package com.ffsys.dom
 			
 			//trace("SimpleDOMTest::domTest()", getTestDocument() );
 			
+			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
+			
 			trace( document.xml.toXMLString() );
 			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
 		}

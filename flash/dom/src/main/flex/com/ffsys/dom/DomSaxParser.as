@@ -247,7 +247,6 @@ package com.ffsys.dom
 					if( !saxattr.isQualified() )
 					{
 						attr = document.createAttribute( saxattr.name );
-							
 					}else
 					{
 						attr = document.createAttributeNS( saxattr.uri, saxattr.name )
@@ -262,6 +261,12 @@ package com.ffsys.dom
 						}
 					}
 					Element( current ).setAttributeNode( attr );
+					
+					trace("[PROPERTY NAME] DomSaxParser::importAttributes()", attr.propertyName );
+					
+					//assign the attribute to the element
+					//TOOD: assign the primitive data value ?
+					current[ attr.propertyName ] = attr.value;
 				}
 			}
 		}
@@ -299,6 +304,8 @@ package com.ffsys.dom
 				//ensure the initial DOM hierarchy is correct
 				Node( ancestor ).appendChild(
 					Node( current ) );
+					
+				Node( current ).setQualifiedName( token.xml.name() );
 				
 				//TODO: property name conversion hyphens to camel case
 				name = token.name;
@@ -483,7 +490,7 @@ package com.ffsys.dom
 		{
 			super.complete();
 			
-			trace("[DOM SAX PARSER] Completed in ", ( this.time / 1000 ) + " seconds." );
+			trace("[DOM SAX PARSER] Completed in", ( this.time / 1000 ) + " seconds." );
 			
 			//register the DOM with asquery
 			if( !_fragmented && _element is Document )

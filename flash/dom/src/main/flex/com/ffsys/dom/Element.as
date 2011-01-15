@@ -17,7 +17,7 @@ package com.ffsys.dom
 		public static const CLASS_NAMES:String = "classNames";
 		
 		private var _classNames:String;
-		private var _classStyleNameCache:Vector.<String> = null;
+		private var _styleNameCache:Vector.<String> = null;
 		
 		/**
 		*	@private	 
@@ -50,12 +50,12 @@ package com.ffsys.dom
 			//invalidate the style name cache
 			if( value != _classNames )
 			{
-				_classStyleNameCache = null;
+				_styleNameCache = null;
 			}
 			
 			_classNames = value;
 			
-			getClassLevelStyleNames();
+			//getClassLevelStyleNames();
 		}
 		
 		/**
@@ -63,7 +63,7 @@ package com.ffsys.dom
 		*/
 		public function getClassLevelStyleNames():Vector.<String>
 		{
-			if( _classStyleNameCache == null )
+			if( _styleNameCache == null )
 			{
 				var output:Vector.<String> = new Vector.<String>();
 				
@@ -96,11 +96,11 @@ package com.ffsys.dom
 				//finally add the set of styles currently assigned
 				output = output.concat( this.classes );
 				
-				trace("[CREATED CLASS STYLE NAME CACHE] Element::getClassLevelStyleNames()", output );
+				//trace("[CREATED CLASS STYLE NAME CACHE] Element::getClassLevelStyleNames()", output );
 				
-				_classStyleNameCache = output;
+				_styleNameCache = output;
 			}
-			return _classStyleNameCache;
+			return _styleNameCache;
 		}
 		
 		/**

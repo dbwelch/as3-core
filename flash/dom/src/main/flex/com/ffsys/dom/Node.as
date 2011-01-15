@@ -1,5 +1,7 @@
 package com.ffsys.dom
 { 
+	import com.ffsys.utils.string.PropertyNameConverter;	
+	
 	/**
 	*	Represents a <code>DOM</code> node.
 	*
@@ -81,6 +83,8 @@ package com.ffsys.dom
 		private var _ownerDocument:Document;
 		private var _childNodes:NodeList;
 		private var _attributes:NamedNodeMap;
+		private var _qualifiedName:QName;
+		private var _propertyName:String;
 		
 		/**
 		* 	Creates a <code>Node</code> instance.
@@ -136,6 +140,37 @@ package com.ffsys.dom
 		public function set nodeValue( value:String ):void
 		{
 			_nodeValue = value;
+		}
+		
+		/**
+		* 	The name of this node converted to
+		* 	a camel case representation with any
+		* 	hyphens removed suitable for setting
+		* 	as a property name on a dynamic object.
+		*/
+		public function get propertyName():String
+		{
+			if( _propertyName == null )
+			{
+				_propertyName = localName;
+				if( _propertyName.indexOf( "-" ) > -1 )
+				{
+					var converter:PropertyNameConverter = new PropertyNameConverter();
+					_propertyName = converter.convert( _propertyName );
+				}
+			}
+			return _propertyName;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked by the parser so that this node knows
+		* 	about any associated namespace.
+		*/
+		internal function setQualifiedName( qname:QName ):void
+		{
+			_qualifiedName = qname;
 		}
 		
 		/**

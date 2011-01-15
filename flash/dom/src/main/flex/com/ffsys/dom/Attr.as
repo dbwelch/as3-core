@@ -23,6 +23,7 @@ package com.ffsys.dom
 		private var _name:String;
 		private var _value:String;
 		private var _prefix:String;
+		private var _data:Object;
 		
 		/**
 		* 	Creates an <code>Attr</code> instance.
@@ -95,7 +96,15 @@ package com.ffsys.dom
 		*/
 		override public function get localName():String
 		{
-			return name;
+			return _name;
+		}
+		
+		/**
+		* 	The name of this node.
+		*/
+		override public function get nodeName():String
+		{
+			return _name;
 		}
 		
 		/**
@@ -109,6 +118,25 @@ package com.ffsys.dom
 		public function set value( value:String ):void
 		{
 			_value = value;
+		}
+		
+		/**
+		* 	Data associated with this attribute.
+		*/
+		public function get data():Object
+		{
+			if( _data == null
+				&& value != null )
+			{
+				//TODO: CREATE DEFAULT DATA AS A PRIMITIVE VALUE
+			}
+			
+			return _data;
+		}
+		
+		public function set data( value:Object ):void
+		{
+			_data = value;
 		}
 		
 		/**
