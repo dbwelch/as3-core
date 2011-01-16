@@ -1,6 +1,7 @@
 package com.ffsys.net.sax {
 
 	import flash.events.*;
+	import flash.net.*;
 	import flash.utils.Dictionary;
 	
 	import com.ffsys.utils.string.PropertyNameConverter;
@@ -14,7 +15,7 @@ package com.ffsys.net.sax {
 	*	@author Mischa Williamson
 	*	@since  11.01.2011
 	*/
-	public class SaxParser extends Object
+	public class SaxParser extends URLStream
 		implements ISaxHandler {
 			
 		/**
@@ -364,6 +365,178 @@ package com.ffsys.net.sax {
 			//
 		}
 		
+		
+		override public function load( request:URLRequest ):void
+		{
+			removeLoadListeners();
+			super.load( request );
+			addLoadListeners();
+		}
+		
+		private function addLoadListeners():void
+		{
+			addEventListener( Event.COMPLETE, completeHandler );
+			addEventListener( HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
+			addEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
+			addEventListener( Event.OPEN, openHandler );
+			addEventListener( ProgressEvent.PROGRESS, progressHandler );
+			addEventListener( SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
+		}
+		
+		private function removeLoadListeners():void
+		{
+			removeEventListener( Event.COMPLETE, completeHandler );
+			removeEventListener( HTTPStatusEvent.HTTP_STATUS, httpStatusHandler );
+			removeEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
+			removeEventListener( Event.OPEN, openHandler );
+			removeEventListener( ProgressEvent.PROGRESS, progressHandler );
+			removeEventListener( SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler );
+		}		
+		
+		//
+		private function completeHandler(event:Event):void {
+            trace("completeHandler: " + event);
+			removeLoadListeners();
+        }
+
+        private function openHandler(event:Event):void {
+            trace("openHandler: " + event);
+        }
+
+        private function progressHandler(event:Event):void {
+            trace("progressHandler: ", bytesAvailable );
+			parseChunk();
+        }
+
+        private function securityErrorHandler(event:SecurityErrorEvent):void {
+            trace("securityErrorHandler: " + event);
+        }
+
+        private function httpStatusHandler(event:HTTPStatusEvent):void {
+            trace("httpStatusHandler: " + event);
+        }
+
+        private function ioErrorHandler(event:IOErrorEvent):void {
+            trace("ioErrorHandler: " + event);
+        }
+
+		private function parseChunk():void
+		{
+			if( bytesAvailable > 0 )
+			{
+				parsePart( readUTFBytes( bytesAvailable ) );
+				trace("SaxParser::parseChunk()", bytesAvailable );
+			}
+		}
+
+		private var _inXmlDeclaration:Boolean;
+		private var _inDoctype:Boolean;
+		private var _inStartElement:Boolean;
+		private var _inEndElement:Boolean;
+		
+		private var _parsed:String;
+		
+		private var _xmlDeclaration:String;
+		private var _docType:String;
+		
+		private function parsePart( part:String ):void
+		{
+			if( part != null )
+			{
+				var i:int = 0;
+				var num:uint = 0;
+				if( _parsed == null )
+				{
+					if( /^(\s*<\?xml[^\?]+\?>)/.test( part )
+						&& _xmlDeclaration == null )
+					{
+						num = parseXmlDeclaration( part );
+						
+						//discard the parsed xml declaration
+						part = part.replace( /^(\s*<\?xml[^\?]+\?>)/, "" );
+					
+						trace("SaxParser::parsePart()", "PARSE XML VERSION INFORMATION", num, _xmlDeclaration );
+					}
+					
+					if( /^\s*<\!DOCTYPE/.test( part ) )
+					{
+						num = parseDocType( part );
+						
+						trace("SaxParser::parsePart()", "FOUND DOCTYPE DEFINITION", num, _docType );
+						
+					}
+				}
+				var c:String = null;
+				for( ;i < part.length;i++ )
+				{
+					c = part.charAt( i );
+					trace("SaxParser::parsePart()", c );
+				}
+			}
+			
+			if( _parsed == null )
+			{
+				_parsed = "";
+			}
+			_parsed += part;
+		}
+		
+		private function parseXmlDeclaration( part:String ):uint
+		{
+			var declaration:String = "";
+			
+			var pc:String = null;
+			var c:String = null;
+			for( var i:int = 0;i < part.length;i++ )
+			{
+				c = part.charAt( i );
+				if( declaration == "<?xml" )
+				{
+					_inXmlDeclaration = true;
+				}
+				
+				declaration += c;
+				
+				if( pc + c == "?>" )
+				{
+					_inXmlDeclaration = false;
+					_xmlDeclaration = declaration;
+					return declaration.length;
+				}
+				pc = c;
+			}
+			
+			return declaration.length;
+		}
+		
+		private function parseDocType( part:String ):uint
+		{
+			var doctype:String = "";
+			
+			var pc:String = null;
+			var c:String = null;
+			for( var i:int = 0;i < part.length;i++ )
+			{
+				c = part.charAt( i );
+				if( doctype == "<!DOCTYPE" )
+				{
+					_inDoctype = true;
+				}
+				
+				doctype += c;
+				
+				if( c == ">" )
+				{
+					_inDoctype = false;
+					_docType = doctype;
+					return doctype.length;
+				}
+				pc = c;
+			}
+			
+			return doctype.length;			
+		}
+		
 		/**
 		* 	@private
 		*/
@@ -523,5 +696,8 @@ package com.ffsys.net.sax {
 				}
 			}
 		}
+		
+		//DO NOT PLACE ANY CODE HERE BELOW THE DESERIALIZE METHOD AS IT WILL
+		//BREAK THE DEFAULT NAMESPACE LOGIC ABOVE
 	}
 }
