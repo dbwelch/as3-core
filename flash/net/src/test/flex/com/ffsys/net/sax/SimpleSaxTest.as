@@ -7,13 +7,13 @@ package com.ffsys.net.sax
 	*	Unit tests for parsing simple primitive documents
 	* 	using a SAX parser.
 	*/ 
-	public class SimpleSAXTest extends Object
+	public class SimpleSaxTest extends Object
 	{
 		
 		/**
-		*	Creates a <code>SimpleSAXTest</code> instance.
+		*	Creates a <code>SimpleSaxTest</code> instance.
 		*/ 
-		public function SimpleSAXTest()
+		public function SimpleSaxTest()
 		{
 			super();				
 		}

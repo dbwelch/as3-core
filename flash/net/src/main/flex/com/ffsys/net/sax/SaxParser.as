@@ -8,6 +8,10 @@ package com.ffsys.net.sax {
 	
 	/**
 	*	A SAX parser implementation.
+	* 
+	* 	All loaded <code>XML</code> data should be utf-8 encoded
+	* 	as this implementation uses the <code>readUTFBytes</code>
+	* 	method to read data on the input stream by default.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -38,27 +42,35 @@ package com.ffsys.net.sax {
 		private var _tokens:Dictionary;
 		
 		//streaming SAX cache data
-		private var _inXmlDeclaration:Boolean;
-		private var _inDoctype:Boolean;
-		private var _inStartElement:Boolean;
-		private var _inTag:Boolean;		
-		private var _inEndElement:Boolean;
 		
-		//
-		private var _parsed:String;
-		private var _xmlDeclaration:String;
-		private var _docType:String;
+		//current and previous element names
+		//used so that tag mismatches can be handled
 		private var _currentElementName:String;
 		private var _previousElementName:String;
-			
-		private var pc:String = null;
-		private var c:String = null;
-		private var name:String = null;
-		private var closing:Boolean = false;
-		private var element:String = "";
-		private var elementName:String = null;
-		private var x:XML;
 		
+		//a previous character
+		private var pc:String = null;
+		
+		//the current character being parsed
+		private var c:String = null;
+		
+		//a cache of characters used to build a tag name
+		private var name:String = null;
+		
+		//the clean element name with special characters removed
+		//but any namespace prefix intact
+		private var _elementName:String = null;
+		
+		//the node content
+		private var element:String = "";
+		
+		//whether we are in a tag
+		private var _inTag:Boolean;
+		
+		//whether a tag is a closing tag
+		private var _closing:Boolean = false;
+		
+		//used to cache the result of calling the the shouldTraverseElement method
 		private var _shouldTraverseElementStream:Boolean = true;
 		private var _shouldTraverseElementDepth:uint = 0;
 		
@@ -275,11 +287,27 @@ package com.ffsys.net.sax {
 		/**
 		* 	@inheritDoc
 		*/
+		public function declaration( token:SaxToken ):void
+		{
+			trace("[DECLARATION] SaxParser::declaration()", token.depth, token.name, token.type, token.xml.toString() );
+		}		
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function doctype( token:SaxToken ):void
+		{
+			trace("[DOCTYPE] SaxParser::doctype()", token.depth, token.name, token.type, token.xml.toString() );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function beginDocument( token:SaxToken ):void
 		{
+			trace("[BEGIN DOCUMENT] SaxParser::beginDocument()", token.depth, token.name, token.type, token.xml.toXMLString() );
 			var methodName:String = "beginDocument";
 			notify( token, methodName );
-			trace("[BEGIN DOCUMENT] SaxParser::beginDocument()", token.xml.toXMLString() );
 		}
 		
 		/**
@@ -287,10 +315,9 @@ package com.ffsys.net.sax {
 		*/
 		public function shouldTraverseElement( token:SaxToken ):Boolean
 		{
-			var methodName:String = "shouldTraverseElement";
+			//trace("[SHOULD TRAVERSE] SaxParser::shouldTraverseElement()", token.depth, token.name, token.type, token.xml.toXMLString() );
 			
-			//trace("[SHOULD TRAVERSE] SaxParser::shouldTraverseElement()", token.name, token.type );
-			
+			var methodName:String = "shouldTraverseElement";			
 			//we expect to traverse into children by default
 			return query( token, methodName, true );
 		}
@@ -300,8 +327,8 @@ package com.ffsys.net.sax {
 		*/
 		public function beginElement( token:SaxToken ):void
 		{
-			var methodName:String = "beginElement";
 			trace("[START ELEMENT] SaxParser::beginElement()", token.depth, token.name, token.type, token.xml.toXMLString() );
+			var methodName:String = "beginElement";
 			notify( token, methodName );			
 		}
 		
@@ -311,8 +338,8 @@ package com.ffsys.net.sax {
 		public function instruction( token:SaxToken ):void
 		{
 			var methodName:String = "instruction";
-			//trace("[PROCESSING-INSTRUCTION] SaxParser::instruction()", token.name, token.type );
 			notify( token, methodName );
+			trace("[PROCESSING-INSTRUCTION] SaxParser::instruction()", token.depth, token.name, token.type, token.xml.toXMLString() );
 		}
 		
 		/**
@@ -320,10 +347,9 @@ package com.ffsys.net.sax {
 		*/
 		public function leaf( token:SaxToken ):void
 		{
+			trace("[LEAF] SaxParser::leaf()", token.depth, token.name, token.type, token.xml.toXMLString() );			
 			var methodName:String = "leaf";
 			notify( token, methodName );
-			
-			trace("[LEAF] SaxParser::leaf()", token.depth, token.name, token.type, token.xml.toXMLString() );
 		}
 		
 		/**
@@ -331,10 +357,9 @@ package com.ffsys.net.sax {
 		*/
 		public function comment( token:SaxToken ):void
 		{
+			trace("[COMMENT] SaxParser::comment()", token.depth, token.name, token.type, token.xml.toXMLString() );			
 			var methodName:String = "comment";
 			notify( token, methodName );
-			
-			trace("[COMMENT] SaxParser::comment()", token.depth, token.name, token.type, token.xml.toXMLString() );
 		}
 		
 		/**
@@ -354,10 +379,9 @@ package com.ffsys.net.sax {
 		*/
 		public function text( token:SaxToken ):void
 		{
+			trace("[TEXT] SaxParser::text()", token.depth, token.name, token.type, token.xml.toXMLString() );			
 			var methodName:String = "text";
 			notify( token, methodName );
-			
-			trace("[TEXT] SaxParser::text()", token );
 		}
 		
 		/**
@@ -398,7 +422,6 @@ package com.ffsys.net.sax {
 		{
 			//
 		}
-		
 		
 		override public function load( request:URLRequest ):void
 		{
@@ -503,95 +526,67 @@ package com.ffsys.net.sax {
 		{
 			if( part != null )
 			{
-				var i:int = 0;
-				var num:uint = 0;
-				if( _parsed == null )
+				
+				if( /^(\s*<\?xml[^\?]+\?>)/.test( part ) )
 				{
-					if( /^(\s*<\?xml[^\?]+\?>)/.test( part )
-						&& _xmlDeclaration == null )
-					{
-						num = parseXmlDeclaration( part );
-						//discard the parsed xml declaration
-						part = part.replace( /^(\s*<\?xml[^\?]+\?>)/, "" );
-					}
-					
-					if( /^(\s*<\!DOCTYPE[^>]+>)/.test( part ) )
-					{
-						num = parseDocType( part );
-						//discard the parsed doctype
-						part = part.replace( /^(\s*<\!DOCTYPE[^>]+>)/, "" );
-					}
+					parseXmlDeclaration( part );
+					//discard the parsed xml declaration
+					part = part.replace( /^(\s*<\?xml[^\?]+\?>)/, "" );
 				}
+				
+				if( /^(\s*<\!DOCTYPE[^>]+>)/.test( part ) )
+				{
+					parseDocType( part );
+					//discard the parsed doctype
+					part = part.replace( /^(\s*<\!DOCTYPE[^>]+>)/, "" );
+				}
+				
 				parseMarkup( part );
 			}
-			
-			if( _parsed == null )
-			{
-				_parsed = "";
-			}
-			_parsed += part;
 		}
 		
 		/**
 		*	@private
 		*/
-		private function parseXmlDeclaration( part:String ):uint
+		private function parseXmlDeclaration( part:String ):void
 		{
-			var declaration:String = "";
-			
-			var pc:String = null;
+			var tmp:String = "";
 			var c:String = null;
 			for( var i:int = 0;i < part.length;i++ )
 			{
 				c = part.charAt( i );
-				if( declaration == "<?xml" )
-				{
-					_inXmlDeclaration = true;
-				}
-				
-				declaration += c;
-				
-				if( pc + c == "?>" )
-				{
-					_inXmlDeclaration = false;
-					_xmlDeclaration = declaration;
-					return declaration.length;
-				}
-				pc = c;
-			}
-			
-			return declaration.length;
-		}
-		
-		/**
-		*	@private
-		*/
-		private function parseDocType( part:String ):uint
-		{
-			var doctype:String = "";
-			
-			var pc:String = null;
-			var c:String = null;
-			for( var i:int = 0;i < part.length;i++ )
-			{
-				c = part.charAt( i );
-				if( doctype == "<!DOCTYPE" )
-				{
-					_inDoctype = true;
-				}
-				
-				doctype += c;
+
+				tmp += c;
 				
 				if( c == ">" )
 				{
-					_inDoctype = false;
-					_docType = doctype;
-					return doctype.length;
+					tmp = tmp.replace( /^\s+/, "" );
+					trace("SaxParser::parseXmlDeclaration()", tmp );
+					declaration( getStreamToken( new XML( "<!-- " + tmp + " -->" ), SaxToken.DECLARATION ) );
+					break;
 				}
-				pc = c;
 			}
-			
-			return doctype.length;			
+		}
+		
+		/**
+		*	@private
+		*/
+		private function parseDocType( part:String ):void
+		{
+			var tmp:String = "";
+			var c:String = null;
+			for( var i:int = 0;i < part.length;i++ )
+			{
+				c = part.charAt( i );
+				tmp += c;
+				if( c == ">" )
+				{
+					tmp = tmp.replace( /^\s+/, "" );
+					trace("SaxParser::parseDocType()", tmp );					
+					doctype( getStreamToken( new XML( "<!-- " + tmp + " -->" ), SaxToken.DOCTYPE ) );
+					break;
+				}
+			}
 		}
 		
 		/**
@@ -653,34 +648,34 @@ package com.ffsys.net.sax {
 						text( getStreamToken( new XML( element ), SaxToken.TEXT ) );
 					}
 					_inTag = true;
-					closing = false;
-					elementName = null;
+					_closing = false;
+					_elementName = null;
 					element = "";
 					name = "";
 				}
 				
 				if( _inTag && /^(>|\s)/.test( c )
-					&& elementName == null && name != null )
+					&& _elementName == null && name != null )
 				{
 					if( _currentElementName != null )
 					{
 						_previousElementName = _currentElementName;
 					}
 					
-					elementName = name;
+					_elementName = name;
 					
 					//hit an end element declaration
-					if( /^\/|\]|\?/.test( elementName ) )
+					if( /^\/|\]|\?/.test( _elementName ) )
 					{
 						//trace("SaxParser::parseMarkup()", "FOUND END ELEMENT DECLARATION" );
-						closing = true;
+						_closing = true;
 						//clean the forward slash from the end tag name
-						elementName = elementName.replace( /^\/|\]|\?/, "" );
+						_elementName = _elementName.replace( /^\/|\]|\?/, "" );
 					}
 					
-					_currentElementName = elementName;
+					_currentElementName = _elementName;
 					
-					//trace("SaxParser::parseMarkup()", "SETTING ELEMENT name", elementName );
+					//trace("SaxParser::parseMarkup()", "SETTING ELEMENT name", _elementName );
 									
 				}				
 				
@@ -690,7 +685,7 @@ package com.ffsys.net.sax {
 				{
 					_inTag = false;
 					
-					//trace("SaxParser::parseMarkup()", "GOT ELEMENT", elementName );
+					//trace("SaxParser::parseMarkup()", "GOT ELEMENT", _elementName );
 					
 					//comment
 					if( canNotify && /-->$/.test( element ) )
@@ -723,27 +718,27 @@ package com.ffsys.net.sax {
 							instruction( getStreamToken(
 								new XML( element ), SaxToken.PROCESSING_INSTRUCTION ) );
 						}
-					}else if( canNotify && !closing
-						&& elementName.toLowerCase() == SaxToken.CDATA )
+					}else if( canNotify && !_closing
+						&& _elementName.toLowerCase() == SaxToken.CDATA )
 					{
 						
 						//trace("SaxParser::parseMarkup()", "GOT CDATA ELEMENT", element );
 						cdata( getStreamToken(
 							new XML( element ), SaxToken.CDATA ) );
 					//start element declaration
-					}else if( !closing )
+					}else if( !_closing )
 					{
 						
 						//trace("SaxParser::parseMarkup()", "CREATING MARKUP FROM ", element );
 						
-						getStreamToken( new XML( element + "</" + elementName + ">" ), SaxToken.ELEMENT );
+						getStreamToken( new XML( element + "</" + _elementName + ">" ), SaxToken.ELEMENT );
 						
 						if( canNotify )
 						{
 							depth == 0 ? beginDocument( token ) : beginElement( token );						
 						}
 						
-						//trace("SaxParser::parseMarkup()", "START ELEMENT", elementName, token.xml.toXMLString() );
+						//trace("SaxParser::parseMarkup()", "START ELEMENT", _elementName, token.xml.toXMLString() );
 						
 						_shouldTraverseElementStream = shouldTraverseElement( token );
 						if( !_shouldTraverseElementStream )
@@ -763,59 +758,41 @@ package com.ffsys.net.sax {
 						
 						depth++;
 					//non self-closed element
-					}else if( closing )
+					}else if( _closing )
 					{
 						//getStreamToken();
 						
-						trace("SaxParser::parseMarkup()", "FOUND CLOSED ELEMENT", elementName );
+						//trace("SaxParser::parseMarkup()", "FOUND CLOSED ELEMENT", _elementName );
 						
-						if( _currentElementName != elementName )
+						if( _currentElementName != _elementName )
 						{
 							throw new Error( "SAX parser encountered a tag mismatch, start element name '" 
-								+ _currentElementName + "' ended with '" + elementName + "'." );
+								+ _currentElementName + "' ended with '" + _elementName + "'." );
 						}
 						
 						_currentElementName = _previousElementName;
-						closing = false;
-						elementName = null;
-						
-						
-						/*
-						var previous:SaxToken = tokens[ _token.xml ] as SaxToken;
-						
-						trace("SaxParser::parseMarkup()", "GOT PREVIOUS TOKEN", previous );
-						
-						if( previous != null )
-						{
-							_token = previous;
-						}
-						*/
-						
-						/*
-						if( _token.parent )
-						{
-							_token = _token.parent;
-						}
-						*/
-						
-						trace("SaxParser::parseMarkup()", "GOT CLOSE ELEMENT TOKEN: ", _token, _token.parent );
-						
-						if( _token && _token.parent && depth >= 1 )
-						{
-							_token = _token.parent;
-						}
+						_closing = false;
+						_elementName = null;
+
+						//trace("SaxParser::parseMarkup()", "GOT CLOSE ELEMENT TOKEN: ", _token, _token.parent );
 						
 						depth--;
+						
+						//keep a reference to the main xml before cleanup
+						if( depth == 0 )
+						{
+							_xml = token.xml;
+						}
 						
 						if( canNotify )
 						{
 							depth == 0 ? endDocument( _token ) : endElement( _token );
-						}						
+						}
 						
-						//
-						//TODO: inform of the close element
-						
-						//trace("SaxParser::parseMarkup()", "UPDATING ELEMENT NAME ON CLOSE TAG: ", _currentElementName );
+						if( _token && _token.parent && depth > 0 )
+						{
+							_token = _token.parent;
+						}
 					}
 					
 					name = "";

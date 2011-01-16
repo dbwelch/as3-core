@@ -4,6 +4,16 @@ package com.ffsys.net.sax
 	public class SaxToken extends Object
 	{
 		/**
+		* 	Represents an XML declaration.
+		*/
+		public static const DECLARATION:String = "declaration";
+		
+		/**
+		* 	Represents a document type definition.
+		*/
+		public static const DOCTYPE:String = "doctype";
+		
+		/**
 		* 	Represents an element.
 		*/
 		public static const ELEMENT:String = "element";	
