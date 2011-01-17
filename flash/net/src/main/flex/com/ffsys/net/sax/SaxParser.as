@@ -515,7 +515,6 @@ package com.ffsys.net.sax {
 			if( bytesAvailable > 0 )
 			{
 				parsePart( readUTFBytes( bytesAvailable ) );
-				trace("SaxParser::parseChunk()", bytesAvailable );
 			}
 		}
 		
@@ -555,14 +554,12 @@ package com.ffsys.net.sax {
 			for( var i:int = 0;i < part.length;i++ )
 			{
 				c = part.charAt( i );
-
 				tmp += c;
-				
 				if( c == ">" )
 				{
 					tmp = tmp.replace( /^\s+/, "" );
-					trace("SaxParser::parseXmlDeclaration()", tmp );
-					declaration( getStreamToken( new XML( "<!-- " + tmp + " -->" ), SaxToken.DECLARATION ) );
+					declaration( getStreamToken(
+						new XML( "<!-- " + tmp + " -->" ), SaxToken.DECLARATION ) );
 					break;
 				}
 			}
@@ -581,9 +578,9 @@ package com.ffsys.net.sax {
 				tmp += c;
 				if( c == ">" )
 				{
-					tmp = tmp.replace( /^\s+/, "" );
-					trace("SaxParser::parseDocType()", tmp );					
-					doctype( getStreamToken( new XML( "<!-- " + tmp + " -->" ), SaxToken.DOCTYPE ) );
+					tmp = tmp.replace( /^\s+/, "" );				
+					doctype( getStreamToken(
+						new XML( "<!-- " + tmp + " -->" ), SaxToken.DOCTYPE ) );
 					break;
 				}
 			}
@@ -627,7 +624,6 @@ package com.ffsys.net.sax {
 			for( var i:int = 0;i < part.length;i++ )
 			{
 				c = part.charAt( i );
-				
 				if( _inTag && /^[a-zA-Z0-9:\-\/]/.test( c ) )
 				{
 					name += c;
@@ -641,7 +637,8 @@ package com.ffsys.net.sax {
 					_shouldTraverseElementDepth = 0;
 				}
 				
-				if( c == "<" && !_inTag )
+				if( c == "<" 
+					&& !_inTag )
 				{
 					if( element != "" && canNotify )
 					{
@@ -654,8 +651,10 @@ package com.ffsys.net.sax {
 					name = "";
 				}
 				
-				if( _inTag && /^(>|\s)/.test( c )
-					&& _elementName == null && name != null )
+				if( _inTag
+					&& /^(>|\s)/.test( c )
+					&& _elementName == null
+					&& name != null )
 				{
 					if( _currentElementName != null )
 					{
@@ -745,17 +744,7 @@ package com.ffsys.net.sax {
 						{
 							_shouldTraverseElementDepth = depth;
 						}
-						
-						/*
-						if( _shouldTraverseElementStream
-							&& _token
-							&& _token.parent
-							&& _token.parent.xml )
-						{
-							_token.parent.xml.appendChild( _token.xml );
-						}
-						*/
-						
+
 						depth++;
 					//non self-closed element
 					}else if( _closing )
