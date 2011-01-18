@@ -32,8 +32,7 @@ package com.ffsys.dom
 			
 			var request:URLRequest = new URLRequest( 
 				"mock-dom.html" );
-				
-			parser = impl.parser();
+			
 			parser.addEventListener(
 				Event.COMPLETE,
 				Async.asyncHandler( this, loaded, TIMEOUT, null, fail ) );

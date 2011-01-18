@@ -39,6 +39,7 @@ package com.ffsys.dom
 		{
 			_time = new Date().getTime();
 			impl = new DOMImplementation();	
+			parser = impl.parser();
 		}
 		
 		[After]
