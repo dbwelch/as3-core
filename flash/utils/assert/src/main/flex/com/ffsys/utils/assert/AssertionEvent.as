@@ -3,7 +3,6 @@ package com.ffsys.utils.assert {
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	
-	import com.ffsys.events.EventProxy;
 	import com.ffsys.events.Notifier;
 	
 	/**
@@ -82,7 +81,6 @@ package com.ffsys.utils.assert {
 		{
 			var event:AssertionEvent =
 				new AssertionEvent( ASSERTION_PASS, element );
-			EventProxy.dispatchEventProxy( target, event );
 			Notifier.dispatchEvent( event as Event, target );
 			return event;
 		}
@@ -103,7 +101,6 @@ package com.ffsys.utils.assert {
 		{
 			var event:AssertionEvent =
 				new AssertionEvent( ASSERTION_FAIL, element );
-			EventProxy.dispatchEventProxy( target, event );
 			Notifier.dispatchEvent( event as Event, target );
 			return event;
 		}

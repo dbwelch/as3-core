@@ -31,10 +31,9 @@
 		<module>core</module>
 		<module>dom</module>
 		<module>effects</module>
-		<module>events</module>
 		<module>io</module>
 		<module>ioc</module>
-		<module>net</module>		
+		<module>net</module>	
 		<module>swat</module>
 		<module>ui</module>
 		<module>utils</module>
