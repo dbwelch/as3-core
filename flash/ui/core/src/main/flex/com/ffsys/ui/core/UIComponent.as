@@ -265,7 +265,7 @@ package com.ffsys.ui.core
 		{
 			super.finalized();	
 			
-			trace("[FINALIZED] UIComponent::finalized()", this );
+			//trace("[FINALIZED] UIComponent::finalized()", this );
 				
 			/*
 			if( this is DomDocument )
