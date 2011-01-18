@@ -11,10 +11,9 @@ package com.ffsys.dom
 	import com.ffsys.dom.xhtml.*;	
 	
 	/**
-	*	Unit tests for loading a stream and parsing
-	* 	the stream as elements become available. 
-	*/ 
-	dynamic public class StreamDomTest extends Object
+	*	Abstract super class for DOM unit tests.
+	*/
+	public class AbstractDomUnit extends Object
 	{
 		public static const TIMEOUT:Number = 10000;
 		
@@ -22,12 +21,15 @@ package com.ffsys.dom
 		public var document:Document = null;
 		public var parser:DomSaxParser;
 		
-		private var _time:Number;
+		/**
+		* 	@private
+		*/
+		protected var _time:Number;
 		
 		/**
-		*	Creates a <code>StreamDomTest</code> instance.
+		*	Creates a <code>AbstractDomUnit</code> instance.
 		*/ 
-		public function StreamDomTest()
+		public function AbstractDomUnit()
 		{
 			super();
 		}
@@ -36,41 +38,24 @@ package com.ffsys.dom
      	public function setUp():void
 		{
 			_time = new Date().getTime();
-			impl = new DOMImplementation();		
-			var request:URLRequest = new URLRequest( "mock-dom.html" );
-			parser = impl.parser();
-			parser.addEventListener(
-				Event.COMPLETE,
-				Async.asyncHandler( this, loaded, TIMEOUT, null, fail ) );
-			parser.load( request );
+			impl = new DOMImplementation();	
 		}
 		
 		[After]
      	public function tearDown():void
 		{
-			//
-		}			
-		
-		[Test( async )]
-		public function saxParserStreamTest():void
-		{
-			//
+			impl = null;
+			document = null;
+			parser = null;
 		}
 		
-		protected function loaded( event:Event = null, data:Object = null ):void
+		protected function performActionscriptQueryAssertions():void
 		{
-
-			//parse an entire document
-			document = Document( parser.dom );
-
-			//register the DOM manually until the event handling is improved
-			$().onload( document );		
-
 			//document = parser.dom;
 			var elements:NodeList = null;
 			var child:Node;
 
-			//should only three registered DOM implementations
+			//should only be one registered DOM implementation
 			Assert.assertEquals( 1, $().doms.length );
 
 			//verify document language
@@ -207,7 +192,12 @@ package com.ffsys.dom
 
 			trace( document.xml.toXMLString() );
 			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );			
-			
+		}
+		
+		protected function loaded(
+			event:Event = null, data:Object = null ):void
+		{
+			//
 		}
 		
 		protected function fail( event:Event ):void
