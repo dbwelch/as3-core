@@ -51,6 +51,9 @@ package com.ffsys.net.sax
 		*/
 		public function get parent():Object
 		{
+			
+			//trace("[PARENT] SaxObjectParser::get parent()", xml == node, current == root );			
+			
 			//root node
 			if( xml == node || current == root )
 			{
@@ -110,7 +113,7 @@ package com.ffsys.net.sax
 			if( _current != null )
 			{
 				token.target = _current;
-				//trace("SaxObjectParser::setCurrent() [SETTING CURRENT REFERENCE ON XML NODE]", token.xml.target );
+				//trace("SaxObjectParser::setCurrent() [SETTING CURRENT REFERENCE ON TOKEN]", token.target );
 			}
 			
 			//configure the root reference first time around
@@ -192,7 +195,8 @@ package com.ffsys.net.sax
 		*/
 		override public function endElement( token:SaxToken ):void
 		{		
-			//trace("[DOM SAX PARSER] [END ELEMENT UPDATING PARENT REFERENCE] SaxObjectParser::endElement() token: ", token );
+			//trace("[SAX OBJECT PARSER] [END ELEMENT UPDATING PARENT REFERENCE] SaxObjectParser::endElement() token: ", token, this.parent );
+			
 			//leaving an element
 			//so update the current reference
 			//to point to the parent

@@ -19,10 +19,14 @@ package com.ffsys.dom.xhtml
 	{
 		/**
 		* 	Creates a <code>XhtmlBeanDocument</code> instance.
+		* 
+		* 	@param type An identifier that corresponds either
+		* 	to the system id of the document type associated
+		* 	with this DOM definition.
 		*/
-		public function XhtmlBeanDocument()
+		public function XhtmlBeanDocument( systemId:String = null )
 		{
-			super();
+			super( systemId );
 		}
 		
 		/**
@@ -35,6 +39,11 @@ package com.ffsys.dom.xhtml
 			beans:IBeanDocument ):void
 		{
 			super.doWithBeans( beans );
+			
+			//TOOD: change implementations and/or names based on id
+			//which indicates the document type
+			
+			//this.id == DocumentType.systemId -->
 			
 			var data:Object = null;
 			

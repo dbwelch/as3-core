@@ -135,6 +135,7 @@ package com.ffsys.net.sax {
 				_time = new Date().getTime();
 				_xml = x;
 				depth = 0;
+				started();
 				deserialize( x );
 				_time = new Date().getTime() - _time;
 				complete();
@@ -289,7 +290,7 @@ package com.ffsys.net.sax {
 		*/
 		public function declaration( token:SaxToken ):void
 		{
-			trace("[DECLARATION] SaxParser::declaration()", token.depth, token.name, token.type, token.xml.toString() );
+			//trace("[DECLARATION] SaxParser::declaration()", token.depth, token.name, token.type, token.xml.toString() );
 		}		
 		
 		/**
@@ -297,7 +298,7 @@ package com.ffsys.net.sax {
 		*/
 		public function doctype( token:SaxToken ):void
 		{
-			trace("[DOCTYPE] SaxParser::doctype()", token.depth, token.name, token.type, token.xml.toString() );
+			//trace("[DOCTYPE] SaxParser::doctype()", token.depth, token.name, token.type, token.xml.toString() );
 		}
 		
 		/**
@@ -305,7 +306,7 @@ package com.ffsys.net.sax {
 		*/
 		public function beginDocument( token:SaxToken ):void
 		{
-			trace("[BEGIN DOCUMENT] SaxParser::beginDocument()", token.depth, token.name, token.type, token.xml.toXMLString() );
+			//trace("[BEGIN DOCUMENT] SaxParser::beginDocument()", token.depth, token.name, token.type, token.xml.toXMLString() );
 			var methodName:String = "beginDocument";
 			notify( token, methodName );
 		}
@@ -327,7 +328,7 @@ package com.ffsys.net.sax {
 		*/
 		public function beginElement( token:SaxToken ):void
 		{
-			trace("[START ELEMENT] SaxParser::beginElement()", token.depth, token.name, token.type, token.xml.toXMLString() );
+			//trace("[START ELEMENT] SaxParser::beginElement()", token.depth, token.name, token.type, token.xml.toXMLString() );
 			var methodName:String = "beginElement";
 			notify( token, methodName );			
 		}
@@ -339,7 +340,7 @@ package com.ffsys.net.sax {
 		{
 			var methodName:String = "instruction";
 			notify( token, methodName );
-			trace("[PROCESSING-INSTRUCTION] SaxParser::instruction()", token.depth, token.name, token.type, token.xml.toXMLString() );
+			//trace("[PROCESSING-INSTRUCTION] SaxParser::instruction()", token.depth, token.name, token.type, token.xml.toXMLString() );
 		}
 		
 		/**
@@ -347,7 +348,7 @@ package com.ffsys.net.sax {
 		*/
 		public function leaf( token:SaxToken ):void
 		{
-			trace("[LEAF] SaxParser::leaf()", token.depth, token.name, token.type, token.xml.toXMLString() );			
+			//trace("[LEAF] SaxParser::leaf()", token.depth, token.name, token.type, token.xml.toXMLString() );			
 			var methodName:String = "leaf";
 			notify( token, methodName );
 		}
@@ -357,7 +358,7 @@ package com.ffsys.net.sax {
 		*/
 		public function comment( token:SaxToken ):void
 		{
-			trace("[COMMENT] SaxParser::comment()", token.depth, token.name, token.type, token.xml.toXMLString() );			
+			//trace("[COMMENT] SaxParser::comment()", token.depth, token.name, token.type, token.xml.toXMLString() );			
 			var methodName:String = "comment";
 			notify( token, methodName );
 		}
@@ -371,7 +372,7 @@ package com.ffsys.net.sax {
 			notify( token, methodName );
 			
 			
-			trace("[CDATA] SaxParser::cdata()", token.depth, token.name, token.type, token.xml.toXMLString() );
+			//trace("[CDATA] SaxParser::cdata()", token.depth, token.name, token.type, token.xml.toXMLString() );
 		}
 		
 		/**
@@ -379,7 +380,7 @@ package com.ffsys.net.sax {
 		*/
 		public function text( token:SaxToken ):void
 		{
-			trace("[TEXT] SaxParser::text()", token.depth, token.name, token.type, token.xml.toXMLString() );			
+			//trace("[TEXT] SaxParser::text()", token.depth, token.name, token.type, token.xml.toXMLString() );			
 			var methodName:String = "text";
 			notify( token, methodName );
 		}
@@ -391,7 +392,7 @@ package com.ffsys.net.sax {
 		{
 			var methodName:String = "endElement";
 			notify( token, methodName );
-			trace("[END ELEMENT] SaxParser::endElement()", token.depth, token.name, token.type, token.xml.toXMLString() );
+			//trace("[END ELEMENT] SaxParser::endElement()", token.depth, token.name, token.type, token.xml.toXMLString() );
 		}
 		
 		/**
@@ -401,7 +402,7 @@ package com.ffsys.net.sax {
 		{
 			var methodName:String = "endDocument";
 			notify( token, methodName );	
-			trace("[END DOCUMENT] SaxParser::endDocument()", token.depth, token.name, token.type, token.xml.toXMLString() );
+			//trace("[END DOCUMENT] SaxParser::endDocument()", token.depth, token.name, token.type, token.xml.toXMLString() );
 		}
 		
 		/**
@@ -423,12 +424,24 @@ package com.ffsys.net.sax {
 			//
 		}
 		
+		/**
+		* 	Invoked prior to a parse or load operation
+		* 	commencing, allowing derived implementations
+		* 	to initialize an inner state prior to parsing
+		* 	the XML.
+		*/
+		protected function started():void
+		{
+			//
+		}
+		
 		override public function load( request:URLRequest ):void
 		{
 			removeLoadListeners();
 			_time = new Date().getTime();
 			depth = 0;
 			addLoadListeners();
+			started();			
 			super.load( request );
 		}
 		
@@ -461,28 +474,29 @@ package com.ffsys.net.sax {
 		/**
 		*	@private
 		*/
-		private function completeHandler(event:Event):void {
-            trace("completeHandler: " + event);
+		private function completeHandler( event:Event ):void {
+            //trace("completeHandler: " + event);
+
 			removeLoadListeners();
 			
 			//all done
 			_time = new Date().getTime() - _time;
 			complete();
-			cleanup();			
+			cleanup();
         }
 		
 		/**
 		*	@private
 		*/
         private function openHandler(event:Event):void {
-            trace("openHandler: " + event);
+            //trace("openHandler: " + event);
         }
 		
 		/**
 		*	@private
 		*/
         private function progressHandler(event:Event):void {
-            trace("progressHandler: ", bytesAvailable );
+            //trace("progressHandler: ", bytesAvailable );
 			parseChunk();
         }
 		
@@ -490,21 +504,21 @@ package com.ffsys.net.sax {
 		*	@private
 		*/
         private function securityErrorHandler(event:SecurityErrorEvent):void {
-            trace("securityErrorHandler: " + event);
+            //trace("securityErrorHandler: " + event);
         }
 		
 		/**
 		*	@private
 		*/
         private function httpStatusHandler(event:HTTPStatusEvent):void {
-            trace("httpStatusHandler: " + event);
+            //trace("httpStatusHandler: " + event);
         }
 		
 		/**
 		*	@private
 		*/
         private function ioErrorHandler(event:IOErrorEvent):void {
-            trace("ioErrorHandler: " + event);
+            //trace("ioErrorHandler: " + event);
         }
 		
 		/**
@@ -589,9 +603,11 @@ package com.ffsys.net.sax {
 		/**
 		*	@private
 		*/
-		private function getStreamToken( x:XML, type:String ):SaxToken
+		private function getStreamToken( x:XML, type:String, parent:SaxToken = null ):SaxToken
 		{
-			var t:SaxToken = new SaxToken( x, null, depth, type );
+			var t:SaxToken = new SaxToken( x, _token, depth, type );
+			
+			_node = t.xml;
 			
 			if( x != null
 				&& _token
@@ -602,7 +618,7 @@ package com.ffsys.net.sax {
 			
 			if( type == SaxToken.ELEMENT )
 			{
-				if( _token != null && _token.type == SaxToken.ELEMENT && depth > 0 )
+				if( _token != null && _token.type == SaxToken.ELEMENT )
 				{
 					t.parent = _token;
 				}
@@ -618,9 +634,8 @@ package com.ffsys.net.sax {
 		*/
 		private function parseMarkup( part:String ):void
 		{
-			trace("********************************************** SaxParser::parseMarkup() **********************************************");
-			
 			var canNotify:Boolean = _shouldTraverseElementStream;
+			trace("********************************************** SaxParser::parseMarkup() **********************************************");
 			for( var i:int = 0;i < part.length;i++ )
 			{
 				c = part.charAt( i );
@@ -629,13 +644,9 @@ package com.ffsys.net.sax {
 					name += c;
 				}
 				
-				//reset traversal
-				if( !_shouldTraverseElementStream
-					&& depth <= _shouldTraverseElementDepth )
-				{
-					_shouldTraverseElementStream = true;
-					_shouldTraverseElementDepth = 0;
-				}
+				canNotify = _shouldTraverseElementStream;
+				
+				//trace("[CAN NOTIFY] SaxParser::parseMarkup()", canNotify );
 				
 				if( c == "<" 
 					&& !_inTag )
@@ -654,7 +665,7 @@ package com.ffsys.net.sax {
 				if( _inTag
 					&& /^(>|\s)/.test( c )
 					&& _elementName == null
-					&& name != null )
+					&& name != null  )
 				{
 					if( _currentElementName != null )
 					{
@@ -664,12 +675,15 @@ package com.ffsys.net.sax {
 					_elementName = name;
 					
 					//hit an end element declaration
-					if( /^\/|\]|\?/.test( _elementName ) )
+					if( /^\/|\]|\?/.test( _elementName ) && !_closing )
 					{
-						//trace("SaxParser::parseMarkup()", "FOUND END ELEMENT DECLARATION" );
 						_closing = true;
+						
+						//trace("[CLOSING TAG] SaxParser::parseMarkup()", _elementName );
+						
 						//clean the forward slash from the end tag name
 						_elementName = _elementName.replace( /^\/|\]|\?/, "" );
+				
 					}
 					
 					_currentElementName = _elementName;
@@ -697,7 +711,7 @@ package com.ffsys.net.sax {
 						
 						if( canNotify )
 						{
-							getStreamToken( new XML( element ), SaxToken.ELEMENT );
+							getStreamToken( new XML( element ), SaxToken.ELEMENT, _token );
 							depth == 0 ? beginDocument( token ) : beginElement( token );
 							
 							//TODO: call leaf()
@@ -706,6 +720,7 @@ package com.ffsys.net.sax {
 							depth == 0 ? endDocument( token ) : endElement( token );
 							
 						}
+						
 						//
 						_token = _token.parent;
 						
@@ -730,7 +745,18 @@ package com.ffsys.net.sax {
 						
 						//trace("SaxParser::parseMarkup()", "CREATING MARKUP FROM ", element );
 						
-						getStreamToken( new XML( element + "</" + _elementName + ">" ), SaxToken.ELEMENT );
+						getStreamToken( new XML( element + "</" + _elementName + ">" ), SaxToken.ELEMENT, _token );
+						
+						if( _shouldTraverseElementStream )
+						{
+							_shouldTraverseElementStream = shouldTraverseElement( token );
+						
+							if( !_shouldTraverseElementStream )
+							{
+								_shouldTraverseElementDepth = depth;
+								//trace("[TRAVERSAL IGNORE DEPTH] SaxParser::parseMarkup()", _shouldTraverseElementDepth, _token.xml );
+							}
+						}
 						
 						if( canNotify )
 						{
@@ -738,12 +764,6 @@ package com.ffsys.net.sax {
 						}
 						
 						//trace("SaxParser::parseMarkup()", "START ELEMENT", _elementName, token.xml.toXMLString() );
-						
-						_shouldTraverseElementStream = shouldTraverseElement( token );
-						if( !_shouldTraverseElementStream )
-						{
-							_shouldTraverseElementDepth = depth;
-						}
 
 						depth++;
 					//non self-closed element
@@ -773,20 +793,35 @@ package com.ffsys.net.sax {
 							_xml = token.xml;
 						}
 						
+						//_token = tokens[ node.parent() ];
+						
+						//trace("SaxParser::parseMarkup()", canNotify, _token );
+						
+						//trace("[STREAM END ELEMENT] SaxParser::parseMarkup()", "[ENDING ELEMENT]", _token );
+						
 						if( canNotify )
 						{
 							depth == 0 ? endDocument( _token ) : endElement( _token );
-						}
+						}					
 						
-						if( _token && _token.parent && depth > 0 )
+						if( _token && _token.parent )
 						{
 							_token = _token.parent;
-						}
+						}						
 					}
 					
 					name = "";
 					element = "";
 				}
+				
+				//reset traversal
+				if( !_shouldTraverseElementStream
+					&& depth <= _shouldTraverseElementDepth )
+				{
+					//trace("[RESET TRAVERSAL IGNORE DEPTH] SaxParser::parseMarkup()", _shouldTraverseElementDepth );
+					_shouldTraverseElementStream = true;
+					_shouldTraverseElementDepth = 0;
+				}				
 				
 				pc = c;
 			}			
@@ -847,16 +882,13 @@ package com.ffsys.net.sax {
 				//single text node, treat it as simple content
 				if( x.children().length() == 1 && x.text().length() == 1 )
 				{
-					//token.text = x.text()[ 0 ];
 					token.type = SaxToken.SIMPLE;
 				}else if( hasTextChild( x ) )
 				{
 					//potentially mixed content - inline
-					//doWithInlineContent( x );
-					token.type = SaxToken.INLINE;				
+					token.type = SaxToken.INLINE;
 				}else if( x.children().hasComplexContent() )
 				{
-					//doWithBlockContent( x );
 					token.type = SaxToken.BLOCK;
 				}
 				

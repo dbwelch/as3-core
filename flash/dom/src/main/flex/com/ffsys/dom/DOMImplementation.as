@@ -1,5 +1,6 @@
 package com.ffsys.dom
 {
+	import flash.net.URLRequest;
 	import com.ffsys.dom.xhtml.*;
 	import com.ffsys.ioc.*;
 	
@@ -40,6 +41,14 @@ package com.ffsys.dom
 			this.beanManager = manager;
 		}
 		
+		/*
+		
+		"-//W3C//DTD XHTML Basic 1.1//EN"
+			"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"		
+		
+		
+		*/
+		
 		/**
 		* 	Gets the current target DOM implementation level.
 		*/
@@ -56,6 +65,15 @@ package com.ffsys.dom
 			if( _beanManager == null )
 			{
 				_beanManager = new DomBeanManager();
+				
+				//main document is XHTML 1.0 strict until an HTML5 upgrade ;)
+				_beanManager.document = new XhtmlBeanDocument(
+					"-//W3C//DTD XHTML 1.0 Strict//EN" );
+					
+				//add the other known document types
+				_beanManager.documents.push(
+					new XhtmlBeanDocument(
+					"-//W3C//DTD XHTML 1.1//EN" ) );
 			}
 			return _beanManager;
 		}
@@ -63,6 +81,37 @@ package com.ffsys.dom
 		public function set beanManager( value:IBeanManager ):void
 		{
 			_beanManager = value;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function getBeanDocumentFromDtd(
+			definition:DocumentTypeDefinition ):IBeanDocument
+		{
+			var document:IBeanDocument = null
+			var publicId:String = definition.publicId;
+			
+			if( publicId == beanManager.document.id )
+			{
+				document = beanManager.document;
+			}
+			
+			if( document == null )
+			{
+				for each( var doc:IBeanDocument in beanManager.documents )
+				{
+					if( publicId == doc.id )
+					{
+						document = doc;
+						break;
+					}
+				}
+			}
+			
+			//trace("DOMImplementation::getBeanDocumentFromDtd()", publicId, document );
+			
+			return document;
 		}
 		
 		/**
@@ -90,6 +139,36 @@ package com.ffsys.dom
 			var parser:DomSaxParser = new DomSaxParser( this, doctype );
 			parser.parse( source );
 			return Element( parser.element );
+		}
+		
+		/**
+		* 	Loads a DOM document using a streaming SAX
+		* 	parser.
+		* 
+		* 	@param request The <code>URL</code> request.
+		* 
+		* 	@return The parser responsible for loading and
+		* 	parsing the DOM.
+		*/
+		public function load( request:URLRequest ):DomSaxParser
+		{
+			var parser:DomSaxParser = new DomSaxParser( this, null );
+			parser.load( request );
+			return parser;
+		}
+		
+		/**
+		*	Retrieves a DOM SAX parser with no configured
+		* 	document type ready for a load operation.
+		* 
+		* 	@return A SAX parser implementation suitable
+		* 	for loading a DOM document.
+		*/
+		public function parser():DomSaxParser
+		{
+			var parser:DomSaxParser = new DomSaxParser(
+				this, null );
+			return parser;
 		}
 		
 		public function fragment(
@@ -157,6 +236,8 @@ package com.ffsys.dom
 			qualifiedName:String,
 			doctype:DocumentType ):Document
 		{
+			//trace("DOMImplementation::getDefaultDocumentType()", qualifiedName );
+			
 			//This method can raise a DOMException object.
 			var document:Document = Document( doctype.elements.getBean(
 				qualifiedName ) );

@@ -22,11 +22,13 @@ package com.ffsys.dom
 		
 		/**
 		* 	Creates a <code>DomBeanDocument</code> instance.
+		* 
+		* 	@param id A specific id to use for this document.
 		*/
-		public function DomBeanDocument()
+		public function DomBeanDocument( id:String = null )
 		{
 			super();
-			this.id  = NAME;
+			this.id  = id != null ? id : NAME;
 			this.locked = false;
 			this.policy = BeanCreationPolicy.MERGE;
 			doWithBeans( this );

@@ -281,14 +281,17 @@ package com.ffsys.dom
 		*/
 		public function appendChild( child:Node ):Node
 		{
-			if( child != null )
+			if( child != null && child != this )
 			{
 				child.setParentNode( this );
 				child.setOwnerDocument( _ownerDocument );
 				childNodes.concat( child );	
 				
-				if( _ownerDocument && child is Element )
+				if( _ownerDocument && ( child is Element ) )
 				{
+					
+					//trace("[CALLING REGISTER ELEMENT ON OWNER DOCUMENT] Node::appendChild()", child );
+					
 					_ownerDocument.registerElement( Element( child ) );
 				}
 				
@@ -296,7 +299,7 @@ package com.ffsys.dom
 				
 				/*
 				trace("[ NODE -- APPENDING NODE ] Node::appendChild() this/child/length/children length: ",
-					this, child, this.length, childNodes.children.length );
+					_ownerDocument, child is Element, this, child );
 				*/
 				
 			}

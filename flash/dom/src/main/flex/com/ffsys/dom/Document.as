@@ -526,10 +526,15 @@ package com.ffsys.dom
 				{
 					var existing:Element = _identifiers[ element.id ] as Element;
 					
+					//TOOD: re-integrate this
+					
+					/*
 					if( existing != null )
 					{
 						throw new Error( "Duplicate id found '" + element.id + "' on " + element );
 					}
+					*/
+					
 					_identifiers[ element.id ] = element;
 				}
 				

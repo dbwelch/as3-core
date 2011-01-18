@@ -56,7 +56,7 @@ package com.ffsys.net.sax
 		
 		protected function loaded( event:Event, data:Object = null ):void
 		{
-			trace("StreamSaxTest::loaded()", this );
+			//trace("StreamSaxTest::loaded()", this );
 		}
 		
 		protected function fail( event:Event ):void

@@ -27,22 +27,23 @@ package com.ffsys.dom
 		private var _textStart:Object;
 		private var _textType:String;
 		private var _excludeNextElement:Boolean = false;
+		private var _excludeNextElementDepth:uint = 0;
 		
 		private var _implementation:DOMImplementation;
 		private var _namespaceURI:String;
 		private var _qualifiedName:String;
-		private var _doctype:DocumentType;
+		private var _type:DocumentType;
 		
 		/**
 		* 	Creates a <code>DomSaxParser</code> instance.
 		*/
 		public function DomSaxParser(
-			implementation:DOMImplementation,
-			doctype:DocumentType )
+			implementation:DOMImplementation = null,
+			type:DocumentType = null )
 		{
 			super();
 			this.implementation = implementation;
-			this.doctype = doctype;						
+			this.type = type;
 		}
 		
 		/**
@@ -62,14 +63,14 @@ package com.ffsys.dom
 		/**
 		* 	The document type.
 		*/
-		public function get doctype():DocumentType
+		public function get type():DocumentType
 		{
-			return _doctype;
+			return _type;
 		}
 		
-		public function set doctype( value:DocumentType ):void
+		public function set type( value:DocumentType ):void
 		{
-			_doctype = value;
+			_type = value;
 			
 			if( this.document == null
 				&& value != null
@@ -80,7 +81,7 @@ package com.ffsys.dom
 		}		
 		
 		/**
-		* 	The namespace URI for the document.
+		* 	A default namespace URI for the document.
 		*/
 		public function get namespaceURI():String
 		{
@@ -97,6 +98,10 @@ package com.ffsys.dom
 		*/
 		public function get qualifiedName():String
 		{
+			if( _qualifiedName == null && type != null )
+			{
+				return type.name;
+			}
 			return _qualifiedName;
 		}
 		
@@ -115,6 +120,40 @@ package com.ffsys.dom
 		{
 			_fragmented = true;
 			parse( source );
+		}
+		
+		/**
+		*	@private
+		*/
+		override protected function started():void
+		{
+			if( implementation == null )
+			{
+				throw new Error(
+					"Cannot start a DOM SAX parser without a valid DOM implementation." );
+			}
+		}
+		
+		/**
+		* 	Handles a document type definition if one has been
+		* 	declared for the document.
+		*/
+		override public function doctype( token:SaxToken ):void
+		{
+			var definition:DocumentTypeDefinition = new DocumentTypeDefinition( token.xml );
+			qualifiedName = definition.qualifiedName;
+			
+			//attempt to assign the correct bean document
+			//based on the doctype identifier
+			this.document = implementation.getBeanDocumentFromDtd(
+				definition );
+				
+			this.type = implementation.createDocumentType(
+				definition.qualifiedName,
+				definition.publicId,
+				definition.systemId );
+			
+			//trace("DomSaxParser::doctype()", "GOT DOC TYPE: ", this.document, qualifiedName, definition );
 		}
 		
 		/**
@@ -173,7 +212,7 @@ package com.ffsys.dom
 		}
 		
 		override public function text( token:SaxToken ):void
-		{
+		{			
 			if( _textData == null )
 			{
 				_textStart = current;
@@ -194,6 +233,7 @@ package com.ffsys.dom
 		*/
 		override public function shouldTraverseElement( token:SaxToken ):Boolean
 		{
+			//trace("DomSaxParser::shouldTraverseElement()", _excludeNextElement, token );
 			if( _excludeNextElement === true )
 			{
 				return false;
@@ -206,7 +246,10 @@ package com.ffsys.dom
 		*/
 		override public function instruction( token:SaxToken ):void
 		{
+			//trace("DomSaxParser::instruction()", "GOT DOM INSTRUCTION BLOCK!?!?!?!?", _textData );
+			
 			finalizeTextBlock( token );
+			
 			var document:Document = getCreationDocument();	
 			var instruction:ProcessingInstruction = document.createProcessingInstruction(
 				token.xml.toXMLString(), token.xml.name().localName );
@@ -219,6 +262,7 @@ package com.ffsys.dom
 			if( token.name == EXCLUSION_PROCESSING_INSTRUCTION )
 			{
 				_excludeNextElement = true;
+				_excludeNextElementDepth = depth;
 			}
 			super.instruction( token );
 		}	
@@ -230,7 +274,8 @@ package com.ffsys.dom
 			{	
 				if( current is Document )
 				{
-					Document( current ).namespaceDeclarations = token.xml.namespaceDeclarations();
+					Document( current ).namespaceDeclarations =
+						token.xml.namespaceDeclarations();
 				}
 				
 				var prefix:String = null;
@@ -272,7 +317,16 @@ package com.ffsys.dom
 		{
 			if( _excludeNextElement === true )
 			{
+				//trace("[EXCLUDE] DomSaxParser::beginElement()", depth, _excludeNextElementDepth );
+				
+				//ensure we omit child elements of excluded elements
+				if( depth > _excludeNextElementDepth )
+				{
+					return;
+				}
+				
 				_excludeNextElement = false;
+				_excludeNextElementDepth = 0;
 				return;
 			}
 			
@@ -280,16 +334,51 @@ package com.ffsys.dom
 			
 			super.beginElement( token );
 			
-			var document:Document = getCreationDocument();
-			var name:String = null;
-			
 			//trace("[BEGIN ELEMENT] DomSaxParser::beginElement()", document, root, current );
 			
 			//import the list of attributes into the current element
 			importAttributes( token );
 			
 			//TODO: 
+			//var name:String = null;			
+			//var ancestor:Object = this.parent;			
+			
+			//trace("[DOM BEGIN] DomSaxParser::endElement()", current, current is Node, ancestor, ancestor is Node );						
+			
+			/*
+			
+			if( current is Node
+				&& ancestor != null
+			 	&& ancestor is Node )
+			{
+				//ensure the initial DOM hierarchy is correct
+				Node( ancestor ).appendChild(
+					Node( current ) );
+					
+				Node( current ).setQualifiedName( token.xml.name() );
+				
+				//TODO: property name conversion hyphens to camel case
+				name = token.name;
+					
+				//also assign a reference by property name
+				ancestor[ name ] = current;
+			}			
+			
+			*/
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function endElement( token:SaxToken ):void
+		{					
+			finalizeTextBlock( token );	
+			
+			//TODO: 
+			var name:String = null;			
 			var ancestor:Object = this.parent;
+			
+			trace("[DOM END] DomSaxParser::endElement()", current, current is Node, ancestor, ancestor is Node );			
 			
 			if( current is Node
 				&& ancestor != null
@@ -307,15 +396,8 @@ package com.ffsys.dom
 				//also assign a reference by property name
 				ancestor[ name ] = current;
 			}
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function endElement( token:SaxToken ):void
-		{					
-			finalizeTextBlock( token );
-			super.endElement( token );			
+			
+			super.endElement( token );						 			
 		}
 		
 		/**
@@ -359,10 +441,10 @@ package com.ffsys.dom
 			var document:Document = getCreationDocument();	
 			
 			var isDocument:Boolean = depth == 0
-				&& name == DomIdentifiers.DOCUMENT;	
+				&& name == qualifiedName;
 			
 			var isFragment:Boolean = depth == 0
-			 	&& name != DomIdentifiers.DOCUMENT;	
+			 	&& name != qualifiedName;
 			
 			//create a document for the top-level element
 			//when appropriate
@@ -371,10 +453,10 @@ package com.ffsys.dom
 				
 				if( isDocument )
 				{
-					//TODO: validate these values: namespaceURI, qualifiedName, doctype
+					//TODO: validate these values: namespaceURI, qualifiedName, type
 				
 					document = implementation.createDocument(
-						namespaceURI, qualifiedName, doctype );
+						namespaceURI, qualifiedName, type );
 			
 					//default identifier
 					document.id = namespaceURI;
@@ -390,7 +472,7 @@ package com.ffsys.dom
 					//we must use the document level identifier not
 					//the node name
 					document = implementation.createDocument(
-						namespaceURI, DomIdentifiers.DOCUMENT, doctype );	
+						namespaceURI, DomIdentifiers.DOCUMENT, type );	
 					
 					//update the qualified name so that we can verify	
 					qualifiedName = name;
@@ -423,7 +505,7 @@ package com.ffsys.dom
 				Node( _root ).appendChild( element );
 			}
 			
-			//trace("DomSaxParser::getElementInstance()", element, root );
+			//trace("[ELEMENT] DomSaxParser::getElementInstance()", element, root );
 			
 			return element;
 		}
@@ -444,6 +526,17 @@ package com.ffsys.dom
 		private function createTextBlock( type:String, data:String ):CharacterData
 		{
 			var document:Document = getCreationDocument();
+			
+			//trace("DomSaxParser::createTextBlock()", document );
+			
+			//omit text blocks before a DOM document is available
+			if( document == null )
+			{
+				return null;
+			}
+			
+			//trace("DomSaxParser::createTextBlock()", document );
+			
 			var output:CharacterData = null;
 			switch( type )
 			{
@@ -457,6 +550,9 @@ package com.ffsys.dom
 					output = document.createCDATASection( data );
 					break;
 			}
+			
+			//trace("DomSaxParser::createTextBlock()", output, current, current is Node );
+			
 			if( output != null
 				&& current is Node )
 			{
