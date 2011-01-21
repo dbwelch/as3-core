@@ -1,9 +1,6 @@
 package com.ffsys.dom.xhtml
 {
 	import com.ffsys.ioc.*;
-
-	import com.ffsys.utils.string.PropertyNameConverter;	
-	
 	import com.ffsys.dom.*;
 
 	/**
@@ -106,6 +103,21 @@ package com.ffsys.dom.xhtml
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.SPAN );
 			descriptor.instanceClass = SpanElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.FORM );
+			descriptor.instanceClass = FormElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.INPUT );
+			descriptor.instanceClass = InputElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.LABEL );
+			descriptor.instanceClass = LabelElement;
 			beans.addBeanDescriptor( descriptor );
 		}
 	}

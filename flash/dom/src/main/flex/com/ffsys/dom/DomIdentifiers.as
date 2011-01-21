@@ -360,7 +360,17 @@ package com.ffsys.dom
 		/**
 		* 	Represents the span element.
 		*/
-		public static const SPAN:String = "span";
+		public static const SPAN:String = "span";	
+		
+		/**
+		* 	Represents the label element.
+		*/
+		public static const LABEL:String = "label";
+		
+		/**
+		* 	Represents the input element.
+		*/
+		public static const INPUT:String = "input";		
 		
 		//TODO: complete the inline elements
 		

@@ -443,6 +443,12 @@ package com.ffsys.dom
 			var className:Boolean = isClassName( query );
 			var tagName:Boolean = !identifier && !className;
 			
+			if( Selector.ATTRIBUTE_SELECTOR.test( query ) )
+			{
+				trace("ActionscriptQuery::doFindElement()", "[GOT ATTR SELECTOR]", query );
+				handleAttributeFilter( query, context );
+				return;
+			}
 			
 			if( query.indexOf( Selector.DESCENDANT ) > -1 )
 			{
@@ -450,6 +456,7 @@ package com.ffsys.dom
 				return;
 			}
 			
+			//remove any # identifier selector or . dot class selector
 			var candidate:String = query.replace( /^(#|\.)/, "" );
 			
 			/*
@@ -479,6 +486,110 @@ package com.ffsys.dom
 				}
 				//trace("[FIND BY TAG AFTER] ActionscriptQuery::doFindElement()", length );					
 			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function handleAttributeFilter( query:String, context:Element ):void
+		{
+			//find matches for the first part
+			var parts:Array = query.match( Selector.ATTRIBUTE_SELECTOR );
+			
+			trace("ActionscriptQuery::handleAttributeFilter()", "[GOT ATTR PARTS]", parts );
+			
+			var first:String = query.substr( 0, query.indexOf( "[" ) );
+			
+			trace("ActionscriptQuery::handleAttributeFilter() [FIRST]", first );
+			
+			var part:String = null;
+			var tmp:ActionscriptQuery = new ActionscriptQuery();
+			
+			if( first.length == 0 )
+			{
+				throw new Error( "Cannot apply an attribute filter selector with no selector defined." );
+			}
+			
+			tmp.doFindElement( first, context );
+			tmp.setContexts( tmp );
+
+			for( var i:int = 0;i < parts.length;i++ )
+			{
+				part = String( parts[ i ] );
+				
+				tmp.doAttributeFilter( part, context );
+				
+				//trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp.length );
+				
+				if( tmp.length == 0 )
+				{
+					break;
+				}
+				
+				//update the contexts to the matched elements
+				tmp.setContexts( tmp );
+			}
+			
+			//update our matches to the temp
+			addMatchedList( tmp );
+		}
+		
+		internal function doAttributeFilter( query:String, context:Element ):void
+		{
+			var nm:String = getAttributeFilterName( query );
+			var qualified:Boolean = hasAttributeFilterQualifier( query );
+			
+			trace("ActionscriptQuery::doAttributeFilter()",
+				query, hasAttributeFilterQualifier( query ), nm );
+				
+			var node:Node = null;
+			for each( node in this )
+			{
+				if( node is Element )
+				{
+					trace("ActionscriptQuery::doAttributeFilter()", qualified, nm, node, Element( node ).hasAttribute( nm ) );
+					
+					//no qualifier - remove elements without the target
+					//attribute
+					if( !qualified
+						&& !Element( node ).hasAttribute( nm ) )
+					{
+						trace("ActionscriptQuery::doAttributeFilter()", "[FOUND ELEMENT WITH NO ATTRIBUTE]", node );
+						//remove( node );
+					}
+				}
+			}
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Extracts the attribute name from an attribute filter selector.
+		*/
+		private function getAttributeFilterName( query:String ):String
+		{
+			query = query.replace( /^\[/, "" );
+			query = query.replace( /\]$/, "" );
+			
+			//TODO: extract name with qualifiers
+			if( hasAttributeFilterQualifier( query ) )
+			{
+				
+			}
+			
+			return query;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Determines whether an attribute filter contains
+		* 	an filter qualifier expressions.
+		*/
+		private function hasAttributeFilterQualifier( query:String ):Boolean
+		{
+			var re:RegExp = /(\*|\$\!\^)?=/;
+			return re.test( query );
 		}
 		
 		/**

@@ -113,11 +113,15 @@
 		</resources>
 		
 		<!-- The default fallback locale -->
-		<default-locale lang="en" country="GB" />
+		<default-locale>
+			<lang>en</lang>
+			<country>GB</country>			
+		</default-locale>
 		
 		<!-- Locale definitions -->
-		<locale lang="en" country="GB">
-			
+		<locale>
+			<lang>en</lang>
+			<country>GB</country>			
 			<resources>
 				<messages>
 					<resource>
@@ -134,7 +138,9 @@
 			</resources>
 		</locale>
 		
-		<locale lang="es" country="ES">
+		<locale>
+			<lang>es</lang>
+			<country>ES</country>			
 			<resources>
 				<messages>
 					<resource>
@@ -144,7 +150,9 @@
 			</resources>
 		</locale>
 		
-		<locale lang="de" country="DE">
+		<locale>
+			<lang>de</lang>
+			<country>DE</country>			
 			<resources>
 				<messages>
 					<resource>
@@ -153,7 +161,9 @@
 				</messages>
 			</resources>
 		</locale>
-		<locale lang="fr" country="FR">
+		<locale>
+			<lang>fr</lang>
+			<country>FR</country>			
 			<resources>
 				<messages>
 					<resource>

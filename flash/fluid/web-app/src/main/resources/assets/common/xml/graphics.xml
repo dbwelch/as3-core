@@ -1,0 +1,1800 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<h3 id="page-package-heading">
+			<styles>package-heading</styles>
+			<identifier>graphics.package</identifier>
+		</h3>
+	
+		<!-- STROKE -->	
+		<hbox>
+			<square-graphic>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</square-graphic>
+			<rectangle>			
+				<pointer>
+					<edge>bottom</edge>
+				</pointer>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>			
+			</rectangle>
+			<rectangle>			
+				<pointer>
+					<edge>top</edge>
+				</pointer>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>			
+			</rectangle>
+			<rectangle>		
+				<pointer>
+					<edge>left</edge>
+				</pointer>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>			
+			</rectangle>
+			<rectangle>	
+				<pointer>
+					<edge>right</edge>
+				</pointer>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>			
+			</rectangle>
+			<rectangle>			
+				<pointer>
+					<edge>bottom</edge>
+					<inside>false</inside>
+				</pointer>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>			
+			</rectangle>
+	
+			<rectangle>
+				<styles>half-height</styles>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>			
+			</rectangle>
+	
+			<circle-graphic>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>			
+			</circle-graphic>
+	
+			<!-- TODO: fix cell layouts -->
+			<cell>
+				<styles>graphic-cell</styles>
+				<layout>
+					<horizontal-align>left</horizontal-align>
+					<vertical-align>bottom</vertical-align>
+				</layout>
+				<ellipse-graphic>
+					<stroke>
+						<style>default-stroke</style>
+					</stroke>				
+				</ellipse-graphic>
+			</cell>
+	
+			<arrow-graphic>
+				<orientation>right</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>left</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+	
+			<arrow-graphic>
+				<orientation>top-left</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top-right</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-left</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-right</orientation>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</arrow-graphic>
+		</hbox>
+	
+		<hbox>
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+			</bevel-rectangle>	
+		
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+		
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+		
+			<!-- bevel as a diamond as the corner width/height is half the preferred dimensions -->
+			<bevel-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<corner-width>16</corner-width>
+				<corner-height>16</corner-height>
+			</bevel-rectangle>
+		
+			<rounded-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</rounded-rectangle>																											
+		</hbox>	
+
+
+		<!-- FILL -->
+		<hbox>
+			<square-graphic>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</square-graphic>
+	
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>top</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>left</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>right</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+					<inside>false</inside>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>			
+			</rectangle>
+	
+			<rectangle>
+				<styles>half-height</styles>
+				<fill>
+					<style>default-fill</style>
+				</fill>			
+			</rectangle>
+	
+			<circle-graphic>
+				<fill>
+					<style>default-fill</style>
+				</fill>				
+			</circle-graphic>
+	
+			<!-- TODO: fix cell layouts -->
+			<cell>
+				<styles>graphic-cell</styles>
+				<layout>
+					<horizontal-align>left</horizontal-align>
+					<vertical-align>bottom</vertical-align>
+				</layout>
+				<ellipse-graphic>
+					<fill>
+						<style>default-fill</style>
+					</fill>
+				</ellipse-graphic>
+			</cell>
+	
+			<arrow-graphic>
+				<orientation>right</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>left</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+	
+			<arrow-graphic>
+				<orientation>top-left</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top-right</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-left</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-right</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+			</arrow-graphic>
+		</hbox>	
+	
+		<hbox>
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+			</bevel-rectangle>	
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+		
+			<!-- bevel as a diamond as the corner width/height is half the preferred dimensions -->
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<corner-width>16</corner-width>
+				<corner-height>16</corner-height>
+			</bevel-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</rounded-rectangle>																											
+		</hbox>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<!-- FILL AND STROKE -->
+		<hbox>
+			<square-graphic>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</square-graphic>
+	
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>	
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>					
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>top</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>	
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>						
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>left</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>	
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>		
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>right</edge>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+					<inside>false</inside>
+				</pointer>
+				<fill>
+					<style>default-fill</style>
+				</fill>	
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>		
+			</rectangle>
+	
+			<rectangle>
+				<styles>half-height</styles>
+				<fill>
+					<style>default-fill</style>
+				</fill>	
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>						
+			</rectangle>
+	
+			<circle-graphic>
+				<fill>
+					<style>default-fill</style>
+				</fill>		
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>						
+			</circle-graphic>
+	
+			<!-- TODO: fix cell layouts -->
+			<cell>
+				<styles>graphic-cell</styles>
+				<layout>
+					<horizontal-align>left</horizontal-align>
+					<vertical-align>bottom</vertical-align>
+				</layout>
+				<ellipse-graphic>
+					<fill>
+						<style>default-fill</style>
+					</fill>
+					<stroke>
+						<style>default-stroke</style>
+					</stroke>					
+				</ellipse-graphic>
+			</cell>
+	
+			<arrow-graphic>
+				<orientation>right</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>left</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+	
+			<arrow-graphic>
+				<orientation>top-left</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top-right</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-left</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-right</orientation>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+			</arrow-graphic>
+		</hbox>	
+	
+		<hbox>
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+			</bevel-rectangle>	
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</bevel-rectangle>
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+		
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+		
+			<!-- bevel as a diamond as the corner width/height is half the preferred dimensions -->
+			<bevel-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<corner-width>16</corner-width>
+				<corner-height>16</corner-height>
+			</bevel-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>				
+			</rounded-rectangle>
+		
+			<rounded-rectangle>
+				<fill>
+					<style>default-fill</style>
+				</fill>
+				<stroke>
+					<style>default-stroke</style>
+				</stroke>				
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</rounded-rectangle>																											
+		</hbox>			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<!-- GRADIENT FILL -->
+		<hbox>
+			<square-graphic>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</square-graphic>
+
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+				</pointer>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>top</edge>
+				</pointer>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>left</edge>
+				</pointer>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>right</edge>
+				</pointer>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+					<inside>false</inside>
+				</pointer>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>			
+			</rectangle>
+
+			<rectangle>
+				<styles>half-height</styles>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>			
+			</rectangle>
+
+			<circle-graphic>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>				
+			</circle-graphic>
+
+			<!-- TODO: fix cell layouts -->
+			<cell>
+				<styles>graphic-cell</styles>
+				<layout>
+					<horizontal-align>left</horizontal-align>
+					<vertical-align>bottom</vertical-align>
+				</layout>
+				<ellipse-graphic>
+					<fill>
+						<style>default-gradient-fill</style>
+					</fill>
+				</ellipse-graphic>
+			</cell>
+
+			<arrow-graphic>
+				<orientation>right</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>left</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+
+			<arrow-graphic>
+				<orientation>top-left</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top-right</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-left</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-right</orientation>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+			</arrow-graphic>
+		</hbox>	
+
+		<hbox>
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+			</bevel-rectangle>	
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+
+			<!-- bevel as a diamond as the corner width/height is half the preferred dimensions -->
+			<bevel-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<corner-width>16</corner-width>
+				<corner-height>16</corner-height>
+			</bevel-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>default-gradient-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</rounded-rectangle>																											
+		</hbox>
+	
+	
+	
+	
+	
+	
+	
+		<!-- COMPOSITE FILL - 3 LAYER -->
+		<hbox>
+			<square-graphic>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</square-graphic>
+
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+				</pointer>
+				<fill>
+					<style>composite-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>top</edge>
+				</pointer>
+				<fill>
+					<style>composite-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>left</edge>
+				</pointer>
+				<fill>
+					<style>composite-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>right</edge>
+				</pointer>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+					<inside>false</inside>
+				</pointer>
+				<fill>
+					<style>composite-fill</style>
+				</fill>			
+			</rectangle>
+
+			<rectangle>
+				<styles>half-height</styles>
+				<fill>
+					<style>composite-fill</style>
+				</fill>			
+			</rectangle>
+
+			<circle-graphic>
+				<fill>
+					<style>composite-fill</style>
+				</fill>				
+			</circle-graphic>
+
+			<!-- TODO: fix cell layouts -->
+			<cell>
+				<styles>graphic-cell</styles>
+				<layout>
+					<horizontal-align>left</horizontal-align>
+					<vertical-align>bottom</vertical-align>
+				</layout>
+				<ellipse-graphic>
+					<fill>
+						<style>composite-fill</style>
+					</fill>
+				</ellipse-graphic>
+			</cell>
+
+			<arrow-graphic>
+				<orientation>right</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>left</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+
+			<arrow-graphic>
+				<orientation>top-left</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top-right</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-left</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-right</orientation>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+			</arrow-graphic>
+		</hbox>	
+
+		<hbox>
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+			</bevel-rectangle>	
+
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+
+			<!-- bevel as a diamond as the corner width/height is half the preferred dimensions -->
+			<bevel-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<corner-width>16</corner-width>
+				<corner-height>16</corner-height>
+			</bevel-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>composite-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</rounded-rectangle>																				
+		</hbox>	
+	
+	
+	
+	
+	
+	
+	
+		<!-- COMPOSITE FILL - 4 LAYER -->
+		<hbox>
+			<square-graphic>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</square-graphic>
+
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+				</pointer>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>top</edge>
+				</pointer>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>left</edge>
+				</pointer>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>			
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>right</edge>
+				</pointer>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</rectangle>
+			<rectangle>
+				<pointer>
+					<edge>bottom</edge>
+					<inside>false</inside>
+				</pointer>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>			
+			</rectangle>
+
+			<rectangle>
+				<styles>half-height</styles>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>			
+			</rectangle>
+
+			<circle-graphic>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>				
+			</circle-graphic>
+
+			<!-- TODO: fix cell layouts -->
+			<cell>
+				<styles>graphic-cell</styles>
+				<layout>
+					<horizontal-align>left</horizontal-align>
+					<vertical-align>bottom</vertical-align>
+				</layout>
+				<ellipse-graphic>
+					<fill>
+						<style>complex-composite-fill</style>
+					</fill>
+				</ellipse-graphic>
+			</cell>
+
+			<arrow-graphic>
+				<orientation>right</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>left</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+
+			<arrow-graphic>
+				<orientation>top-left</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>top-right</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-left</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+			<arrow-graphic>
+				<orientation>bottom-right</orientation>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+			</arrow-graphic>
+		</hbox>	
+
+		<hbox>
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+			</bevel-rectangle>	
+
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</bevel-rectangle>
+
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>				
+			</bevel-rectangle>	
+
+			<!-- bevel as a diamond as the corner width/height is half the preferred dimensions -->
+			<bevel-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<corner-width>16</corner-width>
+				<corner-height>16</corner-height>
+			</bevel-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<corner-width>4</corner-width>
+				<corner-height>4</corner-height>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<top-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-left-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<top-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</top-right-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<bottom-left-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-left-corner>				
+			</rounded-rectangle>
+
+			<rounded-rectangle>
+				<fill>
+					<style>complex-composite-fill</style>
+				</fill>
+				<bottom-right-corner>
+					<width>6</width>
+					<height>6</height>
+				</bottom-right-corner>
+			</rounded-rectangle>																				
+		</hbox>		
+	</vbox>
+</document>

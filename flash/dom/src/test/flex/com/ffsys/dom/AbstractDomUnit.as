@@ -190,8 +190,13 @@ package com.ffsys.dom
 			//trace("SimpleDOMTest::domTest()", getTestDocument() );
 
 			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
+			
+			elements = $( "div[id][name$='man']" );
+			
+			trace("AbstractDomUnit::performActionscriptQueryAssertions() [GOT ATTR SELECTOR ELEMENTS]", elements );
 
-			trace( document.xml.toXMLString() );
+			//trace( document.xml.toXMLString() );
+			
 			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );			
 		}
 		

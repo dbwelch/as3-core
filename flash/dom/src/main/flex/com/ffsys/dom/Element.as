@@ -335,13 +335,17 @@ package com.ffsys.dom
 		*/
 		public function hasAttribute( name:String ):Boolean
 		{
+			/*
 			if( !hasAttributes() )
 			{
 				return false;
 			}
+			*/
+			trace("Element::hasAttribute()", this, name, attributes );
 			var attr:Node = null;
 			for each( attr in attributes )
 			{
+				trace("Element::hasAttribute()", attr );
 				if( attr is Attr
 					&& Attr( attr ).name == name )
 				{

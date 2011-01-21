@@ -194,5 +194,15 @@ package com.ffsys.dom
 		{
 			_ownerElement = element;
 		}
+		
+		/**
+		* 	Gets a string representation of this attribute.
+		* 
+		* 	@return A string representation of this attribute.
+		*/
+		override public function toString():String
+		{
+			return "[object Attr@" + name + "=" + value + "]";
+		}
 	}
 }

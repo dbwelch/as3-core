@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<h3 id="page-package-heading">
+			<styles>package-heading</styles>
+			<identifier>buttons.package</identifier>
+		</h3>
+		<hbox>
+			<spacing>25</spacing>
+			<vbox>
+				<vbox>
+					<styles>example-group</styles>
+					<p>
+						<identifier>graphic.buttons.examples.copy</identifier>
+					</p>
+					
+					<hbox>
+						<icon-button>
+							<styles>up-button</styles>
+						</icon-button>
+						<icon-button>
+							<styles>down-button</styles>
+						</icon-button>
+						<icon-button>
+							<styles>left-button</styles>
+						</icon-button>	
+						<icon-button>
+							<styles>right-button</styles>
+						</icon-button>											
+					</hbox>
+				</vbox>
+			</vbox>
+		</hbox>
+	</vbox>
+</document>

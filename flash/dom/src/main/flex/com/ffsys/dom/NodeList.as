@@ -125,6 +125,27 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Removes a node from this list.
+		* 
+		* 	@param node The node to remove.
+		* 
+		* 	@return A boolean indicating whether the node
+		* 	was removed from this list.
+		*/
+		public function remove( node:Node ):Boolean
+		{
+			for( var i:int = 0;i < children.length;i++ )
+			{
+				if( node == children[ i ] )
+				{
+					children.splice( i, 1 );
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		/**
 		* 	@private
 		*/
 		override protected function propertyMissing( name:* ):*
