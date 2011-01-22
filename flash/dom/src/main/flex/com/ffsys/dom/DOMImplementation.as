@@ -121,10 +121,13 @@ package com.ffsys.dom
 		* 	@param source The source <code>XML</code> document.
 		* 	@param doctype A specific document type to use when
 		* 	parsing the source.
+		* 	@param target A target element to parse the document
+		* 	into.
 		*/
 		public function parse(
 			source:XML,
-			doctype:DocumentType = null ):Element
+			doctype:DocumentType = null,
+			target:Element = null ):Element
 		{
 			if( source == null || !source.name() )
 			{
@@ -137,6 +140,10 @@ package com.ffsys.dom
 			}
 			
 			var parser:DomSaxParser = new DomSaxParser( this, doctype );
+			if( target != null )
+			{
+				parser.root = target;
+			}
 			parser.parse( source );
 			return Element( parser.element );
 		}

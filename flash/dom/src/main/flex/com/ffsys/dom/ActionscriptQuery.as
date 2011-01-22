@@ -276,12 +276,52 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	TODO
+		* 	Retrieves or sets inner <code>DOM</code> markup.
+		* 
+		* 	@param xml Markup to assign to all matched elements.
+		* 
+		* 	@return The inner <code>DOM</code> markup as either
+		* 	<code>XML</code> or an <code>XMLList</code> when retrieving
+		* 	inner markup.
 		*/
-		public function html( xml:String ):Object
+		public function html( xml:Object = null ):Object
 		{
-			//TODO
+			var element:Element = null;
+			if( xml == null
+				&& length > 0 )
+			{
+				element = this[ 0 ] as Element;
+				if( element != null )
+				{
+					//return the child/children as it's the inner markup
+					//we are interested in
+					var children:XMLList = element.xml.children();
+					return children.length() == 1 ? children[ 0 ] : children;
+				}
+			}
 			
+			var x:XML = null;
+			if( xml is XML )
+			{
+				x = xml as XML;
+			}else if( xml is String )
+			{
+				x = new XML( xml );
+			}
+			
+			trace("ActionscriptQuery::html()", x );
+			
+			if( x != null )
+			{
+				for( var i:int = 0;i < length;i++ )
+				{
+					element = this[ i ] as Element;
+					if( element != null )
+					{
+						element.html( x );
+					}
+				}
+			}
 			return this;
 		}
 		

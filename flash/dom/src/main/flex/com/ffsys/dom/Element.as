@@ -34,6 +34,17 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Sets the inner markup of this element.
+		* 
+		* 	@param markup The inner markup for this element.
+		*/
+		public function html( markup:XML ):void
+		{
+			//TODO: wrap xml lists in the tagName for this element
+			trace("Element::html()", markup );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function get classNames():String

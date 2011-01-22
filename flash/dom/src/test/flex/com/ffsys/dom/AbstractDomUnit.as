@@ -136,7 +136,7 @@ package com.ffsys.dom
 			Assert.assertTrue( elements[ 1 ] is AnchorElement );
 
 			elements = $( "#inner-element-b p" );
-			Assert.assertEquals( 2, elements.length );
+			Assert.assertEquals( 3, elements.length );
 			Assert.assertTrue( elements[ 0 ] is ParagraphElement );
 			Assert.assertTrue( elements[ 1 ] is ParagraphElement );
 
@@ -147,6 +147,36 @@ package com.ffsys.dom
 
 //			trace("[MULTIPLE INLINE] SimpleDOMTest::domTest()", elements );	
 
+
+
+			//modify an attribute for multiple elements at once
+			$( "p" ).attr( "title", "a new title" );
+			elements = $( "p" );
+			for each( child in elements )
+			{
+				Assert.assertEquals( "a new title", child.getAttribute( "title" ) );
+			}
+
+			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
+			
+			assertCharacterData();
+			assertEq();
+			assertGet();
+			assertIndex();
+			assertEachIterator();
+			assertAttributeFilters();
+			assertHtml();
+			
+			//trace( document.xml.toXMLString() );
+			
+			trace("[TEST COMPLETE] Completed DOM test in ", ( ( new Date().getTime() - _time ) / 1000 )  + " seconds" );
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assertCharacterData():void
+		{
 			//test the character data api
 			var cd:CharacterData = new CharacterData();
 			cd.data = "This is some text";
@@ -178,26 +208,7 @@ package com.ffsys.dom
 				trace("[FOR] SimpleDOMTest::domTest()", cd[ i ] );
 			}
 			*/
-
-			//modify an attribute for multiple elements at once
-			$( "p" ).attr( "title", "a new title" );
-			elements = $( "p" );
-			for each( child in elements )
-			{
-				Assert.assertEquals( "a new title", child.getAttribute( "title" ) );
-			}
-
-			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
-			
-			assertEq();
-			assertIndex();
-			assertEachIterator();
-			assertAttributeFilters();
-			
-			//trace( document.xml.toXMLString() );
-			
-			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
-		}
+		}		
 		
 		/**
 		* 	@private
@@ -206,7 +217,13 @@ package com.ffsys.dom
 		{
 			var elements:NodeList = $( "p" ).eq( 1 );		
 			Assert.assertEquals( 1, elements.length );
-			
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assertGet():void
+		{
 			Assert.assertTrue( $( "p" ).get( 0 ) is ParagraphElement );
 			Assert.assertTrue( $( "p" ).get( 1 ) is ParagraphElement );
 			
@@ -216,7 +233,7 @@ package com.ffsys.dom
 			//check converting matched elements to a vector
 			Assert.assertTrue( $( "p" ).get() is Vector.<Element> );
 			Assert.assertTrue( 2, $( "p" ).get().length );
-		}
+		}		
 		
 		/**
 		* 	@private
@@ -304,6 +321,23 @@ package com.ffsys.dom
 			//an attribute that starts with
 			elements = $( "input[name^='new']" );
 			Assert.assertEquals( 2, elements.length );
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assertHtml():void
+		{
+			var markup:Object = $( "p" ).html();
+			Assert.assertNotNull( markup );
+			
+			Assert.assertEquals(
+				"This is some text for a paragraph that will have it's inner markup replaced.",
+				markup.toString() );
+				
+			$( "p" ).html( <span>This is some new markup for all paragraphs.</span> );
+			
+			trace("[MARKUP] AbstractDomUnit::assertHtml()", markup );
 		}
 		
 		/**

@@ -375,10 +375,10 @@ package com.ffsys.dom
 			finalizeTextBlock( token );	
 			
 			//TODO: 
-			var name:String = null;			
+			var name:String = null;
 			var ancestor:Object = this.parent;
 			
-			trace("[DOM END] DomSaxParser::endElement()", current, current is Node, ancestor, ancestor is Node );			
+			trace("[DOM END] DomSaxParser::endElement()", root, current, current is Node, ancestor, ancestor is Node );			
 			
 			if( current is Node
 				&& ancestor != null

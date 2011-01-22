@@ -57,9 +57,20 @@ package com.ffsys.dom
 			fragment = new XML( "<p class=\"partial-paragraph\">this is a test paragraph</p>" );
 			var partial:ParagraphElement = impl.parse( fragment ) as ParagraphElement;
 			Assert.assertNotNull( partial );
-			
 			Assert.assertEquals( "partial-paragraph", partial.classNames );
 			Assert.assertTrue( partial.childNodes[ 0 ] is Text );
+			
+			//test parsing a partial into an existing element
+			var doc:Document = new Document();
+			doc.document = new XhtmlBeanDocument();
+			var para:ParagraphElement = doc.createElement( "p" ) as ParagraphElement;
+			para.setAttribute( "class", "border red" );
+			fragment = new XML( "<span>this is some test paragraph markup to parse into an existing element</span>" );
+			var result:ParagraphElement = impl.parse( fragment, null, para ) as ParagraphElement;
+			Assert.assertNotNull( result );
+			Assert.assertEquals( para, result );
+			
+			//trace("DomParseTest::setUp()", para.xml.toXMLString() );
 			
 			//register an onload closure
 			$( function():void
@@ -71,7 +82,7 @@ package com.ffsys.dom
 			var source:XML = XmlResource( LoadEvent( event ).resource ).xml;
 			Assert.assertNotNull( source );
 			
-			trace("DomParseTest::setUp()", source.toXMLString() );
+			//trace("DomParseTest::setUp()", source.toXMLString() );
 			
 			//parse the entire document
 			document = Document( impl.parse( source ) );
