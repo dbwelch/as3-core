@@ -190,14 +190,41 @@ package com.ffsys.dom
 			//trace("SimpleDOMTest::domTest()", getTestDocument() );
 
 			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
-			
-			elements = $( "div[class][name$='man']" );
-			
-			trace("AbstractDomUnit::performActionscriptQueryAssertions() [GOT ATTR SELECTOR ELEMENTS]", elements );
 
+			assertAttributeFilters();
+			
 			//trace( document.xml.toXMLString() );
 			
-			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );			
+			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
+		}
+		
+		protected function assertAttributeFilters():void
+		{
+			var elements:NodeList = null;			
+			
+			//existence of an attribute
+			elements = $( "input[name]" );
+			Assert.assertEquals( 5, elements.length );
+			
+			//attribute contains
+			elements = $( "input[id][name*='man']" );
+			Assert.assertEquals( 3, elements.length );
+			
+			//all input elements with name attributes that end in 'milk'
+			elements = $( "input[name$='milk']" );
+			Assert.assertEquals( 1, elements.length );
+			
+			//an attribute equality match
+			elements = $( "input[name='milkman']" );
+			Assert.assertEquals( 1, elements.length );	
+			
+			//attribute inequality match
+			elements = $( "input[name!='milkman']" );
+			Assert.assertEquals( 4, elements.length );
+			
+			//an attribute that starts with
+			elements = $( "input[name^='new']" );
+			Assert.assertEquals( 2, elements.length );
 		}
 		
 		protected function loaded(

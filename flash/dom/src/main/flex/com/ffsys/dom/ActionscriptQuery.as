@@ -496,11 +496,11 @@ package com.ffsys.dom
 			//find matches for the first part
 			var parts:Array = query.match( Selector.ATTRIBUTE_SELECTOR );
 			
-			trace("ActionscriptQuery::handleAttributeFilter()", "[GOT ATTR PARTS]", parts );
+			//trace("ActionscriptQuery::handleAttributeFilter()", "[GOT ATTR PARTS]", parts );
 			
 			var first:String = query.substr( 0, query.indexOf( "[" ) );
 			
-			trace("ActionscriptQuery::handleAttributeFilter() [FIRST]", first );
+			//trace("ActionscriptQuery::handleAttributeFilter() [FIRST]", first );
 			
 			var part:String = null;
 			var tmp:ActionscriptQuery = new ActionscriptQuery();
@@ -518,80 +518,139 @@ package com.ffsys.dom
 			{
 				part = String( parts[ i ] );
 				
-				tmp.doAttributeFilter( part, this );
-				
-				//trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp.length );
+				//parse each filter placing matches in this query
+				tmp = tmp.doAttributeFilter( part );
 				
 				if( tmp.length == 0 )
 				{
 					break;
 				}
-				
-				//update the contexts to the matched elements
-				tmp.setContexts( tmp );
 			}
-			
-			//update our matches to the temp
-			//addMatchedList( tmp );
+			addMatchedList( tmp );
 		}
 		
-		internal function doAttributeFilter( query:String, target:ActionscriptQuery ):void
+		internal function doAttributeFilter( query:String ):ActionscriptQuery
 		{
+			var output:ActionscriptQuery = new ActionscriptQuery();
 			var nm:String = getAttributeFilterName( query );
+			var operator:String = null;	
+			var value:String = null;						
 			var qualified:Boolean = hasAttributeFilterQualifier( query );
 			
-			trace("ActionscriptQuery::doAttributeFilter()",
-				query, hasAttributeFilterQualifier( query ), nm );
-				
+			if( qualified )
+			{
+				operator = getAttributeFilterOperator( query );
+				value = getAttributeFilterValue( query );
+			}
+
 			var node:Node = null;
+			var element:Element = null;
 			for each( node in this )
 			{
-				if( node is Element )
+				element = node as Element;
+				if( element != null )
 				{
-					trace("ActionscriptQuery::doAttributeFilter()", qualified, nm, node, Element( node ).hasAttribute( nm ) );
+					//trace("ActionscriptQuery::doAttributeFilter()", qualified, nm, node, element.hasAttribute( nm ) );
 					
 					//no qualifier - add elements with the target
 					//attribute
-					if( !qualified
-						&& Element( node ).hasAttribute( nm ) )
+					if( element.hasAttribute( nm ) )
 					{
-						trace("ActionscriptQuery::doAttributeFilter()", "[FOUND ELEMENT WITH NO ATTRIBUTE]", node );
-						//remove( node );
-						
-						target.concat( node );
+						if( !qualified )
+						{
+							output.concat( node );
+						}else{
+							if( attributeFilterMatches(
+								element.getAttribute( nm ), operator, value, nm ) )
+							{
+								output.concat( node );
+							}
+						}
 					}
 				}
 			}
+			return output;
 		}
 		
+		private function attributeFilterMatches(
+			attribute:String, operator:String, expected:String, name:String ):Boolean
+		{
+			switch( operator )
+			{
+				case "*=":
+					return attribute.indexOf( expected ) > -1;
+					break;
+				case "$=":	
+					return ( ( attribute.indexOf( expected ) + expected.length ) == attribute.length );
+					break;
+				case "=":
+					return ( attribute == expected );
+					break;
+				case "!=":
+					return ( attribute != expected );
+					break;
+				case "^=":
+					return attribute.indexOf( expected ) == 0;
+					break;
+			}
+			return false;
+		}
+
 		/**
 		* 	@private
-		* 
-		* 	Extracts the attribute name from an attribute filter selector.
 		*/
-		private function getAttributeFilterName( query:String ):String
+		private function stripAttributeFilterDelimiters( query:String ):String
 		{
 			query = query.replace( /^\[/, "" );
 			query = query.replace( /\]$/, "" );
-			
-			//TODO: extract name with qualifiers
-			if( hasAttributeFilterQualifier( query ) )
-			{
-				
-			}
-			
 			return query;
 		}
 		
 		/**
 		* 	@private
-		* 
-		* 	Determines whether an attribute filter contains
-		* 	an filter qualifier expressions.
+		*/
+		private function getAttributeFilterOperator( query:String ):String
+		{
+			query = stripAttributeFilterDelimiters( query );	
+			var op:String = query.replace( /^[a-zA-Z0-9]+((\*|\$|\!|\^)?=).*$/, "$1" );
+			return op;
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function getAttributeFilterValue( query:String ):String
+		{
+			query = stripAttributeFilterDelimiters( query );
+			var index:int = query.indexOf( "=" );
+			if( index > -1 )
+			{
+				query = query.substr( index + 1 );
+			}
+			query = query.replace( /^'|"/, "" );
+			query = query.replace( /'|"$/, "" );
+			return query;
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function getAttributeFilterName( query:String ):String
+		{
+			query = stripAttributeFilterDelimiters( query )
+			if( hasAttributeFilterQualifier( query ) )
+			{
+				query = query.replace( /[\*\$\!\^]?=.*$/, "" );
+			}
+			return query;
+		}
+		
+		/**
+		* 	@private
 		*/
 		private function hasAttributeFilterQualifier( query:String ):Boolean
 		{
-			var re:RegExp = /(\*|\$\!\^)?=/;
+			var re:RegExp = /(\*|\$|\!|\^)?=/;
 			return re.test( query );
 		}
 		
@@ -611,6 +670,7 @@ package com.ffsys.dom
 			{
 				part = String( parts[ i ] );
 				tmp.query = part;
+				
 				//tmp.clear();
 				//find the matches for each descendant element
 				//tmp.doFindElement( part );

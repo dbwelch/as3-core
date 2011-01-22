@@ -244,7 +244,7 @@ package com.ffsys.dom
 				namespaceURI, qualifiedName );
 			attr.value = value;	
 			
-			trace("Element::setAttributeNS()", attr.name, attr.value, attr.uri );
+			//trace("Element::setAttributeNS()", attr.name, attr.value, attr.uri );
 			
 			setAttributeNode( attr );
 		}
@@ -336,17 +336,16 @@ package com.ffsys.dom
 		*/
 		public function hasAttribute( name:String ):Boolean
 		{
-			/*
 			if( !hasAttributes() )
 			{
 				return false;
 			}
-			*/
-			trace("Element::hasAttribute()", this, name, attributes );
+		
+			//trace("Element::hasAttribute()", this, name, attributes );
 			var attr:Node = null;
 			for each( attr in attributes )
 			{
-				trace("Element::hasAttribute()", attr );
+				//trace("Element::hasAttribute()", attr );
 				if( attr is Attr
 					&& Attr( attr ).name == name )
 				{
