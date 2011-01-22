@@ -151,6 +151,8 @@ package com.ffsys.dom
 		* 
 		* 	@param callback The callback function to invoke for each
 		* 	matched element.
+		* 
+		* 	@return An actionscript query.
 		*/
 		public function each( callback:Function ):ActionscriptQuery
 		{
@@ -165,6 +167,31 @@ package com.ffsys.dom
 						callback.apply( element, [ i ] );
 					}
 				}
+			}
+			return this;
+		}
+		
+		/**
+		* 	Filters matched elements to an element at the specified
+		* 	index.
+		* 
+		* 	If there is no element at the specified index no filtering
+		* 	will occur.
+		* 
+		* 	@param index The index of the element to select.
+		* 	
+		* 	@return An actionscript query.
+		*/
+		public function eq( index:uint ):ActionscriptQuery
+		{
+			var element:Element = this[ index ] as Element;
+			
+			//remove all other elements and add the element
+			//at the specified index
+			if( element != null )
+			{
+				clear();
+				concat( element );
 			}
 			return this;
 		}

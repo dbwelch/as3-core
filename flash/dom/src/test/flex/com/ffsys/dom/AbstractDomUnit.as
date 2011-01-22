@@ -191,6 +191,8 @@ package com.ffsys.dom
 
 			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
 			
+			assertEq();
+			
 			assertEachIterator();
 
 			assertAttributeFilters();
@@ -200,6 +202,11 @@ package com.ffsys.dom
 			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
 		}
 		
+		protected function assertEq():void
+		{
+			var elements:NodeList = $( "p" ).eq( 1 );			
+			Assert.assertEquals( 1, elements.length );
+		}
 		
 		protected function assertEachIterator():void
 		{
