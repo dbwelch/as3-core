@@ -150,6 +150,13 @@ package com.ffsys.dom
 		*/
 		override protected function propertyMissing( name:* ):*
 		{
+			//return null rather then throw a
+			//RangeError for the moment
+			if( !isNaN( Number( name ) )
+				&& Number( name ) >= length )
+			{
+				return null;
+			}
 			return children[ name ];
 		}
 		

@@ -210,6 +210,9 @@ package com.ffsys.dom
 			Assert.assertTrue( $( "p" ).get( 0 ) is ParagraphElement );
 			Assert.assertTrue( $( "p" ).get( 1 ) is ParagraphElement );
 			
+			//out of bounds index
+			Assert.assertNull( $( "p" ).get( 200 ) );
+			
 			//check converting matched elements to a vector
 			Assert.assertTrue( $( "p" ).get() is Vector.<Element> );
 			Assert.assertTrue( 2, $( "p" ).get().length );
