@@ -150,10 +150,11 @@ package com.ffsys.dom
 		*/
 		override protected function propertyMissing( name:* ):*
 		{
+			var num:Number = Number( name );
 			//return null rather then throw a
 			//RangeError for the moment
-			if( !isNaN( Number( name ) )
-				&& Number( name ) >= length )
+			if( !isNaN( num )
+				&& ( num >= length || num < 0 ) )
 			{
 				return null;
 			}
