@@ -185,7 +185,6 @@ package com.ffsys.dom
 		public function eq( index:uint ):ActionscriptQuery
 		{
 			var element:Element = this[ index ] as Element;
-			
 			//remove all other elements and add the element
 			//at the specified index
 			if( element != null )
@@ -194,6 +193,32 @@ package com.ffsys.dom
 				concat( element );
 			}
 			return this;
+		}
+		
+		/**
+		* 	Retrieves the index of a matched element.
+		* 
+		* 	@param subject The element to retrieve the index for.
+		* 
+		* 	@return The index of the element or -1 if the element
+		* 	was not found.
+		*/
+		public function index( subject:Element ):int
+		{
+			if( subject != null )
+			{
+				var element:Element = null;
+				for( var i:int = 0;i < length;i++ )
+				{
+					element = this[ i ] as Element;
+				
+					if( element != null && element == subject )
+					{
+						return i;
+					}
+				}
+			}
+			return -1;
 		}
 		
 		public function html( xml:String ):Object

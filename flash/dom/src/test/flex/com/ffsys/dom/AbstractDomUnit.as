@@ -193,6 +193,8 @@ package com.ffsys.dom
 			
 			assertEq();
 			
+			assertIndex();
+			
 			assertEachIterator();
 
 			assertAttributeFilters();
@@ -206,6 +208,25 @@ package com.ffsys.dom
 		{
 			var elements:NodeList = $( "p" ).eq( 1 );			
 			Assert.assertEquals( 1, elements.length );
+		}
+		
+		protected function assertIndex():void
+		{
+			var expected:uint = $( "p" ).length;			
+			var iterations:Array = new Array();				
+			var indices:Array = new Array();			
+			$( "p" ).each(
+				function( index:int ):void
+				{
+					iterations.push( index );
+					indices.push( $( "p" ).index( this ) );
+				} );
+			Assert.assertEquals( expected, iterations.length );	
+			Assert.assertEquals( expected, indices.length );
+			for( var i:int = 0;i < expected;i++ )
+			{
+				Assert.assertEquals( iterations[ i ], indices[ i ] );
+			}
 		}
 		
 		protected function assertEachIterator():void
