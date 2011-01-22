@@ -204,8 +204,15 @@ package com.ffsys.dom
 		*/
 		protected function assertEq():void
 		{
-			var elements:NodeList = $( "p" ).eq( 1 );			
+			var elements:NodeList = $( "p" ).eq( 1 );		
 			Assert.assertEquals( 1, elements.length );
+			
+			Assert.assertTrue( $( "p" ).get( 0 ) is ParagraphElement );
+			Assert.assertTrue( $( "p" ).get( 1 ) is ParagraphElement );
+			
+			//check converting matched elements to a vector
+			Assert.assertTrue( $( "p" ).get() is Vector.<Element> );
+			Assert.assertTrue( 2, $( "p" ).get().length );
 		}
 		
 		/**

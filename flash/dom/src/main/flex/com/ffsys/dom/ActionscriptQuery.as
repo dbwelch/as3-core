@@ -2,7 +2,16 @@ package com.ffsys.dom
 {
 	import flash.events.*;
 	import flash.utils.Dictionary;
-
+	
+	/**
+	*	Represents dynamic <code>DOM</code> queries.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  09.01.2011
+	*/
 	dynamic public class ActionscriptQuery extends NodeList
 	{	
 		/**
@@ -219,6 +228,38 @@ package com.ffsys.dom
 				}
 			}
 			return -1;
+		}
+		
+		/**
+		* 	Retrieves either a single element at a specified
+		* 	index or a vector containing all matched elements
+		* 	if no index is specified or the index is less than zero.
+		* 
+		* 	@param index A specific index to retrieve an element at.
+		* 
+		* 	@return A single element or a vector of all matched elements.
+		*/
+		public function get( index:int = -1 ):Object
+		{
+			var element:Element = null;
+			var output:Object = null;
+			
+			//place all matched elements in a vector of elements
+			if( index < 0 )
+			{
+				output = new Vector.<Element>();
+				for( var i:int = 0;i < length;i++ )
+				{
+					element = this[ i ] as Element;
+					if( element != null )
+					{
+						output.push( element );
+					}
+				}
+			}else{
+				output = this[ index ] as Element;
+			}
+			return output;
 		}
 		
 		/**
