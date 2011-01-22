@@ -293,10 +293,11 @@ package com.ffsys.dom
 					attributeSet( attr );
 				}
 				
+				//trace("[ATTR] Element::setAttributeNode()", this, attr, attr.isQualified(), attr.name, attr.value, attr.uri, attributes.length );
+				
 				attr.setOwnerElement( this );
 				attributes.setNamedItem( attr );	
 				
-				//trace("Element::setAttributeNode()", attr, attr.isQualified(), attr.name, attr.value, attr.uri );
 			}
 			return attr;
 		}

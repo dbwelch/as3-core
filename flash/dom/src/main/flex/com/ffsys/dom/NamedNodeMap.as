@@ -26,10 +26,10 @@ package com.ffsys.dom
 			{
 				if( node.localName == name )
 				{
-					break;
+					return node;
 				}
 			}
-			return node;
+			return null;
 		}
 		
 		/**
@@ -71,6 +71,9 @@ package com.ffsys.dom
 			if( item != null && item.localName != null )
 			{
 				var existing:Node = getNamedItem( item.localName );
+				
+				//trace("NamedNodeMap::setNamedItem() [BEFORE]", item, item.localName, existing, length );
+				
 				if( existing == null )
 				{
 					concat( item );
@@ -78,6 +81,8 @@ package com.ffsys.dom
 					removeNamedItem( existing.localName );
 					concat( item );
 				}
+				
+				//trace("NamedNodeMap::setNamedItem() [AFTER]", item, length );
 			}
 			return item;
 		}
