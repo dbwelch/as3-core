@@ -510,6 +510,7 @@ package com.ffsys.dom
 				throw new Error( "Cannot apply an attribute filter selector with no selector defined." );
 			}
 			
+			//find the main contexts for the attribute filter
 			tmp.doFindElement( first, context );
 			tmp.setContexts( tmp );
 
@@ -517,7 +518,7 @@ package com.ffsys.dom
 			{
 				part = String( parts[ i ] );
 				
-				tmp.doAttributeFilter( part, context );
+				tmp.doAttributeFilter( part, this );
 				
 				//trace("[FIRST DESCENDANT QUERY MATCHES] ActionscriptQuery::handleDescendantSelector()", tmp.length );
 				
@@ -531,10 +532,10 @@ package com.ffsys.dom
 			}
 			
 			//update our matches to the temp
-			addMatchedList( tmp );
+			//addMatchedList( tmp );
 		}
 		
-		internal function doAttributeFilter( query:String, context:Element ):void
+		internal function doAttributeFilter( query:String, target:ActionscriptQuery ):void
 		{
 			var nm:String = getAttributeFilterName( query );
 			var qualified:Boolean = hasAttributeFilterQualifier( query );
@@ -549,13 +550,15 @@ package com.ffsys.dom
 				{
 					trace("ActionscriptQuery::doAttributeFilter()", qualified, nm, node, Element( node ).hasAttribute( nm ) );
 					
-					//no qualifier - remove elements without the target
+					//no qualifier - add elements with the target
 					//attribute
 					if( !qualified
-						&& !Element( node ).hasAttribute( nm ) )
+						&& Element( node ).hasAttribute( nm ) )
 					{
 						trace("ActionscriptQuery::doAttributeFilter()", "[FOUND ELEMENT WITH NO ATTRIBUTE]", node );
 						//remove( node );
+						
+						target.concat( node );
 					}
 				}
 			}

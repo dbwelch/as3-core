@@ -191,7 +191,7 @@ package com.ffsys.dom
 
 			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
 			
-			elements = $( "div[id][name$='man']" );
+			elements = $( "div[class][name$='man']" );
 			
 			trace("AbstractDomUnit::performActionscriptQueryAssertions() [GOT ATTR SELECTOR ELEMENTS]", elements );
 
