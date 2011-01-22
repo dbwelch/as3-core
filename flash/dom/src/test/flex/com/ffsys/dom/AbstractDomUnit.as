@@ -187,16 +187,11 @@ package com.ffsys.dom
 				Assert.assertEquals( "a new title", child.getAttribute( "title" ) );
 			}
 
-			//trace("SimpleDOMTest::domTest()", getTestDocument() );
-
 			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
 			
 			assertEq();
-			
 			assertIndex();
-			
 			assertEachIterator();
-
 			assertAttributeFilters();
 			
 			//trace( document.xml.toXMLString() );
@@ -204,15 +199,27 @@ package com.ffsys.dom
 			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
 		}
 		
+		/**
+		* 	@private
+		*/
 		protected function assertEq():void
 		{
 			var elements:NodeList = $( "p" ).eq( 1 );			
 			Assert.assertEquals( 1, elements.length );
 		}
 		
+		/**
+		* 	@private
+		*/
 		protected function assertIndex():void
 		{
-			var expected:uint = $( "p" ).length;			
+			var elements:ActionscriptQuery = $( "p" );
+			var expected:uint = elements.length;
+			
+			//verify the size() method aliases the length property
+			Assert.assertEquals(
+				expected, elements.size() );
+			
 			var iterations:Array = new Array();				
 			var indices:Array = new Array();			
 			$( "p" ).each(
@@ -229,6 +236,9 @@ package com.ffsys.dom
 			}
 		}
 		
+		/**
+		* 	@private
+		*/
 		protected function assertEachIterator():void
 		{
 			var expected:uint = $( "p" ).length;
@@ -254,6 +264,9 @@ package com.ffsys.dom
 			}
 		}
 		
+		/**
+		* 	@private
+		*/
 		protected function assertAttributeFilters():void
 		{
 			var elements:NodeList = null;			
@@ -283,12 +296,18 @@ package com.ffsys.dom
 			Assert.assertEquals( 2, elements.length );
 		}
 		
+		/**
+		* 	@private
+		*/
 		protected function loaded(
 			event:Event = null, data:Object = null ):void
 		{
 			//
 		}
 		
+		/**
+		* 	@private
+		*/
 		protected function fail( event:Event ):void
 		{
 			throw new Error( "An asynchronous test case failed." );

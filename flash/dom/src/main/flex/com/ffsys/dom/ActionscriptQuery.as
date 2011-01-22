@@ -221,6 +221,22 @@ package com.ffsys.dom
 			return -1;
 		}
 		
+		/**
+		* 	Gets the number of elements in this query.
+		* 
+		* 	This returns the same number as the <code>length</code>
+		* 	property.
+		* 
+		* 	@return The number of elements in this query.
+		*/
+		public function size():uint
+		{
+			return this.length;
+		}
+		
+		/**
+		* 	TODO
+		*/
 		public function html( xml:String ):Object
 		{
 			//TODO
