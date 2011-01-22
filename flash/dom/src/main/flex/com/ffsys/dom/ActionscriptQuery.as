@@ -145,6 +145,30 @@ package com.ffsys.dom
 			return this;
 		}
 		
+		/**
+		* 	Iterates over matched elements executing the specified
+		* 	callback function for each matched element.
+		* 
+		* 	@param callback The callback function to invoke for each
+		* 	matched element.
+		*/
+		public function each( callback:Function ):ActionscriptQuery
+		{
+			if( callback != null )
+			{
+				var element:Element = null;
+				for( var i:int = 0;i < length;i++ )
+				{
+					element = this[ i ] as Element;
+					if( element != null )
+					{
+						callback.apply( element, [ i ] );
+					}
+				}
+			}
+			return this;
+		}
+		
 		public function html( xml:String ):Object
 		{
 			//TODO
@@ -445,7 +469,7 @@ package com.ffsys.dom
 			
 			if( Selector.ATTRIBUTE_SELECTOR.test( query ) )
 			{
-				trace("ActionscriptQuery::doFindElement()", "[GOT ATTR SELECTOR]", query );
+				//trace("ActionscriptQuery::doFindElement()", "[GOT ATTR SELECTOR]", query );
 				handleAttributeFilter( query, context );
 				return;
 			}

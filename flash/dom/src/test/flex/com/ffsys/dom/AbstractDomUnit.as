@@ -190,12 +190,40 @@ package com.ffsys.dom
 			//trace("SimpleDOMTest::domTest()", getTestDocument() );
 
 			//trace("SimpleDOMTest::domTest()", document.head.meta[ 0 ].httpEquiv );
+			
+			assertEachIterator();
 
 			assertAttributeFilters();
 			
 			//trace( document.xml.toXMLString() );
 			
 			trace("[TEST COMPLETE] Completed DOM test in ", (  (new Date().getTime() - _time ) / 1000 )  + " seconds" );
+		}
+		
+		
+		protected function assertEachIterator():void
+		{
+			var expected:uint = $( "p" ).length;
+			var iterated:uint = 0;
+			var elements:Array = new Array();
+			var indices:Array = new Array();
+			$( "p" ).each(
+				function( index:int ):void
+				{
+					elements.push( this );
+					indices.push( index );
+					iterated++;
+				} );			
+			Assert.assertEquals( expected, iterated );
+			Assert.assertEquals( expected, elements.length );
+			Assert.assertEquals( expected, indices.length );
+			
+			//verify matched element type
+			var element:Element = null;
+			for each( element in elements )
+			{
+				Assert.assertTrue( element is ParagraphElement );
+			}
 		}
 		
 		protected function assertAttributeFilters():void
