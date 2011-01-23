@@ -36,8 +36,6 @@ package com.ffsys.dom
 		*/
 		override public function get title():String
 		{
-			trace("Document::get title()", this.head, this.head.title is NodeList );
-			
 			if( this.head != null )
 			{
 				var titles:NodeList = this.head.getElementsByTagName(

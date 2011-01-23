@@ -399,6 +399,27 @@ package com.ffsys.dom
 					throw new Error( "The element '" + current + "' must be empty, contains '"
 					 	+ Node( current ).childNodes + "'." );
 				}
+				
+				/*
+				trace("DomSaxParser::endElement()", "[END]",
+					current, current is TextElement,
+					Element( current ).textNodes.length,
+					Node( current ).childNodes.length );
+				*/
+				
+				if( current is TextElement )
+				{
+					var node:Node = null;
+					for each( node in Node( current ).childNodes )
+					{
+						if( !( node is Text ) )
+						{
+							throw new Error(
+								"Found invalid content '"
+									+ node + "' for text-only element '" + current + "'." );
+						}
+					}
+				}
 			}
 			
 			super.endElement( token );			 			

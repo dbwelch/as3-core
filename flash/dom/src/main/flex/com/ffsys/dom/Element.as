@@ -439,7 +439,8 @@ package com.ffsys.dom
 					output.push( Text( child ) );
 				}else if( child is Element )
 				{
-					output = output.concat( Element( child ).text );
+					output = output.concat(
+						Element( child ).textNodes );
 				}
 			}
 			return output;
