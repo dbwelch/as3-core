@@ -34,10 +34,12 @@ package com.ffsys.dom
 		
 		private var _id:String;
 		private var _beanName:String;
-		private var _href:String;
 		private var _document:IBeanDocument;
 		private var _parser:Object;
 		private var _class:Class;
+		
+		//TODO: move to correct sub-classes
+		private var _href:String;		
 		private var _title:String;
 		
 		/**
@@ -74,6 +76,8 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		public function get title():String
 		{
 			return _title;
@@ -83,6 +87,7 @@ package com.ffsys.dom
 		{
 			_title = value;
 		}
+		*/
 		
 		/**
 		* 	The source object containing enumerable style properties.

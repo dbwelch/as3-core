@@ -371,7 +371,7 @@ package com.ffsys.dom
 			finalizeTextBlock( token );	
 			
 			//TODO: 
-			var name:String = null;
+			//var name:String = null;
 			var ancestor:Object = this.parent;
 			
 			//trace("[DOM END] DomSaxParser::endElement()", root, current, token, this.token, ancestor, depth, current is Node, ancestor is Node );
@@ -382,17 +382,17 @@ package com.ffsys.dom
 			{
 				//trace("DomSaxParser::endElement()", "[ADDING NODE TO PARENT]" );
 				
+				Node( current ).setQualifiedName( token.xml.name() );
+				
 				//ensure the initial DOM hierarchy is correct
 				Node( ancestor ).appendChild(
 					Node( current ) );
-					
-				Node( current ).setQualifiedName( token.xml.name() );
 				
 				//TODO: property name conversion hyphens to camel case
-				name = token.name;
+				//name = token.name;
 					
 				//also assign a reference by property name
-				ancestor[ name ] = current;
+				//ancestor[ name ] = current;
 			}
 			
 			super.endElement( token );			 			

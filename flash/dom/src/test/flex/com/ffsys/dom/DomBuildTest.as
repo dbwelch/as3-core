@@ -36,14 +36,53 @@ package com.ffsys.dom
 			document = impl.createDocument(
 				"http://www.w3.org/1999/xhtml", DomIdentifiers.DOCUMENT, doctype );
 				
+			//manually bind the DOM for $ access
+			Assert.assertTrue( ActionscriptQuery.bind( document ) );
+				
 			//add a custom namespace
 			document.namespaceDeclarations.push( 
 				new Namespace( "xml", "http://www.w3.org/XML/1998/namespace" ) );
 				
+			//default xmlns and xmlns:xml are at the document level
+			Assert.assertEquals( 2, document.namespaceDeclarations.length );
+				
 			//add a qualified attribute
-			document.setAttributeNS( "http://www.w3.org/XML/1998/namespace", "lang", "en" );
+			document.setAttributeNS(
+				"http://www.w3.org/XML/1998/namespace",
+				"lang",
+				"en" );
+				
+			//add a plain attribute
+			document.setAttribute(
+				"lang",
+				"en" );
+				
+			//add an id attribute
+			document.setAttribute(
+				"id",
+				"document" );
+				
+			//should only have the custom attributes registered
+			//not any xmlns attributes
+			Assert.assertEquals( 3, document.attributes.length );
+				
+			//create and add a head element
+			var head:Element = document.createElement( DomIdentifiers.HEAD );
+			document.appendChild( head );
+			Assert.assertEquals( 1, document.childNodes.length );
 			
-			trace("DomBuildTest::domBuildTest()", document.xml.toXMLString() );
+			Assert.assertNotNull( document.head );
+			
+			//create and add the title
+			var title:Element = document.createElement(
+				DomIdentifiers.TITLE );
+			title.text( "This is a page title" );
+			head.appendChild( title );
+			
+			trace("DomBuildTest::domBuildTest()", document.title, document.xml.toXMLString() );
+			
+			//unbind the DOM for $ access
+			Assert.assertTrue( ActionscriptQuery.unbind( document ) );
 		}
 	}
 }

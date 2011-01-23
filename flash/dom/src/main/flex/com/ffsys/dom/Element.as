@@ -72,7 +72,8 @@ package com.ffsys.dom
 		* 
 		* 	@param ns The target namespace.
 		* 
-		* 	@return The prefix for the namespace.
+		* 	@return The prefix for the namespace or <code>null</code>
+		* 	if no matching namespace was found.
 		*/
 		public function getPrefixByNamespace( ns:Namespace ):String
 		{
@@ -123,6 +124,80 @@ package com.ffsys.dom
 					}
 				}
 			}
+		}
+		
+		/**
+		* 	Sets or retrieves the text of this element.
+		* 
+		* 	@param value A value to assign to the text
+		* 	of this element.
+		* 
+		* 	@return This element when assigning text contents
+		* 	or the cumulative text contents when retrieving
+		* 	text values.
+		*/
+		public function text( value:String = null ):Object
+		{
+			if( ownerDocument == null
+				|| ownerDocument.implementation == null )
+			{
+				throw new Error(
+					"Cannot assign text content with no available DOM implementation." );
+			}
+			
+			//trace("Element::text()", "[TEXT]", this, childNodes, value );
+			
+			//set a text value
+			if( value != null )
+			{
+				//clear any existing child elements
+				clear();
+				
+				//add the text
+				appendChild(
+					ownerDocument.createTextNode( value ) );
+					
+			//retrieve a cumulative value of all descendant text nodes
+			}else{
+				var txt:String = "";
+				var elements:Vector.<Text> = this.textNodes;
+				var child:Text = null;
+				
+				//trace("Element::text()", "[RETRIEVING CUMULATIVE TEXT]", elements );
+				
+				for( var i:int = 0;i < elements.length;i++ )
+				{
+					child = elements[ i ];
+					txt += child.data;
+				}
+				return txt;
+			}
+			return this;
+		}
+		
+		/**
+		* 	Retrieves all descendant nodes that are
+		* 	text.
+		*/
+		public function get textNodes():Vector.<Text>
+		{
+			var output:Vector.<Text> = new Vector.<Text>();
+			var child:Node = null;
+			for( var i:int = 0;i < childNodes.length;i++ )
+			{
+				child = childNodes[ i ];
+				
+				//trace("Element::get textNodes()", child, child is Text );
+				
+				if( child is Text )
+				{
+					output.push( Text( child ) );
+				}else if( child is Element )
+				{
+					output = output.concat( Element( child ).text );
+				}
+			}
+			return output;
 		}
 		
 		/**
@@ -188,12 +263,12 @@ package com.ffsys.dom
 			}
 			
 			//clear any existing child nodes before
-			//replacing markup
+			//assigning the markup
 			clear();
 			
-			ownerDocument.implementation.parse( tmp, null, this );
-			
-			//trace("Element::html()", tmp.toXMLString(), this.xml.toXMLString() );
+			//parse the markup into this element
+			ownerDocument.implementation.parse(
+				tmp, null, this );
 			
 			return this;
 		}
@@ -204,6 +279,7 @@ package com.ffsys.dom
 		override internal function added():void
 		{
 			super.added();
+			
 			//TODO: compute css tag level inheritance
 			trace("Element::added()", this.styleManager, this, parentNode );
 		}
@@ -421,19 +497,6 @@ package com.ffsys.dom
 			}
 			return elements;
 		}
-		
-		//TODO: implement as child nodes are added and removed
-		/*
-		private var _elements:Vector.<Element>;		
-		override public function get elements():Vector.<Element>
-		{
-			if( _elements == null )
-			{
-				_elements = new Vector.<Element>();
-			}
-			return _elements;
-		}
-		*/
 		
 		/**
 		* 	TODO

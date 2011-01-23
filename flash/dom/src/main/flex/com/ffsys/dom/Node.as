@@ -312,6 +312,12 @@ package com.ffsys.dom
 				
 				this.xml.appendChild( child.xml );
 				
+				//TODO: property name camel case conversion
+				var name:String = child.tagName;
+					
+				//also assign a reference by property name
+				this[ name ] = child;
+				
 				child.added();
 				
 				//trace("[AFTER APPEND XML] Node::appendChild()", this.xml.children().length(), child.xml.parent() is XML, this.xml.toXMLString() );

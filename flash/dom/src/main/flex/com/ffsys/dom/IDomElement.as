@@ -14,8 +14,7 @@ package com.ffsys.dom
 	*	@since  09.01.2011
 	*/
 	public interface IDomElement
-		extends IDomXmlAware,
-				IBeanDocumentAware,
+		extends IBeanDocumentAware,
 				IBean,
 				IStringIdentifier,
 				IDestroy
@@ -29,7 +28,7 @@ package com.ffsys.dom
 		/**
 		* 	The title for the element.
 		*/
-		function get title():String;
-		function set title( value:String ):void;
+		//function get title():String;
+		//function set title( value:String ):void;
 	}
 }

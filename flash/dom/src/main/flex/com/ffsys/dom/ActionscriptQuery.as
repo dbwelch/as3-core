@@ -29,7 +29,7 @@ package com.ffsys.dom
 		/**
 		* 	A list of all registered DOM implementations.
 		*/
-		public static var doms:Vector.<Document> = new Vector.<Document>();
+		private static var __doms__:Vector.<Document> = null;
 		
 		private var _doms:Vector.<Document>;
 		private var _query:String;
@@ -50,6 +50,53 @@ package com.ffsys.dom
 			{
 				handle( query );
 			}
+		}
+		
+		/**
+		* 	The DOM documents registered for query access.
+		*/
+		public static function get doms():Vector.<Document>
+		{
+			if( __doms__ == null )
+			{
+				__doms__ = new Vector.<Document>();
+			}
+			return __doms__;
+		}
+		
+		/**
+		* 	Binds a DOM document for query access.
+		* 
+		* 	@param document The document to bind.
+		* 
+		* 	@return Whether the document was bound.
+		*/
+		public static function bind( document:Document ):Boolean
+		{
+			if( document != null )
+			{
+				ActionscriptQuery.doms.push( document );
+				return true;
+			}
+			return false;
+		}
+		
+		/**
+		* 	Unbinds a DOM document for query access.
+		* 
+		* 	@param document The document to unbind.
+		* 
+		* 	@return Whether the document was unbound.
+		*/
+		public static function unbind( document:Document ):Boolean
+		{
+			var index:int = ActionscriptQuery.doms.indexOf( document );
+			if( document != null && index > -1 )
+			{
+				ActionscriptQuery.doms.splice( index, 1 );
+				return true;
+			}
+			return false;
 		}
 		
 		/**

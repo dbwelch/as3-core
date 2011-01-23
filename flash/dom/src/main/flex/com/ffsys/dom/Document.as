@@ -32,6 +32,35 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	The document title.
+		*/
+		public function get title():String
+		{
+			if( this.head != null && this.head.title is NodeList )
+			{
+				//trace("Document::get title()", this.head.title[ 0 ].text );
+				return this.head.title[ 0 ].text();
+			}
+			return null;
+		}
+		
+		public function set title( value:String ):void
+		{
+			if( this.head == null )
+			{
+				var head:Element = createElement( DomIdentifiers.HEAD );
+				var title:Element = createElement( DomIdentifiers.TITLE );
+				title.appendChild( createTextNode( value ) );
+				head.appendChild( title );
+				appendChild( head );
+			}else if( this.head != null && this.head.title is NodeList )
+			{
+				trace("Document::set title()", value );
+				this.head.title[ 0 ].text( value );
+			}
+		}
+		
+		/**
 		* 	Ensures that the elements for a document
 		* 	are created from a fresh list.
 		*/
