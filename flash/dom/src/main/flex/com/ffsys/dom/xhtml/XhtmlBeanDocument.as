@@ -91,6 +91,21 @@ package com.ffsys.dom.xhtml
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				DomIdentifiers.IMG );
+			descriptor.instanceClass = ImageElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.BR );
+			descriptor.instanceClass = LineBreakElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.HR );
+			descriptor.instanceClass = HorizontalRuleElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				DomIdentifiers.STRONG );
 			descriptor.instanceClass = StrongElement;
 			beans.addBeanDescriptor( descriptor );								

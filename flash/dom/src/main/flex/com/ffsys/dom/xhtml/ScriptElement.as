@@ -12,6 +12,7 @@ package com.ffsys.dom.xhtml
 	*	@since  23.01.2011
 	*/
 	public class ScriptElement extends Element
+		implements TextElement
 	{
 		private var _src:String;
 		private var _type:String;

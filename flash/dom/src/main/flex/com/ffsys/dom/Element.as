@@ -44,6 +44,7 @@ package com.ffsys.dom
 		
 		private var _namespaceDeclarations:Array;		
 		
+		private var _title:String;
 		private var _classNames:String;
 		private var _styleNameCache:Vector.<String> = null;
 		private var _styleManager:IStyleManager;
@@ -60,6 +61,19 @@ package com.ffsys.dom
 		{
 			_nodeType = Node.ELEMENT_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	A title for the element.
+		*/
+		public function get title():String
+		{
+			return _title;
+		}
+		
+		public function set title( value:String ):void
+		{
+			_title = value;
 		}
 		
 		/**
@@ -1008,13 +1022,21 @@ package com.ffsys.dom
 		*/
 		public function getElementsByTagName( tagName:String ):NodeList
 		{
-			var list:NodeList = getChildrenByTagName( tagName );
+			var list:NodeList = new NodeList();
 			//append child element matches
 			var elems:Vector.<Element> = this.elements;
 			var child:Element = null;
 			for each( child in elems )
 			{
-				list.concat( child.getChildrenByTagName( tagName ) );
+				if( child != null )
+				{
+					if( child.tagName == tagName )
+					{
+						list.concat( child );
+					}
+					list.concat(
+						child.getChildrenByTagName( tagName ) );
+				}
 			}
 			return list;
 		}
@@ -1028,7 +1050,7 @@ package com.ffsys.dom
 		*/
 		public function getChildrenByTagName( tagName:String ):NodeList
 		{
-			if( this[ tagName ] == null )
+			if( !( this[ tagName ] is NodeList ) )
 			{
 				return new NodeList();
 			}

@@ -12,6 +12,7 @@ package com.ffsys.dom.xhtml
 	*	@since  14.01.2011
 	*/
 	public class MetaElement extends Element
+		implements EmptyElement
 	{
 		/**
 		* 	Creates a <code>MetaElement</code> instance.

@@ -34,16 +34,21 @@ package com.ffsys.dom
 		/**
 		* 	The document title.
 		*/
-		public function get title():String
+		override public function get title():String
 		{
-			if( this.head != null && this.head.title is NodeList )
+			trace("Document::get title()", this.head, this.head.title is NodeList );
+			
+			if( this.head != null )
 			{
-				return this.head.title[ 0 ].text();
+				var titles:NodeList = this.head.getElementsByTagName(
+					DomIdentifiers.TITLE );				
+				var element:Element = titles[ 0 ] as Element;
+				return element != null ? element.text() as String : super.title;
 			}
-			return null;
+			return super.title;
 		}
 		
-		public function set title( value:String ):void
+		override public function set title( value:String ):void
 		{
 			if( this.head == null )
 			{
@@ -52,10 +57,17 @@ package com.ffsys.dom
 				title.appendChild( createTextNode( value ) );
 				head.appendChild( title );
 				appendChild( head );
-			}else if( this.head != null && this.head.title is NodeList )
+			}else if( this.head != null )
 			{
-				this.head.title[ 0 ].text( value );
+				var titles:NodeList = this.head.getElementsByTagName(
+					DomIdentifiers.TITLE );				
+				var element:Element = titles[ 0 ] as Element;
+				if( element != null )
+				{
+					element.text( value );
+				}
 			}
+			super.title = value;
 		}
 		
 		/**

@@ -12,6 +12,7 @@ package com.ffsys.dom.xhtml
 	*	@since  23.01.2011
 	*/
 	public class BaseElement extends Element
+		implements EmptyElement
 	{
 		private var _href:String;
 		private var _target:String;

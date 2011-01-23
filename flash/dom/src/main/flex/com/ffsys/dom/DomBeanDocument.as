@@ -124,6 +124,16 @@ package com.ffsys.dom
 			descriptor.instanceClass = ScriptElement;
 			beans.addBeanDescriptor( descriptor );
 			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.PARAM );
+			descriptor.instanceClass = ParamElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.STYLE );
+			descriptor.instanceClass = StyleElement;
+			beans.addBeanDescriptor( descriptor );
+			
 			//COMMON VISUAL ELEMENTS
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.BODY );

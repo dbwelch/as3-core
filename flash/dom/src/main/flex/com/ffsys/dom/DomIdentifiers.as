@@ -328,6 +328,11 @@ package com.ffsys.dom
 		public static const HR:String = "hr";
 		
 		/**
+		* 	Represents the br element.
+		*/
+		public static const BR:String = "br";
+		
+		/**
 		* 	Represents the hr element.
 		*/
 		public static const PRE:String = "pre";
@@ -353,6 +358,11 @@ package com.ffsys.dom
 		* 	Represents the anchor element.
 		*/
 		public static const ANCHOR:String = "a";
+		
+		/**
+		* 	Represents an image element.
+		*/
+		public static const IMG:String = "img";
 		
 		/**
 		* 	Represents the em element.

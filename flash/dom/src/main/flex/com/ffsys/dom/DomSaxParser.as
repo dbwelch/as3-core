@@ -387,12 +387,18 @@ package com.ffsys.dom
 				//ensure the initial DOM hierarchy is correct
 				Node( ancestor ).appendChild(
 					Node( current ) );
-				
-				//TODO: property name conversion hyphens to camel case
-				//name = token.name;
 					
-				//also assign a reference by property name
-				//ancestor[ name ] = current;
+				/*
+				trace("DomSaxParser::endElement()", "[END]",
+					current, current is EmptyElement, Node( current ).childNodes.length );
+				*/
+					
+				if( current is EmptyElement
+					&& current.childNodes.length > 0 )
+				{
+					throw new Error( "The element '" + current + "' must be empty, contains '"
+					 	+ Node( current ).childNodes + "'." );
+				}
 			}
 			
 			super.endElement( token );			 			

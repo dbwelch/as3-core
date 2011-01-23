@@ -3,24 +3,24 @@ package com.ffsys.dom.xhtml
 	import com.ffsys.dom.*;
 	
 	/**
-	*	Represents the title of a document, the <code>title</code> element.
+	*	Represents a line break, the <code>br</code> element.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
 	*
 	*	@author Mischa Williamson
-	*	@since  14.01.2011
+	*	@since  23.01.2011
 	*/
-	public class TitleElement extends Element
-		implements TextElement
+	dynamic public class LineBreakElement extends InlineElement
+		implements EmptyElement
 	{
 		/**
-		* 	Creates a <code>TitleElement</code> instance.
+		* 	Creates a <code>LineBreakElement</code> instance.
 		* 
 		* 	@param xml An <code>XML</code> fragment that
 		* 	defines the element.
 		*/
-		public function TitleElement( xml:XML = null )
+		public function LineBreakElement( xml:XML = null )
 		{
 			super( xml );
 		}

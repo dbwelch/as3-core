@@ -13,6 +13,18 @@ package com.ffsys.dom.xhtml
 	*/
 	dynamic public class AnchorElement extends InlineElement
 	{
+		private var _href:String;
+		private var _charset:String;
+		private var _rev:String;
+		private var _rel:String;
+		private var _type:String;
+		private var _accesskey:String;
+		private var _hreflang:String;
+		private var _target:String;
+		private var _tabindex:String;
+		
+		//Other: onfocus type accesskey onblur hreflang target tabindex
+		
 		/**
 		* 	Creates a <code>AnchorElement</code> instance.
 		* 
@@ -22,6 +34,16 @@ package com.ffsys.dom.xhtml
 		public function AnchorElement( xml:XML = null )
 		{
 			super( xml );
+		}
+		
+		public function get href():String
+		{
+			return _href;
+		}
+		
+		public function set href( value:String ):void
+		{
+			_href = value;
 		}
 	}
 }
