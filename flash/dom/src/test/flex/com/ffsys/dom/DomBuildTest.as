@@ -79,6 +79,14 @@ package com.ffsys.dom
 			title.text( "This is a page title" );
 			head.appendChild( title );
 			
+			Assert.assertEquals( "This is a page title", title.text() );
+			Assert.assertEquals( "This is a page title", document.title );
+			
+			//verify changing the page title
+			document.title = "This is a new page title";
+			Assert.assertEquals( "This is a new page title", title.text() );
+			Assert.assertEquals( "This is a new page title", document.title );
+			
 			trace("DomBuildTest::domBuildTest()", document.title, document.xml.toXMLString() );
 			
 			//unbind the DOM for $ access

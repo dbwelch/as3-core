@@ -281,7 +281,8 @@ package com.ffsys.dom
 			super.added();
 			
 			//TODO: compute css tag level inheritance
-			trace("Element::added()", this.styleManager, this, parentNode );
+			
+			//trace("Element::added()", this.styleManager, this, parentNode );
 		}
 		
 		/**
