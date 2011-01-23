@@ -98,7 +98,7 @@ package com.ffsys.ui.css {
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				BeanNames.BEAN_ELEMENT_PARSER );
 			descriptor.instanceClass = CssTextElementParser;
-			addBeanDescriptor( descriptor );
+			addBeanDescriptor( descriptor );		
 		}
 		
 		/**

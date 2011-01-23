@@ -36,14 +36,15 @@ package com.ffsys.ioc
 				{
 					this.document = new BeanDocument();
 				}
-			
+				
+				//TODO: refactor to a custom parser so that order can be maintained
 				_beanSheet = new StyleSheet();
 				_beanSheet.parseCSS( text );
 				
 				var parser:IBeanPropertyParser =
 					IBeanPropertyParser(
 						this.document.getBean( BeanNames.BEAN_ELEMENT_PARSER ) );
-			
+						
 				var bean:Object = null;
 				var names:Array = _beanSheet.styleNames;
 				names.sort();

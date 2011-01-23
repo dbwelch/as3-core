@@ -31,6 +31,11 @@ package com.ffsys.dom
 		
 		public function set style( value:String ):void
 		{
+			//invalidate the inline style cache
+			if( value != _style )
+			{
+				_inlineStyleCache = null;
+			}
 			_style = value;
 		}
 	}

@@ -104,9 +104,14 @@ package com.ffsys.dom
 			Assert.assertEquals( "http://www.w3.org/1999/xhtml", document.head.xmlns );
 			Assert.assertEquals( "en", document.head.lang );
 			
+			//verify explicity set xmlns/xsi/lang
 			document.head.xmlns = "http://freeformsystems.com/fluid/ui";
 			document.head.xsi = "http://freeformsystems.com/fluid/ui/schema";
+			document.head.lang = "fr";
 			
+			Assert.assertEquals( "http://freeformsystems.com/fluid/ui", document.head.xmlns );
+			Assert.assertEquals( "http://freeformsystems.com/fluid/ui/schema", document.head.xsi );
+			Assert.assertEquals( "fr", document.head.lang );
 			
 			trace("DomBuildTest::domBuildTest()", document.head.xmlns, document.head.xsi );
 			

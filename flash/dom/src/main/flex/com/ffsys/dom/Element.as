@@ -1,5 +1,6 @@
 package com.ffsys.dom
 {
+	import com.ffsys.ui.css.CssStyle;
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.IStyleManagerAware;
@@ -36,11 +37,15 @@ package com.ffsys.dom
 		*/
 		public static const INLINE_STYLE_SHEET_NAME:String = "inline-style";
 		
+		/**
+		* 	@private
+		*/
+		protected var _inlineStyleCache:ICssStyleSheet = null;		
+		
 		private var _namespaceDeclarations:Array;		
 		
 		private var _classNames:String;
 		private var _styleNameCache:Vector.<String> = null;
-		private var _inlineStyleCache:ICssStyleSheet = null;
 		private var _styleManager:IStyleManager;
 		
 		/**
@@ -204,8 +209,9 @@ package com.ffsys.dom
 			//TODO: constants			
 			var ns:String = "xml";
 			var nm:String = "lang";
+			var uri:String = getUriByPrefix( ns );				
 			
-			var attr:Attr = getAttributeNodeNS( ns, nm );
+			var attr:Attr = getAttributeNodeNS( uri, nm );
 			
 			//check for non-qualified lang attribute
 			if( attr == null )
@@ -270,8 +276,9 @@ package com.ffsys.dom
 			//TODO: constants
 			var ns:String = "xml";
 			var nm:String = "xsi";
+			var uri:String = getUriByPrefix( ns );			
 			
-			var attr:Attr = getAttributeNodeNS( ns, nm );
+			var attr:Attr = getAttributeNodeNS( uri, nm );
 
 			//attempt to retrieve a default xsi
 			//at the document level
@@ -316,7 +323,7 @@ package com.ffsys.dom
 			if( attr != null )
 			{
 				setAttributeNode( attr );
-			}			
+			}
 		}
 		
 		/**
@@ -507,8 +514,7 @@ package com.ffsys.dom
 			//TODO: compute css tag level inheritance
 			
 			var names:Vector.<String> = getClassLevelStyleNames();
-			
-			var inline:Object = getInlineStyleObject();
+			var inline:CssStyle = getInlineStyle();
 			
 			trace("Element::added()", this, names, inline );
 		}
@@ -564,34 +570,41 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	Retrieves a stylesheet containing inline styles
-		* 	declared on this element.
+		* 	Retrieves a style object representing inline styles
+		* 	declared on this element using a <code>style</code> attribute.
+		* 
+		* 	@return An object containing inline style
+		* 	properties.
 		*/
-		public function getInlineStyleObject():ICssStyleSheet
+		public function getInlineStyle():CssStyle
 		{
+			var style:CssStyle = null;
+			
+			//check for a style string property
 			var inline:String = this.style as String;
-						
-			if( _inlineStyleCache == null && inline != null )
+				
+			//create the style cache first time around		
+			if( _inlineStyleCache == null
+				&& inline != null )
 			{
 				_inlineStyleCache = StyleSheetFactory.create();
 			}
 			
 			if( _inlineStyleCache != null && inline != null )
 			{
-				//remove any existing inline styles
-				_inlineStyleCache.clear();
-				
-
-				//TODO: parse the inline styles
-				
+				_inlineStyleCache.id = INLINE_STYLE_SHEET_NAME;
+								
+				//remove any existing inline style object
+				_inlineStyleCache.removeBeanDescriptor(
+					_inlineStyleCache.getBeanDescriptor( INLINE_STYLE_SHEET_NAME ) );
+				//wrap the inline styles in a valid style declaration
 				var css:String = INLINE_STYLE_SHEET_NAME + " {\n" + inline + "\n}";
-				
-				trace("[GET INLINE STYLE] Element::getInlineStyleObject()", inline, _inlineStyleCache, css );
-				
-				//-->
-				//_inlineStyleCache.parse( css );
+				_inlineStyleCache.parse( css );
+				style = CssStyle( _inlineStyleCache.getStyle(
+					INLINE_STYLE_SHEET_NAME ) );
 			}
-			return _inlineStyleCache;
+			
+			return style;
 		}
 		
 		/**
@@ -819,23 +832,22 @@ package com.ffsys.dom
 		/**
 		* 	Retrieves an attribute node by name.
 		* 
-		* 	@param name The name of the attribute node.
+		* 	@param localName The local name of the attribute.
 		* 
 		* 	@return The attribute node if it exists otherwise <code>null</code>.
 		*/
-		public function getAttributeNode( name:String ):Attr
+		public function getAttributeNode( localName:String ):Attr
 		{
 			var attr:Node = null;
 			for each( attr in attributes )
 			{
-				if( attr != null
-					&& attr is Attr
-				 	&& Attr( attr ).name == name )
+				if( attr is Attr
+				 	&& Attr( attr ).localName == localName )
 				{
-					break;
+					return attr as Attr;
 				}
 			}
-			return attr as Attr;
+			return null;
 		}
 		
 		/**
@@ -899,14 +911,12 @@ package com.ffsys.dom
 			return output;
 		}
 		
-		
 		public function getAttributeNodeNS(
 			namespaceURI:String, localName:String ):Attr
 		{
 			var attr:Attr = getAttributeNode( localName );
 			return ( attr != null && attr.uri == namespaceURI ) ? attr : null;
 		}
-		
 		
 		public function setAttributeNodeNS( attr:Attr ):Attr
 		{
@@ -1168,7 +1178,8 @@ package com.ffsys.dom
 			var name:String = attr.name;
 			var value:String = attr.value;
 			
-			if( hasOwnProperty( name ) )
+			if( hasOwnProperty( name )
+				&& this[ name ] != value )
 			{
 				doWithProperty( name, value );
 			}else{

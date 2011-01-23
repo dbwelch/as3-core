@@ -38,7 +38,6 @@ package com.ffsys.dom
 		{
 			if( this.head != null && this.head.title is NodeList )
 			{
-				//trace("Document::get title()", this.head.title[ 0 ].text );
 				return this.head.title[ 0 ].text();
 			}
 			return null;
@@ -55,7 +54,6 @@ package com.ffsys.dom
 				appendChild( head );
 			}else if( this.head != null && this.head.title is NodeList )
 			{
-				trace("Document::set title()", value );
 				this.head.title[ 0 ].text( value );
 			}
 		}
