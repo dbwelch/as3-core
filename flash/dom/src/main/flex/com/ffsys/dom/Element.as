@@ -38,10 +38,58 @@ package com.ffsys.dom
 		* 
 		* 	@param markup The inner markup for this element.
 		*/
-		public function html( markup:XML ):void
+		public function html( markup:Object ):Element
 		{
-			//TODO: wrap xml lists in the tagName for this element
-			trace("Element::html()", markup );
+			if( ownerDocument == null
+				|| ownerDocument.implementation == null )
+			{
+				throw new Error(
+					"Cannot assign inner markup with no available DOM implementation." );
+			}
+			
+			var tmp:XML = new XML( "<" + tagName + " />" );
+			
+			//convert string values to XMLList
+			if( markup is String )
+			{
+				markup = new XMLList( markup );
+			}
+			
+			if( !( markup is XML || markup is XMLList ) )
+			{
+				throw new Error( "Inner markup must be XML or an XMLList." );
+			}
+			
+			//TODO: test wrapping xml lists in the tagName for this element
+			if( markup is XML )
+			{
+				var mx:XML = markup as XML;
+				if( mx.name() && mx.name().localName == tagName )
+				{
+					//matching root tag name use the entire xml block
+					tmp = mx;
+				}else
+				{
+					tmp.appendChild( mx );
+				}
+			}else if( markup is XMLList )
+			{
+				var node:XML = null;
+				for each( node in XMLList( markup ) )
+				{
+					tmp.appendChild( node );
+				}
+			}
+			
+			//clear any existing child nodes before
+			//replacing inner markup
+			clear();
+			
+			ownerDocument.implementation.parse( tmp, null, this );
+			
+			trace("Element::html()", tmp.toXMLString(), this.xml.toXMLString() );
+			
+			return this;
 		}
 		
 		/**

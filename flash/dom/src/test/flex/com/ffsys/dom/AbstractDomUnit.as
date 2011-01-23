@@ -167,7 +167,7 @@ package com.ffsys.dom
 			assertAttributeFilters();
 			assertHtml();
 			
-			//trace( document.xml.toXMLString() );
+			trace( document.xml.toXMLString() );
 			
 			trace("[TEST COMPLETE] Completed DOM test in ", ( ( new Date().getTime() - _time ) / 1000 )  + " seconds" );
 		}

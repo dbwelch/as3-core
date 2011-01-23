@@ -134,6 +134,7 @@ package com.ffsys.dom
 				return null;
 			}
 			
+			//TODO: cache the document type for partials parsed into an existing DOM
 			if( doctype == null )
 			{
 				doctype = getDefaultDocumentType();

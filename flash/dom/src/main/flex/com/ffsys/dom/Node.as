@@ -198,6 +198,19 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Removes all child nodes from this node.
+		*/
+		public function clear():void
+		{
+			var children:Vector.<Node> = childNodes.children.slice();
+			for( var i:int = 0;i < children.length;i++ )
+			{
+				//trace("Node::clear()", i, length );
+				removeChild( children[ i ] );
+			}
+		}
+		
+		/**
 		* 	Determines whether this node has any child nodes.
 		*/
 		public function hasChildNodes():Boolean
@@ -295,13 +308,66 @@ package com.ffsys.dom
 					_ownerDocument.registerElement( Element( child ) );
 				}
 				
+				//trace("[APPEND XML] Node::appendChild()", this, child, this.xml.children().length(), child.xml.toXMLString() );
+				
 				this.xml.appendChild( child.xml );
+				
+				//trace("[AFTER APPEND XML] Node::appendChild()", this.xml.children().length(), child.xml.parent() is XML, this.xml.toXMLString() );
 				
 				/*
 				trace("[ NODE -- APPENDING NODE ] Node::appendChild() this/child/length/children length: ",
-					_ownerDocument, child is Element, this, child );
+					this, child, child.xml.toXMLString(), child.xml.parent() );
+			
 				*/
 				
+			}
+			return child;
+		}
+		
+		public function removeChild( child:Node ):Node
+		{
+			if( child != null )
+			{
+				var removed:Boolean = childNodes.remove( child );
+				
+				//trace("Node::removeChild() [REMOVED]: ", removed );
+				
+				//no parent as the node is now detached from the DOM
+				child.setParentNode( null );
+				
+				//trace("Node::removeChild()", this, child );
+				
+				var index:int = child.xml.childIndex();
+				
+				if( child.xml != null )
+				{
+					/*
+					trace("Node::removeChild() child index: ",
+						child.xml.childIndex(), this.xml.children()[ child.xml.childIndex() ].toXMLString() );					
+					*/
+					
+					if( this.xml && index > -1 )
+					{
+						//trace("Node::removeChild()", "[DELETING XML]", this.xml.children().length(), child.xml.toXMLString() );
+						
+						delete this.xml.children()[ index ];
+					
+						//trace("Node::removeChild() [AFTER]", this.xml.children().length() ); 
+					}else{
+						child.xml = null;
+						var x:XML = null;
+						for( var i:int = 0;i < this.xml.children().length();i++ )
+						{
+							x = this.xml.children()[ i ];
+							if( x.toString() == child.xml.toString() )
+							{
+								//trace("Node::removeChild()", "[FOUND FUCKING MATCHING TEXT NODE ENTRY]", x.toString() );
+								
+								delete this.xml.children()[ i ];
+							}
+						}
+					}
+				}
 			}
 			return child;
 		}

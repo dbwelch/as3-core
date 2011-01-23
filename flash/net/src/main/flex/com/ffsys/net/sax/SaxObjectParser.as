@@ -55,11 +55,14 @@ package com.ffsys.net.sax
 			//trace("[PARENT] SaxObjectParser::get parent()", xml == node, current == root );			
 			
 			//root node
+			
+			/*
 			if( xml == node || current == root )
 			{
 				return null;
 			}
-
+			*/
+			
 			if( token != null )
 			{
 				//trace("[GET PARENT LOOKUP] SaxObjectParser::get parent()", token, token.parent);
@@ -154,6 +157,15 @@ package com.ffsys.net.sax
 				if( instance != null)
 				{
 					setCurrent( token, instance );
+				}
+			}else
+			{
+				//not creating an element and we have a root object
+				//but no current object, point the current to the root
+				if( root
+					&& _current == null )
+				{
+					setCurrent( token, root );
 				}
 			}
 			

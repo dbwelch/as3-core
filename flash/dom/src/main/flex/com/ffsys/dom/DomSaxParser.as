@@ -33,6 +33,7 @@ package com.ffsys.dom
 		private var _namespaceURI:String;
 		private var _qualifiedName:String;
 		private var _type:DocumentType;
+		private var _existing:Boolean;		 
 		
 		/**
 		* 	Creates a <code>DomSaxParser</code> instance.
@@ -44,6 +45,24 @@ package com.ffsys.dom
 			super();
 			this.implementation = implementation;
 			this.type = type;
+		}
+		
+		/**
+		* 	Starts traversal of the specified document.
+		* 
+		* 	@param x The <code>XML</code> document to traverse.
+		*/
+		override public function parse( x:XML ):void
+		{
+			if( x != null )
+			{
+			
+				//a predefined root object indicates
+				//parsing a partial into an existing element
+	 			_existing = ( ( root as Element ) != null );
+				
+				super.parse( x );
+			}
 		}
 		
 		/**
@@ -161,10 +180,7 @@ package com.ffsys.dom
 		*/
 		override public function beginDocument( token:SaxToken ):void
 		{
-			//var qualifiedName:String = null;
-			//var namespaceURI:String = null;
-			
-			//extract the qualified name and namespace URI
+			//attempt to extract the qualified name and namespace URI
 			//if they have not been specified
 			if( token.xml != null )
 			{
@@ -182,6 +198,11 @@ package com.ffsys.dom
 			}
 			
 			super.beginDocument( token );
+			
+			if( _existing )
+			{
+				_current = root;
+			}
 		}
 		
 		/**
@@ -284,6 +305,7 @@ package com.ffsys.dom
 				for( var i:int = 0;i < token.attributes.length;i++  )
 				{
 					saxattr = token.attributes[ i ];
+					
 					//trace("[SAX ATTR] DomSaxParser::importAttributes()", saxattr.name, saxattr.value, saxattr.uri, saxattr.isQualified() );
 					
 					if( !saxattr.isQualified() )
@@ -302,6 +324,7 @@ package com.ffsys.dom
 							attr.prefix = prefix;
 						}
 					}
+					
 					Element( current ).setAttributeNode( attr );
 					
 					//assign the attribute data to the element
@@ -334,37 +357,10 @@ package com.ffsys.dom
 			
 			super.beginElement( token );
 			
-			//trace("[BEGIN ELEMENT] DomSaxParser::beginElement()", document, root, current );
+			//trace("[BEGIN ELEMENT] DomSaxParser::beginElement()", token, document, root, current );
 			
 			//import the list of attributes into the current element
 			importAttributes( token );
-			
-			//TODO: 
-			//var name:String = null;			
-			//var ancestor:Object = this.parent;			
-			
-			//trace("[DOM BEGIN] DomSaxParser::endElement()", current, current is Node, ancestor, ancestor is Node );						
-			
-			/*
-			
-			if( current is Node
-				&& ancestor != null
-			 	&& ancestor is Node )
-			{
-				//ensure the initial DOM hierarchy is correct
-				Node( ancestor ).appendChild(
-					Node( current ) );
-					
-				Node( current ).setQualifiedName( token.xml.name() );
-				
-				//TODO: property name conversion hyphens to camel case
-				name = token.name;
-					
-				//also assign a reference by property name
-				ancestor[ name ] = current;
-			}			
-			
-			*/
 		}
 		
 		/**
@@ -378,12 +374,14 @@ package com.ffsys.dom
 			var name:String = null;
 			var ancestor:Object = this.parent;
 			
-			trace("[DOM END] DomSaxParser::endElement()", root, current, current is Node, ancestor, ancestor is Node );			
+			//trace("[DOM END] DomSaxParser::endElement()", root, current, token, this.token, ancestor, depth, current is Node, ancestor is Node );
 			
 			if( current is Node
-				&& ancestor != null
-			 	&& ancestor is Node )
+			 	&& ancestor is Node
+			 	&& current != ancestor )
 			{
+				//trace("DomSaxParser::endElement()", "[ADDING NODE TO PARENT]" );
+				
 				//ensure the initial DOM hierarchy is correct
 				Node( ancestor ).appendChild(
 					Node( current ) );
@@ -397,7 +395,7 @@ package com.ffsys.dom
 				ancestor[ name ] = current;
 			}
 			
-			super.endElement( token );						 			
+			super.endElement( token );			 			
 		}
 		
 		/**
@@ -410,6 +408,15 @@ package com.ffsys.dom
 		*/
 		override protected function shouldCreateInstance( token:SaxToken ):Boolean
 		{
+			//prevents creation of an instance when parsing
+			//a partial into an existing element
+			if( _existing
+				&& depth == 0
+				&& ( root as Element ) != null
+				&& Element( root ).tagName == token.name )
+			{
+				return false;
+			}
 			return true;
 		}
 		
@@ -438,7 +445,7 @@ package com.ffsys.dom
 				throw new Error( "Cannot retrieve a DOM element with no element name available." );
 			}				
 			
-			var document:Document = getCreationDocument();	
+			var document:Document = getCreationDocument();
 			
 			var isDocument:Boolean = depth == 0
 				&& name == qualifiedName;
@@ -450,7 +457,6 @@ package com.ffsys.dom
 			//when appropriate
 			if( document == null )
 			{
-				
 				if( isDocument )
 				{
 					//TODO: validate these values: namespaceURI, qualifiedName, type
@@ -570,6 +576,14 @@ package com.ffsys.dom
 			{
 				return dom as Document;
 			}
+			
+			var element:Element = ( root as Element );
+			if( element != null
+				&& element.ownerDocument != null )
+			{
+				return element.ownerDocument;
+			}
+			
 			return this.root as Document;
 		}
 		
