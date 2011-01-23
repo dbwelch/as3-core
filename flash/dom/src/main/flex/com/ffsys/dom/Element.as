@@ -34,11 +34,24 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	Sets the inner markup of this element.
+		* 	Sets the markup of this element.
 		* 
-		* 	@param markup The inner markup for this element.
+		* 	The markup parameter can be <code>XML</code>, <code>XMLList</code>
+		* 	or a <code>String</code>.
+		* 
+		* 	By default markup is treated as inner markup. If you specify
+		* 	the <code>inner</code> parameter as <code>false</code>
+		* 	and the markup root node name matches the tag name
+		* 	for this element then the entire markup block is parsed
+		* 	into this element.
+		* 
+		* 	@param markup The markup for this element.
+		* 	@param inner Whether the markup should be treated
+		* 	as inner markup.
+		* 
+		* 	@return This element after the markup has been assigned.
 		*/
-		public function html( markup:Object ):Element
+		public function html( markup:Object, inner:Boolean = true ):Element
 		{
 			if( ownerDocument == null
 				|| ownerDocument.implementation == null )
@@ -60,11 +73,12 @@ package com.ffsys.dom
 				throw new Error( "Inner markup must be XML or an XMLList." );
 			}
 			
-			//TODO: test wrapping xml lists in the tagName for this element
 			if( markup is XML )
 			{
 				var mx:XML = markup as XML;
-				if( mx.name() && mx.name().localName == tagName )
+				if( mx.name()
+					&& mx.name().localName == tagName
+					&& !inner )
 				{
 					//matching root tag name use the entire xml block
 					tmp = mx;
@@ -82,12 +96,12 @@ package com.ffsys.dom
 			}
 			
 			//clear any existing child nodes before
-			//replacing inner markup
+			//replacing markup
 			clear();
 			
 			ownerDocument.implementation.parse( tmp, null, this );
 			
-			trace("Element::html()", tmp.toXMLString(), this.xml.toXMLString() );
+			//trace("Element::html()", tmp.toXMLString(), this.xml.toXMLString() );
 			
 			return this;
 		}

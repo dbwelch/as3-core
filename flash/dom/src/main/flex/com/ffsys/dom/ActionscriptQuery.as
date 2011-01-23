@@ -284,7 +284,7 @@ package com.ffsys.dom
 		* 	<code>XML</code> or an <code>XMLList</code> when retrieving
 		* 	inner markup.
 		*/
-		public function html( xml:Object = null ):Object
+		public function html( xml:Object = null, inner:Boolean = true ):Object
 		{
 			var element:Element = null;
 			if( xml == null
@@ -300,25 +300,16 @@ package com.ffsys.dom
 				}
 			}
 			
-			var x:XML = null;
-			if( xml is XML )
-			{
-				x = xml as XML;
-			}else if( xml is String )
-			{
-				x = new XML( xml );
-			}
+			//trace("ActionscriptQuery::html()", xml );
 			
-			trace("ActionscriptQuery::html()", x );
-			
-			if( x != null )
+			if( xml != null )
 			{
 				for( var i:int = 0;i < length;i++ )
 				{
 					element = this[ i ] as Element;
 					if( element != null )
 					{
-						element.html( x );
+						element.html( xml, inner );
 					}
 				}
 			}

@@ -335,7 +335,17 @@ package com.ffsys.dom
 				"This is some text for a paragraph that will have it's inner markup replaced.",
 				markup.toString() );
 				
-			$( "p" ).html( <span>This is some new markup for all paragraphs.</span> );
+			//inner markup as the root element does not match the element tag name
+			//$( "p" ).html( <span>This is some new markup for all paragraphs.</span> );
+			
+			//inner markup as a string
+			//$( "p" ).html( "This is some new string markup for all paragraphs." );
+			
+			//markup with matching root element forced as a merge
+			//$( "p" ).html( <p test="a test attr">this is another paragraph</p>, false );
+			
+			//inner markup as an XMLList
+			$( "p" ).html( <root>this is <em>another</em> paragraph</root>.children() );
 			
 			trace("[MARKUP] AbstractDomUnit::assertHtml()", markup );
 		}
