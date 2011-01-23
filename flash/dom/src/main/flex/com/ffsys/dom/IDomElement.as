@@ -22,8 +22,8 @@ package com.ffsys.dom
 		/**
 		* 	A <code>URI</code> associated with this element.
 		*/
-		function get href():String;
-		function set href( value:String ):void;
+		//function get href():String;
+		//function set href( value:String ):void;
 		
 		/**
 		* 	The title for the element.

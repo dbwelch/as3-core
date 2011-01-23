@@ -72,6 +72,7 @@ package com.ffsys.dom
 			Assert.assertEquals( 1, document.childNodes.length );
 			
 			Assert.assertNotNull( document.head );
+			Assert.assertTrue( document.head is Head );
 			
 			//create and add the title
 			var title:Element = document.createElement(
@@ -86,6 +87,28 @@ package com.ffsys.dom
 			document.title = "This is a new page title";
 			Assert.assertEquals( "This is a new page title", title.text() );
 			Assert.assertEquals( "This is a new page title", document.title );
+			
+			//create and add a body element
+			var body:Element = document.createElement( DomIdentifiers.BODY );
+			body.setAttribute( "style", "background-color: #0000ff;" );
+			document.appendChild( body );
+			Assert.assertEquals( 2, document.childNodes.length );
+			Assert.assertNotNull( document.body );
+			Assert.assertTrue( document.body is Body );
+			
+			//check top-level attributes at the document level
+			Assert.assertEquals( "http://www.w3.org/1999/xhtml", document.xmlns );
+			Assert.assertEquals( "en", document.lang );
+			
+			//check top-level attributes are inherited from the document when not specified
+			Assert.assertEquals( "http://www.w3.org/1999/xhtml", document.head.xmlns );
+			Assert.assertEquals( "en", document.head.lang );
+			
+			document.head.xmlns = "http://freeformsystems.com/fluid/ui";
+			document.head.xsi = "http://freeformsystems.com/fluid/ui/schema";
+			
+			
+			trace("DomBuildTest::domBuildTest()", document.head.xmlns, document.head.xsi );
 			
 			trace("DomBuildTest::domBuildTest()", document.title, document.xml.toXMLString() );
 			

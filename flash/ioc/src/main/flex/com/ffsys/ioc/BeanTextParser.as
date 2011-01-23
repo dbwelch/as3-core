@@ -83,6 +83,11 @@ package com.ffsys.ioc
 			beanName:String,
 			bean:Object ):Object
 		{
+			if( parser == null )
+			{
+				throw new Error( "Cannot process a bean with a null element parser." );
+			}
+			
 			var z:String = null;
 			var value:*;
 			var output:Object = new Object();

@@ -3,6 +3,7 @@ package com.ffsys.dom
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.IStyleManagerAware;
+	import com.ffsys.ui.css.StyleSheetFactory;
 	
 	/**
 	*	Represents a <code>DOM</code> element.
@@ -28,10 +29,18 @@ package com.ffsys.dom
 		*/
 		public static const CLASS_NAMES:String = "classNames";
 		
+		/**
+		* 	The name of the style object used to store
+		* 	styles declared inline using the <code>style</code>
+		* 	attribute.
+		*/
+		public static const INLINE_STYLE_SHEET_NAME:String = "inline-style";
+		
 		private var _namespaceDeclarations:Array;		
 		
 		private var _classNames:String;
 		private var _styleNameCache:Vector.<String> = null;
+		private var _inlineStyleCache:ICssStyleSheet = null;
 		private var _styleManager:IStyleManager;
 		
 		/**
@@ -49,13 +58,19 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	The namespace declarations for the element.
+		* 	The namespace declarations for this element.
 		*/
 		public function get namespaceDeclarations():Array
 		{
 			if( _namespaceDeclarations == null )
 			{
-				_namespaceDeclarations = new Array();
+				if( ownerDocument == null || ( ownerDocument == this ) )
+				{
+					_namespaceDeclarations = new Array();
+				}else
+				{
+					_namespaceDeclarations = ownerDocument.namespaceDeclarations.slice();
+				}
 			}
 			return _namespaceDeclarations;
 		}
@@ -93,6 +108,215 @@ package com.ffsys.dom
 				}
 			}
 			return null;
+		}
+		
+		/**
+		* 	Attempts to retrieve a namespace URI from
+		* 	the namespace declarations assocaited with this element
+		* 	based on the specified prefix.
+		* 
+		* 	@param prefix The namespace prefix.
+		* 
+		* 	@return The <code>URI</code> for the namespace or <code>null</code>
+		* 	if no matching namespace was found.
+		*/
+		public function getUriByPrefix( prefix:String ):String
+		{
+			if( prefix != null )
+			{
+				var child:Namespace = null;
+				for each( child in namespaceDeclarations )
+				{
+					if( child
+						&& child.prefix == prefix
+						&& child.uri.length > 0 )
+					{
+						return child.uri;
+					}
+				}
+			}
+			return null;
+		}
+		
+		private var _xmlns:String;
+		
+		/**
+		* 	The XML namespace <code>URI</code> for this element.
+		*/
+		public function get xmlns():String
+		{
+			if( _xmlns == null )
+			{
+				var declarations:Array = this.namespaceDeclarations;
+				var child:Namespace = null;
+				for each( child in namespaceDeclarations )
+				{
+					if( !child.prefix
+						&& child.uri.length > 0 )
+					{
+						_xmlns = child.uri;
+						break;
+					}
+				}
+			}
+			return _xmlns;
+		}
+		
+		public function set xmlns( value:String ):void
+		{
+			var ns:String = this.xmlns;
+			
+			var declarations:Array = this.namespaceDeclarations;
+			var child:Namespace = null;
+			
+			//no previous default namespace specified
+			if( ns == null )
+			{
+				//create on our namespace declarations
+				this.namespaceDeclarations.push(
+					new Namespace( value ) );
+			}else{
+				//update an existing default declaration
+				for( var i:int = 0;i < declarations.length;i++ )
+				{
+					child = declarations[ i ];
+					if( !child.prefix
+						&& child.uri.length > 0 )
+					{
+						declarations.splice( i, 1, new Namespace( value ) );
+						break;
+					}
+				}
+			}
+			
+			_xmlns = value;
+		}
+		
+		/**
+		* 	The language for this element.
+		* 
+		* 	The qualified <code>xml:lang</code> attribute is preferred
+		* 	but if it is not present and a <code>lang</code>
+		* 	attribute is available it will be used.
+		*/
+		public function get lang():String
+		{
+			//TODO: constants			
+			var ns:String = "xml";
+			var nm:String = "lang";
+			
+			var attr:Attr = getAttributeNodeNS( ns, nm );
+			
+			//check for non-qualified lang attribute
+			if( attr == null )
+			{
+				attr = getAttributeNode( nm );
+			}
+			
+			//attempt to retrieve a default language
+			//at the document level
+			if( attr == null
+				&& ownerDocument != null
+				&& ownerDocument != this )
+			{
+				return ownerDocument.lang;
+			}
+			
+			return attr != null ? attr.value : null;
+		}
+		
+		public function set lang( value:String ):void
+		{
+			//TODO: constants			
+			var ns:String = "xml";
+			var nm:String = "lang";
+			var uri:String = getUriByPrefix( ns );
+			
+			var attr:Attr = getAttributeNodeNS( uri, nm );
+			
+			//creating first time around
+			if( attr == null && value != null )
+			{
+
+				attr = ownerDocument.createAttributeNS(
+					uri, nm );
+			}
+			
+			if( attr != null
+				&& value != null )
+			{
+				attr.value = value;
+			}else if( attr != null
+				&& value == null )
+			{
+				//delete the language attribute on this element
+				removeAttributeNode( attr );
+				attr = null;				
+			}
+			
+			if( attr != null )
+			{
+				setAttributeNode( attr );
+			}
+		}
+		
+		/**
+		* 	An XML schema for this element.
+		* 
+		* 	Stored as the qualified <code>xml:xsi</code> attribute.
+		*/
+		public function get xsi():String
+		{
+			//TODO: constants
+			var ns:String = "xml";
+			var nm:String = "xsi";
+			
+			var attr:Attr = getAttributeNodeNS( ns, nm );
+
+			//attempt to retrieve a default xsi
+			//at the document level
+			if( attr == null
+				&& ownerDocument != null
+				&& ( ownerDocument != this ) )
+			{
+				return ownerDocument.xsi;
+			}
+
+			return attr != null ? attr.value : null;
+		}
+
+		public function set xsi( value:String ):void
+		{
+			//TODO: constants
+			var ns:String = "xml";
+			var nm:String = "xsi";
+			var uri:String = getUriByPrefix( ns );			
+			
+			var attr:Attr = getAttributeNodeNS( uri, nm );
+			
+			//creating first time around
+			if( attr == null )
+			{
+				attr = ownerDocument.createAttributeNS(
+					uri, nm );
+			}			
+			
+			if( attr != null
+				&& value != null )
+			{
+				attr.value = value;
+			}else if( attr != null
+				&& value == null )
+			{
+				//delete the xsi attribute on this element
+				removeAttributeNode( attr );
+				attr = null;
+			}
+			
+			if( attr != null )
+			{
+				setAttributeNode( attr );
+			}			
 		}
 		
 		/**
@@ -282,7 +506,11 @@ package com.ffsys.dom
 			
 			//TODO: compute css tag level inheritance
 			
-			//trace("Element::added()", this.styleManager, this, parentNode );
+			var names:Vector.<String> = getClassLevelStyleNames();
+			
+			var inline:Object = getInlineStyleObject();
+			
+			trace("Element::added()", this, names, inline );
 		}
 		
 		/**
@@ -333,6 +561,37 @@ package com.ffsys.dom
 			_classNames = value;
 			
 			getClassLevelStyleNames();
+		}
+		
+		/**
+		* 	Retrieves a stylesheet containing inline styles
+		* 	declared on this element.
+		*/
+		public function getInlineStyleObject():ICssStyleSheet
+		{
+			var inline:String = this.style as String;
+						
+			if( _inlineStyleCache == null && inline != null )
+			{
+				_inlineStyleCache = StyleSheetFactory.create();
+			}
+			
+			if( _inlineStyleCache != null && inline != null )
+			{
+				//remove any existing inline styles
+				_inlineStyleCache.clear();
+				
+
+				//TODO: parse the inline styles
+				
+				var css:String = INLINE_STYLE_SHEET_NAME + " {\n" + inline + "\n}";
+				
+				trace("[GET INLINE STYLE] Element::getInlineStyleObject()", inline, _inlineStyleCache, css );
+				
+				//-->
+				//_inlineStyleCache.parse( css );
+			}
+			return _inlineStyleCache;
 		}
 		
 		/**
@@ -590,14 +849,21 @@ package com.ffsys.dom
 		public function setAttributeNode( attr:Attr ):Attr
 		{
 			if( attr != null )
-			{
-				
-				//trace("[ATTR] Element::setAttributeNode()", this, attr, attr.isQualified(), attr.name, attr.value, attr.uri, attributes.length );
-				
+			{		
 				attr.setOwnerElement( this );
+				
+				//prevent duplicates
+				if( hasAttribute( attr.nodeName ) )
+				{
+					//trace("Element::setAttributeNode()", "[HAS EXISTING ATTRIBUTE MATCH]", hasAttribute( attr.nodeName ) );					
+					return attr;
+				}
+				
 				attributes.setNamedItem( attr );
 				
 				this.xml.@[ attr.nodeName ] = attr.value;
+								
+				//trace("[ATTR] Element::setAttributeNode()", this, attr, attr.nodeName, hasAttribute( attr.nodeName ), attr.isQualified(), attr.name, attr.value, attr.uri, attributes.length );
 								
 				if( xml != null
 					&& attr.name != null
@@ -607,6 +873,44 @@ package com.ffsys.dom
 				}
 			}
 			return attr;
+		}
+		
+		/**
+		* 	Retrieves a list of all attributes with the specified
+		* 	<code>localName</code>.
+		* 
+		* 	@param localName The local name of the attribute to search for.
+		* 
+		* 	@return A list of all attributes whose <code>localName</code>
+		* 	matches the specified <code>localName</code>.
+		*/
+		public function getAttributeNodeList( localName:String ):Vector.<Attr>
+		{
+			var output:Vector.<Attr> = new Vector.<Attr>();
+			var attr:Node = null;
+			for each( attr in attributes )
+			{
+				if( attr is Attr
+				 	&& Attr( attr ).localName == localName )
+				{
+					output.push( attr );
+				}
+			}
+			return output;
+		}
+		
+		
+		public function getAttributeNodeNS(
+			namespaceURI:String, localName:String ):Attr
+		{
+			var attr:Attr = getAttributeNode( localName );
+			return ( attr != null && attr.uri == namespaceURI ) ? attr : null;
+		}
+		
+		
+		public function setAttributeNodeNS( attr:Attr ):Attr
+		{
+			return setAttributeNode( attr );
 		}
 		
 		/**
@@ -623,11 +927,10 @@ package com.ffsys.dom
 			for( var i:int = 0;i < attributes.length;i++ )
 			{
 				child = attributes.item( i ) as Attr;
-				if( child == attr )
+				if( child.nodeName == attr.nodeName )
 				{
-					var qn:QName = new QName( attr.uri, attr.name );
-					delete xml.@[ qn ];
-					attributes.removeNamedItem( child.name );
+					delete xml.@[ attr.nodeName ];
+					attributes.removeNamedItem( attr.nodeName );
 					break;
 				}
 			}
@@ -652,9 +955,9 @@ package com.ffsys.dom
 			var attr:Node = null;
 			for each( attr in attributes )
 			{
-				//trace("Element::hasAttribute()", attr );
+				//trace("Element::hasAttribute() [ITEM]", attr, attr.nodeName );
 				if( attr is Attr
-					&& Attr( attr ).name == name )
+					&& Attr( attr ).nodeName == name )
 				{
 					return true;
 				}

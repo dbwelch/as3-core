@@ -175,6 +175,8 @@ package com.ffsys.dom
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		public function get href():String
 		{
 			return _href;
@@ -184,6 +186,7 @@ package com.ffsys.dom
 		{
 			_href = value;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
@@ -202,7 +205,7 @@ package com.ffsys.dom
 			_xml = value;
 			
 			//TODO: run this through the SAX parser to create child elements???
-		}	
+		}
 		
 		/**
 		* 	The bean document that instantiated this component.

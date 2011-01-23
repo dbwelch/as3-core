@@ -11,12 +11,27 @@ package com.ffsys.dom
 	*/
 	dynamic public class Body extends BlockElement
 	{
+		private var _style:String;
+		
 		/**
 		* 	Creates a <code>Body</code> instance.
 		*/
 		public function Body()
 		{
 			super();
+		}
+		
+		/**
+		* 	Inline css style declarations.
+		*/
+		public function get style():String
+		{
+			return _style;
+		}
+		
+		public function set style( value:String ):void
+		{
+			_style = value;
 		}
 	}
 }
