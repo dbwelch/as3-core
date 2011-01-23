@@ -16,6 +16,9 @@ package com.ffsys.dom
 	*/
 	dynamic public class Document extends VisualElement
 	{
+		private var _head:Head;
+		private var _body:Body;		
+		
 		private var _identifiers:Object = new Object();
 		private var _tags:Object = new Object();
 		
@@ -29,6 +32,32 @@ package com.ffsys.dom
 		{
 			_nodeType = Node.DOCUMENT_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	The head of the document.
+		*/
+		public function get head():Head
+		{
+			return _head;
+		}
+		
+		public function set head( value:Head ):void
+		{
+			_head = value;
+		}
+		
+		/**
+		* 	The body of the document.
+		*/
+		public function get body():Body
+		{
+			return _body;
+		}
+		
+		public function set body( value:Body ):void
+		{
+			_body = value;
 		}
 		
 		/**
