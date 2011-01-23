@@ -249,6 +249,11 @@ package com.ffsys.dom
 			//This method can raise a DOMException object.
 			var document:Document = Document( doctype.elements.getBean(
 				qualifiedName ) );
+			if( namespaceURI != null )
+			{
+				document.namespaceDeclarations.push(
+					new Namespace( namespaceURI ) );
+			}
 			document.setImplementation( this );
 			document.setDocumentType( doctype );
 			return document;

@@ -106,7 +106,7 @@ package com.ffsys.dom
 		*/
 		override public function get nodeName():String
 		{
-			return _name;
+			return !isQualified() ? _name : prefix + NAMESPACE_DELIMITER + _name;
 		}
 		
 		/**
@@ -160,6 +160,14 @@ package com.ffsys.dom
 		*/
 		public function get prefix():String
 		{
+			if( _prefix == null )
+			{
+				if( ownerElement )
+				{
+					_prefix = ownerElement.getPrefixByNamespace(
+						new Namespace( this.uri ) );
+				}
+			}
 			return _prefix;
 		}
 		

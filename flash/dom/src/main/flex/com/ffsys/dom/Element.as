@@ -1,8 +1,20 @@
 package com.ffsys.dom
 {
+	import com.ffsys.ui.css.ICssStyleSheet;
+	import com.ffsys.ui.css.IStyleManager;
+	import com.ffsys.ui.css.IStyleManagerAware;
 	
-	
+	/**
+	*	Represents a <code>DOM</code> element.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  09.01.2011
+	*/
 	dynamic public class Element extends Node
+		implements IStyleManagerAware
 	{	
 		/**
 		* 	The attribute name that determines class style names.
@@ -16,8 +28,11 @@ package com.ffsys.dom
 		*/
 		public static const CLASS_NAMES:String = "classNames";
 		
+		private var _namespaceDeclarations:Array;		
+		
 		private var _classNames:String;
 		private var _styleNameCache:Vector.<String> = null;
+		private var _styleManager:IStyleManager;
 		
 		/**
 		*	@private	 
@@ -31,6 +46,83 @@ package com.ffsys.dom
 		{
 			_nodeType = Node.ELEMENT_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	The namespace declarations for the element.
+		*/
+		public function get namespaceDeclarations():Array
+		{
+			if( _namespaceDeclarations == null )
+			{
+				_namespaceDeclarations = new Array();
+			}
+			return _namespaceDeclarations;
+		}
+		
+		public function set namespaceDeclarations( value:Array ):void
+		{
+			_namespaceDeclarations = value;
+		}
+		
+		/**
+		* 	Attempts to retrieve a namespace prefix from
+		* 	the namespace declarations assocaited with this element
+		* 	based on the specified target namespace.
+		* 
+		* 	@param ns The target namespace.
+		* 
+		* 	@return The prefix for the namespace.
+		*/
+		public function getPrefixByNamespace( ns:Namespace ):String
+		{
+			if( ns != null )
+			{
+				var uri:String = ns.uri;
+				
+				var child:Namespace = null;
+				for each( child in namespaceDeclarations )
+				{
+					if( child
+						&& child.uri.length > 0
+						&& ns.uri == child.uri )
+					{
+						return child.prefix;
+					}
+				}
+			}
+			return null;
+		}
+		
+		/**
+		* 	Adds namespace declarations associated
+		* 	with this element to the attributes of an XML element.
+		* 
+		* 	@param x The XML element.
+		*/
+		protected function addNamespaceAttributes( x:XML ):void
+		{
+			if( namespaceDeclarations != null )
+			{
+				//trace("[GOT NAMESPACE DECLARATION] Document::get xml()", namespaceDeclarations );
+				var ns:Namespace = null;
+				var nm:String = null;
+				for each( ns in namespaceDeclarations )
+				{
+					if( !ns.prefix )
+					{
+						//continue;	
+						nm = "xmlns";
+					}else
+					{
+						nm = "xmlns:" + ns.prefix;
+					}
+					if( x.@[ nm ].length() == 0 )
+					{
+						x.@[ nm ] = ns.uri;
+					}
+				}
+			}
 		}
 		
 		/**
@@ -107,6 +199,41 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	@private
+		*/
+		override internal function added():void
+		{
+			super.added();
+			//TODO: compute css tag level inheritance
+			trace("Element::added()", this.styleManager, this, parentNode );
+		}
+		
+		/**
+		* 	The css style manager for this element.
+		*/
+		public function get styleManager():IStyleManager
+		{
+			return _styleManager;
+		}
+		
+		public function set styleManager( value:IStyleManager ):void
+		{
+			_styleManager = value;
+		}
+		
+		/**
+		* 	The css style sheet used by this element.
+		*/
+		public function get stylesheet():ICssStyleSheet
+		{
+			if( styleManager )
+			{
+				return styleManager.stylesheet;
+			}
+			return null;
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function get classNames():String
@@ -128,7 +255,7 @@ package com.ffsys.dom
 			
 			_classNames = value;
 			
-			//getClassLevelStyleNames();
+			getClassLevelStyleNames();
 		}
 		
 		/**
@@ -194,18 +321,62 @@ package com.ffsys.dom
 		* 	Adds a class name to this element.
 		* 
 		* 	@param name The class name to add.
+		* 
+		* 	@return Whether the class was added.
 		*/
-		public function addClass( name:String ):String
+		public function addClass( name:String ):Boolean
 		{
-			var nm:String = this.classNames;
-			if( /[^\s]/.test( nm ) )
+			if( name != null )
 			{
-				nm += " ";
+				var nm:String = this.classNames;
+				if( /[^\s]/.test( nm ) )
+				{
+					nm += " ";
+				}
+				nm += name;
+				this.classNames = nm;
+				//trace("Element::addClass()", this, this.classNames );
+				
+				//TODO: invalidate css styles
+				
+				return true;
 			}
-			nm += name;
-			this.classNames = nm;
-			//trace("Element::addClass()", this, this.classNames );
-			return nm;
+			
+			return false;
+		}
+		
+		/**
+		* 	Removes a class name from this element.
+		* 
+		* 	@param name The class name to remove.
+		* 
+		* 	@return Whether the class was removed.
+		*/
+		public function removeClass( name:String ):Boolean
+		{
+			var current:Vector.<String> = this.classes;
+			var len:uint = current.length;
+			var nm:String = null;
+			for( var i:int = 0;i < len;i++ )
+			{
+				nm = current[ i ];
+				if( nm == name )
+				{
+					current.splice( i, 1 );
+					break;
+				}
+			}
+			
+			if( len != current.length )
+			{
+				classNames = current.join( " " );
+			
+				//TODO: invalidate css styles	
+				
+				return true;
+			}
+			
+			return false;
 		}
 		
 		/**
@@ -224,7 +395,7 @@ package com.ffsys.dom
 				}
 			}
 			return output;
-		}	
+		}
 		
 		/**
 		* 	The name of the tag that created this element.
@@ -356,8 +527,13 @@ package com.ffsys.dom
 		{
 			if( attr != null )
 			{
-				var qn:QName = attr.qname;
-				this.xml.@[ qn ] = attr.value;
+				
+				//trace("[ATTR] Element::setAttributeNode()", this, attr, attr.isQualified(), attr.name, attr.value, attr.uri, attributes.length );
+				
+				attr.setOwnerElement( this );
+				attributes.setNamedItem( attr );
+				
+				this.xml.@[ attr.nodeName ] = attr.value;
 								
 				if( xml != null
 					&& attr.name != null
@@ -365,12 +541,6 @@ package com.ffsys.dom
 				{
 					attributeSet( attr );
 				}
-				
-				//trace("[ATTR] Element::setAttributeNode()", this, attr, attr.isQualified(), attr.name, attr.value, attr.uri, attributes.length );
-				
-				attr.setOwnerElement( this );
-				attributes.setNamedItem( attr );	
-				
 			}
 			return attr;
 		}

@@ -298,7 +298,7 @@ package com.ffsys.dom
 			{
 				child.setParentNode( this );
 				child.setOwnerDocument( _ownerDocument );
-				childNodes.concat( child );	
+				childNodes.concat( child );
 				
 				if( _ownerDocument && ( child is Element ) )
 				{
@@ -311,6 +311,8 @@ package com.ffsys.dom
 				//trace("[APPEND XML] Node::appendChild()", this, child, this.xml.children().length(), child.xml.toXMLString() );
 				
 				this.xml.appendChild( child.xml );
+				
+				child.added();
 				
 				//trace("[AFTER APPEND XML] Node::appendChild()", this.xml.children().length(), child.xml.parent() is XML, this.xml.toXMLString() );
 				
@@ -328,9 +330,12 @@ package com.ffsys.dom
 		{
 			if( child != null )
 			{
-				var removed:Boolean = childNodes.remove( child );
+				childNodes.remove( child );
 				
 				//trace("Node::removeChild() [REMOVED]: ", removed );
+				
+				//inform of the removal
+				child.removed();
 				
 				//no parent as the node is now detached from the DOM
 				child.setParentNode( null );
@@ -370,6 +375,28 @@ package com.ffsys.dom
 				}
 			}
 			return child;
+		}
+		
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked when this node is added to the <code>DOM</code>.
+		*/
+		internal function added():void
+		{
+			//
+		}
+		
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked when this node is removed from the <code>DOM</code>.
+		*/
+		internal function removed():void
+		{
+			//
 		}
 		
 		/**

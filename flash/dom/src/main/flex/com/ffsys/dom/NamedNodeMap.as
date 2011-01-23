@@ -68,9 +68,9 @@ package com.ffsys.dom
 		*/
 		public function setNamedItem( item:Node ):Node
 		{
-			if( item != null && item.localName != null )
+			if( item != null && item.nodeName != null )
 			{
-				var existing:Node = getNamedItem( item.localName );
+				var existing:Node = getNamedItem( item.nodeName );
 				
 				//trace("NamedNodeMap::setNamedItem() [BEFORE]", item, item.localName, existing, length );
 				
@@ -78,7 +78,7 @@ package com.ffsys.dom
 				{
 					concat( item );
 				}else{
-					removeNamedItem( existing.localName );
+					removeNamedItem( existing.nodeName );
 					concat( item );
 				}
 				

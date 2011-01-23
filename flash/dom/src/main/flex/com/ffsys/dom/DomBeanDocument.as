@@ -1,8 +1,8 @@
 package com.ffsys.dom
 {
 	import com.ffsys.ioc.*;
-	
 	import com.ffsys.dom.xhtml.*;
+	import com.ffsys.ui.css.*;
 
 	/**
 	*	Defines the core beans for <code>DOM</code> based documents.
@@ -49,6 +49,21 @@ package com.ffsys.dom
 				DomIdentifiers.ATTR );
 			descriptor.instanceClass = Attr;
 			beans.addBeanDescriptor( descriptor );
+			
+			//hook in the style manager
+			descriptor = new BeanDescriptor( 
+				DomIdentifiers.STYLE_MANAGER );
+			descriptor.instanceClass = StyleManager;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			//bean manager type injector
+			beans.types.push( new BeanTypeInjector(
+				DomIdentifiers.STYLE_MANAGER,
+				DomIdentifiers.STYLE_MANAGER,
+				IStyleManagerAware,
+				descriptor ) );
+			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.TEXT );
 			descriptor.instanceClass = Text;
