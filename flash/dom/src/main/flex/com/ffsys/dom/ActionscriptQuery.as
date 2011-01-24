@@ -247,8 +247,14 @@ package com.ffsys.dom
 			{
 				clear();
 				concat( element );
+				//return element;
 			}
 			return this;
+		}
+		
+		public function even():void
+		{
+			
 		}
 		
 		/**

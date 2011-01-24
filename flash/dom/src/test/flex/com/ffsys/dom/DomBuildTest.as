@@ -124,6 +124,8 @@ package com.ffsys.dom
 			//css style assertions
 			assertCssStyles();
 			
+			trace("DomBuildTest::domBuildTest()", window );
+			
 			trace( document.xml.toXMLString() );
 			//unbind the DOM for $ access
 			Assert.assertTrue( ActionscriptQuery.unbind( document ) );
@@ -196,6 +198,29 @@ package com.ffsys.dom
 		*/
 		protected function assertCssStyles():void
 		{
+			//test default wildcard styles
+			var div:Element = document.createElement( DomIdentifiers.DIV );
+			Assert.assertTrue( div is DivElement );
+			
+			//verify style manager and stylesheet references
+			Assert.assertNotNull( div.styleManager );
+			Assert.assertNotNull( div.stylesheet );
+			
+			//verify availability of the style cache and styles
+			Assert.assertNotNull( div.styleCache );
+			Assert.assertNotNull( div.styles );
+			
+			//verify default style names contains the wildcard, class name and tag name
+			var styleNames:Vector.<String> = div.getClassLevelStyleNames();
+			Assert.assertTrue( styleNames.indexOf( "*" ) > -1 );
+			Assert.assertTrue( styleNames.indexOf( div.tagName ) > -1 );
+			Assert.assertTrue( styleNames.indexOf( div.getClass().name ) > -1 );
+			
+			//verify inheritance from the default wildcard style
+			Assert.assertTrue( div.styles.fontSize is Number || div.styles.fontSize is String );
+			Assert.assertTrue( div.styles.fontFamily is String );
+			Assert.assertTrue( div.styles.backgroundColor is String );
+			
 			//add a custom class
 			document.body.addClass( "css-style" );
 			

@@ -14,6 +14,10 @@ package com.ffsys.ui.css
 		
 		/**
 		* 	Creates a <code>CssStyleCache</code> instance.
+		* 
+		* 	@param parent A parent style cache.
+		* 	@param names A list of style names.
+		* 	@param styles A list of style objects for each style name.
 		*/
 		public function CssStyleCache(
 			parent:CssStyleCache = null,
@@ -37,16 +41,22 @@ package com.ffsys.ui.css
 		public function set parent( value:CssStyleCache ):void
 		{
 			_parent = value;
+			if( value != null )
+			{
+				inherit( value );
+			}
 		}
 		
 		/**
 		* 	Inherits style properties from another style cache.
-		* 
-		* 	
 		*/
 		public function inherit( parent:CssStyleCache ):void
 		{
-			trace("[INHERITING STYLES] CssStyleCache::inherit()", parent );
+			if( parent != null )
+			{
+				//copy in the parent style properties
+				update( [ parent.source ] );
+			}
 		}
 		
 		/**
@@ -82,16 +92,12 @@ package com.ffsys.ui.css
 		{
 			if( styles != null )
 			{
-				if( _source == null )
-				{
-					_source = new CssStyle( {} );
-				}
 				var merger:PropertiesMerge = new PropertiesMerge();
 				var style:Object = null;
 				for( var i:int = 0;i < styles.length;i++ )
 				{
 					style = styles[ i ];
-					merger.merge( _source, style, false );
+					merger.merge( source, style, false );
 				}
 			}
 			return _source;
@@ -102,6 +108,10 @@ package com.ffsys.ui.css
 		*/
 		public function get source():CssStyle
 		{
+			if( _source == null )
+			{
+				_source = new CssStyle( {} );
+			}
 			return _source;
 		}
 		

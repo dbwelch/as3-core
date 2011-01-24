@@ -530,11 +530,21 @@ package com.ffsys.dom
 		
 		private var _styleCache:CssStyleCache;
 		
+		/**
+		* 	A style cache for this element.
+		*/
 		public function get styleCache():CssStyleCache
 		{
+			if( _styleCache == null )
+			{
+				getStyleCache();
+			}			
 			return _styleCache;
 		}
 		
+		/**
+		* 	Retrieves the style cache.
+		*/
 		private function getStyleCache():void
 		{
 			var names:Vector.<String> = getClassLevelStyleNames();
@@ -560,7 +570,7 @@ package com.ffsys.dom
 			
 			var parentCache:CssStyleCache = parentNode != null ? parentNode.styleCache : null;
 			_styleCache = new CssStyleCache( parentCache, names, styles );
-			_styleCache.source = source;
+			_styleCache.update( [ source ] );
 		}
 		
 		/**
@@ -582,11 +592,7 @@ package com.ffsys.dom
 		{
 			if( _styles == null )
 			{
-				if( _styleCache == null )
-				{
-					getStyleCache();
-				}
-				_styles = _styleCache.source;
+				_styles = styleCache.source;
 			}
 			return _styles;
 		}
