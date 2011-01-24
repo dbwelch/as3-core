@@ -323,6 +323,74 @@ package com.ffsys.dom
 		}
 		
 		/**
+		* 	Retrieves or sets style properties on matched elements.
+		* 
+		* 	When <code>target</code> is a <code>String</code> and no
+		* 	<code>value</code> is specified this method will retrieve the named
+		* 	style property on the first matched element.
+		* 
+		*	If <code>target</code> is an <code>Object</code> and no
+		* 	<code>value</code> is specified this method will assign all enumerable
+		* 	properties of the <code>target</code> to the styles of each
+		* 	element matched by this query.
+		* 
+		* 	When <code>target</code> is a <code>String</code> and a
+		* 	<code>value</code> is specified this method will assign the specified
+		* 	style property <code>value</code> to all matched elements.
+		* 
+		* 	@param target The name of the style property or an object containing
+		* 	enumerable properties to assign to all matched elements.
+		* 	@param value A value to assign to a style property.
+		* 
+		* 	@return Either a style property value or a query.
+		*/
+		public function css( target:Object, value:Object = null ):Object
+		{
+			var element:Element = null;
+			var node:Node = null;
+			var z:String = null;
+			
+			//retrieve a single css property from the first matched element
+			if( target is String
+				&& value == null )
+			{
+				element = this.first() as Element;
+				if( element != null )
+				{
+					return element.styles[ target ];
+				}
+			}else if( target is Object
+				&& value == null )
+			{				
+				//assign all enumerable properties to all matched elements
+				for each( node in this )
+				{
+					element = node as Element;
+					if( element != null )
+					{
+						for( z in target )
+						{
+							element.styles[ z ] = target[ z ];
+						}
+					}
+				}
+			}else if( target is String
+				&& ( value is String || value is Number ) )
+			{
+				//assign a single property to all matched elements
+				for each( node in this )
+				{
+					element = node as Element;
+					if( element != null )
+					{
+						element.styles[ target ] = value;
+					}
+				}
+			}
+			return this;
+		}
+		
+		/**
 		* 	Retrieves or sets inner <code>DOM</code> markup.
 		* 
 		* 	@param xml Markup to assign to all matched elements.

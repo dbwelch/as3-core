@@ -541,11 +541,11 @@ package com.ffsys.dom
 			var inline:CssStyle = getInlineStyle();
 			var styles:Vector.<CssStyle> = new Vector.<CssStyle>();
 			var styleObjects:Array = new Array();
-			var style:CssStyle = null;
+			var style:Object = null;
 			for( var i:int = 0;i < names.length;i++ )
 			{
-				style = stylesheet.getCssStyle( names[ i ] );
-				styles.push( style );
+				style = stylesheet.getStyle( names[ i ] );
+				styles.push( new CssStyle( style ) );
 				styleObjects.push( style );
 			}
 			
@@ -553,29 +553,14 @@ package com.ffsys.dom
 			{
 				names.push( INLINE_STYLE_SHEET_NAME );
 				styles.push( inline );
+				styleObjects.push( inline.source );
 			}
-			
-			//stylesheet.getFlatStyle( data[ 1 ] );
-			
-			trace("Element::added()", this, parentNode, names, styles );
+
+			var source:CssStyle = stylesheet.getFlatStyle( styleObjects );
 			
 			var parentCache:CssStyleCache = parentNode != null ? parentNode.styleCache : null;
-			
 			_styleCache = new CssStyleCache( parentCache, names, styles );
-			_styleCache.source = stylesheet.getFlatStyle( styleObjects );
-			
-			/*
-			
-			var data:Array = stylesheet.getStyleInformation( this );
-
-			
-			output = new ComponentStyleCache();
-			output.styleNames = data[ 0 ];
-			output.styleObjects = data[ 1 ];
-			output.styles = this.styles;
-			output.source = stylesheet.getFlatStyle( data[ 1 ] );			
-			
-			*/			
+			_styleCache.source = source;
 		}
 		
 		/**
@@ -658,6 +643,26 @@ package com.ffsys.dom
 			
 			_classNames = value;
 			
+			//ensure the class attribute is kept in sync
+			var attr:Attr = getAttributeNode( CLASS );
+			if( value == null || value == "" )
+			{
+				if( attr != null )
+				{
+					removeAttributeNode( attr );
+				}
+			}else{
+				if( attr == null
+				 	&& ownerDocument != null )
+				{
+					attr = ownerDocument.createAttribute( CLASS );
+				}
+				if( attr != null )
+				{
+					attr.value = value;
+				}
+				setAttributeNode( attr );
+			}
 			getClassLevelStyleNames();
 		}
 		
@@ -756,6 +761,27 @@ package com.ffsys.dom
 		public function hasClass( name:String ):Boolean
 		{
 			return new RegExp( " ?" + name + " ?" ).test( classNames );
+		}
+		
+		/**
+		* 	Toggles a class name assigned to this element.
+		* 
+		* 	If this element already has a class with the specified
+		* 	name if is removed, otherwise it is added.
+		* 
+		* 	@param name The name of the class to toggle.
+		*/
+		public function toggleClass( name:String ):void
+		{
+			hasClass( name ) ? removeClass( name ) : addClass( name );
+		}
+		
+		/**
+		* 	Removes all classes assigned to this element.
+		*/
+		public function clearClass():void
+		{
+			this.classNames = "";
 		}
 		
 		/**
@@ -924,7 +950,7 @@ package com.ffsys.dom
 		/**
 		* 	Retrieves an attribute node by name.
 		* 
-		* 	@param localName The local name of the attribute.
+		* 	@param localName The node name of the attribute.
 		* 
 		* 	@return The attribute node if it exists otherwise <code>null</code>.
 		*/
@@ -959,8 +985,25 @@ package com.ffsys.dom
 				//prevent duplicates
 				if( hasAttribute( attr.nodeName ) )
 				{
-					//trace("Element::setAttributeNode()", "[HAS EXISTING ATTRIBUTE MATCH]", hasAttribute( attr.nodeName ) );					
-					return attr;
+					var existing:Attr = attr.isQualified()
+						? getAttributeNodeNS( attr.uri, attr.localName )
+						: getAttributeNode( attr.localName );
+					
+					//trace("Element::setAttributeNode()", "[HAS EXISTING ATTRIBUTE MATCH]", existing, attr.value, existing.value );
+					
+					//update the attribute value and xml attribute
+					if( existing != null
+						&& attr.value != existing.value )
+					{
+						existing.value = attr.value;
+						
+						//trace("Element::setAttributeNode()", "[HAS EXISTING ATTRIBUTE MATCH]", existing );						
+					}
+					
+					//update the XML representation of the attribute
+					this.xml.@[ attr.nodeName ] = attr.value;
+					
+					return existing;
 				}
 				
 				attributes.setNamedItem( attr );

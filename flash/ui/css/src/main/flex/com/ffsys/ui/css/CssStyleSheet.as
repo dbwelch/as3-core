@@ -98,6 +98,18 @@ package com.ffsys.ui.css {
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				BeanNames.BEAN_ELEMENT_PARSER );
 			descriptor.instanceClass = CssTextElementParser;
+			addBeanDescriptor( descriptor );
+			
+			//default wildcard styles
+			var data:Object = {
+				fontFamily: "Arial, Verdana, sans-serif",
+				fontSize: 11,
+				color: 0,
+				backgroundColor: "transparent"
+			}
+			
+			descriptor = new BeanDescriptor(
+				"*", data );
 			addBeanDescriptor( descriptor );		
 		}
 		

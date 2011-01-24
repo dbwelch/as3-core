@@ -22,65 +22,6 @@ package com.ffsys.dom
 			super();		
 		}
 		
-		protected function assertDocumentCreationMethods( document:Document ):void
-		{
-			//assertions on the creation methods
-			var txt:Text = document.createTextNode( "this is some text" );
-			Assert.assertTrue( txt is Text );
-			Assert.assertEquals( Node.TEXT_NODE, txt.nodeType );
-			
-			var cdata:CDATASection = document.createCDATASection( "this is some cdata text" );
-			Assert.assertTrue( cdata is CDATASection );
-			Assert.assertEquals( Node.CDATA_SECTION_NODE, cdata.nodeType );
-			
-			var attr:Attr = document.createAttribute( "id" );
-			Assert.assertTrue( attr is Attr );
-			Assert.assertEquals( Node.ATTRIBUTE_NODE, attr.nodeType );
-						
-			Assert.assertEquals( "id", attr.name );
-			Assert.assertEquals( "id", attr.nodeName );
-			Assert.assertEquals( "id", attr.localName );
-			
-			//can't assert on an attribute prefix until it has an owner element
-			attr = document.createAttributeNS( "http://www.w3.org/XML/1998/namespace", "lang" );
-			Assert.assertTrue( attr is Attr );
-			Assert.assertEquals( Node.ATTRIBUTE_NODE, attr.nodeType );
-			Assert.assertEquals( "lang", attr.name );
-			Assert.assertEquals( "lang", attr.localName );
-			Assert.assertEquals( "http://www.w3.org/XML/1998/namespace", attr.uri );			
-			
-			var comment:Comment = document.createComment( "This is a comment" );
-			Assert.assertTrue( comment is Comment );
-			Assert.assertEquals( Node.COMMENT_NODE, comment.nodeType );
-			
-			var instruction:ProcessingInstruction =
-				document.createProcessingInstruction( "flash", "flash-dom-exclude" );
-			Assert.assertTrue( instruction is ProcessingInstruction );
-			Assert.assertEquals(
-				Node.PROCESSING_INSTRUCTION_NODE, instruction.nodeType );
-				
-			var fragment:DocumentFragment = document.createDocumentFragment();
-			Assert.assertTrue( fragment is DocumentFragment );
-			Assert.assertEquals(
-				Node.DOCUMENT_FRAGMENT_NODE, fragment.nodeType );
-				
-			var elem:Element = document.createElement( DomIdentifiers.ANCHOR );
-			Assert.assertTrue( elem is AnchorElement );
-			Assert.assertEquals(
-				Node.ELEMENT_NODE, elem.nodeType );	
-				
-			elem = document.createElementNS(
-				"http://www.w3.org/1999/xhtml", DomIdentifiers.ANCHOR );
-			Assert.assertTrue( elem is AnchorElement );
-			Assert.assertEquals(
-				Node.ELEMENT_NODE, elem.nodeType );	
-			Assert.assertEquals(
-				"http://www.w3.org/1999/xhtml", elem.namespaceURI );
-				
-			//TODO: implement
-			//createEntityReference
-		}
-		
 		[Test]
 		public function domBuildTest():void
 		{	
@@ -102,7 +43,7 @@ package com.ffsys.dom
 			//default xmlns and xmlns:xml are at the document level
 			Assert.assertEquals( 2, document.namespaceDeclarations.length );
 				
-			assertDocumentCreationMethods( document );
+			assertDocumentCreationMethods();
 				
 			//manually bind the DOM for $ access
 			Assert.assertTrue( ActionscriptQuery.bind( document ) );
@@ -180,10 +121,143 @@ package com.ffsys.dom
 			Assert.assertNull( document.head.previousSibling );
 			Assert.assertNull( document.body.nextSibling );
 			
-			trace("DomBuildTest::domBuildTest()", document.title, document.xml.toXMLString() );
+			//css style assertions
+			assertCssStyles();
 			
+			trace( document.xml.toXMLString() );
 			//unbind the DOM for $ access
 			Assert.assertTrue( ActionscriptQuery.unbind( document ) );
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assertDocumentCreationMethods():void
+		{
+			//assertions on the creation methods
+			var txt:Text = document.createTextNode( "this is some text" );
+			Assert.assertTrue( txt is Text );
+			Assert.assertEquals( Node.TEXT_NODE, txt.nodeType );
+			
+			var cdata:CDATASection = document.createCDATASection( "this is some cdata text" );
+			Assert.assertTrue( cdata is CDATASection );
+			Assert.assertEquals( Node.CDATA_SECTION_NODE, cdata.nodeType );
+			
+			var attr:Attr = document.createAttribute( "id" );
+			Assert.assertTrue( attr is Attr );
+			Assert.assertEquals( Node.ATTRIBUTE_NODE, attr.nodeType );
+						
+			Assert.assertEquals( "id", attr.name );
+			Assert.assertEquals( "id", attr.nodeName );
+			Assert.assertEquals( "id", attr.localName );
+			
+			//can't assert on an attribute prefix until it has an owner element
+			attr = document.createAttributeNS( "http://www.w3.org/XML/1998/namespace", "lang" );
+			Assert.assertTrue( attr is Attr );
+			Assert.assertEquals( Node.ATTRIBUTE_NODE, attr.nodeType );
+			Assert.assertEquals( "lang", attr.name );
+			Assert.assertEquals( "lang", attr.localName );
+			Assert.assertEquals( "http://www.w3.org/XML/1998/namespace", attr.uri );			
+			
+			var comment:Comment = document.createComment( "This is a comment" );
+			Assert.assertTrue( comment is Comment );
+			Assert.assertEquals( Node.COMMENT_NODE, comment.nodeType );
+			
+			var instruction:ProcessingInstruction =
+				document.createProcessingInstruction( "flash", "flash-dom-exclude" );
+			Assert.assertTrue( instruction is ProcessingInstruction );
+			Assert.assertEquals(
+				Node.PROCESSING_INSTRUCTION_NODE, instruction.nodeType );
+				
+			var fragment:DocumentFragment = document.createDocumentFragment();
+			Assert.assertTrue( fragment is DocumentFragment );
+			Assert.assertEquals(
+				Node.DOCUMENT_FRAGMENT_NODE, fragment.nodeType );
+				
+			var elem:Element = document.createElement( DomIdentifiers.ANCHOR );
+			Assert.assertTrue( elem is AnchorElement );
+			Assert.assertEquals(
+				Node.ELEMENT_NODE, elem.nodeType );	
+				
+			elem = document.createElementNS(
+				"http://www.w3.org/1999/xhtml", DomIdentifiers.ANCHOR );
+			Assert.assertTrue( elem is AnchorElement );
+			Assert.assertEquals(
+				Node.ELEMENT_NODE, elem.nodeType );	
+			Assert.assertEquals(
+				"http://www.w3.org/1999/xhtml", elem.namespaceURI );
+				
+			//TODO: implement
+			//createEntityReference
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assertCssStyles():void
+		{
+			//add a custom class
+			document.body.addClass( "css-style" );
+			
+			Assert.assertEquals( "css-style", document.body.classNames );
+			
+			//should have the inline style and class attribute
+			Assert.assertEquals( 2, document.body.attributes.length );
+			
+			//background color from the inline style declaration
+			Assert.assertEquals( 255, document.body.styles.backgroundColor );
+			
+			//remove the custom style class
+			document.body.removeClass( "css-style" );
+			
+			//should only have the inline style after removing the style class
+			Assert.assertEquals( 1, document.body.attributes.length );
+			
+			//class names should be empty
+			Assert.assertEquals( "", document.body.classNames );
+			
+			//turn on some custom classes
+			document.body.toggleClass( "css-style" );
+			document.body.toggleClass( "another-css-style" );
+			
+			Assert.assertEquals(
+				"css-style another-css-style",
+				document.body.classNames );
+			
+			//should have the inline style and class attribute after the toggle
+			Assert.assertEquals( 2, document.body.attributes.length );			
+			
+			var classes:Vector.<String> = document.body.classes;
+			Assert.assertNotNull( classes );
+			Assert.assertEquals( 2, classes.length );
+			Assert.assertEquals( "css-style", classes[ 0 ] );
+			Assert.assertEquals( "another-css-style", classes[ 1 ] );
+			
+			//toggle again to remove this class
+			document.body.toggleClass( "another-css-style" );
+			classes = document.body.classes;
+			Assert.assertNotNull( classes );
+			Assert.assertEquals( 1, classes.length );
+			Assert.assertEquals( "css-style", classes[ 0 ] );
+			
+			//clear all the classes
+			document.body.clearClass();
+			
+			//back to just the inline style
+			Assert.assertEquals( 1, document.body.attributes.length );
+			
+			//assign and retrieve a single style property on the first matched element
+			$( document.body ).css( "fontSize", 22 );
+			Assert.assertEquals( 22, $( document.body ).css( "fontSize" ) );
+			
+			//TODO: ensure $( "body" ) works as expected
+			
+			//assign enumerable properties to all matched elements
+			$( document.body ).css( { color: 0x00ff00, backgroundColor: 0xff0000 } );
+			Assert.assertEquals( 65280, document.body.styles.color );
+			Assert.assertEquals( 16711680, document.body.styles.backgroundColor );
+			
+			//trace("DomBuildTest::domBuildTest()", document.body.styles.backgroundColor );
 		}
 	}
 }
