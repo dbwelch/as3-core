@@ -14,6 +14,9 @@ package com.ffsys.dom.xhtml
 	public class LinkElement extends Element
 		implements EmptyElement
 	{
+		//TODO
+		//Other: href media charset rev rel type hreflang target
+		
 		/**
 		* 	Creates a <code>LinkElement</code> instance.
 		*/

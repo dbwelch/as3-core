@@ -14,6 +14,9 @@ package com.ffsys.dom.xhtml
 	dynamic public class InputElement extends InlineElement
 		implements EmptyElement
 	{
+		//TODO
+		//Other: accept disabled alt onchange size checked readonly onselect onfocus type accesskey onblur src name value inputmode maxlength tabindex
+		
 		/**
 		* 	Creates an <code>InputElement</code> instance.
 		* 

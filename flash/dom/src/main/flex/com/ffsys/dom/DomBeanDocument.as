@@ -243,8 +243,43 @@ package com.ffsys.dom
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				DomIdentifiers.KBD );
+			descriptor.instanceClass = KeyboardElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				DomIdentifiers.SAMP );
 			descriptor.instanceClass = SampleElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.INPUT );
+			descriptor.instanceClass = InputElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.LABEL );
+			descriptor.instanceClass = LabelElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.DL );
+			descriptor.instanceClass = DefinitionListElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.DFN );
+			descriptor.instanceClass = DefiningElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.DT );
+			descriptor.instanceClass = DefinitionTermElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.DD );
+			descriptor.instanceClass = DefinitionElement;
 			beans.addBeanDescriptor( descriptor );
 		}
 	}

@@ -171,6 +171,21 @@ package com.ffsys.dom
 		public static const CAPTION:String = "caption";
 		
 		/**
+		* 	Represents the kbd element.
+		*/
+		public static const KBD:String = "kbd";
+		
+		/**
+		* 	Represents the dl element.
+		*/
+		public static const DL:String = "dl";
+		
+		/**
+		* 	Represents the dfn element.
+		*/
+		public static const DFN:String = "dfn";
+		
+		/**
 		* 	Represents the dd element.
 		*/
 		public static const DD:String = "dd";
@@ -321,11 +336,6 @@ package com.ffsys.dom
 		* 	Represents the address element.
 		*/
 		public static const ADDRESS:String = "address";
-		
-		/**
-		* 	Represents the dl element.
-		*/
-		public static const DL:String = "dl";
 		
 		/**
 		* 	Represents the hr element.

@@ -104,16 +104,6 @@ package com.ffsys.dom.xhtml
 				DomIdentifiers.FORM );
 			descriptor.instanceClass = FormElement;
 			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.INPUT );
-			descriptor.instanceClass = InputElement;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.LABEL );
-			descriptor.instanceClass = LabelElement;
-			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }
