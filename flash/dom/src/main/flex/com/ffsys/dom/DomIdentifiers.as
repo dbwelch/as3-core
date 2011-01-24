@@ -375,6 +375,16 @@ package com.ffsys.dom
 		//INLINE ELEMENTS		
 		
 		/**
+		* 	Represents the abbr element.
+		*/
+		public static const ABBR:String = "abbr";
+		
+		/**
+		* 	Represents the acronym element.
+		*/
+		public static const ACRONYM:String = "acronym";
+		
+		/**
 		* 	Represents the anchor element.
 		*/
 		public static const ANCHOR:String = "a";

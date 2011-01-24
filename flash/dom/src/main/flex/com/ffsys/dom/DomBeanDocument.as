@@ -155,6 +155,11 @@ package com.ffsys.dom
 			//BLOCK
 			
 			descriptor = new BeanDescriptor(
+				DomIdentifiers.ADDRESS );
+			descriptor.instanceClass = AddressElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				DomIdentifiers.DIV );
 			descriptor.instanceClass = DivElement;
 			beans.addBeanDescriptor( descriptor );
@@ -169,7 +174,22 @@ package com.ffsys.dom
 			descriptor.instanceClass = PreformattedTextElement;
 			beans.addBeanDescriptor( descriptor );
 			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.FIELDSET );
+			descriptor.instanceClass = FieldSetElement;
+			beans.addBeanDescriptor( descriptor );
+			
 			//INLINE
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.ABBR );
+			descriptor.instanceClass = AbbreviationElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.ACRONYM );
+			descriptor.instanceClass = AcronymElement;
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.ANCHOR );
