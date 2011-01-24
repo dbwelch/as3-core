@@ -20,7 +20,66 @@ package com.ffsys.dom
 		public function DomBuildTest()
 		{
 			super();		
-		}		
+		}
+		
+		protected function assertDocumentCreationMethods( document:Document ):void
+		{
+			//assertions on the creation methods
+			var txt:Text = document.createTextNode( "this is some text" );
+			Assert.assertTrue( txt is Text );
+			Assert.assertEquals( Node.TEXT_NODE, txt.nodeType );
+			
+			var cdata:CDATASection = document.createCDATASection( "this is some cdata text" );
+			Assert.assertTrue( cdata is CDATASection );
+			Assert.assertEquals( Node.CDATA_SECTION_NODE, cdata.nodeType );
+			
+			var attr:Attr = document.createAttribute( "id" );
+			Assert.assertTrue( attr is Attr );
+			Assert.assertEquals( Node.ATTRIBUTE_NODE, attr.nodeType );
+						
+			Assert.assertEquals( "id", attr.name );
+			Assert.assertEquals( "id", attr.nodeName );
+			Assert.assertEquals( "id", attr.localName );
+			
+			//can't assert on an attribute prefix until it has an owner element
+			attr = document.createAttributeNS( "http://www.w3.org/XML/1998/namespace", "lang" );
+			Assert.assertTrue( attr is Attr );
+			Assert.assertEquals( Node.ATTRIBUTE_NODE, attr.nodeType );
+			Assert.assertEquals( "lang", attr.name );
+			Assert.assertEquals( "lang", attr.localName );
+			Assert.assertEquals( "http://www.w3.org/XML/1998/namespace", attr.uri );			
+			
+			var comment:Comment = document.createComment( "This is a comment" );
+			Assert.assertTrue( comment is Comment );
+			Assert.assertEquals( Node.COMMENT_NODE, comment.nodeType );
+			
+			var instruction:ProcessingInstruction =
+				document.createProcessingInstruction( "flash", "flash-dom-exclude" );
+			Assert.assertTrue( instruction is ProcessingInstruction );
+			Assert.assertEquals(
+				Node.PROCESSING_INSTRUCTION_NODE, instruction.nodeType );
+				
+			var fragment:DocumentFragment = document.createDocumentFragment();
+			Assert.assertTrue( fragment is DocumentFragment );
+			Assert.assertEquals(
+				Node.DOCUMENT_FRAGMENT_NODE, fragment.nodeType );
+				
+			var elem:Element = document.createElement( DomIdentifiers.ANCHOR );
+			Assert.assertTrue( elem is AnchorElement );
+			Assert.assertEquals(
+				Node.ELEMENT_NODE, elem.nodeType );	
+				
+			elem = document.createElementNS(
+				"http://www.w3.org/1999/xhtml", DomIdentifiers.ANCHOR );
+			Assert.assertTrue( elem is AnchorElement );
+			Assert.assertEquals(
+				Node.ELEMENT_NODE, elem.nodeType );	
+			Assert.assertEquals(
+				"http://www.w3.org/1999/xhtml", elem.namespaceURI );
+				
+			//TODO: implement
+			//createEntityReference
+		}
 		
 		[Test]
 		public function domBuildTest():void
@@ -35,16 +94,18 @@ package com.ffsys.dom
 			
 			document = impl.createDocument(
 				"http://www.w3.org/1999/xhtml", DomIdentifiers.DOCUMENT, doctype );
-				
-			//manually bind the DOM for $ access
-			Assert.assertTrue( ActionscriptQuery.bind( document ) );
-				
+			
 			//add a custom namespace
 			document.namespaceDeclarations.push( 
 				new Namespace( "xml", "http://www.w3.org/XML/1998/namespace" ) );
-				
+
 			//default xmlns and xmlns:xml are at the document level
 			Assert.assertEquals( 2, document.namespaceDeclarations.length );
+				
+			assertDocumentCreationMethods( document );
+				
+			//manually bind the DOM for $ access
+			Assert.assertTrue( ActionscriptQuery.bind( document ) );
 				
 			//add a qualified attribute
 			document.setAttributeNS(
@@ -112,8 +173,12 @@ package com.ffsys.dom
 			Assert.assertEquals( "http://freeformsystems.com/fluid/ui", document.head.xmlns );
 			Assert.assertEquals( "http://freeformsystems.com/fluid/ui/schema", document.head.xsi );
 			Assert.assertEquals( "fr", document.head.lang );
-			
-			trace("DomBuildTest::domBuildTest()", document.head.xmlns, document.head.xsi );
+				
+			//verify basic previous/next sibling
+			Assert.assertEquals( document.body, document.head.nextSibling );
+			Assert.assertEquals( document.head, document.body.previousSibling );
+			Assert.assertNull( document.head.previousSibling );
+			Assert.assertNull( document.body.nextSibling );
 			
 			trace("DomBuildTest::domBuildTest()", document.title, document.xml.toXMLString() );
 			

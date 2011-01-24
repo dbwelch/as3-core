@@ -9,31 +9,22 @@ package com.ffsys.dom
 		*/
 		public function Text( xml:XML = null )
 		{
-			_nodeType = Node.TEXT_NODE;			
 			super( xml );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.TEXT_NODE;
 		}
 		
 		public function splitText( offset:Number ):Text
 		{
+			//This method can raise a DOMException object.
 			//TODO: create a text element from the document
 			return null;
 		}
-		
-		/*
-		
-		Object Text
-		Text has the all the properties and methods of the CharacterData object as well as the properties and methods defined below.
-		
-		The Text object has the following methods:
-		splitText(offset)
-		This method returns a Text object.
-		The offset parameter is of type Number.
-		This method can raise a DOMException object.		
-		
-		
-		*/
-	
 	}
-
 }
-

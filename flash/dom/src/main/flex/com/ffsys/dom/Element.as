@@ -59,8 +59,15 @@ package com.ffsys.dom
 		*/
 		public function Element( xml:XML = null )
 		{
-			_nodeType = Node.ELEMENT_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.ELEMENT_NODE;
 		}
 		
 		/**

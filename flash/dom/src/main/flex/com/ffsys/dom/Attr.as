@@ -24,7 +24,6 @@ package com.ffsys.dom
 		private var _uri:String;
 		private var _name:String;
 		private var _value:String;
-		private var _prefix:String;
 		private var _data:Object;
 		
 		/**
@@ -40,12 +39,19 @@ package com.ffsys.dom
 			value:String = null,
 			uri:String = null )
 		{
-			_nodeType = Node.ATTRIBUTE_NODE;
 			super();
 			this.name = name;
 			this.value = value;
-			this.uri = uri;						
+			this.uri = uri;					
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.ATTRIBUTE_NODE;
+		}		
 		
 		/**
 		* 	A qualified name for this attribute.
@@ -158,7 +164,7 @@ package com.ffsys.dom
 		/**
 		* 	A namespace prefix associated with this attribute.
 		*/
-		public function get prefix():String
+		override public function get prefix():String
 		{
 			if( _prefix == null )
 			{
@@ -168,12 +174,7 @@ package com.ffsys.dom
 						new Namespace( this.uri ) );
 				}
 			}
-			return _prefix;
-		}
-		
-		public function set prefix( value:String ):void
-		{
-			_prefix = value;
+			return super.prefix;
 		}
 		
 		/**
@@ -210,7 +211,7 @@ package com.ffsys.dom
 		*/
 		override public function toString():String
 		{
-			return "[object Attr@" + name + "=" + value + "]";
+			return "[object Attr@" + name + "=\"" + value + "\"]";
 		}
 	}
 }

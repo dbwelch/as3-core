@@ -16,8 +16,15 @@ package com.ffsys.dom
 		*/
 		public function CDATASection( xml:XML = null )
 		{
-			_nodeType = Node.CDATA_SECTION_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.CDATA_SECTION_NODE;
 		}
 		
 		/**

@@ -16,8 +16,15 @@ package com.ffsys.dom
 		*/
 		public function EntityReference( xml:XML = null )
 		{
-			_nodeType = Node.ENTITY_REFERENCE_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.ENTITY_REFERENCE_NODE;
 		}
 	}
 }

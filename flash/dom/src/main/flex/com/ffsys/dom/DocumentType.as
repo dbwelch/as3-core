@@ -70,7 +70,6 @@ package com.ffsys.dom
 			systemId:String = null,
 			publicId:String = null )
 		{
-			_nodeType = Node.DOCUMENT_TYPE_NODE;
 			super();
 			
 			if( name == null || publicId == null || systemId == null )
@@ -82,6 +81,14 @@ package com.ffsys.dom
 				_publicId = publicId;
 				_systemId = systemId;
 			}
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.DOCUMENT_TYPE_NODE;
 		}
 		
 		/**

@@ -1,28 +1,52 @@
 package com.ffsys.dom
 {
-
+	
+	/**
+	*	Represents a notation.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  09.01.2011
+	*/
 	public class Notation extends Node
 	{
-	
+		private var _publicId:String;
+		private var _systemId:String;
+		
+		/**
+		* 	Creates a <code>Notation</code> instance.
+		*/
 		public function Notation( xml:XML = null )
 		{
-			_nodeType = Node.NOTATION_NODE;
 			super( xml );
 		}
-	
-		/*
-	
-		Object Notation
-		Notation has the all the properties and methods of the Node object as well as the properties and methods defined below.
-		The Notation object has the following properties:
-		publicId
-		This read-only property is of type String.
-		systemId
-		This read-only property is of type String.	
-	
+		
+		/**
+		* 	The public identifier for the notation.
 		*/
-	
+		public function get publicId():String
+		{
+			//This read-only property is of type String.
+			return _publicId;
+		}
+		
+		/**
+		* 	The system identifier for the notation.
+		*/
+		public function get systemId():String
+		{
+			//This read-only property is of type String.
+			return _systemId;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.NOTATION_NODE;
+		}
 	}
-
 }
-

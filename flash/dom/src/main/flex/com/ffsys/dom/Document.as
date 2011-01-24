@@ -30,8 +30,15 @@ package com.ffsys.dom
 		*/
 		public function Document( xml:XML = null )
 		{
-			_nodeType = Node.DOCUMENT_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.DOCUMENT_NODE;
 		}
 		
 		/**
@@ -258,8 +265,10 @@ package com.ffsys.dom
 		public function createElementNS( 
 			namespaceURI:String, qualifiedName:String ):Element
 		{
-			//TODO
-			return null;
+			var element:Element = Element( getDomBean(
+				qualifiedName, null, namespaceURI ) );
+			element.setNamespaceURI( namespaceURI );
+			return element;
 		}
 		
 		/**
@@ -381,13 +390,13 @@ package com.ffsys.dom
 			//TODO: check this
 			//{ name: name }
 			var ref:EntityReference = EntityReference( getDomBean(
-				DomIdentifiers.ENTITY_REFERENCE ) );
+				DomIdentifiers.ENTITY_REFERENCE, { name: name } ) );
 			return ref;
 		}
 		
 		public function importNode( source:Node, deep:Boolean ):Node
 		{
-			//
+			//TODO
 			return null;
 		}
 		
@@ -402,7 +411,10 @@ package com.ffsys.dom
 			return null;
 		}
 		
-		private function getDomBean( beanName:String, properties:Object = null ):Object
+		private function getDomBean(
+			beanName:String,
+			properties:Object = null,
+			namespaceURI:String = null ):Object
 		{
 			if( this.document == null )
 			{
@@ -410,7 +422,23 @@ package com.ffsys.dom
 				throw new Error( "Cannot retrieve a DOM bean with no valid bean document." );
 			}
 			
-			var descriptor:IBeanDescriptor = this.document.getBeanDescriptor(
+			var doc:IBeanDocument = this.document;
+			
+			if( namespaceURI != null
+				&& doc.id != namespaceURI )
+			{
+				var xref:IBeanDocument = null;
+				for each( xref in doc.xrefs )
+				{
+					if( xref.id == namespaceURI )
+					{
+						doc = xref;
+						break;
+					}
+				}
+			}
+			
+			var descriptor:IBeanDescriptor = doc.getBeanDescriptor(
 				beanName );
 				
 			if( descriptor == null )

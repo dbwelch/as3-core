@@ -73,11 +73,6 @@ package com.ffsys.dom
 		*/
 		public static const NOTATION_NODE:Number = 12;
 		
-		/**
-		* 	@private
-		*/
-		protected var _nodeType:Number;
-		
 		private var _nodeValue:String;
 		private var _parentNode:Node;
 		private var _ownerDocument:Document;
@@ -85,6 +80,13 @@ package com.ffsys.dom
 		private var _attributes:NamedNodeMap;
 		private var _qualifiedName:QName;
 		private var _propertyName:String;
+		private var _childIndex:int;
+		private var _namespaceURI:String;
+		
+		/**
+		* 	@private
+		*/
+		protected var _prefix:String;
 		
 		/**
 		* 	Creates a <code>Node</code> instance.
@@ -94,6 +96,48 @@ package com.ffsys.dom
 		public function Node( xml:XML = null )
 		{
 			super( xml );
+		}
+		
+		/**
+		* 	A namespace prefix associated with this node.
+		*/
+		public function get prefix():String
+		{
+			if( _prefix == null )
+			{
+				
+				/*
+				if( ownerElement )
+				{
+					_prefix = ownerElement.getPrefixByNamespace(
+						new Namespace( this.namespaceURI ) );
+				}
+				*/
+			}
+			return _prefix;
+		}
+		
+		public function set prefix( value:String ):void
+		{
+			//This property is of type String and can raise a DOMException object on setting.
+			_prefix = value;
+		}
+		
+		/**
+		* 	A namespace <code>URI></code> for this node.
+		*/
+		public function get namespaceURI():String
+		{
+			//TODO: implement setting this when the input xml defines a namespace
+			return _namespaceURI;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setNamespaceURI( uri:String ):void
+		{
+			_namespaceURI = uri;
 		}
 		
 		/**
@@ -126,7 +170,7 @@ package com.ffsys.dom
 		*/
 		public function get nodeType():Number
 		{
-			return _nodeType;
+			return -1;
 		}
 		
 		/**
@@ -215,7 +259,7 @@ package com.ffsys.dom
 		*/
 		public function hasChildNodes():Boolean
 		{
-			return length > 0;
+			return childNodes.length > 0;
 		}
 		
 		/**
@@ -234,6 +278,54 @@ package com.ffsys.dom
 		public function get lastChild():Node
 		{
 			return childNodes.last();
+		}
+		
+		/**
+		* 	The previous sibling of this node
+		* 	if this node has a previous sibling
+		* 	otherwise <code>null</code>.
+		*/
+		public function get previousSibling():Node
+		{
+			if( parentNode != null
+				&& childIndex >= 1 )
+			{
+				return parentNode.childNodes[ childIndex - 1 ];
+			}
+			return null;
+		}
+		
+		/**
+		* 	The next sibling of this node
+		* 	if this node has a next sibling
+		* 	otherwise <code>null</code>.
+		*/
+		public function get nextSibling():Node
+		{
+			if( parentNode != null
+				&& childIndex > -1
+				&& childIndex < ( parentNode.childNodes.length - 1 ) )
+			{
+				return parentNode.childNodes[ childIndex + 1 ];
+			}
+			return null;
+		}
+		
+		/**
+		* 	The index of this node in a parent
+		* 	node list.
+		*/
+		public function get childIndex():int
+		{
+			return _childIndex;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setChildIndex( index:int ):void
+		{
+			_childIndex = index;
 		}
 		
 		/**
@@ -280,8 +372,6 @@ package com.ffsys.dom
 			_ownerDocument = owner;
 		}
 		
-		//TODO: modify the XML document as nodes are added and removed !!?!?!?!!?
-		
 		/**
 		* 	Appends a node to the children of this node.
 		* 
@@ -294,22 +384,19 @@ package com.ffsys.dom
 		*/
 		public function appendChild( child:Node ):Node
 		{
+			//This method can raise a DOMException object.	
+			
 			if( child != null && child != this )
 			{
 				child.setParentNode( this );
+				child.setChildIndex( childNodes.length );
 				child.setOwnerDocument( _ownerDocument );
 				childNodes.concat( child );
 				
 				if( _ownerDocument && ( child is Element ) )
-				{
-					
-					//trace("[CALLING REGISTER ELEMENT ON OWNER DOCUMENT] Node::appendChild()", child );
-					
+				{	
 					_ownerDocument.registerElement( Element( child ) );
 				}
-				
-				//trace("[APPEND XML] Node::appendChild()", this, child, this.xml.children().length(), child.xml.toXMLString() );
-				
 				this.xml.appendChild( child.xml );
 				
 				//TODO: property name camel case conversion
@@ -319,32 +406,24 @@ package com.ffsys.dom
 				this[ name ] = child;
 				
 				child.added();
-				
-				//trace("[AFTER APPEND XML] Node::appendChild()", this.xml.children().length(), child.xml.parent() is XML, this.xml.toXMLString() );
-				
-				/*
-				trace("[ NODE -- APPENDING NODE ] Node::appendChild() this/child/length/children length: ",
-					this, child, child.xml.toXMLString(), child.xml.parent() );
-			
-				*/
-				
 			}
 			return child;
 		}
 		
 		public function removeChild( child:Node ):Node
 		{
+			//This method can raise a DOMException object.
+			
 			if( child != null )
 			{
 				childNodes.remove( child );
-				
-				//trace("Node::removeChild() [REMOVED]: ", removed );
 				
 				//inform of the removal
 				child.removed();
 				
 				//no parent as the node is now detached from the DOM
 				child.setParentNode( null );
+				child.setChildIndex( -1 );
 				
 				//trace("Node::removeChild()", this, child );
 				
@@ -352,18 +431,9 @@ package com.ffsys.dom
 				
 				if( child.xml != null )
 				{
-					/*
-					trace("Node::removeChild() child index: ",
-						child.xml.childIndex(), this.xml.children()[ child.xml.childIndex() ].toXMLString() );					
-					*/
-					
 					if( this.xml && index > -1 )
 					{
-						//trace("Node::removeChild()", "[DELETING XML]", this.xml.children().length(), child.xml.toXMLString() );
-						
 						delete this.xml.children()[ index ];
-					
-						//trace("Node::removeChild() [AFTER]", this.xml.children().length() ); 
 					}else{
 						child.xml = null;
 						var x:XML = null;
@@ -372,8 +442,6 @@ package com.ffsys.dom
 							x = this.xml.children()[ i ];
 							if( x.toString() == child.xml.toString() )
 							{
-								//trace("Node::removeChild()", "[FOUND FUCKING MATCHING TEXT NODE ENTRY]", x.toString() );
-								
 								delete this.xml.children()[ i ];
 							}
 						}
@@ -383,6 +451,72 @@ package com.ffsys.dom
 			return child;
 		}
 		
+		/**
+		* 	Inserts a node before another node.
+		* 
+		* 	@param child The new child to insert.
+		* 	@param before The existing reference node to insert before.
+		* 
+		* 	@return The new child node.
+		*/
+		public function insertBefore( child:Node, before:Node ):Node
+		{
+			//TODO
+			//This method can raise a DOMException object.			
+			return child;
+		}
+		
+		/**
+		* 	Replaces a node with another node.
+		* 
+		* 	@param child The new child to insert.
+		* 	@param before The existing reference node to replace.
+		* 
+		* 	@return The new child node.
+		*/
+		public function replaceChild( child:Node, existing:Node ):Node
+		{
+			//TODO
+			//This method can raise a DOMException object.			
+			return child;	
+		}
+		
+		/**
+		* 	Determines whether a feature is supported.
+		* 
+		* 	@param feature The feature name.
+		* 	@param version A version for the feature.
+		* 
+		* 	@return Whether the feature is supported.
+		*/
+		public function isSupported(
+			feature:String, version:String ):Boolean
+		{
+			//TODO
+			return false;
+		}
+		
+		/**
+		* 	Normalizes adjacent text nodes into
+		* 	a single text node.
+		*/
+		public function normalize():void
+		{
+			//TODO
+		}
+		
+		/**
+		* 	Retrieves a clone of this node.
+		* 
+		* 	@param deep Whether child nodes should also be cloned.
+		* 
+		* 	@return A clone of this node.
+		*/
+		public function cloneNode( deep:Boolean ):Node
+		{
+			//TODO
+			return null;
+		}
 		
 		/**
 		* 	@private
@@ -419,104 +553,5 @@ package com.ffsys.dom
 			}
 			return x;
 		}
-		
-		/*
-
-		nodeName
-		This read-only property is of type String.
-		
-		nodeValue
-		This property is of type String, can raise a DOMException object on setting and can raise a DOMException object on retrieval.
-		
-		nodeType
-		This read-only property is of type Number.
-		
-		parentNode
-		This read-only property is a Node object.
-		
-		childNodes
-		This read-only property is a NodeList object.
-		
-		firstChild
-		This read-only property is a Node object.
-		
-		lastChild
-		This read-only property is a Node object.
-		
-		ownerDocument
-		This read-only property is a Document object.
-		
-		localName
-		This read-only property is of type String.
-		
-		
-		
-		
-		
-		
-		
-		previousSibling
-		This read-only property is a Node object.
-		
-		nextSibling
-		This read-only property is a Node object.
-		
-		attributes
-		This read-only property is a NamedNodeMap object.
-		
-		namespaceURI
-		This read-only property is of type String.
-		
-		prefix
-		This property is of type String and can raise a DOMException object on setting.		
-		
-		*/
-		
-		/*
-		
-		appendChild(newChild)
-		This method returns a Node object.
-		The newChild parameter is a Node object.
-		This method can raise a DOMException object.		
-		
-		insertBefore(newChild, refChild)
-		This method returns a Node object.
-		The newChild parameter is a Node object.
-		The refChild parameter is a Node object.
-		This method can raise a DOMException object.
-		
-		replaceChild(newChild, oldChild)
-		This method returns a Node object.
-		The newChild parameter is a Node object.
-		The oldChild parameter is a Node object.
-		This method can raise a DOMException object.
-		
-		removeChild(oldChild)
-		This method returns a Node object.
-		The oldChild parameter is a Node object.
-		This method can raise a DOMException object.
-		
-		hasChildNodes()
-		This method returns a Boolean.
-		
-		cloneNode(deep)
-		This method returns a Node object.
-		The deep parameter is of type Boolean.
-		
-		normalize()
-		This method has no return value.
-		
-		isSupported(feature, version)
-		This method returns a Boolean.
-		The feature parameter is of type String.
-		The version parameter is of type String.
-		
-		hasAttributes()
-		This method returns a Boolean.		
-		
-		
-		
-		*/
-		
 	}
 }

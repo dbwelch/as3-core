@@ -20,8 +20,15 @@ package com.ffsys.dom
 		*/
 		public function ProcessingInstruction( xml:XML = null )
 		{
-			_nodeType = Node.PROCESSING_INSTRUCTION_NODE;
 			super( xml );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return Node.PROCESSING_INSTRUCTION_NODE;
 		}
 		
 		/**

@@ -7,6 +7,8 @@ package com.ffsys.dom
 	{
 		private var _visual:DisplayObject;
 		
+		private var _style:String;		
+		
 		/**
 		* 	Creates a <code>VisualElement</code> instance.
 		*/
@@ -15,6 +17,24 @@ package com.ffsys.dom
 			//temporarily instantiate here for testing
 			this.visual = new Sprite();
 			super( xml );
+		}
+		
+		/**
+		* 	Inline css style declarations.
+		*/
+		public function get style():String
+		{
+			return _style;
+		}
+		
+		public function set style( value:String ):void
+		{
+			//invalidate the inline style cache
+			if( value != _style )
+			{
+				_inlineStyleCache = null;
+			}
+			_style = value;
 		}
 	
 		/**
