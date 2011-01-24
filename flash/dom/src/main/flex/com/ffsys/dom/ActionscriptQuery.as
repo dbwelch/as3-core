@@ -3,6 +3,8 @@ package com.ffsys.dom
 	import flash.events.*;
 	import flash.utils.Dictionary;
 	
+	import com.ffsys.css.Selector;
+	
 	/**
 	*	Represents dynamic <code>DOM</code> queries.
 	*
@@ -680,7 +682,7 @@ package com.ffsys.dom
 			var parts:Array = query.split( Selector.DELIMITER );
 			//still no valid query
 			//find all elements
-			if( query == null || query == Selector.WILDCARD )
+			if( query == null || query == Selector.UNIVERSAL )
 			{
 				findAll( context );
 			}else{

@@ -1,5 +1,7 @@
 package com.ffsys.dom
 {
+	import com.ffsys.css.Selector;	
+	
 	import com.ffsys.ui.css.CssStyle;
 	import com.ffsys.ui.css.CssStyleCache;	
 	import com.ffsys.ui.css.ICssStyleSheet;
@@ -722,7 +724,7 @@ package com.ffsys.dom
 				var clazz:Class = getClass();
 				
 				var hash:String = Selector.IDENTIFIER;
-				var wildcard:String = Selector.WILDCARD;				
+				var wildcard:String = Selector.UNIVERSAL;				
 				
 				//wildcard first
 				output.push( wildcard );
