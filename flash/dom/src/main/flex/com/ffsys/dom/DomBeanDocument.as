@@ -140,6 +140,33 @@ package com.ffsys.dom
 			descriptor.instanceClass = Body;
 			beans.addBeanDescriptor( descriptor );
 			
+			//ABSTRACT VISUAL
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.NOSCRIPT );
+			descriptor.instanceClass = NoScriptElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.LEGEND );
+			descriptor.instanceClass = LegendElement;
+			beans.addBeanDescriptor( descriptor );	
+			
+			//BLOCK
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.DIV );
+			descriptor.instanceClass = DivElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.PRE );
+			descriptor.instanceClass = PreformattedTextElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			//INLINE
+			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.SELECT );
 			descriptor.instanceClass = SelectElement;
@@ -208,6 +235,16 @@ package com.ffsys.dom
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.TT );
 			descriptor.instanceClass = TeleTypeTextElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.Q );
+			descriptor.instanceClass = QuotationElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.SAMP );
+			descriptor.instanceClass = SampleElement;
 			beans.addBeanDescriptor( descriptor );
 		}
 	}

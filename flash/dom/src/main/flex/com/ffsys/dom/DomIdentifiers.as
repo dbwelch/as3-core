@@ -370,6 +370,16 @@ package com.ffsys.dom
 		public static const IMG:String = "img";
 		
 		/**
+		* 	Represents the samp element.
+		*/
+		public static const SAMP:String = "samp";
+		
+		/**
+		* 	Represents the q element.
+		*/
+		public static const Q:String = "q";
+		
+		/**
 		* 	Represents the em element.
 		*/
 		public static const EM:String = "em";

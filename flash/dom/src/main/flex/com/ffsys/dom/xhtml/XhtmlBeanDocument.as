@@ -58,11 +58,6 @@ package com.ffsys.dom.xhtml
 				DomIdentifiers.HEADING_4,
 				DomIdentifiers.HEADING_5,
 				DomIdentifiers.HEADING_6 );
-			beans.addBeanDescriptor( descriptor );			
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.DIV );
-			descriptor.instanceClass = DivElement;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
