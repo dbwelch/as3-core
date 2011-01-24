@@ -154,6 +154,16 @@ package com.ffsys.dom
 				DomIdentifiers.OPTION );
 			descriptor.instanceClass = OptionElement;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.SUB );
+			descriptor.instanceClass = SubElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.SUP );
+			descriptor.instanceClass = SupElement;
+			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }

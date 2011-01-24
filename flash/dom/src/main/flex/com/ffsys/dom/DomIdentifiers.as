@@ -375,6 +375,16 @@ package com.ffsys.dom
 		public static const EM:String = "em";
 		
 		/**
+		* 	Represents the sub element.
+		*/
+		public static const SUB:String = "sub";
+		
+		/**
+		* 	Represents the sup element.
+		*/
+		public static const SUP:String = "sup";
+		
+		/**
 		* 	Represents the strong element.
 		*/
 		public static const STRONG:String = "strong";
