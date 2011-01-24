@@ -375,6 +375,11 @@ package com.ffsys.dom
 		public static const EM:String = "em";
 		
 		/**
+		* 	Represents the tt element.
+		*/
+		public static const TT:String = "tt";
+		
+		/**
 		* 	Represents the sub element.
 		*/
 		public static const SUB:String = "sub";
@@ -383,6 +388,11 @@ package com.ffsys.dom
 		* 	Represents the sup element.
 		*/
 		public static const SUP:String = "sup";
+		
+		/**
+		* 	Represents the var element.
+		*/
+		public static const VAR:String = "var";
 		
 		/**
 		* 	Represents the strong element.

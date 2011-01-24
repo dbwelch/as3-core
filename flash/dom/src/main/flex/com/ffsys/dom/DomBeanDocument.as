@@ -164,6 +164,16 @@ package com.ffsys.dom
 				DomIdentifiers.SUP );
 			descriptor.instanceClass = SupElement;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.VAR );
+			descriptor.instanceClass = VarElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.TT );
+			descriptor.instanceClass = TeleTypeTextElement;
+			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }
