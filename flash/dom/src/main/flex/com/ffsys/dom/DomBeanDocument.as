@@ -156,6 +156,41 @@ package com.ffsys.dom
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				DomIdentifiers.STRONG );
+			descriptor.instanceClass = StrongElement;
+			beans.addBeanDescriptor( descriptor );								
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.EM );
+			descriptor.instanceClass = EmElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.I );
+			descriptor.instanceClass = ItalicElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.B );
+			descriptor.instanceClass = BoldElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.SMALL );
+			descriptor.instanceClass = SmallElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.BIG );
+			descriptor.instanceClass = BigElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.SPAN );
+			descriptor.instanceClass = SpanElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				DomIdentifiers.SUB );
 			descriptor.instanceClass = SubElement;
 			beans.addBeanDescriptor( descriptor );

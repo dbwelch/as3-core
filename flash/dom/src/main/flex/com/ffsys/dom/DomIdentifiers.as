@@ -380,6 +380,26 @@ package com.ffsys.dom
 		public static const TT:String = "tt";
 		
 		/**
+		* 	Represents the i element.
+		*/
+		public static const I:String = "i";
+		
+		/**
+		* 	Represents the b element.
+		*/
+		public static const B:String = "b";
+		
+		/**
+		* 	Represents the small element.
+		*/
+		public static const SMALL:String = "small";
+		
+		/**
+		* 	Represents the big element.
+		*/
+		public static const BIG:String = "big";
+		
+		/**
 		* 	Represents the sub element.
 		*/
 		public static const SUB:String = "sub";

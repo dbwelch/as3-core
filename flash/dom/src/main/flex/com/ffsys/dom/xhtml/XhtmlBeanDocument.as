@@ -106,21 +106,6 @@ package com.ffsys.dom.xhtml
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
-				DomIdentifiers.STRONG );
-			descriptor.instanceClass = StrongElement;
-			beans.addBeanDescriptor( descriptor );								
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.EM );
-			descriptor.instanceClass = EmElement;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.SPAN );
-			descriptor.instanceClass = SpanElement;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
 				DomIdentifiers.FORM );
 			descriptor.instanceClass = FormElement;
 			beans.addBeanDescriptor( descriptor );
