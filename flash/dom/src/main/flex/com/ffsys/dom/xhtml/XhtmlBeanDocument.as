@@ -47,27 +47,6 @@ package com.ffsys.dom.xhtml
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				DomIdentifiers.DOCUMENT );
 			descriptor.instanceClass = XhtmlDocument;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.HEADING_1 );
-			descriptor.instanceClass = HeadingElement;
-			descriptor.names.push(
-				DomIdentifiers.HEADING_2,
-				DomIdentifiers.HEADING_3,
-				DomIdentifiers.HEADING_4,
-				DomIdentifiers.HEADING_5,
-				DomIdentifiers.HEADING_6 );
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.UL );
-			descriptor.instanceClass = UnorderedListElement;
-			beans.addBeanDescriptor( descriptor );
-
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.OL );
-			descriptor.instanceClass = OrderedListElement;
 			beans.addBeanDescriptor( descriptor );	
 
 			descriptor = new BeanDescriptor(

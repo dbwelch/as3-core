@@ -10,7 +10,10 @@ package com.ffsys.dom
 	*	@since  09.01.2011
 	*/
 	dynamic public class Body extends BlockElement
-	{		
+	{
+		//TODO
+		//Other: onload onunload
+	
 		/**
 		* 	Creates a <code>Body</code> instance.
 		*/

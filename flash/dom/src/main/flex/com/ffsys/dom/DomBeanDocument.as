@@ -152,7 +152,53 @@ package com.ffsys.dom
 			descriptor.instanceClass = LegendElement;
 			beans.addBeanDescriptor( descriptor );	
 			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.CAPTION );
+			descriptor.instanceClass = CaptionElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.TR );
+			descriptor.instanceClass = TableRowElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.TH );
+			descriptor.instanceClass = TableHeaderElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.TD );
+			descriptor.instanceClass = TableCellElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.AREA );
+			descriptor.instanceClass = AreaElement;
+			beans.addBeanDescriptor( descriptor );
+			
 			//BLOCK
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.HEADING_1 );
+			descriptor.instanceClass = HeadingElement;
+			descriptor.names.push(
+				DomIdentifiers.HEADING_2,
+				DomIdentifiers.HEADING_3,
+				DomIdentifiers.HEADING_4,
+				DomIdentifiers.HEADING_5,
+				DomIdentifiers.HEADING_6 );
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.UL );
+			descriptor.instanceClass = UnorderedListElement;
+			beans.addBeanDescriptor( descriptor );
+
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.OL );
+			descriptor.instanceClass = OrderedListElement;
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.ADDRESS );
@@ -172,6 +218,11 @@ package com.ffsys.dom
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.PRE );
 			descriptor.instanceClass = PreformattedTextElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.TABLE );
+			descriptor.instanceClass = TableElement;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
@@ -334,6 +385,11 @@ package com.ffsys.dom
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.DD );
 			descriptor.instanceClass = DefinitionElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.TEXTAREA );
+			descriptor.instanceClass = TextAreaElement;
 			beans.addBeanDescriptor( descriptor );
 		}
 	}

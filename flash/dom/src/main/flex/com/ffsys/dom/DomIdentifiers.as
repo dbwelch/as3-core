@@ -166,6 +166,16 @@ package com.ffsys.dom
 		public static const BASE:String = "base";
 		
 		/**
+		* 	Represents the area element.
+		*/
+		public static const AREA:String = "area";
+		
+		/**
+		* 	Represents the textarea element.
+		*/
+		public static const TEXTAREA:String = "textarea";
+		
+		/**
 		* 	Represents the caption element.
 		*/
 		public static const CAPTION:String = "caption";
@@ -234,21 +244,6 @@ package com.ffsys.dom
 		* 	Represents the param element.
 		*/
 		public static const PARAM:String = "param";
-		
-		/**
-		* 	Represents the td element.
-		*/
-		public static const TD:String = "td";
-		
-		/**
-		* 	Represents the th element.
-		*/
-		public static const TH:String = "th";
-		
-		/**
-		* 	Represents the tr element.
-		*/
-		public static const TR:String = "tr";
 		
 		/**
 		* 	Represents the style element.
@@ -361,6 +356,21 @@ package com.ffsys.dom
 		* 	Represents the table element.
 		*/
 		public static const TABLE:String = "table";
+		
+		/**
+		* 	Represents the tr element.
+		*/
+		public static const TR:String = "tr";
+		
+		/**
+		* 	Represents the th element.
+		*/
+		public static const TH:String = "th";
+		
+		/**
+		* 	Represents the td element.
+		*/
+		public static const TD:String = "td";
 		
 		/**
 		* 	Represents the ul element.
