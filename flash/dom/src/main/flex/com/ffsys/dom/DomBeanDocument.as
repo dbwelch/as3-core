@@ -159,6 +159,10 @@ package com.ffsys.dom
 			descriptor.instanceClass = DivElement;
 			beans.addBeanDescriptor( descriptor );
 			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.BLOCKQUOTE );
+			descriptor.instanceClass = BlockQuoteElement;
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.PRE );
