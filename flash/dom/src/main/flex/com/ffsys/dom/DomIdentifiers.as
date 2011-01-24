@@ -380,6 +380,16 @@ package com.ffsys.dom
 		public static const IMG:String = "img";
 		
 		/**
+		* 	Represents the code element.
+		*/
+		public static const CODE:String = "code";
+		
+		/**
+		* 	Represents the cite element.
+		*/
+		public static const CITE:String = "cite";
+		
+		/**
 		* 	Represents the samp element.
 		*/
 		public static const SAMP:String = "samp";

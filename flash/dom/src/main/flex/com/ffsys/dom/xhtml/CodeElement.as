@@ -3,8 +3,7 @@ package com.ffsys.dom.xhtml
 	import com.ffsys.dom.*;
 	
 	/**
-	*	Represents a sample output from scripts and computer programs,
-	* 	the <code>samp</code> element.
+	*	Represents inline code, the <code>code</code> element.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -12,15 +11,15 @@ package com.ffsys.dom.xhtml
 	*	@author Mischa Williamson
 	*	@since  24.01.2011
 	*/
-	dynamic public class SampleElement extends InlineElement
+	dynamic public class CodeElement extends InlineElement
 	{
 		/**
-		* 	Creates a <code>SampleElement</code> instance.
+		* 	Creates a <code>CodeElement</code> instance.
 		* 
 		* 	@param xml An <code>XML</code> fragment that
 		* 	defines the element.
 		*/
-		public function SampleElement( xml:XML = null )
+		public function CodeElement( xml:XML = null )
 		{
 			super( xml );
 		}

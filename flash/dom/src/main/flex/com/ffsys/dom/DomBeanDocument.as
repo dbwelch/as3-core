@@ -248,6 +248,16 @@ package com.ffsys.dom
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
+				DomIdentifiers.CODE );
+			descriptor.instanceClass = CodeElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.CITE );
+			descriptor.instanceClass = CiteElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				DomIdentifiers.SAMP );
 			descriptor.instanceClass = SampleElement;
 			beans.addBeanDescriptor( descriptor );
