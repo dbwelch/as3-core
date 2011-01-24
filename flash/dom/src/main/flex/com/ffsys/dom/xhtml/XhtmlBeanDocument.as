@@ -79,21 +79,6 @@ package com.ffsys.dom.xhtml
 				DomIdentifiers.PARAGRAPH );
 			descriptor.instanceClass = ParagraphElement;
 			beans.addBeanDescriptor( descriptor );
-
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.ANCHOR );
-			descriptor.instanceClass = AnchorElement;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.IMG );
-			descriptor.instanceClass = ImageElement;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.BR );
-			descriptor.instanceClass = LineBreakElement;
-			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				DomIdentifiers.HR );

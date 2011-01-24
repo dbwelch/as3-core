@@ -293,27 +293,27 @@ package com.ffsys.dom
 		public static const HEADING_1:String = "h1";
 		
 		/**
-		* 	Represents the <code>h1</code> element.
+		* 	Represents the <code>h2</code> element.
 		*/
 		public static const HEADING_2:String = "h2";
 		
 		/**
-		* 	Represents the <code>h1</code> element.
+		* 	Represents the <code>h3</code> element.
 		*/
 		public static const HEADING_3:String = "h3";
 		
 		/**
-		* 	Represents the <code>h1</code> element.
+		* 	Represents the <code>h4</code> element.
 		*/
 		public static const HEADING_4:String = "h4";
 		
 		/**
-		* 	Represents the <code>h1</code> element.
+		* 	Represents the <code>h5</code> element.
 		*/
 		public static const HEADING_5:String = "h5";
 		
 		/**
-		* 	Represents the <code>h1</code> element.
+		* 	Represents the <code>h6</code> element.
 		*/
 		public static const HEADING_6:String = "h6";
 		
@@ -321,6 +321,11 @@ package com.ffsys.dom
 		* 	Represents the object element.
 		*/
 		public static const OBJECT:String = "object";
+		
+		/**
+		* 	Represents the button element.
+		*/
+		public static const BUTTON:String = "button";
 		
 		/**
 		* 	Represents the fieldset element.

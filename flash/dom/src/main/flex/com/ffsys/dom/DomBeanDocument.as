@@ -172,6 +172,26 @@ package com.ffsys.dom
 			//INLINE
 			
 			descriptor = new BeanDescriptor(
+				DomIdentifiers.ANCHOR );
+			descriptor.instanceClass = AnchorElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.BUTTON );
+			descriptor.instanceClass = ButtonElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.IMG );
+			descriptor.instanceClass = ImageElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.BR );
+			descriptor.instanceClass = LineBreakElement;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
 				DomIdentifiers.SELECT );
 			descriptor.instanceClass = SelectElement;
 			beans.addBeanDescriptor( descriptor );
