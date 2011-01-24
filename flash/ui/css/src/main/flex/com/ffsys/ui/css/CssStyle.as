@@ -86,7 +86,9 @@ package com.ffsys.ui.css
 		* 	The name of the property to search for when
 		* 	mapping font family declarations.
 		*/
-		public static const FONT_PROPERTY:String = "font";	
+		public static const FONT_PROPERTY:String = "font";
+		
+		private var _styleName:String;
 		
 		private var _id:String;
 		
@@ -130,6 +132,19 @@ package com.ffsys.ui.css
 		{
 			//trace("[ CSS ] [ CssStyle::doWithNewProperty ]", name, value );
 			return value;
+		}
+		
+		/**
+		* 	The name of this style.
+		*/
+		public function get styleName():String
+		{
+			return _styleName;
+		}
+		
+		public function set styleName( value:String ):void
+		{
+			_styleName = value;
 		}
 		
 		/*

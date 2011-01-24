@@ -79,5 +79,14 @@ package com.ffsys.ui.css {
 		* 	@param style The style object.
 		*/
 		function applyStyle( target:Object, style:Object ):void;
+		
+		/**
+		*	Gets an anonymous style object wrapped as a css style.
+		* 
+		* 	@param styleName The name of the style.
+		* 
+		* 	@return The style wrapped as a css style.
+		*/
+		function getCssStyle( styleName:String ):CssStyle;
 	}
 }

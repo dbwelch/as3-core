@@ -1,6 +1,7 @@
 package com.ffsys.dom
 {
 	import com.ffsys.ui.css.CssStyle;
+	import com.ffsys.ui.css.CssStyleCache;	
 	import com.ffsys.ui.css.ICssStyleSheet;
 	import com.ffsys.ui.css.IStyleManager;
 	import com.ffsys.ui.css.IStyleManagerAware;
@@ -46,6 +47,7 @@ package com.ffsys.dom
 		
 		private var _title:String;
 		private var _classNames:String;
+		private var _styles:CssStyle;
 		private var _styleNameCache:Vector.<String> = null;
 		private var _styleManager:IStyleManager;
 		
@@ -526,6 +528,56 @@ package com.ffsys.dom
 			return this;
 		}
 		
+		private var _styleCache:CssStyleCache;
+		
+		public function get styleCache():CssStyleCache
+		{
+			return _styleCache;
+		}
+		
+		private function getStyleCache():void
+		{
+			var names:Vector.<String> = getClassLevelStyleNames();
+			var inline:CssStyle = getInlineStyle();
+			var styles:Vector.<CssStyle> = new Vector.<CssStyle>();
+			var styleObjects:Array = new Array();
+			var style:CssStyle = null;
+			for( var i:int = 0;i < names.length;i++ )
+			{
+				style = stylesheet.getCssStyle( names[ i ] );
+				styles.push( style );
+				styleObjects.push( style );
+			}
+			
+			if( inline != null )
+			{
+				names.push( INLINE_STYLE_SHEET_NAME );
+				styles.push( inline );
+			}
+			
+			//stylesheet.getFlatStyle( data[ 1 ] );
+			
+			trace("Element::added()", this, parentNode, names, styles );
+			
+			var parentCache:CssStyleCache = parentNode != null ? parentNode.styleCache : null;
+			
+			_styleCache = new CssStyleCache( parentCache, names, styles );
+			_styleCache.source = stylesheet.getFlatStyle( styleObjects );
+			
+			/*
+			
+			var data:Array = stylesheet.getStyleInformation( this );
+
+			
+			output = new ComponentStyleCache();
+			output.styleNames = data[ 0 ];
+			output.styleObjects = data[ 1 ];
+			output.styles = this.styles;
+			output.source = stylesheet.getFlatStyle( data[ 1 ] );			
+			
+			*/			
+		}
+		
 		/**
 		* 	@private
 		*/
@@ -534,11 +586,29 @@ package com.ffsys.dom
 			super.added();
 			
 			//TODO: compute css tag level inheritance
+			getStyleCache();
 			
-			var names:Vector.<String> = getClassLevelStyleNames();
-			var inline:CssStyle = getInlineStyle();
-			
-			trace("Element::added()", this, names, inline );
+		}
+		
+		/**
+		* 	The styles for this element.
+		*/
+		public function get styles():CssStyle
+		{
+			if( _styles == null )
+			{
+				if( _styleCache == null )
+				{
+					getStyleCache();
+				}
+				_styles = _styleCache.source;
+			}
+			return _styles;
+		}
+		
+		public function set styles( value:CssStyle ):void
+		{
+			_styles = value;
 		}
 		
 		/**

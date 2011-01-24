@@ -148,9 +148,34 @@ package com.ffsys.ui.css {
 				//the css parsing converts style names to lowercase
 				//so force this convention until we write a custom css parser
 				styleName = styleName.toLowerCase();
-				return getBean( styleName );
+				
+				style = getBean( styleName );
+				if( style != null )
+				{
+					try
+					{
+						style.styleName = styleName;
+					}catch( e:Error )
+					{
+						//ignore the style name on non-dynamic objects
+					}
+				}
 			}
-			return null;
+			return style;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function getCssStyle( styleName:String ):CssStyle
+		{
+			var style:CssStyle = null;
+			if( styleName != null )
+			{
+				style = new CssStyle( getStyle( styleName ) );
+				style.styleName = styleName;
+			}
+			return style;
 		}
 		
 		/**
