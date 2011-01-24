@@ -139,6 +139,21 @@ package com.ffsys.dom
 				DomIdentifiers.BODY );
 			descriptor.instanceClass = Body;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.SELECT );
+			descriptor.instanceClass = SelectElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.OPTGROUP );
+			descriptor.instanceClass = OptionGroupElement;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DomIdentifiers.OPTION );
+			descriptor.instanceClass = OptionElement;
+			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }

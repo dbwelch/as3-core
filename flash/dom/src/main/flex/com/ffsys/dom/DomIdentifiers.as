@@ -201,6 +201,11 @@ package com.ffsys.dom
 		public static const NOSCRIPT:String = "noscript";
 		
 		/**
+		* 	Represents the select element.
+		*/
+		public static const SELECT:String = "select";
+		
+		/**
 		* 	Represents the optgroup element.
 		*/
 		public static const OPTGROUP:String = "optgroup";
