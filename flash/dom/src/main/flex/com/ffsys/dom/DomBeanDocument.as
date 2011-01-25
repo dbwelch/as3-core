@@ -13,7 +13,7 @@ package com.ffsys.dom
 	*	@author Mischa Williamson
 	*	@since  14.01.2011
 	*/
-	public class DomBeanDocument extends BeanDocument
+	public class DomBeanDocument extends DomCoreBeanDocument
 	{
 		/**
 		* 	The default name for <code>DOM</code> bean documents.
@@ -27,11 +27,10 @@ package com.ffsys.dom
 		*/
 		public function DomBeanDocument( id:String = null )
 		{
-			super();
 			this.id  = id != null ? id : NAME;
 			this.locked = false;
-			this.policy = BeanCreationPolicy.MERGE;
-			doWithBeans( this );
+			this.policy = BeanCreationPolicy.MERGE;			
+			super();
 		}
 		
 		/**
@@ -39,51 +38,18 @@ package com.ffsys.dom
 		* 
 		* 	@param beans The document to initialize with the bean definitions.
 		*/
-		public function doWithBeans(
+		override public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
+			super.doWithBeans( beans );
+			
 			var data:Object = null;
 			
 			//add a css bean document xref by default
 			beans.xrefs.push( new CssBeanDocument() );
 			
-			//CORE DOM ELEMENTS
-			var descriptor:IBeanDescriptor = new BeanDescriptor(
-				DomIdentifiers.ATTR );
-			descriptor.instanceClass = Attr;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.TEXT );
-			descriptor.instanceClass = Text;
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.DOCUMENT_FRAGMENT );
-			descriptor.instanceClass = DocumentFragment;
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.PROCESSING_INSTRUCTION );
-			descriptor.instanceClass = ProcessingInstruction;
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.COMMENT );
-			descriptor.instanceClass = Comment;
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.CDATA_SECTION );
-			descriptor.instanceClass = CDATASection;
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.ENTITY );
-			descriptor.instanceClass = Entity;
-			beans.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				DomIdentifiers.ENTITY_REFERENCE );
-			descriptor.instanceClass = EntityReference;
-			beans.addBeanDescriptor( descriptor );
-			
 			//COMMON NON-VISUAL ELEMENTS
-			descriptor = new BeanDescriptor(
+			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				DomIdentifiers.HEAD );
 			descriptor.instanceClass = Head;
 			beans.addBeanDescriptor( descriptor );

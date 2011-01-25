@@ -18,9 +18,24 @@ package com.ffsys.dom
 		*/
 		public var sample:String = <css>
 				<![CDATA[
+					@unkwown-rule
 					@namespace fluid url( http://freeformsystems.com/fluid/css );
 					/**/
 					/* This is a comment about my lovely style */
+					
+					{
+						unrecognized-property: 100;
+						color: #336699;
+					}
+					
+					* {
+						color: #ff99ff;
+					}
+					
+					h1, h2, h3, h4, h5, h6 {
+						font-size: 1.2em;
+					}
+					
 					.special {
 						font-size: 2em;
 						font-family : Arial, Helvetica, sans-serif;
@@ -64,6 +79,8 @@ package com.ffsys.dom
 					CssIdentifiers.DOCUMENT ) );
 			doc.document = beans;
 			doc.parse( sample );
+			
+			trace("[CSS DOCUMENT XML] CssParseTest::cssParseTest()", doc.xml.toXMLString() );
 		}
 	}
 }

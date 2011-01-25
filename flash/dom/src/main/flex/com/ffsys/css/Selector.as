@@ -11,8 +11,13 @@ package com.ffsys.css
 	*	@author Mischa Williamson
 	*	@since  24.01.2011
 	*/
-	public class Selector extends Node
+	public class Selector extends Element
 	{
+		/**
+		* 	The attribute used to store the selector expression.
+		*/
+		public static const EXPRESSION_ATTRIBUTE:String = "expression";
+		
 		/**
 		* 	A regular expression used to determine whether
 		* 	a expression contains attribute selector filters.
@@ -86,13 +91,12 @@ package com.ffsys.css
 		*/
 		public function get expression():String
 		{
-			return _expression;
+			return getAttribute( EXPRESSION_ATTRIBUTE );
 		}
 		
 		public function set expression( value:String ):void
 		{
-			_expression = value;
-			
+			setAttribute( EXPRESSION_ATTRIBUTE, value );
 			if( value != null )
 			{
 				parse( value );

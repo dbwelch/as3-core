@@ -12,7 +12,7 @@ package com.ffsys.css
 	*	@author Mischa Williamson
 	*	@since  24.01.2011
 	*/
-	dynamic public class CssDocument extends Element
+	dynamic public class CssDocument extends Document
 	{	
 		private var _document:IBeanDocument;
 		
@@ -34,6 +34,8 @@ package com.ffsys.css
 		public function addStyleRule( rule:StyleRule ):Boolean
 		{
 			appendChild( rule );
+			
+			trace("CssDocument::addStyleRule()", rule );
 			
 			//TODO
 			return true;

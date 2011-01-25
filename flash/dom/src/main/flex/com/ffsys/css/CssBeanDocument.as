@@ -1,7 +1,10 @@
 package com.ffsys.css
 {
+	import com.ffsys.dom.DomCoreBeanDocument;
+	
 	import com.ffsys.ioc.*;
 	
+	//
 	import com.ffsys.ui.css.*;	
 	
 	/**
@@ -13,7 +16,7 @@ package com.ffsys.css
 	*	@author Mischa Williamson
 	*	@since  24.01.2011
 	*/
-	public class CssBeanDocument extends BeanDocument
+	public class CssBeanDocument extends DomCoreBeanDocument
 	{
 		/**
 		* 	The default name for css bean documents.
@@ -25,9 +28,8 @@ package com.ffsys.css
 		*/
 		public function CssBeanDocument()
 		{
-			super();
 			this.id = NAME;
-			doWithBeans( this );
+			super();
 		}
 		
 		/**
@@ -37,10 +39,10 @@ package com.ffsys.css
 		* 	@param beans The document to initialize
 		* 	with the bean definitions.
 		*/
-		public function doWithBeans(
+		override public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
-			var data:Object = null;
+			super.doWithBeans( beans );
 			
 			//CORE CSS ELEMENTS
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
@@ -66,11 +68,21 @@ package com.ffsys.css
 				CssIdentifiers.STYLE_MANAGER,
 				IStyleManagerAware,
 				descriptor ) );
+				
+			descriptor = new BeanDescriptor(
+				CssIdentifiers.AT_RULE );
+			descriptor.instanceClass = AtRule;
+			beans.addBeanDescriptor( descriptor );				
 			
 			descriptor = new BeanDescriptor(
 				CssIdentifiers.STYLE_RULE );
 			descriptor.instanceClass = StyleRule;
-			beans.addBeanDescriptor( descriptor );	
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CssIdentifiers.STYLE_PROPERTY );
+			descriptor.instanceClass = StyleProperty;
+			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }

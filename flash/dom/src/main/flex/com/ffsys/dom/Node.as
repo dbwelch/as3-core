@@ -14,6 +14,12 @@ package com.ffsys.dom
 	dynamic public class Node extends XmlAwareDomElement
 	{
 		/**
+		* 	@private
+		*/
+		static private var _converter:PropertyNameConverter =
+			new PropertyNameConverter();		
+		
+		/**
 		* 	Constant representing an element node.
 		*/
 		public static const ELEMENT_NODE:Number = 1;
@@ -199,8 +205,7 @@ package com.ffsys.dom
 				_propertyName = localName;
 				if( _propertyName.indexOf( "-" ) > -1 )
 				{
-					var converter:PropertyNameConverter = new PropertyNameConverter();
-					_propertyName = converter.convert( _propertyName );
+					_propertyName = _converter.convert( _propertyName );
 				}
 			}
 			return _propertyName;
@@ -490,7 +495,7 @@ package com.ffsys.dom
 		* 	@return Whether the feature is supported.
 		*/
 		public function isSupported(
-			feature:String, version:String ):Boolean
+			feature:String = null, version:String = null ):Boolean
 		{
 			//TODO
 			return false;

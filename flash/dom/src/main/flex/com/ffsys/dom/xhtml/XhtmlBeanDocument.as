@@ -36,14 +36,7 @@ package com.ffsys.dom.xhtml
 			beans:IBeanDocument ):void
 		{
 			super.doWithBeans( beans );
-			
-			//TOOD: change implementations and/or names based on id
-			//which indicates the document type
-			
-			//this.id == DocumentType.systemId -->
-			
-			var data:Object = null;
-			
+
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				DomIdentifiers.DOCUMENT );
 			descriptor.instanceClass = XhtmlDocument;

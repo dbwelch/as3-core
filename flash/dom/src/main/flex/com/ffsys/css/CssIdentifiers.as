@@ -34,12 +34,22 @@ package com.ffsys.css
 		/**
 		* 	The identifier for a css style rule.
 		*/
-		public static const STYLE_RULE:String = "style-rule";
+		public static const STYLE_RULE:String = "style";
 		
 		/**
-		* 	The identifier for a css at &#64; rule.
+		* 	The identifier for a css style property.
 		*/
-		public static const AT_RULE:String = "@";
+		public static const STYLE_PROPERTY:String = "property";
+		
+		/**
+		* 	The character that defines a css at &#64; rule.
+		*/
+		public static const AT_RULE_CHARACTER:String = "@";
+		
+		/**
+		* 	The identifier for a css at rule delcaration.
+		*/
+		public static const AT_RULE:String = "at-rule";
 		
 		/**
 		* 	The character that starts a css style rule.

@@ -1,5 +1,7 @@
-package com.ffsys.css
+package com.ffsys.dom
 {
+	import com.ffsys.css.*;
+	
 	import com.ffsys.net.sax.*;
 	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ioc.support.xml.BeanSaxParser;
@@ -18,15 +20,9 @@ package com.ffsys.css
 	*/
 	public class CssSaxParser extends BeanSaxParser
 	{
-		/**
-		* 	@private
-		*/
-		static private var _converter:PropertyNameConverter =
-			new PropertyNameConverter();
-		
 		private var _css:CssDocument;
 		private var _inStyleRule:Boolean = false;
-		private var _selector:Selector;
+		private var _rule:StyleRule;
 		private var _style:Object;
 		
 		/**
@@ -42,6 +38,10 @@ package com.ffsys.css
 		*/
 		public function get css():CssDocument
 		{
+			if( _css == null )
+			{
+				_css = new CssDocument();
+			}
 			return _css;
 		}
 		
@@ -84,7 +84,7 @@ package com.ffsys.css
 					continue;
 				}
 			
-				if( part.indexOf( CssIdentifiers.AT_RULE ) == 0 )
+				if( part.indexOf( CssIdentifiers.AT_RULE_CHARACTER ) == 0 )
 				{
 					handleAtRule( part );
 					continue;
@@ -108,7 +108,6 @@ package com.ffsys.css
 			if( start > -1 )
 			{
 				part = startStyleRule( part );
-				trace("[SELECTOR START] CssSaxParser::text()", _selector, part );
 			}
 			
 			//potential style rule property
@@ -120,9 +119,9 @@ package com.ffsys.css
 			
 			if( end > -1 )
 			{
-				trace("[SELECTOR END] CssSaxParser::text()", _selector, part );
-				
 				part = finishStyleRule( part );
+				
+				trace("[SELECTOR END] CssSaxParser::text()", _rule.xml.toXMLString() );
 			}
 			
 			//start more style rules if necessary
@@ -166,11 +165,22 @@ package com.ffsys.css
 			if( index > -1 )
 			{
 				nm = stripWhitespace( part.substr( 0, index ) );
-				//convert to camel case
-				nm = _converter.convert( nm );
 				value = stripWhitespace( part.substr( index + 1 ) );
 				_style[ nm ] = value;
-				trace("CssSaxParser::parseStyleRuleProperty()", nm, value );
+				
+				var property:StyleProperty = StyleProperty(
+					getCssBean(
+						CssIdentifiers.STYLE_PROPERTY ) );
+					
+				property.name = nm;
+				property.value = value;
+				
+				if( property.isSupported() )
+				{
+					_rule.appendChild( property );
+				}
+				
+				trace("CssSaxParser::parseStyleRuleProperty()", property, property.localName, property.propertyName, property.value );
 			}
 			return part;
 		}
@@ -215,7 +225,15 @@ package com.ffsys.css
 		*/
 		private function handleAtRule( part:String ):void
 		{
-			trace("[AT RULE] CssSaxParser::handleAtRule()", part );
+			var rule:AtRule = AtRule( getCssBean( CssIdentifiers.AT_RULE ) );
+			
+			trace("[AT RULE] CssSaxParser::handleAtRule()", part, rule );
+			
+			rule.expression = part;
+			if( rule.isSupported() )
+			{
+				this.css.appendChild( rule );
+			}
 		}
 		
 		/**
@@ -230,14 +248,35 @@ package com.ffsys.css
 		private function startStyleRule( part:String ):String
 		{
 			_inStyleRule = true;
-			_style = new Object();			
+			_style = new Object();	
+			_rule = StyleRule( 
+				getCssBean(
+					CssIdentifiers.STYLE_RULE ) );		
 			var index:int = part.indexOf( CssIdentifiers.STYLE_RULE_START );
 			if( index > -1 )
 			{
-				_selector = Selector( document.getBean(
-					CssIdentifiers.SELECTOR ) );
-				_selector.expression = stripWhitespace(
-					part.substr( 0, index ) );
+				var candidate:String = stripWhitespace( part.substr( 0, index ) );
+				
+				//anonymous css block declarations do not
+				//create selectors
+				if( candidate != "" )
+				{
+					var selectors:Array = [ candidate ];
+					if( candidate.indexOf( Selector.DELIMITER ) > -1 )
+					{
+						selectors = candidate.split( Selector.DELIMITER );
+					}
+				
+					var expression:String = null;
+					var selector:Selector = null;
+					for( var i:int = 0;i < selectors.length;i++ )
+					{
+						expression = stripWhitespace( selectors[ i ] );
+						selector = Selector( getCssBean( CssIdentifiers.SELECTOR ) );
+						selector.expression = expression;
+						_rule.appendChild( selector );
+					}
+				}
 			}
 			return part.substr( index + 1 );
 		}
@@ -253,17 +292,26 @@ package com.ffsys.css
 		*/
 		private function finishStyleRule( part:String ):String
 		{
-			var rule:StyleRule = StyleRule( 
-				document.getBean(
-					CssIdentifiers.STYLE_RULE ) );
-			rule.selector = _selector;
-			
-			this.css.addStyleRule( rule );
+			this.css.addStyleRule( _rule );
 			
 			_inStyleRule = false;
-			_selector = null;
-			_style = null;		
+			_style = null;
 			return part.replace( /\s*}/, "" );
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function getCssBean( beanName:String ):Object
+		{
+			var bean:Object =  document.getBean(
+				beanName );
+			if( bean is Node )
+			{
+				Node( bean ).setOwnerDocument( this.css );
+				//trace("[CSS BEAN] CssSaxParser::getCssBean()", bean, Node( bean ).ownerDocument );
+			}
+			return bean;
 		}
 	}
 }
