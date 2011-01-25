@@ -1,4 +1,4 @@
-package com.ffsys.ui.css {
+package com.ffsys.css {
 	
 	import flash.display.DisplayObject;	
 	import flash.filters.BitmapFilter;
@@ -24,7 +24,7 @@ package com.ffsys.ui.css {
 	import com.ffsys.utils.properties.PropertiesMerge;
 	
 	/**
-	*	Represents a collection of CSS styles.
+	*	Represents a collection of CSS declarations.
 	*	
 	*	Extends the style sheet parsing capability to add
 	*	support for parsing style values into primitives.
@@ -46,13 +46,12 @@ package com.ffsys.ui.css {
 	*	
 	*	@see com.ffsys.utils.primitives.PrimitiveParser
 	*/
-	public class CssStyleSheet extends BeanDocument
-		implements ICssStyleSheet {
+	public class CssStyleSheet extends BeanDocument {
 			
 		/**
 		* 	The default name for css bean documents.
 		*/
-		public static const NAME:String = "css";
+		public static const NAME:String = "css-declarations";
 			
 		/**
 		* 	The delimiter used to delimit style names in a string value.
@@ -71,7 +70,13 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Gets a <code>StyleSheet</code> representation
+		* 	of this css style sheet.
+		* 
+		* 	Note this implementation creates a <code>StyleSheet</code> instance
+		* 	each time it is invoked so should be invoked with care.
+		* 
+		* 	@return The created <code>StyleSheet</code>.
 		*/
 		public function toStyleSheet():StyleSheet
 		{
@@ -177,14 +182,18 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		*	@inheritDoc
+		*	Gets an anonymous style object wrapped as a css style.
+		* 
+		* 	@param styleName The name of the style.
+		* 
+		* 	@return The style wrapped as a css style.
 		*/
-		public function getCssStyle( styleName:String ):CssStyle
+		public function getCssStyle( styleName:String ):StyleRule
 		{
-			var style:CssStyle = null;
+			var style:StyleRule = null;
 			if( styleName != null )
 			{
-				style = new CssStyle( getStyle( styleName ) );
+				style = new StyleRule( getStyle( styleName ) );
 				style.styleName = styleName;
 			}
 			return style;
@@ -343,7 +352,15 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Gets a style name list and a list with the corresponding
+		* 	style object for each style name.
+		* 
+		* 	@param target The style aware target.
+		* 	@param custom Any additional styles to handle.
+		* 
+		* 	@return An array with two elements, the first is an array
+		* 	of the style names while the second elements is the array
+		* 	of style objects.
 		*/
 		public function getStyleInformation( target:IStyleAware, ... custom ):Array
 		{
@@ -383,11 +400,20 @@ package com.ffsys.ui.css {
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Gets a flattened representation of a multiple
+		* 	style objects.
+		* 
+		* 	Style objects are merged in the order they are
+		* 	declared so the last style wins.
+		* 
+		* 	@param styles An array of style objects.
+		* 
+		* 	@return A flat representation of all the style object
+		* 	properties.
 		*/
-		public function getFlatStyle( styles:Array ):CssStyle
+		public function getFlatStyle( styles:Array ):StyleRule
 		{
-			var cumulative:CssStyle = new CssStyle();
+			var cumulative:StyleRule = new StyleRule();
 			
 			//TODO: consider looping in reverse order and only 
 			//set the property if it hasn't already been set
@@ -427,6 +453,8 @@ package com.ffsys.ui.css {
 				}
 				*/
 				
+				trace("[FLAT STYLE] CssStyleSheet::getFlatStyle()", styles );
+				
 				var merger:PropertiesMerge = new PropertiesMerge();
 				for( var i:int = 0;i < styles.length;i++ )
 				{
@@ -442,11 +470,14 @@ package com.ffsys.ui.css {
 		*/
 		override public function getDefaultInstanceClass():Class
 		{
-			return CssStyle;
+			return StyleRule;
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	Applies a collection of style objects to a target.
+		* 
+		* 	@param target The target object receiving the style properties.
+		* 	@param styles The list of style objects.
 		*/
 		public function applyStyles( target:Object, styles:Array ):void
 		{
@@ -464,17 +495,20 @@ package com.ffsys.ui.css {
 				
 				applyStyle( target, cumulative );
 				
-				//var style:CssStyle = new CssStyle( cumulative );
+				//var style:StyleRule = new StyleRule( cumulative );
 				//style.apply( target );
 			}
 		}
 		
 		/**
-		*	@inheritDoc	
+		*	Applies a style object to a target.
+		* 
+		* 	@param target The target object receiving the style properties.
+		* 	@param style The style object.
 		*/
 		public function applyStyle( target:Object, style:Object ):void
 		{
-			var css:CssStyle = new CssStyle( style );
+			var css:StyleRule = new StyleRule( style );
 			css.apply( target );
 		}
 	}

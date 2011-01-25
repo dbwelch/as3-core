@@ -1,4 +1,4 @@
-package com.ffsys.ui.css {
+package com.ffsys.css {
 	
 	import flash.net.URLRequest;
 	
@@ -24,7 +24,7 @@ package com.ffsys.ui.css {
 		/**
 		* 	Gets the document cast to a style sheet implementation.
 		*/
-		function get stylesheet():ICssStyleSheet;
+		function get stylesheet():CssStyleSheet;
 		
 		/**
 		*	Adds a style sheet load request to this manager.
@@ -35,7 +35,7 @@ package com.ffsys.ui.css {
 		* 	@return The style sheet the loaded data will be placed into.
 		*/
 		function addStyleSheet(
-			request:URLRequest ):ICssStyleSheet;
+			request:URLRequest ):CssStyleSheet;
 		
 		/**
 		*	Removes a style sheet load request from this manager.

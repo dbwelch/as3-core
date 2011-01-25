@@ -14,8 +14,6 @@ package com.ffsys.css
 	*/
 	dynamic public class CssDocument extends Document
 	{	
-		private var _document:IBeanDocument;
-		
 		/**
 		* 	Creates a <code>CssDocument</code> instance.
 		*/
@@ -25,20 +23,20 @@ package com.ffsys.css
 		}
 		
 		/**
-		* 	Adds a style rule to this document.
-		* 
-		* 	@param rule The style rule.
-		* 
-		* 	@return Whether the style rule was added.
+		* 	Retrieves all at rule declarations.
 		*/
-		public function addStyleRule( rule:StyleRule ):Boolean
+		public function get atRules():Vector.<AtRule>
 		{
-			appendChild( rule );
-			
-			trace("CssDocument::addStyleRule()", rule );
-			
-			//TODO
-			return true;
+			var output:Vector.<AtRule> = new Vector.<AtRule>();
+			var node:Node = null;
+			for each( node in childNodes )
+			{
+				if( node is AtRule )
+				{
+					output.push( AtRule( node ) );
+				}
+			}
+			return output;
 		}
 		
 		/**

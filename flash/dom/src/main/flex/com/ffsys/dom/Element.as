@@ -1,13 +1,11 @@
 package com.ffsys.dom
 {
-	import com.ffsys.css.Selector;	
+	import com.ffsys.css.*;
 	
-	import com.ffsys.ui.css.CssStyle;
-	import com.ffsys.ui.css.CssStyleCache;	
-	import com.ffsys.ui.css.ICssStyleSheet;
-	import com.ffsys.ui.css.IStyleManager;
-	import com.ffsys.ui.css.IStyleManagerAware;
-	import com.ffsys.ui.css.StyleSheetFactory;
+	import com.ffsys.css.CssStyleSheet;
+	import com.ffsys.css.IStyleManager;
+	import com.ffsys.css.IStyleManagerAware;
+	import com.ffsys.css.StyleSheetFactory;
 	
 	/**
 	*	Represents a <code>DOM</code> element.
@@ -19,8 +17,8 @@ package com.ffsys.dom
 	*	@since  09.01.2011
 	*/
 	dynamic public class Element extends Node
-		implements IStyleManagerAware
-	{	
+		implements StyleSheetAware
+	{
 		/**
 		* 	The attribute name that determines class style names.
 		*/
@@ -43,13 +41,13 @@ package com.ffsys.dom
 		/**
 		* 	@private
 		*/
-		protected var _inlineStyleCache:ICssStyleSheet = null;		
+		protected var _inlineStyleCache:CssStyleSheet = null;		
 		
 		private var _namespaceDeclarations:Array;		
 		
 		private var _title:String;
 		private var _classNames:String;
-		private var _styles:CssStyle;
+		private var _styles:StyleRule;
 		private var _styleNameCache:Vector.<String> = null;
 		private var _styleManager:IStyleManager;
 		
@@ -530,12 +528,12 @@ package com.ffsys.dom
 			return this;
 		}
 		
-		private var _styleCache:CssStyleCache;
+		private var _styleCache:StyleRuleCache;
 		
 		/**
 		* 	A style cache for this element.
 		*/
-		public function get styleCache():CssStyleCache
+		public function get styleCache():StyleRuleCache
 		{
 			if( _styleCache == null )
 			{
@@ -550,14 +548,14 @@ package com.ffsys.dom
 		private function getStyleCache():void
 		{
 			var names:Vector.<String> = getClassLevelStyleNames();
-			var inline:CssStyle = getInlineStyle();
-			var styles:Vector.<CssStyle> = new Vector.<CssStyle>();
+			var inline:StyleRule = getInlineStyle();
+			var styles:Vector.<StyleRule> = new Vector.<StyleRule>();
 			var styleObjects:Array = new Array();
 			var style:Object = null;
 			for( var i:int = 0;i < names.length;i++ )
 			{
 				style = stylesheet.getStyle( names[ i ] );
-				styles.push( new CssStyle( style ) );
+				styles.push( new StyleRule( style ) );
 				styleObjects.push( style );
 			}
 			
@@ -568,10 +566,17 @@ package com.ffsys.dom
 				styleObjects.push( inline.source );
 			}
 
-			var source:CssStyle = stylesheet.getFlatStyle( styleObjects );
+			var source:StyleRule = stylesheet.getFlatStyle( styleObjects );
 			
-			var parentCache:CssStyleCache = parentNode != null ? parentNode.styleCache : null;
-			_styleCache = new CssStyleCache( parentCache, names, styles );
+			trace("[RETRIEVING FLAT STYLE] Element::getStyleCache()", names, this, source, source.fontSize );
+			
+			for( var z:String in source )
+			{
+				trace("Element::getStyleCache()", z , source[ z ] );
+			}
+			
+			var parentCache:StyleRuleCache = parentNode != null ? parentNode.styleCache : null;
+			_styleCache = new StyleRuleCache( parentCache, names, styles );
 			_styleCache.update( [ source ] );
 		}
 		
@@ -590,16 +595,16 @@ package com.ffsys.dom
 		/**
 		* 	The styles for this element.
 		*/
-		public function get styles():CssStyle
+		public function get styles():StyleRule
 		{
 			if( _styles == null )
 			{
-				_styles = styleCache.source;
+				_styles = styleCache.computed;
 			}
 			return _styles;
 		}
 		
-		public function set styles( value:CssStyle ):void
+		public function set styles( value:StyleRule ):void
 		{
 			_styles = value;
 		}
@@ -617,16 +622,24 @@ package com.ffsys.dom
 			_styleManager = value;
 		}
 		
+		private var _stylesheet:CssStyleSheet;
+		
 		/**
 		* 	The css style sheet used by this element.
 		*/
-		public function get stylesheet():ICssStyleSheet
+		public function get stylesheet():CssStyleSheet
 		{
-			if( styleManager )
+			if( styleManager && _stylesheet == null )
 			{
 				return styleManager.stylesheet;
 			}
-			return null;
+			return _stylesheet;
+		}
+		
+		public function set stylesheet( value:CssStyleSheet ):void
+		{
+			_stylesheet = value;
+			trace("[SET STYLESHEET] Element::set stylesheet()", value );
 		}
 		
 		/**
@@ -681,9 +694,9 @@ package com.ffsys.dom
 		* 	@return An object containing inline style
 		* 	properties.
 		*/
-		public function getInlineStyle():CssStyle
+		public function getInlineStyle():StyleRule
 		{
-			var style:CssStyle = null;
+			var style:StyleRule = null;
 			
 			//check for a style string property
 			var inline:String = this.style as String;
@@ -705,7 +718,7 @@ package com.ffsys.dom
 				//wrap the inline styles in a valid style declaration
 				var css:String = INLINE_STYLE_SHEET_NAME + " {\n" + inline + "\n}";
 				_inlineStyleCache.parse( css );
-				style = CssStyle( _inlineStyleCache.getStyle(
+				style = StyleRule( _inlineStyleCache.getStyle(
 					INLINE_STYLE_SHEET_NAME ) );
 			}
 			

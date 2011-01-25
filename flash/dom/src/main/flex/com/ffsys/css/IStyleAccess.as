@@ -1,4 +1,4 @@
-package com.ffsys.ui.css
+package com.ffsys.css
 {
 	import flash.filters.BitmapFilter;
 	import flash.text.TextFormat;

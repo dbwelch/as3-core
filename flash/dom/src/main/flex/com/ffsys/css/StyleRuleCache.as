@@ -1,44 +1,43 @@
-package com.ffsys.ui.css
+package com.ffsys.css
 {
 	import com.ffsys.core.IClone;
 	
-	import com.ffsys.utils.properties.PropertiesMerge;	
+	import com.ffsys.utils.properties.PropertiesMerge;
 	
-	//TODO: extend proxy
-	public class CssStyleCache extends Object
+	public class StyleRuleCache extends StyleElement
 	{
 		private var _names:Vector.<String>;
-		private var _styles:Vector.<CssStyle>;
-		private var _source:CssStyle;
-		private var _parent:CssStyleCache;
+		private var _rules:Vector.<StyleRule>;
+		private var _computed:StyleRule;
+		private var _parent:StyleRuleCache;
 		
 		/**
-		* 	Creates a <code>CssStyleCache</code> instance.
+		* 	Creates a <code>StyleRuleCache</code> instance.
 		* 
 		* 	@param parent A parent style cache.
 		* 	@param names A list of style names.
-		* 	@param styles A list of style objects for each style name.
+		* 	@param rules A list of style objects for each style name.
 		*/
-		public function CssStyleCache(
-			parent:CssStyleCache = null,
+		public function StyleRuleCache(
+			parent:StyleRuleCache = null,
 			names:Vector.<String> = null, 
-			styles:Vector.<CssStyle> = null )
+			rules:Vector.<StyleRule> = null )
 		{
 			super();
 			this.parent = parent;
 			this.names = names;
-			this.styles = styles;
+			this.rules = rules;
 		}
 		
 		/**
 		* 	A parent style cache.
 		*/
-		public function get parent():CssStyleCache
+		public function get parent():StyleRuleCache
 		{
 			return _parent;
 		}
 		
-		public function set parent( value:CssStyleCache ):void
+		public function set parent( value:StyleRuleCache ):void
 		{
 			_parent = value;
 			if( value != null )
@@ -50,30 +49,30 @@ package com.ffsys.ui.css
 		/**
 		* 	Inherits style properties from another style cache.
 		*/
-		public function inherit( parent:CssStyleCache ):void
+		public function inherit( parent:StyleRuleCache ):void
 		{
 			if( parent != null )
 			{
 				//copy in the parent style properties
-				update( [ parent.source ] );
+				update( [ parent.computed ] );
 			}
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function copy():CssStyle
+		public function copy():StyleRule
 		{
 			//TODO: integrate deep copying using clone if the object implements IClone
 			//once the clone logic has been integrated with the component objects - graphics first!
-			var output:CssStyle = new CssStyle();
-			if( _source != null )
+			var output:StyleRule = new StyleRule();
+			if( _computed != null )
 			{
 				var z:String = null;
 				var target:*;
-				for( z in _source )
+				for( z in _computed )
 				{
-					target = _source[ z ];
+					target = _computed[ z ];
 					if( target is IClone
 						&& Object( target ).clone is Function )
 					{
@@ -88,36 +87,36 @@ package com.ffsys.ui.css
 		/**
 		* 	TODO
 		*/
-		public function update( styles:Array ):Object
+		public function update( rules:Array ):Object
 		{
-			if( styles != null )
+			if( rules != null )
 			{
 				var merger:PropertiesMerge = new PropertiesMerge();
 				var style:Object = null;
-				for( var i:int = 0;i < styles.length;i++ )
+				for( var i:int = 0;i < rules.length;i++ )
 				{
-					style = styles[ i ];
-					merger.merge( source, style, false );
+					style = rules[ i ];
+					merger.merge( computed, style, false );
 				}
 			}
-			return _source;
+			return _computed;
 		}
 		
 		/**
 		* 	@inheritDoc
 		*/
-		public function get source():CssStyle
+		public function get computed():StyleRule
 		{
-			if( _source == null )
+			if( _computed == null )
 			{
-				_source = new CssStyle( {} );
+				_computed = new StyleRule( {} );
 			}
-			return _source;
+			return _computed;
 		}
 		
-		public function set source( value:CssStyle ):void
+		public function set computed( value:StyleRule ):void
 		{
-			_source = value;
+			_computed = value;
 		}
 		
 		/**
@@ -136,14 +135,14 @@ package com.ffsys.ui.css
 		/**
 		* 	@inheritDoc
 		*/		
-		public function get styles():Vector.<CssStyle>
+		public function get rules():Vector.<StyleRule>
 		{
-			return _styles;
+			return _rules;
 		}
 		
-		public function set styles( value:Vector.<CssStyle> ):void
+		public function set rules( value:Vector.<StyleRule> ):void
 		{
-			_styles = value;
+			_rules = value;
 		}
 
 		/**
@@ -153,7 +152,7 @@ package com.ffsys.ui.css
 		*/
 		public function getCloneClass():Class
 		{
-			return CssStyleCache;
+			return StyleRuleCache;
 		}
 		
 		/**
@@ -170,14 +169,14 @@ package com.ffsys.ui.css
 		/**
 		* 	@inheritDoc
 		*/
-		public function clone():CssStyleCache
+		public function clone():StyleRuleCache
 		{
-			var cache:CssStyleCache =
-				CssStyleCache( getCloneInstance() );
+			var cache:StyleRuleCache =
+				StyleRuleCache( getCloneInstance() );
 			cache.names = names.slice();
 			//TODO: deep clone style objects
-			cache.styles = styles.slice();
-			cache.source = copy();
+			cache.rules = rules.slice();
+			cache.computed = copy();
 			return cache;
 		}
 	}

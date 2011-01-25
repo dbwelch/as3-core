@@ -5,7 +5,7 @@ package com.ffsys.css
 	import com.ffsys.ioc.*;
 	
 	//
-	import com.ffsys.ui.css.*;	
+	import com.ffsys.css.*;	
 	
 	/**
 	* 	Defines the bean descriptors for css documents.
@@ -44,9 +44,30 @@ package com.ffsys.css
 		{
 			super.doWithBeans( beans );
 			
+			var data:Object = null;
+			
 			//CORE CSS ELEMENTS
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
-				CssIdentifiers.DOCUMENT );
+				CssIdentifiers.STYLE_SHEET );
+			descriptor.instanceClass = CssStyleSheet;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			//style sheet type injector
+			beans.types.push( new BeanTypeInjector(
+				CssIdentifiers.STYLE_SHEET,
+				CssIdentifiers.STYLE_SHEET,
+				StyleSheetAware,
+				descriptor ) );		
+			
+			data = new Object();
+			data.stylesheet = new BeanReference(
+				CssIdentifiers.DOCUMENT,
+				null,
+				CssIdentifiers.STYLE_SHEET );
+			
+			descriptor = new BeanDescriptor(
+				CssIdentifiers.DOCUMENT, data );
 			descriptor.instanceClass = CssDocument;
 			beans.addBeanDescriptor( descriptor );
 			
@@ -56,18 +77,16 @@ package com.ffsys.css
 			beans.addBeanDescriptor( descriptor );
 			
 			//hook in the style manager
+			
+			/*
 			descriptor = new BeanDescriptor( 
 				CssIdentifiers.STYLE_MANAGER );
 			descriptor.instanceClass = StyleManager;
 			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 			
-			//style manager type injector
-			beans.types.push( new BeanTypeInjector(
-				CssIdentifiers.STYLE_MANAGER,
-				CssIdentifiers.STYLE_MANAGER,
-				IStyleManagerAware,
-				descriptor ) );
+
+			*/		
 				
 			descriptor = new BeanDescriptor(
 				CssIdentifiers.AT_RULE );

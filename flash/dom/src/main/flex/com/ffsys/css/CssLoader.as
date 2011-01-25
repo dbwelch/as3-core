@@ -1,4 +1,4 @@
-package com.ffsys.ui.css {
+package com.ffsys.css {
 	
 	import flash.net.URLRequest;
 	import flash.text.StyleSheet;
@@ -20,7 +20,7 @@ package com.ffsys.ui.css {
 	*/
 	public class CssLoader extends BeanLoader {
 		
-		private var _css:ICssStyleSheet;
+		private var _css:CssStyleSheet;
 		
 		/**
 		*	Creates a <code>CssLoader</code> instance.
@@ -52,12 +52,12 @@ package com.ffsys.ui.css {
 		*	The css style collection to parse the css
 		*	text file into.
 		*/
-		public function get css():ICssStyleSheet
+		public function get css():CssStyleSheet
 		{
 			return _css;
 		}
 		
-		public function set css( css:ICssStyleSheet ):void
+		public function set css( css:CssStyleSheet ):void
 		{
 			_css = css;
 		}

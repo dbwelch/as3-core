@@ -70,6 +70,9 @@ package com.ffsys.dom
 		{
 			//
 			var text:String = stripWhitespace( token.xml.toString() );
+			
+			//
+			
 			text = stripComments( text );
 			
 			trace("CssSaxParser::text()", text );
@@ -121,7 +124,7 @@ package com.ffsys.dom
 			{
 				part = finishStyleRule( part );
 				
-				trace("[SELECTOR END] CssSaxParser::text()", _rule.xml.toXMLString() );
+				//trace("[SELECTOR END] CssSaxParser::text()", _rule.xml.toXMLString() );
 			}
 			
 			//start more style rules if necessary
@@ -180,7 +183,7 @@ package com.ffsys.dom
 					_rule.appendChild( property );
 				}
 				
-				trace("CssSaxParser::parseStyleRuleProperty()", property, property.localName, property.propertyName, property.value );
+				//trace("CssSaxParser::parseStyleRuleProperty()", property, property.localName, property.propertyName, property.value );
 			}
 			return part;
 		}
@@ -190,6 +193,23 @@ package com.ffsys.dom
 		*/
 		override protected function complete():void
 		{
+			//process namespace at rules
+			var atRules:Vector.<AtRule> = this.css.atRules;
+			var rule:AtRule = null;
+			for each( rule in atRules )
+			{
+				if( rule.isNameSpace() )
+				{
+					trace("CssSaxParser::complete()", "[FOUND NAMESPACE AT RULE]" );
+					
+					//append the namespace declrations to the document element
+					this.css.namespaceDeclarations.push( rule.getNameSpace() );
+					
+					trace("CssSaxParser::complete()",
+						this.css.namespaceDeclarations[ this.css.namespaceDeclarations.length - 1 ] );
+				}
+			}
+			
 			super.complete();
 		}
 		
@@ -226,9 +246,6 @@ package com.ffsys.dom
 		private function handleAtRule( part:String ):void
 		{
 			var rule:AtRule = AtRule( getCssBean( CssIdentifiers.AT_RULE ) );
-			
-			trace("[AT RULE] CssSaxParser::handleAtRule()", part, rule );
-			
 			rule.expression = part;
 			if( rule.isSupported() )
 			{
@@ -292,7 +309,7 @@ package com.ffsys.dom
 		*/
 		private function finishStyleRule( part:String ):String
 		{
-			this.css.addStyleRule( _rule );
+			this.css.appendChild( _rule );
 			
 			_inStyleRule = false;
 			_style = null;

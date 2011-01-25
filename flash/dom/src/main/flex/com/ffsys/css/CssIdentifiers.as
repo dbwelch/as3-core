@@ -17,6 +17,11 @@ package com.ffsys.css
 		public static const DOCUMENT:String = "css";
 		
 		/**
+		* 	The identifier for a css style sheet.
+		*/
+		public static const STYLE_SHEET:String = "stylesheet";
+		
+		/**
 		* 	The identifier for the style manager.
 		*/
 		public static const STYLE_MANAGER:String = "style-manager";		

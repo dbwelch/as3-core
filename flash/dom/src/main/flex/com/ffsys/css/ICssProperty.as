@@ -1,4 +1,4 @@
-package com.ffsys.ui.css
+package com.ffsys.css
 {
 	/**
 	* 	Describes the contract for instances that determine whether

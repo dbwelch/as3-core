@@ -1,4 +1,4 @@
-package com.ffsys.ui.css {
+package com.ffsys.css {
 	
 	import flash.filters.BitmapFilter;
 	import flash.text.TextFormat;
@@ -50,18 +50,18 @@ package com.ffsys.ui.css {
 		/**
 		* 	@inheritDoc
 		*/
-		public function get stylesheet():ICssStyleSheet
+		public function get stylesheet():CssStyleSheet
 		{
-			return ICssStyleSheet( this.document );
+			return CssStyleSheet( this.document );
 		}
 		
 		/**
 		*	@inheritDoc
 		*/
 		public function addStyleSheet(
-			request:URLRequest ):ICssStyleSheet
+			request:URLRequest ):CssStyleSheet
 		{
-			return ICssStyleSheet( addBeanDocument( request ) );
+			return CssStyleSheet( addBeanDocument( request ) );
 		}
 			
 		/**

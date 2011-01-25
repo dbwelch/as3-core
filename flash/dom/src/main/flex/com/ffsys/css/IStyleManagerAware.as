@@ -1,6 +1,6 @@
-package com.ffsys.ui.css
+package com.ffsys.css
 {
-	import com.ffsys.ui.css.IStyleManager;
+	import com.ffsys.css.IStyleManager;
 	
 	/**
 	*	Describes the contract for implementations

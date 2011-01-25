@@ -44,6 +44,8 @@ package com.ffsys.css
 		*/
 		public static const VALUE_ATTRIBUTE:String = "value";
 		
+		private var _data:Object;
+		
 		/**
 		* 	Creates a <code>StyleProperty</code> instance.
 		*/
@@ -111,6 +113,49 @@ package com.ffsys.css
 		public function set value( value:String ):void
 		{
 			setAttribute( VALUE_ATTRIBUTE, value );
+			
+			if( value != null )
+			{
+				this.data = parse( value );
+			}
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Parses a value into this property.
+		* 
+		* 	@param value The string value.
+		* 
+		* 	@return The parsed data object.
+		*/
+		private function parse( value:String ):Object
+		{
+			var output:Object = value;
+			
+			//convert to a style unit if necessary
+			if( StyleUnit.isUnit( value ) )
+			{
+				output = new StyleUnit();
+				output.expression = value;
+			}
+			
+			return output;
+		}
+		
+		/**
+		* 	A representation of the value converted
+		* 	to either a primtive value or a complex
+		* 	object used to represent the value.
+		*/
+		public function get data():Object
+		{
+			return _data;
+		}
+		
+		public function set data( value:Object ):void
+		{
+			_data = value;
 		}
 
 		/**

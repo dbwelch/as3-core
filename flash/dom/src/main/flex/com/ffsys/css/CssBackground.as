@@ -1,4 +1,4 @@
-package com.ffsys.ui.css
+package com.ffsys.css
 {
 	public class CssBackground extends Object
 	{

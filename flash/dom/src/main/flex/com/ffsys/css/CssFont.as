@@ -1,7 +1,7 @@
-package com.ffsys.ui.css
+package com.ffsys.css
 {
 
-	public class CssFont extends CssElement
+	public class CssFont extends StyleElement
 	{
 		/**
 		* 	The font family.

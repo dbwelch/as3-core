@@ -28,7 +28,7 @@ package com.ffsys.ui.graphics
 	public interface IComponentGraphic
 		extends IShape,
 				IStringIdentifier,
-				IStyleAware,
+				//IStyleAware,
 				IMarginAware,
 				IPaddingAware,
 				ILayoutWidth,

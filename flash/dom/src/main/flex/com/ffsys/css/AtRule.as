@@ -20,7 +20,7 @@ package com.ffsys.css
 			"charset": true,
 			"namespace": true,
 			"import": true,
-			"font-face": true
+			"fontFace": true
 		};
 		
 		/**
@@ -49,6 +49,11 @@ package com.ffsys.css
 		public static const IMPORT:String = "import";
 		
 		/**
+		* 	Represents the namespace at rule.
+		*/
+		public static const NAMESPACE:String = "namespace";
+		
+		/**
 		* 	Represents the font-face at rule.
 		*/
 		public static const FONT_FACE:String = "font-face";
@@ -59,6 +64,42 @@ package com.ffsys.css
 		public function AtRule()
 		{
 			super();
+		}
+		
+		/**
+		* 	Determines whether this at rule represents
+		* 	a namespace declaration.
+		*/
+		public function isNameSpace():Boolean
+		{
+			return this.name == NAMESPACE;
+		}
+		
+		/**
+		* 	If this rule is a namespace declaration
+		* 	this method will retrieve a Namespace
+		* 	representation of the rule.
+		* 	
+		* 	@return A namespace representation of this rule.
+		*/
+		public function getNameSpace():Namespace
+		{
+			var ns:Namespace = null;
+			if( isNameSpace() )
+			{
+				var parts:Array = data.split( /\s/ );
+				var prefix:String = parts.length > 0 ? parts[ 0 ] : null;
+				
+				var index:int = /^url\(/.test( prefix ) ? 0 : 1;
+				
+				var uri:String = parts.length > 1 ? parts.slice( index ).join( "" ) : data;
+				
+				//TODO: parse the url value
+				trace("AtRule::getNameSpace()", parts, prefix, uri );
+				
+				ns = new Namespace( prefix, uri )
+			}
+			return ns;
 		}
 		
 		/**
@@ -152,9 +193,18 @@ package com.ffsys.css
 				var data:String = expression.replace( /^[^\s]+\s+(.*)$/, "$1" );
 				this.name = nm;
 				this.data = data;
-				
-				trace("AtRule::parse()", nm, data );
 			}
+		}
+		
+		/**
+		* 	Gets a string representation of this
+		* 	selector.
+		* 
+		* 	@return A string representation of this selector.
+		*/
+		override public function toString():String
+		{
+			return "[object " + getClass().name + "(@" + nodeName + " " + data + ")]";
 		}
 	}
 }

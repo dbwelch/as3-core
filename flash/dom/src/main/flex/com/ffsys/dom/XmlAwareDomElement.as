@@ -386,15 +386,6 @@ package com.ffsys.dom
 				return Object( eventProxy )[ name ];
 			}
 
-			/*
-			trace("CssElement::getProperty()", this, name, this.source[ name ] );
-
-			for( var z:String in source )
-			{
-				trace("[ CSS ] CssElement::getProperty() got stored property name: ", z, source[ z ] );
-			}
-			*/
-			
 			return propertyMissing( name );
 	    }
 

@@ -1,4 +1,4 @@
-package com.ffsys.ui.css {
+package com.ffsys.css {
 	
 	/**
 	*	Factory class for creating style sheets.
@@ -39,7 +39,7 @@ package com.ffsys.ui.css {
 		*	
 		*	@return The created style sheet.
 		*/
-		public static function create( clazz:Class = null ):ICssStyleSheet
+		public static function create( clazz:Class = null ):CssStyleSheet
 		{
 			var sheet:Object = null;
 			
@@ -62,13 +62,13 @@ package com.ffsys.ui.css {
 				throw e;
 			}
 			
-			if( !( sheet is ICssStyleSheet ) )
+			if( !( sheet is CssStyleSheet ) )
 			{
 				throw new Error( "The created style sheet does not adhere"
 					+ " to the style sheet contract." );
 			}
 			
-			return ICssStyleSheet( sheet );
+			return CssStyleSheet( sheet );
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.ffsys.ui.css
+package com.ffsys.css
 {
 	import flash.geom.*;
 	import flash.utils.getQualifiedClassName;
@@ -313,7 +313,7 @@ package com.ffsys.ui.css
 
 final class CssPercent extends Object {
 	
-	import com.ffsys.ui.css.CssTextElementParser;
+	import com.ffsys.css.CssTextElementParser;
 	
 	/**
 	* 	The numeric percentage value.
