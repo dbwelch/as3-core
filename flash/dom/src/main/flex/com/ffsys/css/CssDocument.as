@@ -1,5 +1,6 @@
 package com.ffsys.css
 {
+	import com.ffsys.dom.*;	
 	import com.ffsys.ioc.IBeanDocument;
 	
 	/**
@@ -11,34 +12,31 @@ package com.ffsys.css
 	*	@author Mischa Williamson
 	*	@since  24.01.2011
 	*/
-	public class CssParser extends Object
+	dynamic public class CssDocument extends Element
 	{	
 		private var _document:IBeanDocument;
 		
 		/**
-		* 	Creates a <code>CssParser</code> instance.
+		* 	Creates a <code>CssDocument</code> instance.
 		*/
-		public function CssParser()
+		public function CssDocument()
 		{
 			super();
 		}
 		
 		/**
-		* 	The bean document used when parsing 
-		* 	css source.
+		* 	Adds a style rule to this document.
+		* 
+		* 	@param rule The style rule.
+		* 
+		* 	@return Whether the style rule was added.
 		*/
-		public function get document():IBeanDocument
+		public function addStyleRule( rule:StyleRule ):Boolean
 		{
-			if( _document == null )
-			{
-				_document = new CssBeanDocument();
-			}
-			return _document;
-		}
-		
-		public function set document( value:IBeanDocument ):void
-		{
-			_document = value;
+			appendChild( rule );
+			
+			//TODO
+			return true;
 		}
 		
 		/**
@@ -52,7 +50,15 @@ package com.ffsys.css
 			{
 				source = new XML( "<css>" + source + "</css>" );
 			}
+			
 			var parser:CssSaxParser = new CssSaxParser();
+			
+			/*
+			trace("[CSS PARSE] CssDocument::parse()",
+				( source as XML ).toXMLString(), ( source as XML ).children().length() );
+			*/
+			
+			parser.css = this;
 			parser.document = this.document;
 			parser.parse( source as XML );
 		}

@@ -13,9 +13,7 @@ package com.ffsys.css
 	*/
 	public class IdentifierSelector extends Selector
 		implements SimpleSelector
-	{
-		private var _id:String;
-		
+	{	
 		/**
 		* 	Creates a <code>IdentifierSelector</code> instance.
 		* 
@@ -41,19 +39,6 @@ package com.ffsys.css
 		override public function get prefix():String
 		{
 			return Selector.IDENTIFIER;
-		}
-		
-		/**
-		* 	The specified id.
-		*/
-		public function get id():String
-		{
-			return _id;
-		}
-		
-		public function set id( value:String ):void
-		{
-			_id = value;
 		}
 	}
 }

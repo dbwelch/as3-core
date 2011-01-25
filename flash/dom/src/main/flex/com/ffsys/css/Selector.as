@@ -11,7 +11,7 @@ package com.ffsys.css
 	*	@author Mischa Williamson
 	*	@since  24.01.2011
 	*/
-	public class Selector extends Object
+	public class Selector extends Node
 	{
 		/**
 		* 	A regular expression used to determine whether
@@ -102,7 +102,7 @@ package com.ffsys.css
 		/**
 		* 	A prefix for this selector.
 		*/
-		public function get prefix():String
+		override public function get prefix():String
 		{
 			return "";
 		}
@@ -191,6 +191,17 @@ package com.ffsys.css
 			{
 				trace("Selector::parseSelector()", expression );
 			}
+		}
+		
+		/**
+		* 	Gets a string representation of this
+		* 	selector.
+		* 
+		* 	@return A string representation of this selector.
+		*/
+		override public function toString():String
+		{
+			return "[object " + getClass().name + "(" + expression + ")]";
 		}
 	}
 }

@@ -12,6 +12,16 @@ package com.ffsys.css
 	public class CssIdentifiers extends Object
 	{
 		/**
+		* 	The identifier for a css document.
+		*/
+		public static const DOCUMENT:String = "css";
+		
+		/**
+		* 	The identifier for the style manager.
+		*/
+		public static const STYLE_MANAGER:String = "style-manager";		
+		
+		/**
 		* 	The identifier for a css namespace.
 		*/
 		public static const NAMESPACE:String = "namespace";
@@ -29,6 +39,26 @@ package com.ffsys.css
 		/**
 		* 	The identifier for a css at &#64; rule.
 		*/
-		public static const AT_RULE:String = "at-rule";
+		public static const AT_RULE:String = "@";
+		
+		/**
+		* 	The character that starts a css style rule.
+		*/
+		public static const STYLE_RULE_START:String = "{";
+		
+		/**
+		* 	The character that ends a css style rule.
+		*/
+		public static const STYLE_RULE_END:String = "}";
+		
+		/**
+		* 	The character that delimits style rule property values.
+		*/
+		public static const PROPERTY_VALUE_DELIMITER:String = ":";
+		
+		/**
+		* 	The character that delimits style rule properties.
+		*/
+		public static const PROPERTY_DELIMITER:String = ";";
 	}
 }

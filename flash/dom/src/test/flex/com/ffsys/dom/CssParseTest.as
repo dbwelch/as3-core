@@ -18,8 +18,31 @@ package com.ffsys.dom
 		*/
 		public var sample:String = <css>
 				<![CDATA[
+					@namespace fluid url( http://freeformsystems.com/fluid/css );
+					/**/
+					/* This is a comment about my lovely style */
 					.special {
 						font-size: 2em;
+						font-family : Arial, Helvetica, sans-serif;
+					}
+					
+					.condensed{color:#ff6600;background-color:#0066ff}
+					
+					#id {
+						color: #ff6600;
+					}
+					
+					.inline { color: #00ff00 }
+					
+					/*
+					.first{ color: #ff00ff }.another{
+						color: #00ff00;
+					}
+					*/
+					
+					/* An empty style should still be stored */
+					fluid|CheckBox {
+						
 					}
 				]]>
 			</css>.toString();
@@ -35,9 +58,12 @@ package com.ffsys.dom
 		[Test]
 		public function cssParseTest():void
 		{	
-			var parser:CssParser = new CssParser();
-			
-			parser.parse( sample );
+			var beans:CssBeanDocument = new CssBeanDocument()
+			var doc:CssDocument = CssDocument(
+				beans.getBean(
+					CssIdentifiers.DOCUMENT ) );
+			doc.document = beans;
+			doc.parse( sample );
 		}
 	}
 }

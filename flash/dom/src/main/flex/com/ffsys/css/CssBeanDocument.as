@@ -2,6 +2,8 @@ package com.ffsys.css
 {
 	import com.ffsys.ioc.*;
 	
+	import com.ffsys.ui.css.*;	
+	
 	/**
 	* 	Defines the bean descriptors for css documents.
 	*
@@ -42,9 +44,33 @@ package com.ffsys.css
 			
 			//CORE CSS ELEMENTS
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
+				CssIdentifiers.DOCUMENT );
+			descriptor.instanceClass = CssDocument;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
 				CssIdentifiers.SELECTOR );
 			descriptor.instanceClass = Selector;
 			beans.addBeanDescriptor( descriptor );
+			
+			//hook in the style manager
+			descriptor = new BeanDescriptor( 
+				CssIdentifiers.STYLE_MANAGER );
+			descriptor.instanceClass = StyleManager;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			//style manager type injector
+			beans.types.push( new BeanTypeInjector(
+				CssIdentifiers.STYLE_MANAGER,
+				CssIdentifiers.STYLE_MANAGER,
+				IStyleManagerAware,
+				descriptor ) );
+			
+			descriptor = new BeanDescriptor(
+				CssIdentifiers.STYLE_RULE );
+			descriptor.instanceClass = StyleRule;
+			beans.addBeanDescriptor( descriptor );	
 		}
 	}
 }

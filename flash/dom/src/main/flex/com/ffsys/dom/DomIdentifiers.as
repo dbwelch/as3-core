@@ -93,14 +93,7 @@ package com.ffsys.dom
 	*/
 
 	public class DomIdentifiers extends Object
-	{
-		//NON DOM ELEMENTS
-		
-		/**
-		* 	The identifier for the style manager.
-		*/
-		public static const STYLE_MANAGER:String = "style-manager";
-		
+	{	
 		//CORE DOM ELEMENTS
 		
 		/**
