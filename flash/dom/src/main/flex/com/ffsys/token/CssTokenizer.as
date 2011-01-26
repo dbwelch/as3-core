@@ -347,59 +347,60 @@ package com.ffsys.token
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
-			//unicode range must match before {ident}
-			this.tokens.push( range );
+			//unicode range  - must match before {ident}
+			tokens.push( range );
 			
-			this.tokens.push( ident );
-			this.tokens.push( at );			
-			this.tokens.push( string1 );
-			this.tokens.push( string2 );
+			//function expression: method() - must match before {ident}
+			tokens.push( method );			
+			
+			tokens.push( at );			
+			
+			tokens.push( ident );
+			tokens.push( string1 );
+			tokens.push( string2 );
 			
 			//todo
-			this.tokens.push( badString );
-			this.tokens.push( badUri );
-			this.tokens.push( badComment );
+			tokens.push( badString );
+			tokens.push( badUri );
+			tokens.push( badComment );
 			
-			this.tokens.push( hash );			
+			tokens.push( hash );			
 			
 			//numeric values must be matched in this order
-			this.tokens.push( dimension );
-			this.tokens.push( percent );
-			this.tokens.push( num );
+			tokens.push( dimension );
+			tokens.push( percent );
+			tokens.push( num );
 			
-			//this.tokens.push( uri );
+			//tokens.push( uri );
 			
 			//xml style comments
-			this.tokens.push( cdo );
-			this.tokens.push( cdc );
+			tokens.push( cdo );
+			tokens.push( cdc );
 			
 			//character tokens
-			this.tokens.push( colon );
-			this.tokens.push( semiColon );
-			this.tokens.push( leftBrace );
-			this.tokens.push( rightBrace );
-			this.tokens.push( leftParentheses );
-			this.tokens.push( rightParentheses );
-			this.tokens.push( leftBracket );
-			this.tokens.push( rightBracket );	
+			tokens.push( colon );
+			tokens.push( semiColon );
+			tokens.push( leftBrace );
+			tokens.push( rightBrace );
+			tokens.push( leftParentheses );
+			tokens.push( rightParentheses );
+			tokens.push( leftBracket );
+			tokens.push( rightBracket );	
 			
 			//whitespace token
-			this.tokens.push( s );
+			tokens.push( s );
 			
 			//code style multiline comment
-			this.tokens.push( comment );
-			
-			//function expression: method()
-			this.tokens.push( method );
+			tokens.push( comment );
 			
 			//includes operator ~=
-			this.tokens.push( includes );
+			tokens.push( includes );
 			
 			//dashmatch operator |=
-			this.tokens.push( dashmatch );
+			tokens.push( dashmatch );
 			
 			//final catch all delimiter
-			this.tokens.push( delim );
+			tokens.push( delim );
 			
 			/*
 			

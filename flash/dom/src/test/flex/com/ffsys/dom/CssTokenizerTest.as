@@ -61,6 +61,7 @@ package com.ffsys.dom
 					#id {
 						width: 100%;
 						unicode-range: u+0080-ffff;
+						method: func( x + 1 );
 					}
 				]]>
 			</css>.toString();
