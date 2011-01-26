@@ -1,6 +1,5 @@
 package com.ffsys.token
 {
-	
 	/**
 	*	Represents a text token.
 	* 
@@ -79,6 +78,13 @@ package com.ffsys.token
 			return match != null;
 		}
 		
+		/**
+		* 	Performs comparison against a candidate string.
+		* 
+		* 	@param candidate A candidate string.
+		* 
+		* 	@return Whether this token matches the candidate.
+		*/
 		public function compare( candidate:String ):Boolean
 		{
 			var matches:Boolean = test( candidate );
@@ -90,23 +96,10 @@ package com.ffsys.token
 				}else if( match is RegExp )
 				{
 					var results:Array = ( match as RegExp ).exec( candidate );
-					
 					if( results[ 1 ] is String )
 					{
 						matched = results[ 1 ];
 					}
-					
-					/*
-					for( var i:int = 1;i < 2;i++ )
-					{
-						if( results[ i ] is String )
-						{
-							matched += results[ i ];
-						}
-					}
-					*/
-					
-					//trace("Token::compare()", "GOT MATCHED", matched );
 				}
 			}
 			return matches;
@@ -173,9 +166,16 @@ package com.ffsys.token
 			return output;
 		}
 		
+		/**
+		* 	Retrieves a string representation of this token.
+		* 
+		* 	@return A string representation of this token.
+		*/
 		public function toString():String
 		{
-			return "[object Token(" + id + ")[" + match + "][" + matched + "]]";
+			return "[object Token]["
+				+ id + "] "
+				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched );
 		}
 	}
 }

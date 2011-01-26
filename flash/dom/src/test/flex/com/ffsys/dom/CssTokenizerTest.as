@@ -86,7 +86,9 @@ package com.ffsys.dom
 			var tkn:Token = null;
 			for each( tkn in results )
 			{
-				trace("CssTokenizerTest::cssTokenizeTest()", tkn.id, tkn.matched );
+				//trace("CssTokenizerTest::cssTokenizeTest()", tkn.id, tkn.matched );
+				
+				trace( tkn );
 			}
 			
 		}
