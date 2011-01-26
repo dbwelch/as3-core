@@ -225,25 +225,35 @@ package com.ffsys.token
 			const NAME_EXP:String =
 				"(" + NMCHAR_EXP + "+" + ")";
 				
-			//TOOD: match the specification
+			//TOOD: match the specification on {ident}
 			
 			//ident				[-]?{nmstart}{nmchar}*
 			const IDENT_EXP:String =
 				"[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
 			
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
+			
 			const HASH_EXP:String = "#" + NAME_EXP;
+			
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
+			
 			const PERCENT_EXP:String = NUM_EXP + "%";
+			
 			const INCLUDES_EXP:String = "~=";
+			
 			const DASHMATCH_EXP:String = "\\|=";
+			
 			const FUNCTION_EXP:String = IDENT_EXP + "\\(";
-			const DELIM_EXP:String = "[^'\"]";
+			
 			const CDO_EXP:String = "<!--";
 			const CDC_EXP:String = "-->";
 			
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			const COMMENT_EXP:String = "/\\*[^*]*\\*+([^/*][^*]*\\*+)*/";
+			
+			//DELIM	any other character not matched by the above rules,
+			//and neither a single nor a double quote
+			const DELIM_EXP:String = "[^'\"]";
 			
 			//**************************** TOKENS ****************************//
 
@@ -291,8 +301,6 @@ package com.ffsys.token
 			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			var uri:Token = new Token( URI,
 				new RegExp( "^(" + URI_EXP + ")" ) );
-			
-			trace("CssTokenizer::uri()", uri.match );
 			
 			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			var range:Token = new Token( UNICODE_RANGE,
@@ -364,6 +372,9 @@ package com.ffsys.token
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
+			//whitespace token - match early as it's such a common token
+			tokens.push( s );			
+			
 			//match a uri function expression first
 			tokens.push( uri );			
 			
@@ -403,10 +414,7 @@ package com.ffsys.token
 			tokens.push( leftParentheses );
 			tokens.push( rightParentheses );
 			tokens.push( leftBracket );
-			tokens.push( rightBracket );	
-			
-			//whitespace token
-			tokens.push( s );
+			tokens.push( rightBracket );
 			
 			//code style multiline comment
 			tokens.push( comment );
