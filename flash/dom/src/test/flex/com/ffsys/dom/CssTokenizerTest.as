@@ -132,6 +132,10 @@ package com.ffsys.dom
 						width: 100%;
 						unicode-range: u+0080-ffff;
 						method: func( x + 1 );
+						background-image: url( assets/images/background.jpg );
+						background-image-absolute: url( http://freeformsystems.com/assets/images/background.jpg );
+						quoted-url: url( "http://freeformsystems.com/" );
+						single-quoted-url: url( 'http://freeformsystems.com/' );
 					}
 				]]>
 			</css>.toString();

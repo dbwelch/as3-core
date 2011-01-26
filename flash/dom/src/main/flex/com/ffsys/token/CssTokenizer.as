@@ -149,7 +149,7 @@ package com.ffsys.token
 		/**
 		* 	The identifier for a delim token.
 		*/
-		public static const DELIM:int = 404;
+		public static const DELIM:int = 100;
 
 		/**
 		* 	Creates a <code>CssTokenizer</code> instance.
@@ -195,7 +195,19 @@ package com.ffsys.token
 			
 			//url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)	
 			const URI_EXP:String =
-				"";
+				"url\\("			//open function call (quoted)
+				+ W_EXP
+				+ "((" + STRING1_EXP + ")|(" + STRING2_EXP + "))"
+				+ W_EXP
+				+ "\\)"				//close function call (quoted)
+				+ "|"
+				+ "url\\("			//open function call
+				+ W_EXP
+				+ "([!#$%&*-\\[\\]-~]|"
+				+ NONASCII_EXP + "|" + ESCAPE_EXP
+				+ ")*"
+				+ W_EXP
+				+ "\\)";			//close function call
 				
 			//u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			const UNICODE_RANGE_EXP:String =
@@ -280,6 +292,8 @@ package com.ffsys.token
 			var uri:Token = new Token( URI,
 				new RegExp( "^(" + URI_EXP + ")" ) );
 			
+			trace("CssTokenizer::uri()", uri.match );
+			
 			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			var range:Token = new Token( UNICODE_RANGE,
 				new RegExp( "^(" + UNICODE_RANGE_EXP + ")" ) );
@@ -350,6 +364,9 @@ package com.ffsys.token
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
+			//match a uri function expression first
+			tokens.push( uri );			
+			
 			//unicode range  - must match before {ident}
 			tokens.push( range );
 			
@@ -373,8 +390,6 @@ package com.ffsys.token
 			tokens.push( dimension );
 			tokens.push( percent );
 			tokens.push( num );
-			
-			//tokens.push( uri );
 			
 			//xml style comments
 			tokens.push( cdo );
