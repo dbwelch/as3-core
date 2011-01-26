@@ -1,60 +1,96 @@
 package com.ffsys.token
 {
 	
+	/*
+
+
+
+	Token	Definition
+
+	IDENT			{ident}
+	ATKEYWORD		@{ident}
+	STRING			{string}
+	BAD_STRING		{badstring}
+	BAD_URI			{baduri}
+	BAD_COMMENT		{badcomment}
+	HASH			#{name}
+	NUMBER			{num}
+	PERCENTAGE		{num}%
+	DIMENSION		{num}{ident}
+	URI				url\({w}{string}{w}\)
+					|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
+	UNICODE-RANGE	u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
+	
+	CDO	<!--
+	CDC	-->
+	:	:
+	;	;
+	{	\{
+	}	\}
+	(	\(
+	)	\)
+	[	\[
+	]	\]
+	S	[ \t\r\n\f]+
+	COMMENT	\/\*[^*]*\*+([^/*][^*]*\*+)*\/
+	FUNCTION	{ident}\(
+	INCLUDES	~=
+	DASHMATCH	|=
+	DELIM	any other character not matched by the above rules, and neither a single nor a double quote
+
+
+
+	ident			[-]?{nmstart}{nmchar}*
+	name			{nmchar}+
+	nmstart			[_a-z]|{nonascii}|{escape}
+	nonascii		[^\0-\237]
+	unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
+	escape			{unicode}|\\[^\n\r\f0-9a-f]
+	nmchar			[_a-z0-9-]|{nonascii}|{escape}
+	num				[0-9]+|[0-9]*\.[0-9]+
+	string			{string1}|{string2}
+	string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
+	string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
+	badstring		{badstring1}|{badstring2}
+	badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
+	badstring2		\'([^\n\r\f\\']|\\{nl}|{escape})*\\?
+	badcomment		{badcomment1}|{badcomment2}
+	badcomment1		\/\*[^*]*\*+([^/*][^*]*\*+)*
+	badcomment2		\/\*[^*]*(\*+[^/*][^*]*)*
+	baduri			{baduri1}|{baduri2}|{baduri3}
+
+	baduri1			url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}
+	baduri2			url\({w}{string}{w}
+	baduri3			url\({w}{badstring}
+	nl				\n|\r\n|\r|\f
+	w				[ \t\r\n\f]*
+
+
+
+
+
+	stylesheet  : [ CDO | CDC | S | statement ]*;
+	statement   : ruleset | at-rule;
+	at-rule     : ATKEYWORD S* any* [ block | ';' S* ];
+	block       : '{' S* [ any | block | ATKEYWORD S* | ';' S* ]* '}' S*;
+	ruleset     : selector? '{' S* declaration? [ ';' S* declaration? ]* '}' S*;
+	selector    : any+;
+	declaration : property S* ':' S* value;
+	property    : IDENT;
+	value       : [ any | block | ATKEYWORD S* ]+;
+	any         : [ IDENT | NUMBER | PERCENTAGE | DIMENSION | STRING
+	              | DELIM | URI | HASH | UNICODE-RANGE | INCLUDES
+	              | DASHMATCH | ':' | FUNCTION S* [any|unsused]* ')'
+	              | '(' S* [any|unused]* ')' | '[' S* [any|unused]* ']'
+	              ] S*;
+	unused      : block | ATKEYWORD S* | ';' S* | CDO S* | CDC S*;
+
+
+	*/	
+	
 	
 	public class CssTokenizer extends Tokenizer
-	{
-		public static const NONASCII_EXP:String
-			= "[" + String.fromCharCode( 0x0080 )
-			+ "-" + String.fromCharCode( 0xFFFFF ) + "]";
-			
-		public static const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
-		
-		//nl				\n|\r\n|\r|\f
-		public static const NL_EXP:String = "(\n|\r\n|\r|\f)";
-		
-		//w				[ \t\r\n\f]*
-		public static const W_EXP:String = "([ \t\r\n\f]*)";
-		
-		public static const UNICODE_EXP:String =
-			"(\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?)";
-		
-		public static const ESCAPE_EXP:String =
-			UNICODE_EXP + "|(\\[^\n\r\f0-9a-f])";
-		
-		public static const STRING1_EXP:String =
-			"(\"[^\n\r\f\"]*\")" + "|" + NL_EXP + "|" + ESCAPE_EXP;
-		
-		public static const STRING2_EXP:String =
-			"('[^\n\r\f']*')" + "|" + NL_EXP + "|" + ESCAPE_EXP;
-		
-		public static const UNICODE_RANGE_EXP:String =
-			"(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)";
-		
-		public static const NMSTART_EXP:String =
-			"(" + "[_a-zA-Z]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
-		
-		public static const NMCHAR_EXP:String =
-			"(" + "[_a-zA-Z0-9-]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
-		
-		public static const NAME_EXP:String =
-			"(" + NMCHAR_EXP + "+" + ")";
-		
-		public static const IDENT_EXP:String =
-			"[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
-		
-		public static const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
-		
-		public static const HASH_EXP:String = "#" + NAME_EXP;
-		
-		public static const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
-		
-		public static const PERCENT_EXP:String = NUM_EXP + "%";
-		
-		public static const INCLUDES_EXP:String = "~=";		
-		
-		public static const DASHMATCH_EXP:String = "\\|=";
-		
+	{		
 		/**
 		* 	The identifier for a stylesheet token.
 		*/
@@ -194,114 +230,6 @@ package com.ffsys.token
 		* 	The identifier for a delim token.
 		*/
 		public static const DELIM:int = 99;
-		
-		//////
-		
-		
-		/**
-		* 	The identifier for an ident macro.
-		*/
-		public static const IDENT_MACRO:int = 100;
-		
-		/**
-		* 	The identifier for a name macro.
-		*/
-		public static const NAME_MACRO:int = 101;
-		
-		/**
-		* 	The identifier for a nmstart macro.
-		*/
-		public static const NMSTART_MACRO:int = 102;
-		
-		/**
-		* 	The identifier for a nonascii macro.
-		*/
-		public static const NONASCII_MACRO:int = 103;
-		
-		/**
-		* 	The identifier for a unicode macro.
-		*/
-		public static const UNICODE_MACRO:int = 104;
-		
-		/**
-		* 	The identifier for an escape macro.
-		*/
-		public static const ESCAPE_MACRO:int = 105;
-		
-		/**
-		* 	The identifier for a nmchar macro.
-		*/
-		public static const NMCHAR_MACRO:int = 106;
-		
-		/**
-		* 	The identifier for a num macro.
-		*/
-		public static const NUM_MACRO:int = 107;
-		
-		/**
-		* 	The identifier for a string macro.
-		*/
-		public static const STRING_MACRO:int = 108;
-		
-		/**
-		* 	The identifier for a string1 macro.
-		*/
-		public static const STRING1_MACRO:int = 109;
-		
-		/**
-		* 	The identifier for a string2 macro.
-		*/
-		public static const STRING2_MACRO:int = 110;
-		
-		/**
-		* 	The identifier for a badstring macro.
-		*/
-		public static const BADSTRING_MACRO:int = 111;
-		
-		/**
-		* 	The identifier for a badstring1 macro.
-		*/
-		public static const BADSTRING1_MACRO:int = 112;
-		
-		/**
-		* 	The identifier for a badstring2 macro.
-		*/
-		public static const BADSTRING2_MACRO:int = 113;
-		
-		/**
-		* 	The identifier for a badcomment macro.
-		*/
-		public static const BADCOMMENT_MACRO:int = 114;
-		
-		/**
-		* 	The identifier for a badcomment1 macro.
-		*/
-		public static const BADCOMMENT1_MACRO:int = 115;
-		
-		/**
-		* 	The identifier for a badcomment2 macro.
-		*/
-		public static const BADCOMMENT2_MACRO:int = 116;
-		
-		/**
-		* 	The identifier for a baduri macro.
-		*/
-		public static const BADURI_MACRO:int = 117;
-		
-		/**
-		* 	The identifier for a baduri1 macro.
-		*/
-		public static const BADURI1_MACRO:int = 118;
-		
-		/**
-		* 	The identifier for a baduri2 macro.
-		*/
-		public static const BADURI2_MACRO:int = 119;
-		
-		/**
-		* 	The identifier for a baduri3 macro.
-		*/
-		public static const BADURI3_MACRO:int = 120;
 
 		/**
 		* 	Creates a <code>CssTokenizer</code> instance.
@@ -313,63 +241,53 @@ package com.ffsys.token
 		
 		override protected function configure():void
 		{
-			//MACROS
-			//ident			[-]?{nmstart}{nmchar}*
-			var ident:Token = new Token( IDENT_MACRO,
-				/^[\-]?([_a-z])+([_a-z0-9\-])*$/ );
+			//MACRO EXPRESSIONS
+			const NONASCII_EXP:String
+				= "[" + String.fromCharCode( 0x0080 )
+				+ "-" + String.fromCharCode( 0xFFFFF ) + "]";
 			
-			//name			{nmchar}+
-			var name:Token = new Token( NAME_MACRO,
-				/[_a-z0-9-]+/ );
+			const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
 			
-			//num				[0-9]+|[0-9]*\.[0-9]+
-			var num:Token = new Token( NUM_MACRO, /[0-9]+|[0-9]*\.[0-9]+/ );			
+			//nl				\n|\r\n|\r|\f
+			const NL_EXP:String = "\n|\r\n|\r|\f";
+			//w					[ \t\r\n\f]*
+			const W_EXP:String = "[ \t\r\n\f]*";
 			
-			//string			{string1}|{string2}
-			var string:Token = new Token( STRING_MACRO, /[^\0-\237]/ );			
+			const UNICODE_EXP:String =
+				"(\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?)";
+				
+			const ESCAPE_EXP:String =
+				UNICODE_EXP + "|\\[^\n\r\f0-9a-f]";
+				
+			//  + "|\\" + NL_EXP
 			
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
-			var string1:Token = new Token( STRING1_MACRO );
-			string1.start = /^[^\\]"/;
-			string1.end = /[^\\]"$/;
+			const STRING1_EXP:String =
+				"\"([^\n\r\f\\\"]" + "|\\" + NL_EXP + "|" + ESCAPE_EXP + ")*\"";
 			
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
-			var string2:Token = new Token( STRING2_MACRO, /[^\0-\237]/ );
-			
-			//badstring		{badstring1}|{badstring2}
-			var badstring:Token = new Token( BADSTRING_MACRO, /[^\0-\237]/ );			
-			
-			//badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
-			var badstring1:Token = new Token( BADSTRING1_MACRO, /[^\0-\237]/ );
-			
-			//badstring2		\'([^\n\r\f\\']|\\{nl}|{escape})*\\?
-			var badstring2:Token = new Token( BADSTRING2_MACRO, /[^\0-\237]/ );
-			
-			//badcomment		{badcomment1}|{badcomment2}
-			var badcomment:Token = new Token( BADCOMMENT_MACRO, /[^\0-\237]/ );			
-			
-			//badcomment1		\/\*[^*]*\*+([^/*][^*]*\*+)*
-			var badcomment1:Token = new Token( BADCOMMENT1_MACRO, /[^\0-\237]/ );
-			
-			//badcomment2		\/\*[^*]*(\*+[^/*][^*]*)*
-			var badcomment2:Token = new Token( BADCOMMENT2_MACRO, /[^\0-\237]/ );
-			
-			//baduri			{baduri1}|{baduri2}|{baduri3}
-			var baduri:Token = new Token( BADCOMMENT_MACRO, /[^\0-\237]/ );			
-			
-			//baduri1			url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}
-			var baduri1:Token = new Token( BADCOMMENT1_MACRO, /[^\0-\237]/ );
-			
-			//baduri2			url\({w}{string}{w}
-			var baduri2:Token = new Token( BADCOMMENT2_MACRO, /[^\0-\237]/ );
-			
-			//baduri3			url\({w}{badstring}	
-			var baduri3:Token = new Token( BADCOMMENT2_MACRO, /[^\0-\237]/ );
-			
-			//STATEMENTS
-			var stylesheet:Token = new Token( STYLESHEET );
+			const STRING2_EXP:String =
+				"'([^\n\r\f\\']" + "|\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
+				
+			const UNICODE_RANGE_EXP:String =
+				"(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)";
+			const NMSTART_EXP:String =
+				"(" + "[_a-zA-Z]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
+			const NMCHAR_EXP:String =
+				"(" + "[_a-zA-Z0-9-]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
+			const NAME_EXP:String =
+				"(" + NMCHAR_EXP + "+" + ")";
+			const IDENT_EXP:String =
+				"[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
+			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
+			const HASH_EXP:String = "#" + NAME_EXP;
+			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
+			const PERCENT_EXP:String = NUM_EXP + "%";
+			const INCLUDES_EXP:String = "~=";
+			const DASHMATCH_EXP:String = "\\|=";			
 			
 			//TOKENS
+			var stylesheet:Token = new Token( STYLESHEET );	
 			var cdo:Token = new Token( CDO, /^(<\!\-\-)/ );
 			var cdc:Token = new Token( CDC, /^(\-\->)/ );
 			var s:Token = new Token( S, /^([ \t\r\n\f]+)/ );
@@ -377,16 +295,16 @@ package com.ffsys.token
 			var at:Token = new Token(
 				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")" ) );
 			
-			var hashToken:Token = new Token(
+			var hash:Token = new Token(
 				HASH, new RegExp( "^(" + HASH_EXP + ")" ) );
 			
-			var identToken:Token = new Token(
+			var ident:Token = new Token(
 				IDENT, new RegExp( "^(" + IDENT_EXP + ")" ) );								
 			
 			//single character tokens
-			var semiColonToken:Token = new Token(
+			var semiColon:Token = new Token(
 				SEMI_COLON, /^(;)/ );
-			var colonToken:Token = new Token(
+			var colon:Token = new Token(
 				COLON, /^(:)/ );
 			var leftBrace:Token = new Token(
 				LEFT_BRACE, /^(\{)/ );
@@ -402,23 +320,23 @@ package com.ffsys.token
 				RIGHT_BRACKET, /^(\])/ );
 			
 			//numeric tokens
-			var numberToken:Token = new Token( NUMBER,
+			var num:Token = new Token( NUMBER,
 				new RegExp( "^(" + NUM_EXP + ")" ) );
-			var percentToken:Token = new Token( PERCENTAGE,
+			var percent:Token = new Token( PERCENTAGE,
 				new RegExp( "^(" + PERCENT_EXP + ")" ) );
-			var dimensionToken:Token = new Token( DIMENSION,
+			var dimension:Token = new Token( DIMENSION,
 				new RegExp( "^(" + DIMENSION_EXP + ")" ) );
 			
 			//comment token
-			var commentToken:Token = new Token(
+			var comment:Token = new Token(
 				COMMENT, /^(\/\*[^\*]*\*\/)/ );
-			commentToken.start = /\/\*/;
-			commentToken.end = /\*\//;
+			comment.start = /\/\*/;
+			comment.end = /\*\//;
 
-			var string1Token:Token = new Token( STRING,
+			var string1:Token = new Token( STRING,
 				new RegExp( "^(" + STRING1_EXP + ")" ) );
 				
-			var string2Token:Token = new Token( STRING,
+			var string2:Token = new Token( STRING,
 				new RegExp( "^(" + STRING2_EXP + ")" ) );				
 			
 			/*/\/\*[^*]*\*+([^/*][^*]*\*+)*\/*/
@@ -434,51 +352,44 @@ package com.ffsys.token
 			var dashmatch:Token = new Token( DASHMATCH,
 				new RegExp( "^(" + DASHMATCH_EXP + ")" ) );
 			
-			var delim:Token = new Token( DELIM, /^([^'"])/ );
-			
 			//|\\{nl}|{escape}	
 			
 			this.tokens.push( stylesheet );	
 			
-			this.tokens.push( identToken );
+			this.tokens.push( ident );
 			this.tokens.push( at );
-			this.tokens.push( hashToken );			
-			
-			this.tokens.push( string1Token );
-			this.tokens.push( string2Token );
 			
 			this.tokens.push( badStringToken );
 			this.tokens.push( badUriToken );
 			this.tokens.push( badCommentToken );
+			
+			this.tokens.push( hash );			
+			
+			this.tokens.push( string1 );
+			this.tokens.push( string2 );
 					
-			this.tokens.push( dimensionToken );						
-			this.tokens.push( percentToken );
-			this.tokens.push( numberToken );
+			this.tokens.push( dimension );						
+			this.tokens.push( percent );
+			this.tokens.push( num );
 			
 			this.tokens.push( cdo );
 			this.tokens.push( cdc );
 			
-			this.tokens.push( semiColonToken );
-			this.tokens.push( colonToken );
-			
+			this.tokens.push( semiColon );
+			this.tokens.push( colon );
 			this.tokens.push( leftBrace );
 			this.tokens.push( rightBrace );
-			
 			this.tokens.push( leftParentheses );
 			this.tokens.push( rightParentheses );
-			
 			this.tokens.push( leftBracket );
 			this.tokens.push( rightBracket );						
 			
 			this.tokens.push( s );
 			
-			this.tokens.push( commentToken );
+			this.tokens.push( comment );
 			
 			this.tokens.push( includes );
 			this.tokens.push( dashmatch );
-			
-			//final catch all
-			this.tokens.push( delim );					
 			
 			
 			/*
@@ -486,16 +397,21 @@ package com.ffsys.token
 			IDENT		{ident}
 			ATKEYWORD	@{ident}
 			STRING		{string}
+			
+			//todo			
 			BAD_STRING	{badstring}
 			BAD_URI		{baduri}
 			BAD_COMMENT	{badcomment}
+			
 			HASH		#{name}
 			NUMBER		{num}
 			PERCENTAGE	{num}%
 			DIMENSION	{num}{ident}
 			URI			url\({w}{string}{w}\)
 						|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
+			//todo						
 			UNICODE-RANGE	u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
+			
 			CDO	<!--
 			CDC	-->
 			:	:
@@ -507,110 +423,22 @@ package com.ffsys.token
 			[	\[
 			]	\]
 			S	[ \t\r\n\f]+
+			
 			COMMENT	\/\*[^*]*\*+([^/*][^*]*\*+)*\/
+			
+			//todo
 			FUNCTION	{ident}\(
+			
 			INCLUDES	~=
 			DASHMATCH	|=
 			DELIM	any other character not matched by the above rules, and neither a single nor a double quote			
 			
 			*/
+			
+			
+			//final catch all
+			var delim:Token = new Token( DELIM, /^([^'"])/ );			
+			this.tokens.push( delim );			
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-
-Token	Definition
-
-IDENT		{ident}
-ATKEYWORD	@{ident}
-STRING		{string}
-BAD_STRING	{badstring}
-BAD_URI		{baduri}
-BAD_COMMENT	{badcomment}
-HASH		#{name}
-NUMBER		{num}
-PERCENTAGE	{num}%
-DIMENSION	{num}{ident}
-URI			url\({w}{string}{w}\)
-			|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
-UNICODE-RANGE	u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
-CDO	<!--
-CDC	-->
-:	:
-;	;
-{	\{
-}	\}
-(	\(
-)	\)
-[	\[
-]	\]
-S	[ \t\r\n\f]+
-COMMENT	\/\*[^*]*\*+([^/*][^*]*\*+)*\/
-FUNCTION	{ident}\(
-INCLUDES	~=
-DASHMATCH	|=
-DELIM	any other character not matched by the above rules, and neither a single nor a double quote
-
-
-
-ident			[-]?{nmstart}{nmchar}*
-name			{nmchar}+
-nmstart			[_a-z]|{nonascii}|{escape}
-nonascii		[^\0-\237]
-unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
-escape			{unicode}|\\[^\n\r\f0-9a-f]
-nmchar			[_a-z0-9-]|{nonascii}|{escape}
-num				[0-9]+|[0-9]*\.[0-9]+
-string			{string1}|{string2}
-string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
-string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
-badstring		{badstring1}|{badstring2}
-badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
-badstring2		\'([^\n\r\f\\']|\\{nl}|{escape})*\\?
-badcomment		{badcomment1}|{badcomment2}
-badcomment1		\/\*[^*]*\*+([^/*][^*]*\*+)*
-badcomment2		\/\*[^*]*(\*+[^/*][^*]*)*
-baduri			{baduri1}|{baduri2}|{baduri3}
-
-baduri1			url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}
-baduri2			url\({w}{string}{w}
-baduri3			url\({w}{badstring}
-nl				\n|\r\n|\r|\f
-w				[ \t\r\n\f]*
-
-
-
-
-
-stylesheet  : [ CDO | CDC | S | statement ]*;
-statement   : ruleset | at-rule;
-at-rule     : ATKEYWORD S* any* [ block | ';' S* ];
-block       : '{' S* [ any | block | ATKEYWORD S* | ';' S* ]* '}' S*;
-ruleset     : selector? '{' S* declaration? [ ';' S* declaration? ]* '}' S*;
-selector    : any+;
-declaration : property S* ':' S* value;
-property    : IDENT;
-value       : [ any | block | ATKEYWORD S* ]+;
-any         : [ IDENT | NUMBER | PERCENTAGE | DIMENSION | STRING
-              | DELIM | URI | HASH | UNICODE-RANGE | INCLUDES
-              | DASHMATCH | ':' | FUNCTION S* [any|unsused]* ')'
-              | '(' S* [any|unused]* ')' | '[' S* [any|unused]* ']'
-              ] S*;
-unused      : block | ATKEYWORD S* | ';' S* | CDO S* | CDC S*;
-
-
-*/
-
 }
-

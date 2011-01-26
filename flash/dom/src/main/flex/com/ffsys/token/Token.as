@@ -2,7 +2,17 @@ package com.ffsys.token
 {
 	
 	/**
-	* 	//
+	*	Represents a text token.
+	* 
+	* 	A token is used both to define the text
+	* 	match and as a result token when a tokenizer
+	* 	places a result token in it's collection of results.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  26.01.2011
 	*/
 	public class Token extends Object
 	{
@@ -48,9 +58,6 @@ package com.ffsys.token
 		*/
 		public var matched:String;
 		
-		private var _alternatives:Vector.<Token>;
-		private var _combinations:Vector.<Object>;
-		
 		/**
 		* 	Creates a <code>Token</code> instance.
 		* 
@@ -64,53 +71,12 @@ package com.ffsys.token
 		}
 		
 		/**
-		* 	Alternative tokens that can be used
-		* 	as comparison when performing complete
-		* 	matching.
-		*/
-		public function get alternatives():Vector.<Token>
-		{
-			if( _alternatives == null )
-			{
-				_alternatives = new Vector.<Token>();
-			}
-			return _alternatives;
-		}
-		
-		public function set alternatives( value:Vector.<Token> ):void
-		{
-			_alternatives = value;
-		}
-		
-		/**
-		* 	Combinations that must match
-		* 	sequentially on the token.
-		* 
-		* 	A combination can be a string literal,
-		* 	regular expression or another token
-		* 	to use for comparison.
-		*/
-		public function get combinations():Vector.<Object>
-		{
-			if( _combinations == null )
-			{
-				_combinations = new Vector.<Object>();
-			}
-			return _combinations;
-		}
-		
-		public function set combinations( value:Vector.<Object> ):void
-		{
-			_combinations = value;
-		}
-		
-		/**
 		* 	Determines whether this token
 		* 	is an entire match.
 		*/
 		public function isMatch():Boolean
 		{
-			return match != null || alternatives.length > 0;
+			return match != null;
 		}
 		
 		public function compare( candidate:String ):Boolean
@@ -125,7 +91,12 @@ package com.ffsys.token
 				{
 					var results:Array = ( match as RegExp ).exec( candidate );
 					
-					matched = "";
+					if( results[ 1 ] is String )
+					{
+						matched = results[ 1 ];
+					}
+					
+					/*
 					for( var i:int = 1;i < 2;i++ )
 					{
 						if( results[ i ] is String )
@@ -133,6 +104,7 @@ package com.ffsys.token
 							matched += results[ i ];
 						}
 					}
+					*/
 					
 					//trace("Token::compare()", "GOT MATCHED", matched );
 				}
@@ -179,53 +151,6 @@ package com.ffsys.token
 					{
 						return true;
 					}
-					
-					if( alternatives.length > 0 )
-					{
-						for each( tkn in alternatives )
-						{
-							if( tkn.test( candidate ) )
-							{
-								return true;
-							}
-						}
-					}
-				}
-				
-				if( combinations.length > 0 )
-				{
-					var combo:Object = null;
-					for each( combo in combinations )
-					{
-						//trace("Token::test()", "MATCHING COMBINATION: ", combo );
-						if( combo is String )
-						{
-							var index:int = candidate.indexOf( combo as String );
-							
-							if( index != 0 )
-							{
-								return false;
-							}else{
-								//strip the matched string
-								candidate =
-									candidate.substr( ( combo as String ).length );
-							}
-						}
-						
-						if( combo is RegExp
-							&& !( combo as RegExp ).test( candidate ) )
-						{
-							return false;
-						}
-						
-						if( combo is Token
-							&& ( combo as Token ).test( candidate ) === false )
-						{
-							return false;
-						}
-					}
-					
-					return true;
 				}
 				
 				//trace("Token::test()", this, candidate );
@@ -243,8 +168,6 @@ package com.ffsys.token
 			var output:Token = new Token( id, match );
 			output.start = start;
 			output.end = end;
-			output.alternatives = alternatives.slice();			
-			output.combinations = combinations.slice();	
 			output.open = this.open;
 			output.matched = matched;
 			return output;

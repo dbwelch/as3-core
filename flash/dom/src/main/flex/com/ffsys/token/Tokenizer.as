@@ -1,11 +1,27 @@
 package com.ffsys.token
 {
 	
-	
+	/**
+	*	Responsible for tokenizing text.
+	* 
+	* 	Derived implementations may define
+	* 	the default tokens in the
+	* 	<code>configure</code> method.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  26.01.2011
+	*/
 	public class Tokenizer extends Object
 	{
 		private var _tokens:Vector.<Token>;
 		private var _results:Vector.<Token>;
+		
+		
+		private var _lastMatch:String;
+		private var _ctkn:Token = null;		
 		
 		/**
 		* 	Creates a <code>Tokenizer</code> instance.
@@ -34,14 +50,21 @@ package com.ffsys.token
 		*/
 		public function parse( source:String ):Vector.<Token>
 		{
-			_results = new Vector.<Token>();
-			ctkn = null;
+			_ctkn = null;
 			parseSource( source );
 			return _results;
 		}
 		
+		/**
+		* 	A list of tokens that represent the parsed
+		* 	results.
+		*/
 		public function get results():Vector.<Token>
 		{
+			if( _results == null )
+			{
+				_results = new Vector.<Token>();
+			}
 			return _results;
 		}
 		
@@ -57,9 +80,6 @@ package com.ffsys.token
 			return _tokens;
 		}
 		
-		private var _lastMatch:String;
-		private var ctkn:Token = null;
-		
 		/**
 		* 	@private
 		*/
@@ -72,32 +92,37 @@ package com.ffsys.token
 				var current:String = null;
 				var tkn:Token = null;
 				
-				trace("Tokenizer::parseSource()", "[TESTING SOURCE]", "'" + source + "'" );
+				//trace("Tokenizer::parseSource()", "[TESTING SOURCE]", "'" + source + "'" );
 				
 				_lastMatch = null;
 				
-				tkn = matchTokens( source, ctkn );
+				tkn = matchTokens( source, _ctkn );
 				
 				if( _lastMatch != null
 					&& _lastMatch.length > 0
 					&& source.length > 0 )
 				{
 					
-					trace("Tokenizer::parseSource()", "[AFTER MATCH]", _lastMatch );					
+					//trace("Tokenizer::parseSource()", "[AFTER MATCH]", _lastMatch );					
 					source = source.substr( _lastMatch.length );
 					parseSource( source );
 					
 					if( tkn != null
-						&& ctkn != null
-						&& tkn.id != ctkn.id )
+						&& _ctkn != null
+						&& tkn.id != _ctkn.id )
 					{
-						ctkn = tkn;
+						_ctkn = tkn;
 					}
 				}
 			}
 		}
 		
-		private function matchTokens( candidate:String, current:Token = null ):Token
+		/**
+		* 	@private
+		*/
+		private function matchTokens(
+			candidate:String,
+			current:Token = null ):Token
 		{
 			if( candidate != null )
 			{
@@ -112,7 +137,7 @@ package com.ffsys.token
 						if( current == null || tkn.id != current.id )
 						{
 							output = tkn.clone();
-							_results.push( output );
+							results.push( output );
 							return output;
 						}else{
 							current.matched += _lastMatch;

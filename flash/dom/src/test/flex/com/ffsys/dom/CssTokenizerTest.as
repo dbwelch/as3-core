@@ -32,6 +32,26 @@ package com.ffsys.dom
 						color: #ff6600;
 					}
 					
+					p[example="public class foo\
+					{\
+					    private int x;\
+					\
+					    foo(int x) {\
+					        this.x = x;\
+					    }\
+					\
+					}"] { color: red }
+					
+					p[example='public class foo\
+					{\
+					    private int x;\
+					\
+					    foo(int x) {\
+					        this.x = x;\
+					    }\
+					\
+					}'] { color: blue }
+					
 					* {
 						font-size: 2.5em;
 						margin-bottom: 10;
@@ -42,7 +62,7 @@ package com.ffsys.dom
 						width: 100%;
 					}
 				]]>
-			</css>.toString();
+			</css>.toString();		
 		
 		/**
 		*	Creates a <code>CssTokenizerTest</code> instance.
@@ -55,6 +75,9 @@ package com.ffsys.dom
 		[Test]
 		public function cssTokenizeTest():void
 		{	
+			
+			//{ causta: "}" + ({7} * '\'') }
+			
 			var tokenizer:CssTokenizer = new CssTokenizer();
 			var results:Vector.<Token> = tokenizer.parse( sample );
 			
@@ -66,22 +89,6 @@ package com.ffsys.dom
 				trace("CssTokenizerTest::cssTokenizeTest()", tkn.id, tkn.matched );
 			}
 			
-			//trace("CssTokenizerTest::cssTokenizeTest()", /^([\-]?(([_a-zA-Z]+)|([^\\x00-\\xED])+)[_a-zA-Z0-9\-]*)/.test( "*" ) );
-			
-			trace("CssTokenizerTest::cssTokenizeTest()", "\n".charCodeAt( 0 ), "a".charCodeAt( 0 ) );
-			
-			
-			var char:String = "*";
-			var code:Number = 129;
-			//var unicode:String = parseInt( code.toString(), 16 );
-			
-			trace("CssTokenizerTest::cssTokenizeTest() code: ", code, "'" + String.fromCharCode( code ) + "'" );
-			
-			var re:RegExp = /[\u000A]/;
-			
-			var gt:RegExp = new RegExp( "[" + String.fromCharCode( 0x0080 ) + "-" + String.fromCharCode( 0xFFFFF ) + "]" );
-			
-			trace("CssTokenizerTest::cssTokenizeTest() newline/a:", re.test( "\n" ), re.test( "a" ), gt.test( String.fromCharCode( code ) ) );
 		}
 	}
 }
