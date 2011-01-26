@@ -147,9 +147,24 @@ package com.ffsys.token
 		public static const DASHMATCH:int = 27;
 		
 		/**
-		* 	The identifier for a delim token.
+		* 	The identifier for a prefixmatch token.
 		*/
-		public static const DELIM:int = 100;
+		public static const PREFIXMATCH:int = 28;
+		
+		/**
+		* 	The identifier for a suffixmatch token.
+		*/
+		public static const SUFFIXMATCH:int = 29;
+		
+		/**
+		* 	The identifier for a substringmatch token.
+		*/
+		public static const SUBSTRINGMATCH:int = 30;
+		
+		/**
+		* 	The identifier for a char token.
+		*/
+		public static const CHAR:int = 100;
 
 		/**
 		* 	Creates a <code>CssTokenizer</code> instance.
@@ -322,9 +337,9 @@ package com.ffsys.token
 				+ BAD_COMMENT2_EXP
 				+ ")";
 			
-			//DELIM	any other character not matched by the above rules,
+			//CHAR	any other character not matched by the above rules,
 			//and neither a single nor a double quote
-			const DELIM_EXP:String = "[^'\"]{1}";
+			const CHAR_EXP:String = "[^'\"]{1}";
 			
 			//**************************** TOKENS ****************************//
 
@@ -383,38 +398,6 @@ package com.ffsys.token
 			//CDC				-->
 			var cdc:Token = new Token(
 				CDC, new RegExp( "^(" + CDC_EXP + ")" ) );
-			
-			//COLON				:
-			var colon:Token = new Token(
-				COLON, /^(:)/ );
-			
-			//SEMI_COLON		;
-			var semiColon:Token = new Token(
-				SEMI_COLON, /^(;)/ );
-				
-			//LEFT_BRACE		\{
-			var leftBrace:Token = new Token(
-				LEFT_BRACE, /^(\{)/ );
-			
-			//RIGHT_BRACE		\}
-			var rightBrace:Token = new Token(
-				RIGHT_BRACE, /^(\})/ );
-				
-			//LEFT_PARENTHESES	\(
-			var leftParentheses:Token = new Token(
-				LEFT_PARENTHESES, /^(\()/ );
-				
-			//RIGHT_PARENTHESES	\)
-			var rightParentheses:Token = new Token(
-				RIGHT_PARENTHESES, /^(\))/ );
-				
-			//LEFT_BRACKET		\[
-			var leftBracket:Token = new Token(
-				LEFT_BRACKET, /^(\[)/ );
-			
-			//RIGHT_BRACKET		\]
-			var rightBracket:Token = new Token(
-				RIGHT_BRACKET, /^(\])/ );
 
 			//S					[ \t\r\n\f]+
 			var s:Token = new Token( S, /^([ \t\r\n\f]+)/ );				
@@ -435,10 +418,10 @@ package com.ffsys.token
 			var method:Token = new Token(
 				FUNCTION, new RegExp( "^(" + FUNCTION_EXP + ")" ) );
 							
-			//DELIM	any other character not matched by the above rules,
+			//CHAR	any other character not matched by the above rules,
 			//and neither a single nor a double quote
-			var delim:Token = new Token(
-				DELIM, new RegExp( "^(" + DELIM_EXP + ")" ) );
+			var char:Token = new Token(
+				CHAR, new RegExp( "^(" + CHAR_EXP + ")" ) );
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
@@ -473,16 +456,6 @@ package com.ffsys.token
 			tokens.push( cdo );
 			tokens.push( cdc );
 			
-			//character tokens
-			tokens.push( colon );
-			tokens.push( semiColon );
-			tokens.push( leftBrace );
-			tokens.push( rightBrace );
-			tokens.push( leftParentheses );
-			tokens.push( rightParentheses );
-			tokens.push( leftBracket );
-			tokens.push( rightBracket );
-			
 			//code style multiline comment
 			tokens.push( comment );
 			
@@ -498,47 +471,8 @@ package com.ffsys.token
 			//dashmatch operator |=
 			tokens.push( dashmatch );
 			
-			//final catch all delimiter
-			tokens.push( delim );
-			
-			/*
-			
-			IDENT		{ident}
-			ATKEYWORD	@{ident}
-			STRING		{string}
-			
-			//todo			
-			BAD_STRING	{badstring}
-			BAD_URI		{baduri}
-			BAD_COMMENT	{badcomment}
-			
-			HASH		#{name}
-			NUMBER		{num}
-			PERCENTAGE	{num}%
-			DIMENSION	{num}{ident}
-			
-			//todo
-			URI			url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
-		
-			UNICODE-RANGE	u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
-			CDO	<!--
-			CDC	-->
-			:	:
-			;	;
-			{	\{
-			}	\}
-			(	\(
-			)	\)
-			[	\[
-			]	\]
-			S	[ \t\r\n\f]+
-			COMMENT	\/\*[^*]*\*+([^/*][^*]*\*+)*\/
-			FUNCTION	{ident}\(
-			INCLUDES	~=
-			DASHMATCH	|=
-			DELIM	any other character not matched by the above rules, and neither a single nor a double quote			
-			
-			*/		
+			//final catch all char
+			tokens.push( char );	
 		}
 	}
 }
