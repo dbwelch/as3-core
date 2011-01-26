@@ -151,6 +151,17 @@ package com.ffsys.dom
 						bad-src-badstring1: url( "http://example.com;
 						bad-src-badstring2: url( 'http://example.com;						
 					}
+					
+					.num {
+						size: 10;
+						opacity: .5;						
+						size: 50.5%;
+						size: 99%;
+						size: .1%;
+						size: 12pt;
+						size: 1.2em;
+						margin-left: -.2em;
+					}
 				]]>
 			</css>.toString();
 		

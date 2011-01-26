@@ -172,7 +172,9 @@ package com.ffsys.token
 			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";
 			
 			//num				[0-9]+|[0-9]*\.[0-9]+
-			const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
+			const NUM_EXP:String = "([0-9]*\\.)?[0-9]+";
+			
+			//const NUM_EXP:String = "[0-9]+|[0-9]*\\.[0-9]+";
 			
 			//nl				\n|\r\n|\r|\f
 			const NL_EXP:String = "\n|\r\n|\r|\f";
@@ -275,23 +277,33 @@ package com.ffsys.token
 			const IDENT_EXP:String =
 				"[\-]?(" + NMSTART_EXP + ")+" + NMCHAR_EXP + "*";
 			
+			//ATKEYWORD			@{ident}
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
 			
+			//HASH				#{name}
 			const HASH_EXP:String = "#" + NAME_EXP;
 			
+			//DIMENSION			{num}{ident}
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
 			
+			//PERCENTAGE		{num}%
 			const PERCENT_EXP:String = NUM_EXP + "%";
 			
+			//INCLUDES			~=
 			const INCLUDES_EXP:String = "~=";
 			
+			//DASHMATCH			|=
 			const DASHMATCH_EXP:String = "\\|=";
 			
+			//FUNCTION			{ident}\(
 			const FUNCTION_EXP:String = IDENT_EXP + "\\(";
 			
+			//CDO				<!--
 			const CDO_EXP:String = "<!--";
-			const CDC_EXP:String = "-->";
 			
+			//CDC				-->
+			const CDC_EXP:String = "-->";
+
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			const COMMENT_EXP:String = "/\\*[^*]*\\*+([^/*][^*]*\\*+)*/";
 			
