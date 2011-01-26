@@ -126,47 +126,6 @@ package com.ffsys.token
 					&& _lastMatch.length > 0
 					&& source.length > 0 )
 				{
-					
-					/*
-					if( tkn )
-					{
-						trace("Tokenizer::parseSource()", tkn, tkn.greedy );
-					}
-					*/
-					
-					//test for continuous greedy match 
-					if( tkn != null
-						&& tkn.match is RegExp
-						&& tkn.greedy )
-					{
-						var tmp:String = tkn.matched.charAt( 0 );
-						var re:RegExp = new RegExp( tkn.match.source + "$" );
-						var compared:Boolean = false;
-						
-						trace("[GREEDY MATCH] Tokenizer::parseSource()", i, tmp );
-						
-						for( i = 1;i < source.length;i++ )
-						{
-							c = source.charAt( i );
-							tmp += c;
-							
-							//re = new RegExp( tkn.match.source + "$" );
-							
-							compared = tkn.compare( tmp, re );
-							
-							trace("[COMPARING] Tokenizer::parseSource()", re, tmp, compared, tkn.matched );
-							
-							if( compared )
-							{
-								_lastMatch = tmp;
-							}else
-							{
-								trace("[COMPLETED GREEDY MATCH] Tokenizer::parseSource()", _lastMatch );
-								break;
-							}
-						}
-					}
-
 					//chomp the matched value				
 					source = source.substr( _lastMatch.length );
 					

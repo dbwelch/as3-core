@@ -34,8 +34,6 @@ package com.ffsys.token
 		*/
 		public var open:Boolean;
 		
-		public var greedy:Boolean;
-		
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
@@ -178,7 +176,6 @@ package com.ffsys.token
 			output.end = end;
 			output.open = this.open;
 			output.matched = matched;
-			output.greedy = greedy;
 			return output;
 		}
 		

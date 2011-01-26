@@ -169,10 +169,7 @@ package com.ffsys.token
 				+ "-" + String.fromCharCode( 0xFFFF ) + "]";
 				
 			//const NONASCII_EXP:String = "[\\u0080-\\uFFFF]";
-			
 			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";
-				
-				//[\u0080-\uFFFF]
 			
 			//num				[0-9]+|[0-9]*\.[0-9]+
 			const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
@@ -198,6 +195,9 @@ package com.ffsys.token
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
 			const STRING2_EXP:String =
 				"'([^\n\r\f\\']" + "|\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
+				
+			const STRING_EXP:String =
+				"(" + STRING1_EXP + ")|(" + STRING2_EXP + ")";
 			
 			//url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)	
 			const URI_EXP:String =
@@ -230,15 +230,6 @@ package com.ffsys.token
 			//name				{nmchar}+
 			const NAME_EXP:String =
 				"(" + NMCHAR_EXP + ")+";
-				
-			//TOOD: match the specification on {ident}
-			
-			//ident				[-]?{nmstart}{nmchar}*
-			
-			/*
-			const IDENT_EXP:String =
-				"[\-]?[_a-z]+[_a-z0-9\-]*";
-			*/	
 			
 			//IDENT				{ident}
 			//ident				[-]?{nmstart}{nmchar}*	
@@ -278,14 +269,10 @@ package com.ffsys.token
 			//ATKEYWORD			@{ident}
 			var at:Token = new Token(
 				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")", "i" ) );
-			
-			at.greedy = true;
 				
 			//STRING			{string}
-			var string1:Token = new Token( STRING,
-				new RegExp( "^(" + STRING1_EXP + ")", "i" ) );
-			var string2:Token = new Token( STRING,
-				new RegExp( "^(" + STRING2_EXP + ")", "i" ) );
+			var string:Token = new Token( STRING,
+				new RegExp( "^(" + STRING_EXP + ")", "i" ) );
 				
 			//bad values - TODO
 			
@@ -400,8 +387,8 @@ package com.ffsys.token
 			tokens.push( at );			
 			
 			tokens.push( ident );
-			tokens.push( string1 );
-			tokens.push( string2 );
+
+			tokens.push( string );
 			
 			//todo
 			tokens.push( badString );
