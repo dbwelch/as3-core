@@ -138,8 +138,8 @@ package com.ffsys.dom
 						single-quoted-url: url( 'http://freeformsystems.com/' );
 					}
 					
-					#my-id {
-						
+					#my-bad {
+						bad-string: "abc;
 					}
 				]]>
 			</css>.toString();

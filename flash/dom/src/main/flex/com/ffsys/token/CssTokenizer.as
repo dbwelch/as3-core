@@ -190,14 +190,27 @@ package com.ffsys.token
 			
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
 			const STRING1_EXP:String =
-				"\"([^\n\r\f\\\"]" + "|\\" + NL_EXP + "|" + ESCAPE_EXP + ")*\"";
+				"\"([^\n\r\f\\\"]" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*\"";
 			
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
 			const STRING2_EXP:String =
-				"'([^\n\r\f\\']" + "|\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
+				"'([^\n\r\f\\']" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
 				
 			const STRING_EXP:String =
 				"(" + STRING1_EXP + ")|(" + STRING2_EXP + ")";
+			
+			//badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
+			const BAD_STRING1_EXP:String =
+				"\"([^\n\r\f\\\"]" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*\\\\?";
+			
+			//badstring2		\'([^\n\r\f\\']|\\{nl}|{escape})*\\?
+			const BAD_STRING2_EXP:String =
+				"'([^\n\r\f\\']" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*\\\\?";
+			
+			//badstring			{badstring1}|{badstring2}
+			const BAD_STRING_EXP:String =
+				"(" + BAD_STRING1_EXP + ")|(" + BAD_STRING2_EXP + ")";
+			
 			
 			//url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)	
 			const URI_EXP:String =
@@ -271,19 +284,22 @@ package com.ffsys.token
 				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")", "i" ) );
 				
 			//STRING			{string}
-			var string:Token = new Token( STRING,
-				new RegExp( "^(" + STRING_EXP + ")", "i" ) );
+			var string:Token = new Token(
+				STRING, new RegExp( "^(" + STRING_EXP + ")", "i" ) );
 				
 			//bad values - TODO
 			
 			//BAD_STRING		{badstring}
-			var badString:Token = new Token( BAD_STRING );
-			
+			var badString:Token = new Token(
+				BAD_STRING, new RegExp( "^(" + BAD_STRING_EXP + ")", "i" ) );
+
 			//BAD_URI			{baduri}
-			var badUri:Token = new Token( BAD_URI );
+			var badUri:Token = new Token(
+				BAD_URI );
 			
 			//BAD_COMMENT		{badcomment}
-			var badComment:Token = new Token( BAD_COMMENT );
+			var badComment:Token = new Token(
+				BAD_COMMENT );
 				
 			//HASH				#{name}
 			var hash:Token = new Token(
@@ -390,8 +406,9 @@ package com.ffsys.token
 
 			tokens.push( string );
 			
-			//todo
 			tokens.push( badString );
+			
+			//todo
 			tokens.push( badUri );
 			tokens.push( badComment );
 			
