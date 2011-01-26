@@ -12,7 +12,7 @@ package com.ffsys.token
 	public class CssTokenizer extends Tokenizer
 	{
 		/**
-		* 	The identifier for a ident token.
+		* 	The identifier for an ident token.
 		*/
 		public static const IDENT:int = 1;	
 
@@ -230,6 +230,9 @@ package com.ffsys.token
 			const CDO_EXP:String = "<!--";
 			const CDC_EXP:String = "-->";
 			
+			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
+			const COMMENT_EXP:String = "/\\*[^*]*\\*+([^/*][^*]*\\*+)*/";
+			
 			//**************************** TOKENS ****************************//
 
 			//IDENT				{ident}
@@ -334,7 +337,7 @@ package com.ffsys.token
 			
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
-				COMMENT, /^(\/\*[^\*]*\*\/)/ );
+				COMMENT, new RegExp( "^(" + COMMENT_EXP + ")" ) );
 				
 			//FUNCTION			{ident}\(
 			var method:Token = new Token(
