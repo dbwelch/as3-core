@@ -12,7 +12,7 @@ package com.ffsys.dom
 	/**
 	*	Unit tests for tokenizing css documents.
 	*/ 
-	dynamic public class CssTokenizerTest extends AbstractDomUnit
+	dynamic public class CssScannerTest extends AbstractDomUnit
 	{
 		/*
 		
@@ -195,9 +195,9 @@ package com.ffsys.dom
 			</css>.toString();
 		
 		/**
-		*	Creates a <code>CssTokenizerTest</code> instance.
+		*	Creates a <code>CssScannerTest</code> instance.
 		*/ 
-		public function CssTokenizerTest()
+		public function CssScannerTest()
 		{
 			super();
 		}
@@ -209,20 +209,20 @@ package com.ffsys.dom
 			
 			//{ causta: "}" + ({7} * '\'') }
 			
-			var tokenizer:CssTokenizer = new CssTokenizer();
+			var tokenizer:CssScanner = new CssScanner();
 			var results:Vector.<Token> = tokenizer.parse( sample );
 			
-			trace("[RESULTS] CssTokenizerTest::cssTokenizeTest()", results.length );
+			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length );
 			
 			var tkn:Token = null;
 			for each( tkn in results )
 			{
-				//trace("CssTokenizerTest::cssTokenizeTest()", tkn.id, tkn.matched );
+				//trace("CssScannerTest::cssTokenizeTest()", tkn.id, tkn.matched );
 				
 				trace( tkn );
 			}
 			
-			trace("CssTokenizerTest::cssTokenizeTest()", /^(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)/.test( "u+0080-ffff" ) );
+			trace("CssScannerTest::cssTokenizeTest()", /^(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)/.test( "u+0080-ffff" ) );
 			
 			trace( /[\u000A]/.test( "\n" ), /[\u000A-\u000B]/.test( String.fromCharCode( 11 ) ) );
 		}

@@ -14,18 +14,30 @@ package com.ffsys.token
 	*	@author Mischa Williamson
 	*	@since  26.01.2011
 	*/
-	public class Tokenizer extends Object
+	public class Scanner extends Object
 	{
 		private var _tokens:Vector.<Token>;
 		private var _results:Vector.<Token>;
 		
-		private var _lastMatch:String;
-		private var _ctkn:Token = null;		
+		/**
+		* 	@private
+		*/
+		protected var _lastMatch:String;
 		
 		/**
-		* 	Creates a <code>Tokenizer</code> instance.
+		* 	@private
 		*/
-		public function Tokenizer()
+		protected var _source:String;
+		
+		/**
+		* 	@private
+		*/
+		protected var _ctkn:Token = null;
+		
+		/**
+		* 	Creates a <code>Scanner</code> instance.
+		*/
+		public function Scanner()
 		{
 			super();
 			configure();			
@@ -50,10 +62,24 @@ package com.ffsys.token
 		public function parse( source:String ):Vector.<Token>
 		{
 			_ctkn = null;
-			parseSource( source );
+			_source = source;
+			parseSource();
 			//clean up
 			cleanup();
 			return _results;
+		}
+		
+		/**
+		* 	The source currently being scanned.
+		* 
+		* 	Note this may not match the source
+		* 	specified when the <code>parse</code>
+		* 	method was invoked as the source is
+		* 	modified during the scan.
+		*/
+		public function get source():String
+		{
+			return _source;
 		}
 		
 		/**
@@ -94,7 +120,7 @@ package com.ffsys.token
 		/**
 		* 	@private
 		*/
-		private function parseSource( source:String ):void
+		private function parseSource():void
 		{
 			if( source != null )
 			{
@@ -102,7 +128,7 @@ package com.ffsys.token
 				var c:String = null;
 				var tkn:Token = null;
 				
-				//trace("Tokenizer::parseSource()", "[TESTING SOURCE]", "'" + source + "'" );
+				//trace("Scanner::parseSource()", "[TESTING SOURCE]", "'" + source + "'" );
 				
 				_lastMatch = null;
 
@@ -126,11 +152,12 @@ package com.ffsys.token
 					&& _lastMatch.length > 0
 					&& source.length > 0 )
 				{
-					//chomp the matched value				
-					source = source.substr( _lastMatch.length );
+					//source = chomp( source );
+					
+					_source = chomp();
 					
 					//parse any remaining source
-					parseSource( source );
+					parseSource();
 				}
 			}
 		}
@@ -138,32 +165,67 @@ package com.ffsys.token
 		/**
 		* 	@private
 		*/
-		private function matchTokens(
+		protected function chomp():String
+		{
+			//chomp the matched value				
+			var output:String = source.substr( _lastMatch.length );
+			_lastMatch = null;
+			return output;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function compare( tkn:Token, candidate:String ):Boolean
+		{
+			var matches:Boolean = tkn.compare( candidate );
+			if( matches )
+			{
+				_lastMatch = tkn.matched;
+			}
+			return matches;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function handleMatchedToken(
+			tkn:Token, current:Token = null, candidate:String = null ):Token
+		{
+			//get a new token to store as result from
+			//a clone of the matched token				
+			if( current == null
+				|| tkn.id != current.id )
+			{
+				var output:Token = tkn.clone();
+				//trace("[CREATED TOKEN] Scanner::parseSource() id:", output.id );
+				results.push( output );
+				return output;
+			//handles merging adjacent tokens with the same id
+			}else {
+				current.matched += _lastMatch;
+				return current;
+			}
+			return tkn;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function matchTokens(
 			candidate:String,
 			current:Token = null ):Token
 		{
 			if( candidate != null )
 			{
-				//trace("Tokenizer::testTokens()", current );
-				var output:Token = null;
+				//trace("Scanner::testTokens()", current );
 				var tkn:Token = null;
 				for each( tkn in tokens )
 				{
-					if( tkn.compare( candidate ) )
+					if( compare( tkn, candidate ) )
 					{
-						_lastMatch = tkn.matched;					
-						if( current == null
-							|| tkn.id != current.id )
-						{
-							output = tkn.clone();
-							//trace("[CREATED TOKEN] Tokenizer::parseSource() id:", output.id );
-							results.push( output );
-							return output;
-						}else {
-							current.matched += _lastMatch;
-							return current;
-						}
-					}
+						return handleMatchedToken( tkn, current );
+					}			
 				}
 			}
 			return null;

@@ -9,8 +9,8 @@ package com.ffsys.token
 	*	@author Mischa Williamson
 	*	@since  26.01.2011
 	*/
-	public class CssTokenizer extends Tokenizer
-	{
+	public class CssScanner extends Scanner
+	{		
 		/**
 		* 	The identifier for a BOM token.
 		*/
@@ -52,89 +52,252 @@ package com.ffsys.token
 		public static const HASH:int = 7;
 		
 		/**
-		* 	The identifier for a number token.
-		*/
-		public static const NUMBER:int = 8;
-		
-		/**
-		* 	The identifier for a percentage token.
-		*/
-		public static const PERCENTAGE:int = 9;
-		
-		/**
-		* 	The identifier for a dimension token.
-		*/
-		public static const DIMENSION:int = 10;
-		
-		/**
 		* 	The identifier for a uri token.
 		*/
-		public static const URI:int = 11;
+		public static const URI:int = 8;
 		
 		/**
 		* 	The identifier for a unicode range token.
 		*/
-		public static const UNICODE_RANGE:int = 12;
+		public static const UNICODE_RANGE:int = 9;
 		
 		/**
 		* 	The identifier for a comment data open token.
 		*/
-		public static const CDO:int = 13;
+		public static const CDO:int = 10;
 		
 		/**
 		* 	The identifier for a comment data close token.
 		*/
-		public static const CDC:int = 14;
+		public static const CDC:int = 11;
 		
 		/**
 		* 	The identifier for a space token.
 		*/
-		public static const S:int = 15;
+		public static const S:int = 12;
 		
 		/**
 		* 	The identifier for a function token.
 		*/
-		public static const FUNCTION:int = 16;
+		public static const FUNCTION:int = 13;
 		
 		/**
 		* 	The identifier for a comment token.
 		*/
-		public static const COMMENT:int = 17;		
+		public static const COMMENT:int = 14;		
 		
 		/**
 		* 	The identifier for an includes token.
 		*/
-		public static const INCLUDES:int = 18;
+		public static const INCLUDES:int = 15;
 		
 		/**
 		* 	The identifier for a dashmatch token.
 		*/
-		public static const DASHMATCH:int = 19;
+		public static const DASHMATCH:int = 16;
 		
 		/**
 		* 	The identifier for a prefixmatch token.
 		*/
-		public static const PREFIXMATCH:int = 20;
+		public static const PREFIXMATCH:int = 17;
 		
 		/**
 		* 	The identifier for a suffixmatch token.
 		*/
-		public static const SUFFIXMATCH:int = 21;
+		public static const SUFFIXMATCH:int = 18;
 		
 		/**
 		* 	The identifier for a substringmatch token.
 		*/
-		public static const SUBSTRINGMATCH:int = 22;
+		public static const SUBSTRINGMATCH:int = 19;
+		
+		//GRAMMAR PRODUCT TOKENS
+		
+		/**
+		* 	The identifier for a stylesheet token.
+		*/
+		public static const STYLESHEET:int = 100;
+		
+		/**
+		* 	The identifier for an import token.
+		*/
+		public static const IMPORT:int = 101;
+		
+		/**
+		* 	The identifier for a namespace token.
+		*/
+		public static const NAMESPACE:int = 102;
+		
+		/**
+		* 	The identifier for a media token.
+		*/
+		public static const MEDIA:int = 103;
+		
+		/**
+		* 	The identifier for a medium token.
+		*/
+		public static const MEDIUM:int = 104;
+		
+		/**
+		* 	The identifier for a page token.
+		*/
+		public static const PAGE:int = 105;
+		
+		/**
+		* 	The identifier for a pseudo page token.
+		*/
+		public static const PSEUDO_PAGE:int = 106;
+		
+		/**
+		* 	The identifier for an operator token.
+		*/
+		public static const OPERATOR:int = 107;
+		
+		/**
+		* 	The identifier for a combinator token.
+		*/
+		public static const COMBINATOR:int = 108;
+		
+		/**
+		* 	The identifier for a unary operator token.
+		*/
+		public static const UNARY_OPERATOR:int = 109;
+		
+		/**
+		* 	The identifier for a property token.
+		*/
+		public static const PROPERTY:int = 110;
+		
+		/**
+		* 	The identifier for a ruleset token.
+		*/
+		public static const RULSESET:int = 111;
+		
+		/**
+		* 	The identifier for a selector token.
+		*/
+		public static const SELECTOR:int = 112;
+		
+		/**
+		* 	The identifier for a simple selector token.
+		*/
+		public static const SIMPLE_SELECTOR:int = 113;
+		
+		/**
+		* 	The identifier for a class token.
+		*/
+		public static const CLASS:int = 114;
+		
+		/**
+		* 	The identifier for an element name token.
+		*/
+		public static const ELEMENT_NAME:int = 115;
+		
+		/**
+		* 	The identifier for an attrib token.
+		*/
+		public static const ATTRIB:int = 116;
+		
+		/**
+		* 	The identifier for a pseudo token.
+		*/
+		public static const PSEUDO:int = 117;
+		
+		/**
+		* 	The identifier for a declaration token.
+		*/
+		public static const DECLARATION:int = 118;
+		
+		/**
+		* 	The identifier for a prio token.
+		*/
+		public static const PRIO:int = 119;
+		
+		/**
+		* 	The identifier for an expr token.
+		*/
+		public static const EXPR:int = 120;
+		
+		/**
+		* 	The identifier for a term token.
+		*/
+		public static const TERM:int = 121;
+		
+		/**
+		* 	The identifier for a method (function) token.
+		*/
+		public static const METHOD:int = 122;
+		
+		/**
+		* 	The identifier for a hexcolor token.
+		*/
+		public static const HEXCOLOR:int = 123;
+		
+		//UNIT/NUMERIC TOKENS
+		
+		/**
+		* 	The identifier for a number token.
+		*/
+		public static const NUMBER:int = 200;
+		
+		/**
+		* 	The identifier for a percentage token.
+		*/
+		public static const PERCENTAGE:int = 201;		
+		
+		/**
+		* 	The identifier for an ems token.
+		*/
+		public static const EMS:int = 202;
+		
+		/**
+		* 	The identifier for an emx token.
+		*/
+		public static const EMX:int = 203;
+		
+		/**
+		* 	The identifier for a length token.
+		*/
+		public static const LENGTH:int = 204;
+		
+		/**
+		* 	The identifier for an angle token.
+		*/
+		public static const ANGLE:int = 205;
+		
+		/**
+		* 	The identifier for a time token.
+		*/
+		public static const TIME:int = 206;
+		
+		/**
+		* 	The identifier for a freq token.
+		*/
+		public static const FREQ:int = 207;
+		
+		/**
+		* 	The identifier for a dimension token.
+		*/
+		public static const DIMENSION:int = 208;
+		
+		//DEFAULT TOKEN	
 		
 		/**
 		* 	The identifier for a char token.
 		*/
-		public static const CHAR:int = 100;
+		public static const CHAR:int = 500;
+		
+		//ADDITIONAL SYMBOLS
+		
+		/**
+		* 	The symbol for a <code>important</code> statement.
+		*/
+		public static const IMPORTANT_SYM:String = "!important";		
 
 		/**
-		* 	Creates a <code>CssTokenizer</code> instance.
+		* 	Creates a <code>CssScanner</code> instance.
 		*/
-		public function CssTokenizer()
+		public function CssScanner()
 		{
 			super();
 		}
@@ -143,12 +306,12 @@ package com.ffsys.token
 		{
 			//**************************** MACRO EXPRESSIONS ****************************//
 			
-			
+			//
 			const BOM_EXP:String = "[\\uFEFF]{1}";
 			
 			//h					[0-9a-f]
 			const H_EXP:String
-				= "[0-9a-f]";
+				= "[0-9a-fA-F]";
 						
 			//nonascii			[^\0-\237] (2.1)
 			const NONASCII_EXP:String
@@ -156,7 +319,7 @@ package com.ffsys.token
 				+ "-" + String.fromCharCode( 0xFFFF ) + "]";
 
 			//const NONASCII_EXP:String = "[\\u0080-\\uFFFF]";
-			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";			
+			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";		
 				
 			//nonascii			[\200-\377] (3) - TODO | \\\\xC8-\\\\x179 | \\u00C8-\\uFFFF
 			//= "[\\u0080-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]";
@@ -178,24 +341,39 @@ package com.ffsys.token
 				+ "-" + String.fromCharCode( 0xFFFD );
 				*/
 				
-			//num				[0-9]+|[0-9]*\.[0-9]+
+
+			//escape				{unicode} | '\' [^\n\r\f0-9a-f] (2.1)
+			//escape				{unicode} | '\' [] (3)			
+			const ESCAPE_EXP:String =
+				//UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]";			
+
+				UNICODE_EXP + "|\\\\[\\\\x0020-\\\\x007E\\\\x0080-\\\\xD7FF\\\\xE000-\\\\xFFFD]";	
+				
+			//num					[0-9]+|[0-9]*\.[0-9]+
 			const NUM_EXP:String = "([0-9]*\\.)?[0-9]+";
 			
-			//const NUM_EXP:String = "[0-9]+|[0-9]*\\.[0-9]+";
-			
-			//nl				\n|\r\n|\r|\f
+			//nl					\n|\r\n|\r|\f
 			const NL_EXP:String = "\n|\r\n|\r|\f";
 			
-			//w					[ \t\r\n\f]*
-			const W_EXP:String = "[ \t\r\n\f]*";
+			//wc					[ \t\r\n\f]
+			const WC_EXP:String = "[ \t\r\n\f]";
 			
-			//unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
+			//w						{wc}*
+			const W_EXP:String = WC_EXP + "*";
+			
+			//unicode				'\' [0-9a-fA-F]{1,6} {wc}?
 			const UNICODE_EXP:String =
-				"\\\\" + H_EXP + "{1,6}(\r\n|[ \n\r\t\f])?";
+				"\\\\" + H_EXP + "{1,6}(" + WC_EXP +  ")?";
+			
+			//urlchar				[#x9#x21#x23-#x26#x27-#x7E] | {nonascii} | {escape}
+			const URLCHAR_EXP:String =
+				"[\\u0009\\u0021\\u0023-\\u0026\\u0027-\\u007E]"
+				+ "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
 				
-			//escape			{unicode}|\\[^\n\r\f0-9a-f] (2.1)
-			const ESCAPE_EXP:String =
-				UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]";
+			//stringchar			{urlchar} | #x20 | '\' {nl}
+			const STRINGCHAR_EXP:String =
+				URLCHAR_EXP
+				+ "|\\u0020|\\\\" + NL_EXP;
 			
 			/*
 			//escape			{unicode}|\\[ -~\200-\377] (3) - TODO
@@ -210,6 +388,16 @@ package com.ffsys.token
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
 			const STRING2_EXP:String =
 				"'([^\n\r\f\\']" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
+			
+			/*
+			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
+			const STRING1_EXP:String =
+				"\"(" + STRINGCHAR_EXP + "|')*\"";
+
+			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
+			const STRING2_EXP:String =
+				"'(" + STRINGCHAR_EXP + "|\")*'";			
+			*/
 			
 			//string			{string1}|{string2}
 			const STRING_EXP:String =
@@ -269,19 +457,17 @@ package com.ffsys.token
 			const BAD_URI_EXP:String =
 				"(" + BAD_URI1_EXP + ")|(" + BAD_URI2_EXP + ")|("  + BAD_URI3_EXP + ")";
 				
-			//u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
+			//UNICODE-RANGE		U\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?
 			const UNICODE_RANGE_EXP:String =
-				"u\\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?";
+				"U\\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?";
 
-			//nmstart			[_a-z]|{nonascii}|{escape}			(2.1)			
-			//nmstart			[a-z]|{nonascii}|{escape}			(3)
+			//nmstart			[_a-z]|{nonascii}|{escape}			(2.1)
 			const NMSTART_EXP:String =
-				"[a-z]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
+				"[_a-z]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
 				
 			//nmchar			[_a-z0-9-]|{nonascii}|{escape} 		(2.1)
-			//nmchar			[a-z0-9-]|{nonascii}|{escape} 		(3)	
 			const NMCHAR_EXP:String =
-				"[a-z0-9\\-]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
+				"[_a-z0-9\\-]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
 				
 			//name				{nmchar}+
 			const NAME_EXP:String =
@@ -518,6 +704,69 @@ package com.ffsys.token
 			
 			//final catch all char
 			tokens.push( char );	
+		}
+		
+		protected function matchNumericalUnit( 
+			candidate:String,
+			current:Token = null ):Token
+		{
+			//num					[0-9]+|[0-9]*\.[0-9]+
+			const NUM_EXP:String = "([0-9]*\\.)?[0-9]+";			
+			
+			const units:Object = {
+				em: "em", 		//EMS
+				ex: "ex", 		//EMX
+				px: "px",		//LENGTH
+				cm: "cm",		//LENGTH
+				mm: "mm",		//LENGTH
+				"in": "in",		//LENGTH
+				pt: "pt",		//LENGTH
+				pc: "pc",		//LENGTH
+				deg: "deg",		//ANGLE
+				rad: "rad",		//ANGLE
+				grad: "grad",	//ANGLE
+				ms: "ms",		//TIME
+				s: "s",			//TIME
+				hz: "Hz",		//FREQUENCY
+				khz: "kHz",		//FREQUENCY
+				"%": "%"		//PERCENTAGE
+				
+			};
+			
+			var re:RegExp = null;
+			var unit:String = null;
+			var tkn:Token = null;
+			for( var z:String in units )
+			{
+				unit = units[ z ];
+				re = new RegExp( "^(" + NUM_EXP + unit + ")", "i" );
+				tkn = new Token( DIMENSION, re );
+				if( compare( tkn, candidate ) )
+				{
+					trace("CssScanner::call()", tkn );				
+					return tkn;
+				}
+			}
+			return null;
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function matchTokens(
+			candidate:String,
+			current:Token = null ):Token
+		{
+			if( candidate != null )
+			{
+				var tkn:Token = matchNumericalUnit( candidate, current );
+				if( tkn != null )
+				{
+					return handleMatchedToken( tkn, current );
+				}
+				return super.matchTokens( candidate, current );
+			}
+			return null;
 		}
 	}
 }

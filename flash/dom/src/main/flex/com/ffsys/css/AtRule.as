@@ -36,12 +36,12 @@ package com.ffsys.css
 		/**
 		* 	The attribute used to store the rule data.
 		*/
-		public static const DATA_ATTRIBUTE:String = "data";	
+		public static const DATA_ATTRIBUTE:String = "data";
 		
 		/**
-		* 	Represents the charset at rule.
+		* 	The symbol that represents an at rule.
 		*/
-		public static const CHARSET:String = "charset";
+		public static const SYM:String = "@";
 		
 		/**
 		* 	Represents the import at rule.
@@ -49,14 +49,59 @@ package com.ffsys.css
 		public static const IMPORT:String = "import";
 		
 		/**
+		* 	Represents the page at rule.
+		*/
+		public static const PAGE:String = "page";
+		
+		/**
+		* 	Represents the media at rule.
+		*/
+		public static const MEDIA:String = "media";
+		
+		/**
+		* 	Represents the font-face at rule.
+		*/
+		public static const FONT_FACE:String = "font-face";		
+		
+		/**
+		* 	Represents the charset at rule.
+		*/
+		public static const CHARSET:String = "charset";		
+		
+		/**
 		* 	Represents the namespace at rule.
 		*/
 		public static const NAMESPACE:String = "namespace";
 		
 		/**
-		* 	Represents the font-face at rule.
+		* 	The symbol for an <code>import</code> at rule.
 		*/
-		public static const FONT_FACE:String = "font-face";
+		public static const IMPORT_SYM:String = SYM + IMPORT;
+		
+		/**
+		* 	The symbol for a <code>page</code> at rule.
+		*/
+		public static const PAGE_SYM:String = SYM + PAGE;
+		
+		/**
+		* 	The symbol for a <code>media</code> at rule.
+		*/
+		public static const MEDIA_SYM:String = SYM + MEDIA;
+		
+		/**
+		* 	The symbol for a <code>font-face</code> at rule.
+		*/
+		public static const FONT_FACE_SYM:String = SYM + FONT_FACE;
+		
+		/**
+		* 	The symbol for a <code>charset</code> at rule.
+		*/
+		public static const CHARSET_SYM:String = SYM + CHARSET;
+		
+		/**
+		* 	The symbol for a <code>namespace</code> at rule.
+		*/
+		public static const NAMESPACE_SYM:String = SYM + NAMESPACE;
 		
 		/**
 		* 	Creates an <code>AtRule</code> instance.
