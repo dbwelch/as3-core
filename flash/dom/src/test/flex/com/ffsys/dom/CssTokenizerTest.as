@@ -60,9 +60,10 @@ package com.ffsys.dom
 					
 					#id {
 						width: 100%;
+						unicode-range: u+0080-ffff;
 					}
 				]]>
-			</css>.toString();		
+			</css>.toString();
 		
 		/**
 		*	Creates a <code>CssTokenizerTest</code> instance.
@@ -75,6 +76,7 @@ package com.ffsys.dom
 		[Test]
 		public function cssTokenizeTest():void
 		{	
+			//u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})? - unicode range
 			
 			//{ causta: "}" + ({7} * '\'') }
 			
@@ -91,6 +93,7 @@ package com.ffsys.dom
 				trace( tkn );
 			}
 			
+			trace("CssTokenizerTest::cssTokenizeTest()", /^(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)/.test( "u+0080-ffff" ) );
 		}
 	}
 }

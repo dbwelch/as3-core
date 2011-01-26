@@ -10,12 +10,7 @@ package com.ffsys.token
 	*	@since  26.01.2011
 	*/
 	public class CssTokenizer extends Tokenizer
-	{		
-		/**
-		* 	The identifier for a stylesheet token.
-		*/
-		public static const STYLESHEET:int = 0;
-		
+	{
 		/**
 		* 	The identifier for a ident token.
 		*/
@@ -166,7 +161,9 @@ package com.ffsys.token
 		
 		override protected function configure():void
 		{
-			//MACRO EXPRESSIONS
+			//**************************** MACRO EXPRESSIONS ****************************//
+						
+			//nonascii			[^\0-\237]
 			const NONASCII_EXP:String
 				= "[" + String.fromCharCode( 0x0080 )
 				+ "-" + String.fromCharCode( 0xFFFFF ) + "]";
@@ -184,6 +181,7 @@ package com.ffsys.token
 			const UNICODE_EXP:String =
 				"\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?";
 				
+			//escape			{unicode}|\\[^\n\r\f0-9a-f]
 			const ESCAPE_EXP:String =
 				UNICODE_EXP + "|\\[^\n\r\f0-9a-f]";
 			
@@ -194,108 +192,164 @@ package com.ffsys.token
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
 			const STRING2_EXP:String =
 				"'([^\n\r\f\\']" + "|\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
+			
+			//url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)	
+			const URI_EXP:String =
+				"";
 				
+			//u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			const UNICODE_RANGE_EXP:String =
-				"(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)";
-				
+				"u\\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?";
+			
+			//nmstart			[_a-z]|{nonascii}|{escape}
 			const NMSTART_EXP:String =
 				"(" + "[_a-zA-Z]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
 				
+			//nmchar			[_a-z0-9-]|{nonascii}|{escape}
 			const NMCHAR_EXP:String =
 				"(" + "[_a-zA-Z0-9-]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
 				
+			//name				{nmchar}+
 			const NAME_EXP:String =
 				"(" + NMCHAR_EXP + "+" + ")";
 				
 			//TOOD: match the specification
+			
+			//ident				[-]?{nmstart}{nmchar}*
 			const IDENT_EXP:String =
 				"[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
-				
+			
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
 			const HASH_EXP:String = "#" + NAME_EXP;
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
 			const PERCENT_EXP:String = NUM_EXP + "%";
 			const INCLUDES_EXP:String = "~=";
 			const DASHMATCH_EXP:String = "\\|=";
-			
 			const FUNCTION_EXP:String = IDENT_EXP + "\\(";
-			
 			const DELIM_EXP:String = "[^'\"]";
+			const CDO_EXP:String = "<!--";
+			const CDC_EXP:String = "-->";
 			
-			//TOKENS
-			var stylesheet:Token = new Token( STYLESHEET );	
+			//**************************** TOKENS ****************************//
 
+			//IDENT				{ident}
 			var ident:Token = new Token(
 				IDENT, new RegExp( "^(" + IDENT_EXP + ")" ) );
+				
+			//ATKEYWORD			@{ident}
 			var at:Token = new Token(
 				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")" ) );
+				
+			//STRING			{string}
 			var string1:Token = new Token( STRING,
 				new RegExp( "^(" + STRING1_EXP + ")" ) );
 			var string2:Token = new Token( STRING,
 				new RegExp( "^(" + STRING2_EXP + ")" ) );
 				
 			//bad values - TODO
+			
+			//BAD_STRING		{badstring}
 			var badString:Token = new Token( BAD_STRING );
+			
+			//BAD_URI			{baduri}
 			var badUri:Token = new Token( BAD_URI );
+			
+			//BAD_COMMENT		{badcomment}
 			var badComment:Token = new Token( BAD_COMMENT );
 				
+			//HASH				#{name}
 			var hash:Token = new Token(
 				HASH, new RegExp( "^(" + HASH_EXP + ")" ) );
 			
-			//numeric tokens
+			//NUMBER			{num}
 			var num:Token = new Token( NUMBER,
 				new RegExp( "^(" + NUM_EXP + ")" ) );
+				
+			//PERCENTAGE		{num}%
 			var percent:Token = new Token( PERCENTAGE,
 				new RegExp( "^(" + PERCENT_EXP + ")" ) );
+			
+			//DIMENSION			{num}{ident}
 			var dimension:Token = new Token( DIMENSION,
 				new RegExp( "^(" + DIMENSION_EXP + ")" ) );				
-
-			//TODO: uri
-			//TODO: unicode range			
-
-			//update
-			var cdo:Token = new Token( CDO, /^(<\!\-\-)/ );
-			var cdc:Token = new Token( CDC, /^(\-\->)/ );											
 			
-			//single character tokens
+			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
+			var uri:Token = new Token( URI,
+				new RegExp( "^(" + URI_EXP + ")" ) );
 			
-			//update
+			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
+			var range:Token = new Token( UNICODE_RANGE,
+				new RegExp( "^(" + UNICODE_RANGE_EXP + ")" ) );
+			
+			//CDO				<!--
+			var cdo:Token = new Token(
+				CDO, new RegExp( "^(" + CDO_EXP + ")" ) );
+			
+			//CDC				-->
+			var cdc:Token = new Token(
+				CDC, new RegExp( "^(" + CDC_EXP + ")" ) );
+			
+			//COLON				:
 			var colon:Token = new Token(
-				COLON, /^(:)/ );			
+				COLON, /^(:)/ );
+			
+			//SEMI_COLON		;
 			var semiColon:Token = new Token(
 				SEMI_COLON, /^(;)/ );
+				
+			//LEFT_BRACE		\{
 			var leftBrace:Token = new Token(
 				LEFT_BRACE, /^(\{)/ );
+			
+			//RIGHT_BRACE		\}
 			var rightBrace:Token = new Token(
 				RIGHT_BRACE, /^(\})/ );
+				
+			//LEFT_PARENTHESES	\(
 			var leftParentheses:Token = new Token(
 				LEFT_PARENTHESES, /^(\()/ );
+				
+			//RIGHT_PARENTHESES	\)
 			var rightParentheses:Token = new Token(
 				RIGHT_PARENTHESES, /^(\))/ );
+				
+			//LEFT_BRACKET		\[
 			var leftBracket:Token = new Token(
 				LEFT_BRACKET, /^(\[)/ );
+			
+			//RIGHT_BRACKET		\]
 			var rightBracket:Token = new Token(
 				RIGHT_BRACKET, /^(\])/ );
 
-			//update			
+			//S					[ \t\r\n\f]+
 			var s:Token = new Token( S, /^([ \t\r\n\f]+)/ );				
-				
-			//multiple character operators
+			
+			//INCLUDES			~=
 			var includes:Token = new Token( INCLUDES,
-				new RegExp( "^(" + INCLUDES_EXP + ")" ) );					
+				new RegExp( "^(" + INCLUDES_EXP + ")" ) );
+			
+			//DASHMATCH			|=
 			var dashmatch:Token = new Token( DASHMATCH,
 				new RegExp( "^(" + DASHMATCH_EXP + ")" ) );	
 			
-			//comment token
-			
-			//update		- \/\*[^*]*\*+([^/*][^*]*\*+)*\/	
+			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
 				COMMENT, /^(\/\*[^\*]*\*\/)/ );
 				
+			//FUNCTION			{ident}\(
 			var method:Token = new Token(
 				FUNCTION, new RegExp( "^(" + FUNCTION_EXP + ")" ) );
+							
+			//DELIM	any other character not matched by the above rules,
+			//and neither a single nor a double quote
+			var delim:Token = new Token(
+				DELIM, new RegExp( "^(" + DELIM_EXP + ")" ) );
 			
-			this.tokens.push( stylesheet );	
+			//**************************** TOKEN DEFINITIONS ****************************//
+			
+			//unicode range must match before {ident}
+			this.tokens.push( range );
+			
 			this.tokens.push( ident );
 			this.tokens.push( at );			
 			this.tokens.push( string1 );
@@ -312,6 +366,8 @@ package com.ffsys.token
 			this.tokens.push( dimension );
 			this.tokens.push( percent );
 			this.tokens.push( num );
+			
+			//this.tokens.push( uri );
 			
 			//xml style comments
 			this.tokens.push( cdo );
@@ -342,9 +398,7 @@ package com.ffsys.token
 			//dashmatch operator |=
 			this.tokens.push( dashmatch );
 			
-			//final catch all
-			var delim:Token = new Token(
-				DELIM, new RegExp( "^(" + DELIM_EXP + ")" ) );
+			//final catch all delimiter
 			this.tokens.push( delim );
 			
 			/*
@@ -364,8 +418,7 @@ package com.ffsys.token
 			DIMENSION	{num}{ident}
 			
 			//todo
-			URI			url\({w}{string}{w}\)
-						|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
+			URI			url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			//todo						
 			UNICODE-RANGE	u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			
