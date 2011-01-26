@@ -89,10 +89,18 @@ package com.ffsys.dom
 		*/
 		public var sample:String = <css>
 				<![CDATA[
+					@charset "utf-8";
+					@import "print.css";
+					
+					@media print {
+						h3.big {
+							font-size: 2.4em;
+						}
+					}
+					
 					<!-- SOME COMMENT DATA -->
 					/**/
 					/* a comment with some text */
-					@charset "utf-8";
 					
 					@namespace fluid url( 'http://freeformsystems.com/fluid/css' );
 					

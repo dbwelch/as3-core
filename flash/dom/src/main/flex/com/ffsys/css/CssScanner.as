@@ -121,24 +121,24 @@ package com.ffsys.css
 		public static const STYLESHEET:int = 100;
 		
 		/**
+		* 	The identifier for a charset token.
+		*/
+		public static const CHARSET:int = 101;
+		
+		/**
 		* 	The identifier for an import token.
 		*/
-		public static const IMPORT:int = 101;
+		public static const IMPORT:int = 102;
 		
 		/**
 		* 	The identifier for a namespace token.
 		*/
-		public static const NAMESPACE:int = 102;
+		public static const NAMESPACE:int = 103;
 		
 		/**
 		* 	The identifier for a media token.
 		*/
-		public static const MEDIA:int = 103;
-		
-		/**
-		* 	The identifier for a medium token.
-		*/
-		public static const MEDIUM:int = 104;
+		public static const MEDIA:int = 104;
 		
 		/**
 		* 	The identifier for a page token.
@@ -146,94 +146,104 @@ package com.ffsys.css
 		public static const PAGE:int = 105;
 		
 		/**
+		* 	The identifier for a font-face token.
+		*/
+		public static const FONT_FACE:int = 106;
+		
+		/**
+		* 	The identifier for a medium token.
+		*/
+		public static const MEDIUM:int = 107;		
+		
+		/**
 		* 	The identifier for a pseudo page token.
 		*/
-		public static const PSEUDO_PAGE:int = 106;
+		public static const PSEUDO_PAGE:int = 108;
 		
 		/**
 		* 	The identifier for an operator token.
 		*/
-		public static const OPERATOR:int = 107;
+		public static const OPERATOR:int = 109;
 		
 		/**
 		* 	The identifier for a combinator token.
 		*/
-		public static const COMBINATOR:int = 108;
+		public static const COMBINATOR:int = 110;
 		
 		/**
 		* 	The identifier for a unary operator token.
 		*/
-		public static const UNARY_OPERATOR:int = 109;
+		public static const UNARY_OPERATOR:int = 111;
 		
 		/**
 		* 	The identifier for a property token.
 		*/
-		public static const PROPERTY:int = 110;
+		public static const PROPERTY:int = 112;
 		
 		/**
 		* 	The identifier for a ruleset token.
 		*/
-		public static const RULSESET:int = 111;
+		public static const RULSESET:int = 113;
 		
 		/**
 		* 	The identifier for a selector token.
 		*/
-		public static const SELECTOR:int = 112;
+		public static const SELECTOR:int = 114;
 		
 		/**
 		* 	The identifier for a simple selector token.
 		*/
-		public static const SIMPLE_SELECTOR:int = 113;
+		public static const SIMPLE_SELECTOR:int = 115;
 		
 		/**
 		* 	The identifier for a class token.
 		*/
-		public static const CLASS:int = 114;
+		public static const CLASS:int = 116;
 		
 		/**
 		* 	The identifier for an element name token.
 		*/
-		public static const ELEMENT_NAME:int = 115;
+		public static const ELEMENT_NAME:int = 117;
 		
 		/**
 		* 	The identifier for an attrib token.
 		*/
-		public static const ATTRIB:int = 116;
+		public static const ATTRIB:int = 118;
 		
 		/**
 		* 	The identifier for a pseudo token.
 		*/
-		public static const PSEUDO:int = 117;
+		public static const PSEUDO:int = 119;
 		
 		/**
 		* 	The identifier for a declaration token.
 		*/
-		public static const DECLARATION:int = 118;
+		public static const DECLARATION:int = 120;
 		
 		/**
 		* 	The identifier for a prio token.
 		*/
-		public static const PRIO:int = 119;
+		public static const PRIO:int = 121;
 		
 		/**
 		* 	The identifier for an expr token.
 		*/
-		public static const EXPR:int = 120;
+		public static const EXPR:int = 122;
 		
 		/**
 		* 	The identifier for a term token.
 		*/
-		public static const TERM:int = 121;
+		public static const TERM:int = 123;
 		
 		/**
 		* 	The identifier for a method (function) token.
 		*/
-		public static const METHOD:int = 122;
+		public static const METHOD:int = 124;
 		
 		/**
 		* 	The identifier for a hexcolor token.
 		*/
-		public static const HEXCOLOR:int = 123;
+		public static const HEXCOLOR:int = 125;
 		
 		//UNIT/NUMERIC TOKENS
 		
@@ -643,6 +653,32 @@ package com.ffsys.css
 			//and neither a single nor a double quote
 			var char:Token = new Token(
 				CHAR, new RegExp( "^(" + CHAR_EXP + ")" ) );
+				
+			//**************************** GRAMMAR TOKENS ****************************//
+			
+			//CHARSET			@charset
+			var charset:Token = new Token(
+				CHARSET, new RegExp( "^(" + AtRule.CHARSET_SYM + ")" ) );
+			
+			//IMPORT			@import
+			var css:Token = new Token(
+				IMPORT, new RegExp( "^(" + AtRule.IMPORT_SYM + ")" ) );
+				
+			//NAMESPACE			@namespace
+			var ns:Token = new Token(
+				NAMESPACE, new RegExp( "^(" + AtRule.NAMESPACE_SYM + ")" ) );
+				
+			//PAGE				@page
+			var page:Token = new Token(
+				PAGE, new RegExp( "^(" + AtRule.PAGE_SYM + ")" ) );
+				
+			//MEDIA				@media
+			var media:Token = new Token(
+				MEDIA, new RegExp( "^(" + AtRule.MEDIA_SYM + ")" ) );
+				
+			//FONT-FACE			@font-face
+			var fontface:Token = new Token(
+				FONT_FACE, new RegExp( "^(" + AtRule.FONT_FACE_SYM + ")" ) );
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
@@ -661,7 +697,15 @@ package com.ffsys.css
 			//unicode range  - must match before {ident}
 			tokens.push( range );		
 			
-			tokens.push( at );			
+			//specific at rules before the generic at rule
+			tokens.push( charset );			//@charset
+			tokens.push( css );				//@import
+			tokens.push( ns );				//@namespace
+			tokens.push( page );			//@page
+			tokens.push( media );			//@media
+			tokens.push( fontface );		//@font-face
+			
+			tokens.push( at );
 			
 			tokens.push( ident );
 
