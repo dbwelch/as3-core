@@ -307,6 +307,21 @@ package com.ffsys.token
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			const COMMENT_EXP:String = "/\\*[^*]*\\*+([^/*][^*]*\\*+)*/";
 			
+			//badcomment1		\/\*[^*]*\*+([^/*][^*]*\*+)*
+			const BAD_COMMENT1_EXP:String = "/\\*[^*]*\\*+([^/*][^*]*\\*+)*";
+
+			//badcomment2		\/\*[^*]*(\*+[^/*][^*]*)*
+			const BAD_COMMENT2_EXP:String = "/\\*[^*]*(\\*+[^/*][^*]*)*";
+			
+			//BAD_COMMENT		{badcomment}
+			//badcomment		{badcomment1}|{badcomment2}
+			const BAD_COMMENT_EXP:String = 
+				"("
+				+ BAD_COMMENT1_EXP
+				+ ")|("
+				+ BAD_COMMENT2_EXP
+				+ ")";
+			
 			//DELIM	any other character not matched by the above rules,
 			//and neither a single nor a double quote
 			const DELIM_EXP:String = "[^'\"]{1}";
@@ -333,10 +348,9 @@ package com.ffsys.token
 			var badUri:Token = new Token(
 				BAD_URI, new RegExp( "^(" + BAD_URI_EXP + ")", "i" ) );
 			
-			//todo
 			//BAD_COMMENT		{badcomment}
 			var badComment:Token = new Token(
-				BAD_COMMENT );
+				BAD_COMMENT, new RegExp( "^(" + BAD_COMMENT_EXP + ")", "i" ) );
 				
 			//HASH				#{name}
 			var hash:Token = new Token(
@@ -415,7 +429,7 @@ package com.ffsys.token
 			
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
-				COMMENT, new RegExp( "^(" + COMMENT_EXP + ")" ) );
+				COMMENT, new RegExp( "^(" + COMMENT_EXP + ")" ) );				
 				
 			//FUNCTION			{ident}\(
 			var method:Token = new Token(
@@ -448,9 +462,6 @@ package com.ffsys.token
 			
 			tokens.push( badString );
 			
-			//todo
-			tokens.push( badComment );
-			
 			tokens.push( hash );			
 			
 			//numeric values must be matched in this order
@@ -474,6 +485,9 @@ package com.ffsys.token
 			
 			//code style multiline comment
 			tokens.push( comment );
+			
+			//match bad comments after good ones
+			tokens.push( badComment ); 
 			
 			//function expression: method()
 			tokens.push( method );

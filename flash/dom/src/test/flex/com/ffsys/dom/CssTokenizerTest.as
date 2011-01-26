@@ -94,6 +94,12 @@ package com.ffsys.dom
 					/* a comment with some text */
 					@charset "utf-8";
 					
+					@namespace fluid url( 'http://freeformsystems.com/fluid/css' );
+					
+					fluid|RadioButton {
+						/* An inner comment for this empty ruleset */
+					}
+					
 					[media|=flash] {
 						-as-custom-style: 0.5;
 					}
@@ -162,6 +168,19 @@ package com.ffsys.dom
 						size: 1.2em;
 						margin-left: -.2em;
 					}
+					
+					/**********
+					*
+					*	multiline comment.
+					*
+					**********/
+					
+					/* {badcomment1a} *
+					/* a normal comment */
+					/* {badcomment2}
+					.declaration {}
+					/* {badcomment1b} *
+					.after { color: red; }				
 				]]>
 			</css>.toString();
 		
