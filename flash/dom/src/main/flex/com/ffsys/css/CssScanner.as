@@ -553,6 +553,9 @@ package com.ffsys.css
 			//and neither a single nor a double quote
 			const CHAR_EXP:String = "[^'\"]{1}";
 			
+			//WHITESPACE MATCH
+			const S_EXP:String = "([ \\t\\r\\n\\f]+)"
+			
 			//**************************** TOKENS ****************************//
 			
 			//BOM				#xFEFF
@@ -619,7 +622,8 @@ package com.ffsys.css
 				CDC, new RegExp( "^(" + CDC_EXP + ")" ) );
 
 			//S					[ \t\r\n\f]+
-			var s:Token = new Token( S, /^([ \t\r\n\f]+)/ );				
+			var s:Token = new Token(
+				S, new RegExp( "^(" + S_EXP + ")" ) );
 			
 			//INCLUDES			~=
 			var includes:Token = new Token(
@@ -685,9 +689,25 @@ package com.ffsys.css
 			var fontface:Token = new Token(
 				FONT_FACE, new RegExp( "^(" + AtRule.FONT_FACE_SYM + ")" ) );
 				
-			//IMPORTANT			!important
-			var important:Token = new Token(
-				IMPORTANT, new RegExp( "^(!(" + W_EXP + ")?important)" ) );
+			//PRIO				!important
+			var prio:Token = new Token(
+				PRIO, new RegExp( "^(!(" + W_EXP + ")?important)" + W_EXP ) );
+				
+			//UNARY-OPERATOR	'-' | '+'
+			var unary:Token = new Token(
+				UNARY_OPERATOR, new RegExp( "^(\\+|-)" ) );
+				
+			//CLASS				'.' IDENT
+			var clazz:Token = new Token(
+				CLASS, new RegExp( "^(\\." + IDENT_EXP + ")" ) );
+				
+			//ELEMENT-NAME		IDENT | '*'
+			var element:Token = new Token(
+				ELEMENT_NAME, new RegExp( "^(" + IDENT_EXP + "|\\*)" ) );
+				
+			//PROPERTY			IDENT S*
+			var property:Token = new Token(
+				PROPERTY, new RegExp( "^(" + IDENT_EXP + ")" + W_EXP ) );
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
@@ -706,7 +726,12 @@ package com.ffsys.css
 			//unicode range  - must match before {ident}
 			tokens.push( range );		
 			
-			tokens.push( important );		//	!important
+			tokens.push( prio );			//	!important
+			
+			//ident based
+			tokens.push( clazz );			//	.class
+			tokens.push( element );	
+			tokens.push( property );
 			
 			//specific at rules before the generic at rule
 			tokens.push( charset );			//	@charset
@@ -754,6 +779,8 @@ package com.ffsys.css
 			
 			//substringmatch operator *=
 			tokens.push( substringmatch );
+			
+			tokens.push( unary );			//	'-' | '+'
 			
 			//final catch all char
 			tokens.push( char );	

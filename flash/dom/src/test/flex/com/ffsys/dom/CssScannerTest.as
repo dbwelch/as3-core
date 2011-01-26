@@ -109,7 +109,7 @@ package com.ffsys.dom
 					}
 					
 					[media|=flash] {
-						-as-custom-style: 0.5 ! important;
+						-as-custom-style: 0.5 ! important	;
 					}
 					
 					[lang~=en] {
@@ -198,7 +198,12 @@ package com.ffsys.dom
 					/* {badcomment2}
 					.declaration {}
 					/* {badcomment1b} *
-					.after { color: red; }				
+					.after { color: red; }	
+					
+					.unary {
+						negative: -100;
+						positive: +100;
+					}			
 				]]>
 			</css>.toString();
 		
