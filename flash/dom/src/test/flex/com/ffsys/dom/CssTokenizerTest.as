@@ -108,6 +108,16 @@ package com.ffsys.dom
 						color: #ff6600;
 					}
 					
+					[attr~=includesmatch]
+					
+					[attr|=dashmatch]
+					
+					[attr^=prefixmatch]
+					
+					[attr$=suffixmatch]
+					
+					[attr*=substringmatch]
+					
 					p[example="public class foo\
 					{\
 					    private int x;\

@@ -12,6 +12,11 @@ package com.ffsys.token
 	public class CssTokenizer extends Tokenizer
 	{
 		/**
+		* 	The identifier for a BOM token.
+		*/
+		public static const BOM:int = 0;	
+		
+		/**
 		* 	The identifier for an ident token.
 		*/
 		public static const IDENT:int = 1;	
@@ -80,86 +85,46 @@ package com.ffsys.token
 		* 	The identifier for a comment data close token.
 		*/
 		public static const CDC:int = 14;
-
-		/**
-		* 	The identifier for a colon token.
-		*/
-		public static const COLON:int = 15;
-		
-		/**
-		* 	The identifier for a semi colon token.
-		*/
-		public static const SEMI_COLON:int = 16;
-		
-		/**
-		* 	The identifier for a left brace token.
-		*/
-		public static const LEFT_BRACE:int = 17;
-		
-		/**
-		* 	The identifier for a right brace token.
-		*/
-		public static const RIGHT_BRACE:int = 18;
-		
-		/**
-		* 	The identifier for a left parentheses token.
-		*/
-		public static const LEFT_PARENTHESES:int = 19;
-		
-		/**
-		* 	The identifier for a right parentheses token.
-		*/
-		public static const RIGHT_PARENTHESES:int = 20;
-		
-		/**
-		* 	The identifier for a left bracket token.
-		*/
-		public static const LEFT_BRACKET:int = 21;
-		
-		/**
-		* 	The identifier for a right bracket token.
-		*/
-		public static const RIGHT_BRACKET:int = 22;
 		
 		/**
 		* 	The identifier for a space token.
 		*/
-		public static const S:int = 23;
+		public static const S:int = 15;
 		
 		/**
 		* 	The identifier for a function token.
 		*/
-		public static const FUNCTION:int = 24;
+		public static const FUNCTION:int = 16;
 		
 		/**
 		* 	The identifier for a comment token.
 		*/
-		public static const COMMENT:int = 25;		
+		public static const COMMENT:int = 17;		
 		
 		/**
 		* 	The identifier for an includes token.
 		*/
-		public static const INCLUDES:int = 26;
+		public static const INCLUDES:int = 18;
 		
 		/**
 		* 	The identifier for a dashmatch token.
 		*/
-		public static const DASHMATCH:int = 27;
+		public static const DASHMATCH:int = 19;
 		
 		/**
 		* 	The identifier for a prefixmatch token.
 		*/
-		public static const PREFIXMATCH:int = 28;
+		public static const PREFIXMATCH:int = 20;
 		
 		/**
 		* 	The identifier for a suffixmatch token.
 		*/
-		public static const SUFFIXMATCH:int = 29;
+		public static const SUFFIXMATCH:int = 21;
 		
 		/**
 		* 	The identifier for a substringmatch token.
 		*/
-		public static const SUBSTRINGMATCH:int = 30;
+		public static const SUBSTRINGMATCH:int = 22;
 		
 		/**
 		* 	The identifier for a char token.
@@ -177,15 +142,42 @@ package com.ffsys.token
 		override protected function configure():void
 		{
 			//**************************** MACRO EXPRESSIONS ****************************//
+			
+			
+			const BOM_EXP:String = "[\\uFEFF]{1}";
+			
+			//h					[0-9a-f]
+			const H_EXP:String
+				= "[0-9a-f]";
 						
-			//nonascii			[^\0-\237]
+			//nonascii			[^\0-\237] (2.1)
 			const NONASCII_EXP:String
 				= "[" + String.fromCharCode( 0x0080 )
 				+ "-" + String.fromCharCode( 0xFFFF ) + "]";
-				
+
 			//const NONASCII_EXP:String = "[\\u0080-\\uFFFF]";
-			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";
+			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";			
+				
+			//nonascii			[\200-\377] (3) - TODO | \\\\xC8-\\\\x179 | \\u00C8-\\uFFFF
+			//= "[\\u0080-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]";
 			
+			/*
+			const NONASCII_EXP:String				
+				= "[" + String.fromCharCode( 0x0080 )
+				+ "-" + String.fromCharCode( 0xD7FF )
+				+ String.fromCharCode( 0xE000 )
+				+ "-" + String.fromCharCode( 0xFFFD ) + "]";
+			*/
+			
+			//const NONASCII_EXP:String = "[\\u0080-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]";
+			
+				/*
+				= String.fromCharCode( 0x0080 )
+				+ "-" + String.fromCharCode( 0xD7FF )
+				+ String.fromCharCode( 0xE000 )
+				+ "-" + String.fromCharCode( 0xFFFD );
+				*/
+				
 			//num				[0-9]+|[0-9]*\.[0-9]+
 			const NUM_EXP:String = "([0-9]*\\.)?[0-9]+";
 			
@@ -199,11 +191,17 @@ package com.ffsys.token
 			
 			//unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
 			const UNICODE_EXP:String =
-				"\\\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?";
+				"\\\\" + H_EXP + "{1,6}(\r\n|[ \n\r\t\f])?";
 				
-			//escape			{unicode}|\\[^\n\r\f0-9a-f]
+			//escape			{unicode}|\\[^\n\r\f0-9a-f] (2.1)
 			const ESCAPE_EXP:String =
 				UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]";
+			
+			/*
+			//escape			{unicode}|\\[ -~\200-\377] (3) - TODO
+			const ESCAPE_EXP:String =
+				UNICODE_EXP + "|\\\\[ -~]|" + NONASCII_EXP;
+			*/
 			
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
 			const STRING1_EXP:String =
@@ -274,14 +272,16 @@ package com.ffsys.token
 			//u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			const UNICODE_RANGE_EXP:String =
 				"u\\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?";
-			
-			//nmstart			[_a-z]|{nonascii}|{escape}
+
+			//nmstart			[_a-z]|{nonascii}|{escape}			(2.1)			
+			//nmstart			[a-z]|{nonascii}|{escape}			(3)
 			const NMSTART_EXP:String =
-				"[_a-z]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
+				"[a-z]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
 				
-			//nmchar			[_a-z0-9-]|{nonascii}|{escape}
+			//nmchar			[_a-z0-9-]|{nonascii}|{escape} 		(2.1)
+			//nmchar			[a-z0-9-]|{nonascii}|{escape} 		(3)	
 			const NMCHAR_EXP:String =
-				"[_a-z0-9\\-]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
+				"[a-z0-9\\-]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
 				
 			//name				{nmchar}+
 			const NAME_EXP:String =
@@ -309,6 +309,15 @@ package com.ffsys.token
 			
 			//DASHMATCH			|=
 			const DASHMATCH_EXP:String = "\\|=";
+			
+			//PREFIXMATCH		^=
+			const PREFIXMATCH_EXP:String = "\\^=";
+			
+			//SUFFIXMATCH		$=
+			const SUFFIXMATCH_EXP:String = "\\$=";
+			
+			//SUBSTRINGMATCH	*=
+			const SUBSTRINGMATCH_EXP:String = "\\*=";
 			
 			//FUNCTION			{ident}\(
 			const FUNCTION_EXP:String = IDENT_EXP + "\\(";
@@ -342,6 +351,13 @@ package com.ffsys.token
 			const CHAR_EXP:String = "[^'\"]{1}";
 			
 			//**************************** TOKENS ****************************//
+			
+			//BOM				#xFEFF
+			var bom:Token = new Token(
+				BOM, new RegExp( "^(" + BOM_EXP + ")" ) );
+				
+			//TODO: add single functionality to the BOM token as it should only be
+			//specified once and can be removed after a match
 
 			//IDENT				{ident}
 			var ident:Token = new Token(
@@ -377,11 +393,11 @@ package com.ffsys.token
 				
 			//PERCENTAGE		{num}%
 			var percent:Token = new Token( PERCENTAGE,
-				new RegExp( "^(" + PERCENT_EXP + ")" ) );
+				new RegExp( "^(" + PERCENT_EXP + ")", "i" ) );
 			
 			//DIMENSION			{num}{ident}
 			var dimension:Token = new Token( DIMENSION,
-				new RegExp( "^(" + DIMENSION_EXP + ")" ) );				
+				new RegExp( "^(" + DIMENSION_EXP + ")", "i" ) );
 			
 			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			var uri:Token = new Token( URI,
@@ -403,12 +419,29 @@ package com.ffsys.token
 			var s:Token = new Token( S, /^([ \t\r\n\f]+)/ );				
 			
 			//INCLUDES			~=
-			var includes:Token = new Token( INCLUDES,
+			var includes:Token = new Token(
+				INCLUDES,
 				new RegExp( "^(" + INCLUDES_EXP + ")" ) );
 			
 			//DASHMATCH			|=
-			var dashmatch:Token = new Token( DASHMATCH,
+			var dashmatch:Token = new Token(
+				DASHMATCH,
 				new RegExp( "^(" + DASHMATCH_EXP + ")" ) );	
+				
+			//PREFIXMATCH		^=
+			var prefixmatch:Token = new Token(
+				PREFIXMATCH,
+				new RegExp( "^(" + PREFIXMATCH_EXP + ")" ) );
+				
+			//SUFFIXMATCH		$=
+			var suffixmatch:Token = new Token(
+				SUFFIXMATCH,
+				new RegExp( "^(" + SUFFIXMATCH_EXP + ")" ) );
+				
+			//SUBSTRINGMATCH	$=
+			var substringmatch:Token = new Token(
+				SUBSTRINGMATCH,
+				new RegExp( "^(" + SUBSTRINGMATCH_EXP + ")" ) );				
 			
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
@@ -424,6 +457,9 @@ package com.ffsys.token
 				CHAR, new RegExp( "^(" + CHAR_EXP + ")" ) );
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
+			
+			//byte order mark first
+			tokens.push( bom );
 			
 			//whitespace token - match early as it's such a common token
 			tokens.push( s );			
@@ -470,6 +506,15 @@ package com.ffsys.token
 			
 			//dashmatch operator |=
 			tokens.push( dashmatch );
+			
+			//prefixmatch operator ^=
+			tokens.push( prefixmatch );
+			
+			//suffixmatch operator $=
+			tokens.push( suffixmatch );
+			
+			//substringmatch operator *=
+			tokens.push( substringmatch );
 			
 			//final catch all char
 			tokens.push( char );	
