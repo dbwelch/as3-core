@@ -14,6 +14,76 @@ package com.ffsys.dom
 	*/ 
 	dynamic public class CssTokenizerTest extends AbstractDomUnit
 	{
+		/*
+		
+		@unkwown-rule
+		@namespace fluid url( http://freeformsystems.com/fluid/css );
+		@media print {
+			h2.big {
+				font-size: 2.4em;
+			}
+		}
+		
+		{
+			unrecognized-property: 100;
+			color: #336699;
+		}
+
+		quoted {
+			font-family: "Arial Narrow", Arial, sans-serif;
+		}
+
+		* {
+			color: #ff99ff;
+		}
+
+		p {
+			font-size: 72px;
+		}
+
+		p.inch {
+			font-size: 1in;
+		}
+
+		p.cm {
+			font-size: 2.54cm;
+		}
+
+		p.mm {
+			font-size: 25.4mm;
+		}
+
+		p.pt {
+			font-size: 72pt;
+		}
+
+		p.pc {
+			font-size: 6pc;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			font-size: 1.2em;
+		}
+
+		.special {
+			font-size: 2em;
+			font-family : Arial, Helvetica, sans-serif;
+		}
+
+		.condensed{color:#ff6600;background-color:#0066ff}
+
+		#id {
+			color: #ff6600;
+		}
+
+		.inline { color: #00ff00 }
+		
+		fluid|CheckBox {
+
+		}
+		
+		*/
+		
 		/**
 		* 	Sample css for this unit test.
 		*/

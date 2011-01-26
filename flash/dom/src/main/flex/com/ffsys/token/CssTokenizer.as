@@ -423,9 +423,8 @@ package com.ffsys.token
 			
 			//todo
 			URI			url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
-			//todo						
+		
 			UNICODE-RANGE	u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
-			
 			CDO	<!--
 			CDC	-->
 			:	:
@@ -437,12 +436,8 @@ package com.ffsys.token
 			[	\[
 			]	\]
 			S	[ \t\r\n\f]+
-			
 			COMMENT	\/\*[^*]*\*+([^/*][^*]*\*+)*\/
-			
-			//todo
 			FUNCTION	{ident}\(
-			
 			INCLUDES	~=
 			DASHMATCH	|=
 			DELIM	any other character not matched by the above rules, and neither a single nor a double quote			
