@@ -35,6 +35,7 @@ package com.ffsys.token
 		public function parse( source:String ):Vector.<Token>
 		{
 			_results = new Vector.<Token>();
+			ctkn = null;
 			parseSource( source );
 			return _results;
 		}
@@ -57,6 +58,7 @@ package com.ffsys.token
 		}
 		
 		private var _lastMatch:String;
+		private var ctkn:Token = null;
 		
 		/**
 		* 	@private
@@ -69,7 +71,6 @@ package com.ffsys.token
 				var c:String = null;
 				var current:String = null;
 				var tkn:Token = null;
-				var ctkn:Token = null;
 				
 				trace("Tokenizer::parseSource()", "[TESTING SOURCE]", "'" + source + "'" );
 				
@@ -78,14 +79,20 @@ package com.ffsys.token
 				tkn = matchTokens( source, ctkn );
 				
 				if( _lastMatch != null
-					&& _lastMatch.length > 0 && source.length > 0 )
+					&& _lastMatch.length > 0
+					&& source.length > 0 )
 				{
 					
 					trace("Tokenizer::parseSource()", "[AFTER MATCH]", _lastMatch );					
 					source = source.substr( _lastMatch.length );
 					parseSource( source );
 					
-					ctkn = tkn;
+					if( tkn != null
+						&& ctkn != null
+						&& tkn.id != ctkn.id )
+					{
+						ctkn = tkn;
+					}
 				}
 			}
 		}

@@ -3,6 +3,16 @@ package com.ffsys.token
 
 	public class CssTokenizer extends Tokenizer
 	{
+		
+		public static const NONASCII_EXP:String
+			= "[" + String.fromCharCode( 0x0080 )
+			+ "-" + String.fromCharCode( 0xFFFFF ) + "]";
+			
+		public static const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
+		
+		
+		public static const IDENT_EXP:String = "[\-]?[_a-z]+[_a-z0-9\-]*";
+		
 		/**
 		* 	The identifier for a stylesheet token.
 		*/
@@ -127,6 +137,11 @@ package com.ffsys.token
 		* 	The identifier for a right bracket token.
 		*/
 		public static const RIGHT_BRACKET:int = 24;
+		
+		/**
+		* 	The identifier for a delim token.
+		*/
+		public static const DELIM:int = 99;
 		
 		//////
 		
@@ -267,7 +282,7 @@ package com.ffsys.token
 			var nmstart:Token = new Token( NMSTART_MACRO, /[_a-z]/ );
 			
 			//nonascii		[^\0-\237]
-			var nonascii:Token = new Token( NONASCII_MACRO, /[^\0-\237]/ );
+			var nonascii:Token = new Token( NONASCII_MACRO, /[^\\x00-\\xED]+/ );
 			
 			//unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
 			var unicode:Token = new Token( UNICODE_MACRO, /\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?/ );
@@ -354,7 +369,7 @@ package com.ffsys.token
 			var s:Token = new Token( S, /^([ \t\r\n\f]+)/ );
 			
 			var identToken:Token = new Token(
-				IDENT, /^([\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*)/ );
+				IDENT, new RegExp( "^(" + IDENT_EXP + ")" ) );
 			
 			//identToken.combinations.push( ident );
 			
@@ -384,39 +399,41 @@ package com.ffsys.token
 			
 			var hashToken:Token = new Token( HASH, /^(#[_a-z0-9-]+)/ );
 			
-			var numberToken:Token = new Token( NUMBER, /^([0-9]*\.?[0-9]+)/ );
+			var numberToken:Token = new Token( NUMBER,
+				new RegExp( "^(" + NUM_EXP + ")" ) );
 			
-			var percentToken:Token = new Token( PERCENTAGE );
-			percentToken.combinations.push( num, "%" );
+			var percentToken:Token = new Token( PERCENTAGE,
+				new RegExp( "^(" + NUM_EXP + "%)" ) );
 			
-			var dimensionToken:Token = new Token( DIMENSION );
-			dimensionToken.combinations.push( num, ident );
+			var dimensionToken:Token = new Token( DIMENSION,
+				new RegExp( "^(" + NUM_EXP + IDENT_EXP + ")" ) );
 			
-			var commentToken:Token = new Token( COMMENT, /^\/\*[^\/][^\*]*\*\/$/ );
+			var commentToken:Token = new Token( COMMENT, /^(\/\*[^\*]*\*\/)/ );
 			commentToken.start = /\/\*/;
 			commentToken.end = /\*\//;
 			
 			/*/\/\*[^*]*\*+([^/*][^*]*\*+)*\/*/
 			
+			var delim:Token = new Token( DELIM, /^([^'"])/ );
 			
 			//|\\{nl}|{escape}
 			var stringToken:Token = new Token( STRING, /^(\"[^\n\r\f\\"]*\")/ );			
 			
 			this.tokens.push( stylesheet );	
 			
-			this.tokens.push( identToken );			
-			
 			this.tokens.push( at );
+			this.tokens.push( hashToken );			
+			this.tokens.push( identToken );
+			
 			this.tokens.push( stringToken );
 			
 			this.tokens.push( badStringToken );
 			this.tokens.push( badUriToken );
 			this.tokens.push( badCommentToken );
-			
-			this.tokens.push( hashToken );			
-			this.tokens.push( numberToken );
-			this.tokens.push( percentToken );			
+					
 			this.tokens.push( dimensionToken );						
+			this.tokens.push( percentToken );
+			this.tokens.push( numberToken );
 			
 			this.tokens.push( cdo );
 			this.tokens.push( cdc );
@@ -435,7 +452,10 @@ package com.ffsys.token
 			
 			this.tokens.push( s );
 			
-			this.tokens.push( commentToken );		
+			this.tokens.push( commentToken );
+			
+			//final catch all
+			this.tokens.push( delim );					
 			
 			
 			/*

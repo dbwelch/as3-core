@@ -20,9 +20,18 @@ package com.ffsys.dom
 		public var sample:String = <css>
 				<![CDATA[
 					<!-- SOME COMMENT DATA -->
+					/**/
+					/* a comment with some text */
 					@charset "utf-8";
 					
-					#id
+					* {
+						font-size: 2.5em;
+						margin-bottom: 10;
+					}
+					
+					#id {
+						width: 100%;
+					}
 				]]>
 			</css>.toString();
 		
@@ -47,6 +56,23 @@ package com.ffsys.dom
 			{
 				trace("CssTokenizerTest::cssTokenizeTest()", tkn.id, tkn.matched );
 			}
+			
+			//trace("CssTokenizerTest::cssTokenizeTest()", /^([\-]?(([_a-zA-Z]+)|([^\\x00-\\xED])+)[_a-zA-Z0-9\-]*)/.test( "*" ) );
+			
+			trace("CssTokenizerTest::cssTokenizeTest()", "\n".charCodeAt( 0 ), "a".charCodeAt( 0 ) );
+			
+			
+			var char:String = "*";
+			var code:Number = 129;
+			//var unicode:String = parseInt( code.toString(), 16 );
+			
+			trace("CssTokenizerTest::cssTokenizeTest() code: ", code, "'" + String.fromCharCode( code ) + "'" );
+			
+			var re:RegExp = /[\u000A]/;
+			
+			var gt:RegExp = new RegExp( "[" + String.fromCharCode( 0x0080 ) + "-" + String.fromCharCode( 0xFFFFF ) + "]" );
+			
+			trace("CssTokenizerTest::cssTokenizeTest() newline/a:", re.test( "\n" ), re.test( "a" ), gt.test( String.fromCharCode( code ) ) );
 		}
 	}
 }

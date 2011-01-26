@@ -126,7 +126,7 @@ package com.ffsys.token
 					var results:Array = ( match as RegExp ).exec( candidate );
 					
 					matched = "";
-					for( var i:int = 1;i < results.length;i++ )
+					for( var i:int = 1;i < 2;i++ )
 					{
 						if( results[ i ] is String )
 						{
