@@ -1,23 +1,59 @@
 package com.ffsys.token
 {
-
+	
+	
 	public class CssTokenizer extends Tokenizer
 	{
-		
 		public static const NONASCII_EXP:String
 			= "[" + String.fromCharCode( 0x0080 )
 			+ "-" + String.fromCharCode( 0xFFFFF ) + "]";
 			
 		public static const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
 		
+		//nl				\n|\r\n|\r|\f
+		public static const NL_EXP:String = "(\n|\r\n|\r|\f)";
 		
-		public static const IDENT_EXP:String = "[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
+		//w				[ \t\r\n\f]*
+		public static const W_EXP:String = "([ \t\r\n\f]*)";
 		
-		public static const STRING_EXP:String = "\"[^\n\r\f\"]*\"";
+		public static const UNICODE_EXP:String =
+			"(\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?)";
 		
-		public static const STRING2_EXP:String = "'[^\n\r\f']*'";
+		public static const ESCAPE_EXP:String =
+			UNICODE_EXP + "|(\\[^\n\r\f0-9a-f])";
 		
-		public static const UNICODE_RANGE_EXP:String = "u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?";
+		public static const STRING1_EXP:String =
+			"(\"[^\n\r\f\"]*\")" + "|" + NL_EXP + "|" + ESCAPE_EXP;
+		
+		public static const STRING2_EXP:String =
+			"('[^\n\r\f']*')" + "|" + NL_EXP + "|" + ESCAPE_EXP;
+		
+		public static const UNICODE_RANGE_EXP:String =
+			"(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)";
+		
+		public static const NMSTART_EXP:String =
+			"(" + "[_a-zA-Z]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
+		
+		public static const NMCHAR_EXP:String =
+			"(" + "[_a-zA-Z0-9-]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
+		
+		public static const NAME_EXP:String =
+			"(" + NMCHAR_EXP + "+" + ")";
+		
+		public static const IDENT_EXP:String =
+			"[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
+		
+		public static const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
+		
+		public static const HASH_EXP:String = "#" + NAME_EXP;
+		
+		public static const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
+		
+		public static const PERCENT_EXP:String = NUM_EXP + "%";
+		
+		public static const INCLUDES_EXP:String = "~=";		
+		
+		public static const DASHMATCH_EXP:String = "\\|=";
 		
 		/**
 		* 	The identifier for a stylesheet token.
@@ -145,6 +181,16 @@ package com.ffsys.token
 		public static const RIGHT_BRACKET:int = 24;
 		
 		/**
+		* 	The identifier for an includes token.
+		*/
+		public static const INCLUDES:int = 25;
+		
+		/**
+		* 	The identifier for a dashmatch token.
+		*/
+		public static const DASHMATCH:int = 26;
+		
+		/**
 		* 	The identifier for a delim token.
 		*/
 		public static const DELIM:int = 99;
@@ -256,16 +302,6 @@ package com.ffsys.token
 		* 	The identifier for a baduri3 macro.
 		*/
 		public static const BADURI3_MACRO:int = 120;
-		
-		/**
-		* 	The identifier for a nl macro.
-		*/
-		public static const NL_MACRO:int = 121;
-		
-		/**
-		* 	The identifier for a w macro.
-		*/
-		public static const W_MACRO:int = 122;
 
 		/**
 		* 	Creates a <code>CssTokenizer</code> instance.
@@ -279,25 +315,12 @@ package com.ffsys.token
 		{
 			//MACROS
 			//ident			[-]?{nmstart}{nmchar}*
-			var ident:Token = new Token( IDENT_MACRO, /^[\-]?([_a-z])+([_a-z0-9\-])*$/ );
+			var ident:Token = new Token( IDENT_MACRO,
+				/^[\-]?([_a-z])+([_a-z0-9\-])*$/ );
 			
 			//name			{nmchar}+
-			var name:Token = new Token( NAME_MACRO, /[_a-z0-9-]+/ );
-			
-			//nmstart		[_a-z]|{nonascii}|{escape}
-			var nmstart:Token = new Token( NMSTART_MACRO, /[_a-z]/ );
-			
-			//nonascii		[^\0-\237]
-			var nonascii:Token = new Token( NONASCII_MACRO, /[^\\x00-\\xED]+/ );
-			
-			//unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
-			var unicode:Token = new Token( UNICODE_MACRO, /\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?/ );
-			
-			//escape			{unicode}|\\[^\n\r\f0-9a-f]
-			var escape:Token = new Token( ESCAPE_MACRO, /\\[^\n\r\f0-9a-f]/ );
-			
-			//nmchar			[_a-z0-9-]|{nonascii}|{escape}
-			var nmchar:Token = new Token( NMCHAR_MACRO, /[_a-z0-9-]/ );
+			var name:Token = new Token( NAME_MACRO,
+				/[_a-z0-9-]+/ );
 			
 			//num				[0-9]+|[0-9]*\.[0-9]+
 			var num:Token = new Token( NUM_MACRO, /[0-9]+|[0-9]*\.[0-9]+/ );			
@@ -343,29 +366,6 @@ package com.ffsys.token
 			//baduri3			url\({w}{badstring}	
 			var baduri3:Token = new Token( BADCOMMENT2_MACRO, /[^\0-\237]/ );
 			
-			//nl				\n|\r\n|\r|\f
-			var nl:Token = new Token( NL_MACRO, /\n|\r\n|\r|\f/ );
-			
-			//w				[ \t\r\n\f]*
-			var w:Token = new Token( W_MACRO, /[ \t\r\n\f]*/ );
-			
-			//build macro relationships - TODO: QUALIFIERS * | +
-			//ident.combinations.push( nmstart, nmchar );
-			name.combinations.push( nmchar );
-			
-			//alteratives for matching						
-			nmstart.alternatives.push( nonascii, escape );
-			nmchar.alternatives.push( nonascii, escape );
-			escape.alternatives.push( unicode );
-			
-			badstring.alternatives.push(
-				badstring1, badstring2 );
-			badcomment.alternatives.push(
-				badcomment1, badcomment2 );
-			baduri.alternatives.push(
-				baduri1, baduri2, baduri3 );
-			
-			
 			//STATEMENTS
 			var stylesheet:Token = new Token( STYLESHEET );
 			
@@ -374,15 +374,14 @@ package com.ffsys.token
 			var cdc:Token = new Token( CDC, /^(\-\->)/ );
 			var s:Token = new Token( S, /^([ \t\r\n\f]+)/ );
 			
-			var identToken:Token = new Token(
-				IDENT, new RegExp( "^(" + IDENT_EXP + ")" ) );
-			
 			var at:Token = new Token(
-				ATKEYWORD, /^(@[\-]?[_a-z]+[_a-z0-9\-]*)/ );
+				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")" ) );
 			
-			var badStringToken:Token = new Token( BAD_STRING );
-			var badUriToken:Token = new Token( BAD_URI );
-			var badCommentToken:Token = new Token( BAD_COMMENT );
+			var hashToken:Token = new Token(
+				HASH, new RegExp( "^(" + HASH_EXP + ")" ) );
+			
+			var identToken:Token = new Token(
+				IDENT, new RegExp( "^(" + IDENT_EXP + ")" ) );								
 			
 			//single character tokens
 			var semiColonToken:Token = new Token(
@@ -402,28 +401,38 @@ package com.ffsys.token
 			var rightBracket:Token = new Token(
 				RIGHT_BRACKET, /^(\])/ );
 			
-			var hashToken:Token = new Token( HASH, /^(#[_a-z0-9-]+)/ );
-			
+			//numeric tokens
 			var numberToken:Token = new Token( NUMBER,
 				new RegExp( "^(" + NUM_EXP + ")" ) );
-			
 			var percentToken:Token = new Token( PERCENTAGE,
-				new RegExp( "^(" + NUM_EXP + "%)" ) );
-			
+				new RegExp( "^(" + PERCENT_EXP + ")" ) );
 			var dimensionToken:Token = new Token( DIMENSION,
-				new RegExp( "^(" + NUM_EXP + IDENT_EXP + ")" ) );
+				new RegExp( "^(" + DIMENSION_EXP + ")" ) );
 			
-			var commentToken:Token = new Token( COMMENT, /^(\/\*[^\*]*\*\/)/ );
+			//comment token
+			var commentToken:Token = new Token(
+				COMMENT, /^(\/\*[^\*]*\*\/)/ );
 			commentToken.start = /\/\*/;
 			commentToken.end = /\*\//;
 
-			var stringToken:Token = new Token( STRING,
-				new RegExp( "^(" + STRING_EXP + ")" ) );
+			var string1Token:Token = new Token( STRING,
+				new RegExp( "^(" + STRING1_EXP + ")" ) );
 				
 			var string2Token:Token = new Token( STRING,
 				new RegExp( "^(" + STRING2_EXP + ")" ) );				
 			
 			/*/\/\*[^*]*\*+([^/*][^*]*\*+)*\/*/
+			
+			//bad values
+			var badStringToken:Token = new Token( BAD_STRING );
+			var badUriToken:Token = new Token( BAD_URI );
+			var badCommentToken:Token = new Token( BAD_COMMENT );	
+			
+			var includes:Token = new Token( INCLUDES,
+				new RegExp( "^(" + INCLUDES_EXP + ")" ) );
+									
+			var dashmatch:Token = new Token( DASHMATCH,
+				new RegExp( "^(" + DASHMATCH_EXP + ")" ) );
 			
 			var delim:Token = new Token( DELIM, /^([^'"])/ );
 			
@@ -431,11 +440,11 @@ package com.ffsys.token
 			
 			this.tokens.push( stylesheet );	
 			
+			this.tokens.push( identToken );
 			this.tokens.push( at );
 			this.tokens.push( hashToken );			
-			this.tokens.push( identToken );
 			
-			this.tokens.push( stringToken );
+			this.tokens.push( string1Token );
 			this.tokens.push( string2Token );
 			
 			this.tokens.push( badStringToken );
@@ -464,6 +473,9 @@ package com.ffsys.token
 			this.tokens.push( s );
 			
 			this.tokens.push( commentToken );
+			
+			this.tokens.push( includes );
+			this.tokens.push( dashmatch );
 			
 			//final catch all
 			this.tokens.push( delim );					

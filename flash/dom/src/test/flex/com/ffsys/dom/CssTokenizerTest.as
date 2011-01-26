@@ -24,6 +24,14 @@ package com.ffsys.dom
 					/* a comment with some text */
 					@charset "utf-8";
 					
+					[media|=flash] {
+						-as-custom-style: 0.5;
+					}
+					
+					[lang~=en] {
+						color: #ff6600;
+					}
+					
 					* {
 						font-size: 2.5em;
 						margin-bottom: 10;
