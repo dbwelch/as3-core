@@ -166,7 +166,13 @@ package com.ffsys.token
 			//nonascii			[^\0-\237]
 			const NONASCII_EXP:String
 				= "[" + String.fromCharCode( 0x0080 )
-				+ "-" + String.fromCharCode( 0xFFFFF ) + "]";
+				+ "-" + String.fromCharCode( 0xFFFF ) + "]";
+				
+			//const NONASCII_EXP:String = "[\\u0080-\\uFFFF]";
+			
+			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";
+				
+				//[\u0080-\uFFFF]
 			
 			//num				[0-9]+|[0-9]*\.[0-9]+
 			const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
@@ -179,11 +185,11 @@ package com.ffsys.token
 			
 			//unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
 			const UNICODE_EXP:String =
-				"\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?";
+				"\\\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?";
 				
 			//escape			{unicode}|\\[^\n\r\f0-9a-f]
 			const ESCAPE_EXP:String =
-				UNICODE_EXP + "|\\[^\n\r\f0-9a-f]";
+				UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]";
 			
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
 			const STRING1_EXP:String =
@@ -215,21 +221,29 @@ package com.ffsys.token
 			
 			//nmstart			[_a-z]|{nonascii}|{escape}
 			const NMSTART_EXP:String =
-				"(" + "[_a-zA-Z]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
+				"[_a-z]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
 				
 			//nmchar			[_a-z0-9-]|{nonascii}|{escape}
 			const NMCHAR_EXP:String =
-				"(" + "[_a-zA-Z0-9-]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP + ")";
+				"[_a-z0-9\\-]" + "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
 				
 			//name				{nmchar}+
 			const NAME_EXP:String =
-				"(" + NMCHAR_EXP + "+" + ")";
+				"(" + NMCHAR_EXP + ")+";
 				
 			//TOOD: match the specification on {ident}
 			
 			//ident				[-]?{nmstart}{nmchar}*
+			
+			/*
 			const IDENT_EXP:String =
-				"[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
+				"[\-]?[_a-z]+[_a-z0-9\-]*";
+			*/	
+			
+			//IDENT				{ident}
+			//ident				[-]?{nmstart}{nmchar}*	
+			const IDENT_EXP:String =
+				"[\-]?(" + NMSTART_EXP + ")+" + NMCHAR_EXP + "*";
 			
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
 			
@@ -253,23 +267,25 @@ package com.ffsys.token
 			
 			//DELIM	any other character not matched by the above rules,
 			//and neither a single nor a double quote
-			const DELIM_EXP:String = "[^'\"]";
+			const DELIM_EXP:String = "[^'\"]{1}";
 			
 			//**************************** TOKENS ****************************//
 
 			//IDENT				{ident}
 			var ident:Token = new Token(
-				IDENT, new RegExp( "^(" + IDENT_EXP + ")" ) );
+				IDENT, new RegExp( "^(" + IDENT_EXP + ")", "i" ) );
 				
 			//ATKEYWORD			@{ident}
 			var at:Token = new Token(
-				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")" ) );
+				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")", "i" ) );
+			
+			at.greedy = true;
 				
 			//STRING			{string}
 			var string1:Token = new Token( STRING,
-				new RegExp( "^(" + STRING1_EXP + ")" ) );
+				new RegExp( "^(" + STRING1_EXP + ")", "i" ) );
 			var string2:Token = new Token( STRING,
-				new RegExp( "^(" + STRING2_EXP + ")" ) );
+				new RegExp( "^(" + STRING2_EXP + ")", "i" ) );
 				
 			//bad values - TODO
 			
@@ -284,7 +300,7 @@ package com.ffsys.token
 				
 			//HASH				#{name}
 			var hash:Token = new Token(
-				HASH, new RegExp( "^(" + HASH_EXP + ")" ) );
+				HASH, new RegExp( "^(" + HASH_EXP + ")", "i" ) );
 			
 			//NUMBER			{num}
 			var num:Token = new Token( NUMBER,
@@ -300,11 +316,11 @@ package com.ffsys.token
 			
 			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			var uri:Token = new Token( URI,
-				new RegExp( "^(" + URI_EXP + ")" ) );
+				new RegExp( "^(" + URI_EXP + ")", "i" ) );
 			
 			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			var range:Token = new Token( UNICODE_RANGE,
-				new RegExp( "^(" + UNICODE_RANGE_EXP + ")" ) );
+				new RegExp( "^(" + UNICODE_RANGE_EXP + ")", "i" ) );
 			
 			//CDO				<!--
 			var cdo:Token = new Token(
@@ -379,10 +395,7 @@ package com.ffsys.token
 			tokens.push( uri );			
 			
 			//unicode range  - must match before {ident}
-			tokens.push( range );
-			
-			//function expression: method() - must match before {ident}
-			tokens.push( method );			
+			tokens.push( range );		
 			
 			tokens.push( at );			
 			
@@ -418,6 +431,9 @@ package com.ffsys.token
 			
 			//code style multiline comment
 			tokens.push( comment );
+			
+			//function expression: method()
+			tokens.push( method );
 			
 			//includes operator ~=
 			tokens.push( includes );

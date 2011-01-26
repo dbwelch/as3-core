@@ -137,6 +137,10 @@ package com.ffsys.dom
 						quoted-url: url( "http://freeformsystems.com/" );
 						single-quoted-url: url( 'http://freeformsystems.com/' );
 					}
+					
+					#my-id {
+						
+					}
 				]]>
 			</css>.toString();
 		
@@ -169,6 +173,8 @@ package com.ffsys.dom
 			}
 			
 			trace("CssTokenizerTest::cssTokenizeTest()", /^(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)/.test( "u+0080-ffff" ) );
+			
+			trace( /[\u000A]/.test( "\n" ), /[\u000A-\u000B]/.test( String.fromCharCode( 11 ) ) );
 		}
 	}
 }

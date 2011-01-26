@@ -34,6 +34,8 @@ package com.ffsys.token
 		*/
 		public var open:Boolean;
 		
+		public var greedy:Boolean;
+		
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
@@ -85,22 +87,29 @@ package com.ffsys.token
 		* 
 		* 	@return Whether this token matches the candidate.
 		*/
-		public function compare( candidate:String ):Boolean
+		public function compare( candidate:String, re:RegExp = null ):Boolean
 		{
-			var matches:Boolean = test( candidate );
+			var matches:Boolean = test( candidate, re );
 			if( matches )
 			{
+				if( re == null && match is RegExp )
+				{
+					re = match as RegExp;
+				}		
+				
 				if( match is String )
 				{
-					matched = match as String;
+					matched = ( match as String );
 				}else if( match is RegExp )
 				{
-					var results:Array = ( match as RegExp ).exec( candidate );
+					var results:Array = re.exec( candidate );
 					if( results[ 1 ] is String )
 					{
 						matched = results[ 1 ];
 					}
 				}
+				
+				return matches == true || matched.length > 0;
 			}
 			return matches;
 		}
@@ -113,10 +122,15 @@ package com.ffsys.token
 		* 
 		* 	@return Whether this token matches the candidate.
 		*/
-		public function test( candidate:String ):Boolean
+		public function test( candidate:String, re:RegExp = null ):Boolean
 		{
 			if( candidate != null )
 			{
+				if( re == null && match is RegExp )
+				{
+					re = match as RegExp;
+				}
+				
 				if( start is RegExp )
 				{
 					//trace("Token::test()", "[FOUND START REGEXP]", start );
@@ -136,11 +150,12 @@ package com.ffsys.token
 				var tkn:Token = null;
 				if( isMatch() )
 				{
-					if( match is RegExp
-						&& match.test( candidate ) )
+					if( re is RegExp
+						&& re.test( candidate ) )
 					{
 						return true;
-					}else if( match is String && match == candidate )
+					}else if( match is String
+						&& match == candidate )
 					{
 						return true;
 					}
@@ -163,6 +178,7 @@ package com.ffsys.token
 			output.end = end;
 			output.open = this.open;
 			output.matched = matched;
+			output.greedy = greedy;
 			return output;
 		}
 		

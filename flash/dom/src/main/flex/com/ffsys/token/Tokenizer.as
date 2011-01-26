@@ -19,7 +19,6 @@ package com.ffsys.token
 		private var _tokens:Vector.<Token>;
 		private var _results:Vector.<Token>;
 		
-		
 		private var _lastMatch:String;
 		private var _ctkn:Token = null;		
 		
@@ -52,7 +51,19 @@ package com.ffsys.token
 		{
 			_ctkn = null;
 			parseSource( source );
+			//clean up
+			cleanup();
 			return _results;
+		}
+		
+		/**
+		* 	Invoked when parsing is complete
+		* 	to clean cached temporary data.
+		*/
+		protected function cleanup():void
+		{
+			_lastMatch = null;
+			_ctkn = null;
 		}
 		
 		/**
@@ -89,30 +100,78 @@ package com.ffsys.token
 			{
 				var i:int = 0;
 				var c:String = null;
-				var current:String = null;
 				var tkn:Token = null;
 				
 				//trace("Tokenizer::parseSource()", "[TESTING SOURCE]", "'" + source + "'" );
 				
 				_lastMatch = null;
-				
+
 				tkn = matchTokens( source, _ctkn );
+				
+				//TODO
+				
+				//set current token first time around
+				if( ( tkn != null && _ctkn == null ) )
+				{
+					_ctkn = tkn;
+				}else if(
+					tkn != null
+				 	&& _ctkn != null
+				 	&& tkn.id != _ctkn.id )
+				{
+					_ctkn = tkn
+				}				
 				
 				if( _lastMatch != null
 					&& _lastMatch.length > 0
 					&& source.length > 0 )
 				{
 					
-					//trace("Tokenizer::parseSource()", "[AFTER MATCH]", _lastMatch );					
-					source = source.substr( _lastMatch.length );
-					parseSource( source );
-					
-					if( tkn != null
-						&& _ctkn != null
-						&& tkn.id != _ctkn.id )
+					/*
+					if( tkn )
 					{
-						_ctkn = tkn;
+						trace("Tokenizer::parseSource()", tkn, tkn.greedy );
 					}
+					*/
+					
+					//test for continuous greedy match 
+					if( tkn != null
+						&& tkn.match is RegExp
+						&& tkn.greedy )
+					{
+						var tmp:String = tkn.matched.charAt( 0 );
+						var re:RegExp = new RegExp( tkn.match.source + "$" );
+						var compared:Boolean = false;
+						
+						trace("[GREEDY MATCH] Tokenizer::parseSource()", i, tmp );
+						
+						for( i = 1;i < source.length;i++ )
+						{
+							c = source.charAt( i );
+							tmp += c;
+							
+							//re = new RegExp( tkn.match.source + "$" );
+							
+							compared = tkn.compare( tmp, re );
+							
+							trace("[COMPARING] Tokenizer::parseSource()", re, tmp, compared, tkn.matched );
+							
+							if( compared )
+							{
+								_lastMatch = tmp;
+							}else
+							{
+								trace("[COMPLETED GREEDY MATCH] Tokenizer::parseSource()", _lastMatch );
+								break;
+							}
+						}
+					}
+
+					//chomp the matched value				
+					source = source.substr( _lastMatch.length );
+					
+					//parse any remaining source
+					parseSource( source );
 				}
 			}
 		}
@@ -126,20 +185,22 @@ package com.ffsys.token
 		{
 			if( candidate != null )
 			{
-				//trace("Tokenizer::testTokens()", candidate );
+				//trace("Tokenizer::testTokens()", current );
 				var output:Token = null;
 				var tkn:Token = null;
 				for each( tkn in tokens )
 				{
 					if( tkn.compare( candidate ) )
 					{
-						_lastMatch = tkn.matched;						
-						if( current == null || tkn.id != current.id )
+						_lastMatch = tkn.matched;					
+						if( current == null
+							|| tkn.id != current.id )
 						{
 							output = tkn.clone();
+							//trace("[CREATED TOKEN] Tokenizer::parseSource() id:", output.id );
 							results.push( output );
 							return output;
-						}else{
+						}else {
 							current.matched += _lastMatch;
 							return current;
 						}
