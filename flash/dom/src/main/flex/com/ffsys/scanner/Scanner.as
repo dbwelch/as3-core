@@ -1,11 +1,13 @@
-package com.ffsys.token
+package com.ffsys.scanner
 {
-	
 	/**
-	*	Responsible for tokenizing text.
+	*	Responsible for scanning text
+	* 	and producing <code>result</code> tokens
+	* 	based on matches from the <code>tokens</code>
+	* 	defined on this scanner.
 	* 
 	* 	Derived implementations may define
-	* 	the default tokens in the
+	* 	the <code>tokens</code> in the
 	* 	<code>configure</code> method.
 	*
 	*	@langversion ActionScript 3.0
@@ -32,7 +34,7 @@ package com.ffsys.token
 		/**
 		* 	@private
 		*/
-		protected var _ctkn:Token = null;
+		protected var _current:Token = null;
 		
 		/**
 		* 	Creates a <code>Scanner</code> instance.
@@ -45,7 +47,7 @@ package com.ffsys.token
 		
 		/**
 		* 	Invoked on instantiation to configure
-		* 	the default tokens for this tokenizer.
+		* 	the default tokens for this scanner.
 		*/
 		protected function configure():void
 		{
@@ -59,11 +61,11 @@ package com.ffsys.token
 		* 
 		* 	@return A list of tokens that matched the source text.
 		*/
-		public function parse( source:String ):Vector.<Token>
+		public function scan( source:String ):Vector.<Token>
 		{
-			_ctkn = null;
+			_current = null;
 			_source = source;
-			parseSource();
+			scanSource();
 			//clean up
 			cleanup();
 			return _results;
@@ -73,9 +75,13 @@ package com.ffsys.token
 		* 	The source currently being scanned.
 		* 
 		* 	Note this may not match the source
-		* 	specified when the <code>parse</code>
+		* 	specified when the <code>scan</code>
 		* 	method was invoked as the source is
 		* 	modified during the scan.
+		* 
+		* 	If a scan was incomplete, for example
+		* 	if no token matches, this will contain
+		* 	any remaining unscanned text.
 		*/
 		public function get source():String
 		{
@@ -89,11 +95,11 @@ package com.ffsys.token
 		protected function cleanup():void
 		{
 			_lastMatch = null;
-			_ctkn = null;
+			_current = null;
 		}
 		
 		/**
-		* 	A list of tokens that represent the parsed
+		* 	A list of tokens that represent the scand
 		* 	results.
 		*/
 		public function get results():Vector.<Token>
@@ -106,7 +112,8 @@ package com.ffsys.token
 		}
 		
 		/**
-		* 	The list of tokens for this tokenizer.
+		* 	The list of tokens this scanner should
+		* 	match against.
 		*/
 		public function get tokens():Vector.<Token>
 		{
@@ -120,7 +127,7 @@ package com.ffsys.token
 		/**
 		* 	@private
 		*/
-		private function parseSource():void
+		private function scanSource():void
 		{
 			if( source != null )
 			{
@@ -128,36 +135,33 @@ package com.ffsys.token
 				var c:String = null;
 				var tkn:Token = null;
 				
-				//trace("Scanner::parseSource()", "[TESTING SOURCE]", "'" + source + "'" );
+				//trace("Scanner::scanSource()", "[TESTING SOURCE]", "'" + source + "'" );
 				
 				_lastMatch = null;
 
-				tkn = matchTokens( source, _ctkn );
+				tkn = matchTokens( source, _current );
 				
 				//TODO
 				
 				//set current token first time around
-				if( ( tkn != null && _ctkn == null ) )
+				if( ( tkn != null && _current == null ) )
 				{
-					_ctkn = tkn;
+					_current = tkn;
 				}else if(
 					tkn != null
-				 	&& _ctkn != null
-				 	&& tkn.id != _ctkn.id )
+				 	&& _current != null
+				 	&& tkn.id != _current.id )
 				{
-					_ctkn = tkn
+					_current = tkn
 				}				
 				
 				if( _lastMatch != null
 					&& _lastMatch.length > 0
 					&& source.length > 0 )
 				{
-					//source = chomp( source );
-					
-					_source = chomp();
-					
-					//parse any remaining source
-					parseSource();
+					_source = chomp();	
+					//scan any remaining source
+					scanSource();
 				}
 			}
 		}
@@ -198,7 +202,7 @@ package com.ffsys.token
 				|| tkn.id != current.id )
 			{
 				var output:Token = tkn.clone();
-				//trace("[CREATED TOKEN] Scanner::parseSource() id:", output.id );
+				//trace("[CREATED TOKEN] Scanner::scanSource() id:", output.id );
 				results.push( output );
 				return output;
 			//handles merging adjacent tokens with the same id

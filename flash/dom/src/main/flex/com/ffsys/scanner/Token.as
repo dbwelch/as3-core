@@ -1,4 +1,4 @@
-package com.ffsys.token
+package com.ffsys.scanner
 {
 	/**
 	*	Represents a text token.

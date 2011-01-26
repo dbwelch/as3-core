@@ -7,7 +7,7 @@ package com.ffsys.dom
 	import org.flexunit.async.Async;
 	
 	import com.ffsys.css.*;
-	import com.ffsys.token.*;
+	import com.ffsys.scanner.*;
 	
 	/**
 	*	Unit tests for tokenizing css documents.
@@ -209,8 +209,8 @@ package com.ffsys.dom
 			
 			//{ causta: "}" + ({7} * '\'') }
 			
-			var tokenizer:CssScanner = new CssScanner();
-			var results:Vector.<Token> = tokenizer.parse( sample );
+			var scanner:CssScanner = new CssScanner();
+			var results:Vector.<Token> = scanner.scan( sample );
 			
 			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length );
 			

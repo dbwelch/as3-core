@@ -1,7 +1,9 @@
-package com.ffsys.token
+package com.ffsys.css
 {
+	import com.ffsys.scanner.*;
+	
 	/**
-	*	A tokenizer for css documents.
+	*	A scanner for css documents.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
