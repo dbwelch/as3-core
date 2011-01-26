@@ -11,7 +11,13 @@ package com.ffsys.token
 		public static const NUM_EXP:String = "([0-9]+\.)?[0-9]+";
 		
 		
-		public static const IDENT_EXP:String = "[\-]?[_a-z]+[_a-z0-9\-]*";
+		public static const IDENT_EXP:String = "[\-]?[_a-zA-Z]+[_a-zA-Z0-9\-]*";
+		
+		public static const STRING_EXP:String = "\"[^\n\r\f\"]*\"";
+		
+		public static const STRING2_EXP:String = "'[^\n\r\f']*'";
+		
+		public static const UNICODE_RANGE_EXP:String = "u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?";
 		
 		/**
 		* 	The identifier for a stylesheet token.
@@ -371,31 +377,30 @@ package com.ffsys.token
 			var identToken:Token = new Token(
 				IDENT, new RegExp( "^(" + IDENT_EXP + ")" ) );
 			
-			//identToken.combinations.push( ident );
-			
 			var at:Token = new Token(
 				ATKEYWORD, /^(@[\-]?[_a-z]+[_a-z0-9\-]*)/ );
 			
 			var badStringToken:Token = new Token( BAD_STRING );
-			badStringToken.alternatives.push( badstring );
-			
 			var badUriToken:Token = new Token( BAD_URI );
-			badUriToken.alternatives.push( baduri );
-			
 			var badCommentToken:Token = new Token( BAD_COMMENT );
-			badCommentToken.alternatives.push( badcomment );
 			
-			var semiColonToken:Token = new Token( SEMI_COLON, /^(;)/ );
-			var colonToken:Token = new Token( COLON, /^(:)/ );
-			
-			var leftBrace:Token = new Token( LEFT_BRACE, /^(\{)/ );
-			var rightBrace:Token = new Token( RIGHT_BRACE, /^(\})/ );
-			
-			var leftParentheses:Token = new Token( LEFT_PARENTHESES, /^(\()/ );
-			var rightParentheses:Token = new Token( RIGHT_PARENTHESES, /^(\))/ );
-			
-			var leftBracket:Token = new Token( LEFT_BRACKET, /^(\[)/ );
-			var rightBracket:Token = new Token( RIGHT_BRACKET, /^(\])/ );
+			//single character tokens
+			var semiColonToken:Token = new Token(
+				SEMI_COLON, /^(;)/ );
+			var colonToken:Token = new Token(
+				COLON, /^(:)/ );
+			var leftBrace:Token = new Token(
+				LEFT_BRACE, /^(\{)/ );
+			var rightBrace:Token = new Token(
+				RIGHT_BRACE, /^(\})/ );
+			var leftParentheses:Token = new Token(
+				LEFT_PARENTHESES, /^(\()/ );
+			var rightParentheses:Token = new Token(
+				RIGHT_PARENTHESES, /^(\))/ );
+			var leftBracket:Token = new Token(
+				LEFT_BRACKET, /^(\[)/ );
+			var rightBracket:Token = new Token(
+				RIGHT_BRACKET, /^(\])/ );
 			
 			var hashToken:Token = new Token( HASH, /^(#[_a-z0-9-]+)/ );
 			
@@ -411,13 +416,18 @@ package com.ffsys.token
 			var commentToken:Token = new Token( COMMENT, /^(\/\*[^\*]*\*\/)/ );
 			commentToken.start = /\/\*/;
 			commentToken.end = /\*\//;
+
+			var stringToken:Token = new Token( STRING,
+				new RegExp( "^(" + STRING_EXP + ")" ) );
+				
+			var string2Token:Token = new Token( STRING,
+				new RegExp( "^(" + STRING2_EXP + ")" ) );				
 			
 			/*/\/\*[^*]*\*+([^/*][^*]*\*+)*\/*/
 			
 			var delim:Token = new Token( DELIM, /^([^'"])/ );
 			
-			//|\\{nl}|{escape}
-			var stringToken:Token = new Token( STRING, /^(\"[^\n\r\f\\"]*\")/ );			
+			//|\\{nl}|{escape}	
 			
 			this.tokens.push( stylesheet );	
 			
@@ -426,6 +436,7 @@ package com.ffsys.token
 			this.tokens.push( identToken );
 			
 			this.tokens.push( stringToken );
+			this.tokens.push( string2Token );
 			
 			this.tokens.push( badStringToken );
 			this.tokens.push( badUriToken );

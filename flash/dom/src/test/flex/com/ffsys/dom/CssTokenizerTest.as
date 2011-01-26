@@ -27,6 +27,7 @@ package com.ffsys.dom
 					* {
 						font-size: 2.5em;
 						margin-bottom: 10;
+						font-family: 'Arial Narrow', Arial, sans-serif;
 					}
 					
 					#id {
