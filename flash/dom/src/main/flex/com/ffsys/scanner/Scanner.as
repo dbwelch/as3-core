@@ -1,10 +1,15 @@
 package com.ffsys.scanner
 {
 	/**
-	*	Responsible for scanning text
+	* 	A lexical scanner.
+	* 
+	*	This class is responsible for scanning text
 	* 	and producing <code>result</code> tokens
 	* 	based on matches from the <code>tokens</code>
 	* 	defined on this scanner.
+	* 	
+	* 	No <code>tokens</code> are defined by
+	* 	this implementation.
 	* 
 	* 	Derived implementations may define
 	* 	the <code>tokens</code> in the

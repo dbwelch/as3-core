@@ -203,7 +203,12 @@ package com.ffsys.dom
 					.unary {
 						negative: -100;
 						positive: +100;
-					}			
+					}
+					
+					.hex {
+						color: #369;
+						color: #ff0000;
+					}
 				]]>
 			</css>.toString();
 		

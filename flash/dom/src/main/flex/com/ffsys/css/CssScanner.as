@@ -3,7 +3,10 @@ package com.ffsys.css
 	import com.ffsys.scanner.*;
 	
 	/**
-	*	A scanner for css documents.
+	*	A lexical scanner for css text.
+	* 
+	* 	This scanner implementation attempts to
+	* 	adhere to the <code>CSS3</code> grammar specification.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -26,7 +29,7 @@ package com.ffsys.css
 		/**
 		* 	The identifier for an atkeyword token.
 		*/
-		public static const ATKEYWORD:int = 2;	
+		public static const ATKEYWORD:int = 2;
 		
 		/**
 		* 	The identifier for a string token.
@@ -708,6 +711,10 @@ package com.ffsys.css
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
 				PROPERTY, new RegExp( "^(" + IDENT_EXP + ")" + W_EXP ) );
+				
+			//HEXCOLOR			#000 | #000000
+			var hexcolor:Token = new Token(
+				HEXCOLOR, new RegExp( "^(#(" + H_EXP + "{6}|" + H_EXP + "{3}))" + W_EXP ) );
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
@@ -740,6 +747,9 @@ package com.ffsys.css
 			tokens.push( page );			//	@page
 			tokens.push( media );			//	@media
 			tokens.push( fontface );		//	@font-face
+			
+			//
+			tokens.push( hexcolor );
 			
 			tokens.push( at );
 			tokens.push( ident );
