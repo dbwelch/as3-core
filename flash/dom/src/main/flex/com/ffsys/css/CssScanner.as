@@ -245,6 +245,11 @@ package com.ffsys.css
 		*/
 		public static const HEXCOLOR:int = 125;
 		
+		/**
+		* 	The identifier for aN important token.
+		*/
+		public static const IMPORTANT:int = 126;
+		
 		//UNIT/NUMERIC TOKENS
 		
 		/**
@@ -679,6 +684,10 @@ package com.ffsys.css
 			//FONT-FACE			@font-face
 			var fontface:Token = new Token(
 				FONT_FACE, new RegExp( "^(" + AtRule.FONT_FACE_SYM + ")" ) );
+				
+			//IMPORTANT			!important
+			var important:Token = new Token(
+				IMPORTANT, new RegExp( "^(!(" + W_EXP + ")?important)" ) );
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
@@ -697,22 +706,20 @@ package com.ffsys.css
 			//unicode range  - must match before {ident}
 			tokens.push( range );		
 			
+			tokens.push( important );		//	!important
+			
 			//specific at rules before the generic at rule
-			tokens.push( charset );			//@charset
-			tokens.push( css );				//@import
-			tokens.push( ns );				//@namespace
-			tokens.push( page );			//@page
-			tokens.push( media );			//@media
-			tokens.push( fontface );		//@font-face
+			tokens.push( charset );			//	@charset
+			tokens.push( css );				//	@import
+			tokens.push( ns );				//	@namespace
+			tokens.push( page );			//	@page
+			tokens.push( media );			//	@media
+			tokens.push( fontface );		//	@font-face
 			
 			tokens.push( at );
-			
 			tokens.push( ident );
-
 			tokens.push( string );
-			
 			tokens.push( badString );
-			
 			tokens.push( hash );			
 			
 			//numeric values must be matched in this order

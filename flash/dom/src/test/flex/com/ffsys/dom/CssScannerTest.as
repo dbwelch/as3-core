@@ -109,7 +109,7 @@ package com.ffsys.dom
 					}
 					
 					[media|=flash] {
-						-as-custom-style: 0.5;
+						-as-custom-style: 0.5 ! important;
 					}
 					
 					[lang~=en] {
