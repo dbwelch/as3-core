@@ -195,7 +195,8 @@ package com.ffsys.token
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
 			const STRING2_EXP:String =
 				"'([^\n\r\f\\']" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
-				
+			
+			//string			{string1}|{string2}
 			const STRING_EXP:String =
 				"(" + STRING1_EXP + ")|(" + STRING2_EXP + ")";
 			
@@ -211,12 +212,11 @@ package com.ffsys.token
 			const BAD_STRING_EXP:String =
 				"(" + BAD_STRING1_EXP + ")|(" + BAD_STRING2_EXP + ")";
 			
-			
-			//url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)	
+			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			const URI_EXP:String =
 				"url\\("			//open function call (quoted)
 				+ W_EXP
-				+ "((" + STRING1_EXP + ")|(" + STRING2_EXP + "))"
+				+ "(" + STRING_EXP + ")"
 				+ W_EXP
 				+ "\\)"				//close function call (quoted)
 				+ "|"
@@ -227,6 +227,32 @@ package com.ffsys.token
 				+ ")*"
 				+ W_EXP
 				+ "\\)";			//close function call
+
+			//baduri1			url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}
+			const BAD_URI1_EXP:String =
+				"url\\("
+				+ W_EXP
+				+ "([!#$%&*-\\[\\]-~]|"
+				+ NONASCII_EXP + "|" + ESCAPE_EXP
+				+ ")*"
+				+ W_EXP;
+			
+			//baduri2			url\({w}{string}{w}
+			const BAD_URI2_EXP:String =
+				"url\\("
+				+ W_EXP
+				+ "(" + STRING_EXP + ")"
+				+ W_EXP;
+			
+			//baduri3			url\({w}{badstring}
+			const BAD_URI3_EXP:String =
+				"url\\("
+				+ W_EXP
+				+ "(" + BAD_STRING_EXP + ")";
+			
+			//baduri			{baduri1}|{baduri2}|{baduri3}	
+			const BAD_URI_EXP:String =
+				"(" + BAD_URI1_EXP + ")|(" + BAD_URI2_EXP + ")|("  + BAD_URI3_EXP + ")";
 				
 			//u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			const UNICODE_RANGE_EXP:String =
@@ -287,16 +313,15 @@ package com.ffsys.token
 			var string:Token = new Token(
 				STRING, new RegExp( "^(" + STRING_EXP + ")", "i" ) );
 				
-			//bad values - TODO
-			
 			//BAD_STRING		{badstring}
 			var badString:Token = new Token(
 				BAD_STRING, new RegExp( "^(" + BAD_STRING_EXP + ")", "i" ) );
 
 			//BAD_URI			{baduri}
 			var badUri:Token = new Token(
-				BAD_URI );
+				BAD_URI, new RegExp( "^(" + BAD_URI_EXP + ")", "i" ) );
 			
+			//todo
 			//BAD_COMMENT		{badcomment}
 			var badComment:Token = new Token(
 				BAD_COMMENT );
@@ -395,7 +420,10 @@ package com.ffsys.token
 			tokens.push( s );			
 			
 			//match a uri function expression first
-			tokens.push( uri );			
+			tokens.push( uri );	
+			
+			//match {baduri} before {ident}
+			tokens.push( badUri );
 			
 			//unicode range  - must match before {ident}
 			tokens.push( range );		
@@ -409,7 +437,6 @@ package com.ffsys.token
 			tokens.push( badString );
 			
 			//todo
-			tokens.push( badUri );
 			tokens.push( badComment );
 			
 			tokens.push( hash );			

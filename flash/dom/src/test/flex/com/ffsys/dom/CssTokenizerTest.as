@@ -139,7 +139,17 @@ package com.ffsys.dom
 					}
 					
 					#my-bad {
-						bad-string: "abc;
+						bad-string: "an incomplete string;
+						bad-single-string: 'an incomplete single quote string
+					}
+					
+					/* Flavours of {baduri} */
+					#my-bad-uri {
+						bad-src: url( http://example.com;
+						bad-src-string1: url( "http://example.com";
+						bad-src-string2: url( 'http://example.com';
+						bad-src-badstring1: url( "http://example.com;
+						bad-src-badstring2: url( 'http://example.com;						
 					}
 				]]>
 			</css>.toString();
