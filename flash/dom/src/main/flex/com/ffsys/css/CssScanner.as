@@ -565,7 +565,7 @@ package com.ffsys.css
 			const S_EXP:String = "([ \\t\\r\\n\\f]+)";
 			
 			//PRIO/IMPORTANT				!important
-			const IMPORTANT_EXP:String = "!(" + W_EXP + ")?important";
+			const PRIO_EXP:String = "!(" + W_EXP + ")?important";
 			
 			//HEXCOLOR						#000000 | #000
 			const HEXCOLOR_EXP:String = "#(" + H_EXP + "{6}|" + H_EXP + "{3})"
@@ -727,14 +727,14 @@ package com.ffsys.css
 			//PRIO				!important
 			var prio:Token = new Token(
 				PRIO,
-				new RegExp( "^(" + IMPORTANT_EXP + ")" + W_EXP ) );
+				new RegExp( "^(" + PRIO_EXP + ")" + W_EXP ) );
 			prio.name = NAME_PREFIX + "important";
 				
 			//OPERATOR			'/' | ','
+			const OPERATOR_EXP:String = Selector.OPTIONAL + "|" + Selector.DELIMITER;
 			var operator:Token = new Token(
 				OPERATOR, new RegExp( "^("
-					+ Selector.OPTIONAL
-					+ "|" + Selector.DELIMITER + ")" + W_EXP ) );
+					+ OPERATOR_EXP + ")" + W_EXP ) );
 			operator.name = NAME_PREFIX + "operator";					
 								
 			//COMBINATOR		'+' | '>' | '~'
@@ -747,9 +747,10 @@ package com.ffsys.css
 			combinator.name = NAME_PREFIX + "combinator";					
 				
 			//UNARY-OPERATOR	'-' | '+'
+			const UNARY_OPERATOR_EXP:String = "(\\+|-)";
 			var unary:Token = new Token(
-				UNARY_OPERATOR, new RegExp( "^(\\+|-)" ) );
-			unary.name = NAME_PREFIX + "unary";				
+				UNARY_OPERATOR, new RegExp( "^" + UNARY_OPERATOR_EXP ) );
+			unary.name = NAME_PREFIX + "unary";
 				
 			//CLASS				'.' IDENT
 			var clazz:Token = new Token(
@@ -764,7 +765,61 @@ package com.ffsys.css
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
 				PROPERTY, new RegExp( "^(" + IDENT_EXP + ")" + W_EXP ) );
-			property.name = NAME_PREFIX + "property";	
+			property.name = NAME_PREFIX + "property";
+			
+			/*
+			tokens.push( angle );
+			tokens.push( frequency );
+			tokens.push( length );
+			tokens.push( time );
+			tokens.push( ems );
+			tokens.push( exs );
+			tokens.push( dimension );
+			tokens.push( percent );
+			tokens.push( num );			
+			*/
+			
+			//TODO
+			const TERM_EXP:String = "(" + UNARY_OPERATOR_EXP + "?"
+				+ "("
+				+ StyleUnit.ANGLE_EXP + W_EXP
+				+ "|" + StyleUnit.FREQUENCY_EXP + W_EXP
+				+ "|" + StyleUnit.LENGTH_EXP + W_EXP
+				+ "|" + StyleUnit.TIME_EXP + W_EXP
+				+ "|" + StyleUnit.EMS_EXP + W_EXP	
+				+ "|" + StyleUnit.EXS_EXP + W_EXP
+				+ "|" + PERCENT_EXP + W_EXP
+				+ "|" + DIMENSION_EXP + W_EXP
+				+ "|" + NUM_EXP + W_EXP
+				//TODO: function
+				+ ")";
+				
+				/*
+				+ "|" + STRING_EXP + W_EXP
+				+ "|" + URI_EXP + W_EXP
+				+ "|" + UNICODE_RANGE_EXP + W_EXP
+				+ "|" + IDENT_EXP + W_EXP
+				+ "|" + HEXCOLOR_EXP + ")";
+				*/
+			
+			//TODO
+			const EXPR_EXP:String =
+				TERM_EXP + "(" + OPERATOR_EXP + TERM_EXP + ")*";
+			
+			//DECLARATION		property ':' S* expr prio?
+			var declaration:Token = new Token(
+				DECLARATION, new RegExp(
+					"^("
+					+ W_EXP + IDENT_EXP + W_EXP
+					+ ":"
+					+ W_EXP + EXPR_EXP
+					+ "("
+					+ PRIO_EXP
+					+ ")?"
+					+ ")", "i" ) );
+			declaration.name = NAME_PREFIX + "declaration";
+			
+			trace("[DECLARATION] CssScanner::call()", declaration.match );
 				
 			//HEXCOLOR			#000 | #000000
 			var hexcolor:Token = new Token(
@@ -831,7 +886,9 @@ package com.ffsys.css
 			tokens.push( bom );
 			
 			//whitespace token - match early as it's such a common token
-			tokens.push( s );			
+			tokens.push( s );
+			
+			tokens.push( declaration );
 			
 			//match a uri function expression first
 			tokens.push( uri );	

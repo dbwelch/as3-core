@@ -140,15 +140,8 @@ package com.ffsys.scanner
 				var c:String = null;
 				var tkn:Token = null;
 				
-				//trace("Scanner::scanSource()", "[TESTING SOURCE]", "'" + source + "'" );
-				
-				_lastMatch = null;
-				
-
 				tkn = matchTokens( source, _current );
-				
-				//TODO
-				
+
 				//set current token first time around
 				if( ( tkn != null && _current == null ) )
 				{
