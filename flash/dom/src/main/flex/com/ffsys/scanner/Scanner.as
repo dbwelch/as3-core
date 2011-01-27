@@ -212,7 +212,7 @@ package com.ffsys.scanner
 			if( current == null
 				|| tkn.id != current.id )
 			{
-				if( current != null )
+				if( current != null && current.capture )
 				{
 					endToken( current );
 				}
@@ -221,12 +221,18 @@ package com.ffsys.scanner
 				{
 					results.push( output );
 					beginToken( output );
+				}else 
+				{
+					dispose( output );
 				}
 				return output;
 			//handles merging adjacent tokens with the same id
 			}else {
 				current.matched += _lastMatch;
-				token( current );
+				if( current.capture )
+				{
+					token( current );
+				}
 				return current;
 			}
 			return tkn;
@@ -258,6 +264,8 @@ package com.ffsys.scanner
 		* 	Invoked when a token is created from
 		* 	a successful match.
 		* 
+		* 	Non-capturing tokens do not trigger this method.
+		* 
 		* 	@param token The matched token.
 		*/
 		protected function beginToken( token:Token ):void
@@ -267,6 +275,8 @@ package com.ffsys.scanner
 		
 		/**
 		* 	Invoked while a token type has consecutive matches.
+		* 
+		* 	Non-capturing tokens do not trigger this method.
 		* 
 		* 	@param token The matched token.
 		*/
@@ -278,9 +288,24 @@ package com.ffsys.scanner
 		/**
 		* 	Invoked when the scanned proceeds to a different token.
 		* 
+		* 	Non-capturing tokens do not trigger this method.
+		* 
 		* 	@param token The matched token.
 		*/
 		protected function endToken( token:Token ):void
+		{
+			//
+		}
+		
+		/**
+		* 	Invoked with non-capturing tokens allowing
+		* 	derived implementations to do something with
+		* 	the token if required.
+		* 
+		* 	@param token The matched token that is being
+		* 	ignored from the scan result set.
+		*/
+		protected function dispose( token:Token ):void
 		{
 			//
 		}				

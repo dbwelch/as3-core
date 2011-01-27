@@ -809,7 +809,7 @@ package com.ffsys.css
 			clazz.name = NAME_PREFIX + "class";		
 				
 			//ELEMENT-NAME		IDENT | '*'
-			const ELEMENT_NAME_EXP:String = "([^\"'@#\\.:]?(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
+			const ELEMENT_NAME_EXP:String = "([^\"'@#\\.:A-Z]?(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
 			element.name = NAME_PREFIX + "element-name";
@@ -926,8 +926,6 @@ package com.ffsys.css
 					+ W_EXP + TERM_EXP
 					+ ")", "i" ) );
 			declaration.name = NAME_PREFIX + "declaration";
-			
-			trace("[DECLARATION] CssScanner::call()", declaration.match );
 				
 			//HEXCOLOR			#000 | #000000
 			var hexcolor:Token = new Token(
@@ -1127,7 +1125,7 @@ package com.ffsys.css
 		override protected function endToken( token:Token ):void
 		{
 			trace("[CSS END]", token );
-		}		
+		}
 	}
 }
 	
