@@ -810,12 +810,13 @@ package com.ffsys.css
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
-				PROPERTY, new RegExp( "^(" + IDENT_EXP + ")" + W_EXP ) );
+				PROPERTY, new RegExp( "^(" + IDENT_EXP + ")" + W_EXP + ":" + W_EXP ) );
 			property.name = NAME_PREFIX + "property";
-			
-			//INCLUDES_EXP
-			
-			//ATTRIB			'[' ']'		
+						
+			//ATTRIB
+			//[href] | [attr='text'] | [attr="text"] | [attr~=match] | [attr|=match] | [attr^=match] | [attr$=match] | [attr*=match]
+			//'[' S* IDENT S* [ '=' | INCLUDES | DASHMATCH | PREFIXMATCH | SUFFIXMATCH | SUBSTRINGMATCH ] S*
+			// [ [ STRING | IDENT ] S* ]? ']'
 			const ATTRIB_EXP:String =
 				"\\["
 				+ W_EXP
@@ -839,17 +840,20 @@ package com.ffsys.css
 				ATTRIB, new RegExp( "^(" + ATTRIB_EXP + ")" ) );
 			attrib.name = NAME_PREFIX + "attrib";
 			
-			/*
-			tokens.push( angle );
-			tokens.push( frequency );
-			tokens.push( length );
-			tokens.push( time );
-			tokens.push( ems );
-			tokens.push( exs );
-			tokens.push( dimension );
-			tokens.push( percent );
-			tokens.push( num );			
-			*/
+			//PSEUDO				':' [ FUNCTION S* IDENT S* ')' | IDENT ]
+			const PSEUDO_EXP:String =
+				":{1}("
+				+ FUNCTION_EXP
+				+ W_EXP				
+				+ IDENT_EXP				
+				+ W_EXP
+				+ "\\)"				//close function call
+				+ ")|("
+				+ IDENT_EXP
+				+ ")";
+			var pseudo:Token = new Token(
+				PSEUDO, new RegExp( "^(" + PSEUDO_EXP + ")" + W_EXP ) );
+			pseudo.name = NAME_PREFIX + "pseudo";
 			
 			//TODO
 			const TERM_EXP:String = "(" + UNARY_OPERATOR_EXP + "?"
@@ -960,11 +964,19 @@ package com.ffsys.css
 			//hexcolor before other hash variants
 			tokens.push( hexcolor );
 			
+			//property is a priority match
+			tokens.push( property );
+			
+			//pseudo class selector
+			tokens.push( pseudo );			
+			
 			//attribute match
-			tokens.push( attrib );			
-
+			tokens.push( attrib );
+			
 			tokens.push( selector );
 			tokens.push( simpleSelector );			
+			
+			//property/expr declaration
 			tokens.push( declaration );
 			
 			//match a uri function expression first
@@ -981,7 +993,6 @@ package com.ffsys.css
 			//ident based
 			tokens.push( clazz );			//	.class
 			tokens.push( element );	
-			tokens.push( property );
 			
 			//specific at rules before the generic at rule
 			tokens.push( charset );			//	@charset

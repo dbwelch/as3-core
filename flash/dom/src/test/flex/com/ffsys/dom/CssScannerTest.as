@@ -119,6 +119,51 @@ package com.ffsys.dom
 					@charset "utf-8";
 					@import "print.css";
 					
+					/* UNIVERSAL ELEMENT TYPE SELECTOR */
+					* {
+						font-size: 2.5em;
+						margin-bottom: 10;
+						font-family: 'Arial Narrow', Arial, sans-serif;
+					}					
+					
+					/* ATTRIBUTE SELECTORS */
+					[href] {
+						/* A selector for all elements with an href attribute */
+					}
+					[attr="text"]					
+					[attr='text']
+					[attr~=includesmatch]
+					[attr|=dashmatch]
+					[attr^=prefixmatch]
+					[attr$=suffixmatch]
+					[attr*=substringmatch]
+					
+					/* COMPLEX DOUBLE QUOTED STRING ATTRIBUTE VALUE */
+					p[example="public class foo\
+					{\
+					    private int x;\
+					\
+					    foo(int x) {\
+					        this.x = x;\
+					    }\
+					\
+					}"] { color: red }
+
+					/* COMPLEX SINGLE QUOTED STRING ATTRIBUTE VALUE */					
+					p[example='public class foo\
+					{\
+					    private int x;\
+					\
+					    foo(int x) {\
+					        this.x = x;\
+					    }\
+					\
+					}'] { color: blue }
+					
+					[lang~=en] {
+						color: #ff6600;
+					}
+					
 					@media print {
 						h3.big {
 							font-size: 2.4em;
@@ -137,51 +182,7 @@ package com.ffsys.dom
 					
 					[media|=flash] {
 						-as-custom-style: 0.5 ! important	;
-					}
-					
-					[href] {
-						/* A selector for all elements with an href attribute */
-					}
-					
-					[lang~=en] {
-						color: #ff6600;
-					}
-					
-					[attr~=includesmatch]
-					
-					[attr|=dashmatch]
-					
-					[attr^=prefixmatch]
-					
-					[attr$=suffixmatch]
-					
-					[attr*=substringmatch]
-					
-					p[example="public class foo\
-					{\
-					    private int x;\
-					\
-					    foo(int x) {\
-					        this.x = x;\
-					    }\
-					\
-					}"] { color: red }
-					
-					p[example='public class foo\
-					{\
-					    private int x;\
-					\
-					    foo(int x) {\
-					        this.x = x;\
-					    }\
-					\
-					}'] { color: blue }
-					
-					* {
-						font-size: 2.5em;
-						margin-bottom: 10;
-						font-family: 'Arial Narrow', Arial, sans-serif;
-					}
+					}					
 					
 					#id {
 						width: 100%;
@@ -233,6 +234,12 @@ package com.ffsys.dom
 					h1.red{ color: #ff0000 };
 					#id-selector {};
 					.class-selector {};
+					:link {
+						color: #00ff00;
+					}
+					:custom-pseudo-selector {
+						
+					}
 				]]>
 			</css>.toString();
 		
