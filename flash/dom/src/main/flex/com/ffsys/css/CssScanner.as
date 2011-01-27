@@ -320,6 +320,7 @@ package com.ffsys.css
 		public static const IMPORTANT_SYM:String = "!important";
 		
 		private var _whitespace:Boolean = false;
+		private var _comments:Boolean = false;
 
 		/**
 		* 	Creates a <code>CssScanner</code> instance.
@@ -343,6 +344,20 @@ package com.ffsys.css
 		public function set whitespace( value:Boolean ):void
 		{
 			_whitespace = value;
+		}
+		
+		/**
+		* 	Determines whether multiline comments are preserved,
+		* 	the default value is <code>false</code>.
+		*/
+		public function get comments():Boolean
+		{
+			return _comments;
+		}
+		
+		public function set comments( value:Boolean ):void
+		{
+			_comments = value;
 		}
 		
 		override protected function configure():void
@@ -705,7 +720,8 @@ package com.ffsys.css
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
 				COMMENT, new RegExp( "^(" + COMMENT_EXP + ")" ) );	
-			comment.name = NAME_PREFIX + "comment";							
+			comment.capture = comments;
+			comment.name = NAME_PREFIX + "comment";
 				
 			//FUNCTION			{ident}\(
 			var method:Token = new Token(
@@ -793,7 +809,7 @@ package com.ffsys.css
 			clazz.name = NAME_PREFIX + "class";		
 				
 			//ELEMENT-NAME		IDENT | '*'
-			const ELEMENT_NAME_EXP:String = "([^#\\.:]?(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
+			const ELEMENT_NAME_EXP:String = "([^\"'@#\\.:]?(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
 			element.name = NAME_PREFIX + "element-name";
@@ -1003,7 +1019,16 @@ package com.ffsys.css
 			tokens.push( string );			
 			
 			//combinator after selectors
-			tokens.push( combinator );			//	'+' | '>'	
+			tokens.push( combinator );			//	'+' | '>'
+			
+			//specific at rules before the generic at rule - before the element name match
+			tokens.push( charset );			//	@charset
+			tokens.push( css );				//	@import
+			tokens.push( ns );				//	@namespace
+			tokens.push( page );			//	@page
+			tokens.push( media );			//	@media
+			tokens.push( fontface );		//	@font-face
+			tokens.push( at );				//	@unknown-rule
 						
 			//element name						//	h1 etc.
 			tokens.push( element );						
@@ -1027,16 +1052,7 @@ package com.ffsys.css
 			tokens.push( range );		
 			
 			tokens.push( prio );			//	!important
-			
-			//specific at rules before the generic at rule
-			tokens.push( charset );			//	@charset
-			tokens.push( css );				//	@import
-			tokens.push( ns );				//	@namespace
-			tokens.push( page );			//	@page
-			tokens.push( media );			//	@media
-			tokens.push( fontface );		//	@font-face
-			
-			tokens.push( at );
+
 			tokens.push( ident );
 			tokens.push( hash );		
 			

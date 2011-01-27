@@ -265,6 +265,7 @@ package com.ffsys.dom
 			
 			var scanner:CssScanner = new CssScanner();
 			scanner.whitespace = false;
+			scanner.comments = false;
 			var results:Vector.<Token> = scanner.scan( sample );
 			
 			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length );
