@@ -752,19 +752,34 @@ package com.ffsys.css
 				IMPORT,
 				new RegExp( "^(" + AtRule.IMPORT_SYM + ")" ) );
 			css.name = NAME_PREFIX + "import";
-				
-			//NAMESPACE			@namespace
-			var ns:Token = new Token(
-				NAMESPACE,
-				new RegExp( "^(" + AtRule.NAMESPACE_SYM + ")" ) );
-			ns.name = NAME_PREFIX + "namespace";
 			
 			//NAMESPACE-PREFIX	[ IDENT ] '|'
 			const NAMESPACE_PREFIX_EXP:String = IDENT_EXP;
 			var nsprefix:Token = new Token(
 				NAMESPACE_PREFIX,
 				new RegExp( "^(" + NAMESPACE_PREFIX_EXP + ")" + "\\|" ) );
-			nsprefix.name = NAME_PREFIX + "prefix";
+			nsprefix.name = NAME_PREFIX + "prefix";			
+				
+			//NAMESPACE			@namespace
+			const NAMESPACE_EXP:String = 
+				AtRule.NAMESPACE_SYM
+				+ W_EXP
+				+ "("
+				+ NAMESPACE_PREFIX_EXP
+				+ ")?"
+				+ W_EXP				
+				+ "("
+				+ "(" + URI_EXP + ")"
+				+ "|(" + STRING_EXP + ")"
+				+ ")"
+				+ W_EXP
+				+ "(;)";
+			var ns:Token = new Token(
+				NAMESPACE,
+				new RegExp( "^("
+					+ NAMESPACE_EXP
+					+ ")" + W_EXP ) );
+			ns.name = NAME_PREFIX + "namespace";
 				
 			//PAGE				@page
 			var page:Token = new Token(
@@ -1039,6 +1054,8 @@ package com.ffsys.css
 			//property/expr declaration
 			tokens.push( declaration );
 			
+			//namespace
+			tokens.push( ns );				//	@namespace			
 			//namespace prefix
 			tokens.push( nsprefix );
 			
@@ -1067,7 +1084,6 @@ package com.ffsys.css
 			//specific at rules before the generic at rule - before the element name match
 			tokens.push( charset );			//	@charset
 			tokens.push( css );				//	@import
-			tokens.push( ns );				//	@namespace
 			tokens.push( page );			//	@page
 			tokens.push( media );			//	@media
 			tokens.push( fontface );		//	@font-face

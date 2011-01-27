@@ -119,12 +119,21 @@ package com.ffsys.dom
 					@charset "utf-8";
 					@import "print.css";
 					
+					@namespace 'http://example.com';
+					@namespace "http://example.com";
+					@namespace url( 'http://freeformsystems.com/fluid/css' );
+					@namespace fluid url( 'http://freeformsystems.com/fluid/css' );	
+					
+					fluid|RadioButton {
+						/* An inner comment for this empty ruleset */
+					}
+					
 					/* UNIVERSAL ELEMENT TYPE SELECTOR */
 					* {
 						font-size: 2.5em;
 						margin-bottom: 10;
 						font-family: 'Arial Narrow', Arial, sans-serif;
-					}					
+					}
 					
 					/* ATTRIBUTE SELECTORS */
 					[href] {
@@ -173,12 +182,6 @@ package com.ffsys.dom
 					<!-- SOME COMMENT DATA -->
 					/**/
 					/* a comment with some text */
-					
-					@namespace fluid url( 'http://freeformsystems.com/fluid/css' );
-					
-					fluid|RadioButton {
-						/* An inner comment for this empty ruleset */
-					}
 					
 					[media|=flash] {
 						-as-custom-style: 0.5 ! important	;
