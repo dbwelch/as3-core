@@ -317,7 +317,9 @@ package com.ffsys.css
 		/**
 		* 	The symbol for a <code>important</code> statement.
 		*/
-		public static const IMPORTANT_SYM:String = "!important";		
+		public static const IMPORTANT_SYM:String = "!important";
+		
+		private var _whitespace:Boolean = false;
 
 		/**
 		* 	Creates a <code>CssScanner</code> instance.
@@ -325,6 +327,22 @@ package com.ffsys.css
 		public function CssScanner()
 		{
 			super();
+		}
+		
+		/**
+		* 	Determines whether whitespace is preserved,
+		* 	the default value is <code>false</code>.
+		* 
+		* 	Whitespace is ignored by default.
+		*/
+		public function get whitespace():Boolean
+		{
+			return _whitespace;
+		}
+		
+		public function set whitespace( value:Boolean ):void
+		{
+			_whitespace = value;
 		}
 		
 		override protected function configure():void
@@ -487,7 +505,7 @@ package com.ffsys.css
 
 			//nmstart			[_a-z]|{nonascii}|{escape}			(2.1)
 			const NMSTART_EXP:String =
-				"[_a-z]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
+				"[_a-z\\-]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
 				
 			//nmchar			[_a-z0-9-]|{nonascii}|{escape} 		(2.1)
 			const NMCHAR_EXP:String =
@@ -651,6 +669,7 @@ package com.ffsys.css
 			//S					[ \t\r\n\f]+
 			var s:Token = new Token(
 				S, new RegExp( "^(" + S_EXP + ")" ) );
+			s.capture = whitespace;
 			s.name = NAME_PREFIX + "whitespace";				
 			
 			//INCLUDES			~=
@@ -764,7 +783,7 @@ package com.ffsys.css
 			//UNARY-OPERATOR	'-' | '+'
 			const UNARY_OPERATOR_EXP:String = "(\\+|-)";
 			var unary:Token = new Token(
-				UNARY_OPERATOR, new RegExp( "^" + UNARY_OPERATOR_EXP ) );
+				UNARY_OPERATOR, new RegExp( "^(" + UNARY_OPERATOR_EXP + ")" + W_EXP + NUM_EXP ) );
 			unary.name = NAME_PREFIX + "unary";
 				
 			//CLASS				'.' IDENT
@@ -774,7 +793,7 @@ package com.ffsys.css
 			clazz.name = NAME_PREFIX + "class";		
 				
 			//ELEMENT-NAME		IDENT | '*'
-			const ELEMENT_NAME_EXP:String = "(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")";
+			const ELEMENT_NAME_EXP:String = "([^#\\.:]?(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
 			element.name = NAME_PREFIX + "element-name";
@@ -785,27 +804,27 @@ package com.ffsys.css
 				+ "("
 				+ HASH_EXP
 				+ "|" + CLASS_EXP
-				//attrib
-				//pseudo
+				+ "|" + ATTRIB_EXP
+				+ "|" + PSEUDO_EXP
 				+ ")";
 				
 			var simpleSelector:Token = new Token(
 				SIMPLE_SELECTOR, new RegExp(
 					"^("
 					+ SIMPLE_SELECTOR_EXP
-					+ ")" + W_EXP, "i" ) );
+					+ ")", "i" ) );
 			simpleSelector.name = NAME_PREFIX + "simple-selector";	
 			
 			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
 			var selector:Token = new Token(
-				SIMPLE_SELECTOR, new RegExp(
+				SELECTOR, new RegExp(
 					"^("
 					+ SIMPLE_SELECTOR_EXP
 					+ "("
-					+ COMBINATOR_EXP
-					+ SIMPLE_SELECTOR_EXP
+					+ COMBINATOR_EXP + "+"
+					+ SIMPLE_SELECTOR_EXP + "+"
 					+ ")*"
-					+ ")" + W_EXP, "i" ) );
+					+ ")", "i" ) );
 			selector.name = NAME_PREFIX + "selector";					
 				
 			//PROPERTY			IDENT S*
@@ -842,7 +861,7 @@ package com.ffsys.css
 			
 			//PSEUDO				':' [ FUNCTION S* IDENT S* ')' | IDENT ]
 			const PSEUDO_EXP:String =
-				":{1}("
+				"(:)("
 				+ FUNCTION_EXP
 				+ W_EXP				
 				+ IDENT_EXP				
@@ -852,7 +871,7 @@ package com.ffsys.css
 				+ IDENT_EXP
 				+ ")";
 			var pseudo:Token = new Token(
-				PSEUDO, new RegExp( "^(" + PSEUDO_EXP + ")" + W_EXP ) );
+				PSEUDO, new RegExp( "^(" + PSEUDO_EXP + ")" ) );
 			pseudo.name = NAME_PREFIX + "pseudo";
 			
 			//TODO
@@ -961,20 +980,39 @@ package com.ffsys.css
 			//whitespace token - match early as it's such a common token
 			tokens.push( s );
 			
+			//code style multiline comment - must be before the operators
+			tokens.push( comment );
+			
+			//operators need to take precedence
+			tokens.push( operator );			//	'/' | ','
+			tokens.push( unary );				//	'-' | '+'
+			
 			//hexcolor before other hash variants
 			tokens.push( hexcolor );
 			
 			//property is a priority match
 			tokens.push( property );
 			
-			//pseudo class selector
-			tokens.push( pseudo );			
+			//selectors
+			tokens.push( selector );
+			tokens.push( simpleSelector );
 			
 			//attribute match
 			tokens.push( attrib );
 			
-			tokens.push( selector );
-			tokens.push( simpleSelector );			
+			tokens.push( string );			
+			
+			//combinator after selectors
+			tokens.push( combinator );			//	'+' | '>'	
+						
+			//element name						//	h1 etc.
+			tokens.push( element );						
+			
+			//pseudo class selector
+			tokens.push( pseudo );				//	:link
+			
+			//ident based
+			tokens.push( clazz );				//	.class		
 			
 			//property/expr declaration
 			tokens.push( declaration );
@@ -990,10 +1028,6 @@ package com.ffsys.css
 			
 			tokens.push( prio );			//	!important
 			
-			//ident based
-			tokens.push( clazz );			//	.class
-			tokens.push( element );	
-			
 			//specific at rules before the generic at rule
 			tokens.push( charset );			//	@charset
 			tokens.push( css );				//	@import
@@ -1004,9 +1038,7 @@ package com.ffsys.css
 			
 			tokens.push( at );
 			tokens.push( ident );
-			tokens.push( string );
-			tokens.push( badString );
-			tokens.push( hash );			
+			tokens.push( hash );		
 			
 			//numeric/unit values should be matched in this order
 			tokens.push( angle );
@@ -1023,11 +1055,10 @@ package com.ffsys.css
 			tokens.push( cdo );
 			tokens.push( cdc );
 			
-			//code style multiline comment
-			tokens.push( comment );
-			
 			//match bad comments after good ones
 			tokens.push( badComment ); 
+			
+			tokens.push( badString );
 			
 			//function expression: method()
 			tokens.push( method );
@@ -1046,77 +1077,9 @@ package com.ffsys.css
 			
 			//substringmatch operator *=
 			tokens.push( substringmatch );
-
-			tokens.push( operator );			//	'/' | ','
-			tokens.push( combinator );			//	'+' | '>'						
-			tokens.push( unary );				//	'-' | '+'
 			
 			//final catch all char
 			tokens.push( char );	
-		}
-		
-		protected function matchNumericalUnit( 
-			candidate:String,
-			current:Token = null ):Token
-		{
-			//num					[0-9]+|[0-9]*\.[0-9]+
-			const NUM_EXP:String = "([0-9]*\\.)?[0-9]+";			
-			
-			const units:Object = {
-				em: "em", 		//EMS
-				ex: "ex", 		//EMX
-				px: "px",		//LENGTH
-				cm: "cm",		//LENGTH
-				mm: "mm",		//LENGTH
-				"in": "in",		//LENGTH
-				pt: "pt",		//LENGTH
-				pc: "pc",		//LENGTH
-				deg: "deg",		//ANGLE
-				rad: "rad",		//ANGLE
-				grad: "grad",	//ANGLE
-				ms: "ms",		//TIME
-				s: "s",			//TIME
-				hz: "Hz",		//FREQUENCY
-				khz: "kHz",		//FREQUENCY
-				"%": "%"		//PERCENTAGE
-			};
-			
-			var re:RegExp = null;
-			var unit:String = null;
-			var tkn:Token = null;
-			for( var z:String in units )
-			{
-				unit = units[ z ];
-				re = new RegExp( "^(" + NUM_EXP + unit + ")", "i" );
-				tkn = new Token( DIMENSION, re );
-				if( compare( tkn, candidate ) )
-				{
-					trace("CssScanner::call()", tkn );				
-					return tkn;
-				}
-			}
-			return null;
-		}
-		
-		/**
-		* 	@private
-		*/
-		override protected function matchTokens(
-			candidate:String,
-			current:Token = null ):Token
-		{
-			if( candidate != null )
-			{
-				/*
-				var tkn:Token = matchNumericalUnit( candidate, current );
-				if( tkn != null )
-				{
-					return handleMatchedToken( tkn, current );
-				}
-				*/
-				return super.matchTokens( candidate, current );
-			}
-			return null;
 		}
 		
 		/**

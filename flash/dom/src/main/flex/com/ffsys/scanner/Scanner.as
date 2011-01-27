@@ -46,8 +46,7 @@ package com.ffsys.scanner
 		*/
 		public function Scanner()
 		{
-			super();
-			configure();			
+			super();			
 		}
 		
 		/**
@@ -68,6 +67,12 @@ package com.ffsys.scanner
 		*/
 		public function scan( source:String ):Vector.<Token>
 		{
+			if( tokens.length == 0 )
+			{
+				//attempt to configure if no tokens specified
+				configure();
+			}
+			
 			_current = null;
 			_source = source;
 			scanSource();
@@ -142,7 +147,7 @@ package com.ffsys.scanner
 				
 				tkn = matchTokens( source, _current );
 
-				//set current token first time around
+				//set current tokenif none exists
 				if( ( tkn != null && _current == null ) )
 				{
 					_current = tkn;
@@ -151,7 +156,14 @@ package com.ffsys.scanner
 				 	&& _current != null
 				 	&& tkn.id != _current.id )
 				{
-					_current = tkn
+					if( tkn.capture )
+					{
+						_current = tkn;
+					}else{
+						//must clear the current reference
+						//for non-capturing tokens
+						_current = null;
+					}
 				}
 				
 				if( _lastMatch != null
@@ -205,8 +217,11 @@ package com.ffsys.scanner
 					endToken( current );
 				}
 				var output:Token = tkn.clone();
-				results.push( output );
-				beginToken( output );
+				if( output.capture )
+				{
+					results.push( output );
+					beginToken( output );
+				}
 				return output;
 			//handles merging adjacent tokens with the same id
 			}else {

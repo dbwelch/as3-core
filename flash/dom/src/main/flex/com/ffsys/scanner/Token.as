@@ -39,6 +39,7 @@ package com.ffsys.scanner
 		public var matched:String;
 		
 		private var _results:Array;
+		private var _capture:Boolean = true;
 		
 		/**
 		* 	Creates a <code>Token</code> instance.
@@ -50,6 +51,22 @@ package com.ffsys.scanner
 			super();
 			this.id = id;
 			this.match = match;
+		}
+		
+		/**
+		* 	Determines whether this token can be
+		* 	added to a can result set.
+		* 
+		* 	The default value is <code>true</code>.
+		*/
+		public function get capture():Boolean
+		{
+			return _capture;
+		}
+		
+		public function set capture( value:Boolean ):void
+		{
+			_capture = value;
 		}
 		
 		/**
@@ -159,6 +176,7 @@ package com.ffsys.scanner
 			copy.match = match;
 			copy.matched = matched;
 			copy.name = name;
+			copy.capture = capture;
 			return copy;
 		}
 		

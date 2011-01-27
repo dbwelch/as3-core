@@ -217,7 +217,6 @@ package com.ffsys.dom
 					*
 					**********/
 					
-					
 					.units {
 						size: 10;
 						opacity: .5;						
@@ -240,6 +239,12 @@ package com.ffsys.dom
 					:custom-pseudo-selector {
 						
 					}
+					
+					:pseudo-method();
+					
+					h1 {
+						font-size: 1.2em;
+					}
 				]]>
 			</css>.toString();
 		
@@ -259,6 +264,7 @@ package com.ffsys.dom
 			//{ causta: "}" + ({7} * '\'') }
 			
 			var scanner:CssScanner = new CssScanner();
+			scanner.whitespace = false;
 			var results:Vector.<Token> = scanner.scan( sample );
 			
 			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length );
