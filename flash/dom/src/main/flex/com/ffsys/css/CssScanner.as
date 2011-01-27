@@ -514,6 +514,9 @@ package com.ffsys.css
 			//PERCENTAGE		{num}%
 			const PERCENT_EXP:String = NUM_EXP + StyleUnit.PERCENTAGE_EXP;
 			
+			//EQUALITY			=
+			const EQUALITY_EXP:String = "=";
+			
 			//INCLUDES			~=
 			const INCLUDES_EXP:String = "~=";
 			
@@ -528,6 +531,17 @@ package com.ffsys.css
 			
 			//SUBSTRINGMATCH	*=
 			const SUBSTRINGMATCH_EXP:String = "\\*=";
+			
+			//ATTRIB			'|=' | '^=' | '$=' | '*=' | '='
+			const ATTRIB_OPERATOR:String =
+				"("
+				+ INCLUDES_EXP
+				+ "|" + DASHMATCH_EXP
+				+ "|" + PREFIXMATCH_EXP
+				+ "|" + SUFFIXMATCH_EXP
+				+ "|" + SUBSTRINGMATCH_EXP								
+				+ "|" + EQUALITY_EXP				
+				+ ")";
 			
 			//FUNCTION			{ident}\(
 			const FUNCTION_EXP:String = IDENT_EXP + "\\(";
@@ -799,6 +813,32 @@ package com.ffsys.css
 				PROPERTY, new RegExp( "^(" + IDENT_EXP + ")" + W_EXP ) );
 			property.name = NAME_PREFIX + "property";
 			
+			//INCLUDES_EXP
+			
+			//ATTRIB			'[' ']'		
+			const ATTRIB_EXP:String =
+				"\\["
+				+ W_EXP
+				+ "("
+				+ IDENT_EXP					//wrap the attribute name in a group
+				+ ")"
+				+ W_EXP
+				+ "("
+				+ "("
+				+ ATTRIB_OPERATOR			
+				+ ")"
+				+ W_EXP
+				+ "("
+				+ STRING_EXP
+				+ "|" + IDENT_EXP
+				+ ")"
+				+ W_EXP
+				+ ")?"
+				+ "\\]";
+			var attrib:Token = new Token(
+				ATTRIB, new RegExp( "^(" + ATTRIB_EXP + ")" ) );
+			attrib.name = NAME_PREFIX + "attrib";
+			
 			/*
 			tokens.push( angle );
 			tokens.push( frequency );
@@ -918,7 +958,10 @@ package com.ffsys.css
 			tokens.push( s );
 			
 			//hexcolor before other hash variants
-			tokens.push( hexcolor );			
+			tokens.push( hexcolor );
+			
+			//attribute match
+			tokens.push( attrib );			
 
 			tokens.push( selector );
 			tokens.push( simpleSelector );			

@@ -139,6 +139,10 @@ package com.ffsys.dom
 						-as-custom-style: 0.5 ! important	;
 					}
 					
+					[href] {
+						/* A selector for all elements with an href attribute */
+					}
+					
 					[lang~=en] {
 						color: #ff6600;
 					}
