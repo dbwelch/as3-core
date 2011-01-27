@@ -818,10 +818,10 @@ package com.ffsys.css
 			const SIMPLE_SELECTOR_EXP:String =
 				ELEMENT_NAME_EXP + "?"
 				+ "("
-				+ HASH_EXP
-				+ "|" + CLASS_EXP
-				+ "|" + ATTRIB_EXP
+				+ ATTRIB_EXP
 				+ "|" + PSEUDO_EXP
+				+ "|" + CLASS_EXP				
+				+ "|" + HASH_EXP
 				+ ")";
 				
 			var simpleSelector:Token = new Token(
@@ -1001,8 +1001,15 @@ package com.ffsys.css
 			tokens.push( operator );			//	'/' | ','
 			tokens.push( unary );				//	'-' | '+'
 			
+			//match a uri function expression early
+			tokens.push( uri );			
+			
 			//hexcolor before other hash variants
 			tokens.push( hexcolor );
+			
+			//xml style comments
+			tokens.push( cdo );
+			tokens.push( cdc );			
 			
 			//property is a priority match
 			tokens.push( property );
@@ -1040,9 +1047,6 @@ package com.ffsys.css
 			//property/expr declaration
 			tokens.push( declaration );
 			
-			//match a uri function expression first
-			tokens.push( uri );	
-			
 			//match {baduri} before {ident}
 			tokens.push( badUri );
 			
@@ -1064,10 +1068,6 @@ package com.ffsys.css
 			tokens.push( dimension );
 			tokens.push( percent );
 			tokens.push( num );
-			
-			//xml style comments
-			tokens.push( cdo );
-			tokens.push( cdc );
 			
 			//match bad comments after good ones
 			tokens.push( badComment ); 

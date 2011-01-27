@@ -124,6 +124,12 @@ package com.ffsys.scanner
 		/**
 		* 	The list of tokens this scanner should
 		* 	match against.
+		* 
+		* 	By default tokens are matched in the order
+		* 	declared in this list, therefore the token
+		* 	at index zero has the highest priority and
+		* 	the token at <code>n-1</code> has the lowest
+		* 	priority.
 		*/
 		public function get tokens():Vector.<Token>
 		{
