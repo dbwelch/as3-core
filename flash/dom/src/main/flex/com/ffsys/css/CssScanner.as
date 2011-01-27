@@ -375,11 +375,6 @@ package com.ffsys.css
 			//h					[0-9a-f]
 			const H_EXP:String
 				= "[0-9a-fA-F]";
-						
-			//nonascii			[^\0-\237] (2.1)
-			const NONASCII_EXP:String
-				= "[" + String.fromCharCode( 0x0080 )
-				+ "-" + String.fromCharCode( 0xFFFF ) + "]";
 
 			//const NONASCII_EXP:String = "[\\u0080-\\uFFFF]";
 			//const NONASCII_EXP:String = "[^\\\\x00-\\\\xED]";		
@@ -404,8 +399,14 @@ package com.ffsys.css
 				+ "-" + String.fromCharCode( 0xFFFD );
 				*/	
 				
+
+			//nonascii			[^\0-\237] (2.1)
+			const NONASCII_EXP:String
+				= "[" + String.fromCharCode( 0x0080 )
+				+ "-" + String.fromCharCode( 0xFFFF ) + "]";				
+				
 			//num					[0-9]+|[0-9]*\.[0-9]+
-			const NUM_EXP:String = "([0-9]*\\.)?[0-9]+";
+			const NUM_EXP:String = "([0-9]*\\.?[0-9]+)";
 			
 			//nl					\n|\r\n|\r|\f
 			const NL_EXP:String = "\n|\r\n|\r|\f";
@@ -418,14 +419,32 @@ package com.ffsys.css
 			
 			//unicode				'\' [0-9a-fA-F]{1,6} {wc}?
 			const UNICODE_EXP:String =
-				"\\\\" + H_EXP + "{1,6}(" + WC_EXP +  ")?";
+				"(\\\\" + H_EXP + "{1,6})" + WC_EXP +  "?";
 			
 			//escape				{unicode} | '\' [^\n\r\f0-9a-f] (2.1)
 			//escape				{unicode} | '\' [] (3)			
 			const ESCAPE_EXP:String =
-				//UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]";			
+				UNICODE_EXP;// + "|\\\\[^\n\r\f0-9a-f]";			
 
-				UNICODE_EXP + "|\\\\[\\\\x0020-\\\\x007E\\\\x0080-\\\\xD7FF\\\\xE000-\\\\xFFFD]";				
+				//UNICODE_EXP + "|\\\\[\\\\x0020-\\\\x007E\\\\x0080-\\\\xD7FF\\\\xE000-\\\\xFFFD]";
+			
+			//nmstart				[_a-z]|{nonascii}|{escape}			(2.1)
+			const NMSTART_EXP:String =
+				"[_a-z\\-]" ;//+ "|" + NONASCII_EXP;//+ "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
+
+			//nmchar				[_a-z0-9-]|{nonascii}|{escape} 		(2.1)
+			const NMCHAR_EXP:String =
+				"[_a-zA-Z0-9\\-]" ;//+ "|" + NONASCII_EXP;//+ "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
+				
+
+			//name					{nmchar}+
+			const NAME_EXP:String =
+				"(" + NMCHAR_EXP + ")+";
+
+			//IDENT					{ident}
+			//ident					[-]?{nmstart}{nmchar}*	
+			const IDENT_EXP:String =
+				"-?" + NMSTART_EXP + "+" + NMCHAR_EXP + "*";
 			
 			//urlchar				[#x9#x21#x23-#x26#x27-#x7E] | {nonascii} | {escape}
 			const URLCHAR_EXP:String =
@@ -522,23 +541,6 @@ package com.ffsys.css
 			//UNICODE-RANGE		U\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?
 			const UNICODE_RANGE_EXP:String =
 				"U\\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?";
-
-			//nmstart			[_a-z]|{nonascii}|{escape}			(2.1)
-			const NMSTART_EXP:String =
-				"[_a-z\\-]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
-				
-			//nmchar			[_a-z0-9-]|{nonascii}|{escape} 		(2.1)
-			const NMCHAR_EXP:String =
-				"[_a-z0-9\\-]" + "|[" + NONASCII_EXP + "]|" + ESCAPE_EXP;
-				
-			//name				{nmchar}+
-			const NAME_EXP:String =
-				"(" + NMCHAR_EXP + ")+";
-			
-			//IDENT				{ident}
-			//ident				[-]?{nmstart}{nmchar}*	
-			const IDENT_EXP:String =
-				"-?(" + NMSTART_EXP + ")+" + NMCHAR_EXP + "*";
 			
 			//ATKEYWORD			@{ident}
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
@@ -836,7 +838,7 @@ package com.ffsys.css
 			clazz.name = NAME_PREFIX + "class";		
 				
 			//ELEMENT-NAME		IDENT | '*'
-			const ELEMENT_NAME_EXP:String = "([^\"'@#\\.:A-Z]?(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
+			const ELEMENT_NAME_EXP:String = "(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")";
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
 			element.name = NAME_PREFIX + "element-name";
@@ -904,16 +906,14 @@ package com.ffsys.css
 				+ ")"
 				+ W_EXP
 				+ "("
-				+ "("
 				+ ATTRIB_OPERATOR			
 				+ ")"
 				+ W_EXP
 				+ "("
 				+ STRING_EXP
 				+ "|" + IDENT_EXP
-				+ ")"
-				+ W_EXP
 				+ ")?"
+				+ W_EXP
 				+ "\\]";
 			var attrib:Token = new Token(
 				ATTRIB, new RegExp( "^(" + ATTRIB_EXP + ")" ) );
@@ -921,14 +921,14 @@ package com.ffsys.css
 			
 			//PSEUDO				':' [ FUNCTION S* IDENT S* ')' | IDENT ]
 			const PSEUDO_EXP:String =
-				"(:)("
+				":("
+				+ IDENT_EXP
+				+ ")|("
 				+ FUNCTION_EXP
 				+ W_EXP				
 				+ IDENT_EXP				
 				+ W_EXP
-				+ "\\)"				//close function call
-				+ ")|("
-				+ IDENT_EXP
+				+ "\\)"				//close function call				
 				+ ")";
 			var pseudo:Token = new Token(
 				PSEUDO, new RegExp( "^(" + PSEUDO_EXP + ")" ) );
@@ -1051,6 +1051,9 @@ package com.ffsys.css
 			tokens.push( cdo );
 			tokens.push( cdc );
 			
+			//unicode range  - must match before {ident}
+			tokens.push( range );			
+			
 			//property/expr declaration
 			tokens.push( declaration );
 			
@@ -1087,10 +1090,7 @@ package com.ffsys.css
 			tokens.push( page );			//	@page
 			tokens.push( media );			//	@media
 			tokens.push( fontface );		//	@font-face
-			tokens.push( at );				//	@unknown-rule
-						
-			//element name						//	h1 etc.
-			tokens.push( element );						
+			tokens.push( at );				//	@unknown-rule					
 			
 			//pseudo class selector
 			tokens.push( pseudo );				//	:link
@@ -1098,11 +1098,11 @@ package com.ffsys.css
 			//ident based
 			tokens.push( clazz );				//	.class
 			
-			//match {baduri} before {ident}
-			tokens.push( badUri );
+			//element name						//	h1 etc.
+			tokens.push( element );
 			
-			//unicode range  - must match before {ident}
-			tokens.push( range );		
+			//match {baduri} before {ident}
+			tokens.push( badUri );		
 			
 			tokens.push( prio );			//	!important
 
@@ -1175,7 +1175,7 @@ package com.ffsys.css
 		*/
 		override protected function endToken( token:Token ):void
 		{
-			trace("[CSS END]", token );
+			trace("[CSS END]", token + ' | ' + token.results );
 		}
 	}
 }

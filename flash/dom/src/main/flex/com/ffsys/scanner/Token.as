@@ -88,6 +88,25 @@ package com.ffsys.scanner
 			return _results;
 		}
 		
+		public function set results( value:Array ):void
+		{
+			_results = value;
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function filter( item:*, index:int, array:Array ):Boolean
+		{
+			if( item == null
+				|| item.match( /^\s*$/ )
+				|| array.lastIndexOf( item ) != index )
+			{
+				return false;
+			}
+			return true;
+		}
+		
 		/**
 		* 	Performs comparison against a candidate string.
 		* 
@@ -110,11 +129,15 @@ package com.ffsys.scanner
 					matched = ( match as String );
 				}else if( match is RegExp )
 				{
-					_results = re.exec( candidate );
-					if( results[ 1 ] is String )
+					var tmp:Array = re.exec( candidate );
+					if( tmp[ 1 ] is String )
 					{
-						matched = results[ 1 ];
+						matched = tmp[ 1 ];
 					}
+					//omit the first entry which is the complete match
+					//so that we only maintain parenthetical groups in matched results
+					_results = tmp.slice( 1 );
+					_results = _results.filter( filter, null );
 				}
 				
 				return matches == true || matched.length > 0;
@@ -177,6 +200,7 @@ package com.ffsys.scanner
 			copy.matched = matched;
 			copy.name = name;
 			copy.capture = capture;
+			copy.results = results.slice();
 			return copy;
 		}
 		
