@@ -23,14 +23,54 @@ package com.ffsys.css
 		pt: points — the points used by CSS are equal to 1/72nd of 1in.
 		pc: picas — 1pc is equal to 12pt.
 		px: pixel units — 1px is equal to 0.75pt.
-		*/
+		*/		
+		
+		
+		
+		/*
+		
+		em: "em", 		//EMS
+		ex: "ex", 		//EMX
+		px: "px",		//LENGTH
+		cm: "cm",		//LENGTH
+		mm: "mm",		//LENGTH
+		"in": "in",		//LENGTH
+		pt: "pt",		//LENGTH
+		pc: "pc",		//LENGTH
+		deg: "deg",		//ANGLE
+		rad: "rad",		//ANGLE
+		grad: "grad",	//ANGLE
+		ms: "ms",		//TIME
+		s: "s",			//TIME
+		hz: "Hz",		//FREQUENCY
+		khz: "kHz",		//FREQUENCY
+		"%": "%"		//PERCENTAGE		
+		
+		*/		
 		
 		/**
 		* 	A regular expression used to determine
 		* 	if a string is a css unit declaration.
 		*/
 		public static const UNIT_EXPRESSION:RegExp = 
-			/^([0-9]*\.?[0-9]{1,})(%|in|cm|mm|pt|pc|px|em|ex)$/;
+			/^([0-9]*\.?[0-9]{1,})(em|ex|px|cm|mm|in|pt|pc|px|%)$/;
+		
+		/**
+		* 	Represents a unit specified as a relative <code>em</code>
+		* 	size.
+		*/
+		public static const EMS:String = "em";
+		
+		/**
+		* 	Represents a unit specified as a relative <code>ex</code>
+		* 	size.
+		*/
+		public static const EXS:String = "ex";
+		
+		/**
+		* 	Represents a unit specified as a <code>percentage</code>.
+		*/
+		public static const PERCENT:String = "%";		
 		
 		/**
 		* 	Represents a unit specified in <code>inches</code>.
@@ -63,21 +103,39 @@ package com.ffsys.css
 		public static const PIXELS:String = "px";
 		
 		/**
-		* 	Represents a unit specified as a relative <code>em</code>
-		* 	size.
+		* 	An expression used to determine the <code>em</code> unit type.
 		*/
-		public static const EM:String = "em";
-		
+		public static const EMS_EXP:String = EMS;
+
 		/**
-		* 	Represents a unit specified as a relative <code>ex</code>
-		* 	size.
+		* 	An expression used to determine the <code>ex</code> unit type.
 		*/
-		public static const EX:String = "ex";
-		
+		public static const EXS_EXP:String = EXS;
+
 		/**
-		* 	Represents a unit specified as a <code>percentage</code>.
+		* 	An expression used to determine the <code>length</code> unit type.
 		*/
-		public static const PERCENT:String = "%";
+		public static const LENGTH_EXP:String = "(px|cm|mm|in|pt|pc)";
+
+		/**
+		* 	An expression used to determine the <code>angle</code> unit type.
+		*/
+		public static const ANGLE_EXP:String = "(grad|deg|rad)";
+
+		/**
+		* 	An expression used to determine the <code>time</code> unit type.
+		*/
+		public static const TIME_EXP:String = "(ms|s)";
+
+		/**
+		* 	An expression used to determine the <code>frequency</code> unit type.
+		*/
+		public static const FREQUENCY_EXP:String = "(kHz|Hz)";
+
+		/**
+		* 	An expression used to determine the <code>percentage</code> unit type.
+		*/
+		public static const PERCENTAGE_EXP:String = "(" + PERCENT + ")";
 		
 		private var _expression:String;
 		private var _operand:Number;
@@ -161,7 +219,7 @@ package com.ffsys.css
 		*/
 		public function isRelative():Boolean
 		{
-			return ( unit == PERCENT || unit == EM || unit == EX );
+			return ( unit == PERCENT || unit == EMS || unit == EXS );
 		}
 		
 		/**

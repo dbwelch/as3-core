@@ -143,6 +143,7 @@ package com.ffsys.scanner
 				//trace("Scanner::scanSource()", "[TESTING SOURCE]", "'" + source + "'" );
 				
 				_lastMatch = null;
+				
 
 				tkn = matchTokens( source, _current );
 				
@@ -158,13 +159,13 @@ package com.ffsys.scanner
 				 	&& tkn.id != _current.id )
 				{
 					_current = tkn
-				}				
+				}
 				
 				if( _lastMatch != null
 					&& _lastMatch.length > 0
 					&& source.length > 0 )
 				{
-					_source = chomp();	
+					chomp();
 					//scan any remaining source
 					scanSource();
 				}
@@ -177,9 +178,9 @@ package com.ffsys.scanner
 		protected function chomp():String
 		{
 			//chomp the matched value				
-			var output:String = source.substr( _lastMatch.length );
+			_source = source.substr( _lastMatch.length );
 			_lastMatch = null;
-			return output;
+			return _source;
 		}
 		
 		/**
@@ -206,13 +207,18 @@ package com.ffsys.scanner
 			if( current == null
 				|| tkn.id != current.id )
 			{
+				if( current != null )
+				{
+					endToken( current );
+				}
 				var output:Token = tkn.clone();
-				//trace("[CREATED TOKEN] Scanner::scanSource() id:", output.id );
 				results.push( output );
+				beginToken( output );
 				return output;
 			//handles merging adjacent tokens with the same id
 			}else {
 				current.matched += _lastMatch;
+				token( current );
 				return current;
 			}
 			return tkn;
@@ -239,5 +245,36 @@ package com.ffsys.scanner
 			}
 			return null;
 		}
+		
+		/**
+		* 	Invoked when a token is created from
+		* 	a successful match.
+		* 
+		* 	@param token The matched token.
+		*/
+		protected function beginToken( token:Token ):void
+		{
+			//
+		}
+		
+		/**
+		* 	Invoked while a token type has consecutive matches.
+		* 
+		* 	@param token The matched token.
+		*/
+		protected function token( token:Token ):void
+		{
+			//
+		}
+		
+		/**
+		* 	Invoked when the scanned proceeds to a different token.
+		* 
+		* 	@param token The matched token.
+		*/
+		protected function endToken( token:Token ):void
+		{
+			//
+		}				
 	}
 }

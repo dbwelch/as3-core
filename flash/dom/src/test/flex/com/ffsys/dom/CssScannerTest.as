@@ -84,6 +84,33 @@ package com.ffsys.dom
 		
 		*/
 		
+		/*
+		
+		//Flavours of {bad(uri|commment|string)}
+		
+		
+		/* {badcomment1a} *
+		/* a normal comment */
+		/* {badcomment2}
+		.declaration {}
+		/* {badcomment1b} *	
+		
+		
+		#my-bad {
+			bad-string: "an incomplete string;
+			bad-single-string: 'an incomplete single quote string
+		}
+		
+		#my-bad-uri {
+			bad-src: url( http://example.com;
+			bad-src-string1: url( "http://example.com";
+			bad-src-string2: url( 'http://example.com';
+			bad-src-badstring1: url( "http://example.com;
+			bad-src-badstring2: url( 'http://example.com;						
+		}			
+		
+		*/
+		
 		/**
 		* 	Sample css for this unit test.
 		*/
@@ -162,33 +189,6 @@ package com.ffsys.dom
 						single-quoted-url: url( 'http://freeformsystems.com/' );
 					}
 					
-					#my-bad {
-						bad-string: "an incomplete string;
-						bad-single-string: 'an incomplete single quote string
-					}
-					
-					/* Flavours of {baduri} */
-					#my-bad-uri {
-						bad-src: url( http://example.com;
-						bad-src-string1: url( "http://example.com";
-						bad-src-string2: url( 'http://example.com';
-						bad-src-badstring1: url( "http://example.com;
-						bad-src-badstring2: url( 'http://example.com;						
-					}
-					
-					.num {
-						size: 10;
-						opacity: .5;						
-						size: 50.5%;
-						size: 99%;
-						size: .1%;
-						size: 12pt;
-						size: 1.2em;
-						margin-left: -.2em;
-					}
-					
-					.after { color: red; }	
-					
 					/* UNARY OPERATOR */
 					.unary {
 						negative: -100;
@@ -212,11 +212,19 @@ package com.ffsys.dom
 					*
 					**********/
 					
-					/* {badcomment1a} *
-					/* a normal comment */
-					/* {badcomment2}
-					.declaration {}
-					/* {badcomment1b} *					
+					
+					.units {
+						size: 10;
+						opacity: .5;						
+						size: 50.5%;
+						size: 99%;
+						size: .1%;
+						size: 12pt;
+						size: 1.2em;
+						angle: 45deg;
+						margin-left: -.2em;
+					}					
+				
 				]]>
 			</css>.toString();
 		
@@ -240,6 +248,7 @@ package com.ffsys.dom
 			
 			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length );
 			
+			/*
 			var tkn:Token = null;
 			for each( tkn in results )
 			{
@@ -247,10 +256,11 @@ package com.ffsys.dom
 				
 				trace( tkn );
 			}
+			*/
 			
-			trace("CssScannerTest::cssTokenizeTest()", /^(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)/.test( "u+0080-ffff" ) );
+			//trace("CssScannerTest::cssTokenizeTest()", /^(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)/.test( "u+0080-ffff" ) );
 			
-			trace( /[\u000A]/.test( "\n" ), /[\u000A-\u000B]/.test( String.fromCharCode( 11 ) ) );
+			//trace( /[\u000A]/.test( "\n" ), /[\u000A-\u000B]/.test( String.fromCharCode( 11 ) ) );
 		}
 	}
 }

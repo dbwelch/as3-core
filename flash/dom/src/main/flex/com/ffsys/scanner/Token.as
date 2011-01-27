@@ -19,11 +19,6 @@ package com.ffsys.scanner
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
 		* 	match.
-		* 
-		* 	When this property is specified
-		* 	the start and end expressions are ignored
-		* 	and this token is treated as a single complete
-		* 	match.
 		*/
 		public var match:Object;
 		
@@ -34,9 +29,16 @@ package com.ffsys.scanner
 		public var id:int;
 		
 		/**
+		* 	A name for this token.
+		*/
+		public var name:String;
+		
+		/**
 		* 	The entire matched text for the token.
 		*/
 		public var matched:String;
+		
+		private var _results:Array;
 		
 		/**
 		* 	Creates a <code>Token</code> instance.
@@ -57,6 +59,16 @@ package com.ffsys.scanner
 		public function isMatch():Boolean
 		{
 			return match != null;
+		}
+		
+		/**
+		* 	Any resulting regular expression
+		* 	matches from the last time the
+		* 	<code>compare</code> method was invoked.
+		*/
+		public function get results():Array
+		{
+			return _results;
 		}
 		
 		/**
@@ -81,7 +93,7 @@ package com.ffsys.scanner
 					matched = ( match as String );
 				}else if( match is RegExp )
 				{
-					var results:Array = re.exec( candidate );
+					_results = re.exec( candidate );
 					if( results[ 1 ] is String )
 					{
 						matched = results[ 1 ];
@@ -146,6 +158,7 @@ package com.ffsys.scanner
 			copy.id = id;
 			copy.match = match;
 			copy.matched = matched;
+			copy.name = name;
 			return copy;
 		}
 		
@@ -157,7 +170,7 @@ package com.ffsys.scanner
 		public function toString():String
 		{
 			return "[object Token]["
-				+ id + "] "
+				+ ( name != null ? name : id ) + "] "
 				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched );
 		}
 	}

@@ -17,6 +17,11 @@ package com.ffsys.css
 	public class CssScanner extends Scanner
 	{		
 		/**
+		* 	A prefix used when building token names.
+		*/
+		public static const NAME_PREFIX:String = ":";
+		
+		/**
 		* 	The identifier for a BOM token.
 		*/
 		public static const BOM:int = 0;	
@@ -271,9 +276,9 @@ package com.ffsys.css
 		public static const EMS:int = 202;
 		
 		/**
-		* 	The identifier for an emx token.
+		* 	The identifier for an exs token.
 		*/
-		public static const EMX:int = 203;
+		public static const EXS:int = 203;
 		
 		/**
 		* 	The identifier for a length token.
@@ -508,7 +513,7 @@ package com.ffsys.css
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
 			
 			//PERCENTAGE		{num}%
-			const PERCENT_EXP:String = NUM_EXP + "%";
+			const PERCENT_EXP:String = NUM_EXP + StyleUnit.PERCENTAGE_EXP;
 			
 			//INCLUDES			~=
 			const INCLUDES_EXP:String = "~=";
@@ -557,13 +562,20 @@ package com.ffsys.css
 			const CHAR_EXP:String = "[^'\"]{1}";
 			
 			//WHITESPACE MATCH
-			const S_EXP:String = "([ \\t\\r\\n\\f]+)"
+			const S_EXP:String = "([ \\t\\r\\n\\f]+)";
+			
+			//PRIO/IMPORTANT				!important
+			const IMPORTANT_EXP:String = "!(" + W_EXP + ")?important";
+			
+			//HEXCOLOR						#000000 | #000
+			const HEXCOLOR_EXP:String = "#(" + H_EXP + "{6}|" + H_EXP + "{3})"
 			
 			//**************************** TOKENS ****************************//
 			
 			//BOM				#xFEFF
 			var bom:Token = new Token(
 				BOM, new RegExp( "^(" + BOM_EXP + ")" ) );
+			bom.name = NAME_PREFIX + "bom";
 				
 			//TODO: add single functionality to the BOM token as it should only be
 			//specified once and can be removed after a match
@@ -571,136 +583,159 @@ package com.ffsys.css
 			//IDENT				{ident}
 			var ident:Token = new Token(
 				IDENT, new RegExp( "^(" + IDENT_EXP + ")", "i" ) );
+			ident.name = NAME_PREFIX + "ident";
 				
 			//ATKEYWORD			@{ident}
 			var at:Token = new Token(
 				ATKEYWORD, new RegExp( "^(" + ATKEYWORD_EXP + ")", "i" ) );
+			at.name = NAME_PREFIX + "at";
 				
 			//STRING			{string}
 			var string:Token = new Token(
 				STRING, new RegExp( "^(" + STRING_EXP + ")", "i" ) );
+			string.name = NAME_PREFIX + "string";
 				
 			//BAD_STRING		{badstring}
 			var badString:Token = new Token(
 				BAD_STRING, new RegExp( "^(" + BAD_STRING_EXP + ")", "i" ) );
+			badString.name = NAME_PREFIX + "badstring";				
 
 			//BAD_URI			{baduri}
 			var badUri:Token = new Token(
 				BAD_URI, new RegExp( "^(" + BAD_URI_EXP + ")", "i" ) );
+			badUri.name = NAME_PREFIX + "baduri";				
 			
 			//BAD_COMMENT		{badcomment}
 			var badComment:Token = new Token(
 				BAD_COMMENT, new RegExp( "^(" + BAD_COMMENT_EXP + ")", "i" ) );
+			badComment.name = NAME_PREFIX + "badcomment";				
 				
 			//HASH				#{name}
 			var hash:Token = new Token(
 				HASH, new RegExp( "^(" + HASH_EXP + ")", "i" ) );
-			
-			//NUMBER			{num}
-			var num:Token = new Token( NUMBER,
-				new RegExp( "^(" + NUM_EXP + ")" ) );
-				
-			//PERCENTAGE		{num}%
-			var percent:Token = new Token( PERCENTAGE,
-				new RegExp( "^(" + PERCENT_EXP + ")", "i" ) );
-			
-			//DIMENSION			{num}{ident}
-			var dimension:Token = new Token( DIMENSION,
-				new RegExp( "^(" + DIMENSION_EXP + ")", "i" ) );
+			hash.name = NAME_PREFIX + "hash";
 			
 			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			var uri:Token = new Token( URI,
 				new RegExp( "^(" + URI_EXP + ")", "i" ) );
+			uri.name = NAME_PREFIX + "uri";				
 			
 			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			var range:Token = new Token( UNICODE_RANGE,
 				new RegExp( "^(" + UNICODE_RANGE_EXP + ")", "i" ) );
+			range.name = NAME_PREFIX + "unicode-range";				
 			
 			//CDO				<!--
 			var cdo:Token = new Token(
 				CDO, new RegExp( "^(" + CDO_EXP + ")" ) );
+			cdo.name = NAME_PREFIX + "cdo";				
 			
 			//CDC				-->
 			var cdc:Token = new Token(
 				CDC, new RegExp( "^(" + CDC_EXP + ")" ) );
+			cdc.name = NAME_PREFIX + "cdc";				
 
 			//S					[ \t\r\n\f]+
 			var s:Token = new Token(
 				S, new RegExp( "^(" + S_EXP + ")" ) );
+			s.name = NAME_PREFIX + "whitespace";				
 			
 			//INCLUDES			~=
 			var includes:Token = new Token(
 				INCLUDES,
 				new RegExp( "^(" + INCLUDES_EXP + ")" ) );
+			includes.name = NAME_PREFIX + "includes";				
 			
 			//DASHMATCH			|=
 			var dashmatch:Token = new Token(
 				DASHMATCH,
 				new RegExp( "^(" + DASHMATCH_EXP + ")" ) );	
+			dashmatch.name = NAME_PREFIX + "dashmatch";				
 				
 			//PREFIXMATCH		^=
 			var prefixmatch:Token = new Token(
 				PREFIXMATCH,
 				new RegExp( "^(" + PREFIXMATCH_EXP + ")" ) );
+			prefixmatch.name = NAME_PREFIX + "prefixmatch";				
 				
 			//SUFFIXMATCH		$=
 			var suffixmatch:Token = new Token(
 				SUFFIXMATCH,
 				new RegExp( "^(" + SUFFIXMATCH_EXP + ")" ) );
+			suffixmatch.name = NAME_PREFIX + "suffixmatch";				
 				
 			//SUBSTRINGMATCH	$=
 			var substringmatch:Token = new Token(
 				SUBSTRINGMATCH,
-				new RegExp( "^(" + SUBSTRINGMATCH_EXP + ")" ) );				
+				new RegExp( "^(" + SUBSTRINGMATCH_EXP + ")" ) );
+			substringmatch.name = NAME_PREFIX + "substringmatch";								
 			
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
-				COMMENT, new RegExp( "^(" + COMMENT_EXP + ")" ) );				
+				COMMENT, new RegExp( "^(" + COMMENT_EXP + ")" ) );	
+			comment.name = NAME_PREFIX + "comment";							
 				
 			//FUNCTION			{ident}\(
 			var method:Token = new Token(
 				FUNCTION, new RegExp( "^(" + FUNCTION_EXP + ")" ) );
+			method.name = NAME_PREFIX + "function";				
 							
 			//CHAR	any other character not matched by the above rules,
 			//and neither a single nor a double quote
 			var char:Token = new Token(
 				CHAR, new RegExp( "^(" + CHAR_EXP + ")" ) );
+			char.name = NAME_PREFIX + "char";
 				
 			//**************************** GRAMMAR TOKENS ****************************//
 			
 			//CHARSET			@charset
 			var charset:Token = new Token(
-				CHARSET, new RegExp( "^(" + AtRule.CHARSET_SYM + ")" ) );
+				CHARSET,
+				new RegExp( "^(" + AtRule.CHARSET_SYM + ")" ) );
+			charset.name = NAME_PREFIX + "charset";
 			
 			//IMPORT			@import
 			var css:Token = new Token(
-				IMPORT, new RegExp( "^(" + AtRule.IMPORT_SYM + ")" ) );
+				IMPORT,
+				new RegExp( "^(" + AtRule.IMPORT_SYM + ")" ) );
+			css.name = NAME_PREFIX + "import";
 				
 			//NAMESPACE			@namespace
 			var ns:Token = new Token(
-				NAMESPACE, new RegExp( "^(" + AtRule.NAMESPACE_SYM + ")" ) );
+				NAMESPACE,
+				new RegExp( "^(" + AtRule.NAMESPACE_SYM + ")" ) );
+			ns.name = NAME_PREFIX + "namespace";
 				
 			//PAGE				@page
 			var page:Token = new Token(
-				PAGE, new RegExp( "^(" + AtRule.PAGE_SYM + ")" ) );
+				PAGE,
+				new RegExp( "^(" + AtRule.PAGE_SYM + ")" ) );
+			page.name = NAME_PREFIX + "page";				
 				
 			//MEDIA				@media
 			var media:Token = new Token(
-				MEDIA, new RegExp( "^(" + AtRule.MEDIA_SYM + ")" ) );
+				MEDIA,
+				new RegExp( "^(" + AtRule.MEDIA_SYM + ")" ) );
+			media.name = NAME_PREFIX + "media";
 				
 			//FONT-FACE			@font-face
 			var fontface:Token = new Token(
-				FONT_FACE, new RegExp( "^(" + AtRule.FONT_FACE_SYM + ")" ) );
+				FONT_FACE,
+				new RegExp( "^(" + AtRule.FONT_FACE_SYM + ")" ) );
+			fontface.name = NAME_PREFIX + "font-face";
 				
 			//PRIO				!important
 			var prio:Token = new Token(
-				PRIO, new RegExp( "^(!(" + W_EXP + ")?important)" + W_EXP ) );
+				PRIO,
+				new RegExp( "^(" + IMPORTANT_EXP + ")" + W_EXP ) );
+			prio.name = NAME_PREFIX + "important";
 				
 			//OPERATOR			'/' | ','
 			var operator:Token = new Token(
 				OPERATOR, new RegExp( "^("
 					+ Selector.OPTIONAL
 					+ "|" + Selector.DELIMITER + ")" + W_EXP ) );
+			operator.name = NAME_PREFIX + "operator";					
 								
 			//COMBINATOR		'+' | '>' | '~'
 			var combinator:Token = new Token(
@@ -709,26 +744,86 @@ package com.ffsys.css
 					+ "|" + Selector.CHILD
 					+ "|" + Selector.GENERAL_SIBLING
 					+ ")" + W_EXP ) );
+			combinator.name = NAME_PREFIX + "combinator";					
 				
 			//UNARY-OPERATOR	'-' | '+'
 			var unary:Token = new Token(
 				UNARY_OPERATOR, new RegExp( "^(\\+|-)" ) );
+			unary.name = NAME_PREFIX + "unary";				
 				
 			//CLASS				'.' IDENT
 			var clazz:Token = new Token(
 				CLASS, new RegExp( "^(\\." + IDENT_EXP + ")" ) );
+			clazz.name = NAME_PREFIX + "class";				
 				
 			//ELEMENT-NAME		IDENT | '*'
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")" ) );
+			element.name = NAME_PREFIX + "element-name";
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
 				PROPERTY, new RegExp( "^(" + IDENT_EXP + ")" + W_EXP ) );
+			property.name = NAME_PREFIX + "property";	
 				
 			//HEXCOLOR			#000 | #000000
 			var hexcolor:Token = new Token(
-				HEXCOLOR, new RegExp( "^(#(" + H_EXP + "{6}|" + H_EXP + "{3}))" + W_EXP ) );
+				HEXCOLOR, new RegExp( "^(" + HEXCOLOR_EXP + ")" + W_EXP ) );
+			hexcolor.name = NAME_PREFIX + "hexcolor";					
+				
+			//**************************** NUMBER/UNIT TOKENS ****************************//			
+			
+			//EMS				em
+			var ems:Token = new Token(
+				EMS, new RegExp( "^(" + NUM_EXP + StyleUnit.EMS_EXP + ")", "i" ) );
+			ems.name = NAME_PREFIX + "ems";			
+				
+			//EXS				ex
+			var exs:Token = new Token(
+				EXS, new RegExp( "^(" + NUM_EXP + StyleUnit.EXS_EXP + ")", "i" ) );	
+			exs.name = NAME_PREFIX + "exs";			
+				
+			//LENGTH			px|cm|mm|in|pt|pc
+			var length:Token = new Token(
+				LENGTH,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.LENGTH_EXP + ")", "i" ) );
+			length.name = NAME_PREFIX + "length";				
+				
+			//ANGLE				deg|rad|grad
+			var angle:Token = new Token(
+				ANGLE,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.ANGLE_EXP + ")", "i" ) );
+			angle.name = NAME_PREFIX + "angle";				
+				
+			//TIME				ms|s
+			var time:Token = new Token(
+				TIME,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.TIME_EXP + ")", "i" ) );
+			time.name = NAME_PREFIX + "time";				
+				
+			//FREQUENCY			kHz|Hz
+			var frequency:Token = new Token(
+				FREQ,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.FREQUENCY_EXP + ")", "i" ) );
+			frequency.name = NAME_PREFIX + "frequency";				
+				
+			//PERCENTAGE		{num}%
+			var percent:Token = new Token(
+				PERCENTAGE,
+				new RegExp( "^(" + PERCENT_EXP + ")", "i" ) );
+			percent.name = NAME_PREFIX + "percent";				
+			
+			//DIMENSION			{num}{ident}
+			var dimension:Token = new Token(
+				DIMENSION,
+				new RegExp( "^(" + DIMENSION_EXP + ")", "i" ) );
+			dimension.name = NAME_PREFIX + "dimension";				
+			
+			//NUMBER			{num}
+			var num:Token = new Token(
+				NUMBER,
+				new RegExp( "^(" + NUM_EXP + ")" ) );	
+			num.name = NAME_PREFIX + "number";
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
@@ -771,7 +866,13 @@ package com.ffsys.css
 			tokens.push( badString );
 			tokens.push( hash );			
 			
-			//numeric values must be matched in this order
+			//numeric/unit values should be matched in this order
+			tokens.push( angle );
+			tokens.push( frequency );
+			tokens.push( length );
+			tokens.push( time );
+			tokens.push( ems );
+			tokens.push( exs );
 			tokens.push( dimension );
 			tokens.push( percent );
 			tokens.push( num );
@@ -836,7 +937,6 @@ package com.ffsys.css
 				hz: "Hz",		//FREQUENCY
 				khz: "kHz",		//FREQUENCY
 				"%": "%"		//PERCENTAGE
-				
 			};
 			
 			var re:RegExp = null;
@@ -865,15 +965,48 @@ package com.ffsys.css
 		{
 			if( candidate != null )
 			{
+				/*
 				var tkn:Token = matchNumericalUnit( candidate, current );
 				if( tkn != null )
 				{
 					return handleMatchedToken( tkn, current );
 				}
+				*/
 				return super.matchTokens( candidate, current );
 			}
 			return null;
 		}
+		
+		/**
+		* 	Invoked when a token is created from
+		* 	a successful match.
+		* 
+		* 	@param token The matched token.
+		*/
+		override protected function beginToken( token:Token ):void
+		{
+			//trace("[CSS START]", token );
+		}
+		
+		/**
+		* 	Invoked while a token type has consecutive matches.
+		* 
+		* 	@param token The matched token.
+		*/
+		override protected function token( token:Token ):void
+		{
+			//trace("[CSS TOKEN]", token );
+		}
+		
+		/**
+		* 	Invoked when the scanned proceeds to a different token.
+		* 
+		* 	@param token The matched token.
+		*/
+		override protected function endToken( token:Token ):void
+		{
+			trace("[CSS END]", token );
+		}		
 	}
 }
 	
