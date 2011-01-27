@@ -254,9 +254,14 @@ package com.ffsys.css
 		public static const HEXCOLOR:int = 125;
 		
 		/**
-		* 	The identifier for aN important token.
+		* 	The identifier for an important token.
 		*/
 		public static const IMPORTANT:int = 126;
+		
+		/**
+		* 	The identifier for a namespace prefix token.
+		*/
+		public static const NAMESPACE_PREFIX:int = 127;	
 		
 		//UNIT/NUMERIC TOKENS
 		
@@ -753,12 +758,19 @@ package com.ffsys.css
 				NAMESPACE,
 				new RegExp( "^(" + AtRule.NAMESPACE_SYM + ")" ) );
 			ns.name = NAME_PREFIX + "namespace";
+			
+			//NAMESPACE-PREFIX	[ IDENT ] '|'
+			const NAMESPACE_PREFIX_EXP:String = IDENT_EXP;
+			var nsprefix:Token = new Token(
+				NAMESPACE_PREFIX,
+				new RegExp( "^(" + NAMESPACE_PREFIX_EXP + ")" + "\\|" ) );
+			nsprefix.name = NAME_PREFIX + "prefix";
 				
 			//PAGE				@page
 			var page:Token = new Token(
 				PAGE,
 				new RegExp( "^(" + AtRule.PAGE_SYM + ")" ) );
-			page.name = NAME_PREFIX + "page";				
+			page.name = NAME_PREFIX + "page";
 				
 			//MEDIA				@media
 			var media:Token = new Token(
@@ -816,7 +828,7 @@ package com.ffsys.css
 			
 			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
 			const SIMPLE_SELECTOR_EXP:String =
-				ELEMENT_NAME_EXP + "?"
+				"(" + ELEMENT_NAME_EXP + ")?"
 				+ "("
 				+ ATTRIB_EXP
 				+ "|" + PSEUDO_EXP
@@ -832,16 +844,33 @@ package com.ffsys.css
 			simpleSelector.name = NAME_PREFIX + "simple-selector";	
 			
 			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
+			const SELECTOR_EXP:String = 
+				SIMPLE_SELECTOR_EXP
+				+ "("
+				+ COMBINATOR_EXP
+				+ SIMPLE_SELECTOR_EXP
+				+ ")*";
+				
 			var selector:Token = new Token(
 				SELECTOR, new RegExp(
 					"^("
-					+ SIMPLE_SELECTOR_EXP
-					+ "("
-					+ COMBINATOR_EXP + "+"
-					+ SIMPLE_SELECTOR_EXP + "+"
-					+ ")*"
+					+ SELECTOR_EXP
 					+ ")", "i" ) );
-			selector.name = NAME_PREFIX + "selector";					
+			selector.name = NAME_PREFIX + "selector";
+			
+			//RULSESET		selector [ ',' S* selector ]*
+			const RULSESET_EXP:String =
+				SELECTOR_EXP
+				+ "(,"
+				+ W_EXP
+				+ SELECTOR_EXP
+				+ ")*";
+			var ruleset:Token = new Token(
+				RULSESET, new RegExp(
+					"^("
+					+ RULSESET_EXP
+					+ ")", "i" ) );
+			ruleset.name = NAME_PREFIX + "ruleset";								
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
@@ -891,7 +920,7 @@ package com.ffsys.css
 			pseudo.name = NAME_PREFIX + "pseudo";
 			
 			//TODO
-			const TERM_EXP:String = "(" + UNARY_OPERATOR_EXP + "?"
+			const TERM_EXP:String = "((" + UNARY_OPERATOR_EXP + ")?"
 				+ "("
 				+ StyleUnit.ANGLE_EXP + W_EXP
 				+ "|" + StyleUnit.FREQUENCY_EXP + W_EXP
@@ -900,7 +929,7 @@ package com.ffsys.css
 				+ "|" + StyleUnit.EMS_EXP + W_EXP	
 				+ "|" + StyleUnit.EXS_EXP + W_EXP
 				+ "|" + PERCENT_EXP + W_EXP
-				//+ "|" + DIMENSION_EXP + W_EXP
+				+ "|" + DIMENSION_EXP + W_EXP
 				+ "|" + NUM_EXP + W_EXP
 				//TODO: function
 				+ ")";
@@ -997,10 +1026,6 @@ package com.ffsys.css
 			//code style multiline comment - must be before the operators
 			tokens.push( comment );
 			
-			//operators need to take precedence
-			tokens.push( operator );			//	'/' | ','
-			tokens.push( unary );				//	'-' | '+'
-			
 			//match a uri function expression early
 			tokens.push( uri );			
 			
@@ -1009,14 +1034,27 @@ package com.ffsys.css
 			
 			//xml style comments
 			tokens.push( cdo );
-			tokens.push( cdc );			
+			tokens.push( cdc );
+			
+			//property/expr declaration
+			tokens.push( declaration );
+			
+			//namespace prefix
+			tokens.push( nsprefix );
 			
 			//property is a priority match
 			tokens.push( property );
 			
+			//ruleset
+			tokens.push( ruleset );
+			
 			//selectors
 			tokens.push( selector );
 			tokens.push( simpleSelector );
+			
+			//operators need to take precedence
+			tokens.push( operator );			//	'/' | ','
+			tokens.push( unary );				//	'-' | '+'			
 			
 			//attribute match
 			tokens.push( attrib );
@@ -1042,10 +1080,7 @@ package com.ffsys.css
 			tokens.push( pseudo );				//	:link
 			
 			//ident based
-			tokens.push( clazz );				//	.class		
-			
-			//property/expr declaration
-			tokens.push( declaration );
+			tokens.push( clazz );				//	.class
 			
 			//match {baduri} before {ident}
 			tokens.push( badUri );

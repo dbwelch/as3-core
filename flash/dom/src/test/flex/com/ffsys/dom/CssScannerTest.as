@@ -245,6 +245,11 @@ package com.ffsys.dom
 					h1 {
 						font-size: 1.2em;
 					}
+					
+					/* RULESET */
+					simple.selector, h1.red, #id-selector, .class-selector, :link {
+						
+					}
 				]]>
 			</css>.toString();
 		
