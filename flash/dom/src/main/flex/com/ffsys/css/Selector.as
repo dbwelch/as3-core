@@ -30,6 +30,11 @@ package com.ffsys.css
 		public static const DELIMITER:String = ",";
 		
 		/**
+		* 	The delimiter between multiple options.
+		*/
+		public static const OPTIONAL:String = "/";
+		
+		/**
 		* 	The wildcard selector used to select all elements.
 		*/
 		public static const UNIVERSAL:String = "*";

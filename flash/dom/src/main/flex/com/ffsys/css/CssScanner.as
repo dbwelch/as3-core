@@ -696,6 +696,20 @@ package com.ffsys.css
 			var prio:Token = new Token(
 				PRIO, new RegExp( "^(!(" + W_EXP + ")?important)" + W_EXP ) );
 				
+			//OPERATOR			'/' | ','
+			var operator:Token = new Token(
+				OPERATOR, new RegExp( "^("
+					+ Selector.OPTIONAL
+					+ "|" + Selector.DELIMITER + ")" + W_EXP ) );
+								
+			//COMBINATOR		'+' | '>' | '~'
+			var combinator:Token = new Token(
+				COMBINATOR, new RegExp( "^(\\"
+					+ Selector.ADJACENT_SIBLING
+					+ "|" + Selector.CHILD
+					+ "|" + Selector.GENERAL_SIBLING
+					+ ")" + W_EXP ) );
+				
 			//UNARY-OPERATOR	'-' | '+'
 			var unary:Token = new Token(
 				UNARY_OPERATOR, new RegExp( "^(\\+|-)" ) );
@@ -706,7 +720,7 @@ package com.ffsys.css
 				
 			//ELEMENT-NAME		IDENT | '*'
 			var element:Token = new Token(
-				ELEMENT_NAME, new RegExp( "^(" + IDENT_EXP + "|\\*)" ) );
+				ELEMENT_NAME, new RegExp( "^(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")" ) );
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
@@ -789,8 +803,10 @@ package com.ffsys.css
 			
 			//substringmatch operator *=
 			tokens.push( substringmatch );
-			
-			tokens.push( unary );			//	'-' | '+'
+
+			tokens.push( operator );			//	'/' | ','
+			tokens.push( combinator );			//	'+' | '>'						
+			tokens.push( unary );				//	'-' | '+'
 			
 			//final catch all char
 			tokens.push( char );	

@@ -187,6 +187,25 @@ package com.ffsys.dom
 						margin-left: -.2em;
 					}
 					
+					.after { color: red; }	
+					
+					/* UNARY OPERATOR */
+					.unary {
+						negative: -100;
+						positive: +100;
+					}
+					
+					/* HEX COLOURS */
+					.hex {
+						color: #369;
+						color: #ff0000;
+					}
+					
+					/* COMBINATORS */
+					parent>child{};
+					h1 child+sibling{};
+					general~sibling{};
+					
 					/**********
 					*
 					*	multiline comment.
@@ -197,18 +216,7 @@ package com.ffsys.dom
 					/* a normal comment */
 					/* {badcomment2}
 					.declaration {}
-					/* {badcomment1b} *
-					.after { color: red; }	
-					
-					.unary {
-						negative: -100;
-						positive: +100;
-					}
-					
-					.hex {
-						color: #369;
-						color: #ff0000;
-					}
+					/* {badcomment1b} *					
 				]]>
 			</css>.toString();
 		

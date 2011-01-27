@@ -14,26 +14,7 @@ package com.ffsys.scanner
 	*	@since  26.01.2011
 	*/
 	public class Token extends Object
-	{
-		/**
-		* 	A regular expression indicating
-		* 	the start of this token.
-		*/	
-		public var start:RegExp;
-		
-		/**
-		* 	A regular expression indicating
-		* 	the end of this token.
-		*/
-		public var end:RegExp;
-		
-		/**
-		* 	Indicates whether this token is considered
-		* 	to be open, ie, an end match has not yet
-		* 	been found for the token.
-		*/
-		public var open:Boolean;
-		
+	{	
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
@@ -129,22 +110,6 @@ package com.ffsys.scanner
 					re = match as RegExp;
 				}
 				
-				if( start is RegExp )
-				{
-					//trace("Token::test()", "[FOUND START REGEXP]", start );
-				}
-				
-				if( start is RegExp && start.test( candidate ) ) 
-				{
-					//trace("Token::test()", "[OPENING TOKEN]", this );
-					open = true;
-				}
-				
-				if( end is RegExp && end.test( candidate ) ) 
-				{
-					open = false;
-				}
-				
 				var tkn:Token = null;
 				if( isMatch() )
 				{
@@ -167,16 +132,21 @@ package com.ffsys.scanner
 		/**
 		* 	Creates a clone of this token.
 		* 
+		* 	@param copy An existing alternative
+		* 	instance to copy properties into.
+		* 
 		* 	@return A clone of this token.
 		*/
-		public function clone():Token
+		public function clone( copy:Token = null ):Token
 		{
-			var output:Token = new Token( id, match );
-			output.start = start;
-			output.end = end;
-			output.open = this.open;
-			output.matched = matched;
-			return output;
+			if( copy == null )
+			{
+				copy = new Token();
+			}
+			copy.id = id;
+			copy.match = match;
+			copy.matched = matched;
+			return copy;
 		}
 		
 		/**
