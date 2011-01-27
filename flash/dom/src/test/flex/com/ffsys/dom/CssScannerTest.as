@@ -224,7 +224,11 @@ package com.ffsys.dom
 						angle: 45deg;
 						margin-left: -.2em;
 					}					
-				
+					
+					simple.selector{};
+					h1.red{ color: #ff0000 };
+					#id-selector {};
+					.class-selector {};
 				]]>
 			</css>.toString();
 		

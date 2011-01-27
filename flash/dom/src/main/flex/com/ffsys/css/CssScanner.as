@@ -364,15 +364,7 @@ package com.ffsys.css
 				+ "-" + String.fromCharCode( 0xD7FF )
 				+ String.fromCharCode( 0xE000 )
 				+ "-" + String.fromCharCode( 0xFFFD );
-				*/
-				
-
-			//escape				{unicode} | '\' [^\n\r\f0-9a-f] (2.1)
-			//escape				{unicode} | '\' [] (3)			
-			const ESCAPE_EXP:String =
-				//UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]";			
-
-				UNICODE_EXP + "|\\\\[\\\\x0020-\\\\x007E\\\\x0080-\\\\xD7FF\\\\xE000-\\\\xFFFD]";	
+				*/	
 				
 			//num					[0-9]+|[0-9]*\.[0-9]+
 			const NUM_EXP:String = "([0-9]*\\.)?[0-9]+";
@@ -384,11 +376,18 @@ package com.ffsys.css
 			const WC_EXP:String = "[ \t\r\n\f]";
 			
 			//w						{wc}*
-			const W_EXP:String = WC_EXP + "*";
+			const W_EXP:String = "(" + WC_EXP + "*)";
 			
 			//unicode				'\' [0-9a-fA-F]{1,6} {wc}?
 			const UNICODE_EXP:String =
 				"\\\\" + H_EXP + "{1,6}(" + WC_EXP +  ")?";
+			
+			//escape				{unicode} | '\' [^\n\r\f0-9a-f] (2.1)
+			//escape				{unicode} | '\' [] (3)			
+			const ESCAPE_EXP:String =
+				//UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]";			
+
+				UNICODE_EXP + "|\\\\[\\\\x0020-\\\\x007E\\\\x0080-\\\\xD7FF\\\\xE000-\\\\xFFFD]";				
 			
 			//urlchar				[#x9#x21#x23-#x26#x27-#x7E] | {nonascii} | {escape}
 			const URLCHAR_EXP:String =
@@ -738,11 +737,13 @@ package com.ffsys.css
 			operator.name = NAME_PREFIX + "operator";					
 								
 			//COMBINATOR		'+' | '>' | '~'
+			const COMBINATOR_EXP:String =
+				"(\\" + Selector.ADJACENT_SIBLING
+				+ "|" + Selector.CHILD
+				+ "|" + Selector.GENERAL_SIBLING + ")";
 			var combinator:Token = new Token(
-				COMBINATOR, new RegExp( "^(\\"
-					+ Selector.ADJACENT_SIBLING
-					+ "|" + Selector.CHILD
-					+ "|" + Selector.GENERAL_SIBLING
+				COMBINATOR, new RegExp( "^("
+					+ COMBINATOR_EXP
 					+ ")" + W_EXP ) );
 			combinator.name = NAME_PREFIX + "combinator";					
 				
@@ -753,14 +754,45 @@ package com.ffsys.css
 			unary.name = NAME_PREFIX + "unary";
 				
 			//CLASS				'.' IDENT
+			const CLASS_EXP:String = "\\." + IDENT_EXP;
 			var clazz:Token = new Token(
-				CLASS, new RegExp( "^(\\." + IDENT_EXP + ")" ) );
-			clazz.name = NAME_PREFIX + "class";				
+				CLASS, new RegExp( "^(" + CLASS_EXP + ")" ) );
+			clazz.name = NAME_PREFIX + "class";		
 				
 			//ELEMENT-NAME		IDENT | '*'
+			const ELEMENT_NAME_EXP:String = "(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")";
 			var element:Token = new Token(
-				ELEMENT_NAME, new RegExp( "^(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")" ) );
+				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
 			element.name = NAME_PREFIX + "element-name";
+			
+			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
+			const SIMPLE_SELECTOR_EXP:String =
+				ELEMENT_NAME_EXP + "?"
+				+ "("
+				+ HASH_EXP
+				+ "|" + CLASS_EXP
+				//attrib
+				//pseudo
+				+ ")";
+				
+			var simpleSelector:Token = new Token(
+				SIMPLE_SELECTOR, new RegExp(
+					"^("
+					+ SIMPLE_SELECTOR_EXP
+					+ ")" + W_EXP, "i" ) );
+			simpleSelector.name = NAME_PREFIX + "simple-selector";	
+			
+			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
+			var selector:Token = new Token(
+				SIMPLE_SELECTOR, new RegExp(
+					"^("
+					+ SIMPLE_SELECTOR_EXP
+					+ "("
+					+ COMBINATOR_EXP
+					+ SIMPLE_SELECTOR_EXP
+					+ ")*"
+					+ ")" + W_EXP, "i" ) );
+			selector.name = NAME_PREFIX + "selector";					
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
@@ -789,7 +821,7 @@ package com.ffsys.css
 				+ "|" + StyleUnit.EMS_EXP + W_EXP	
 				+ "|" + StyleUnit.EXS_EXP + W_EXP
 				+ "|" + PERCENT_EXP + W_EXP
-				+ "|" + DIMENSION_EXP + W_EXP
+				//+ "|" + DIMENSION_EXP + W_EXP
 				+ "|" + NUM_EXP + W_EXP
 				//TODO: function
 				+ ")";
@@ -810,12 +842,9 @@ package com.ffsys.css
 			var declaration:Token = new Token(
 				DECLARATION, new RegExp(
 					"^("
-					+ W_EXP + IDENT_EXP + W_EXP
+					+ IDENT_EXP + W_EXP
 					+ ":"
-					+ W_EXP + EXPR_EXP
-					+ "("
-					+ PRIO_EXP
-					+ ")?"
+					+ W_EXP + TERM_EXP
 					+ ")", "i" ) );
 			declaration.name = NAME_PREFIX + "declaration";
 			
@@ -888,6 +917,11 @@ package com.ffsys.css
 			//whitespace token - match early as it's such a common token
 			tokens.push( s );
 			
+			//hexcolor before other hash variants
+			tokens.push( hexcolor );			
+
+			tokens.push( selector );
+			tokens.push( simpleSelector );			
 			tokens.push( declaration );
 			
 			//match a uri function expression first
@@ -913,9 +947,6 @@ package com.ffsys.css
 			tokens.push( page );			//	@page
 			tokens.push( media );			//	@media
 			tokens.push( fontface );		//	@font-face
-			
-			//
-			tokens.push( hexcolor );
 			
 			tokens.push( at );
 			tokens.push( ident );
