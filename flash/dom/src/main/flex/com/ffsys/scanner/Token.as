@@ -1,10 +1,10 @@
 package com.ffsys.scanner
 {
 	/**
-	*	Represents a text token.
+	*	Represents a text scan token.
 	* 
 	* 	A token is used both to define the text
-	* 	match and as a result token when a tokenizer
+	* 	match and as a result token when a scanner
 	* 	places a result token in it's collection of results.
 	*
 	*	@langversion ActionScript 3.0
@@ -15,6 +15,12 @@ package com.ffsys.scanner
 	*/
 	dynamic public class Token extends Array
 	{	
+		private var _children:Vector.<Token>;
+		private var _capture:Boolean = true;
+		private var _once:Boolean = false;
+		private var _discardable:Boolean = false;
+		private var _expandable:Boolean = false;
+		
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
@@ -38,11 +44,6 @@ package com.ffsys.scanner
 		*/
 		public var matched:String;
 		
-		private var _capture:Boolean = true;
-		private var _once:Boolean = false;
-		private var _discardable:Boolean = false;
-		private var _expandable:Boolean = false;
-		
 		/**
 		* 	Creates a <code>Token</code> instance.
 		* 
@@ -53,6 +54,23 @@ package com.ffsys.scanner
 			super();
 			this.id = id;
 			this.match = match;
+		}
+		
+		/**
+		* 	Child tokens belonging to this token.
+		*/
+		public function get children():Vector.<Token>
+		{
+			if( _children == null )
+			{
+				_children = new Vector.<Token>();
+			}
+			return _children;
+		}
+		
+		public function set children( value:Vector.<Token> ):void
+		{
+			_children = value;
 		}
 		
 		/**
@@ -129,6 +147,16 @@ package com.ffsys.scanner
 		/**
 		*	Determines whether this token expands
 		* 	matches into child tokens.
+		* 
+		* 	When a token is expandable the scanner
+		* 	rescans using the <code>filtered</code>
+		* 	results from the last match on
+		* 	<code>this</code> token attempting to match
+		* 	subsequent tokens.
+		* 
+		* 	That is to say match tokens starting from
+		* 	the index of this token +1 in the list are
+		* 	rescanned.
 		*/
 		public function get expandable():Boolean
 		{
@@ -138,6 +166,39 @@ package com.ffsys.scanner
 		public function set expandable( value:Boolean ):void
 		{
 			_expandable = value;
+		}
+		
+		/**
+		* 	Filters the matched results to omit
+		* 	duplicates, empty strings and any
+		* 	null entries.
+		* 
+		* 	This implementation does not cache
+		* 	filtered results but retrieves a filtered
+		* 	copy of this token's matches on
+		* 	<em>every</em> invocation.
+		*/
+		public function get filtered():Array
+		{
+			if( length == 0 )
+			{
+				return this;
+			}
+			return this.filter( doFilter );
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function doFilter( item:*, index:int, array:Array ):Boolean
+		{
+			if( item == null
+				|| item == ""
+				|| array.lastIndexOf( item ) != index )
+			{
+				return false;
+			}
+			return true;
 		}
 		
 		/**
@@ -242,6 +303,8 @@ package com.ffsys.scanner
 			copy.capture = capture;
 			copy.once = once;
 			copy.discardable = discardable;
+			copy.expandable = expandable;
+			copy.children = children;
 			
 			//copy dynamic properties
 			for( var z:String in this )
@@ -258,10 +321,11 @@ package com.ffsys.scanner
 		*/
 		public function toString():String
 		{
+			var res:Array = this.filtered;	//point to 'this' to view unfiltered matches
 			return "[object Token]["
 				+ ( name != null ? name : id ) + "] "
 				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched )
-				+ ( length > 0 ? ( " | " + join( "," ) ) : "" );
+				+ ( res.length > 0 ? ( " | " + res.join( "," ) ) : "" );
 		}		
 	}
 }

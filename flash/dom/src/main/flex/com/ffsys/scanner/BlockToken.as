@@ -14,7 +14,6 @@ package com.ffsys.scanner
 	*/
 	public class BlockToken extends Token
 	{
-		private var _children:Vector.<Token>;
 		private var _start:Object;
 		private var _end:Object;
 		private var _open:Boolean;
@@ -78,19 +77,6 @@ package com.ffsys.scanner
 		public function set end( value:Object ):void
 		{
 			_end = value;
-		}
-		
-		/**
-		* 	Child tokens belonging to this block
-		* 	token.
-		*/
-		public function get children():Vector.<Token>
-		{
-			if( _children == null )
-			{
-				_children = new Vector.<Token>();
-			}
-			return _children;
 		}
 		
 		/**
