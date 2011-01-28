@@ -419,7 +419,7 @@ package com.ffsys.css
 			
 			//unicode				'\' [0-9a-fA-F]{1,6} {wc}?
 			const UNICODE_EXP:String =
-				"(\\\\" + H_EXP + "{1,6})" + WC_EXP +  "?";
+				"(\\\\" + H_EXP + "{1,6})";
 			
 			//escape				{unicode} | '\' [^\n\r\f0-9a-f] (2.1)
 			//escape				{unicode} | '\' [] (3)			
@@ -464,11 +464,16 @@ package com.ffsys.css
 			
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
 			const STRING1_EXP:String =
-				"\"([^\n\r\f\\\"]" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*\"";
+				"\"((?:[^\"\n\r\f]"
+				+ "|\\\\" + NL_EXP
+				+ "|"
+				+ ESCAPE_EXP + ")*)\"";
 			
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
 			const STRING2_EXP:String =
-				"'([^\n\r\f\\']" + "|\\\\" + NL_EXP + "|" + ESCAPE_EXP + ")*'";
+				"'((?:[^'\n\r\f]*"
+				+ "|\\\\" + NL_EXP
+				+ "*|" + ESCAPE_EXP + ")*)'";
 			
 			/*
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
