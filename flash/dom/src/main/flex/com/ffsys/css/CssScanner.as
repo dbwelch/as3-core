@@ -439,7 +439,7 @@ package com.ffsys.css
 
 			//name					{nmchar}+
 			const NAME_EXP:String =
-				"(" + NMCHAR_EXP + ")+";
+				"(?:" + NMCHAR_EXP + ")+";
 
 			//IDENT					{ident}
 			//ident					[-]?{nmstart}{nmchar}*	
@@ -545,7 +545,7 @@ package com.ffsys.css
 				
 			//UNICODE-RANGE		U\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?
 			const UNICODE_RANGE_EXP:String =
-				"U\\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?";
+				"U\\+([0-9A-F?]{1,6})(?:-)([0-9A-F]{1,6})?";
 			
 			//ATKEYWORD			@{ident}
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
