@@ -854,7 +854,7 @@ package com.ffsys.css
 			clazz.name = NAME_PREFIX + "class";		
 				
 			//ELEMENT-NAME		IDENT | '*'
-			const ELEMENT_NAME_EXP:String = "(\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")";
+			const ELEMENT_NAME_EXP:String = "(?:\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")";
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
 			element.name = NAME_PREFIX + "element-name";
