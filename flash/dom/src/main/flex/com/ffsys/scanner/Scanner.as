@@ -218,7 +218,7 @@ package com.ffsys.scanner
 		/**
 		* 	Filters result tokens by identifier.
 		* 	
-		* 	@param filter Either a disposable <code>int</code>
+		* 	@param filter Either a discardable <code>int</code>
 		* 	or <code>Vector.&lt;int&gt;</code>.
 		* 
 		* 	@return A list of matching result tokens.
@@ -375,7 +375,7 @@ package com.ffsys.scanner
 				var c:String = null;
 				var tkn:Token = null;
 				
-				tkn = matchTokens( source, _current );
+				tkn = matchTokens( source );
 
 				//set current tokenif none exists
 				if( ( tkn != null && _current == null ) )
@@ -411,8 +411,7 @@ package com.ffsys.scanner
 		* 	@private
 		*/
 		protected function matchTokens(
-			candidate:String,
-			current:Token = null ):Token
+			candidate:String ):Token
 		{
 			if( candidate != null )
 			{
@@ -423,7 +422,7 @@ package com.ffsys.scanner
 					tkn = tokens[ i ];
 					if( compare( tkn, candidate ) )
 					{
-						return handleMatchedToken( tkn, current );
+						return handleMatchedToken( tkn );
 					}			
 				}
 			}
@@ -434,23 +433,22 @@ package com.ffsys.scanner
 		* 	@private
 		*/
 		protected function handleMatchedToken(
-			tkn:Token, current:Token = null, candidate:String = null ):Token
+			tkn:Token ):Token
 		{
 			//get a new token to store as result from
 			//a clone of the matched token				
-			if( current == null
-				|| tkn.id != current.id )
+			if( _current == null
+				|| tkn.id != _current.id )
 			{
-				if( tkn.disposable )
+				if( tkn.discardable )
 				{
-					//trace("Scanner::scanSource()", "[FOUND SINGLE MATCH TOKEN]" );
-					
 					remove( tkn );
 				}
-				if( current != null && current.capture )
+				if( _current != null
+					&& _current.capture )
 				{
-					endToken( current );
-				}
+					endToken( _current );
+				}				
 				var output:Token = tkn.clone();
 				if( output.capture )
 				{
@@ -460,15 +458,20 @@ package com.ffsys.scanner
 				{
 					dispose( output );
 				}
+				//switch off capture for once tokens
+				if( tkn.once )
+				{
+					tkn.capture = false;
+				}
 				return output;
 			//handles merging adjacent tokens with the same id
 			}else {
-				current.matched += _lastMatch;
-				if( current.capture )
+				_current.matched += _lastMatch;
+				if( _current.capture )
 				{
-					token( current );
+					token( _current );
 				}
-				return current;
+				return _current;
 			}
 			return tkn;
 		}		

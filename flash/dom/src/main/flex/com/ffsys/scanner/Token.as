@@ -39,7 +39,9 @@ package com.ffsys.scanner
 		public var matched:String;
 		
 		private var _capture:Boolean = true;
-		private var _disposable:Boolean = false;
+		private var _once:Boolean = false;
+		private var _discardable:Boolean = false;
+		private var _expandable:Boolean = false;
 		
 		/**
 		* 	Creates a <code>Token</code> instance.
@@ -58,6 +60,13 @@ package com.ffsys.scanner
 		* 	added to a can result set.
 		* 
 		* 	The default value is <code>true</code>.
+		* 
+		* 	Set this to <code>false</code> for tokens
+		* 	that are extraneous to the grammar of the scanner.
+		* 
+		* 	An example would be comment blocks that you want
+		* 	to completely ignore or whitespace tokens
+		* 	for a grammar that ignores whitespace completely.
 		*/
 		public function get capture():Boolean
 		{
@@ -70,12 +79,35 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	Determines whether this token is treated as
-		* 	a disposable match.
+		* 	Determines that this token should only
+		* 	be matched once and any subsequent matches
+		* 	should be discarded from the scanner result
+		* 	set.
 		* 
 		* 	The default value is <code>false</code>.
 		* 
-		* 	When a token is treated as <code>disposable</code>
+		* 	When <code>once</code> is <code>true</code> 
+		* 	the behaviour is equivalent to
+		* 	setting <code>capture</code> to <code>false</code>
+		* 	immediately after the first successful match.
+		*/
+		public function get once():Boolean
+		{
+			return _once;
+		}
+		
+		public function set once( value:Boolean ):void
+		{
+			_once = value;
+		}
+		
+		/**
+		* 	Determines whether this token is treated as
+		* 	a discardable match.
+		* 
+		* 	The default value is <code>false</code>.
+		* 
+		* 	When a token is treated as <code>discardable</code>
 		* 	it is removed from the list of tokens the scanner
 		* 	will match against after the first successful
 		* 	match. This prevents any further matching of the token
@@ -84,14 +116,28 @@ package com.ffsys.scanner
 		* 	Set this to <code>true</code> for tokens that should
 		* 	only be matched once.
 		*/
-		public function get disposable():Boolean
+		public function get discardable():Boolean
 		{
-			return _disposable;
+			return _discardable;
 		}
 		
-		public function set disposable( value:Boolean ):void
+		public function set discardable( value:Boolean ):void
 		{
-			_disposable = value;
+			_discardable = value;
+		}
+		
+		/**
+		*	Determines whether this token expands
+		* 	matches into child tokens.
+		*/
+		public function get expandable():Boolean
+		{
+			return _expandable;
+		}
+		
+		public function set expandable( value:Boolean ):void
+		{
+			_expandable = value;
 		}
 		
 		/**
@@ -194,7 +240,8 @@ package com.ffsys.scanner
 			copy.matched = matched;
 			copy.name = name;
 			copy.capture = capture;
-			copy.disposable = disposable;
+			copy.once = once;
+			copy.discardable = discardable;
 			
 			//copy dynamic properties
 			for( var z:String in this )

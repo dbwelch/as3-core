@@ -638,7 +638,7 @@ package com.ffsys.css
 			//BOM				#xFEFF
 			var bom:Token = new Token(
 				BOM, new RegExp( "^(" + BOM_EXP + ")" ) );
-			bom.disposable = true;
+			bom.discardable = true;
 			bom.name = NAME_PREFIX + "bom";
 				
 			//TODO: add single functionality to the BOM token as it should only be
@@ -773,7 +773,7 @@ package com.ffsys.css
 			var charset:Token = new Token(
 				CHARSET,
 				new RegExp( "^" + CHARSET_EXP ) );
-			charset.disposable = true;
+			charset.once = true;
 			charset.name = NAME_PREFIX + "charset";
 			
 			//IMPORT			@import
