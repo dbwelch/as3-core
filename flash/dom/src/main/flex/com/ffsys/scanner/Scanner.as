@@ -216,6 +216,59 @@ package com.ffsys.scanner
 		}
 		
 		/**
+		* 	Filters result tokens by identifier.
+		* 	
+		* 	@param filter Either a disposable <code>int</code>
+		* 	or <code>Vector.&lt;int&gt;</code>.
+		* 
+		* 	@return A list of matching result tokens.
+		*/
+		public function filter( filter:* ):Vector.<Token>
+		{
+			if( filter is int
+				|| filter is Vector.<int>
+				|| filter is Token
+				|| filter is Vector.<Token> )
+			{
+				var i:int = 0;
+				var tkn:Token = null;
+				var ids:Vector.<int> = new Vector.<int>();
+				
+				//switch token for int
+				if( filter is Token )
+				{
+					filter = ( filter as Token ).id;
+				}else if( filter is Vector.<Token> )
+				{
+					var input:Vector.<Token> = filter as Vector.<Token>;
+					for( i = 0;i < input.length;i++ )
+					{
+						tkn = input[ i ];
+						if( tkn != null )
+						{
+							ids.push( tkn.input );
+						}
+					}
+				}
+				
+				if( filter is int )
+				{
+					ids.push( filter as int );
+				}else if( filter is Vector.<int> )
+				{
+					ids = filter as Vector.<int>;
+				}
+				
+				//match on filters ids
+				for( i = 0;i < ids.length;i++ )
+				{
+					//
+				}				
+			}
+			return null;
+		}
+		
+		/**
 		* 	Retrieves the index of a token.
 		* 
 		* 	Matching is performed on the token <code>id</code>.
@@ -288,7 +341,7 @@ package com.ffsys.scanner
 			var index:int = index( token );
 			if( index > -1 )
 			{
-				_tokens = tokens.splice( index, 1 );
+				tokens.splice( index, 1 );
 				return true;
 			}
 			return false;
@@ -388,6 +441,12 @@ package com.ffsys.scanner
 			if( current == null
 				|| tkn.id != current.id )
 			{
+				if( tkn.disposable )
+				{
+					//trace("Scanner::scanSource()", "[FOUND SINGLE MATCH TOKEN]" );
+					
+					remove( tkn );
+				}
 				if( current != null && current.capture )
 				{
 					endToken( current );

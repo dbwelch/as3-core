@@ -117,6 +117,7 @@ package com.ffsys.dom
 		public var sample:String = <css>
 				<![CDATA[
 					@charset "utf-8";
+					@charset "UTF-8-duplicate-charset-declaration";
 					@import "print.css";
 					@import 'print-quotes.css';
 					
