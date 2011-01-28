@@ -625,10 +625,10 @@ package com.ffsys.css
 			const CHAR_EXP:String = "[^'\"]{1}";
 			
 			//WHITESPACE MATCH
-			const S_EXP:String = "([ \\t\\r\\n\\f]+)";
+			const S_EXP:String = "(?P<s>[ \\t\\r\\n\\f]+)";
 			
 			//PRIO/IMPORTANT				!important
-			const PRIO_EXP:String = "!(" + W_EXP + ")?important";
+			const PRIO_EXP:String = "(?P<prio>\\!(?:" + W_EXP + ")?important)";
 			
 			//HEXCOLOR						#000000 | #000
 			const HEXCOLOR_EXP:String = "#(" + H_EXP + "{6}|" + H_EXP + "{3})"
@@ -858,7 +858,7 @@ package com.ffsys.css
 			//'[' S* IDENT S* [ '=' | INCLUDES | DASHMATCH | PREFIXMATCH | SUFFIXMATCH | SUBSTRINGMATCH ] S*
 			// [ [ STRING | IDENT ] S* ]? ']'
 			const ATTRIB_EXP:String =
-				"\\["
+				"(?P<attrib>\\["
 				+ W_EXP
 				+ "("
 					+ IDENT_EXP					//wrap the attribute name in a group
@@ -870,9 +870,9 @@ package com.ffsys.css
 					+ "(?:"	+ STRING_EXP + "|(" + IDENT_EXP + "))"
 				+ ")?"
 				+ W_EXP
-				+ "\\]";
+				+ "\\])";
 			var attrib:Token = new Token(
-				ATTRIB, new RegExp( "^(" + ATTRIB_EXP + ")" ) );
+				ATTRIB, new RegExp( "^" + ATTRIB_EXP ) );
 			attrib.name = NAME_PREFIX + "attrib";
 			
 			//PSEUDO				':' [ FUNCTION S* IDENT S* ')' | IDENT ]
@@ -929,62 +929,57 @@ package com.ffsys.css
 
 			//COMBINATOR		'+' | '>' | '~' | ' '
 			const COMBINATOR_EXP:String =
-				"["
+				"(?P<combinator>["
 					+ Selector.ADJACENT_SIBLING
 					+ Selector.CHILD
 					+ Selector.GENERAL_SIBLING
 					+ Selector.DESCENDANT
-				+ "]";
+				+ "])";
 			var combinator:Token = new Token(
-				COMBINATOR, new RegExp( "^("
-					+ COMBINATOR_EXP
-					+ ")" ) );
-			combinator.name = NAME_PREFIX + "combinator";			
+				COMBINATOR, new RegExp( "^" + COMBINATOR_EXP ) );
+			combinator.name = NAME_PREFIX + "combinator";
 			
 			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
 			const SIMPLE_SELECTOR_EXP:String =
-				"(?:" + ELEMENT_NAME_EXP + ")?"
+				"(?P<simple-selector>(" + ELEMENT_NAME_EXP + ")?"
 				+ "(?:"
-				+ ATTRIB_EXP
-				+ "|" + PSEUDO_EXP
+				+ PSEUDO_EXP
 				+ "|" + CLASS_EXP				
 				+ "|" + HASH_EXP
-				+ ")";
+				+ "|" + ATTRIB_EXP	
+				+ "))";
 				
 			var simpleSelector:Token = new Token(
 				SIMPLE_SELECTOR, new RegExp(
-					"^(" + SIMPLE_SELECTOR_EXP + ")", "i" ) );
+					"^" + SIMPLE_SELECTOR_EXP, "i" ) );
 			simpleSelector.name = NAME_PREFIX + "simple-selector";	
 			
 			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
 			const SELECTOR_EXP:String = 
-				"(" + SIMPLE_SELECTOR_EXP + ")"
+				"(?P<selector>" + SIMPLE_SELECTOR_EXP
 				+ W_EXP
 				+ "(?:"
 				+ W_EXP
-				+ "(" + COMBINATOR_EXP + "){1}"
+				+ COMBINATOR_EXP + "{1}"
 				+ W_EXP
-				+ "(" + SIMPLE_SELECTOR_EXP + "){1}"
-				+ ")*";
-				
+				+ SIMPLE_SELECTOR_EXP + "{1}"
+				+ ")*)";
 
-				
 			var selector:Token = new Token(
 				SELECTOR, new RegExp(
-					"^("
-					+ SELECTOR_EXP
-					+ ")", "i" ) );
+					"^" + SELECTOR_EXP, "i" ) );
 			selector.name = NAME_PREFIX + "selector";
 			
 			trace("CssScanner::call()", selector.match );			
 			
 			//RULESET		selector [ ',' S* selector ]*
 			const RULESET_EXP:String =
-				SELECTOR_EXP
+				"(?P<ruleset>" + SELECTOR_EXP
 				+ "((?:,)"
 				+ W_EXP
 				+ SELECTOR_EXP
-				+ ")*";
+				+ ")*)";
+			
 			var ruleset:Token = new Token(
 				RULESET, new RegExp(
 					"^("
@@ -1204,295 +1199,3 @@ package com.ffsys.css
 		}
 	}
 }
-	
-/*
-	//TOKENS
-	
-	Token			Definition
-	
-	IDENT			{ident}
-	ATKEYWORD		@{ident}
-	STRING			{string}
-	BAD_STRING		{badstring}
-	BAD_URI			{baduri}
-	BAD_COMMENT		{badcomment}
-	HASH			#{name}
-	NUMBER			{num}
-	PERCENTAGE		{num}%
-	DIMENSION		{num}{ident}
-	URI				url\({w}{string}{w}\)
-					|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
-	UNICODE-RANGE	u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
-	CDO	<!--
-	CDC	-->
-	:	:
-	;	;
-	{	\{
-	}	\}
-	(	\(
-	)	\)
-	[	\[
-	]	\]
-	S	[ \t\r\n\f]+
-	COMMENT	\/\*[^*]*\*+([^/*][^*]*\*+)*\/
-	FUNCTION	{ident}\(
-	INCLUDES	~=
-	DASHMATCH	|=
-	DELIM	any other character not matched by the above rules, and neither a single nor a double quote
-
-	//MACROS
-	
-	ident			[-]?{nmstart}{nmchar}*
-	name			{nmchar}+
-	nmstart			[_a-z]|{nonascii}|{escape}
-	nonascii		[^\0-\237]
-	unicode			\\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
-	escape			{unicode}|\\[^\n\r\f0-9a-f]
-	nmchar			[_a-z0-9-]|{nonascii}|{escape}
-	num				[0-9]+|[0-9]*\.[0-9]+
-	string			{string1}|{string2}
-	string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
-	string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
-	badstring		{badstring1}|{badstring2}
-	badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
-	badstring2		\'([^\n\r\f\\']|\\{nl}|{escape})*\\?
-	badcomment		{badcomment1}|{badcomment2}
-	badcomment1		\/\*[^*]*\*+([^/*][^*]*\*+)*
-	badcomment2		\/\*[^*]*(\*+[^/*][^*]*)*
-	baduri			{baduri1}|{baduri2}|{baduri3}
-
-	baduri1			url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}
-	baduri2			url\({w}{string}{w}
-	baduri3			url\({w}{badstring}
-	nl				\n|\r\n|\r|\f
-	w				[ \t\r\n\f]*
-
-	//RULES
-	
-	stylesheet  : [ CDO | CDC | S | statement ]*;
-	statement   : ruleset | at-rule;
-	at-rule     : ATKEYWORD S* any* [ block | ';' S* ];
-	block       : '{' S* [ any | block | ATKEYWORD S* | ';' S* ]* '}' S*;
-	ruleset     : selector? '{' S* declaration? [ ';' S* declaration? ]* '}' S*;
-	selector    : any+;
-	declaration : property S* ':' S* value;
-	property    : IDENT;
-	value       : [ any | block | ATKEYWORD S* ]+;
-	any         : [ IDENT | NUMBER | PERCENTAGE | DIMENSION | STRING
-	              | DELIM | URI | HASH | UNICODE-RANGE | INCLUDES
-	              | DASHMATCH | ':' | FUNCTION S* [any|unsused]* ')'
-	              | '(' S* [any|unused]* ')' | '[' S* [any|unused]* ']'
-	              ] S*;
-	unused      : block | ATKEYWORD S* | ';' S* | CDO S* | CDC S*;
-	
-	
-	
-	
-	G.1 Grammar
-
-	The grammar below is LALR(1) (but note that most UA's should not use it directly, since it does not express the parsing conventions, only the CSS 2.1 syntax). The format of the productions is optimized for human consumption and some shorthand notation beyond Yacc (see [YACC]) is used:
-
-	*: 0 or more
-	+: 1 or more
-	?: 0 or 1
-	|: separates alternatives
-	[ ]: grouping
-	The productions are:
-
-	stylesheet
-	  : [ CHARSET_SYM STRING ';' ]?
-	    [S|CDO|CDC]* [ import [ CDO S* | CDC S* ]* ]*
-	    [ [ ruleset | media | page ] [ CDO S* | CDC S* ]* ]*
-	  ;
-	import
-	  : IMPORT_SYM S*
-	    [STRING|URI] S* media_list? ';' S*
-	  ;
-	media
-	  : MEDIA_SYM S* media_list LBRACE S* ruleset* '}' S*
-	  ;
-	media_list
-	  : medium [ COMMA S* medium]*
-	  ;
-	medium
-	  : IDENT S*
-	  ;
-	page
-	  : PAGE_SYM S* pseudo_page?
-	    '{' S* declaration? [ ';' S* declaration? ]* '}' S*
-	  ;
-	pseudo_page
-	  : ':' IDENT S*
-	  ;
-	operator
-	  : '/' S* | ',' S*
-	  ;
-	combinator
-	  : '+' S*
-	  | '>' S*
-	  ;
-	unary_operator
-	  : '-' | '+'
-	  ;
-	property
-	  : IDENT S*
-	  ;
-	ruleset
-	  : selector [ ',' S* selector ]*
-	    '{' S* declaration? [ ';' S* declaration? ]* '}' S*
-	  ;
-	selector
-	  : simple_selector [ combinator selector | S+ [ combinator? selector ]? ]?
-	  ;
-	simple_selector
-	  : element_name [ HASH | class | attrib | pseudo ]*
-	  | [ HASH | class | attrib | pseudo ]+
-	  ;
-	class
-	  : '.' IDENT
-	  ;
-	element_name
-	  : IDENT | '*'
-	  ;
-	attrib
-	  : '[' S* IDENT S* [ [ '=' | INCLUDES | DASHMATCH ] S*
-	    [ IDENT | STRING ] S* ]? ']'
-	  ;
-	pseudo
-	  : ':' [ IDENT | FUNCTION S* [IDENT S*]? ')' ]
-	  ;
-	declaration
-	  : property ':' S* expr prio?
-	  ;
-	prio
-	  : IMPORTANT_SYM S*
-	  ;
-	expr
-	  : term [ operator? term ]*
-	  ;
-	term
-	  : unary_operator?
-	    [ NUMBER S* | PERCENTAGE S* | LENGTH S* | EMS S* | EXS S* | ANGLE S* |
-	      TIME S* | FREQ S* ]
-	  | STRING S* | IDENT S* | URI S* | hexcolor | function
-	  ;
-	function
-	  : FUNCTION S* expr ')' S*
-	  ;
-	
-	 //* There is a constraint on the color that it must
-	 //* have either 3 or 6 hex-digits (i.e., [0-9a-fA-F])
-	 //* after the "#"; e.g., "#000" is OK, but "#abcd" is not.
-	 
-	hexcolor
-	  : HASH S*
-	  ;	
-	
-	
-	
-	//FLEX LEXICAL NOTATION
-	
-	%option case-insensitive
-
-	h						[0-9a-f]
-	nonascii				[\200-\377]
-	unicode					\\{h}{1,6}(\r\n|[ \t\r\n\f])?
-	escape					{unicode}|\\[^\r\n\f0-9a-f]
-	nmstart					[_a-z]|{nonascii}|{escape}
-	nmchar					[_a-z0-9-]|{nonascii}|{escape}
-	string1					\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
-	string2					\'([^\n\r\f\\']|\\{nl}|{escape})*\'
-	badstring1      		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
-	badstring2      		\'([^\n\r\f\\']|\\{nl}|{escape})*\\?
-	badcomment1     		\/\*[^*]*\*+([^/*][^*]*\*+)*
-	badcomment2     		\/\*[^*]*(\*+[^/*][^*]*)*
-	baduri1       			url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}
-	baduri2         		url\({w}{string}{w}
-	baduri3         		url\({w}{badstring}
-	comment					\/\*[^*]*\*+([^/*][^*]*\*+)*\/
-	ident					-?{nmstart}{nmchar}*
-	name					{nmchar}+
-	num						[0-9]+|[0-9]*"."[0-9]+
-	string					{string1}|{string2}
-	badstring       		{badstring1}|{badstring2}
-	badcomment      		{badcomment1}|{badcomment2}
-	baduri          		{baduri1}|{baduri2}|{baduri3}
-	url						([!#$%&*-~]|{nonascii}|{escape})*
-	s						[ \t\r\n\f]+
-	w						{s}?
-	nl						\n|\r\n|\r|\f
-
-	A						a|\\0{0,4}(41|61)(\r\n|[ \t\r\n\f])?
-	C						c|\\0{0,4}(43|63)(\r\n|[ \t\r\n\f])?
-	D						d|\\0{0,4}(44|64)(\r\n|[ \t\r\n\f])?
-	E						e|\\0{0,4}(45|65)(\r\n|[ \t\r\n\f])?
-	G						g|\\0{0,4}(47|67)(\r\n|[ \t\r\n\f])?|\\g
-	H						h|\\0{0,4}(48|68)(\r\n|[ \t\r\n\f])?|\\h
-	I						i|\\0{0,4}(49|69)(\r\n|[ \t\r\n\f])?|\\i
-	K						k|\\0{0,4}(4b|6b)(\r\n|[ \t\r\n\f])?|\\k
-	L               		l|\\0{0,4}(4c|6c)(\r\n|[ \t\r\n\f])?|\\l
-	M						m|\\0{0,4}(4d|6d)(\r\n|[ \t\r\n\f])?|\\m
-	N						n|\\0{0,4}(4e|6e)(\r\n|[ \t\r\n\f])?|\\n
-	O						o|\\0{0,4}(4f|6f)(\r\n|[ \t\r\n\f])?|\\o
-	P						p|\\0{0,4}(50|70)(\r\n|[ \t\r\n\f])?|\\p
-	R						r|\\0{0,4}(52|72)(\r\n|[ \t\r\n\f])?|\\r
-	S						s|\\0{0,4}(53|73)(\r\n|[ \t\r\n\f])?|\\s
-	T						t|\\0{0,4}(54|74)(\r\n|[ \t\r\n\f])?|\\t
-	U               		u|\\0{0,4}(55|75)(\r\n|[ \t\r\n\f])?|\\u
-	X						x|\\0{0,4}(58|78)(\r\n|[ \t\r\n\f])?|\\x
-	Z						z|\\0{0,4}(5a|7a)(\r\n|[ \t\r\n\f])?|\\z
-
-	%%
-
-	{s}			{return S;}
-
-	\/\*[^*]*\*+([^/*][^*]*\*+)*\/			//ignore comments
-	{badcomment}                         	//unclosed comment at EOF
-
-	"<!--"					{return CDO;}
-	"-->"					{return CDC;}
-	"~="					{return INCLUDES;}
-	"|="					{return DASHMATCH;}
-
-	{string}				{return STRING;}
-	{badstring}             {return BAD_STRING);}
-
-	{ident}					{return IDENT;}
-
-	"#"{name}				{return HASH;}
-
-	@{I}{M}{P}{O}{R}{T}		{return IMPORT_SYM;}
-	@{P}{A}{G}{E}			{return PAGE_SYM;}
-	@{M}{E}{D}{I}{A}		{return MEDIA_SYM;}
-	"@charset "				{return CHARSET_SYM;}
-
-	"!"({w}|{comment})*{I}{M}{P}{O}{R}{T}{A}{N}{T}	{return IMPORTANT_SYM;}
-
-	{num}{E}{M}				{return EMS;}
-	{num}{E}{X}				{return EXS;}
-	{num}{P}{X}				{return LENGTH;}
-	{num}{C}{M}				{return LENGTH;}
-	{num}{M}{M}				{return LENGTH;}
-	{num}{I}{N}				{return LENGTH;}
-	{num}{P}{T}				{return LENGTH;}
-	{num}{P}{C}				{return LENGTH;}
-	{num}{D}{E}{G}			{return ANGLE;}
-	{num}{R}{A}{D}			{return ANGLE;}
-	{num}{G}{R}{A}{D}		{return ANGLE;}
-	{num}{M}{S}				{return TIME;}
-	{num}{S}				{return TIME;}
-	{num}{H}{Z}				{return FREQ;}
-	{num}{K}{H}{Z}			{return FREQ;}
-	{num}{ident}			{return DIMENSION;}
-
-	{num}%					{return PERCENTAGE;}
-	{num}					{return NUMBER;}
-
-	{U}{R}{L}"("{w}{string}{w}")"		{return URI;}
-	{U}{R}{L}"("{w}{url}{w}")"			{return URI;}
-	{baduri}                        	{return BAD_URI);}
-
-	{ident}"("							{return FUNCTION;}
-
-	.			{return *yytext;}	
-*/
