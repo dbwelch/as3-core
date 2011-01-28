@@ -449,7 +449,7 @@ package com.ffsys.css
 			//IDENT					{ident}
 			//ident					[-]?{nmstart}{nmchar}*	
 			const IDENT_EXP:String =
-				"-?" + NMSTART_EXP + "+" + NMCHAR_EXP + "*";
+				"-?" + NMSTART_EXP + "{1}" + NMCHAR_EXP + "*";
 			
 			//urlchar				[#x9#x21#x23-#x26#x27-#x7E] | {nonascii} | {escape}
 			const URLCHAR_EXP:String =
@@ -918,14 +918,13 @@ package com.ffsys.css
 				"\\["
 				+ W_EXP
 				+ "("
-				+ IDENT_EXP					//wrap the attribute name in a group
+					+ IDENT_EXP					//wrap the attribute name in a group
 				+ ")"
-				+ W_EXP
-				+ ATTRIB_OPERATOR
-				+ W_EXP
-				+ "("
-				+ STRING_EXP
-				+ "|" + IDENT_EXP
+				+ "(?:"
+					+ W_EXP
+					+ ATTRIB_OPERATOR
+					+ W_EXP
+					+ "(?:"	+ STRING_EXP + "|(" + IDENT_EXP + "))"
 				+ ")?"
 				+ W_EXP
 				+ "\\]";
@@ -1041,7 +1040,7 @@ package com.ffsys.css
 			//NUMBER			{num}
 			var num:Token = new Token(
 				NUMBER,
-				new RegExp( "^(" + NUM_EXP + ")" ) );	
+				new RegExp( "^(?:" + NUM_EXP + ")" ) );	
 			num.name = NAME_PREFIX + "number";
 			
 			//**************************** TOKEN DEFINITIONS ****************************//

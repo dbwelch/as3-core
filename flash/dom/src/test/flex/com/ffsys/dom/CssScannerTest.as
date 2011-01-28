@@ -117,8 +117,8 @@ package com.ffsys.dom
 		public var sample:String = <css>
 				<![CDATA[
 					@charset "utf-8";
-					@import "psdfsdfdsfsdfdrint.css";
-					@import 'print-quvdsdfdfsfsdfotes.css';
+					@import "print.css";
+					@import 'print-quotes.css';
 					
 					@namespace 'http://example.com';
 					@namespace "http://example.com";
@@ -139,16 +139,14 @@ package com.ffsys.dom
 					}
 					
 					/* ATTRIBUTE SELECTORS */
-					[href] {
-						/* A selector for all elements with an href attribute */
-					}
+					[href]
 					[attr="text"]					
 					[attr='text']
 					[attr~=includesmatch]
 					[attr|=dashmatch]
 					[attr^=prefixmatch]
-					[attr$=suffixmatch]
-					[attr*=substringmatch]
+					[attr$='suffixmatch']
+					[attr*="substringmatch"]
 					
 					/* COMPLEX DOUBLE QUOTED STRING ATTRIBUTE VALUE */
 					p[example="public class foo\
