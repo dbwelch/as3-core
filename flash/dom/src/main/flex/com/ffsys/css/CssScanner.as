@@ -417,10 +417,10 @@ package com.ffsys.css
 			const NL_EXP:String = "(?:\n|\r\n|\r|\f)";
 			
 			//wc					[ \t\r\n\f]
-			const WC_EXP:String = "[ \t\r\n\f]";
+			const WC_EXP:String = "(?:[ \t\r\n\f])";
 			
 			//w						{wc}*
-			const W_EXP:String = "(?:" + WC_EXP + "*)";
+			const W_EXP:String = WC_EXP + "*";
 			
 			//unicode				'\' [0-9a-fA-F]{1,6} {wc}?
 			const UNICODE_EXP:String =
@@ -492,7 +492,7 @@ package com.ffsys.css
 			
 			//string			{string1}|{string2}
 			const STRING_EXP:String =
-				STRING1_EXP + "|" + STRING2_EXP;
+				"(?:(?:" + STRING1_EXP + ")|(?:" + STRING2_EXP + "))";
 			
 			//badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
 			const BAD_STRING1_EXP:String =
@@ -514,11 +514,12 @@ package com.ffsys.css
 				+ W_EXP
 				+ "\\)"				//close function call (quoted)
 				+ "|"
+				//unquoted uri
 				+ "url\\("			//open function call
 				+ W_EXP
-				+ "(?:[!#$%&*-\\[\\]-~]|"
+				+ "((?:[!#$%&*-\\[\\]-~]|"
 				+ NONASCII_EXP + "|" + ESCAPE_EXP
-				+ ")*"
+				+ ")*)"
 				+ W_EXP
 				+ "\\)";			//close function call
 
