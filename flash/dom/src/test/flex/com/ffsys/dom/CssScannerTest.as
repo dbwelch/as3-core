@@ -282,7 +282,7 @@ package com.ffsys.dom
 			scanner.comments = false;
 			var results:Vector.<Token> = scanner.scan( sample );
 			
-			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length );
+			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length, scanner.source );
 			
 			/*
 			var tkn:Token = null;

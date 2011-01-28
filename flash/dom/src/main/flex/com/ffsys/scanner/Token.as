@@ -39,6 +39,7 @@ package com.ffsys.scanner
 		public var matched:String;
 		
 		private var _capture:Boolean = true;
+		private var _single:Boolean = false;
 		
 		/**
 		* 	Creates a <code>Token</code> instance.
@@ -66,6 +67,31 @@ package com.ffsys.scanner
 		public function set capture( value:Boolean ):void
 		{
 			_capture = value;
+		}
+		
+		/**
+		* 	Determines whether this token is treated as
+		* 	a single match.
+		* 
+		* 	The default value is <code>false</code>.
+		* 
+		* 	When a token is treated as <code>single</code>
+		* 	it is removed from the list of tokens the scanner
+		* 	will match against after the first successful
+		* 	match. This prevents any further matching of the token
+		* 	as the scanner proceeds.
+		* 
+		* 	Set this to <code>true</code> for tokens that should
+		* 	only be matched once.
+		*/
+		public function get single():Boolean
+		{
+			return _single;
+		}
+		
+		public function set single( value:Boolean ):void
+		{
+			_single = value;
 		}
 		
 		/**
@@ -168,6 +194,7 @@ package com.ffsys.scanner
 			copy.matched = matched;
 			copy.name = name;
 			copy.capture = capture;
+			copy.single = single;
 			
 			//copy dynamic properties
 			for( var z:String in this )

@@ -491,7 +491,7 @@ package com.ffsys.css
 			
 			//string			{string1}|{string2}
 			const STRING_EXP:String =
-				"(?:(?:" + STRING1_EXP + ")|(?:" + STRING2_EXP + "))";
+				"(?P<string>(?:" + STRING1_EXP + ")|(?:" + STRING2_EXP + "))";
 			
 			//badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
 			const BAD_STRING1_EXP:String =
@@ -507,20 +507,26 @@ package com.ffsys.css
 			
 			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			const URI_EXP:String =
-				"url\\("			//open function call (quoted)
+				"(?P<uri>(?:url\\("			//open function call (quoted)
 				+ W_EXP
 				+ STRING_EXP
 				+ W_EXP
-				+ "\\)"				//close function call (quoted)
-				+ "|"
+				+ "\\)"						//close function call (quoted)
+				+ ")|"
 				//unquoted uri
-				+ "url\\("			//open function call
+				+ "(?:url\\("				//open function call
 				+ W_EXP
 				+ "((?:[!#$%&*-\\[\\]-~]|"
 				+ NONASCII_EXP + "|" + ESCAPE_EXP
 				+ ")*)"
 				+ W_EXP
-				+ "\\)";			//close function call
+				+ "\\)"						//close function call
+				+"))";						
+				
+			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
+			var uri:Token = new Token( URI,
+				new RegExp( "^" + URI_EXP, "i" ) );
+			uri.name = NAME_PREFIX + "uri";				
 
 			//baduri1			url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}
 			const BAD_URI1_EXP:String =
@@ -535,7 +541,7 @@ package com.ffsys.css
 			const BAD_URI2_EXP:String =
 				"url\\("
 				+ W_EXP
-				+ "(" + STRING_EXP + ")"
+				+ STRING_EXP
 				+ W_EXP;
 			
 			//baduri3			url\({w}{badstring}
@@ -554,9 +560,6 @@ package com.ffsys.css
 			
 			//ATKEYWORD			@{ident}
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
-			
-			//HASH				#{name}
-			const HASH_EXP:String = "(#)" + NAME_EXP;
 			
 			//DIMENSION			{num}{ident}
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
@@ -603,7 +606,7 @@ package com.ffsys.css
 			const CDC_EXP:String = "-->";
 
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
-			const COMMENT_EXP:String = "/\\*[^*]*\\*+([^/*][^*]*\\*+)*/";
+			const COMMENT_EXP:String = "(?P<comment>/\\*[^*]*\\*+([^/*][^*]*\\*+)*/)";
 			
 			//badcomment1		\/\*[^*]*\*+([^/*][^*]*\*+)*
 			const BAD_COMMENT1_EXP:String = "/\\*[^*]*\\*+([^/*][^*]*\\*+)*";
@@ -629,9 +632,6 @@ package com.ffsys.css
 			
 			//PRIO/IMPORTANT				!important
 			const PRIO_EXP:String = "(?P<prio>\\!(?:" + W_EXP + ")?important)";
-			
-			//HEXCOLOR						#000000 | #000
-			const HEXCOLOR_EXP:String = "#(" + H_EXP + "{6}|" + H_EXP + "{3})"
 			
 			//**************************** TOKENS ****************************//
 			
@@ -660,7 +660,7 @@ package com.ffsys.css
 				
 			//STRING			{string}
 			var string:Token = new Token(
-				STRING, new RegExp( "^(" + STRING_EXP + ")", "i" ) );
+				STRING, new RegExp( "^" + STRING_EXP, "i" ) );
 			string.name = NAME_PREFIX + "string";
 				
 			//BAD_STRING		{badstring}
@@ -679,14 +679,10 @@ package com.ffsys.css
 			badComment.name = NAME_PREFIX + "badcomment";				
 				
 			//HASH				#{name}
+			const HASH_EXP:String = "(?P<hash>(#)(" + NAME_EXP + "))";
 			var hash:Token = new Token(
-				HASH, new RegExp( "^(" + HASH_EXP + ")", "i" ) );
-			hash.name = NAME_PREFIX + "hash";
-			
-			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
-			var uri:Token = new Token( URI,
-				new RegExp( "^(" + URI_EXP + ")", "i" ) );
-			uri.name = NAME_PREFIX + "uri";				
+				HASH, new RegExp( "^" + HASH_EXP, "i" ) );
+			hash.name = NAME_PREFIX + "hash";			
 			
 			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			var range:Token = new Token( UNICODE_RANGE,
@@ -741,7 +737,7 @@ package com.ffsys.css
 			
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
-				COMMENT, new RegExp( "^(" + COMMENT_EXP + ")" ) );	
+				COMMENT, new RegExp( "^" + COMMENT_EXP ) );
 			comment.capture = comments;
 			comment.name = NAME_PREFIX + "comment";
 				
@@ -749,6 +745,12 @@ package com.ffsys.css
 			var method:Token = new Token(
 				FUNCTION, new RegExp( "^(" + FUNCTION_EXP + ")" ) );
 			method.name = NAME_PREFIX + "function";				
+			
+			//HEXCOLOR						#000000 | #000
+			const HEXCOLOR_EXP:String = "(?P<hexcolor>#(" + H_EXP + "{6}|" + H_EXP + "{3}))";
+			var hexcolor:Token = new Token(
+				HEXCOLOR, new RegExp( "^(?:" + HEXCOLOR_EXP + ")" + W_EXP ) );
+			hexcolor.name = NAME_PREFIX + "hexcolor";			
 							
 			//CHAR	any other character not matched by the above rules,
 			//and neither a single nor a double quote
@@ -759,9 +761,18 @@ package com.ffsys.css
 			//**************************** GRAMMAR TOKENS ****************************//
 			
 			//CHARSET			@charset
+			const CHARSET_EXP:String = 
+				"(?P<charset>"
+				+ AtRule.CHARSET_SYM
+				+ W_EXP
+				+ STRING_EXP
+				+ W_EXP
+				+ "(;)"
+				+ ")";
 			var charset:Token = new Token(
 				CHARSET,
-				new RegExp( "^(" + AtRule.CHARSET_SYM + ")" ) );
+				new RegExp( "^" + CHARSET_EXP ) );
+			charset.single = true;
 			charset.name = NAME_PREFIX + "charset";
 			
 			//IMPORT			@import
@@ -779,23 +790,21 @@ package com.ffsys.css
 				
 			//NAMESPACE			@namespace
 			const NAMESPACE_EXP:String = 
-				"(" + AtRule.NAMESPACE_SYM + ")"
+				"(?P<namespace>" + AtRule.NAMESPACE_SYM
 				+ W_EXP
-				+ "("
+				+ "(?:"
 				+ NAMESPACE_PREFIX_EXP
 				+ W_EXP				
 				+ ")?"			
-				+ "("
+				+ "(?:"
 				+ "(?:" + URI_EXP + ")"
 				+ "|(?:" + STRING_EXP + ")"
 				+ ")"
 				+ W_EXP
-				+ "(?:;)";
+				+ "(?:;))";
 			var ns:Token = new Token(
 				NAMESPACE,
-				new RegExp( "^("
-					+ NAMESPACE_EXP
-					+ ")" + W_EXP ) );
+				new RegExp( "^" + NAMESPACE_EXP + W_EXP ) );
 			ns.name = NAME_PREFIX + "namespace";
 				
 			//PAGE				@page
@@ -823,30 +832,28 @@ package com.ffsys.css
 			prio.name = NAME_PREFIX + "important";
 				
 			//OPERATOR			'/' | ','
-			const OPERATOR_EXP:String = Selector.OPTIONAL + "|" + Selector.DELIMITER;
+  			const OPERATOR_EXP:String = "(?P<operator>" + Selector.OPTIONAL + "|" + Selector.DELIMITER + ")";
 			var operator:Token = new Token(
-				OPERATOR, new RegExp( "^("
-					+ OPERATOR_EXP + ")" + W_EXP ) );
-			operator.name = NAME_PREFIX + "operator";					
-					
+				OPERATOR, new RegExp( "^" + OPERATOR_EXP + W_EXP ) );
+			operator.name = NAME_PREFIX + "operator";
 				
 			//UNARY-OPERATOR	'-' | '+'
-			const UNARY_OPERATOR_EXP:String = "\\+|-";
+			const UNARY_OPERATOR_EXP:String = "(?P<unary>\\+|-)";
 			var unary:Token = new Token(
-				UNARY_OPERATOR, new RegExp( "^(" + UNARY_OPERATOR_EXP + ")" + W_EXP + NUM_EXP ) );
+				UNARY_OPERATOR, new RegExp( "^" + UNARY_OPERATOR_EXP + W_EXP + NUM_EXP ) );
 			unary.name = NAME_PREFIX + "unary";
 				
 			//CLASS				'.' IDENT
-			const CLASS_EXP:String = "(?:\\." + IDENT_EXP + ")";
+			const CLASS_EXP:String = "(?P<class>(\\.)(" + IDENT_EXP + "))";
 			var clazz:Token = new Token(
-				CLASS, new RegExp( "^(" + CLASS_EXP + ")" ) );
+				CLASS, new RegExp( "^" + CLASS_EXP ) );
 			clazz.name = NAME_PREFIX + "class";		
 				
 			//ELEMENT-NAME		IDENT | '*'
-			const ELEMENT_NAME_EXP:String = "(?:\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")";
+			const ELEMENT_NAME_EXP:String = "(?P<elementname>(?:\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
 			var element:Token = new Token(
-				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
-			element.name = NAME_PREFIX + "element-name";						
+				ELEMENT_NAME, new RegExp( "^" + ELEMENT_NAME_EXP ) );
+			element.name = NAME_PREFIX + "element-name";
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
@@ -877,7 +884,7 @@ package com.ffsys.css
 			
 			//PSEUDO				':' [ FUNCTION S* IDENT S* ')' | IDENT ]
 			const PSEUDO_EXP:String =
-				":("
+				"(?P<pseudo>(:)("
 				+ IDENT_EXP
 				+ ")|("
 				+ FUNCTION_EXP
@@ -885,13 +892,13 @@ package com.ffsys.css
 				+ IDENT_EXP				
 				+ W_EXP
 				+ "\\)"				//close function call				
-				+ ")";
+				+ "))";
 			var pseudo:Token = new Token(
-				PSEUDO, new RegExp( "^(" + PSEUDO_EXP + ")" ) );
+				PSEUDO, new RegExp( "^" + PSEUDO_EXP ) );
 			pseudo.name = NAME_PREFIX + "pseudo";
 			
 			//TODO
-			const TERM_EXP:String = "((?:" + UNARY_OPERATOR_EXP + ")?"
+			const TERM_EXP:String = "(?P<term>(?:" + UNARY_OPERATOR_EXP + ")?"
 				+ "("
 				+ StyleUnit.ANGLE_EXP + W_EXP
 				+ "|" + StyleUnit.FREQUENCY_EXP + W_EXP
@@ -920,7 +927,7 @@ package com.ffsys.css
 			//DECLARATION		property ':' S* expr prio?
 			var declaration:Token = new Token(
 				DECLARATION, new RegExp(
-					"^("
+					"^(?P<declaration>"
 					+ IDENT_EXP + W_EXP
 					+ ":"
 					+ W_EXP + TERM_EXP
@@ -941,7 +948,7 @@ package com.ffsys.css
 			
 			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
 			const SIMPLE_SELECTOR_EXP:String =
-				"(?P<simple-selector>(" + ELEMENT_NAME_EXP + ")?"
+				"(?P<simpleselector>" + ELEMENT_NAME_EXP + "?"
 				+ "(?:"
 				+ PSEUDO_EXP
 				+ "|" + CLASS_EXP				
@@ -963,7 +970,7 @@ package com.ffsys.css
 				+ COMBINATOR_EXP + "{1}"
 				+ W_EXP
 				+ SIMPLE_SELECTOR_EXP + "{1}"
-				+ ")*)";
+				+ ")";
 
 			var selector:Token = new Token(
 				SELECTOR, new RegExp(
@@ -985,12 +992,7 @@ package com.ffsys.css
 					"^("
 					+ RULESET_EXP
 					+ ")", "i" ) );
-			ruleset.name = NAME_PREFIX + "ruleset";			
-				
-			//HEXCOLOR			#000 | #000000
-			var hexcolor:Token = new Token(
-				HEXCOLOR, new RegExp( "^(" + HEXCOLOR_EXP + ")" + W_EXP ) );
-			hexcolor.name = NAME_PREFIX + "hexcolor";					
+			ruleset.name = NAME_PREFIX + "ruleset";					
 				
 			//**************************** NUMBER/UNIT TOKENS ****************************//			
 			
@@ -1049,122 +1051,122 @@ package com.ffsys.css
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
 			//byte order mark first
-			tokens.push( bom );
+			add( bom );
 			
 			//code style multiline comment - must be before the operators
-			tokens.push( comment );
+			add( comment );
 			
 			//match a uri function expression early
-			tokens.push( uri );			
+			add( uri );			
 			
 			//hexcolor before other hash variants
-			tokens.push( hexcolor );
+			add( hexcolor );
 			
 			//xml style comments
-			tokens.push( cdo );
-			tokens.push( cdc );
+			add( cdo );
+			add( cdc );
 			
 			//unicode range  - must match before {ident}
-			tokens.push( range );
+			add( range );
 			
 			//ruleset
-			//tokens.push( ruleset );
+			//add( ruleset );
 			
 			//selectors
-			tokens.push( selector );
-			tokens.push( simpleSelector );
+			add( selector );
+			add( simpleSelector );
 			
 			//whitespace token - match after the descendant combinator ' '
-			tokens.push( s );			
+			add( s );			
 			
 			//property/expr declaration
-			tokens.push( declaration );
+			add( declaration );
 			
 			//namespace
-			tokens.push( ns );					//	@namespace			
+			add( ns );					//	@namespace			
 			//namespace prefix
-			tokens.push( nsprefix );			//	nsprefix|tag
+			add( nsprefix );			//	nsprefix|tag
 			
 			//property is a priority match
-			tokens.push( property );
+			add( property );
 			
 			//operators need to take precedence
-			tokens.push( operator );			//	'/' | ','
-			tokens.push( unary );				//	'-' | '+'			
+			add( operator );			//	'/' | ','
+			add( unary );				//	'-' | '+'			
 			
 			//attribute match
-			tokens.push( attrib );
+			add( attrib );
 			
-			tokens.push( string );			
+			add( string );			
 			
 			//combinator after selectors
-			tokens.push( combinator );			//	'+' | '>'
+			add( combinator );			//	'+' | '>'
 			
 			//specific at rules before the generic at rule - before the element name match
-			tokens.push( charset );				//	@charset
-			tokens.push( css );					//	@import
-			tokens.push( page );				//	@page
-			tokens.push( media );				//	@media
-			tokens.push( fontface );			//	@font-face
-			tokens.push( at );					//	@unknown-rule					
+			add( charset );				//	@charset
+			add( css );					//	@import
+			add( page );				//	@page
+			add( media );				//	@media
+			add( fontface );			//	@font-face
+			add( at );					//	@unknown-rule					
 			
 			//pseudo class selector
-			tokens.push( pseudo );				//	:link
+			add( pseudo );				//	:link
 			
 			//ident based
-			tokens.push( clazz );				//	.class
+			add( clazz );				//	.class
 			
 			//element name						//	h1 etc.
-			tokens.push( element );
+			add( element );
 			
 			//match {baduri} before {ident}
-			tokens.push( badUri );		
+			add( badUri );		
 			
-			tokens.push( prio );				//	!important
+			add( prio );				//	!important
 			
-			tokens.push( hash );
+			add( hash );
 			
 			//numeric/unit values should be matched in this order
-			tokens.push( angle );
-			tokens.push( frequency );
-			tokens.push( length );
-			tokens.push( time );
-			tokens.push( ems );
-			tokens.push( exs );
-			tokens.push( dimension );
-			tokens.push( percent );
-			tokens.push( num );	
+			add( angle );
+			add( frequency );
+			add( length );
+			add( time );
+			add( ems );
+			add( exs );
+			add( dimension );
+			add( percent );
+			add( num );	
 			
 			//function expression: method()
-			tokens.push( method );
+			add( method );
 			
 			//includes operator ~=
-			tokens.push( includes );
+			add( includes );
 			
 			//dashmatch operator |=
-			tokens.push( dashmatch );
+			add( dashmatch );
 			
 			//prefixmatch operator ^=
-			tokens.push( prefixmatch );
+			add( prefixmatch );
 			
 			//suffixmatch operator $=
-			tokens.push( suffixmatch );
+			add( suffixmatch );
 			
 			//substringmatch operator *=
-			tokens.push( substringmatch );								
+			add( substringmatch );								
 
 			//generic name token before ident
-			tokens.push( name );
+			add( name );
 
-			tokens.push( ident );
+			add( ident );
 			
 			//match bad comments after good ones
-			tokens.push( badComment ); 
+			add( badComment ); 
 			
-			tokens.push( badString );
+			add( badString );
 			
 			//final catch all char
-			tokens.push( char );	
+			add( char );	
 		}
 		
 		/**
