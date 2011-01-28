@@ -117,12 +117,15 @@ package com.ffsys.dom
 		public var sample:String = <css>
 				<![CDATA[
 					@charset "utf-8";
-					@import "print.css";
+					@import "psdfsdfdsfsdfdrint.css";
+					@import 'print-quvdsdfdfsfsdfotes.css';
 					
 					@namespace 'http://example.com';
 					@namespace "http://example.com";
 					@namespace url( 'http://freeformsystems.com/fluid/css' );
-					@namespace fluid url( 'http://freeformsystems.com/fluid/css' );	
+					@namespace fluid url( 'http://freeformsystems.com/fluid/css' );
+					
+					@unknown-rule screen, flash-vector;
 					
 					fluid|RadioButton {
 						/* An inner comment for this empty ruleset */

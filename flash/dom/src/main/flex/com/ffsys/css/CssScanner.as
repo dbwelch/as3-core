@@ -24,7 +24,7 @@ package com.ffsys.css
 		/**
 		* 	The identifier for a BOM token.
 		*/
-		public static const BOM:int = 0;	
+		public static const BOM:int = 0;
 		
 		/**
 		* 	The identifier for an ident token.
@@ -39,7 +39,7 @@ package com.ffsys.css
 		/**
 		* 	The identifier for a string token.
 		*/
-		public static const STRING:int = 3;
+		public static const STRING:int = 3;		
 		
 		/**
 		* 	The identifier for a badstring token.
@@ -120,6 +120,11 @@ package com.ffsys.css
 		* 	The identifier for a substringmatch token.
 		*/
 		public static const SUBSTRINGMATCH:int = 19;
+		
+		/**
+		* 	The identifier for a name token.
+		*/
+		public static const NAME:int = 20;
 		
 		//GRAMMAR PRODUCT TOKENS
 		
@@ -406,16 +411,16 @@ package com.ffsys.css
 				+ "-" + String.fromCharCode( 0xFFFF ) + "]";				
 				
 			//num					[0-9]+|[0-9]*\.[0-9]+
-			const NUM_EXP:String = "([0-9]*\\.?[0-9]+)";
+			const NUM_EXP:String = "((?:[0-9]*\\.)?[0-9]+)";
 			
 			//nl					\n|\r\n|\r|\f
-			const NL_EXP:String = "\n|\r\n|\r|\f";
+			const NL_EXP:String = "(?:\n|\r\n|\r|\f)";
 			
 			//wc					[ \t\r\n\f]
 			const WC_EXP:String = "[ \t\r\n\f]";
 			
 			//w						{wc}*
-			const W_EXP:String = "(" + WC_EXP + "*)";
+			const W_EXP:String = "(?:" + WC_EXP + "*)";
 			
 			//unicode				'\' [0-9a-fA-F]{1,6} {wc}?
 			const UNICODE_EXP:String =
@@ -424,7 +429,7 @@ package com.ffsys.css
 			//escape				{unicode} | '\' [^\n\r\f0-9a-f] (2.1)
 			//escape				{unicode} | '\' [] (3)			
 			const ESCAPE_EXP:String =
-				UNICODE_EXP;// + "|\\\\[^\n\r\f0-9a-f]";			
+				"(?:" + UNICODE_EXP + "|\\\\[^\n\r\f0-9a-f]" + ")";
 
 				//UNICODE_EXP + "|\\\\[\\\\x0020-\\\\x007E\\\\x0080-\\\\xD7FF\\\\xE000-\\\\xFFFD]";
 			
@@ -464,16 +469,16 @@ package com.ffsys.css
 			
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
 			const STRING1_EXP:String =
-				"\"((?:[^\"\n\r\f]"
+				"(?:\")((?:[^\"\n\r\f]"
 				+ "|\\\\" + NL_EXP
 				+ "|"
-				+ ESCAPE_EXP + ")*)\"";
+				+ ESCAPE_EXP + ")*)(?:\")";
 			
 			//string2			\'([^\n\r\f\\']|\\{nl}|{escape})*\'
 			const STRING2_EXP:String =
-				"'((?:[^'\n\r\f]*"
+				"(?:')((?:[^'\n\r\f]"
 				+ "|\\\\" + NL_EXP
-				+ "*|" + ESCAPE_EXP + ")*)'";
+				+ "|" + ESCAPE_EXP + ")*)(?:')";
 			
 			/*
 			//string1			\"([^\n\r\f\\"]|\\{nl}|{escape})*\"
@@ -487,7 +492,7 @@ package com.ffsys.css
 			
 			//string			{string1}|{string2}
 			const STRING_EXP:String =
-				"(" + STRING1_EXP + ")|(" + STRING2_EXP + ")";
+				STRING1_EXP + "|" + STRING2_EXP;
 			
 			//badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
 			const BAD_STRING1_EXP:String =
@@ -505,13 +510,13 @@ package com.ffsys.css
 			const URI_EXP:String =
 				"url\\("			//open function call (quoted)
 				+ W_EXP
-				+ "(" + STRING_EXP + ")"
+				+ STRING_EXP
 				+ W_EXP
 				+ "\\)"				//close function call (quoted)
 				+ "|"
 				+ "url\\("			//open function call
 				+ W_EXP
-				+ "([!#$%&*-\\[\\]-~]|"
+				+ "(?:[!#$%&*-\\[\\]-~]|"
 				+ NONASCII_EXP + "|" + ESCAPE_EXP
 				+ ")*"
 				+ W_EXP
@@ -551,7 +556,7 @@ package com.ffsys.css
 			const ATKEYWORD_EXP:String = "@" + IDENT_EXP;
 			
 			//HASH				#{name}
-			const HASH_EXP:String = "#" + NAME_EXP;
+			const HASH_EXP:String = "(#)" + NAME_EXP;
 			
 			//DIMENSION			{num}{ident}
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
@@ -642,6 +647,11 @@ package com.ffsys.css
 			var ident:Token = new Token(
 				IDENT, new RegExp( "^(" + IDENT_EXP + ")", "i" ) );
 			ident.name = NAME_PREFIX + "ident";
+			
+			//NAME				{nmchar}+
+			var name:Token = new Token(
+				NAME, new RegExp( "^(" + NAME_EXP + ")", "i" ) );
+			name.name = NAME_PREFIX + "name";
 				
 			//ATKEYWORD			@{ident}
 			var at:Token = new Token(
@@ -769,18 +779,18 @@ package com.ffsys.css
 				
 			//NAMESPACE			@namespace
 			const NAMESPACE_EXP:String = 
-				AtRule.NAMESPACE_SYM
+				"(" + AtRule.NAMESPACE_SYM + ")"
 				+ W_EXP
 				+ "("
 				+ NAMESPACE_PREFIX_EXP
-				+ ")?"
 				+ W_EXP				
+				+ ")?"			
 				+ "("
-				+ "(" + URI_EXP + ")"
-				+ "|(" + STRING_EXP + ")"
+				+ "(?:" + URI_EXP + ")"
+				+ "|(?:" + STRING_EXP + ")"
 				+ ")"
 				+ W_EXP
-				+ "(;)";
+				+ "(?:;)";
 			var ns:Token = new Token(
 				NAMESPACE,
 				new RegExp( "^("
@@ -831,7 +841,7 @@ package com.ffsys.css
 			combinator.name = NAME_PREFIX + "combinator";					
 				
 			//UNARY-OPERATOR	'-' | '+'
-			const UNARY_OPERATOR_EXP:String = "(\\+|-)";
+			const UNARY_OPERATOR_EXP:String = "\\+|-";
 			var unary:Token = new Token(
 				UNARY_OPERATOR, new RegExp( "^(" + UNARY_OPERATOR_EXP + ")" + W_EXP + NUM_EXP ) );
 			unary.name = NAME_PREFIX + "unary";
@@ -883,7 +893,7 @@ package com.ffsys.css
 			//RULSESET		selector [ ',' S* selector ]*
 			const RULSESET_EXP:String =
 				SELECTOR_EXP
-				+ "(,"
+				+ "((?:,)"
 				+ W_EXP
 				+ SELECTOR_EXP
 				+ ")*";
@@ -910,9 +920,7 @@ package com.ffsys.css
 				+ IDENT_EXP					//wrap the attribute name in a group
 				+ ")"
 				+ W_EXP
-				+ "("
-				+ ATTRIB_OPERATOR			
-				+ ")"
+				+ ATTRIB_OPERATOR
 				+ W_EXP
 				+ "("
 				+ STRING_EXP
@@ -940,7 +948,7 @@ package com.ffsys.css
 			pseudo.name = NAME_PREFIX + "pseudo";
 			
 			//TODO
-			const TERM_EXP:String = "((" + UNARY_OPERATOR_EXP + ")?"
+			const TERM_EXP:String = "((?:" + UNARY_OPERATOR_EXP + ")?"
 				+ "("
 				+ StyleUnit.ANGLE_EXP + W_EXP
 				+ "|" + StyleUnit.FREQUENCY_EXP + W_EXP
@@ -1090,12 +1098,12 @@ package com.ffsys.css
 			tokens.push( combinator );			//	'+' | '>'
 			
 			//specific at rules before the generic at rule - before the element name match
-			tokens.push( charset );			//	@charset
-			tokens.push( css );				//	@import
-			tokens.push( page );			//	@page
-			tokens.push( media );			//	@media
-			tokens.push( fontface );		//	@font-face
-			tokens.push( at );				//	@unknown-rule					
+			tokens.push( charset );				//	@charset
+			tokens.push( css );					//	@import
+			tokens.push( page );				//	@page
+			tokens.push( media );				//	@media
+			tokens.push( fontface );			//	@font-face
+			tokens.push( at );					//	@unknown-rule					
 			
 			//pseudo class selector
 			tokens.push( pseudo );				//	:link
@@ -1109,10 +1117,9 @@ package com.ffsys.css
 			//match {baduri} before {ident}
 			tokens.push( badUri );		
 			
-			tokens.push( prio );			//	!important
-
-			tokens.push( ident );
-			tokens.push( hash );		
+			tokens.push( prio );				//	!important
+			
+			tokens.push( hash );
 			
 			//numeric/unit values should be matched in this order
 			tokens.push( angle );
@@ -1123,12 +1130,7 @@ package com.ffsys.css
 			tokens.push( exs );
 			tokens.push( dimension );
 			tokens.push( percent );
-			tokens.push( num );
-			
-			//match bad comments after good ones
-			tokens.push( badComment ); 
-			
-			tokens.push( badString );
+			tokens.push( num );	
 			
 			//function expression: method()
 			tokens.push( method );
@@ -1146,7 +1148,17 @@ package com.ffsys.css
 			tokens.push( suffixmatch );
 			
 			//substringmatch operator *=
-			tokens.push( substringmatch );
+			tokens.push( substringmatch );								
+
+			//generic name token before ident
+			tokens.push( name );
+
+			tokens.push( ident );
+			
+			//match bad comments after good ones
+			tokens.push( badComment ); 
+			
+			tokens.push( badString );
 			
 			//final catch all char
 			tokens.push( char );	
@@ -1180,7 +1192,7 @@ package com.ffsys.css
 		*/
 		override protected function endToken( token:Token ):void
 		{
-			trace("[CSS END]", token + ' | ' + token.results );
+			trace("[CSS END]", token );
 		}
 	}
 }

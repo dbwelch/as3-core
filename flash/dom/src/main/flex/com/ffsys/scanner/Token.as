@@ -13,7 +13,7 @@ package com.ffsys.scanner
 	*	@author Mischa Williamson
 	*	@since  26.01.2011
 	*/
-	public class Token extends Object
+	dynamic public class Token extends Array
 	{	
 		/**
 		* 	A regular expression or string indicating
@@ -38,7 +38,6 @@ package com.ffsys.scanner
 		*/
 		public var matched:String;
 		
-		private var _results:Array;
 		private var _capture:Boolean = true;
 		
 		/**
@@ -70,44 +69,6 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	Determines whether this token
-		* 	is an entire match.
-		*/
-		public function isMatch():Boolean
-		{
-			return match != null;
-		}
-		
-		/**
-		* 	Any resulting regular expression
-		* 	matches from the last time the
-		* 	<code>compare</code> method was invoked.
-		*/
-		public function get results():Array
-		{
-			return _results;
-		}
-		
-		public function set results( value:Array ):void
-		{
-			_results = value;
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function filter( item:*, index:int, array:Array ):Boolean
-		{
-			if( item == null
-				|| item.match( /^\s*$/ )
-				|| array.lastIndexOf( item ) != index )
-			{
-				return false;
-			}
-			return true;
-		}
-		
-		/**
 		* 	Performs comparison against a candidate string.
 		* 
 		* 	@param candidate A candidate string.
@@ -130,14 +91,21 @@ package com.ffsys.scanner
 				}else if( match is RegExp )
 				{
 					var tmp:Array = re.exec( candidate );
+					
+					//keep track of any match index
+					this.index = tmp.index;
+					
 					if( tmp[ 1 ] is String )
 					{
 						matched = tmp[ 1 ];
 					}
+										
 					//omit the first entry which is the complete match
 					//so that we only maintain parenthetical groups in matched results
-					_results = tmp.slice( 1 );
-					_results = _results.filter( filter, null );
+					for( var i:int = 1;i < tmp.length;i++ )
+					{
+						this[ i - 1 ] = tmp[ i ];
+					}
 				}
 				
 				return matches == true || matched.length > 0;
@@ -163,7 +131,7 @@ package com.ffsys.scanner
 				}
 				
 				var tkn:Token = null;
-				if( isMatch() )
+				if( match != null )
 				{
 					if( re is RegExp
 						&& re.test( candidate ) )
@@ -200,7 +168,12 @@ package com.ffsys.scanner
 			copy.matched = matched;
 			copy.name = name;
 			copy.capture = capture;
-			copy.results = results.slice();
+			
+			//copy dynamic properties
+			for( var z:String in this )
+			{
+				copy[ z ] = this[ z ];
+			}
 			return copy;
 		}
 		
@@ -213,7 +186,8 @@ package com.ffsys.scanner
 		{
 			return "[object Token]["
 				+ ( name != null ? name : id ) + "] "
-				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched );
-		}
+				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched )
+				+ ( length > 0 ? ( " | " + join( "," ) ) : "" );
+		}		
 	}
 }
