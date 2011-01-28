@@ -196,7 +196,7 @@ package com.ffsys.css
 		/**
 		* 	The identifier for a ruleset token.
 		*/
-		public static const RULSESET:int = 113;
+		public static const RULESET:int = 113;
 		
 		/**
 		* 	The identifier for a selector token.
@@ -441,7 +441,6 @@ package com.ffsys.css
 			const NMCHAR_EXP:String =
 				"[_a-zA-Z0-9\\-]" ;//+ "|" + NONASCII_EXP;//+ "|" + NONASCII_EXP + "|" + ESCAPE_EXP;
 				
-
 			//name					{nmchar}+
 			const NAME_EXP:String =
 				"(?:" + NMCHAR_EXP + ")+";
@@ -829,17 +828,7 @@ package com.ffsys.css
 				OPERATOR, new RegExp( "^("
 					+ OPERATOR_EXP + ")" + W_EXP ) );
 			operator.name = NAME_PREFIX + "operator";					
-								
-			//COMBINATOR		'+' | '>' | '~'
-			const COMBINATOR_EXP:String =
-				"(\\" + Selector.ADJACENT_SIBLING
-				+ "|" + Selector.CHILD
-				+ "|" + Selector.GENERAL_SIBLING + ")";
-			var combinator:Token = new Token(
-				COMBINATOR, new RegExp( "^("
-					+ COMBINATOR_EXP
-					+ ")" + W_EXP ) );
-			combinator.name = NAME_PREFIX + "combinator";					
+					
 				
 			//UNARY-OPERATOR	'-' | '+'
 			const UNARY_OPERATOR_EXP:String = "\\+|-";
@@ -848,7 +837,7 @@ package com.ffsys.css
 			unary.name = NAME_PREFIX + "unary";
 				
 			//CLASS				'.' IDENT
-			const CLASS_EXP:String = "\\." + IDENT_EXP;
+			const CLASS_EXP:String = "(?:\\." + IDENT_EXP + ")";
 			var clazz:Token = new Token(
 				CLASS, new RegExp( "^(" + CLASS_EXP + ")" ) );
 			clazz.name = NAME_PREFIX + "class";		
@@ -857,53 +846,7 @@ package com.ffsys.css
 			const ELEMENT_NAME_EXP:String = "(?:\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + ")";
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^(" + ELEMENT_NAME_EXP + ")" ) );
-			element.name = NAME_PREFIX + "element-name";
-			
-			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
-			const SIMPLE_SELECTOR_EXP:String =
-				"(" + ELEMENT_NAME_EXP + ")?"
-				+ "("
-				+ ATTRIB_EXP
-				+ "|" + PSEUDO_EXP
-				+ "|" + CLASS_EXP				
-				+ "|" + HASH_EXP
-				+ ")";
-				
-			var simpleSelector:Token = new Token(
-				SIMPLE_SELECTOR, new RegExp(
-					"^("
-					+ SIMPLE_SELECTOR_EXP
-					+ ")", "i" ) );
-			simpleSelector.name = NAME_PREFIX + "simple-selector";	
-			
-			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
-			const SELECTOR_EXP:String = 
-				SIMPLE_SELECTOR_EXP
-				+ "("
-				+ COMBINATOR_EXP
-				+ SIMPLE_SELECTOR_EXP
-				+ ")*";
-				
-			var selector:Token = new Token(
-				SELECTOR, new RegExp(
-					"^("
-					+ SELECTOR_EXP
-					+ ")", "i" ) );
-			selector.name = NAME_PREFIX + "selector";
-			
-			//RULSESET		selector [ ',' S* selector ]*
-			const RULSESET_EXP:String =
-				SELECTOR_EXP
-				+ "((?:,)"
-				+ W_EXP
-				+ SELECTOR_EXP
-				+ ")*";
-			var ruleset:Token = new Token(
-				RULSESET, new RegExp(
-					"^("
-					+ RULSESET_EXP
-					+ ")", "i" ) );
-			ruleset.name = NAME_PREFIX + "ruleset";								
+			element.name = NAME_PREFIX + "element-name";						
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
@@ -983,6 +926,71 @@ package com.ffsys.css
 					+ W_EXP + TERM_EXP
 					+ ")", "i" ) );
 			declaration.name = NAME_PREFIX + "declaration";
+
+			//COMBINATOR		'+' | '>' | '~' | ' '
+			const COMBINATOR_EXP:String =
+				"[\\"
+					+ Selector.ADJACENT_SIBLING
+					+ Selector.CHILD
+					+ Selector.GENERAL_SIBLING
+					+ Selector.DESCENDANT
+				+ "]";
+			var combinator:Token = new Token(
+				COMBINATOR, new RegExp( "^("
+					+ COMBINATOR_EXP
+					+ ")" ) );
+			combinator.name = NAME_PREFIX + "combinator";			
+			
+			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
+			const SIMPLE_SELECTOR_EXP:String =
+				"(?:" + ELEMENT_NAME_EXP + ")?"
+				+ "(?:"
+				+ ATTRIB_EXP
+				+ "|" + PSEUDO_EXP
+				+ "|" + CLASS_EXP				
+				+ "|" + HASH_EXP
+				+ ")";
+				
+			var simpleSelector:Token = new Token(
+				SIMPLE_SELECTOR, new RegExp(
+					"^("
+					+ SIMPLE_SELECTOR_EXP
+					+ ")", "i" ) );
+			simpleSelector.name = NAME_PREFIX + "simple-selector";	
+			
+			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
+			const SELECTOR_EXP:String = 
+				SIMPLE_SELECTOR_EXP
+				+ W_EXP
+				+ "(?:"
+				+ W_EXP
+				+ COMBINATOR_EXP
+				+ W_EXP
+				+ SIMPLE_SELECTOR_EXP
+				+ ")*";
+				
+			trace("CssScanner::call()", SELECTOR_EXP );
+				
+			var selector:Token = new Token(
+				SELECTOR, new RegExp(
+					"^("
+					+ SELECTOR_EXP
+					+ ")", "i" ) );
+			selector.name = NAME_PREFIX + "selector";
+			
+			//RULESET		selector [ ',' S* selector ]*
+			const RULESET_EXP:String =
+				SELECTOR_EXP
+				+ "((?:,)"
+				+ W_EXP
+				+ SELECTOR_EXP
+				+ ")*";
+			var ruleset:Token = new Token(
+				RULESET, new RegExp(
+					"^("
+					+ RULESET_EXP
+					+ ")", "i" ) );
+			ruleset.name = NAME_PREFIX + "ruleset";			
 				
 			//HEXCOLOR			#000 | #000000
 			var hexcolor:Token = new Token(
@@ -1048,9 +1056,6 @@ package com.ffsys.css
 			//byte order mark first
 			tokens.push( bom );
 			
-			//whitespace token - match early as it's such a common token
-			tokens.push( s );
-			
 			//code style multiline comment - must be before the operators
 			tokens.push( comment );
 			
@@ -1065,25 +1070,28 @@ package com.ffsys.css
 			tokens.push( cdc );
 			
 			//unicode range  - must match before {ident}
-			tokens.push( range );			
+			tokens.push( range );
+			
+			//ruleset
+			//tokens.push( ruleset );
+			
+			//selectors
+			tokens.push( selector );
+			tokens.push( simpleSelector );
+			
+			//whitespace token - match after the descendant combinator ' '
+			tokens.push( s );			
 			
 			//property/expr declaration
 			tokens.push( declaration );
 			
 			//namespace
-			tokens.push( ns );				//	@namespace			
+			tokens.push( ns );					//	@namespace			
 			//namespace prefix
-			tokens.push( nsprefix );
+			tokens.push( nsprefix );			//	nsprefix|tag
 			
 			//property is a priority match
 			tokens.push( property );
-			
-			//ruleset
-			tokens.push( ruleset );
-			
-			//selectors
-			tokens.push( selector );
-			tokens.push( simpleSelector );
 			
 			//operators need to take precedence
 			tokens.push( operator );			//	'/' | ','

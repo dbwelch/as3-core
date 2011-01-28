@@ -211,9 +211,14 @@ package com.ffsys.dom
 					}
 					
 					/* COMBINATORS */
+					ancestor descendant{};
 					parent>child{};
 					h1 child+sibling{};
 					general~sibling{};
+					
+					parent > child{};
+					h1 child + sibling{};
+					general ~ sibling{};					
 					
 					/**********
 					*
