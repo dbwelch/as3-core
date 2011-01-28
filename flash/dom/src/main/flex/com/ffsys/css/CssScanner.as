@@ -929,7 +929,7 @@ package com.ffsys.css
 
 			//COMBINATOR		'+' | '>' | '~' | ' '
 			const COMBINATOR_EXP:String =
-				"[\\"
+				"["
 					+ Selector.ADJACENT_SIBLING
 					+ Selector.CHILD
 					+ Selector.GENERAL_SIBLING
@@ -953,23 +953,21 @@ package com.ffsys.css
 				
 			var simpleSelector:Token = new Token(
 				SIMPLE_SELECTOR, new RegExp(
-					"^("
-					+ SIMPLE_SELECTOR_EXP
-					+ ")", "i" ) );
+					"^(" + SIMPLE_SELECTOR_EXP + ")", "i" ) );
 			simpleSelector.name = NAME_PREFIX + "simple-selector";	
 			
 			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
 			const SELECTOR_EXP:String = 
-				SIMPLE_SELECTOR_EXP
+				"(" + SIMPLE_SELECTOR_EXP + ")"
 				+ W_EXP
 				+ "(?:"
 				+ W_EXP
-				+ COMBINATOR_EXP
+				+ "(" + COMBINATOR_EXP + "){1}"
 				+ W_EXP
-				+ SIMPLE_SELECTOR_EXP
+				+ "(" + SIMPLE_SELECTOR_EXP + "){1}"
 				+ ")*";
 				
-			trace("CssScanner::call()", SELECTOR_EXP );
+
 				
 			var selector:Token = new Token(
 				SELECTOR, new RegExp(
@@ -977,6 +975,8 @@ package com.ffsys.css
 					+ SELECTOR_EXP
 					+ ")", "i" ) );
 			selector.name = NAME_PREFIX + "selector";
+			
+			trace("CssScanner::call()", selector.match );			
 			
 			//RULESET		selector [ ',' S* selector ]*
 			const RULESET_EXP:String =
