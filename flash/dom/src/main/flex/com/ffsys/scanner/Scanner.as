@@ -375,7 +375,7 @@ package com.ffsys.scanner
 				var c:String = null;
 				var tkn:Token = null;
 				
-				tkn = matchTokens( source );
+				tkn = exec( source );
 
 				//set current tokenif none exists
 				if( ( tkn != null && _current == null ) )
@@ -410,16 +410,40 @@ package com.ffsys.scanner
 		/**
 		* 	@private
 		*/
-		protected function matchTokens(
-			candidate:String ):Token
+		protected function exec(
+			candidate:String,
+			token:Token = null,
+			backwards:Boolean = false,
+			start:int = -1,
+			list:Vector.<Token> = null ):Token
 		{
 			if( candidate != null )
 			{
+				if( list == null )
+				{
+					list = this.tokens;
+				}
+				
+				//default start index
+				var i:int = 0;
+				var index:int = -1;
+				
+				if( token != null )
+				{
+					index = this.index( token, backwards, start, list );
+					if( index > 0 && index < ( length -1 ) )
+					{
+						i = backwards ? index - 1 : index + 1;
+					}else{
+						i = index;
+					}
+				}
+				
 				//trace("Scanner::testTokens()", current );
 				var tkn:Token = null;
-				for( var i:int = 0;i < tokens.length;i++ )
+				for( ;i < list.length;i++ )
 				{
-					tkn = tokens[ i ];
+					tkn = list[ i ];
 					if( compare( tkn, candidate ) )
 					{
 						return handleMatchedToken( tkn );
@@ -447,6 +471,10 @@ package com.ffsys.scanner
 				if( _current != null
 					&& _current.capture )
 				{
+					if( _current.expandable )
+					{
+						_current.expand( this );
+					}
 					endToken( _current );
 				}				
 				var output:Token = tkn.clone();

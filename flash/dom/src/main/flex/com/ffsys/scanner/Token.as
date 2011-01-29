@@ -20,6 +20,7 @@ package com.ffsys.scanner
 		private var _once:Boolean = false;
 		private var _discardable:Boolean = false;
 		private var _expandable:Boolean = false;
+		private var _filters:Boolean = true;
 		
 		/**
 		* 	A regular expression or string indicating
@@ -71,6 +72,23 @@ package com.ffsys.scanner
 		public function set children( value:Vector.<Token> ):void
 		{
 			_children = value;
+		}
+		
+		/**
+		* 	Clears all matches stored by this token.
+		*/
+		public function clear():void
+		{
+			if( length > 0 )
+			{
+				var i:int = this.length - 1;
+				while( length > 0 )
+				{
+					splice( i, 1 );
+					i--;
+				}
+			}
+			matched = null;
 		}
 		
 		/**
@@ -169,6 +187,45 @@ package com.ffsys.scanner
 		}
 		
 		/**
+		* 	Performs expansion of previously matched
+		* 	groups.
+		* 
+		* 	@param scanner The scanner that created
+		* 	this token match.
+		*/
+		public function expand( scanner:Scanner ):void
+		{
+			//find the index we matched at
+			var index:int = scanner.index( this );
+			
+			//omit the first complete match
+			var tmp:Array = slice( 1 );
+			
+			//
+			trace("Token::expand()",
+				this, scanner, index );
+		}
+		
+		/**
+		* 	Determines whether this token filters invalid
+		* 	matches before assigning matches to this token.
+		* 
+		* 	The default value is <code>true</code>.
+		* 
+		* 	An invalid match is considered to be a duplicate,
+		* 	null, undefined or an empty string.
+		*/
+		public function get filters():Boolean
+		{
+			return _filters;
+		}
+		
+		public function set filters( value:Boolean ):void
+		{
+			_filters = value;
+		}
+		
+		/**
 		* 	Filters the matched results to omit
 		* 	duplicates, empty strings and any
 		* 	null entries.
@@ -177,14 +234,23 @@ package com.ffsys.scanner
 		* 	filtered results but retrieves a filtered
 		* 	copy of this token's matches on
 		* 	<em>every</em> invocation.
+		* 
+		* 	@param target A specific array to filter.
+		* 
+		* 	@return A filtered version of the array.
 		*/
-		public function get filtered():Array
+		public function filtered( target:Array = null ):Array
 		{
-			if( length == 0 )
+			if( target == null )
 			{
-				return this;
+				target = this;
 			}
-			return this.filter( doFilter );
+			
+			if( target.length == 0 )
+			{
+				return target;
+			}
+			return target.filter( doFilter );
 		}
 		
 		/**
@@ -192,9 +258,11 @@ package com.ffsys.scanner
 		*/
 		private function doFilter( item:*, index:int, array:Array ):Boolean
 		{
-			if( item == null
+			var i:int = -1;
+			if( item == undefined
+				|| item == null
 				|| item == ""
-				|| array.lastIndexOf( item ) != index )
+				|| ( ( i = array.lastIndexOf( item ) ) > -1 ) && i != index )
 			{
 				return false;
 			}
@@ -223,7 +291,13 @@ package com.ffsys.scanner
 					matched = ( match as String );
 				}else if( match is RegExp )
 				{
+					//
+					clear();
+					
 					var tmp:Array = re.exec( candidate );
+					
+					//clean the input candidate
+					delete tmp.input;
 					
 					//keep track of any match index
 					this.index = tmp.index;
@@ -235,12 +309,21 @@ package com.ffsys.scanner
 										
 					//omit the first entry which is the complete match
 					//so that we only maintain parenthetical groups in matched results
-					for( var i:int = 1;i < tmp.length;i++ )
+					tmp = tmp.slice( 1 );
+					
+					var c:int = -1;
+					for( var i:int = 0;i < tmp.length;i++ )
 					{
-						this[ i - 1 ] = tmp[ i ];
+						//automatically filter after matching
+						if( filters && doFilter( tmp[ i ], i, tmp ) )
+						{
+							this[ ++c ] = tmp[ i ];
+						}else if( !filters )
+						{
+							this[ ++c ] = tmp[ i ];							
+						}
 					}
 				}
-				
 				return matches == true || matched.length > 0;
 			}
 			return matches;
@@ -277,7 +360,6 @@ package com.ffsys.scanner
 					}
 				}
 				
-				//trace("Token::test()", this, candidate );
 			}
 			return false;
 		}
@@ -304,13 +386,16 @@ package com.ffsys.scanner
 			copy.once = once;
 			copy.discardable = discardable;
 			copy.expandable = expandable;
-			copy.children = children;
+			copy.filters = filters;
+			copy.children = children.slice();
 			
-			//copy dynamic properties
-			for( var z:String in this )
+			//TODO: copy dynamic properties
+			
+			for( var i:int = 0;i < length;i++ )
 			{
-				copy[ z ] = this[ z ];
+				copy[ i ] = this[ i ];
 			}
+			
 			return copy;
 		}
 		
@@ -321,11 +406,10 @@ package com.ffsys.scanner
 		*/
 		public function toString():String
 		{
-			var res:Array = this.filtered;	//point to 'this' to view unfiltered matches
 			return "[object Token]["
 				+ ( name != null ? name : id ) + "] "
 				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched )
-				+ ( res.length > 0 ? ( " | " + res.join( "," ) ) : "" );
+				+ ( length > 0 ? ( " | " + join( "," ) ) : "" );
 		}		
 	}
 }

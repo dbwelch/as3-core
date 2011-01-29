@@ -774,6 +774,7 @@ package com.ffsys.css
 				CHARSET,
 				new RegExp( "^" + CHARSET_EXP ) );
 			charset.once = true;
+			charset.expandable = true;
 			charset.name = NAME_PREFIX + "charset";
 			
 			//IMPORT			@import
