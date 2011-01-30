@@ -15,7 +15,10 @@ package com.ffsys.scanner
 	*/
 	dynamic public class Token extends Array
 	{	
+		private var _scanner:Scanner;
+		
 		private var _children:Vector.<Token>;
+		private var _groups:Object;
 		private var _capture:Boolean = true;
 		private var _once:Boolean = false;
 		private var _discardable:Boolean = false;
@@ -58,6 +61,22 @@ package com.ffsys.scanner
 		}
 		
 		/**
+		* 	The scanner this token belongs to.
+		*/
+		public function get scanner():Scanner
+		{
+			return _scanner;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setScanner( scanner:Scanner ):void
+		{
+			_scanner = scanner;
+		}
+		
+		/**
 		* 	Child tokens belonging to this token.
 		*/
 		public function get children():Vector.<Token>
@@ -72,6 +91,24 @@ package com.ffsys.scanner
 		public function set children( value:Vector.<Token> ):void
 		{
 			_children = value;
+		}
+		
+		/**
+		* 	A collection of token matches that represent
+		* 	nested named groups for this token.
+		*/
+		public function get groups():Object
+		{
+			if( _groups == null )
+			{
+				_groups = new Object();
+			}
+			return _groups;
+		}
+		
+		public function set groups( value:Object ):void
+		{
+			_groups = value;
 		}
 		
 		/**
@@ -196,14 +233,42 @@ package com.ffsys.scanner
 		public function expand( scanner:Scanner ):void
 		{
 			//find the index we matched at
-			var index:int = scanner.index( this );
-			
-			//omit the first complete match
-			var tmp:Array = slice( 1 );
+			//var index:int = scanner.index( this );
 			
 			//
+			
+			/*
 			trace("Token::expand()",
-				this, scanner, index );
+				this, scanner );			
+			*/
+			
+			//omit the first match as that was this token's
+			//complete match
+			var tmp:Array = slice( 1 );
+			
+			var m:String = null;	//the matched string
+			var tkn:Token = null;	//any token located from a scan on a match
+			
+			for( var i:int = 0;i < tmp.length;i++ )
+			{
+				m = tmp[ i ] as String;
+					
+				//trace("Token::expand()", "[COMPARING]", m );				
+				
+				if( m != null )
+				{
+					tkn = scanner.exec( m, this );				
+					
+					if( tkn != null )
+					{
+						//trace("Token::expand()", "[FOUND EXPANSION MATCH]", tkn, m );
+						children.push( tkn.clone() );
+						continue;
+					}
+				}
+			}
+			
+			trace("Token::expand()", "[EXPANDED]", children );
 		}
 		
 		/**
@@ -269,6 +334,28 @@ package com.ffsys.scanner
 			return true;
 		}
 		
+		public function equals( tkn:Token ):Boolean
+		{
+			return ( tkn != null && ( tkn.id == this.id || tkn.name == this.name ) );
+		}
+		
+		public function index( tokens:Vector.<Token> ):int
+		{
+			if( tokens != null )
+			{
+				var tkn:Token = null;
+				for( var i:int = 0;i < tokens.length;i++ )
+				{
+					tkn = tokens[ i ];
+					if( tkn.equals( this ) )
+					{
+						return i;
+					}
+				}
+			}
+			return -1;
+		}
+		
 		/**
 		* 	Performs comparison against a candidate string.
 		* 
@@ -296,15 +383,87 @@ package com.ffsys.scanner
 					
 					var tmp:Array = re.exec( candidate );
 					
+					//keep track of any match index
+					//this.index = tmp.index;
+					
+					
 					//clean the input candidate
 					delete tmp.input;
-					
-					//keep track of any match index
-					this.index = tmp.index;
+					delete tmp.index;					
 					
 					if( tmp[ 1 ] is String )
 					{
 						matched = tmp[ 1 ];
+					}
+					
+					var z:String = null;
+					var m:String = null;
+					var i:int = 0;
+					for( z in tmp )
+					{
+						m = tmp[ z ] as String;
+						
+						var tkns:Vector.<Token> = null;
+						var tkn:Token = null;
+						
+						//trace("Token::compare()", z, m );
+						
+						if( m
+							&& isNaN( Number( z ) )
+						 	&& z != name )
+						{
+							//try to find a match token that
+							//corresponds to the name of the capturing group
+							tkns = scanner.filter( z );
+							
+							if( tkns.length > 0 )
+							{
+								tkn = tkns[ 0 ];
+								
+								if( tkn != null )
+								{
+									tkn = tkn.clone();
+									tkn.matched = tmp[ z ];
+									
+									/*
+									trace("Token::compare()", "[FOUND NAMED GROUP]",
+										z, tmp[ z ], this.name, this.scanner, tkn );
+									*/
+										
+									//we need to know the group index
+									//so that named capturing groups
+									//can create children that are in the
+									//order that the named groups were matched
+									for( i = 0;i < tmp.length;i++ )
+									{
+										if( tmp[ i ] == m )
+										{
+											//trace("Token::compare()",  "[FOUND NAMED GROUP MATCH INDEX]", z, m, i );
+											//give the token a reference to it's group index match
+											tkn.groupIndex = i;
+											break;
+										}
+									}
+									
+									groups[ z ] = tkn;
+									children.push( tkn );									
+								}
+							}
+						}
+					}
+					
+					
+					
+					//post-process the groups to ensure the children
+					//order matches the order of the groups					
+					if( children.length > 0 )
+					{
+						//trace("Token::compare() [BEFORE SORT]", children );
+						children = children.sort(
+							orderByGroupIndex
+						);
+					
+						trace("Token::compare() [AFTER SORT]", children );
 					}
 										
 					//omit the first entry which is the complete match
@@ -312,7 +471,7 @@ package com.ffsys.scanner
 					tmp = tmp.slice( 1 );
 					
 					var c:int = -1;
-					for( var i:int = 0;i < tmp.length;i++ )
+					for( i = 0;i < tmp.length;i++ )
 					{
 						//automatically filter after matching
 						if( filters && doFilter( tmp[ i ], i, tmp ) )
@@ -327,6 +486,18 @@ package com.ffsys.scanner
 				return matches == true || matched.length > 0;
 			}
 			return matches;
+		}
+		
+		private function orderByGroupIndex( a:Token, b:Token ):Number
+		{
+			if( a.groupIndex < b.groupIndex )
+			{
+				return -1;
+			}else if( a.groupIndex == b.groupIndex )
+			{
+				return 0;
+			}
+			return 1;
 		}
 		
 		/**
@@ -388,6 +559,8 @@ package com.ffsys.scanner
 			copy.expandable = expandable;
 			copy.filters = filters;
 			copy.children = children.slice();
+			
+			copy.setScanner( this.scanner );
 			
 			//TODO: copy dynamic properties
 			

@@ -19,7 +19,7 @@ package com.ffsys.css
 		/**
 		* 	A prefix used when building token names.
 		*/
-		public static const NAME_PREFIX:String = ":";
+		public static const NAME_PREFIX:String = "";
 		
 		/**
 		* 	The identifier for a BOM token.
@@ -125,6 +125,11 @@ package com.ffsys.css
 		* 	The identifier for a name token.
 		*/
 		public static const NAME:int = 20;
+		
+		/**
+		* 	The identifier for a block comment token.
+		*/
+		public static const BLOCK_COMMENT:int = 21;
 		
 		//GRAMMAR PRODUCT TOKENS
 		
@@ -598,12 +603,6 @@ package com.ffsys.css
 			
 			//FUNCTION			{ident}\(
 			const FUNCTION_EXP:String = IDENT_EXP + "\\(";
-			
-			//CDO				<!--
-			const CDO_EXP:String = "<!--";
-			
-			//CDC				-->
-			const CDC_EXP:String = "-->";
 
 			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			const COMMENT_EXP:String = "(?P<comment>/\\*[^*]*\\*+([^/*][^*]*\\*+)*/)";
@@ -688,17 +687,28 @@ package com.ffsys.css
 			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			var range:Token = new Token( UNICODE_RANGE,
 				new RegExp( "^(" + UNICODE_RANGE_EXP + ")", "i" ) );
-			range.name = NAME_PREFIX + "unicode-range";				
+			range.name = NAME_PREFIX + "unicoderange";				
 			
 			//CDO				<!--
+			const CDO_EXP:String = "(?P<cdo><!--)";			
 			var cdo:Token = new Token(
-				CDO, new RegExp( "^(" + CDO_EXP + ")" ) );
-			cdo.name = NAME_PREFIX + "cdo";				
+				CDO, new RegExp( "^" + CDO_EXP ) );
+			cdo.name = NAME_PREFIX + "cdo";			
 			
 			//CDC				-->
+			const CDC_EXP:String = "(?P<cdc>-->)";			
 			var cdc:Token = new Token(
-				CDC, new RegExp( "^(" + CDC_EXP + ")" ) );
-			cdc.name = NAME_PREFIX + "cdc";				
+				CDC, new RegExp( "^" + CDC_EXP ) );
+			cdc.name = NAME_PREFIX + "cdc";
+			
+			//BLOCK-COMMENT		'<!--' {commentdata} '-->'
+			const BLOCK_COMMENT_EXP:String =
+				"(?P<blockcomment>"
+					+ CDO_EXP + "(?P<commentdata>.*)" + CDC_EXP
+				+ ")";
+			var blockcomment:Token = new Token(
+				BLOCK_COMMENT, new RegExp( "^" + BLOCK_COMMENT_EXP ) );
+			blockcomment.name = NAME_PREFIX + "blockcomment";
 
 			//S					[ \t\r\n\f]+
 			var s:Token = new Token(
@@ -825,7 +835,7 @@ package com.ffsys.css
 			var fontface:Token = new Token(
 				FONT_FACE,
 				new RegExp( "^(" + AtRule.FONT_FACE_SYM + ")" ) );
-			fontface.name = NAME_PREFIX + "font-face";
+			fontface.name = NAME_PREFIX + "fontface";
 				
 			//PRIO				!important
 			var prio:Token = new Token(
@@ -855,7 +865,7 @@ package com.ffsys.css
 			const ELEMENT_NAME_EXP:String = "(?P<elementname>(?:\\" + Selector.UNIVERSAL + "|" + IDENT_EXP + "))";
 			var element:Token = new Token(
 				ELEMENT_NAME, new RegExp( "^" + ELEMENT_NAME_EXP ) );
-			element.name = NAME_PREFIX + "element-name";
+			element.name = NAME_PREFIX + "elementname";
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
@@ -961,7 +971,7 @@ package com.ffsys.css
 			var simpleSelector:Token = new Token(
 				SIMPLE_SELECTOR, new RegExp(
 					"^" + SIMPLE_SELECTOR_EXP, "i" ) );
-			simpleSelector.name = NAME_PREFIX + "simple-selector";	
+			simpleSelector.name = NAME_PREFIX + "simpleselector";	
 			
 			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
 			const SELECTOR_EXP:String = 
@@ -1065,6 +1075,7 @@ package com.ffsys.css
 			add( hexcolor );
 			
 			//xml style comments
+			add( blockcomment );
 			add( cdo );
 			add( cdc );
 			

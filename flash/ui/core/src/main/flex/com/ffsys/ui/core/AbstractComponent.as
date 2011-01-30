@@ -587,7 +587,9 @@ package com.ffsys.ui.core
 				
 				//update styles before deciding whether
 				//to defer dimensions to this component
-				graphic.applyStyles();
+				
+				//TODO: reinstate?
+				//graphic.applyStyles();
 				
 				//trace("AbstractComponent::afterChildAdded() AFTER APPLYING STYLES: ", graphic.preferredWidth, graphic.preferredHeight );				
 				

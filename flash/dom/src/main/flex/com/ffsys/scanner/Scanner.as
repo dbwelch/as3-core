@@ -225,7 +225,9 @@ package com.ffsys.scanner
 		*/
 		public function filter( filter:* ):Vector.<Token>
 		{
+			var output:Vector.<Token> = new Vector.<Token>();
 			if( filter is int
+				|| filter is String
 				|| filter is Vector.<int>
 				|| filter is Token
 				|| filter is Vector.<Token> )
@@ -233,6 +235,20 @@ package com.ffsys.scanner
 				var i:int = 0;
 				var tkn:Token = null;
 				var ids:Vector.<int> = new Vector.<int>();
+				
+				//find the numeric id from a name filter
+				if( filter is String )
+				{
+					for( i = 0;i < tokens.length;i++ )
+					{
+						tkn = tokens[ i ];
+						if( tkn.name == ( filter as String ) )
+						{
+							ids.push( tkn.id );
+							break;
+						}
+					}
+				}				
 				
 				//switch token for int
 				if( filter is Token )
@@ -259,13 +275,24 @@ package com.ffsys.scanner
 					ids = filter as Vector.<int>;
 				}
 				
+				var k:int = 0;
+				var id:int = -1;
+				
 				//match on filters ids
 				for( i = 0;i < ids.length;i++ )
 				{
-					//
-				}				
+					id = ids[ i ];
+					for( k = 0;k < tokens.length;k++ )
+					{
+						tkn = tokens[ k ];
+						if( tkn.id == id )
+						{
+							output.push( tkn );
+						}
+					}
+				}
 			}
-			return null;
+			return output;
 		}
 		
 		/**
@@ -359,6 +386,7 @@ package com.ffsys.scanner
 		{
 			if( token != null )
 			{
+				token.setScanner( this );
 				tokens.push( token );
 			}
 			return false;
@@ -410,7 +438,7 @@ package com.ffsys.scanner
 		/**
 		* 	@private
 		*/
-		protected function exec(
+		public function exec(
 			candidate:String,
 			token:Token = null,
 			backwards:Boolean = false,
@@ -425,29 +453,40 @@ package com.ffsys.scanner
 				}
 				
 				//default start index
-				var i:int = 0;
-				var index:int = -1;
+				var i:int = !backwards ? 0 : list.length - 1;
 				
 				if( token != null )
 				{
-					index = this.index( token, backwards, start, list );
-					if( index > 0 && index < ( length -1 ) )
-					{
-						i = backwards ? index - 1 : index + 1;
-					}else{
-						i = index;
-					}
+					//trace("Scanner::exec()", tokens.length, token, i );
 				}
 				
-				//trace("Scanner::testTokens()", current );
 				var tkn:Token = null;
-				for( ;i < list.length;i++ )
+				while( i >= 0 && i <= ( list.length - 1 ) )
 				{
-					tkn = list[ i ];
+					tkn = list[ i ].clone();
+					
+					if( token != null )
+					{
+						//trace("Scanner::exec()", token.id, tkn );
+					}
+					
+					//prevent a potential stack overflow
+					//if attempting to exec on an existing token,
+					//perhaps during an expansion routine
+					if( token != null
+						&& token.id == tkn.id )
+					{
+						//trace("Scanner::exec()", "[SKIPPING ON ID MATCH]", tkn );
+						!backwards ? i++ : i--;
+						continue;
+					}
+					
 					if( compare( tkn, candidate ) )
 					{
-						return handleMatchedToken( tkn );
-					}			
+						//trace("Scanner::exec()", "[ FOUND TOKEN MATCH ]", tkn );
+						return handleMatchedToken( tkn, token != null );
+					}
+					!backwards ? i++ : i--;
 				}
 			}
 			return null;
@@ -457,8 +496,11 @@ package com.ffsys.scanner
 		* 	@private
 		*/
 		protected function handleMatchedToken(
-			tkn:Token ):Token
+			tkn:Token,
+			expansion:Boolean = false ):Token
 		{
+			//trace("Scanner::handleMatchedToken()");
+			
 			//get a new token to store as result from
 			//a clone of the matched token				
 			if( _current == null
@@ -471,27 +513,27 @@ package com.ffsys.scanner
 				if( _current != null
 					&& _current.capture )
 				{
-					if( _current.expandable )
+					if( _current.expandable && !expansion )
 					{
-						_current.expand( this );
+						//_current.expand( this );
 					}
 					endToken( _current );
 				}				
-				var output:Token = tkn.clone();
-				if( output.capture )
+				//var output:Token = tkn.clone();
+				if( tkn.capture )
 				{
-					results.push( output );
-					beginToken( output );
+					results.push( tkn );
+					beginToken( tkn );
 				}else 
 				{
-					dispose( output );
+					dispose( tkn );
 				}
 				//switch off capture for once tokens
 				if( tkn.once )
 				{
 					tkn.capture = false;
 				}
-				return output;
+				//return output;
 			//handles merging adjacent tokens with the same id
 			}else {
 				_current.matched += _lastMatch;
