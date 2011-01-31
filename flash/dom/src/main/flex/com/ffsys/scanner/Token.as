@@ -471,7 +471,7 @@ package com.ffsys.scanner
 							orderByGroupIndex
 						);
 					
-						trace("Token::compare() [AFTER SORT]", children );
+						//trace("Token::compare() [AFTER SORT]", children );
 					}
 										
 					//omit the first entry which is the complete match

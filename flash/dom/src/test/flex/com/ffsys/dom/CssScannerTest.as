@@ -285,6 +285,12 @@ package com.ffsys.dom
 			
 			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length, scanner.source );
 			
+			if( results.length > 0 )  
+			{
+				var last:Token = results[ results.length - 1 ];
+				trace("CssScannerTest::cssTokenizeTest()", last );
+			}
+			
 			/*
 			var tkn:Token = null;
 			for each( tkn in results )

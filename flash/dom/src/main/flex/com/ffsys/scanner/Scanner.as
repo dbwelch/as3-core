@@ -23,6 +23,7 @@ package com.ffsys.scanner
 	*/
 	public class Scanner extends Object
 	{
+		private var _registry:Vector.<Token>;
 		private var _tokens:Vector.<Token>;
 		private var _results:Vector.<Token>;
 		private var _counts:Object;
@@ -144,6 +145,20 @@ package com.ffsys.scanner
 		}
 		
 		/**
+		* 	A list of tokens that are not matched against
+		* 	by the scanner but can be used when matching
+		* 	token matches against named groups.
+		*/
+		public function get registry():Vector.<Token>
+		{
+			if( _registry == null )
+			{
+				_registry = new Vector.<Token>();				
+			}
+			return _registry;
+		}
+		
+		/**
 		* 	@private
 		*/
 		protected function chomp():String
@@ -226,9 +241,21 @@ package com.ffsys.scanner
 		* 
 		* 	@return A list of matching result tokens.
 		*/
-		public function filter( filter:* ):Vector.<Token>
+		public function filter( filter:*, list:Vector.<Token> = null ):Vector.<Token>
 		{
 			var output:Vector.<Token> = new Vector.<Token>();
+			
+			if( list == null )
+			{
+				list = tokens;
+				
+				//also search registry entries
+				if( registry.length > 0 )
+				{
+					list = list.concat( registry );
+				}
+			}
+			
 			if( filter is int
 				|| filter is String
 				|| filter is Vector.<int>
@@ -285,9 +312,9 @@ package com.ffsys.scanner
 				for( i = 0;i < ids.length;i++ )
 				{
 					id = ids[ i ];
-					for( k = 0;k < tokens.length;k++ )
+					for( k = 0;k < list.length;k++ )
 					{
-						tkn = tokens[ k ];
+						tkn = list[ k ];
 						if( tkn.id == id )
 						{
 							output.push( tkn );
@@ -366,12 +393,16 @@ package com.ffsys.scanner
 		* 
 		* 	@return Whether the token was removed.
 		*/
-		public function remove( token:Token ):Boolean
+		public function remove( token:Token, list:Vector.<Token> = null ):Boolean
 		{
-			var index:int = index( token );
-			if( index > -1 )
+			if( list == null )
 			{
-				tokens.splice( index, 1 );
+				list = tokens;
+			}			
+			var index:int = index( token, false, -1, list );
+			if( index > -1 )
+			{				
+				list.splice( index, 1 );
 				return true;
 			}
 			return false;
@@ -385,12 +416,20 @@ package com.ffsys.scanner
 		* 
 		* 	@return Whether the token was added.
 		*/
-		public function add( token:Token ):Boolean
+		public function add( token:Token, list:Vector.<Token> = null ):Boolean
 		{
 			if( token != null )
 			{
+				if( list == null )
+				{
+					list = tokens;
+				}
+				
 				token.setScanner( this );
-				tokens.push( token );
+				if( list.indexOf( token ) == -1 )
+				{
+					list.push( token );
+				}
 			}
 			return false;
 		}
@@ -426,6 +465,8 @@ package com.ffsys.scanner
 						_current = null;
 					}
 				}
+				
+				//trace("Scanner::scanSource()", _lastMatch );
 				
 				if( _lastMatch != null
 					&& _lastMatch.length > 0

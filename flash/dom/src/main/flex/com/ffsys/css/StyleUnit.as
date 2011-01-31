@@ -105,7 +105,7 @@ package com.ffsys.css
 		/**
 		* 	An expression used to determine the <code>em</code> unit type.
 		*/
-		public static const EMS_EXP:String = "(?P<emsunit>" + EMS + ")";
+		public static const EMS_EXP:String = EMS;
 
 		/**
 		* 	An expression used to determine the <code>ex</code> unit type.
