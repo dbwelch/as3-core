@@ -25,6 +25,7 @@ package com.ffsys.scanner
 	{
 		private var _tokens:Vector.<Token>;
 		private var _results:Vector.<Token>;
+		private var _counts:Object;
 		
 		/**
 		* 	@private
@@ -73,6 +74,7 @@ package com.ffsys.scanner
 				configure();
 			}
 			
+			_counts = new Object();
 			_current = null;
 			_source = source;
 			scanSource();
@@ -106,6 +108,7 @@ package com.ffsys.scanner
 		{
 			_lastMatch = null;
 			_current = null;
+			_counts = null;
 		}
 		
 		/**
@@ -442,7 +445,6 @@ package com.ffsys.scanner
 			candidate:String,
 			token:Token = null,
 			backwards:Boolean = false,
-			start:int = -1,
 			list:Vector.<Token> = null ):Token
 		{
 			if( candidate != null )
@@ -455,24 +457,16 @@ package com.ffsys.scanner
 				//default start index
 				var i:int = !backwards ? 0 : list.length - 1;
 				
-				if( token != null )
-				{
-					//trace("Scanner::exec()", tokens.length, token, i );
-				}
-				
 				var tkn:Token = null;
+				var src:Token = null;
 				while( i >= 0 && i <= ( list.length - 1 ) )
 				{
-					tkn = list[ i ].clone();
-					
-					if( token != null )
-					{
-						//trace("Scanner::exec()", token.id, tkn );
-					}
-					
+					src = list[ i ];
+					tkn = src.clone();
+
 					//prevent a potential stack overflow
 					//if attempting to exec on an existing token,
-					//perhaps during an expansion routine
+					//perhaps during an extraction routine
 					if( token != null
 						&& token.id == tkn.id )
 					{
@@ -484,7 +478,7 @@ package com.ffsys.scanner
 					if( compare( tkn, candidate ) )
 					{
 						//trace("Scanner::exec()", "[ FOUND TOKEN MATCH ]", tkn );
-						return handleMatchedToken( tkn, token != null );
+						return handleMatchedToken( tkn, src );
 					}
 					!backwards ? i++ : i--;
 				}
@@ -497,9 +491,24 @@ package com.ffsys.scanner
 		*/
 		protected function handleMatchedToken(
 			tkn:Token,
-			expansion:Boolean = false ):Token
+			src:Token ):Token
 		{
 			//trace("Scanner::handleMatchedToken()");
+			
+			if( src.maximum > -1
+				&& _counts[ src ] >= src.maximum )
+			{
+				dispose( tkn );
+				return null;
+			}
+			
+			//keep track of the number of token matches
+			if( _counts[ src ] == 0 )
+			{
+				_counts[ src ]++;
+			}else{
+				_counts[ src ] = 1;
+			}
 			
 			//get a new token to store as result from
 			//a clone of the matched token				
@@ -513,27 +522,16 @@ package com.ffsys.scanner
 				if( _current != null
 					&& _current.capture )
 				{
-					if( _current.expandable && !expansion )
-					{
-						//_current.expand( this );
-					}
 					endToken( _current );
-				}				
-				//var output:Token = tkn.clone();
+				}
 				if( tkn.capture )
 				{
 					results.push( tkn );
 					beginToken( tkn );
-				}else 
+				}else
 				{
 					dispose( tkn );
 				}
-				//switch off capture for once tokens
-				if( tkn.once )
-				{
-					tkn.capture = false;
-				}
-				//return output;
 			//handles merging adjacent tokens with the same id
 			}else {
 				_current.matched += _lastMatch;

@@ -20,7 +20,7 @@ package com.ffsys.scanner
 		private var _children:Vector.<Token>;
 		private var _groups:Object;
 		private var _capture:Boolean = true;
-		private var _once:Boolean = false;
+		private var _maximum:int = -1;
 		private var _discardable:Boolean = false;
 		private var _expandable:Boolean = false;
 		private var _filters:Boolean = true;
@@ -152,26 +152,21 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	Determines that this token should only
-		* 	be matched once and any subsequent matches
-		* 	should be discarded from the scanner result
-		* 	set.
+		* 	Determines the maximum number of times
+		* 	that this token can match.
 		* 
-		* 	The default value is <code>false</code>.
-		* 
-		* 	When <code>once</code> is <code>true</code> 
-		* 	the behaviour is equivalent to
-		* 	setting <code>capture</code> to <code>false</code>
-		* 	immediately after the first successful match.
+		* 	Any token matches after this number of matches
+		* 	are discarded from the result list and passed
+		* 	to be disposed.
 		*/
-		public function get once():Boolean
+		public function get maximum():int
 		{
-			return _once;
+			return _maximum;
 		}
 		
-		public function set once( value:Boolean ):void
+		public function set maximum( value:int ):void
 		{
-			_once = value;
+			_maximum = value;
 		}
 		
 		/**
@@ -554,7 +549,7 @@ package com.ffsys.scanner
 			copy.matched = matched;
 			copy.name = name;
 			copy.capture = capture;
-			copy.once = once;
+			copy.maximum = maximum;
 			copy.discardable = discardable;
 			copy.expandable = expandable;
 			copy.filters = filters;
