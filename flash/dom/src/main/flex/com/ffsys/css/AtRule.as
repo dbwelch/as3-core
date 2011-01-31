@@ -101,7 +101,7 @@ package com.ffsys.css
 		/**
 		* 	The symbol for a <code>namespace</code> at rule.
 		*/
-		public static const NAMESPACE_SYM:String = "(?P<atnamespace>" + SYM + NAMESPACE + ")";
+		public static const NAMESPACE_SYM:String = SYM + NAMESPACE;
 		
 		/**
 		* 	Creates an <code>AtRule</code> instance.

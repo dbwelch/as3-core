@@ -496,7 +496,7 @@ package com.ffsys.css
 			
 			//string			{string1}|{string2}
 			const STRING_EXP:String =
-				"(?P<string>(?:" + STRING1_EXP + ")|(?:" + STRING2_EXP + "))";
+				"(?:" + STRING1_EXP + ")|(?:" + STRING2_EXP + ")";
 			
 			//badstring1		\"([^\n\r\f\\"]|\\{nl}|{escape})*\\?
 			const BAD_STRING1_EXP:String =
@@ -512,9 +512,9 @@ package com.ffsys.css
 			
 			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			const URI_EXP:String =
-				"(?P<uri>(?:url\\("			//open function call (quoted)
+				"(?:url\\("			//open function call (quoted)
 				+ W_EXP
-				+ STRING_EXP
+				+ "(?P<uristring>" + STRING_EXP + ")"
 				+ W_EXP
 				+ "\\)"						//close function call (quoted)
 				+ ")|"
@@ -526,11 +526,11 @@ package com.ffsys.css
 				+ ")*)"
 				+ W_EXP
 				+ "\\)"						//close function call
-				+"))";						
+				+")";						
 				
 			//URI				url\({w}{string}{w}\)|url\({w}([!#$%&*-\[\]-~]|{nonascii}|{escape})*{w}\)
 			var uri:Token = new Token( URI,
-				new RegExp( "^" + URI_EXP, "i" ) );
+				new RegExp( "^(?P<uri>" + URI_EXP + ")" ) );
 			uri.name = "uri";				
 
 			//baduri1			url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}
@@ -561,10 +561,7 @@ package com.ffsys.css
 				
 			//UNICODE-RANGE		U\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?
 			const UNICODE_RANGE_EXP:String =
-				"U\\+([0-9A-F?]{1,6})(?:-)([0-9A-F]{1,6})?";
-			
-			//ATKEYWORD			@{ident}
-			const ATKEYWORD_EXP:String = "(?P<at>@" + IDENT_EXP + ")";
+				"(?P<unicoderange>U\\+([0-9A-F?]{1,6})(?:-)([0-9A-F]{1,6})?)";
 			
 			//DIMENSION			{num}{ident}
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
@@ -645,13 +642,15 @@ package com.ffsys.css
 			name.name = "name";
 				
 			//ATKEYWORD			@{ident}
+			const ATKEYWORD_EXP:String = "(?P<at>@" + IDENT_EXP + ")";			
 			var at:Token = new Token(
 				ATKEYWORD, new RegExp( "^" + ATKEYWORD_EXP, "i" ) );
 			at.name = "at";
 				
 			//STRING			{string}
 			var string:Token = new Token(
-				STRING, new RegExp( "^" + STRING_EXP, "i" ) );
+				STRING,
+			new RegExp( "^(?P<string>" + STRING_EXP + ")", "i" ) );
 			string.name = "string";
 				
 			//BAD_STRING		{badstring}
@@ -676,8 +675,9 @@ package com.ffsys.css
 			hash.name = "hash";			
 			
 			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
-			var range:Token = new Token( UNICODE_RANGE,
-				new RegExp( "^(" + UNICODE_RANGE_EXP + ")", "i" ) );
+			var range:Token = new Token(
+				UNICODE_RANGE,
+				new RegExp( "^" + UNICODE_RANGE_EXP, "i" ) );
 			range.name = "unicoderange";				
 			
 			//CDO				<!--
@@ -789,26 +789,28 @@ package com.ffsys.css
 			
 			var nsprefix:Token = new Token(
 				NAMESPACE_PREFIX,
-				new RegExp( "^(?P<ident>" + IDENT_EXP + ")" + "(?P<nsdelimiter>\\|)" ) );
+				new RegExp( "^(?P<nsprefix>" + IDENT_EXP + ")" + "(?P<nsdelimiter>\\|)" ) );
 			nsprefix.name = "prefix";
 				
 			//NAMESPACE			@namespace
 			const NAMESPACE_EXP:String = 
 				"(?P<namespace>"
-				+ AtRule.NAMESPACE_SYM
-				+ W_EXP
-				+ "(?P<ident>" + IDENT_EXP + ")?"
-				+ W_EXP
-				+ "(?:"
-				+ "(?:" + URI_EXP + ")"
-				+ "|(?:" + STRING_EXP + ")"
-				+ "){1}"
-				+ W_EXP
-				+ "(?:;))";
+					+ AtRule.NAMESPACE_SYM
+					+ W_EXP
+					+ "(?P<namespaceprefix>" + IDENT_EXP + ")?"
+					+ W_EXP
+					+ "(?:(?P<namespaceuri>" + URI_EXP + ")"
+					+ "|(?P<namespacestring>" + STRING_EXP + "))"
+					+ W_EXP
+					+ "(?:;)"
+				+ ")";
 			var ns:Token = new Token(
 				NAMESPACE,
 				new RegExp( "^" + NAMESPACE_EXP + W_EXP ) );
 			ns.name = "namespace";
+			
+			
+			trace("CssScanner::call()", ns.match, ns.match.test( "@namespace fluid url( 'http://example.com' );" ) );
 				
 			//PAGE				@page
 			var page:Token = new Token(
@@ -896,8 +898,6 @@ package com.ffsys.css
 			var attrib:Token = new Token(
 				ATTRIB, new RegExp( "^" + ATTRIB_EXP ) );
 			attrib.name = "attrib";
-			
-			trace("CssScanner::call()", attrib.match.test( "[attr]" ) );
 			
 			var attriboperator:Token = new Token(
 				ATTRIB, new RegExp( "^" + ATTRIB_OPERATOR_EXP ) );
