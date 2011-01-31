@@ -25,6 +25,9 @@ package com.ffsys.scanner
 		private var _expandable:Boolean = false;
 		private var _filters:Boolean = true;
 		
+		private var _repeater:String;
+		private var _suffix:String;
+		
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
@@ -58,6 +61,16 @@ package com.ffsys.scanner
 			super();
 			this.id = id;
 			this.match = match;
+		}
+		
+		public function get repeater():String
+		{
+			return _repeater;
+		}
+		
+		public function set repeater( value:String ):void
+		{
+			_repeater = value;
 		}
 		
 		/**
