@@ -615,9 +615,6 @@ package com.ffsys.css
 			//WHITESPACE MATCH
 			const S_EXP:String = "(?P<s>[ \\t\\r\\n\\f]+)";
 			
-			//PRIO/IMPORTANT				!important
-			const PRIO_EXP:String = "(?P<prio>\\!(?:" + W_EXP + ")?important)";
-			
 			//**************************** TOKENS ****************************//
 			
 			//BOM				#xFEFF
@@ -767,25 +764,47 @@ package com.ffsys.css
 				"(?P<charset>"
 				+ AtRule.CHARSET_SYM
 				+ W_EXP
-				+ STRING_EXP
+				+ "(?P<string>" + STRING_EXP + ")"
 				+ W_EXP
-				+ "(;)"
+				+ "(?:;)"
 				+ ")";
 			var charset:Token = new Token(
 				CHARSET,
 				new RegExp( "^" + CHARSET_EXP ) );
 			charset.maximum = 1;
-			//charset.expandable = true;
 			charset.name = "charset";
 			
+			const MEDIUM_EXP:String = "all|print|screen";
+			
 			//IMPORT			@import
+			const IMPORT_EXP:String = 
+				"(?P<import>"
+					+ AtRule.IMPORT_SYM
+					+ W_EXP
+					+ "(?:(?P<importuri>" + URI_EXP + ")"
+					+ "|(?P<importstring>" + STRING_EXP + "))"
+					+ W_EXP
+					+ "(?:;)"
+				+ ")"
+				
 			var css:Token = new Token(
 				IMPORT,
-				new RegExp( "^(" + AtRule.IMPORT_SYM + ")" ) );
+				new RegExp( "^" + IMPORT_EXP ) );
 			css.name = "import";
 			
 			//NAMESPACE-PREFIX	[ IDENT ] '|'
 			const NAMESPACE_PREFIX_EXP:String = IDENT_EXP;
+			
+			var te:RegExp = /^(?P<char>[a-z]{1})$/;
+			var me:Array = te.exec( "ab" );
+			
+			//
+			for( var z:String in me )
+			{
+				trace("CssScanner::call()", z, me );
+			}
+			
+			trace("CssScanner::call()", "a", te.test( "a" ), te.test( "ab" ) );
 			
 			var nsprefix:Token = new Token(
 				NAMESPACE_PREFIX,
@@ -808,9 +827,8 @@ package com.ffsys.css
 				NAMESPACE,
 				new RegExp( "^" + NAMESPACE_EXP + W_EXP ) );
 			ns.name = "namespace";
-			
-			
-			trace("CssScanner::call()", ns.match, ns.match.test( "@namespace fluid url( 'http://example.com' );" ) );
+						
+			//trace("CssScanner::call()", ns.match, ns.match.test( "@namespace fluid url( 'http://example.com' );" ) );
 				
 			//PAGE				@page
 			var page:Token = new Token(
@@ -831,10 +849,11 @@ package com.ffsys.css
 			fontface.name = "fontface";
 				
 			//PRIO				!important
+			const PRIO_EXP:String = "(?P<prio>\\!(?:" + W_EXP + ")?important)";
 			var prio:Token = new Token(
 				PRIO,
-				new RegExp( "^(" + PRIO_EXP + ")" + W_EXP ) );
-			prio.name = "important";
+				new RegExp( "^" + PRIO_EXP + W_EXP ) );
+			prio.name = "prio";
 				
 			//OPERATOR			'/' | ','
   			const OPERATOR_EXP:String = "(?P<operator>" + Selector.OPTIONAL + "|" + Selector.DELIMITER + ")";
@@ -976,17 +995,17 @@ package com.ffsys.css
 			
 			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
 			const SIMPLE_SELECTOR_EXP:String =
-				"(?P<simpleselector>" + ELEMENT_NAME_EXP + "?"
+				"" + ELEMENT_NAME_EXP + "?"
 				+ "(?:"
 				+ PSEUDO_EXP
 				+ "|" + CLASS_EXP				
 				+ "|" + HASH_EXP
 				+ "|" + ATTRIB_EXP	
-				+ "))";
+				+ ")";
 				
 			var simpleSelector:Token = new Token(
 				SIMPLE_SELECTOR, new RegExp(
-					"^" + SIMPLE_SELECTOR_EXP, "i" ) );
+					"^(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")" ) );
 			simpleSelector.name = "simpleselector";	
 			
 			//SELECTOR		element_name? [HASH|class|attrib|pseudo]* S*
@@ -995,10 +1014,10 @@ package com.ffsys.css
 				+ W_EXP
 				+ "(?:"
 				+ W_EXP
-				+ COMBINATOR_EXP + "{1}"
+				+ COMBINATOR_EXP
 				+ W_EXP
-				+ SIMPLE_SELECTOR_EXP + "{1}"
-				+ ")";
+				+ SIMPLE_SELECTOR_EXP
+				+ "))";
 
 			var selector:Token = new Token(
 				SELECTOR, new RegExp(

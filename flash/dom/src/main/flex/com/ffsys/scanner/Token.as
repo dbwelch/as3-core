@@ -577,7 +577,8 @@ package com.ffsys.scanner
 			return "[object Token]["
 				+ ( name != null ? name : id ) + "] "
 				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched )
-				+ ( length > 0 ? ( " | " + join( "," ) ) : "" );
-		}		
+				//+ ( length > 0 ? ( " | " + join( "," ) ) : "" );
+				+ ( children.length > 0 ? ( " >>> " + children.join( ", " ) ) : "" );
+		}
 	}
 }
