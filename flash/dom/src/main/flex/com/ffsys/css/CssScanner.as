@@ -957,7 +957,74 @@ package com.ffsys.css
 			var rparen:Token = new Token(
 				RPAREN,
 				new RegExp( "^(?P<rparen>" + "\\)" + ")" ) );
-			rparen.name = "rparen";			
+			rparen.name = "rparen";
+			
+
+			//**************************** NUMBER/UNIT TOKENS ****************************//			
+
+			//EMS				em
+			var ems:Token = new Token(
+				EMS, new RegExp( "^(" + NUM_EXP + StyleUnit.EMS_EXP + ")", "i" ) );
+			ems.name = "ems";			
+
+			//EXS				ex
+			var exs:Token = new Token(
+				EXS, new RegExp( "^(" + NUM_EXP + StyleUnit.EXS_EXP + ")", "i" ) );	
+			exs.name = "exs";			
+
+			//LENGTH			px|cm|mm|in|pt|pc
+			var length:Token = new Token(
+				LENGTH,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.LENGTH_EXP + ")", "i" ) );
+			length.name = "length";				
+
+			//ANGLE				deg|rad|grad
+			var angle:Token = new Token(
+				ANGLE,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.ANGLE_EXP + ")", "i" ) );
+			angle.name = "angle";				
+
+			//TIME				ms|s
+			var time:Token = new Token(
+				TIME,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.TIME_EXP + ")", "i" ) );
+			time.name = "time";				
+
+			//FREQUENCY			kHz|Hz
+			var frequency:Token = new Token(
+				FREQ,
+				new RegExp( "^(" + NUM_EXP + StyleUnit.FREQUENCY_EXP + ")", "i" ) );
+			frequency.name = "frequency";				
+
+			//PERCENTAGE		{num}%
+			var percent:Token = new Token(
+				PERCENTAGE,
+				new RegExp( "^(" + PERCENT_EXP + ")", "i" ) );
+			percent.name = "percent";				
+
+			//DIMENSION										{num}{ident}
+			var dimension:Token = new Token(
+				DIMENSION,
+				new RegExp( "^(" + DIMENSION_EXP + ")", "i" ) );
+			dimension.name = "dimension";				
+
+			//NUMBER										{num}
+			var num:Token = new Token(
+				NUMBER,
+				new RegExp( "^(?:" + NUM_EXP + ")" ) );	
+			num.name = "number";
+
+			//STATEMENT-END									';'
+			var statementend:Token = new Token(
+				STATEMENT_END,
+				new RegExp( "^(?P<statementend>" + ";" + ")" ) );
+			statementend.name = "statementend";
+
+			//NAMESPACE-DELIMITER							'|'
+			var nsdelimiter:Token = new Token(
+				NAMESPACE_DELIMITER,
+				new RegExp( "^(?P<nsdelimiter>" + "|" + ")" ) );
+			nsdelimiter.name = "nsdelimiter";			
 				
 			//PROPERTY			IDENT S*
 			var property:Token = new Token(
@@ -1045,7 +1112,7 @@ package com.ffsys.css
 						+ "|" + DIMENSION_EXP
 						+ "|" + NUM_EXP
 						+ "|" + FUNCTION_CALL_EXP
-					+ W_EXP
+						+ W_EXP
 					+ ")|"
 					+ "(?:"
 						+ URI_EXP
@@ -1053,9 +1120,9 @@ package com.ffsys.css
 						+ "|" + IDENT_EXP
 						+ "|" + UNICODE_RANGE_EXP
 						+ "|" + HEXCOLOR_EXP
+						+ W_EXP						
 					+ ")"
-					+ W_EXP
-					+ "(?:;)?"			//optional statement end
+					//+ "(?:;)?"			//optional statement end
 					;							
 				
 			var term:Token = new Token(
@@ -1065,28 +1132,20 @@ package com.ffsys.css
 					+ ")" ) );
 			term.name = "term";
 			
-			//TODO
+			//EXPR					term [operator term]*
 			const EXPR_EXP:String =
 				"(?:" + TERM_EXP + "){1}"
 				+ "(?:"
 					+ "(?P<operator>" + OPERATOR_EXP + "){1}"
 					+ "(" + TERM_EXP + ")*"
 				+ ")*";
-				
-				//+ "(?P<term>" + TERM_EXP + ")*";
-				
-				/*
-				+ "(?:"
-					+ "(?P<operator>" + OPERATOR_EXP + ")"
-					+ "(?:" + TERM_EXP + ")"
-				+ "){1,}";
-				*/
+			
 			var expr:Token = new Token(
-				EXPR, new RegExp(
-					"^(?P<expr>"
-						+ EXPR_EXP
-					+ ")" ) );
+				EXPR, term.match );
 			expr.name = "expr";
+			expr.delimiter = new RegExp(
+				W_EXP + "(?P<exprdelimiter>;){1}" + W_EXP );
+			expr.repeater = expr.match;
 
 			trace("[TERM] CssScanner::call()", "2.5em", term.test( "2.5em" ) );
 			trace("[TERM] CssScanner::call()", "url('http://example.com')",
@@ -1094,7 +1153,7 @@ package com.ffsys.css
 			trace("[TERM] CssScanner::call()", "2.5em;", term.test( "2.5em;" ) );
 			trace("[TERM] CssScanner::call()", "10", term.test( "10" ) );
 			trace("[TERM] CssScanner::call()", "0 0 0 0", term.test( "0 0 0 0" ) );
-			trace("[EXPR] CssScanner::call()", "2.5em/", expr.test( "2.5em/" ) );			
+			trace("[EXPR] CssScanner::call()", "2.5em/", expr.test( "2.5em/" ) );		
 			trace("[EXPR] CssScanner::call()", "2.5em", expr.test( "2.5em" ) );
 			trace("[EXPR] CssScanner::call()", "2.5em/1.2em", expr.test( "2.5em/1.2em" ) );
 			trace("[EXPR] CssScanner::call()", "0 0 0 0", expr.test( "0 0 0 0" ) );
@@ -1106,6 +1165,14 @@ package com.ffsys.css
 				+ W_EXP
 				+ TERM_EXP				//TODO: move to EXPR_EXP
 				;
+				
+				/*
+				const DECLARATION_EXP:String = 
+					"(?P<property>" + IDENT_EXP + ")"
+					+ "(?P<declarationdelimiter>:)"
+					+ W_EXP
+					+ expr.match.source;				
+				*/
 				
 			var declaration:Token = new Token(
 				DECLARATION, new RegExp(
@@ -1182,15 +1249,28 @@ package com.ffsys.css
 			selector.block = BlockToken( block.clone() );
 			selector.block.name = selector.name;
 			
-			//comment.setScanner( this );
-			//declaration.setScanner( this );
-			//term.setScanner( this );
-			//property.setScanner( this );
-			
 			selector.block.add( comment );			
 			selector.block.add( declaration );
+			selector.block.add( expr );
 			selector.block.add( term );
 			selector.block.add( property );
+			
+			//numeric/unit values should be matched in this order
+			selector.block.add( angle );
+			selector.block.add( frequency );
+			selector.block.add( length );
+			selector.block.add( time );
+			selector.block.add( ems );
+			selector.block.add( exs );
+			selector.block.add( dimension );
+			selector.block.add( percent );
+			selector.block.add( num );
+			
+			//function expression: method()
+			add( method );			
+			
+			selector.block.add( s );
+			selector.block.add( char );			
 
 			trace("[SELECTOR] CssScanner::call()", "h1",
 				selector.test( "h1" ) );
@@ -1216,72 +1296,6 @@ package com.ffsys.css
 			
 			trace("[RULESET] CssScanner::call()", "*",
 				ruleset.test( "*" ) );
-				
-			//**************************** NUMBER/UNIT TOKENS ****************************//			
-			
-			//EMS				em
-			var ems:Token = new Token(
-				EMS, new RegExp( "^(" + NUM_EXP + StyleUnit.EMS_EXP + ")", "i" ) );
-			ems.name = "ems";			
-				
-			//EXS				ex
-			var exs:Token = new Token(
-				EXS, new RegExp( "^(" + NUM_EXP + StyleUnit.EXS_EXP + ")", "i" ) );	
-			exs.name = "exs";			
-				
-			//LENGTH			px|cm|mm|in|pt|pc
-			var length:Token = new Token(
-				LENGTH,
-				new RegExp( "^(" + NUM_EXP + StyleUnit.LENGTH_EXP + ")", "i" ) );
-			length.name = "length";				
-				
-			//ANGLE				deg|rad|grad
-			var angle:Token = new Token(
-				ANGLE,
-				new RegExp( "^(" + NUM_EXP + StyleUnit.ANGLE_EXP + ")", "i" ) );
-			angle.name = "angle";				
-				
-			//TIME				ms|s
-			var time:Token = new Token(
-				TIME,
-				new RegExp( "^(" + NUM_EXP + StyleUnit.TIME_EXP + ")", "i" ) );
-			time.name = "time";				
-				
-			//FREQUENCY			kHz|Hz
-			var frequency:Token = new Token(
-				FREQ,
-				new RegExp( "^(" + NUM_EXP + StyleUnit.FREQUENCY_EXP + ")", "i" ) );
-			frequency.name = "frequency";				
-				
-			//PERCENTAGE		{num}%
-			var percent:Token = new Token(
-				PERCENTAGE,
-				new RegExp( "^(" + PERCENT_EXP + ")", "i" ) );
-			percent.name = "percent";				
-			
-			//DIMENSION										{num}{ident}
-			var dimension:Token = new Token(
-				DIMENSION,
-				new RegExp( "^(" + DIMENSION_EXP + ")", "i" ) );
-			dimension.name = "dimension";				
-			
-			//NUMBER										{num}
-			var num:Token = new Token(
-				NUMBER,
-				new RegExp( "^(?:" + NUM_EXP + ")" ) );	
-			num.name = "number";
-			
-			//STATEMENT-END									';'
-			var statementend:Token = new Token(
-				STATEMENT_END,
-				new RegExp( "^(?P<statementend>" + ";" + ")" ) );
-			statementend.name = "statementend";
-			
-			//NAMESPACE-DELIMITER							'|'
-			var nsdelimiter:Token = new Token(
-				NAMESPACE_DELIMITER,
-				new RegExp( "^(?P<nsdelimiter>" + "|" + ")" ) );
-			nsdelimiter.name = "nsdelimiter";
 			
 			//**************************** TOKEN DEFINITIONS ****************************//
 			
@@ -1334,20 +1348,6 @@ package com.ffsys.css
 			add( prio );				//	!important
 			
 			add( hash );
-			
-			//numeric/unit values should be matched in this order
-			add( angle );
-			add( frequency );
-			add( length );
-			add( time );
-			add( ems );
-			add( exs );
-			add( dimension );
-			add( percent );
-			add( num );
-			
-			//function expression: method()
-			add( method );
 			
 			//includes operator ~=
 			add( includes );
@@ -1417,7 +1417,7 @@ package com.ffsys.css
 			//REGISTRY ENTRIES
 			
 			//atrtibute child matches
-			add( attribnameident, registry );
+			//add( attribnameident, registry );
 		}
 		
 		/**

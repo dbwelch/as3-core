@@ -462,7 +462,7 @@ package com.ffsys.scanner
 					&& _current.block.tokens.length > 0 )
 				{
 					list = _current.block.tokens;
-					trace("[ASSIGNED OPEN BLOCK TOKENS] Scanner::scanSource()", list );
+					trace("[ASSIGNED OPEN BLOCK TOKENS] Scanner::scanSource()", _current.children.length );
 				}
 					
 				if( _current != null && _current.hasBlock() )
@@ -480,7 +480,7 @@ package com.ffsys.scanner
 						opens = start != null && start.length > 0;
 						if( opens )
 						{
-							trace("Scanner::scanSource()", "[STARTING BLOCK WITH START]", start );
+							//trace("Scanner::scanSource()", "[STARTING BLOCK WITH START]", start );
 							_lastMatch = start;
 							chomp();
 						}
@@ -493,7 +493,7 @@ package com.ffsys.scanner
 						closes = end != null && end.length > 0;						
 						if( closes )
 						{
-							trace("Scanner::scanSource()", "[CLOSING BLOCK WITH END]", end );								
+							//trace("Scanner::scanSource()", "[CLOSING BLOCK WITH END]", end );								
 							_lastMatch = end;
 							chomp();
 						}
@@ -527,7 +527,15 @@ package com.ffsys.scanner
 				{
 					if( tkn.capture )
 					{
-						_current = tkn;
+						if( _current.open )
+						{
+							_current.children.push( tkn );
+							trace("[CURRENT BLOCK OPEN] Scanner::scanSource()", _current, _current.children.length );
+						}else
+						{
+							trace("[ASSIGNING CURRENT] Scanner::scanSource()", tkn );
+							_current = tkn;
+						}
 					}else{
 						//must clear the current reference
 						//for non-capturing tokens
