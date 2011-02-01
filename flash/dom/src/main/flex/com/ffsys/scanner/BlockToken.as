@@ -16,6 +16,7 @@ package com.ffsys.scanner
 		private var _end:RegExp;
 		private var _open:Boolean;
 		private var _parent:Object;
+		private var _required:Boolean = false;
 		
 		/**
 		* 	Creates a <code>BlockToken</code> instance.
@@ -34,6 +35,22 @@ package com.ffsys.scanner
 			super( id, source );
 			this.start = start;
 			this.end = end;
+		}
+		
+		/**
+		* 	Determines whether this block must be specified
+		* 	for the associated token to match.
+		* 
+		* 	The default value is <code>false</code>.
+		*/
+		public function get required():Boolean
+		{
+			return _required;
+		}
+		
+		public function set required( value:Boolean ):void
+		{
+			_required = value;
 		}
 		
 		/**
@@ -104,6 +121,7 @@ package com.ffsys.scanner
 			output.start = start;
 			output.end = end;
 			output.open = this.open;
+			output.required = required;
 			return output;
 		}
 	}

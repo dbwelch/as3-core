@@ -31,6 +31,8 @@ package com.ffsys.scanner
 		private var _tokens:Vector.<Token>;
 		private var _block:BlockToken;
 		
+		private var _merges:Boolean = true;
+		
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
@@ -67,6 +69,24 @@ package com.ffsys.scanner
 			}
 			
 			//trace("[INIT] Token::init()", this.id, ( source is RegExp ),  this.match != null );
+		}
+		
+		/**
+		* 	Determines whether when adjacent tokens
+		* 	of this type are encountered the matched
+		* 	results are merged into the existing matched
+		* 	token.
+		* 
+		* 	The default value is <code>true</code>.
+		*/
+		public function get merges():Boolean
+		{
+			return _merges;
+		}
+		
+		public function set merges( value:Boolean ):void
+		{
+			_merges = value;
 		}
 		
 		/**
@@ -628,6 +648,16 @@ package com.ffsys.scanner
 						matched = tmp[ 1 ];
 					}
 					
+					//test for the presence of a required block
+					if( hasBlock() && block.required )
+					{
+						candidate = candidate.substr( matched.length );
+						if( !block.start.test( candidate ) )
+						{
+							return false;
+						}
+					}
+					
 					var z:String = null;
 					var m:String = null;
 					var i:int = 0;
@@ -779,6 +809,7 @@ package com.ffsys.scanner
 			//copy.expandable = expandable;
 			copy.clean = clean;
 			copy.block = block;
+			copy.merges = merges;
 			
 			copy.repeater = repeater;
 			copy.delimiter = delimiter;

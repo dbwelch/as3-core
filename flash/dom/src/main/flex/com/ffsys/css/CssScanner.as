@@ -505,6 +505,12 @@ package com.ffsys.css
 					//characters that should end an ident
 					+ "(?:[^ \\{>+~:;.])";
 			
+			//ELEMENT-NAME		IDENT | '*'
+			const ELEMENT_NAME_EXP:String = "[" + Selector.UNIVERSAL + "]|" + IDENT_EXP;
+			var element:Token = new Token(
+				ELEMENT_NAME, new RegExp( "^(?P<elementname>" + ELEMENT_NAME_EXP + ")" ) );
+			element.name = "elementname";					
+			
 			//urlchar				[#x9#x21#x23-#x26#x27-#x7E] | {nonascii} | {escape}
 			const URLCHAR_EXP:String =
 				"[\\u0009\\u0021\\u0023-\\u0026\\u0027-\\u007E]"
@@ -611,7 +617,7 @@ package com.ffsys.css
 				
 			//UNICODE-RANGE		U\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?
 			const UNICODE_RANGE_EXP:String =
-				"(?:(U|u)\\+([0-9A-F?]{1,6})(?:-)([0-9A-F]{1,6})?)";
+				"((U|u\\+)([0-9a-fA-F?]{1,6})(-)(" + H_EXP + "{1,6})?)";
 			
 			//DIMENSION			{num}{ident}
 			const DIMENSION_EXP:String = NUM_EXP + IDENT_EXP;
@@ -816,6 +822,8 @@ package com.ffsys.css
 			charset.maximum = 1;
 			charset.name = "charset";
 			
+			//charset.merges = false;
+			
 			const MEDIUM_EXP:String = "all|print|screen";
 			
 			//IMPORT			@import
@@ -887,7 +895,7 @@ package com.ffsys.css
 			var media:Token = new Token(
 				MEDIA,
 				new RegExp( "^(" + AtRule.MEDIA_SYM + ")" ) );
-			media.name = "media";
+			media.name = "media";			
 				
 			//FONT-FACE			@font-face
 			var fontface:Token = new Token(
@@ -919,12 +927,6 @@ package com.ffsys.css
 			var clazz:Token = new Token(
 				CLASS, new RegExp( "^(?P<class>" + CLASS_EXP + ")" ) );
 			clazz.name = "class";
-				
-			//ELEMENT-NAME		IDENT | '*'
-			const ELEMENT_NAME_EXP:String = "[" + Selector.UNIVERSAL + "]|" + IDENT_EXP;
-			var element:Token = new Token(
-				ELEMENT_NAME, new RegExp( "^(?P<elementname>" + ELEMENT_NAME_EXP + ")" ) );
-			element.name = "elementname";
 			
 			//LBRACE										'{'
 			const LBRACE_EXP:String = "\\{";
@@ -1170,6 +1172,7 @@ package com.ffsys.css
 					+ "|" + Selector.CHILD
 					+ "|" + Selector.GENERAL_SIBLING
 					+ "|" + Selector.DESCENDANT
+					//+ "|" + "(?:" + NMCHAR_EXP + ")" + Selector.DESCENDANT + "(?:" + NMSTART_EXP + ")"
 				+ ")";
 			var combinator:Token = new Token(
 				COMBINATOR, new RegExp( "^(?P<combinator>" + COMBINATOR_EXP + ")" ) );
@@ -1197,10 +1200,11 @@ package com.ffsys.css
 			const SIMPLE_SELECTOR_EXP:String =
 				"(?P<elementname>" + ELEMENT_NAME_EXP + ")?"
 				+ "(?:"
-				+ "(?P<attrib>" + ATTRIB_EXP + "){1}"
-				+ "|(?P<pseudo>" + PSEUDO_EXP + "){1}"
-				+ "|(?P<class>" + CLASS_EXP + "){1}"
-				+ "|(?P<hash>" + HASH_EXP + "){1}"
+				//this match order is important for correctly building selectors
+				+ "(?P<hash>" + HASH_EXP + ")"
+				+ "|(?P<class>" + CLASS_EXP + ")"				
+				+ "|(?P<attrib>" + ATTRIB_EXP + ")"
+				+ "|(?P<pseudo>" + PSEUDO_EXP + ")"				
 				+ ")*";
 				//+ "(?:\\{)";
 				
@@ -1224,52 +1228,66 @@ package com.ffsys.css
 				SELECTOR, new RegExp(
 					"^(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")" + W_EXP ) );
 			selector.name = "selector";
+			selector.merges = false;
 			selector.delimiter = new RegExp(
 				"(?P<combinator>" + COMBINATOR_EXP + "){1}" );
-			selector.repeater = selector.match;
-			selector.block = BlockToken( block.clone() );
-			selector.block.name = selector.name;
+			selector.repeater = selector.match;			
 			
-			selector.block.add( comment );					// 	/* multiline comment */
-			selector.block.add( string );					// 	"string" or 'string'
-			selector.block.add( declaration );				// 	font-size: 1.2em;
-			selector.block.add( expr );						
-			selector.block.add( term );
+			//RULESET		selector [ ',' S* selector ]*
+			var ruleset:Token = new Token(
+				RULESET, selector.match );
+			ruleset.name = "ruleset";
+			ruleset.merges = false;
+			ruleset.delimiter = new RegExp(
+				"(?P<rulesetdelimiter>," + W_EXP + ")" );
+			ruleset.repeater = ruleset.match;
+			
+			ruleset.block = BlockToken( block.clone() );
+			//blocks are required for ruleset declarations
+			ruleset.block.required = true;
+			
+			ruleset.block.name = selector.name;
+			
+			ruleset.block.add( comment );					// 	/* multiline comment */
+			ruleset.block.add( string );					// 	"string" or 'string'
+			ruleset.block.add( declaration );				// 	font-size: 1.2em;
+			ruleset.block.add( ident );
+			ruleset.block.add( expr );						
+			ruleset.block.add( term );
 
-			selector.block.add( s );						// 	[ \t\n\r\f]
+			ruleset.block.add( s );						// 	[ \t\n\r\f]
 			
-			selector.block.add( property );					//	font-size
-			selector.block.add( prio );						//	!important
+			ruleset.block.add( property );					//	font-size
+			ruleset.block.add( prio );						//	!important
 			
 			//generic name token
-			selector.block.add( name );
+			ruleset.block.add( name );
 			
 			//numeric/unit values should be matched in this order
-			selector.block.add( angle );
-			selector.block.add( frequency );
-			selector.block.add( length );
-			selector.block.add( time );
-			selector.block.add( ems );
-			selector.block.add( exs );
-			selector.block.add( dimension );
-			selector.block.add( percent );
-			selector.block.add( num );
+			ruleset.block.add( angle );
+			ruleset.block.add( frequency );
+			ruleset.block.add( length );
+			ruleset.block.add( time );
+			ruleset.block.add( ems );
+			ruleset.block.add( exs );
+			ruleset.block.add( dimension );
+			ruleset.block.add( percent );
+			ruleset.block.add( num );
 			
 			//function expression: method()
-			selector.block.add( func );						//	FUNCTION S* expr ')' S*
+			ruleset.block.add( func );						//	FUNCTION S* expr ')' S*
 			
 			//operators need to take precedence
-			selector.block.add( operator );					//	'/' | ',' | /* empty */
-			selector.block.add( unary );					//	'-' | '+'
+			ruleset.block.add( operator );					//	'/' | ',' | /* empty */
+			ruleset.block.add( unary );					//	'-' | '+'
 			
-			selector.block.add( statementend );				//	';'		
-			selector.block.add( lbrace );					//	'{'
-			selector.block.add( rbrace );					//	'}'
-			selector.block.add( lparen );					//	'('
-			selector.block.add( rparen );					//	')'
+			ruleset.block.add( statementend );				//	';'		
+			ruleset.block.add( lbrace );					//	'{'
+			ruleset.block.add( rbrace );					//	'}'
+			ruleset.block.add( lparen );					//	'('
+			ruleset.block.add( rparen );					//	')'
 						
-			selector.block.add( char );						//	[^'"]
-			
+			ruleset.block.add( char );						//	[^'"]		
 			
 			trace("[TERM] CssScanner::call()", "2.5em", term.test( "2.5em" ) );
 			trace("[TERM] CssScanner::call()", "url('http://example.com')",
@@ -1278,7 +1296,7 @@ package com.ffsys.css
 			trace("[TERM] CssScanner::call()", "10", term.test( "10" ) );
 			trace("[TERM] CssScanner::call()", "0 0 0 0", term.test( "0 0 0 0" ) );
 			
-			trace("[EXPR] CssScanner::call()", "2.5em/", expr.test( "2.5em/" ) );		
+			trace("[EXPR] CssScanner::call()", "2.5em/", expr.test( "2.5em/" ) );
 			trace("[EXPR] CssScanner::call()", "2.5em", expr.test( "2.5em" ) );
 			trace("[EXPR] CssScanner::call()", "2.5em/1.2em", expr.test( "2.5em/1.2em" ) );
 			trace("[EXPR] CssScanner::call()", "0 0 0 0", expr.test( "0 0 0 0" ) );			
@@ -1302,17 +1320,7 @@ package com.ffsys.css
 			trace("[SELECTOR] CssScanner::call()", ".red",
 				selector.test( ".red" ) );
 			trace("[SELECTOR] CssScanner::call()", "#my-id",
-				selector.test( "#my-id" ) );			
-			
-			//RULESET		selector [ ',' S* selector ]*
-			var ruleset:Token = new Token(
-				RULESET, selector.match );
-			ruleset.name = "ruleset";
-			ruleset.delimiter = new RegExp(
-				"(?P<rulesetdelimiter>,)" );
-			ruleset.repeater = ruleset.match;
-				
-			ruleset.block = block;
+				selector.test( "#my-id" ) );				
 			
 			trace("[RULESET] CssScanner::call()", "h1",
 				ruleset.test( "h1" ) );
@@ -1368,8 +1376,6 @@ package com.ffsys.css
 			//match {baduri} before {ident}
 			add( badUri );
 			
-			add( hash );
-			
 			//includes operator ~=
 			add( includes );
 			
@@ -1395,27 +1401,27 @@ package com.ffsys.css
 			add( combinator );			//	'+' | '>' | '~' | ' '
 			
 			//ruleset + selectors
-			add( selector );
 			add( ruleset );
-			add( simpleSelector );								
+			add( selector );
+			add( simpleSelector );
 			
-			//pseudo class selector
-			add( pseudo );							//	:link
-			
+			//hash identifier							//	'#'{name}		#tagid
+			//add( hash );
 			//ident based
-			add( clazz );							//	.class			
-			
+			//add( clazz );								//	'.'{ident}		.class
 			//attribute match
-			add( attrib );							//[href]
-			add( attriboperator );					//[lang=en]
+			//add( attrib );							//					[href]
+			//add( attriboperator );					//					[lang=en]
+			//pseudo class selector
+			//add( pseudo );							//	':'{ident}		:link	
 			
-			//element name							//	h1 etc.
+			//element name								//	'*' | {ident}	*, h1, tagname
 			add( element );
 			
 			//namespace prefix			//must be after elementname
 			add( nsprefix );			//	nsprefix|tag
 
-			add( ident );													
+			//add( ident );	
 			
 			//match bad comments after good ones
 			add( badComment ); 
