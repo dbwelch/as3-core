@@ -128,6 +128,12 @@ package com.ffsys.dom
 					
 					@unknown-rule screen, flash-vector;
 					
+					/* COMBINATORS */
+					parent>child>grandchild>greatgrandchild{};
+					h1 child+sibling+brother+sister>child{};
+					general~sibling{};
+					ancestor descendant{};
+					
 					fluid|RadioButton {
 						/* An inner comment for this empty ruleset */
 					}
@@ -210,12 +216,6 @@ package com.ffsys.dom
 						color: #369;
 						color: #ff0000;
 					}
-					
-					/* COMBINATORS */
-					ancestor descendant{};
-					parent>child{};
-					h1 child+sibling{};
-					general~sibling{};
 					
 					parent > child{};
 					h1 child + sibling{};

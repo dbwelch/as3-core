@@ -363,6 +363,11 @@ package com.ffsys.css
 		*/
 		public static const RPAREN:int = 307;
 		
+		/**
+		* 	The identifier for a ruleset token.
+		*/
+		public static const RULESET_BLOCK:int = 308;
+		
 		//DEFAULT TOKEN	
 		
 		/**
@@ -496,7 +501,9 @@ package com.ffsys.css
 			//IDENT					{ident}
 			//ident					[-]?{nmstart}{nmchar}*	
 			const IDENT_EXP:String =
-				"-?" + NMSTART_EXP + "{1}" + NMCHAR_EXP + "*";
+				"-?" + NMSTART_EXP + "{1}" + NMCHAR_EXP + "*"
+					//characters that should end an ident
+					+ "(?:[^ \\{>+~:;.])";
 			
 			//urlchar				[#x9#x21#x23-#x26#x27-#x7E] | {nonascii} | {escape}
 			const URLCHAR_EXP:String =
@@ -711,7 +718,7 @@ package com.ffsys.css
 				HASH, new RegExp( "^(?P<hash>" + HASH_EXP + ")" ) );
 			hash.name = "hash";			
 			
-			//UNICODE-RANGE		u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
+			//UNICODE-RANGE							u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?
 			var range:Token = new Token(
 				UNICODE_RANGE,
 				new RegExp( "^" + UNICODE_RANGE_EXP, "i" ) );
@@ -729,7 +736,7 @@ package com.ffsys.css
 				CDC, new RegExp( "^" + CDC_EXP ) );
 			cdc.name = "cdc";
 			
-			//BLOCK-COMMENT		'<!--' {commentdata} '-->'
+			//BLOCK-COMMENT							'<!--' {commentdata} '-->'
 			const BLOCK_COMMENT_EXP:String =
 				"(?P<blockcomment>"
 					+ CDO_EXP + "(?P<commentdata>.*)" + CDC_EXP
@@ -738,43 +745,43 @@ package com.ffsys.css
 				BLOCK_COMMENT, new RegExp( "^" + BLOCK_COMMENT_EXP ) );
 			blockcomment.name = "blockcomment";
 
-			//S					[ \t\r\n\f]+
+			//S										[ \t\r\n\f]+
 			var s:Token = new Token(
 				S, new RegExp( "^(" + S_EXP + ")" ) );
 			s.capture = whitespace;
 			s.name = "whitespace";				
 			
-			//INCLUDES			~=
+			//INCLUDES								~=
 			var includes:Token = new Token(
 				INCLUDES,
 				new RegExp( "^(" + INCLUDES_EXP + ")" ) );
-			includes.name = "includes";				
+			includes.name = "includes";
 			
-			//DASHMATCH			|=
+			//DASHMATCH								|=
 			var dashmatch:Token = new Token(
 				DASHMATCH,
-				new RegExp( "^(" + DASHMATCH_EXP + ")" ) );	
-			dashmatch.name = "dashmatch";				
+				new RegExp( "^(" + DASHMATCH_EXP + ")" ) );
+			dashmatch.name = "dashmatch";
 				
-			//PREFIXMATCH		^=
+			//PREFIXMATCH							^=
 			var prefixmatch:Token = new Token(
 				PREFIXMATCH,
 				new RegExp( "^(" + PREFIXMATCH_EXP + ")" ) );
 			prefixmatch.name = "prefixmatch";				
 				
-			//SUFFIXMATCH		$=
+			//SUFFIXMATCH							$=
 			var suffixmatch:Token = new Token(
 				SUFFIXMATCH,
 				new RegExp( "^(" + SUFFIXMATCH_EXP + ")" ) );
 			suffixmatch.name = "suffixmatch";				
 				
-			//SUBSTRINGMATCH	$=
+			//SUBSTRINGMATCH						$=
 			var substringmatch:Token = new Token(
 				SUBSTRINGMATCH,
 				new RegExp( "^(" + SUBSTRINGMATCH_EXP + ")" ) );
 			substringmatch.name = "substringmatch";								
 			
-			//COMMENT			\/\*[^*]*\*+([^/*][^*]*\*+)*\/
+			//COMMENT								\/\*[^*]*\*+([^/*][^*]*\*+)*\/
 			var comment:Token = new Token(
 				COMMENT, new RegExp( "^" + COMMENT_EXP ) );
 			comment.capture = comments;
@@ -1108,34 +1115,33 @@ package com.ffsys.css
 			trace("[DECLARATION] CssScanner::call()", "font-size: 2.5em; color: #ff6600;",
 				declaration.test( "font-size: 2.5em; color: #ff6600;" ) );
 
-			//COMBINATOR		'+' | '>' | '~' | ' '
+			//COMBINATOR							'+' | '>' | '~' | ' '
 			const COMBINATOR_EXP:String =
-				"(?P<combinator>[\\"
+				"(?:\\"
 					+ Selector.ADJACENT_SIBLING
-					+ Selector.CHILD
-					+ Selector.GENERAL_SIBLING
-					+ Selector.DESCENDANT
-				+ "])";
+					+ "|" + Selector.CHILD
+					+ "|" + Selector.GENERAL_SIBLING
+					+ "|" + Selector.DESCENDANT
+				+ ")";
 			var combinator:Token = new Token(
-				COMBINATOR, new RegExp( "^" + COMBINATOR_EXP ) );
+				COMBINATOR, new RegExp( "^(?P<combinator>" + COMBINATOR_EXP + ")" ) );
 			combinator.name = "combinator";
 			
-			//SIMPLE-SELECTOR	element_name? [HASH|class|attrib|pseudo]* S*
+			//SIMPLE-SELECTOR						element_name? [ HASH | class | attrib | pseudo ]* S*
 			const SIMPLE_SELECTOR_EXP:String =
 				"(?P<elementname>" + ELEMENT_NAME_EXP + ")?"
 				+ "(?:"
-				+ "(?P<attrib>" + ATTRIB_EXP + "){1}"				
+				+ "(?P<attrib>" + ATTRIB_EXP + "){1}"
 				+ "|(?P<pseudo>" + PSEUDO_EXP + "){1}"
 				+ "|(?P<class>" + CLASS_EXP + "){1}"
 				+ "|(?P<hash>" + HASH_EXP + "){1}"
-				+ ")*"
-				+ W_EXP;
+				+ ")*";
 				//+ "(?:\\{)";
 				
 				
 			var simpleSelector:Token = new Token(
 				SIMPLE_SELECTOR, new RegExp(
-					"^(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")" ) );
+					"^(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")" + W_EXP ) );
 			simpleSelector.name = "simpleselector";	
 			
 			
@@ -1152,16 +1158,33 @@ package com.ffsys.css
 			
 			//TODO: move to repeater for proper named group capturing
 			const SELECTOR_EXP:String = 
-				SIMPLE_SELECTOR_EXP
-				+ "(?:"
-					+ COMBINATOR_EXP
-					+ "(?:" + SIMPLE_SELECTOR_EXP + ")"
-				+ ")*";
+				"(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")";
+				//+ "(?:"
+				//	+ "(" + COMBINATOR_EXP + ")"
+				//	+ "(" + SIMPLE_SELECTOR_EXP + ")"
+				//+ ")*";				
 			
 			var selector:Token = new Token(
 				SELECTOR, new RegExp(
-					"^(?P<selector>" + SELECTOR_EXP + ")" ) );
+					"^(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")" + W_EXP ) );
 			selector.name = "selector";
+			
+			//
+			selector.delimiter = new RegExp(
+				"(?P<combinator>" + COMBINATOR_EXP + "){1}" );
+				
+			//the repeater is the same as the
+			//main match for selectors
+			selector.repeater = selector.match;
+
+			trace("[SELECTOR] CssScanner::call()", "h1",
+				selector.test( "h1" ) );
+			trace("[SELECTOR] CssScanner::call()", "h1.red",
+				selector.test( "h1.red" ) );
+			trace("[SELECTOR] CssScanner::call()", ".red",
+				selector.test( ".red" ) );
+			trace("[SELECTOR] CssScanner::call()", "#my-id",
+				selector.test( "#my-id" ) );			
 			
 			//RULESET		selector [ ',' S* selector ]*
 			const RULESET_EXP:String =
@@ -1171,6 +1194,8 @@ package com.ffsys.css
 					+ W_EXP
 					+ SELECTOR_EXP
 				+ ")*"
+				
+				/*
 				+ "(?:"
 					+ W_EXP
 					+ LBRACE_EXP
@@ -1183,20 +1208,41 @@ package com.ffsys.css
 						+ ")*"
 					+ RBRACE_EXP
 				+ ")"
+				*/
+				
 				+ ")*";
 			
 			var ruleset:Token = new Token(
 				RULESET, new RegExp(
 					"^(?P<ruleset>"
 					+ RULESET_EXP
-					+ ")" + W_EXP ) );
-			ruleset.name = "ruleset";	
+					+ ")" ) );
+			ruleset.name = "ruleset";
 			
-			trace("[RULESET] CssScanner::call()", "h1 { font-size: 1.2em }",
-				ruleset.test( "h1 { font-size: 1.2em }" ) );
+			var rulesetblock:BlockToken = new BlockToken(
+				RULESET_BLOCK );
 			
-			trace("[RULESET] CssScanner::call()", "* { font-size: 1.2em }",
-				ruleset.test( "* { font-size: 1.2em }" ) );
+			rulesetblock.start = new RegExp(
+				"^" + W_EXP
+				+ "(?P<rulesetstart>"
+				+ LBRACE_EXP
+				+ ")"
+				+ W_EXP );
+			
+			rulesetblock.end = new RegExp(
+				"^" + W_EXP
+				+ "(?P<rulesetend>"
+				+ RBRACE_EXP
+				+ ")"
+				+ W_EXP );
+				
+			ruleset.block = rulesetblock;
+			
+			trace("[RULESET] CssScanner::call()", "h1",
+				ruleset.test( "h1" ) );
+			
+			trace("[RULESET] CssScanner::call()", "*",
+				ruleset.test( "*" ) );
 				
 			//**************************** NUMBER/UNIT TOKENS ****************************//			
 			
@@ -1351,6 +1397,9 @@ package com.ffsys.css
 			add( lparen );
 			add( rparen );	
 			
+			//combinator before selectors
+			add( combinator );			//	'+' | '>' | '~' | ' '
+			
 			//ruleset + selectors
 			add( ruleset );
 			add( selector );
@@ -1361,25 +1410,22 @@ package com.ffsys.css
 			add( term );
 			
 			//property is a priority match
-			add( property );
+			add( property );			
 			
 			//generic name token before ident
-			add( name );
-			
-			//combinator after selectors
-			add( combinator );			//	'+' | '>'								
+			add( name );								
 			
 			//pseudo class selector
-			add( pseudo );				//	:link
+			add( pseudo );							//	:link
 			
 			//ident based
-			add( clazz );				//	.class			
+			add( clazz );							//	.class			
 			
 			//attribute match
-			add( attrib );
-			add( attriboperator );
+			add( attrib );							//[href]
+			add( attriboperator );					//[lang=en]
 			
-			//element name						//	h1 etc.
+			//element name							//	h1 etc.
 			add( element );
 			
 			//namespace prefix			//must be after elementname

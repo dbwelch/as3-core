@@ -25,15 +25,19 @@ package com.ffsys.scanner
 		private var _expandable:Boolean = false;
 		private var _filters:Boolean = true;
 		
-		private var _repeater:String;
+		private var _delimiter:RegExp;
+		private var _repeater:RegExp;		
 		private var _suffix:String;
+		
+		private var _tokens:Vector.<Token>;
+		private var _block:BlockToken;
 		
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
 		* 	match.
 		*/
-		public var match:Object;
+		private var _match:RegExp;
 		
 		/**
 		* 	An identifier that can be assigned to
@@ -47,30 +51,229 @@ package com.ffsys.scanner
 		public var name:String;
 		
 		/**
-		* 	The entire matched text for the token.
-		*/
-		public var matched:String;
-		
-		/**
 		* 	Creates a <code>Token</code> instance.
 		* 
 		* 	@param id The identifier for the token.
 		*/
-		public function Token( id:int = 0, match:Object = null )
+		public function Token( id:int = 0, source:Object = null )
 		{
 			super();
 			this.id = id;
-			this.match = match;
+			
+			//TODO: handle constructing a regex from a string source
+			
+			if( source is RegExp )
+			{
+				this.match = source as RegExp;
+			}
+			
+			//trace("[INIT] Token::init()", this.id, ( source is RegExp ),  this.match != null );
 		}
 		
-		public function get repeater():String
+		/**
+		* 	The match produced by the first capturing
+		* 	group of the main <code>match</code> regular
+		* 	expression.
+		*/
+		public function get matched():String
+		{
+			return this[ 0 ] as String;
+		}
+		
+		public function set matched( value:String ):void
+		{
+			if( value != null )  
+			{
+				this[ 0 ] = value;
+			}else
+			{
+				shift();
+			}
+		}
+		
+		/**
+		*	The main pattern for this token match.
+		*/
+		public function get match():RegExp
+		{
+			return _match;
+		}
+		
+		public function set match( value:RegExp ):void
+		{
+			_match = value;
+		}
+		
+		/**
+		* 	A regular expression that indicates that this
+		* 	token can be repeated using a <code>delimiter</code>
+		* 	and <code>repeater</code>.
+		*/
+		public function get delimiter():RegExp
+		{
+			return _delimiter;
+		}
+		
+		public function set delimiter( value:RegExp ):void
+		{
+			_delimiter = value;
+		}
+		
+		/**
+		* 	A regular expression that indicates that this
+		* 	token can be repeated.
+		*/
+		public function get repeater():RegExp
 		{
 			return _repeater;
 		}
 		
-		public function set repeater( value:String ):void
+		public function set repeater( value:RegExp ):void
 		{
 			_repeater = value;
+		}
+		
+		/**
+		* 	Handles the processing for any <code>delimiter</code>
+		*	and <code>repeater</code>.
+		* 
+		* 	@param candidate The source candidate to test for
+		* 	<code>delimiter</code> and <code>repeater</code> matching.
+		* 
+		* 	@return An object encapsulating the repeater matches and source
+		* 	candidate string.
+		*/
+		public function repeats( candidate:String, output:Object = null ):Object
+		{
+			if( output == null )
+			{
+				output = {};
+				output.match = "";
+				output.source = candidate;
+				output.delimiters = [];
+				output.repeaters = [];
+				output.matched = [];
+				output.length = 0;
+				//output.extracted = false;
+			}
+			
+			var results:Array = delimiter.exec( output.source );
+			
+			/*
+			if( matched != null && !output.extracted )
+			{
+				var index:int = matched.search( delimiter );
+				if( index > -1 && index < ( matched.length - 1 ) )
+				{					
+					//trace("[FOUND MATCH WITH DELIMITER BEFORE ] Token::repeats()", name, matched );					
+					
+					//var startmatch:String = matched.substr( 0, index );
+					//output.source = matched.substr( index ) + output.source;
+					//output.extracted = true;
+					
+					//matched = startmatch;
+					
+					//trace("[FOUND MATCH WITH DELIMITER AFTER] Token::repeats()", name, matched, startmatch );
+				}	
+			}
+			*/
+			
+			if( delimiter == null
+				|| repeater == null
+				|| !delimiter.test( output.source ) )
+			{
+				return output;
+			}			
+			
+			//results = delimiter.exec( output.source );			
+			
+			results = delimiter.exec( output.source );
+			if( results == null )
+			{
+				return output;
+			}			
+
+			//got a group match on the delimiter
+			if( ( results[ 1 ] as String ) != null && results.index == 0 )
+			{
+				output.delimiters.push( results[ 1 ] );
+				output.match += results[ 1 ];
+				
+				//trace("Token::repeats()", "'" + output  + "'" );
+				
+				//chomp the match
+				output.source = output.source.substr( results[ 1 ].length );
+				
+				//trace("[DELIMITER] Token::repeats()", name, output, repeater != null );
+				
+				if( repeater != null )
+				{
+					results = repeater.exec( output.source );
+					if( results == null )
+					{
+						return output;
+					}
+					//got a group match on the repeater
+					if( ( results[ 1 ] as String ) != null && results.index == 0 )
+					{
+						output.repeaters.push( results[ 1 ] );
+						output.match += results[ 1 ];		
+						
+						//add the delimiter match
+						push( output.delimiters[ output.delimiters.length - 1 ] );
+						output.matched.push( output.delimiters[ output.delimiters.length - 1 ] );
+						
+						//add the repeater match
+						push( output.repeaters[ output.repeaters.length - 1 ] );
+						output.matched.push( output.repeaters[ output.repeaters.length - 1 ] );
+						
+						output.length++;
+						
+						/*
+						trace("[REPEATER] Token::repeats()",
+							name, output, output.length, output.matched );
+						*/
+						
+						//chomp the match
+						output.source = output.source.substr(
+							results[ 1 ].length );
+							
+						//try to recurse
+						if( delimiter.test( output.source ) )
+						{
+							return repeats( output.source, output );
+						}
+					}
+				}
+			}
+			
+			return output;
+		}
+		
+		/**
+		* 	A block token associated with this token.
+		* 
+		* 	A block token opens a block for this token
+		* 	match and then appends all matches within the
+		* 	block to this token.
+		*/
+		public function get block():BlockToken
+		{
+			return _block;
+		}
+		
+		public function set block( value:BlockToken ):void
+		{
+			_block = value;
+		}
+		
+		/**
+		* 	Determines whether a block has been assigned
+		* 	to this token.
+		*/
+		public function hasBlock():Boolean
+		{
+			return _block is BlockToken;
 		}
 		
 		/**
@@ -104,6 +307,19 @@ package com.ffsys.scanner
 		public function set children( value:Vector.<Token> ):void
 		{
 			_children = value;
+		}
+		
+		/**
+		* 	A list of tokens that this token should match
+		* 	against.
+		*/
+		public function get tokens():Vector.<Token>
+		{
+			if( _tokens == null )
+			{
+				return new Vector.<Token>();
+			}
+			return _tokens;
 		}
 		
 		/**
@@ -376,16 +592,16 @@ package com.ffsys.scanner
 			var matches:Boolean = test( candidate, re );
 			if( matches )
 			{
-				if( re == null && match is RegExp )
+				if( re == null )
 				{
-					re = match as RegExp;
-				}		
+					re = match;
+				}
 				
-				if( match is String )
-				{
-					matched = ( match as String );
-				}else if( match is RegExp )
-				{
+				//if( match is String )
+				//{
+				//	matched = ( match as String );
+				//}else if( match is RegExp )
+				//{
 					//
 					clear();
 					
@@ -479,19 +695,24 @@ package com.ffsys.scanner
 					tmp = tmp.slice( 1 );
 					
 					var c:int = -1;
+					var val:String;
 					for( i = 0;i < tmp.length;i++ )
 					{
-						//automatically filter after matching
-						if( filters && doFilter( tmp[ i ], i, tmp ) )
+						val = tmp[ i ] as String;
+						
+						if( val != null )
 						{
-							this[ ++c ] = tmp[ i ];
-						}else if( !filters )
-						{
-							this[ ++c ] = tmp[ i ];							
+							//automatically filter after matching
+							if( filters && doFilter( val, i, tmp ) )
+							{
+								this[ ++c ] = val;
+							}else if( !filters )
+							{
+								this[ ++c ] = val;			
+							}
 						}
 					}
-				}
-				return matches == true || matched.length > 0;
+				//}
 			}
 			return matches;
 		}
@@ -518,29 +739,21 @@ package com.ffsys.scanner
 		*/
 		public function test( candidate:String, re:RegExp = null ):Boolean
 		{
+			var matches:Boolean = false;
 			if( candidate != null )
 			{
-				if( re == null && match is RegExp )
+				if( re == null )
 				{
-					re = match as RegExp;
+					re = this.match;
 				}
 				
-				var tkn:Token = null;
-				if( match != null )
-				{
-					if( re is RegExp
-						&& re.test( candidate ) )
-					{
-						return true;
-					}else if( match is String
-						&& match == candidate )
-					{
-						return true;
-					}
-				}
+				//trace("Token::test()", id, name, this.match != null );
 				
+				matches = re.test( candidate );
+				
+				//TODO: verify delimiter / repeater matches ???
 			}
-			return false;
+			return matches;
 		}
 		
 		/**
@@ -559,13 +772,18 @@ package com.ffsys.scanner
 			}
 			copy.id = id;
 			copy.match = match;
-			copy.matched = matched;
 			copy.name = name;
+			//copy.matched = matched;
 			copy.capture = capture;
 			copy.maximum = maximum;
 			copy.discardable = discardable;
 			copy.expandable = expandable;
 			copy.filters = filters;
+			copy.block = block;
+			
+			copy.repeater = repeater;
+			copy.delimiter = delimiter;
+			
 			copy.children = children.slice();
 			
 			copy.setScanner( this.scanner );
@@ -587,11 +805,18 @@ package com.ffsys.scanner
 		*/
 		public function toString():String
 		{
-			return "[object Token]["
-				+ ( name != null ? name : id ) + "] "
-				+ ( /^\s+$/.test( matched ) ? "\\s+" : matched )
-				//+ ( length > 0 ? ( " | " + join( "," ) ) : "" );
-				+ ( children.length > 0 ? ( " >>> " + children.join( ", " ) ) : "" );
+			var output:String = "[object Token][";
+				output += ( name != null ? name : id ) + "] ";
+				output += ( /^\s+$/.test( matched ) ? "\\s+" : "'" + matched + "'" );
+				if( length > 1 )
+				{				
+					output += " | [matched(" + length + ")[" + join( "," ) + "]]";
+				}
+				//if( children.length > 0 )
+				//{
+					//output += "\n[children[" + children.join( ", " ) + "]";
+				//}
+			return output;
 		}
 	}
 }

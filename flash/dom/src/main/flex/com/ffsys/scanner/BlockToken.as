@@ -27,11 +27,12 @@ package com.ffsys.scanner
 		*/
 		public function BlockToken(
 			id:int = 0,
+			//name:String = null,		//TODO
+			source:Object = null,
 			start:Object = null,
-			end:Object = null,
-			match:Object = null )
+			end:Object = null )
 		{
-			super( id, match );
+			super( id, source );
 			this.start = start;
 			this.end = end;
 		}

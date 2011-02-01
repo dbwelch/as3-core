@@ -473,8 +473,33 @@ package com.ffsys.scanner
 					&& source.length > 0 )
 				{
 					chomp();
-					//scan any remaining source
-					scanSource();
+					
+					if( tkn != null
+						&& tkn.delimiter != null
+						&& tkn.repeater != null )
+					{
+						var result:Object = tkn.repeats( source );
+						if( result.match.length > 0 )
+						{
+							//chomp any repeater scan match
+							_lastMatch = result.match;
+							chomp();
+							
+							trace("Scanner::scanSource()",
+								"[FOUND TOKEN REPEATER]",
+								result.length,
+								"'" + result.matched + "'",
+								result.match );
+						}
+					}
+					
+					if( tkn != null && tkn.hasBlock() )
+					{
+						trace("Scanner::scanSource()", "[FOUND TOKEN WITH BLOCK]" );
+					}else{
+						//scan any remaining source
+						scanSource();
+					}
 				}
 			}
 		}
