@@ -21,7 +21,7 @@ package com.ffsys.scanner
 	*	@author Mischa Williamson
 	*	@since  26.01.2011
 	*/
-	public class Scanner extends Object
+	dynamic public class Scanner extends Array
 	{
 		private var _registry:Vector.<Token>;
 		private var _tokens:Vector.<Token>;
@@ -135,13 +135,18 @@ package com.ffsys.scanner
 		* 	the token at <code>n-1</code> has the lowest
 		* 	priority.
 		*/
-		protected function get tokens():Vector.<Token>
+		public function get tokens():Vector.<Token>
 		{
 			if( _tokens == null )
 			{
 				_tokens = new Vector.<Token>();
 			}
 			return _tokens;
+		}
+		
+		public function set tokens( value:Vector.<Token> ):void
+		{
+			_tokens = value;
 		}
 		
 		/**
@@ -172,9 +177,9 @@ package com.ffsys.scanner
 		/**
 		* 	@private
 		*/
-		protected function compare( tkn:Token, candidate:String ):Boolean
+		public function compare( candidate:String, tkn:Token ):Boolean
 		{
-			var matches:Boolean = tkn.compare( candidate );
+			var matches:Boolean = tkn.compare( candidate, tkn );
 			if( matches )
 			{
 				_lastMatch = tkn.matched;
@@ -241,7 +246,7 @@ package com.ffsys.scanner
 		* 
 		* 	@return A list of matching result tokens.
 		*/
-		public function filter( filter:*, list:Vector.<Token> = null ):Vector.<Token>
+		public function search( filter:*, list:Vector.<Token> = null ):Vector.<Token>
 		{
 			var output:Vector.<Token> = new Vector.<Token>();
 			
@@ -441,11 +446,75 @@ package com.ffsys.scanner
 		{
 			if( source != null )
 			{
-				var i:int = 0;
-				var c:String = null;
+				//var i:int = 0;
+				//var c:String = null;
+				
 				var tkn:Token = null;
 				
-				tkn = exec( source );
+				var list:Vector.<Token> = tokens;
+				
+				
+			
+				//open blocks match against any tokens
+				//associated with them
+				if( _current != null
+					&& _current.open
+					&& _current.block.tokens.length > 0 )
+				{
+					list = _current.block.tokens;
+					trace("[ASSIGNED OPEN BLOCK TOKENS] Scanner::scanSource()", list );
+				}
+					
+				if( _current != null && _current.hasBlock() )
+				{
+					var results:Array = null;
+					var opens:Boolean = false;
+					var closes:Boolean = false;
+					
+					//trace("Scanner::scanSource()", _current, _current.block.start );
+					
+					results = _current.block.start.exec( source );
+					if( results != null )
+					{
+						var start:String = results[ 1 ] as String;
+						opens = start != null && start.length > 0;
+						if( opens )
+						{
+							trace("Scanner::scanSource()", "[STARTING BLOCK WITH START]", start );
+							_lastMatch = start;
+							chomp();
+						}
+					}
+					
+					results = _current.block.end.exec( source );
+					if( results != null )
+					{
+						var end:String = results[ 1 ] as String;
+						closes = end != null && end.length > 0;						
+						if( closes )
+						{
+							trace("Scanner::scanSource()", "[CLOSING BLOCK WITH END]", end );								
+							_lastMatch = end;
+							chomp();
+						}
+					}
+					
+					if( opens && !closes )
+					{
+						trace("Scanner::scanSource()", "[FIND TOKEN WITH BLOCK]",
+							_current.name, _current.hasBlock(), opens );
+						
+						_current.block.open = true;
+					}
+					
+					//close an open block
+					if( _current.open && closes )
+					{
+						_current.block.open = false;
+					}						
+				}			
+				
+				tkn = exec( source, null, false, list );
 
 				//set current tokenif none exists
 				if( ( tkn != null && _current == null ) )
@@ -481,25 +550,22 @@ package com.ffsys.scanner
 						var result:Object = tkn.repeats( source );
 						if( result.match.length > 0 )
 						{
-							//chomp any repeater scan match
+							//chomp any repeater match
 							_lastMatch = result.match;
 							chomp();
 							
+							/*
 							trace("Scanner::scanSource()",
 								"[FOUND TOKEN REPEATER]",
 								result.length,
 								"'" + result.matched + "'",
 								result.match );
+							*/
 						}
 					}
 					
-					if( tkn != null && tkn.hasBlock() )
-					{
-						trace("Scanner::scanSource()", "[FOUND TOKEN WITH BLOCK]" );
-					}else{
-						//scan any remaining source
-						scanSource();
-					}
+					//scan any remaining source
+					scanSource();
 				}
 			}
 		}
@@ -541,7 +607,7 @@ package com.ffsys.scanner
 						continue;
 					}
 					
-					if( compare( tkn, candidate ) )
+					if( compare( candidate, tkn ) )
 					{
 						//trace("Scanner::exec()", "[ FOUND TOKEN MATCH ]", tkn );
 						return handleMatchedToken( tkn, src );

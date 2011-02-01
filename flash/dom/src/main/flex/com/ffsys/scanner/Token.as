@@ -13,7 +13,7 @@ package com.ffsys.scanner
 	*	@author Mischa Williamson
 	*	@since  26.01.2011
 	*/
-	dynamic public class Token extends Array
+	dynamic public class Token extends Scanner
 	{	
 		private var _scanner:Scanner;
 		
@@ -22,12 +22,11 @@ package com.ffsys.scanner
 		private var _capture:Boolean = true;
 		private var _maximum:int = -1;
 		private var _discardable:Boolean = false;
-		private var _expandable:Boolean = false;
-		private var _filters:Boolean = true;
+		//private var _expandable:Boolean = false;
+		private var _clean:Boolean = true;
 		
 		private var _delimiter:RegExp;
-		private var _repeater:RegExp;		
-		private var _suffix:String;
+		private var _repeater:RegExp;
 		
 		private var _tokens:Vector.<Token>;
 		private var _block:BlockToken;
@@ -268,12 +267,20 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	Determines whether a block has been assigned
+		* 	Determines whether a valid block has been assigned
 		* 	to this token.
 		*/
 		public function hasBlock():Boolean
 		{
-			return _block is BlockToken;
+			return _block is BlockToken && block.start != null && block.end != null;
+		}
+		
+		/**
+		* 	TODO
+		*/
+		public function get open():Boolean
+		{
+			return hasBlock() && block.open;
 		}
 		
 		/**
@@ -313,6 +320,8 @@ package com.ffsys.scanner
 		* 	A list of tokens that this token should match
 		* 	against.
 		*/
+		
+		/*
 		public function get tokens():Vector.<Token>
 		{
 			if( _tokens == null )
@@ -321,6 +330,12 @@ package com.ffsys.scanner
 			}
 			return _tokens;
 		}
+		
+		public function set tokens( value:Vector.<Token> ):void
+		{
+			_tokens = value;
+		}	
+		*/
 		
 		/**
 		* 	A collection of token matches that represent
@@ -437,6 +452,8 @@ package com.ffsys.scanner
 		* 	the index of this token +1 in the list are
 		* 	rescanned.
 		*/
+		
+		/*
 		public function get expandable():Boolean
 		{
 			return _expandable;
@@ -446,6 +463,7 @@ package com.ffsys.scanner
 		{
 			_expandable = value;
 		}
+		*/
 		
 		/**
 		* 	Performs expansion of previously matched
@@ -454,18 +472,10 @@ package com.ffsys.scanner
 		* 	@param scanner The scanner that created
 		* 	this token match.
 		*/
+		
+		/*
 		public function expand( scanner:Scanner ):void
 		{
-			//find the index we matched at
-			//var index:int = scanner.index( this );
-			
-			//
-			
-			/*
-			trace("Token::expand()",
-				this, scanner );			
-			*/
-			
 			//omit the first match as that was this token's
 			//complete match
 			var tmp:Array = slice( 1 );
@@ -494,9 +504,10 @@ package com.ffsys.scanner
 			
 			trace("Token::expand()", "[EXPANDED]", children );
 		}
+		*/
 		
 		/**
-		* 	Determines whether this token filters invalid
+		* 	Determines whether this token cleans invalid
 		* 	matches before assigning matches to this token.
 		* 
 		* 	The default value is <code>true</code>.
@@ -504,14 +515,14 @@ package com.ffsys.scanner
 		* 	An invalid match is considered to be a duplicate,
 		* 	null, undefined or an empty string.
 		*/
-		public function get filters():Boolean
+		public function get clean():Boolean
 		{
-			return _filters;
+			return _clean;
 		}
 		
-		public function set filters( value:Boolean ):void
+		public function set clean( value:Boolean ):void
 		{
-			_filters = value;
+			_clean = value;
 		}
 		
 		/**
@@ -563,6 +574,7 @@ package com.ffsys.scanner
 			return ( tkn != null && ( tkn.id == this.id || tkn.name == this.name ) );
 		}
 		
+		/*
 		public function index( tokens:Vector.<Token> ):int
 		{
 			if( tokens != null )
@@ -579,6 +591,7 @@ package com.ffsys.scanner
 			}
 			return -1;
 		}
+		*/
 		
 		/**
 		* 	Performs comparison against a candidate string.
@@ -587,16 +600,11 @@ package com.ffsys.scanner
 		* 
 		* 	@return Whether this token matches the candidate.
 		*/
-		public function compare( candidate:String, re:RegExp = null ):Boolean
+		override public function compare( candidate:String, tkn:Token ):Boolean
 		{
-			var matches:Boolean = test( candidate, re );
+			var matches:Boolean = test( candidate );
 			if( matches )
 			{
-				if( re == null )
-				{
-					re = match;
-				}
-				
 				//if( match is String )
 				//{
 				//	matched = ( match as String );
@@ -605,7 +613,7 @@ package com.ffsys.scanner
 					//
 					clear();
 					
-					var tmp:Array = re.exec( candidate );
+					var tmp:Array = match.exec( candidate );
 					
 					//keep track of any match index
 					//this.index = tmp.index;
@@ -638,7 +646,7 @@ package com.ffsys.scanner
 						{
 							//try to find a match token that
 							//corresponds to the name of the capturing group
-							tkns = scanner.filter( z );
+							tkns = scanner.search( z );
 							
 							if( tkns.length > 0 )
 							{
@@ -703,10 +711,10 @@ package com.ffsys.scanner
 						if( val != null )
 						{
 							//automatically filter after matching
-							if( filters && doFilter( val, i, tmp ) )
+							if( clean && doFilter( val, i, tmp ) )
 							{
 								this[ ++c ] = val;
-							}else if( !filters )
+							}else if( !clean )
 							{
 								this[ ++c ] = val;			
 							}
@@ -737,21 +745,12 @@ package com.ffsys.scanner
 		* 
 		* 	@return Whether this token matches the candidate.
 		*/
-		public function test( candidate:String, re:RegExp = null ):Boolean
+		public function test( candidate:String ):Boolean
 		{
 			var matches:Boolean = false;
-			if( candidate != null )
+			if( candidate != null && match != null )
 			{
-				if( re == null )
-				{
-					re = this.match;
-				}
-				
-				//trace("Token::test()", id, name, this.match != null );
-				
-				matches = re.test( candidate );
-				
-				//TODO: verify delimiter / repeater matches ???
+				matches = match.test( candidate );
 			}
 			return matches;
 		}
@@ -777,12 +776,13 @@ package com.ffsys.scanner
 			copy.capture = capture;
 			copy.maximum = maximum;
 			copy.discardable = discardable;
-			copy.expandable = expandable;
-			copy.filters = filters;
+			//copy.expandable = expandable;
+			copy.clean = clean;
 			copy.block = block;
 			
 			copy.repeater = repeater;
 			copy.delimiter = delimiter;
+			copy.tokens = tokens;
 			
 			copy.children = children.slice();
 			

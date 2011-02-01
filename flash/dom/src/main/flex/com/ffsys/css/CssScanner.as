@@ -366,7 +366,7 @@ package com.ffsys.css
 		/**
 		* 	The identifier for a ruleset token.
 		*/
-		public static const RULESET_BLOCK:int = 308;
+		public static const BLOCK:int = 308;
 		
 		//DEFAULT TOKEN	
 		
@@ -1127,6 +1127,24 @@ package com.ffsys.css
 				COMBINATOR, new RegExp( "^(?P<combinator>" + COMBINATOR_EXP + ")" ) );
 			combinator.name = "combinator";
 			
+			//block definition
+			var block:BlockToken = new BlockToken( BLOCK );
+			block.start = new RegExp(
+				"^"
+				+ "(?P<blockstart>"
+				+ W_EXP
+				+ LBRACE_EXP
+				+ W_EXP				
+				+ ")" );
+			block.end = new RegExp(
+				"^"
+				+ "(?P<blockend>"
+				+ W_EXP
+				+ "(?:" + LBRACE_EXP + ")?"
+				+ RBRACE_EXP
+				+ W_EXP
+				+ ")" );
+			
 			//SIMPLE-SELECTOR						element_name? [ HASH | class | attrib | pseudo ]* S*
 			const SIMPLE_SELECTOR_EXP:String =
 				"(?P<elementname>" + ELEMENT_NAME_EXP + ")?"
@@ -1144,7 +1162,6 @@ package com.ffsys.css
 					"^(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")" + W_EXP ) );
 			simpleSelector.name = "simpleselector";	
 			
-			
 			trace("[SIMPLE-SELECTOR] CssScanner::call()", "h1",
 				simpleSelector.test( "h1" ) );
 			trace("[SIMPLE-SELECTOR] CssScanner::call()", "h1.red",
@@ -1155,27 +1172,25 @@ package com.ffsys.css
 				simpleSelector.test( "#my-id" ) );
 			
 			//SELECTOR		simple_selector [combinator simple_selector]* S*
-			
-			//TODO: move to repeater for proper named group capturing
-			const SELECTOR_EXP:String = 
-				"(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")";
-				//+ "(?:"
-				//	+ "(" + COMBINATOR_EXP + ")"
-				//	+ "(" + SIMPLE_SELECTOR_EXP + ")"
-				//+ ")*";				
-			
 			var selector:Token = new Token(
 				SELECTOR, new RegExp(
 					"^(?P<simpleselector>" + SIMPLE_SELECTOR_EXP + ")" + W_EXP ) );
 			selector.name = "selector";
-			
-			//
 			selector.delimiter = new RegExp(
 				"(?P<combinator>" + COMBINATOR_EXP + "){1}" );
-				
-			//the repeater is the same as the
-			//main match for selectors
 			selector.repeater = selector.match;
+			selector.block = BlockToken( block.clone() );
+			selector.block.name = selector.name;
+			
+			//comment.setScanner( this );
+			//declaration.setScanner( this );
+			//term.setScanner( this );
+			//property.setScanner( this );
+			
+			selector.block.add( comment );			
+			selector.block.add( declaration );
+			selector.block.add( term );
+			selector.block.add( property );
 
 			trace("[SELECTOR] CssScanner::call()", "h1",
 				selector.test( "h1" ) );
@@ -1187,56 +1202,14 @@ package com.ffsys.css
 				selector.test( "#my-id" ) );			
 			
 			//RULESET		selector [ ',' S* selector ]*
-			const RULESET_EXP:String =
-				SELECTOR_EXP
-				+ "(?:"
-					+ "(<?P<selectordelimiter>,)"
-					+ W_EXP
-					+ SELECTOR_EXP
-				+ ")*"
-				
-				/*
-				+ "(?:"
-					+ W_EXP
-					+ LBRACE_EXP
-						+ W_EXP
-						+ "(?:" + DECLARATION_EXP + "){1}"
-						+ "(?:"
-							+ ";"
-							+ W_EXP
-							+ "(?:" + DECLARATION_EXP + ")"
-						+ ")*"
-					+ RBRACE_EXP
-				+ ")"
-				*/
-				
-				+ ")*";
-			
 			var ruleset:Token = new Token(
-				RULESET, new RegExp(
-					"^(?P<ruleset>"
-					+ RULESET_EXP
-					+ ")" ) );
+				RULESET, selector.match );
 			ruleset.name = "ruleset";
-			
-			var rulesetblock:BlockToken = new BlockToken(
-				RULESET_BLOCK );
-			
-			rulesetblock.start = new RegExp(
-				"^" + W_EXP
-				+ "(?P<rulesetstart>"
-				+ LBRACE_EXP
-				+ ")"
-				+ W_EXP );
-			
-			rulesetblock.end = new RegExp(
-				"^" + W_EXP
-				+ "(?P<rulesetend>"
-				+ RBRACE_EXP
-				+ ")"
-				+ W_EXP );
+			ruleset.delimiter = new RegExp(
+				"(?P<rulesetdelimiter>,)" );
+			ruleset.repeater = ruleset.match;
 				
-			ruleset.block = rulesetblock;
+			ruleset.block = block;
 			
 			trace("[RULESET] CssScanner::call()", "h1",
 				ruleset.test( "h1" ) );
@@ -1371,7 +1344,7 @@ package com.ffsys.css
 			add( exs );
 			add( dimension );
 			add( percent );
-			add( num );	
+			add( num );
 			
 			//function expression: method()
 			add( method );
@@ -1401,16 +1374,16 @@ package com.ffsys.css
 			add( combinator );			//	'+' | '>' | '~' | ' '
 			
 			//ruleset + selectors
-			add( ruleset );
 			add( selector );
+			add( ruleset );
 			add( simpleSelector );
 			
 			//property/expr declaration
-			add( declaration );
-			add( term );
+			//add( declaration );
+			//add( term );
 			
 			//property is a priority match
-			add( property );			
+			//add( property );
 			
 			//generic name token before ident
 			add( name );								

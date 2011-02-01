@@ -3,8 +3,6 @@ package com.ffsys.scanner
 	/**
 	*	Represents a token that opens and closes
 	* 	a block.
-	* 
-	* 	Block tokens may contain child tokens.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -12,10 +10,10 @@ package com.ffsys.scanner
 	*	@author Mischa Williamson
 	*	@since  26.01.2011
 	*/
-	public class BlockToken extends Token
+	dynamic public class BlockToken extends Token
 	{
-		private var _start:Object;
-		private var _end:Object;
+		private var _start:RegExp;
+		private var _end:RegExp;
 		private var _open:Boolean;
 		
 		/**
@@ -29,8 +27,8 @@ package com.ffsys.scanner
 			id:int = 0,
 			//name:String = null,		//TODO
 			source:Object = null,
-			start:Object = null,
-			end:Object = null )
+			start:RegExp = null,
+			end:RegExp = null )
 		{
 			super( id, source );
 			this.start = start;
@@ -42,7 +40,7 @@ package com.ffsys.scanner
 		* 	to be open, ie, an end match has not yet
 		* 	been found for the token.
 		*/
-		public function get open():Boolean
+		override public function get open():Boolean
 		{
 			return _open;
 		}
@@ -50,56 +48,35 @@ package com.ffsys.scanner
 		public function set open( value:Boolean ):void
 		{
 			_open = value;
+			trace("[OPEN] BlockToken::set open()", name, value );
 		}
 		
 		/**
-		* 	A string or regular expression
+		* 	A regular expression
 		* 	that indicates the start of this block.
 		*/
-		public function get start():Object
+		public function get start():RegExp
 		{
 			return _start;
 		}
 		
-		public function set start( value:Object ):void
+		public function set start( value:RegExp ):void
 		{
 			_start = value;
 		}
 		
 		/**
-		* 	A string or regular expression
+		* 	A regular expression
 		* 	that indicates the end of this block.
 		*/
-		public function get end():Object
+		public function get end():RegExp
 		{
 			return _end;
 		}
 		
-		public function set end( value:Object ):void
+		public function set end( value:RegExp ):void
 		{
 			_end = value;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function test(
-			candidate:String, re:RegExp = null ):Boolean
-		{
-			if( candidate != null )
-			{
-				if( start is RegExp && start.test( candidate ) ) 
-				{
-					//trace("Token::test()", "[OPENING TOKEN]", this );
-					open = true;
-				}
-				
-				if( end is RegExp && end.test( candidate ) ) 
-				{
-					open = false;
-				}
-			}
-			return super.test( candidate, re );
 		}
 		
 		/**
