@@ -126,7 +126,7 @@ package com.ffsys.dom
 					@namespace url( 'http://freeformsystems.com/fluid/css' );
 					@namespace fluid url( 'http://freeformsystems.com/fluid/css' );
 					
-					@unknown-rule screen, flash-vector;
+					/* @unknown-rule screen, flash-vector; */
 					
 					/* COMBINATORS */
 					parent>child>grandchild>greatgrandchild{};
@@ -155,7 +155,13 @@ package com.ffsys.dom
 					[attr$='suffixmatch']
 					[attr*="substringmatch"]
 					
+					[lang~=en] {
+						color: #ff6600;
+					}
+				
 					/* COMPLEX DOUBLE QUOTED STRING ATTRIBUTE VALUE */
+		
+					/*
 					p[example="public class foo\
 					{\
 					    private int x;\
@@ -165,8 +171,11 @@ package com.ffsys.dom
 					    }\
 					\
 					}"] { color: red }
-
+					*/
+		
 					/* COMPLEX SINGLE QUOTED STRING ATTRIBUTE VALUE */					
+		
+					/*
 					p[example='public class foo\
 					{\
 					    private int x;\
@@ -175,17 +184,19 @@ package com.ffsys.dom
 					        this.x = x;\
 					    }\
 					\
-					}'] { color: blue }
+					}'] { color: blue }		
+					*/					
+				
+				
+				
 					
-					[lang~=en] {
-						color: #ff6600;
-					}
-					
+					/*
 					@media print {
 						h3.big {
 							font-size: 2.4em;
 						}
 					}
+					*/
 					
 					<!-- SOME COMMENT DATA -->
 					/**/
@@ -282,6 +293,7 @@ package com.ffsys.dom
 			scanner.whitespace = false;
 			scanner.comments = false;
 			var results:Vector.<Token> = scanner.scan( sample );
+			
 			
 			trace("[RESULTS] CssScannerTest::cssTokenizeTest()", results.length, scanner.source );
 			

@@ -787,12 +787,6 @@ package com.ffsys.css
 			comment.capture = comments;
 			comment.name = "comment";
 			
-			//FUNCTION			{ident}\(
-			const FUNCTION_EXP:String = IDENT_EXP + "\\(";			
-			var method:Token = new Token(
-				FUNCTION, new RegExp( "^(?P<method>" + FUNCTION_EXP + ")" ) );
-			method.name = "method";
-			
 			//HEXCOLOR						#000000 | #000
 			const HEXCOLOR_EXP:String = "(?P<hexcolor>#(" + H_EXP + "{6}|" + H_EXP + "{3}))";
 			var hexcolor:Token = new Token(
@@ -932,13 +926,13 @@ package com.ffsys.css
 				ELEMENT_NAME, new RegExp( "^(?P<elementname>" + ELEMENT_NAME_EXP + ")" ) );
 			element.name = "elementname";
 			
-			
 			//LBRACE										'{'
 			const LBRACE_EXP:String = "\\{";
 			var lbrace:Token = new Token(
 				LBRACE,
 				new RegExp( "^(?P<lbrace>" + LBRACE_EXP + ")" ) );
 			lbrace.name = "lbrace";
+			lbrace.capture = false;
 			
 			//RBRACE										'}'
 			const RBRACE_EXP:String = "\\}";			
@@ -946,19 +940,21 @@ package com.ffsys.css
 				RBRACE,
 				new RegExp( "^(?P<rbrace>" + RBRACE_EXP + ")" ) );
 			rbrace.name = "rbrace";
+			rbrace.capture = false;			
 			
 			//LPAREN										'('
 			var lparen:Token = new Token(
 				LPAREN,
 				new RegExp( "^(?P<lparen>" + "\\(" + ")" ) );
 			lparen.name = "lparen";
+			lparen.capture = false;
 			
 			//RPAREN										')'
 			var rparen:Token = new Token(
 				RPAREN,
 				new RegExp( "^(?P<rparen>" + "\\)" + ")" ) );
 			rparen.name = "rparen";
-			
+			rparen.capture = false;
 
 			//**************************** NUMBER/UNIT TOKENS ****************************//			
 
@@ -1076,12 +1072,6 @@ package com.ffsys.css
 				ATTRIB_NAME_IDENT,
 				new RegExp( "^(?P<attribnameident>" + IDENT_EXP + ")" ) );
 			attribnameident.name = "attribnameident";
-				
-			//FUNCTION			{ident}\(
-			const FUNCTION_CALL_EXP:String = FUNCTION_EXP + TERM_EXP + "\\)";
-			var func:Token = new Token(
-				FUNCTION, new RegExp( "^(?P<function>" + FUNCTION_CALL_EXP + ")" ) );
-			func.name = "function";
 			
 			//PSEUDO				':' [ FUNCTION S* IDENT S* ')' | IDENT ]
 			const PSEUDO_EXP:String =
@@ -1095,35 +1085,39 @@ package com.ffsys.css
 			pseudo.name = "pseudo";
 			
 			//TERM
-			//	: unary_operator?
-			//	[ NUMBER S* | PERCENTAGE S* | LENGTH S* | EMS S* | EXS S* | ANGLE S*
-			//		| TIME S* | FREQUENCY S* | function ]
-			//	| STRING S* | IDENT S* | URI S* | UNICODERANGE S* | hexcolor
+			//		: unary_operator?
+			//		[
+			//			NUMBER S* | PERCENTAGE S* | LENGTH S* | EMS S* | EXS S* | ANGLE S*
+			//			| TIME S* | FREQUENCY S* | function
+			//		]
+			//		| STRING S* | IDENT S* | URI S* | UNICODERANGE S* | hexcolor
 			const TERM_EXP:String =
-				"(?:" + UNARY_OPERATOR_EXP + ")?"
-					+ "(?:"
-						+ StyleUnit.ANGLE_EXP
-						+ "|" + StyleUnit.FREQUENCY_EXP
-						+ "|" + StyleUnit.LENGTH_EXP
-						+ "|" + StyleUnit.TIME_EXP
-						+ "|" + StyleUnit.EMS_EXP
-						+ "|" + StyleUnit.EXS_EXP
-						+ "|" + PERCENT_EXP
-						+ "|" + DIMENSION_EXP
-						+ "|" + NUM_EXP
-						+ "|" + FUNCTION_CALL_EXP
-						+ W_EXP
-					+ ")|"
-					+ "(?:"
-						+ URI_EXP
-						+ "|" + STRING_EXP
-						+ "|" + IDENT_EXP
-						+ "|" + UNICODE_RANGE_EXP
-						+ "|" + HEXCOLOR_EXP
-						+ W_EXP						
-					+ ")"
-					//+ "(?:;)?"			//optional statement end
-					;							
+				"(?:"
+					//+ "(?:"
+						+ "(?:" + UNARY_OPERATOR_EXP + ")?"
+						+ "(?:"
+							+ StyleUnit.ANGLE_EXP
+							+ "|" + StyleUnit.FREQUENCY_EXP
+							+ "|" + StyleUnit.LENGTH_EXP
+							+ "|" + StyleUnit.TIME_EXP
+							+ "|" + StyleUnit.EMS_EXP
+							+ "|" + StyleUnit.EXS_EXP
+							+ "|" + PERCENT_EXP
+							+ "|" + DIMENSION_EXP
+							+ "|" + NUM_EXP
+							//+ "|" + FUNCTION_CALL_EXP
+							+ W_EXP
+						+ ")|"
+						+ "(?:"
+							+ URI_EXP
+							+ "|" + STRING_EXP
+							+ "|" + IDENT_EXP
+							+ "|" + UNICODE_RANGE_EXP
+							+ "|" + HEXCOLOR_EXP
+							+ W_EXP						
+						+ ")"
+					//+ ")"
+				+ ")";
 				
 			var term:Token = new Token(
 				TERM, new RegExp(
@@ -1132,55 +1126,42 @@ package com.ffsys.css
 					+ ")" ) );
 			term.name = "term";
 			
-			//EXPR					term [operator term]*
-			const EXPR_EXP:String =
-				"(?:" + TERM_EXP + "){1}"
-				+ "(?:"
-					+ "(?P<operator>" + OPERATOR_EXP + "){1}"
-					+ "(" + TERM_EXP + ")*"
-				+ ")*";
-			
+			//EXPR								term [operator term]*
 			var expr:Token = new Token(
 				EXPR, term.match );
 			expr.name = "expr";
 			expr.delimiter = new RegExp(
-				W_EXP + "(?P<exprdelimiter>;){1}" + W_EXP );
+				W_EXP + "(?P<exprdelim>" + OPERATOR_EXP + "){1}" + W_EXP );
 			expr.repeater = expr.match;
-
-			trace("[TERM] CssScanner::call()", "2.5em", term.test( "2.5em" ) );
-			trace("[TERM] CssScanner::call()", "url('http://example.com')",
-				term.test( "url('http://example.com')" ) );
-			trace("[TERM] CssScanner::call()", "2.5em;", term.test( "2.5em;" ) );
-			trace("[TERM] CssScanner::call()", "10", term.test( "10" ) );
-			trace("[TERM] CssScanner::call()", "0 0 0 0", term.test( "0 0 0 0" ) );
-			trace("[EXPR] CssScanner::call()", "2.5em/", expr.test( "2.5em/" ) );		
-			trace("[EXPR] CssScanner::call()", "2.5em", expr.test( "2.5em" ) );
-			trace("[EXPR] CssScanner::call()", "2.5em/1.2em", expr.test( "2.5em/1.2em" ) );
-			trace("[EXPR] CssScanner::call()", "0 0 0 0", expr.test( "0 0 0 0" ) );
 			
-			//DECLARATION								property ':' S* expr prio?
+			//FUNCTION			{ident}\(
+			const FUNCTION_EXP:String = IDENT_EXP + "\\(";			
+			var method:Token = new Token(
+				FUNCTION, new RegExp( "^(?P<method>" + FUNCTION_EXP + ")" ) );
+			method.name = "method";
+			
+			//{function}								FUNCTION S* expr ')' S*
+			const FUNCTION_CALL_EXP:String = FUNCTION_EXP + TERM_EXP + "\\)";
+			var func:Token = new Token(
+				FUNCTION, new RegExp( "^(?P<function>" + FUNCTION_CALL_EXP + ")" ) );
+			func.name = "function";			
+			
+			//{declaration}								property ':' S* expr prio?
 			const DECLARATION_EXP:String = 
-				"(?P<property>" + IDENT_EXP + ")"
-				+ "(?P<declarationdelimiter>:)"
+				"(?P<property>" + IDENT_EXP + "){1}"
+				+ "(?P<propdelim>:){1}"
 				+ W_EXP
-				+ TERM_EXP				//TODO: move to EXPR_EXP
-				;
-				
-				/*
-				const DECLARATION_EXP:String = 
-					"(?P<property>" + IDENT_EXP + ")"
-					+ "(?P<declarationdelimiter>:)"
-					+ W_EXP
-					+ expr.match.source;				
-				*/
-				
+				+ TERM_EXP
+				+ PRIO_EXP + "?";
 			var declaration:Token = new Token(
 				DECLARATION, new RegExp(
 					"^(?P<declaration>" + DECLARATION_EXP + ")" ) );
 			declaration.name = "declaration";
+			declaration.delimiter = new RegExp(
+				W_EXP + "(?P<decldelim>;){1}" + W_EXP );
+			declaration.repeater = declaration.match;
 			
-			trace("[DECLARATION] CssScanner::call()", "font-size: 2.5em; color: #ff6600;",
-				declaration.test( "font-size: 2.5em; color: #ff6600;" ) );
+			//	+ "(?:[^\\{;]\\r\\n\\f)"
 
 			//COMBINATOR							'+' | '>' | '~' | ' '
 			const COMBINATOR_EXP:String =
@@ -1249,11 +1230,19 @@ package com.ffsys.css
 			selector.block = BlockToken( block.clone() );
 			selector.block.name = selector.name;
 			
-			selector.block.add( comment );			
-			selector.block.add( declaration );
-			selector.block.add( expr );
+			selector.block.add( comment );					// 	/* multiline comment */
+			selector.block.add( string );					// 	"string" or 'string'
+			selector.block.add( declaration );				// 	font-size: 1.2em;
+			selector.block.add( expr );						
 			selector.block.add( term );
-			selector.block.add( property );
+
+			selector.block.add( s );						// 	[ \t\n\r\f]
+			
+			selector.block.add( property );					//	font-size
+			selector.block.add( prio );						//	!important
+			
+			//generic name token
+			selector.block.add( name );
 			
 			//numeric/unit values should be matched in this order
 			selector.block.add( angle );
@@ -1267,10 +1256,44 @@ package com.ffsys.css
 			selector.block.add( num );
 			
 			//function expression: method()
-			add( method );			
+			selector.block.add( func );						//	FUNCTION S* expr ')' S*
 			
-			selector.block.add( s );
-			selector.block.add( char );			
+			//operators need to take precedence
+			selector.block.add( operator );					//	'/' | ',' | /* empty */
+			selector.block.add( unary );					//	'-' | '+'
+			
+			selector.block.add( statementend );				//	';'		
+			selector.block.add( lbrace );					//	'{'
+			selector.block.add( rbrace );					//	'}'
+			selector.block.add( lparen );					//	'('
+			selector.block.add( rparen );					//	')'
+						
+			selector.block.add( char );						//	[^'"]
+			
+			
+			trace("[TERM] CssScanner::call()", "2.5em", term.test( "2.5em" ) );
+			trace("[TERM] CssScanner::call()", "url('http://example.com')",
+				term.test( "url('http://example.com')" ) );
+			trace("[TERM] CssScanner::call()", "2.5em;", term.test( "2.5em;" ) );
+			trace("[TERM] CssScanner::call()", "10", term.test( "10" ) );
+			trace("[TERM] CssScanner::call()", "0 0 0 0", term.test( "0 0 0 0" ) );
+			
+			trace("[EXPR] CssScanner::call()", "2.5em/", expr.test( "2.5em/" ) );		
+			trace("[EXPR] CssScanner::call()", "2.5em", expr.test( "2.5em" ) );
+			trace("[EXPR] CssScanner::call()", "2.5em/1.2em", expr.test( "2.5em/1.2em" ) );
+			trace("[EXPR] CssScanner::call()", "0 0 0 0", expr.test( "0 0 0 0" ) );			
+			
+			trace("[DECLARATION] CssScanner::call()", "'font-family:'",
+				declaration.compare( "font-family:", declaration ), declaration.matched );
+				
+			trace("[DECLARATION] CssScanner::call()", "'margin-bottom: 10;'",
+				declaration.compare( "margin-bottom: 10;", declaration ), declaration.matched );
+			
+			trace("[DECLARATION] CssScanner::call()", "'font-family: 'Arial Narrow', Arial, sans-serif;'",
+				declaration.compare( "font-family: 'Arial Narrow', Arial, sans-serif;", declaration ), declaration.matched );
+			
+			trace("[DECLARATION] CssScanner::call()", "'font-size: 2.5em; color: #ff6600'",
+				declaration.compare( "font-size: 2.5em; color: #ff6600", declaration ), declaration.matched );			
 
 			trace("[SELECTOR] CssScanner::call()", "h1",
 				selector.test( "h1" ) );
@@ -1343,9 +1366,7 @@ package com.ffsys.css
 			add( string );
 			
 			//match {baduri} before {ident}
-			add( badUri );		
-			
-			add( prio );				//	!important
+			add( badUri );
 			
 			add( hash );
 			
@@ -1376,17 +1397,7 @@ package com.ffsys.css
 			//ruleset + selectors
 			add( selector );
 			add( ruleset );
-			add( simpleSelector );
-			
-			//property/expr declaration
-			//add( declaration );
-			//add( term );
-			
-			//property is a priority match
-			//add( property );
-			
-			//generic name token before ident
-			add( name );								
+			add( simpleSelector );								
 			
 			//pseudo class selector
 			add( pseudo );							//	:link

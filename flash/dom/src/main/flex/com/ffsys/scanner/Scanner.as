@@ -23,10 +23,31 @@ package com.ffsys.scanner
 	*/
 	dynamic public class Scanner extends Array
 	{
+		/**
+		* 	Used to indicate the expected number
+		* 	of bytes per text character.
+		* 
+		* 	The default assumption is that <code>utf-8</code>
+		* 	is used therefore there is one byte per character.
+		* 
+		* 	For larger character byte representations (<code>utf-16</code> etc.)
+		* 	this value should be set to correspond to the
+		* 	byte per character count in order for the
+		* 	<code>bytesTotal</code> and <code>bytesLoaded</code>
+		* 	to be a true representation of the number of bytes
+		* 	represented by the character stream.
+		*/
+		public static var bytesPerCharacter:uint = 1;
+		
 		private var _registry:Vector.<Token>;
 		private var _tokens:Vector.<Token>;
 		private var _results:Vector.<Token>;
 		private var _counts:Object;
+		
+		private var _bytesTotal:int = 0;
+		private var _bytesLoaded:int = 0;
+		
+		private var _list:Vector.<Token>;
 		
 		/**
 		* 	@private
@@ -40,8 +61,17 @@ package com.ffsys.scanner
 		
 		/**
 		* 	@private
+		* 
+		* 	The current token being processed.
 		*/
 		protected var _current:Token = null;
+		
+		/**
+		* 	@private
+		* 
+		* 	The previous token.
+		*/
+		protected var _previous:Token;
 		
 		/**
 		* 	Creates a <code>Scanner</code> instance.
@@ -49,6 +79,34 @@ package com.ffsys.scanner
 		public function Scanner()
 		{
 			super();			
+		}
+		
+		public function get bytesTotal():int
+		{
+			return _bytesTotal;
+		}
+		
+		public function get bytesLoaded():int
+		{
+			return ( _bytesTotal - ( source.length * bytesPerCharacter ) );
+		}
+		
+		/**
+		* 	The number of characters still to be scanned.
+		*/
+		public function get chars():int
+		{
+			return source == null ? 0 : source.length;
+		}
+		
+		/**
+		* 	Determines whether a scan is complete.
+		*/
+		public function get complete():Boolean
+		{
+			return bytesTotal > 0
+				&& bytesTotal == bytesLoaded
+				&& chars == 0;
 		}
 		
 		/**
@@ -69,11 +127,23 @@ package com.ffsys.scanner
 		*/
 		public function scan( source:String ):Vector.<Token>
 		{
+			//nothing to do
+			if( source == null )
+			{
+				return results;
+			}
+			
+			//assuming utf-8 so 1 byte per character
+			_bytesTotal = ( source.length * bytesPerCharacter );
+			
 			if( tokens.length == 0 )
 			{
 				//attempt to configure if no tokens specified
 				configure();
 			}
+			
+			//point the match list to the main tokens
+			_list = tokens;
 			
 			_counts = new Object();
 			_current = null;
@@ -109,7 +179,9 @@ package com.ffsys.scanner
 		{
 			_lastMatch = null;
 			_current = null;
+			_previous = null;
 			_counts = null;
+			_list = null;
 		}
 		
 		/**
@@ -440,6 +512,49 @@ package com.ffsys.scanner
 		}
 		
 		/**
+		* 	A current token being processed.
+		*/
+		protected function get current():Token
+		{
+			return _current;
+		}
+		
+		protected function set current( value:Token ):void
+		{
+			/*
+			if( _current != null
+				&& value != null
+				&& value.hasBlock() )
+			{
+				trace("[ASSIGNED CURRENT] Scanner::scanSource() value/open/parent:", value, value.open, value.block.parent );
+			}
+			*/
+			
+			//keep track of any previous valid token match
+			if( _current != null )
+			{
+				
+				//cannot overwrite current open blocks for the moment
+				if( _current.open )
+				{
+					trace("Scanner::set current()", "[SKIPPING SETTING CURRENT ON CURRENT OPEN BLOCK]" );
+					return;
+				}
+				
+				_previous = _current;
+			}
+					
+			_current = value;			
+			
+			/*
+			if( _current )
+			{
+				trace("[ASSIGNED CURRENT] Scanner::scanSource()", _current, _current.children.length );			
+			}
+			*/
+		}
+		
+		/**
 		* 	@private
 		*/
 		protected function scanSource():void
@@ -451,106 +566,105 @@ package com.ffsys.scanner
 				
 				var tkn:Token = null;
 				
-				var list:Vector.<Token> = tokens;
+				var results:Array = null;
+				var opens:Boolean = false;
+				var closes:Boolean = false;				
 				
+				// = tokens;
 				
-			
 				//open blocks match against any tokens
 				//associated with them
+				
+				/*
 				if( _current != null
 					&& _current.open
 					&& _current.block.tokens.length > 0 )
 				{
 					list = _current.block.tokens;
-					trace("[ASSIGNED OPEN BLOCK TOKENS] Scanner::scanSource()", _current.children.length );
+					trace("[ASSIGNED OPEN BLOCK TOKENS] Scanner::scanSource()" );
 				}
-					
-				if( _current != null && _current.hasBlock() )
-				{
-					var results:Array = null;
-					var opens:Boolean = false;
-					var closes:Boolean = false;
-					
-					//trace("Scanner::scanSource()", _current, _current.block.start );
-					
-					results = _current.block.start.exec( source );
-					if( results != null )
-					{
-						var start:String = results[ 1 ] as String;
-						opens = start != null && start.length > 0;
-						if( opens )
-						{
-							//trace("Scanner::scanSource()", "[STARTING BLOCK WITH START]", start );
-							_lastMatch = start;
-							chomp();
-						}
-					}
-					
-					results = _current.block.end.exec( source );
-					if( results != null )
-					{
-						var end:String = results[ 1 ] as String;
-						closes = end != null && end.length > 0;						
-						if( closes )
-						{
-							//trace("Scanner::scanSource()", "[CLOSING BLOCK WITH END]", end );								
-							_lastMatch = end;
-							chomp();
-						}
-					}
-					
-					if( opens && !closes )
-					{
-						trace("Scanner::scanSource()", "[FIND TOKEN WITH BLOCK]",
-							_current.name, _current.hasBlock(), opens );
-						
-						_current.block.open = true;
-					}
-					
-					//close an open block
-					if( _current.open && closes )
-					{
-						_current.block.open = false;
-					}						
-				}			
+				*/
 				
-				tkn = exec( source, null, false, list );
+				tkn = exec( source, null, false, _list );
 
-				//set current tokenif none exists
-				if( ( tkn != null && _current == null ) )
+				//HANDLE CURRENT TOKEN REFERENCE
+				if( ( tkn != null
+					&& _current == null )
+					&& tkn.capture )
 				{
-					_current = tkn;
+					current = tkn;
 				}else if(
 					tkn != null
-				 	&& _current != null
-				 	&& tkn.id != _current.id )
+				 	&& current != null
+				 	&& tkn.id != current.id )
 				{
-					if( tkn.capture )
+					if( tkn.capture  )
 					{
 						if( _current.open )
 						{
 							_current.children.push( tkn );
-							trace("[CURRENT BLOCK OPEN] Scanner::scanSource()", _current, _current.children.length );
+							trace("[CURRENT BLOCK OPEN - ADDING TO CURRENT CHILDREN] Scanner::scanSource()",
+								_current.id, _current.name, tkn );
 						}else
 						{
-							trace("[ASSIGNING CURRENT] Scanner::scanSource()", tkn );
-							_current = tkn;
+							current = tkn;
 						}
-					}else{
+					}else if( !current.open )
+					{
 						//must clear the current reference
-						//for non-capturing tokens
-						_current = null;
+						//for non-capturing tokens when not in an open block
+						current = null;
 					}
 				}
 				
-				//trace("Scanner::scanSource()", _lastMatch );
+					
+					//HANDLE BLOCK OPEN/CLOSE
+					if( tkn != null
+						&& tkn.hasBlock() )
+					{
+						//trace("[TESTING BLOCK] Scanner::scanSource()", tkn, tkn.block.start.exec( source ), source );
+						
+						/*
+						results = tkn.block.start.exec( source );
+						if( results != null )
+						{
+							var start:String = results[ 1 ] as String;
+
+							//trace("[FOUND BLOCK TOKEN] Scanner::scanSource()", start );						
+
+							opens = start != null && start.length > 0;
+							if( opens )
+							{
+								trace("Scanner::scanSource()", "[STARTING BLOCK WITH CURRENT]", tkn );
+								_lastMatch = start;
+								chomp();
+							}
+						}
+
+						results = tkn.block.end.exec( source );
+						if( results != null )
+						{
+							var end:String = results[ 1 ] as String;
+							closes = end != null && end.length > 0;						
+							if( closes )
+							{
+								trace("Scanner::scanSource()", "[CLOSING BLOCK WITH END]", end );								
+								_lastMatch = end;
+								chomp();
+							}
+						}
+						*/
+
+					}				
 				
+				//TEST FOR MORE SOURCE TO PROCESS
 				if( _lastMatch != null
 					&& _lastMatch.length > 0
 					&& source.length > 0 )
 				{
 					chomp();
 					
+					//HANDLE DELIMITER+REPEATER
 					if( tkn != null
 						&& tkn.delimiter != null
 						&& tkn.repeater != null )
@@ -561,7 +675,7 @@ package com.ffsys.scanner
 							//chomp any repeater match
 							_lastMatch = result.match;
 							chomp();
-							
+						
 							/*
 							trace("Scanner::scanSource()",
 								"[FOUND TOKEN REPEATER]",
@@ -571,9 +685,93 @@ package com.ffsys.scanner
 							*/
 						}
 					}
+
+					//TEST FOR BLOCK OPEN/CLOSE
+					if( current != null
+						&& current.hasBlock() )
+					{
+						//trace("[TESTING BLOCK] Scanner::scanSource()", current, current.block.start.exec( source ), source );
+
+						results = current.block.start.exec( source );
+						if( results != null )
+						{
+							var start:String = results[ 1 ] as String;
+
+							//trace("[FOUND BLOCK TOKEN] Scanner::scanSource()", start );						
+
+							opens = start != null && start.length > 0;
+							if( opens )
+							{
+								//trace("Scanner::scanSource()", "[STARTING BLOCK WITH CURRENT]", current );
+								_lastMatch = start;
+								chomp();
+							}
+						}
+
+						results = current.block.end.exec( source );
+						if( results != null )
+						{
+							var end:String = results[ 1 ] as String;
+							closes = end != null && end.length > 0;						
+							if( closes )
+							{
+								//trace("Scanner::scanSource()", "[CLOSING BLOCK WITH END]", current );								
+								_lastMatch = end;
+								chomp();
+							}
+						}
+
+						if( opens && !closes )
+						{
+							current.block.open = true;
+						}
+
+						//mark an open block as closed
+						if( closes )
+						{
+							current.block.open = false;
+						}
+
+						//HANDLE THE BLOCK PARENT/CURRENT/PREVIOUS LOGIC
+
+						/*
+						if( current.open
+							&& current.block.parent == null )
+						{
+							current.block.parent = _previous;
+							trace("[FOUND OPENING BLOCK - ASSIGN BLOCK TOKEN PARENT REFERENCE] Scanner::scanSource()",
+								current, current.block.parent );
+
+						}else if( !current.open
+							&& current.block.parent is Token )
+						{
+							current = Token( current.block.parent );
+							trace("[FOUND CLOSING BLOCK - UPDATING BLOCK TOKEN PARENT REFERENCE] Scanner::scanSource()",
+								current, current );
+						}
+						*/
+
+						//assign to the open block token matches list
+						if( current.open
+							&& current.block.tokens.length > 0 )
+						{
+							_list = current.block.tokens;
+							trace("[ASSIGNED OPEN BLOCK TOKENS] Scanner::scanSource()" );
+
+						//reset the matches list
+						}else if( !current.open )
+						{
+							//TODO: attempt to set the _list to parent open block tokens if necessary
+							_list = tokens;
+							trace("[REASSIGNED CLOSE BLOCK TOKENS] Scanner::scanSource()" );
+						}
+					}
 					
-					//scan any remaining source
-					scanSource();
+					if( source.length > 0 )
+					{
+						//SCAN ANYMORE SOURCE
+						scanSource();
+					}
 				}
 			}
 		}
@@ -660,7 +858,7 @@ package com.ffsys.scanner
 					remove( tkn );
 				}
 				if( _current != null
-					&& _current.capture )
+					&& _current.capture && !_current.open )
 				{
 					endToken( _current );
 				}

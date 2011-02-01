@@ -15,6 +15,7 @@ package com.ffsys.scanner
 		private var _start:RegExp;
 		private var _end:RegExp;
 		private var _open:Boolean;
+		private var _parent:Object;
 		
 		/**
 		* 	Creates a <code>BlockToken</code> instance.
@@ -33,6 +34,20 @@ package com.ffsys.scanner
 			super( id, source );
 			this.start = start;
 			this.end = end;
+		}
+		
+		/**
+		* 	Used to store a reference to the current
+		* 	object prior to opening this block.
+		*/
+		internal function get parent():Object
+		{
+			return _parent;
+		}
+		
+		internal function set parent( value:Object ):void
+		{
+			_parent = value;
 		}
 		
 		/**
