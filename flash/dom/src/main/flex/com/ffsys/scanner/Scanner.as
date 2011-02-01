@@ -610,9 +610,14 @@ package com.ffsys.scanner
 						{
 							if( _current.open )
 							{
-								_current.children.push( tkn );
+								_current.block.children.push( tkn );
+								
 								trace("[CURRENT BLOCK OPEN - ADDING TO CURRENT CHILDREN] Scanner::scanSource()",
-									_current.id, _current.name, tkn );
+									_current.name,
+									_current.matched,
+									_current.block.children.length,
+									tkn );
+								
 							}else
 							{
 								current = tkn;

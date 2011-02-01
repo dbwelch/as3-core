@@ -317,6 +317,10 @@ package com.ffsys.scanner
 		internal function setScanner( scanner:Scanner ):void
 		{
 			_scanner = scanner;
+			if( block && !block.scanner )
+			{
+				block.setScanner( scanner );
+			}
 		}
 		
 		/**
@@ -808,7 +812,7 @@ package com.ffsys.scanner
 			copy.discardable = discardable;
 			//copy.expandable = expandable;
 			copy.clean = clean;
-			copy.block = block;
+			copy.block = block == null ? null : BlockToken( block.clone() );
 			copy.merges = merges;
 			
 			copy.repeater = repeater;
