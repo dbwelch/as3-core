@@ -47,7 +47,7 @@ package com.ffsys.scanner.pattern
 			{
 				trace("[CANDIDATE] PatternBuilder::build()", pattern );
 				
-				var qualifier:QuantifierPattern = new QuantifierPattern();
+				var qualifier:PatternQuantifier = new PatternQuantifier();
 				var group:CaptureGroup = new CaptureGroup();				
 				
 				var prop:String = "(?:[a-zA-Z_]{1}[a-zA-Z0-9_]*)";
@@ -134,8 +134,8 @@ package com.ffsys.scanner.pattern
 					{
 						PatternGroup( current ).closes( c );
 						//add the close of the group to the group
-						part = new CaptureGroup();
-						part.matched = c;
+						part = new MetaCharacter( c );
+						//part.matched = c;
 						//current.add( part );
 						//current = current.owner;
 						//parentTarget = current.owner;
@@ -151,7 +151,7 @@ package com.ffsys.scanner.pattern
 						part = new MatchPattern( uint( n ) );
 					}else if( qualifier.qualifies( c ) )
 					{
-						part = new QuantifierPattern( c )
+						part = new PatternQuantifier( c )
 					}
 					
 					/*

@@ -31,15 +31,19 @@ package com.ffsys.scanner.pattern
 		*/
 		override public function match(
 			field:String,
-			expected:*,
 			candidates:Vector.<Object> ):Boolean
 		{
 			
-			trace("MatchPattern::test()", field, this.value, candidates );			
+			trace("[MATCH TEST] MatchPattern::test()", field, this.value, candidates );		
+			
+			if( candidates.length > 0 )
+			{
+				trace("[ID] MatchPattern::test()", candidates[ 0 ].id );
+			}	
 			
 			//expecting a value but no valid list
 			//of candidate objects
-			if( expected is Object
+			if( this.value is Object
 				&& field == null
 				|| candidates == null
 				|| candidates.length == 0 )

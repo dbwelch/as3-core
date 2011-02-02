@@ -29,6 +29,7 @@ package com.ffsys.scanner.pattern
 		private var _namedField:String = NAMED;		
 		
 		private var _owner:PatternMatcher;
+		private var _position:uint = 0;
 		
 		/**
 		* 	Creates a <code>PatternMatcher</code> instance.
@@ -162,15 +163,45 @@ package com.ffsys.scanner.pattern
 			if( part != null )
 			{
 				if( pattern.length > 0
-					&& part is QuantifierPattern )
+					&& part is PatternQuantifier )
 				{
-					last.quantifier = part as QuantifierPattern;
+					last.quantifier = part as PatternQuantifier;
 				}
 				part.setOwner( this );
 				pattern.push( part );
 				return true;
 			}
 			return false;
+		}
+		
+		private function getCandidate(
+			candidates:Vector.<Object> ):Vector.<Object>
+		{
+			return candidates.slice( _position, _position + 1 );
+		}
+		
+		/**
+		* 	Retrieves the name of the property field
+		* 	for a given target.
+		* 
+		* 	When the return value is <code>null</code>
+		* 	it indicates either the target is <code>null</code>
+		* 	or a primitive value.
+		* 
+		* 	@param target The target object to test for
+		* 	the availability of a field name.
+		* 
+		* 	@return A field name if the target is an
+		* 	<code>Object</code>.
+		*/
+		public function getField( target:* ):String
+		{
+			if( target == null || !( target is Object ) )
+			{
+				return null;
+			}
+			//just test against numeric id for the moment
+			return numericField;
 		}
 		
 		/**
@@ -185,6 +216,8 @@ package com.ffsys.scanner.pattern
 		{
 			var empty:Boolean = candidates == null || candidates.length == 0;
 			
+			trace("[TEST] PatternMatcher::test() [CANDIDATES]", candidates );
+			
 			//copy the input
 			if( !empty )
 			{
@@ -194,16 +227,19 @@ package com.ffsys.scanner.pattern
 			var parts:Vector.<Object> = null;
 			
 			var i:uint = 0;
-			var l:uint = pattern.length;
+			var g:uint = 0;								//nested group iterator
+			var tmp:Vector.<Pattern> = pattern.slice();	//copy our pattern
+			var l:uint = tmp.length;
 			var candidate:Vector.<Object> = null;
 			var begins:Boolean = false;
 			var ends:Boolean = false;
 			var part:Pattern = null;
 			var next:Pattern = null;
+			var previous:Pattern = null;
 						
 			var first:Pattern = null;
 			var last:Pattern = null;
-			var isMatchPattern:Boolean;
+			var isMatchPattern:Boolean;			
 			
 			try
 			{
@@ -213,8 +249,6 @@ package com.ffsys.scanner.pattern
 			{
 				//no need to worry if we don't have first | last
 			}
-			
-			trace("PatternMatcher::test() [GOT LAST]", last, pattern.length );
 			
 			//empty pattern
 			if( first == null && last == null )
@@ -237,45 +271,67 @@ package com.ffsys.scanner.pattern
 			ends = first != last
 				&& last is MetaCharacter
 				&& last.equals( MetaCharacter.ENDS_WITH );
+				
+			if( begins )
+			{
+				tmp.unshift();
+			}
+			
+			if( ends )
+			{
+				tmp.pop();
+			}	
+			
+			//retrieve a default field to use
+			var field:String = getField( this );
 			
 			var result:Boolean = true;
-			var matches:Boolean = true;
-			var field:String = numericField;
-			var expected:*;
 				
 			for( ;i < l;i++ )
 			{
-				part = pattern[ i ];
+				part = tmp[ i ];
 				isMatchPattern = part.handles();
+				
+				/*
 				if( begins && i == 0 )
 				{
-					//candidate = new Vector.<Object>();
 					candidates.unshift( first );
 				}else if( ends && i == ( l - 1 ) )
 				{
-					//candidate = new Vector.<Object>();
 					candidates.push( last );
 				}
-				
-				candidate = candidates.slice( i, i + 1 );
-				
-				/*
-				if( i < ( pattern.length - 1 ) )
-				{
-					next = pattern[ i + 1 ];
-				}
 				*/
-				
-				expected = part.value;
-				
-				trace("PatternMatcher::test() begins/ends:", begins, ends );
-				
-				matches = part.match( field, expected, candidate );
-			
-				trace("PatternMatcher::test()", matches );
-				
-				if( !matches )
+								
+				if( part is PatternQuantifier )
 				{
+					//previous match pattern with no qualifier
+					if( previous != null
+					 	&& previous.handles()
+						&& previous.quantifier == null )
+					{
+						previous.quantifier = part as PatternQuantifier;
+					}
+					trace("PatternMatcher::test()", "[SKIPPING QUANTIFIER]", part );
+					continue;
+				}	
+				
+				candidate = getCandidate( candidates );
+				
+				result = testChildGroups( part, candidates );
+				
+				//trace("PatternMatcher::test() begins/ends:", begins, ends );
+				
+			
+				trace("[TEST] PatternMatcher::test()", _position, part );	
+				
+				result = part.match( field, candidate );
+				
+				trace("[RESULT] PatternMatcher::test()", _position, result );
+				
+				//any unsuccessful result breaks the test
+				if( result === false )
+				{
+					/*
 					//starts with failed to match
 					//or a match that is begin and end qualified ^.*$
 					//failed to match
@@ -283,14 +339,101 @@ package com.ffsys.scanner.pattern
 						&& i == 1 )
 						|| ( begins && ends ) )
 					{
-						result = false;
 						break;
+					}
+					*/
+					
+					break;
+				}
+				
+				previous = part;
+				_position++;
+			}
+			return result;
+		}
+		
+		public function isGroup( pattern:Pattern ):Boolean
+		{
+			return pattern is PatternGroup;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function testChildGroups(
+			pattern:Pattern,
+			candidates:Vector.<Object> ):Boolean
+		{
+			var g:uint = 0;
+			var part:Pattern = null;
+			var result:Boolean = true;
+			var children:Vector.<Pattern>;			
+			var candidate:Vector.<Object>;
+			var field:String = getField( this );			
+			
+			//handle nested groups
+			if( isGroup( pattern ) )
+			{
+				children = PatternGroup( pattern ).getGroups();
+				if( children.length > 0 )
+				{
+					
+					//trace("PatternMatcher::test()", "[FOUND NESTED CHILD GROUPS]", children, _position, candidate[ 0 ].id );
+					
+					for( g = 0;g < children.length;g++ )
+					{
+						part = children[ g ];
+						
+						trace("PatternMatcher::test()", "[FOUND NESTED CHILD GROUPS]", part, part.handles() );
+						
+						//skip non-matching parts
+						if( part != null
+							&& !part.handles() )
+						{
+							continue;
+						}
+						
+						//increment the pattern match position
+						//for each nested group
+						_position++;
+						candidate = getCandidate( candidates );
+						if( part != null
+							&& part.handles() )
+						{
+							//result = part.test( candidate );
+							
+							result = part.match( field, candidate );
+
+							trace("PatternMatcher::test()", "[FOUND NESTED CHILD GROUPS RESULT]", result );
+							
+							//invalid group
+							if( result === false )
+							{					
+								break;
+							}
+						}
 					}
 				}
 			}
 			return result;
 		}
 		
+		/**
+		* 	Gets a regular expression representation
+		* 	of this pattern.
+		* 
+		* 	@return This pattern as a regular expression.
+		*/
+		public function toRegExp():RegExp
+		{
+			return new RegExp( toString() );
+		}
+		
+		/**
+		* 	Retrieves a string representation of this pattern.
+		* 
+		* 	@return A string representation of this pattern.
+		*/
 		public function toString():String
 		{
 			return pattern.join( "," );

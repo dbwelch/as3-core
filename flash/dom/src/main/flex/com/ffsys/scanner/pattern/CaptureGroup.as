@@ -39,7 +39,6 @@ package com.ffsys.scanner.pattern
 		*/
 		override public function match(
 			field:String,
-			expected:*,
 			candidates:Vector.<Object> ):Boolean
 		{
 			var parts:Vector.<Pattern> = getChildMatchPatterns();
@@ -67,19 +66,23 @@ package com.ffsys.scanner.pattern
 				part = matches[ i ];
 				
 				
-				found = part.match( field, expected, candidates );
+				found = part.match( field, candidates );
 				
 				
-				trace("CaptureGroup::match()", part, part.value );
+				//trace("CaptureGroup::match()", part, part.value );
+				
 				if( found )
 				{
 					break;
 				}
 			}
 			
+			
+			/*
 			trace("CaptureGroup::test()", value, found,
-				field, expected, candidates, pattern.length, this, parts.join( "" ), matches.join( "" ) );
-
+				field, candidates, pattern.length, this, parts.join( "" ), matches.join( "" ) );
+			*/
+			
 			//
 			
 			return found === true;

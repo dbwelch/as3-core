@@ -53,6 +53,27 @@ package com.ffsys.scanner.pattern
 		*/
 		public static const ENDS_WITH:String = "$";
 		
+		//
+		public static const OPEN_GROUP:String = "(";
+		
+		public static const CLOSE_GROUP:String = ")";
+		
+		public static const OPEN_CLASS:String = "[";
+		
+		public static const CLOSE_CLASS:String = "]";
+		
+		public static const OPEN_MIN_MAX:String = "{";
+		
+		public static const CLOSE_MIN_MAX:String = "}";
+		
+		public static const POSITIVE_LOOKAHEAD:String = "?=";
+		
+		public static const NEGATIVE_LOOKAHEAD:String = "?!";
+		
+		public static const NON_CAPTURING:String = "?:";
+		
+		public static const NAMED:String = "?P";
+		
 		/**
 		* 	Creates a <code>MetaCharacter</code> instance.
 		* 
@@ -74,7 +95,7 @@ package com.ffsys.scanner.pattern
 		*/
 		public function qualifies( candidate:String ):Boolean
 		{
-			return candidate == STARTS_WITH || candidate == ASTERISK || candidate == PLUS
+			return candidate == STARTS_WITH || candidate == ASTERISK || candidate == DOT || candidate == PLUS
 				|| candidate == OPTIONAL || candidate == ENDS_WITH || candidate == ALTERNATOR
 				|| candidate == RANGE;
 		}
@@ -98,6 +119,25 @@ package com.ffsys.scanner.pattern
 		override public function toString():String
 		{
 			return "" + char;
+		}
+		
+		/**
+		* 	Determines whether a character string is deemed to be
+		* 	a meta character.
+		* 
+		* 	@param char The character string candidate.
+		* 
+		* 	@return Whether the character string is considered to	
+		* 	be a meta character.
+		*/
+		public static function character( char:String ):Boolean
+		{
+			return char == STARTS_WITH || char == ASTERISK || char == DOT || char == PLUS
+				|| char == OPTIONAL || char == ENDS_WITH || char == ALTERNATOR
+				|| char == RANGE || char == OPEN_GROUP || char == CLOSE_GROUP
+				|| char == OPEN_MIN_MAX || char == CLOSE_MIN_MAX || char == OPEN_CLASS
+				|| char == CLOSE_CLASS || char == POSITIVE_LOOKAHEAD || char == NEGATIVE_LOOKAHEAD
+				|| char == NON_CAPTURING || char == NAMED;
 		}
 	}
 }

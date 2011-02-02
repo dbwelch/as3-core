@@ -14,7 +14,7 @@ package com.ffsys.scanner.pattern
 	public class Pattern extends PatternMatcher
 	{
 		private var _ids:Vector.<uint> = null;
-		private var _quantifier:QuantifierPattern;
+		private var _quantifier:PatternQuantifier;
 		private var _value:* = NaN;
 		
 		/**
@@ -85,18 +85,32 @@ package com.ffsys.scanner.pattern
 		*/
 		public function handles():Boolean
 		{
-			return this is MatchPattern || this is CaptureGroup;
+			return this is MatchPattern || this is CaptureGroup
+				|| character( this.value );
+		}
+		
+		/**
+		* 	Determines whether a value is considered
+		* 	to be a meta character.
+		* 
+		* 	@param value The value to test against.
+		* 
+		* 	@return Whether the value is a meta character.
+		*/
+		public function character( value:String ):Boolean
+		{
+			return MetaCharacter.character( value );
 		}
 		
 		/**
 		* 	A quantifier associated with this pattern.
 		*/
-		public function get quantifier():QuantifierPattern
+		public function get quantifier():PatternQuantifier
 		{
 			return _quantifier;
 		}
 		
-		public function set quantifier( value:QuantifierPattern ):void
+		public function set quantifier( value:PatternQuantifier ):void
 		{
 			_quantifier = value;
 		}
@@ -116,7 +130,6 @@ package com.ffsys.scanner.pattern
 		*/
 		public function match(
 			field:String,
-			expected:*,
 			candidates:Vector.<Object> ):Boolean
 		{
 			return false;
@@ -188,9 +201,7 @@ package com.ffsys.scanner.pattern
 		}
 		
 		/**
-		* 	Retrieves a string representation of this scan rule.
-		* 
-		* 	@return A string representation of this scan rule.
+		* 	@inheritDoc
 		*/
 		override public function toString():String
 		{

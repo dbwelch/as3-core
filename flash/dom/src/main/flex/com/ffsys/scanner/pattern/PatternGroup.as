@@ -13,26 +13,6 @@ package com.ffsys.scanner.pattern
 	*/	
 	public class PatternGroup extends Pattern
 	{
-		public static const OPEN_GROUP:String = "(";
-		
-		public static const CLOSE_GROUP:String = ")";
-		
-		public static const OPEN_CLASS:String = "[";
-		
-		public static const CLOSE_CLASS:String = "]";
-		
-		public static const OPEN_MIN_MAX:String = "{";
-		
-		public static const CLOSE_MIN_MAX:String = "}";
-		
-		public static const POSITIVE_LOOKAHEAD:String = "?=";
-		
-		public static const NEGATIVE_LOOKAHEAD:String = "?!";
-		
-		public static const NON_CAPTURING:String = "?:";
-		
-		public static const NAMED:String = "?P";
-		
 		private var _open:Boolean = false;
 		
 		/**
@@ -59,8 +39,8 @@ package com.ffsys.scanner.pattern
 			for( var i:int = 0;i < pattern.length;i++ )
 			{
 				part = pattern[ i ];
-				//if( part.handles() )
-				//{
+				if( part.handles() )
+				{
 					if( !( part is CaptureGroup ) )
 					{
 						output.push( part );
@@ -70,10 +50,22 @@ package com.ffsys.scanner.pattern
 						//position in processing
 						break;
 					}
-				//}
+				}
 			}
 			
 			return output;
+		}
+		
+		/**
+		* 	Retrieves all child pattern groups.
+		* 
+		* 	@return A list of child pattern groups.
+		*/
+		public function getGroups():Vector.<Pattern>
+		{
+			var types:Vector.<Class> = new Vector.<Class>( 1, true );
+			types[ 0 ] = PatternGroup;
+			return getPatternParts( types );
 		}
 		
 		/**
@@ -102,9 +94,9 @@ package com.ffsys.scanner.pattern
 		*/
 		public function opens( candidate:String ):Boolean
 		{
-			var valid:Boolean = candidate == OPEN_GROUP
-				|| candidate == OPEN_CLASS
-				|| candidate == OPEN_MIN_MAX;
+			var valid:Boolean = ( candidate == MetaCharacter.OPEN_GROUP
+				|| candidate == MetaCharacter.OPEN_CLASS
+				|| candidate == MetaCharacter.OPEN_MIN_MAX );
 				
 			if( valid )
 			{
@@ -124,9 +116,9 @@ package com.ffsys.scanner.pattern
 		*/
 		public function closes( candidate:String ):Boolean
 		{
-			var valid:Boolean = candidate == CLOSE_GROUP
-				|| candidate == CLOSE_CLASS
-				|| candidate == CLOSE_MIN_MAX;
+			var valid:Boolean = ( candidate == MetaCharacter.CLOSE_GROUP
+				|| candidate == MetaCharacter.CLOSE_CLASS
+				|| candidate == MetaCharacter.CLOSE_MIN_MAX );
 			
 			if( valid && _open )
 			{
@@ -143,10 +135,10 @@ package com.ffsys.scanner.pattern
 		*/
 		public function multiple( candidate:String ):Boolean
 		{
-			return candidate == POSITIVE_LOOKAHEAD
-				|| candidate == NEGATIVE_LOOKAHEAD
-				|| candidate == NON_CAPTURING
-				|| candidate.indexOf( NAMED ) == 0
+			return candidate == MetaCharacter.POSITIVE_LOOKAHEAD
+				|| candidate == MetaCharacter.NEGATIVE_LOOKAHEAD
+				|| candidate == MetaCharacter.NON_CAPTURING
+				|| candidate.indexOf( MetaCharacter.NAMED ) == 0
 		}
 		
 		/**
