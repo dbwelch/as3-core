@@ -8,6 +8,7 @@ package com.ffsys.dom
 	
 	import com.ffsys.css.*;
 	import com.ffsys.scanner.*;
+	import com.ffsys.scanner.pattern.*;
 	
 	/**
 	*	Unit tests for tokenizing css documents.
@@ -302,6 +303,18 @@ package com.ffsys.dom
 				var last:Token = results[ results.length - 1 ];
 				trace("CssScannerTest::cssTokenizeTest()", last );
 			}
+			
+			var candidates:Vector.<Object> = new Vector.<Object>();
+			
+			var builder:PatternBuilder = new PatternBuilder();
+			
+			//	"^(?P<abc>100|201|404)25?[1-25]*$"
+			
+			candidates.push( { id: 100 } );
+			
+			var validator:PatternMatcher = builder.build( "^(100|201|404)25?[1-25]*$" );
+			
+			trace("CssScannerTest::cssTokenizeTest()", validator.pattern, validator.test( candidates ) );
 			
 			/*
 			var tkn:Token = null;
