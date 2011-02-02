@@ -22,29 +22,9 @@ package com.ffsys.scanner.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/	
-	public class CaptureGroup extends Pattern
-	{
-		public static const OPEN_GROUP:String = "(";
-		
-		public static const CLOSE_GROUP:String = ")";
-		
-		public static const OPEN_CLASS:String = "[";
-		
-		public static const CLOSE_CLASS:String = "]";
-		
-		public static const OPEN_MIN_MAX:String = "{";
-		
-		public static const CLOSE_MIN_MAX:String = "}";
-		
-		public static const POSITIVE_LOOKAHEAD:String = "?=";
-		
-		public static const NEGATIVE_LOOKAHEAD:String = "?!";
-		
-		public static const NON_CAPTURING:String = "?:";
-		
-		public static const NAMED:String = "?P";
-		
-		private var _open:Boolean = false;
+	public class CaptureGroup extends PatternGroup
+	{	
+		private var _capturing:Boolean = true;
 		
 		/**
 		* 	Creates a <code>CaptureGroup</code> instance.
@@ -55,76 +35,68 @@ package com.ffsys.scanner.pattern
 		}
 		
 		/**
-		* 	Determines whether this group is currently open.
+		* 	@inheritDoc
 		*/
-		public function get open():Boolean
+		override public function match(
+			field:String,
+			expected:*,
+			candidates:Vector.<Object> ):Boolean
 		{
-			return _open;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function setOpen( value:Boolean ):void
-		{
-			_open = value;
-		}
-		
-		/**
-		* 	Determines whether the candidate string
-		* 	opens a group.
-		* 
-		* 	@param candidate The candidate string.
-		* 
-		* 	@return Whether the candidate opens a group.
-		*/
-		public function opens( candidate:String ):Boolean
-		{
-			var valid:Boolean = candidate == OPEN_GROUP
-				|| candidate == OPEN_CLASS
-				|| candidate == OPEN_MIN_MAX;
-				
-			if( valid )
-			{
-				_open = true;
-			}
-				
-			return valid;
-		}
-		
-		/**
-		* 	Determines whether the candidate string
-		* 	closes a group.
-		* 
-		* 	@param candidate The candidate string.
-		* 
-		* 	@return Whether the candidate closes a group.
-		*/
-		public function closes( candidate:String ):Boolean
-		{
-			var valid:Boolean = candidate == CLOSE_GROUP
-				|| candidate == CLOSE_CLASS
-				|| candidate == CLOSE_MIN_MAX;
+			var parts:Vector.<Pattern> = getChildMatchPatterns();
+			var matches:Vector.<Pattern> = expand( parts );
 			
-			if( valid )
+			//no candidates
+			if( candidates == null )
 			{
-				_open = false;
+				return false;
 			}
 			
-			return valid;
+			//should be matching something and got no
+			//candidates
+			if( candidates.length == 0
+				&& matches.length )
+			{
+				return false;
+			}
+			
+			//test whether any of the match parts do match
+			var part:Pattern = null;
+			var found:Boolean = false;
+			for( var i:int = 0;i < matches.length;i++ )
+			{
+				part = matches[ i ];
+				
+				
+				found = part.match( field, expected, candidates );
+				
+				
+				trace("CaptureGroup::match()", part, part.value );
+				if( found )
+				{
+					break;
+				}
+			}
+			
+			trace("CaptureGroup::test()", value, found,
+				field, expected, candidates, pattern.length, this, parts.join( "" ), matches.join( "" ) );
+
+			//
+			
+			return found === true;
 		}
 		
 		/**
-		* 	Determines whether a candidate represents a valid
-		* 	character sequence for candidates that are longer
-		* 	than a single character.
+		* 	Determines whether this group captures
+		* 	it's matches.
 		*/
-		public function multiple( candidate:String ):Boolean
+		public function get capturing():Boolean
 		{
-			return candidate == POSITIVE_LOOKAHEAD
-				|| candidate == NEGATIVE_LOOKAHEAD
-				|| candidate == NON_CAPTURING
-				|| candidate.indexOf( NAMED ) == 0
-		}		
+			return _capturing;
+		}
+		
+		public function set capturing( value:Boolean ):void
+		{
+			_capturing = value;
+		}
 	}
 }

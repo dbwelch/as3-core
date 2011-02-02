@@ -11,14 +11,14 @@ package com.ffsys.scanner.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/	
-	public class QualifierPattern extends MetaCharacter
+	public class QuantifierPattern extends MetaCharacter
 	{
 		/**
-		* 	Creates a <code>QualifierPattern</code> instance.
+		* 	Creates a <code>QuantifierPattern</code> instance.
 		* 
 		* 	@param char The character representing the qualifier.
 		*/
-		public function QualifierPattern( char:String = null )
+		public function QuantifierPattern( char:String = null )
 		{
 			super( char );
 		}

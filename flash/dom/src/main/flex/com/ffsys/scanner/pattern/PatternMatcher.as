@@ -28,12 +28,62 @@ package com.ffsys.scanner.pattern
 		private var _numericField:String = NUMERIC;
 		private var _namedField:String = NAMED;		
 		
+		private var _owner:PatternMatcher;
+		
 		/**
 		* 	Creates a <code>PatternMatcher</code> instance.
 		*/
 		public function PatternMatcher()
 		{
 			super();
+		}
+		
+		/**
+		* 	An owner for this pattern matcher.
+		*/
+		public function get owner():PatternMatcher
+		{
+			return _owner;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setOwner( owner:PatternMatcher ):void
+		{
+			_owner = owner;
+		}
+		
+		/**
+		* 	Retrieves pattern parts by type.
+		* 
+		* 	@param types The list of types to retrieve parts
+		* 	for.
+		* 	@param negated Whether the patterns must not be
+		* 	of the specified types.
+		*/
+		public function getPatternParts(
+			types:Vector.<Class> = null,
+			negated:Boolean = false ):Vector.<Pattern>
+		{
+			var output:Vector.<Pattern> = new Vector.<Pattern>();
+			var type:Class = null;
+			var part:Pattern = null;
+			var conforms:Boolean = false;
+			var i:int = 0;
+			for each( type in types )
+			{
+				for( i = 0;i < pattern.length;i++ )
+				{
+					part = pattern[ i ];
+					conforms = ( !negated ) ? ( part is type ) : !( part is type );
+					if( conforms )
+					{
+						output.push( part );
+					}
+				}
+			}
+			return output;
 		}
 		
 		/**
@@ -77,18 +127,47 @@ package com.ffsys.scanner.pattern
 		}
 		
 		/**
-		* 	Adds a scan rule to the pattern to test
-		* 	against.
-		* 	
-		* 	@param rule The scan rule to add.
-		* 
-		* 	@return Whether the scan rule was added.
+		* 	The first part of this pattern.
 		*/
-		public function add( rule:Pattern ):Boolean
+		public function get first():Pattern
 		{
-			if( rule != null )
+			if( pattern.length > 0 )
 			{
-				pattern.push( rule );
+				return pattern[ 0 ];
+			}
+			return null;
+		}
+		
+		/**
+		* 	The last part of this pattern.
+		*/
+		public function get last():Pattern
+		{
+			if( pattern.length > 0 )
+			{
+				return pattern[ pattern.length - 1 ];
+			}
+			return null;
+		}
+		
+		/**
+		* 	Adds a pattern part to test against.
+		* 	
+		* 	@param part The pattern part to add.
+		* 
+		* 	@return Whether the part was added.
+		*/
+		public function add( part:Pattern ):Boolean
+		{
+			if( part != null )
+			{
+				if( pattern.length > 0
+					&& part is QuantifierPattern )
+				{
+					last.quantifier = part as QuantifierPattern;
+				}
+				part.setOwner( this );
+				pattern.push( part );
 				return true;
 			}
 			return false;
@@ -135,6 +214,8 @@ package com.ffsys.scanner.pattern
 				//no need to worry if we don't have first | last
 			}
 			
+			trace("PatternMatcher::test() [GOT LAST]", last, pattern.length );
+			
 			//empty pattern
 			if( first == null && last == null )
 			{
@@ -147,7 +228,7 @@ package com.ffsys.scanner.pattern
 				//parts = new Vector.<Object>( 1, true );
 				return !empty
 					&& candidates.length == 1
-					&& first is NumericPattern
+					&& first is MatchPattern
 					&& first.test( candidates );
 			}
 			
@@ -157,42 +238,57 @@ package com.ffsys.scanner.pattern
 				&& last is MetaCharacter
 				&& last.equals( MetaCharacter.ENDS_WITH );
 			
-			/*
-			//pad the candidates list to match any begin/end qualifiers	
-			if( begins )
-			{
-				candidates.unshift( first );
-			}
-			if( ends )
-			{
-				candidates.push( last );
-			}
-			*/
+			var result:Boolean = true;
+			var matches:Boolean = true;
+			var field:String = numericField;
+			var expected:*;
 				
 			for( ;i < l;i++ )
 			{
 				part = pattern[ i ];
-				isMatchPattern = part is NumericPattern;
+				isMatchPattern = part.handles();
 				if( begins && i == 0 )
 				{
-					candidate = new Vector.<Object>();
-					candidate.push( first );
+					//candidate = new Vector.<Object>();
+					candidates.unshift( first );
 				}else if( ends && i == ( l - 1 ) )
 				{
-					candidate = new Vector.<Object>();
-					candidate.push( last );
-				}else{
-					candidate = candidates.slice( i, i + 1 );
+					//candidate = new Vector.<Object>();
+					candidates.push( last );
 				}
 				
+				candidate = candidates.slice( i, i + 1 );
+				
+				/*
 				if( i < ( pattern.length - 1 ) )
 				{
 					next = pattern[ i + 1 ];
 				}
-
-				trace("PatternMatcher::test()", part, isMatchPattern, candidate, part.test( candidate ) );
+				*/
+				
+				expected = part.value;
+				
+				trace("PatternMatcher::test() begins/ends:", begins, ends );
+				
+				matches = part.match( field, expected, candidate );
+			
+				trace("PatternMatcher::test()", matches );
+				
+				if( !matches )
+				{
+					//starts with failed to match
+					//or a match that is begin and end qualified ^.*$
+					//failed to match
+					if( ( begins
+						&& i == 1 )
+						|| ( begins && ends ) )
+					{
+						result = false;
+						break;
+					}
+				}
 			}
-			return true;
+			return result;
 		}
 		
 		public function toString():String

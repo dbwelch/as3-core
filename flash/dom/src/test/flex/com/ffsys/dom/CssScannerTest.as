@@ -310,9 +310,9 @@ package com.ffsys.dom
 			
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
 			
-			candidates.push( { id: 100 } );
+			candidates.push( { id: 201 } );
 			
-			var validator:PatternMatcher = builder.build( "^(100|201|404)25?[1-25]*$" );
+			var validator:PatternMatcher = builder.build( "^(100|201|404(505)3000)25?[1-25]*$" );
 			
 			trace("CssScannerTest::cssTokenizeTest()", validator.pattern, validator.test( candidates ) );
 			

@@ -1,5 +1,7 @@
 package com.ffsys.scanner.pattern
 {
+	import flash.utils.getQualifiedClassName;
+	
 	import com.ffsys.scanner.*;
 	
 	/**
@@ -14,6 +16,7 @@ package com.ffsys.scanner.pattern
 	public class PatternBuilder extends Object
 	{
 		private var parentTarget:PatternMatcher = null;
+		private var previousParentTarget:PatternMatcher;
 		private var current:Pattern = null;
 		private var part:Pattern = null;
 		
@@ -44,14 +47,14 @@ package com.ffsys.scanner.pattern
 			{
 				trace("[CANDIDATE] PatternBuilder::build()", pattern );
 				
-				var qualifier:QualifierPattern = new QualifierPattern();
+				var qualifier:QuantifierPattern = new QuantifierPattern();
 				var group:CaptureGroup = new CaptureGroup();				
 				
 				var prop:String = "(?:[a-zA-Z_]{1}[a-zA-Z0-9_]*)";
 				var namedgroup:String = "(?:\\?P<(" + prop + ")>)?";
 				var ng:RegExp = new RegExp( "(?:" + namedgroup + ")" );
 				var expr:String = "(?:\\[|\\]|\\("
-					+ namedgroup + "|\\)|\\{|\\}|\\*|\\||\\+|\\?|\\^|\\$|\\-)+";
+					+ namedgroup + "|\\)|\\{|\\}|\\*|\\||\\+|\\?|\\^|\\$|\\-|\\.)+";
 				var re:RegExp = new RegExp(
 					//"(\\^)?"
 						"(" + expr + ")?([0-9]+)(" + expr + ")?"
@@ -59,6 +62,7 @@ package com.ffsys.scanner.pattern
 				, "g" );
 				var results:Array = re.exec( pattern );
 				
+				//prepare the string for pattern conversion
 				var matches:Vector.<String> = new Vector.<String>();
 				var result:String = null;
 				var tmp:Array = null;
@@ -67,9 +71,6 @@ package com.ffsys.scanner.pattern
 				var value:String = null;
 				while( results != null )
 				{
-					
-					//trace("PatternBuilder::build()", results, results.index );
-					
 					tmp = results.slice( 1 );
 					for( i = 0;i < tmp.length;i++ )
 					{
@@ -100,44 +101,45 @@ package com.ffsys.scanner.pattern
 					results = re.exec( pattern );
 				}
 				
+				//build the pattern
 				var c:String = null;
 				var n:Number = NaN;
 				var opens:Boolean = false;
 				var closes:Boolean = false;
-				parentTarget = output;		
+				var g:PatternGroup = null;
+				
+				parentTarget = output;
+					
 				for( i = 0;i < matches.length;i++ )
 				{
 					c = matches[ i ];
-					
 					opens = group.opens( c );
 					closes = group.closes( c );
 					
-					//add to current capture group
-					if( current is CaptureGroup
-						&& CaptureGroup( current ).open
-						&& !closes )
+					if( opens && parentTarget != null )
 					{
-						current.add( current );
-					}
-					
-					if( opens )
-					{
+						//previousParentTarget = parentTarget;
 						current = new CaptureGroup();
 						current.matched = c;
+						PatternGroup( current ).opens( c );
 						CaptureGroup( current ).setOpen( group.open );
 						parentTarget.add( current );
+						trace("PatternBuilder::build() [OPENING GROUP]", current, current.owner );
+						parentTarget = current;
+						trace("PatternBuilder::build() [OPENING GROUP NEW PARENT]", parentTarget );
+						continue;
 					}
 					
-					if( closes )
+					if( closes && current is PatternGroup )
 					{
+						PatternGroup( current ).closes( c );
+						//add the close of the group to the group
 						part = new CaptureGroup();
 						part.matched = c;
-						parentTarget.add( part );
-					}
-					
-					if( opens || closes )
-					{
-						continue;
+						//current.add( part );
+						//current = current.owner;
+						//parentTarget = current.owner;
+						//continue;
 					}
 					
 					n = Number( c );										
@@ -146,13 +148,32 @@ package com.ffsys.scanner.pattern
 					
 					if( n is uint )
 					{
-						part = new NumericPattern( uint( n ) );
+						part = new MatchPattern( uint( n ) );
 					}else if( qualifier.qualifies( c ) )
 					{
-						part = new QualifierPattern( c )
+						part = new QuantifierPattern( c )
 					}
-
-					parentTarget.add( part );
+					
+					/*
+					trace("PatternBuilder::build()",
+						part,
+						parentTarget,
+						getQualifiedClassName( part ),
+						getQualifiedClassName( parentTarget ) );
+					*/
+					
+					if( part != null )
+					{
+						parentTarget.add( part );
+					}
+					
+					if( parentTarget is PatternGroup
+						&& !(PatternGroup( parentTarget ).open ) )
+					{
+						trace("PatternBuilder::build()", "[CLOSING GROUP]", parentTarget, parentTarget.owner );	
+						parentTarget = parentTarget.owner;
+						current = parentTarget as Pattern;
+					}
 				}
 				
 				trace("[MATCHES] PatternBuilder::build()", matches.length, matches, output );
