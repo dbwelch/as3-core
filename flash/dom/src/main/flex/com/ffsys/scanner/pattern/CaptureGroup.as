@@ -41,6 +41,8 @@ package com.ffsys.scanner.pattern
 			field:String,
 			candidates:Array ):Boolean
 		{
+			trace("CaptureGroup::match()", regex );
+			
 			var parts:Vector.<Pattern> = getChildMatchPatterns();
 			var matches:Vector.<Pattern> = expand( parts );
 			

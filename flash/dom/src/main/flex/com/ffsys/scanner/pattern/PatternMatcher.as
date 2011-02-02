@@ -56,6 +56,37 @@ package com.ffsys.scanner.pattern
 		}
 		
 		/**
+		* 	Attempts to extract a single value
+		* 	from a list of candidate values.
+		* 
+		* 	@param values An array of candidate values.
+		* 
+		* 	@return The extracted value or <code>null</code>
+		* 	if the <code>values</code> is <code>null</code>
+		* 	or empty.
+		*/
+		public function extract( values:Array ):*
+		{
+			if( values == null || values.length == 0 )
+			{
+				return null;
+			}
+			var value:* =  values[ 0 ];
+			var field:String = getField( value );
+			if( value is Object
+				&& field != null )
+			{
+				var hasProp:Boolean = value.hasOwnProperty( field );
+				if( hasProp )
+				{
+					//extract the value from a named property
+					value = value[ field ];
+				}				
+			}
+			return value;
+		}
+		
+		/**
 		* 	Retrieves pattern parts by type.
 		* 
 		* 	@param types The list of types to retrieve parts
@@ -424,7 +455,7 @@ package com.ffsys.scanner.pattern
 		* 
 		* 	@return This pattern as a regular expression.
 		*/
-		public function toRegExp():RegExp
+		public function get regex():RegExp
 		{
 			return new RegExp( toString() );
 		}

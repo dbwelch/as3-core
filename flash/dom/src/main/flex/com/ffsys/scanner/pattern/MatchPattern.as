@@ -34,36 +34,17 @@ package com.ffsys.scanner.pattern
 			candidates:Array ):Boolean
 		{
 			
-			trace("[MATCH TEST] MatchPattern::test()", field, this.value, candidates );		
-			
-			if( candidates.length > 0 )
-			{
-				trace("[ID] MatchPattern::test()", candidates[ 0 ].id );
-			}	
-			
+			trace("[MATCH TEST] MatchPattern::test()", extract( candidates ), regex, regex.test( "" + extract( candidates ) ) );
+
 			//expecting a value but no valid list
 			//of candidate objects
-			if( this.value is Object
-				&& field == null
-				|| candidates == null
+			if( candidates == null
 				|| candidates.length == 0 )
 			{
 				return false;
 			}
 			
-			if( candidates.length == 1 )
-			{
-				var target:Object = candidates[ 0 ];
-				var hasProp:Boolean = target != null
-					&& target.hasOwnProperty( field );
-				if( hasProp )
-				{
-					var value:* = target[ field ];
-					return value === this.value;
-				}
-			}
-			
-			return false;
+			return regex.test( "" + extract( candidates ) );
 		}
 	}
 }
