@@ -304,7 +304,7 @@ package com.ffsys.dom
 				trace("CssScannerTest::cssTokenizeTest()", last );
 			}
 			
-			var candidates:Vector.<Object> = new Vector.<Object>();
+			var candidates:Array = new Array();
 			
 			var builder:PatternBuilder = new PatternBuilder();
 			

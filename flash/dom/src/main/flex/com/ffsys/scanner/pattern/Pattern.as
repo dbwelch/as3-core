@@ -130,7 +130,7 @@ package com.ffsys.scanner.pattern
 		*/
 		public function match(
 			field:String,
-			candidates:Vector.<Object> ):Boolean
+			candidates:Array ):Boolean
 		{
 			return false;
 		}

@@ -31,7 +31,7 @@ package com.ffsys.scanner.pattern
 		*/
 		override public function match(
 			field:String,
-			candidates:Vector.<Object> ):Boolean
+			candidates:Array ):Boolean
 		{
 			
 			trace("[MATCH TEST] MatchPattern::test()", field, this.value, candidates );		

@@ -39,7 +39,7 @@ package com.ffsys.scanner.pattern
 		*/
 		override public function match(
 			field:String,
-			candidates:Vector.<Object> ):Boolean
+			candidates:Array ):Boolean
 		{
 			var parts:Vector.<Pattern> = getChildMatchPatterns();
 			var matches:Vector.<Pattern> = expand( parts );

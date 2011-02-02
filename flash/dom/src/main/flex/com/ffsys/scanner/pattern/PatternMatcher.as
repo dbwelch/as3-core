@@ -175,7 +175,7 @@ package com.ffsys.scanner.pattern
 		}
 		
 		private function getCandidate(
-			candidates:Vector.<Object> ):Vector.<Object>
+			candidates:Array ):Array
 		{
 			return candidates.slice( _position, _position + 1 );
 		}
@@ -212,7 +212,7 @@ package com.ffsys.scanner.pattern
 		* 
 		* 	@return Whether the pattern matches the candidate list.
 		*/
-		public function test( candidates:Vector.<Object> ):Boolean
+		public function test( candidates:Array ):Boolean
 		{
 			var empty:Boolean = candidates == null || candidates.length == 0;
 			
@@ -224,13 +224,13 @@ package com.ffsys.scanner.pattern
 				candidates = candidates.slice();
 			}
 			
-			var parts:Vector.<Object> = null;
+			var parts:Array = null;
 			
 			var i:uint = 0;
 			var g:uint = 0;								//nested group iterator
 			var tmp:Vector.<Pattern> = pattern.slice();	//copy our pattern
 			var l:uint = tmp.length;
-			var candidate:Vector.<Object> = null;
+			var candidate:Array = null;
 			var begins:Boolean = false;
 			var ends:Boolean = false;
 			var part:Pattern = null;
@@ -259,7 +259,7 @@ package com.ffsys.scanner.pattern
 			//single pattern part
 			if( first === last )
 			{
-				//parts = new Vector.<Object>( 1, true );
+				//parts = new Array( 1, true );
 				return !empty
 					&& candidates.length == 1
 					&& first is MatchPattern
@@ -362,13 +362,13 @@ package com.ffsys.scanner.pattern
 		*/
 		protected function testChildGroups(
 			pattern:Pattern,
-			candidates:Vector.<Object> ):Boolean
+			candidates:Array ):Boolean
 		{
 			var g:uint = 0;
 			var part:Pattern = null;
 			var result:Boolean = true;
 			var children:Vector.<Pattern>;			
-			var candidate:Vector.<Object>;
+			var candidate:Array;
 			var field:String = getField( this );			
 			
 			//handle nested groups
