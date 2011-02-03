@@ -8,6 +8,7 @@ package com.ffsys.dom
 	
 	import com.ffsys.css.*;
 	import com.ffsys.scanner.*;
+	//
 	import com.ffsys.scanner.pattern.*;
 	
 	/**
@@ -304,18 +305,13 @@ package com.ffsys.dom
 				trace("CssScannerTest::cssTokenizeTest()", last );
 			}
 			
-			var candidates:Array = new Array();
-			
-			var builder:PatternBuilder = new PatternBuilder();
+			var candidates:Array = [ 201, 505 ];
 			
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
-
-			candidates.push( { id: 201 } );
-			candidates.push( { id: 505 } );
 			
-			var validator:PatternMatcher = builder.build( "^(100|201|404(505)3000)25?[1-25]*" );
-			
-			trace("CssScannerTest::cssTokenizeTest()", validator.pattern, validator.test( candidates ) );
+			var ptn:Pattern = new Pattern();
+			ptn.build( "303^(?:100|201|404(505)3000)25?[1-25]*" );
+			trace("CssScannerTest::cssTokenizeTest()", ptn.length, ptn.pattern, ptn.patterns );
 			
 			/*
 			var tkn:Token = null;
