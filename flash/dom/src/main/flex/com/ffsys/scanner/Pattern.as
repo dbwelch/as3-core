@@ -25,7 +25,7 @@ package com.ffsys.scanner
 		private static var __group:RegExp = new RegExp(
 			"^(?:"
 			+ "\\" + OPEN_GROUP
-			+ "|\\" + OPEN_CLASS
+			+ "|\\" + OPEN_RANGE
 			+ "|\\" + OPEN_MIN_MAX
 			+ "|\\" + OPEN_NAME + ")"
 		);
@@ -75,9 +75,9 @@ package com.ffsys.scanner
 		
 		public static const CLOSE_GROUP:String = ")";
 		
-		public static const OPEN_CLASS:String = "[";
+		public static const OPEN_RANGE:String = "[";
 		
-		public static const CLOSE_CLASS:String = "]";
+		public static const CLOSE_RANGE:String = "]";
 		
 		public static const OPEN_MIN_MAX:String = "{";
 		
@@ -102,6 +102,7 @@ package com.ffsys.scanner
 		public static const PROPERTY_NAME:String = "id";
 		
 		private var _patterns:Vector.<Pattern>;
+		private var _parts:Vector.<Pattern>;
 		
 		private var _owner:Pattern;
 		private var _position:uint = 0;
@@ -147,13 +148,70 @@ package com.ffsys.scanner
 		}
 		
 		/**
+		* 	Determines whether this pattern
+		* 	is a capture group qualifier.
+		* 
+		* 	@return Whether this pattern is a capture
+		* 	group qualifier.
+		*/
+		public function qualifier():Boolean
+		{
+			return ( source == POSITIVE_LOOKAHEAD
+				|| source == NEGATIVE_LOOKAHEAD
+				|| source == NON_CAPTURING
+				|| source == NAMED );
+		}
+		
+		/**
+		* 	Determines whether this pattern
+		* 	is a quantifier character.
+		* 
+		* 	@return Whether this pattern is a capture
+		* 	group qualifier.
+		*/
+		public function quantifier():Boolean
+		{
+			return ( source == ASTERISK
+				|| source == PLUS
+				|| source == OPTIONAL
+				|| isQuantifierRange() );
+		}
+		
+		/**
+		*	Determines whether a capture group
+		* 	has a qualifier specified.
+		*/
+		public function get qualified():Boolean
+		{
+			if( isCaptureGroup() )
+			{
+				if( patterns.length > 1
+					&& patterns[ 0 ].toString() == OPEN_GROUP
+					&& patterns[ 1 ] is Pattern )
+				{
+					return patterns[ 1 ].qualifier();
+				}
+			}
+			return false;
+		}
+		
+		/**
+		* 	Determines whether this pattern
+		* 	represents a named capture group
+		* 	declaration: <code>?P</code>.
+		*/
+		public function named():Boolean
+		{
+			return meta && source == NAMED;
+		}
+		
+		/**
 		* 	Determines whether this pattern represents a
 		* 	meta character sequence.
 		*/
 		public function get meta():Boolean
 		{
-			return Pattern.character(
-				this.source );
+			return Pattern.character( this.source );
 		}
 		
 		/**
@@ -185,14 +243,6 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	The number of parts to this pattern.
-		*/
-		public function get length():uint
-		{
-			return this.patterns.length;
-		}
-		
-		/**
 		* 	An owner for this pattern.
 		*/
 		public function get owner():Pattern
@@ -208,7 +258,6 @@ package com.ffsys.scanner
 			_owner = owner;
 		}
 		
-		
 		/**
 		* 	Concatenates a candidate string to the patterns
 		* 	stored by this candidate.
@@ -220,6 +269,17 @@ package com.ffsys.scanner
 		{
 			if( candidate != null )
 			{
+				clear();
+				//copy the candidate to our source
+				_source = candidate.substr();
+				
+				
+				if( Pattern.character( candidate ) )
+				{
+					//nothing to build for meta character sequences
+					return;
+				}
+				
 				var parentTarget:Pattern = this;
 				var opens:Boolean = false;
 				var closes:Boolean = false;
@@ -258,8 +318,9 @@ package com.ffsys.scanner
 				//no regex special character match
 				if( results == null )
 				{
-					parentTarget.add(
-						new Pattern( candidate ) );
+					ptn = new Pattern( candidate );
+					parentTarget.add( ptn );
+					parts.push( ptn );
 					return;
 				}
 				
@@ -273,6 +334,7 @@ package com.ffsys.scanner
 					ptn = new Pattern(
 						candidate.substr( 0, results.index ) )
 					parentTarget.add( ptn );
+					parts.push( ptn );					
 					candidate = candidate.substr( results.index );
 				}				
 
@@ -292,6 +354,8 @@ package com.ffsys.scanner
 					if( opens
 						&& parentTarget != null )
 					{
+						parts.push( ptn );
+						
 						//add the opening meta group character
 						//to a pattern used to represent the entire
 						//group contents
@@ -302,6 +366,9 @@ package com.ffsys.scanner
 						trace("PatternBuilder::build() [OPENING GROUP]", current, parentTarget );
 					
 						//trace("PatternBuilder::build() [OPENING GROUP NEW PARENT]", parentTarget );
+					}else
+					{
+						parts.push( ptn );
 					}
 					
 					/*
@@ -361,6 +428,7 @@ package com.ffsys.scanner
 						}
 						
 						parentTarget.add( ptn );
+						parts.push( ptn );
 
 						trace("[ADDING CHUNK] PatternBuilder::build()", chunk, parentTarget );
 					}
@@ -389,69 +457,6 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	Attempts to extract a single value
-		* 	from a list of candidate values.
-		* 
-		* 	@param values An array of candidate values.
-		* 
-		* 	@return The extracted value or <code>null</code>
-		* 	if the <code>values</code> is <code>null</code>
-		* 	or empty.
-		*/
-		public function extract( values:Array ):*
-		{
-			if( values == null || values.length == 0 )
-			{
-				return null;
-			}
-			var value:* =  values[ 0 ];
-			var field:String = getField( value );
-			if( value is Object
-				&& field != null )
-			{
-				var hasProp:Boolean = value.hasOwnProperty( field );
-				if( hasProp )
-				{
-					//extract the value from a named property
-					value = value[ field ];
-				}				
-			}
-			return value;
-		}
-		
-		/**
-		* 	Retrieves pattern parts by type.
-		* 
-		* 	@param types The list of types to retrieve parts
-		* 	for.
-		* 	@param negated Whether the patterns must not be
-		* 	of the specified types.
-		*/
-		public function getPatternParts(
-			types:Vector.<Class> = null,
-			negated:Boolean = false ):Vector.<Pattern>
-		{
-			var output:Vector.<Pattern> = new Vector.<Pattern>();
-			var type:Class = null;
-			var part:Pattern = null;
-			var conforms:Boolean = false;
-			var i:int = 0;
-			for each( type in types )
-			{
-				for( i = 0;i < patterns.length;i++ )
-				{
-					part = patterns[ i ];
-					conforms = ( !negated ) ? ( part is type ) : !( part is type );
-					if( conforms )
-					{
-						output.push( part );
-					}
-				}
-			}
-			return output;
-		}
-		
-		/**
 		* 	The target property name when matching
 		* 	pattern parts against complex objects.
 		*/
@@ -463,11 +468,10 @@ package com.ffsys.scanner
 		public function set field( value:String ):void
 		{
 			_field = value;
-			trace("Pattern::set field()", value );
 		}
 		
 		/**
-		* 	The scan rule patterns to test against.
+		* 	A list patterns belonging to this pattern.
 		*/
 		public function get patterns():Vector.<Pattern>
 		{
@@ -477,6 +481,18 @@ package com.ffsys.scanner
 			}
 			return _patterns;
 		}
+		
+		/**
+		* 	All pattern parts as a flat list.
+		*/
+		public function get parts():Vector.<Pattern>
+		{
+			if( _parts == null )
+			{
+				_parts = new Vector.<Pattern>();
+			}
+			return _parts;
+		}		
 		
 		/**
 		* 	The first part of this pattern.
@@ -491,7 +507,7 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	The last part of this patterns.
+		* 	The last part of this pattern.
 		*/
 		public function get last():Pattern
 		{
@@ -500,6 +516,16 @@ package com.ffsys.scanner
 				return patterns[ patterns.length - 1 ];
 			}
 			return null;
+		}
+		
+		/**
+		* 	Clears this pattern so that it is empty.
+		*/
+		public function clear():void
+		{
+			_patterns = null;
+			_source = "";
+			_parts = null;
 		}
 		
 		/**
@@ -519,6 +545,31 @@ package com.ffsys.scanner
 			}
 			return false;
 		}
+		
+		/**
+		* 	Retrieves a pattern at the specified
+		* 	index.
+		*
+		* 	@return The pattern at the specified index
+		* 	or <code>null</code> if the index is out of
+		* 	bounds.
+		*/
+		public function get( index:int ):Pattern
+		{
+			if( index < 0 || index >= length )
+			{
+				return null;
+			}
+			return this.patterns[ index ];
+		}		
+		
+		/**
+		* 	The number of parts to this pattern.
+		*/
+		public function get length():uint
+		{
+			return this.patterns.length;
+		}		
 		
 		private function getCandidate(
 			candidates:Array ):Array
@@ -550,6 +601,14 @@ package com.ffsys.scanner
 			return PROPERTY_NAME;
 		}
 		
+		/**
+		* 	Tests whether the pattern matches
+		* 	a value.
+		* 
+		* 	@param value The value to compare this pattern against.
+		* 
+		* 	@return Whether the pattern matches the value.
+		*/
 		public function test( value:* ):Boolean
 		{
 			var re:RegExp = this.regex;
@@ -578,171 +637,54 @@ package com.ffsys.scanner
 			
 			if( value is Object )
 			{
-				//got a collection - should test against
-				//the collection entries
-				if( value is Array || value is Vector )
-				{
-					//TODO
-				}else
-				{
-					//TODO: single object comparison
-					//test for named property group
-					//if exists try object property comparison
-					//otherwise coerce the object valueOf() to a string for comparison
-				}
+				return testObject( value as Object );
 			}
 			
 			return false;
 		}
 		
 		/**
-		* 	Tests whether the rule pattern matches
-		* 	the candidates list.
-		* 
-		* 	@param candidates The list of candidate objects.
-		* 
-		* 	@return Whether the pattern matches the candidate list.
+		* 	@private
 		*/
-		public function valid( candidates:Array ):Boolean
+		private function testObject( value:Object ):Boolean
 		{
-			var empty:Boolean = candidates == null || candidates.length == 0;
-			
-			trace("[TEST] Pattern::test() [CANDIDATES]", candidates );
-			
-			//copy the input
-			if( !empty )
+			//got a collection - should test against
+			//the collection entries
+			if( value is Array )
 			{
-				candidates = candidates.slice();
+				return compareList( value as Array );
+			}else if( value is Vector )
+			{
+				return compareList( value as Vector );
+			//non-collection object				
+			}else if( value is Object )
+			{
+				return compareList( [ value ] );
 			}
 			
-			var parts:Array = null;
+			return false;		
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Compares a collection against the exploded
+		* 	patterns.
+		*/
+		private function compareList( values:Object ):Boolean
+		{
+			//TODO: explode patterns and compare against the exploded parts
 			
-			var i:uint = 0;
-			var g:uint = 0;								//nested group iterator
-			var tmp:Vector.<Pattern> = patterns.slice();	//copy our patterns
-			var l:uint = tmp.length;
-			var candidate:Array = null;
-			var begins:Boolean = false;
-			var ends:Boolean = false;
-			var part:Pattern = null;
-			var next:Pattern = null;
-			var previous:Pattern = null;
-						
-			var first:Pattern = null;
-			var last:Pattern = null;
-			var isMatchPattern:Boolean;			
+			//var tokens:Pattern = explode();
 			
-			try
+			var result:Boolean = false;
+			var value:*;
+			for( var i:int = 0;i < values.length;i++ )
 			{
-				first = patterns[ 0 ];
-				last = patterns[ patterns.length - 1 ];
-			}catch( e:Error )
-			{
-				//no need to worry if we don't have first | last
-			}
-			
-			//empty pattern
-			if( first == null && last == null )
-			{
-				return empty === true;
-			}
-			
-			//single pattern part
-			if( first === last )
-			{
-				//parts = new Array( 1, true );
-				return !empty
-					&& candidates.length == 1
-					&& first != null
-					&& first.valid( candidates );
-			}
-			
-			begins = first != null
-				&& first.meta
-				&& first.equals( Pattern.STARTS_WITH );
-			ends = first != last
-				&& last != null
-				&& last.meta
-				&& last.equals( Pattern.ENDS_WITH );
+				value = values[ i ];
+				result = compareObject( value );
 				
-			if( begins )
-			{
-				tmp.unshift();
-			}
-			
-			if( ends )
-			{
-				tmp.pop();
-			}	
-			
-			//retrieve a default field to use
-			var field:String = getField( this );
-			
-			var result:Boolean = true;
-				
-			for( ;i < l;i++ )
-			{
-				part = tmp[ i ];
-				isMatchPattern = part.handles();
-				
-				/*
-				if( begins && i == 0 )
-				{
-					candidates.unshift( first );
-				}else if( ends && i == ( l - 1 ) )
-				{
-					candidates.push( last );
-				}
-				*/
-				
-				/*			
-				if( part is PatternQuantifier )
-				{
-					//previous match pattern with no qualifier
-					if( previous != null
-					 	&& previous.handles()
-						&& previous.quantifier == null )
-					{
-						previous.quantifier = part as PatternQuantifier;
-					}
-					trace("Pattern::test()", "[SKIPPING QUANTIFIER]", part );
-					continue;
-				}	
-				*/
-				
-				candidate = getCandidate( candidates );
-				
-				result = testChildGroups( part, candidates );
-				
-				//trace("Pattern::test() begins/ends:", begins, ends );
-				
-			
-				trace("[TEST] Pattern::test()", _position, part );	
-				
-				result = part.match( field, candidate );
-				
-				trace("[RESULT] Pattern::test()", _position, result );
-				
-				//any unsuccessful result breaks the test
-				if( result === false )
-				{
-					/*
-					//starts with failed to match
-					//or a match that is begin and end qualified ^.*$
-					//failed to match
-					if( ( begins
-						&& i == 1 )
-						|| ( begins && ends ) )
-					{
-						break;
-					}
-					*/
-					
-					break;
-				}
-				
-				previous = part;
-				_position++;
+				trace("Pattern::compareList()", value, result );
 			}
 			return result;
 		}
@@ -750,62 +692,22 @@ package com.ffsys.scanner
 		/**
 		* 	@private
 		*/
-		protected function testChildGroups(
-			pattern:Pattern,
-			candidates:Array ):Boolean
+		private function compareObject( value:Object ):Boolean
 		{
-			var g:uint = 0;
-			var part:Pattern = null;
-			var result:Boolean = true;
-			var children:Vector.<Pattern>;			
-			var candidate:Array;
-			var field:String = getField( this );			
-			
-			//handle nested groups
-			if( isGroup( "" + pattern ) )
+			var re:RegExp = this.regex;
+			//comparing against an object property
+			if( field != null && value.hasOwnProperty( field ) )
 			{
-				children = Pattern( pattern ).getGroups();
-				if( children.length > 0 )
-				{
-					
-					//trace("Pattern::test()", "[FOUND NESTED CHILD GROUPS]", children, _position, candidate[ 0 ].id );
-					
-					for( g = 0;g < children.length;g++ )
-					{
-						part = children[ g ];
-						
-						trace("Pattern::test()", "[FOUND NESTED CHILD GROUPS]", part, part.handles() );
-						
-						//skip non-matching parts
-						if( part != null
-							&& !part.handles() )
-						{
-							continue;
-						}
-						
-						//increment the pattern match position
-						//for each nested group
-						_position++;
-						candidate = getCandidate( candidates );
-						if( part != null
-							&& part.handles() )
-						{
-							//result = part.test( candidate );
-							
-							result = part.match( field, candidate );
-
-							trace("Pattern::test()", "[FOUND NESTED CHILD GROUPS RESULT]", result );
-							
-							//invalid group
-							if( result === false )
-							{					
-								break;
-							}
-						}
-					}
-				}
+				//access the underlying property and
+				//coerce to a string
+				value = "" + value[ field ];
+			}else{
+				//try to access an underlying primitive
+				//value and coerce it to a string for comparison
+				//when no field name is available
+				value = "" + value.valueOf();
 			}
-			return result;
+			return re.test( "" + value );
 		}
 		
 		/**
@@ -881,50 +783,209 @@ package com.ffsys.scanner
 			return output;
 		}
 		
+		/**
+		* 	Returns a pattern that represents
+		* 	the positional matches for this pattern.
+		*/
+		public function get positions():Pattern
+		{
+			return explode();
+		}
 		
 		/**
-		* 	Retrieve patterns of this match that
-		* 	are direct children not those of any
-		* 	nested pattern group, essentially the
-		* 	pattern parts that should match at the
-		* 	current match position.
+		* 	Explodes this pattern into a tokenized
+		* 	representation where each pattern part
+		* 	represents an individual positional match.
 		* 
-		* 	@return A list of child match patterns
+		* 	@return A pattern representing this pattern
+		* 	as patterns tokens for each position.
 		*/
-		public function getChildMatchPatterns():Vector.<Pattern>
+		public function explode(
+			targets:Vector.<Pattern> = null,
+			output:Pattern = null ):Pattern
 		{
-			var output:Vector.<Pattern> = new Vector.<Pattern>();
-			var part:Pattern = null;
-			for( var i:int = 0;i < patterns.length;i++ )
+			if( output == null )
 			{
-				part = patterns[ i ];
-				if( part.handles() )
-				{
-					if( part.group )
-					{
-						output.push( part );
-					}else{
-						//stop when we encounter a nested
-						//group as that constitutes the next
-						//position in processing
-						break;
-					}
-				}
+				output = new Pattern();
 			}
 			
+			if( targets == null )
+			{
+				targets = this.patterns;
+			}
+					
+			var ptn:Pattern = null;
+			var previous:Pattern = null;
+			var group:Pattern = null;
+			for( var i:int = 0;i < targets.length;i++ )
+			{
+				ptn = targets[ i ];
+				
+				/*
+				//group quantifiers with a preceeding
+				//normal statement or quantifier
+				if( previous != null
+					&& ptn.quantifier()
+					&& ( previous.quantifier() || previous.normal ) )
+				{
+					//previous.source += ptn.source;
+					
+					trace("[FOUND QUANTIFIER ADDING TO PREVIOUS] Pattern::explode()", ptn );
+					previous.add( ptn );
+					continue;
+				}
+				*/
+				
+				if( ( ptn.meta || ptn.normal ) && group == null )
+				{
+					//convert plain patterns to groups
+					group = new Pattern();
+					group.add( new Pattern( OPEN_GROUP ) );	
+					output.add( group );
+				}
+				
+				if( group != null )
+				{
+					group.add( ptn );
+				}
+				
+				//found a nested group
+				if( ptn.group
+					&& ptn.isCaptureGroup() )
+				{
+					if( group != null )
+					{
+						group.add( new Pattern( CLOSE_GROUP ) );					
+					}
+					
+					//extract( ptn, output );
+					
+					group = null;
+				}
+				
+				previous = ptn;
+			}
+			//trace("[EXPLODE] Pattern::explode()", output.patterns );
 			return output;
 		}
 		
 		/**
-		* 	Retrieves all child pattern groups.
-		* 
-		* 	@return A list of child pattern groups.
+		* 	@private
 		*/
-		public function getGroups():Vector.<Pattern>
+		private function extract( target:Pattern, output:Pattern ):Pattern
 		{
-			var types:Vector.<Class> = new Vector.<Class>( 1, true );
-			types[ 0 ] = Pattern;
-			return getPatternParts( types );
+			if( target.group
+				&& target.isCaptureGroup() )
+			{
+				var ptns:Vector.<Pattern> = target.patterns;
+				var ptn:Pattern = null;
+				var named:Boolean = false;
+				var next:Pattern = null;
+				var grouped:Pattern = null;
+				
+				//skip the last part - the group close: ')'
+				var l:int = ptns.length - 1;
+				
+				//skip the first part - the group open '('
+				var i:int = 1;
+				
+				//trace("[EXTRACT] Pattern::extract()", target, target.field, target.field != null );
+				
+				//create a group to encapsulate
+				//each extracted group
+				var tmp:Pattern = new Pattern();
+				
+				//double the opening group so we maintain
+				//the original grouping
+				tmp.add( new Pattern( OPEN_GROUP ) );
+				
+				//add the positional group to the output
+				output.add( tmp );
+				
+				for( ;i < l;i++ )
+				{
+					ptn = ptns[ i ];
+					
+					//trace("[EXTRACTING] Pattern::extract()", ptn );
+					
+					//ignore invalid patterns
+					//and and group qualifiers: '?:', '?!', '?=', '?P'
+					if( ptn == null
+						|| ptn.qualifier() )
+					{
+						//handle named groups: '?P<propertyName>'
+						if( ptn.named() )
+						{
+							//trace("[FOUND NAMED GROUP] Pattern::extract()", ptn );
+
+							//finished a named capture group
+							if( i < ( ptns.length - 1 ) )
+							{
+								next = ptns[ i + 1 ];
+								//found a named group declaration
+								if( next.toString().indexOf( OPEN_NAME ) == 0 )
+								{
+									//skip the named group part: <propertyName>
+									i++;
+								}
+								
+								//trace("[CLOSED NAMED GROUP] Pattern::extract()", ptn );
+							}		
+						}
+						continue;
+					}
+					
+					//trace("[HANDLE EXTRACTION] Pattern::extract()", ptn, ptn.isCaptureGroup() );
+					
+					if( ptn.isCaptureGroup() )
+					{
+						//trace("Pattern::extract()", "[FOUND NESTED GROUP PATTERN]" );
+						//handle nested groups
+						//as we encounter them
+						grouped = extract( ptn, output );
+						
+						//trace("[GOT EXTRACTED GROUP RESULT] Pattern::extract()", grouped, grouped.length - 2, i );
+						
+						//explode( output );
+						
+						break;
+					}
+					
+					//add the part to the extracted group
+					tmp.add( ptn );	
+				}
+			}
+			
+			//close the temp group
+			tmp.add( new Pattern( CLOSE_GROUP ) );
+					
+			if( i < ( l - 1 ) )
+			{
+				l = ptns.length;
+				
+				if( ptns[ l - 1 ] is Pattern
+				 	&& ptns[ l - 1 ].source == CLOSE_GROUP )
+				{
+					//ignore end group declarations
+					l--;
+				}
+				
+				//found remaining plain patterns
+				//after a nested group extraction				
+				if( grouped )
+				{
+					//i++;
+				}
+				
+				var remainder:Vector.<Pattern> = ptns.slice( i + 1, l );
+				
+				trace("Pattern::extract()", "[FOUND MORE TO EXTRACT]", grouped,
+					remainder );
+				
+				explode( remainder, output );
+			}
+			
+			return tmp;
 		}
 		
 		/**
@@ -933,44 +994,35 @@ package com.ffsys.scanner
 		public function get group():Boolean
 		{
 			return patterns.length > 0
-				&& isGroup( patterns[ 0 ].toString() );
+				&& isGroup( first.toString() );
 		}
 
-		public function isGroup( source:String ):Boolean
+		/**
+		* 	@private
+		*/
+		private function isGroup( source:String ):Boolean
 		{
-			trace("Pattern::isGroup()", source );
+			//trace("Pattern::isGroup()", source );
 			return __group.test( source );
 		}
 		
-		/**
-		* 	Determines wether a list of candidates
-		* 	has the named property.
-		* 
-		* 	@param field The property name to test on the target
-		* 	objects.
-		* 	@param expected The expected value for the property.
-		* 	@param candidates The list of candidates
-		* 	to match against.
-		* 
-		* 	@return Whether this pattern matches the candidate
-		* 	list.
-		*/
-		public function match(
-			field:String,
-			candidates:Array ):Boolean
+		public function isCaptureGroup():Boolean
 		{
-			trace("[MATCH TEST] Pattern::match()", extract( candidates ), regex, regex.test( "" + extract( candidates ) ) );
-
-			//expecting a value but no valid list
-			//of candidate objects
-			if( candidates == null
-				|| candidates.length == 0 )
-			{
-				return false;
-			}
-			
-			return regex.test( "" + extract( candidates ) );
-		}		
+			return ( source != null && source == OPEN_GROUP )
+				|| this.group && ( first.toString() == OPEN_GROUP );
+		}
+		
+		public function isRange():Boolean
+		{
+			return ( source != null && source == OPEN_RANGE )
+				|| this.group && ( first.toString() == OPEN_RANGE );
+		}
+		
+		public function isQuantifierRange():Boolean
+		{
+			return ( source != null && source == OPEN_MIN_MAX )
+				|| this.group && ( first.toString() == OPEN_MIN_MAX );
+		}
 		
 		/**
 		* 	Gets a regular expression representation
@@ -1032,8 +1084,8 @@ package com.ffsys.scanner
 				|| char == CLOSE_GROUP
 				|| char == OPEN_MIN_MAX
 				|| char == CLOSE_MIN_MAX
-				|| char == OPEN_CLASS
-				|| char == CLOSE_CLASS
+				|| char == OPEN_RANGE
+				|| char == CLOSE_RANGE
 				|| char == OPEN_NAME
 				|| char == CLOSE_NAME;
 		}
@@ -1071,7 +1123,7 @@ package com.ffsys.scanner
 		{
 			var valid:Boolean = (
 				source == Pattern.OPEN_GROUP
-				|| source == Pattern.OPEN_CLASS
+				|| source == Pattern.OPEN_RANGE
 				|| source == Pattern.OPEN_MIN_MAX
 				|| source == Pattern.OPEN_NAME );
 				
@@ -1095,7 +1147,7 @@ package com.ffsys.scanner
 		{
 			var valid:Boolean = (
 				source == Pattern.CLOSE_GROUP
-				|| source == Pattern.CLOSE_CLASS
+				|| source == Pattern.CLOSE_RANGE
 				|| source == Pattern.CLOSE_MIN_MAX
 				|| source == Pattern.CLOSE_NAME );
 			

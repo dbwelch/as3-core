@@ -310,12 +310,22 @@ package com.ffsys.dom
 			var ptn:Pattern = new Pattern();
 			ptn.build( "^(?P<id>[0-9]+|false)(^(?:100|201|404(505)3000)(?P<property>myName)25?[1-25]*)?" );
 			
-			trace("[STRING TEST] CssScannerTest::cssTokenizeTest()", "303", ptn.test( "303" ) );
-			trace("[INT TEST] CssScannerTest::cssTokenizeTest()", "303", ptn.test( 303 ) );
-			trace("[BOOLEAN TEST] CssScannerTest::cssTokenizeTest()", "true", ptn.test( true ) );
-			trace("[BOOLEAN TEST] CssScannerTest::cssTokenizeTest()", "false", ptn.test( false ) );
+			trace("[STRING TEST] CssScannerTest::cssTokenizeTest()",
+				"303", ptn.test( "303" ) );
+			trace("[INT TEST] CssScannerTest::cssTokenizeTest()",
+				"303", ptn.test( 303 ) );
+			trace("[BOOLEAN TEST] CssScannerTest::cssTokenizeTest()",
+				"true", ptn.test( true ) );
+			trace("[BOOLEAN TEST] CssScannerTest::cssTokenizeTest()",
+				"false", ptn.test( false ) );
+			trace("[OBJECT PROPERTY TEST] CssScannerTest::cssTokenizeTest()",
+				"{ id: 303 }", ptn.test( { id: 303 } ) );
 			
-			trace("CssScannerTest::cssTokenizeTest()", ptn.length, ptn.pattern, ptn.patterns );
+			trace("[PATTERN] CssScannerTest::pattern()", ptn );
+			trace("[SOURCE] CssScannerTest::pattern()", ptn.source );			
+			trace("[PATTERNS] CssScannerTest::pattern()", ptn.length, ptn.patterns );
+			trace("[PARTS] CssScannerTest::pattern()", ptn.parts );
+			//trace("[POSITIONS] CssScannerTest::pattern()", ptn.positions );	
 			
 			/*
 			var tkn:Token = null;
