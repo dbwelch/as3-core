@@ -1,12 +1,24 @@
 package com.ffsys.pattern
 {
-
+	import flash.utils.getQualifiedClassName;
+	
+	/**
+	* 	Represents the result of a single pattern
+	* 	match.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  04.03.2011
+	*/
 	public class PatternMatchResult extends Object
 	{
 		private var _pattern:Pattern;
 		private var _position:uint = 0;
 		private var _result:Boolean;
 		private var _source:*;
+		private var _message:String;
 		
 		/**
 		* 	Creates a <code>PatternMatchResult</code> instance.
@@ -72,6 +84,65 @@ package com.ffsys.pattern
 		public function set source( value:* ):void
 		{
 			_source = value;
+		}
+		
+		/**
+		* 	A message associated with this match result.
+		*/
+		public function get message():String
+		{
+			return _message;
+		}
+		
+		public function set message( value:String ):void
+		{
+			_message = value;
+		}
+		
+		/**
+		* 	An xml representation of this match.
+		*/
+		public function get xml():XML
+		{
+			return getXml( false );
+		}
+		
+		/**
+		* 	Gets a string representation of this
+		* 	pattern match result.
+		*/
+		public function toString():String
+		{
+			return getXml( false ).toXMLString();
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function getXml( simple:Boolean = true ):XML
+		{
+			var x:XML = new XML( "<" + Pattern.MATCH + " />" );
+			x.@position = position;			
+			x.@result = result;
+			if( !simple )
+			{
+				if( source != null )
+				{
+					var src:XML = new XML( "<source><![CDATA["
+						+ source + "]]></source>" );
+					src.@type = getQualifiedClassName( source );
+					x.appendChild( src );
+				}
+				if( pattern != null )
+				{
+					x.appendChild(
+						new XML(
+						"<" + Pattern.PATTERN + "><![CDATA["
+						+ pattern.toPatternString()
+						+ "]]></" + Pattern.PATTERN + ">" ) );
+				}
+			}
+			return x;
 		}
 	}
 }

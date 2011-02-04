@@ -331,7 +331,7 @@ package com.ffsys.dom
 			trace("[PATTERNS] CssScannerTest::pattern()", ptn.length, ptn.patterns );
 			trace("[PARTS] CssScannerTest::pattern()", ptn.parts );
 			trace("[POSITIONS] CssScannerTest::pattern()", ptn.positions );
-			trace("[RESULTS] CssScannerTest::pattern()", ptn.results );
+			//trace("[RESULTS] CssScannerTest::pattern()", ptn.results );
 			trace("[XML] CssScannerTest::pattern()", ptn.xml.toXMLString() );
 			
 			/*

@@ -31,9 +31,36 @@ package com.ffsys.pattern
 		);
 		
 		/**
+		* 	The delimiter used to mark the
+		* 	beginning and end of a pattern.
+		*/
+		public static const DELIMITER:String = "/";
+		
+		/**
+		* 	The name for a root pattern.
+		*/
+		public static const PATTERN:String = "pattern";
+		
+		/**
+		* 	The name for a pattern that belongs
+		* 	to another pattern.
+		*/
+		public static const PTN:String = "ptn";
+		
+		/**
 		* 	The name for pattern parts.
 		*/
 		public static const PARTS:String = "parts";
+		
+		/**
+		* 	The name for a pattern match result list.
+		*/
+		public static const RESULTS:String = "results";
+		
+		/**
+		* 	The name for a pattern match.
+		*/
+		public static const MATCH:String = "match";
 		
 		/**
 		* 	A meta character that indicates the start position.
@@ -278,7 +305,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	A list patterns belonging to this pattern.
+		* 	A list of patterns belonging to this pattern.
 		*/
 		public function get patterns():Vector.<Pattern>
 		{
@@ -292,8 +319,6 @@ package com.ffsys.pattern
 		/**
 		* 	All pattern parts as a flat list.
 		*/
-		
-		//TODO: convert to a pattern
 		public function get parts():Pattern
 		{
 			if( _parts == null )
@@ -434,7 +459,8 @@ package com.ffsys.pattern
 			
 			match.result = re.test( value as String );
 			
-			trace("[MATCH] Pattern::test()", value, re, re.test( value as String ), match, match.result );
+			trace("[MATCH] Pattern::test()",
+				value, re, re.test( value as String ), match, match.result );
 			
 			//add the match result to this pattern
 			this[ position ] = match;
@@ -442,12 +468,33 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Retrieves an array of the last pattern
+		* 	Retrieves a copy of the last pattern
 		* 	match results.
 		*/
 		public function get results():Array
 		{
 			return slice();
+		}
+		
+		/**
+		* 	Retrieves a list of the matches
+		* 	that failed during the last pattern
+		* 	match.
+		*/
+		public function get failures():Vector.<PatternMatchResult>
+		{
+			var output:Vector.<PatternMatchResult> =
+				new Vector.<PatternMatchResult>();
+			var match:PatternMatchResult = null;
+			for( var i:int = 0;i < results.length;i++ )
+			{
+				match = PatternMatchResult( results[ i ] );
+				if( !match.result )
+				{
+					output.push( match );
+				}
+			}
+			return output;
 		}
 		
 		/**
@@ -562,15 +609,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether this pattern handles
-		* 	pattern matching.
-		*/
-		public function handles():Boolean
-		{
-			return this.chunk;
-		}
-		
-		/**
 		* 	Determines whether a value is considered
 		* 	to be a meta character.
 		* 
@@ -611,7 +649,7 @@ package com.ffsys.pattern
 				//next is an alternator or
 				//we're the last part add the part
 				if( i == ( patterns.length - 1 )
-					|| part.handles() )
+					|| part.chunk )
 				{
 					output.push( part );
 				}
@@ -1047,8 +1085,11 @@ package com.ffsys.pattern
 		public function get xml():XML
 		{
 			//TODO: stash this XML and invalidate
+			
+			var i:int = 0;
 			var name:String = this.name;
 			var x:XML = new XML( "<" + name + " />" );
+			
 			if( !root && !isCaptureGroup() )
 			{	
 				if( range || meta || chunk )
@@ -1083,6 +1124,18 @@ package com.ffsys.pattern
 				x.@begins = begins;
 				x.@ends = ends;				
 				x.appendChild( new XML( "<source><![CDATA[" + this.source + "]]></source>" ) );
+				
+				if( length > 0 )
+				{
+					var results:XML = new XML( "<" + RESULTS + "/>" );
+					var match:PatternMatchResult = null;
+					for( i = 0;i < length;i++ )
+					{
+						match = this[ i ] as PatternMatchResult;
+						results.appendChild( match.xml );
+					}
+					x.appendChild( results );
+				}
 			}else
 			{
 				x.appendChild( new XML( "<source><![CDATA[" + toString() + "]]></source>" ) );
@@ -1094,7 +1147,7 @@ package com.ffsys.pattern
 				x.appendChild( children );
 				var ptn:Pattern = null;
 				var child:XML = null;
-				for( var i:int = 0;i < ptns.length;i++ )
+				for( i = 0;i < ptns.length;i++ )
 				{
 					ptn = ptns[ i ];
 					child = ptn.xml;
@@ -1103,6 +1156,12 @@ package com.ffsys.pattern
 			}
 			
 			return x;
+		}
+		
+		public function toPatternString():String
+		{
+			var prefix:String = root ? PATTERN : PTN;
+			return prefix + ":" + DELIMITER + toString() + DELIMITER;
 		}
 		
 		/**
