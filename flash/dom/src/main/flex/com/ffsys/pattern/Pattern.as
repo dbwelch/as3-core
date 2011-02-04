@@ -29,6 +29,19 @@ package com.ffsys.pattern
 			+ "|\\" + OPEN_MIN_MAX
 			+ "|\\" + OPEN_NAME + ")"
 		);
+
+		private static var __quantifierRangeExpr:String =
+			"(?:\\{(?:[0-9]+)(?:,[0-9]*)?\\})";
+		
+		private static var __quantifierRange:RegExp =
+			new RegExp( "^(" + __quantifierRangeExpr + ")+$" );
+				
+		private static var __quantifiers:String =
+			"(?:" + __quantifierRangeExpr + "|\\*|\\+|\\?){1}"
+			+ "(?:\\?)?";	//additional lazy quantifier
+		
+		private static var __quantity:RegExp = new RegExp( "(" + __quantifiers + ")" );
+		private static var __justquantity:RegExp = new RegExp( "^(" + __quantifiers + ")$" );
 		
 		/**
 		* 	The delimiter used to mark the
@@ -134,6 +147,7 @@ package com.ffsys.pattern
 		private var _source:* = NaN;
 		private var _field:String;
 		private var _name:String;
+		private var _compiled:String;
 		
 		//the actual regex we use for matching
 		//this is required as the source property is read only
@@ -144,8 +158,8 @@ package com.ffsys.pattern
 		
 		//stores the minimum and maximum occurences
 		//for this pattern
-		internal var _min:int = -1;
-		internal var _max:int = -1;
+		internal var _min:Number = -1;
+		internal var _max:Number = -1;
 		internal var _index:int = -1;
 		
 		/**
@@ -167,70 +181,107 @@ package com.ffsys.pattern
 		/**
 		* 	@private
 		*/
+		internal function getQuantifierRangeOccurences():Object
+		{
+			var output:Object = new Object();
+			output.min = _min;
+			output.max = _max;
+			var tmp:String = source.substr();
+			tmp = tmp.replace( /\{/, "" );
+			tmp = tmp.replace( /\}/, "" );			
+			var parts:Array = tmp.split( "," );
+			if( output.min == -1 && parts.length >= 1 )
+			{
+				output.min = parseInt( parts[ 0 ] );
+				if( parts.length == 1 )
+				{
+					output.max = output.min;
+				}
+			}
+			if( output.max == -1 
+				&& parts.length == 2 )
+			{
+				if( parts[ 1 ] == "" )
+				{
+					output.max = uint.MAX_VALUE;
+				}else
+				{
+					output.max = parseInt( parts[ 1 ] );
+				}
+			}
+			
+			trace("[QUANTIFIER RANGE] Pattern::getQuantifierRangeOccurences()", source, output.min, output.max, parts );
+			
+			return output;
+		}
+		
+		/**
+		* 	@private
+		*/
 		internal function getOccurences():Object
 		{
 			var floor:int = 0;
-			var ceiling:int = int.MAX_VALUE;
-						
-			var min:int = _min;
-			var max:int = _max;	
-		
-			
-			var defined:Boolean = _min > 0 && _max > 0;
-					
-			if( !defined && quantifier )
+			var ceiling:int = uint.MAX_VALUE;
+			var output:Object = new Object();
+			output.min = _min;
+			output.max = _max;
+			if( quantifierRange && _min == -1 && _max == -1 )
 			{
-				switch( source )
-				{
-					case ASTERISK:
-						min = floor;
-						max = ceiling;
-						break;
-					case PLUS:
-						min = 1;
-						max = ceiling;
-						break;
-					case QUESTION_MARK:
-						min = floor;
-						max = 1;
-						break;									
-				}
-				
-				trace("Pattern::getOccurences()", source, min, max );
-				
-				_min = min;
-				_max = max;
+				output = getQuantifierRangeOccurences();
 			}
-			
-			return { min: min, max: max };
+			if( output.min == -1
+				&& output.max == -1 )
+			{
+				var defined:Boolean = _min > 0 && _max > 0;
+				if( !defined && quantifier )
+				{
+					switch( source )
+					{
+						case ASTERISK:
+							output.min = floor;
+							output.max = ceiling;
+							break;
+						case PLUS:
+							output.min = 1;
+							output.max = ceiling;
+							break;
+						case QUESTION_MARK:
+							output.min = floor;
+							output.max = 1;
+							break;
+					}
+				}
+			}
+			_min = output.min;
+			_max = output.max;
+			trace("Pattern::getOccurences()", source, output.min, output.max );			
+			return output;
 		}
 		
 		/**
 		* 	The minimum number of occurences
 		* 	for this pattern.
 		*/
-		public function get min():int
+		public function get minimum():uint
 		{
-			if( _min > -1 )
+			if( _min == -1 )
 			{
-				return _min;
+				_min = getOccurences().min;
 			}
-			
-			return getOccurences().min;
+			return _min;
 		}
 		
 		/**
 		* 	The maximum number of occurences
 		* 	for this pattern.
 		*/
-		public function get max():int
+		public function get maximum():uint
 		{
-			if( _max > -1 )
+			if( _max == -1 )
 			{
-				return _max;
+				_max = getOccurences().max;
 			}
-			
-			return getOccurences().max;
+			return _max;
 		}
 		
 		/**
@@ -273,11 +324,19 @@ package com.ffsys.pattern
 		*/
 		public function get quantifier():Boolean
 		{
-			return ( source == ASTERISK
-				|| source == PLUS
-				|| source == QUESTION_MARK
-				|| quantifierRange );
+			return ( source != null
+				&& ( __justquantity.test( source )
+				|| quantifierRange ) );
 		}
+		
+		/**
+		* 	Determines whether this pattern is a quantifier
+		* 	range, <code>{1,2}</code>.
+		*/
+		public function get quantifierRange():Boolean
+		{
+			return __quantifierRange.test( this.source );
+		}		
 		
 		/**
 		*	Determines whether a capture group
@@ -360,6 +419,10 @@ package com.ffsys.pattern
 			_owner = owner;
 		}
 		
+		/**
+		* 	The index of this pattern in the context
+		* 	of an owner pattern.
+		*/
 		public function get index():int
 		{
 			return _index;
@@ -374,7 +437,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	
+		* 	A next sibling pattern if available.
 		*/
 		public function get nextSibling():Pattern
 		{
@@ -388,6 +451,9 @@ package com.ffsys.pattern
 			return null;
 		}
 		
+		/**
+		* 	A previous sibling pattern if available.
+		*/
 		public function get previousSibling():Pattern
 		{
 			try
@@ -482,7 +548,11 @@ package com.ffsys.pattern
 		*/
 		public function get begins():Boolean
 		{
-			return root && !empty && first.source == CARET;
+			return 	( root && !empty && first.source == CARET )
+				||	( owner != null
+					&& owner.root
+					&& source == CARET
+					&& index == 0 );
 		}
 		
 		/**
@@ -495,7 +565,11 @@ package com.ffsys.pattern
 		*/
 		public function get ends():Boolean
 		{
-			return root && !empty && last.source == DOLLAR;
+			return 	( root && !empty && last.source == DOLLAR )
+				||	( owner != null
+					&& owner.root
+					&& source == DOLLAR
+					&& ( index == owner.patterns.length - 1 ) );
 		}
 		
 		/**
@@ -505,6 +579,7 @@ package com.ffsys.pattern
 		{
 			_patterns = null;
 			_source = "";
+			_compiled =  null;
 			_parts = null;
 		}
 		
@@ -1147,16 +1222,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether this pattern is a quantifier
-		* 	range, <code>{1,2}</code>.
-		*/
-		public function get quantifierRange():Boolean
-		{
-			return ( source != null && source == OPEN_MIN_MAX )
-				|| this.group && ( first.toString() == OPEN_MIN_MAX );
-		}
-		
-		/**
 		* 	Gets a regular expression representation
 		* 	of this pattern.
 		* 
@@ -1166,12 +1231,10 @@ package com.ffsys.pattern
 		{
 			if( _regex == null )
 			{
-				if( patterns.length == 0 )
+				if( patterns.length == 0 && _source == null )
 				{
-					if( _regex.source != this.source )
-					{
-						_regex = new RegExp( this.source );
-					}
+					_source = patterns.join( "" );
+					_regex = new RegExp( this.source );
 				}else{
 					_regex = new RegExp( toString() );
 				}
@@ -1253,20 +1316,20 @@ package com.ffsys.pattern
 			if( quantifier )
 			{
 				//single quantifier occurence amount
-				if( this.min > -1
-					&& this.max > -1
-					&& this.min == this.max )
+				if( this.minimum > -1
+					&& this.maximum > -1
+					&& this.minimum == this.maximum )
 				{
-					x.@occurences = this.min;
+					x.@count = this.minimum;
 				}else
-				{	
-					if( this.min > -1 )
+				{
+					if( this.minimum > -1 )
 					{
-						x.@min = this.min;
+						x.@minimum = this.minimum;
 					}
-					if( this.max > -1 )
+					if( this.maximum > -1 )
 					{
-						x.@max = this.max;
+						x.@maximum = this.maximum;
 					}
 				}
 			}
@@ -1297,10 +1360,14 @@ package com.ffsys.pattern
 				}
 			}
 			
-			if( root )
+			if( root || source == CARET || source == DOLLAR )
 			{
 				x.@begins = begins;
-				x.@ends = ends;				
+				x.@ends = ends;
+			}
+			
+			if( root )
+			{			
 				x.appendChild( new XML( "<source><![CDATA[" + this.source + "]]></source>" ) );
 				
 				if( length > 0 )
@@ -1466,8 +1533,16 @@ package com.ffsys.pattern
 			return ( owner == null );
 		}
 		
+		public function get compiled():Boolean
+		{
+			return _compiled == "";
+		}
+		
 		/**
 		* 	Compiles a string to a pattern.
+		* 
+		* 	Any existing patterns belonging to this pattern
+		* 	are removed before attempting to compile.
 		* 
 		* 	@param candidate The string candidate to compile.
 		* 	@param target An optional target to compile into,
@@ -1488,8 +1563,9 @@ package com.ffsys.pattern
 				clear();
 				//copy the candidate to our source
 				_source = candidate.substr();
+				_compiled = candidate.substr();
 				
-				if( Pattern.character( candidate ) )
+				if( Pattern.character( _compiled ) )
 				{
 					//nothing to build for meta character sequences
 					return target;
@@ -1505,7 +1581,7 @@ package com.ffsys.pattern
 
 				var current:Pattern = null;				
 						
-				trace("[CANDIDATE] PatternBuilder::build()", candidate );
+				trace("[CANDIDATE] PatternBuilder::build()", _compiled );
 
 				//candidate for valid actionscript property names
 				var prop:String = "(?:[a-zA-Z_\\$]{1}[a-zA-Z0-9_\\$]*)";
@@ -1514,17 +1590,17 @@ package com.ffsys.pattern
 				var namedgroup:String = "";
 
 				//the main expression used to capture regex special characters
-				var expr:String = "\\\\?(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|\\?|\\+|[(){}*\\|^\\$:<>.\\-]){1}";
+				//var expr:String = "\\\\?(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|\\?|\\+|\\{(?:[0-9]+)(?:,[0-9+])?\\}|[()*\\|^\\$:<>.\\-]){1}";
+				
+				var expr:String = "\\\\?(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|[()|^\\$:<>.\\-]){1}";
 
 				var re:RegExp = new RegExp( "(" + expr + ")" );
-				var results:Array = re.exec( candidate );
-
-				trace("PatternBuilder::build()", re, results );
-
+				var results:Array = re.exec( _compiled );
+				
 				//no regex special character match
 				if( results == null )
 				{
-					ptn = new Pattern( candidate );
+					ptn = new Pattern( _compiled );
 					parentTarget.add( ptn );
 					parts.add( ptn );
 					return target;
@@ -1535,22 +1611,17 @@ package com.ffsys.pattern
 				//grab any inital non-meta chunk
 				if( position > 0 )
 				{
-					//trace("Pattern::build()", position );
-					
-					ptn = new Pattern(
-						candidate.substr( 0, results.index ) )
-					parentTarget.add( ptn );
-					parts.add( ptn );					
-					candidate = candidate.substr( results.index );
-				}				
-
-				if( results[ 1 ] is String )
-				{
-					ptn = new Pattern( results[ 1 ] );
-					candidate = candidate.substr( ptn.source.length );
+					chunk = _compiled.substr( 0, results.index );
+					ptn = getCompilationPattern( chunk );
+					addCompilationPattern(
+						parentTarget, ptn, true );
 				}
 				
-				//current = ptn;
+				//grab the first pattern match
+				if( results[ 1 ] is String )
+				{
+					ptn = getCompilationPattern( results[ 1 ] );
+				}
 
 				while( ptn != null )
 				{
@@ -1562,9 +1633,9 @@ package com.ffsys.pattern
 					{
 						if( !( ptn.source == OPEN_NAME ) )
 						{
-							parts.add( ptn );
+							addCompilationPart( ptn );
 						}
-						
+
 						//add the opening meta group character
 						//to a pattern used to represent the entire
 						//group contents
@@ -1577,35 +1648,12 @@ package com.ffsys.pattern
 						if( !ptn.qualifier()
 							&& !( ptn.source == CLOSE_NAME ) )
 						{
-							parts.add( ptn );
+							addCompilationPart( ptn );
 						}
 					}
 					
 					//
-					parentTarget.add( ptn );
-					
-					//compound quantifier - one specified immediately after another
-					if( ptn.quantifier
-						&& ptn.previousSibling != null
-						&& ptn.previousSibling.quantifier )
-					{						
- 						tmp = new Pattern( ptn.previousSibling.source );
-
-						trace("[FOUND COMPOUND COMPILE QUANTIFIER] Pattern::compile()", parentTarget.patterns.length, ptn, ptn.previousSibling, tmp );
-						
-						ptn.previousSibling.source += ptn.source;
-
-						//compound the quantifier
-						//tmp.source ;
-						
-						//pop the current quantifier off
-						parentTarget.remove();
-						
-						//add the temp quantifier
-						//parentTarget.add( tmp );
-						
-						trace("[FOUND COMPOUND COMPILE QUANTIFIER] Pattern::compile()", parentTarget.patterns.length, ptn, ptn.source );
-					}
+					addCompilationPattern( parentTarget, ptn );
 					
 					if( opens )
 					{
@@ -1624,15 +1672,51 @@ package com.ffsys.pattern
 
 					//look for the next meta character sequence
 					//to extract any intermediary chunk
-					var next:int = candidate.search( re );
+					var next:int = _compiled.search( re );
 					if( next > 0 )
 					{
 						//extract the non-meta character chunk
-						chunk = candidate.substr( 0, next );
-						ptn = new Pattern( chunk );	
+						chunk = _compiled.substr( 0, next );
+					
+						if( __quantity.test( chunk ) )
+						{
+							results = __quantity.exec( chunk );
+							var c:String = results[ 1 ] as String;
+							var just:Boolean = __justquantity.test( chunk );
+							
+							trace("Pattern::compile()", "[FOUND QUANTITY CHUNK]", chunk, results, c, just, ptn );
+							
+							//quantifier with chunk data after
+							//a group or character class so
+							//split into quantifier and remaining
+							//chunk
+							if( c != null
+								&& results.index == 0
+								&& !just
+								&& (
+									closes
+									&& ptn.source == RPAREN
+									|| ptn.source == CLOSE_RANGE ) )
+							{
+								trace("Pattern::compile()", "[FOUND MIXED QUANTITY CHUNK]" );
+								
+								//add the quantifier part
+								addCompilationPattern(
+									parentTarget,
+									getCompilationPattern( chunk.substr( 0, c.length ) ),
+									true );
+								
+								//re-assign the current chunk value
+								chunk = chunk.substr( c.length );
+							}else if( just && c != null )
+							{
+								chunk = c;
+							}
+						}
+
+						ptn = new Pattern( chunk );
 						
-						//chomp the string
-						candidate = candidate.substr( chunk.length );
+						trace("[COMPILE] Pattern::compile()", "[ADDING CHUNK]", chunk );
 						
 						//adding a chunk to a named property
 						//group - <propertyName>
@@ -1646,18 +1730,15 @@ package com.ffsys.pattern
 							parentTarget.owner.field = chunk;
 						}else
 						{
-							parts.add( ptn );
+							addCompilationPart( ptn );
 						}
 						
-						parentTarget.add( ptn );
-
-						///trace("[ADDING CHUNK] PatternBuilder::build()", chunk, parentTarget );
+						//add the chunk pattern
+						addCompilationPattern( parentTarget, ptn );
 					}
 					
-					//trace("[NEW LENGTH] Pattern::build()", patterns.length );
-					
-					//test for more meta characters
-					results = re.exec( candidate );					
+					//test for more meta sequences
+					results = re.exec( _compiled );					
 					ptn = null;
 					if( results != null )
 					{
@@ -1666,17 +1747,47 @@ package com.ffsys.pattern
 						{
 							ptn = new Pattern(
 								results[ 1 ] as String );
-							//chomp the source candidate
-							candidate = candidate.substr( ptn.source.length );
-							//trace("Pattern::build() [CREATED NEXT META PATTERN]", ptn );
 						}
 					}
 				}
-
-				//trace("[MATCHES] PatternBuilder::build()", this, patterns.length, patterns );
 			}
-			
 			return target;
-		}				
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function getCompilationPattern(
+			chunk:String ):Pattern
+		{
+			return new Pattern( chunk );
+		}		
+		
+		/**
+		* 	@private
+		*/
+		internal function addCompilationPattern(
+			parent:Pattern,
+			ptn:Pattern,
+			part:Boolean = false ):String
+		{
+			parent.add( ptn );
+			if( part )
+			{
+				addCompilationPart( ptn );
+			}
+			_compiled = _compiled.substr( ptn.source.length );
+			return _compiled;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function addCompilationPart(
+			ptn:Pattern ):Pattern
+		{
+			parts.add( ptn );
+			return parts;
+		}
 	}
 }

@@ -18,7 +18,6 @@ package com.ffsys.pattern
 		private var _position:uint = 0;
 		private var _result:Boolean;
 		private var _source:*;
-		private var _message:String;
 		
 		/**
 		* 	Creates a <code>PatternMatchResult</code> instance.
@@ -84,19 +83,6 @@ package com.ffsys.pattern
 		public function set source( value:* ):void
 		{
 			_source = value;
-		}
-		
-		/**
-		* 	A message associated with this match result.
-		*/
-		public function get message():String
-		{
-			return _message;
-		}
-		
-		public function set message( value:String ):void
-		{
-			_message = value;
 		}
 		
 		/**

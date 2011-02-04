@@ -311,7 +311,7 @@ package com.ffsys.dom
 			
 			var ptn:Pattern = new Pattern();
 			ptn.compile(
-				"^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000)(?P<property>myName)25?[^1-25]*[a-z]{1,2})?(alpha+numeri(c|k)?)+)$" );
+				"^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{27}{1,}{1,2}{1})?(alpha+numeri(c|k)?)+)$" );
 			
 			XML.prettyPrinting = true;
 			XML.prettyIndent = 2;
@@ -326,9 +326,10 @@ package com.ffsys.dom
 				"false", ptn.test( false ) );
 			trace("[OBJECT PROPERTY TEST] CssScannerTest::cssTokenizeTest()",
 				"{ id: 303 }", ptn.test( { id: 303 } ) );
-			
+
 			trace("[PATTERN] CssScannerTest::pattern()", ptn );
-			trace("[SOURCE] CssScannerTest::pattern()", ptn.source );			
+			trace("[COMPILED] CssScannerTest::pattern()", ptn.compiled );
+			trace("[SOURCE] CssScannerTest::pattern()", ptn.source );
 			trace("[PATTERNS] CssScannerTest::pattern()", ptn.length, ptn.patterns );
 			trace("[PARTS] CssScannerTest::pattern()", ptn.parts );
 			trace("[POSITIONS] CssScannerTest::pattern()", ptn.positions );
