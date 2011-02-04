@@ -310,7 +310,8 @@ package com.ffsys.dom
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
 			
 			var ptn:Pattern = new Pattern();
-			ptn.build( "^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000)(?P<property>myName)25?[^1-25]*[a-z]{1,2})?(alpha+numeri(c|k)?)+)$" );
+			ptn.compile(
+				"^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000)(?P<property>myName)25?[^1-25]*[a-z]{1,2})?(alpha+numeri(c|k)?)+)$" );
 			
 			XML.prettyPrinting = true;
 			XML.prettyIndent = 2;

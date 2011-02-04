@@ -144,8 +144,8 @@ package com.ffsys.pattern
 		
 		//stores the minimum and maximum occurences
 		//for this pattern
-		internal var min:uint = 1;
-		internal var max:uint = 1;
+		internal var _min:int = -1;
+		internal var _max:int = -1;
 		
 		/**
 		* 	Creates a <code>Pattern</code> instance.
@@ -161,6 +161,75 @@ package com.ffsys.pattern
 			}
 
 			this.source = "" + target;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function getOccurences():Object
+		{
+			var floor:int = 0;
+			var ceiling:int = int.MAX_VALUE;
+						
+			var min:int = _min;
+			var max:int = _max;	
+		
+			
+			var defined:Boolean = _min > 0 && _max > 0;
+					
+			if( !defined && quantifier )
+			{
+				switch( source )
+				{
+					case ASTERISK:
+						min = floor;
+						max = ceiling;
+						break;
+					case PLUS:
+						min = 1;
+						max = ceiling;
+						break;
+					case QUESTION_MARK:
+						min = floor;
+						max = 1;
+						break;									
+				}
+				
+				trace("Pattern::getOccurences()", source, min, max );
+				
+				_min = min;
+				_max = max;
+			}
+			
+			return { min: min, max: max };
+		}
+		
+		/**
+		* 	The minimum number of occurences
+		* 	for this pattern.
+		*/
+		public function get min():int
+		{
+			if( _min > -1 )
+			{
+				return _min;
+			}
+			
+			return getOccurences().min;
+		}
+		
+		/**
+		* 	The maximum number of occurences
+		* 	for this pattern.
+		*/
+		public function get max():int
+		{
+			if( _max > -1 )
+			{
+				return _max;
+			}
+			
+			return getOccurences().max;
 		}
 		
 		/**
@@ -1096,13 +1165,44 @@ package com.ffsys.pattern
 				{
 					x = new XML( "<" + name + "><![CDATA[" + toString() + "]]></" + name + ">" );
 				}
+				
 				if( range )
 				{
 					x.@negated = this.negated;
 				}
-				return x;
 			}
 			
+			if( quantifier )
+			{
+				//single quantifier occurence amount
+				if( this.min > -1
+					&& this.max > -1
+					&& this.min == this.max )
+				{
+					x.@occurences = this.min;
+				}else
+				{	
+					if( this.min > -1 )
+					{
+						x.@min = this.min;
+					}
+					if( this.max > -1 )
+					{
+						x.@max = this.max;
+					}
+				}
+			}
+			
+			//shortcut out for simple types
+			if( !root && !isCaptureGroup() )
+			{	
+				if( range || meta || chunk )
+				{
+					return x;
+				}
+			}			
+			
+			//handle complex types
 			var ptns:Vector.<Pattern> = this.patterns;
 			var group:Boolean = !root && isCaptureGroup();
 			if( group )
@@ -1289,13 +1389,22 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Builds a candidate string to the patterns
-		* 	stored by this candidate.
+		* 	Compiles a string to a pattern.
 		* 
-		* 	@param candidate The string candidate to concatenate.
+		* 	@param candidate The string candidate to compile.
+		* 	@param target An optional target to compile into,
+		* 	if not specified the pattern is compiled into this
+		* 	pattern.
+		* 
+		* 	@return A compiled pattern.
 		*/
-		public function build( candidate:String ):void
+		public function compile( candidate:String, target:Pattern = null ):Pattern
 		{
+			if( target == null )
+			{
+				target = this;
+			}
+			
 			if( candidate != null )
 			{
 				clear();
@@ -1305,10 +1414,10 @@ package com.ffsys.pattern
 				if( Pattern.character( candidate ) )
 				{
 					//nothing to build for meta character sequences
-					return;
+					return target;
 				}
 				
-				var parentTarget:Pattern = this;
+				var parentTarget:Pattern = target;
 				var opens:Boolean = false;
 				var closes:Boolean = false;
 				var meta:String = null;
@@ -1339,7 +1448,7 @@ package com.ffsys.pattern
 					ptn = new Pattern( candidate );
 					parentTarget.add( ptn );
 					parts.add( ptn );
-					return;
+					return target;
 				}
 				
 				var position:int = results.index;				
@@ -1384,9 +1493,6 @@ package com.ffsys.pattern
 						current.add( ptn );
 						current.setOpen( true );
 						ptn = current;
-						//trace("PatternBuilder::build() [OPENING GROUP]", current, parentTarget );
-					
-						//trace("PatternBuilder::build() [OPENING GROUP NEW PARENT]", parentTarget );
 					}else
 					{
 						if( !ptn.qualifier()
@@ -1396,13 +1502,6 @@ package com.ffsys.pattern
 						}
 					}
 					
-					/*
-					if( current != null )
-					{
-						trace("[IN GROUP] PatternBuilder::build()", ptn, opens, closes, current.group, current.open );
-					}				
-					*/
-					
 					//
 					parentTarget.add( ptn );
 					
@@ -1410,16 +1509,13 @@ package com.ffsys.pattern
 					{
 						//opening a group update the parent target *after* adding the group
 						parentTarget = current;
-						//trace("PatternBuilder::build() [OPENING GROUP - OWNER IS THIS]", current.owner == this );
 					}
 					
-					//trace("[ADDING PATTERN] PatternBuilder::build()", ptn, parentTarget );					
-					
+					//close an open group
 					if(	closes
 						&& current != null )
 					{
 						current.setOpen( false );
-						//trace("PatternBuilder::build()", "[CLOSING GROUP]", ptn, current, parentTarget, current.owner == this );
 						parentTarget = current.owner;
 						current = parentTarget;
 					}
@@ -1441,13 +1537,7 @@ package com.ffsys.pattern
 							&& parentTarget.owner != null
 							&& parentTarget.first != null
 							&& parentTarget.first.toString() == OPEN_NAME )
-						{
-							
-							/*
-							trace("[FOUND CHUNK FOR NAMED PROPERTY] Pattern::build()",
-								ptn, parentTarget.owner );
-							*/
-								
+						{	
 							//assign the named property field to
 							//the parent group
 							parentTarget.owner.field = chunk;
@@ -1482,6 +1572,8 @@ package com.ffsys.pattern
 
 				//trace("[MATCHES] PatternBuilder::build()", this, patterns.length, patterns );
 			}
+			
+			return target;
 		}				
 	}
 }
