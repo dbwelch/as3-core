@@ -9,6 +9,8 @@ package com.ffsys.dom
 	import com.ffsys.css.*;
 	import com.ffsys.scanner.*;
 	
+	import com.ffsys.pattern.*;	
+	
 	/**
 	*	Unit tests for tokenizing css documents.
 	*/ 
@@ -308,11 +310,10 @@ package com.ffsys.dom
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
 			
 			var ptn:Pattern = new Pattern();
-			ptn.build( "^(?P<id>[0-9]+|false)(^(?:100|201|404(505)+?3000)(?P<property>myName)25?[1-25]*[a-z]{1,2})?(alpha+numeri(c|k)?)+?" );
+			ptn.build( "^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000)(?P<property>myName)25?[^1-25]*[a-z]{1,2})?(alpha+numeri(c|k)?)+)$" );
 			
-			//(^)
-			
-			//([0-9]+|false)((^)((100|201|404)(505)(3000))(myName)(25?)([1-25]*)([a-z]{1,2}))(?)((alpha+numeri)(c|k)(?))(?)
+			XML.prettyPrinting = true;
+			XML.prettyIndent = 2;
 			
 			trace("[STRING TEST] CssScannerTest::cssTokenizeTest()",
 				"303", ptn.test( "303" ) );
@@ -329,7 +330,9 @@ package com.ffsys.dom
 			trace("[SOURCE] CssScannerTest::pattern()", ptn.source );			
 			trace("[PATTERNS] CssScannerTest::pattern()", ptn.length, ptn.patterns );
 			trace("[PARTS] CssScannerTest::pattern()", ptn.parts );
-			trace("[POSITIONS] CssScannerTest::pattern()", ptn.positions );	
+			trace("[POSITIONS] CssScannerTest::pattern()", ptn.positions );
+			trace("[RESULTS] CssScannerTest::pattern()", ptn.results );
+			trace("[XML] CssScannerTest::pattern()", ptn.xml.toXMLString() );
 			
 			/*
 			var tkn:Token = null;

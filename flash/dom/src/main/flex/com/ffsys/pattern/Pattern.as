@@ -1,4 +1,4 @@
-package com.ffsys.scanner
+package com.ffsys.pattern
 {
 	/**
 	* 	Represents a regular expression pattern.
@@ -20,20 +20,25 @@ package com.ffsys.scanner
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/
-	dynamic public class Pattern extends Object
+	dynamic public class Pattern extends Array
 	{
 		private static var __group:RegExp = new RegExp(
 			"^(?:"
-			+ "\\" + OPEN_GROUP
+			+ "\\" + LPAREN
 			+ "|\\" + OPEN_RANGE
 			+ "|\\" + OPEN_MIN_MAX
 			+ "|\\" + OPEN_NAME + ")"
 		);
 		
 		/**
+		* 	The name for pattern parts.
+		*/
+		public static const PARTS:String = "parts";
+		
+		/**
 		* 	A meta character that indicates the start position.
 		*/
-		public static const STARTS_WITH:String = "^";
+		public static const CARET:String = "^";
 		
 		/**
 		* 	Represents a wildcard sequence.
@@ -53,27 +58,27 @@ package com.ffsys.scanner
 		/**
 		* 	A meta character that indicates alternation.
 		*/
-		public static const ALTERNATOR:String = "|";
+		public static const PIPE:String = "|";
 		
 		/**
 		* 	A meta character that indicates a range.
 		*/
-		public static const RANGE:String = "-";
+		public static const HYPHEN:String = "-";
 		
 		/**
 		* 	A meta character that indicates zero or one occurence.
 		*/
-		public static const OPTIONAL:String = "?";	
+		public static const QUESTION_MARK:String = "?";	
 		
 		/**
 		* 	A meta character that indicates the end position.
 		*/
-		public static const ENDS_WITH:String = "$";
+		public static const DOLLAR:String = "$";
 		
 		//
-		public static const OPEN_GROUP:String = "(";
+		public static const LPAREN:String = "(";
 		
-		public static const CLOSE_GROUP:String = ")";
+		public static const RPAREN:String = ")";
 		
 		public static const OPEN_RANGE:String = "[";
 		
@@ -95,19 +100,13 @@ package com.ffsys.scanner
 		
 		public static const NAMED:String = "?P";
 		
-		/**
-		* 	The default target property name when matching against
-		* 	complex objects.
-		*/
-		public static const PROPERTY_NAME:String = "id";
-		
 		private var _patterns:Vector.<Pattern>;
-		private var _parts:Vector.<Pattern>;
-		
+		private var _parts:Pattern;
 		private var _owner:Pattern;
 		private var _position:uint = 0;
 		private var _source:* = NaN;
 		private var _field:String;
+		private var _name:String;
 		
 		//the actual regex we use for matching
 		//this is required as the source property is read only
@@ -115,6 +114,11 @@ package com.ffsys.scanner
 		private var _regex:RegExp;
 
 		private var _open:Boolean = false;
+		
+		//stores the minimum and maximum occurences
+		//for this pattern
+		internal var min:uint = 1;
+		internal var max:uint = 1;
 		
 		/**
 		* 	Creates a <code>Pattern</code> instance.
@@ -161,17 +165,21 @@ package com.ffsys.scanner
 		
 		/**
 		* 	Determines whether this pattern
-		* 	is a quantifier character.
+		* 	is quantifier meta data.
 		* 
-		* 	@return Whether this pattern is a capture
-		* 	group qualifier.
+		* 	A quantifier is deemed to be a sequence
+		* 	that affects the number of occurences for
+		* 	a previous pattern.
+		* 
+		* 	@return Whether this pattern is a
+		* 	quantifier.
 		*/
-		public function quantifier():Boolean
+		public function get quantifier():Boolean
 		{
 			return ( source == ASTERISK
 				|| source == PLUS
-				|| source == OPTIONAL
-				|| isQuantifierRange() );
+				|| source == QUESTION_MARK
+				|| quantifierRange );
 		}
 		
 		/**
@@ -183,7 +191,7 @@ package com.ffsys.scanner
 			if( isCaptureGroup() )
 			{
 				if( patterns.length > 1
-					&& patterns[ 0 ].toString() == OPEN_GROUP
+					&& patterns[ 0 ].toString() == LPAREN
 					&& patterns[ 1 ] is Pattern )
 				{
 					return patterns[ 1 ].qualifier();
@@ -218,7 +226,7 @@ package com.ffsys.scanner
 		*/
 		public function get chunk():Boolean
 		{
-			return !meta;
+			return !root && !meta;
 		}
 		
 		/**
@@ -284,14 +292,17 @@ package com.ffsys.scanner
 		/**
 		* 	All pattern parts as a flat list.
 		*/
-		public function get parts():Vector.<Pattern>
+		
+		//TODO: convert to a pattern
+		public function get parts():Pattern
 		{
 			if( _parts == null )
 			{
-				_parts = new Vector.<Pattern>();
+				_parts = new Pattern();
+				_parts.name = PARTS;
 			}
 			return _parts;
-		}		
+		}
 		
 		/**
 		* 	The first part of this pattern.
@@ -315,6 +326,41 @@ package com.ffsys.scanner
 				return patterns[ patterns.length - 1 ];
 			}
 			return null;
+		}
+		
+		/**
+		* 	Determines whether this pattern
+		* 	has any patterns.
+		*/
+		public function get empty():Boolean
+		{
+			return patterns.length == 0;
+		}
+		
+		/**
+		* 	Determines whether this pattern
+		* 	should match from the beginning
+		* 	of a target being matched against.
+		* 
+		* 	Equivalent to a <code>^</code> at the beginning
+		* 	of a regular expression.
+		*/
+		public function get begins():Boolean
+		{
+			return root && !empty && first.source == CARET;
+		}
+		
+		/**
+		* 	Determines whether this pattern
+		* 	should match until the end
+		*	of a target being matched against.
+		* 
+		* 	Equivalent to a <code>$</code> at the end
+		* 	of a regular expression.
+		*/
+		public function get ends():Boolean
+		{
+			return root && !empty && last.source == DOLLAR;
 		}
 		
 		/**
@@ -355,49 +401,53 @@ package com.ffsys.scanner
 		*/
 		public function get( index:int ):Pattern
 		{
-			if( index < 0 || index >= length )
+			if( index < 0 || index >= patterns.length )
 			{
 				return null;
 			}
 			return this.patterns[ index ];
-		}		
-		
-		/**
-		* 	The number of parts to this pattern.
-		*/
-		public function get length():uint
-		{
-			return this.patterns.length;
-		}		
-		
-		private function getCandidate(
-			candidates:Array ):Array
-		{
-			return candidates.slice( _position, _position + 1 );
 		}
 		
 		/**
-		* 	Retrieves the name of the property field
-		* 	for a given target.
-		* 
-		* 	When the return value is <code>null</code>
-		* 	it indicates either the target is <code>null</code>
-		* 	or a primitive value.
-		* 
-		* 	@param target The target object to test for
-		* 	the availability of a field name.
-		* 
-		* 	@return A field name if the target is an
-		* 	<code>Object</code>.
+		* 	@private
 		*/
-		public function getField( target:* ):String
+		internal function match(
+			pattern:Pattern, value:*, position:uint = 0 ):PatternMatchResult
 		{
-			if( target == null || !( target is Object ) )
+			var match:PatternMatchResult = new PatternMatchResult( position, pattern, value );
+			var re:RegExp = pattern.regex;
+			
+			//compare against the source of other
+			//regular expressions
+			if( value is RegExp )
 			{
-				return null;
+				value = RegExp( value ).source;
 			}
-			//just test against numeric id for the moment
-			return PROPERTY_NAME;
+			
+			//non-string primitive value
+			//coerce to a string for comparison
+			if( value is Number || value is Boolean )
+			{
+				//trace("[PRIMITIVE TEST] Pattern::test()", re, "" + value, re.test( "" + value ) );
+				value = "" + value;
+			}
+			
+			match.result = re.test( value as String );
+			
+			trace("[MATCH] Pattern::test()", value, re, re.test( value as String ), match, match.result );
+			
+			//add the match result to this pattern
+			this[ position ] = match;
+			return match;
+		}
+		
+		/**
+		* 	Retrieves an array of the last pattern
+		* 	match results.
+		*/
+		public function get results():Array
+		{
+			return slice();
 		}
 		
 		/**
@@ -410,36 +460,24 @@ package com.ffsys.scanner
 		*/
 		public function test( value:* ):Boolean
 		{
-			var re:RegExp = this.regex;
+			var matched:PatternMatchResult = null;
 			
-			//compare against the source of other
-			//regular expressions
-			if( value is RegExp )
+			//simple type so treat as a
+			//single length match
+			if( value is RegExp
+				|| value is String
+				|| value is uint
+				|| value is int
+				|| value is Number
+				|| value is Boolean )
 			{
-				value = RegExp( value ).source;
-			}
-			
-			if( value is String )
-			{
-				return re.test( value as String );
-			}
-			
-			trace("Pattern::test()", value, ( value is Object ) );
-			
-			//non-string primitive value
-			//coerce to a string for comparison
-			if( value is Number || value is Boolean )
-			{
-				trace("[PRIMITIVE TEST] Pattern::test()", re, "" + value, re.test( "" + value ) );
-				return re.test( "" + value );
-			}
-			
-			if( value is Object )
+				matched = match( this, value );
+			//check for list/property matching
+			}else if( value is Object )
 			{
 				return testObject( value as Object );
 			}
-			
-			return false;
+			return matched.result;
 		}
 		
 		/**
@@ -572,7 +610,7 @@ package com.ffsys.scanner
 				}
 				//next is an alternator or
 				//we're the last part add the part
-				if( i == ( length - 1 )
+				if( i == ( patterns.length - 1 )
 					|| part.handles() )
 				{
 					output.push( part );
@@ -629,7 +667,7 @@ package com.ffsys.scanner
 					{
 						//convert plain patterns to groups
 						group = new Pattern();
-						group.add( new Pattern( OPEN_GROUP ) );	
+						group.add( new Pattern( LPAREN ) );	
 						group.add( ptn );
 						
 						//look ahead and swallow non-group patterns
@@ -643,11 +681,11 @@ package com.ffsys.scanner
 							}
 							//close and re-open the group when
 							//we encounter a range
-							if( next.isRange() )
+							if( next.range )
 							{
 								//trace("[FOUND RANGE ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );
-								group.add( new Pattern( CLOSE_GROUP ) );
-								group.add( new Pattern( OPEN_GROUP ) );
+								group.add( new Pattern( RPAREN ) );
+								group.add( new Pattern( LPAREN ) );
 								group.add( next );					
 							}else
 							{
@@ -655,7 +693,7 @@ package com.ffsys.scanner
 								//trace("[FOUND QUANTIFIER/CHUNK ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );								
 							}
 						}
-						group.add( new Pattern( CLOSE_GROUP ) );
+						group.add( new Pattern( RPAREN ) );
 						output.add( group );
 					}
 				}
@@ -688,11 +726,11 @@ package com.ffsys.scanner
 				
 				var group:Boolean = target.requiresGrouping();
 				
-				trace("[TEST FOR ADDITIONAL GROUPING] Pattern::extract()", group );
+				//trace("[TEST FOR ADDITIONAL GROUPING] Pattern::extract()", group );
 				
 				if( group )
 				{
-					output.add( new Pattern( OPEN_GROUP ) );
+					output.add( new Pattern( LPAREN ) );
 				}
 				
 				//create a group to encapsulate
@@ -701,7 +739,7 @@ package com.ffsys.scanner
 				
 				//double the opening group so we maintain
 				//the original grouping
-				tmp.add( new Pattern( OPEN_GROUP ) );
+				tmp.add( new Pattern( LPAREN ) );
 				
 				//add the positional group to the output
 				output.add( tmp );
@@ -761,13 +799,13 @@ package com.ffsys.scanner
 			}
 			
 			//close the temp group
-			tmp.add( new Pattern( CLOSE_GROUP ) );
+			tmp.add( new Pattern( RPAREN ) );
 					
 			if( i < ( l - 1 ) )
 			{
 				l = ptns.length;
 				if( ptns[ l - 1 ] is Pattern
-				 	&& ptns[ l - 1 ].source == CLOSE_GROUP )
+				 	&& ptns[ l - 1 ].source == RPAREN )
 				{
 					//ignore end group declarations
 					l--;
@@ -785,7 +823,7 @@ package com.ffsys.scanner
 			
 			if( group )
 			{
-				output.add( new Pattern( CLOSE_GROUP ) );
+				output.add( new Pattern( RPAREN ) );
 			}
 			return tmp;
 		}
@@ -810,8 +848,8 @@ package com.ffsys.scanner
 		
 		public function isCaptureGroup():Boolean
 		{
-			return ( source != null && source == OPEN_GROUP )
-				|| this.group && ( first.toString() == OPEN_GROUP );
+			return ( source != null && source == LPAREN )
+				|| this.group && ( first.toString() == LPAREN );
 		}
 		
 		
@@ -819,6 +857,7 @@ package com.ffsys.scanner
 		{
 			if( isCaptureGroup() )
 			{
+				//TODO: stash this and invalidate				
 				var output:Pattern = new Pattern();
 				var ptns:Vector.<Pattern> = this.patterns;
 				var ptn:Pattern = null;
@@ -828,8 +867,8 @@ package com.ffsys.scanner
 					
 					//remove all capture group qualifiers and open and close
 					//patterns to get to the child patterns
-					if( ( ptn.source == OPEN_GROUP && i == 0 )
-						|| ( ptn.source == CLOSE_GROUP && i == ptns.length - 1 )
+					if( ( ptn.source == LPAREN && i == 0 )
+						|| ( ptn.source == RPAREN && i == ptns.length - 1 )
 						|| ptn.qualifier() )
 					{
 						continue;
@@ -859,7 +898,7 @@ package com.ffsys.scanner
 						groups++;
 					}
 					
-					if( ptn.source == ALTERNATOR )
+					if( ptn.source == PIPE )
 					{
 						alternators++;
 					}
@@ -903,13 +942,30 @@ package com.ffsys.scanner
 			return false;
 		}
 		
-		public function isRange():Boolean
+		/**
+		* 	Determines whether this pattern is a character
+		* 	range, <code>[0-9]</code>.
+		*/
+		public function get range():Boolean
 		{
 			return ( source != null && source == OPEN_RANGE )
 				|| this.group && ( first.toString() == OPEN_RANGE );
 		}
 		
-		public function isQuantifierRange():Boolean
+		/**
+		* 	Determines whether this pattern is a character
+		* 	range and is negated, <code>[^0-9]</code>.
+		*/
+		public function get negated():Boolean
+		{
+			return range && first != null && first.source == CARET;
+		}
+		
+		/**
+		* 	Determines whether this pattern is a quantifier
+		* 	range, <code>{1,2}</code>.
+		*/
+		public function get quantifierRange():Boolean
 		{
 			return ( source != null && source == OPEN_MIN_MAX )
 				|| this.group && ( first.toString() == OPEN_MIN_MAX );
@@ -939,13 +995,129 @@ package com.ffsys.scanner
 		}
 		
 		/**
+		* 	A name for this pattern.
+		*/
+		public function get name():String
+		{
+			if( _name )
+			{
+				return _name;
+			}
+			
+			var nm:String = null;
+			
+			switch( source )
+			{
+				case PIPE:
+					nm = "alternator";
+					break;
+				case DOT:
+					nm = "dot";
+					break;				
+			}
+			
+			if( nm == null )
+			{
+				if( isCaptureGroup() )
+				{
+					nm = "group";
+				}else if( range )
+				{
+					nm = "range";
+				}else if( quantifier )
+				{
+					nm = "quantifier";
+				}else if( meta )
+				{
+					nm = "meta";
+				}else if( chunk )
+				{
+					nm = "data";
+				}				
+			}
+			
+			return nm == null ? "pattern" : nm;
+		}
+		
+		public function set name( value:String ):void
+		{
+			_name = value;
+		}
+		
+		public function get xml():XML
+		{
+			//TODO: stash this XML and invalidate
+			var name:String = this.name;
+			var x:XML = new XML( "<" + name + " />" );
+			if( !root && !isCaptureGroup() )
+			{	
+				if( range || meta || chunk )
+				{
+					x = new XML( "<" + name + "><![CDATA[" + toString() + "]]></" + name + ">" );
+				}
+				if( range )
+				{
+					x.@negated = this.negated;
+				}
+				return x;
+			}
+			
+			var ptns:Vector.<Pattern> = this.patterns;
+			var group:Boolean = !root && isCaptureGroup();
+			if( group )
+			{
+				ptns = children.patterns;
+			}
+			
+			if( group )
+			{
+				x.@qualified = this.qualified;
+				if( field != null )
+				{
+					x.@field = this.field;
+				}
+			}
+			
+			if( root )
+			{
+				x.@begins = begins;
+				x.@ends = ends;				
+				x.appendChild( new XML( "<source><![CDATA[" + this.source + "]]></source>" ) );
+			}else
+			{
+				x.appendChild( new XML( "<source><![CDATA[" + toString() + "]]></source>" ) );
+			}
+			
+			if( ptns != null && ptns.length > 0 )
+			{
+				var children:XML = new XML( "<patterns />" );
+				x.appendChild( children );
+				var ptn:Pattern = null;
+				var child:XML = null;
+				for( var i:int = 0;i < ptns.length;i++ )
+				{
+					ptn = ptns[ i ];
+					child = ptn.xml;
+					children.appendChild( child );
+				}
+			}
+			
+			return x;
+		}
+		
+		/**
 		* 	Retrieves a string representation of this pattern.
 		* 
 		* 	@return A string representation of this pattern.
 		*/
 		public function toString():String
 		{
-			return patterns.length > 0 ? patterns.join( "" ) : _source;
+			var delimiter:String = "";
+			if( name == PARTS )
+			{
+				delimiter = ",";
+			}
+			return patterns.length > 0 ? patterns.join( delimiter ) : _source;
 		}
 		
 		/**
@@ -963,16 +1135,16 @@ package com.ffsys.scanner
 				|| char == NEGATIVE_LOOKAHEAD
 				|| char == NON_CAPTURING
 				|| char == NAMED	
-				|| char == STARTS_WITH
+				|| char == CARET
 				|| char == ASTERISK
 				|| char == DOT
 				|| char == PLUS
-				|| char == OPTIONAL
-				|| char == ENDS_WITH
-				|| char == ALTERNATOR
-				|| char == RANGE
-				|| char == OPEN_GROUP
-				|| char == CLOSE_GROUP
+				|| char == QUESTION_MARK
+				|| char == DOLLAR
+				|| char == PIPE
+				|| char == HYPHEN
+				|| char == LPAREN
+				|| char == RPAREN
 				|| char == OPEN_MIN_MAX
 				|| char == CLOSE_MIN_MAX
 				|| char == OPEN_RANGE
@@ -1013,7 +1185,7 @@ package com.ffsys.scanner
 		internal function opens():Boolean
 		{
 			var valid:Boolean = (
-				source == Pattern.OPEN_GROUP
+				source == Pattern.LPAREN
 				|| source == Pattern.OPEN_RANGE
 				|| source == Pattern.OPEN_MIN_MAX
 				|| source == Pattern.OPEN_NAME );
@@ -1037,7 +1209,7 @@ package com.ffsys.scanner
 		internal function closes():Boolean
 		{
 			var valid:Boolean = (
-				source == Pattern.CLOSE_GROUP
+				source == Pattern.RPAREN
 				|| source == Pattern.CLOSE_RANGE
 				|| source == Pattern.CLOSE_MIN_MAX
 				|| source == Pattern.CLOSE_NAME );
@@ -1049,6 +1221,13 @@ package com.ffsys.scanner
 			return valid;
 		}
 		
+		/**
+		* 	@private
+		*/
+		internal function get root():Boolean
+		{
+			return ( owner == null );
+		}
 		
 		/**
 		* 	Builds a candidate string to the patterns
@@ -1100,7 +1279,7 @@ package com.ffsys.scanner
 				{
 					ptn = new Pattern( candidate );
 					parentTarget.add( ptn );
-					parts.push( ptn );
+					parts.add( ptn );
 					return;
 				}
 				
@@ -1114,7 +1293,7 @@ package com.ffsys.scanner
 					ptn = new Pattern(
 						candidate.substr( 0, results.index ) )
 					parentTarget.add( ptn );
-					parts.push( ptn );					
+					parts.add( ptn );					
 					candidate = candidate.substr( results.index );
 				}				
 
@@ -1136,7 +1315,7 @@ package com.ffsys.scanner
 					{
 						if( !( ptn.source == OPEN_NAME ) )
 						{
-							parts.push( ptn );
+							parts.add( ptn );
 						}
 						
 						//add the opening meta group character
@@ -1154,7 +1333,7 @@ package com.ffsys.scanner
 						if( !ptn.qualifier()
 							&& !( ptn.source == CLOSE_NAME ) )
 						{
-							parts.push( ptn );
+							parts.add( ptn );
 						}
 					}
 					
@@ -1215,12 +1394,12 @@ package com.ffsys.scanner
 							parentTarget.owner.field = chunk;
 						}else
 						{
-							parts.push( ptn );
+							parts.add( ptn );
 						}
 						
 						parentTarget.add( ptn );
 
-						trace("[ADDING CHUNK] PatternBuilder::build()", chunk, parentTarget );
+						///trace("[ADDING CHUNK] PatternBuilder::build()", chunk, parentTarget );
 					}
 					
 					//trace("[NEW LENGTH] Pattern::build()", patterns.length );
@@ -1242,7 +1421,7 @@ package com.ffsys.scanner
 					}
 				}
 
-				trace("[MATCHES] PatternBuilder::build()", this, patterns.length, patterns );
+				//trace("[MATCHES] PatternBuilder::build()", this, patterns.length, patterns );
 			}
 		}				
 	}
