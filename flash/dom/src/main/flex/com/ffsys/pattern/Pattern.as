@@ -21,28 +21,7 @@ package com.ffsys.pattern
 	*	@since  01.03.2011
 	*/
 	dynamic public class Pattern extends Array
-	{
-		private static var __group:RegExp = new RegExp(
-			"^(?:"
-			+ "\\" + LPAREN
-			+ "|\\" + OPEN_RANGE
-			+ "|\\" + OPEN_MIN_MAX
-			+ "|\\" + OPEN_NAME + ")"
-		);
-
-		private static var __quantifierRangeExpr:String =
-			"(?:\\{(?:[0-9]+)(?:,[0-9]*)?\\})";
-		
-		private static var __quantifierRange:RegExp =
-			new RegExp( "^(" + __quantifierRangeExpr + ")+$" );
-				
-		private static var __quantifiers:String =
-			"(?:" + __quantifierRangeExpr + "|\\*|\\+|\\?){1}"
-			+ "(?:\\?)?";	//additional lazy quantifier
-		
-		private static var __quantity:RegExp = new RegExp( "(" + __quantifiers + ")" );
-		private static var __justquantity:RegExp = new RegExp( "^(" + __quantifiers + ")$" );
-		
+	{		
 		/**
 		* 	The delimiter used to mark the
 		* 	beginning and end of a pattern.
@@ -81,19 +60,26 @@ package com.ffsys.pattern
 		public static const CARET:String = "^";
 		
 		/**
-		* 	Represents a wildcard sequence.
+		* 	Represents a wildcard character.
 		*/
 		public static const DOT:String = ".";
 		
 		/**
-		* 	A meta character that indicates zero or more occurences.
+		* 	A quantifier character that indicates zero or more occurences.
 		*/
 		public static const ASTERISK:String = "*";
 		
 		/**
-		* 	A meta character that indicates one or more occurences.
+		* 	A quantifier character that indicates one or more occurences.
 		*/
 		public static const PLUS:String = "+";
+		
+		/**
+		* 	A quantifier character that indicates zero or one occurence
+		* 	or as a greedy behaviour modifier (makes the match lazy)
+		* 	to a previous quantifier.
+		*/
+		public static const QUESTION_MARK:String = "?";
 		
 		/**
 		* 	A meta character that indicates alternation.
@@ -101,14 +87,11 @@ package com.ffsys.pattern
 		public static const PIPE:String = "|";
 		
 		/**
-		* 	A meta character that indicates a range.
+		* 	A meta character that indicates a character range.
+		* 
+		* 	Only applicable within character classes.
 		*/
 		public static const HYPHEN:String = "-";
-		
-		/**
-		* 	A meta character that indicates zero or one occurence.
-		*/
-		public static const QUESTION_MARK:String = "?";	
 		
 		/**
 		* 	A meta character that indicates the end position.
@@ -120,25 +103,25 @@ package com.ffsys.pattern
 		
 		public static const RPAREN:String = ")";
 		
-		public static const OPEN_RANGE:String = "[";
+		public static const LBRACKET:String = "[";
 		
-		public static const CLOSE_RANGE:String = "]";
+		public static const RBRACKET:String = "]";
 		
-		public static const OPEN_MIN_MAX:String = "{";
+		public static const LBRACE:String = "{";
 		
-		public static const CLOSE_MIN_MAX:String = "}";
+		public static const RBRACE:String = "}";
 		
-		public static const OPEN_NAME:String = "<";
+		public static const LESS_THAN:String = "<";
 		
-		public static const CLOSE_NAME:String = ">";		
+		public static const GREATER_THAN:String = ">";
 		
-		public static const POSITIVE_LOOKAHEAD:String = "?=";
+		public static const POSITIVE_LOOKAHEAD_SEQUENCE:String = "?=";
 		
-		public static const NEGATIVE_LOOKAHEAD:String = "?!";
+		public static const NEGATIVE_LOOKAHEAD_SEQUENCE:String = "?!";
 		
-		public static const NON_CAPTURING:String = "?:";
+		public static const NON_CAPTURING_SEQUENCE:String = "?:";
 		
-		public static const NAMED:String = "?P";
+		public static const NAMED_GROUP_SEQUENCE:String = "?P";
 		
 		private var _patterns:Vector.<Pattern>;
 		private var _parts:Pattern;
@@ -181,14 +164,13 @@ package com.ffsys.pattern
 		/**
 		* 	@private
 		*/
-		internal function getQuantifierRangeOccurences():Object
+		internal function getQuantifierRangeOccurences( tmp:String ):Object
 		{
 			var output:Object = new Object();
 			output.min = _min;
 			output.max = _max;
-			var tmp:String = source.substr();
 			tmp = tmp.replace( /\{/, "" );
-			tmp = tmp.replace( /\}/, "" );			
+			tmp = tmp.replace( /\}/, "" );
 			var parts:Array = tmp.split( "," );
 			if( output.min == -1 && parts.length >= 1 )
 			{
@@ -209,9 +191,6 @@ package com.ffsys.pattern
 					output.max = parseInt( parts[ 1 ] );
 				}
 			}
-			
-			trace("[QUANTIFIER RANGE] Pattern::getQuantifierRangeOccurences()", source, output.min, output.max, parts );
-			
 			return output;
 		}
 		
@@ -225,17 +204,28 @@ package com.ffsys.pattern
 			var output:Object = new Object();
 			output.min = _min;
 			output.max = _max;
+			var tmp:String = source.substr();
+			
+			//remove any lazy modifiers associated
+			//with another quantifier before calculation
+			if( tmp != QUESTION_MARK
+				&& tmp.indexOf( QUESTION_MARK ) > -1 )
+			{
+				tmp = tmp.replace( /[?]+$/, "" );
+			}
+			
 			if( quantifierRange && _min == -1 && _max == -1 )
 			{
-				output = getQuantifierRangeOccurences();
+				output = getQuantifierRangeOccurences( tmp );
 			}
+			
 			if( output.min == -1
 				&& output.max == -1 )
 			{
 				var defined:Boolean = _min > 0 && _max > 0;
 				if( !defined && quantifier )
 				{
-					switch( source )
+					switch( tmp )
 					{
 						case ASTERISK:
 							output.min = floor;
@@ -254,7 +244,6 @@ package com.ffsys.pattern
 			}
 			_min = output.min;
 			_max = output.max;
-			trace("Pattern::getOccurences()", source, output.min, output.max );			
 			return output;
 		}
 		
@@ -264,9 +253,25 @@ package com.ffsys.pattern
 		*/
 		public function get minimum():uint
 		{
-			if( _min == -1 )
+			if( quantifier )
 			{
-				_min = getOccurences().min;
+				if( _min == -1 )
+				{
+					_min = getOccurences().min;
+				}
+			}else if( isCaptureGroup() || range )
+			{
+				if( _min == -1 && _max == -1 )
+				{
+					_min = 1;
+					_max = 1;
+				}
+				
+				if( nextSibling != null
+					&& nextSibling.quantifier )
+				{
+					_min = nextSibling.minimum;
+				}
 			}
 			return _min;
 		}
@@ -277,10 +282,26 @@ package com.ffsys.pattern
 		*/
 		public function get maximum():uint
 		{
-			if( _max == -1 )
+			if( quantifier )
 			{
-				_max = getOccurences().max;
-			}
+				if( _max == -1 )
+				{
+					_max = getOccurences().max;
+				}
+			}else if( isCaptureGroup() || range )
+			{
+				if( _min == -1 && _max == -1 )
+				{
+					_min = 1;
+					_max = 1;
+				}
+				
+				if( nextSibling != null
+					&& nextSibling.quantifier )
+				{
+					_max = nextSibling.maximum;
+				}				
+			}			
 			return _max;
 		}
 		
@@ -293,18 +314,18 @@ package com.ffsys.pattern
 		*/
 		public function qualifier():Boolean
 		{
-			return ( source == POSITIVE_LOOKAHEAD
-				|| source == NEGATIVE_LOOKAHEAD
-				|| source == NON_CAPTURING
-				|| source == NAMED
+			return ( source == POSITIVE_LOOKAHEAD_SEQUENCE
+				|| source == NEGATIVE_LOOKAHEAD_SEQUENCE
+				|| source == NON_CAPTURING_SEQUENCE
+				|| source == NAMED_GROUP_SEQUENCE
 				|| namedQualifier );
 		}
 		
 		public function get namedQualifier():Boolean
 		{
 			var src:String = toString();
-			var namedStart:int = src.indexOf( OPEN_NAME );
-			var namedEnd:int = src.indexOf( CLOSE_NAME );
+			var namedStart:int = src.indexOf( LESS_THAN );
+			var namedEnd:int = src.indexOf( GREATER_THAN );
 			
 			//TODO: test previous sibling is '?P'
 			
@@ -327,6 +348,24 @@ package com.ffsys.pattern
 			return ( source != null
 				&& ( __justquantity.test( source )
 				|| quantifierRange ) );
+		}
+		
+		/**
+		* 	Determines whether this is a lazy quantifier.
+		*/
+		public function get lazy():Boolean
+		{
+			if( isCaptureGroup() || range
+				&& ( nextSibling != null
+				&& nextSibling.quantifier ) )
+			{
+				return nextSibling.lazy;
+			}
+			return quantifier
+				&& source != QUESTION_MARK
+				&& ( ( source.indexOf( QUESTION_MARK ) == source.length - 1 )
+				|| ( nextSibling != null
+					&& nextSibling.source == QUESTION_MARK ) );
 		}
 		
 		/**
@@ -363,7 +402,7 @@ package com.ffsys.pattern
 		*/
 		public function named():Boolean
 		{
-			return meta && source == NAMED;
+			return meta && source == NAMED_GROUP_SEQUENCE;
 		}
 		
 		/**
@@ -1018,20 +1057,20 @@ package com.ffsys.pattern
 						//handle named groups: '?P<propertyName>'
 						if( ptn.named() )
 						{
-							//trace("[FOUND NAMED GROUP] Pattern::extract()", ptn );
+							//trace("[FOUND NAMED_GROUP_SEQUENCE GROUP] Pattern::extract()", ptn );
 
 							//finished a named capture group
 							if( i < ( ptns.length - 1 ) )
 							{
 								next = ptns[ i + 1 ];
 								//found a named group declaration
-								if( next.toString().indexOf( OPEN_NAME ) == 0 )
+								if( next.toString().indexOf( LESS_THAN ) == 0 )
 								{
 									//skip the named group part: <propertyName>
 									i++;
 								}
 								
-								//trace("[CLOSED NAMED GROUP] Pattern::extract()", ptn );
+								//trace("[CLOSED NAMED_GROUP_SEQUENCE GROUP] Pattern::extract()", ptn );
 							}		
 						}
 						continue;
@@ -1208,8 +1247,8 @@ package com.ffsys.pattern
 		*/
 		public function get range():Boolean
 		{
-			return ( source != null && source == OPEN_RANGE )
-				|| this.group && ( first.toString() == OPEN_RANGE );
+			return ( source != null && source == LBRACKET )
+				|| this.group && ( first.toString() == LBRACKET );
 		}
 		
 		/**
@@ -1306,15 +1345,20 @@ package com.ffsys.pattern
 				{
 					x = new XML( "<" + name + "><![CDATA[" + toString() + "]]></" + name + ">" );
 				}
-				
 				if( range )
 				{
 					x.@negated = this.negated;
 				}
 			}
 			
-			if( quantifier )
+			//handle the output of pattern occurences.
+			//groups proxy the corresponding value
+			//for any subsequent quantifier or if
+			//the group is not quantified reports
+			//a count of one
+			if( quantifier || range || isCaptureGroup() )
 			{
+				x.@lazy = this.lazy;
 				//single quantifier occurence amount
 				if( this.minimum > -1
 					&& this.maximum > -1
@@ -1368,7 +1412,7 @@ package com.ffsys.pattern
 			
 			if( root )
 			{			
-				x.appendChild( new XML( "<source><![CDATA[" + this.source + "]]></source>" ) );
+				x.appendChild( new XML( "<![CDATA[" + this.source + "]]>" ) );
 				
 				if( length > 0 )
 				{
@@ -1392,11 +1436,28 @@ package com.ffsys.pattern
 				x.appendChild( children );
 				var ptn:Pattern = null;
 				var child:XML = null;
+				var previous:XML = null;				
 				for( i = 0;i < ptns.length;i++ )
 				{
 					ptn = ptns[ i ];
 					child = ptn.xml;
-					children.appendChild( child );
+					
+					//skip quantifier elements as
+					//their values should be represented
+					//by the preceeding pattern they apply to
+					if( !ptn.quantifier )
+					{
+						children.appendChild( child );
+					}
+					
+					//apply the quantifier source as an
+					//attribute of the preceeding element
+					if( ptn.quantifier
+						&& previous != null )
+					{
+						previous.@quantifier = ptn.source;
+					}
+					previous = child;
 				}
 			}
 			
@@ -1435,104 +1496,39 @@ package com.ffsys.pattern
 		*/
 		public static function character( char:String ):Boolean
 		{
-			return char == POSITIVE_LOOKAHEAD
-				|| char == NEGATIVE_LOOKAHEAD
-				|| char == NON_CAPTURING
-				|| char == NAMED	
+			return char == POSITIVE_LOOKAHEAD_SEQUENCE
+				|| char == NEGATIVE_LOOKAHEAD_SEQUENCE
+				|| char == NON_CAPTURING_SEQUENCE
+				|| char == NAMED_GROUP_SEQUENCE	
 				|| char == CARET
 				|| char == ASTERISK
-				|| char == DOT
 				|| char == PLUS
 				|| char == QUESTION_MARK
 				|| char == DOLLAR
 				|| char == PIPE
-				|| char == HYPHEN
 				|| char == LPAREN
 				|| char == RPAREN
-				|| char == OPEN_MIN_MAX
-				|| char == CLOSE_MIN_MAX
-				|| char == OPEN_RANGE
-				|| char == CLOSE_RANGE
-				|| char == OPEN_NAME
-				|| char == CLOSE_NAME;
+				|| char == LBRACE
+				|| char == RBRACE
+				|| char == LBRACKET
+				|| char == RBRACKET
+				|| char == LESS_THAN
+				|| char == GREATER_THAN;
 		}
 		
 		/**
-		* 	Determines whether this pattern is
-		* 	currently open.
-		* 
-		* 	Used during the process of building
-		* 	pattern representations from string
-		* 	representations.
+		* 	Determines whether this pattern is the
+		* 	root of a pattern hierarchy.
 		*/
-		internal function get open():Boolean
-		{
-			return _open;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function setOpen( value:Boolean ):void
-		{
-			_open = value;
-		}
-		
-		/**
-		* 	@private
-		* 
-		* 	Determines whether this pattern
-		* 	opens a group.
-		* 
-		* 	@return Whether this pattern opens a group.
-		*/
-		internal function opens():Boolean
-		{
-			var valid:Boolean = (
-				source == Pattern.LPAREN
-				|| source == Pattern.OPEN_RANGE
-				|| source == Pattern.OPEN_MIN_MAX
-				|| source == Pattern.OPEN_NAME );
-				
-			if( valid )
-			{
-				_open = true;
-			}
-				
-			return valid;
-		}
-		
-		/**
-		* 	@private
-		* 	
-		* 	Determines whether the this pattern
-		* 	closes a group a currently open group.
-		* 
-		* 	@return Whether this pattern closes a group.
-		*/
-		internal function closes():Boolean
-		{
-			var valid:Boolean = (
-				source == Pattern.RPAREN
-				|| source == Pattern.CLOSE_RANGE
-				|| source == Pattern.CLOSE_MIN_MAX
-				|| source == Pattern.CLOSE_NAME );
-			
-			if( valid && _open )
-			{
-				_open = false;
-			}
-			return valid;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function get root():Boolean
+		public function get root():Boolean
 		{
 			return ( owner == null );
 		}
 		
+		/**
+		* 	Determines whether the last attempt
+		* 	to compile a pattern completed successfully.
+		*/
 		public function get compiled():Boolean
 		{
 			return _compiled == "";
@@ -1631,7 +1627,7 @@ package com.ffsys.pattern
 					if( opens
 						&& parentTarget != null )
 					{
-						if( !( ptn.source == OPEN_NAME ) )
+						if( !( ptn.source == LESS_THAN ) )
 						{
 							addCompilationPart( ptn );
 						}
@@ -1646,7 +1642,7 @@ package com.ffsys.pattern
 					}else
 					{
 						if( !ptn.qualifier()
-							&& !( ptn.source == CLOSE_NAME ) )
+							&& !( ptn.source == GREATER_THAN ) )
 						{
 							addCompilationPart( ptn );
 						}
@@ -1684,7 +1680,7 @@ package com.ffsys.pattern
 							var c:String = results[ 1 ] as String;
 							var just:Boolean = __justquantity.test( chunk );
 							
-							trace("Pattern::compile()", "[FOUND QUANTITY CHUNK]", chunk, results, c, just, ptn );
+							//trace("Pattern::compile()", "[FOUND QUANTITY CHUNK]", chunk, results, c, just, ptn );
 							
 							//quantifier with chunk data after
 							//a group or character class so
@@ -1696,9 +1692,9 @@ package com.ffsys.pattern
 								&& (
 									closes
 									&& ptn.source == RPAREN
-									|| ptn.source == CLOSE_RANGE ) )
+									|| ptn.source == RBRACKET ) )
 							{
-								trace("Pattern::compile()", "[FOUND MIXED QUANTITY CHUNK]" );
+								//trace("Pattern::compile()", "[FOUND MIXED QUANTITY CHUNK]" );
 								
 								//add the quantifier part
 								addCompilationPattern(
@@ -1716,14 +1712,14 @@ package com.ffsys.pattern
 
 						ptn = new Pattern( chunk );
 						
-						trace("[COMPILE] Pattern::compile()", "[ADDING CHUNK]", chunk );
+						//trace("[COMPILE] Pattern::compile()", "[ADDING CHUNK]", chunk );
 						
 						//adding a chunk to a named property
 						//group - <propertyName>
 						if( parentTarget.group
 							&& parentTarget.owner != null
 							&& parentTarget.first != null
-							&& parentTarget.first.toString() == OPEN_NAME )
+							&& parentTarget.first.toString() == LESS_THAN )
 						{	
 							//assign the named property field to
 							//the parent group
@@ -1754,6 +1750,10 @@ package com.ffsys.pattern
 			return target;
 		}
 		
+		/*
+		*	COMPILATION INTERNALS
+		*/
+		
 		/**
 		* 	@private
 		*/
@@ -1761,7 +1761,7 @@ package com.ffsys.pattern
 			chunk:String ):Pattern
 		{
 			return new Pattern( chunk );
-		}		
+		}
 		
 		/**
 		* 	@private
@@ -1789,5 +1789,101 @@ package com.ffsys.pattern
 			parts.add( ptn );
 			return parts;
 		}
+		
+		/*
+		*	GROUPING INTERNALS
+		*/
+		
+		/**
+		* 	@private
+		* 	
+		* 	Determines whether this pattern is
+		* 	currently open.
+		* 
+		* 	Used during the process of building
+		* 	pattern representations from string
+		* 	representations.
+		*/
+		internal function get open():Boolean
+		{
+			return _open;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setOpen( value:Boolean ):void
+		{
+			_open = value;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Determines whether this pattern
+		* 	opens a grouping.
+		* 
+		* 	@return Whether this pattern opens a grouping.
+		*/
+		internal function opens():Boolean
+		{
+			var valid:Boolean = (
+				source == Pattern.LPAREN
+				|| source == Pattern.LBRACKET
+				|| source == Pattern.LBRACE
+				|| source == Pattern.LESS_THAN );	
+			if( valid )
+			{
+				_open = true;
+			}
+			return valid;
+		}
+		
+		/**
+		* 	@private
+		* 	
+		* 	Determines whether the this pattern
+		* 	closes a grouping.
+		* 
+		* 	@return Whether this pattern closes a grouping.
+		*/
+		internal function closes():Boolean
+		{
+			var valid:Boolean = (
+				source == Pattern.RPAREN
+				|| source == Pattern.RBRACKET
+				|| source == Pattern.RBRACE
+				|| source == Pattern.GREATER_THAN );			
+			if( valid && _open )
+			{
+				_open = false;
+			}
+			return valid;
+		}
+		
+		/*
+		*	INTERNAL EXPRESSIONS
+		*/
+		
+		private static var __group:RegExp = new RegExp(
+			"^(?:"
+			+ "\\" + LPAREN
+			+ "|\\" + LBRACKET
+			+ "|\\" + LBRACE
+			+ "|\\" + LESS_THAN + ")"
+		);		
+
+		private static var __quantifierRangeExpr:String =
+			"(?:\\{(?:[0-9]+)(?:,[0-9]*)?\\})";
+		
+		private static var __quantifierRange:RegExp =
+			new RegExp( "^(" + __quantifierRangeExpr + ")+$" );
+				
+		private static var __quantifiers:String =
+			"(?:" + __quantifierRangeExpr + "|\\*|\\+|\\?){1}"
+			+ "(?:\\?)?";	//additional lazy quantifier
+		
+		private static var __quantity:RegExp = new RegExp( "(" + __quantifiers + ")" );
+		private static var __justquantity:RegExp = new RegExp( "^(" + __quantifiers + ")$" );
 	}
 }
