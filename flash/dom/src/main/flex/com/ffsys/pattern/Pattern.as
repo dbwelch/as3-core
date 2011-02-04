@@ -146,6 +146,7 @@ package com.ffsys.pattern
 		//for this pattern
 		internal var _min:int = -1;
 		internal var _max:int = -1;
+		internal var _index:int = -1;
 		
 		/**
 		* 	Creates a <code>Pattern</code> instance.
@@ -359,6 +360,46 @@ package com.ffsys.pattern
 			_owner = owner;
 		}
 		
+		public function get index():int
+		{
+			return _index;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setIndex( index:int ):void
+		{
+			_index = index;
+		}
+		
+		/**
+		* 	
+		*/
+		public function get nextSibling():Pattern
+		{
+			try
+			{
+				return this.owner.patterns[ this.index + 1 ];
+			}catch( e:Error )
+			{
+				//no valid owner or index is out of range
+			}
+			return null;
+		}
+		
+		public function get previousSibling():Pattern
+		{
+			try
+			{
+				return this.owner.patterns[ this.index - 1 ];
+			}catch( e:Error )
+			{
+				//no valid owner or index is out of range
+			}			
+			return null;
+		}
+		
 		/**
 		* 	The target property name when matching
 		* 	pattern parts against complex objects.
@@ -479,10 +520,47 @@ package com.ffsys.pattern
 			if( part != null )
 			{
 				part.setOwner( this );
+				part.setIndex( patterns.length );
 				patterns.push( part );
 				return true;
 			}
 			return false;
+		}
+		
+		/**
+		*	Removes pattern(s) from this pattern.
+		* 
+		* 	@param start The index to start removing
+		* 	from.
+		* 	@param end The end index to stop removing from.
+		* 
+		* 	@return A pattern or <code>null</code> if the start
+		* 	index is out of range.
+		*/
+		public function remove( start:int = -1, end:int = -1 ):Pattern
+		{
+			//behave like pop() by default
+			if( start == -1 && patterns.length > 0 )
+			{
+				start = ( patterns.length == 1 ) ? 0 : patterns.length - 2;
+			}
+			
+			if( start >= 0 && start < patterns.length )
+			{
+				if( end == -1 )
+				{
+					end = start + 1;
+				}
+				
+				if( end <= start )
+				{
+					end = start + 1;
+				}
+				
+				var count:uint = uint( end - start );
+				patterns.splice( start, count );
+			}
+			return null;
 		}
 		
 		/**
@@ -1423,6 +1501,7 @@ package com.ffsys.pattern
 				var meta:String = null;
 				var ptn:Pattern = null;
 				var chunk:String = null;
+				var tmp:Pattern = null;
 
 				var current:Pattern = null;				
 						
@@ -1505,6 +1584,29 @@ package com.ffsys.pattern
 					//
 					parentTarget.add( ptn );
 					
+					//compound quantifier - one specified immediately after another
+					if( ptn.quantifier
+						&& ptn.previousSibling != null
+						&& ptn.previousSibling.quantifier )
+					{						
+ 						tmp = new Pattern( ptn.previousSibling.source );
+
+						trace("[FOUND COMPOUND COMPILE QUANTIFIER] Pattern::compile()", parentTarget.patterns.length, ptn, ptn.previousSibling, tmp );
+						
+						ptn.previousSibling.source += ptn.source;
+
+						//compound the quantifier
+						//tmp.source ;
+						
+						//pop the current quantifier off
+						parentTarget.remove();
+						
+						//add the temp quantifier
+						//parentTarget.add( tmp );
+						
+						trace("[FOUND COMPOUND COMPILE QUANTIFIER] Pattern::compile()", parentTarget.patterns.length, ptn, ptn.source );
+					}
+					
 					if( opens )
 					{
 						//opening a group update the parent target *after* adding the group
@@ -1521,6 +1623,7 @@ package com.ffsys.pattern
 					}
 
 					//look for the next meta character sequence
+					//to extract any intermediary chunk
 					var next:int = candidate.search( re );
 					if( next > 0 )
 					{
