@@ -306,19 +306,19 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether this pattern
-		* 	is a capture group qualifier.
-		* 
-		* 	@return Whether this pattern is a capture
-		* 	group qualifier.
+		*	Gets the qualifier for a group.
 		*/
-		public function qualifier():Boolean
+		public function get qualifier():String
 		{
-			return ( source == POSITIVE_LOOKAHEAD_SEQUENCE
+			if ( source == POSITIVE_LOOKAHEAD_SEQUENCE
 				|| source == NEGATIVE_LOOKAHEAD_SEQUENCE
 				|| source == NON_CAPTURING_SEQUENCE
 				|| source == NAMED_GROUP_SEQUENCE
-				|| namedQualifier );
+				|| namedQualifier )
+			{
+				return source;
+			}
+			return null;
 		}
 		
 		public function get namedQualifier():Boolean
@@ -389,7 +389,7 @@ package com.ffsys.pattern
 					&& patterns[ 0 ].toString() == LPAREN
 					&& patterns[ 1 ] is Pattern )
 				{
-					return patterns[ 1 ].qualifier();
+					return ( patterns[ 1 ].qualifier != null );
 				}
 			}
 			return false;
@@ -1052,7 +1052,7 @@ package com.ffsys.pattern
 					//ignore invalid patterns
 					//and and group qualifiers: '?:', '?!', '?=', '?P'
 					if( ptn == null
-						|| ptn.qualifier() )
+						|| ptn.qualifier != null )
 					{
 						//handle named groups: '?P<propertyName>'
 						if( ptn.named() )
@@ -1168,7 +1168,7 @@ package com.ffsys.pattern
 					//patterns to get to the child patterns
 					if( ( ptn.source == LPAREN && i == 0 )
 						|| ( ptn.source == RPAREN && i == ptns.length - 1 )
-						|| ptn.qualifier() )
+						|| ptn.qualifier != null )
 					{
 						continue;
 					}
@@ -1257,7 +1257,10 @@ package com.ffsys.pattern
 		*/
 		public function get negated():Boolean
 		{
-			return range && first != null && first.source == CARET;
+			return range
+				&& first != null
+				&& first.nextSibling != null
+				&& first.nextSibling.source == CARET;
 		}
 		
 		/**
@@ -1369,11 +1372,11 @@ package com.ffsys.pattern
 				{
 					if( this.minimum > -1 )
 					{
-						x.@minimum = this.minimum;
+						x.@min = this.minimum;
 					}
 					if( this.maximum > -1 )
 					{
-						x.@maximum = this.maximum;
+						x.@max = this.maximum;
 					}
 				}
 			}
@@ -1641,7 +1644,7 @@ package com.ffsys.pattern
 						ptn = current;
 					}else
 					{
-						if( !ptn.qualifier()
+						if( ptn.qualifier == null
 							&& !( ptn.source == GREATER_THAN ) )
 						{
 							addCompilationPart( ptn );
