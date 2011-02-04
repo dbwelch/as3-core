@@ -133,21 +133,6 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	Determines whether a candidate string
-		* 	represents a qualifier.
-		* 
-		* 	@param candidate The candidate string.
-		* 
-		* 	@return Whether the candidate represents a known qualifier.
-		*/
-		public function qualifies( candidate:String ):Boolean
-		{
-			return candidate == STARTS_WITH || candidate == ASTERISK || candidate == DOT || candidate == PLUS
-				|| candidate == OPTIONAL || candidate == ENDS_WITH || candidate == ALTERNATOR
-				|| candidate == RANGE;
-		}
-		
-		/**
 		* 	Determines whether this pattern
 		* 	is a capture group qualifier.
 		* 
@@ -159,7 +144,19 @@ package com.ffsys.scanner
 			return ( source == POSITIVE_LOOKAHEAD
 				|| source == NEGATIVE_LOOKAHEAD
 				|| source == NON_CAPTURING
-				|| source == NAMED );
+				|| source == NAMED
+				|| namedQualifier );
+		}
+		
+		public function get namedQualifier():Boolean
+		{
+			var src:String = toString();
+			var namedStart:int = src.indexOf( OPEN_NAME );
+			var namedEnd:int = src.indexOf( CLOSE_NAME );
+			
+			//TODO: test previous sibling is '?P'
+			
+			return ( namedStart == 0 && namedEnd == ( src.length - 1 ) );
 		}
 		
 		/**
@@ -219,7 +216,7 @@ package com.ffsys.scanner
 		* 	part that does not contain any special
 		* 	characters.
 		*/
-		public function get normal():Boolean
+		public function get chunk():Boolean
 		{
 			return !meta;
 		}
@@ -256,204 +253,6 @@ package com.ffsys.scanner
 		internal function setOwner( owner:Pattern ):void
 		{
 			_owner = owner;
-		}
-		
-		/**
-		* 	Concatenates a candidate string to the patterns
-		* 	stored by this candidate.
-		* 
-		* 	@param candidate The string candidate to concatenate.
-		*/
-
-		public function build( candidate:String ):void
-		{
-			if( candidate != null )
-			{
-				clear();
-				//copy the candidate to our source
-				_source = candidate.substr();
-				
-				
-				if( Pattern.character( candidate ) )
-				{
-					//nothing to build for meta character sequences
-					return;
-				}
-				
-				var parentTarget:Pattern = this;
-				var opens:Boolean = false;
-				var closes:Boolean = false;
-				var meta:String = null;
-				var ptn:Pattern = null;
-				var chunk:String = null;
-				
-				//var previous:Pattern = null;				
-
-				var current:Pattern = null;				
-						
-				trace("[CANDIDATE] PatternBuilder::build()", candidate );
-
-				//candidate for valid actionscript property names
-				var prop:String = "(?:[a-zA-Z_\\$]{1}[a-zA-Z0-9_\\$]*)";
-
-				//candidate for group capturing
-				var namedgroup:String = "";
-
-				//"(?:<(?:"
-				//+ prop + ")>)?"	
-				//var ng:RegExp = new RegExp( "(?:" + namedgroup + ")" );
-
-				//the main expression used to capture regex special characters
-				var expr:String = "(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|\\?|\\+|[(){}*\\|^\\$:<>.\\-]){1}";
-
-				//(?:[^\\\\]|)
-
-				//var re:RegExp = new RegExp( "(" + expr + ")?([0-9]+)(" + expr + ")?", "g" );
-
-				var re:RegExp = new RegExp( "(" + expr + ")" );
-				var results:Array = re.exec( candidate );				
-
-				//trace("PatternBuilder::build()", re, results );
-
-				//no regex special character match
-				if( results == null )
-				{
-					ptn = new Pattern( candidate );
-					parentTarget.add( ptn );
-					parts.push( ptn );
-					return;
-				}
-				
-				var position:int = results.index;				
-				
-				//grab any inital non-meta chunk
-				if( position > 0 )
-				{
-					//trace("Pattern::build()", position );
-					
-					ptn = new Pattern(
-						candidate.substr( 0, results.index ) )
-					parentTarget.add( ptn );
-					parts.push( ptn );					
-					candidate = candidate.substr( results.index );
-				}				
-
-				if( results[ 1 ] is String )
-				{
-					ptn = new Pattern( results[ 1 ] );
-					candidate = candidate.substr( ptn.source.length );
-				}
-				
-				//current = ptn;
-
-				while( ptn != null )
-				{
-					opens = ptn.opens();
-					closes = ptn.closes();
-					
-					if( opens
-						&& parentTarget != null )
-					{
-						parts.push( ptn );
-						
-						//add the opening meta group character
-						//to a pattern used to represent the entire
-						//group contents
-						current = new Pattern( ptn.source );
-						current.add( ptn );
-						current.setOpen( true );
-						ptn = current;
-						trace("PatternBuilder::build() [OPENING GROUP]", current, parentTarget );
-					
-						//trace("PatternBuilder::build() [OPENING GROUP NEW PARENT]", parentTarget );
-					}else
-					{
-						parts.push( ptn );
-					}
-					
-					/*
-					if( current != null )
-					{
-						trace("[IN GROUP] PatternBuilder::build()", ptn, opens, closes, current.group, current.open );
-					}				
-					*/
-					
-					//
-					parentTarget.add( ptn );
-					
-					if( opens )
-					{
-						//opening a group update the parent target after adding the group
-						parentTarget = current;
-						//trace("PatternBuilder::build() [OPENING GROUP - OWNER IS THIS]", current.owner == this );
-					}
-					
-					trace("[ADDING PATTERN] PatternBuilder::build()", ptn, parentTarget );					
-					
-					if(	closes
-						&& current != null )
-					{
-						current.setOpen( false );
-						trace("PatternBuilder::build()", "[CLOSING GROUP]", ptn, current, parentTarget, current.owner == this );
-						parentTarget = current.owner;
-						current = parentTarget;
-					}
-
-					//look for the next meta character sequence
-					var next:int = candidate.search( re );
-					if( next > 0 )
-					{
-						chunk = candidate.substr( 0, next );
-						
-						//chomp the string
-						candidate = candidate.substr( chunk.length );
-						ptn = new Pattern( chunk );
-						
-						//adding a chunk to a named property
-						//group - <propertyName>
-						if( parentTarget.group
-							&& parentTarget.owner != null
-							&& parentTarget.first != null
-							&& parentTarget.first.toString() == OPEN_NAME )
-						{
-							
-							/*
-							trace("[FOUND CHUNK FOR NAMED PROPERTY] Pattern::build()",
-								ptn, parentTarget.owner );
-							*/
-								
-							//assign the named property field to
-							//the parent group
-							parentTarget.owner.field = chunk;
-						}
-						
-						parentTarget.add( ptn );
-						parts.push( ptn );
-
-						trace("[ADDING CHUNK] PatternBuilder::build()", chunk, parentTarget );
-					}
-					
-					trace("[NEW LENGTH] Pattern::build()", patterns.length );
-					
-					//test for more meta characters
-					results = re.exec( candidate );
-					ptn = null;
-					if( results != null )
-					{
-						position = results.index;
-						if( results[ 1 ] as String != null )
-						{
-							ptn = new Pattern(
-								results[ 1 ] as String );
-							//chomp the source candidate
-							candidate = candidate.substr( ptn.source.length );
-							//trace("Pattern::build() [CREATED NEXT META PATTERN]", ptn );
-						}
-					}
-				}
-
-				trace("[MATCHES] PatternBuilder::build()", this, patterns.length, patterns );
-			}
 		}
 		
 		/**
@@ -730,7 +529,7 @@ package com.ffsys.scanner
 		*/
 		public function handles():Boolean
 		{
-			return this.normal;
+			return this.chunk;
 		}
 		
 		/**
@@ -815,55 +614,51 @@ package com.ffsys.scanner
 			}
 					
 			var ptn:Pattern = null;
-			var previous:Pattern = null;
+			var next:Pattern = null;
 			var group:Pattern = null;
 			for( var i:int = 0;i < targets.length;i++ )
 			{
 				ptn = targets[ i ];
 				
-				/*
-				//group quantifiers with a preceeding
-				//normal statement or quantifier
-				if( previous != null
-					&& ptn.quantifier()
-					&& ( previous.quantifier() || previous.normal ) )
+				if( ptn.isCaptureGroup() )
 				{
-					//previous.source += ptn.source;
-					
-					trace("[FOUND QUANTIFIER ADDING TO PREVIOUS] Pattern::explode()", ptn );
-					previous.add( ptn );
-					continue;
-				}
-				*/
-				
-				if( ( ptn.meta || ptn.normal ) && group == null )
+					extract( ptn, output );
+				}else
 				{
-					//convert plain patterns to groups
-					group = new Pattern();
-					group.add( new Pattern( OPEN_GROUP ) );	
-					output.add( group );
-				}
-				
-				if( group != null )
-				{
-					group.add( ptn );
-				}
-				
-				//found a nested group
-				if( ptn.group
-					&& ptn.isCaptureGroup() )
-				{
-					if( group != null )
+					if( ptn.meta || ptn.chunk )
 					{
-						group.add( new Pattern( CLOSE_GROUP ) );					
+						//convert plain patterns to groups
+						group = new Pattern();
+						group.add( new Pattern( OPEN_GROUP ) );	
+						group.add( ptn );
+						
+						//look ahead and swallow non-group patterns
+						while( ++i < targets.length )
+						{
+							next = targets[ i ];
+							if( next.isCaptureGroup() )
+							{
+								i--;
+								break;
+							}
+							//close and re-open the group when
+							//we encounter a range
+							if( next.isRange() )
+							{
+								//trace("[FOUND RANGE ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );
+								group.add( new Pattern( CLOSE_GROUP ) );
+								group.add( new Pattern( OPEN_GROUP ) );
+								group.add( next );					
+							}else
+							{
+								group.add( next );
+								//trace("[FOUND QUANTIFIER/CHUNK ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );								
+							}
+						}
+						group.add( new Pattern( CLOSE_GROUP ) );
+						output.add( group );
 					}
-					
-					//extract( ptn, output );
-					
-					group = null;
 				}
-				
-				previous = ptn;
 			}
 			//trace("[EXPLODE] Pattern::explode()", output.patterns );
 			return output;
@@ -890,6 +685,15 @@ package com.ffsys.scanner
 				var i:int = 1;
 				
 				//trace("[EXTRACT] Pattern::extract()", target, target.field, target.field != null );
+				
+				var group:Boolean = target.requiresGrouping();
+				
+				trace("[TEST FOR ADDITIONAL GROUPING] Pattern::extract()", group );
+				
+				if( group )
+				{
+					output.add( new Pattern( OPEN_GROUP ) );
+				}
 				
 				//create a group to encapsulate
 				//each extracted group
@@ -962,7 +766,6 @@ package com.ffsys.scanner
 			if( i < ( l - 1 ) )
 			{
 				l = ptns.length;
-				
 				if( ptns[ l - 1 ] is Pattern
 				 	&& ptns[ l - 1 ].source == CLOSE_GROUP )
 				{
@@ -970,21 +773,20 @@ package com.ffsys.scanner
 					l--;
 				}
 				
-				//found remaining plain patterns
-				//after a nested group extraction				
-				if( grouped )
-				{
-					//i++;
-				}
-				
 				var remainder:Vector.<Pattern> = ptns.slice( i + 1, l );
 				
+				/*
 				trace("Pattern::extract()", "[FOUND MORE TO EXTRACT]", grouped,
 					remainder );
+				*/
 				
 				explode( remainder, output );
 			}
 			
+			if( group )
+			{
+				output.add( new Pattern( CLOSE_GROUP ) );
+			}
 			return tmp;
 		}
 		
@@ -1010,6 +812,95 @@ package com.ffsys.scanner
 		{
 			return ( source != null && source == OPEN_GROUP )
 				|| this.group && ( first.toString() == OPEN_GROUP );
+		}
+		
+		
+		public function get children():Pattern
+		{
+			if( isCaptureGroup() )
+			{
+				var output:Pattern = new Pattern();
+				var ptns:Vector.<Pattern> = this.patterns;
+				var ptn:Pattern = null;
+				for( var i:int = 0;i < ptns.length;i++ )
+				{
+					ptn = ptns[ i ];
+					
+					//remove all capture group qualifiers and open and close
+					//patterns to get to the child patterns
+					if( ( ptn.source == OPEN_GROUP && i == 0 )
+						|| ( ptn.source == CLOSE_GROUP && i == ptns.length - 1 )
+						|| ptn.qualifier() )
+					{
+						continue;
+					}
+					output.add( ptn );
+				}
+				return output;
+			}
+			return null;
+		}
+		
+		internal function requiresGrouping():Boolean
+		{
+			if( isCaptureGroup() )
+			{
+				//trace("[REQUIRES GROUPING] Pattern::requiresGrouping()", toString() );
+				
+				var ptns:Pattern = this.children;
+				var ptn:Pattern = null;
+				var groups:uint = 0;
+				var alternators:uint = 0;
+				for( var i:int = 0;i < ptns.length;i++ )
+				{
+					ptn = ptns.get( i );
+					if( ptn.isCaptureGroup() )
+					{
+						groups++;
+					}
+					
+					if( ptn.source == ALTERNATOR )
+					{
+						alternators++;
+					}
+					//trace("Pattern::requiresGrouping()", "[TESTING CHILD PATTERN]", ptn, ptn.source, groups, alternators );
+				}
+				
+				//empty capture group
+				if( ptns.length == 0 )
+				{
+					return false;
+				}
+				
+				//single nested pattern
+				if( ptns.length == 1 )
+				{
+					//single group contents
+					if( ptns.first.isCaptureGroup() )
+					{
+						return false;
+					//single chunk contents
+					}else if( ptns.first.chunk )
+					{
+						return false;
+					}
+				}				
+				
+				//complex child patterns
+				if( groups > 0 && alternators > 0 )
+				{
+					return true;
+				}
+				
+				if( groups == 0 && alternators > 0 )
+				{
+					return false;
+				}
+				
+				//trace("[TESTING GROUPING REQUIREMENTS] Pattern::requiresGrouping()", ptns );
+				return true;
+			}
+			return false;
 		}
 		
 		public function isRange():Boolean
@@ -1156,6 +1047,203 @@ package com.ffsys.scanner
 				_open = false;
 			}
 			return valid;
+		}
+		
+		
+		/**
+		* 	Builds a candidate string to the patterns
+		* 	stored by this candidate.
+		* 
+		* 	@param candidate The string candidate to concatenate.
+		*/
+		public function build( candidate:String ):void
+		{
+			if( candidate != null )
+			{
+				clear();
+				//copy the candidate to our source
+				_source = candidate.substr();
+				
+				if( Pattern.character( candidate ) )
+				{
+					//nothing to build for meta character sequences
+					return;
+				}
+				
+				var parentTarget:Pattern = this;
+				var opens:Boolean = false;
+				var closes:Boolean = false;
+				var meta:String = null;
+				var ptn:Pattern = null;
+				var chunk:String = null;
+
+				var current:Pattern = null;				
+						
+				trace("[CANDIDATE] PatternBuilder::build()", candidate );
+
+				//candidate for valid actionscript property names
+				var prop:String = "(?:[a-zA-Z_\\$]{1}[a-zA-Z0-9_\\$]*)";
+
+				//candidate for group capturing
+				var namedgroup:String = "";
+
+				//the main expression used to capture regex special characters
+				var expr:String = "\\\\?(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|\\?|\\+|[(){}*\\|^\\$:<>.\\-]){1}";
+
+				var re:RegExp = new RegExp( "(" + expr + ")" );
+				var results:Array = re.exec( candidate );
+
+				trace("PatternBuilder::build()", re, results );
+
+				//no regex special character match
+				if( results == null )
+				{
+					ptn = new Pattern( candidate );
+					parentTarget.add( ptn );
+					parts.push( ptn );
+					return;
+				}
+				
+				var position:int = results.index;				
+				
+				//grab any inital non-meta chunk
+				if( position > 0 )
+				{
+					//trace("Pattern::build()", position );
+					
+					ptn = new Pattern(
+						candidate.substr( 0, results.index ) )
+					parentTarget.add( ptn );
+					parts.push( ptn );					
+					candidate = candidate.substr( results.index );
+				}				
+
+				if( results[ 1 ] is String )
+				{
+					ptn = new Pattern( results[ 1 ] );
+					candidate = candidate.substr( ptn.source.length );
+				}
+				
+				//current = ptn;
+
+				while( ptn != null )
+				{
+					opens = ptn.opens();
+					closes = ptn.closes();
+					
+					if( opens
+						&& parentTarget != null )
+					{
+						if( !( ptn.source == OPEN_NAME ) )
+						{
+							parts.push( ptn );
+						}
+						
+						//add the opening meta group character
+						//to a pattern used to represent the entire
+						//group contents
+						current = new Pattern( ptn.source );
+						current.add( ptn );
+						current.setOpen( true );
+						ptn = current;
+						//trace("PatternBuilder::build() [OPENING GROUP]", current, parentTarget );
+					
+						//trace("PatternBuilder::build() [OPENING GROUP NEW PARENT]", parentTarget );
+					}else
+					{
+						if( !ptn.qualifier()
+							&& !( ptn.source == CLOSE_NAME ) )
+						{
+							parts.push( ptn );
+						}
+					}
+					
+					/*
+					if( current != null )
+					{
+						trace("[IN GROUP] PatternBuilder::build()", ptn, opens, closes, current.group, current.open );
+					}				
+					*/
+					
+					//
+					parentTarget.add( ptn );
+					
+					if( opens )
+					{
+						//opening a group update the parent target *after* adding the group
+						parentTarget = current;
+						//trace("PatternBuilder::build() [OPENING GROUP - OWNER IS THIS]", current.owner == this );
+					}
+					
+					//trace("[ADDING PATTERN] PatternBuilder::build()", ptn, parentTarget );					
+					
+					if(	closes
+						&& current != null )
+					{
+						current.setOpen( false );
+						//trace("PatternBuilder::build()", "[CLOSING GROUP]", ptn, current, parentTarget, current.owner == this );
+						parentTarget = current.owner;
+						current = parentTarget;
+					}
+
+					//look for the next meta character sequence
+					var next:int = candidate.search( re );
+					if( next > 0 )
+					{
+						//extract the non-meta character chunk
+						chunk = candidate.substr( 0, next );
+						ptn = new Pattern( chunk );	
+						
+						//chomp the string
+						candidate = candidate.substr( chunk.length );
+						
+						//adding a chunk to a named property
+						//group - <propertyName>
+						if( parentTarget.group
+							&& parentTarget.owner != null
+							&& parentTarget.first != null
+							&& parentTarget.first.toString() == OPEN_NAME )
+						{
+							
+							/*
+							trace("[FOUND CHUNK FOR NAMED PROPERTY] Pattern::build()",
+								ptn, parentTarget.owner );
+							*/
+								
+							//assign the named property field to
+							//the parent group
+							parentTarget.owner.field = chunk;
+						}else
+						{
+							parts.push( ptn );
+						}
+						
+						parentTarget.add( ptn );
+
+						trace("[ADDING CHUNK] PatternBuilder::build()", chunk, parentTarget );
+					}
+					
+					//trace("[NEW LENGTH] Pattern::build()", patterns.length );
+					
+					//test for more meta characters
+					results = re.exec( candidate );					
+					ptn = null;
+					if( results != null )
+					{
+						position = results.index;
+						if( results[ 1 ] as String != null )
+						{
+							ptn = new Pattern(
+								results[ 1 ] as String );
+							//chomp the source candidate
+							candidate = candidate.substr( ptn.source.length );
+							//trace("Pattern::build() [CREATED NEXT META PATTERN]", ptn );
+						}
+					}
+				}
+
+				trace("[MATCHES] PatternBuilder::build()", this, patterns.length, patterns );
+			}
 		}				
 	}
 }
