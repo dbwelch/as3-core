@@ -2149,6 +2149,18 @@
 		<xsl:text>\end{alltt}</xsl:text>
 	</xsl:template>	
 	
+	<xsl:template name="start-section">
+		<xsl:text>\section{</xsl:text>
+	</xsl:template>	
+	
+	<xsl:template name="start-subsection">
+		<xsl:text>\subsection{</xsl:text>
+	</xsl:template>
+	
+	<xsl:template name="start-subsubsection">
+		<xsl:text>\subsubsection{</xsl:text>
+	</xsl:template>
+	
 	<xsl:template name="start-tag">
 		<xsl:param name="input" />
 		<xsl:if test="matches($input,'^i|em$')">
@@ -2160,9 +2172,19 @@
 		<xsl:if test="matches($input,'^code|codeph$')">
 			<xsl:call-template name="start-tt" />
 		</xsl:if>
+		<xsl:if test="matches($input,'^h1$')">
+			<xsl:call-template name="start-section" />
+		</xsl:if>
+		<xsl:if test="matches($input,'^h2$')">
+			<xsl:call-template name="start-subsection" />
+		</xsl:if>
+		<xsl:if test="matches($input,'^h3$')">
+			<xsl:call-template name="start-subsubsection" />
+		</xsl:if>
+		
 		<xsl:if test="matches($input,'^pre$')">
 			<xsl:call-template name="start-all-tt" />
-		</xsl:if>				
+		</xsl:if>										
 	</xsl:template>
 	
 	<xsl:template name="end-tag">
@@ -2177,9 +2199,13 @@
 		<xsl:if test="matches($input,'^code|codeph$')">
 			<xsl:value-of select="$default-output" />
 		</xsl:if>
+		<xsl:if test="matches($input,'^h1|h2|h3$')">
+			<xsl:value-of select="$default-output" />
+		</xsl:if>
+		
 		<xsl:if test="matches($input,'^pre$')">
 			<xsl:call-template name="end-all-tt" />
-		</xsl:if>
+		</xsl:if>		
 	</xsl:template>
 
 	<xsl:template name="auto-xref">	

@@ -18,6 +18,8 @@
 *	limit that corresponds to <code>uint.MAX_VALUE</code> but
 *	for brevity's sake it's easier to describe them as <em>unlimited</em>.
 *
+*	<h1>Representation</h1>
+*
 *	All patterns can be represented as a string
 *	or regular expression and as an <code>XML</code>
 *	tree structure.
@@ -28,7 +30,7 @@
 *	a <code>String</code> through to the <code>XML</code>
 *	representation of a pattern.
 *
-*	<pre>var re:RegExp = /^[0-9]{11}$/;
+*	<pre>var re:RegExp = /^[0-9]{10,11}$/;
 *	var source:String = re.source;
 *	var ptn:Pattern = new Pattern( re, true );
 *	var xml:XML = ptn.xml;	
@@ -40,18 +42,55 @@
 *	Generates an <code>XML</code> representation of:
 *
 *	<pre>&lt;pattern begins="true" ends="true"&gt;
-  &lt;source&gt;&lt;![CDATA[^[0-9]{11}$]]&gt;&lt;/source&gt;
-  &lt;patterns&gt;
-    &lt;meta&gt;&lt;![CDATA[^]]&gt;&lt;/meta&gt;
-    &lt;range negated="false"
-        lazy="false" 
-        count="11"
-        quantifier="{11}"&gt;
-        &lt;![CDATA[[0-9]]]&gt;
-    &lt;/range&gt;
-    &lt;meta&gt;&lt;![CDATA[$]]&gt;&lt;/meta&gt;
-  &lt;/patterns&gt;
-&lt;/pattern&gt;</pre>
+*	  &lt;source&gt;&lt;![CDATA[^[0-9]{10,11}$]]&gt;&lt;/source&gt;
+*	  &lt;patterns&gt;
+*	    &lt;meta&gt;&lt;![CDATA[^]]&gt;&lt;/meta&gt;
+*	    &lt;range
+*	        negated="false"
+*	        lazy="false" 
+*	        min="10"
+*	        max="11"
+*	        quantifier="{11}"&gt;
+*	        &lt;![CDATA[[0-9]]]&gt;
+*	    &lt;/range&gt;
+*	    &lt;meta&gt;&lt;![CDATA[$]]&gt;&lt;/meta&gt;
+*	  &lt;/patterns&gt;
+*	&lt;/pattern&gt;</pre>
+*
+*	<h1>Primitive Matching</h1>
+*
+*	In the simplest case a pattern can be used for matching primitive values:
+*
+*	<pre>var ptn:Pattern = new Pattern( /^[0-9]+$/, true );
+*	Assert.assertTrue( ptn.test( "100" ) );
+*	Assert.assertTrue( ptn.test( 100 ) );
+*	ptn = new Pattern( /^(true|false)$/, true );
+*	Assert.assertTrue( ptn.test( true ) );
+*	Assert.assertTrue( ptn.test( false ) );
+*	Assert.assertFalse( ptn.test( "TRUE" ) );
+*	Assert.assertFalse( ptn.test( "FALSE" ) );</pre>
+*
+*	You could leverage this to test a <code>uint</code> or <code>int</code>
+*	falls within a range:
+*
+*	<pre>//define a 100-199 range
+*	var ptn:Pattern = new Pattern( /^1[0-9]{2}$/, true );
+*	Assert.assertTrue( ptn.test( 100 ) );
+*	Assert.assertTrue( ptn.test( 199 ) );
+*	Assert.assertFalse( ptn.test( 0 ) );
+*	Assert.assertFalse( ptn.test( 99 ) );
+*	Assert.assertFalse( ptn.test( 200 ) );
+*	Assert.assertFalse( ptn.test( 1024 ) );</pre>
+*
+*	Or quickly verify a number is a float:
+*
+*	<pre>//define a float pattern
+*	var ptn:Pattern = new Pattern( /^([0-9]+)?\.[0-9]+$/, true );
+*	Assert.assertTrue( ptn.test( .5 ) );
+*	Assert.assertTrue( ptn.test( 1.67 ) );
+*	Assert.assertFalse( ptn.test( 16 ) );</pre>
+*
+*	<h1>Named Groups</h1>
 *
 *	Let's illustrate how we leverage an Actionscript specific regular expression
 *	feature to allow complex object comparison.
@@ -77,25 +116,26 @@
 *	issue to handle first: how to resolve the <em>object property field name (?P&lt;id&gt;)</em>
 *	for the various matching requirements?
 *
+*	<h1>Field Matching</h1>
+*
 *	To illustrate with a concrete example, consider a description
 *	for a UK physical address, this may have various fields that require validation,
-*	describes as an anonymous object it might look like:
+*	described as an anonymous object it might look like:
 *
 *	<pre>{
-*		name: "Building name",
-*		number: "Building number",
-*		address1: "Address line 1",
-*		address2: "Address line 2",
-*		city: "City",
-*		county: "County",
-*		postcode: "Postal code"
+*	  name: "Building name",
+*	  number: "Building number",
+*	  address1: "Address line 1",
+*	  address2: "Address line 2",
+*	  city: "City",
+*	  county: "County",
+*	  postcode: "Postal code"
 *	}</pre>
 *
 *	We could express the validation rules (for illustration purposes only) as a pattern
 *	such as:
 *
-*	<pre>//declare the pattern
-*	var source:String =
+*	<pre>var source:String =
 *		"(?P&lt;name&gt;\w( \w)+)"
 *		+ "(?P&lt;number&gt;\d+[a-zA-Z]?)"
 *		+ "(?P&lt;address1&gt;\w( \w)+)"
@@ -116,8 +156,7 @@
 *	then use the <code>?</code> quantifier to make <code>address2</code> optional.
 *	The updated source pattern would look like:
 *
-*	<pre>//declare the pattern
-*	var source:String =
+*	<pre>var source:String =
 *		"((?P&lt;name&gt;\w( \w)+)"
 *		+ "|(?P&lt;number&gt;\d+[a-zA-Z]?))"  //alternation between name and number '|'
 *		+ "(?P&lt;address1&gt;\w( \w)+)"
@@ -130,6 +169,8 @@
 *	representing an address:
 *
 *	<pre>var valid:Boolean = ptn.test( address );</pre>
+*
+*	<h1>Sequence Matching</h1>
 *
 *	The above example serves to illustrate validating value objects but there are other
 *	use cases that need to be handled gracefully. For example, during a scan routine
@@ -202,12 +243,22 @@
 *	Assuming that namespace prefixes of <code>svg</code> and <code>fluid</code>
 *	are currently valid namespace prefixes we could modify the pattern to:
 *
-*	<pre>(?P&lt;id&gt;1){1}((?P&lt;id&gt;2)(?P&lt;matched&gt;(svg|fluid):))?(?P&lt;id&gt;3){1}(?P&lt;id&gt;4)&#42;(?P&lt;id&gt;5){1}</pre>
+*	<pre>var ptn:Pattern = new Pattern(
+*	  "(?P&lt;id&gt;1){1}"
+*	  + "((?P&lt;id&gt;2)(?P&lt;matched&gt;(svg|fluid):))?"
+*	  + "(?P&lt;id&gt;3){1}(?P&lt;id&gt;4)&#42;(?P&lt;id&gt;5){1}", true );</pre>
 *
 *	By adding a nested grouping for the <code>Token.matched</code> property,
 *	the <code>matched</code> property is also tested for adherence to
 *	<code>/(svg|fluid):/</code> thereby validating the statement conforms to
 *	the currently declared namespaces.
+*
+*	To perform this style of sequential match against a list, use the <code>list</code>
+*	method:
+*
+*	<pre>var tokens:Vector.&lt;Token&gt; = new Vector.&lt;Token&gt;();
+*	// ...configure token list here
+*	var matched:Boolean = ptn.list( tokens );</pre>
 */
 package com.ffsys.pattern
 {
@@ -216,10 +267,6 @@ package com.ffsys.pattern
 	* 
 	* 	This implementation allows for matching against complex
 	* 	object structures using a regular expression.
-	* 
-	* 	This functionality can be used to validate the order
-	* 	and occurences of a list of values or the properties
-	* 	of complex objects.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -256,8 +303,7 @@ package com.ffsys.pattern
 		
 		/**
 		* 	A quantifier character that indicates zero or one occurence
-		* 	or as a greedy behaviour modifier (makes the match lazy)
-		* 	to a previous quantifier.
+		* 	or as a greedy behaviour modifier.
 		*/
 		public static const QUESTION_MARK:String = "?";
 		
@@ -348,6 +394,16 @@ package com.ffsys.pattern
 		*/
 		public static const NAMED_GROUP_SEQUENCE:String = "?P";
 		
+		public static const GLOBAL_FLAG:String = "g";
+		
+		public static const DOTALL_FLAG:String = "s";
+		
+		public static const EXTENDED_FLAG:String = "x";
+		
+		public static const MULTILINE_FLAG:String = "m";
+		
+		public static const IGNORE_CASE_FLAG:String = "i";
+		
 		private var _patterns:Vector.<Pattern>;
 		private var _parts:Pattern;
 		private var _position:uint = 0;
@@ -387,6 +443,121 @@ package com.ffsys.pattern
 			}else{
 				this.source = source;
 			}
+		}
+		
+		/**
+		* 	The modifiers of the regular expression.
+		* 
+		* 	These can include the following:
+		* 
+		*	g - When using the replace() method of the String class, specify this
+		* 	modifier to replace all matches, rather than only the first one.
+		*	This modifier corresponds to the global property of the RegExp instance.
+		* 
+		*	i - The regular expression is evaluated without case sensitivity.
+		* 	This modifier corresponds to the ignoreCase property of the RegExp instance.
+		* 
+		*	s - The dot (.) character matches new-line characters.
+		* 	Note This modifier corresponds to the dotall property of the RegExp instance.
+		* 
+		*	m - The caret (^) character and dollar sign ($) match before and after new-line characters.
+		* 	This modifier corresponds to the multiline property of the RegExp instance.
+		* 
+		*	x - White space characters in the re string are ignored, so that you can write more readable constructors.
+		* 	This modifier corresponds to the extended property of the RegExp instance.
+		* 
+		*	All other characters in the flags string are ignored.
+		*/
+		public function get flags():String
+		{
+			var flags:String = "";
+			if( global )
+			{
+				flags += GLOBAL_FLAG;
+			}
+			if( dotall )
+			{
+				flags += DOTALL_FLAG;
+			}
+			if( extended )
+			{
+				flags += EXTENDED_FLAG;
+			}
+			if( multiline )
+			{
+				flags += MULTILINE_FLAG;
+			}
+			if( ignoreCase )
+			{
+				flags += IGNORE_CASE_FLAG;
+			}						
+			return flags;
+		}
+		
+		public function set flags( value:String ):void
+		{
+			if( value == null )
+			{
+				value = "";
+			}
+			value = value.replace( /[^xmigs]/, "" );
+			//regex is invalidated on flag change
+			_regex = new RegExp( this.regex.source, value );
+		}
+		
+		/**
+		* 	Specifies whether the <code>g</code> flag is set.
+		* 
+		* 	Specifies whether to use global matching
+		* 	for the regular expression.
+		*/
+		public function get global():Boolean
+		{
+			return this.regex.global;
+		}
+		
+		/**
+		* 	Specifies whether the <code>s</code> flag is set.
+		* 	
+		* 	When present indicates that the dot character (<code>.</code>)
+		* 	in a regular expression pattern matches new-line characters.
+		*/
+		public function get dotall():Boolean
+		{
+			return this.regex.dotall;
+		}
+		
+		/**
+		* 	Specifies whether the <code>x</code> flag is set.
+		* 
+		* 	When present the regular expression will use extended mode.
+		*/
+		public function get extended():Boolean
+		{
+			return this.regex.extended;
+		}
+		
+		/**
+		* 	Specifies whether the <code>m</code> flag is set.
+		* 	
+		* 	If it is set, the caret (<code>^</code>) and dollar
+		* 	sign (<code>$</code>) in a regular expression match
+		* 	before and after new lines.
+		*/
+		public function get multiline():Boolean
+		{
+			return this.regex.multiline;
+		}
+		
+		/**
+		* 	Specifies whether the <code>i</code> flag is set.
+		* 
+		* 	When present the regular expression
+		* 	ignores case sensitivity.
+		*/
+		public function get ignoreCase():Boolean
+		{
+			return this.regex.ignoreCase;
 		}
 		
 		/**
@@ -575,7 +746,7 @@ package com.ffsys.pattern
 		/**
 		* 	Determines whether this pattern
 		* 	represents a named capture group
-		* 	declaration: <code>?P</code>.
+		* 	declaration, <code>?P</code>.
 		*/
 		public function get named():Boolean
 		{
@@ -820,6 +991,27 @@ package com.ffsys.pattern
 		}
 		
 		/**
+		* 	Performs matching against an array or vector.
+		* 
+		* 	@throws ArgumentError If the supplied target is not
+		* 	an <code>Array</code> or <code>Vector</code>.
+		* 
+		* 	@return Whether the <code>target</code> list
+		* 	matches this pattern.
+		*/
+		public function list( target:Object ):Boolean
+		{
+			if( !( ( target is Array ) || target is Vector ) )
+			{
+				throw new ArgumentError(
+					"You must specify an array or vector when"
+					+ " attempting to match a pattern against a list." );
+			}
+			
+			return false;
+		}
+		
+		/**
 		* 	@private
 		*/
 		private function testObject( value:Object ):Boolean
@@ -942,8 +1134,8 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether this pattern is a character
-		* 	range, <code>[0-9]</code>.
+		* 	Determines whether this pattern is a range
+		* 	(character class), <code>[0-9]</code>.
 		*/
 		public function get range():Boolean
 		{

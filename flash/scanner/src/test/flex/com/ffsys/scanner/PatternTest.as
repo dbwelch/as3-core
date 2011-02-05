@@ -12,7 +12,7 @@ package com.ffsys.scanner
 	/**
 	*	Unit tests for patterns.
 	*/ 
-	dynamic public class PatternTest extends AbstractScannerUnit
+	public class PatternTest extends Object
 	{
 		/**
 		*	Creates a <code>PatternTest</code> instance.
@@ -25,7 +25,9 @@ package com.ffsys.scanner
 		[Test]
 		public function patternCompileTest():void
 		{	
-			var re:RegExp = /^[0-9]{11}$/;
+			//pattern to match a UK mobile number
+			//with optional leading zero
+			var re:RegExp = /^[0-9]{10,11}$/;
 			var source:String = re.source;
 			var ptn:Pattern = new Pattern( re, true );
 			var xml:XML = ptn.xml;
@@ -33,6 +35,38 @@ package com.ffsys.scanner
 			Assert.assertEquals( source, ptn.toString() );
 			Assert.assertEquals( source, ptn.regex.source );
 			Assert.assertEquals( source, xml.source.text()[0] );
+			
+			trace("PatternTest::patternCompileTest()", ptn, ptn.test( 07900123456 ) );
+			
+			//simple string validation
+			Assert.assertTrue( ptn.test( "07900123456" ) );
+			
+			//uint validation
+			Assert.assertTrue( ptn.test( 07900123456 ) );
+			
+			ptn = new Pattern( /^[0-9]+$/, true );
+			Assert.assertTrue( ptn.test( "100" ) );
+			Assert.assertTrue( ptn.test( 100 ) );
+			ptn = new Pattern( /^(true|false)$/, true );
+			Assert.assertTrue( ptn.test( true ) );
+			Assert.assertTrue( ptn.test( false ) );
+			Assert.assertFalse( ptn.test( "TRUE" ) );
+			Assert.assertFalse( ptn.test( "FALSE" ) );
+			
+			//define a 100-199 range
+			ptn = new Pattern( /^1[0-9]{2}$/, true );
+			Assert.assertTrue( ptn.test( 100 ) );
+			Assert.assertTrue( ptn.test( 199 ) );
+			Assert.assertFalse( ptn.test( 0 ) );
+			Assert.assertFalse( ptn.test( 99 ) );
+			Assert.assertFalse( ptn.test( 200 ) );
+			Assert.assertFalse( ptn.test( 1024 ) );
+			
+			//define a float pattern
+			ptn = new Pattern( /^([0-9]+)?\.[0-9]+$/, true );
+			Assert.assertTrue( ptn.test( .5 ) );
+			Assert.assertTrue( ptn.test( 1.67 ) );
+			Assert.assertFalse( ptn.test( 16 ) );
 			
 			var candidates:Array = [ 201, 505 ];
 			
