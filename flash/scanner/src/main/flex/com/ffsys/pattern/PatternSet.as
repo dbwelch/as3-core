@@ -48,9 +48,9 @@ package com.ffsys.pattern
 		private var _owner:PatternSet;
 		private var _index:int = -1;
 		
-		//the actual regex we use for matching
-		//this is required as the source property is read only
-		//and we want to instantiate a new regex when our source property has changed
+		/**
+		* 	@private
+		*/
 		internal var _regex:RegExp;
 		
 		/**
@@ -109,7 +109,7 @@ package com.ffsys.pattern
 		/**
 		* 	The first part of this pattern.
 		*/
-		public function get first():Pattern
+		public function get firstChild():Pattern
 		{
 			if( patterns.length > 0 )
 			{
@@ -121,7 +121,7 @@ package com.ffsys.pattern
 		/**
 		* 	The last part of this pattern.
 		*/
-		public function get last():Pattern
+		public function get lastChild():Pattern
 		{
 			if( patterns.length > 0 )
 			{
@@ -210,7 +210,7 @@ package com.ffsys.pattern
 		* 	or <code>null</code> if the index is out of
 		* 	bounds.
 		*/
-		public function get( index:int ):Pattern
+		public function getPatternAt( index:int ):Pattern
 		{
 			if( index < 0 || index >= patterns.length )
 			{

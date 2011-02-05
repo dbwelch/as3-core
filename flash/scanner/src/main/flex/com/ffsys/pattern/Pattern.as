@@ -147,12 +147,20 @@ package com.ffsys.pattern
 		private var _source:* = NaN;
 		private var _field:String;
 		private var _compiled:String;
-
 		private var _open:Boolean = false;
 		
-		//stores the minimum and maximum occurences
-		//for this pattern
+		/**
+		* 	@private
+		* 
+		* 	A minimum number of occurences for this pattern.
+		*/
 		internal var _min:Number = -1;
+		
+		/**
+		* 	@private
+		* 
+		* 	A maximum number of occurences for this pattern.
+		*/
 		internal var _max:Number = -1;
 		
 		/**
@@ -172,92 +180,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	@private
-		*/
-		internal function getQuantifierRangeOccurences( tmp:String ):Object
-		{
-			var output:Object = new Object();
-			output.min = _min;
-			output.max = _max;
-			tmp = tmp.replace( /\{/, "" );
-			tmp = tmp.replace( /\}/, "" );
-			var parts:Array = tmp.split( "," );
-			if( output.min == -1 && parts.length >= 1 )
-			{
-				output.min = parseInt( parts[ 0 ] );
-				if( parts.length == 1 )
-				{
-					output.max = output.min;
-				}
-			}
-			if( output.max == -1 
-				&& parts.length == 2 )
-			{
-				if( parts[ 1 ] == "" )
-				{
-					output.max = uint.MAX_VALUE;
-				}else
-				{
-					output.max = parseInt( parts[ 1 ] );
-				}
-			}
-			return output;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function getOccurences():Object
-		{
-			var floor:int = 0;
-			var ceiling:int = uint.MAX_VALUE;
-			var output:Object = new Object();
-			output.min = _min;
-			output.max = _max;
-			var tmp:String = source.substr();
-			
-			//remove any lazy modifiers associated
-			//with another quantifier before calculation
-			if( tmp != QUESTION_MARK
-				&& tmp.indexOf( QUESTION_MARK ) > -1 )
-			{
-				tmp = tmp.replace( /[?]+$/, "" );
-			}
-			
-			if( quantifierRange && _min == -1 && _max == -1 )
-			{
-				output = getQuantifierRangeOccurences( tmp );
-			}
-			
-			if( output.min == -1
-				&& output.max == -1 )
-			{
-				var defined:Boolean = _min > 0 && _max > 0;
-				if( !defined && quantifier )
-				{
-					switch( tmp )
-					{
-						case ASTERISK:
-							output.min = floor;
-							output.max = ceiling;
-							break;
-						case PLUS:
-							output.min = 1;
-							output.max = ceiling;
-							break;
-						case QUESTION_MARK:
-							output.min = floor;
-							output.max = 1;
-							break;
-					}
-				}
-			}
-			_min = output.min;
-			_max = output.max;
-			return output;
-		}
-		
-		/**
 		* 	The minimum number of occurences
 		* 	for this pattern.
 		*/
@@ -269,7 +191,7 @@ package com.ffsys.pattern
 				{
 					_min = getOccurences().min;
 				}
-			}else if( isCaptureGroup() || range )
+			}else if( group || range )
 			{
 				if( _min == -1 && _max == -1 )
 				{
@@ -298,7 +220,7 @@ package com.ffsys.pattern
 				{
 					_max = getOccurences().max;
 				}
-			}else if( isCaptureGroup() || range )
+			}else if( group || range )
 			{
 				if( _min == -1 && _max == -1 )
 				{
@@ -365,7 +287,7 @@ package com.ffsys.pattern
 		*/
 		public function get lazy():Boolean
 		{
-			if( isCaptureGroup() || range
+			if( group || range
 				&& ( nextSibling != null
 				&& nextSibling.quantifier ) )
 			{
@@ -393,7 +315,7 @@ package com.ffsys.pattern
 		*/
 		public function get qualified():Boolean
 		{
-			if( isCaptureGroup() )
+			if( group )
 			{
 				if( patterns.length > 1
 					&& patterns[ 0 ].toString() == LPAREN
@@ -422,37 +344,6 @@ package com.ffsys.pattern
 		public function get meta():Boolean
 		{
 			return isMetaSequence( this.source );
-		}
-		
-		/**
-		* 	Determines whether a string is considered
-		* 	to be a meta character or meta sequence.
-		* 
-		* 	@param char The string to test against.
-		* 
-		* 	@return Whether the value is a meta character
-		* 	or meta sequence.
-		*/
-		public function isMetaSequence( char:String ):Boolean
-		{
-			return char == POSITIVE_LOOKAHEAD_SEQUENCE
-				|| char == NEGATIVE_LOOKAHEAD_SEQUENCE
-				|| char == NON_CAPTURING_SEQUENCE
-				|| char == NAMED_GROUP_SEQUENCE	
-				|| char == CARET
-				|| char == ASTERISK
-				|| char == PLUS
-				|| char == QUESTION_MARK
-				|| char == DOLLAR
-				|| char == PIPE
-				|| char == LPAREN
-				|| char == RPAREN
-				|| char == LBRACE
-				|| char == RBRACE
-				|| char == LBRACKET
-				|| char == RBRACKET
-				|| char == LESS_THAN
-				|| char == GREATER_THAN;			
 		}
 		
 		/**
@@ -550,7 +441,7 @@ package com.ffsys.pattern
 		*/
 		public function get begins():Boolean
 		{
-			return 	( root && !empty && first.source == CARET )
+			return 	( root && !empty && firstChild.source == CARET )
 				||	( owner != null
 					&& owner.root
 					&& source == CARET
@@ -567,7 +458,7 @@ package com.ffsys.pattern
 		*/
 		public function get ends():Boolean
 		{
-			return 	( root && !empty && last.source == DOLLAR )
+			return 	( root && !empty && lastChild.source == DOLLAR )
 				||	( owner != null
 					&& owner.root
 					&& source == DOLLAR
@@ -575,7 +466,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
 		override public function clear():void
 		{
@@ -717,57 +608,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether a comparison is equal
-		* 	to the string representing this part of the pattern.
-		* 
-		* 	@param comparison The candidate to campare against.
-		* 
-		* 	@return Whether the comparison is equal to the match
-		* 	associated with this pattern rule.
-		*/
-		public function equals( comparison:String ):Boolean
-		{
-			return source == comparison;
-		}
-		
-		/**
-		* 	Expands the list of pattern parts
-		* 	to a complete list of acceptable
-		* 	match patterns for the parts.
-		* 
-		* 	An expected value can be any of the
-		* 	match patterns returned by this method.
-		* 
-		* 	@param parts The list of candidate parts.
-		* 
-		* 	@return The expanded list of pattern matches.
-		*/
-		public function expand( parts:Vector.<Pattern> ):Vector.<Pattern>
-		{
-			var output:Vector.<Pattern> = new Vector.<Pattern>();
-			var part:Pattern = null;
-			var next:Pattern = null;
-			var previous:Pattern = null;			
-			for( var i:int = 0;i < parts.length;i++ )
-			{
-				part = parts[ i ];
-				if( i < parts.length - 1 )
-				{
-					next = parts[ i + 1 ];
-				}
-				//next is an alternator or
-				//we're the last part add the part
-				if( i == ( patterns.length - 1 )
-					|| part.chunk )
-				{
-					output.push( part );
-				}
-				previous = part;
-			}
-			return output;
-		}
-		
-		/**
 		* 	Returns a pattern that represents
 		* 	the positional matches for this pattern.
 		*/
@@ -777,231 +617,28 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Explodes this pattern into a tokenized
-		* 	representation where each pattern part
-		* 	represents an individual positional match.
-		* 
-		* 	@return A pattern representing this pattern
-		* 	as patterns tokens for each position.
-		*/
-		public function explode(
-			targets:Vector.<Pattern> = null,
-			output:Pattern = null ):Pattern
-		{
-			if( output == null )
-			{
-				output = new Pattern();
-			}
-			
-			if( targets == null )
-			{
-				targets = this.patterns;
-			}
-					
-			var ptn:Pattern = null;
-			var next:Pattern = null;
-			var group:Pattern = null;
-			for( var i:int = 0;i < targets.length;i++ )
-			{
-				ptn = targets[ i ];
-				
-				if( ptn.isCaptureGroup() )
-				{
-					extract( ptn, output );
-				}else
-				{
-					if( ptn.meta || ptn.chunk )
-					{
-						//convert plain patterns to groups
-						group = new Pattern();
-						group.add( new Pattern( LPAREN ) );	
-						group.add( ptn );
-						
-						//look ahead and swallow non-group patterns
-						while( ++i < targets.length )
-						{
-							next = targets[ i ];
-							if( next.isCaptureGroup() )
-							{
-								i--;
-								break;
-							}
-							//close and re-open the group when
-							//we encounter a range
-							if( next.range )
-							{
-								//trace("[FOUND RANGE ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );
-								group.add( new Pattern( RPAREN ) );
-								group.add( new Pattern( LPAREN ) );
-								group.add( next );					
-							}else
-							{
-								group.add( next );
-								//trace("[FOUND QUANTIFIER/CHUNK ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );								
-							}
-						}
-						group.add( new Pattern( RPAREN ) );
-						output.add( group );
-					}
-				}
-			}
-			//trace("[EXPLODE] Pattern::explode()", output.patterns );
-			return output;
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function extract( target:Pattern, output:Pattern ):Pattern
-		{
-			if( target.group
-				&& target.isCaptureGroup() )
-			{
-				var ptns:Vector.<Pattern> = target.patterns;
-				var ptn:Pattern = null;
-				var named:Boolean = false;
-				var next:Pattern = null;
-				var grouped:Pattern = null;
-				
-				//skip the last part - the group close: ')'
-				var l:int = ptns.length - 1;
-				
-				//skip the first part - the group open '('
-				var i:int = 1;
-				
-				//trace("[EXTRACT] Pattern::extract()", target, target.field, target.field != null );
-				
-				var group:Boolean = target.requiresGrouping();
-				
-				//trace("[TEST FOR ADDITIONAL GROUPING] Pattern::extract()", group );
-				
-				if( group )
-				{
-					output.add( new Pattern( LPAREN ) );
-				}
-				
-				//create a group to encapsulate
-				//each extracted group
-				var tmp:Pattern = new Pattern();
-				
-				//double the opening group so we maintain
-				//the original grouping
-				tmp.add( new Pattern( LPAREN ) );
-				
-				//add the positional group to the output
-				output.add( tmp );
-				
-				for( ;i < l;i++ )
-				{
-					ptn = ptns[ i ];
-					
-					//trace("[EXTRACTING] Pattern::extract()", ptn );
-					
-					//ignore invalid patterns
-					//and and group qualifiers: '?:', '?!', '?=', '?P'
-					if( ptn == null
-						|| ptn.qualifier != null )
-					{
-						//handle named groups: '?P<propertyName>'
-						if( ptn.named )
-						{
-							//trace("[FOUND NAMED_GROUP_SEQUENCE GROUP] Pattern::extract()", ptn );
-
-							//finished a named capture group
-							if( i < ( ptns.length - 1 ) )
-							{
-								next = ptns[ i + 1 ];
-								//found a named group declaration
-								if( next.toString().indexOf( LESS_THAN ) == 0 )
-								{
-									//skip the named group part: <propertyName>
-									i++;
-								}
-								
-								//trace("[CLOSED NAMED_GROUP_SEQUENCE GROUP] Pattern::extract()", ptn );
-							}		
-						}
-						continue;
-					}
-					
-					//trace("[HANDLE EXTRACTION] Pattern::extract()", ptn, ptn.isCaptureGroup() );
-					
-					if( ptn.isCaptureGroup() )
-					{
-						//trace("Pattern::extract()", "[FOUND NESTED GROUP PATTERN]" );
-						//handle nested groups
-						//as we encounter them
-						grouped = extract( ptn, output );
-						
-						//trace("[GOT EXTRACTED GROUP RESULT] Pattern::extract()", grouped, grouped.length - 2, i );
-						
-						//explode( output );
-						
-						break;
-					}
-					
-					//add the part to the extracted group
-					tmp.add( ptn );	
-				}
-			}
-			
-			//close the temp group
-			tmp.add( new Pattern( RPAREN ) );
-					
-			if( i < ( l - 1 ) )
-			{
-				l = ptns.length;
-				if( ptns[ l - 1 ] is Pattern
-				 	&& ptns[ l - 1 ].source == RPAREN )
-				{
-					//ignore end group declarations
-					l--;
-				}
-				
-				var remainder:Vector.<Pattern> = ptns.slice( i + 1, l );
-				
-				/*
-				trace("Pattern::extract()", "[FOUND MORE TO EXTRACT]", grouped,
-					remainder );
-				*/
-				
-				explode( remainder, output );
-			}
-			
-			if( group )
-			{
-				output.add( new Pattern( RPAREN ) );
-			}
-			return tmp;
-		}
-		
-		/**
 		* 	Determines whether this pattern is grouping.
+		*/
+		public function get grouping():Boolean
+		{
+			return patterns.length > 0
+				&& __group.test( firstChild.toString() );
+		}
+		
+		/**
+		* 	Determines whether this pattern is a group.
 		*/
 		public function get group():Boolean
 		{
-			return patterns.length > 0
-				&& isGroup( first.toString() );
+			return this.grouping && ( firstChild.toString() == LPAREN );
 		}
-
+		
 		/**
 		* 	@private
 		*/
-		private function isGroup( source:String ):Boolean
-		{
-			//trace("Pattern::isGroup()", source );
-			return __group.test( source );
-		}
-		
-		public function isCaptureGroup():Boolean
-		{
-			return ( source != null && source == LPAREN )
-				|| this.group && ( first.toString() == LPAREN );
-		}
-		
 		override public function get children():Pattern
 		{
-			if( isCaptureGroup() )
+			if( group )
 			{
 				//TODO: stash this and invalidate	
 				var output:Pattern = new Pattern();
@@ -1026,68 +663,6 @@ package com.ffsys.pattern
 			return null;
 		}
 		
-		internal function requiresGrouping():Boolean
-		{
-			if( isCaptureGroup() )
-			{
-				//trace("[REQUIRES GROUPING] Pattern::requiresGrouping()", toString() );
-				
-				var ptns:Pattern = this.children;
-				var ptn:Pattern = null;
-				var groups:uint = 0;
-				var alternators:uint = 0;
-				for( var i:int = 0;i < ptns.length;i++ )
-				{
-					ptn = ptns.get( i );
-					if( ptn.isCaptureGroup() )
-					{
-						groups++;
-					}
-					
-					if( ptn.source == PIPE )
-					{
-						alternators++;
-					}
-					//trace("Pattern::requiresGrouping()", "[TESTING CHILD PATTERN]", ptn, ptn.source, groups, alternators );
-				}
-				
-				//empty capture group
-				if( ptns.length == 0 )
-				{
-					return false;
-				}
-				
-				//single nested pattern
-				if( ptns.length == 1 )
-				{
-					//single group contents
-					if( ptns.first.isCaptureGroup() )
-					{
-						return false;
-					//single chunk contents
-					}else if( ptns.first.chunk )
-					{
-						return false;
-					}
-				}				
-				
-				//complex child patterns
-				if( groups > 0 && alternators > 0 )
-				{
-					return true;
-				}
-				
-				if( groups == 0 && alternators > 0 )
-				{
-					return false;
-				}
-				
-				//trace("[TESTING GROUPING REQUIREMENTS] Pattern::requiresGrouping()", ptns );
-				return true;
-			}
-			return false;
-		}
-		
 		/**
 		* 	Determines whether this pattern is a character
 		* 	range, <code>[0-9]</code>.
@@ -1095,7 +670,7 @@ package com.ffsys.pattern
 		public function get range():Boolean
 		{
 			return ( source != null && source == LBRACKET )
-				|| this.group && ( first.toString() == LBRACKET );
+				|| this.grouping && ( firstChild.toString() == LBRACKET );
 		}
 		
 		/**
@@ -1105,13 +680,13 @@ package com.ffsys.pattern
 		public function get negated():Boolean
 		{
 			return range
-				&& first != null
-				&& first.nextSibling != null
-				&& first.nextSibling.source == CARET;
+				&& firstChild != null
+				&& firstChild.nextSibling != null
+				&& firstChild.nextSibling.source == CARET;
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
 		override public function get regex():RegExp
 		{
@@ -1129,7 +704,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
 		override public function get name():String
 		{
@@ -1147,7 +722,7 @@ package com.ffsys.pattern
 				}
 				if( nm == null )
 				{
-					if( isCaptureGroup() )
+					if( group )
 					{
 						nm = "group";
 					}else if( range )
@@ -1169,7 +744,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
 		override public function get xml():XML
 		{
@@ -1178,7 +753,7 @@ package com.ffsys.pattern
 			var i:int = 0;
 			var name:String = this.name;
 			var x:XML = new XML( "<" + name + " />" );
-			if( !root && !isCaptureGroup() )
+			if( !root && !group )
 			{	
 				if( range || meta || chunk )
 				{
@@ -1195,7 +770,7 @@ package com.ffsys.pattern
 			//for any subsequent quantifier or if
 			//the group is not quantified reports
 			//a count of one
-			if( quantifier || range || isCaptureGroup() )
+			if( quantifier || range || group )
 			{
 				x.@lazy = this.lazy;
 				//single quantifier occurence amount
@@ -1218,7 +793,7 @@ package com.ffsys.pattern
 			}
 			
 			//shortcut out for simple types
-			if( !root && !isCaptureGroup() )
+			if( !root && !group )
 			{	
 				if( range || meta || chunk )
 				{
@@ -1228,13 +803,13 @@ package com.ffsys.pattern
 			
 			//handle complex types
 			var ptns:Vector.<Pattern> = this.patterns;
-			var group:Boolean = !root && isCaptureGroup();
-			if( group )
+			var isGrouped:Boolean = !root && group;
+			if( isGrouped )
 			{
 				ptns = children.patterns;
 			}
 			
-			if( group )
+			if( isGrouped )
 			{
 				x.@qualified = this.qualified;
 				if( field != null )
@@ -1304,7 +879,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
 		override public function toPatternString():String
 		{
@@ -1313,7 +888,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
 		override public function toString():String
 		{
@@ -1510,10 +1085,10 @@ package com.ffsys.pattern
 						
 						//adding a chunk to a named property
 						//group - <propertyName>
-						if( parentTarget.group
+						if( parentTarget.grouping
 							&& parentTarget.owner is Pattern
-							&& parentTarget.first != null
-							&& parentTarget.first.toString() == LESS_THAN )
+							&& parentTarget.firstChild != null
+							&& parentTarget.firstChild.toString() == LESS_THAN )
 						{	
 							//assign the named property field to
 							//the parent group
@@ -1656,8 +1231,400 @@ package com.ffsys.pattern
 		}
 		
 		/*
-		*	INTERNAL EXPRESSIONS
+		*	INTERNAL QUANTIFIER AMOUNT CALCULATION
+		*/		
+		
+		/**
+		* 	@private
 		*/
+		internal function getQuantifierRangeOccurences( tmp:String ):Object
+		{
+			var output:Object = new Object();
+			output.min = _min;
+			output.max = _max;
+			tmp = tmp.replace( /\{/, "" );
+			tmp = tmp.replace( /\}/, "" );
+			var parts:Array = tmp.split( "," );
+			if( output.min == -1 && parts.length >= 1 )
+			{
+				output.min = parseInt( parts[ 0 ] );
+				if( parts.length == 1 )
+				{
+					output.max = output.min;
+				}
+			}
+			if( output.max == -1 
+				&& parts.length == 2 )
+			{
+				if( parts[ 1 ] == "" )
+				{
+					output.max = uint.MAX_VALUE;
+				}else
+				{
+					output.max = parseInt( parts[ 1 ] );
+				}
+			}
+			return output;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function getOccurences():Object
+		{
+			var floor:int = 0;
+			var ceiling:int = uint.MAX_VALUE;
+			var output:Object = new Object();
+			output.min = _min;
+			output.max = _max;
+			var tmp:String = source.substr();
+			
+			//remove any lazy modifiers associated
+			//with another quantifier before calculation
+			if( tmp != QUESTION_MARK
+				&& tmp.indexOf( QUESTION_MARK ) > -1 )
+			{
+				tmp = tmp.replace( /[?]+$/, "" );
+			}
+			
+			if( quantifierRange && _min == -1 && _max == -1 )
+			{
+				output = getQuantifierRangeOccurences( tmp );
+			}
+			
+			if( output.min == -1
+				&& output.max == -1 )
+			{
+				var defined:Boolean = _min > 0 && _max > 0;
+				if( !defined && quantifier )
+				{
+					switch( tmp )
+					{
+						case ASTERISK:
+							output.min = floor;
+							output.max = ceiling;
+							break;
+						case PLUS:
+							output.min = 1;
+							output.max = ceiling;
+							break;
+						case QUESTION_MARK:
+							output.min = floor;
+							output.max = 1;
+							break;
+					}
+				}
+			}
+			_min = output.min;
+			_max = output.max;
+			return output;
+		}
+		
+		
+		/**
+		* 	@private
+		*/
+		internal function requiresGrouping():Boolean
+		{
+			if( group )
+			{
+				//trace("[REQUIRES GROUPING] Pattern::requiresGrouping()", toString() );
+				
+				var ptns:Pattern = this.children;
+				var ptn:Pattern = null;
+				var groups:uint = 0;
+				var alternators:uint = 0;
+				for( var i:int = 0;i < ptns.length;i++ )
+				{
+					ptn = ptns.getPatternAt( i );
+					if( ptn.group )
+					{
+						groups++;
+					}
+					
+					if( ptn.source == PIPE )
+					{
+						alternators++;
+					}
+					//trace("Pattern::requiresGrouping()", "[TESTING CHILD PATTERN]", ptn, ptn.source, groups, alternators );
+				}
+				
+				//empty capture group
+				if( ptns.length == 0 )
+				{
+					return false;
+				}
+				
+				//single nested pattern
+				if( ptns.length == 1 )
+				{
+					//single group contents
+					if( ptns.firstChild.group )
+					{
+						return false;
+					//single chunk contents
+					}else if( ptns.firstChild.chunk )
+					{
+						return false;
+					}
+				}				
+				
+				//complex child patterns
+				if( groups > 0 && alternators > 0 )
+				{
+					return true;
+				}
+				
+				if( groups == 0 && alternators > 0 )
+				{
+					return false;
+				}
+				
+				//trace("[TESTING GROUPING REQUIREMENTS] Pattern::requiresGrouping()", ptns );
+				return true;
+			}
+			return false;
+		}
+		
+		/*
+		*	INTERNAL GROUP MANIPULATION
+		*/
+		
+		/**
+		* 	Explodes this pattern into a tokenized
+		* 	representation where each pattern part
+		* 	represents an individual positional match.
+		* 
+		* 	@return A pattern representing this pattern
+		* 	as patterns tokens for each position.
+		*/
+		private function explode(
+			targets:Vector.<Pattern> = null,
+			output:Pattern = null ):Pattern
+		{
+			if( output == null )
+			{
+				output = new Pattern();
+			}
+			
+			if( targets == null )
+			{
+				targets = this.patterns;
+			}
+					
+			var ptn:Pattern = null;
+			var next:Pattern = null;
+			var grp:Pattern = null;
+			for( var i:int = 0;i < targets.length;i++ )
+			{
+				ptn = targets[ i ];
+				
+				if( ptn.group )
+				{
+					extract( ptn, output );
+				}else
+				{
+					if( ptn.meta || ptn.chunk )
+					{
+						//convert plain patterns to groups
+						grp = new Pattern();
+						grp.add( new Pattern( LPAREN ) );	
+						grp.add( ptn );
+						
+						//look ahead and swallow non-group patterns
+						while( ++i < targets.length )
+						{
+							next = targets[ i ];
+							if( next.group )
+							{
+								i--;
+								break;
+							}
+							//close and re-open the group when
+							//we encounter a range
+							if( next.range )
+							{
+								//trace("[FOUND RANGE ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );
+								grp.add( new Pattern( RPAREN ) );
+								grp.add( new Pattern( LPAREN ) );
+								grp.add( next );					
+							}else
+							{
+								grp.add( next );
+								//trace("[FOUND QUANTIFIER/CHUNK ADD TO PREVIOUS] Pattern::explode()", next, ptn, grp );								
+							}
+						}
+						grp.add( new Pattern( RPAREN ) );
+						output.add( grp );
+					}
+				}
+			}
+			//trace("[EXPLODE] Pattern::explode()", output.patterns );
+			return output;
+		}	
+		
+		/**
+		* 	@private
+		*/
+		private function extract( target:Pattern, output:Pattern ):Pattern
+		{
+			if( target.grouping
+				&& target.group )
+			{
+				var ptns:Vector.<Pattern> = target.patterns;
+				var ptn:Pattern = null;
+				var named:Boolean = false;
+				var next:Pattern = null;
+				var grouped:Pattern = null;
+				
+				//skip the last part - the group close: ')'
+				var l:int = ptns.length - 1;
+				
+				//skip the first part - the group open '('
+				var i:int = 1;
+				
+				//trace("[EXTRACT] Pattern::extract()", target, target.field, target.field != null );
+				
+				var requiresGroup:Boolean = target.requiresGrouping();
+				
+				//trace("[TEST FOR ADDITIONAL GROUPING] Pattern::extract()", requiresGroup );
+				
+				if( requiresGroup )
+				{
+					output.add( new Pattern( LPAREN ) );
+				}
+				
+				//create a group to encapsulate
+				//each extracted group
+				var tmp:Pattern = new Pattern();
+				
+				//double the opening group so we maintain
+				//the original grouping
+				tmp.add( new Pattern( LPAREN ) );
+				
+				//add the positional group to the output
+				output.add( tmp );
+				
+				for( ;i < l;i++ )
+				{
+					ptn = ptns[ i ];
+					
+					//trace("[EXTRACTING] Pattern::extract()", ptn );
+					
+					//ignore invalid patterns
+					//and and group qualifiers: '?:', '?!', '?=', '?P'
+					if( ptn == null
+						|| ptn.qualifier != null )
+					{
+						//handle named groups: '?P<propertyName>'
+						if( ptn.named )
+						{
+							//trace("[FOUND NAMED_GROUP_SEQUENCE GROUP] Pattern::extract()", ptn );
+
+							//finished a named capture group
+							if( i < ( ptns.length - 1 ) )
+							{
+								next = ptns[ i + 1 ];
+								//found a named group declaration
+								if( next.toString().indexOf( LESS_THAN ) == 0 )
+								{
+									//skip the named group part: <propertyName>
+									i++;
+								}
+								
+								//trace("[CLOSED NAMED_GROUP_SEQUENCE GROUP] Pattern::extract()", ptn );
+							}		
+						}
+						continue;
+					}
+					
+					//trace("[HANDLE EXTRACTION] Pattern::extract()", ptn, ptn.group );
+					
+					if( ptn.group )
+					{
+						//trace("Pattern::extract()", "[FOUND NESTED GROUP PATTERN]" );
+						//handle nested groups
+						//as we encounter them
+						grouped = extract( ptn, output );
+						
+						//trace("[GOT EXTRACTED GROUP RESULT] Pattern::extract()", grouped, grouped.length - 2, i );
+						
+						//explode( output );
+						
+						break;
+					}
+					
+					//add the part to the extracted group
+					tmp.add( ptn );	
+				}
+			}
+			
+			//close the temp group
+			tmp.add( new Pattern( RPAREN ) );
+					
+			if( i < ( l - 1 ) )
+			{
+				l = ptns.length;
+				if( ptns[ l - 1 ] is Pattern
+				 	&& ptns[ l - 1 ].source == RPAREN )
+				{
+					//ignore end group declarations
+					l--;
+				}
+				
+				var remainder:Vector.<Pattern> = ptns.slice( i + 1, l );
+				
+				/*
+				trace("Pattern::extract()", "[FOUND MORE TO EXTRACT]", grouped,
+					remainder );
+				*/
+				
+				explode( remainder, output );
+			}
+			
+			if( requiresGroup )
+			{
+				output.add( new Pattern( RPAREN ) );
+			}
+			return tmp;
+		}				
+		
+		/*
+		*	INTERNALS
+		*/
+		
+		/**
+		* 	@private
+		* 	
+		* 	Determines whether a string is considered
+		* 	to be a meta character or meta sequence.
+		* 
+		* 	@param char The string to test against.
+		* 
+		* 	@return Whether the value is a meta character
+		* 	or meta sequence.
+		*/
+		private function isMetaSequence( char:String ):Boolean
+		{
+			return char == POSITIVE_LOOKAHEAD_SEQUENCE
+				|| char == NEGATIVE_LOOKAHEAD_SEQUENCE
+				|| char == NON_CAPTURING_SEQUENCE
+				|| char == NAMED_GROUP_SEQUENCE	
+				|| char == CARET
+				|| char == ASTERISK
+				|| char == PLUS
+				|| char == QUESTION_MARK
+				|| char == DOLLAR
+				|| char == PIPE
+				|| char == LPAREN
+				|| char == RPAREN
+				|| char == LBRACE
+				|| char == RBRACE
+				|| char == LBRACKET
+				|| char == RBRACKET
+				|| char == LESS_THAN
+				|| char == GREATER_THAN;			
+		}
 		
 		private static var __group:RegExp = new RegExp(
 			"^(?:"
