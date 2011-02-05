@@ -12,12 +12,12 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  04.03.2011
 	*/
-	public class PatternMatchResult extends Object
+	public class PatternMatchResult extends Pattern
 	{
 		private var _pattern:Pattern;
 		private var _position:uint = 0;
 		private var _result:Boolean;
-		private var _source:*;
+		private var _target:*;
 		
 		/**
 		* 	Creates a <code>PatternMatchResult</code> instance.
@@ -25,12 +25,12 @@ package com.ffsys.pattern
 		public function PatternMatchResult(
 			position:uint = 0,
 			pattern:Pattern = null,
-			source:* = null )
+			target:* = null )
 		{
 			super();
 			this.position = position;
 			this.pattern = pattern;
-			this.source = source;
+			this.target = target;
 		}
 		
 		/**
@@ -73,22 +73,22 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	The source being matched.
+		* 	The target being matched.
 		*/
-		public function get source():*
+		public function get target():*
 		{
-			return _source;
+			return _target;
 		}
 		
-		public function set source( value:* ):void
+		public function set target( value:* ):void
 		{
-			_source = value;
+			_target = value;
 		}
 		
 		/**
 		* 	An xml representation of this match.
 		*/
-		public function get xml():XML
+		override public function get xml():XML
 		{
 			return getXml( false );
 		}
@@ -97,7 +97,7 @@ package com.ffsys.pattern
 		* 	Gets a string representation of this
 		* 	pattern match result.
 		*/
-		public function toString():String
+		override public function toString():String
 		{
 			return getXml( false ).toXMLString();
 		}
@@ -105,27 +105,27 @@ package com.ffsys.pattern
 		/**
 		* 	@private
 		*/
-		internal function getXml( simple:Boolean = true ):XML
+		private function getXml( simple:Boolean = true ):XML
 		{
-			var x:XML = new XML( "<" + Pattern.MATCH + " />" );
+			var x:XML = new XML( "<" + MATCH + " />" );
 			x.@position = position;			
 			x.@result = result;
 			if( !simple )
 			{
-				if( source != null )
+				if( target != null )
 				{
-					var src:XML = new XML( "<source><![CDATA["
-						+ source + "]]></source>" );
-					src.@type = getQualifiedClassName( source );
+					var src:XML = new XML( "<target><![CDATA["
+						+ target + "]]></target>" );
+					src.@type = getQualifiedClassName( target );
 					x.appendChild( src );
 				}
 				if( pattern != null )
 				{
 					x.appendChild(
 						new XML(
-						"<" + Pattern.PATTERN + "><![CDATA["
+						"<" + PATTERN + "><![CDATA["
 						+ pattern.toPatternString()
-						+ "]]></" + Pattern.PATTERN + ">" ) );
+						+ "]]></" + PATTERN + ">" ) );
 				}
 			}
 			return x;

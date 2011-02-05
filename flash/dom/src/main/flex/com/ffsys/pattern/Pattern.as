@@ -20,42 +20,13 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/
-	dynamic public class Pattern extends Array
-	{		
+	dynamic public class Pattern extends PatternSet
+	{
 		/**
-		* 	The delimiter used to mark the
-		* 	beginning and end of a pattern.
-		*/
-		public static const DELIMITER:String = "/";
-		
-		/**
-		* 	The name for a root pattern.
-		*/
-		public static const PATTERN:String = "pattern";
-		
-		/**
-		* 	The name for a pattern that belongs
-		* 	to another pattern.
-		*/
-		public static const PTN:String = "ptn";
-		
-		/**
-		* 	The name for pattern parts.
-		*/
-		public static const PARTS:String = "parts";
-		
-		/**
-		* 	The name for a pattern match result list.
-		*/
-		public static const RESULTS:String = "results";
-		
-		/**
-		* 	The name for a pattern match.
-		*/
-		public static const MATCH:String = "match";
-		
-		/**
-		* 	A meta character that indicates the start position.
+		* 	A meta character that indicates
+		* 	the start position or negation
+		* 	when specified as the first character
+		* 	in a character class.
 		*/
 		public static const CARET:String = "^";
 		
@@ -65,12 +36,14 @@ package com.ffsys.pattern
 		public static const DOT:String = ".";
 		
 		/**
-		* 	A quantifier character that indicates zero or more occurences.
+		* 	A quantifier character that indicates
+		* 	zero or more occurences.
 		*/
 		public static const ASTERISK:String = "*";
 		
 		/**
-		* 	A quantifier character that indicates one or more occurences.
+		* 	A quantifier character that indicates one
+		* 	or more occurences.
 		*/
 		public static const PLUS:String = "+";
 		
@@ -98,44 +71,82 @@ package com.ffsys.pattern
 		*/
 		public static const DOLLAR:String = "$";
 		
-		//
+		/**
+		* 	A meta character that indicates the start of a group.
+		*/
 		public static const LPAREN:String = "(";
 		
+		/**
+		* 	A meta character that indicates the end of a group.
+		*/
 		public static const RPAREN:String = ")";
 		
+		/**
+		* 	A meta character that indicates the start of a
+		* 	character class.
+		*/
 		public static const LBRACKET:String = "[";
 		
+		/**
+		* 	A meta character that indicates the end of a
+		* 	character class.
+		*/
 		public static const RBRACKET:String = "]";
 		
+		/**
+		* 	A meta character that indicates the start
+		* 	of a qualifier range.
+		*/
 		public static const LBRACE:String = "{";
 		
+		/**
+		* 	A meta character that indicates the end
+		* 	of a qualifier range.
+		*/
 		public static const RBRACE:String = "}";
 		
+		/**
+		* 	A meta character that indicates the start
+		* 	of a name for a named group.
+		*/
 		public static const LESS_THAN:String = "<";
 		
+		/**
+		* 	A meta character that indicates the end
+		* 	of a name for a named group.
+		*/
 		public static const GREATER_THAN:String = ">";
 		
+		/**
+		*	The meta sequence representing a
+		* 	positive lookahead group.
+		*/
 		public static const POSITIVE_LOOKAHEAD_SEQUENCE:String = "?=";
 		
+		/**
+		*	The meta sequence representing a
+		* 	negative lookahead group.
+		*/
 		public static const NEGATIVE_LOOKAHEAD_SEQUENCE:String = "?!";
 		
+		/**
+		*	The meta sequence representing a
+		* 	non-capturing group.
+		*/
 		public static const NON_CAPTURING_SEQUENCE:String = "?:";
 		
+		/**
+		*	The meta sequence representing a
+		* 	named group.
+		*/
 		public static const NAMED_GROUP_SEQUENCE:String = "?P";
 		
 		private var _patterns:Vector.<Pattern>;
 		private var _parts:Pattern;
-		private var _owner:Pattern;
 		private var _position:uint = 0;
 		private var _source:* = NaN;
 		private var _field:String;
-		private var _name:String;
 		private var _compiled:String;
-		
-		//the actual regex we use for matching
-		//this is required as the source property is read only
-		//and we want to instantiate a new regex when our source property has changed
-		private var _regex:RegExp;
 
 		private var _open:Boolean = false;
 		
@@ -143,7 +154,6 @@ package com.ffsys.pattern
 		//for this pattern
 		internal var _min:Number = -1;
 		internal var _max:Number = -1;
-		internal var _index:int = -1;
 		
 		/**
 		* 	Creates a <code>Pattern</code> instance.
@@ -400,9 +410,9 @@ package com.ffsys.pattern
 		* 	represents a named capture group
 		* 	declaration: <code>?P</code>.
 		*/
-		public function named():Boolean
+		public function get named():Boolean
 		{
-			return meta && source == NAMED_GROUP_SEQUENCE;
+			return source == NAMED_GROUP_SEQUENCE;
 		}
 		
 		/**
@@ -411,7 +421,38 @@ package com.ffsys.pattern
 		*/
 		public function get meta():Boolean
 		{
-			return Pattern.character( this.source );
+			return isMetaSequence( this.source );
+		}
+		
+		/**
+		* 	Determines whether a string is considered
+		* 	to be a meta character or meta sequence.
+		* 
+		* 	@param char The string to test against.
+		* 
+		* 	@return Whether the value is a meta character
+		* 	or meta sequence.
+		*/
+		public function isMetaSequence( char:String ):Boolean
+		{
+			return char == POSITIVE_LOOKAHEAD_SEQUENCE
+				|| char == NEGATIVE_LOOKAHEAD_SEQUENCE
+				|| char == NON_CAPTURING_SEQUENCE
+				|| char == NAMED_GROUP_SEQUENCE	
+				|| char == CARET
+				|| char == ASTERISK
+				|| char == PLUS
+				|| char == QUESTION_MARK
+				|| char == DOLLAR
+				|| char == PIPE
+				|| char == LPAREN
+				|| char == RPAREN
+				|| char == LBRACE
+				|| char == RBRACE
+				|| char == LBRACKET
+				|| char == RBRACKET
+				|| char == LESS_THAN
+				|| char == GREATER_THAN;			
 		}
 		
 		/**
@@ -440,39 +481,6 @@ package com.ffsys.pattern
 		public function set source( value:* ):void
 		{
 			_source = value;
-		}
-		
-		/**
-		* 	An owner for this pattern.
-		*/
-		public function get owner():Pattern
-		{
-			return _owner;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function setOwner( owner:Pattern ):void
-		{
-			_owner = owner;
-		}
-		
-		/**
-		* 	The index of this pattern in the context
-		* 	of an owner pattern.
-		*/
-		public function get index():int
-		{
-			return _index;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function setIndex( index:int ):void
-		{
-			_index = index;
 		}
 		
 		/**
@@ -520,18 +528,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	A list of patterns belonging to this pattern.
-		*/
-		public function get patterns():Vector.<Pattern>
-		{
-			if( _patterns == null )
-			{
-				_patterns = new Vector.<Pattern>();
-			}
-			return _patterns;
-		}
-		
-		/**
 		* 	All pattern parts as a flat list.
 		*/
 		public function get parts():Pattern
@@ -542,39 +538,6 @@ package com.ffsys.pattern
 				_parts.name = PARTS;
 			}
 			return _parts;
-		}
-		
-		/**
-		* 	The first part of this pattern.
-		*/
-		public function get first():Pattern
-		{
-			if( patterns.length > 0 )
-			{
-				return patterns[ 0 ];
-			}
-			return null;
-		}
-		
-		/**
-		* 	The last part of this pattern.
-		*/
-		public function get last():Pattern
-		{
-			if( patterns.length > 0 )
-			{
-				return patterns[ patterns.length - 1 ];
-			}
-			return null;
-		}
-		
-		/**
-		* 	Determines whether this pattern
-		* 	has any patterns.
-		*/
-		public function get empty():Boolean
-		{
-			return patterns.length == 0;
 		}
 		
 		/**
@@ -612,86 +575,14 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Clears this pattern so that it is empty.
+		* 	@inheritDoc
 		*/
-		public function clear():void
+		override public function clear():void
 		{
-			_patterns = null;
+			super.clear();
 			_source = "";
 			_compiled =  null;
 			_parts = null;
-		}
-		
-		/**
-		* 	Adds a pattern part to test against.
-		* 	
-		* 	@param part The pattern part to add.
-		* 
-		* 	@return Whether the part was added.
-		*/
-		public function add( part:Pattern ):Boolean
-		{
-			if( part != null )
-			{
-				part.setOwner( this );
-				part.setIndex( patterns.length );
-				patterns.push( part );
-				return true;
-			}
-			return false;
-		}
-		
-		/**
-		*	Removes pattern(s) from this pattern.
-		* 
-		* 	@param start The index to start removing
-		* 	from.
-		* 	@param end The end index to stop removing from.
-		* 
-		* 	@return A pattern or <code>null</code> if the start
-		* 	index is out of range.
-		*/
-		public function remove( start:int = -1, end:int = -1 ):Pattern
-		{
-			//behave like pop() by default
-			if( start == -1 && patterns.length > 0 )
-			{
-				start = ( patterns.length == 1 ) ? 0 : patterns.length - 2;
-			}
-			
-			if( start >= 0 && start < patterns.length )
-			{
-				if( end == -1 )
-				{
-					end = start + 1;
-				}
-				
-				if( end <= start )
-				{
-					end = start + 1;
-				}
-				
-				var count:uint = uint( end - start );
-				patterns.splice( start, count );
-			}
-			return null;
-		}
-		
-		/**
-		* 	Retrieves a pattern at the specified
-		* 	index.
-		*
-		* 	@return The pattern at the specified index
-		* 	or <code>null</code> if the index is out of
-		* 	bounds.
-		*/
-		public function get( index:int ):Pattern
-		{
-			if( index < 0 || index >= patterns.length )
-			{
-				return null;
-			}
-			return this.patterns[ index ];
 		}
 		
 		/**
@@ -729,36 +620,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Retrieves a copy of the last pattern
-		* 	match results.
-		*/
-		public function get results():Array
-		{
-			return slice();
-		}
-		
-		/**
-		* 	Retrieves a list of the matches
-		* 	that failed during the last pattern
-		* 	match.
-		*/
-		public function get failures():Vector.<PatternMatchResult>
-		{
-			var output:Vector.<PatternMatchResult> =
-				new Vector.<PatternMatchResult>();
-			var match:PatternMatchResult = null;
-			for( var i:int = 0;i < results.length;i++ )
-			{
-				match = PatternMatchResult( results[ i ] );
-				if( !match.result )
-				{
-					output.push( match );
-				}
-			}
-			return output;
-		}
-		
-		/**
 		* 	Tests whether the pattern matches
 		* 	a value.
 		* 
@@ -766,7 +627,7 @@ package com.ffsys.pattern
 		* 
 		* 	@return Whether the pattern matches the value.
 		*/
-		public function test( value:* ):Boolean
+		override public function test( value:* ):Boolean
 		{
 			var matched:PatternMatchResult = null;
 			
@@ -867,19 +728,6 @@ package com.ffsys.pattern
 		public function equals( comparison:String ):Boolean
 		{
 			return source == comparison;
-		}
-		
-		/**
-		* 	Determines whether a value is considered
-		* 	to be a meta character.
-		* 
-		* 	@param value The value to test against.
-		* 
-		* 	@return Whether the value is a meta character.
-		*/
-		public function character( value:String ):Boolean
-		{
-			return Pattern.character( value );
 		}
 		
 		/**
@@ -1055,7 +903,7 @@ package com.ffsys.pattern
 						|| ptn.qualifier != null )
 					{
 						//handle named groups: '?P<propertyName>'
-						if( ptn.named() )
+						if( ptn.named )
 						{
 							//trace("[FOUND NAMED_GROUP_SEQUENCE GROUP] Pattern::extract()", ptn );
 
@@ -1151,12 +999,11 @@ package com.ffsys.pattern
 				|| this.group && ( first.toString() == LPAREN );
 		}
 		
-		
-		public function get children():Pattern
+		override public function get children():Pattern
 		{
 			if( isCaptureGroup() )
 			{
-				//TODO: stash this and invalidate				
+				//TODO: stash this and invalidate	
 				var output:Pattern = new Pattern();
 				var ptns:Vector.<Pattern> = this.patterns;
 				var ptn:Pattern = null;
@@ -1264,12 +1111,9 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Gets a regular expression representation
-		* 	of this pattern.
-		* 
-		* 	@return This pattern as a regular expression.
+		* 	@inheritDoc
 		*/
-		public function get regex():RegExp
+		override public function get regex():RegExp
 		{
 			if( _regex == null )
 			{
@@ -1280,68 +1124,60 @@ package com.ffsys.pattern
 				}else{
 					_regex = new RegExp( toString() );
 				}
-			}
-			return _regex;
+			}			
+			return super.regex;
 		}
 		
 		/**
-		* 	A name for this pattern.
+		* 	@inheritDoc
 		*/
-		public function get name():String
+		override public function get name():String
 		{
-			if( _name )
-			{
-				return _name;
-			}
-			
-			var nm:String = null;
-			
-			switch( source )
-			{
-				case PIPE:
-					nm = "alternator";
-					break;
-				case DOT:
-					nm = "dot";
-					break;				
-			}
-			
+			var nm:String = super.name;
 			if( nm == null )
 			{
-				if( isCaptureGroup() )
+				switch( source )
 				{
-					nm = "group";
-				}else if( range )
+					case PIPE:
+						nm = "alternator";
+						break;
+					case DOT:
+						nm = "dot";
+						break;
+				}
+				if( nm == null )
 				{
-					nm = "range";
-				}else if( quantifier )
-				{
-					nm = "quantifier";
-				}else if( meta )
-				{
-					nm = "meta";
-				}else if( chunk )
-				{
-					nm = "data";
-				}				
+					if( isCaptureGroup() )
+					{
+						nm = "group";
+					}else if( range )
+					{
+						nm = "range";
+					}else if( quantifier )
+					{
+						nm = "quantifier";
+					}else if( meta )
+					{
+						nm = "meta";
+					}else if( chunk )
+					{
+						nm = "data";
+					}				
+				}
 			}
-			
 			return nm == null ? "pattern" : nm;
 		}
 		
-		public function set name( value:String ):void
-		{
-			_name = value;
-		}
-		
-		public function get xml():XML
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get xml():XML
 		{
 			//TODO: stash this XML and invalidate
 			
 			var i:int = 0;
 			var name:String = this.name;
 			var x:XML = new XML( "<" + name + " />" );
-			
 			if( !root && !isCaptureGroup() )
 			{	
 				if( range || meta || chunk )
@@ -1467,18 +1303,19 @@ package com.ffsys.pattern
 			return x;
 		}
 		
-		public function toPatternString():String
+		/**
+		* 	@inheritDoc
+		*/
+		override public function toPatternString():String
 		{
 			var prefix:String = root ? PATTERN : PTN;
 			return prefix + ":" + DELIMITER + toString() + DELIMITER;
 		}
 		
 		/**
-		* 	Retrieves a string representation of this pattern.
-		* 
-		* 	@return A string representation of this pattern.
+		* 	@inheritDoc
 		*/
-		public function toString():String
+		override public function toString():String
 		{
 			var delimiter:String = "";
 			if( name == PARTS )
@@ -1486,46 +1323,6 @@ package com.ffsys.pattern
 				delimiter = ",";
 			}
 			return patterns.length > 0 ? patterns.join( delimiter ) : _source;
-		}
-		
-		/**
-		* 	Determines whether a character string is deemed to be
-		* 	a meta character.
-		* 
-		* 	@param char The character string candidate.
-		* 
-		* 	@return Whether the character string is considered to	
-		* 	be a meta character.
-		*/
-		public static function character( char:String ):Boolean
-		{
-			return char == POSITIVE_LOOKAHEAD_SEQUENCE
-				|| char == NEGATIVE_LOOKAHEAD_SEQUENCE
-				|| char == NON_CAPTURING_SEQUENCE
-				|| char == NAMED_GROUP_SEQUENCE	
-				|| char == CARET
-				|| char == ASTERISK
-				|| char == PLUS
-				|| char == QUESTION_MARK
-				|| char == DOLLAR
-				|| char == PIPE
-				|| char == LPAREN
-				|| char == RPAREN
-				|| char == LBRACE
-				|| char == RBRACE
-				|| char == LBRACKET
-				|| char == RBRACKET
-				|| char == LESS_THAN
-				|| char == GREATER_THAN;
-		}
-		
-		/**
-		* 	Determines whether this pattern is the
-		* 	root of a pattern hierarchy.
-		*/
-		public function get root():Boolean
-		{
-			return ( owner == null );
 		}
 		
 		/**
@@ -1564,7 +1361,7 @@ package com.ffsys.pattern
 				_source = candidate.substr();
 				_compiled = candidate.substr();
 				
-				if( Pattern.character( _compiled ) )
+				if( isMetaSequence( _compiled ) )
 				{
 					//nothing to build for meta character sequences
 					return target;
@@ -1584,12 +1381,6 @@ package com.ffsys.pattern
 
 				//candidate for valid actionscript property names
 				var prop:String = "(?:[a-zA-Z_\\$]{1}[a-zA-Z0-9_\\$]*)";
-
-				//candidate for group capturing
-				var namedgroup:String = "";
-
-				//the main expression used to capture regex special characters
-				//var expr:String = "\\\\?(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|\\?|\\+|\\{(?:[0-9]+)(?:,[0-9+])?\\}|[()*\\|^\\$:<>.\\-]){1}";
 				
 				var expr:String = "\\\\?(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|[()|^\\$:<>.\\-]){1}";
 
@@ -1665,7 +1456,7 @@ package com.ffsys.pattern
 						&& current != null )
 					{
 						current.setOpen( false );
-						parentTarget = current.owner;
+						parentTarget = Pattern( current.owner );
 						current = parentTarget;
 					}
 
@@ -1720,13 +1511,13 @@ package com.ffsys.pattern
 						//adding a chunk to a named property
 						//group - <propertyName>
 						if( parentTarget.group
-							&& parentTarget.owner != null
+							&& parentTarget.owner is Pattern
 							&& parentTarget.first != null
 							&& parentTarget.first.toString() == LESS_THAN )
 						{	
 							//assign the named property field to
 							//the parent group
-							parentTarget.owner.field = chunk;
+							Pattern( parentTarget.owner ).field = chunk;
 						}else
 						{
 							addCompilationPart( ptn );

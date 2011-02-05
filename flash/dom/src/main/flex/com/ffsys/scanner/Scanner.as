@@ -185,7 +185,7 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	A list of tokens that represent the scand
+		* 	A list of tokens that represent the scanned
 		* 	results.
 		*/
 		public function get results():Vector.<Token>

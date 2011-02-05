@@ -311,7 +311,7 @@ package com.ffsys.dom
 			
 			var ptn:Pattern = new Pattern();
 			ptn.compile(
-				"^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{27}{1,}{1,2}{1})?(alpha+numeri(c|k)?)+)$" );
+				"^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{10,)?(alpha+numeri(c|k)?)+)$" );
 			
 			XML.prettyPrinting = true;
 			XML.prettyIndent = 2;
