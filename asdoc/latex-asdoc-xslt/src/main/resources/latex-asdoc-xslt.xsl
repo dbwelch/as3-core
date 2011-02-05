@@ -2253,7 +2253,7 @@
 					<xsl:call-template name="search-and-replace">
 						<xsl:with-param name="input" select="$percent" />
 						<xsl:with-param name="search-string" select="'([^\\]?)\^'" />
-						<xsl:with-param name="replace-string" select="'$1\\char`\\^\\'" />
+						<xsl:with-param name="replace-string" select="'$1\\char`\\^'" />
 					</xsl:call-template>				
 				</xsl:when>
 				<xsl:otherwise>
