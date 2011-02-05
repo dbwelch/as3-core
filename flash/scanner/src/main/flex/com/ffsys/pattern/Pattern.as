@@ -1,3 +1,214 @@
+/**
+*	A library for pattern matching.
+*
+*	Use cases include scanner token validation or form field validation.
+*
+*	The primary design goal was to <em>not deviate</em> from
+*	regular expression syntax while allowing matching
+*	against primitive and complex types.
+*
+*	In addition the library has been designed to be as flexible as possible
+*	so should suffice for nearly any matching requirement.
+*
+*	An understanding of regular expression syntax is assumed
+*	for the rest of this documentation.
+*
+*	Note that when discussing quantifiers that have <em>unlimited</em>
+*	or <em>infinite</em> maximum matches in reality there is a 
+*	limit that corresponds to <code>uint.MAX_VALUE</code> but
+*	for brevity's sake it's easier to describe them as <em>unlimited</em>.
+*
+*	All patterns can be represented as a string
+*	or regular expression and as an <code>XML</code>
+*	tree structure.
+*
+*	The following example demonstrates the ability
+*	to easily interchange the representation of a pattern
+*	starting from a regular expression literal to
+*	a <code>String</code> through to the <code>XML</code>
+*	representation of a pattern.
+*
+*	<pre>var re:RegExp = /^[0-9]{11}$/;
+*	var source:String = re.source;
+*	var ptn:Pattern = new Pattern( re, true );
+*	var xml:XML = ptn.xml;	
+*	Assert.assertEquals( source, ptn.source );
+*	Assert.assertEquals( source, ptn.toString() );
+*	Assert.assertEquals( source, ptn.regex.source );
+*	Assert.assertEquals( source, xml.source.text()[0] );</pre>
+*
+*	Generates an <code>XML</code> representation of:
+*
+*	<pre>&lt;pattern begins="true" ends="true"&gt;
+  &lt;source&gt;&lt;![CDATA[^[0-9]{11}$]]&gt;&lt;/source&gt;
+  &lt;patterns&gt;
+    &lt;meta&gt;&lt;![CDATA[^]]&gt;&lt;/meta&gt;
+    &lt;range negated="false"
+        lazy="false" 
+        count="11"
+        quantifier="{11}"&gt;
+        &lt;![CDATA[[0-9]]]&gt;
+    &lt;/range&gt;
+    &lt;meta&gt;&lt;![CDATA[$]]&gt;&lt;/meta&gt;
+  &lt;/patterns&gt;
+&lt;/pattern&gt;</pre>
+*
+*	Let's illustrate how we leverage an Actionscript specific regular expression
+*	feature to allow complex object comparison.
+*
+*	<pre>(?P&lt;id&gt;[_a-zA-Z$]{1}[a-zA-Z0-9]&#42;)</pre>
+*
+*	In this example we declare a <em>named capturing group</em>. The
+*	<code>?P</code> after the start of the group declares the group
+*	as named and the <em>group name</em> value is contained
+*	within the <code>&lt;&gt;</code> characters which in
+*	this case is <code>id</code>.
+*	
+*	The rest of the group pattern is normal regular expression syntax.
+*
+*	This ability to name groups is an extension to the ECMAScript specification
+*	that enables us to <em>think about regular expressions differently</em>. Instead
+*	of seeing a <em>named capture group</em> we can view the same expression
+*	as an object with a property named <code>id</code> which should match
+*	the expression contained within the group.
+*
+*	This shift of perspective is great as it creates the basis for
+*	matching against complex object structures but there is still another
+*	issue to handle first: how to resolve the <em>object property field name (?P&lt;id&gt;)</em>
+*	for the various matching requirements?
+*
+*	To illustrate with a concrete example, consider a description
+*	for a UK physical address, this may have various fields that require validation,
+*	describes as an anonymous object it might look like:
+*
+*	<pre>{
+*		name: "Building name",
+*		number: "Building number",
+*		address1: "Address line 1",
+*		address2: "Address line 2",
+*		city: "City",
+*		county: "County",
+*		postcode: "Postal code"
+*	}</pre>
+*
+*	We could express the validation rules (for illustration purposes only) as a pattern
+*	such as:
+*
+*	<pre>//declare the pattern
+*	var source:String =
+*		"(?P&lt;name&gt;\w( \w)+)"
+*		+ "(?P&lt;number&gt;\d+[a-zA-Z]?)"
+*		+ "(?P&lt;address1&gt;\w( \w)+)"
+*		+ "(?P&lt;address2&gt;\w( \w)+)"
+*		+ "(?P&lt;city&gt;\w( \w)+)"
+*		+ "(?P&lt;county&gt;\w( \w)+)"
+*		+ "(?P&lt;postcode&gt;)[a-zA-Z]{1,2}[0-9a-zA-Z]{1,2}( [0-9]{1,2}[a-zA-Z]{1,2})?";
+*	//create the compiled pattern
+*	var ptn:Pattern = new Pattern( source, true );</pre>
+*
+*	This attempt to define the validation rules for our address object does describe
+*	(approximately) the patterns for each field value but it omits some other relationships
+*	such as that <code>name</code> and <code>number</code> should be treated as mutually exclusive
+*	and that the field <code>address2</code> is optional.
+*
+*	We can update our source description to reflect these rules, first use alternation
+*	to make the <code>name</code> and <code>number</code> mutually exclusive and
+*	then use the <code>?</code> quantifier to make <code>address2</code> optional.
+*	The updated source pattern would look like:
+*
+*	<pre>//declare the pattern
+*	var source:String =
+*		"((?P&lt;name&gt;\w( \w)+)"
+*		+ "|(?P&lt;number&gt;\d+[a-zA-Z]?))"  //alternation between name and number '|'
+*		+ "(?P&lt;address1&gt;\w( \w)+)"
+*		+ "(?P&lt;address2&gt;\w( \w)+)?"     //added optionality to address2 '?'
+*		+ "(?P&lt;city&gt;\w( \w)+)"
+*		+ "(?P&lt;county&gt;\w( \w)+)"
+*		+ "(?P&lt;postcode&gt;)[a-zA-Z]{1,2}[0-9a-zA-Z]{1,2}( [0-9]{1,2}[a-zA-Z]{1,2})?";</pre>
+*
+*	You can then <code>validate</code> this pattern rule against any arbitrary object
+*	representing an address:
+*
+*	<pre>var valid:Boolean = ptn.test( address );</pre>
+*
+*	The above example serves to illustrate validating value objects but there are other
+*	use cases that need to be handled gracefully. For example, during a scan routine
+*	a series of tokens for a scan part may be created <em>as a list</em>, but no validation of token
+*	<em>value</em> or <em>occurence</em> has been performed.
+*
+*	Let's supposed you've created a scanner to tokenize an <code>XML</code> document
+*	(maybe for a SAX implementation) and have a token to represent the name
+*	of an <code>XML</code> element.
+*
+*	The pattern decribing an <code>XML</code> element name could be expressed approximately as:
+*
+*	<pre>var source:String =
+*		"(?P&lt;nsprefix&gt;([a-zA-Z0-9\\-]:)?)"
+*		+ "(?P&lt;localname&gt;[a-zA-Z0-9\\-]+)";
+*	var ptn:Pattern = new Pattern( source, true );</pre>
+*
+*	Your scanner implementation recognises the element name pattern and correctly and
+*	creates a token to represent the element name as part of a sequence of tokens
+*	that represent the start of an <code>XML</code> element. That is the job complete
+*	for the scanner, but the namespace prefix for the element name has not been
+*	validated and verification that the element name tokens are all declared
+*	correctly has not been performed.
+*
+*	We could express an approximation of the entire pattern for the start
+*	of an <code>XML</code> element as:
+*
+*	<pre>var source:String =
+*		"(?P&lt;open-tag&gt;&lt;\\s&#42;)"
+*		+ "(?P&lt;nsprefix&gt;([a-zA-Z0-9\\-]:)?)"
+*		+ "(?P&lt;localname&gt;[a-zA-Z0-9\\-]+)"
+*		+ "(?P&lt;attr&gt;\\s&#42;(?P&lt;attrname&gt;[a-zA-Z0-9\\-]+)"
+*		+ "(?P&lt;assignment&gt;={1})"
+*		+ "(?P&lt;attrvalue&gt;(\"|')[^\"']&#42;(\"|')))&#42;"
+*		+ "(?P&lt;close-tag&gt;\\s&#42;/?&gt;)";</pre>
+*
+*	If we assign token identifiers to the pattern groups:
+*
+*	<pre>open-tag: 1
+*	nsprefix: 2
+*	localname: 3
+*	attr: 4
+*	close-tag: 5</pre>
+*
+*	Then the expected token relationship could be expressed more succinctly as:
+*	
+*	<pre>(1){1}(2)?(3){1}(4)&#42;(5){1}</pre>
+*
+*	Which states that we expect a single open tag character '&lt;' followed by an optional
+*	namespace prefix 'nsprefix:' followed by the local name of the element 'localname'
+*	followed by zero or more attribute declarations 'attr="value"' and finally the '&gt;'
+*	character indicating the end of the element statement (optionally terminated with '/').
+*	Which should match element declarations such as:
+*
+*	<pre>&lt;localname /&gt;
+*	&lt;nsprefix:localname /&gt;
+*	&lt;nsprefix:localname attr="value"&gt;</pre>
+*
+*	Now suppose that you would like to validate that the general structure of
+*	the element declaration conforms to the rules described above.
+*	The general pattern for validating the <em>token list</em> would be:
+*
+*	<pre>(?P&lt;id&gt;1){1}(?P&lt;id&gt;2)?(?P&lt;id&gt;3){1}(?P&lt;id&gt;4)&#42;(?P&lt;id&gt;5){1}</pre>
+*
+*	Note that the <code>id</code> property names correspond to the <code>id</code> property
+*	of a <code>Token</code>.
+*
+*	Assuming you have determined the list of namespace prefixes that are currently
+*	valid you can modify this pattern to include the namespace requirements.
+*	Assuming that namespace prefixes of <code>svg</code> and <code>fluid</code>
+*	are currently valid namespace prefixes we could modify the pattern to:
+*
+*	<pre>(?P&lt;id&gt;1){1}((?P&lt;id&gt;2)(?P&lt;matched&gt;(svg|fluid):))?(?P&lt;id&gt;3){1}(?P&lt;id&gt;4)&#42;(?P&lt;id&gt;5){1}</pre>
+*
+*	By adding a nested grouping for the <code>Token.matched</code> property,
+*	the <code>matched</code> property is also tested for adherence to
+*	<code>/(svg|fluid):/</code> thereby validating the statement conforms to
+*	the currently declared namespaces.
+*/
 package com.ffsys.pattern
 {
 	/**
@@ -9,10 +220,6 @@ package com.ffsys.pattern
 	* 	This functionality can be used to validate the order
 	* 	and occurences of a list of values or the properties
 	* 	of complex objects.
-	* 
-	* 	Examples could be validation for scanner tokens
-	* 	or for other validation routines
-	* 	such as form field validation.
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -167,16 +374,19 @@ package com.ffsys.pattern
 		* 	Creates a <code>Pattern</code> instance.
 		* 
 		* 	@param source The source for the pattern.
+		* 	@param compile Whether the source should
+		* 	be compiled.
 		*/
-		public function Pattern( target:* = null )
+		public function Pattern(
+			source:* = null, compile:Boolean = false )
 		{
 			super();
-			if( target is RegExp )
+			if( compile === true )
 			{
-				target = RegExp( target ).source;
+				this.compile( extractSource( source ) );
+			}else{
+				this.source = source;
 			}
-
-			this.source = "" + target;
 		}
 		
 		/**
@@ -239,6 +449,15 @@ package com.ffsys.pattern
 		
 		/**
 		*	Gets the qualifier for a group.
+		* 
+		* 	A qualifier for a group is a meta
+		* 	character sequence that qualifies the 
+		* 	group behaviour.
+		* 
+		* 	Valid values are the non-capturing qualifier (<code>?:</code>),
+		* 	the positive lookahead qualifier (<code>?=</code>), the negative
+		* 	lookahead qualifier (<code>?!</code>) and the named group qualifier
+		* 	(<code>?P</code>).
 		*/
 		public function get qualifier():String
 		{
@@ -246,14 +465,20 @@ package com.ffsys.pattern
 				|| source == NEGATIVE_LOOKAHEAD_SEQUENCE
 				|| source == NON_CAPTURING_SEQUENCE
 				|| source == NAMED_GROUP_SEQUENCE
-				|| namedQualifier )
+				|| namedGroup )
 			{
 				return source;
 			}
 			return null;
 		}
 		
-		public function get namedQualifier():Boolean
+		/**
+		* 	Determines whether this pattern is a named
+		* 	group. A named group is a group that has been
+		*	assigned a property name using the regular expression
+		* 	syntax <code>(?P&lt;property&gt;)</code>.
+		*/
+		public function get namedGroup():Boolean
 		{
 			var src:String = toString();
 			var namedStart:int = src.indexOf( LESS_THAN );
@@ -283,24 +508,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether this is a lazy quantifier.
-		*/
-		public function get lazy():Boolean
-		{
-			if( group || range
-				&& ( nextSibling != null
-				&& nextSibling.quantifier ) )
-			{
-				return nextSibling.lazy;
-			}
-			return quantifier
-				&& source != QUESTION_MARK
-				&& ( ( source.indexOf( QUESTION_MARK ) == source.length - 1 )
-				|| ( nextSibling != null
-					&& nextSibling.source == QUESTION_MARK ) );
-		}
-		
-		/**
 		* 	Determines whether this pattern is a quantifier
 		* 	range, <code>{1,2}</code>.
 		*/
@@ -325,6 +532,44 @@ package com.ffsys.pattern
 				}
 			}
 			return false;
+		}
+		
+		
+		/**
+		* 	Determines whether this is a lazy quantifier.
+		* 
+		* 	These are the <code>&#43;</code> and <code>&#42;</code>
+		* 	operators whose behaviour has been modified from the
+		* 	default greedy behaviour using the <code>?</code> meta
+		* 	character.
+		* 
+		* 	Valid examples are <code>&#43;?</code> and <code>&#42;?</code>.
+		* 
+		* 	This lazy behaviour modifier only applies when a quantifier
+		* 	allows for unlimited matches (only the &#42; and &#43; quantifiers)
+		* 	and applying this to another quantifier is invalid.
+		* 
+		* 	For example, <code>??</code> and <code>{10,20}?</code> are meaningless because
+		* 	both statements declare a fixed number of maximum possible matches,
+		* 	one and twenty respectively.
+		* 
+		* 	Finally you can consider <code>{10,}?</code> as a valid use of the
+		* 	lazy modifier as the quantifier range allows for unlimited maximum
+		* 	matches.
+		*/
+		public function get lazy():Boolean
+		{
+			if( group || range
+				&& ( nextSibling != null
+				&& nextSibling.quantifier ) )
+			{
+				return nextSibling.lazy;
+			}
+			return quantifier
+				&& source != QUESTION_MARK
+				&& ( ( source.indexOf( QUESTION_MARK ) == source.length - 1 )
+				|| ( nextSibling != null
+					&& nextSibling.source == QUESTION_MARK ) );
 		}
 		
 		/**
@@ -371,7 +616,21 @@ package com.ffsys.pattern
 		
 		public function set source( value:* ):void
 		{
+			extractSource( value );
 			_source = value;
+		}
+		
+		private function extractSource( value:* ):String
+		{
+			if( value is RegExp )
+			{
+				value = RegExp( value ).source;
+				_regex = value as RegExp;
+				//TODO: extract flags
+				trace("Pattern::set source()", "[EXTRACTED REGEX SOURCE]", value );
+			}
+			
+			return "" + value;
 		}
 		
 		/**
@@ -541,6 +800,26 @@ package com.ffsys.pattern
 		}
 		
 		/**
+		* 	Validates a target object comparing the named
+		* 	groups within this pattern against the properties
+		* 	of the target object.
+		* 
+		* 	@param target The target object to validate.
+		* 
+		* 	@return Whether this pattern matched the target
+		* 	object structure.
+		*/
+		public function validate( target:Object ):Boolean
+		{
+			var result:Boolean = false;
+			if( target != null )
+			{
+				//TODO
+			}
+			return result;
+		}
+		
+		/**
 		* 	@private
 		*/
 		private function testObject( value:Object ):Boolean
@@ -556,10 +835,9 @@ package com.ffsys.pattern
 			//non-collection object				
 			}else if( value is Object )
 			{
-				return compareList( [ value ] );
+				return validate( value );
 			}
-			
-			return false;		
+			return false;
 		}
 		
 		/**
@@ -826,7 +1104,7 @@ package com.ffsys.pattern
 			
 			if( root )
 			{			
-				x.appendChild( new XML( "<![CDATA[" + this.source + "]]>" ) );
+				x.appendChild( new XML( "<source><![CDATA[" + this.source + "]]></source>" ) );
 				
 				if( length > 0 )
 				{
@@ -906,23 +1184,42 @@ package com.ffsys.pattern
 		*/
 		public function get compiled():Boolean
 		{
-			return _compiled == "";
+			return _compiled != null
+				&& _source != null
+				&& _compiled == "";
 		}
 		
 		/**
+		* 	Compiles a source string into this pattern.
+		* 
+		* 	@param source The source string to compile.
+		*/
+		public function compile( source:String ):void
+		{
+			__compile( source );
+		}
+		
+		/**
+		* 	@private
+		* 	
 		* 	Compiles a string to a pattern.
 		* 
 		* 	Any existing patterns belonging to this pattern
 		* 	are removed before attempting to compile.
 		* 
 		* 	@param candidate The string candidate to compile.
+		* 	@param list Whether this pattern should be treated
+		* 	as a tree rather than a list structure.
 		* 	@param target An optional target to compile into,
 		* 	if not specified the pattern is compiled into this
 		* 	pattern.
 		* 
 		* 	@return A compiled pattern.
 		*/
-		public function compile( candidate:String, target:Pattern = null ):Pattern
+		private function __compile(
+			candidate:String,
+			tree:Boolean = true,
+			target:Pattern = null ):Pattern
 		{
 			if( target == null )
 			{
@@ -1023,7 +1320,11 @@ package com.ffsys.pattern
 					if( opens )
 					{
 						//opening a group update the parent target *after* adding the group
-						parentTarget = current;
+						
+						if( tree )
+						{
+							parentTarget = current;
+						}
 					}
 					
 					//close an open group
@@ -1031,7 +1332,13 @@ package com.ffsys.pattern
 						&& current != null )
 					{
 						current.setOpen( false );
-						parentTarget = Pattern( current.owner );
+						
+						//only manipulate the parent target
+						//when building tree structures
+						if( tree )
+						{
+							parentTarget = Pattern( current.owner );
+						}
 						current = parentTarget;
 					}
 

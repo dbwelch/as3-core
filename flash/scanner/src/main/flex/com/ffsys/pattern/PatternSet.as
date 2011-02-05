@@ -203,8 +203,10 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Retrieves a pattern at the specified
+		* 	Retrieves a child pattern at the specified
 		* 	index.
+		* 
+		* 	@param index The index for the child pattern.
 		*
 		* 	@return The pattern at the specified index
 		* 	or <code>null</code> if the index is out of
@@ -263,6 +265,9 @@ package com.ffsys.pattern
 			return false;
 		}
 		
+		/**
+		* 	The patterns belonging to this pattern.
+		*/
 		public function get children():Pattern
 		{
 			return null;
@@ -304,7 +309,12 @@ package com.ffsys.pattern
 		* 	a string or regular expression.
 		* 
 		* 	If this pattern is the root of a pattern hierarchy
-		* 	
+		* 	it's string representation is encapsulated with pattern://,
+		* 	otherwise the diminutive ptn:// is used.
+		* 
+		* 	@return A string representation of this pattern
+		* 	that distinguishes it from a string or regular
+		* 	expression.
 		*/
 		public function toPatternString():String
 		{

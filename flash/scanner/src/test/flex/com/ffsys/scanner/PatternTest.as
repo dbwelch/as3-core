@@ -7,7 +7,7 @@ package com.ffsys.scanner
 	import org.flexunit.async.Async;
 	
 	import com.ffsys.scanner.*;
-	import com.ffsys.pattern.*;	
+	import com.ffsys.pattern.*;
 	
 	/**
 	*	Unit tests for patterns.
@@ -25,13 +25,20 @@ package com.ffsys.scanner
 		[Test]
 		public function patternCompileTest():void
 		{	
+			var re:RegExp = /^[0-9]{11}$/;
+			var source:String = re.source;
+			var ptn:Pattern = new Pattern( re, true );
+			var xml:XML = ptn.xml;
+			Assert.assertEquals( source, ptn.source );
+			Assert.assertEquals( source, ptn.toString() );
+			Assert.assertEquals( source, ptn.regex.source );
+			Assert.assertEquals( source, xml.source.text()[0] );
+			
 			var candidates:Array = [ 201, 505 ];
 			
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
 			
-			var ptn:Pattern = new Pattern();
-			ptn.compile(
-				"^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{10,)?(alpha+numeri(c|k)?)+)$" );
+			ptn = new Pattern( new RegExp( "^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{10,)?(alpha+numeri(c|k)?)+)$" ), true );
 			
 			XML.prettyPrinting = true;
 			XML.prettyIndent = 2;

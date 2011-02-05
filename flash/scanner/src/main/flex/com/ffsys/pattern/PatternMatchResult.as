@@ -12,7 +12,7 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  04.03.2011
 	*/
-	public class PatternMatchResult extends Pattern
+	public class PatternMatchResult extends PatternSet
 	{
 		private var _pattern:Pattern;
 		private var _position:uint = 0;
@@ -21,6 +21,11 @@ package com.ffsys.pattern
 		
 		/**
 		* 	Creates a <code>PatternMatchResult</code> instance.
+		* 
+		* 	@param position The position in the pattern that the
+		* 	match occured at.
+		* 	@param pattern The pattern used for the match.
+		* 	@param target The target value being matched against.
 		*/
 		public function PatternMatchResult(
 			position:uint = 0,
@@ -94,8 +99,7 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Gets a string representation of this
-		* 	pattern match result.
+		* 	@inheritDoc
 		*/
 		override public function toString():String
 		{
