@@ -1528,32 +1528,42 @@
 	<xsl:template name="item">
 		<xsl:param name="input" select="''" />
 		<xsl:param name="prefix" select="''" />
+		<xsl:param name="escaped" select="false()" />
 		<xsl:param name="description" select="false()" />
 		<xsl:param name="delimiter" select="' -- '" />
 		<xsl:text>\item</xsl:text>
 		
-		<xsl:if test="not($description)">
-			<xsl:text> </xsl:text>
-		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="$escaped">
+				<xsl:text> </xsl:text>
+				<xsl:value-of select="$input" />
+				<xsl:value-of select="$newline" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:if test="not($description)">
+					<xsl:text> </xsl:text>
+				</xsl:if>
 		
-		<xsl:if test="$prefix != '' and not($description)">
-			<xsl:call-template name="escape">
-				<xsl:with-param name="input" select="$prefix"/>
-			</xsl:call-template>
-			<xsl:value-of select="$delimiter" />
-		</xsl:if>
+				<xsl:if test="$prefix != '' and not($description)">
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="$prefix"/>
+					</xsl:call-template>
+					<xsl:value-of select="$delimiter" />
+				</xsl:if>
 		
-		<xsl:if test="$prefix != '' and $description">
-			<xsl:text>[</xsl:text>
-			<xsl:call-template name="escape">
-				<xsl:with-param name="input" select="$prefix"/>
-			</xsl:call-template>
-			<xsl:text>]</xsl:text>
-			<xsl:text> </xsl:text>
-		</xsl:if>
+				<xsl:if test="$prefix != '' and $description">
+					<xsl:text>[</xsl:text>
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="$prefix"/>
+					</xsl:call-template>
+					<xsl:text>]</xsl:text>
+					<xsl:text> </xsl:text>
+				</xsl:if>
 		
-		<xsl:value-of select="$input" />
-		<xsl:value-of select="$newline" />
+				<xsl:value-of select="$input" />
+				<xsl:value-of select="$newline" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<xsl:template name="end-itemize">
@@ -2161,7 +2171,7 @@
 	<xsl:template name="start-subsubsection">
 		<xsl:text>\subsubsection{</xsl:text>
 	</xsl:template>
-	
+		
 	<xsl:template name="start-tag">
 		<xsl:param name="input" />
 		<xsl:if test="matches($input,'^i|em$')">
@@ -2173,6 +2183,7 @@
 		<xsl:if test="matches($input,'^code|codeph$')">
 			<xsl:call-template name="start-tt" />
 		</xsl:if>
+		
 		<xsl:if test="matches($input,'^h1$')">
 			<xsl:call-template name="start-section" />
 		</xsl:if>
@@ -2181,6 +2192,15 @@
 		</xsl:if>
 		<xsl:if test="matches($input,'^h3$')">
 			<xsl:call-template name="start-subsubsection" />
+		</xsl:if>
+		
+		
+		<xsl:if test="matches($input,'^ul|ol$')">
+			<xsl:call-template name="start-itemize" />
+		</xsl:if>
+		
+		<xsl:if test="matches($input,'^li$')">
+			<xsl:value-of select="'\item '" />
 		</xsl:if>
 		
 		<xsl:if test="matches($input,'^pre$')">
@@ -2199,10 +2219,14 @@
 		</xsl:if>		
 		<xsl:if test="matches($input,'^code|codeph$')">
 			<xsl:value-of select="$default-output" />
-		</xsl:if>
+		</xsl:if>		
 		<xsl:if test="matches($input,'^h1|h2|h3$')">
 			<xsl:value-of select="$default-output" />
-		</xsl:if>
+		</xsl:if>	
+		
+		<xsl:if test="matches($input,'^ul|ol$')">
+			<xsl:call-template name="end-itemize" />
+		</xsl:if>	
 		
 		<xsl:if test="matches($input,'^pre$')">
 			<xsl:call-template name="end-all-tt" />
@@ -2239,44 +2263,85 @@
 			</xsl:for-each>
 		</xsl:for-each>
 	</xsl:template>
-
-	<xsl:template name="sanitize">	
+	
+	<xsl:template name="sanitize-item">
 		<xsl:param name="input" />
-		<xsl:variable name="input" select="replace($input,'^\s+','')" />
-		<xsl:variable name="input" select="replace($input,'\s+$','')" />
 		
-		<xsl:variable name="x" select="saxon:parse(concat('&lt;root&gt;',$input,'&lt;/root&gt;'))" />
-		<xsl:for-each select="$x/root/text() | $x/root//* ">
+		<!-- <xsl:value-of select="concat( '[SANITIZE ITEM]: ', count( $input/text() ), ':', count( $input/* ), $newline )" /> -->
+		
+		<xsl:for-each select="$input/text() | $input/*">
+			<xsl:variable name="plain-circumflex" select="name() = 'pre' or ../name() = 'pre'" />
 			<xsl:choose>
-				<!-- pass text elements through escaped -->
+				<!-- pass text elements through escaped and cross-referenced -->
 				<xsl:when test="self::text()">
 					<xsl:call-template name="auto-xref">
 						<xsl:with-param name="input">
 							<xsl:call-template name="escape">
 								<xsl:with-param name="input" select="." />
+								<xsl:with-param name="plain-circumflex" select="$plain-circumflex" />
 							</xsl:call-template>
 						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:when>
+				<!-- handle tag to latex conversion -->
 				<xsl:otherwise>
-					<!-- handle markup elements -->
+					<!-- open the tag -->
 					<xsl:call-template name="start-tag">
 						<xsl:with-param name="input" select="name()" />
 					</xsl:call-template>
-					<xsl:call-template name="auto-xref">
-						<xsl:with-param name="input">					
-							<xsl:call-template name="escape">
+					
+					<!-- cross referenced and escaped content for the tag -->
+					<xsl:variable name="contents">
+						<xsl:call-template name="auto-xref">
+							<xsl:with-param name="input">	
+								<xsl:call-template name="escape">
+									<xsl:with-param name="input" select="." />
+									<xsl:with-param name="plain-circumflex" select="$plain-circumflex" />
+								</xsl:call-template>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:variable>
+					
+					<xsl:choose>
+						<!-- sanitize child elements -->
+						<xsl:when test="count( ./text() | ./* ) &gt; 0">
+							<!-- <xsl:value-of select="concat( '[RECURSE THROUGH CHILD NODES]', name() , $newline )" /> -->
+							<xsl:call-template name="sanitize-item">
 								<xsl:with-param name="input" select="." />
-								<xsl:with-param name="plain-circumflex" select="name() = 'pre'" />
 							</xsl:call-template>
-						</xsl:with-param>
-					</xsl:call-template>					
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$contents" />
+						</xsl:otherwise>
+					</xsl:choose>
+					
+					<!-- close the tag -->
 					<xsl:call-template name="end-tag">
 						<xsl:with-param name="input" select="name()" />
 					</xsl:call-template>
+					
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template name="sanitize">	
+		<xsl:param name="input" />
+		
+		<!--
+		<xsl:variable name="input" select="replace($input,'^\s+','')" />
+		<xsl:variable name="input" select="replace($input,'\s+$','')" />
+		-->
+		
+		<!-- <xsl:value-of select="concat( '[SANITIZE ESCAPED]: ', $input, $newline, $newline )" /> -->
+		
+		<!-- handle escaped markup by parsing into a document using saxon:parse() -->
+		<xsl:variable name="x" select="saxon:parse(concat('&lt;root&gt;',$input,'&lt;/root&gt;'))" />
+		<!-- <xsl:for-each select="$x/root/text() | $x/root/*"> -->
+			<xsl:call-template name="sanitize-item">
+				<xsl:with-param name="input" select="$x/root" />
+			</xsl:call-template>
+		<!-- </xsl:for-each> -->
 	</xsl:template>
 	
 	<xsl:template name="description-paragraph">

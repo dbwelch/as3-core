@@ -25,6 +25,26 @@
 *	but complex rules can become unwieldy to manage unless broken down into
 *	smaller pattern rules.
 *
+*	<h1>Terminology</h1>
+*
+*	<ul>
+*		<li>source expression -- An expression that defines the pattern, either a regular expression or string.</li>
+*		<li>meta character -- A single character that has special meaning in a pattern.</li>
+*		<li>meta sequence -- A sequence of two or more characters that has special meaning in a pattern.</li>
+*		<li>group -- An expression encapsulated using parentheses, <code>([a-z])</code>.</li>
+*		<li>named group -- A group that has been assigned a name, (?P&lt;id&gt;); where <code>id</code> is the name of the group.</li>
+*		<li>range -- A character class expression, <code>[0-9]</code>.</li>
+*		<li>quantifier range -- A quantifier range, {2}, {2,4} or {2,}.</li>
+*		<li>quantifier -- Any quantifier including the meta characters <code>+</code>, <code>?</code> and <code>&#42;</code> or a quantifier range.</li>
+*		<li>meta -- Any meta character or meta sequence.</li>
+*		<li>character -- Any single character that is not a meta character or meta sequence.</li>
+*		<li>character sequence -- A sequence of one or more characters that are not a meta character or meta sequence.</li>
+*		<li>inline character quantifier -- A <em>quantifier</em> that appears between <em>character sequences</em>, <code>alpha+numeric</code>.</li>
+*		<li>data -- A character sequence that may contain zero or more <em>inline character quantifiers</em>.</li>
+*		<li>pattern -- Any of the above.</li>
+*		<li>pattern list -- A sequential collection of zero or more patterns.</li>
+*	</ul>
+*
 *	<h1>Representation</h1>
 *
 *	All patterns can be represented as a string
@@ -270,6 +290,18 @@
 *	<pre>var tokens:Vector.&lt;Token&gt; = new Vector.&lt;Token&gt;();
 *	// ...configure token list here
 *	var matched:Boolean = ptn.list( tokens );</pre>
+*
+*	<h1>Usage Notes</h1>
+*
+*	Groups are very important to the pattern recognition logic used when compiling a pattern
+*	so it is recommended that you always declare groups in pattern expressions.
+*
+*	<h1>Implementation Notes</h1>
+*
+*	In order for a the compiler to capture a correct tree analysis for the pattern
+*	it must group sequences that are not already grouped, therefore it is inherently
+*	more efficient if these groups are always declared in the source expression,
+*	see the usage notes for more information.
 */
 package com.ffsys.pattern
 {
@@ -625,7 +657,7 @@ package com.ffsys.pattern
 				{
 					_min = getOccurences().min;
 				}
-			}else if( group || range )
+			}else
 			{
 				if( _min == -1 && _max == -1 )
 				{
@@ -654,20 +686,19 @@ package com.ffsys.pattern
 				{
 					_max = getOccurences().max;
 				}
-			}else if( group || range )
+			}else
 			{
 				if( _min == -1 && _max == -1 )
 				{
 					_min = 1;
 					_max = 1;
 				}
-				
 				if( nextSibling != null
 					&& nextSibling.quantifier )
 				{
 					_max = nextSibling.maximum;
-				}				
-			}			
+				}
+			}		
 			return _max;
 		}
 		
@@ -758,7 +789,6 @@ package com.ffsys.pattern
 			return false;
 		}
 		
-		
 		/**
 		* 	Determines whether this is a lazy quantifier.
 		* 
@@ -784,7 +814,6 @@ package com.ffsys.pattern
 		public function get lazy():Boolean
 		{
 			if( nextSibling != null
-				&& ( group || range )
 				&& nextSibling.quantifier )
 			{
 				return nextSibling.lazy;
@@ -816,18 +845,19 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether this is a data pattern.
+		* 	Determines whether this is a character match
+		* 	data pattern.
 		* 
-		* 	A data pattern does not contain groups
+		* 	A character match data pattern does not contain groups
 		* 	or character classes buy may contain quantifiers that
-		* 	apply to a preceeding <em>character</em>.
+		* 	apply to a preceding <em>character</em>.
 		* 
 		* 	This implies that quantifiers in data patterns may
 		* 	be intermingled with other data elements and appear
 		* 	at the end (apply to the last character), but may not
 		* 	appear at the beginning of a data pattern
 		* 	as the quantifier should be applied to the
-		* 	preceeding pattern.
+		* 	preceding pattern.
 		*/
 		public function get data():Boolean
 		{
@@ -1234,7 +1264,7 @@ package com.ffsys.pattern
 		
 		/**
 		* 	Determines whether this pattern has any special
-		* 	meaning cancelled by a preceeding escape sequence.
+		* 	meaning cancelled by a preceding escape sequence.
 		*/
 		public function get cancelled():Boolean
 		{
@@ -1394,7 +1424,8 @@ package com.ffsys.pattern
 			//for any subsequent quantifier or if
 			//the group is not quantified reports
 			//a count of one
-			if( quantifier || range || group )
+			if( !quantifier
+				&& nextSibling != null && nextSibling.quantifier )
 			{
 				x.@lazy = this.lazy;
 				//single quantifier occurence amount
@@ -1489,14 +1520,14 @@ package com.ffsys.pattern
 					
 					//skip quantifier elements as
 					//their values should be represented
-					//by the preceeding pattern they apply to
+					//by the preceding pattern they apply to
 					if( !ptn.quantifier )
 					{
 						children.appendChild( child );
 					}
 					
 					//apply the quantifier source as an
-					//attribute of the preceeding element
+					//attribute of the preceding element
 					if( ptn.quantifier
 						&& previous != null )
 					{
@@ -1797,12 +1828,17 @@ package com.ffsys.pattern
 			_compiled = _compiled.substr( ptn.source.length );
 						
 			//a cancelled meta character/sequence
-			//fold into the character matching data
-			if( ptn.cancelled
-				&& ptn.previousSibling.data )
+			if( ptn.cancelled )
 			{
-				ptn.previousSibling.source += ptn.source;
-				return _compiled;
+				//fold into any previous character matching data
+				//if we can
+				if( ptn.previousSibling.data )
+				{
+					ptn.previousSibling.source += ptn.source;
+					return _compiled;
+				}else{
+					trace("Pattern::get compiled()", "[FOUND ESCAPED META SEQUENCE WITH NO PREVIOUS CHARACTER MATCH]", ptn );
+				}
 			}
 			
 			parent.add( ptn );

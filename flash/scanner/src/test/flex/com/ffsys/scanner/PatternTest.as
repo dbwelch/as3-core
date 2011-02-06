@@ -39,12 +39,12 @@ package com.ffsys.scanner
 			}
 						
 			var source:String =
-				"((?P<name>\\w( \\w)+)"
+				"((?P<name>\\w+( \\w+)*)"
 				+ "|(?P<number>\\d+[a-zA-Z]?))" 		//alternation between name and number ’|’
-				+ "(?P<address1>\\w( \\w)+)"
-				+ "(?P<address2>\\w( \\w)+)?"			//added optionality to address2 ’?’
-				+ "(?P<city>\\w( \\w)+)"
-				+ "(?P<county>\\w( \\\\w)+)"
+				+ "(?P<address1>\\w+( \\w+)*)"
+				+ "(?P<address2>\\w+( \\w+)*)?"			//added optionality to address2 ’?’
+				+ "(?P<city>\\w+( \\w+)*)"
+				+ "(?P<county>\\w+(alpha+ \\\\w+)\\\\+)"
 				+ "(?P<postcode>)[a-zA-Z]{1,2}[0-9a-zA-Z]{1,2}( [0-9]{1,2}[a-zA-Z]{1,2})?";			
 				
 			var ptn:Pattern = new Pattern( source, true );
