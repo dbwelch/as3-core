@@ -30,7 +30,8 @@
 *	a <code>String</code> through to the <code>XML</code>
 *	representation of a pattern.
 *
-*	<pre>var re:RegExp = /^[0-9]{10,11}$/;
+*	<pre>default xml namespace = Pattern.NAMESPACE;
+*	var re:RegExp = /^[0-9]{10,11}$/;
 *	var source:String = re.source;
 *	var ptn:Pattern = new Pattern( re, true );
 *	var xml:XML = ptn.xml;	
@@ -275,7 +276,15 @@ package com.ffsys.pattern
 	*	@since  01.03.2011
 	*/
 	dynamic public class Pattern extends PatternSet
-	{
+	{	
+		/**
+		* 	The namespace used when creating <code>XML</code>
+		* 	representations of a pattern.
+		*/
+		public static const NAMESPACE:Namespace = new Namespace(
+			"ptn",
+			"http://pattern.freeformsystems.com" );
+						
 		/**
 		* 	A meta character that indicates
 		* 	the start position or negation
@@ -394,14 +403,34 @@ package com.ffsys.pattern
 		*/
 		public static const NAMED_GROUP_SEQUENCE:String = "?P";
 		
+		/**
+		*	Represents the <code>g</code> flag, the
+		* 	<code>global</code> property.
+		*/
 		public static const GLOBAL_FLAG:String = "g";
 		
+		/**
+		*	Represents the <code>s</code> flag, the
+		* 	<code>dotall</code> property.
+		*/
 		public static const DOTALL_FLAG:String = "s";
 		
+		/**
+		*	Represents the <code>x</code> flag, the
+		* 	<code>extended</code> property.
+		*/
 		public static const EXTENDED_FLAG:String = "x";
 		
+		/**
+		*	Represents the <code>m</code> flag, the
+		* 	<code>multiline</code> property.
+		*/
 		public static const MULTILINE_FLAG:String = "m";
 		
+		/**
+		*	Represents the <code>i</code> flag, the
+		* 	<code>ignoreCase</code> property.
+		*/
 		public static const IGNORE_CASE_FLAG:String = "i";
 		
 		private var _patterns:Vector.<Pattern>;
@@ -933,7 +962,7 @@ package com.ffsys.pattern
 			match.result = re.test( value as String );
 			
 			trace("[MATCH] Pattern::test()",
-				value, re, re.test( value as String ), match, match.result );
+				value, re, re.test( value as String ), match.result );
 			
 			//add the match result to this pattern
 			this[ position ] = match;
@@ -1207,7 +1236,7 @@ package com.ffsys.pattern
 					}else if( chunk )
 					{
 						nm = "data";
-					}				
+					}
 				}
 			}
 			return nm == null ? "pattern" : nm;
@@ -1222,12 +1251,13 @@ package com.ffsys.pattern
 			
 			var i:int = 0;
 			var name:String = this.name;
-			var x:XML = new XML( "<" + name + " />" );
+			var x:XML = getXmlElement();
+			
 			if( !root && !group )
 			{	
 				if( range || meta || chunk )
 				{
-					x = new XML( "<" + name + "><![CDATA[" + toString() + "]]></" + name + ">" );
+					x = getXmlElement( null, toString() );
 				}
 				if( range )
 				{
@@ -1296,11 +1326,11 @@ package com.ffsys.pattern
 			
 			if( root )
 			{			
-				x.appendChild( new XML( "<source><![CDATA[" + this.source + "]]></source>" ) );
+				x.appendChild( getXmlElement( SOURCE, this.source ) );
 				
 				if( length > 0 )
 				{
-					var results:XML = new XML( "<" + RESULTS + "/>" );
+					var results:XML = getXmlElement( RESULTS );
 					var match:PatternMatchResult = null;
 					for( i = 0;i < length;i++ )
 					{
@@ -1311,16 +1341,18 @@ package com.ffsys.pattern
 				}
 			}else
 			{
-				x.appendChild( new XML( "<source><![CDATA[" + toString() + "]]></source>" ) );
+				//x.appendChild( new XML( "<source><![CDATA[" + toString() + "]]></source>" ) );
+				
+				x.appendChild( getXmlElement( SOURCE, toString() ) );
 			}
 			
 			if( ptns != null && ptns.length > 0 )
 			{
-				var children:XML = new XML( "<patterns />" );
+				var children:XML = getXmlElement( PATTERNS );
 				x.appendChild( children );
 				var ptn:Pattern = null;
 				var child:XML = null;
-				var previous:XML = null;				
+				var previous:XML = null;
 				for( i = 0;i < ptns.length;i++ )
 				{
 					ptn = ptns[ i ];

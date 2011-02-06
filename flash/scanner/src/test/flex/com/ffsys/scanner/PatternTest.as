@@ -25,6 +25,8 @@ package com.ffsys.scanner
 		[Test]
 		public function patternCompileTest():void
 		{	
+			default xml namespace = Pattern.NAMESPACE;
+			
 			//pattern to match a UK mobile number
 			//with optional leading zero
 			var re:RegExp = /^[0-9]{10,11}$/;
@@ -34,6 +36,9 @@ package com.ffsys.scanner
 			Assert.assertEquals( source, ptn.source );
 			Assert.assertEquals( source, ptn.toString() );
 			Assert.assertEquals( source, ptn.regex.source );
+			
+			trace("PatternTest::patternCompileTest()", xml.toXMLString() );
+			
 			Assert.assertEquals( source, xml.source.text()[0] );
 			
 			trace("PatternTest::patternCompileTest()", ptn, ptn.test( 07900123456 ) );

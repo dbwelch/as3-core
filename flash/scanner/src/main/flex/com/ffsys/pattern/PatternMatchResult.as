@@ -111,25 +111,21 @@ package com.ffsys.pattern
 		*/
 		private function getXml( simple:Boolean = true ):XML
 		{
-			var x:XML = new XML( "<" + MATCH + " />" );
+			var x:XML = getXmlElement( MATCH );
 			x.@position = position;			
 			x.@result = result;
 			if( !simple )
 			{
 				if( target != null )
 				{
-					var src:XML = new XML( "<target><![CDATA["
-						+ target + "]]></target>" );
+					var src:XML = getXmlElement( TARGET, target );
 					src.@type = getQualifiedClassName( target );
 					x.appendChild( src );
 				}
 				if( pattern != null )
 				{
-					x.appendChild(
-						new XML(
-						"<" + PATTERN + "><![CDATA["
-						+ pattern.toPatternString()
-						+ "]]></" + PATTERN + ">" ) );
+					x.appendChild( getXmlElement(
+						PATTERN, pattern.toPatternString() ) );
 				}
 			}
 			return x;

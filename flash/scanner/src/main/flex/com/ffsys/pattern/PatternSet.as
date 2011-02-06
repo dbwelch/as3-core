@@ -10,7 +10,7 @@ package com.ffsys.pattern
 	*	@since  01.03.2011
 	*/
 	dynamic public class PatternSet extends Array
-	{	
+	{					
 		/**
 		* 	The delimiter used to mark the
 		* 	beginning and end of a pattern.
@@ -18,9 +18,19 @@ package com.ffsys.pattern
 		public static const DELIMITER:String = "/";
 		
 		/**
-		* 	The name for a root pattern.
+		* 	The name for a pattern rule.
+		*/
+		public static const RULE:String = "rule";
+		
+		/**
+		* 	The name for a pattern.
 		*/
 		public static const PATTERN:String = "pattern";
+		
+		/**
+		* 	The name for a list of patterns.
+		*/
+		public static const PATTERNS:String = "patterns";
 		
 		/**
 		* 	The name for a pattern that belongs
@@ -41,7 +51,17 @@ package com.ffsys.pattern
 		/**
 		* 	The name for a pattern match.
 		*/
-		public static const MATCH:String = "match";		
+		public static const MATCH:String = "match";	
+		
+		/**
+		* 	The name for the target of a pattern match.
+		*/
+		public static const TARGET:String = "target";
+		
+		/**
+		* 	The name for the source of a pattern.
+		*/
+		public static const SOURCE:String = "source";
 		
 		private var _patterns:Vector.<Pattern>;
 		private var _name:String;
@@ -338,6 +358,28 @@ package com.ffsys.pattern
 		public function get root():Boolean
 		{
 			return ( owner == null );
+		}
+		
+		
+		/**
+		* 	@private
+		*/
+		protected function getXmlElement(
+			nm:String = null,
+			cdata:String = null ):XML
+		{
+			if( nm == null )
+			{
+				nm = this.name;
+			}
+			var x:XML = new XML( "<node />" );
+			x.setNamespace( Pattern.NAMESPACE );
+			x.setName( new QName( Pattern.NAMESPACE, nm ) );
+			if( cdata != null )
+			{
+				x.appendChild( new XML( "<![CDATA[" + cdata + "]]>" ) );
+			}
+			return x;
 		}
 	}
 }
