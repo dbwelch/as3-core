@@ -13,11 +13,6 @@
 *	An understanding of regular expression syntax is assumed
 *	for the rest of this documentation.
 *
-*	Note that when discussing quantifiers that have <em>unlimited</em>
-*	or <em>infinite</em> maximum matches in reality there is a 
-*	limit that corresponds to <code>uint.MAX_VALUE</code> but
-*	for brevity's sake it's easier to describe them as <em>unlimited</em>.
-*
 *	<h1>Abstract</h1>
 *
 *	Regular expressions are something of a double-edged sword. The powerful
@@ -27,23 +22,32 @@
 *
 *	<h1>Terminology</h1>
 *
+*	<h2>Source Expression</h2>
+*	<a name="#ptnlib:term:source:expression" />
+*
 *	<ul>
-*		<li>source expression -- An expression that defines the pattern, either a regular expression or string.</li>
-*		<li>meta character -- A single character that has special meaning in a pattern.</li>
-*		<li>meta sequence -- A sequence of two or more characters that has special meaning in a pattern.</li>
-*		<li>group -- An expression encapsulated using parentheses, <code>([a-z])</code>.</li>
-*		<li>named group -- A group that has been assigned a name, (?P&lt;id&gt;); where <code>id</code> is the name of the group.</li>
-*		<li>range -- A character class expression, <code>[0-9]</code>.</li>
-*		<li>quantifier range -- A quantifier range, {2}, {2,4} or {2,}.</li>
-*		<li>quantifier -- Any quantifier including the meta characters <code>+</code>, <code>?</code> and <code>&#42;</code> or a quantifier range.</li>
-*		<li>meta -- Any meta character or meta sequence.</li>
-*		<li>character -- Any single character that is not a meta character or meta sequence.</li>
-*		<li>character sequence -- A sequence of one or more characters that are not a meta character or meta sequence.</li>
-*		<li>inline character quantifier -- A <em>quantifier</em> that appears between <em>character sequences</em>, <code>alpha+numeric</code>.</li>
-*		<li>data -- A character sequence that may contain zero or more <em>inline character quantifiers</em>.</li>
-*		<li>pattern -- Any of the above.</li>
-*		<li>pattern list -- A sequential collection of zero or more patterns.</li>
+*		<li><strong>source expression</strong> -- An expression that defines the pattern, either a <code>RegExp</code> or <code>String</code> in Actionscript.</li>
+*		<li><strong>meta character</strong> -- A single character that has special meaning in a <em>pattern</em>.</li>
+*		<li><strong>meta sequence</strong> -- A sequence of two or more characters that has special meaning in a <em>pattern</em>.</li>
+*		<li><strong>group</strong> -- An expression encapsulated using parentheses, <code>([a-z])</code>.</li>
+*		<li><strong>named group</strong> -- A group that has been assigned a name, (?P&lt;id&gt;); where <code>id</code> is the name of the group.</li>
+*		<li><strong>range</strong> -- A character class expression, <code>[0-9]</code>.</li>
+*		<li><strong>quantifier range</strong> -- A quantifier range, {2}, {2,4} or {2,}.</li>
+*		<li><strong>quantifier</strong> -- Any quantifier including the meta characters <code>+</code>, <code>?</code> and <code>&#42;</code> or a quantifier range.</li>
+*		<li><strong>meta</strong> -- Any meta character or meta sequence.</li>
+*		<li><strong>character</strong> -- Any single character that is not a meta character or meta sequence.</li>
+*		<li><strong>character sequence</strong> -- A sequence of one or more characters that are not a meta character or meta sequence.</li>
+*		<li><strong>inline character quantifier</strong> -- A <em>quantifier</em> that appears between <em>character sequences</em>, <code>alpha+numeric</code>.</li>
+*		<li><strong>data</strong> -- A character sequence that may contain zero or more <em>inline character quantifiers</em>.</li>
+*		<a name="#term:pattern" />
+*		<li><strong>pattern</strong> -- Any of the above.</li>
+*		<li><strong>pattern list</strong> -- A sequential collection of zero or more patterns.</li>
 *	</ul>
+*
+*	Note that when discussing quantifiers that have <em>unlimited</em>
+*	or <em>infinite</em> maximum matches in reality there is a 
+*	limit that corresponds to <code>uint.MAX_VALUE</code> but
+*	for brevity's sake it's easier to describe them as <em>unlimited</em>.
 *
 *	<h1>Representation</h1>
 *
@@ -292,6 +296,7 @@
 *	var matched:Boolean = ptn.list( tokens );</pre>
 *
 *	<h1>Usage Notes</h1>
+*	<a name="#ptnlib:usage:notes" />
 *
 *	Groups are very important to the pattern recognition logic used when compiling a pattern
 *	so it is recommended that you always declare groups in pattern expressions.
@@ -301,7 +306,7 @@
 *	In order for a the compiler to capture a correct tree analysis for the pattern
 *	it must group sequences that are not already grouped, therefore it is inherently
 *	more efficient if these groups are always declared in the source expression,
-*	see the usage notes for more information.
+*	see <a href="#ptnlib:usage:notes" />.
 */
 package com.ffsys.pattern
 {

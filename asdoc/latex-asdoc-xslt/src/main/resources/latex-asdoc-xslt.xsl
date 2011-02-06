@@ -2285,41 +2285,58 @@
 				</xsl:when>
 				<!-- handle tag to latex conversion -->
 				<xsl:otherwise>
-					<!-- open the tag -->
-					<xsl:call-template name="start-tag">
-						<xsl:with-param name="input" select="name()" />
-					</xsl:call-template>
-					
-					<!-- cross referenced and escaped content for the tag -->
-					<xsl:variable name="contents">
-						<xsl:call-template name="auto-xref">
-							<xsl:with-param name="input">	
-								<xsl:call-template name="escape">
-									<xsl:with-param name="input" select="." />
-									<xsl:with-param name="plain-circumflex" select="$plain-circumflex" />
-								</xsl:call-template>
-							</xsl:with-param>
-						</xsl:call-template>
-					</xsl:variable>
-					
+					<xsl:variable name="isLabel" select="name() = 'a' and @name != '' and starts-with( @name, '#' )" />
+					<xsl:variable name="isXref" select="name() = 'a' and @href != '' and starts-with( @href, '#' )" />
 					<xsl:choose>
-						<!-- sanitize child elements -->
-						<xsl:when test="count( ./text() | ./* ) &gt; 0">
-							<!-- <xsl:value-of select="concat( '[RECURSE THROUGH CHILD NODES]', name() , $newline )" /> -->
-							<xsl:call-template name="sanitize-item">
-								<xsl:with-param name="input" select="." />
-							</xsl:call-template>
+						<xsl:when test="$isLabel or $isXref">
+							<xsl:if test="$isLabel">
+								<xsl:call-template name="label">
+									<xsl:with-param name="title" select="substring-after( @name, '#' )" />
+								</xsl:call-template>
+							</xsl:if>
+							<xsl:if test="$isXref">
+								<xsl:call-template name="nameref">
+									<xsl:with-param name="input" select="substring-after( @href, '#' )" />
+								</xsl:call-template>
+							</xsl:if>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="$contents" />
+							<!-- open the tag -->
+							<xsl:call-template name="start-tag">
+								<xsl:with-param name="input" select="name()" />
+							</xsl:call-template>
+
+							<!-- cross referenced and escaped content for the tag -->
+							<xsl:variable name="contents">
+								<xsl:call-template name="auto-xref">
+									<xsl:with-param name="input">	
+										<xsl:call-template name="escape">
+											<xsl:with-param name="input" select="." />
+											<xsl:with-param name="plain-circumflex" select="$plain-circumflex" />
+										</xsl:call-template>
+									</xsl:with-param>
+								</xsl:call-template>
+							</xsl:variable>
+
+							<xsl:choose>
+								<!-- sanitize child elements -->
+								<xsl:when test="count( ./text() | ./* ) &gt; 0">
+									<!-- <xsl:value-of select="concat( '[RECURSE THROUGH CHILD NODES]', name() , $newline )" /> -->
+									<xsl:call-template name="sanitize-item">
+										<xsl:with-param name="input" select="." />
+									</xsl:call-template>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$contents" />
+								</xsl:otherwise>
+							</xsl:choose>
+
+							<!-- close the tag -->
+							<xsl:call-template name="end-tag">
+								<xsl:with-param name="input" select="name()" />
+							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>
-					
-					<!-- close the tag -->
-					<xsl:call-template name="end-tag">
-						<xsl:with-param name="input" select="name()" />
-					</xsl:call-template>
-					
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>
@@ -2336,7 +2353,7 @@
 		<!-- <xsl:value-of select="concat( '[SANITIZE ESCAPED]: ', $input, $newline, $newline )" /> -->
 		
 		<!-- handle escaped markup by parsing into a document using saxon:parse() -->
-		<xsl:variable name="x" select="saxon:parse(concat('&lt;root&gt;',$input,'&lt;/root&gt;'))" />
+		<xsl:variable name="x" select="saxon:parse(concat('&lt;root&gt;',string($input),'&lt;/root&gt;'))" />
 		<!-- <xsl:for-each select="$x/root/text() | $x/root/*"> -->
 			<xsl:call-template name="sanitize-item">
 				<xsl:with-param name="input" select="$x/root" />
