@@ -147,12 +147,12 @@
 *	such as:
 *
 *	<pre>var source:String =
-*		"(?P&lt;name&gt;\w( \w)+)"
-*		+ "(?P&lt;number&gt;\d+[a-zA-Z]?)"
-*		+ "(?P&lt;address1&gt;\w( \w)+)"
-*		+ "(?P&lt;address2&gt;\w( \w)+)"
-*		+ "(?P&lt;city&gt;\w( \w)+)"
-*		+ "(?P&lt;county&gt;\w( \w)+)"
+*		"(?P&lt;name&gt;\\w( \\w)+)"
+*		+ "(?P&lt;number&gt;\\d+[a-zA-Z]?)"
+*		+ "(?P&lt;address1&gt;\\w( \\w)+)"
+*		+ "(?P&lt;address2&gt;\\w( \\w)+)"
+*		+ "(?P&lt;city&gt;\\w( \\w)+)"
+*		+ "(?P&lt;county&gt;\\w( \\w)+)"
 *		+ "(?P&lt;postcode&gt;)[a-zA-Z]{1,2}[0-9a-zA-Z]{1,2}( [0-9]{1,2}[a-zA-Z]{1,2})?";
 *	//create the compiled pattern
 *	var ptn:Pattern = new Pattern( source, true );</pre>
@@ -168,12 +168,12 @@
 *	The updated source pattern would look like:
 *
 *	<pre>var source:String =
-*		"((?P&lt;name&gt;\w( \w)+)"
-*		+ "|(?P&lt;number&gt;\d+[a-zA-Z]?))"  //alternation between name and number '|'
-*		+ "(?P&lt;address1&gt;\w( \w)+)"
-*		+ "(?P&lt;address2&gt;\w( \w)+)?"     //added optionality to address2 '?'
-*		+ "(?P&lt;city&gt;\w( \w)+)"
-*		+ "(?P&lt;county&gt;\w( \w)+)"
+*		"((?P&lt;name&gt;\\w( \\w)+)"
+*		+ "|(?P&lt;number&gt;\\d+[a-zA-Z]?))"  //alternation between name and number '|'
+*		+ "(?P&lt;address1&gt;\\w( \\w)+)"
+*		+ "(?P&lt;address2&gt;\\w( \\w)+)?"     //added optionality to address2 '?'
+*		+ "(?P&lt;city&gt;\\w( \\w)+)"
+*		+ "(?P&lt;county&gt;\\w( \\w)+)"
 *		+ "(?P&lt;postcode&gt;)[a-zA-Z]{1,2}[0-9a-zA-Z]{1,2}( [0-9]{1,2}[a-zA-Z]{1,2})?";</pre>
 *
 *	You can then <code>validate</code> this pattern rule against any arbitrary object
@@ -413,6 +413,8 @@ package com.ffsys.pattern
 		*/
 		public static const NAMED_GROUP_SEQUENCE:String = "?P";
 		
+		
+		
 		/**
 		*	Represents the <code>g</code> flag, the
 		* 	<code>global</code> property.
@@ -551,7 +553,7 @@ package com.ffsys.pattern
 			{
 				value = "";
 			}
-			value = value.replace( /[^xmigs]/, "" );
+			value = value.replace( /[^xmigs]/g, "" );
 			//regex is invalidated on flag change
 			_regex = new RegExp( this.regex.source, value );
 		}
@@ -781,9 +783,9 @@ package com.ffsys.pattern
 		*/
 		public function get lazy():Boolean
 		{
-			if( group || range
-				&& ( nextSibling != null
-				&& nextSibling.quantifier ) )
+			if( nextSibling != null
+				&& ( group || range )
+				&& nextSibling.quantifier )
 			{
 				return nextSibling.lazy;
 			}
@@ -810,7 +812,7 @@ package com.ffsys.pattern
 		*/
 		public function get meta():Boolean
 		{
-			return isMetaSequence( this.source );
+			return isMetaSequence( this.source ) || shortcut;
 		}
 		
 		/**
@@ -857,10 +859,8 @@ package com.ffsys.pattern
 			{
 				value = RegExp( value ).source;
 				_regex = value as RegExp;
-				//TODO: extract flags
-				trace("Pattern::set source()", "[EXTRACTED REGEX SOURCE]", value );
+				//trace("Pattern::set source()", "[EXTRACTED REGEX SOURCE]", value );
 			}
-			
 			return "" + value;
 		}
 		
@@ -1203,6 +1203,61 @@ package com.ffsys.pattern
 		}
 		
 		/**
+		* 	Retrieves all escape characters (<code>\</code>)
+		* 	at the end of the source of this pattern.
+		*/
+		public function get escapes():String
+		{
+			var re:RegExp = /(\\+)$/;
+			if( re.test( source ) )
+			{
+				var results:Array = re.exec( source );
+				if( results != null && results[ 1 ] is String )
+				{
+					return results[ 1 ] as String;
+				}
+			}
+			return null;
+		}
+		
+		/**
+		* 	Determines whether this pattern is an escape
+		* 	sequence and would cancel the special meaning
+		* 	of any subsequent pattern.
+		*/
+		public function get cancels():Boolean
+		{
+			return escapes != null
+				&& ( escapes.length == 1
+					|| escapes.length % 2 != 0 );
+		}
+		
+		/**
+		* 	Determines whether this pattern has any special
+		* 	meaning cancelled by a preceeding escape sequence.
+		*/
+		public function get cancelled():Boolean
+		{
+			if( previousSibling != null )
+			{
+				if( previousSibling.cancels )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		/**
+		* 	Determines whether this pattern represents
+		* 	an escaped character class shortcut.
+		*/
+		public function get shortcut():Boolean
+		{
+			return isShortCut( this.source );
+		}
+		
+		/**
 		* 	@private
 		*/
 		override public function get children():PatternList
@@ -1361,6 +1416,11 @@ package com.ffsys.pattern
 				}
 			}
 			
+			if( cancelled )
+			{
+				x.@cancelled = cancelled;
+			}
+			
 			//shortcut out for simple types
 			if( !rule && !group )
 			{	
@@ -1500,7 +1560,6 @@ package com.ffsys.pattern
 		*/
 		private function __compile(
 			candidate:String,
-			tree:Boolean = true,
 			target:Pattern = null ):Pattern
 		{
 			if( target == null )
@@ -1531,12 +1590,14 @@ package com.ffsys.pattern
 
 				var current:Pattern = null;				
 						
-				trace("[CANDIDATE] PatternBuilder::build()", _compiled );
+				trace("[COMPILE] PatternBuilder::compile()", _compiled );
 
 				//candidate for valid actionscript property names
 				var prop:String = "(?:[a-zA-Z_\\$]{1}[a-zA-Z0-9_\\$]*)";
 				
-				var expr:String = "\\\\?(?:\\?!|\\?:|\\?=|\\?P|\\[|\\]|[()|^\\$:<>.\\-]){1}";
+				//meta sequences '\b', '\n' etc, etc
+				
+				var expr:String = "(?:" + __sequence + "|\\?!|\\?:|\\?=|\\?P|\\[|\\]|[()|^\\$<>]){1}";
 
 				var re:RegExp = new RegExp( "(" + expr + ")" );
 				var results:Array = re.exec( _compiled );
@@ -1602,11 +1663,7 @@ package com.ffsys.pattern
 					if( opens )
 					{
 						//opening a group update the parent target *after* adding the group
-						
-						if( tree )
-						{
-							parentTarget = current;
-						}
+						parentTarget = current;
 					}
 					
 					//close an open group
@@ -1614,13 +1671,7 @@ package com.ffsys.pattern
 						&& current != null )
 					{
 						current.setOpen( false );
-						
-						//only manipulate the parent target
-						//when building tree structures
-						if( tree )
-						{
-							parentTarget = Pattern( current.owner );
-						}
+						parentTarget = Pattern( current.owner );
 						current = parentTarget;
 					}
 
@@ -1742,12 +1793,23 @@ package com.ffsys.pattern
 			ptn:Pattern,
 			part:Boolean = false ):String
 		{
+			//chomp the matched string
+			_compiled = _compiled.substr( ptn.source.length );
+						
+			//a cancelled meta character/sequence
+			//fold into the character matching data
+			if( ptn.cancelled
+				&& ptn.previousSibling.data )
+			{
+				ptn.previousSibling.source += ptn.source;
+				return _compiled;
+			}
+			
 			parent.add( ptn );
 			if( part )
 			{
 				addCompilationPart( ptn );
 			}
-			_compiled = _compiled.substr( ptn.source.length );
 			return _compiled;
 		}
 		
@@ -2228,25 +2290,19 @@ package com.ffsys.pattern
 				|| char == GREATER_THAN;			
 		}
 		
-		private static var __group:RegExp = new RegExp(
+		/*
+		*	REGEX INTERNALS
+		*/
+		
+		/**
+		* 	@private
+		*/
+		protected static var __group:RegExp = new RegExp(
 			"^(?:"
 			+ "\\" + LPAREN
 			+ "|\\" + LBRACKET
 			+ "|\\" + LBRACE
 			+ "|\\" + LESS_THAN + ")"
 		);		
-
-		private static var __quantifierRangeExpr:String =
-			"(?:\\{(?:[0-9]+)(?:,[0-9]*)?\\})";
-		
-		private static var __quantifierRange:RegExp =
-			new RegExp( "^(" + __quantifierRangeExpr + ")+$" );
-				
-		private static var __quantifiers:String =
-			"(?:" + __quantifierRangeExpr + "|\\*|\\+|\\?){1}"
-			+ "(?:\\?)?";	//additional lazy quantifier
-		
-		private static var __quantity:RegExp = new RegExp( "(" + __quantifiers + ")" );
-		private static var __justquantity:RegExp = new RegExp( "^(" + __quantifiers + ")$" );
 	}
 }

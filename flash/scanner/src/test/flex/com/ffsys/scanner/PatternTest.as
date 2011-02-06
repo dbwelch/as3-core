@@ -23,9 +23,41 @@ package com.ffsys.scanner
 		}
 		
 		[Test]
-		public function patternCompileTest():void
-		{	
+		public function addressValidationTest():void
+		{
 			default xml namespace = Pattern.NAMESPACE;
+			
+			var address_1:Object =
+			{
+				name: "Building name",
+				number: "Building number",
+				address1: "Address line 1",
+				address2: "Address line 2",
+				city: "City",
+				county: "County",
+				postcode: "Postal code"
+			}
+						
+			var source:String =
+				"((?P<name>\\w( \\w)+)"
+				+ "|(?P<number>\\d+[a-zA-Z]?))" 		//alternation between name and number ’|’
+				+ "(?P<address1>\\w( \\w)+)"
+				+ "(?P<address2>\\w( \\w)+)?"			//added optionality to address2 ’?’
+				+ "(?P<city>\\w( \\w)+)"
+				+ "(?P<county>\\w( \\\\w)+)"
+				+ "(?P<postcode>)[a-zA-Z]{1,2}[0-9a-zA-Z]{1,2}( [0-9]{1,2}[a-zA-Z]{1,2})?";			
+				
+			var ptn:Pattern = new Pattern( source, true );
+			
+			var matched:Boolean = ptn.test( address_1 );
+			
+			trace("PatternTest::addressValidationTest()", ptn.xml.toXMLString() );
+		}
+		
+		[Test]
+		public function mobileNumberTest():void
+		{
+			default xml namespace = Pattern.NAMESPACE;			
 			
 			//pattern to match a UK mobile number
 			//with optional leading zero
@@ -36,20 +68,19 @@ package com.ffsys.scanner
 			Assert.assertEquals( source, ptn.source );
 			Assert.assertEquals( source, ptn.toString() );
 			Assert.assertEquals( source, ptn.regex.source );
-			
-			trace("PatternTest::patternCompileTest()", xml.toXMLString() );
-			
 			Assert.assertEquals( source, xml.source.text()[0] );
-			
-			trace("PatternTest::patternCompileTest()", ptn, ptn.test( 07900123456 ) );
-			
 			//simple string validation
 			Assert.assertTrue( ptn.test( "07900123456" ) );
-			
 			//uint validation
-			Assert.assertTrue( ptn.test( 07900123456 ) );
+			Assert.assertTrue( ptn.test( 07900123456 ) );			
+		}
+		
+		[Test]
+		public function numericValidationTest():void
+		{
+			default xml namespace = Pattern.NAMESPACE;
 			
-			ptn = new Pattern( /^[0-9]+$/, true );
+			var ptn:Pattern = new Pattern( /^[0-9]+$/, true );
 			Assert.assertTrue( ptn.test( "100" ) );
 			Assert.assertTrue( ptn.test( 100 ) );
 			ptn = new Pattern( /^(true|false)$/, true );
@@ -71,13 +102,19 @@ package com.ffsys.scanner
 			ptn = new Pattern( /^([0-9]+)?\.[0-9]+$/, true );
 			Assert.assertTrue( ptn.test( .5 ) );
 			Assert.assertTrue( ptn.test( 1.67 ) );
-			Assert.assertFalse( ptn.test( 16 ) );
+			Assert.assertFalse( ptn.test( 16 ) );			
+		}
+		
+		[Test]
+		public function patternCompileTest():void
+		{	
+			default xml namespace = Pattern.NAMESPACE;
 			
 			var candidates:Array = [ 201, 505 ];
 			
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
 			
-			ptn = new Pattern( new RegExp( "^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{10,)?(alpha+numeri(c|k)?)+)$" ), true );
+			var ptn:Pattern = new Pattern( new RegExp( "^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{10,)?(alpha+numeri(c|k)?)+)$" ), true );
 			
 			XML.prettyPrinting = true;
 			XML.prettyIndent = 2;
@@ -101,20 +138,6 @@ package com.ffsys.scanner
 			trace("[POSITIONS] PatternTest::pattern()", ptn.positions );
 			//trace("[RESULTS] PatternTest::pattern()", ptn.results );
 			trace("[XML] PatternTest::pattern()", ptn.xml.toXMLString() );
-			
-			/*
-			var tkn:Token = null;
-			for each( tkn in results )
-			{
-				//trace("PatternTest::cssTokenizeTest()", tkn.id, tkn.matched );
-				
-				trace( tkn );
-			}
-			*/
-			
-			//trace("PatternTest::cssTokenizeTest()", /^(u\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?)/.test( "u+0080-ffff" ) );
-			
-			//trace( /[\u000A]/.test( "\n" ), /[\u000A-\u000B]/.test( String.fromCharCode( 11 ) ) );
 		}
 	}
 }

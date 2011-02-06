@@ -89,9 +89,122 @@ package com.ffsys.pattern
 		public static const META_NAME:String = "meta";
 		
 		/**
+		* 	The name for a meta sequence of escape characters.
+		*/
+		public static const ESCAPE_SEQUENCE_NAME:String = "escape";
+		
+		/**
 		* 	The name for a non-meta data chunk.
 		*/
 		public static const DATA_NAME:String = "data";
+		
+		/**
+		* 	Represents the escape meta character.
+		*/
+		public static const ESCAPE_CHARACTER:String = "\\";
+		
+		/**
+		* 	Represents the vertical feed meta sequence.
+		*/
+		public static const VERTICAL_FEED_SEQUENCE:String = "v";
+		
+		/**
+		* 	Represents the line feed meta sequence.
+		*/
+		public static const LINE_FEED_SEQUENCE:String = "f";
+		
+		/**
+		* 	Represents the carriage return meta sequence.
+		*/
+		public static const CARRIAGE_RETURN_SEQUENCE:String = "r";
+		
+		/**
+		* 	Represents the new line meta sequence.
+		*/
+		public static const NEW_LINE_SEQUENCE:String = "n";
+		
+		/**
+		* 	Represents the tab meta sequence.
+		*/
+		public static const TAB_SEQUENCE:String = "t";
+		
+		/**
+		* 	Represents the word boundary meta sequence.
+		*/
+		public static const WORD_BOUNDARY_SEQUENCE:String = "b";
+		
+		/**
+		* 	Represents the non-word boundary meta sequence.
+		*/
+		public static const NON_WORD_BOUNDARY_SEQUENCE:String = "B";
+		
+		/**
+		* 	Represents the whitespace meta sequence.
+		*/
+		public static const WHITESPACE_SEQUENCE:String = "s";
+		
+		/**
+		* 	Represents the non-whitespace meta sequence.
+		*/
+		public static const NON_WHITESPACE_SEQUENCE:String = "S";
+		
+		/**
+		* 	Represents the a word sequence.
+		*/
+		public static const WORD_CHARACTER_SEQUENCE:String = "w";
+		
+		/**
+		* 	Represents the a non-word sequence.
+		*/
+		public static const NON_WORD_CHARACTER_SEQUENCE:String = "W";
+		
+		/**
+		* 	Represents the a digit sequence.
+		*/
+		public static const DIGIT_SEQUENCE:String = "d";
+		
+		/**
+		* 	Represents the a non-digit sequence.
+		*/
+		public static const NON_DIGIT_SEQUENCE:String = "D";
+		
+		/**
+		* 	A list of meta sequences.
+		*/
+		public static const META_CHARACTER_SEQUENCES:Array = [
+			VERTICAL_FEED_SEQUENCE,
+			LINE_FEED_SEQUENCE,
+			CARRIAGE_RETURN_SEQUENCE,
+			NEW_LINE_SEQUENCE,
+			TAB_SEQUENCE,
+			WORD_BOUNDARY_SEQUENCE,
+			NON_WORD_BOUNDARY_SEQUENCE,
+			WHITESPACE_SEQUENCE,
+			NON_WHITESPACE_SEQUENCE,
+			WORD_CHARACTER_SEQUENCE,
+			NON_WORD_CHARACTER_SEQUENCE,
+			DIGIT_SEQUENCE,
+			NON_DIGIT_SEQUENCE
+		];
+		
+		/**
+		* 	A list of escaped meta sequences.
+		*/
+		public static const ESCAPED_META_CHARACTER_SEQUENCES:Array = [
+			ESCAPE_CHARACTER + VERTICAL_FEED_SEQUENCE,
+			ESCAPE_CHARACTER + LINE_FEED_SEQUENCE,
+			ESCAPE_CHARACTER + CARRIAGE_RETURN_SEQUENCE,
+			ESCAPE_CHARACTER + NEW_LINE_SEQUENCE,
+			ESCAPE_CHARACTER + TAB_SEQUENCE,
+			ESCAPE_CHARACTER + WORD_BOUNDARY_SEQUENCE,
+			ESCAPE_CHARACTER + NON_WORD_BOUNDARY_SEQUENCE,
+			ESCAPE_CHARACTER + WHITESPACE_SEQUENCE,
+			ESCAPE_CHARACTER + NON_WHITESPACE_SEQUENCE,
+			ESCAPE_CHARACTER + WORD_CHARACTER_SEQUENCE,
+			ESCAPE_CHARACTER + NON_WORD_CHARACTER_SEQUENCE,
+			ESCAPE_CHARACTER + DIGIT_SEQUENCE,
+			ESCAPE_CHARACTER + NON_DIGIT_SEQUENCE
+		];
 		
 		/**
 		* 	@private
@@ -417,8 +530,21 @@ package com.ffsys.pattern
 			return null;
 		}
 		
+		/*
+		*	XML INTERNALS
+		*/
+		
 		/**
 		* 	@private
+		* 
+		* 	Creates an <code>XML</code> element within the namespace
+		* 	for pattern <code>XML</code>.
+		* 
+		* 	@param nm The name for the <code>XML</code> element.
+		* 	@param cdata Some CDATA text to add as
+		* 	a child of the new element.
+		* 
+		* 	@return The <code>XML</code> element.
 		*/
 		protected function getXmlElement(
 			nm:String = null,
@@ -437,5 +563,76 @@ package com.ffsys.pattern
 			}
 			return x;
 		}
+		
+		/*
+		*	REGEX INTERNALS
+		*/		
+		
+		/**
+		* 	@private
+		* 
+		* 	Determines whether a source string is
+		* 	an shortcut meta character sequence,
+		* 	<code>\b</code> etc.
+		* 
+		* 	@param src The source string to compare.
+		* 
+		* 	@return Whether the source candidate is
+		* 	a valid shortcut meta sequence.
+		*/
+		protected function isShortCut(
+			src:String ):Boolean
+		{
+			return __sequenced.test( src );
+		}
+
+		/**
+		* 	@private
+		*/
+		protected static var __escapes:String = "(?:\\\\)";
+		
+		/**
+		* 	@private
+		*/
+		protected static var __escaped:RegExp = new RegExp( "^(" + __escapes + ")$" );
+		
+		/**
+		* 	@private
+		*/
+		protected static var __sequence:String = __escapes + "(?:[bBsSwWdDrfntv])";
+		
+		/**
+		* 	@private
+		*/
+		protected static var __sequenced:RegExp = new RegExp( "^(" + __sequence + ")$" );
+	
+		/**
+		* 	@private
+		*/
+		protected static var __quantifierRangeExpr:String =
+			"(?:\\{(?:[0-9]+)(?:,[0-9]*)?\\})";
+		
+		/**
+		* 	@private
+		*/
+		protected static var __quantifierRange:RegExp =
+			new RegExp( "^(" + __quantifierRangeExpr + ")+$" );
+		
+		/**
+		* 	@private
+		*/
+		protected static var __quantifiers:String =
+			"(?:" + __quantifierRangeExpr + "|\\*|\\+|\\?){1}"
+			+ "(?:\\?)?";	//additional lazy quantifier
+		
+		/**
+		* 	@private
+		*/
+		protected static var __quantity:RegExp = new RegExp( "(" + __quantifiers + ")" );
+		
+		/**
+		* 	@private
+		*/
+		protected static var __justquantity:RegExp = new RegExp( "^(" + __quantifiers + ")$" );
 	}
 }
