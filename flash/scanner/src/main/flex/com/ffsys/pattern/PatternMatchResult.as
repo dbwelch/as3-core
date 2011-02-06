@@ -12,7 +12,7 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  04.03.2011
 	*/
-	public class PatternMatchResult extends PatternSet
+	public class PatternMatchResult extends PatternList
 	{
 		private var _pattern:Pattern;
 		private var _position:uint = 0;

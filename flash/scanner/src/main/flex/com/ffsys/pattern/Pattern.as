@@ -18,6 +18,13 @@
 *	limit that corresponds to <code>uint.MAX_VALUE</code> but
 *	for brevity's sake it's easier to describe them as <em>unlimited</em>.
 *
+*	<h1>Abstract</h1>
+*
+*	Regular expressions are something of a double-edged sword. The powerful
+*	nature of the syntax allows for complex rules to be expressed concisely,
+*	but complex rules can become unwieldy to manage unless broken down into
+*	smaller pattern rules.
+*
 *	<h1>Representation</h1>
 *
 *	All patterns can be represented as a string
@@ -42,21 +49,24 @@
 *
 *	Generates an <code>XML</code> representation of:
 *
-*	<pre>&lt;pattern begins="true" ends="true"&gt;
-*	  &lt;source&gt;&lt;![CDATA[^[0-9]{10,11}$]]&gt;&lt;/source&gt;
-*	  &lt;patterns&gt;
-*	    &lt;meta&gt;&lt;![CDATA[^]]&gt;&lt;/meta&gt;
-*	    &lt;range
-*	        negated="false"
-*	        lazy="false" 
-*	        min="10"
-*	        max="11"
-*	        quantifier="{11}"&gt;
-*	        &lt;![CDATA[[0-9]]]&gt;
-*	    &lt;/range&gt;
-*	    &lt;meta&gt;&lt;![CDATA[$]]&gt;&lt;/meta&gt;
-*	  &lt;/patterns&gt;
-*	&lt;/pattern&gt;</pre>
+<pre>&lt;ptn:rule
+  xmlns:ptn="http://pattern.freeformsystems.com"
+  begins="true"
+  ends="true"&gt;
+  &lt;ptn:source&gt;&lt;![CDATA[^[0-9]{10,11}$]]&gt;&lt;/ptn:source&gt;
+  &lt;ptn:patterns&gt;
+    &lt;ptn:meta&gt;&lt;![CDATA[^]]&gt;&lt;/ptn:meta&gt;
+    &lt;ptn:range
+        negated="false"
+        lazy="false"
+        min="10"
+        max="11"
+        quantifier="{10,11}"&gt;
+        &lt;![CDATA[[0-9]]]&gt;
+    &lt;/ptn:range&gt;
+    &lt;ptn:meta&gt;&lt;![CDATA[$]]&gt;&lt;/ptn:meta&gt;
+  &lt;/ptn:patterns&gt;
+&lt;/ptn:rule&gt;</pre>
 *
 *	<h1>Primitive Matching</h1>
 *
@@ -93,7 +103,7 @@
 *
 *	<h1>Named Groups</h1>
 *
-*	Let's illustrate how we leverage an Actionscript specific regular expression
+*	Let's demonstrate how we leverage an Actionscript specific regular expression
 *	feature to allow complex object comparison.
 *
 *	<pre>(?P&lt;id&gt;[_a-zA-Z$]{1}[a-zA-Z0-9]&#42;)</pre>
@@ -114,7 +124,7 @@
 *
 *	This shift of perspective is great as it creates the basis for
 *	matching against complex object structures but there is still another
-*	issue to handle first: how to resolve the <em>object property field name (?P&lt;id&gt;)</em>
+*	issue to handle first: how to resolve the <em>object property field name</em>
 *	for the various matching requirements?
 *
 *	<h1>Field Matching</h1>
@@ -169,7 +179,7 @@
 *	You can then <code>validate</code> this pattern rule against any arbitrary object
 *	representing an address:
 *
-*	<pre>var valid:Boolean = ptn.test( address );</pre>
+*	<pre>var matched:Boolean = ptn.test( address );</pre>
 *
 *	<h1>Sequence Matching</h1>
 *
@@ -275,7 +285,7 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/
-	dynamic public class Pattern extends PatternSet
+	dynamic public class Pattern extends PatternList
 	{	
 		/**
 		* 	The namespace used when creating <code>XML</code>
@@ -432,6 +442,18 @@ package com.ffsys.pattern
 		* 	<code>ignoreCase</code> property.
 		*/
 		public static const IGNORE_CASE_FLAG:String = "i";
+		
+		/**
+		* 	A pattern representing the opening of a group.
+		*/
+		public static const OPEN_GROUP:Pattern =
+			new Pattern( LPAREN );
+			
+		/**
+		* 	A pattern representing the closing of a group.
+		*/
+		public static const CLOSE_GROUP:Pattern =
+			new Pattern( RPAREN );
 		
 		private var _patterns:Vector.<Pattern>;
 		private var _parts:Pattern;
@@ -796,9 +818,9 @@ package com.ffsys.pattern
 		* 	part that does not contain any special
 		* 	characters.
 		*/
-		public function get chunk():Boolean
+		public function get data():Boolean
 		{
-			return !root && !meta;
+			return !rule && !meta;
 		}
 		
 		/**
@@ -900,9 +922,9 @@ package com.ffsys.pattern
 		*/
 		public function get begins():Boolean
 		{
-			return 	( root && !empty && firstChild.source == CARET )
+			return 	( rule && !empty && firstChild.source == CARET )
 				||	( owner != null
-					&& owner.root
+					&& owner.rule
 					&& source == CARET
 					&& index == 0 );
 		}
@@ -917,9 +939,9 @@ package com.ffsys.pattern
 		*/
 		public function get ends():Boolean
 		{
-			return 	( root && !empty && lastChild.source == DOLLAR )
+			return 	( rule && !empty && lastChild.source == DOLLAR )
 				||	( owner != null
-					&& owner.root
+					&& owner.rule
 					&& source == DOLLAR
 					&& ( index == owner.patterns.length - 1 ) );
 		}
@@ -1022,6 +1044,8 @@ package com.ffsys.pattern
 		/**
 		* 	Performs matching against an array or vector.
 		* 
+		* 	@param target The target to match this pattern against.
+		* 
 		* 	@throws ArgumentError If the supplied target is not
 		* 	an <code>Array</code> or <code>Vector</code>.
 		* 
@@ -1036,7 +1060,7 @@ package com.ffsys.pattern
 					"You must specify an array or vector when"
 					+ " attempting to match a pattern against a list." );
 			}
-			
+			//TODO
 			return false;
 		}
 		
@@ -1125,6 +1149,35 @@ package com.ffsys.pattern
 		}
 		
 		/**
+		* 	Retrieves a group pattern.
+		* 
+		* 	@param name A name for the group.
+		* 	@param contents A pattern containing patterns
+		* 	to add as the contents of the group.
+		* 	@param close Whether to close the group.
+		* 
+		* 	@return A group pattern.
+		*/
+		public function getGroup(
+			name:String = null,
+			contents:Pattern = null,
+			close:Boolean = false ):Pattern
+		{
+			var grp:Pattern = new Pattern();
+			grp.add( OPEN_GROUP );
+			if( contents != null )
+			{
+				//TODO
+				//grp.concat( contents );
+			}
+			if( close === true )
+			{
+				grp.add( CLOSE_GROUP );
+			}
+			return grp;
+		}
+		
+		/**
 		* 	Determines whether this pattern is a group.
 		*/
 		public function get group():Boolean
@@ -1135,18 +1188,16 @@ package com.ffsys.pattern
 		/**
 		* 	@private
 		*/
-		override public function get children():Pattern
+		override public function get children():PatternList
 		{
 			if( group )
 			{
-				//TODO: stash this and invalidate	
 				var output:Pattern = new Pattern();
 				var ptns:Vector.<Pattern> = this.patterns;
 				var ptn:Pattern = null;
 				for( var i:int = 0;i < ptns.length;i++ )
 				{
 					ptn = ptns[ i ];
-					
 					//remove all capture group qualifiers and open and close
 					//patterns to get to the child patterns
 					if( ( ptn.source == LPAREN && i == 0 )
@@ -1159,7 +1210,7 @@ package com.ffsys.pattern
 				}
 				return output;
 			}
-			return null;
+			return super.children;
 		}
 		
 		/**
@@ -1208,38 +1259,39 @@ package com.ffsys.pattern
 		override public function get name():String
 		{
 			var nm:String = super.name;
+			if( rule )
+			{
+				nm = RULE;
+			}
 			if( nm == null )
 			{
 				switch( source )
 				{
 					case PIPE:
-						nm = "alternator";
-						break;
-					case DOT:
-						nm = "dot";
+						nm = ALTERNATOR_NAME;
 						break;
 				}
 				if( nm == null )
 				{
 					if( group )
 					{
-						nm = "group";
+						nm = GROUP_NAME;
 					}else if( range )
 					{
-						nm = "range";
+						nm = RANGE_NAME;
 					}else if( quantifier )
 					{
-						nm = "quantifier";
+						nm = QUANTIFIER_NAME;
 					}else if( meta )
 					{
-						nm = "meta";
-					}else if( chunk )
+						nm = META_NAME;
+					}else if( data )
 					{
-						nm = "data";
+						nm = DATA_NAME;
 					}
 				}
 			}
-			return nm == null ? "pattern" : nm;
+			return nm == null ? PATTERN : nm;
 		}
 		
 		/**
@@ -1253,9 +1305,9 @@ package com.ffsys.pattern
 			var name:String = this.name;
 			var x:XML = getXmlElement();
 			
-			if( !root && !group )
+			if( !rule && !group )
 			{	
-				if( range || meta || chunk )
+				if( range || meta || data )
 				{
 					x = getXmlElement( null, toString() );
 				}
@@ -1293,9 +1345,9 @@ package com.ffsys.pattern
 			}
 			
 			//shortcut out for simple types
-			if( !root && !group )
+			if( !rule && !group )
 			{	
-				if( range || meta || chunk )
+				if( range || meta || data )
 				{
 					return x;
 				}
@@ -1303,7 +1355,7 @@ package com.ffsys.pattern
 			
 			//handle complex types
 			var ptns:Vector.<Pattern> = this.patterns;
-			var isGrouped:Boolean = !root && group;
+			var isGrouped:Boolean = !rule && group;
 			if( isGrouped )
 			{
 				ptns = children.patterns;
@@ -1318,13 +1370,13 @@ package com.ffsys.pattern
 				}
 			}
 			
-			if( root || source == CARET || source == DOLLAR )
+			if( rule || source == CARET || source == DOLLAR )
 			{
 				x.@begins = begins;
 				x.@ends = ends;
 			}
 			
-			if( root )
+			if( rule )
 			{			
 				x.appendChild( getXmlElement( SOURCE, this.source ) );
 				
@@ -1385,7 +1437,7 @@ package com.ffsys.pattern
 		*/
 		override public function toPatternString():String
 		{
-			var prefix:String = root ? PATTERN : PTN;
+			var prefix:String = rule ? PATTERN : PTN;
 			return prefix + ":" + DELIMITER + toString() + DELIMITER;
 		}
 		
@@ -1400,17 +1452,6 @@ package com.ffsys.pattern
 				delimiter = ",";
 			}
 			return patterns.length > 0 ? patterns.join( delimiter ) : _source;
-		}
-		
-		/**
-		* 	Determines whether the last attempt
-		* 	to compile a pattern completed successfully.
-		*/
-		public function get compiled():Boolean
-		{
-			return _compiled != null
-				&& _source != null
-				&& _compiled == "";
 		}
 		
 		/**
@@ -1468,7 +1509,7 @@ package com.ffsys.pattern
 				var closes:Boolean = false;
 				var meta:String = null;
 				var ptn:Pattern = null;
-				var chunk:String = null;
+				var data:String = null;
 				var tmp:Pattern = null;
 
 				var current:Pattern = null;				
@@ -1497,8 +1538,8 @@ package com.ffsys.pattern
 				//grab any inital non-meta chunk
 				if( position > 0 )
 				{
-					chunk = _compiled.substr( 0, results.index );
-					ptn = getCompilationPattern( chunk );
+					data = _compiled.substr( 0, results.index );
+					ptn = getCompilationPattern( data );
 					addCompilationPattern(
 						parentTarget, ptn, true );
 				}
@@ -1572,15 +1613,15 @@ package com.ffsys.pattern
 					if( next > 0 )
 					{
 						//extract the non-meta character chunk
-						chunk = _compiled.substr( 0, next );
+						data = _compiled.substr( 0, next );
 					
-						if( __quantity.test( chunk ) )
+						if( __quantity.test( data ) )
 						{
-							results = __quantity.exec( chunk );
+							results = __quantity.exec( data );
 							var c:String = results[ 1 ] as String;
-							var just:Boolean = __justquantity.test( chunk );
+							var just:Boolean = __justquantity.test( data );
 							
-							//trace("Pattern::compile()", "[FOUND QUANTITY CHUNK]", chunk, results, c, just, ptn );
+							//trace("Pattern::compile()", "[FOUND QUANTITY CHUNK]", data, results, c, just, ptn );
 							
 							//quantifier with chunk data after
 							//a group or character class so
@@ -1599,20 +1640,20 @@ package com.ffsys.pattern
 								//add the quantifier part
 								addCompilationPattern(
 									parentTarget,
-									getCompilationPattern( chunk.substr( 0, c.length ) ),
+									getCompilationPattern( data.substr( 0, c.length ) ),
 									true );
 								
 								//re-assign the current chunk value
-								chunk = chunk.substr( c.length );
+								data = data.substr( c.length );
 							}else if( just && c != null )
 							{
-								chunk = c;
+								data = c;
 							}
 						}
 
-						ptn = new Pattern( chunk );
+						ptn = new Pattern( data );
 						
-						//trace("[COMPILE] Pattern::compile()", "[ADDING CHUNK]", chunk );
+						//trace("[COMPILE] Pattern::compile()", "[ADDING CHUNK]", data );
 						
 						//adding a chunk to a named property
 						//group - <propertyName>
@@ -1623,7 +1664,7 @@ package com.ffsys.pattern
 						{	
 							//assign the named property field to
 							//the parent group
-							Pattern( parentTarget.owner ).field = chunk;
+							Pattern( parentTarget.owner ).field = data;
 						}else
 						{
 							addCompilationPart( ptn );
@@ -1656,11 +1697,24 @@ package com.ffsys.pattern
 		
 		/**
 		* 	@private
+		* 	
+		* 	Determines whether the last attempt
+		* 	to compile a pattern completed successfully.
+		*/
+		internal function get compiled():Boolean
+		{
+			return _compiled != null
+				&& _source != null
+				&& _compiled == "";
+		}
+		
+		/**
+		* 	@private
 		*/
 		internal function getCompilationPattern(
-			chunk:String ):Pattern
+			data:String ):Pattern
 		{
-			return new Pattern( chunk );
+			return new Pattern( data );
 		}
 		
 		/**
@@ -1861,7 +1915,7 @@ package com.ffsys.pattern
 			{
 				//trace("[REQUIRES GROUPING] Pattern::requiresGrouping()", toString() );
 				
-				var ptns:Pattern = this.children;
+				var ptns:PatternList = this.children;
 				var ptn:Pattern = null;
 				var groups:uint = 0;
 				var alternators:uint = 0;
@@ -1894,7 +1948,7 @@ package com.ffsys.pattern
 					{
 						return false;
 					//single chunk contents
-					}else if( ptns.firstChild.chunk )
+					}else if( ptns.firstChild.data )
 					{
 						return false;
 					}
@@ -1955,7 +2009,7 @@ package com.ffsys.pattern
 					extract( ptn, output );
 				}else
 				{
-					if( ptn.meta || ptn.chunk )
+					if( ptn.meta || ptn.data )
 					{
 						//convert plain patterns to groups
 						grp = new Pattern();

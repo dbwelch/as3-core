@@ -9,7 +9,7 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/
-	dynamic public class PatternSet extends Array
+	dynamic public class PatternList extends Array
 	{					
 		/**
 		* 	The delimiter used to mark the
@@ -63,10 +63,42 @@ package com.ffsys.pattern
 		*/
 		public static const SOURCE:String = "source";
 		
+		/**
+		* 	The name for an alternator.
+		*/
+		public static const ALTERNATOR_NAME:String = "alternator";
+		
+		/**
+		* 	The name for a group.
+		*/
+		public static const GROUP_NAME:String = "group";
+		
+		/**
+		* 	The name for a range (character class).
+		*/
+		public static const RANGE_NAME:String = "range";
+		
+		/**
+		* 	The name for a quantifier.
+		*/
+		public static const QUANTIFIER_NAME:String = "quantifier";
+		
+		/**
+		* 	The name for a meta character or sequence.
+		*/
+		public static const META_NAME:String = "meta";
+		
+		/**
+		* 	The name for a non-meta data chunk.
+		*/
+		public static const DATA_NAME:String = "data";
+		
+		/**
+		* 	@private
+		* 	
+		*	The child patterns for this pattern.
+		*/
 		private var _patterns:Vector.<Pattern>;
-		private var _name:String;
-		private var _owner:PatternSet;
-		private var _index:int = -1;
 		
 		/**
 		* 	@private
@@ -74,9 +106,18 @@ package com.ffsys.pattern
 		internal var _regex:RegExp;
 		
 		/**
-		* 	Creates a <code>PatternSet</code> instance.
+		* 	@private
 		*/
-		public function PatternSet()
+		protected var _list:PatternList;
+		
+		private var _owner:PatternList;
+		private var _name:String;
+		private var _index:int = -1;
+		
+		/**
+		* 	Creates a <code>PatternList</code> instance.
+		*/
+		public function PatternList()
 		{
 			super();
 		}
@@ -84,7 +125,7 @@ package com.ffsys.pattern
 		/**
 		* 	An owner for this pattern.
 		*/
-		public function get owner():PatternSet
+		public function get owner():PatternList
 		{
 			return _owner;
 		}
@@ -92,7 +133,7 @@ package com.ffsys.pattern
 		/**
 		* 	@private
 		*/
-		internal function setOwner( owner:PatternSet ):void
+		internal function setOwner( owner:PatternList ):void
 		{
 			_owner = owner;
 		}
@@ -112,18 +153,6 @@ package com.ffsys.pattern
 		internal function setIndex( index:int ):void
 		{
 			_index = index;
-		}		
-		
-		/**
-		* 	A list of patterns belonging to this pattern.
-		*/
-		public function get patterns():Vector.<Pattern>
-		{
-			if( _patterns == null )
-			{
-				_patterns = new Vector.<Pattern>();
-			}
-			return _patterns;
 		}
 		
 		/**
@@ -186,6 +215,16 @@ package com.ffsys.pattern
 			return false;
 		}
 		
+		/*
+		public function concat( pattern:Pattern ):void
+		{
+			for()
+			{
+				
+			}
+		}
+		*/
+		
 		/**
 		*	Removes pattern(s) from this pattern.
 		* 
@@ -203,19 +242,16 @@ package com.ffsys.pattern
 			{
 				start = ( patterns.length == 1 ) ? 0 : patterns.length - 2;
 			}
-			
 			if( start >= 0 && start < patterns.length )
 			{
 				if( end == -1 )
 				{
 					end = start + 1;
 				}
-				
 				if( end <= start )
 				{
 					end = start + 1;
 				}
-				
 				var count:uint = uint( end - start );
 				patterns.splice( start, count );
 			}
@@ -238,7 +274,7 @@ package com.ffsys.pattern
 			{
 				return null;
 			}
-			return this.patterns[ index ];
+			return patterns[ index ];
 		}
 		
 		/**
@@ -286,11 +322,41 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	The patterns belonging to this pattern.
+		* 	Determines whether this pattern is a rule
+		*	
+		* 	A rule is a pattern at the root of a
+		* 	pattern hierarchy.
 		*/
-		public function get children():Pattern
+		public function get rule():Boolean
 		{
-			return null;
+			return ( owner == null );
+		}
+		
+		/**
+		* 	The patterns belonging to this pattern
+		* 	as a vector.
+		*/
+		public function get patterns():Vector.<Pattern>
+		{
+			if( _patterns == null )
+			{
+				_patterns = new Vector.<Pattern>();
+			}
+			return _patterns;
+		}
+		
+		/**
+		* 	The patterns belonging to this pattern
+		* 	as a pattern list.
+		*/
+		public function get children():PatternList
+		{
+			if( _list == null )
+			{
+				_list = new PatternList();
+				_list._patterns = this.patterns;
+			}
+			return _list;
 		}
 		
 		/**
@@ -350,16 +416,6 @@ package com.ffsys.pattern
 		{
 			return null;
 		}
-		
-		/**
-		* 	Determines whether this pattern set is the
-		* 	root of a pattern hierarchy.
-		*/
-		public function get root():Boolean
-		{
-			return ( owner == null );
-		}
-		
 		
 		/**
 		* 	@private
