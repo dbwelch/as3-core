@@ -1095,6 +1095,10 @@
 		</xsl:choose>
 		
 		<xsl:if test="not($abbreviated)">
+			
+			<xsl:if test="apiOperationDetail/apiOperationDef/apiIsOverride">	
+				<xsl:value-of select="'override '" />
+			</xsl:if>
 		
 			<xsl:value-of select="$access" />
 		
@@ -1106,9 +1110,6 @@
 				<xsl:value-of select="concat(' ', $prefix)" />
 			</xsl:if>
 		
-			<xsl:if test="apiOperationDetail/apiOperationDef/apiIsOverride">	
-				<xsl:value-of select="' override'" />
-			</xsl:if>
 			<xsl:value-of select="' function'" />
 		
 			<xsl:value-of select="' '" />
@@ -1759,10 +1760,10 @@
 			<xsl:when test="not(apiClassifierDetail/apiClassifierDef/apiInterface)">
 				<xsl:text>\scriptsize{Class:} &amp; </xsl:text>
 				<xsl:text>\scriptsize{\verb|</xsl:text>
-				<xsl:value-of select="$access" />
 				<xsl:if test="apiClassifierDetail/apiClassifierDef/apiDynamic">
-					<xsl:text> dynamic</xsl:text>
+					<xsl:text>dynamic </xsl:text>
 				</xsl:if>
+				<xsl:value-of select="$access" />
 				<xsl:if test="apiClassifierDetail/apiClassifierDef/apiFinal">
 					<xsl:text> final</xsl:text>
 				</xsl:if>		

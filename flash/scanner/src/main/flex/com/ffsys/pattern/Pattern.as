@@ -210,21 +210,21 @@
 *	of an <code>XML</code> element as:
 *
 *	<pre>var source:String =
-*		"(?P&lt;open-tag&gt;&lt;\\s&#42;)"
-*		+ "(?P&lt;nsprefix&gt;([a-zA-Z0-9\\-]:)?)"
+*		"(?P&lt;opentag&gt;&lt;\\s&#42;)"
+*		+ "(?P&lt;nsprefix&gt;[a-zA-Z0-9\\-]+:)?"
 *		+ "(?P&lt;localname&gt;[a-zA-Z0-9\\-]+)"
 *		+ "(?P&lt;attr&gt;\\s&#42;(?P&lt;attrname&gt;[a-zA-Z0-9\\-]+)"
 *		+ "(?P&lt;assignment&gt;={1})"
 *		+ "(?P&lt;attrvalue&gt;(\"|')[^\"']&#42;(\"|')))&#42;"
-*		+ "(?P&lt;close-tag&gt;\\s&#42;/?&gt;)";</pre>
+*		+ "(?P&lt;closetag&gt;\\s&#42;/?&gt;)";</pre>
 *
 *	If we assign token identifiers to the pattern groups:
 *
-*	<pre>open-tag: 1
+*	<pre>opentag: 1
 *	nsprefix: 2
 *	localname: 3
 *	attr: 4
-*	close-tag: 5</pre>
+*	closetag: 5</pre>
 *
 *	Then the expected token relationship could be expressed more succinctly as:
 *	
@@ -814,9 +814,18 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	Determines whether this is a pattern
-		* 	part that does not contain any special
-		* 	characters.
+		* 	Determines whether this is a data pattern.
+		* 
+		* 	A data pattern does not contain groups
+		* 	or character classes buy may contain quantifiers that
+		* 	apply to a preceeding <em>character</em>.
+		* 
+		* 	This implies that quantifiers in data patterns may
+		* 	be intermingled with other data elements and appear
+		* 	at the end (apply to the last character), but may not
+		* 	appear at the beginning of a data pattern
+		* 	as the quantifier should be applied to the
+		* 	preceeding pattern.
 		*/
 		public function get data():Boolean
 		{
@@ -1141,6 +1150,14 @@ package com.ffsys.pattern
 		
 		/**
 		* 	Determines whether this pattern is grouping.
+		* 
+		* 	This will return <code>true</code> for groups
+		* 	<code>()</code>, character classes <code>[]</code>,
+		* 	quantifier ranges <code>{}</code> and group names
+		* 	<code>&lt;&gt;</code>.
+		* 
+		* 	Comparison is performed on the first child and does not
+		* 	imply that the grouping has been correctly closed.
 		*/
 		public function get grouping():Boolean
 		{
