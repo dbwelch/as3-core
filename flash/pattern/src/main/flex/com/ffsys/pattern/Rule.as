@@ -1,7 +1,7 @@
 package com.ffsys.pattern
 {
 	/**
-	* 	Represents a #ptnlib:term:rule; a <em>rule</em>
+	* 	Represents a #ptnlib:term:rule;; a <em>rule</em>
 	* 	is synonymous with the entire pattern of a regular expression.
 	*
 	*	@langversion ActionScript 3.0

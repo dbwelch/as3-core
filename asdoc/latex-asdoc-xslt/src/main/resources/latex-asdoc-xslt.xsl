@@ -2221,6 +2221,7 @@
 		<xsl:variable name="lines" select="tokenize($input,'\n')" />
 		<xsl:for-each select="$lines">
 			<xsl:variable name="line" select="string(.)" />
+			
 			<xsl:variable name="words" select="tokenize($line, ' ')" />
 			<xsl:if test="position() &gt; 1">
 				<xsl:value-of select="$newline" />
@@ -2228,21 +2229,61 @@
 			<xsl:for-each select="$words">
 				<xsl:variable name="word" select="string(.)" />
 				<!-- <xsl:value-of select="concat('word: ', $word, $newline)" /> -->
+				
+				<!-- Test for the word matching a known class or interface -->
 				<xsl:variable name="match" select="$toplevel//classRec[@name = $word] | $toplevel//interfaceRec[@name = $word]" />
-				<!-- <xsl:variable name="nameref" select="matches($word,'^#[^#]+')" /> -->
-				<xsl:if test="position() &gt; 1">
-					<xsl:value-of select="' '" />
+				
+				<!-- hash characters may have been escaped for latex output -->
+				<xsl:variable name="nameref" select="matches($word,'^(\\)?#([^#;]+);?$')" />
+				<xsl:variable name="inline-nameref" select="matches($word,'^(\\)?#([^#;]+);')" />
+				
+				<!-- an explicit \nameref, for example: #prefix:lib:category:feature -->
+				<xsl:if test="$nameref or $inline-nameref">
+					<xsl:variable name="word" select="substring-after($word,'#')" />
+					<!-- <xsl:value-of select="concat( 'ADDING MANUAL NAME REF: ', $word )" /> -->
+					<xsl:choose>
+						<xsl:when test="$nameref">
+							<!-- strip any trailing delimiter -->
+							<xsl:variable name="word" select="replace($word,';{1}$','')" />
+							<xsl:call-template name="nameref">
+								<xsl:with-param name="input" select="$word" />
+							</xsl:call-template>
+						</xsl:when>
+						<!-- handle *inline* namerefs that have been terminated with a semi-colon
+							For example: #lib:term;'s -->
+						<xsl:otherwise>
+							<xsl:variable name="remainder" select="substring-after($word,';')" />
+							<xsl:variable name="word" select="substring-before($word,';')" />
+							<xsl:call-template name="nameref">
+								<xsl:with-param name="input" select="$word" />
+							</xsl:call-template>
+							<xsl:if test="$remainder != ''">
+								<!-- TODO: xref the remainder -->							
+								<xsl:value-of select="$remainder" />
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:if>
+				
+				<!-- try to automatically xref to a documented class/interface -->
 				<xsl:choose>
-					<xsl:when test="$match">
+					<xsl:when test="$match and not($nameref) and not($inline-nameref)">
 						<xsl:call-template name="nameref">
 							<xsl:with-param name="input" select="$match/@fullname" />
 						</xsl:call-template>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="$word" />
+						<xsl:if test="not($nameref) and not($inline-nameref)">
+							<xsl:value-of select="$word" />
+						</xsl:if>
 					</xsl:otherwise>
 				</xsl:choose>
+				
+				
+				<!-- add intermediary whitespace that we tokenized on -->
+				<xsl:if test="position() &lt; count( $words )">
+					<xsl:value-of select="' '" />
+				</xsl:if>
 			</xsl:for-each>
 		</xsl:for-each>
 	</xsl:template>

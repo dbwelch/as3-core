@@ -328,16 +328,6 @@ package com.ffsys.pattern
 			return false;
 		}
 		
-		/*
-		public function concat( pattern:Pattern ):void
-		{
-			for()
-			{
-				
-			}
-		}
-		*/
-		
 		/**
 		*	Removes pattern(s) from this pattern.
 		* 

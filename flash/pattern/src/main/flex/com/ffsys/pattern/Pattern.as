@@ -874,12 +874,24 @@ package com.ffsys.pattern
 	dynamic public class Pattern extends PatternList
 	{	
 		/**
+		* 	The pattern namespace prefix.
+		*/
+		public static const NAMESPACE_PREFIX:String = 
+			"ptn";
+			
+		/**
+		* 	The pattern namespace <code>URI</code>.
+		*/
+		public static const NAMESPACE_URI:String = 
+			"http://pattern.freeformsystems.com";
+		
+		/**
 		* 	The namespace used when creating <code>XML</code>
 		* 	representations of a pattern.
 		*/
 		public static const NAMESPACE:Namespace = new Namespace(
-			"ptn",
-			"http://pattern.freeformsystems.com" );
+			NAMESPACE_PREFIX,
+			NAMESPACE_URI );
 						
 		/**
 		* 	A meta character that indicates
