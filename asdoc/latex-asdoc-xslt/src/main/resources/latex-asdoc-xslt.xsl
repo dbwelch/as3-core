@@ -92,52 +92,28 @@
 					
 					<xsl:value-of select="'\paragraph{'" />
 					
-					<!-- newline handling for package descriptions -->
+					<!-- newline handling for package descriptions - nultiple paragraphs -->
 					<xsl:if test="contains($pkg-description,$newline)">
-						
-						<!--
-						<xsl:call-template name="sanitize">
-							<xsl:with-param name="input">
-								<xsl:call-template name="search-and-replace">
-									<xsl:with-param name="input" select="$pkg-description" />
-									<xsl:with-param name="search-string" select="concat('\.',$newline)" />
-									<xsl:with-param name="replace-string" select="concat('.',$newline,$newline)" />		
-								</xsl:call-template>
-							</xsl:with-param>
-						</xsl:call-template>
-						-->
-						
 						<xsl:variable name="pkg-description">
 							<xsl:call-template name="sanitize">
-								<xsl:with-param name="input">
-									<xsl:call-template name="search-and-replace">
-										<xsl:with-param name="input" select="$pkg-description" />
-										<xsl:with-param name="search-string" select="concat('\.',$newline)" />
-										<xsl:with-param name="replace-string" select="concat('.',$newline,$newline)" />		
-									</xsl:call-template>
-								</xsl:with-param>
+								<xsl:with-param name="input" select="$pkg-description" />
 							</xsl:call-template>							
 						</xsl:variable>
-						
 						<xsl:call-template name="auto-xref">
 							<xsl:with-param name="input" select="$pkg-description" />
-						</xsl:call-template>						
-						
-						<!--
-						<xsl:call-template name="description-paragraph">
-							<xsl:with-param name="end" select="false()" />
-							
-
-							</xsl:with-param>
 						</xsl:call-template>
-						-->
-						
 					</xsl:if>
 					
+					<!-- single paragraph -->
 					<xsl:if test="not(contains($pkg-description,$newline))">
-						<xsl:call-template name="description-paragraph">
-							<xsl:with-param name="input" select="$pkg-description"/>
-						</xsl:call-template>				
+						<xsl:variable name="pkg-description">
+							<xsl:call-template name="sanitize">
+								<xsl:with-param name="input" select="$pkg-description" />
+							</xsl:call-template>
+						</xsl:variable>			
+						<xsl:call-template name="auto-xref">
+							<xsl:with-param name="input" select="$pkg-description" />
+						</xsl:call-template>
 					</xsl:if>
 					
 					<!-- end the package description paragraph -->
@@ -2247,9 +2223,10 @@
 				<xsl:variable name="word" select="string(.)" />
 				<!-- <xsl:value-of select="concat('word: ', $word, $newline)" /> -->
 				<xsl:variable name="match" select="$toplevel//classRec[@name = $word] | $toplevel//interfaceRec[@name = $word]" />
+				<!-- <xsl:variable name="nameref" select="matches($word,'^#[^#]+')" /> -->
 				<xsl:if test="position() &gt; 1">
 					<xsl:value-of select="' '" />
-				</xsl:if>	
+				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="$match">
 						<xsl:call-template name="nameref">

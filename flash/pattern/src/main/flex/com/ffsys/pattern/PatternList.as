@@ -515,7 +515,7 @@ package com.ffsys.pattern
 		* 	that distinguishes it from a string or regular
 		* 	expression.
 		*/
-		public function toPatternString():String
+		public function toPatternLiteral():String
 		{
 			return null;
 		}

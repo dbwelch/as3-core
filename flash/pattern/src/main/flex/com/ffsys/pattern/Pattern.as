@@ -15,14 +15,117 @@
 *	but complex rules can become unwieldy to manage unless broken down into
 *	smaller pattern rules.
 *
-*	In addition they have always appeared to be very limited by the implementation
-*	in most programming languages that only allows for matching regular expressions
+*	In addition they have always appeared to be limited by the implementation
+*	in most programming languages that <em>only</em> allows for matching regular expressions
 *	against a <a href="#ptnlib:term:string" />.
 *
 *	<h1>Terminology</h1>
 *
 *	This section expands on accepted regular expression grammar definitions to
 *	define terms specific to the pattern library.
+*
+*	String literals are enclosed in double quotes <code>'"'</code>:
+*
+*	<pre>"A literal sequence of characters."</pre>
+*
+*	Regular expression literals begin and end with a forward slash <code>'/'</code>:
+*
+*	<pre>/^[0-9]{10,11}$/</pre>
+*
+*	And are optionally followed by one of the <a href="#ptnlib:term:flags" />.
+*
+*	When it is ambiguous as to whether a character takes on special meaning
+*	it is enclosed in single quotes, for example, the question mark <code>'?'</code>
+*	used to signify <a href="#ptnlib:term:optionality" />.
+*
+*	<h2>environment</h2>
+*	<a name="#ptnlib:term:environment" />
+*
+*	A term used to describe the combination of a programming <em>language</em>
+*	and optional primary <em>deployment platform</em> for
+*	a <a href="#ptnlib:term:pattern:implementation" />.
+*
+*	For this reference <a href="#ptnlib:term:pattern:implementation" /> the language
+*	is <em>Actionscript</em> and the <em>deployment platform</em> is the <em>Flash Platform</em>.
+*
+*	<h2>pattern implementation</h2>
+*	<a name="#ptnlib:term:pattern:implementation" />
+*
+*	An implementation of this pattern library specification.
+*
+*	A name of Pattern should be preferred but if this is not possible
+*	in a programming language the name <code>PatternImpl</code> may
+*	be used.
+*
+*	If a programming language does not enfore the convention that
+*	complex types start with an uppercase character the name <code>pattern</code>
+*	is acceptable.
+*
+*	<h2>pattern exception</h2>
+*	<a name="#ptnlib:term:pattern:exception" />
+*
+*	An exceptional condition encountered by a <a href="#ptnlib:term:pattern:implementation" />.
+*
+*	<h2>flags</h2>
+*	<a name="#ptnlib:term:flags" />
+*
+*	A sequence of single <a href="#ptnlib:term:meta:character" /> <em>flags</em>
+*	that modify the behaviour of an entire regular expression. In the context of
+*	a <a href="#ptnlib:term:pattern:implementation" /> the <em>flags</em> are said
+*	to apply to a <a href="#ptnlib:term:rule" />.
+*
+*	The list of defined <em>flags</em> are:
+*
+*	<ul>
+*		<li><code>x</code> -- The <a href="#ptnlib:term:flag:extended" /> flag.</li>
+*		<li><code>m</code> -- The <a href="#ptnlib:term:flag:multiline" /> flag.</li>
+*		<li><code>i</code> -- The <a href="#ptnlib:term:flag:ignore:case" /> flag.</li>
+*		<li><code>g</code> -- The <a href="#ptnlib:term:flag:global" /> flag.</li>
+*		<li><code>s</code> -- The <a href="#ptnlib:term:flag:dotall" /> flag.</li>
+*	</ul>
+*
+*	Any unknown <a href="#ptnlib:term:meta:character" /> flags may be removed by a
+*	<a href="#ptnlib:term:pattern:implementation" />.
+*
+*	<h3>extended</h3>
+*	<a name="#ptnlib:term:flag:extended" />
+*
+*	The <code>extended</code> flag <code>'x'</code> is used to indicate
+*	that a regular expression include literal whitespace. When this
+*	flag is set, literal whitespace is ignored when matching.
+*
+*	This allows for more readable regular expressions.
+*
+*	<pre>var re:RegExp = /    (\d{2})    (\s*\w{2}\s*)    (\d{2})    /x;</pre>
+*
+*	Note that the ability to use a new-line character in an extended regular
+*	expression will depend upon the <a href="#ptnlib:term:environment" />.
+*
+*	<h3>multiline</h3>
+*	<a name="#ptnlib:term:flag:multiline" />
+*
+*	The <code>multiline</code> flag <code>'m'</code> is used to
+*	indicate that the <a href="#ptnlib:term:caret" /> and <a href="#ptnlib:term:dollar" />
+*	in a regular expression <a href="#ptnlib:term:match" /> before and after new lines.
+*
+*	<h3>ignore case</h3>
+*	<a name="#ptnlib:term:flag:ignore:case" />
+*
+*	The <code>ignoreCase</code> flag <code>'i'</code> is used to indicate that
+*	a <a href="#ptnlib:term:match" /> should be performed in a case-insensitive manner.
+*
+*	<h3>global</h3>
+*	<a name="#ptnlib:term:flag:global" />
+*
+*	The <code>global</code> flag <code>'g'</code> is used to indicate that
+*	a <a href="#ptnlib:term:match" /> is <em>global in scope</em>.
+*
+*	<h3>dotall</h3>
+*	<a name="#ptnlib:term:flag:dotall" />
+*
+*	The <code>dotall</code> flag <code>'s'</code> is used to indicate that
+*	the <a href="#ptnlib:term:dot" /> character in a regular expression pattern
+*	matches new-line characters.
 *
 *	<h2>value</h2>
 *	<a name="#ptnlib:term:value" />
@@ -37,11 +140,36 @@
 *
 *	In Actionscript the <code>String</code> class.
 *
+*	<h2>pattern</h2>
+*	<a name="#ptnlib:term:pattern" />
+*
+*	Any sequence of characters.
+*
+*	<h2>expression</h2>
+*	<a name="#ptnlib:term:expression" />
+*
+*	A <a href="#ptnlib:term:pattern" /> that contains one or more
+*	<a href="#ptnlib:term:meta:character" /> or <a href="#ptnlib:term:meta:sequence" />
+*	declarations.
+*
+*	<h2>primitive</h2>
+*	<a name="#ptnlib:term:primitive" />
+*
+*	Any <a href="#ptnlib:term:value" /> that is not an <a href="#ptnlib:term:object" />
+*	or <a href="#ptnlib:term:string" />.
+*
+*	<h2>tree</h2>
+*	<a name="#ptnlib:term:tree" />
+*
+*	A hierarchical relationship that could be expressed as <code>XML</code>.
+*
 *	<h2>object</h2>
 *	<a name="#ptnlib:term:object" />
 *
 *	A <a href="#ptnlib:term:value" /> in a programming language that allows
 *	for the definition of a <a href="#ptnlib:term:property" />.
+*
+*	An <em>object</em> <em>is inherently a</em> <a href="#ptnlib:term:tree" />.
 *
 *	<h2>property</h2>
 *	<a name="#ptnlib:term:property" />
@@ -53,21 +181,22 @@
 *
 *	The <a href="#ptnlib:term:string" /> name of the <a href="#ptnlib:term:property" /> of an <a href="#ptnlib:term:object" />.
 *
+*	<h2>list</h2>
+*	<a name="#ptnlib:term:list" />
+*
+*	An <a href="#ptnlib:term:object" /> in a programming language that stores
+*	a sequential collection of <a href="#ptnlib:term:object" />(s).
+*
 *	<h2>source expression</h2>
 *	<a name="#ptnlib:term:source:expression" />
 *
 *	An expression that defines a <a href="#ptnlib:term:pattern" />,
 *	either a <code>RegExp</code> or <code>String</code> in Actionscript.
 *
-*	<h2>pattern</h2>
-*	<a name="#ptnlib:term:pattern" />
-*
-*	Any sequence of characters.
-*
 *	<h2>target</h2>
 *	<a name="#ptnlib:term:target" />
 *
-*	A <em>target</em> is any value that a <a href="#ptnlib:term:pattern" /> is
+*	A <em>target</em> is any <a href="#ptnlib:term:value" /> that a <a href="#ptnlib:term:pattern:implementation" /> is
 *	attempting to <a href="#ptnlib:term:match" />.
 *
 *	<h2>match</h2>
@@ -75,10 +204,18 @@
 *
 *	The process of comparing a <a href="#ptnlib:term:pattern" /> to a <a href="#ptnlib:term:target" />.
 *
+*	<h2>occurence</h2>
+*	<a name="#ptnlib:term:occurence" />
+*
+*	The powerful ability of regular expressions to express the
+*	<a href="#ptnlib:term:minimum" /> and <a href="#ptnlib:term:maximum" />
+*	<em>number of times</em> a preceding <a href="#ptnlib:term:statement" />
+*	can <em>occur</em> using a <a href="#ptnlib:term:quantifier" />.
+*
 *	<h2>pattern list</h2>
 *	<a name="#ptnlib:term:pattern:list" />
 *
-*	A sequential collection of zero or more <a href="#ptnlib:term:pattern" /> declarations.
+*	A sequential collection of <a href="#ptnlib:term:zero" /> or more <a href="#ptnlib:term:pattern" /> declarations.
 *
 *	<h2>rule</h2>
 *	<a name="#ptnlib:term:rule" />
@@ -88,10 +225,16 @@
 *	<h2>pattern tree</h2>
 *	<a name="#ptnlib:term:pattern:tree" />
 *
-*	A tree hierarchy of one or more <a href="#ptnlib:term:pattern" /> declarations
+*	A <a href="#ptnlib:term:tree" /> of one or more <a href="#ptnlib:term:pattern" /> declarations
 *	created based on the <a href="#ptnlib:term:group" /> (and any
 *	<a href="#ptnlib:term:implicit:group" />) declarations contained in
 *	a <a href="#ptnlib:term:source:expression" />.
+*
+*	<h2>compile</h2>
+*	<a name="#ptnlib:term:compile" />
+*
+*	The process of converting a <a href="#ptnlib:term:source:expression" />
+*	to a <a href="#ptnlib:term:pattern:tree" />.
 *
 *	<h2>statement</h2>
 *	<a name="#ptnlib:term:statement" />
@@ -112,38 +255,129 @@
 *	<h3>meta sequence</h3>
 *	<a name="#ptnlib:term:meta:sequence" />
 *
-*	A sequence of one or more characters
+*	A sequence of two or more characters
 *	that have special meaning in a <a href="#ptnlib:term:pattern" />.
 *
 *	<h3>caret</h3>
 *	<a name="#ptnlib:term:caret" />
 *
-*	The <code>^</code> <a href="#ptnlib:term:meta:character" /> that when specified
-*	at the beginning of a <a href="#ptnlib:term:rule" /> indicates that a match
+*	The <code>'^'</code> <a href="#ptnlib:term:meta:character" /> that when specified
+*	at the beginning of a <a href="#ptnlib:term:rule" /> indicates that a <a href="#ptnlib:term:match" />
 *	must exist at the beginning of a <a href="#ptnlib:term:target" />.
+*
+*	When specified as the <em>first character</em> of a <a href="#ptnlib:term:range" />
+*	it creates a <a href="#ptnlib:term:negated:range" />.
+*
+*	<h3>dollar</h3>
+*	<a name="#ptnlib:term:dollar" />
+*
+*	The <code>'$'</code> <a href="#ptnlib:term:meta:character" /> that when specified
+*	as the final character of a <a href="#ptnlib:term:rule" /> indicates that a <a href="#ptnlib:term:match" />
+*	must exist at the end of a <a href="#ptnlib:term:target" />.
+*
+*	Declared any other part of an <a href="#ptnlib:term:expression" /> this <a href="#ptnlib:term:meta:character" />
+*	holds no special meaning.
+*
+*	<h2>grouping</h2>
+*	<a name="#ptnlib:term:grouping" />
+*
+*	A <a href="#ptnlib:term:meta:character" /> used to indicate the start
+*	of a <em>grouping</em> followed by a <a href="#ptnlib:term:pattern" /> and terminated
+*	by a <a href="#ptnlib:term:meta:character" /> used to indicate the end of a
+*	<em>grouping</em>.
+*
+*	Available groupings are defined as:
+*
+*	<ul>
+*		<li><code>()</code> -- A <a href="#ptnlib:term:group" />.</li>
+*		<li><code>[]</code> -- A <a href="#ptnlib:term:range" />.</li>
+*		<li><code>{}</code> -- A <a href="#ptnlib:term:quantifier:range" />.</li>
+*		<li><code>&lt;&gt;</code> -- A <a href="#ptnlib:term:field:grouping" />.</li>
+*	</ul>
+*
+*	Only a <a href="#ptnlib:term:group" /> allows for the <em>grouping</em>
+*	to be nested: <code>/([0-9]+([a-z]+))/</code>.
+*
+*	<h3>field grouping</h3>
+*	<a name="#ptnlib:term:field:grouping" />
+*
+*	A <a href="#ptnlib:term:field" /> encapsulated by <code>&lt;&gt;</code>.
 *
 *	<h2>group</h2>
 *	<a name="#ptnlib:term:group" />
 *
 *	A <a href="#ptnlib:term:pattern" /> encapsulated using parentheses.
 *
-*	<pre>([a-z])</pre>
+*	<pre>/([a-z])/</pre>
+*
+*	In the context of a <em>group</em>, a <a href="#ptnlib:term:field" />
+*	is synonymous with the <em>group name</em>.
+*
+*	<h3>qualifier</h3>
+*	<a name="#ptnlib:term:group:qualifier" />
+*
+*	A <a href="#ptnlib:term:meta:sequence" /> that <em>qualifies</em>
+*	the behaviour of a group.
+*
+*	<ul>
+*		<li><code>?:</code> -- The <a href="#ptnlib:term:non:capturing:qualifier" />.</li>
+*		<li><code>?=</code> -- The <a href="#ptnlib:term:positive:lookahead:qualifier" />.</li>
+*		<li><code>?!</code> -- The <a href="#ptnlib:term:negative:lookahead:qualifier" />.</li>
+*		<li><code>?P</code> -- The <a href="#ptnlib:term:named:qualifier" />.</li>
+*	</ul>
+*
+*	<h3>non-capturing qualifier</h3>
+*	<a name="#ptnlib:term:non:capturing:qualifier" />
+*
+*	The <a href="#ptnlib:term:meta:sequence" /> <code>'?:'</code> declared immediately
+*	after the left parentheses <code>'('</code> used to declare the start of a <a href="#ptnlib:term:group" />.
+*
+*	This <em>qualifier</em> indicates that the result of a <a href="#ptnlib:term:match" />
+*	(against this <a href="#ptnlib:term:group" />) should
+*	be discarded, the <a href="#ptnlib:term:group" /> is said to be <em>non-capturing</em>.
+*
+*	<h3>positive lookahead qualifier</h3>
+*	<a name="#ptnlib:term:positive:lookahead:qualifier" />
+*
+*	The <a href="#ptnlib:term:meta:sequence" /> <code>'?='</code> declared immediately
+*	after the left parentheses <code>'('</code> used to declare the start of a <a href="#ptnlib:term:group" />.
+*
+*	<h3>negative lookahead qualifier</h3>
+*	<a name="#ptnlib:term:negative:lookahead:qualifier" />
+*
+*	The <a href="#ptnlib:term:meta:sequence" /> <code>'?!'</code> declared immediately
+*	after the left parentheses <code>'('</code> used to declare the start of a <a href="#ptnlib:term:group" />.
+*
+*	<h3>named qualifier</h3>
+*	<a name="#ptnlib:term:named:qualifier" />
+*
+*	The <a href="#ptnlib:term:meta:sequence" /> <code>'?P'</code> declared immediately
+*	after the left parentheses <code>'('</code> indicating the
+*	start of a <a href="#ptnlib:term:named:group" />.
 *
 *	<h3>named group</h3>
 *	<a name="#ptnlib:term:named:group" />
 *
-*	A <a href="#ptnlib:term:group" /> that has been assigned a name.
+*	A <a href="#ptnlib:term:group" /> that has been assigned 
+*	a <a href="#ptnlib:term:named:qualifier" /> and a <a href="#ptnlib:term:field:grouping" />
+*	which declares the <em>group name</em>.
 *
-*	<pre>(?P&lt;id&gt;)</pre>
+*	<pre>/(?P&lt;id&gt;[a-zA-Z0-9]+)/</pre>
 *
-*	In the above example <code>id</code> is the name of the <a href="#ptnlib:term:group" />.
+*	In the above example <code>id</code> is the name of the <a href="#ptnlib:term:group" />
+*	<em>and</em> the <a href="#ptnlib:term:field" />. The expression <code>[a-zA-Z0-9]+</code>
+*	within the group is the <em>pattern list</em>.
+*
+*	It is this <a href="#ptnlib:term:string" /> (<code>id</code>) that defines both the
+*	<em>group name</em> and the <a href="#ptnlib:term:field" /> of a <a href="#ptnlib:term:target" />
+*	that a <a href="#ptnlib:term:match" /> should be performed against.
 *
 *	<h3>implicit group</h3>
 *	<a name="#ptnlib:term:implicit:group" />
 *
 *	An <em>implicit group</em> is a <a href="#ptnlib:term:group" /> that
 *	has <em>not been declared</em> that if created
-*	would not alter the meaning of the <a href="#ptnlib:term:pattern" />.
+*	would not alter the meaning of the <a href="#ptnlib:term:expression" />.
 *
 *	<pre>(a|b|c(d))</pre>
 *
@@ -158,16 +392,16 @@
 *
 *	A character class <a href="#ptnlib:term:pattern" />.
 *
-*	<pre>[0-9]</pre>
+*	<pre>/[0-9]/</pre>
 *
 *	<h2>negated range</h2>
 *	<a name="#ptnlib:term:negated:range" />
 *
-*	A character class that has been negated by specifying the <code>^</code>
-*	<a href="#ptnlib:term:meta:character" /> at the <em>beginning of the
+*	A character class that has been negated by specifying the
+*	<a href="#ptnlib:term:caret" /> <code>'^'</code> at the <em>beginning of the
 *	character class</em>.
 *
-*	<pre>[^0-9]</pre>
+*	<pre>/[^0-9]/</pre>
 *
 *	<h2>quantifier</h2>
 *	<a name="#ptnlib:term:quantifier" />
@@ -175,8 +409,9 @@
 *	A <a href="#ptnlib:term:meta:sequence" /> that indicates the minimum and
 *	maximum number of occurences for a preceding <a href="#ptnlib:term:statement" />.
 *
-*	Includes the meta characters <code>+</code>,
-*	<code>?</code> and <code>&#42;</code> or a <a href="#ptnlib:term:quantifier:range" />.
+*	Includes the <a href="#ptnlib:term:meta:character" /> <em>quantifiers</em>
+*	<a href="#ptnlib:term:wildcard" />, <a href="#ptnlib:term:plus" />,
+*	<a href="#ptnlib:term:optionality" /> and the <a href="#ptnlib:term:quantifier:range" />.
 *
 *	<h3>minimum</h3>
 *	<a name="#ptnlib:term:minimum" />
@@ -212,28 +447,28 @@
 *	<h3>wildcard</h3>
 *	<a name="#ptnlib:term:wildcard" />
 *
-*	The <code>&#42;</code> character used to indicate that a preceding
+*	The <code>'&#42;'</code> character used to indicate that a preceding
 *	<a href="#ptnlib:term:statement" /> can occur <em>zero or an
 *	unlimited number of times</em>.
 *
-*	<pre>[a-z]&#42;</pre>
+*	<pre>/[a-z]&#42;/</pre>
 *
 *	<h3>plus</h3>
 *	<a name="#ptnlib:term:plus" />
 *
-*	The <code>&#43;</code> character used to indicate that a preceding
+*	The <code>'&#43;'</code> character used to indicate that a preceding
 *	<a href="#ptnlib:term:statement" /> can occur <em>once or an
 *	unlimited number of times</em>.
 *
-*	<pre>[a-z]&#43;</pre>
+*	<pre>/[a-z]&#43;/</pre>
 *
 *	<h3>optionality</h3>
 *	<a name="#ptnlib:term:optionality" />
 *
-*	The <code>?</code> character used to indicate that a preceding
+*	The <code>'?'</code> character used to indicate that a preceding
 *	<a href="#ptnlib:term:statement" /> can occur <em>zero</em> or <em>once</em>.
 *
-*	<pre>[a-z]?</pre>
+*	<pre>/[a-z]?/</pre>
 *
 *	<h3>quantifier range</h3>
 *	<a name="#ptnlib:term:quantifier:range" />
@@ -251,6 +486,8 @@
 *	<pre>{2}       //exactly 2 occurences
 *	{2,4}     //minimum 2 occurences and maximum 4 occurences
 *	{2,}      //minimum 2 occurences and an unlimited maximum</pre>
+*
+*	<pre>/^[0-9]{10,11}$/</pre>
 *
 *	<h2>data</h2>
 *	<a name="#ptnlib:term:data" />
@@ -275,13 +512,21 @@
 *	A sequence of one or more characters
 *	that are not a meta character or meta sequence.
 *
+*	<h3>character quantifier</h3>
+*	<a name="#ptnlib:term:character:quantifier" />
+*
+*	A <a href="#ptnlib:term:quantifier" /> that applies to a preceding
+*	<a href="#ptnlib:term:character" />.
+*
+*	<pre>/alpha+/</pre>
+*
 *	<h3>inline character quantifier</h3>
 *	<a name="#ptnlib:term:inline:character:quantifier" />
 *
 *	A <a href="#ptnlib:term:quantifier" /> that appears between a <a href="#ptnlib:term:character:sequence" />
 *	and another <a href="#ptnlib:term:character:sequence" />.
 * 
-*	<pre>alpha+numeric</pre>
+*	<pre>/alpha+numeric/</pre>
 *
 *	<h1>Design Goals</h1>
 *	<a name="#ptnlib:design:goals" />
@@ -303,6 +548,13 @@
 *
 *	This helps to future-proof the library for any further matching requirements.
 *
+*	<h2>Language Neutrality</h2>
+*	<a name="#ptnlib:language:neutrality" />
+*
+*	The pattern library specification has been designed
+*	to be language neutral so that the same API can be
+*	ported to any language capable of implementing this specification.
+*
 *	<h1>Match Definitions</h1>
 *	<a name="#ptnlib:pattern:match:definitions" />
 *
@@ -310,11 +562,11 @@
 *	in order of perceived complexity from simplest to most complex:
 *
 *	<ul>
-*		<li>Match the <em>string type</em> -- standard regular expression behaviour.</li>
-*		<li>Match against other primitive types, it is acceptable to coerce the primitive to a string and <a href="#ptnlib:term:match" /> against the resulting string.</li>
-*		<li>Match against the field(s) of complex types.</li>
-*		<li>Match against the field(s) of complex types that occur in a list, including occurence matching.</li>
-*		<li>Match against a <a href="#ptnlib:term:target" /> treating it as an object graph and performing the <a href="#ptnlib:term:match" /> against nested fields.</li>
+*		<li>Match a <a href="#ptnlib:term:string" /> -- standard regular expression behaviour.</li>
+*		<li>Match a <a href="#ptnlib:term:primitive" />, it is acceptable to coerce the <a href="#ptnlib:term:primitive" /> to a <a href="#ptnlib:term:string" /> and <a href="#ptnlib:term:match" /> against the resulting <a href="#ptnlib:term:string" />.</li>
+*		<li>Match the <a href="#ptnlib:term:field" />(s) of <a href="#ptnlib:term:object" />(s).</li>
+*		<li>Match the <a href="#ptnlib:term:field" />(s) of <a href="#ptnlib:term:object" />(s) that occur in a <a href="#ptnlib:term:list" />, including <a href="#ptnlib:term:occurence" /> matching.</li>
+*		<li>Match against a <a href="#ptnlib:term:target" /> treating it as a <a href="#ptnlib:term:tree" /> and performing the <a href="#ptnlib:term:match" /> against nested <a href="#ptnlib:term:field" />(s).</li>
 *	</ul>
 *
 *	<h1>Representation</h1>
@@ -811,66 +1063,6 @@ package com.ffsys.pattern
 			}else{
 				this.source = source;
 			}
-		}
-		
-		/**
-		* 	The modifiers of the regular expression.
-		* 
-		* 	These can include the following:
-		* 
-		*	g - When using the replace() method of the String class, specify this
-		* 	modifier to replace all matches, rather than only the first one.
-		*	This modifier corresponds to the global property of the RegExp instance.
-		* 
-		*	i - The regular expression is evaluated without case sensitivity.
-		* 	This modifier corresponds to the ignoreCase property of the RegExp instance.
-		* 
-		*	s - The dot (.) character matches new-line characters.
-		* 	Note This modifier corresponds to the dotall property of the RegExp instance.
-		* 
-		*	m - The caret (^) character and dollar sign ($) match before and after new-line characters.
-		* 	This modifier corresponds to the multiline property of the RegExp instance.
-		* 
-		*	x - White space characters in the re string are ignored, so that you can write more readable constructors.
-		* 	This modifier corresponds to the extended property of the RegExp instance.
-		* 
-		*	All other characters in the flags string are ignored.
-		*/
-		public function get flags():String
-		{
-			var flags:String = "";
-			if( global )
-			{
-				flags += GLOBAL_FLAG;
-			}
-			if( dotall )
-			{
-				flags += DOTALL_FLAG;
-			}
-			if( extended )
-			{
-				flags += EXTENDED_FLAG;
-			}
-			if( multiline )
-			{
-				flags += MULTILINE_FLAG;
-			}
-			if( ignoreCase )
-			{
-				flags += IGNORE_CASE_FLAG;
-			}						
-			return flags;
-		}
-		
-		public function set flags( value:String ):void
-		{
-			if( value == null )
-			{
-				value = "";
-			}
-			value = value.replace( /[^xmigs]/g, "" );
-			//regex is invalidated on flag change
-			_regex = new RegExp( this.regex.source, value );
 		}
 		
 		/**
@@ -1784,8 +1976,6 @@ package com.ffsys.pattern
 				}
 			}else
 			{
-				//x.appendChild( new XML( "<source><![CDATA[" + toString() + "]]></source>" ) );
-				
 				x.appendChild( getXmlElement( SOURCE, toString() ) );
 			}
 			
@@ -1826,7 +2016,7 @@ package com.ffsys.pattern
 		/**
 		* 	@private
 		*/
-		override public function toPatternString():String
+		override public function toPatternLiteral():String
 		{
 			var prefix:String = rule ? PATTERN : PTN;
 			return prefix + ":" + DELIMITER + toString() + DELIMITER;
@@ -2120,6 +2310,7 @@ package com.ffsys.pattern
 					ptn.previousSibling.source += ptn.source;
 					return _compiled;
 				}else{
+					//TODO?
 					trace("Pattern::get compiled()", "[FOUND ESCAPED META SEQUENCE WITH NO PREVIOUS CHARACTER MATCH]", ptn );
 				}
 			}

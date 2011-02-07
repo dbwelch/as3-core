@@ -1,4 +1,4 @@
-package com.ffsys.scanner
+package com.ffsys.pattern
 {
 	import flash.events.*;
 	import flash.net.*;
@@ -6,7 +6,6 @@ package com.ffsys.scanner
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.scanner.*;
 	import com.ffsys.pattern.*;
 	
 	/**
@@ -26,6 +25,8 @@ package com.ffsys.scanner
 		public function addressValidationTest():void
 		{
 			default xml namespace = Pattern.NAMESPACE;
+			
+			var re:RegExp = /    (\d{2})    (\s*\w{2}\s*)    (\d{2})    /x;
 			
 			var address_1:Object =
 			{

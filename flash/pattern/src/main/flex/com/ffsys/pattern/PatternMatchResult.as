@@ -125,7 +125,7 @@ package com.ffsys.pattern
 				if( pattern != null )
 				{
 					x.appendChild( getXmlElement(
-						PATTERN, pattern.toPatternString() ) );
+						PATTERN, pattern.toPatternLiteral() ) );
 				}
 			}
 			return x;
