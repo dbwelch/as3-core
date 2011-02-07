@@ -1,53 +1,321 @@
 /**
-*	A library for pattern matching.
+*	The specification and reference implementation for a versatile
+*	pattern matching library.
 *
 *	Use cases include scanner token validation or form field validation.
 *
-*	The primary design goal was to <em>not deviate</em> from
-*	regular expression syntax while allowing matching
-*	against primitive and complex types.
-*
-*	In addition the library has been designed to be as flexible as possible
-*	so should suffice for nearly any matching requirement.
-*
-*	An understanding of regular expression syntax is assumed
+*	An understanding of regular expression grammar is assumed
 *	for the rest of this documentation.
 *
 *	<h1>Abstract</h1>
+*	<a name="#ptnlib:abstract" />
 *
 *	Regular expressions are something of a double-edged sword. The powerful
 *	nature of the syntax allows for complex rules to be expressed concisely,
 *	but complex rules can become unwieldy to manage unless broken down into
 *	smaller pattern rules.
 *
+*	In addition they have always appeared to be very limited by the implementation
+*	in most programming languages that only allows for matching regular expressions
+*	against a <a href="#ptnlib:term:string" />.
+*
 *	<h1>Terminology</h1>
 *
-*	<h2>Source Expression</h2>
+*	This section expands on accepted regular expression grammar definitions to
+*	define terms specific to the pattern library.
+*
+*	<h2>value</h2>
+*	<a name="#ptnlib:term:value" />
+*
+*	Any primitive or complex type defined by a programming language.
+*
+*	<h2>string</h2>
+*	<a name="#ptnlib:term:string" />
+*
+*	A literal expression or instance of a complex object used by a programming language
+*	to represent a sequence of characters.
+*
+*	In Actionscript the <code>String</code> class.
+*
+*	<h2>object</h2>
+*	<a name="#ptnlib:term:object" />
+*
+*	A <a href="#ptnlib:term:value" /> in a programming language that allows
+*	for the definition of a <a href="#ptnlib:term:property" />.
+*
+*	<h2>property</h2>
+*	<a name="#ptnlib:term:property" />
+*
+*	A named <a href="#ptnlib:term:value" /> assigned to an <a href="#ptnlib:term:object" />.
+*
+*	<h2>field</h2>
+*	<a name="#ptnlib:term:field" />
+*
+*	The <a href="#ptnlib:term:string" /> name of the <a href="#ptnlib:term:property" /> of an <a href="#ptnlib:term:object" />.
+*
+*	<h2>source expression</h2>
 *	<a name="#ptnlib:term:source:expression" />
 *
-*	<ul>
-*		<li><strong>source expression</strong> -- An expression that defines the pattern, either a <code>RegExp</code> or <code>String</code> in Actionscript.</li>
-*		<li><strong>meta character</strong> -- A single character that has special meaning in a <em>pattern</em>.</li>
-*		<li><strong>meta sequence</strong> -- A sequence of two or more characters that has special meaning in a <em>pattern</em>.</li>
-*		<li><strong>group</strong> -- An expression encapsulated using parentheses, <code>([a-z])</code>.</li>
-*		<li><strong>named group</strong> -- A group that has been assigned a name, (?P&lt;id&gt;); where <code>id</code> is the name of the group.</li>
-*		<li><strong>range</strong> -- A character class expression, <code>[0-9]</code>.</li>
-*		<li><strong>quantifier range</strong> -- A quantifier range, {2}, {2,4} or {2,}.</li>
-*		<li><strong>quantifier</strong> -- Any quantifier including the meta characters <code>+</code>, <code>?</code> and <code>&#42;</code> or a quantifier range.</li>
-*		<li><strong>meta</strong> -- Any meta character or meta sequence.</li>
-*		<li><strong>character</strong> -- Any single character that is not a meta character or meta sequence.</li>
-*		<li><strong>character sequence</strong> -- A sequence of one or more characters that are not a meta character or meta sequence.</li>
-*		<li><strong>inline character quantifier</strong> -- A <em>quantifier</em> that appears between <em>character sequences</em>, <code>alpha+numeric</code>.</li>
-*		<li><strong>data</strong> -- A character sequence that may contain zero or more <em>inline character quantifiers</em>.</li>
-*		<a name="#term:pattern" />
-*		<li><strong>pattern</strong> -- Any of the above.</li>
-*		<li><strong>pattern list</strong> -- A sequential collection of zero or more patterns.</li>
-*	</ul>
+*	An expression that defines a <a href="#ptnlib:term:pattern" />,
+*	either a <code>RegExp</code> or <code>String</code> in Actionscript.
 *
-*	Note that when discussing quantifiers that have <em>unlimited</em>
-*	or <em>infinite</em> maximum matches in reality there is a 
-*	limit that corresponds to <code>uint.MAX_VALUE</code> but
-*	for brevity's sake it's easier to describe them as <em>unlimited</em>.
+*	<h2>pattern</h2>
+*	<a name="#ptnlib:term:pattern" />
+*
+*	Any sequence of characters.
+*
+*	<h2>target</h2>
+*	<a name="#ptnlib:term:target" />
+*
+*	A <em>target</em> is any value that a <a href="#ptnlib:term:pattern" /> is
+*	attempting to <a href="#ptnlib:term:match" />.
+*
+*	<h2>match</h2>
+*	<a name="#ptnlib:term:match" />
+*
+*	The process of comparing a <a href="#ptnlib:term:pattern" /> to a <a href="#ptnlib:term:target" />.
+*
+*	<h2>pattern list</h2>
+*	<a name="#ptnlib:term:pattern:list" />
+*
+*	A sequential collection of zero or more <a href="#ptnlib:term:pattern" /> declarations.
+*
+*	<h2>rule</h2>
+*	<a name="#ptnlib:term:rule" />
+*
+*	A <a href="#ptnlib:term:pattern" /> at the root of a <a href="#ptnlib:term:pattern:tree" />.
+*
+*	<h2>pattern tree</h2>
+*	<a name="#ptnlib:term:pattern:tree" />
+*
+*	A tree hierarchy of one or more <a href="#ptnlib:term:pattern" /> declarations
+*	created based on the <a href="#ptnlib:term:group" /> (and any
+*	<a href="#ptnlib:term:implicit:group" />) declarations contained in
+*	a <a href="#ptnlib:term:source:expression" />.
+*
+*	<h2>statement</h2>
+*	<a name="#ptnlib:term:statement" />
+*
+*	A <a href="#ptnlib:term:group" />, <a href="#ptnlib:term:range" /> or <a href="#ptnlib:term:character:sequence" />.
+*
+*	<h2>meta</h2>
+*	<a name="#ptnlib:term:meta" />
+*
+*	Any <a href="#ptnlib:term:meta:character" /> or <a href="#ptnlib:term:meta:sequence" />.
+*
+*	<h3>meta character</h3>
+*	<a name="#ptnlib:term:meta:character" />
+*
+*	A single character that has special
+*	meaning in a <a href="#ptnlib:term:pattern" />.
+*
+*	<h3>meta sequence</h3>
+*	<a name="#ptnlib:term:meta:sequence" />
+*
+*	A sequence of one or more characters
+*	that have special meaning in a <a href="#ptnlib:term:pattern" />.
+*
+*	<h3>caret</h3>
+*	<a name="#ptnlib:term:caret" />
+*
+*	The <code>^</code> <a href="#ptnlib:term:meta:character" /> that when specified
+*	at the beginning of a <a href="#ptnlib:term:rule" /> indicates that a match
+*	must exist at the beginning of a <a href="#ptnlib:term:target" />.
+*
+*	<h2>group</h2>
+*	<a name="#ptnlib:term:group" />
+*
+*	A <a href="#ptnlib:term:pattern" /> encapsulated using parentheses.
+*
+*	<pre>([a-z])</pre>
+*
+*	<h3>named group</h3>
+*	<a name="#ptnlib:term:named:group" />
+*
+*	A <a href="#ptnlib:term:group" /> that has been assigned a name.
+*
+*	<pre>(?P&lt;id&gt;)</pre>
+*
+*	In the above example <code>id</code> is the name of the <a href="#ptnlib:term:group" />.
+*
+*	<h3>implicit group</h3>
+*	<a name="#ptnlib:term:implicit:group" />
+*
+*	An <em>implicit group</em> is a <a href="#ptnlib:term:group" /> that
+*	has <em>not been declared</em> that if created
+*	would not alter the meaning of the <a href="#ptnlib:term:pattern" />.
+*
+*	<pre>(a|b|c(d))</pre>
+*
+*	In this case <code>a|b|c</code> is the <em>implicit group</em> and the entire
+*	<a href="#ptnlib:term:pattern" /> could be represented with additional
+*	<a href="#ptnlib:term:group" /> declarations without altering the meaning:
+*
+*	<pre>((a|b|c)(d))</pre>
+*
+*	<h2>range</h2>
+*	<a name="#ptnlib:term:range" />
+*
+*	A character class <a href="#ptnlib:term:pattern" />.
+*
+*	<pre>[0-9]</pre>
+*
+*	<h2>negated range</h2>
+*	<a name="#ptnlib:term:negated:range" />
+*
+*	A character class that has been negated by specifying the <code>^</code>
+*	<a href="#ptnlib:term:meta:character" /> at the <em>beginning of the
+*	character class</em>.
+*
+*	<pre>[^0-9]</pre>
+*
+*	<h2>quantifier</h2>
+*	<a name="#ptnlib:term:quantifier" />
+*
+*	A <a href="#ptnlib:term:meta:sequence" /> that indicates the minimum and
+*	maximum number of occurences for a preceding <a href="#ptnlib:term:statement" />.
+*
+*	Includes the meta characters <code>+</code>,
+*	<code>?</code> and <code>&#42;</code> or a <a href="#ptnlib:term:quantifier:range" />.
+*
+*	<h3>minimum</h3>
+*	<a name="#ptnlib:term:minimum" />
+*
+*	The pseudo property of a <a href="#ptnlib:term:quantifier" /> that indicates the minimum
+*	number of occurences for a preceding <a href="#ptnlib:term:statement" />.
+*
+*	<h3>maximum</h3>
+*	<a name="#ptnlib:term:maximum" />
+*
+*	The pseudo property of a <a href="#ptnlib:term:quantifier" /> that indicates the maximum
+*	number of occurences for a preceding <a href="#ptnlib:term:statement" />.
+*
+*	<h3>unlimited</h3>
+*	<a name="#ptnlib:term:unlimited" />
+*
+*	Refers to the perceived ability of a <a href="#ptnlib:term:quantifier" /> to match
+*	an <em>unlimited</em> number of times.
+*
+*	In reality in would be nonsense for an implementation to allow for the infinite loop
+*	that this could create so an unsigned integer should be used to represent this limit.
+*
+*	The actual limitation in the Actionscript implementation is equaivalent to
+*	<code>uint.MAX_VALUE</code>.
+*
+*	<h3>zero</h3>
+*	<a name="#ptnlib:term:zero" />
+*
+*	Refers to the ability of a <a href="#ptnlib:term:quantifier" /> to indicate
+*	that a preceding statement is optional, that is to say, it may not occur at
+*	all when matching is performed.
+*
+*	<h3>wildcard</h3>
+*	<a name="#ptnlib:term:wildcard" />
+*
+*	The <code>&#42;</code> character used to indicate that a preceding
+*	<a href="#ptnlib:term:statement" /> can occur <em>zero or an
+*	unlimited number of times</em>.
+*
+*	<pre>[a-z]&#42;</pre>
+*
+*	<h3>plus</h3>
+*	<a name="#ptnlib:term:plus" />
+*
+*	The <code>&#43;</code> character used to indicate that a preceding
+*	<a href="#ptnlib:term:statement" /> can occur <em>once or an
+*	unlimited number of times</em>.
+*
+*	<pre>[a-z]&#43;</pre>
+*
+*	<h3>optionality</h3>
+*	<a name="#ptnlib:term:optionality" />
+*
+*	The <code>?</code> character used to indicate that a preceding
+*	<a href="#ptnlib:term:statement" /> can occur <em>zero</em> or <em>once</em>.
+*
+*	<pre>[a-z]?</pre>
+*
+*	<h3>quantifier range</h3>
+*	<a name="#ptnlib:term:quantifier:range" />
+*
+*	A <a href="#ptnlib:term:quantifier" /> that defines an explicit <a href="#ptnlib:term:minimum" /> and
+*	optional <a href="#ptnlib:term:maximum" /> number of occurences for a preceding
+*	<a href="#ptnlib:term:statement" /> conforming to the syntax:
+*
+*	<pre>{n}
+*	{n,n}
+*	{n,}</pre>
+*
+*	For example:
+*
+*	<pre>{2}       //exactly 2 occurences
+*	{2,4}     //minimum 2 occurences and maximum 4 occurences
+*	{2,}      //minimum 2 occurences and an unlimited maximum</pre>
+*
+*	<h2>data</h2>
+*	<a name="#ptnlib:term:data" />
+*
+*	A <a href="#ptnlib:term:character:sequence" /> that may contain zero
+*	or more <a href="#ptnlib:term:inline:character:quantifier" /> occurences.
+*
+*	This type of <a href="#ptnlib:term:pattern" /> may have a <a href="#ptnlib:term:quantifier" />
+*	at the end (or in between) but should never have a <a href="#ptnlib:term:quantifier" />
+*	at the beginning that applies to a <a href="#ptnlib:term:group" /> or
+*	<a href="#ptnlib:term:range" /> preceding the <a href="#ptnlib:term:quantifier" />.
+*
+*	<h3>character</h3>
+*	<a name="#ptnlib:term:character" />
+*
+*	Any single character that is not a
+*	meta character or meta sequence.
+*
+*	<h3>character sequence</h3>
+*	<a name="#ptnlib:term:character:sequence" />
+*
+*	A sequence of one or more characters
+*	that are not a meta character or meta sequence.
+*
+*	<h3>inline character quantifier</h3>
+*	<a name="#ptnlib:term:inline:character:quantifier" />
+*
+*	A <a href="#ptnlib:term:quantifier" /> that appears between a <a href="#ptnlib:term:character:sequence" />
+*	and another <a href="#ptnlib:term:character:sequence" />.
+* 
+*	<pre>alpha+numeric</pre>
+*
+*	<h1>Design Goals</h1>
+*	<a name="#ptnlib:design:goals" />
+*
+*	<h2>Regular Expression Grammar Compliance</h2>
+*	<a name="#ptnlib:regex:grammar:compliance" />
+*
+*	The primary design goal was to <em>not deviate</em> from
+*	regular expression syntax whilst allowing matching
+*	against primitive and complex types <em>in addition</em> to the
+*	string matching that regular expressions were originally designed for.
+*
+*	<h2>Complete Grammar Representation</h2>
+*	<a name="#ptnlib:regex:grammar:representation" />
+*
+*	A pattern library implementation should understand the regular expression
+*	grammar completely as a pattern tree, even if certain parts of the
+*	grammar are superficial to the matching requirements defined by this specification.
+*
+*	This helps to future-proof the library for any further matching requirements.
+*
+*	<h1>Match Definitions</h1>
+*	<a name="#ptnlib:pattern:match:definitions" />
+*
+*	A summary of definitive <a href="#ptnlib:term:match" /> use cases that the pattern library <em>must fulfill</em>
+*	in order of perceived complexity from simplest to most complex:
+*
+*	<ul>
+*		<li>Match the <em>string type</em> -- standard regular expression behaviour.</li>
+*		<li>Match against other primitive types, it is acceptable to coerce the primitive to a string and <a href="#ptnlib:term:match" /> against the resulting string.</li>
+*		<li>Match against the field(s) of complex types.</li>
+*		<li>Match against the field(s) of complex types that occur in a list, including occurence matching.</li>
+*		<li>Match against a <a href="#ptnlib:term:target" /> treating it as an object graph and performing the <a href="#ptnlib:term:match" /> against nested fields.</li>
+*	</ul>
 *
 *	<h1>Representation</h1>
 *
@@ -294,6 +562,16 @@
 *	<pre>var tokens:Vector.&lt;Token&gt; = new Vector.&lt;Token&gt;();
 *	// ...configure token list here
 *	var matched:Boolean = ptn.list( tokens );</pre>
+*
+*	<h1>Compiler</h1>
+*	<a name="#ptnlib:compiler" />
+*
+*	A <em>pattern compiler</em> has the following responsibilities:
+*
+*	<ul>
+*		<li>Enfore groups -- create groups for any sequences that are not already grouped that require grouping for tree analysis.</li>
+*		<li>Tree analysis -- create a tree structure representation of the pattern based on the group declarations.</li>
+*	</ul>
 *
 *	<h1>Usage Notes</h1>
 *	<a name="#ptnlib:usage:notes" />
