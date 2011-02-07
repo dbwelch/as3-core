@@ -2169,7 +2169,10 @@
 		<xsl:if test="matches($input,'^h3$')">
 			<xsl:call-template name="start-subsubsection" />
 		</xsl:if>
-		
+
+		<xsl:if test="matches($input,'^p$')">
+			<xsl:call-template name="start-paragraph" />
+		</xsl:if>
 		
 		<xsl:if test="matches($input,'^ul|ol$')">
 			<xsl:call-template name="start-itemize" />
@@ -2198,7 +2201,10 @@
 		</xsl:if>		
 		<xsl:if test="matches($input,'^h1|h2|h3$')">
 			<xsl:value-of select="$default-output" />
-		</xsl:if>	
+		</xsl:if>
+		<xsl:if test="matches($input,'^p$')">
+			<xsl:value-of select="$default-output" />
+		</xsl:if>			
 		
 		<xsl:if test="matches($input,'^ul|ol$')">
 			<xsl:call-template name="end-itemize" />
