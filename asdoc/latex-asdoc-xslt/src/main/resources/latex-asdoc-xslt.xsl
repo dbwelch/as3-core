@@ -2236,10 +2236,16 @@
 			<xsl:for-each select="$words">
 				<xsl:variable name="word" select="string(.)" />
 				
-				<xsl:variable name="negated-xref" select="matches($word,'^!')" />
-				
 				<!-- Test for the word matching a known class or interface -->
-				<xsl:variable name="match" select="$toplevel//classRec[@name = $word] | $toplevel//interfaceRec[@name = $word]" />
+				<xsl:variable name="match"
+					select="$toplevel//classRec[@name = replace($word,'^!{1}','')] | $toplevel//interfaceRec[@name = replace($word,'^!{1}','')]" />
+				<xsl:variable name="negated-xref" select="matches($word,'^!') and $match" />
+				
+				<!-- negated xrefs that would match are stripped
+					of the negation '!' and output with no xref -->
+				<xsl:if test="$negated-xref">
+					<xsl:value-of select="replace($word,'^!{1}','')" />
+				</xsl:if>
 				
 				<!-- hash characters may have been escaped for latex output -->
 				<xsl:variable name="nameref" select="matches($word,'^(\\)?#([^#;]+);?$')" />
@@ -2274,19 +2280,20 @@
 				</xsl:if>
 				
 				<!-- try to automatically xref to a documented class/interface -->
-				<xsl:choose>
-					<xsl:when test="$match and not($nameref) and not($inline-nameref)">
-						<xsl:call-template name="nameref">
-							<xsl:with-param name="input" select="$match/@fullname" />
-						</xsl:call-template>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:if test="not($nameref) and not($inline-nameref)">
-							<xsl:value-of select="$word" />
-						</xsl:if>
-					</xsl:otherwise>
-				</xsl:choose>
-				
+				<xsl:if test="not($negated-xref)">
+					<xsl:choose>
+						<xsl:when test="$match and not($nameref) and not($inline-nameref)">
+							<xsl:call-template name="nameref">
+								<xsl:with-param name="input" select="$match/@fullname" />
+							</xsl:call-template>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:if test="not($nameref) and not($inline-nameref)">
+								<xsl:value-of select="$word" />
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
 				
 				<!-- add intermediary whitespace that we tokenized on -->
 				<xsl:if test="position() &lt; count( $words )">

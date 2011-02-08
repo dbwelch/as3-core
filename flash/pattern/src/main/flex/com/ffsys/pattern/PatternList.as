@@ -1,5 +1,7 @@
 package com.ffsys.pattern
 {
+	import com.ffsys.dom.*;
+	
 	/**
 	* 	Represents a collection of patterns.
 	*

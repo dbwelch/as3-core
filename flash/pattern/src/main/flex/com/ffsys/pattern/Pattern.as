@@ -2,8 +2,6 @@
 *	<p>The specification and reference implementation for a versatile
 *	pattern matching library.</p>
 *
-*	<p>Use cases include scanner token validation or form field validation.</p>
-*
 *	<p>An understanding of regular expression grammar is assumed
 *	for the rest of this documentation.</p>
 *
@@ -864,18 +862,25 @@
 *	<a name="#ptnlib:idl:definitions" />
 *
 *	<p>This section defines the contract for a
-*	#ptnlib:term:pattern:implementation; using the IDL grammar of the COM.</p>
+*	#ptnlib:term:pattern:implementation; using the [WEBIDL] grammar.</p>
 *
 *	<h3>!Pattern</h3>
 *	<a name="#ptnlib:idl:pattern" />
 *
 *	<pre>
-*	interface Pattern {
-*	    const unsigned short RULE_LIST_TYPE								= 1;
-*	    const unsigned short RULE_TYPE									= 2;
-*	    const unsigned short GROUP_TYPE									= 4;
-*	    const unsigned short RANGE_TYPE        							= 8;
-*	    const unsigned short CHARACTER_CLASS_TYPE        				= 16;
+*	interface Pattern : Node {
+*	    const unsigned long RULE_LIST_TYPE								= 1;
+*	    const unsigned long RULE_TYPE									= 2;
+*	    const unsigned long GROUP_TYPE									= 4;
+*	    const unsigned long RANGE_TYPE        							= 8;
+*	    const unsigned long CHARACTER_CLASS_TYPE        				= 16;
+*	    const unsigned long QUANTIFIER_TYPE								= 32;
+*	    const unsigned long DATA_TYPE									= 64;
+*	    const unsigned long MODIFIER_TYPE        						= 128;
+*	    const unsigned long META_TYPE        							= 256;
+
+*	    const DOMString NAMESPACE_PREFIX								= 64;
+*	    const DOMString NAMESPACE_URI        							= 128;
 *	}
 *	</pre>
 *
@@ -884,7 +889,7 @@
 *
 *	<p>In order for a compiler to capture a correct tree analysis for the pattern
 *	it must group sequences that are not already grouped, therefore it is inherently
-*	more efficient if these #ptnlib:term:group;s are always declared in the #ptnlib:term:source:expression;,
+*	more efficient if these #ptnlib:term:group;(s) are always declared in the #ptnlib:term:source:expression;,
 *	see <a href="#ptnlib:usage:notes" />.</p>
 */
 package com.ffsys.pattern
