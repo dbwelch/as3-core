@@ -114,7 +114,7 @@ package com.ffsys.dom.core
 		*/
 		public function substringData( offset:Number, count:Number ):String
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			return data.substr( offset, count );
 		}
 		
@@ -125,7 +125,7 @@ package com.ffsys.dom.core
 		*/
 		public function appendData( value:String ):void
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			if( value != null )
 			{
 				data += value;
@@ -140,7 +140,7 @@ package com.ffsys.dom.core
 		*/
 		public function insertData( offset:Number, value:String ):void
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			var start:String = offset > 0 ? data.substr( 0, offset ) : "";
 			var end:String = data.substr( offset );
 			data = start + value + end;
@@ -154,7 +154,7 @@ package com.ffsys.dom.core
 		*/
 		public function deleteData( offset:Number, count:Number ):void
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			var start:String = offset > 0 ? data.substr( 0, offset ) : "";
 			var end:String = data.substr( offset + count );
 			data = start + end;
@@ -179,7 +179,7 @@ package com.ffsys.dom.core
 		*/
 		override protected function propertyMissing( name:* ):*
 		{	
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			var integer:Number = Number( name );
 			
 			//trace("CharacterData::propertyMissing()", name, name is String, integer );

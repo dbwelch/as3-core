@@ -1,63 +1,65 @@
 package com.ffsys.dom.core
 {
-	
 	import com.ffsys.errors.AbstractError;
 
-	public class DOMException extends AbstractError
+	public class DomException extends AbstractError
 	{
-	
-		public function DOMException()
-		{
-			super();
-		}
-	
-		/*
-	
-	
-	
-		Prototype Object DOMException
-		The DOMException class has the following constants:
-		DOMException.INDEX_SIZE_ERR
-		This constant is of type Number and its value is 1.
-		DOMException.DOMSTRING_SIZE_ERR
-		This constant is of type Number and its value is 2.
-		DOMException.HIERARCHY_REQUEST_ERR
-		This constant is of type Number and its value is 3.
-		DOMException.WRONG_DOCUMENT_ERR
-		This constant is of type Number and its value is 4.
-		DOMException.INVALID_CHARACTER_ERR
-		This constant is of type Number and its value is 5.
-		DOMException.NO_DATA_ALLOWED_ERR
-		This constant is of type Number and its value is 6.
-		DOMException.NO_MODIFICATION_ALLOWED_ERR
-		This constant is of type Number and its value is 7.
-		DOMException.NOT_FOUND_ERR
-		This constant is of type Number and its value is 8.
-		DOMException.NOT_SUPPORTED_ERR
-		This constant is of type Number and its value is 9.
-		DOMException.INUSE_ATTRIBUTE_ERR
-		This constant is of type Number and its value is 10.
-		DOMException.INVALID_STATE_ERR
-		This constant is of type Number and its value is 11.
-		DOMException.SYNTAX_ERR
-		This constant is of type Number and its value is 12.
-		DOMException.INVALID_MODIFICATION_ERR
-		This constant is of type Number and its value is 13.
-		DOMException.NAMESPACE_ERR
-		This constant is of type Number and its value is 14.
-		DOMException.INVALID_ACCESS_ERR
-		This constant is of type Number and its value is 15.
-		Object DOMException
-		The DOMException object has the following properties:
-		code
-		This property is of type Number.	
-	
-	Object DOMException
-	The DOMException object has the following properties:
-	code
-	This property is of type Number.
-	
-	
+		
+		static public const INDEX_SIZE_ERR:uint = 1;
+		
+		static public const DOMSTRING_SIZE_ERR:uint = 2;
+		
+		static public const HIERARCHY_REQUEST_ERR:uint = 3;
+		
+		static public const WRONG_DOCUMENT_ERR:uint = 4;
+		
+		static public const INVALID_CHARACTER_ERR:uint = 5;
+		
+		static public const NO_DATA_ALLOWED_ERR:uint = 6;
+		
+		static public const	NO_MODIFICATION_ALLOWED_ERR:uint = 7;
+		
+		static public const	NOT_FOUND_ERR:uint = 8;
+		
+		static public const	NOT_SUPPORTED_ERR:uint = 9;
+		
+		static public const	INUSE_ATTRIBUTE_ERR:uint = 10;
+		
+		// Introduced in DOM Level 2:
+		static public const	INVALID_STATE_ERR:uint = 11;
+		
+		// Introduced in DOM Level 2:
+		static public const	SYNTAX_ERR:uint = 12;
+		
+		// Introduced in DOM Level 2:
+		static public const	INVALID_MODIFICATION_ERR:uint = 13;
+		
+		// Introduced in DOM Level 2:
+		static public const	NAMESPACE_ERR:uint = 14;
+		
+		// Introduced in DOM Level 2:
+		static public const	INVALID_ACCESS_ERR:uint = 15;
+		
+		// Introduced in DOM Level 3:
+		static public const	VALIDATION_ERR:uint = 16;
+		
+		// Introduced in DOM Level 3:
+		static public const	TYPE_MISMATCH_ERR:uint = 17;
+		
+		/**
+		* 	Creates a <code>DomException</code> instance.
+		* 
+		* 	@param code The exception code.
+		* 	@param message The exception message.
+		* 	@param substitutions Optional substitutions
+		* 	for the error message.
 		*/
+		public function DomException(
+			code:uint = 0,
+			message:String = "",
+			substitutions:Array = null )
+		{
+			super( message, substitutions, code );
+		}
 	}
 }

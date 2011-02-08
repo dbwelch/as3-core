@@ -22,7 +22,7 @@ package com.ffsys.dom.core
 		
 		public function splitText( offset:Number ):Text
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			//TODO: create a text element from the document
 			return null;
 		}

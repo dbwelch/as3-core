@@ -494,7 +494,7 @@ package com.ffsys.dom.core
 		This method returns a Element object.
 		The tagName parameter is of type String.
 		
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		createDocumentFragment()
 		This method returns a DocumentFragment object.
@@ -511,29 +511,29 @@ package com.ffsys.dom.core
 		This method returns a CDATASection object.
 		The data parameter is of type String.
 		
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		createProcessingInstruction(target, data)
 		This method returns a ProcessingInstruction object.
 		The target parameter is of type String.
 		The data parameter is of type String.\
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		createAttribute(name)
 		This method returns a Attr object.
 		The name parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		createAttributeNS(namespaceURI, qualifiedName)
 		This method returns a Attr object.
 		The namespaceURI parameter is of type String.
 		The qualifiedName parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		createEntityReference(name)
 		This method returns a EntityReference object.
 		The name parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		importNode(importedNode, deep)
 		
@@ -541,7 +541,7 @@ package com.ffsys.dom.core
 		The importedNode parameter is a Node object.
 		The deep parameter is of type Boolean.
 		
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		createElementNS(namespaceURI, qualifiedName)
 		This method returns a Element object.
@@ -549,7 +549,7 @@ package com.ffsys.dom.core
 		The namespaceURI parameter is of type String.
 		The qualifiedName parameter is of type String.
 		
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		getElementsByTagNameNS(namespaceURI, localName)
 		

@@ -229,7 +229,7 @@ package com.ffsys.dom.core
 			publicId:String,
 			systemId:String ):DocumentType
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			var docType:DocumentType = new DocumentType( qualifiedName, systemId, publicId );
 			return docType;
 		}
@@ -248,7 +248,7 @@ package com.ffsys.dom.core
 		{
 			//trace("DOMImplementation::getDefaultDocumentType()", qualifiedName );
 			
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			var document:Document = Document( doctype.elements.getBean(
 				qualifiedName ) );
 			if( namespaceURI != null )

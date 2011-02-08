@@ -965,7 +965,7 @@ package com.ffsys.dom.core
 		public function setAttributeNS(
 			namespaceURI:String, qualifiedName:String, value:String ):void
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			var attr:Attr = ownerDocument.createAttributeNS(
 				namespaceURI, qualifiedName );
 			attr.value = value;	
@@ -1226,13 +1226,13 @@ package com.ffsys.dom.core
 		
 		The name parameter is of type String.
 		The value parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		removeAttribute(name)
 		
 		This method has no return value.
 		The name parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		getAttributeNode(name)
 		This method returns a Attr object.
@@ -1241,12 +1241,12 @@ package com.ffsys.dom.core
 		setAttributeNode(newAttr)
 		This method returns a Attr object.
 		The newAttr parameter is a Attr object.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		removeAttributeNode(oldAttr)
 		This method returns a Attr object.
 		The oldAttr parameter is a Attr object.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		getAttributeNS(namespaceURI, localName)
 		This method returns a String.
@@ -1258,13 +1258,13 @@ package com.ffsys.dom.core
 		The namespaceURI parameter is of type String.
 		The qualifiedName parameter is of type String.
 		The value parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		removeAttributeNS(namespaceURI, localName)
 		This method has no return value.
 		The namespaceURI parameter is of type String.
 		The localName parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		
 		
@@ -1276,7 +1276,7 @@ package com.ffsys.dom.core
 		setAttributeNodeNS(newAttr)
 		This method returns a Attr object.
 		The newAttr parameter is a Attr object.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		
 		

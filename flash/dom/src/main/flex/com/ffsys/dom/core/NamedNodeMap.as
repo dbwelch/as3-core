@@ -129,12 +129,12 @@ package com.ffsys.dom.core
 		setNamedItem(arg)
 		This method returns a Node object.
 		The arg parameter is a Node object.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		removeNamedItem(name)
 		This method returns a Node object.
 		The name parameter is of type String.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		item(index)
 		This method returns a Node object.
@@ -154,13 +154,13 @@ package com.ffsys.dom.core
 		setNamedItemNS(arg)
 		This method returns a Node object.
 		The arg parameter is a Node object.
-		This method can raise a DOMException object.
+		This method can raise a DomException object.
 		
 		removeNamedItemNS(namespaceURI, localName)
 		This method returns a Node object.
 		The namespaceURI parameter is of type String.
 		The localName parameter is of type String.
-		This method can raise a DOMException object.	
+		This method can raise a DomException object.	
 	
 		*/
 	}

@@ -126,7 +126,7 @@ package com.ffsys.dom.core
 		
 		public function set prefix( value:String ):void
 		{
-			//This property is of type String and can raise a DOMException object on setting.
+			//This property is of type String and can raise a DomException object on setting.
 			_prefix = value;
 		}
 		
@@ -390,7 +390,7 @@ package com.ffsys.dom.core
 		*/
 		public function appendChild( child:Node ):Node
 		{
-			//This method can raise a DOMException object.	
+			//This method can raise a DomException object.	
 			
 			if( child != null && child != this )
 			{
@@ -418,7 +418,7 @@ package com.ffsys.dom.core
 		
 		public function removeChild( child:Node ):Node
 		{
-			//This method can raise a DOMException object.
+			//This method can raise a DomException object.
 			
 			if( child != null )
 			{
@@ -468,7 +468,7 @@ package com.ffsys.dom.core
 		public function insertBefore( child:Node, before:Node ):Node
 		{
 			//TODO
-			//This method can raise a DOMException object.			
+			//This method can raise a DomException object.			
 			return child;
 		}
 		
@@ -483,7 +483,7 @@ package com.ffsys.dom.core
 		public function replaceChild( child:Node, existing:Node ):Node
 		{
 			//TODO
-			//This method can raise a DOMException object.			
+			//This method can raise a DomException object.			
 			return child;	
 		}
 		
