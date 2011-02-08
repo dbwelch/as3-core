@@ -13,7 +13,7 @@ package com.ffsys.css
 			super();
 			if( source != null )
 			{
-				setSource( source );
+				setProxySource( source );
 			}
 		}
 	}

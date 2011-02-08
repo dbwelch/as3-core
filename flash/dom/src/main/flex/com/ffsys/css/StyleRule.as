@@ -167,12 +167,12 @@ package com.ffsys.css
 		*/
 		public function get display():String
 		{
-			return source.display;
+			return proxy.display;
 		}
 		
 		public function set display( value:String ):void
 		{
-			source.display = value;
+			proxy.display = value;
 		}
 		
 		/**
@@ -180,12 +180,12 @@ package com.ffsys.css
 		*/
 		public function get position():String
 		{
-			return source.position;
+			return proxy.position;
 		}
 		
 		public function set position( value:String ):void
 		{
-			source.position = value;
+			proxy.position = value;
 		}
 		
 		/**
@@ -193,12 +193,12 @@ package com.ffsys.css
 		*/
 		public function get overflow():String
 		{
-			return source.overflow;
+			return proxy.overflow;
 		}
 		
 		public function set overflow( value:String ):void
 		{
-			source.overflow = value;
+			proxy.overflow = value;
 		}
 		
 		/**
@@ -207,17 +207,17 @@ package com.ffsys.css
 		public function transform():TextFormat
 		{
 			var tf:TextFormat = new TextFormat();
-			if( source )
+			if( proxy )
 			{
 				var merger:PropertiesMerge = new PropertiesMerge();
-				merger.merge( tf, source );
+				merger.merge( tf, proxy );
 			}
 			return tf;
 		}
 		
 		public function apply( target:Object ):void
 		{
-			var style:Object = this.source;
+			var style:Object = this.proxy;
 			//trace("StyleRuleSheet::applyStyle()", target, style, target is IPaddingAware  );
 			if( style && target )
 			{

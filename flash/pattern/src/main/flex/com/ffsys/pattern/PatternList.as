@@ -11,8 +11,8 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/
-	dynamic public class PatternList extends Array
-	{					
+	dynamic public class PatternList extends Element
+	{
 		/**
 		* 	The delimiter used to mark the
 		* 	beginning and end of a pattern.
@@ -273,6 +273,8 @@ package com.ffsys.pattern
 		/**
 		* 	The first part of this pattern.
 		*/
+		
+		/*
 		public function get firstChild():Pattern
 		{
 			if( patterns.length > 0 )
@@ -281,10 +283,13 @@ package com.ffsys.pattern
 			}
 			return null;
 		}
+		*/
 		
 		/**
 		* 	The last part of this pattern.
 		*/
+		
+		/*
 		public function get lastChild():Pattern
 		{
 			if( patterns.length > 0 )
@@ -293,6 +298,7 @@ package com.ffsys.pattern
 			}
 			return null;
 		}
+		*/
 		
 		/**
 		* 	Determines whether this pattern
@@ -300,15 +306,7 @@ package com.ffsys.pattern
 		*/
 		public function get empty():Boolean
 		{
-			return patterns.length == 0;
-		}
-		
-		/**
-		* 	Clears this pattern so that it is empty.
-		*/
-		public function clear():void
-		{
-			_patterns = null;
+			return length == 0;
 		}
 		
 		/**
@@ -480,10 +478,13 @@ package com.ffsys.pattern
 		/**
 		* 	An <code>XML</code> representation of this pattern.
 		*/
+		
+		/*
 		public function get xml():XML
 		{
 			return null;
 		}
+		*/
 		
 		/**
 		* 	A regular expression representation
@@ -517,9 +518,9 @@ package com.ffsys.pattern
 		* 
 		* 	@return A string representation of this pattern.
 		*/
-		public function toString():String
+		override public function toString():String
 		{
-			return null;
+			return super.toString();
 		}
 		
 		/*

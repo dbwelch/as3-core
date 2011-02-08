@@ -22,7 +22,7 @@ package com.ffsys.dom
 			super();
 			
 			//update our proxy source to the child vector
-			setSource( children );
+			setProxySource( children );
 		}
 		
 		/**

@@ -47,7 +47,13 @@ package com.ffsys.dom
 		*/
 		protected var _descriptor:IBeanDescriptor;
 		
-		private var _source:Object;
+		/**
+		* 	@private
+		* 
+		* 	The primary proxy target.
+		*/
+		private var __proxy:Object;
+		
 		//an array of the values
 		private var _mappings:Vector.<ElementMap>;
 	
@@ -90,15 +96,16 @@ package com.ffsys.dom
 		*/
 		
 		/**
-		* 	The source object containing enumerable style properties.
+		* 	The primary source object containing enumerable properties
+		* 	that are being proxied.
 		*/
-		public function get source():Object
+		public function get proxy():Object
 		{
-			if( _source == null )
+			if( __proxy == null )
 			{
-				_source = new Object();
+				__proxy = new Object();
 			}
-			return _source;
+			return __proxy;
 		}
 		
 		public function get mappings():Vector.<ElementMap>
@@ -119,7 +126,7 @@ package com.ffsys.dom
 		/**
 		* 	@private
 		*/
-		protected function setSource( source:Object ):void
+		protected function setProxySource( source:Object ):void
 		{
 			//ensure the element map vector is created
 			var mappings:Vector.<ElementMap> = this.mappings;
@@ -128,7 +135,7 @@ package com.ffsys.dom
 			{
 				this[ z ] = source[ z ];
 			}
-			_source = source;
+			__proxy = source;
 		}
 		
 		/**
@@ -155,11 +162,11 @@ package com.ffsys.dom
 		public function get id():String
 		{
 			if( _id == null
-			 	&& _source != null
-				&& _source.hasOwnProperty( ID )
-				&& _source.id is String )
+			 	&& __proxy != null
+				&& __proxy.hasOwnProperty( ID )
+				&& __proxy.id is String )
 			{
-				return String( _source.id );
+				return String( __proxy.id );
 			}
 			return _id;
 		}
@@ -366,7 +373,7 @@ package com.ffsys.dom
 		*/
 	    override flash_proxy function hasProperty( name:* ):Boolean
 		{
-			return ( this.source.hasOwnProperty( name ) );
+			return ( this.proxy.hasOwnProperty( name ) );
 	    }
 
 		/**
@@ -401,7 +408,7 @@ package com.ffsys.dom
 			
 			//trace("[SET PROP] XmlAwareDomElement::setProperty() this/name/value: ", this, name, value );
 			
-			var hasProp:Boolean = ( this.source[ name ] != null );
+			var hasProp:Boolean = ( this.proxy[ name ] != null );
 			
 			//mutate the property to a list for most nodes
 			if( value is Node
@@ -413,7 +420,7 @@ package com.ffsys.dom
 					value = new NodeList();
 					value.children.push( node );
 				}else{
-					value = NodeList( this.source[ name ] );
+					value = NodeList( this.proxy[ name ] );
 					value.children.push( node );
 					
 					//trace("[ADDING TO EXISTING TAG LIST] XmlAwareDomElement::setProperty() this/node: ", this, node );
@@ -438,7 +445,7 @@ package com.ffsys.dom
 				}
 			}
 
-			this.source[ name ] = value;
+			this.proxy[ name ] = value;
 
 			//trace("[XmlAwareDomElement SET PROPERTY]", this, hasProp, name, value );
 	    }
@@ -473,7 +480,7 @@ package com.ffsys.dom
 		
 		protected function propertyMissing( name:* ):*
 		{
-			return this.source[ name ];
+			return this.proxy[ name ];
 		}
 
 		/**
@@ -482,7 +489,7 @@ package com.ffsys.dom
 		override flash_proxy function callProperty( methodName:*, ...parameters ):*
 		{
 			
-			//trace("XmlAwareDomElement::callProperty()", this, methodName, parameters, _source );
+			//trace("XmlAwareDomElement::callProperty()", this, methodName, parameters, __proxy );
 			
 			//handle event proxying
 			if( Object( eventProxy ) != null
@@ -493,11 +500,11 @@ package com.ffsys.dom
 			}
 			
 			//invoke on the source object if possible
-			if( _source != null
-				&& _source.hasOwnProperty( methodName )
-				&& _source[ methodName ] is Function )
+			if( __proxy != null
+				&& __proxy.hasOwnProperty( methodName )
+				&& __proxy[ methodName ] is Function )
 			{
-				return _source[ methodName ].apply( _source, parameters );
+				return __proxy[ methodName ].apply( __proxy, parameters );
 			}
 			
 			//otherwise allow derived implementations to handle the method call
@@ -578,7 +585,7 @@ package com.ffsys.dom
 					break;
 				}
 			}
-			return delete this.source[ name ];
+			return delete this.proxy[ name ];
 		}
 
 		/**

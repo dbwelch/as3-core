@@ -76,13 +76,13 @@ package com.ffsys.dom
 			if( value != null )
 			{
 			
-				if( source != _data )
+				if( proxy != _data )
 				{
-					setSource( _data );
+					setProxySource( _data );
 				}
 			}else{
 				_data = null;
-				setSource( null );
+				setProxySource( null );
 			}
 		}
 		

@@ -63,7 +63,7 @@ package com.ffsys.dom
 			if( _visual != null )
 			{
 				//update the core proxy to the visual composite
-				setSource( _visual );
+				setProxySource( _visual );
 			}
 		}
 	}
