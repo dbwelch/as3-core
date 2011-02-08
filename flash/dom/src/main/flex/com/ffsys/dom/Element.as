@@ -547,6 +547,13 @@ package com.ffsys.dom
 		*/
 		private function getStyleCache():void
 		{
+			//allows for Element instance to be instantiated
+			//directly for unit testing purposes
+			if( stylesheet == null )
+			{
+				return;
+			}
+			
 			var names:Vector.<String> = getClassLevelStyleNames();
 			var inline:StyleRule = getInlineStyle();
 			var styles:Vector.<StyleRule> = new Vector.<StyleRule>();

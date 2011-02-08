@@ -10,12 +10,12 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  07.03.2011
 	*/
-	public class RuleList extends PatternList
-	{		
+	public class RuleDocument extends PatternList
+	{
 		/**
-		* 	Creates a <code>RuleList</code> instance.
+		* 	Creates a <code>RuleDocument</code> instance.
 		*/
-		public function RuleList()
+		public function RuleDocument()
 		{
 			super();
 		}
