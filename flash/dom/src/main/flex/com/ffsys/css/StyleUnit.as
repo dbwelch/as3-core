@@ -2,7 +2,7 @@ package com.ffsys.css
 {
 	import flash.system.Capabilities;
 	
-	import com.ffsys.dom.Element;
+	import com.ffsys.dom.core.Element;
 	
 	/**
 	* 	A helper for working with css units.

@@ -1,5 +1,7 @@
 package com.ffsys.dom
 {
+	import com.ffsys.dom.core.*;
+	
 	/**
 	*	A <code>DOM</code> element used to store the
 	* 	the meta information about the document.

@@ -1,8 +1,10 @@
-package com.ffsys.dom
+package com.ffsys.dom.core
 {	
 	import flash.display.*;
 	
 	import com.ffsys.ioc.*;
+	
+	import com.ffsys.dom.*;	
 	
 	/**
 	*	An abstract implementation of a <code>DOM</code>
@@ -17,7 +19,7 @@ package com.ffsys.dom
 	dynamic public class Document extends VisualElement
 	{
 		private var _head:Head;
-		private var _body:Body;		
+		private var _body:Body;
 		
 		private var _identifiers:Object = new Object();
 		private var _tags:Object = new Object();

@@ -13,6 +13,8 @@ package com.ffsys.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
+	
+	//TODO: remove this interface or rename to ElementImpl
 	public interface IDomElement
 		extends IBeanDocumentAware,
 				IBean,

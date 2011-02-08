@@ -1,6 +1,6 @@
 package com.ffsys.css
 {
-	import com.ffsys.dom.*;	
+	import com.ffsys.dom.core.*;	
 	
 	/**
 	* 	Represents a <code>CSS</code> selector.

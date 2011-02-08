@@ -1,6 +1,7 @@
-package com.ffsys.dom
+package com.ffsys.dom.core
 { 
-	import com.ffsys.utils.string.PropertyNameConverter;	
+	import com.ffsys.dom.XmlAwareDomElement;
+	import com.ffsys.utils.string.PropertyNameConverter;
 	
 	/**
 	*	Represents a <code>DOM</code> node.

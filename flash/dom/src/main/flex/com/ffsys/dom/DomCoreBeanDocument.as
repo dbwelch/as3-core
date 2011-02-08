@@ -3,6 +3,8 @@ package com.ffsys.dom
 	import com.ffsys.ioc.*;
 	import com.ffsys.dom.xhtml.*;	
 	import com.ffsys.css.CssBeanDocument;
+	
+	import com.ffsys.dom.core.*;
 
 	/**
 	*	Defines the core beans for <code>DOM</code> documents.

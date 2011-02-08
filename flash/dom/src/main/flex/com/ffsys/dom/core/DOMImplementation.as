@@ -1,8 +1,10 @@
-package com.ffsys.dom
+package com.ffsys.dom.core
 {
 	import flash.net.URLRequest;
 	import com.ffsys.dom.xhtml.*;
 	import com.ffsys.ioc.*;
+	
+	import com.ffsys.dom.*;
 	
 	/**
 	*	Represents the <code>DOM</code> implementation.
@@ -18,12 +20,12 @@ package com.ffsys.dom
 		/**
 		* 	Represents the DOM level 2.
 		*/
-		public static const LEVEL_2:uint = 2;
+		public static const LEVEL_2:String = "2.0";
 		
 		/**
 		* 	Represents the DOM level 3.
 		*/
-		public static const LEVEL_3:uint = 3;
+		public static const LEVEL_3:String = "3.0";
 				
 		//
 		private var _beanManager:IBeanManager;
@@ -52,7 +54,7 @@ package com.ffsys.dom
 		/**
 		* 	Gets the current target DOM implementation level.
 		*/
-		public function get level():uint
+		public function get level():String
 		{
 			return LEVEL_2;
 		}

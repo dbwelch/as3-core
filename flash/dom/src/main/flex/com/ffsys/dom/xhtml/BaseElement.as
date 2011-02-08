@@ -1,6 +1,8 @@
 package com.ffsys.dom.xhtml
 {
 	import com.ffsys.dom.*;	
+	
+	import com.ffsys.dom.core.*;
 
 	/**
 	*	Represents a base href, the <code>base</code> element.

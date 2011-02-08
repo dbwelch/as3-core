@@ -1,6 +1,6 @@
 package com.ffsys.css
 {
-	import com.ffsys.dom.Element;
+	import com.ffsys.dom.core.Element;
 	
 	/**
 	* 	Represents an at rule.

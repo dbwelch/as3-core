@@ -5,6 +5,8 @@ package com.ffsys.dom
 	
 	import com.ffsys.css.Selector;
 	
+	import com.ffsys.dom.core.*;
+	
 	/**
 	*	Represents dynamic <code>DOM</code> queries.
 	*

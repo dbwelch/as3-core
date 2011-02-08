@@ -1,7 +1,9 @@
 package com.ffsys.dom
 {
 	import flash.display.*;
-	import flash.events.*;	
+	import flash.events.*;
+	
+	import com.ffsys.dom.core.*;	
 
 	dynamic public class VisualElement extends Element
 	{

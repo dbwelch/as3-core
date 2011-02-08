@@ -1,7 +1,9 @@
-package com.ffsys.dom
+package com.ffsys.dom.core
 {
 	import com.ffsys.net.sax.*;
 	import com.ffsys.ioc.support.xml.BeanSaxParser;
+	
+	import com.ffsys.dom.*;
 	
 	public class DomSaxParser extends BeanSaxParser
 	{

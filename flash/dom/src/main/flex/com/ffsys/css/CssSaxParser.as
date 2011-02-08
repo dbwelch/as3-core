@@ -1,6 +1,7 @@
-package com.ffsys.dom
+package com.ffsys.css
 {
-	import com.ffsys.css.*;
+	import com.ffsys.dom.*;
+	import com.ffsys.dom.core.*;
 	
 	import com.ffsys.net.sax.*;
 	import com.ffsys.ioc.IBeanDocument;

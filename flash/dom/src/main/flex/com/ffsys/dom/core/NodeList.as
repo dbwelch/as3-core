@@ -1,5 +1,6 @@
-package com.ffsys.dom
+package com.ffsys.dom.core
 {
+	import com.ffsys.dom.XmlAwareDomElement;
 	
 	/**
 	*	Represents <code>DOM</code> node list.
