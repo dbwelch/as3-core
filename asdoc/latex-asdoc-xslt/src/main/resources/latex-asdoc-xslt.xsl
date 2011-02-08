@@ -370,14 +370,21 @@
 		<xsl:variable name="classes" select="$toplevel//classRec" />
 		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />
 		
-		<xsl:call-template name="part">
+		<xsl:call-template name="section">
 			<xsl:with-param name="title" select="'Appendix'"/>
 			<xsl:with-param name="label" select="'appendix'"/>
 		</xsl:call-template>
 		
+		<!-- CUSTOM APPENDICES FIRST -->
+		<xsl:for-each select="//appendix">
+			<xsl:call-template name="sanitize">
+				<xsl:with-param name="input" select="." />
+			</xsl:call-template>			
+		</xsl:for-each>
+		
 		<!-- ALL CLASSES -->
 		<xsl:if test="count($classes) &gt; 0">
-			<xsl:call-template name="section">
+			<xsl:call-template name="subsection">
 				<xsl:with-param name="title" select="'Class Index'"/>
 				<xsl:with-param name="label" select="'class:index'"/>
 			</xsl:call-template>
@@ -388,7 +395,7 @@
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
 				<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-classes) &gt; 0">
-					<xsl:call-template name="subsection">
+					<xsl:call-template name="subsubsection">
 						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
@@ -409,7 +416,7 @@
 		
 		<!-- ALL INTERFACES -->
 		<xsl:if test="count($interfaces) &gt; 0">
-			<xsl:call-template name="section">
+			<xsl:call-template name="subsection">
 				<xsl:with-param name="title" select="'Interface Index'"/>
 				<xsl:with-param name="label" select="'interface:index'"/>
 			</xsl:call-template>
@@ -420,7 +427,7 @@
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
 				<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-interfaces) &gt; 0">
-					<xsl:call-template name="subsection">
+					<xsl:call-template name="subsubsection">
 						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
@@ -2228,7 +2235,8 @@
 			</xsl:if>
 			<xsl:for-each select="$words">
 				<xsl:variable name="word" select="string(.)" />
-				<!-- <xsl:value-of select="concat('word: ', $word, $newline)" /> -->
+				
+				<xsl:variable name="negated-xref" select="matches($word,'^!')" />
 				
 				<!-- Test for the word matching a known class or interface -->
 				<xsl:variable name="match" select="$toplevel//classRec[@name = $word] | $toplevel//interfaceRec[@name = $word]" />

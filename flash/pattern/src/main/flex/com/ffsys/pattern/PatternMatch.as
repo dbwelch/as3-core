@@ -12,7 +12,7 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  04.03.2011
 	*/
-	public class PatternMatchResult extends PatternList
+	public class PatternMatch extends PatternList
 	{
 		private var _pattern:Pattern;
 		private var _position:uint = 0;
@@ -20,14 +20,14 @@ package com.ffsys.pattern
 		private var _target:*;
 		
 		/**
-		* 	Creates a <code>PatternMatchResult</code> instance.
+		* 	Creates a <code>PatternMatch</code> instance.
 		* 
 		* 	@param position The position in the pattern that the
 		* 	match occured at.
 		* 	@param pattern The pattern used for the match.
 		* 	@param target The target value being matched against.
 		*/
-		public function PatternMatchResult(
+		public function PatternMatch(
 			position:uint = 0,
 			pattern:Pattern = null,
 			target:* = null )

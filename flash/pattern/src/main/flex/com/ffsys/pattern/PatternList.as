@@ -395,14 +395,14 @@ package com.ffsys.pattern
 		* 	that failed during the last pattern
 		* 	match.
 		*/
-		public function get failures():Vector.<PatternMatchResult>
+		public function get failures():Vector.<PatternMatch>
 		{
-			var output:Vector.<PatternMatchResult> =
-				new Vector.<PatternMatchResult>();
-			var match:PatternMatchResult = null;
+			var output:Vector.<PatternMatch> =
+				new Vector.<PatternMatch>();
+			var match:PatternMatch = null;
 			for( var i:int = 0;i < results.length;i++ )
 			{
-				match = PatternMatchResult( results[ i ] );
+				match = PatternMatch( results[ i ] );
 				if( !match.result )
 				{
 					output.push( match );

@@ -19,6 +19,14 @@
 *	in most programming languages that <em>only</em> allows for matching regular expressions
 *	against a <a href="#ptnlib:term:string" />.</p>
 *
+*	<p>Therefore this specification has been designed to provide a language-neutral
+*	consistent API for powerful pattern matching.</p>
+*
+*	<p>Inspiration comes from various regular expression implementations, notably
+*	the ECMAScript and Java implementations. In addition, various names and conventions
+*	have been borrowed from the DOM specification with regard to the #ptnlib:term:tree;
+*	representation of a #ptnlib:term:pattern;</p>
+*
 *	<h1>Terminology</h1>
 *
 *	<p>This section expands on accepted regular expression grammar definitions to
@@ -850,11 +858,33 @@
 *	<p>Groups are very important to the pattern recognition logic used when compiling a pattern
 *	so it is recommended that you always declare groups in pattern expressions.</p>
 *
-*	<h1>Implementation Notes</h1>
+*	@appendix
 *
-*	<p>In order for a the compiler to capture a correct tree analysis for the pattern
+*	<h2>IDL Defintitions</h2>
+*	<a name="#ptnlib:idl:definitions" />
+*
+*	<p>This section defines the contract for a
+*	#ptnlib:term:pattern:implementation; using the IDL grammar of the COM.</p>
+*
+*	<h3>!Pattern</h3>
+*	<a name="#ptnlib:idl:pattern" />
+*
+*	<pre>
+*	interface Pattern {
+*	    const unsigned short RULE_LIST_TYPE								= 1;
+*	    const unsigned short RULE_TYPE									= 2;
+*	    const unsigned short GROUP_TYPE									= 4;
+*	    const unsigned short RANGE_TYPE        							= 8;
+*	    const unsigned short CHARACTER_CLASS_TYPE        				= 16;
+*	}
+*	</pre>
+*
+*	<h2>Implementation Notes</h2>
+*	<a name="#ptnlib:implementation:notes" />
+*
+*	<p>In order for a compiler to capture a correct tree analysis for the pattern
 *	it must group sequences that are not already grouped, therefore it is inherently
-*	more efficient if these groups are always declared in the source expression,
+*	more efficient if these #ptnlib:term:group;s are always declared in the #ptnlib:term:source:expression;,
 *	see <a href="#ptnlib:usage:notes" />.</p>
 */
 package com.ffsys.pattern
@@ -873,6 +903,59 @@ package com.ffsys.pattern
 	*/
 	dynamic public class Pattern extends PatternList
 	{	
+		/*
+		*	TYPE CONSTANTS (uint)
+		*/
+		
+		/**
+		* 	Represents a rule list type.
+		*/
+		public static const RULE_LIST_TYPE:uint = 1;
+		
+		/**
+		* 	Represents a #ptnlib:term:rule; type.
+		*/
+		public static const RULE_TYPE:uint = 2;
+		
+		/**
+		* 	Represents a #ptnlib:term:group; type.
+		*/
+		public static const GROUP_TYPE:uint = 4;
+		
+		/**
+		* 	Represents a #ptnlib:term:range; type.
+		*/
+		public static const RANGE_TYPE:uint = 8;
+		
+		/**
+		* 	Represents a #ptnlib:term:character:class; type.
+		*/
+		public static const CHARACTER_CLASS_TYPE:uint = 16;
+		
+		/**
+		* 	Represents a #ptnlib:term:quantifier type.
+		*/
+		public static const QUANTIFIER_TYPE:uint = 32;
+		
+		/**
+		* 	Represents character data type.
+		*/
+		public static const DATA_TYPE:uint = 64;
+		
+		/**
+		* 	Represents a #ptnlib:term:modifier; type.
+		*/
+		public static const MODIFIER_TYPE:uint = 128;
+		
+		/**
+		* 	Represents any other #ptnlib:term:meta:character; or #ptnlib:term:meta:sequence; type.
+		*/
+		public static const META_TYPE:uint = 256;
+		
+		/*
+		*	NAMESPACE CONSTANTS (String/Namespace)
+		*/
+		
 		/**
 		* 	The pattern namespace prefix.
 		*/
@@ -892,8 +975,14 @@ package com.ffsys.pattern
 		public static const NAMESPACE:Namespace = new Namespace(
 			NAMESPACE_PREFIX,
 			NAMESPACE_URI );
+			
+		/*
+		*	META SEQUENCE CONSTANTS (String)
+		*/
 						
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates
 		* 	the start position or negation
 		* 	when specified as the first character
@@ -902,34 +991,46 @@ package com.ffsys.pattern
 		public static const CARET:String = "^";
 		
 		/**
+		* 	@private
+		* 
 		* 	Represents a wildcard character.
 		*/
 		public static const DOT:String = ".";
 		
 		/**
+		* 	@private
+		* 
 		* 	A quantifier character that indicates
 		* 	zero or more occurences.
 		*/
 		public static const ASTERISK:String = "*";
 		
 		/**
+		* 	@private
+		* 
 		* 	A quantifier character that indicates one
 		* 	or more occurences.
 		*/
 		public static const PLUS:String = "+";
 		
 		/**
+		* 	@private
+		* 
 		* 	A quantifier character that indicates zero or one occurence
 		* 	or as a greedy behaviour modifier.
 		*/
 		public static const QUESTION_MARK:String = "?";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates alternation.
 		*/
 		public static const PIPE:String = "|";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates a character range.
 		* 
 		* 	Only applicable within character classes.
@@ -937,107 +1038,145 @@ package com.ffsys.pattern
 		public static const HYPHEN:String = "-";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the end position.
 		*/
 		public static const DOLLAR:String = "$";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the start of a group.
 		*/
 		public static const LPAREN:String = "(";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the end of a group.
 		*/
 		public static const RPAREN:String = ")";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the start of a
 		* 	character class.
 		*/
 		public static const LBRACKET:String = "[";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the end of a
 		* 	character class.
 		*/
 		public static const RBRACKET:String = "]";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the start
 		* 	of a qualifier range.
 		*/
 		public static const LBRACE:String = "{";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the end
 		* 	of a qualifier range.
 		*/
 		public static const RBRACE:String = "}";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the start
 		* 	of a name for a named group.
 		*/
 		public static const LESS_THAN:String = "<";
 		
 		/**
+		* 	@private
+		* 
 		* 	A meta character that indicates the end
 		* 	of a name for a named group.
 		*/
 		public static const GREATER_THAN:String = ">";
 		
 		/**
+		* 	@private
+		* 
 		*	The meta sequence representing a
 		* 	positive lookahead group.
 		*/
 		public static const POSITIVE_LOOKAHEAD_SEQUENCE:String = "?=";
 		
 		/**
+		* 	@private
+		* 
 		*	The meta sequence representing a
 		* 	negative lookahead group.
 		*/
 		public static const NEGATIVE_LOOKAHEAD_SEQUENCE:String = "?!";
 		
 		/**
+		* 	@private
+		* 
 		*	The meta sequence representing a
 		* 	non-capturing group.
 		*/
 		public static const NON_CAPTURING_SEQUENCE:String = "?:";
 		
 		/**
+		* 	@private
+		* 
 		*	The meta sequence representing a
 		* 	named group.
 		*/
 		public static const NAMED_GROUP_SEQUENCE:String = "?P";
 		
-		
+		/*
+		*	FLAG CONSTANTS (char)
+		*/
 		
 		/**
+		* 	@private
+		* 
 		*	Represents the <code>g</code> flag, the
 		* 	<code>global</code> property.
 		*/
 		public static const GLOBAL_FLAG:String = "g";
 		
 		/**
+		* 	@private
+		* 
 		*	Represents the <code>s</code> flag, the
 		* 	<code>dotall</code> property.
 		*/
 		public static const DOTALL_FLAG:String = "s";
 		
 		/**
+		* 	@private
+		* 
 		*	Represents the <code>x</code> flag, the
 		* 	<code>extended</code> property.
 		*/
 		public static const EXTENDED_FLAG:String = "x";
 		
 		/**
+		* 	@private
+		* 
 		*	Represents the <code>m</code> flag, the
 		* 	<code>multiline</code> property.
 		*/
 		public static const MULTILINE_FLAG:String = "m";
 		
 		/**
+		* 	@private
+		* 
 		*	Represents the <code>i</code> flag, the
 		* 	<code>ignoreCase</code> property.
 		*/
@@ -1049,12 +1188,17 @@ package com.ffsys.pattern
 		public static const OPEN_GROUP:Pattern =
 			new Pattern( LPAREN );
 			
+		/*
+		*	META SEQUENCE CONSTANTS (Pattern)
+		*/
+			
 		/**
 		* 	A pattern representing the closing of a group.
 		*/
 		public static const CLOSE_GROUP:Pattern =
 			new Pattern( RPAREN );
 		
+		//
 		private var _patterns:Vector.<Pattern>;
 		private var _parts:Pattern;
 		private var _position:uint = 0;
@@ -1062,6 +1206,7 @@ package com.ffsys.pattern
 		private var _field:String;
 		private var _compiled:String;
 		private var _open:Boolean = false;
+		private var _type:uint;
 		
 		/**
 		* 	@private
@@ -1506,9 +1651,9 @@ package com.ffsys.pattern
 		* 	@private
 		*/
 		internal function match(
-			pattern:Pattern, value:*, position:uint = 0 ):PatternMatchResult
+			pattern:Pattern, value:*, position:uint = 0 ):PatternMatch
 		{
-			var match:PatternMatchResult = new PatternMatchResult( position, pattern, value );
+			var match:PatternMatch = new PatternMatch( position, pattern, value );
 			var re:RegExp = pattern.regex;
 			
 			//compare against the source of other
@@ -1546,7 +1691,7 @@ package com.ffsys.pattern
 		*/
 		override public function test( value:* ):Boolean
 		{
-			var matched:PatternMatchResult = null;
+			var matched:PatternMatch = null;
 			
 			//simple type so treat as a
 			//single length match
@@ -1862,6 +2007,22 @@ package com.ffsys.pattern
 		}
 		
 		/**
+		* 	The type for the pattern.
+		*/
+		public function get type():uint
+		{
+			return _type;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setType( value:uint ):void
+		{
+			_type = value;
+		}
+		
+		/**
 		* 	@private
 		*/
 		override public function get name():String
@@ -1997,10 +2158,10 @@ package com.ffsys.pattern
 				if( length > 0 )
 				{
 					var results:XML = getXmlElement( RESULTS );
-					var match:PatternMatchResult = null;
+					var match:PatternMatch = null;
 					for( i = 0;i < length;i++ )
 					{
-						match = this[ i ] as PatternMatchResult;
+						match = this[ i ] as PatternMatch;
 						results.appendChild( match.xml );
 					}
 					x.appendChild( results );
