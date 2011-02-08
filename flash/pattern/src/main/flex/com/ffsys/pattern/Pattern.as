@@ -1551,36 +1551,6 @@ package com.ffsys.pattern
 		}
 		
 		/**
-		* 	A next sibling pattern if available.
-		*/
-		public function get nextSibling():Pattern
-		{
-			try
-			{
-				return this.owner.patterns[ this.index + 1 ];
-			}catch( e:Error )
-			{
-				//no valid owner or index is out of range
-			}
-			return null;
-		}
-		
-		/**
-		* 	A previous sibling pattern if available.
-		*/
-		public function get previousSibling():Pattern
-		{
-			try
-			{
-				return this.owner.patterns[ this.index - 1 ];
-			}catch( e:Error )
-			{
-				//no valid owner or index is out of range
-			}			
-			return null;
-		}
-		
-		/**
 		* 	The target property name when matching
 		* 	pattern parts against complex objects.
 		*/
@@ -2071,6 +2041,8 @@ package com.ffsys.pattern
 		/**
 		* 	@private
 		*/
+		
+		/*
 		override public function get xml():XML
 		{
 			//TODO: stash this XML and invalidate
@@ -2209,6 +2181,7 @@ package com.ffsys.pattern
 			
 			return x;
 		}
+		*/
 		
 		/**
 		* 	@private

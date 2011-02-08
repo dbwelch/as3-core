@@ -65,11 +65,13 @@ package com.ffsys.pattern
 			var re:RegExp = /^[0-9]{10,11}$/;
 			var source:String = re.source;
 			var ptn:Pattern = new Pattern( re, true );
-			var xml:XML = ptn.xml;
+			
+			//var xml:XML = ptn.xml;
 			Assert.assertEquals( source, ptn.source );
 			Assert.assertEquals( source, ptn.toString() );
 			Assert.assertEquals( source, ptn.regex.source );
-			Assert.assertEquals( source, xml.source.text()[0] );
+			
+			//Assert.assertEquals( source, xml.source.text()[0] );
 			//simple string validation
 			Assert.assertTrue( ptn.test( "07900123456" ) );
 			//uint validation
@@ -138,7 +140,7 @@ package com.ffsys.pattern
 			trace("[PARTS] PatternTest::pattern()", ptn.parts );
 			trace("[POSITIONS] PatternTest::pattern()", ptn.positions );
 			//trace("[RESULTS] PatternTest::pattern()", ptn.results );
-			trace("[XML] PatternTest::pattern()", ptn.xml.toXMLString() );
+			//trace("[XML] PatternTest::pattern()", ptn.xml.toXMLString() );
 		}
 	}
 }

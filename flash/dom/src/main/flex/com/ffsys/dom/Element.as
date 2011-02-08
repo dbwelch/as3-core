@@ -563,7 +563,7 @@ package com.ffsys.dom
 			{
 				names.push( INLINE_STYLE_SHEET_NAME );
 				styles.push( inline );
-				styleObjects.push( inline.source );
+				styleObjects.push( inline.proxy );
 			}
 
 			var source:StyleRule = stylesheet.getFlatStyle( styleObjects );
