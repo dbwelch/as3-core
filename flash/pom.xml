@@ -183,6 +183,10 @@
 												<value>${api.docs.title}</value>
 											</parameter>
 											<parameter>
+												<name>sub-title</name>
+												<value>${api.docs.sub.title}</value>
+											</parameter>											
+											<parameter>
 												<name>author</name>
 												<value>${api.docs.author}</value>
 											</parameter>																

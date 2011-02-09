@@ -15,9 +15,11 @@
 	</xsl:character-map>
 	<xsl:output method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
 	<xsl:param name="page-header-left" select="'Freeform Systems'"/>
-	<xsl:param name="page-header-right" select="'API Documentation'"/>
-	<xsl:param name="title" select="'Actionscript Documentation'" />
-	<xsl:param name="author" select="'Mischa Williamson'" />
+	<xsl:param name="page-header-right" select="''"/>
+	<xsl:param name="title" select="''" />
+	<xsl:param name="sub-title" select="''" />
+	<xsl:param name="author" select="''" />
+	<xsl:param name="date" select="''" />
 	
 	<xsl:param name="dita-dir" select="'tempdita'"/>
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
@@ -2628,9 +2630,36 @@
 \renewcommand{\paragraph}{\small}
 ]]></xsl:text>
 
-<xsl:value-of select="concat('\title{',$title,'}')" />
+<!--
+\title{\paragraph{\textbf{\huge{Fluid Ecosystem}}
+\\
+\vspace{2em}
+\small{"Empty your mind, be formless. Shapeless, like water. If you put water into a cup, it becomes the cup. You put water into a bottle and it becomes the bottle. You put it in a teapot, it becomes the teapot. Now, water can flow or it can crash. Be water, my friend." - Bruce Lee}}\vfill}
+-->
+
+<xsl:value-of select="concat('\title{\paragraph{\textbf{\huge{',$title,'}}',$newline,'\\',$newline,'\vspace{2em}')" />
 <xsl:value-of select="$newline" />
-<xsl:value-of select="concat('\author{',$author,'}')" />
+<xsl:if test="$sub-title != ''">
+	<xsl:value-of select="concat('\small{', $sub-title),'}'" />
+</xsl:if>
+
+<!-- close the document title and child paragraph -->
+<xsl:value-of select="'\vfill}}'" />
+
+<!-- clear date output if necessary -->
+<xsl:choose>
+	<xsl:when test="$date = ''">
+		<xsl:value-of select="concat('\date{}',$newline)" />
+	</xsl:when>
+	<xsl:otherwise>
+		<xsl:value-of select="$date" />
+	</xsl:otherwise>
+</xsl:choose>
+
+<!-- output author information for a title page -->
+<xsl:if test="$author != ''">
+	<xsl:value-of select="concat($newline,'\author{',$author,'}')" />
+</xsl:if>
 
 <xsl:text><![CDATA[
 \makeindex
