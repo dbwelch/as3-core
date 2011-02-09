@@ -2502,17 +2502,24 @@
 				<xsl:with-param name="replace-string" select="'$1\\%'" />
 			</xsl:call-template>
 		</xsl:variable>	
+		<xsl:variable name="ampersand">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$percent" />
+				<xsl:with-param name="search-string" select="'([^\\]?)&amp;'" />
+				<xsl:with-param name="replace-string" select="'$1\\&amp;'" />
+			</xsl:call-template>
+		</xsl:variable>		
 		<xsl:variable name="circumflex">			
 			<xsl:choose>
 				<xsl:when test="not($plain-circumflex)">
 					<xsl:call-template name="search-and-replace">
-						<xsl:with-param name="input" select="$percent" />
+						<xsl:with-param name="input" select="$ampersand" />
 						<xsl:with-param name="search-string" select="'([^\\]?)\^'" />
 						<xsl:with-param name="replace-string" select="'$1\\char`\\^'" />
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="$percent" />
+					<xsl:value-of select="$ampersand" />
 				</xsl:otherwise>				
 			</xsl:choose>
 		</xsl:variable>

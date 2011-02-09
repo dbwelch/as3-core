@@ -5,8 +5,9 @@
 	context of screen driven rich applications that may require
 	authentication.</p>
 	
-	<p>A #fluid:term:fluid:ecosystem; is inherently a bi-directional
-	client server architecture</p>
+	<p>A #fluid:term:fluid:ecosystem; is designed to fulfill
+	the definition of a <em>duplex &amp; multiplex</em>
+	client server architecture.</p>
 
 	<h1>Abstract</h1>
 	<a name="#fluid:abstract" />
@@ -30,7 +31,7 @@
 	<p>In this case we think that <em>water</em> and the physical
 	relationships between <em>water</em> and it's surroundings serves
 	as a good metaphor to illustrate the relationships
-	between various parts of the #fluid:term:code:world;.</p>
+	between various parts of a #fluid:term:fluid:ecosystem;.</p>
 	
 	<p>As using a metaphor can become ambiguous, if there
 	is a need to disambiguate we use the phrases <em>code world</em>
@@ -40,24 +41,32 @@
 	
 	<ul>
 		<li>water -- The #fluid:term:real:type;, <em>fluid and dynamic</em>;
-		can take the form of any container.</li>
+		can take the form of any container and
+		has the ability to <em>transform type</em>.</li>
+		<li>source -- Anything that can hold water, a spring, sea, reservoir etc.</li>
 		<li>reservoir -- The place to store water for a period of time,
 		refers to a persistent collection of #fluid:term:real:type;(s), analgous to
-		a database, flat file system or maybe #fluid:term:s3; storage.</li>
+		a database, flat file system or maybe #fluid:term:s3; storage.</li>		
 		<li>sea -- The control point for the cycle of water flow, a #fluid:term:fluid:ecosystem;.</li>
 		<li>spring -- The source of a flow of water to or from the sea, analgous to a client connected
 		to a server.</li>
-		<li>waterway -- A means for water to be transported between a spring
-		and the sea.</li>
+		<li>flow -- The exchange of water between a source, analgous
+		to any client server interaction.</li>
+		<li>waterway -- A means for water to be transported between another two
+		sources. A river, canal, evaporation, rain etc.
+		A transport scheme, such as #fluid:term:http;.</li>
 		<li>river -- The flow of water from a source, analgous to
 		a client pushing data to the server.</li>
-		<li>evaporation -- The returning of water to the source, metaphorically
-		this is the server returning data to the client.</li>
+		<li>evaporation -- The process that allows seas to communicate
+		with other sources. Defines an inter #fluid:term:fluid:ecosystem;
+		transport mechanism.</li>
 		<li>tidal wave -- A flow of water back to multiple sources, 
 		comparable to a server pushing data to all connected clients.</li>
-		<li>cloud -- A means for the sea to purify the water it returns
-		to the client. A transformation tier responsible for any authentication
-		or conformance verification.</li>
+		<li>desalination -- A means for the sea to cleanse the water it returns
+		to other sources. A transformation tier responsible for any authentication
+		or conformance verification of data returned to a client.</li>
+		<li>purification -- A transformation tier responsible for ensuring that
+		water conforms to the seas acceptable toxicity levels.</li>
 	</ul>
 	
 	<h1>Terminology</h1>
@@ -71,6 +80,16 @@
 	<a name="#fluid:term:w3c" />
 	
 	<p>The <a href="http://w3.org" title="w3">world-wide web consortium</a>.</p>
+	
+	<h2>TCP</h2>
+	<a name="#fluid:term:tcp" />
+	
+	<p>The transmission control protocol.</p>	
+	
+	<h2>UDP</h2>
+	<a name="#fluid:term:udp" />
+	
+	<p>The unified datagram protocol.</p>
 	
 	<h2>XML</h2>
 	<a name="#fluid:term:xml" />
@@ -87,8 +106,8 @@
 	<a name="#fluid:term:idl" />
 	
 	<p>Interface definition language. A #fluid:term:programming:language; and
-	implementation neutral method of defining a contractual obligation
-	to an interface.</p>
+	implementation neutral definition of a contractual obligation
+	for an implementation.</p>
 	
 	<h2>ECMA</h2>
 	<a name="#fluid:term:ecma" />
@@ -182,8 +201,8 @@
 	<h2>fluid ecosystem</h2>
 	<a name="#fluid:term:fluid:ecosystem" />
 	
-	<p>The term <em>fluid ecosystem</em> is used to describe an implementation that
-	#fluid:term:conforms to this specification.</p>
+	<p>The term <em>fluid ecosystem</em> is used to describe an implementation
+	that #fluid:term:conforms; to this specification.</p>
 	
 	<h2>base type</h2>
 	<a name="#fluid:term:base:type" />
@@ -201,19 +220,20 @@
 	<p>In the context of the #fluid:term:code:world;, an <em>ecosystem</em> can be
 	described with this simple tree relationship:</p>
 
-	<pre>ecosystem(n):
-	  tier(n):
-	    module(n):
-	      component(n):
-	        library(n):
-	          package(n):
-	            class|interface(n):</pre>
+	<pre>+ ecosystem(n):
+	|  tier(n):
+	|  |  module(n):
+	|  |    component(n):
+	|  |      library(n):
+	|  |        package(n):
+	|  |          class|interface(n):
+	|  |            attribute(n):</pre>
 	
 	<p>Each child relationship can occur any number of times, as represented by the
 	<code>'(n)'</code> suffix.</p>
 
 	<p>Here the <code>class|interface</code> leaf node of the tree relationship is our primary
-	type that can be mutated into anything.</p>
+	type that can be mutated into anything, it <em>is the water</em> </p>
 	
 	<p>In the context of the #fluid:term:real:world;, an <em>ecosystem</em> retains it's natural meaning.</p>	
 
@@ -236,6 +256,26 @@
 	
 	<p>This section describes the conformance requirements for this specification
 	and any prerequisites for conformance including demonstrability.</p>
+	
+	<h2>Transport Protocol</h2>
+	<a name="#fluid:cfm:transport:protocol" />
+	
+	<p>A conforming #fluid:term:fluid:ecosystem; <strong>must</strong>
+	at the minimum support the #fluid:term:tcp; transport protocol.
+	See #fluid:appendix:idl:definitions for all recognised transport protocols.</p>
+	
+	<h2>Transport Scheme</h2>
+	<a name="#fluid:cfm:transport:scheme" />
+	
+	<p>A conforming #fluid:term:fluid:ecosystem; <strong>must</strong>
+	at the minimum support the #fluid:term:http; transport scheme.
+	See #fluid:appendix:idl:definitions for all recognised transport schemes.</p>
+	
+	<h2>Atomicity</h2>
+	<a name="#fluid:cfm:atomicity" />
+	
+	<p>This section defines conformance for data integrity in the context of the atomic nature
+	of a #fluid:term:real:type; and the transactional nature of a #fluid:term:fluid:ecosystem;.</p>
 	
 	<h2>Type Acceptance</h2>
 	<a name="#fluid:cfm:type:acceptance" />
@@ -285,6 +325,8 @@
 		<li>SOAP+XML -- Simple Object Access Protocol.</li>
 		<li>RSS+XML -- An RSS document or document fragment.</li>
 		<li>ATOM+AML -- An ATOM document or document fragment.</li>
+		<li>XML+RPC -- The <code>XML RPC</code> format.</li>
+		<li>WDDX -- The web description data exchange format.</li>
 		<li>AMF -- Actionscript message format.</li>
 		<li>HESSIAN -- Hessian compact binary format.</li>
 		<li>OSC -- Open Sound control, a compact binary format with #fluid:term:uri; support.</li>
