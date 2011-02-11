@@ -24,7 +24,6 @@ package com.ffsys.dom.core
 		
 		private var _ownerElement:Element;
 		private var _specified:Boolean;
-		private var _uri:String;
 		private var _name:String;
 		private var _value:String;
 		private var _data:Object;
@@ -45,7 +44,7 @@ package com.ffsys.dom.core
 			super();
 			this.name = name;
 			this.value = value;
-			this.uri = uri;					
+			setNamespaceURI( uri );	
 		}
 		
 		/**
@@ -63,7 +62,7 @@ package com.ffsys.dom.core
 		{
 			if( isQualified() )
 			{
-				return new QName( this.uri, name );
+				return new QName( this.namespaceURI, name );
 			}
 			
 			return new QName( name );
@@ -81,7 +80,7 @@ package com.ffsys.dom.core
 		
 		public function isQualified():Boolean
 		{
-			return uri != null && uri.length > 0;
+			return namespaceURI != null && namespaceURI.length > 0;
 		}
 		
 		/**
@@ -173,6 +172,8 @@ package com.ffsys.dom.core
 		/**
 		* 	A <code>URI</code> that indicates this is a qualified attribute.
 		*/
+		
+		/*
 		public function get uri():String
 		{
 			return _uri;
@@ -182,6 +183,7 @@ package com.ffsys.dom.core
 		{
 			_uri = value;
 		}
+		*/
 		
 		/**
 		* 	A namespace prefix associated with this attribute.
@@ -192,7 +194,8 @@ package com.ffsys.dom.core
 			{
 				if( ownerElement )
 				{
-					_prefix = ownerElement.lookupPrefix( this.uri );
+					_prefix = ownerElement.lookupPrefix(	
+						this.namespaceURI );
 				}
 			}
 			return super.prefix;

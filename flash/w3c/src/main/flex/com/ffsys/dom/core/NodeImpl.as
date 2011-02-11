@@ -720,6 +720,23 @@ package com.ffsys.dom.core
 		}
 		
 		/**
+		* 	Retrieves a list of child nodes that are elements.
+		*/
+		public function get elements():Vector.<Element>
+		{
+			var elements:Vector.<Element> = new Vector.<Element>();
+			var node:Node = null;
+			for each( node in childNodes )
+			{
+				if( node is Element )
+				{
+					elements.push( Element( node ) );
+				}
+			}
+			return elements;
+		}		
+		
+		/**
 		* 	@private
 		* 
 		* 	Invoked when this node is added to the <code>DOM</code>.

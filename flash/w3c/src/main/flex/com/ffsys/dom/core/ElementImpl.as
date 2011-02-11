@@ -386,7 +386,7 @@ package com.ffsys.dom.core
 		public function html( markup:Object, inner:Boolean = true ):Element
 		{
 			if( ownerDocument == null
-				|| ownerDocument.implementation == null )
+				|| !( ownerDocument.implementation is DOMImplementationImpl ) )
 			{
 				throw new Error(
 					"Cannot assign inner markup with no available DOM implementation." );
@@ -432,7 +432,7 @@ package com.ffsys.dom.core
 			clear();
 			
 			//parse the markup into this element
-			ownerDocument.implementation.parse(
+			DOMImplementationImpl( ownerDocument.implementation ).parse(
 				tmp, null, this );
 			
 			return this;
@@ -465,23 +465,6 @@ package com.ffsys.dom.core
 		{
 			//TODO
 			return null;
-		}
-		
-		/**
-		* 	Retrieves a list of child nodes that are elements.
-		*/
-		public function get elements():Vector.<Element>
-		{
-			var elements:Vector.<Element> = new Vector.<Element>();
-			var node:Node = null;
-			for each( node in childNodes )
-			{
-				if( node is Element )
-				{
-					elements.push( Element( node ) );
-				}
-			}
-			return elements;
 		}
 		
 		/**
@@ -588,7 +571,7 @@ package com.ffsys.dom.core
 				if( hasAttribute( attr.nodeName ) )
 				{
 					var existing:Attr = a.isQualified()
-						? getAttributeNodeNS( a.uri, attr.localName )
+						? getAttributeNodeNS( a.namespaceURI, attr.localName )
 						: getAttributeNode( attr.localName );
 					
 					//trace("Element::setAttributeNode()", "[HAS EXISTING ATTRIBUTE MATCH]", existing, attr.value, existing.value );
@@ -660,7 +643,7 @@ package com.ffsys.dom.core
 			namespaceURI:String, localName:String ):Attr
 		{
 			var attr:Attr = getAttributeNode( localName );
-			return ( attr != null && attr.uri == namespaceURI ) ? attr : null;
+			return ( attr != null && attr.namespaceURI == namespaceURI ) ? attr : null;
 		}
 		
 		/**
@@ -701,7 +684,7 @@ package com.ffsys.dom.core
 		public function hasAttributeNS( namespaceURI:String, localName:String ):Boolean
 		{
 			var attr:Attr = getAttributeNode( localName );
-			return attr != null && attr.uri == namespaceURI;
+			return attr != null && attr.namespaceURI == namespaceURI;
 		}
 		
 		/**
@@ -747,20 +730,20 @@ package com.ffsys.dom.core
 		*/
 		public function getElementsByTagName( tagName:String ):NodeList
 		{
-			var list:NodeList = new NodeListImpl();
+			var list:NodeListImpl = new NodeListImpl();
 			//append child element matches
 			var elems:Vector.<Element> = this.elements;
 			var child:Element = null;
 			for each( child in elems )
 			{
-				if( child != null )
+				if( child is Element )
 				{
 					if( child.tagName == tagName )
 					{
 						list.concat( child );
 					}
 					list.concat(
-						child.getChildrenByTagName( tagName ) );
+						ElementImpl( child ).getChildrenByTagName( tagName ) );
 				}
 			}
 			return list;

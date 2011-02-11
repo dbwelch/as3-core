@@ -34,6 +34,8 @@ package com.ffsys.dom.core
 		private var _documentURI:String;
 		private var _domConfig:DOMConfiguration;
 		
+		private var _elements:Vector.<Element>;
+		
 		/**
 		* 	Creates a <code>DocumentImpl</code> instance.
 		*/
@@ -94,7 +96,7 @@ package com.ffsys.dom.core
 		* 	Ensures that the elements for a document
 		* 	are created from a fresh list.
 		*/
-		public function get elements():Vector.<Element>
+		override public function get elements():Vector.<Element>
 		{
 			if( _elements == null )
 			{
@@ -141,7 +143,8 @@ package com.ffsys.dom.core
 		*/
 		public function get documentElement():Element
 		{
-			return this;
+			//TODO:::!!!
+			return null;
 		}
 		
 		/**
@@ -176,7 +179,7 @@ package com.ffsys.dom.core
 		public function getChildrenByTagName( tagName:String ):NodeList
 		{
 			//filter children for tag name matches
-			var output:NodeList = new NodeListImpl();
+			var output:NodeListImpl = new NodeListImpl();
 			var elem:Element = null;
 			for each( elem in elements )
 			{
@@ -344,7 +347,7 @@ package com.ffsys.dom.core
 		{
 			var element:Element = Element( getDomBean(
 				qualifiedName, null, namespaceURI ) );
-			element.setNamespaceURI( namespaceURI );
+			NodeImpl( element ).setNamespaceURI( namespaceURI );
 			return element;
 		}
 		
@@ -394,8 +397,9 @@ package com.ffsys.dom.core
 		public function createProcessingInstruction(
 			target:String, data:String ):ProcessingInstruction
 		{
-			var instruction:ProcessingInstruction = ProcessingInstruction( getDomBean(
-				DomCoreBeanDocument.PROCESSING_INSTRUCTION, { data: data } ) );
+			var instruction:ProcessingInstructionImpl = ProcessingInstructionImpl(
+				getDomBean(
+					DomCoreBeanDocument.PROCESSING_INSTRUCTION, { data: data } ) );
 			instruction.setTarget( target );
 			return instruction;
 		}
@@ -447,6 +451,35 @@ package com.ffsys.dom.core
 			//TODO
 			return null;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function adoptNode( source:Node ):Node
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function normalizeDocument():void
+		{
+			//TODO
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function renameNode(
+			n:Node,
+			namespaceURI:String,
+			qualifiedName:String ):Node
+		{
+			//TODO
+			return null;
+		}		
 		
 		//TODO: implement and change return type to display object
 		public function getComponent( name:String ):Object
@@ -512,9 +545,9 @@ package com.ffsys.dom.core
 				}
 			}
 			
-			if( bean is Node )
+			if( bean is NodeImpl )
 			{
-				Node( bean ).setOwnerDocument( this );
+				NodeImpl( bean ).setOwnerDocument( this );
 			}
 			
 			//register the element with this document
@@ -535,9 +568,9 @@ package com.ffsys.dom.core
 		override public function appendChild( child:Node ):Node
 		{
 			super.appendChild( child );
-			if( child != null )
+			if( child is NodeImpl )
 			{
-				child.setOwnerDocument( this );
+				NodeImpl( child ).setOwnerDocument( this );
 			}
 			return child;
 		}
@@ -556,9 +589,10 @@ package com.ffsys.dom.core
 		{
 			if( element != null && element != this )
 			{				
-				if( element.id != null )
+				if( element is NodeImpl
+					&& NodeImpl( element ).id != null )
 				{
-					var existing:Element = _identifiers[ element.id ] as Element;
+					var existing:Element = _identifiers[ NodeImpl( element ).id ] as Element;
 					
 					//TOOD: re-integrate this
 					
@@ -569,13 +603,13 @@ package com.ffsys.dom.core
 					}
 					*/
 					
-					_identifiers[ element.id ] = element;
+					_identifiers[ NodeImpl( element ).id ] = element;
 				}
 				
 				//all currently registered elements
 				elements.push( element );
 				
-				var nm:String = element.beanName;
+				var nm:String = NodeImpl( element ).beanName;
 				if( nm != null )
 				{
 					//keep track of document elements by tag name

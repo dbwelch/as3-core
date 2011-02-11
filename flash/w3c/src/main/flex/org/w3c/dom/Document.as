@@ -140,9 +140,19 @@ package org.w3c.dom
 		/**
 		* 	A document URI.
 		* 
-		* 	The location of the document or null if undefined or if the Document was created using DOMImplementation.createDocument. No lexical checking is performed when setting this attribute; this could result in a null value returned when using Node.baseURI.
+		* 	The location of the document or null
+		* 	if undefined or if the Document was created 
+		* 	using DOMImplementation.createDocument.
+		* 
+		* 	No lexical checking is performed when
+		* 	setting this attribute; this could result
+		* 	in a null value returned when using Node.baseURI.
 		* 	
-		*	Beware that when the Document supports the feature "HTML" [DOM Level 2 HTML] , the href attribute of the HTML BASE element takes precedence over this attribute when computing Node.baseURI.
+		*	Beware that when the Document supports the
+		* 	feature "HTML" [DOM Level 2 HTML], the
+		* 	href attribute of the HTML BASE element
+		* 	takes precedence over this attribute when
+		* 	computing Node.baseURI.
 		*/
 		function get documentURI():String;
 		function set documentURI( value:String ):void;
@@ -182,50 +192,7 @@ package org.w3c.dom
 		* 	Document.xmlVersion attribute.
 		*/
 		function createElement( tagName:String ):Element;
-		
-		/**
-		* 	Creates a qualified element.
-		* 
-		* 	Creates an element of the given qualified name and namespace URI. 
-		*	Per [XML Namespaces] , applications must use the value null
-		* 	as the namespaceURI parameter for methods if they wish to have
-		* 	no namespace.
-		* 
-		* 	@param namespaceURI The namespace URI of the element to create.
-		* 	@param qualifiedName The qualified name of the element type to instantiate.
-		* 
-		* 	@throws DOMException - INVALID_CHARACTER_ERR: Raised if
-		* 	the specified qualifiedName is not an XML name according
-		* 	to the XML version in use specified in the Document.xmlVersion
-		* 	attribute. 
-		*	@throws DOMException - NAMESPACE_ERR: Raised if the
-		* 	qualifiedName is a malformed qualified name,
-		* 	if the qualifiedName has a prefix and the
-		* 	namespaceURI is null, or if the qualifiedName has a
-		* 	prefix that is "xml" and the namespaceURI is different
-		* 	from " http://www.w3.org/XML/1998/namespace" [XML Namespaces],
-		* 	or if the qualifiedName or its prefix is "xmlns" and the
-		* 	namespaceURI is different from "http://www.w3.org/2000/xmlns/",
-		* 	or if the namespaceURI is "http://www.w3.org/2000/xmlns/"
-		* 	and neither the qualifiedName nor its prefix is "xmlns". 
-		* 
-		*	@throws DOMException - NOT_SUPPORTED_ERR: Always thrown if
-		* 	the current document does not support the "XML" feature,
-		* 	since namespaces were defined by XML.
-		* 
-		* 	@return A new Element object with the following attributes:
-		* 
-		* 	<ul>
-		* 		<li>Node.nodeName -- qualifiedName</li>
-		* 		<li>Node.namespaceURI -- namespaceURI</li>
-		* 		<li>Node.prefix	-- prefix, extracted from qualifiedName, or null if there is no prefix</li>
-		* 		<li>Node.localName -- local name, extracted from qualifiedName</li>
-		* 		<li>Element.tagName -- qualifiedName</li>
-		* 	</ul>
-		*/
-		function createElementNS( 
-			namespaceURI:String, qualifiedName:String ):Element;
-			
+				
 		/**
 		* 	Creates a document fragment.
 		* 
@@ -252,7 +219,7 @@ package org.w3c.dom
 		* 	@return The new Comment object.
 		*/
 		function createComment( data:String ):Comment;
-		
+	
 		/**
 		* 	Creates a CDATASection node whose value
 		* 	is the specified string.
@@ -283,7 +250,7 @@ package org.w3c.dom
 		*/
 		function createProcessingInstruction(
 			target:String, data:String ):ProcessingInstruction;
-				
+			
 		/**
 		* 	Creates an Attr of the given name.
 		* 	
@@ -308,22 +275,6 @@ package org.w3c.dom
 		* 	
 		*/
 		function createAttribute( name:String ):Attr;
-		
-		/**
-		* 	Creates an attribute of the given qualified
-		* 	name and namespace URI.
-		* 
-		*	Per [XML Namespaces], applications must use the valu
-		* 	null as the namespaceURI parameter for methods
-		* 	if they wish to have no namespace.
-		* 
-		* 	@param namespaceURI The namespace URI of the attribute to create.
-		* 	@param qualifiedName The qualified name of the attribute to instantiate.
-		* 
-		* 	@return The created attribute.
-		*/
-		function createAttributeNS(
-			namespaceURI:String, qualifiedName:String ):Attr;
 			
 		/**
 		* 	Creates an EntityReference object. In addition,
@@ -343,5 +294,423 @@ package org.w3c.dom
 		* 	@return An entity reference implementation.
 		*/
 		function createEntityReference( name:String ):EntityReference;
+		
+		/**
+		* 	Returns a NodeList of all the Elements in document
+		* 	order with a given tag name and are contained in the document.
+		* 
+		* 	@param tagName The name of the tag to match on.
+		* 	The special value "*" matches all tags. For XML,
+		* 	the tagname parameter is case-sensitive, otherwise
+		* 	it depends on the case-sensitivity of the markup language in use.
+		*/
+		function getElementsByTagName( tagname:String ):NodeList;
+		
+		/**
+		* 	Imports a node from another document to this document,
+		* 	without altering or removing the source node from the
+		* 	original document; this method creates a new copy of
+		* 	the source node.
+		* 
+		* 	The returned node has no parent; (parentNode is null). 
+		* 
+		*	For all nodes, importing a node creates a node object
+		* 	owned by the importing document, with attribute values
+		* 	identical to the source node's nodeName and nodeType,
+		* 	plus the attributes related to namespaces (prefix,
+		* 	localName, and namespaceURI). As in the cloneNode operation,
+		* 	the source node is not altered. User data associated
+		* 	to the imported node is not carried over. However, if
+		* 	any UserDataHandlers has been specified along with the
+		* 	associated data these handlers will be called with the
+		* 	appropriate parameters before this method returns. 
+		* 
+		*	Additional information is copied as appropriate to the
+		* 	nodeType, attempting to mirror the behavior expected
+		* 	if a fragment of XML or HTML source was copied from
+		* 	one document to another, recognizing that the two
+		* 	documents may have different DTDs in the XML case. The
+		* 	following list describes the specifics for each type of node.
+		* 
+		* 	<ul>
+		* 		<li>ATTRIBUTE_NODE -- The ownerElement attribute is set
+		* 		to null and the specified flag is set to true on the
+		* 		generated Attr. The descendants of the source
+		* 		Attr are recursively imported and the resulting nodes
+		* 		reassembled to form the corresponding subtree.
+		* 		Note that the deep parameter has no effect on Attr nodes;
+		* 		they always carry their children with them when imported.</li>
+		* 		<li>DOCUMENT_FRAGMENT_NODE -- If the deep option was set to true,
+		* 		the descendants of the source DocumentFragment are recursively
+		* 		imported and the resulting nodes reassembled under the imported
+		* 		DocumentFragment to form the corresponding subtree.
+		* 		Otherwise, this simply generates an empty DocumentFragment.</li>
+		* 		<li>DOCUMENT_NODE -- Document nodes cannot be imported.</li>		
+		* 		<li>DOCUMENT_TYPE_NODE -- DocumentType nodes cannot be imported.</li>
+		* 		<li>ELEMENT_NODE -- Specified attribute nodes of the source
+		* 		element are imported, and the generated Attr nodes are attached
+		* 		to the generated Element. Default attributes are not copied,
+		* 		though if the document being imported into defines default
+		* 		attributes for this element name, those are assigned.
+		* 		If the importNode deep parameter was set to true,
+		* 		the descendants of the source element are recursively
+		* 		imported and the resulting nodes reassembled to
+		* 		form the corresponding subtree.</li>
+		* 		<li>ENTITY_NODE -- Entity nodes can be imported, however
+		* 		in the current release of the DOM the DocumentType is readonly.
+		* 		Ability to add these imported nodes to a DocumentType will be
+		* 		considered for addition to a future release of the DOM.
+		* 		On import, the publicId, systemId, and notationName
+		* 		attributes are copied. If a deep import is requested,
+		* 		the descendants of the the source Entity are recursively imported
+		* 		and the resulting nodes reassembled to form the corresponding subtree.</li>
+		* 		<li>ENTITY_REFERENCE_NODE -- Only the EntityReference itself is
+		* 		copied, even if a deep import is requested, since the source and
+		* 		destination documents might have defined the entity differently.
+		* 		If the document being imported into provides a definition for
+		* 		this entity name, its value is assigned.</li>
+		* 		<li>NOTATION_NODE -- Notation nodes can be imported, however
+		* 		in the current release of the DOM the DocumentType is readonly.
+		* 		Ability to add these imported nodes to a DocumentType will be
+		* 		considered for addition to a future release of the DOM.
+		* 		On import, the publicId and systemId attributes are copied.
+		* 		Note that the deep parameter has no effect on this type of
+		* 		node since they cannot have any children.</li>
+		* 		<li>PROCESSING_INSTRUCTION_NODE -- The imported node copies
+		* 		its target and data values from those of the source node.
+		* 		Note that the deep parameter has no effect on this type of
+		* 		node since they cannot have any children.</li>
+		* 		<li>TEXT_NODE, CDATA_SECTION_NODE, COMMENT_NODE -- These three
+		* 		types of nodes inheriting from CharacterData copy their
+		* 		data and length attributes from those of the source node.
+		* 		Note that the deep parameter has no effect on these types
+		* 		of nodes since they cannot have any children.</li>
+		* 	</ul>
+		* 
+		* 	@param importedNode The node to import.
+		* 	@param deep If true, recursively import the subtree under the
+		* 	specified node; if false, import only the node itself, as explained
+		* 	above. This has no effect on nodes that cannot have any children,
+		* 	and on Attr, and EntityReference nodes.
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: Raised if the type of
+		* 	node being imported is not supported.
+		* 
+		* 	@throws DOMException INVALID_CHARACTER_ERR: Raised if one of the
+		* 	imported names is not an XML name according to the XML version
+		* 	in use specified in the Document.xmlVersion attribute.
+		* 	This may happen when importing an XML 1.1 [XML 1.1] element
+		* 	into an XML 1.0 document, for instance.
+		* 
+		* 	@return The imported node that belongs to this Document.
+		*/
+		function importNode( importedNode:Node, deep:Boolean ):Node;
+		
+		/**
+		* 	Creates an element of the given qualified name and
+		* 	namespace URI. 
+		* 
+		*	Per [XML Namespaces], applications must use the value
+		* 	null as the namespaceURI parameter for methods if they
+		* 	wish to have no namespace.
+		* 
+		* 	@param namespaceURI	The namespace URI of the element to create.
+		* 	@param qualifiedName The qualified name of the element
+		* 	type to instantiate.
+		* 
+		* 	@throws DOMException INVALID_CHARACTER_ERR: Raised if the
+		* 	specified qualifiedName is not an XML name according
+		* 	to the XML version in use specified in the
+		* 	Document.xmlVersion attribute. 
+		* 
+		* 	@throws DOMException NAMESPACE_ERR: Raised if the qualifiedName
+		* 	is a malformed qualified name, if the qualifiedName has a
+		* 	prefix and the namespaceURI is null, or if the
+		* 	qualifiedName has a prefix that is "xml" and the namespaceURI is
+		* 	different from " http://www.w3.org/XML/1998/namespace" [XML Namespaces],
+		* 	or if the qualifiedName or its prefix is "xmlns" and the namespaceURI
+		* 	is different from "http://www.w3.org/2000/xmlns/", or if the
+		* 	namespaceURI is "http://www.w3.org/2000/xmlns/" and neither the
+		* 	qualifiedName nor its prefix is "xmlns".
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: Always thrown if the
+		* 	current document does not support the "XML" feature, since
+		* 	namespaces were defined by XML.
+		* 
+		* 	@return A new Element object with the following attributes:
+		* 
+		* 	<ul>
+		* 		<li>Node.nodeName -- qualifiedName.</li>
+		* 		<li>Node.namespaceURI -- namespaceURI.</li>
+		* 		<li>Node.prefix -- prefix, extracted from qualifiedName,
+		* 		or null if there is no prefix.</li>
+		* 		<li>Node.localName -- local name, extracted from qualifiedName.</li>
+		* 		<li>Element.tagName -- qualifiedName.</li>
+		* 	</ul>
+		*/
+		function createElementNS(
+			namespaceURI:String, qualifiedName:String ):Element;
+		
+		/**
+		* 	Creates an attribute of the given qualified
+		* 	name and namespace URI.
+		* 
+		*	Per [XML Namespaces], applications must use the valu
+		* 	null as the namespaceURI parameter for methods
+		* 	if they wish to have no namespace.
+		* 
+		* 	@param namespaceURI The namespace URI of the attribute to create.
+		* 	@param qualifiedName The qualified name of the attribute to instantiate.
+		* 
+		* 	@throws DOMException INVALID_CHARACTER_ERR: Raised if the
+		* 	specified qualifiedName is not an XML name according to
+		* 	the XML version in use specified in the
+		* 	Document.xmlVersion attribute.
+		* 
+		* 	@throws DOMException NAMESPACE_ERR: Raised if the qualifiedName
+		* 	is a malformed qualified name, if the qualifiedName has a prefix
+		* 	and the namespaceURI is null, if the qualifiedName has a prefix
+		* 	that is "xml" and the namespaceURI is different from
+		* 	"http://www.w3.org/XML/1998/namespace", if the qualifiedName or
+		* 	its prefix is "xmlns" and the namespaceURI is different
+		* 	from "http://www.w3.org/2000/xmlns/", or if the namespaceURI
+		* 	is "http://www.w3.org/2000/xmlns/" and neither the qualifiedName
+		* 	nor its prefix is "xmlns".
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: Always thrown if the
+		* 	current document does not support the "XML" feature,
+		* 	since namespaces were defined by XML.
+		* 
+		* 	@return A new Attr object with the following attributes:
+		* 
+		*	<ul>
+		* 		<li>Node.nodeName -- qualifiedName.</li>
+		* 		<li>Node.namespaceURI -- namespaceURI.</li>
+		* 		<li>Node.prefix -- prefix, extracted from qualifiedName,
+		* 		or null if there is no prefix.</li>
+		* 		<li>Node.localName -- local name, extracted from qualifiedName.</li>
+		* 		<li>Attr.name -- qualifiedName.</li>
+		* 		<li>Node.nodeValue -- the empty string.</li>
+		* 	</ul>
+		*/
+		function createAttributeNS(
+			namespaceURI:String, qualifiedName:String ):Attr;
+			
+		/**
+		* 	Returns a NodeList of all the Elements with a given
+		* 	local name and namespace URI in document order.
+		* 
+		* 	@param namespaceURI The namespace URI of the elements to match on.
+		* 	The special value "*" matches all namespaces.
+		* 	@param localName The local name of the elements to match on. 
+		* 	The special value "*" matches all local names.
+		* 
+		* 	@return A new NodeList object containing all the
+		* 	matched Elements.
+		*/
+		function getElementsByTagNameNS(
+			namespaceURI:String, localName:String ):NodeList;
+		
+		/**
+		* 	Returns the Element that has an ID attribute with
+		* 	the given value. If no such element exists, this
+		* 	returns null. If more than one element has an ID
+		* 	attribute with that value, what is returned is undefined. 
+		* 
+		*	The DOM implementation is expected to use the
+		* 	attribute Attr.isId to determine if an attribute
+		* 	is of type ID.
+		* 
+		* 	Note: Attributes with the name "ID" or "id" are
+		* 	not of type ID unless so defined.
+		* 
+		* 	@param elementId The unique id value for an element.
+		* 
+		* 	@return The matching element or null if there is none.
+		*/
+		function getElementById( elementId:String ):Element;
+		
+		/**
+		* 	Attempts to adopt a node from another document to this
+		* 	document. If supported, it changes the ownerDocument
+		* 	of the source node, its children, as well as the
+		* 	attached attribute nodes if there are any. If the source
+		* 	node has a parent it is first removed from the child list
+		* 	of its parent. This effectively allows moving a subtree
+		* 	from one document to another (unlike importNode() which
+		* 	create a copy of the source node instead of moving it).
+		* 	When it fails, applications should use Document.importNode()
+		* 	instead. Note that if the adopted node is already part of
+		* 	this document (i.e. the source and target document are the same),
+		* 	this method still has the effect of removing the source
+		* 	node from the child list of its parent, if any.
+		* 
+		* 	The following list describes the specifics for each type of node.
+		* 
+		* 	<ul>
+		* 		<li>ATTRIBUTE_NODE -- The ownerElement attribute is set
+		* 		to null and the specified flag is set to true on the
+		* 		adopted Attr. The descendants of the source Attr
+		* 		are recursively adopted.</li>
+		* 		<li>DOCUMENT_FRAGMENT_NODE -- The descendants of the
+		* 		source node are recursively adopted.</li>
+		* 		<li>DOCUMENT_NODE -- Document nodes cannot be adopted.</li>
+		* 		<li>DOCUMENT_TYPE_NODE -- DocumentType nodes
+		* 		cannot be adopted.</li>
+		* 		<li>ELEMENT_NODE -- Specified attribute nodes of the source
+		* 		element are adopted. Default attributes are discarded,
+		* 		though if the document being adopted into defines default attributes
+		* 		for this element name, those are assigned. The descendants
+		* 		of the source element are recursively adopted.</li>
+		* 		<li>ENTITY_NODE -- Entity nodes cannot be adopted.</li>
+		* 		<li>ENTITY_REFERENCE_NODE -- Only the EntityReference node
+		* 		itself is adopted, the descendants are discarded,
+		* 		since the source and destination documents might have
+		* 		defined the entity differently. If the document being
+		* 		imported into provides a definition for this entity name,
+		* 		its value is assigned.</li>
+		* 		<li>NOTATION_NODE -- Notation nodes cannot be adopted.</li>
+		* 		<li>PROCESSING_INSTRUCTION_NODE, TEXT_NODE,
+		* 		CDATA_SECTION_NODE, COMMENT_NODE -- These nodes can all
+		* 		be adopted. No specifics.</li>
+		* 	</ul>
+		* 
+		* 	Note: Since it does not create new nodes unlike the
+		* 	Document.importNode() method, this method does not
+		* 	raise an INVALID_CHARACTER_ERR exception, and applications
+		* 	should use the Document.normalizeDocument() method to
+		* 	check if an imported name is not an XML name
+		* 	according to the XML version in use.
+		* 
+		* 	@param source The node to move into this document.
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: Raised if the source
+		* 	node is of type DOCUMENT, DOCUMENT_TYPE.
+		* 
+		* 	@throws DOMException NO_MODIFICATION_ALLOWED_ERR: Raised
+		* 	when the source node is readonly
+		* 
+		* 	@return The adopted node, or null if this operation fails,
+		* 	such as when the source node comes from a different implementation.
+		*/
+		function adoptNode( source:Node ):Node;
+		
+		/**
+		* 	This method acts as if the document was going through
+		* 	a save and load cycle, putting the document in a
+		* 	"normal" form. As a consequence, this method updates
+		* 	the replacement tree of EntityReference nodes and
+		* 	normalizes Text nodes, as defined in the method Node.normalize(). 
+		* 
+		*	Otherwise, the actual result depends on the features
+		* 	being set on the Document.domConfig object and governing
+		* 	what operations actually take place. Noticeably this method
+		* 	could also make the document namespace well-formed
+		* 	according to the algorithm described in ??, check the
+		* 	character normalization, remove the CDATASection nodes, etc.
+		* 	See DOMConfiguration for details.
+		* 
+		* 	<pre>// Keep in the document the information defined
+		* 	// in the XML Information Set
+		*	DOMConfiguration docConfig = myDocument.domConfig;
+		*	docConfig.setParameter( "infoset", true );
+		*	myDocument.normalizeDocument();</pre>
+		* 
+		* 	Mutation events, when supported, are generated to reflect the
+		* 	changes occurring on the document.
+		* 
+		*	If errors occur during the invocation of this method,
+		* 	such as an attempt to update a read-only node or a
+		* 	Node.nodeName contains an invalid character according
+		* 	to the XML version in use, errors or warnings (DOMError.SEVERITY_ERROR
+		* 	or DOMError.SEVERITY_WARNING) will be reported using the
+		* 	DOMErrorHandler object associated with the "error-handler"
+		* 	parameter. Note this method might also report fatal errors
+		* 	(DOMError.SEVERITY_FATAL_ERROR) if an implementation cannot
+		* 	recover from an error.
+		*/
+		function normalizeDocument():void;
+		
+		/**
+		* 	Rename an existing node of type ELEMENT_NODE or ATTRIBUTE_NODE. 
+		* 
+		*	When possible this simply changes the name of the given node,
+		* 	otherwise this creates a new node with the specified name and
+		* 	replaces the existing node with the new node as described below.
+		* 
+		* 	If simply changing the name of the given node is not possible,
+		* 	the following operations are performed: a new node is created,
+		* 	any registered event listener is registered on the new node,
+		* 	any user data attached to the old node is removed from that node,
+		* 	the old node is removed from its parent if it has one,
+		* 	the children are moved to the new node, if the renamed node
+		* 	is an Element its attributes are moved to the new node,
+		* 	the new node is inserted at the position the old node used to
+		* 	have in its parent's child nodes list if it has one, the user
+		* 	data that was attached to the old node is attached to the new node. 
+		* 
+		* 	When the node being renamed is an Element only the specified
+		* 	attributes are moved, default attributes originated from
+		* 	the DTD are updated according to the new element name.
+		* 	In addition, the implementation may update default attributes
+		* 	from other schemas. Applications should use
+		* 	Document.normalizeDocument() to guarantee these
+		* 	attributes are up-to-date.
+		* 
+		* 	When the node being renamed is an Attr that is attached to
+		* 	an Element, the node is first removed from the Element
+		* 	attributes map. Then, once renamed, either by modifying the
+		* 	existing node or creating a new one as described above,
+		* 	it is put back.
+		*
+		* 	In addition,
+		* 
+		* 	<ul>
+		* 		<li>A user data event NODE_RENAMED is fired,</li>
+		* 		<li>when the implementation supports the
+		* 		feature "MutationNameEvents", each mutation
+		* 		operation involved in this method fires
+		* 		the appropriate event, and in the end the
+		* 		event { http://www.w3.org/2001/xml-events, DOMElementNameChanged}
+		* 		or { http://www.w3.org/2001/xml-events, DOMAttributeNameChanged}
+		* 		is fired.</li>
+		* 	</ul>
+		* 
+		* 	@param n The node to rename.
+		* 	@param namespaceURI The new namespace URI.
+		* 	@param qualifiedName The new qualified name.
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: Raised
+		* 	when the type of the specified node is neither
+		* 	ELEMENT_NODE nor ATTRIBUTE_NODE, or if the
+		* 	implementation does not support the renaming
+		* 	of the document element.
+		*  
+		* 	@throws DOMException INVALID_CHARACTER_ERR: Raised
+		* 	if the new qualified name is not an XML name
+		* 	according to the XML version in use specified
+		* 	in the Document.xmlVersion attribute.
+		* 
+		* 	@throws DOMException WRONG_DOCUMENT_ERR: Raised when
+		* 	the specified node was created from a different
+		* 	document than this document.
+		* 
+		* 	@throws DOMException NAMESPACE_ERR: Raised if the
+		* 	qualifiedName is a malformed qualified name, if
+		* 	the qualifiedName has a prefix and the namespaceURI is null,
+		* 	or if the qualifiedName has a prefix that is "xml" and
+		* 	the namespaceURI is different from "http://www.w3.org/XML/1998/namespace"
+		* 	[XML Namespaces]. Also raised, when the node being renamed is an attribute,
+		* 	if the qualifiedName, or its prefix, is "xmlns" and the namespaceURI
+		* 	is different from "http://www.w3.org/2000/xmlns/".
+		* 
+		* 	@return The renamed node. This is either the specified
+		* 	node or the new node that was created to replace
+		* 	the specified node.
+		*/
+		function renameNode(
+			n:Node,
+			namespaceURI:String,
+			qualifiedName:String ):Node;
 	}
 }

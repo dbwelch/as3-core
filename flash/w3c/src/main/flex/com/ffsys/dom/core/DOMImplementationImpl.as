@@ -3,9 +3,9 @@ package com.ffsys.dom.core
 	import flash.net.URLRequest;
 	import com.ffsys.ioc.*;
 	
-	import org.w3c.dom.*;
 	import com.ffsys.dom.core.support.*;
 	import com.ffsys.dom.ioc.*;
+	import org.w3c.dom.*;
 	
 	/**
 	*	Represents the <code>DOM</code> implementation.
@@ -90,37 +90,6 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	@private
-		*/
-		internal function getBeanDocumentFromDtd(
-			definition:DocumentTypeDefinitionImpl ):IBeanDocument
-		{
-			var document:IBeanDocument = null
-			var publicId:String = definition.publicId;
-			
-			if( publicId == beanManager.document.id )
-			{
-				document = beanManager.document;
-			}
-			
-			if( document == null )
-			{
-				for each( var doc:IBeanDocument in beanManager.documents )
-				{
-					if( publicId == doc.id )
-					{
-						document = doc;
-						break;
-					}
-				}
-			}
-			
-			//trace("DOMImplementationImpl::getBeanDocumentFromDtd()", publicId, document );
-			
-			return document;
-		}
-		
-		/**
 		* 	Parses a source <code>XML</code> document
 		* 	as if it is an <code>XHTML</code> document.
 		* 
@@ -130,8 +99,6 @@ package com.ffsys.dom.core
 		* 	@param target A target element to parse the document
 		* 	into.
 		*/
-		
-		/*
 		public function parse(
 			source:XML,
 			doctype:DocumentType = null,
@@ -156,7 +123,6 @@ package com.ffsys.dom.core
 			parser.parse( source );
 			return Element( parser.element );
 		}
-		*/
 		
 		/**
 		* 	Loads a DOM document using a streaming SAX
@@ -167,15 +133,12 @@ package com.ffsys.dom.core
 		* 	@return The parser responsible for loading and
 		* 	parsing the DOM.
 		*/
-		
-		/*
 		public function load( request:URLRequest ):DomSaxParser
 		{
 			var parser:DomSaxParser = new DomSaxParser( this, null );
 			parser.load( request );
 			return parser;
 		}
-		*/
 		
 		/**
 		*	Retrieves a DOM SAX parser with no configured
@@ -184,17 +147,13 @@ package com.ffsys.dom.core
 		* 	@return A SAX parser implementation suitable
 		* 	for loading a DOM document.
 		*/
-		
-		/*
 		public function parser():DomSaxParser
 		{
 			var parser:DomSaxParser = new DomSaxParser(
 				this, null );
 			return parser;
 		}
-		*/
 		
-		/*
 		public function fragment(
 			source:XML,
 			doctype:DocumentType = null ):DocumentFragment
@@ -213,7 +172,6 @@ package com.ffsys.dom.core
 			parser.fragment( source );
 			return DocumentFragment( parser.element );
 		}
-		*/
 		
 		private function getDefaultDocumentType():DocumentType
 		{
@@ -266,15 +224,16 @@ package com.ffsys.dom.core
 			//trace("DOMImplementationImpl::getDefaultDocumentType()", qualifiedName );
 			
 			//This method can raise a DomException object.
-			var document:Document = Document( doctype.elements.getBean(
-				qualifiedName ) );
+			var document:Document = Document(
+				DocumentTypeImpl( doctype ).beans.getBean(
+					qualifiedName ) );
 			if( namespaceURI != null )
 			{
-				document.namespaceDeclarations.push(
+				NodeImpl( document ).namespaceDeclarations.push(
 					new Namespace( namespaceURI ) );
 			}
-			document.setImplementation( this );
-			document.setDocumentType( doctype );
+			DocumentImpl( document ).setImplementation( this );
+			DocumentImpl( document ).setDocumentType( doctype );
 			return document;
 		}
 	}

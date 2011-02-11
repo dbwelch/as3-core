@@ -51,7 +51,7 @@ package com.ffsys.dom.core
 		*/
 		
 			
-		private var _elements:IBeanDocument;
+		private var _beans:IBeanDocument;
 		private var _components:IBeanDocument;		
 		
 		private var _name:String;
@@ -98,19 +98,19 @@ package com.ffsys.dom.core
 		* 	The primary bean document that defines the
 		* 	DOM elements.
 		*/
-		public function get elements():IBeanDocument
+		public function get beans():IBeanDocument
 		{
-			if( _elements == null )
+			if( _beans == null )
 			{
 				//TODO: generate from a factory
-				_elements = new DomCoreBeanDocument();
+				_beans = new DomCoreBeanDocument();
 			}
-			return _elements;
+			return _beans;
 		}	
 		
-		public function set elements( value:IBeanDocument ):void
+		public function set beans( value:IBeanDocument ):void
 		{
-			_elements = value;
+			_beans = value;
 		}
 		
 		/**

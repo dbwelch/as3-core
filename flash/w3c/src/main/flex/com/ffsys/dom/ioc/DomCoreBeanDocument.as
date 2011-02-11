@@ -22,6 +22,11 @@ package com.ffsys.dom.ioc
 		//CORE DOM ELEMENTS
 		
 		/**
+		* 	The identifier for a document.
+		*/
+		public static const DOCUMENT:String = "html";		//TODO: change this!
+		
+		/**
 		* 	The identifier for <code>DOM</code> attributes.
 		*/
 		public static const ATTR:String = "attr";

@@ -1,4 +1,4 @@
-package com.ffsys.dom
+package com.ffsys.dom.core.support
 {
 	
 	/**
