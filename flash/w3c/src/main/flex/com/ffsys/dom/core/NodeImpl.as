@@ -435,6 +435,8 @@ package com.ffsys.dom.core
 		
 		/**
 		* 	@inheritDoc
+		* 
+		* 	@todo Implement the node user data handler logic.
 		*/
 		public function setUserData(
 			key:String, data:*, handler:UserDataHandler ):*

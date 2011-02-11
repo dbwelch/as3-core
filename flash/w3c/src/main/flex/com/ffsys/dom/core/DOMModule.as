@@ -14,7 +14,7 @@ package com.ffsys.dom.core
 		/**
 		* 	Represents the XML module.
 		*/
-		public static const XML_MODULE:String = "Xml";
+		public static const XML_MODULE:String = "XML";
 		
 		/**
 		* 	Represents the events module.

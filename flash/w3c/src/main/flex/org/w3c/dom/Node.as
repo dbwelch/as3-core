@@ -42,6 +42,8 @@ package org.w3c.dom
 	* 	Note that the specialized interfaces may contain
 	* 	additional and more convenient mechanisms to get
 	* 	and set the relevant information.
+	* 
+	* 	@todo Finish the API documentation for this interface.
 	*/
 	public interface Node
 	{		

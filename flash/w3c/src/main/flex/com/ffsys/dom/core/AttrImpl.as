@@ -12,6 +12,8 @@ package com.ffsys.dom.core
 	*
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
+	* 
+	* 	@todo Integrate with schema type info when available.
 	*/
 	public class AttrImpl extends NodeImpl
 		implements Attr

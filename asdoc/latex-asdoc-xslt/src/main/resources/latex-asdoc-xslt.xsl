@@ -373,6 +373,73 @@
 		</xsl:call-template>
 	</xsl:template>
 	
+	<xsl:template name="todo-list">
+		<xsl:param name="todos" select="''" />
+		<xsl:call-template name="start-itemize" />
+		<xsl:for-each select="$todos">
+			
+			<xsl:variable name="sanitized">
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="." />
+				</xsl:call-template>
+			</xsl:variable>
+			
+			<xsl:text>\item </xsl:text>
+			
+			<!-- the label name -->
+			<xsl:variable name="lname" select="../@fullname" />
+			<xsl:call-template name="nameref">
+				<xsl:with-param name="input" select="$lname" />
+			</xsl:call-template>
+			<xsl:text> -- </xsl:text>
+			<xsl:value-of select="$sanitized" />
+		</xsl:for-each>
+		<xsl:call-template name="end-itemize" />
+	</xsl:template>
+	
+	<xsl:template name="todo-appendix">
+		<xsl:param name="todos" select="$toplevel//todo" />
+		<xsl:if test="count($todos) &gt; 0">
+			<xsl:call-template name="chapter">
+				<xsl:with-param name="title" select="'Todo'"/>
+				<xsl:with-param name="label" select="'todo'"/>				
+			</xsl:call-template>
+			
+			<xsl:variable name="class-todos" select="$toplevel//classRec//todo" />
+			<xsl:if test="count($class-todos) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Class Todo'"/>
+					<xsl:with-param name="label" select="'class:todo'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$class-todos" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="interface-todos" select="$toplevel//interfaceRec//todo" />
+			<xsl:if test="count($interface-todos) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Interface Todo'"/>
+					<xsl:with-param name="label" select="'interface:todo'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$interface-todos" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="method-todos" select="$toplevel//method//todo" />
+			<xsl:if test="count($method-todos) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Member Todo'"/>
+					<xsl:with-param name="label" select="'member:todo'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$method-todos" />
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:if>
+	</xsl:template>
+	
 	<xsl:template name="appendix">
 		<xsl:variable name="classes" select="$toplevel//classRec" />
 		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />
@@ -381,6 +448,8 @@
 			<xsl:with-param name="title" select="'Appendix'"/>
 			<xsl:with-param name="label" select="'appendix'"/>
 		</xsl:call-template>
+		
+		<xsl:call-template name="todo-appendix" />
 		
 		<!-- CUSTOM APPENDICES FIRST -->
 		
@@ -1496,6 +1565,7 @@
 	
 	<xsl:template name="nameref">
 		<xsl:param name="input" select="''" />
+		<xsl:variable name="input" select="replace($input,'/',':')" />
 		<xsl:text>\nameref{</xsl:text>
 		<xsl:call-template name="escape-label">
 			<xsl:with-param name="input" select="$input"/>
@@ -1674,22 +1744,28 @@
 		<xsl:param name="title" />
 		<xsl:param name="label" select="''" />	
 		<xsl:param name="escaped" select="false()" />
-			
+		
+		<xsl:variable name="text">
+			<xsl:choose>
+				<xsl:when test="$escaped">
+					<xsl:value-of select="$title"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="$title"/>
+					</xsl:call-template>				
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
 		<xsl:value-of select="$newline" />		
-		<xsl:text>\subsubsection{</xsl:text>
-		<xsl:choose>
-			<xsl:when test="$escaped">
-				<xsl:value-of select="$title"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="escape">
-					<xsl:with-param name="input" select="$title"/>
-				</xsl:call-template>				
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:text>\subsubsection*{</xsl:text>
+			<xsl:value-of select="$text" />
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
-		
+		<xsl:text>\addcontentsline{toc}{subsubsection}{</xsl:text>
+			<xsl:value-of select="$text" />		
+		<xsl:text>}</xsl:text>	
 		<xsl:if test="$label != ''">
 			<xsl:call-template name="label">
 				<xsl:with-param name="title" select="$label"/>
@@ -1981,7 +2057,7 @@
 				<xsl:with-param name="input" select="$public-methods" />
 				<xsl:with-param name="title" select="'Public methods'" />
 				<xsl:with-param name="property" select="false()" />				
-				<xsl:with-param name="listing-xref" select="concat(@id,$public-methods-xref-id)" />				
+				<xsl:with-param name="listing-xref" select="concat(@id,$public-methods-xref-id)" />
 			</xsl:call-template>
 		</xsl:if>
 		
@@ -2707,10 +2783,13 @@
 
 %fix for the toc overlap problem
 \makeatletter
-  \renewcommand\l@subsubsection{\@dottedtocline{2}{1.5em}{4em}}
+  \renewcommand\l@subsubsection{\@dottedtocline{2}{8em}{4em}}
 \makeatother
 
 \begin{document} 
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
 
 \maketitle
 
