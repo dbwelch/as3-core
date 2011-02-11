@@ -55,6 +55,12 @@
 	<xsl:template match="/">
 
 		<xsl:call-template name="header" />
+		
+		<!-- PACKAGE PART DECLARATION -->
+		<xsl:call-template name="part">
+			<xsl:with-param name="title" select="'Packages'"/>
+			<xsl:with-param name="label" select="'packages'"/>
+		</xsl:call-template>
 	
 		<!--  PACKAGES-->
 		<xsl:for-each select="$packages//apiItemRef">
@@ -78,7 +84,7 @@
 			<xsl:text>\rhead{}</xsl:text>
 			
 			<!-- PACKAGE PART DECLARATION -->
-			<xsl:call-template name="part">
+			<xsl:call-template name="chapter">
 				<xsl:with-param name="title" select="$package-id"/>
 				<xsl:with-param name="label" select="$package-id"/>
 			</xsl:call-template>
@@ -368,25 +374,27 @@
 	</xsl:template>
 	
 	<xsl:template name="appendix">
-		
 		<xsl:variable name="classes" select="$toplevel//classRec" />
 		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />
 		
-		<xsl:call-template name="section">
+		<xsl:call-template name="part">
 			<xsl:with-param name="title" select="'Appendix'"/>
 			<xsl:with-param name="label" select="'appendix'"/>
 		</xsl:call-template>
 		
 		<!-- CUSTOM APPENDICES FIRST -->
+		
+		<!--
 		<xsl:for-each select="//appendix">
 			<xsl:call-template name="sanitize">
 				<xsl:with-param name="input" select="." />
 			</xsl:call-template>			
 		</xsl:for-each>
+		-->
 		
 		<!-- ALL CLASSES -->
 		<xsl:if test="count($classes) &gt; 0">
-			<xsl:call-template name="subsection">
+			<xsl:call-template name="chapter">
 				<xsl:with-param name="title" select="'Class Index'"/>
 				<xsl:with-param name="label" select="'class:index'"/>
 			</xsl:call-template>
@@ -397,7 +405,7 @@
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
 				<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-classes) &gt; 0">
-					<xsl:call-template name="subsubsection">
+					<xsl:call-template name="section">
 						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
@@ -418,7 +426,7 @@
 		
 		<!-- ALL INTERFACES -->
 		<xsl:if test="count($interfaces) &gt; 0">
-			<xsl:call-template name="subsection">
+			<xsl:call-template name="chapter">
 				<xsl:with-param name="title" select="'Interface Index'"/>
 				<xsl:with-param name="label" select="'interface:index'"/>
 			</xsl:call-template>
@@ -429,7 +437,7 @@
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
 				<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-interfaces) &gt; 0">
-					<xsl:call-template name="subsubsection">
+					<xsl:call-template name="section">
 						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
@@ -1554,6 +1562,32 @@
 	<xsl:template name="end-itemize">
 		<xsl:text>\end{itemize}</xsl:text>
 		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="chapter">
+		<xsl:param name="title" />
+		<xsl:param name="label" select="''" />
+		<xsl:param name="escaped" select="false()" />
+		<xsl:value-of select="$newline" />		
+		<xsl:text>\chapter{</xsl:text>		
+		<xsl:choose>
+			<xsl:when test="$escaped">
+				<xsl:value-of select="$title"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$title"/>
+				</xsl:call-template>				
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline" />
+		
+		<xsl:if test="$label != ''">
+			<xsl:call-template name="label">
+				<xsl:with-param name="title" select="$label"/>
+			</xsl:call-template>
+		</xsl:if>	
 	</xsl:template>
 	
 	<xsl:template name="part">
@@ -2698,7 +2732,7 @@
 	</xsl:template>	
 	
 	<xsl:template name="header-preamble">
-		<xsl:text><![CDATA[\documentclass[a4paper,titlepage,oneside]{article}
+		<xsl:text><![CDATA[\documentclass[a4paper,titlepage,oneside]{report}
 ]]></xsl:text>
 	</xsl:template>	
 	

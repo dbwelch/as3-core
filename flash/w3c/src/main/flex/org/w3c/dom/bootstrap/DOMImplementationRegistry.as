@@ -3,8 +3,8 @@ package org.w3c.dom.bootstrap
 	import org.w3c.dom.*;
 	
 	/**
-	* 	<p>A factory that enables applications to
-	* 	obtain instances of DOMImplementation.</p>
+	* 	A factory that enables applications to
+	* 	obtain instances of DOMImplementation.
 	*
 	*	<p>Example:</p>
 	*
