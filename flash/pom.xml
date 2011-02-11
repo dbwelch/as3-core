@@ -202,6 +202,10 @@
 												<name>link-report-path</name>
 												<value>../${project.build.finalName}-link-report.xml</value>
 											</parameter>
+											<parameter>
+												<name>link-source-directory</name>
+												<value>${api.docs.link.source.directory}</value>
+											</parameter>
 										</parameters>
 									</transformationSet>
 								</transformationSets>

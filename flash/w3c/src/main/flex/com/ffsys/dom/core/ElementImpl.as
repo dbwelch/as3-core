@@ -1,6 +1,12 @@
+/**
+	<p>Concrete implementations of the interfaces
+	defined in the org.w3c.dom package.</p>
+	
+	@todo Complete this implementation.
+*/
 package com.ffsys.dom.core
-{	
-	import org.w3c.dom.*;	
+{
+	import org.w3c.dom.*;
 	
 	/**
 	*	Represents a <code>DOM</code> element.

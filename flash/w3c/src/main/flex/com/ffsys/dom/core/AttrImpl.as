@@ -69,17 +69,7 @@ package com.ffsys.dom.core
 			
 			return new QName( name );
 		}
-		
-		/*
-		
-		var ns:Namespace = node.namespace();
-		if( ns
-			&& ns.uri.length > 0
-			&& ns.prefix.length > 0 )
-		{		
-		
-		*/
-		
+
 		public function isQualified():Boolean
 		{
 			return namespaceURI != null && namespaceURI.length > 0;
@@ -170,22 +160,6 @@ package com.ffsys.dom.core
 			//TODO
 			return false;
 		}
-		
-		/**
-		* 	A <code>URI</code> that indicates this is a qualified attribute.
-		*/
-		
-		/*
-		public function get uri():String
-		{
-			return _uri;
-		}
-		
-		public function set uri( value:String ):void
-		{
-			_uri = value;
-		}
-		*/
 		
 		/**
 		* 	A namespace prefix associated with this attribute.

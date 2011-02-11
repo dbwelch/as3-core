@@ -32,6 +32,8 @@
 	<xsl:param name="protected-properties-xref-id" select="':protected:properties'" />
 	<xsl:param name="include-class-meta" select="false()" />
 	<xsl:param name="link-report-path" select="''" />
+	<xsl:param name="link-source-directory" select="''" />
+	<xsl:param name="link-report" select="document($link-report-path)" />
 	<xsl:param name="end-tag" select="'}'" />
 	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
@@ -440,6 +442,64 @@
 		</xsl:if>
 	</xsl:template>
 	
+	<xsl:template name="process-link-report">
+		<xsl:if test="$link-report-path != ''">
+			<xsl:variable name="scripts" select="$link-report//script" />
+			
+			<xsl:call-template name="chapter">
+				<xsl:with-param name="title" select="'Link Report'"/>
+				<xsl:with-param name="label" select="'link:report'"/>
+			</xsl:call-template>
+			
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'Summary'"/>
+				<xsl:with-param name="label" select="'link:report:summary'"/>
+			</xsl:call-template>
+			
+			<xsl:call-template name="start-itemize" />
+			
+			<xsl:text>\item Total Files: </xsl:text>
+			<xsl:value-of select="count($scripts)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Classes: </xsl:text>
+			<xsl:value-of select="count($toplevel//classRec)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Interfaces: </xsl:text>
+			<xsl:value-of select="count($toplevel//interfaceRec)" />
+			<xsl:value-of select="$newline" />
+			
+			<xsl:call-template name="end-itemize" />
+			
+			<!-- MAIN FILE LISTING -->
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'Files'"/>
+				<xsl:with-param name="label" select="'link:report:files'"/>
+			</xsl:call-template>
+			<xsl:call-template name="start-itemize" />
+			<xsl:for-each select="$scripts">
+				<xsl:text>\item </xsl:text>
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="substring-after(@name,$link-source-directory)" />
+				</xsl:call-template>
+			</xsl:for-each>
+			<xsl:call-template name="end-itemize" />
+			
+			<!-- EXTERNAL DEFINITIONS -->
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'External Definitions'"/>
+				<xsl:with-param name="label" select="'link:report:external:definitions'"/>
+			</xsl:call-template>
+			<xsl:call-template name="start-itemize" />
+			<xsl:for-each select="$link-report//external-defs/ext">
+				<xsl:text>\item </xsl:text>
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="@id" />
+				</xsl:call-template>				
+			</xsl:for-each>
+			<xsl:call-template name="end-itemize" />
+		</xsl:if>
+	</xsl:template>
+	
 	<xsl:template name="appendix">
 		<xsl:variable name="classes" select="$toplevel//classRec" />
 		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />
@@ -450,6 +510,7 @@
 		</xsl:call-template>
 		
 		<xsl:call-template name="todo-appendix" />
+		<xsl:call-template name="process-link-report" />
 		
 		<!-- CUSTOM APPENDICES FIRST -->
 		
@@ -2650,7 +2711,7 @@
 		<xsl:variable name="underscore">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$tilde" />
-				<xsl:with-param name="search-string" select="'([^\\]?)_'" />
+				<xsl:with-param name="search-string" select="'_'" />
 				<xsl:with-param name="replace-string" select="'$1\\_'" />
 			</xsl:call-template>
 		</xsl:variable>
