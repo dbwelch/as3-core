@@ -1,0 +1,64 @@
+package com.ffsys.dom.core
+{
+	import org.w3c.dom.*;
+	
+	/**
+	* 	Represents a text node.
+	*/
+	dynamic public class TextImpl extends CharacterDataImpl
+		implements Text
+	{
+		/**
+		* 	Creates a <code>TextImpl</code> instance.
+		*/
+		public function TextImpl( xml:XML = null )
+		{
+			super( xml );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get isElementContentWhitespace():Boolean
+		{
+			//TODO
+			return false;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function get wholeText():String
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function splitText( offset:Number ):Text
+		{
+			//This method can raise a DomException object.
+			//TODO: create a text element from the document
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function replaceWholeText( content:String ):Text
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeType():Number
+		{
+			return NodeImpl.TEXT_NODE;
+		}
+	}
+}

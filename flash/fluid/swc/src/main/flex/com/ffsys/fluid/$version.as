@@ -345,11 +345,12 @@
 	of a #fluid:term:real:type; are:</p>
 	
 	<ul>
-		<li><code>localName</code> be the <em>name of the type</em>, eg: book.</li>
-		<li><code>namespacePrefix</code> be the <em>package name</em> or <em>parent namespace</em>, eg: bookshelf, or desk.</li>
-		<li><code>namespacePackage</code> be a <em>pseudo package created by walking
+		<li><code>localName</code> -- The <em>name of the type</em>, eg: <code>book</code>.</li>
+		<li><code>namespacePrefix</code> -- The <em>package name</em> or <em>parent namespace</em>,
+		eg: <code>bookshelf</code>, or <code>desk</code>.</li>
+		<li><code>namespacePackage</code> -- A <em>pseudo package created by walking
 		in scope namespace prefixes for the ancestor #fluid:term:xml; hierarchy</em>,
-		eg: bedroom>bookshelf, or study>desk.</li>
+		eg: <code>bedroom&gt;bookshelf</code>, or <code>study&gt;desk</code>.</li>
 	</ul>
 	
 	<p>Extrapolated this gives us fully qualified paths of:</p>
@@ -360,7 +361,7 @@
 	bedroom.bookshelf.book
 	study.desk.book</pre>
 	
-	<p>Whilst always referring to the same <code>book</code> type,
+	<p>Whilst always referring to a <code>book</code> type,
 	the above extrapolations create the following packages:</p>
 	
 	<pre>package;
@@ -426,7 +427,7 @@
 	}
 	</pre>
 	
-	<p>Clearly that was quite simple from the perspecive of the class definition.
+	<p>Clearly that was quite simple from the perspective of the class definition.
 	But we also need to update our #fluid:term:xml; definition. This is the point where
 	the <em>namespace cascades to create the package</em>.</p>
 	
@@ -440,7 +441,7 @@
 	<p>By adding a namespace to the parent element we <em>qualify</em>
 	the previously defined <code>bookshelf</code> package.</p>
 	
-	<p>We are free to and and remove attributes and parent child relationships
+	<p>We are free to add and remove attributes and parent child relationships
 	from our new <code>book</code> #fluid:term:real:type;.</p>
 	
 	<pre>&lt;?xml version="1.0"?&gt;
@@ -449,8 +450,82 @@
 	  xmlns:bookshelf="http://examples.fluid.wav.co.uk/bookshelf"&gt;
 	  &lt;bookshelf:book author="Freeform Systems"
 	    publisher="Publisher Name" isbn="xxx-xxx-xxx-xxx"&gt;
+	      &lt;chapter title="Introduction" /&gt;
 	  &lt;/bookshelf:book&gt;
 	&lt;/bedroom:bookshelf&gt;</pre>
+	
+	<h2>Equality</h2>
+	<a name="#fluid:cfm:ns:uri" />
+	
+	<p>The #fluid:cfm:ns:cascade allows us to <em>inspect the
+	fully qualified class path to an object</em>. But there is another
+	critical issue that needs to be addressed, how to determine
+	<em>object equality</em>? To do so, we need to add
+	a unique identifier to each <em>instance of a type</em>. Normally,
+	this is achieved by assigning a <em>unique identifier</em> to an object,
+	often the primary key from a database table
+	for database-driven applications. First let's look at the
+	common approach of assigning an <code>id</code> attribute:</p>
+	
+	<pre>&lt;books&gt;
+	  &lt;book
+	    id="1" author="Freeform Systems" /&gt;
+	  &lt;book
+	    id="2" author="Freeform Systems" /&gt;
+	&lt;books&gt;</pre>
+	
+	<p>At first glance that seems acceptable, the <code>id</code> is part
+	of the #fluid:term:xml; specification designed to allow direct access to an
+	element by identifier. So, it's part of the semantics of the format and
+	gives us the additional benefit of being able to retrieve an element directly
+	by identifier. In this example, the fact the identifier is generated from a primary
+	key ensures uniqueness. We're not so convinced.</p>
+	
+	<p>It has added a constraint that the <code>id</code> field cannot be used
+	for any other purpose than as a <em>unique object identifier</em>. But that's not
+	the real problem, it mean's that you are adding attributes to an element
+	that performs a task other than <em>describing the state of that object</em>.</p>
+	
+	<p>By adding an attribute that serves to <em>identify the instance</em>
+	the types of data encapsulated by an element become mixed. We now have some
+	<em>identity attributes</em> and some <em>state attributes</em>.</p>
+	
+	<p>We believe object uniqueness indication can be defined without the
+	use of an <code>id</code> attribute, before illustrating how this can be achieved
+	we need to examine a namespace #fluid:term:uri;.</p>
+	
+	<p>In #fluid:term:xml; the namespace #fluid:term:uri; is used in conjunction with
+	a namespace prefix to qualify the names of one or more elements.</p>
+	
+	<p>It must be a valid #fluid:term:uri; and it must (in conjunction with the prefix)
+	serve to distinguish elements of the same name that serve different
+	purposes. This allows for elements with the same name that
+	server different purposes to be <em>intermingled in the same document</em>.</p>
+	
+	<p>Our approach is to take the purpose and definition of a <em>namespace #fluid:term:uri;</em>
+	and <em>qualify it further</em>. Currently, namespaces serve to distinguish
+	<em>one or more element names</em>; What happens if we change that rule
+	so that we let:</p>
+	
+	<ul>
+		<li>A namespace #fluid:term:uri; <em>qualify an individual element</em>
+		using a <strong>unique</strong> #fluid:term:uri;.</li>
+	</ul>
+	
+	<p>Without changing the <em>purpose and behaviour of a namespace</em> we
+	have <em>allowed for</em> a namespace #fluid:term:uri; to be used as the
+	<em>unique object identifier</em>. Our previous example updated for our new
+	rule looks like:</p>
+	
+	<pre>&lt;books&gt;
+	  xmlns:books="http://examples.fluid.wav.co.uk/books"&gt;
+	  &lt;book
+	    xmlns:book="http://examples.fluid.wav.co.uk/books/1"
+	    author="Freeform Systems" /&gt;
+	  &lt;book
+	    xmlns:book="http://examples.fluid.wav.co.uk/books/2"
+	    author="Freeform Systems" /&gt;
+	&lt;books&gt;</pre>
 	
 	<h2>Persistence</h2>
 	<a name="#fluid:cfm:persistence" />
