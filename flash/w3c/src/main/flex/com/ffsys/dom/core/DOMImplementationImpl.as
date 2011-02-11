@@ -217,12 +217,24 @@ package com.ffsys.dom.core
 		
 		private function getDefaultDocumentType():DocumentType
 		{
-			return DocumentType.XHTML_1_STRICT;
+			//TODO - change default DOCTYPE
+			//return DocumentType.XHTML_1_STRICT;
+			
+			return null;
 		}
 		
 		/**
-		* 	Determines whether this implementation
-		* 	has a specific feature.
+		* 	@inheritDoc
+		*/
+		public function getFeature(
+			feature:String, version:String ):Object
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
 		*/
 		public function hasFeature(
 			feature:String, version:String ):Boolean
@@ -231,13 +243,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Creates a document type.
-		* 
-		* 	@param qualifiedName The qualified name for the document type.
-		* 	@param publicId The public identifier for the document type.
-		* 	@param systemId The system identifier for the document type.
-		* 	
-		* 	@return The created document type.
+		* 	@inheritDoc
 		*/
 		public function createDocumentType( 
 			qualifiedName:String,
@@ -250,11 +256,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Creates a document.
-		* 
-		* 	@param namespaceURI The <code>URI</code> for the document namespace.
-		* 	@param qualifiedName The qualified name for the document.
-		* 	@param doctype The document type definition.
+		* 	@inheritDoc
 		*/
 		public function createDocument(
 			namespaceURI:String,

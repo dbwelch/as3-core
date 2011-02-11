@@ -4,7 +4,7 @@ package com.ffsys.dom.core
 	
 	import com.ffsys.dom.core.support.AbstractNodeProxyImpl;
 	
-	import org.w3c.dom.*;	
+	import org.w3c.dom.*;
 	
 	/**
 	*	Represents a <code>DOM</code> node.
@@ -128,6 +128,8 @@ package com.ffsys.dom.core
 		private var _childIndex:int;
 		private var _namespaceURI:String;
 		private var _baseURI:String;
+		
+		private var _namespaceDeclarations:Array;
 		
 		/**
 		* 	@private
@@ -324,7 +326,19 @@ package com.ffsys.dom.core
 		*/
 		public function lookupPrefix( namespaceURI:String ):String
 		{
-			//TODO
+			if( namespaceURI != null )
+			{
+				var child:Namespace = null;
+				for each( child in namespaceDeclarations )
+				{
+					if( child
+						&& child.uri.length > 0
+						&& namespaceURI == child.uri )
+					{
+						return child.prefix;
+					}
+				}
+			}		
 			return null;
 		}
 		
@@ -344,6 +358,60 @@ package com.ffsys.dom.core
 		{
 			//TODO
 			return null;
+		}
+		
+		/**
+		* 	The namespace declarations for this node.
+		*/
+		public function get namespaceDeclarations():Array
+		{
+			if( _namespaceDeclarations == null )
+			{
+				if( !( ownerDocument is DocumentImpl ) || ( ownerDocument == this ) )
+				{
+					_namespaceDeclarations = new Array();
+				}else
+				{
+					_namespaceDeclarations = DocumentImpl( ownerDocument ).namespaceDeclarations.slice();
+				}
+			}
+			return _namespaceDeclarations;
+		}
+		
+		public function set namespaceDeclarations( value:Array ):void
+		{
+			_namespaceDeclarations = value;
+		}
+		
+		/**
+		* 	Adds namespace declarations associated
+		* 	with this element to the attributes of an XML element.
+		* 
+		* 	@param x The XML element.
+		*/
+		protected function addNamespaceAttributes( x:XML ):void
+		{
+			if( namespaceDeclarations != null )
+			{
+				//trace("[GOT NAMESPACE DECLARATION] Document::get xml()", namespaceDeclarations );
+				var ns:Namespace = null;
+				var nm:String = null;
+				for each( ns in namespaceDeclarations )
+				{
+					if( !ns.prefix )
+					{
+						//continue;	
+						nm = "xmlns";
+					}else
+					{
+						nm = "xmlns:" + ns.prefix;
+					}
+					if( x.@[ nm ].length() == 0 )
+					{
+						x.@[ nm ] = ns.uri;
+					}
+				}
+			}
 		}
 		
 		/**

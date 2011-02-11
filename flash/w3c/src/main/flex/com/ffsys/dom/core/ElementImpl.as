@@ -13,8 +13,7 @@ package com.ffsys.dom.core
 	*/
 	dynamic public class ElementImpl extends NodeImpl
 		implements Element
-	{		
-		private var _namespaceDeclarations:Array;
+	{
 		private var _title:String;
 		
 		/**
@@ -49,29 +48,6 @@ package com.ffsys.dom.core
 		public function set title( value:String ):void
 		{
 			_title = value;
-		}
-		
-		/**
-		* 	The namespace declarations for this element.
-		*/
-		public function get namespaceDeclarations():Array
-		{
-			if( _namespaceDeclarations == null )
-			{
-				if( !( ownerDocument is DocumentImpl ) || ( ownerDocument == this ) )
-				{
-					_namespaceDeclarations = new Array();
-				}else
-				{
-					_namespaceDeclarations = DocumentImpl( ownerDocument ).namespaceDeclarations.slice();
-				}
-			}
-			return _namespaceDeclarations;
-		}
-		
-		public function set namespaceDeclarations( value:Array ):void
-		{
-			_namespaceDeclarations = value;
 		}
 		
 		/**
@@ -311,37 +287,6 @@ package com.ffsys.dom.core
 			if( attr != null )
 			{
 				setAttributeNode( attr );
-			}
-		}
-		
-		/**
-		* 	Adds namespace declarations associated
-		* 	with this element to the attributes of an XML element.
-		* 
-		* 	@param x The XML element.
-		*/
-		protected function addNamespaceAttributes( x:XML ):void
-		{
-			if( namespaceDeclarations != null )
-			{
-				//trace("[GOT NAMESPACE DECLARATION] Document::get xml()", namespaceDeclarations );
-				var ns:Namespace = null;
-				var nm:String = null;
-				for each( ns in namespaceDeclarations )
-				{
-					if( !ns.prefix )
-					{
-						//continue;	
-						nm = "xmlns";
-					}else
-					{
-						nm = "xmlns:" + ns.prefix;
-					}
-					if( x.@[ nm ].length() == 0 )
-					{
-						x.@[ nm ] = ns.uri;
-					}
-				}
 			}
 		}
 		
@@ -727,11 +672,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Determines whether this element has the specified attribute.
-		* 
-		* 	@param name The local name of the attribute.
-		* 
-		* 	@param A boolean indicating whether the named attribute exists.
+		* 	@inheritDoc
 		*/
 		public function hasAttribute( name:String ):Boolean
 		{
@@ -755,19 +696,42 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Determines this elements has an attribute in the specified
-		* 	namespace.
-		* 
-		* 	@param namespaceURI The <code>URI</code> for the namespace.
-		* 	@param localName The local name for the namespace.
-		* 
-		* 	@return A boolean indicating whether an attribute exists
-		* 	matching the specified namespace.
+		* 	@inheritDoc
 		*/
 		public function hasAttributeNS( namespaceURI:String, localName:String ):Boolean
 		{
 			var attr:Attr = getAttributeNode( localName );
 			return attr != null && attr.uri == namespaceURI;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setIdAttribute(
+			name:String, isId:Boolean ):void
+		{
+			//TODO
+		}
+		
+			
+		/**
+		* 	@inheritDoc
+		*/
+		public function setIdAttributeNS(
+			namespaceURI:String,
+			localName:String,
+			isId:Boolean ):void
+		{
+			//TODO
+		}
+			
+		/**
+		* 	@inheritDoc
+		*/
+		public function setIdAttributeNode(
+			idAttr:Attr, isId:Boolean ):void
+		{
+			//TODO
 		}
 		
 		/**
@@ -852,98 +816,6 @@ package com.ffsys.dom.core
 			}
 			return output;
 		}
-		
-		/*
-		
-		Object Element	
-		Element has the all the properties and methods of the Node object as well as the properties and methods defined below.
-		The Element object has the following properties:
-		
-		tagName
-		This read-only property is of type String.
-		
-		The Element object has the following methods:
-		
-		getAttribute(name)
-		This method returns a String.
-		The name parameter is of type String.
-		
-		setAttribute(name, value)
-		This method has no return value.
-		
-		The name parameter is of type String.
-		The value parameter is of type String.
-		This method can raise a DomException object.
-		
-		removeAttribute(name)
-		
-		This method has no return value.
-		The name parameter is of type String.
-		This method can raise a DomException object.
-		
-		getAttributeNode(name)
-		This method returns a Attr object.
-		The name parameter is of type String.
-		
-		setAttributeNode(newAttr)
-		This method returns a Attr object.
-		The newAttr parameter is a Attr object.
-		This method can raise a DomException object.
-		
-		removeAttributeNode(oldAttr)
-		This method returns a Attr object.
-		The oldAttr parameter is a Attr object.
-		This method can raise a DomException object.
-		
-		getAttributeNS(namespaceURI, localName)
-		This method returns a String.
-		The namespaceURI parameter is of type String.
-		The localName parameter is of type String.
-		
-		setAttributeNS(namespaceURI, qualifiedName, value)
-		This method has no return value.
-		The namespaceURI parameter is of type String.
-		The qualifiedName parameter is of type String.
-		The value parameter is of type String.
-		This method can raise a DomException object.
-		
-		removeAttributeNS(namespaceURI, localName)
-		This method has no return value.
-		The namespaceURI parameter is of type String.
-		The localName parameter is of type String.
-		This method can raise a DomException object.
-		
-		
-		
-		getAttributeNodeNS(namespaceURI, localName)
-		This method returns a Attr object.
-		The namespaceURI parameter is of type String.
-		The localName parameter is of type String.
-		
-		setAttributeNodeNS(newAttr)
-		This method returns a Attr object.
-		The newAttr parameter is a Attr object.
-		This method can raise a DomException object.
-		
-		
-		
-		getElementsByTagNameNS(namespaceURI, localName)
-		This method returns a NodeList object.
-		The namespaceURI parameter is of type String.
-		The localName parameter is of type String.
-		
-		
-		
-		hasAttribute(name)
-		This method returns a Boolean.
-		The name parameter is of type String.
-		
-		hasAttributeNS(namespaceURI, localName)
-		This method returns a Boolean.
-		The namespaceURI parameter is of type String.
-		The localName parameter is of type String.
-		
-		*/
 		
 		/**
 		* 	@private

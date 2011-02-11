@@ -5,6 +5,8 @@ package com.ffsys.dom.core
 	import com.ffsys.ioc.*;
 	import org.w3c.dom.*;
 	
+	import com.ffsys.dom.ioc.*;
+	
 	/**
 	*	An abstract implementation of a <code>DOM</code>
 	* 	document.
@@ -24,6 +26,8 @@ package com.ffsys.dom.core
 		private var _doctype:DocumentType;
 		private var _implementation:DOMImplementation;
 		
+		private var _inputEncoding:String;
+		private var _xmlEncoding:String;
 		private var _xmlStandalone:Boolean;
 		private var _xmlVersion:String;
 		private var _strictErrorChecking:Boolean = true;
@@ -56,7 +60,7 @@ package com.ffsys.dom.core
 			if( this.head != null )
 			{
 				var titles:NodeList = this.head.getElementsByTagName(
-					DomIdentifiers.TITLE );				
+					DomCoreBeanDocument.TITLE );				
 				var element:Element = titles[ 0 ] as Element;
 				return element != null ? element.text() as String : super.title;
 			}
@@ -67,15 +71,15 @@ package com.ffsys.dom.core
 		{
 			if( this.head == null )
 			{
-				var head:Element = createElement( DomIdentifiers.HEAD );
-				var title:Element = createElement( DomIdentifiers.TITLE );
+				var head:Element = createElement( DomCoreBeanDocument.HEAD );
+				var title:Element = createElement( DomCoreBeanDocument.TITLE );
 				title.appendChild( createTextNode( value ) );
 				head.appendChild( title );
 				appendChild( head );
 			}else if( this.head != null )
 			{
 				var titles:NodeList = this.head.getElementsByTagName(
-					DomIdentifiers.TITLE );				
+					DomCoreBeanDocument.TITLE );				
 				var element:Element = titles[ 0 ] as Element;
 				if( element != null )
 				{
@@ -227,8 +231,7 @@ package com.ffsys.dom.core
 		*/
 		public function get inputEncoding():String
 		{
-			//TODO
-			return null;
+			return _inputEncoding;
 		}
 		
 		/**
@@ -236,7 +239,7 @@ package com.ffsys.dom.core
 		*/
 		internal function setInputEncoding( encoding:String ):void
 		{
-			//TODO
+			_inputEncoding = encoding;
 		}
 		
 		/**
@@ -252,7 +255,7 @@ package com.ffsys.dom.core
 		*/
 		internal function setXmlEncoding( encoding:String ):void
 		{
-			//TODO
+			_xmlEncoding = encoding;
 		}
 		
 		/**
@@ -351,7 +354,7 @@ package com.ffsys.dom.core
 		public function createDocumentFragment():DocumentFragment
 		{
 			var fragment:DocumentFragment = DocumentFragment( getDomBean(
-				DomIdentifiers.DOCUMENT_FRAGMENT ) );
+				DomCoreBeanDocument.DOCUMENT_FRAGMENT ) );
 			return fragment;
 		}
 		
@@ -361,7 +364,7 @@ package com.ffsys.dom.core
 		public function createTextNode( data:String ):Text
 		{
 			var text:Text = Text( getDomBean(
-				DomIdentifiers.TEXT, { data: data } ) );
+				DomCoreBeanDocument.TEXT, { data: data } ) );
 			return text;
 		}
 		
@@ -371,7 +374,7 @@ package com.ffsys.dom.core
 		public function createComment( data:String ):Comment
 		{
 			var comment:Comment = Comment( getDomBean(
-				DomIdentifiers.COMMENT, { data: data } ) );
+				DomCoreBeanDocument.COMMENT, { data: data } ) );
 			return comment;
 		}
 		
@@ -381,7 +384,7 @@ package com.ffsys.dom.core
 		public function createCDATASection( data:String ):CDATASection
 		{
 			var cdata:CDATASection = CDATASection( getDomBean(
-				DomIdentifiers.CDATA_SECTION, { data: data } ) );
+				DomCoreBeanDocument.CDATA_SECTION, { data: data } ) );
 			return cdata;
 		}
 		
@@ -392,7 +395,7 @@ package com.ffsys.dom.core
 			target:String, data:String ):ProcessingInstruction
 		{
 			var instruction:ProcessingInstruction = ProcessingInstruction( getDomBean(
-				DomIdentifiers.PROCESSING_INSTRUCTION, { data: data } ) );
+				DomCoreBeanDocument.PROCESSING_INSTRUCTION, { data: data } ) );
 			instruction.setTarget( target );
 			return instruction;
 		}
@@ -403,7 +406,7 @@ package com.ffsys.dom.core
 		public function createAttribute( name:String ):Attr
 		{
 			var attr:Attr = Attr( getDomBean(
-				DomIdentifiers.ATTR,
+				DomCoreBeanDocument.ATTR,
 					{ name: name } ) );
 			
 			//trace("Document::createAttribute()", attr, attr.name );
@@ -417,7 +420,7 @@ package com.ffsys.dom.core
 			namespaceURI:String, qualifiedName:String ):Attr
 		{
 			var attr:Attr = Attr( getDomBean(
-				DomIdentifiers.ATTR,
+				DomCoreBeanDocument.ATTR,
 					{ name: qualifiedName, uri: namespaceURI } ) );
 			
 			//trace("Document::createAttributeNS()", attr );
@@ -432,7 +435,7 @@ package com.ffsys.dom.core
 			//TODO: check this
 			//{ name: name }
 			var ref:EntityReference = EntityReference( getDomBean(
-				DomIdentifiers.ENTITY_REFERENCE, { name: name } ) );
+				DomCoreBeanDocument.ENTITY_REFERENCE, { name: name } ) );
 			return ref;
 		}
 		
@@ -525,82 +528,7 @@ package com.ffsys.dom.core
 			bean.finalized();
 			return bean;
 		}
-		
-				/*
 
-		Object Document
-		Document has the all the properties and methods of the Node object as well as the properties and methods defined below.
-
-		The Document object has the following methods:
-		
-		createElement(tagName)
-		This method returns a Element object.
-		The tagName parameter is of type String.
-		
-		This method can raise a DomException object.
-		
-		createDocumentFragment()
-		This method returns a DocumentFragment object.
-		
-		createTextNode(data)
-		This method returns a Text object.
-		The data parameter is of type String.
-		
-		createComment(data)
-		This method returns a Comment object.
-		The data parameter is of type String.
-		
-		createCDATASection(data)
-		This method returns a CDATASection object.
-		The data parameter is of type String.
-		
-		This method can raise a DomException object.
-		
-		createProcessingInstruction(target, data)
-		This method returns a ProcessingInstruction object.
-		The target parameter is of type String.
-		The data parameter is of type String.\
-		This method can raise a DomException object.
-		
-		createAttribute(name)
-		This method returns a Attr object.
-		The name parameter is of type String.
-		This method can raise a DomException object.
-		
-		createAttributeNS(namespaceURI, qualifiedName)
-		This method returns a Attr object.
-		The namespaceURI parameter is of type String.
-		The qualifiedName parameter is of type String.
-		This method can raise a DomException object.
-		
-		createEntityReference(name)
-		This method returns a EntityReference object.
-		The name parameter is of type String.
-		This method can raise a DomException object.
-		
-		importNode(importedNode, deep)
-		
-		This method returns a Node object.
-		The importedNode parameter is a Node object.
-		The deep parameter is of type Boolean.
-		
-		This method can raise a DomException object.
-		
-		createElementNS(namespaceURI, qualifiedName)
-		This method returns a Element object.
-		
-		The namespaceURI parameter is of type String.
-		The qualifiedName parameter is of type String.
-		
-		This method can raise a DomException object.
-		
-		getElementsByTagNameNS(namespaceURI, localName)
-		
-		This method returns a NodeList object.
-		The namespaceURI parameter is of type String.
-		The localName parameter is of type String.
-
-				*/
 		/**
 		* 	@inheritDoc
 		*/	

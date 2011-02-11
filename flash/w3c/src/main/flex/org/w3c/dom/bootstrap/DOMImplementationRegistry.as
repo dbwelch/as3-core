@@ -9,8 +9,8 @@ package org.w3c.dom.bootstrap
 	*	<p>Example:</p>
 	*
 	*	<pre>// get an instance of the DOMImplementation registry
-	*	DOMImplementationRegistry registry =
-	*	DOMImplementationRegistry.newInstance();
+	*	DOMImplementationRegistry registry = 
+	* 	  DOMImplementationRegistry.newInstance();
 	*	// get a DOM implementation the Level 3 XML module
 	*	DOMImplementation domImpl =
 	*	  registry.getDOMImplementation("XML 3.0");</pre>
@@ -22,6 +22,8 @@ package org.w3c.dom.bootstrap
 	*/
 	public class DOMImplementationRegistry extends Object
 	{
+		static private var _registry:DOMImplementationRegistry;
+		
 		/**
 		* 	Creates a <code>DOMImplementationRegistry</code> instance.
 		*/
@@ -74,6 +76,33 @@ package org.w3c.dom.bootstrap
 		{
 			//TODO
 			return null;
+		}
+		
+		/**
+		* 	Obtain a new instance of a DOMImplementationRegistry.
+		* 
+		* 	The DOMImplementationRegistry is initialized by the
+		* 	application or the implementation, depending on
+		* 	the context, by first checking the value of the
+		* 	Java system property org.w3c.dom.DOMImplementationSourceList
+		* 	and the the service provider whose contents are at
+		* 	"META_INF/services/org.w3c.dom.DOMImplementationSourceList".
+		* 	The value of this property is a white-space separated list
+		* 	of names of availables classes implementing the
+		* 	DOMImplementationSource interface.
+		* 	Each class listed in the class name list is
+		* 	instantiated and any exceptions encountered are thrown
+		* 	to the application.
+		* 
+		* 	@return An initialized instance of DOMImplementationRegistry.
+		*/
+		public static function newInstance():DOMImplementationRegistry
+		{
+			if( _registry == null )
+			{
+				_registry = new DOMImplementationRegistry();
+			}
+			return _registry;
 		}
 	}
 }

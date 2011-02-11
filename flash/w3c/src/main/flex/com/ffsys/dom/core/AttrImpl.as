@@ -192,8 +192,7 @@ package com.ffsys.dom.core
 			{
 				if( ownerElement )
 				{
-					_prefix = ownerElement.getPrefixByNamespace(
-						new Namespace( this.uri ) );
+					_prefix = ownerElement.lookupPrefix( this.uri );
 				}
 			}
 			return super.prefix;
