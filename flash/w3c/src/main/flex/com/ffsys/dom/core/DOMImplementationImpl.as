@@ -245,7 +245,7 @@ package com.ffsys.dom.core
 			systemId:String ):DocumentType
 		{
 			//This method can raise a DomException object.
-			var docType:DocumentType = new DocumentType( qualifiedName, systemId, publicId );
+			var docType:DocumentType = new DocumentTypeImpl( qualifiedName, systemId, publicId );
 			return docType;
 		}
 		

@@ -1,15 +1,50 @@
 package org.w3c.dom
 {
+	/*
+	Interface				nodeName						nodeValue														attributes
+	Attr					same as Attr.name				same as Attr.value												null
+	CDATASection			"#cdata-section"				same as CharacterData.data,										null
+															the content of the CDATA Section
+	Comment					"#comment"						same as CharacterData.data,										null
+															the content of the comment	
+	Document				"#document"						null															null
+	DocumentFragment		"#document-fragment"			null															null
+	DocumentType			same as DocumentType.name		null															null
+	Element					same as Element.tagName			null															NamedNodeMap
+	Entity					entity name						null															null
+	EntityReference			name of entity referenced		null															null
+	Notation				notation name					null															null
+	ProcessingInstruction	same as
+							ProcessingInstruction.target	same as ProcessingInstruction.data								null
+	Text					"#text"							same as CharacterData.data,										null
+															the content of the text node
+	*/
+	
 	/**
 	* 	Represents a node in the document tree.
+	* 
+	* 	The Node interface is the primary datatype
+	* 	for the entire Document Object Model. It
+	* 	represents a single node in the document tree.
+	* 	While all objects implementing the Node interface
+	* 	expose methods for dealing with children,
+	* 	not all objects implementing the Node interface
+	* 	may have children. For example, Text nodes may
+	* 	not have children, and adding children to such
+	* 	nodes results in a DOMException being raised.
+	*
+	*	The attributes nodeName, nodeValue and attributes
+	* 	are included as a mechanism to get at node information
+	* 	without casting down to the specific derived interface.
+	* 	In cases where there is no obvious mapping of these
+	* 	attributes for a specific nodeType (e.g., nodeValue for
+	* 	an Element or attributes for a Comment), this returns null.
+	* 	Note that the specialized interfaces may contain
+	* 	additional and more convenient mechanisms to get
+	* 	and set the relevant information.
 	*/
 	public interface Node
-	{
-		/**
-		* 	The list of child nodes that belong to this node.
-		*/
-		function get childNodes():NodeList;
-		
+	{		
 		/**
 		* 	The name of this node.
 		*/
@@ -30,6 +65,11 @@ package org.w3c.dom
 		* 	The parent of this node.
 		*/
 		function get parentNode():Node;
+		
+		/**
+		* 	The list of child nodes that belong to this node.
+		*/
+		function get childNodes():NodeList;
 		
 		/**
 		* 	A first child node when this node
@@ -187,7 +227,7 @@ package org.w3c.dom
 		/**
 		* 	TODO
 		*/
-		function isDefaultNamespace():Boolean;
+		function isDefaultNamespace( namespaceURI:String ):Boolean;
 		
 		/**
 		* 	TODO
@@ -210,5 +250,10 @@ package org.w3c.dom
 		*/
 		function setUserData(
 			key:String, data:*, handler:UserDataHandler ):*;
+			
+		/**
+		* 	TODO
+		*/
+		function getUserData( key:String ):*;
 	}
 }

@@ -3,17 +3,27 @@ package org.w3c.dom
 	
 	/**
 	* 	Represents character data.
+	* 
+	* 	The CharacterData interface extends Node
+	* 	with a set of attributes and methods for
+	* 	accessing character data in the DOM.
+	* 
+	* 	For clarity this set is defined here rather
+	* 	than on each object that uses these attributes
+	* 	and methods. No DOM objects correspond
+	* 	directly to CharacterData, though Text and
+	* 	others do inherit the interface from it.
+	* 	All offsets in this interface start from 0.
+	*
+	*	As explained in the DOMString interface,
+	* 	text strings in the DOM are represented
+	* 	in UTF-16, i.e. as a sequence of 16-bit units.
+	* 	In the following, the term 16-bit units is used
+	* 	whenever necessary to indicate that indexing on
+	* 	CharacterData is done in 16-bit units.
 	*/
 	public interface CharacterData extends Node
 	{
-		/**
-		* 	The number of 16-bit units that are
-		* 	available through data and the substringData
-		* 	method below. This may have the value zero,
-		* 	i.e., CharacterData nodes may be empty.
-		*/
-		function get length():uint;
-		
 		/**
 		* 	The character data of the node that implements
 		* 	this interface.
@@ -28,6 +38,14 @@ package org.w3c.dom
 		*/
 		function get data():String;
 		function set data( value:String ):void;
+		
+		/**
+		* 	The number of 16-bit units that are
+		* 	available through data and the substringData
+		* 	method below. This may have the value zero,
+		* 	i.e., CharacterData nodes may be empty.
+		*/
+		function get length():uint;
 		
 		/**
 		* 	Extracts a range of data from the node.
@@ -48,34 +66,73 @@ package org.w3c.dom
 		function substringData( offset:Number, count:Number ):String;
 		
 		/**
-		* 	Appends data to this character data.
+		* 	Append the string to the end of the character
+		* 	data of the node. Upon success, data provides
+		* 	access to the concatenation of data and
+		* 	the DOMString specified.
 		* 
-		* 	@param value The data to append.
+		* 	@param value The DOMString to append.
+		* 
+		* 	@throws DOMException NO_MODIFICATION_ALLOWED_ERR: Raised
+		* 	if this node is readonly.
 		*/
 		function appendData( value:String ):void;
 		
 		/**
-		* 	Inserts data into this character data.
+		* 	Insert a string at the specified 16-bit unit offset.
 		* 
-		* 	@param offset The offset to insert the data at.
-		* 	@param value The data to insert.
+		* 	@param offset The character offset at which to insert.
+		* 	@param value The DOMString to insert.
+		* 
+		* 	@throws DOMException INDEX_SIZE_ERR: Raised
+		* 	if the specified offset is negative o
+		* 	greater than the number of 16-bit units in data.
+		* 
+		*	@throws DOMException NO_MODIFICATION_ALLOWED_ERR:
+		* 	Raised if this node is readonly.
 		*/
 		function insertData( offset:Number, value:String ):void;
 		
 		/**
-		* 	Deletes data from this character data.
+		* 	Remove a range of 16-bit units from the node.
+		* 	Upon success, data and length reflect the change.
 		* 
-		* 	@param offset The offset for the deletion.
-		* 	@param count The number of characters to delete from the data.
+		* 	@param offset The offset from which to start removing.
+		* 	@param count The number of 16-bit units to delete.
+		* 	If the sum of offset and count exceeds length
+		* 	then all 16-bit units from offset to the end of
+		* 	the data are deleted.
+		* 
+		* 	@throws DOMException INDEX_SIZE_ERR: Raised if
+		* 	the specified offset is negative or greater
+		* 	than the number of 16-bit units in data,
+		* 	or if the specified count is negative. 
+		* 
+		*	@throws DOMException NO_MODIFICATION_ALLOWED_ERR:
+		* 	Raised if this node is readonly.
 		*/
 		function deleteData( offset:Number, count:Number ):void;
 		
 		/**
-		* 	Replaces data with updated data.
+		* 	Replace the characters starting at the specified
+		* 	16-bit unit offset with the specified string.
 		* 
-		* 	@param offset The offset to replace the data at.
-		* 	@param count The number of characters of data to replace.
-		* 	@param value The replacement data.
+		* 	@param offset The offset from which to start replacing.
+		* 	@param count The number of 16-bit units to replace.
+		* 	If the sum of offset and count exceeds length,
+		* 	then all 16-bit units to the end of the data are
+		* 	replaced; (i.e., the effect is the same as a
+		* 	remove method call with the same range,
+		* 	followed by an append method invocation).
+		* 	@param value The DOMString with which the range must be replaced.
+		* 
+		* 	@throws DOMException INDEX_SIZE_ERR: Raised if the
+		* 	specified offset is negative or greater than
+		* 	the number of 16-bit units in data, or if the
+		* 	specified count is negative. 
+		* 
+		*	@throws DOMException NO_MODIFICATION_ALLOWED_ERR:
+		* 	Raised if this node is readonly.
 		*/
 		function replaceData(
 			offset:Number, count:Number, value:String ):void;

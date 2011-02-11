@@ -2,6 +2,8 @@ package com.ffsys.dom.core
 {
 	import com.ffsys.ioc.*;
 	import org.w3c.dom.*;
+	
+	import com.ffsys.dom.ioc.DomCoreBeanDocument;
 		
 	/**
 	*	Represents the type of a document.
@@ -101,7 +103,7 @@ package com.ffsys.dom.core
 			if( _elements == null )
 			{
 				//TODO: generate from a factory
-				_elements = new XhtmlBeanDocument();
+				_elements = new DomCoreBeanDocument();
 			}
 			return _elements;
 		}	

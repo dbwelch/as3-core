@@ -16,14 +16,6 @@ package org.w3c.dom
 		function get name():String;
 		
 		/**
-		* 	The element that owns this attribute.
-		* 
-		* 	The Element node this attribute is attached
-		* 	to or null if this attribute is not in use.
-		*/
-		function get ownerElement():Element;
-		
-		/**
 		* 	Whether the attribute was specified.
 		* 	
 		* 	Will be true if this attribute was
@@ -61,6 +53,14 @@ package org.w3c.dom
 		*/
 		function get value():String;
 		function set value( value:String ):void;
+		
+		/**
+		* 	The element that owns this attribute.
+		* 
+		* 	The Element node this attribute is attached
+		* 	to or null if this attribute is not in use.
+		*/
+		function get ownerElement():Element;
 		
 		/**
 		* 	The type information associated with this attribute.

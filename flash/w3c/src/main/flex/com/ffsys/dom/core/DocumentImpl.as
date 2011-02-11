@@ -15,7 +15,7 @@ package com.ffsys.dom.core
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class DocumentImpl extends ElementImpl 	//TODO: ensure we extend NodeImpl
+	dynamic public class DocumentImpl extends NodeImpl
 		implements Document
 	{
 		private var _identifiers:Object = new Object();
@@ -90,7 +90,7 @@ package com.ffsys.dom.core
 		* 	Ensures that the elements for a document
 		* 	are created from a fresh list.
 		*/
-		override public function get elements():Vector.<Element>
+		public function get elements():Vector.<Element>
 		{
 			if( _elements == null )
 			{
@@ -148,7 +148,7 @@ package com.ffsys.dom.core
 		* 
 		* 	@return The retrieved element if it exists otherwise <code>null</code>.
 		*/
-		override public function getElementById( id:String ):Element
+		public function getElementById( id:String ):Element
 		{
 			return _identifiers[ id ] as Element;
 		}
@@ -163,13 +163,13 @@ package com.ffsys.dom.core
 		* 	@return A list of child elements that are the
 		* 	specified tag.
 		*/
-		override public function getElementsByTagName( tagName:String ):NodeList
+		public function getElementsByTagName( tagName:String ):NodeList
 		{
 			//trace("Document::getElementsByTagName()", tagName, _tags[ tagName ] );
 			return _tags[ tagName ];
 		}
 		
-		override public function getChildrenByTagName( tagName:String ):NodeList
+		public function getChildrenByTagName( tagName:String ):NodeList
 		{
 			//filter children for tag name matches
 			var output:NodeList = new NodeListImpl();

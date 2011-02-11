@@ -103,6 +103,35 @@ package com.ffsys.dom.core
 			}
 			return null;
 		}
+		
+		/**
+		*	TODO
+		*/
+		public function getNamedItemNS(
+			namespaceURI:String, localName:String ):Node
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	TODO
+		*/
+		public function setNamedItemNS( arg:Node ):Node
+		{
+			//TODO			
+			return null;
+		}
+		
+		/**
+		* 	TODO
+		*/
+		public function removeNamedItemNS(
+		 	namespaceURI:String, localName:String ):Node
+		{
+			//TODO
+			return null;
+		}
 	
 		/*
 		Object NamedNodeMap

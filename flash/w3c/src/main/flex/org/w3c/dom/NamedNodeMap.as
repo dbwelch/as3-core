@@ -75,18 +75,107 @@ package org.w3c.dom
 		function item( index:uint ):Node;
 		
 		/**
-		*	TODO
+		*	Retrieves a node specified by local name and namespace URI. 
+		* 
+		*	Per [XML Namespaces], applications must use the
+		* 	value null as the namespaceURI parameter for
+		* 	methods if they wish to have no namespace.
+		* 
+		* 	@param namespaceURI The namespace URI of the node to retrieve.
+		* 	@param localName The local name of the node to retrieve.
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: May be raised
+		* 	if the implementation does not support the feature "XML"
+		* 	and the language exposed through the Document does not support
+		* 	XML Namespaces (such as [HTML 4.01]).
+		* 
+		* 	@return A Node (of any type) with the specified
+		* 	local name and namespace URI, or null if they
+		* 	do not identify any node in this map.
 		*/
 		function getNamedItemNS(
 			namespaceURI:String, localName:String ):Node;
 		
 		/**
-		* 	TODO
+		* 	Adds a node using its namespaceURI and localName.
+		* 	
+		* 	If a node with that namespace URI and that local
+		* 	name is already present in this map, it is replaced
+		* 	by the new one. Replacing a node by itself has no effect.
+		* 
+		*	Per [XML Namespaces], applications must use the
+		* 	value null as the namespaceURI parameter for
+		* 	methods if they wish to have no namespace.
+		* 
+		* 	@param arg A node to store in this map.
+		* 	The node will later be accessible using
+		* 	the value of its namespaceURI and
+		* 	localName attributes.
+		* 
+		* 	@throws DOMException WRONG_DOCUMENT_ERR: Raised if
+		* 	arg was created from a different document than
+		* 	the one that created this map. 
+		* 
+		* 	@throws DOMException NO_MODIFICATION_ALLOWED_ERR:
+		* 	Raised if this map is readonly. 
+		* 
+		* 	@throws DOMException INUSE_ATTRIBUTE_ERR: Raised if
+		* 	arg is an Attr that is already an attribute of
+		* 	another Element object. The DOM user must explicitly
+		* 	clone Attr nodes to re-use them in other elements.
+		* 
+		* 	@throws DOMException HIERARCHY_REQUEST_ERR: Raised if
+		* 	an attempt is made to add a node doesn't belong
+		* 	in this NamedNodeMap. Examples would include
+		* 	trying to insert something other than an Attr node
+		* 	into an Element's map of attributes, or a non-Entity
+		* 	node into the DocumentType's map of Entities. 
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: May be
+		* 	raised if the implementation does not support
+		* 	the feature "XML" and the language exposed
+		* 	through the Document does not support XML
+		* 	Namespaces (such as [HTML 4.01]).
+		* 	
+		* 	@return If the new Node replaces an existing
+		* 	node the replaced Node is returned, otherwise
+		* 	null is returned.
 		*/
 		function setNamedItemNS( arg:Node ):Node;
 		
 		/**
-		* 	TODO
+		* 	Removes a node specified by local name and
+		* 	namespace URI. A removed attribute may
+		* 	be known to have a default value when
+		* 	this map contains the attributes attached
+		* 	to an element, as returned by the attributes
+		* 	attribute of the Node interface. If so,
+		* 	an attribute immediately appears containing
+		* 	the default value as well as the corresponding
+		* 	namespace URI, local name, and prefix when applicable.
+		* 
+		*	Per [XML Namespaces], applications must use the
+		* 	value null as the namespaceURI parameter for
+		* 	methods if they wish to have no namespace.
+		* 
+		* 	@param namespaceURI The namespace URI of the node to remove.
+		* 	@param localName The local name of the node to remove.
+		* 
+		* 	@throws DOMException NOT_FOUND_ERR: Raised if
+		* 	there is no node with the specified
+		* 	namespaceURI and localName in this map.
+		* 
+		* 	@throws DOMException NO_MODIFICATION_ALLOWED_ERR:
+		* 	Raised if this map is readonly. 
+		* 
+		* 	@throws DOMException NOT_SUPPORTED_ERR: May be raised
+		* 	if the implementation does not support the feature "XML"
+		* 	and the language exposed through the Document does not
+		* 	support XML Namespaces (such as [HTML 4.01]).
+		* 
+		* 	@return The node removed from this map
+		* 	if a node with such a local name and
+		* 	namespace URI exists.
 		*/
 		function removeNamedItemNS(
 		 	namespaceURI:String, localName:String ):Node;

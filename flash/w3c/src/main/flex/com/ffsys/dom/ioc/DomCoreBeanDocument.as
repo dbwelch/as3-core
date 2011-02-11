@@ -14,6 +14,11 @@ package com.ffsys.dom.ioc
 	*/
 	public class DomCoreBeanDocument extends BeanDocument
 	{
+		/**
+		* 	The default name for <code>DOM</code> bean documents.
+		*/
+		public static const NAME:String = "dom-core";
+		
 		//CORE DOM ELEMENTS
 		
 		/**
@@ -58,9 +63,12 @@ package com.ffsys.dom.ioc
 			
 		/**
 		* 	Creates a <code>DomCoreBeanDocument</code> instance.
+		* 
+		* 	@param id A specific id to use for this document.
 		*/
-		public function DomCoreBeanDocument()
+		public function DomCoreBeanDocument( id:String = null )
 		{
+			this.id  = id != null ? id : NAME;
 			super();
 			doWithBeans( this );
 		}

@@ -506,11 +506,20 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	The name of the tag that created this element.
+		* 	@inheritDoc
 		*/
 		public function get tagName():String
 		{
 			return beanName;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get schemaTypeInfo():TypeInfo
+		{
+			//TODO
+			return null;
 		}
 		
 		/**
@@ -531,22 +540,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	TODO
-		*/
-		public function setAttribute( name:String, value:String ):void
-		{
-			var attr:Attr = ownerDocument.createAttribute(
-				name );
-				
-			attr.value = value;
-			
-			//trace("Element::setAttribute() attr: ", this, attr, attr.name, attr.value, attributes.length );			
-			
-			setAttributeNode( attr );
-		}
-		
-		/**
-		* 	TODO
+		* 	@inheritDoc
 		*/
 		public function getAttribute( name:String ):String
 		{
@@ -561,7 +555,22 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	TODO
+		* 	@inheritDoc
+		*/
+		public function setAttribute( name:String, value:String ):void
+		{
+			var attr:Attr = ownerDocument.createAttribute(
+				name );
+				
+			attr.value = value;
+			
+			//trace("Element::setAttribute() attr: ", this, attr, attr.name, attr.value, attributes.length );			
+			
+			setAttributeNode( attr );
+		}
+		
+		/**
+		* 	@inheritDoc
 		*/
 		public function removeAttribute( name:String ):void
 		{
@@ -573,7 +582,21 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	TODO
+		* 	@inheritDoc
+		*/
+		public function getAttributeNS(
+			namespaceURI:String, localName:String ):String
+		{
+			var attr:Attr = getAttributeNodeNS( namespaceURI, localName );
+			if( attr != null )
+			{
+				return attr.value;
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
 		*/
 		public function setAttributeNS(
 			namespaceURI:String, qualifiedName:String, value:String ):void
@@ -589,11 +612,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Retrieves an attribute node by name.
-		* 
-		* 	@param localName The node name of the attribute.
-		* 
-		* 	@return The attribute node if it exists otherwise <code>null</code>.
+		* 	@inheritDoc
 		*/
 		public function getAttributeNode( localName:String ):Attr
 		{
@@ -610,12 +629,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Adds an attribute node to this element.
-		* 
-		* 	@param attr The attribute to add.
-		* 
-		* 	@return The attribute that was added or <code>null</code>
-		* 	if the specified attribute was <code>null</code>.
+		* 	@inheritDoc
 		*/
 		public function setAttributeNode( attr:Attr ):Attr
 		{
@@ -666,48 +680,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Retrieves a list of all attributes with the specified
-		* 	<code>localName</code>.
-		* 
-		* 	@param localName The local name of the attribute to search for.
-		* 
-		* 	@return A list of all attributes whose <code>localName</code>
-		* 	matches the specified <code>localName</code>.
-		*/
-		public function getAttributeNodeList( localName:String ):Vector.<Attr>
-		{
-			var output:Vector.<Attr> = new Vector.<Attr>();
-			var attr:Node = null;
-			for each( attr in attributes )
-			{
-				if( attr is Attr
-				 	&& Attr( attr ).localName == localName )
-				{
-					output.push( attr );
-				}
-			}
-			return output;
-		}
-		
-		public function getAttributeNodeNS(
-			namespaceURI:String, localName:String ):Attr
-		{
-			var attr:Attr = getAttributeNode( localName );
-			return ( attr != null && attr.uri == namespaceURI ) ? attr : null;
-		}
-		
-		public function setAttributeNodeNS( attr:Attr ):Attr
-		{
-			return setAttributeNode( attr );
-		}
-		
-		/**
-		* 	Adds an attribute node to this element.
-		* 
-		* 	@param attr The attribute to add.
-		* 
-		* 	@return The attribute that was added or <code>null</code>
-		* 	if the specified attribute was <code>null</code>.
+		* 	@inheritDoc
 		*/
 		public function removeAttributeNode( attr:Attr ):Attr
 		{
@@ -723,6 +696,34 @@ package com.ffsys.dom.core
 				}
 			}
 			return attr;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function removeAttributeNS(
+			namespaceURI:String,
+			localName:String ):void
+		{
+			//TODO
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getAttributeNodeNS(
+			namespaceURI:String, localName:String ):Attr
+		{
+			var attr:Attr = getAttributeNode( localName );
+			return ( attr != null && attr.uri == namespaceURI ) ? attr : null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function setAttributeNodeNS( attr:Attr ):Attr
+		{
+			return setAttributeNode( attr );
 		}
 		
 		/**
@@ -778,11 +779,7 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	Retrieves direct child elements by tag name.
-		* 
-		* 	@param tagName The name of the tag to retrieve elements for.
-		* 
-		* 	@return A node list containing any matched elements. 
+		* 	@inheritDoc
 		*/
 		public function getElementsByTagName( tagName:String ):NodeList
 		{
@@ -806,6 +803,16 @@ package com.ffsys.dom.core
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function getElementsByTagNameNS(
+			namespaceURI:String, localName:String ):NodeList
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
 		* 	Retrieves all descendants by tag name.
 		* 
 		* 	@param tagName The name of the tag to retrieve descendant elements for.
@@ -819,6 +826,31 @@ package com.ffsys.dom.core
 				return new NodeListImpl();
 			}
 			return this[ tagName ] as NodeList;
+		}
+		
+		
+		/**
+		* 	Retrieves a list of all attributes with the specified
+		* 	<code>localName</code>.
+		* 
+		* 	@param localName The local name of the attribute to search for.
+		* 
+		* 	@return A list of all attributes whose <code>localName</code>
+		* 	matches the specified <code>localName</code>.
+		*/
+		public function getAttributeNodeList( localName:String ):Vector.<Attr>
+		{
+			var output:Vector.<Attr> = new Vector.<Attr>();
+			var attr:Node = null;
+			for each( attr in attributes )
+			{
+				if( attr is Attr
+				 	&& Attr( attr ).localName == localName )
+				{
+					output.push( attr );
+				}
+			}
+			return output;
 		}
 		
 		/*
