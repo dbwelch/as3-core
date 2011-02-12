@@ -20,9 +20,9 @@ package org.w3c.dom
 		}
 		
 		[Test]
-		public function creationTest():void
+		public function documentCreationTest():void
 		{
-			
+			//var doc:Document = new Document();
 		}
 	}
 }

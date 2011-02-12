@@ -407,6 +407,49 @@
 		<xsl:call-template name="end-itemize" />
 	</xsl:template>
 	
+	<xsl:template name="bug-appendix">
+		<xsl:param name="todos" select="$toplevel//bug" />
+		<xsl:if test="count($todos) &gt; 0">
+			<xsl:call-template name="chapter">
+				<xsl:with-param name="title" select="'Bugs'"/>
+				<xsl:with-param name="label" select="'bugs'"/>				
+			</xsl:call-template>
+			
+			<xsl:variable name="class-bugs" select="$toplevel//classRec//bug" />
+			<xsl:if test="count($class-bugs) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Class Bugs'"/>
+					<xsl:with-param name="label" select="'class:bugs'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$class-bugs" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="interface-bugs" select="$toplevel//interfaceRec//bug" />
+			<xsl:if test="count($interface-bugs) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Interface Bugs'"/>
+					<xsl:with-param name="label" select="'interface:bugs'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$interface-bugs" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="method-bugs" select="$toplevel//method//bug" />
+			<xsl:if test="count($method-bugs) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Member Bugs'"/>
+					<xsl:with-param name="label" select="'member:bugs'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$method-bugs" />
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:if>
+	</xsl:template>
+	
 	<xsl:template name="todo-appendix">
 		<xsl:param name="todos" select="$toplevel//todo" />
 		<xsl:if test="count($todos) &gt; 0">
@@ -493,6 +536,9 @@
 			<xsl:text>\item Total bytes: </xsl:text>
 			<xsl:value-of select="concat(sum($scripts//@size),' bytes')" />
 			<xsl:value-of select="$newline" />
+			<xsl:text>\item Compressed bytes: </xsl:text>
+			<xsl:value-of select="concat(sum($scripts//@optimizedsize),' bytes')" />
+			<xsl:value-of select="$newline" />
 			
 			<xsl:call-template name="end-itemize" />
 			
@@ -515,7 +561,7 @@
 				</xsl:call-template>
 				-->
 				
-				<xsl:value-of select="concat(' (',@size,' bytes)' )" />
+				<xsl:value-of select="concat(' (bytes: ', @size,', compressed: ',@optimizedsize,')' )" />
 				
 				<xsl:value-of select="$newline" />
 			</xsl:for-each>
@@ -549,6 +595,7 @@
 		</xsl:call-template>
 		
 		<xsl:call-template name="todo-appendix" />
+		<xsl:call-template name="bug-appendix" />
 		<xsl:call-template name="process-link-report" />
 		
 		<!-- CUSTOM APPENDICES FIRST -->
