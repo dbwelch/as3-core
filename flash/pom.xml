@@ -206,6 +206,10 @@
 												<name>link-source-directory</name>
 												<value>${api.docs.link.source.directory}</value>
 											</parameter>
+											<parameter>
+												<name>build-product</name>
+												<value>${project.build.finalName}.${project.packaging}</value>
+											</parameter>
 										</parameters>
 									</transformationSet>
 								</transformationSets>

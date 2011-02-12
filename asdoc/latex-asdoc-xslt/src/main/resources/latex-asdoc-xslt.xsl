@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ifn="urn:internal:functions" version="2.0" exclude-result-prefixes="saxon xs ifn">
+<xsl:stylesheet
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:ifn="urn:internal:functions"
+		xmlns:saxon="http://saxon.sf.net/"
+		xmlns:date="http://exslt.org/dates-and-times"
+		version="2.0"
+		exclude-result-prefixes="saxon xs ifn date">
 	<xsl:character-map name="disable">
 		<xsl:output-character character="&amp;" string="&amp;"/>
 		<xsl:output-character character="&lt;" string="&lt;"/>
@@ -34,6 +41,7 @@
 	<xsl:param name="link-report-path" select="''" />
 	<xsl:param name="link-source-directory" select="''" />
 	<xsl:param name="link-report" select="document($link-report-path)" />
+	<xsl:param name="build-product" select="''" />
 	<xsl:param name="end-tag" select="'}'" />
 	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
@@ -442,6 +450,12 @@
 		</xsl:if>
 	</xsl:template>
 	
+	<xsl:template name="last-modified">
+		<xsl:param name="input" select="''" />
+		<!-- <xsl:param name="dt" select="xs:date($input)" /> -->
+		<xsl:value-of select="$input" />
+	</xsl:template>
+	
 	<xsl:template name="process-link-report">
 		<xsl:if test="$link-report-path != ''">
 			<xsl:variable name="scripts" select="$link-report//script" />
@@ -458,14 +472,26 @@
 			
 			<xsl:call-template name="start-itemize" />
 			
+			<xsl:if test="$build-product != ''">
+				<xsl:text>\item Build Product: </xsl:text>
+				<xsl:value-of select="$build-product" />
+				<xsl:value-of select="$newline" />
+			</xsl:if>
+			
 			<xsl:text>\item Total Files: </xsl:text>
 			<xsl:value-of select="count($scripts)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Packages: </xsl:text>
+			<xsl:value-of select="count($packages//apiItemRef)" />
 			<xsl:value-of select="$newline" />
 			<xsl:text>\item Classes: </xsl:text>
 			<xsl:value-of select="count($toplevel//classRec)" />
 			<xsl:value-of select="$newline" />
 			<xsl:text>\item Interfaces: </xsl:text>
 			<xsl:value-of select="count($toplevel//interfaceRec)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Total bytes: </xsl:text>
+			<xsl:value-of select="concat(sum($scripts//@size),' bytes')" />
 			<xsl:value-of select="$newline" />
 			
 			<xsl:call-template name="end-itemize" />
@@ -477,10 +503,21 @@
 			</xsl:call-template>
 			<xsl:call-template name="start-itemize" />
 			<xsl:for-each select="$scripts">
+				<xsl:sort select="@name"/>
 				<xsl:text>\item </xsl:text>
 				<xsl:call-template name="sanitize">
 					<xsl:with-param name="input" select="substring-after(@name,$link-source-directory)" />
 				</xsl:call-template>
+				
+				<!--
+				<xsl:call-template name="last-modified">
+					<xsl:with-param name="input" select="@mod" />
+				</xsl:call-template>
+				-->
+				
+				<xsl:value-of select="concat(' (',@size,' bytes)' )" />
+				
+				<xsl:value-of select="$newline" />
 			</xsl:for-each>
 			<xsl:call-template name="end-itemize" />
 			
@@ -491,10 +528,12 @@
 			</xsl:call-template>
 			<xsl:call-template name="start-itemize" />
 			<xsl:for-each select="$link-report//external-defs/ext">
+				<xsl:sort select="@id"/>
 				<xsl:text>\item </xsl:text>
 				<xsl:call-template name="sanitize">
 					<xsl:with-param name="input" select="@id" />
-				</xsl:call-template>				
+				</xsl:call-template>
+				<xsl:value-of select="$newline" />				
 			</xsl:for-each>
 			<xsl:call-template name="end-itemize" />
 		</xsl:if>
