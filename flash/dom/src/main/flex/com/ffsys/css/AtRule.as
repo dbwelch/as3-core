@@ -74,36 +74,6 @@ package com.ffsys.css
 		public static const NAMESPACE:String = "namespace";
 		
 		/**
-		* 	The symbol for an <code>import</code> at rule.
-		*/
-		public static const IMPORT_SYM:String = SYM + IMPORT;
-		
-		/**
-		* 	The symbol for a <code>page</code> at rule.
-		*/
-		public static const PAGE_SYM:String = SYM + PAGE;
-		
-		/**
-		* 	The symbol for a <code>media</code> at rule.
-		*/
-		public static const MEDIA_SYM:String = SYM + MEDIA;
-		
-		/**
-		* 	The symbol for a <code>font-face</code> at rule.
-		*/
-		public static const FONT_FACE_SYM:String = SYM + FONT_FACE;
-		
-		/**
-		* 	The symbol for a <code>charset</code> at rule.
-		*/
-		public static const CHARSET_SYM:String = SYM + CHARSET;
-		
-		/**
-		* 	The symbol for a <code>namespace</code> at rule.
-		*/
-		public static const NAMESPACE_SYM:String = SYM + NAMESPACE;
-		
-		/**
 		* 	Creates an <code>AtRule</code> instance.
 		*/
 		public function AtRule()

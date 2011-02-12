@@ -24,6 +24,8 @@ package com.ffsys.css
 		*/
 		public static const ATTRIBUTE_SELECTOR:RegExp = /\[([^\]]+)\]/g;
 		
+		//TODO: proxy from CSS3Grammar
+		
 		/**
 		* 	The delimiter between multiple selectors.
 		*/

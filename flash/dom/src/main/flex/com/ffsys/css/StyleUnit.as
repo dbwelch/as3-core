@@ -102,41 +102,6 @@ package com.ffsys.css
 		*/
 		public static const PIXELS:String = "px";
 		
-		/**
-		* 	An expression used to determine the <code>em</code> unit type.
-		*/
-		public static const EMS_EXP:String = EMS;
-
-		/**
-		* 	An expression used to determine the <code>ex</code> unit type.
-		*/
-		public static const EXS_EXP:String = "(?P<exsunit>" + EXS + ")";
-
-		/**
-		* 	An expression used to determine the <code>length</code> unit type.
-		*/
-		public static const LENGTH_EXP:String = "(?P<lengthunit>px|cm|mm|in|pt|pc)";
-
-		/**
-		* 	An expression used to determine the <code>angle</code> unit type.
-		*/
-		public static const ANGLE_EXP:String = "(?P<angleunit>grad|deg|rad)";
-
-		/**
-		* 	An expression used to determine the <code>time</code> unit type.
-		*/
-		public static const TIME_EXP:String = "(?P<timeunit>ms|s)";
-
-		/**
-		* 	An expression used to determine the <code>frequency</code> unit type.
-		*/
-		public static const FREQUENCY_EXP:String = "(?P<frequencyunit>kHz|Hz)";
-
-		/**
-		* 	An expression used to determine the <code>percentage</code> unit type.
-		*/
-		public static const PERCENTAGE_EXP:String = "(?P<percentunit>" + PERCENT + ")";
-		
 		private var _expression:String;
 		private var _operand:Number;
 		private var _unit:String;
