@@ -18,19 +18,23 @@ package com.ffsys.dom.core
 	*/
 	public class DOMImplementationImpl extends Object
 		implements DOMImplementation
-	{			
+	{
 		/**
-		* 	Represents the DOM level 2.
+		* 	The optional character that may appear
+		* 	at the beginning of a feature name.
 		*/
-		public static const LEVEL_2:String = "2.0";
+		public static const PLUS:String = "+";		
 		
 		/**
-		* 	Represents the DOM level 3.
+		* 	The delimiter between a feature name
+		* 	and the optional associated version.
 		*/
-		public static const LEVEL_3:String = "3.0";
+		public static const MODULE_VERSION_DELIMITER:String = " ";
 				
 		//
 		private var _beanManager:IBeanManager;
+		
+		private var _supported:Vector.<DOMFeature>;
 		
 		/**
 		* 	Creates a <code>DOMImplementationImpl</code> instance.
@@ -43,6 +47,29 @@ package com.ffsys.dom.core
 		{
 			super();
 			this.beanManager = manager;
+			configureSupportedFeatures();
+		}
+		
+		/**
+		* 	A convenience method for implementations to generat
+		* 	an identifier consisting of a feature name optionally
+		* 	concatenated with a version.
+		* 
+		* 	@param feature The DOM feature.
+		* 	@param version The version number.
+		* 
+		* 	@return A full feature and version string
+		* 	delimited with whitespace.
+		*/
+		static public function getQualifiedFeatureName(
+			feature:String, version:String = null ):String
+		{
+			var nm:String = feature;
+			if( version != null )
+			{
+				nm += MODULE_VERSION_DELIMITER + version;
+			}
+			return nm;
 		}
 		
 		/*
@@ -52,14 +79,6 @@ package com.ffsys.dom.core
 		
 		
 		*/
-		
-		/**
-		* 	Gets the current target DOM implementation level.
-		*/
-		public function get level():String
-		{
-			return LEVEL_2;
-		}
 		
 		/**
 		* 	@inheritDoc
@@ -182,12 +201,48 @@ package com.ffsys.dom.core
 		}
 		
 		/**
+		* 	Invoked when an implementation is instantiated
+		* 	to configure the features supported by this
+		* 	implementation.
+		* 
+		* 	This method does nothing by default, derived
+		* 	implementations should override this method
+		* 	and configure the features that are supported
+		* 	by the implementation.
+		*/
+		protected function configureSupportedFeatures():void
+		{
+			//
+		}
+		
+		/**
+		* 	A list of features supported by this implementation.
+		* 
+		* 	If no supported features have been configured (the first
+		* 	time this accessor is accessed) then a list is created
+		* 	containing the <code>DOMFeature.CORE_FEATURE</code>
+		* 	feature which is required for every implementation.
+		*/
+		public function get supported():Vector.<DOMFeature>
+		{
+			if( _supported == null )
+			{
+				_supported = new Vector.<DOMFeature>();
+				//always add the core feature as supported
+				_supported.push( DOMFeature.CORE_FEATURE );
+			}
+			return _supported;
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function getFeature(
 			feature:String, version:String ):Object
 		{
-			//TODO
+			trace("DOMImplementationImpl::getFeature()",
+				feature, version, supported );
+			
 			return null;
 		}
 		
@@ -197,6 +252,15 @@ package com.ffsys.dom.core
 		public function hasFeature(
 			feature:String, version:String ):Boolean
 		{
+			var ft:DOMFeature = null;
+			for( var i:int = 0;i < supported.length;i++ )
+			{
+				ft = supported[ i ];
+				if( ft.hasFeature( feature, version ) )
+				{
+					return true;
+				}
+			}
 			return false;
 		}
 		

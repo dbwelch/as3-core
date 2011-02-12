@@ -14,6 +14,7 @@ package com.ffsys.dom.core
 		public function DOMImplementationListImpl()
 		{
 			super();
+			setProxySource( this.implementations );
 		}
 		
 		/**
@@ -25,7 +26,6 @@ package com.ffsys.dom.core
 			if( _implementations == null )
 			{
 				_implementations = new Vector.<DOMImplementation>();
-				setProxySource( _implementations );
 			}
 			return _implementations;
 		}

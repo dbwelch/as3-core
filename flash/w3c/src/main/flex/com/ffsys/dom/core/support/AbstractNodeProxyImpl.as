@@ -25,7 +25,8 @@ package com.ffsys.dom.core.support
 	*	@since  09.01.2011
 	*/
 	public class AbstractNodeProxyImpl extends Proxy
-		implements IBeanNameAware
+		implements 	IBeanNameAware,
+					IBeanDocumentAware
 	{
 		private static const ID:String = "id";
 		
@@ -410,7 +411,18 @@ package com.ffsys.dom.core.support
 			
 			//trace("[SET PROP] XmlAwareDomElement::setProperty() this/name/value: ", this, name, value );
 			
-			var hasProp:Boolean = ( this.proxy[ name ] != null );
+			var hasProp:Boolean = false;
+			
+			try
+			{
+				hasProp = ( this.proxy[ name ] != null );
+			}catch( e:Error )
+			{
+				//trying to access integral index properties of
+				//vectors that are out of bound fails
+				//we can let hasProp remain false safely
+				//in this scenario
+			}
 			
 			//mutate the property to a list for most nodes
 			if( value is Node )

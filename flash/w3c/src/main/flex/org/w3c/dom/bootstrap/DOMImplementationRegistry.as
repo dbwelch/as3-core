@@ -20,29 +20,8 @@ package org.w3c.dom.bootstrap
 	* 	to meet new security standards or to provide *additional*
 	* 	fallbacks for the list of DOMImplementationSources.</p>
 	*/
-	public class DOMImplementationRegistry extends Object
+	public interface DOMImplementationRegistry
 	{
-		static private var _registry:DOMImplementationRegistry;
-		
-		/**
-		* 	Creates a <code>DOMImplementationRegistry</code> instance.
-		*/
-		public function DOMImplementationRegistry()
-		{
-			super();
-		}
-		
-		/**
-		* 	Register an implementation.
-		* 
-		* 	@param source The source to be registered, may
-		* 	not be <code>null</code>.
-		*/
-		public function addSource( source:DOMImplementationSource ):void
-		{
-			//TODO
-		}
-	
 		/**
 		* 	Return the first implementation that has the desired
 		* 	features, or <code>null</code> if none is found.
@@ -56,11 +35,7 @@ package org.w3c.dom.bootstrap
 		* 	@return An implementation that has the desired
 		* 	features, or <code>null</code> if none was found.
 		*/
-		public function getDOMImplementation( features:String ):DOMImplementation
-		{
-			//TODO
-			return null;			
-		}
+		function getDOMImplementation( features:String ):DOMImplementation;
 		
 		/**
 		* 	Return a list of implementations that support the desired features.
@@ -72,37 +47,6 @@ package org.w3c.dom.bootstrap
 		* 
 		* 	@return A list of DOMImplementations that support the desired features.
 		*/
-		public function getDOMImplementationList( features:String ):DOMImplementationList
-		{
-			//TODO
-			return null;
-		}
-		
-		/**
-		* 	Obtain a new instance of a DOMImplementationRegistry.
-		* 
-		* 	The DOMImplementationRegistry is initialized by the
-		* 	application or the implementation, depending on
-		* 	the context, by first checking the value of the
-		* 	Java system property org.w3c.dom.DOMImplementationSourceList
-		* 	and the the service provider whose contents are at
-		* 	"META_INF/services/org.w3c.dom.DOMImplementationSourceList".
-		* 	The value of this property is a white-space separated list
-		* 	of names of availables classes implementing the
-		* 	DOMImplementationSource interface.
-		* 	Each class listed in the class name list is
-		* 	instantiated and any exceptions encountered are thrown
-		* 	to the application.
-		* 
-		* 	@return An initialized instance of DOMImplementationRegistry.
-		*/
-		public static function newInstance():DOMImplementationRegistry
-		{
-			if( _registry == null )
-			{
-				_registry = new DOMImplementationRegistry();
-			}
-			return _registry;
-		}
+		function getDOMImplementationList( features:String ):DOMImplementationList;
 	}
 }
