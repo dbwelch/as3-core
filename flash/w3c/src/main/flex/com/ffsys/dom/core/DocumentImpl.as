@@ -373,6 +373,11 @@ package com.ffsys.dom.core
 		public function createElementNS( 
 			namespaceURI:String, qualifiedName:String ):Element
 		{
+			if( namespaceURI == null )
+			{
+				return createElement( qualifiedName );
+			}
+			
 			var element:Element = Element( getDomBean(
 				qualifiedName, null, namespaceURI ) );
 			NodeImpl( element ).setNamespaceURI( namespaceURI );
