@@ -19,9 +19,9 @@ package com.ffsys.dom.core
 		/**
 		* 	Creates a <code>CharacterDataImpl</code> instance.
 		*/
-		public function CharacterDataImpl( xml:XML = null )
+		public function CharacterDataImpl()
 		{
-			super( xml );
+			super();
 		}
 		
 		/**

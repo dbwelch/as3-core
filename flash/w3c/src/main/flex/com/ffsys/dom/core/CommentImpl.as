@@ -15,11 +15,24 @@ package com.ffsys.dom.core
 		implements Comment
 	{
 		/**
+		* 	The node name for comment nodes.
+		*/
+		public static const NODE_NAME:String = "#comment";		
+		
+		/**
 		* 	Creates a <code>CommentImpl</code> instance.
 		*/
-		public function CommentImpl( xml:XML = null )
+		public function CommentImpl()
 		{
-			super( xml );
+			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeName():String
+		{
+			return NODE_NAME;
 		}
 		
 		/**

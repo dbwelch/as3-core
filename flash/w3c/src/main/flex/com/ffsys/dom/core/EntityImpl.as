@@ -18,9 +18,17 @@ package com.ffsys.dom.core
 		/**
 		* 	Creates an <code>EntityImpl</code> instance.
 		*/
-		public function EntityImpl( xml:XML = null )
+		public function EntityImpl()
 		{
-			super( xml );
+			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeName():String
+		{
+			return this.notationName;
 		}
 		
 		/**

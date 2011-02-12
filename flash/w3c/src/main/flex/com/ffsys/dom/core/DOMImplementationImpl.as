@@ -16,7 +16,7 @@ package com.ffsys.dom.core
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	public class DOMImplementationImpl extends Object
+	public class DOMImplementationImpl extends AbstractNodeProxyImpl
 		implements DOMImplementation
 	{
 		/**
@@ -31,9 +31,6 @@ package com.ffsys.dom.core
 		*/
 		public static const MODULE_VERSION_DELIMITER:String = " ";
 				
-		//
-		private var _beanManager:IBeanManager;
-		
 		private var _supported:Vector.<DOMFeature>;
 		
 		/**
@@ -46,7 +43,6 @@ package com.ffsys.dom.core
 			manager:IBeanManager = null )
 		{
 			super();
-			this.beanManager = manager;
 			configureSupportedFeatures();
 		}
 		
@@ -79,34 +75,6 @@ package com.ffsys.dom.core
 		
 		
 		*/
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get beanManager():IBeanManager
-		{
-			if( _beanManager == null )
-			{
-				_beanManager = new DomBeanManager();
-				
-				//TODO: work out systemId and publicId for standard XML
-				
-				//main document is XHTML 1.0 strict until an HTML5 upgrade ;)
-				_beanManager.document = new DomCoreBeanDocument(
-					"-//W3C//DTD XHTML 1.0 Strict//EN" );
-					
-				//add the other known document types
-				_beanManager.documents.push(
-					new DomCoreBeanDocument(
-					"-//W3C//DTD XHTML 1.1//EN" ) );
-			}
-			return _beanManager;
-		}
-		
-		public function set beanManager( value:IBeanManager ):void
-		{
-			_beanManager = value;
-		}
 		
 		/**
 		* 	Parses a source <code>XML</code> document
@@ -273,7 +241,8 @@ package com.ffsys.dom.core
 			systemId:String ):DocumentType
 		{
 			//This method can raise a DomException object.
-			var docType:DocumentType = new DocumentTypeImpl( qualifiedName, systemId, publicId );
+			var docType:DocumentType = new DocumentTypeImpl(
+				qualifiedName, systemId, publicId );
 			return docType;
 		}
 		
@@ -296,9 +265,17 @@ package com.ffsys.dom.core
 				NodeImpl( document ).namespaceDeclarations.push(
 					new Namespace( namespaceURI ) );
 			}
-			DocumentImpl( document ).setImplementation( this );
-			DocumentImpl( document ).setDocumentType( doctype );
+			setImplementation( document, doctype );
 			return document;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function setImplementation( document:Document, doctype:DocumentType ):void
+		{
+			DocumentImpl( document ).setDocumentType( doctype );
+			DocumentImpl( document ).setImplementation( this );
 		}
 	}
 }

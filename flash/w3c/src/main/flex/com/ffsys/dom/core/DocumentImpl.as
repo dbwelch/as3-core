@@ -20,6 +20,11 @@ package com.ffsys.dom.core
 	dynamic public class DocumentImpl extends NodeImpl
 		implements Document
 	{
+		/**
+		* 	The node name for document nodes.
+		*/
+		public static const NODE_NAME:String = "#document";		
+		
 		private var _identifiers:Object = new Object();
 		private var _tags:Object = new Object();
 		
@@ -36,12 +41,22 @@ package com.ffsys.dom.core
 		
 		private var _elements:Vector.<Element>;
 		
+		protected var _documentElement:Element;
+		
 		/**
 		* 	Creates a <code>DocumentImpl</code> instance.
 		*/
-		public function DocumentImpl( xml:XML = null )
+		public function DocumentImpl()
 		{
-			super( xml );
+			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeName():String
+		{
+			return NODE_NAME;
 		}
 		
 		/**
@@ -143,8 +158,7 @@ package com.ffsys.dom.core
 		*/
 		public function get documentElement():Element
 		{
-			//TODO:::!!!
-			return null;
+			return _documentElement;
 		}
 		
 		/**
@@ -334,8 +348,22 @@ package com.ffsys.dom.core
 		*/
 		public function createElement( tagName:String ):Element
 		{
-			var element:Element = Element( getDomBean(
-				tagName ) );
+			var element:Element = null;
+			try
+			{
+				//TODO: handle namespace prefixes when looking via bean document
+				
+				//try to extract as a bean with the tag name
+				element = Element( getDomBean(
+					tagName ) );
+			}catch( e:Error )
+			{
+				//no stress we'll create an element finally
+			}finally
+			{
+				//TODO: extract namespace uri based on any tag name prefix	
+				element = new ElementImpl( new QName( tagName ) );
+			}
 			return element;
 		}
 		

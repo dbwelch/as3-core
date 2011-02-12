@@ -15,11 +15,24 @@ package com.ffsys.dom.core
 		implements CDATASection
 	{
 		/**
+		* 	The node name for CDATA section nodes.
+		*/
+		public static const NODE_NAME:String = "#cdata-section";
+		
+		/**
 		* 	Creates a <code>CDATASectionImpl</code> instance.
 		*/
-		public function CDATASectionImpl( xml:XML = null )
+		public function CDATASectionImpl()
 		{
-			super( xml );
+			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeName():String
+		{
+			return NODE_NAME;
 		}
 		
 		/**

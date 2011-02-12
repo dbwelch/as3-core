@@ -21,9 +21,17 @@ package com.ffsys.dom.core
 		/**
 		* 	Creates a <code>ProcessingInstructionImpl</code> instance.
 		*/
-		public function ProcessingInstructionImpl( xml:XML = null )
+		public function ProcessingInstructionImpl()
 		{
-			super( xml );
+			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeName():String
+		{
+			return this.target;
 		}
 		
 		/**

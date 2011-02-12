@@ -15,11 +15,24 @@ package com.ffsys.dom.core
 		implements DocumentFragment
 	{
 		/**
+		* 	The node name for document fragment nodes.
+		*/
+		public static const NODE_NAME:String = "#document-fragment";
+		
+		/**
 		* 	Creates a <code>DocumentFragmentImpl</code> instance.
 		*/
-		public function DocumentFragmentImpl( xml:XML = null )
+		public function DocumentFragmentImpl()
 		{
-			super( xml );
+			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeName():String
+		{
+			return NODE_NAME;
 		}
 		
 		/**

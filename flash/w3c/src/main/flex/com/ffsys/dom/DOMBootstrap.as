@@ -46,6 +46,11 @@ package com.ffsys.dom
 		* 	An implementation for the "XML" feature.
 		*/
 		public static const XML_IMPLEMENTATION:String = "dom-xml-impl";
+		
+		/**
+		* 	An implementation for the "XML" feature.
+		*/
+		public static const XML_DOCUMENT:String = "dom-xml-doc";
 			
 		/**
 		* 	Creates a <code>DOMBootstrap</code> instance.
@@ -90,6 +95,11 @@ package com.ffsys.dom
 				XML_IMPLEMENTATION );
 			descriptor.instanceClass = XMLImplementationImpl;
 			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				XML_DOCUMENT );
+			descriptor.instanceClass = XMLDocumentImpl;
+			impls.addBeanDescriptor( descriptor );			
 			
 			trace("DOMBootstrap::DOMBootstrap()",
 				descriptor, descriptor.id );

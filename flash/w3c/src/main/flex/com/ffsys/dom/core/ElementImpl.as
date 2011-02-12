@@ -26,14 +26,33 @@ package com.ffsys.dom.core
 		*	@private	 
 		*/
 		protected var _elements:Vector.<Element>;
+		private var _qualifiedName:QName;		
 		
 		/**
 		* 	Creates an <code>ElementImpl</code> instance.
+		* 
+		* 	@param qualifiedName The qualified name for
+		* 	the element.
 		*/
-		public function ElementImpl( xml:XML = null )
+		public function ElementImpl( qualifiedName:QName = null )
 		{
-			super( xml );
+			super();
+			if( qualifiedName != null )
+			{
+				setQualifiedName( qualifiedName );
+			}
 		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked by the parser so that this node knows
+		* 	about any associated namespace.
+		*/
+		internal function setQualifiedName( qname:QName ):void
+		{
+			_qualifiedName = qname;
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -445,15 +464,11 @@ package com.ffsys.dom.core
 		}
 		
 		/**
-		* 	@private
+		* 	@inheritDoc
 		*/
-		override internal function added():void
+		override public function get nodeName():String
 		{
-			super.added();
-			
-			//TODO: compute css tag level inheritance
-			//getStyleCache();
-			
+			return tagName;
 		}
 		
 		/**
@@ -461,6 +476,11 @@ package com.ffsys.dom.core
 		*/
 		public function get tagName():String
 		{
+			if( _qualifiedName != null )
+			{
+				return _qualifiedName.localName;
+			}
+			
 			return beanName;
 		}
 		

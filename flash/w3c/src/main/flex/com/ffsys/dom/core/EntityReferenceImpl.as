@@ -17,9 +17,9 @@ package com.ffsys.dom.core
 		/**
 		* 	Creates an <code>EntityReferenceImpl</code> instance.
 		*/
-		public function EntityReferenceImpl( xml:XML = null )
+		public function EntityReferenceImpl()
 		{
-			super( xml );
+			super();
 		}
 		
 		/**

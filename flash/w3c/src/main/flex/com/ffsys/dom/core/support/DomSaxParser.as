@@ -187,19 +187,23 @@ package com.ffsys.dom.core.support
 		/**
 		* 	@private
 		*/
+		
+		//TOOD: re-implement
 		internal function getBeanDocumentFromDtd(
 			implementation:DOMImplementationImpl,
 			definition:DocumentTypeDefinitionImpl ):IBeanDocument
 		{
 			var document:IBeanDocument = null
 			var publicId:String = definition.publicId;
-			if( publicId == implementation.beanManager.document.id )
+			if( publicId == implementation.document.id )
 			{
-				document = implementation.beanManager.document;
+				document = implementation.document;
 			}
 			if( document == null )
 			{
-				for each( var doc:IBeanDocument in implementation.beanManager.documents )
+				
+				/*
+				for each( var doc:IBeanDocument in implementation.documents )
 				{
 					if( publicId == doc.id )
 					{
@@ -207,6 +211,7 @@ package com.ffsys.dom.core.support
 						break;
 					}
 				}
+				*/
 			}
 			return document;
 		}

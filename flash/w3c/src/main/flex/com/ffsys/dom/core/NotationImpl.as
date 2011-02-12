@@ -20,9 +20,9 @@ package com.ffsys.dom.core
 		/**
 		* 	Creates a <code>NotationImpl</code> instance.
 		*/
-		public function NotationImpl( xml:XML = null )
+		public function NotationImpl()
 		{
-			super( xml );
+			super();
 		}
 		
 		/**

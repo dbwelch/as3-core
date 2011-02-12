@@ -9,11 +9,24 @@ package com.ffsys.dom.core
 		implements Text
 	{
 		/**
+		* 	The node name for text nodes.
+		*/
+		public static const NODE_NAME:String = "#text";
+		
+		/**
 		* 	Creates a <code>TextImpl</code> instance.
 		*/
-		public function TextImpl( xml:XML = null )
+		public function TextImpl()
 		{
-			super( xml );
+			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get nodeName():String
+		{
+			return NODE_NAME;
 		}
 		
 		/**

@@ -123,7 +123,6 @@ package com.ffsys.dom.core
 		private var _ownerDocument:Document;
 		private var _childNodes:NodeList;
 		private var _attributes:NamedNodeMap;
-		private var _qualifiedName:QName;
 		private var _propertyName:String;
 		private var _childIndex:int;
 		private var _namespaceURI:String;
@@ -138,12 +137,10 @@ package com.ffsys.dom.core
 		
 		/**
 		* 	Creates a <code>NodeImpl</code> instance.
-		* 
-		* 	@param xml The <code>XML</code> that defined this node.
 		*/
-		public function NodeImpl( xml:XML = null )
+		public function NodeImpl()
 		{
-			super( xml );
+			super();
 		}
 		
 		/**
@@ -282,17 +279,6 @@ package com.ffsys.dom.core
 				}
 			}
 			return _propertyName;
-		}
-		
-		/**
-		* 	@private
-		* 
-		* 	Invoked by the parser so that this node knows
-		* 	about any associated namespace.
-		*/
-		internal function setQualifiedName( qname:QName ):void
-		{
-			_qualifiedName = qname;
 		}
 		
 		/**
