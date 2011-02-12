@@ -33,6 +33,8 @@ package com.ffsys.scanner
 		
 		private var _merges:Boolean = true;
 		
+		private var _matches:Array;
+		
 		/**
 		* 	A regular expression or string indicating
 		* 	that this token must be an entire
@@ -106,8 +108,17 @@ package com.ffsys.scanner
 				this[ 0 ] = value;
 			}else
 			{
-				shift();
+				matches.shift();
 			}
+		}
+		
+		public function get matches():Array
+		{
+			if( _matches == null )
+			{
+				_matches = new Array();
+			}
+			return _matches;
 		}
 		
 		/**
@@ -239,11 +250,11 @@ package com.ffsys.scanner
 						output.match += results[ 1 ];		
 						
 						//add the delimiter match
-						push( output.delimiters[ output.delimiters.length - 1 ] );
+						matches.push( output.delimiters[ output.delimiters.length - 1 ] );
 						output.matched.push( output.delimiters[ output.delimiters.length - 1 ] );
 						
 						//add the repeater match
-						push( output.repeaters[ output.repeaters.length - 1 ] );
+						matches.push( output.repeaters[ output.repeaters.length - 1 ] );
 						output.matched.push( output.repeaters[ output.repeaters.length - 1 ] );
 						
 						output.length++;
@@ -304,22 +315,29 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	The scanner this token belongs to.
+		* 	The owner of this token as a scanner.
+		* 
+		* 	If this token does not belong to another scanner
+		* 	this token will return itself to perform a scan.
 		*/
 		public function get scanner():Scanner
 		{
-			return _scanner;
+			if( owner == null )
+			{
+				return this;
+			}
+			return owner as Scanner;
 		}
 		
 		/**
 		* 	@private
 		*/
-		internal function setScanner( scanner:Scanner ):void
+		override internal function setOwner( owner:TokenList ):void
 		{
-			_scanner = scanner;
-			if( block && !block.scanner )
+			super.setOwner( owner );
+			if( block && !block.owner )
 			{
-				block.setScanner( scanner );
+				block.setOwner( owner );
 			}
 		}
 		
@@ -380,19 +398,13 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	Clears all matches stored by this token.
+		* 	Clears all matches stored by this token
+		* 	but does not clear any grammar matches
+		* 	stored by this token.
 		*/
-		public function clear():void
+		override public function clear():void
 		{
-			if( length > 0 )
-			{
-				var i:int = this.length - 1;
-				while( length > 0 )
-				{
-					splice( i, 1 );
-					i--;
-				}
-			}
+			this.matches.splice();
 			matched = null;
 		}
 		
@@ -567,7 +579,7 @@ package com.ffsys.scanner
 		{
 			if( target == null )
 			{
-				target = this;
+				target = matches;
 			}
 			
 			if( target.length == 0 )
@@ -627,6 +639,7 @@ package com.ffsys.scanner
 		override public function compare( candidate:String, tkn:Token ):Boolean
 		{
 			var matches:Boolean = test( candidate );
+			
 			if( matches )
 			{
 				//if( match is String )
@@ -781,12 +794,12 @@ package com.ffsys.scanner
 		*/
 		public function test( candidate:String ):Boolean
 		{
-			var matches:Boolean = false;
+			var matched:Boolean = false;
 			if( candidate != null && match != null )
 			{
-				matches = match.test( candidate );
+				matched = match.test( candidate );
 			}
-			return matches;
+			return matched;
 		}
 		
 		/**
@@ -821,7 +834,7 @@ package com.ffsys.scanner
 			
 			copy.children = children.slice();
 			
-			copy.setScanner( this.scanner );
+			copy.setOwner( this.scanner );
 			
 			//TODO: copy dynamic properties
 			
@@ -845,7 +858,7 @@ package com.ffsys.scanner
 				output += ( /^\s+$/.test( matched ) ? "\\s+" : "'" + matched + "'" );
 				if( length > 1 )
 				{				
-					output += " | [matched(" + length + ")[" + join( "," ) + "]]";
+					output += " | [matched(" + matches.length + ")[" + matches.join( "," ) + "]]";
 				}
 				//if( children.length > 0 )
 				//{

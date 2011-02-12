@@ -1248,46 +1248,46 @@ package com.ffsys.css
 			
 			ruleset.block.name = selector.name;
 			
-			ruleset.block.add( comment );					// 	/* multiline comment */
-			ruleset.block.add( string );					// 	"string" or 'string'
-			ruleset.block.add( declaration );				// 	font-size: 1.2em;
-			ruleset.block.add( ident );
-			ruleset.block.add( expr );						
-			ruleset.block.add( term );
+			ruleset.block.addToken( comment );					// 	/* multiline comment */
+			ruleset.block.addToken( string );					// 	"string" or 'string'
+			ruleset.block.addToken( declaration );				// 	font-size: 1.2em;
+			ruleset.block.addToken( ident );
+			ruleset.block.addToken( expr );						
+			ruleset.block.addToken( term );
 
-			ruleset.block.add( s );						// 	[ \t\n\r\f]
+			ruleset.block.addToken( s );						// 	[ \t\n\r\f]
 			
-			ruleset.block.add( property );					//	font-size
-			ruleset.block.add( prio );						//	!important
+			ruleset.block.addToken( property );					//	font-size
+			ruleset.block.addToken( prio );						//	!important
 			
 			//generic name token
-			ruleset.block.add( name );
+			ruleset.block.addToken( name );
 			
 			//numeric/unit values should be matched in this order
-			ruleset.block.add( angle );
-			ruleset.block.add( frequency );
-			ruleset.block.add( length );
-			ruleset.block.add( time );
-			ruleset.block.add( ems );
-			ruleset.block.add( exs );
-			ruleset.block.add( dimension );
-			ruleset.block.add( percent );
-			ruleset.block.add( num );
+			ruleset.block.addToken( angle );
+			ruleset.block.addToken( frequency );
+			ruleset.block.addToken( length );
+			ruleset.block.addToken( time );
+			ruleset.block.addToken( ems );
+			ruleset.block.addToken( exs );
+			ruleset.block.addToken( dimension );
+			ruleset.block.addToken( percent );
+			ruleset.block.addToken( num );
 			
 			//function expression: method()
-			ruleset.block.add( func );						//	FUNCTION S* expr ')' S*
+			ruleset.block.addToken( func );						//	FUNCTION S* expr ')' S*
 			
 			//operators need to take precedence
-			ruleset.block.add( operator );					//	'/' | ',' | /* empty */
-			ruleset.block.add( unary );					//	'-' | '+'
+			ruleset.block.addToken( operator );					//	'/' | ',' | /* empty */
+			ruleset.block.addToken( unary );					//	'-' | '+'
 			
-			ruleset.block.add( statementend );				//	';'		
-			ruleset.block.add( lbrace );					//	'{'
-			ruleset.block.add( rbrace );					//	'}'
-			ruleset.block.add( lparen );					//	'('
-			ruleset.block.add( rparen );					//	')'
+			ruleset.block.addToken( statementend );				//	';'		
+			ruleset.block.addToken( lbrace );					//	'{'
+			ruleset.block.addToken( rbrace );					//	'}'
+			ruleset.block.addToken( lparen );					//	'('
+			ruleset.block.addToken( rparen );					//	')'
 						
-			ruleset.block.add( char );						//	[^'"]		
+			ruleset.block.addToken( char );						//	[^'"]		
 			
 			trace("[TERM] CssScanner::call()", "2.5em", term.test( "2.5em" ) );
 			trace("[TERM] CssScanner::call()", "url('http://example.com')",
@@ -1333,108 +1333,104 @@ package com.ffsys.css
 			//ORDER IS EXTREMELY IMPORTANT
 			
 			//byte order mark first
-			add( bom );
+			addToken( bom );
 			
 			//code style multiline comment - must be before the operators
-			add( comment );
+			addToken( comment );
 			
 			//match a uri function expression early
-			add( uri );			
+			addToken( uri );			
 			
 			//hexcolor before other hash variants
-			add( hexcolor );
+			addToken( hexcolor );
 			
 			//xml style comments
-			add( blockcomment );
-			add( cdo );
-			add( cdc );
+			addToken( blockcomment );
+			addToken( cdo );
+			addToken( cdc );
 			
 			//unicode range  - must match before ident and unary
-			add( range );
+			addToken( range );
 			
 			//specific at rules before the generic at rule - before the element name match
-			add( charset );				//	@charset
-			add( css );					//	@import
-			add( page );				//	@page
-			add( media );				//	@media
-			add( fontface );			//	@font-face
+			addToken( charset );				//	@charset
+			addToken( css );					//	@import
+			addToken( page );				//	@page
+			addToken( media );				//	@media
+			addToken( fontface );			//	@font-face
 			
 			//namespace
-			add( ns );					//	@namespace
+			addToken( ns );					//	@namespace
 			
-			add( at );					//	@unknown-rule			
+			addToken( at );					//	@unknown-rule			
 			
 			//whitespace token - match after the descendant combinator ' '
-			add( s );
+			addToken( s );
 			
 			//operators need to take precedence
-			add( operator );			//	'/' | ','
-			add( unary );				//	'-' | '+'			
+			addToken( operator );			//	'/' | ','
+			addToken( unary );				//	'-' | '+'			
 			
-			add( string );
+			addToken( string );
 			
 			//match {baduri} before {ident}
-			add( badUri );
+			addToken( badUri );
 			
 			//includes operator ~=
-			add( includes );
+			addToken( includes );
 			
 			//dashmatch operator |=
-			add( dashmatch );
+			addToken( dashmatch );
 			
 			//prefixmatch operator ^=
-			add( prefixmatch );
+			addToken( prefixmatch );
 			
 			//suffixmatch operator $=
-			add( suffixmatch );
+			addToken( suffixmatch );
 			
 			//substringmatch operator *=
-			add( substringmatch );	
+			addToken( substringmatch );	
 	
-			add( statementend );			
-			add( lbrace );
-			add( rbrace );
-			add( lparen );
-			add( rparen );	
+			addToken( statementend );			
+			addToken( lbrace );
+			addToken( rbrace );
+			addToken( lparen );
+			addToken( rparen );	
 			
 			//combinator before selectors
-			add( combinator );			//	'+' | '>' | '~' | ' '
+			addToken( combinator );			//	'+' | '>' | '~' | ' '
 			
 			//ruleset + selectors
-			add( ruleset );
-			add( selector );
-			add( simpleSelector );
+			addToken( ruleset );
+			addToken( selector );
+			addToken( simpleSelector );
 			
 			//hash identifier							//	'#'{name}		#tagid
-			//add( hash );
+			//addToken( hash );
 			//ident based
-			//add( clazz );								//	'.'{ident}		.class
+			//addToken( clazz );								//	'.'{ident}		.class
 			//attribute match
-			//add( attrib );							//					[href]
-			//add( attriboperator );					//					[lang=en]
+			//addToken( attrib );							//					[href]
+			//addToken( attriboperator );					//					[lang=en]
 			//pseudo class selector
-			//add( pseudo );							//	':'{ident}		:link	
+			//addToken( pseudo );							//	':'{ident}		:link	
 			
 			//element name								//	'*' | {ident}	*, h1, tagname
-			add( element );
+			addToken( element );
 			
 			//namespace prefix			//must be after elementname
-			add( nsprefix );			//	nsprefix|tag
+			addToken( nsprefix );			//	nsprefix|tag
 
-			//add( ident );	
+			//addToken( ident );	
 			
 			//match bad comments after good ones
-			add( badComment ); 
+			addToken( badComment ); 
 			
-			add( badString );
+			addToken( badString );
 			
 			//final catch all char
-			add( char );
-			
-			//REGISTRY ENTRIES
-			
-			//atrtibute child matches
-			//add( attribnameident, registry );
+			addToken( char );
+
 		}
 		
 		/**
