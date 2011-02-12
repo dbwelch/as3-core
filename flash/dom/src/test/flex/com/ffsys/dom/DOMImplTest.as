@@ -1,5 +1,6 @@
 package com.ffsys.dom
 {
+
 	public class DOMImplTest extends AbstractDomUnit
 	{
 	
@@ -15,3 +16,4 @@ package com.ffsys.dom
 		}
 	}
 }
+

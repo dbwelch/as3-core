@@ -1,4 +1,4 @@
-package org.w3c.grammar
+package org.w3c.css
 {
 	import com.ffsys.scanner.*;
 	
