@@ -585,6 +585,45 @@
 		</xsl:if>
 	</xsl:template>
 	
+	<xsl:template name="undocumented-types">
+		
+		<xsl:call-template name="chapter">
+			<xsl:with-param name="title" select="'Undocumented'"/>
+			<xsl:with-param name="label" select="'undocumented'"/>
+		</xsl:call-template>
+		
+		<xsl:call-template name="start-itemize" />
+		
+		<!-- @param_types -->
+		
+		<xsl:for-each-group
+				select="//method" group-by="@result_type">
+				<xsl:sort select="current-grouping-key()" />
+
+					<xsl:variable name="toplevel-match"
+							select="$toplevel//classRec[@fullname = current-grouping-key()] | $toplevel//interfaceRec[@fullname = current-grouping-key()]" />
+				
+					<xsl:if test="count($toplevel-match) = 0">
+						<xsl:text>\item \phantomsection</xsl:text>
+						<xsl:call-template name="label">
+							<xsl:with-param name="title" select="current-grouping-key()" />
+						</xsl:call-template>
+						<xsl:text> </xsl:text>
+						<xsl:call-template name="nameref">
+							<xsl:with-param name="input" select="current-grouping-key()" />
+						</xsl:call-template>
+						<xsl:text> -- </xsl:text>
+						<xsl:call-template name="sanitize">
+							<xsl:with-param name="input" select="current-grouping-key()" />
+						</xsl:call-template>
+						<xsl:value-of select="$newline" />
+					</xsl:if>
+
+		</xsl:for-each-group>
+		
+		<xsl:call-template name="end-itemize" />
+	</xsl:template>
+	
 	<xsl:template name="appendix">
 		<xsl:variable name="classes" select="$toplevel//classRec" />
 		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />
@@ -597,6 +636,7 @@
 		<xsl:call-template name="todo-appendix" />
 		<xsl:call-template name="bug-appendix" />
 		<xsl:call-template name="process-link-report" />
+		<xsl:call-template name="undocumented-types" />
 		
 		<!-- CUSTOM APPENDICES FIRST -->
 		
