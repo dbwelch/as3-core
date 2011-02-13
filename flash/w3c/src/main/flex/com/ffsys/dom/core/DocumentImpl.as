@@ -378,6 +378,18 @@ package com.ffsys.dom.core
 			return element;
 		}
 		
+		/*
+		
+		NAMESPACE_ERR: Raised if the qualifiedName is a malformed qualified name,
+		if the qualifiedName has a prefix and the namespaceURI is null,
+		or if the qualifiedName has a prefix that is "xml" and the
+		namespaceURI is different from "http://www.w3.org/XML/1998/namespace"
+		[XML Namespaces] , or if the qualifiedName or its prefix is "xmlns"
+		and the namespaceURI is different from "http://www.w3.org/2000/xmlns/",
+		or if the namespaceURI is "http://www.w3.org/2000/xmlns/" and neither
+		the qualifiedName nor its prefix is "xmlns".
+		*/
+		
 		/**
 		* 	@inheritDoc
 		*/
@@ -385,6 +397,15 @@ package com.ffsys.dom.core
 			namespaceURI:String, qualifiedName:String ):Element
 		{
 			var element:Element = null;
+			
+			if( implementation != null
+				&& !implementation.hasFeature( DOMFeature.XML_MODULE, null ) )
+			{
+				throw new DOMExceptionImpl(
+					DOMExceptionImpl.NOT_SUPPORTED_ERR,
+					DOMExceptionImpl.UNSUPPORTED_FEATURE_MODULE_MSG,
+					[ DOMFeature.XML_MODULE ] );
+			}
 			
 			if( !XMLGrammar.isValidXMLName( qualifiedName ) )
 			{

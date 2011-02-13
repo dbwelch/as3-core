@@ -1771,7 +1771,12 @@
 	</xsl:template>
 	
 	<xsl:template name="start-itemize">
-		<xsl:text>\begin{itemize}</xsl:text>
+		<xsl:text>\begin{itemize*}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="start-enumerate">
+		<xsl:text>\begin{enumerate*}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
@@ -1817,9 +1822,14 @@
 	</xsl:template>
 	
 	<xsl:template name="end-itemize">
-		<xsl:text>\end{itemize}</xsl:text>
+		<xsl:text>\end{itemize*}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>
+	
+	<xsl:template name="end-enumerate">
+		<xsl:text>\end{enumerate*}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>	
 	
 	<xsl:template name="chapter">
 		<xsl:param name="title" />
@@ -2480,8 +2490,12 @@
 			<xsl:call-template name="start-paragraph" />
 		</xsl:if>
 		
-		<xsl:if test="matches($input,'^ul|ol$')">
+		<xsl:if test="matches($input,'^ul$')">
 			<xsl:call-template name="start-itemize" />
+		</xsl:if>
+		
+		<xsl:if test="matches($input,'^ol$')">
+			<xsl:call-template name="start-enumerate" />
 		</xsl:if>
 		
 		<xsl:if test="matches($input,'^li$')">
@@ -2512,8 +2526,12 @@
 			<xsl:value-of select="$default-output" />
 		</xsl:if>			
 		
-		<xsl:if test="matches($input,'^ul|ol$')">
+		<xsl:if test="matches($input,'^ul$')">
 			<xsl:call-template name="end-itemize" />
+		</xsl:if>
+		
+		<xsl:if test="matches($input,'^ol$')">
+			<xsl:call-template name="end-enumerate" />
 		</xsl:if>	
 		
 		<xsl:if test="matches($input,'^pre$')">
@@ -3025,6 +3043,7 @@
 \usepackage[parfill]{parskip} 
 \usepackage{graphicx} 
 \usepackage{bookmark}
+\usepackage{mdwlist}
 \usepackage{amssymb} 
 \usepackage{epstopdf} 
 \usepackage{makeidx}

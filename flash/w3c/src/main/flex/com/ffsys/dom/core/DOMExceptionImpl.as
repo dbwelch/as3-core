@@ -115,7 +115,13 @@ package com.ffsys.dom.core
 		*/
 		static public const INVALID_XML_NAME_MSG:String
 			= "The XML name '%s' is invalid.";
-		
+			
+		/**
+		* 	A message for when an XML name is invalid.
+		*/
+		static public const UNSUPPORTED_FEATURE_MODULE_MSG:String
+			= "The feature '%s' is not supported.";
+			
 		/**
 		* 	Creates a <code>DOMExceptionImpl</code> instance.
 		* 
