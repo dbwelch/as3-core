@@ -58,6 +58,11 @@ package com.ffsys.dom
 			var doc:Document = impl.createDocument( null, "html", doctype );
 			Assert.assertNotNull( doc );
 			Assert.assertTrue( doc.documentElement is Element );
+
+			Assert.assertEquals( "html", doc.documentElement.tagName );
+			Assert.assertNull( doc.documentElement.localName );
+			Assert.assertNull( doc.documentElement.namespaceURI );
+			Assert.assertNull( doc.documentElement.prefix );			
 			
 			_document = doc;	
 			
@@ -65,11 +70,11 @@ package com.ffsys.dom
 		}
 		
 		/**
-		* 	Test for the error thrown when attempting to
-		* 	create an element with an invalid qualified name.
+		* 	Test for the error thrown when attempting to call
+		* 	createElementNS() with an invalid qualified name.
 		*/
 		[Test(expects="com.ffsys.dom.core.DOMExceptionImpl")]
-		public function testInvalidXmlElementName():void
+		public function testInvalidXmlElementNameCreateElementNS():void
 		{
 			var doc:Document = getDocument();	
 			var elem:Element = doc.createElementNS(
@@ -77,22 +82,30 @@ package com.ffsys.dom
 					+ String.fromCharCode( 0x037E ) );
 		}
 		
-		[Test]
-		public function xmlDocumentCreationTest():void
+		/**
+		* 	Test for the error thrown when attempting to call
+		* 	createElement() with an invalid tag name.
+		*/
+		[Test(expects="com.ffsys.dom.core.DOMExceptionImpl")]
+		public function testInvalidXmlElementNameCreateElement():void
 		{
 			var doc:Document = getDocument();	
-			
-			Assert.assertEquals( "html", doc.documentElement.tagName );
-			Assert.assertNull( doc.documentElement.localName );
-			Assert.assertNull( doc.documentElement.namespaceURI );
-			Assert.assertNull( doc.documentElement.prefix );
+			var elem:Element = doc.createElement(
+				"button" + String.fromCharCode( 0x037E ) );
+		}
+		
+		[Test]
+		public function testCreateElement():void
+		{
+			var doc:Document = getDocument();	
 			
 			//create an element
 			var elem:Element = doc.createElement( "head" );
 			Assert.assertNotNull( elem );
-			
-			trace("[GOT XML IMPL] DomTest::xmlDocumentCreationTest()",
-				doc, doc.documentElement, doc.documentElement.tagName );
+			Assert.assertEquals( "head", elem.nodeName );
+			Assert.assertNull( elem.localName );
+			Assert.assertNull( elem.namespaceURI );
+			Assert.assertNull( elem.prefix );
 		}
 	}
 }

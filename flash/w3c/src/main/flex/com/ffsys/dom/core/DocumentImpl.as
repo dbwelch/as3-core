@@ -351,6 +351,15 @@ package com.ffsys.dom.core
 		public function createElement( tagName:String ):Element
 		{
 			var element:Element = null;
+			
+			if( !XMLGrammar.isValidXMLName( tagName ) )
+			{
+				throw new DOMExceptionImpl(
+					DOMExceptionImpl.INVALID_CHARACTER_ERR,
+					DOMExceptionImpl.INVALID_XML_NAME_MSG,
+					[ tagName ] );
+			}
+			
 			try
 			{
 				//TODO: handle namespace prefixes when looking via bean document
