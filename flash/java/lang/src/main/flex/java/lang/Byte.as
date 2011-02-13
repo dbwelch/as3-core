@@ -1,7 +1,10 @@
 package java.lang
 {
 	import flash.utils.ByteArray;
-
+	
+	/**
+	* 	
+	*/
 	public class Byte extends Object
 	{
 		
