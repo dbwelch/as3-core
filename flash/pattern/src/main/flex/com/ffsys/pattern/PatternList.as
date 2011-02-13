@@ -1,6 +1,7 @@
 package com.ffsys.pattern
 {
-	import com.ffsys.dom.*;
+	import com.ffsys.dom.core.*;
+	import org.w3c.dom.*;
 	
 	/**
 	* 	Represents a collection of patterns.
@@ -11,7 +12,7 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/
-	dynamic public class PatternList extends Element
+	dynamic public class PatternList extends ElementImpl
 	{
 		/**
 		* 	The delimiter used to mark the

@@ -6,7 +6,7 @@ package com.ffsys.dom
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.net.sax.*;
+	import com.ffsys.net.asax.*;
 
 	import com.ffsys.dom.core.*;
 	import com.ffsys.dom.xhtml.*;	

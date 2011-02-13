@@ -35,7 +35,7 @@
 		<module>io</module>
 		<module>ioc</module>
 		<module>net</module>
-		<module>pattern</module>
+		<!-- <module>pattern</module> -->
 		<module>scanner</module>
 		<module>swat</module>
 		<module>ui</module>

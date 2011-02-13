@@ -1,6 +1,6 @@
 package com.ffsys.dom.core.support
 {
-	import com.ffsys.net.sax.*;
+	import com.ffsys.net.asax.*;
 	import com.ffsys.ioc.support.xml.BeanSaxParser;
 
 	import com.ffsys.ioc.*;	

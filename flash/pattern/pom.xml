@@ -20,11 +20,11 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>org.w3c.dom</groupId>
 			<artifactId>dom</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>		
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
