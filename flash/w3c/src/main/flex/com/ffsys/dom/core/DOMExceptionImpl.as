@@ -111,6 +111,12 @@ package com.ffsys.dom.core
 		static public const	TYPE_MISMATCH_ERR:uint = 17;
 		
 		/**
+		* 	A message for when an XML name is invalid.
+		*/
+		static public const INVALID_XML_NAME_MSG:String
+			= "The XML name '%s' is invalid.";
+		
+		/**
 		* 	Creates a <code>DOMExceptionImpl</code> instance.
 		* 
 		* 	@param code The exception code.

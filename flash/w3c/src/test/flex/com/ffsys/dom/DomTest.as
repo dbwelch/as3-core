@@ -17,6 +17,8 @@ package com.ffsys.dom
 	public class DomTest extends Object
 	{
 		
+		private var _document:Document;
+		
 		/**
 		*	Creates a <code>DomTest</code> instance.
 		*/ 
@@ -25,9 +27,16 @@ package com.ffsys.dom
 			super();
 		}
 		
-		[Test]
-		public function xmlDocumentCreationTest():void
-		{	
+		/**
+		* 	Creates a document
+		*/
+		protected function getDocument():Document
+		{
+			if( _document != null )
+			{
+				return _document;
+			}
+			
 			//create the bean document for bootstrap
 			var beans:IBeanDocument = new DOMBootstrap();
 			
@@ -46,14 +55,41 @@ package com.ffsys.dom
 			Assert.assertNotNull( doctype );
 			
 			//create a plain xml document implementation
-			var doc:Document = impl.createDocument( null, "rootElement", doctype );
+			var doc:Document = impl.createDocument( null, "html", doctype );
 			Assert.assertNotNull( doc );
 			Assert.assertTrue( doc.documentElement is Element );
 			
-			Assert.assertEquals( "rootElement", doc.documentElement.tagName );
+			_document = doc;	
+			
+			return _document;		
+		}
+		
+		/**
+		* 	Test for the error thrown when attempting to
+		* 	create an element with an invalid qualified name.
+		*/
+		[Test(expects="com.ffsys.dom.core.DOMExceptionImpl")]
+		public function testInvalidXmlElementName():void
+		{
+			var doc:Document = getDocument();	
+			var elem:Element = doc.createElementNS(
+				null, "fluid:button"
+					+ String.fromCharCode( 0x037E ) );
+		}
+		
+		[Test]
+		public function xmlDocumentCreationTest():void
+		{
+			var doc:Document = getDocument();	
+			
+			Assert.assertEquals( "html", doc.documentElement.tagName );
 			Assert.assertNull( doc.documentElement.localName );
 			Assert.assertNull( doc.documentElement.namespaceURI );
 			Assert.assertNull( doc.documentElement.prefix );
+			
+			//create an element
+			var elem:Element = doc.createElement( "head" );
+			Assert.assertNotNull( elem );
 			
 			trace("[GOT XML IMPL] DomTest::xmlDocumentCreationTest()",
 				doc, doc.documentElement, doc.documentElement.tagName );

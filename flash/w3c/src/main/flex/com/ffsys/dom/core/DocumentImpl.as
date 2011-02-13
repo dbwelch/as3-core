@@ -3,7 +3,9 @@ package com.ffsys.dom.core
 	import flash.display.*;
 	
 	import com.ffsys.ioc.*;
+	
 	import org.w3c.dom.*;
+	import org.w3c.xml.*;
 	
 	import com.ffsys.dom.ioc.*;
 	
@@ -373,13 +375,28 @@ package com.ffsys.dom.core
 		public function createElementNS( 
 			namespaceURI:String, qualifiedName:String ):Element
 		{
-			if( namespaceURI == null )
+			var element:Element = null;
+			
+			if( !XMLGrammar.isValidXMLName( qualifiedName ) )
 			{
-				return createElement( qualifiedName );
+				throw new DOMExceptionImpl(
+					DOMExceptionImpl.INVALID_CHARACTER_ERR,
+					DOMExceptionImpl.INVALID_XML_NAME_MSG,
+					[ qualifiedName ] );
 			}
 			
-			var element:Element = Element( getDomBean(
-				qualifiedName, null, namespaceURI ) );
+			try
+			{
+				element = Element( getDomBean(
+					qualifiedName, null, namespaceURI ) );
+			}catch( e:Error )
+			{
+				//no specific bean declared for the element
+			}finally{
+				element = new ElementImpl(
+					new QName( namespaceURI, qualifiedName ) );
+			}
+			
 			NodeImpl( element ).setNamespaceURI( namespaceURI );
 			return element;
 		}
