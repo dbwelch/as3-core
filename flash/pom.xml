@@ -35,7 +35,7 @@
 		<module>io</module>
 		<module>ioc</module>
 		<module>net</module>
-		<module>pattern</module>
+		<!-- <module>pattern</module> -->
 		<module>scanner</module>
 		<module>swat</module>
 		<module>ui</module>
@@ -183,6 +183,10 @@
 												<value>${api.docs.title}</value>
 											</parameter>
 											<parameter>
+												<name>sub-title</name>
+												<value>${api.docs.sub.title}</value>
+											</parameter>											
+											<parameter>
 												<name>author</name>
 												<value>${api.docs.author}</value>
 											</parameter>																
@@ -197,6 +201,14 @@
 											<parameter>
 												<name>link-report-path</name>
 												<value>../${project.build.finalName}-link-report.xml</value>
+											</parameter>
+											<parameter>
+												<name>link-source-directory</name>
+												<value>${api.docs.link.source.directory}</value>
+											</parameter>
+											<parameter>
+												<name>build-product</name>
+												<value>${project.build.finalName}.${project.packaging}</value>
 											</parameter>
 										</parameters>
 									</transformationSet>

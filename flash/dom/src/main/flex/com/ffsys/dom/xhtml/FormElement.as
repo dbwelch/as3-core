@@ -1,6 +1,6 @@
 package com.ffsys.dom.xhtml
 {
-	import com.ffsys.dom.Element;
+	import com.ffsys.dom.core.Element;
 	
 	/**
 	*	Represents a form, the <code>form</code> element.

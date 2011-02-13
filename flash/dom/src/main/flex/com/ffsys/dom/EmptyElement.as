@@ -13,6 +13,6 @@ package com.ffsys.dom
 	*/
 	public interface EmptyElement
 	{
-		
+		//
 	}
 }

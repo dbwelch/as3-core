@@ -1,7 +1,7 @@
 package com.ffsys.ioc.support.xml
 {
 	import com.ffsys.ioc.*;
-	import com.ffsys.net.sax.*;
+	import com.ffsys.net.asax.*;
 	
 	public class BeanSaxParser extends SaxObjectParser
 	{

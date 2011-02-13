@@ -1817,7 +1817,7 @@ package com.ffsys.pattern
 		*/
 		public function get grouping():Boolean
 		{
-			return patterns.length > 0
+			return length > 0
 				&& __group.test( firstChild.toString() );
 		}
 		
@@ -1837,7 +1837,7 @@ package com.ffsys.pattern
 			close:Boolean = false ):Pattern
 		{
 			var grp:Pattern = new Pattern();
-			grp.add( OPEN_GROUP );
+			grp.appendChild( OPEN_GROUP );
 			if( contents != null )
 			{
 				//TODO
@@ -1845,7 +1845,7 @@ package com.ffsys.pattern
 			}
 			if( close === true )
 			{
-				grp.add( CLOSE_GROUP );
+				grp.appendChild( CLOSE_GROUP );
 			}
 			return grp;
 		}
@@ -1934,7 +1934,7 @@ package com.ffsys.pattern
 					{
 						continue;
 					}
-					output.add( ptn );
+					output.appendChild( ptn );
 				}
 				return output;
 			}
@@ -2280,8 +2280,8 @@ package com.ffsys.pattern
 				if( results == null )
 				{
 					ptn = new Pattern( _compiled );
-					parentTarget.add( ptn );
-					parts.add( ptn );
+					parentTarget.appendChild( ptn );
+					parts.appendChild( ptn );
 					return target;
 				}
 				
@@ -2319,7 +2319,7 @@ package com.ffsys.pattern
 						//to a pattern used to represent the entire
 						//group contents
 						current = new Pattern( ptn.source );
-						current.add( ptn );
+						current.appendChild( ptn );
 						current.setOpen( true );
 						ptn = current;
 					}else
@@ -2485,7 +2485,7 @@ package com.ffsys.pattern
 				}
 			}
 			
-			parent.add( ptn );
+			parent.appendChild( ptn );
 			if( part )
 			{
 				addCompilationPart( ptn );
@@ -2499,7 +2499,7 @@ package com.ffsys.pattern
 		internal function addCompilationPart(
 			ptn:Pattern ):Pattern
 		{
-			parts.add( ptn );
+			parts.appendChild( ptn );
 			return parts;
 		}
 		
@@ -2772,8 +2772,8 @@ package com.ffsys.pattern
 					{
 						//convert plain patterns to groups
 						grp = new Pattern();
-						grp.add( new Pattern( LPAREN ) );	
-						grp.add( ptn );
+						grp.appendChild( new Pattern( LPAREN ) );	
+						grp.appendChild( ptn );
 						
 						//look ahead and swallow non-group patterns
 						while( ++i < targets.length )
@@ -2789,17 +2789,17 @@ package com.ffsys.pattern
 							if( next.range )
 							{
 								//trace("[FOUND RANGE ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );
-								grp.add( new Pattern( RPAREN ) );
-								grp.add( new Pattern( LPAREN ) );
-								grp.add( next );					
+								grp.appendChild( new Pattern( RPAREN ) );
+								grp.appendChild( new Pattern( LPAREN ) );
+								grp.appendChild( next );					
 							}else
 							{
-								grp.add( next );
+								grp.appendChild( next );
 								//trace("[FOUND QUANTIFIER/CHUNK ADD TO PREVIOUS] Pattern::explode()", next, ptn, grp );								
 							}
 						}
-						grp.add( new Pattern( RPAREN ) );
-						output.add( grp );
+						grp.appendChild( new Pattern( RPAREN ) );
+						output.appendChild( grp );
 					}
 				}
 			}
@@ -2835,7 +2835,7 @@ package com.ffsys.pattern
 				
 				if( requiresGroup )
 				{
-					output.add( new Pattern( LPAREN ) );
+					output.appendChild( new Pattern( LPAREN ) );
 				}
 				
 				//create a group to encapsulate
@@ -2844,10 +2844,10 @@ package com.ffsys.pattern
 				
 				//double the opening group so we maintain
 				//the original grouping
-				tmp.add( new Pattern( LPAREN ) );
+				tmp.appendChild( new Pattern( LPAREN ) );
 				
 				//add the positional group to the output
-				output.add( tmp );
+				output.appendChild( tmp );
 				
 				for( ;i < l;i++ )
 				{
@@ -2899,12 +2899,12 @@ package com.ffsys.pattern
 					}
 					
 					//add the part to the extracted group
-					tmp.add( ptn );	
+					tmp.appendChild( ptn );	
 				}
 			}
 			
 			//close the temp group
-			tmp.add( new Pattern( RPAREN ) );
+			tmp.appendChild( new Pattern( RPAREN ) );
 					
 			if( i < ( l - 1 ) )
 			{
@@ -2928,7 +2928,7 @@ package com.ffsys.pattern
 			
 			if( requiresGroup )
 			{
-				output.add( new Pattern( RPAREN ) );
+				output.appendChild( new Pattern( RPAREN ) );
 			}
 			return tmp;
 		}				

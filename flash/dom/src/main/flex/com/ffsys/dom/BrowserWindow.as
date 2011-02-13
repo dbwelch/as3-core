@@ -1,5 +1,7 @@
 package com.ffsys.dom
 {	
+	import com.ffsys.dom.core.*;	
+	
 	/**
 	*	Represents the top-level <code>window</code> object.
 	*

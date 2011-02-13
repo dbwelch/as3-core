@@ -1,6 +1,7 @@
 package com.ffsys.pattern
 {
-	import com.ffsys.dom.*;
+	import com.ffsys.dom.core.*;
+	import org.w3c.dom.*;
 	
 	/**
 	* 	Represents a collection of patterns.
@@ -11,7 +12,7 @@ package com.ffsys.pattern
 	*	@author Mischa Williamson
 	*	@since  01.03.2011
 	*/
-	dynamic public class PatternList extends Element
+	dynamic public class PatternList extends ElementImpl
 	{
 		/**
 		* 	The delimiter used to mark the
@@ -242,16 +243,19 @@ package com.ffsys.pattern
 		*/
 		public function get owner():PatternList
 		{
-			return _owner;
+			return PatternList( parentNode );
 		}
 		
 		/**
 		* 	@private
 		*/
+		
+		/*
 		internal function setOwner( owner:PatternList ):void
 		{
 			_owner = owner;
 		}
+		*/
 		
 		/**
 		* 	The index of this pattern in the context
@@ -316,16 +320,16 @@ package com.ffsys.pattern
 		* 
 		* 	@return Whether the part was added.
 		*/
-		public function add( part:Pattern ):Boolean
+		override public function appendChild( part:Node ):Node
 		{
 			if( part != null )
 			{
-				part.setOwner( this as Pattern );
-				part.setIndex( patterns.length );
-				patterns.push( part );
-				return true;
+				//part.setOwner( this as Pattern );
+				//part.setIndex( patterns.length );
+				//patterns.push( part );
+				//return true;
 			}
-			return false;
+			return super.appendChild( part );
 		}
 		
 		/**
@@ -387,7 +391,8 @@ package com.ffsys.pattern
 		public function get results():Array
 		{
 			//TODO: move to composite vector
-			return slice();
+			//return slice();
+			return null;
 		}
 		
 		/**
@@ -441,11 +446,16 @@ package com.ffsys.pattern
 		*/
 		public function get patterns():Vector.<Pattern>
 		{
-			if( _patterns == null )
+			var output:Vector.<Pattern> = new Vector.<Pattern>();
+			var node:Node =  null;
+			for each( node in this )
 			{
-				_patterns = new Vector.<Pattern>();
+				if( node is Pattern )
+				{
+					output.push( Pattern( node ) );
+				}
 			}
-			return _patterns;
+			return output;
 		}
 		
 		/**

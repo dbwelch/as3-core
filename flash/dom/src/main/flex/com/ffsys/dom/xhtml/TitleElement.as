@@ -1,6 +1,7 @@
 package com.ffsys.dom.xhtml
 {
-	import com.ffsys.dom.*;
+	import com.ffsys.dom.*;	
+	import com.ffsys.dom.core.Element;
 	
 	/**
 	*	Represents the title of a document, the <code>title</code> element.

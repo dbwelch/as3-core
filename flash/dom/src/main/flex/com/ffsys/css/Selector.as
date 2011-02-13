@@ -1,6 +1,6 @@
 package com.ffsys.css
 {
-	import com.ffsys.dom.*;	
+	import com.ffsys.dom.core.*;	
 	
 	/**
 	* 	Represents a <code>CSS</code> selector.
@@ -23,6 +23,8 @@ package com.ffsys.css
 		* 	a expression contains attribute selector filters.
 		*/
 		public static const ATTRIBUTE_SELECTOR:RegExp = /\[([^\]]+)\]/g;
+		
+		//TODO: proxy from CSS3Grammar
 		
 		/**
 		* 	The delimiter between multiple selectors.

@@ -1,6 +1,7 @@
 package com.ffsys.css
 {
-	import com.ffsys.dom.Element;
+	import com.ffsys.dom.*;	
+	import com.ffsys.dom.core.Element;
 	
 	
 	dynamic public class StyleElement extends Element

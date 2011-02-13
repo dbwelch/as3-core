@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ifn="urn:internal:functions" version="2.0" exclude-result-prefixes="saxon xs ifn">
+<xsl:stylesheet
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:ifn="urn:internal:functions"
+		xmlns:saxon="http://saxon.sf.net/"
+		xmlns:date="http://exslt.org/dates-and-times"
+		version="2.0"
+		exclude-result-prefixes="saxon xs ifn date">
 	<xsl:character-map name="disable">
 		<xsl:output-character character="&amp;" string="&amp;"/>
 		<xsl:output-character character="&lt;" string="&lt;"/>
@@ -15,9 +22,11 @@
 	</xsl:character-map>
 	<xsl:output method="text" encoding="UTF-8" omit-xml-declaration="yes" use-character-maps="disable" indent="no"/>
 	<xsl:param name="page-header-left" select="'Freeform Systems'"/>
-	<xsl:param name="page-header-right" select="'API Documentation'"/>
-	<xsl:param name="title" select="'Actionscript Documentation'" />
-	<xsl:param name="author" select="'Mischa Williamson'" />
+	<xsl:param name="page-header-right" select="''"/>
+	<xsl:param name="title" select="''" />
+	<xsl:param name="sub-title" select="''" />
+	<xsl:param name="author" select="''" />
+	<xsl:param name="date" select="''" />
 	
 	<xsl:param name="dita-dir" select="'tempdita'"/>
 	<xsl:param name="delimiter" select="system-property('file.separator')"/>
@@ -30,6 +39,9 @@
 	<xsl:param name="protected-properties-xref-id" select="':protected:properties'" />
 	<xsl:param name="include-class-meta" select="false()" />
 	<xsl:param name="link-report-path" select="''" />
+	<xsl:param name="link-source-directory" select="''" />
+	<xsl:param name="link-report" select="document($link-report-path)" />
+	<xsl:param name="build-product" select="''" />
 	<xsl:param name="end-tag" select="'}'" />
 	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
@@ -53,6 +65,12 @@
 	<xsl:template match="/">
 
 		<xsl:call-template name="header" />
+		
+		<!-- PACKAGE PART DECLARATION -->
+		<xsl:call-template name="part">
+			<xsl:with-param name="title" select="'Packages'"/>
+			<xsl:with-param name="label" select="'packages'"/>
+		</xsl:call-template>
 	
 		<!--  PACKAGES-->
 		<xsl:for-each select="$packages//apiItemRef">
@@ -76,7 +94,7 @@
 			<xsl:text>\rhead{}</xsl:text>
 			
 			<!-- PACKAGE PART DECLARATION -->
-			<xsl:call-template name="part">
+			<xsl:call-template name="chapter">
 				<xsl:with-param name="title" select="$package-id"/>
 				<xsl:with-param name="label" select="$package-id"/>
 			</xsl:call-template>
@@ -365,26 +383,274 @@
 		</xsl:call-template>
 	</xsl:template>
 	
-	<xsl:template name="appendix">
+	<xsl:template name="todo-list">
+		<xsl:param name="todos" select="''" />
+		<xsl:call-template name="start-itemize" />
+		<xsl:for-each select="$todos">
+			
+			<xsl:variable name="sanitized">
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="." />
+				</xsl:call-template>
+			</xsl:variable>
+			
+			<xsl:text>\item </xsl:text>
+			
+			<!-- the label name -->
+			<xsl:variable name="lname" select="../@fullname" />
+			<xsl:call-template name="nameref">
+				<xsl:with-param name="input" select="$lname" />
+			</xsl:call-template>
+			<xsl:text> -- </xsl:text>
+			<xsl:value-of select="$sanitized" />
+		</xsl:for-each>
+		<xsl:call-template name="end-itemize" />
+	</xsl:template>
+	
+	<xsl:template name="bug-appendix">
+		<xsl:param name="todos" select="$toplevel//bug" />
+		<xsl:if test="count($todos) &gt; 0">
+			<xsl:call-template name="chapter">
+				<xsl:with-param name="title" select="'Bugs'"/>
+				<xsl:with-param name="label" select="'bugs'"/>				
+			</xsl:call-template>
+			
+			<xsl:variable name="class-bugs" select="$toplevel//classRec//bug" />
+			<xsl:if test="count($class-bugs) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Class Bugs'"/>
+					<xsl:with-param name="label" select="'class:bugs'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$class-bugs" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="interface-bugs" select="$toplevel//interfaceRec//bug" />
+			<xsl:if test="count($interface-bugs) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Interface Bugs'"/>
+					<xsl:with-param name="label" select="'interface:bugs'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$interface-bugs" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="method-bugs" select="$toplevel//method//bug" />
+			<xsl:if test="count($method-bugs) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Member Bugs'"/>
+					<xsl:with-param name="label" select="'member:bugs'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$method-bugs" />
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="todo-appendix">
+		<xsl:param name="todos" select="$toplevel//todo" />
+		<xsl:if test="count($todos) &gt; 0">
+			<xsl:call-template name="chapter">
+				<xsl:with-param name="title" select="'Todo'"/>
+				<xsl:with-param name="label" select="'todo'"/>				
+			</xsl:call-template>
+			
+			<xsl:variable name="class-todos" select="$toplevel//classRec//todo" />
+			<xsl:if test="count($class-todos) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Class Todo'"/>
+					<xsl:with-param name="label" select="'class:todo'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$class-todos" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="interface-todos" select="$toplevel//interfaceRec//todo" />
+			<xsl:if test="count($interface-todos) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Interface Todo'"/>
+					<xsl:with-param name="label" select="'interface:todo'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$interface-todos" />
+				</xsl:call-template>
+			</xsl:if>
+			
+			<xsl:variable name="method-todos" select="$toplevel//method//todo" />
+			<xsl:if test="count($method-todos) &gt; 0">
+				<xsl:call-template name="section">
+					<xsl:with-param name="title" select="'Member Todo'"/>
+					<xsl:with-param name="label" select="'member:todo'"/>
+				</xsl:call-template>
+				<xsl:call-template name="todo-list">
+					<xsl:with-param name="todos" select="$method-todos" />
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="last-modified">
+		<xsl:param name="input" select="''" />
+		<!-- <xsl:param name="dt" select="xs:date($input)" /> -->
+		<xsl:value-of select="$input" />
+	</xsl:template>
+	
+	<xsl:template name="process-link-report">
+		<xsl:if test="$link-report-path != ''">
+			<xsl:variable name="scripts" select="$link-report//script" />
+			
+			<xsl:call-template name="chapter">
+				<xsl:with-param name="title" select="'Link Report'"/>
+				<xsl:with-param name="label" select="'link:report'"/>
+			</xsl:call-template>
+			
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'Summary'"/>
+				<xsl:with-param name="label" select="'link:report:summary'"/>
+			</xsl:call-template>
+			
+			<xsl:call-template name="start-itemize" />
+			
+			<xsl:if test="$build-product != ''">
+				<xsl:text>\item Build Product: </xsl:text>
+				<xsl:value-of select="$build-product" />
+				<xsl:value-of select="$newline" />
+			</xsl:if>
+			
+			<xsl:text>\item Total Files: </xsl:text>
+			<xsl:value-of select="count($scripts)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Packages: </xsl:text>
+			<xsl:value-of select="count($packages//apiItemRef)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Classes: </xsl:text>
+			<xsl:value-of select="count($toplevel//classRec)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Interfaces: </xsl:text>
+			<xsl:value-of select="count($toplevel//interfaceRec)" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Total bytes: </xsl:text>
+			<xsl:value-of select="concat(sum($scripts//@size),' bytes')" />
+			<xsl:value-of select="$newline" />
+			<xsl:text>\item Compressed bytes: </xsl:text>
+			<xsl:value-of select="concat(sum($scripts//@optimizedsize),' bytes')" />
+			<xsl:value-of select="$newline" />
+			
+			<xsl:call-template name="end-itemize" />
+			
+			<!-- MAIN FILE LISTING -->
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'Files'"/>
+				<xsl:with-param name="label" select="'link:report:files'"/>
+			</xsl:call-template>
+			<xsl:call-template name="start-itemize" />
+			<xsl:for-each select="$scripts">
+				<xsl:sort select="@name"/>
+				<xsl:text>\item </xsl:text>
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="substring-after(@name,$link-source-directory)" />
+				</xsl:call-template>
+				
+				<!--
+				<xsl:call-template name="last-modified">
+					<xsl:with-param name="input" select="@mod" />
+				</xsl:call-template>
+				-->
+				
+				<xsl:value-of select="concat(' (bytes: ', @size,', compressed: ',@optimizedsize,')' )" />
+				
+				<xsl:value-of select="$newline" />
+			</xsl:for-each>
+			<xsl:call-template name="end-itemize" />
+			
+			<!-- EXTERNAL DEFINITIONS -->
+			<xsl:call-template name="section">
+				<xsl:with-param name="title" select="'External Definitions'"/>
+				<xsl:with-param name="label" select="'link:report:external:definitions'"/>
+			</xsl:call-template>
+			<xsl:call-template name="start-itemize" />
+			<xsl:for-each select="$link-report//external-defs/ext">
+				<xsl:sort select="@id"/>
+				<xsl:text>\item </xsl:text>
+				<xsl:call-template name="sanitize">
+					<xsl:with-param name="input" select="@id" />
+				</xsl:call-template>
+				<xsl:value-of select="$newline" />				
+			</xsl:for-each>
+			<xsl:call-template name="end-itemize" />
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="undocumented-types">
 		
+		<xsl:call-template name="chapter">
+			<xsl:with-param name="title" select="'Undocumented'"/>
+			<xsl:with-param name="label" select="'undocumented'"/>
+		</xsl:call-template>
+		
+		<xsl:call-template name="start-itemize" />
+		
+		<!-- @param_types -->
+		
+		<xsl:for-each-group
+				select="//method" group-by="@result_type">
+				<xsl:sort select="current-grouping-key()" />
+
+					<xsl:variable name="toplevel-match"
+							select="$toplevel//classRec[@fullname = current-grouping-key()] | $toplevel//interfaceRec[@fullname = current-grouping-key()]" />
+				
+					<xsl:if test="count($toplevel-match) = 0">
+						<xsl:text>\item \phantomsection</xsl:text>
+						<xsl:call-template name="label">
+							<xsl:with-param name="title" select="current-grouping-key()" />
+						</xsl:call-template>
+						<xsl:text> </xsl:text>
+						<xsl:call-template name="nameref">
+							<xsl:with-param name="input" select="current-grouping-key()" />
+						</xsl:call-template>
+						<xsl:text> -- </xsl:text>
+						<xsl:call-template name="sanitize">
+							<xsl:with-param name="input" select="current-grouping-key()" />
+						</xsl:call-template>
+						<xsl:value-of select="$newline" />
+					</xsl:if>
+
+		</xsl:for-each-group>
+		
+		<xsl:call-template name="end-itemize" />
+	</xsl:template>
+	
+	<xsl:template name="appendix">
 		<xsl:variable name="classes" select="$toplevel//classRec" />
 		<xsl:variable name="interfaces" select="$toplevel//interfaceRec" />
 		
-		<xsl:call-template name="section">
+		<xsl:call-template name="part">
 			<xsl:with-param name="title" select="'Appendix'"/>
 			<xsl:with-param name="label" select="'appendix'"/>
 		</xsl:call-template>
 		
+		<xsl:call-template name="todo-appendix" />
+		<xsl:call-template name="bug-appendix" />
+		<xsl:call-template name="process-link-report" />
+		<xsl:call-template name="undocumented-types" />
+		
 		<!-- CUSTOM APPENDICES FIRST -->
+		
+		<!--
 		<xsl:for-each select="//appendix">
 			<xsl:call-template name="sanitize">
 				<xsl:with-param name="input" select="." />
 			</xsl:call-template>			
 		</xsl:for-each>
+		-->
 		
 		<!-- ALL CLASSES -->
 		<xsl:if test="count($classes) &gt; 0">
-			<xsl:call-template name="subsection">
+			<xsl:call-template name="chapter">
 				<xsl:with-param name="title" select="'Class Index'"/>
 				<xsl:with-param name="label" select="'class:index'"/>
 			</xsl:call-template>
@@ -395,7 +661,7 @@
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
 				<xsl:variable name="package-classes" select="$toplevel//classRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-classes) &gt; 0">
-					<xsl:call-template name="subsubsection">
+					<xsl:call-template name="section">
 						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
@@ -416,7 +682,7 @@
 		
 		<!-- ALL INTERFACES -->
 		<xsl:if test="count($interfaces) &gt; 0">
-			<xsl:call-template name="subsection">
+			<xsl:call-template name="chapter">
 				<xsl:with-param name="title" select="'Interface Index'"/>
 				<xsl:with-param name="label" select="'interface:index'"/>
 			</xsl:call-template>
@@ -427,7 +693,7 @@
 				<xsl:variable name="package-id-null" select="concat($package-id,'.null')"/>
 				<xsl:variable name="package-interfaces" select="$toplevel//interfaceRec[@namespace = $package-id and @access != 'internal' and @access != 'private']"/>
 				<xsl:if test="count($package-interfaces) &gt; 0">
-					<xsl:call-template name="subsubsection">
+					<xsl:call-template name="section">
 						<xsl:with-param name="escaped" select="true()" />
 						<xsl:with-param name="title">
 							<xsl:call-template name="xref">
@@ -1486,6 +1752,7 @@
 	
 	<xsl:template name="nameref">
 		<xsl:param name="input" select="''" />
+		<xsl:variable name="input" select="replace($input,'/',':')" />
 		<xsl:text>\nameref{</xsl:text>
 		<xsl:call-template name="escape-label">
 			<xsl:with-param name="input" select="$input"/>
@@ -1504,7 +1771,12 @@
 	</xsl:template>
 	
 	<xsl:template name="start-itemize">
-		<xsl:text>\begin{itemize}</xsl:text>
+		<xsl:text>\begin{itemize*}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="start-enumerate">
+		<xsl:text>\begin{enumerate*}</xsl:text>
 		<xsl:value-of select="$newline" />
 	</xsl:template>
 	
@@ -1550,8 +1822,39 @@
 	</xsl:template>
 	
 	<xsl:template name="end-itemize">
-		<xsl:text>\end{itemize}</xsl:text>
+		<xsl:text>\end{itemize*}</xsl:text>
 		<xsl:value-of select="$newline" />
+	</xsl:template>
+	
+	<xsl:template name="end-enumerate">
+		<xsl:text>\end{enumerate*}</xsl:text>
+		<xsl:value-of select="$newline" />
+	</xsl:template>	
+	
+	<xsl:template name="chapter">
+		<xsl:param name="title" />
+		<xsl:param name="label" select="''" />
+		<xsl:param name="escaped" select="false()" />
+		<xsl:value-of select="$newline" />		
+		<xsl:text>\chapter{</xsl:text>		
+		<xsl:choose>
+			<xsl:when test="$escaped">
+				<xsl:value-of select="$title"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="escape">
+					<xsl:with-param name="input" select="$title"/>
+				</xsl:call-template>				
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:text>}</xsl:text>
+		<xsl:value-of select="$newline" />
+		
+		<xsl:if test="$label != ''">
+			<xsl:call-template name="label">
+				<xsl:with-param name="title" select="$label"/>
+			</xsl:call-template>
+		</xsl:if>	
 	</xsl:template>
 	
 	<xsl:template name="part">
@@ -1638,22 +1941,28 @@
 		<xsl:param name="title" />
 		<xsl:param name="label" select="''" />	
 		<xsl:param name="escaped" select="false()" />
-			
+		
+		<xsl:variable name="text">
+			<xsl:choose>
+				<xsl:when test="$escaped">
+					<xsl:value-of select="$title"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="$title"/>
+					</xsl:call-template>				
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
 		<xsl:value-of select="$newline" />		
-		<xsl:text>\subsubsection{</xsl:text>
-		<xsl:choose>
-			<xsl:when test="$escaped">
-				<xsl:value-of select="$title"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="escape">
-					<xsl:with-param name="input" select="$title"/>
-				</xsl:call-template>				
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:text>\subsubsection*{</xsl:text>
+			<xsl:value-of select="$text" />
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline" />
-		
+		<xsl:text>\addcontentsline{toc}{subsubsection}{</xsl:text>
+			<xsl:value-of select="$text" />		
+		<xsl:text>}</xsl:text>	
 		<xsl:if test="$label != ''">
 			<xsl:call-template name="label">
 				<xsl:with-param name="title" select="$label"/>
@@ -1945,7 +2254,7 @@
 				<xsl:with-param name="input" select="$public-methods" />
 				<xsl:with-param name="title" select="'Public methods'" />
 				<xsl:with-param name="property" select="false()" />				
-				<xsl:with-param name="listing-xref" select="concat(@id,$public-methods-xref-id)" />				
+				<xsl:with-param name="listing-xref" select="concat(@id,$public-methods-xref-id)" />
 			</xsl:call-template>
 		</xsl:if>
 		
@@ -2181,8 +2490,12 @@
 			<xsl:call-template name="start-paragraph" />
 		</xsl:if>
 		
-		<xsl:if test="matches($input,'^ul|ol$')">
+		<xsl:if test="matches($input,'^ul$')">
 			<xsl:call-template name="start-itemize" />
+		</xsl:if>
+		
+		<xsl:if test="matches($input,'^ol$')">
+			<xsl:call-template name="start-enumerate" />
 		</xsl:if>
 		
 		<xsl:if test="matches($input,'^li$')">
@@ -2213,8 +2526,12 @@
 			<xsl:value-of select="$default-output" />
 		</xsl:if>			
 		
-		<xsl:if test="matches($input,'^ul|ol$')">
+		<xsl:if test="matches($input,'^ul$')">
 			<xsl:call-template name="end-itemize" />
+		</xsl:if>
+		
+		<xsl:if test="matches($input,'^ol$')">
+			<xsl:call-template name="end-enumerate" />
 		</xsl:if>	
 		
 		<xsl:if test="matches($input,'^pre$')">
@@ -2500,17 +2817,24 @@
 				<xsl:with-param name="replace-string" select="'$1\\%'" />
 			</xsl:call-template>
 		</xsl:variable>	
+		<xsl:variable name="ampersand">
+			<xsl:call-template name="search-and-replace">
+				<xsl:with-param name="input" select="$percent" />
+				<xsl:with-param name="search-string" select="'([^\\]?)&amp;'" />
+				<xsl:with-param name="replace-string" select="'$1\\&amp;'" />
+			</xsl:call-template>
+		</xsl:variable>		
 		<xsl:variable name="circumflex">			
 			<xsl:choose>
 				<xsl:when test="not($plain-circumflex)">
 					<xsl:call-template name="search-and-replace">
-						<xsl:with-param name="input" select="$percent" />
+						<xsl:with-param name="input" select="$ampersand" />
 						<xsl:with-param name="search-string" select="'([^\\]?)\^'" />
 						<xsl:with-param name="replace-string" select="'$1\\char`\\^'" />
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="$percent" />
+					<xsl:value-of select="$ampersand" />
 				</xsl:otherwise>				
 			</xsl:choose>
 		</xsl:variable>
@@ -2531,7 +2855,7 @@
 		<xsl:variable name="underscore">
 			<xsl:call-template name="search-and-replace">
 				<xsl:with-param name="input" select="$tilde" />
-				<xsl:with-param name="search-string" select="'([^\\]?)_'" />
+				<xsl:with-param name="search-string" select="'_'" />
 				<xsl:with-param name="replace-string" select="'$1\\_'" />
 			</xsl:call-template>
 		</xsl:variable>
@@ -2628,19 +2952,49 @@
 \renewcommand{\paragraph}{\small}
 ]]></xsl:text>
 
-<xsl:value-of select="concat('\title{',$title,'}')" />
+<!--
+\title{\paragraph{\textbf{\huge{Fluid Ecosystem}}
+\\
+\vspace{2em}
+\small{"Empty your mind, be formless. Shapeless, like water. If you put water into a cup, it becomes the cup. You put water into a bottle and it becomes the bottle. You put it in a teapot, it becomes the teapot. Now, water can flow or it can crash. Be water, my friend." - Bruce Lee}}\vfill}
+-->
+
+<xsl:value-of select="concat('\title{\paragraph{\textbf{\huge{',$title,'}}',$newline,'\\',$newline,'\vspace{2em}')" />
 <xsl:value-of select="$newline" />
-<xsl:value-of select="concat('\author{',$author,'}')" />
+<xsl:if test="$sub-title != ''">
+	<xsl:value-of select="concat('\small{', $sub-title),'}'" />
+</xsl:if>
+
+<!-- close the document title and child paragraph -->
+<xsl:value-of select="'\vfill}}'" />
+
+<!-- clear date output if necessary -->
+<xsl:choose>
+	<xsl:when test="$date = ''">
+		<xsl:value-of select="concat('\date{}',$newline)" />
+	</xsl:when>
+	<xsl:otherwise>
+		<xsl:value-of select="$date" />
+	</xsl:otherwise>
+</xsl:choose>
+
+<!-- output author information for a title page -->
+<xsl:if test="$author != ''">
+	<xsl:value-of select="concat($newline,'\author{',$author,'}')" />
+</xsl:if>
 
 <xsl:text><![CDATA[
 \makeindex
 
 %fix for the toc overlap problem
 \makeatletter
-  \renewcommand\l@subsubsection{\@dottedtocline{2}{1.5em}{4em}}
+  \renewcommand\l@subsubsection{\@dottedtocline{2}{8em}{4em}}
 \makeatother
 
 \begin{document} 
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
 
 \maketitle
 
@@ -2662,7 +3016,7 @@
 	</xsl:template>	
 	
 	<xsl:template name="header-preamble">
-		<xsl:text><![CDATA[\documentclass[a4paper,titlepage,oneside]{article}
+		<xsl:text><![CDATA[\documentclass[a4paper,titlepage,oneside]{report}
 ]]></xsl:text>
 	</xsl:template>	
 	
@@ -2689,6 +3043,7 @@
 \usepackage[parfill]{parskip} 
 \usepackage{graphicx} 
 \usepackage{bookmark}
+\usepackage{mdwlist}
 \usepackage{amssymb} 
 \usepackage{epstopdf} 
 \usepackage{makeidx}

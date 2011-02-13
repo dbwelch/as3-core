@@ -21,7 +21,7 @@ package com.ffsys.scanner
 	*	@author Mischa Williamson
 	*	@since  26.01.2011
 	*/
-	dynamic public class Scanner extends Array
+	public class Scanner extends TokenList
 	{
 		/**
 		* 	Used to indicate the expected number
@@ -39,8 +39,6 @@ package com.ffsys.scanner
 		*/
 		public static var bytesPerCharacter:uint = 1;
 		
-		private var _registry:Vector.<Token>;
-		private var _tokens:Vector.<Token>;
 		private var _results:Vector.<Token>;
 		private var _counts:Object;
 		
@@ -79,6 +77,27 @@ package com.ffsys.scanner
 		public function Scanner()
 		{
 			super();			
+		}
+		
+		/**
+		* 	Associates a grammar with this scanner.
+		* 
+		* 	When this property is set all of the tokens
+		* 	that define the grammar are copied into this
+		* 	scanner.
+		*/
+		public function set grammar( value:Grammar ):void
+		{
+			if( value != null )
+			{
+				clear();
+				var tkn:Token = null;
+				for( var i:int = 0;i < value.tokens.length;i++ )
+				{
+					tkn = value.tokens[ i ];
+					addToken( tkn.clone() );
+				}
+			}
 		}
 		
 		public function get bytesTotal():int
@@ -198,44 +217,6 @@ package com.ffsys.scanner
 		}
 		
 		/**
-		* 	The list of tokens this scanner should
-		* 	match against.
-		* 
-		* 	By default tokens are matched in the order
-		* 	declared in this list, therefore the token
-		* 	at index zero has the highest priority and
-		* 	the token at <code>n-1</code> has the lowest
-		* 	priority.
-		*/
-		public function get tokens():Vector.<Token>
-		{
-			if( _tokens == null )
-			{
-				_tokens = new Vector.<Token>();
-			}
-			return _tokens;
-		}
-		
-		public function set tokens( value:Vector.<Token> ):void
-		{
-			_tokens = value;
-		}
-		
-		/**
-		* 	A list of tokens that are not matched against
-		* 	by the scanner but can be used when matching
-		* 	token matches against named groups.
-		*/
-		public function get registry():Vector.<Token>
-		{
-			if( _registry == null )
-			{
-				_registry = new Vector.<Token>();				
-			}
-			return _registry;
-		}
-		
-		/**
 		* 	@private
 		*/
 		protected function chomp():String
@@ -257,27 +238,6 @@ package com.ffsys.scanner
 				_lastMatch = tkn.matched;
 			}
 			return matches;
-		}
-		
-		/**
-		* 	Retrieves a token with the specified identifier.
-		* 
-		* 	@param id The identifier for the token.
-		* 
-		* 	@return A token with the specified identifier or
-		* 	<code>null</code> if no token could be found.
-		*/
-		public function get( id:int ):Token
-		{
-			var tkn:Token = null;
-			for each( tkn in tokens )
-			{
-				if( id == tkn.id )
-				{
-					return tkn;
-				}
-			}
-			return null;
 		}
 		
 		/**
@@ -325,12 +285,6 @@ package com.ffsys.scanner
 			if( list == null )
 			{
 				list = tokens;
-				
-				//also search registry entries
-				if( registry.length > 0 )
-				{
-					list = list.concat( registry );
-				}
 			}
 			
 			if( filter is int
@@ -400,115 +354,6 @@ package com.ffsys.scanner
 				}
 			}
 			return output;
-		}
-		
-		/**
-		* 	Retrieves the index of a token.
-		* 
-		* 	Matching is performed on the token <code>id</code>.
-		* 
-		* 	@param token The token to search for.
-		* 	@param backwards Whether the search is performed
-		* 	from the end of the list of match tokens.
-		* 	@param start An index to start searching from.
-		* 	@param list A specific list of tokens to search, when
-		* 	omitted the list of <em>match</em> tokens associated with this scanner
-		* 	is searched.
-		* 
-		* 	@return The index of the match token or -1 if no token
-		* 	was found.
-		*/
-		public function index(
-			token:Token,
-			backwards:Boolean = false,
-			start:int = -1,
-			list:Vector.<Token> = null ):int
-		{
-			if( token != null )
-			{
-				var id:int = token.id;
-				if( list == null )
-				{
-					list = tokens;
-				}
-				var i:int = !backwards ? 0 : list.length - 1;
-				if( start > -1 )
-				{
-					//clamp to match list length
-					if( start < 0 )
-					{
-						start = 0;
-					}
-					if( start >= list.length )
-					{
-						start = list.length - 1;
-					}
-					i = start;
-				}
-				
-				var tkn:Token = null;
-				while( i >= 0 && i <= ( list.length - 1 ) )
-				{
-					tkn = list[ i ];
-					if( id == tkn.id )
-					{
-						return i;
-					}
-					!backwards ? i++ : i--;
-				}
-			}
-			return -1;
-		}
-		
-		/**
-		* 	Removes a match token from the list of <code>tokens</code>
-		* 	this scanner will match against.
-		* 
-		* 	Matching is performed against the token <code>id</code>.
-		* 
-		* 	@param token The token to remove.
-		* 
-		* 	@return Whether the token was removed.
-		*/
-		public function remove( token:Token, list:Vector.<Token> = null ):Boolean
-		{
-			if( list == null )
-			{
-				list = tokens;
-			}			
-			var index:int = index( token, false, -1, list );
-			if( index > -1 )
-			{				
-				list.splice( index, 1 );
-				return true;
-			}
-			return false;
-		}
-		
-		/**
-		* 	Adds a token to the list of tokens
-		* 	this scanner should match against.
-		* 
-		* 	@param token The token to match against.
-		* 
-		* 	@return Whether the token was added.
-		*/
-		public function add( token:Token, list:Vector.<Token> = null ):Boolean
-		{
-			if( token != null )
-			{
-				if( list == null )
-				{
-					list = tokens;
-				}
-				
-				token.setScanner( this );
-				if( list.indexOf( token ) == -1 )
-				{
-					list.push( token );
-				}
-			}
-			return false;
 		}
 		
 		/**
@@ -823,6 +668,9 @@ package com.ffsys.scanner
 		{
 			//trace("Scanner::handleMatchedToken()");
 			
+			//ensure the scanner reference is correct
+			tkn.setOwner( this );
+			
 			if( src.maximum > -1
 				&& _counts[ src ] >= src.maximum )
 			{
@@ -845,7 +693,7 @@ package com.ffsys.scanner
 			{
 				if( tkn.discardable )
 				{
-					remove( tkn );
+					removeToken( tkn );
 				}
 				
 				/*

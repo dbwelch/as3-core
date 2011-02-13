@@ -25,7 +25,11 @@
 		
 		
 		<api.docs.title>Actionscript Documentation</api.docs.title>
+		
+		<!-- empty by default but can be specified at the package level -->
+		<api.docs.sub.title></api.docs.sub.title>
 		<api.docs.author>Mischa Williamson</api.docs.author>
+		<api.docs.link.source.directory>${project.build.sourceDirectory}</api.docs.link.source.directory>
 				
 		<asdoc.group>com.ffsys.asdoc</asdoc.group>
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>

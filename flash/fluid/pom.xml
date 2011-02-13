@@ -13,7 +13,10 @@
 	<packaging>pom</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<modules>
+		<module>swc</module>
+		<!--
 		<module>swf</module>
 		<module>web-app</module>
+		-->
 	</modules>
 </project>

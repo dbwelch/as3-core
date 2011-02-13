@@ -17,7 +17,7 @@ package com.ffsys.css
 	
 	import com.ffsys.core.IStringIdentifier;
 
-	import com.ffsys.utils.properties.PropertiesMerge;
+	import com.ffsys.utils.properties.PropertiesMerge;	
 	
 	/*
 	

@@ -1,6 +1,7 @@
 package com.ffsys.dom.xhtml
 {
 	import com.ffsys.dom.*;	
+	import com.ffsys.dom.core.Element;
 
 	/**
 	*	Represents a script, the <code>script</code> element.

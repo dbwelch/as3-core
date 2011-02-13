@@ -12,5 +12,6 @@ package com.ffsys.dom
 	*/
 	public interface TextElement
 	{
+		//
 	}
 }

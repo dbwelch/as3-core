@@ -6,7 +6,8 @@ package com.ffsys.dom
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.*;
 	import flash.utils.flash_proxy;	
-	
+
+	import com.ffsys.dom.core.*;
 	import com.ffsys.ioc.*;
 	
 	import com.ffsys.io.loaders.core.ILoaderQueue;

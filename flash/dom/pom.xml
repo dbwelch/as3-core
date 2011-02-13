@@ -20,11 +20,11 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>net</artifactId>
+			<groupId>com.ffsys.net</groupId>
+			<artifactId>asax</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>				
+		</dependency>		
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ioc</artifactId>

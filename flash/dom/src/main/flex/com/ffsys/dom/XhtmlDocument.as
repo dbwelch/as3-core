@@ -1,5 +1,6 @@
 package com.ffsys.dom
 {
+	import com.ffsys.dom.core.*;
 	
 	/**
 	*	Represents an <code>XHTML</code> document.

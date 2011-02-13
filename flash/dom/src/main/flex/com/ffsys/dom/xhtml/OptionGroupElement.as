@@ -1,6 +1,6 @@
 package com.ffsys.dom.xhtml
 {
-	import com.ffsys.dom.*;
+	import com.ffsys.dom.core.Element;
 	
 	/**
 	*	Represents an option group, the <code>optgroup</code> element.
