@@ -21,14 +21,7 @@ package java.nio
 		[Test]
 		public function testCharacterSetConversion():void
 		{
-			var v:Vector.<Object> = new Vector.<Object>();
-			var nm:String = "__AS3__.vec::Vector.<Array>";
-			var clazz:Class = getDefinitionByName( nm ) as Class;
-			trace("CharsetConversionTest::testCharacterSetConversion()",
-				getQualifiedClassName( v ), clazz );
-			var instance:Vector.<Array> = ( new clazz() as Vector.<Array> );
-			trace("CharsetConversionTest::testCharacterSetConversion()",
-				instance );
+
 		}
 	}
 }

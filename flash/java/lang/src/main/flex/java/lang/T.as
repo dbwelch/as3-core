@@ -1,17 +1,35 @@
 package java.lang
 {
+	import flash.utils.describeType;
+	import flash.utils.Dictionary;	
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-	import flash.utils.describeType;
 	
 	/**
 	* 	Represents a type definition generated at runtime.
 	* 
 	* 	A type definition has a one to one relationship
 	* 	with a class definition.
+	* 
+	* 	@todo Ensure that static variables are also included,
+	* 	this will require reflecting the class and caching the 
+	* 	static members.
 	*/
 	public class T extends Object
 	{
+		/**
+		* 	The prefix used when dynamically instantiating
+		* 	a vector of a specific type at runtime.
+		*/
+		public static const VECTOR_PREFIX:String = "__AS3__.vec::Vector.<";
+		
+		/**
+		* 	The suffix used when dynamically instantiating
+		* 	a vector of a specific type at runtime.
+		*/
+		public static const VECTOR_SUFFIX:String = ">";
+		
+		static private var __types:Dictionary = new Dictionary();
 		private var _class:Class;
 	
 		/**
@@ -20,14 +38,7 @@ package java.lang
 		public function T( type:* )
 		{
 			super();
-			if( type is Class )
-			{
-				_class = Class( type );
-			}else{
-				_class = getClass( type );
-			}
-			
-			trace("T::T()", Object( this ).constructor );
+			_class = getClass( type );
 		}
 		
 		/**
@@ -35,14 +46,11 @@ package java.lang
 		*/
 		private function getClass( target:* = null ):Class
 		{
-			if( target is Class )
-			{
-				return target as Class;
-			}
-			
 			if( _class == null )
 			{	
 				var path:String = getQualifiedClassName( target );
+				
+				trace("[PATH] T::getClass()", path );
 				
 				_class = getDefinitionByName( path ) as Class;
 				
@@ -126,7 +134,7 @@ package java.lang
 		{
 			var clazz:Class = getClass();
 			return String( clazz.name );
-		}		
+		}
 		
 		/**
 		* 	Retrieves and caches the class definition
@@ -134,7 +142,65 @@ package java.lang
 		*/
 		public static function getInstance( type:* ):T
 		{
-			return new T( type );
+			//TODO: handle null/undefined etc.
+			
+			trace("[INSTANCE] T::getInstance()", type );
+			
+			var t:T = null;
+			var constr:Object = null;
+			if( type is Object )
+			{
+				constr = type.constructor;
+				t = __types[ constr ] as T;		
+			}
+			
+			
+			if( t != null )
+			{
+				
+				/*
+				Object( t.definition ).prototype.constructor = function( ... rest ):*
+				{
+					trace("T::getInstance()", "NEW INSTANCE WITH DYNAMIC CONSTRUCTOR" );
+				}
+				*/
+					
+				return t;
+			}
+			
+			t = new T( type );
+			__types[ t.definition ] = t;
+			return t;
+		}
+		
+		/**
+		* 	
+		*/
+		public static function vector( type:Class ):Vector.<*>
+		{
+			if( type != null )
+			{
+				var fqn:String = null;
+				var t:T = Object( type ).type as T;
+				if( !t )
+				{
+					t = getInstance( type );
+				}
+				
+				fqn = VECTOR_PREFIX + t.path + VECTOR_SUFFIX;
+				
+				trace("[FQN] T::vector()", type, fqn );
+				
+				try
+				{
+					var clazz:Class = getDefinitionByName( fqn ) as Class;
+					return new clazz();
+				}catch( e:Error )
+				{
+					throw e;
+				}
+			}
+			return null;
 		}
 	}
 }
