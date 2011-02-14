@@ -2,7 +2,7 @@ package java.lang
 {
 	import flash.events.*;
 	import flash.net.*;
-	import flash.utils.*;	
+	import flash.utils.*;
 	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
@@ -10,7 +10,7 @@ package java.lang
 	/**
 	* 	
 	*/
-	public class TypeReflectTest extends Object
+	dynamic public class TypeReflectTest extends Object
 	{	
 		/**
 		* 	Creates a <code>TypeReflectTest</code> instance.
@@ -42,8 +42,19 @@ package java.lang
 		[Test]
 		public function testType():void
 		{
-			trace("[VEC TEST] TypeReflectTest::testType()", T.vector( Array ) is Vector.<Array> );
+			//TypeReflectTest.prototype.constructor = InnerTypeReflectTest;
 			
+			var o:Object = new Object();
+			
+			try
+			{
+				TypeReflectTest( o );
+			}catch( e:Error )
+			{
+				trace("TypeReflectTest::testType()", e.message );
+				//throw e;
+			}
+
 			var t:T = T.getInstance( this );
 			Assert.assertNotNull( t );
 				
@@ -53,6 +64,21 @@ package java.lang
 			{
 				trace("TypeReflectTest::testType()", z, t.definition[ z ] );
 			}
+			
+			//use namespace "http://adobe.com/2006/builtin";
+			
+			//trace("TypeReflectTest::testType()", getAliasName( String ) );			
 		}
 	}
+}
+
+import java.lang.TypeReflectTest;
+
+class InnerTypeReflectTest extends TypeReflectTest {
+	
+	public function InnerTypeReflectTest()
+	{
+		trace("TypeReflectTest::InnerTypeReflectTest()",  "[INNER INSTANTIATED]");
+	}
+	
 }

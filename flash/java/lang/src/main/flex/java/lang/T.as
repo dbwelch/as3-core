@@ -15,6 +15,7 @@ package java.lang
 	* 	this will require reflecting the class and caching the 
 	* 	static members.
 	*/
+	
 	public class T extends Object
 	{
 		/**
@@ -80,6 +81,10 @@ package java.lang
 				{
 					Object( _class ).type = this;
 				}
+				
+				//Object( _class ).prototype.__type = this;
+				
+				//TypeError: Error #1034: Type Coercion failed: cannot convert java.lang::T@1b9fbaa9 to Class.
 				
 				//cache the type reflection info
 				Object( _class ).xml = describeType( _class );
@@ -174,9 +179,36 @@ package java.lang
 		}
 		
 		/**
+		* 	Retrieves a <code>Vector</code> that is defined
+		* 	as being of the specified type.
+		* 
+		* 	<strong>Note:</strong> We would prefer to
+		* 	declare this return type as <code>Vector.&lt;Object&gt;</code>;
+		* 	but currently the compiler has a bug when referencing a class that
+		* 	declares a static method that returns a typed <code>Vector</code>.
+		* 	This bug is only apparent when depending upon a swc which
+		* 	includes a class with a static method that returns a vector,
+		* 	the error would be:
 		* 	
+		* 	<pre>Unexpected multiname type: 16
+		*	Unexpected multiname type: 16
+		* 	...
+		* 	Error: Type was not found or was not a compile-time constant: .</pre>
+		* 
+		* 	When compiling against the offending swc file.
+		* 
+		* 	<p>To create a <code>Vector</code> of <code>Array</code> instances:</p>
+		* 
+		* 	<pre>var arrays:Vector.&lt;Array&gt; = T.vector( Array ) as Vector.&lt;Array&gt;;</pre>
+		* 
+		* 	@param type The parameterized type of the vector.
+		* 
+		* 	@return A vector of the specified type.
 		*/
-		public static function vector( type:Class ):Vector.<*>
+		public static function vector(
+			type:Class,
+			capacity:uint = 0,
+			... contents ):Object
 		{
 			if( type != null )
 			{
@@ -186,15 +218,40 @@ package java.lang
 				{
 					t = getInstance( type );
 				}
-				
 				fqn = VECTOR_PREFIX + t.path + VECTOR_SUFFIX;
-				
-				trace("[FQN] T::vector()", type, fqn );
-				
 				try
 				{
 					var clazz:Class = getDefinitionByName( fqn ) as Class;
-					return new clazz();
+					
+					//expando vector
+					if( capacity == 0 )
+					{
+						return new clazz();
+					}else{
+						//fixed capacity vector
+						var v:Vector = new clazz( capacity, true ) as Vector;
+						if( contents != null )
+						{
+							if( contents.length > capacity )
+							{
+								throw new ArgumentError(
+									"The vector contents exceeds it's capacity." );
+							}
+							for( var i:int = 0;i < contents.length;i++ )
+							{
+								try
+								{
+									v[ i ] = contents[ i ];
+								}catch( e:Error )
+								{
+									//if the user supplied an invalid type
+									//in the contents array the coercion may fail
+									throw e;
+								}
+							}
+						}
+						return v;
+					}
 				}catch( e:Error )
 				{
 					throw e;

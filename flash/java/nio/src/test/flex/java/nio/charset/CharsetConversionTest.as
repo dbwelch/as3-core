@@ -1,4 +1,4 @@
-package java.nio
+package java.nio.charset
 {
 	import flash.events.*;
 	import flash.net.*;
@@ -6,6 +6,8 @@ package java.nio
 	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
+	
+	import java.util.*;
 	
 	/**
 	* 	
@@ -21,7 +23,10 @@ package java.nio
 		[Test]
 		public function testCharacterSetConversion():void
 		{
+			var charsets:SortedMap = Charset.availableCharsets;
 
+			trace("CharsetConversionTest::testCharacterSetConversion()",
+				charsets );
 		}
 	}
 }
