@@ -1,5 +1,6 @@
 package java.lang
 {
+	import flash.display.*;	
 	import flash.events.*;
 	import flash.net.*;
 	import flash.utils.*;
@@ -40,20 +41,47 @@ package java.lang
 		}
 		
 		[Test]
+		public function testIntrospection():void
+		{
+			var tt:T = T.getInstance( T );
+			Assert.assertNotNull( tt );
+			for( var z:String in T )
+			{
+				trace("[T MIRROR] TypeReflectTest::testType()", z, T[ z ] );
+			}
+		}
+		
+		[Test]
+		public function testObject():void
+		{
+			var s:T = T.getInstance( Sprite );
+			Assert.assertNotNull( s );
+			Assert.assertNotNull( Object( Sprite ).name );
+			Assert.assertNotNull( Object( Sprite ).path );
+			for( var z:String in Sprite )
+			{
+				trace("[OBJECT MIRROR] TypeReflectTest::testType()", z, Sprite[ z ] );
+			}
+		}
+		
+		[Test]
 		public function testType():void
 		{
 			//TypeReflectTest.prototype.constructor = InnerTypeReflectTest;
 			
 			var o:Object = new Object();
+			var o1:Object = new Object();
+			var o2:Object = new Object();
 			
-			try
-			{
-				TypeReflectTest( o );
-			}catch( e:Error )
-			{
-				trace("TypeReflectTest::testType()", e.message );
-				//throw e;
-			}
+			trace("[MEM ADDRESS 1] TypeReflectTest::testType()",
+				MemoryAddress.toString( o1 ), MemoryAddress.valueOf( o1 ) );
+				
+			trace("[MEM ADDRESS 2] TypeReflectTest::testType()",
+				MemoryAddress.toString( o2 ), MemoryAddress.valueOf( o2 ),
+				MemoryAddress.valueOf( o2 ) > MemoryAddress.valueOf( o1 ),
+				describeType( T ) );
+				
+			var tt:T = T.getInstance( T );
 
 			var t:T = T.getInstance( this );
 			Assert.assertNotNull( t );

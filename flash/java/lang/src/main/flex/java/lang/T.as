@@ -9,13 +9,63 @@ package java.lang
 	* 	Represents a type definition generated at runtime.
 	* 
 	* 	A type definition has a one to one relationship
-	* 	with a class definition.
+	* 	with a class definition and is used as the core
+	* 	for the reflection logic that extends on the language
+	* 	features for describing a class definition as XML.
 	* 
-	* 	@todo Ensure that static variables are also included,
-	* 	this will require reflecting the class and caching the 
-	* 	static members.
+	* 	Note that this implementation exploits the <code>dynamic</code>
+	* 	nature of <code>class</code> definitions as the logical place
+	* 	to cache any reflected information. The only internal reference
+	* 	that a T instance maintains is a reference to the <code>class</code>
+	* 	exposed by the <code>definition</code> property, all other properties
+	* 	accessible via a T are convenience methods for working on
+	* 	the class definition or any data cached in the class.
+	* 
+	* 	Once the getInstance() method has retrieved a T type
+	* 	definition for a <code>class</code> any subsequent calls to
+	* 	getInstance() with an object of the same <code>class</code>
+	* 	will return an existing cached T definition.
+	* 
+	* 	When a T has been retrieved for a <code>class</code> definition
+	* 	various properties can be accessed directly on the class itself.
+	* 
+	* 	For example, to introspect T itself:
+	* 
+	* 	<pre>var tt:T = T.getInstance( T );
+	*	Assert.assertNotNull( tt );
+	*	for( var z:String in T )
+	*	{
+	*	  trace( z, T[ z ] );
+	*	}</pre>
+	* 
+	* 	This creates a T for the T type itself and then iterates over the
+	* 	<code>class</code> producing output such as:
+	* 
+	* 	<pre>pkg java.lang
+	*	name T
+	*	mirror [object T]
+	*	path java.lang::T</pre>
+	* 
+	* 	Once a T is generated for a class definition it is accessible via
+	* 	the <code>mirror</code> property of the class. A less convoluted example:
+	* 
+	* 	<pre>var s:T = T.getInstance( Sprite );
+	*	for( var z:String in Sprite )
+	*	{
+	*	  trace( z, Sprite[ z ] );
+	*	}</pre>
+	* 
+	* 	Produces:
+	* 
+	* 	<pre>name Sprite
+	*	mirror [object T]
+	*	pkg flash.display
+	*	path flash.display::Sprite</pre>
+	* 
+	* 	@todo Ensure that static variables are also included in the XML,
+	* 	this will require reflecting the class (as opposed to the instance)
+	* 	and caching the static members.
 	*/
-	
 	public class T extends Object
 	{
 		/**
@@ -35,6 +85,15 @@ package java.lang
 	
 		/**
 		* 	Creates a <code>T</code> instance.
+		* 
+		* 	You should <strong>never instantiate this class
+		* 	directly</strong>, see the getInstance() contract
+		* 	for full information.
+		* 
+		* 	@param type The source instance or class
+		* 	that this T represents, when the specified
+		* 	type is an instance this T will represent the
+		* 	class of the instance.
 		*/
 		public function T( type:* )
 		{
@@ -70,24 +129,10 @@ package java.lang
 						className = classPath.substr( index + 2 );
 					}
 					Object( _class ).name = className;
+					
+					//create a mirror reference on the class definition
+					Object( _class ).mirror = this;
 				}
-			}
-			
-			//create a circular reference between
-			//the class and this type definition
-			if( _class != null )
-			{
-				if( !( _class.type is T ) )
-				{
-					Object( _class ).type = this;
-				}
-				
-				//Object( _class ).prototype.__type = this;
-				
-				//TypeError: Error #1034: Type Coercion failed: cannot convert java.lang::T@1b9fbaa9 to Class.
-				
-				//cache the type reflection info
-				Object( _class ).xml = describeType( _class );
 			}
 			return _class;
 		}
@@ -99,6 +144,13 @@ package java.lang
 		public function get xml():XML
 		{
 			var clazz:Class = getClass();
+			if( clazz.xml == null )
+			{
+				//cache the type reflection info
+				//TODO: allow this to be done lazily - when reflection 
+				//data is first retrieved!
+				Object( _class ).xml = describeType( _class );				
+			}
 			return clazz.xml as XML;
 		}
 		
@@ -142,34 +194,28 @@ package java.lang
 		}
 		
 		/**
-		* 	Retrieves and caches the class definition
+		* 	Retrieves class definition information
 		* 	for a type.
+		* 
+		* 	You always use this static factory method
+		* 	to retrieve a T definition.
+		* 
+		* 	@param type instance to retrieve class
+		* 	definition from.
 		*/
 		public static function getInstance( type:* ):T
 		{
 			//TODO: handle null/undefined etc.
-			
-			trace("[INSTANCE] T::getInstance()", type );
-			
 			var t:T = null;
 			var constr:Object = null;
 			if( type is Object )
 			{
 				constr = type.constructor;
-				t = __types[ constr ] as T;		
+				t = __types[ constr ] as T;
 			}
 			
-			
 			if( t != null )
-			{
-				
-				/*
-				Object( t.definition ).prototype.constructor = function( ... rest ):*
-				{
-					trace("T::getInstance()", "NEW INSTANCE WITH DYNAMIC CONSTRUCTOR" );
-				}
-				*/
-					
+			{	
 				return t;
 			}
 			
@@ -181,6 +227,9 @@ package java.lang
 		/**
 		* 	Retrieves a <code>Vector</code> that is defined
 		* 	as being of the specified type.
+		* 
+		* 	When a non-zero <code>capacity</code> parameter is specified
+		* 	a fixed length vector will be created.
 		* 
 		* 	<strong>Note:</strong> We would prefer to
 		* 	declare this return type as <code>Vector.&lt;Object&gt;</code>;
@@ -201,7 +250,19 @@ package java.lang
 		* 
 		* 	<pre>var arrays:Vector.&lt;Array&gt; = T.vector( Array ) as Vector.&lt;Array&gt;;</pre>
 		* 
+		* 	@throws ArgumentError If a capacity is specified
+		* 	indicating a fixed length vector and the number of
+		* 	contents specified exceeds the length of the fixed
+		* 	vector.
+		* 
+		* 	@throws TypeError If any of the contents are not
+		* 	of the specified <code>type</code>.
+		* 
 		* 	@param type The parameterized type of the vector.
+		* 	@param capacity A fixed size for the vector.
+		* 	@param contents Contents to propagate into
+		* 	the new vector, they must all be of the same
+		* 	class specified as the type parameter.
 		* 
 		* 	@return A vector of the specified type.
 		*/
@@ -210,6 +271,7 @@ package java.lang
 			capacity:uint = 0,
 			... contents ):Object
 		{
+			var v:Object = null;
 			if( type != null )
 			{
 				var fqn:String = null;
@@ -226,38 +288,38 @@ package java.lang
 					//expando vector
 					if( capacity == 0 )
 					{
-						return new clazz();
+						v = new clazz();
 					}else{
 						//fixed capacity vector
-						var v:Vector = new clazz( capacity, true ) as Vector;
-						if( contents != null )
-						{
-							if( contents.length > capacity )
-							{
-								throw new ArgumentError(
-									"The vector contents exceeds it's capacity." );
-							}
-							for( var i:int = 0;i < contents.length;i++ )
-							{
-								try
-								{
-									v[ i ] = contents[ i ];
-								}catch( e:Error )
-								{
-									//if the user supplied an invalid type
-									//in the contents array the coercion may fail
-									throw e;
-								}
-							}
-						}
-						return v;
+						v = new clazz( capacity, true ) as Vector;
 					}
 				}catch( e:Error )
 				{
 					throw e;
 				}
 			}
-			return null;
+			
+			if( contents != null )
+			{
+				if( capacity > 0 && contents.length > capacity )
+				{
+					throw new ArgumentError(
+						"The vector contents exceeds it's capacity." );
+				}
+				for( var i:int = 0;i < contents.length;i++ )
+				{
+					try
+					{
+						v[ i ] = contents[ i ];
+					}catch( e:Error )
+					{
+						//if the user supplied an invalid type
+						//in the contents array the coercion may fail
+						throw e;
+					}
+				}
+			}
+			return v;
 		}
 	}
 }
