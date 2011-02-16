@@ -86,7 +86,7 @@ package java.lang
 		/**
 		* 	Creates a <code>T</code> instance.
 		* 
-		* 	You should <strong>never instantiate this class
+		* 	You should <strong>not instantiate this class
 		* 	directly</strong>, see the getInstance() contract
 		* 	for full information.
 		* 
