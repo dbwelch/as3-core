@@ -179,6 +179,9 @@ package java.nio.charset
 	public class Charset extends Object
 	{	
 		static private var _charsets:SortedMap = null;
+		
+		static private var _encoder:CharsetEncoder;
+		static private var _decoder:CharsetDecoder;		
 			
 		/**
 		* 	@private
@@ -308,7 +311,12 @@ package java.nio.charset
 		*/
 		public function newEncoder():CharsetEncoder
 		{
-			return null;
+			if( _encoder == null )
+			{
+				//TODO: create a valid replacement byte array
+				return new CharsetEncoder( this, 1, 1, null );
+			}
+			return _encoder;
 		}
 		
 		/**
@@ -318,7 +326,12 @@ package java.nio.charset
 		*/
 		public function newDecoder():CharsetDecoder
 		{
-			return null;
+			if( _decoder == null )
+			{
+				//TODO: create a valid replacement byte array
+				return new CharsetDecoder( this, 1, 1 );
+			}
+			return _decoder;
 		}
 		
 		/**
@@ -335,8 +348,18 @@ package java.nio.charset
 		*/
 		public function encode( buffer:CharBuffer ):ByteBuffer
 		{
-			return null;
-		}
+			//the length of a charbuffer is in characters and we need
+			//the byte length, as we know we are working with 16-bit units
+			//in the char buffer we can double the charbuffer length
+			var output:ByteBuffer = ByteBuffer.allocate(
+				buffer.capacity() * CharsetEncoder.BYTES_PER_CHARACTER );
+			var encoder:CharsetEncoder = newEncoder();
+			encoder.onMalformedInput( CodingErrorAction.REPLACE );
+			encoder.onUnmappableCharacter( CodingErrorAction.REPLACE );
+			var result:CoderResult = encoder.encode( buffer, output, true );
+			output.position( 0 );
+			return output;
+		}		
 		
 		/**
 		* 	Convenience method that decodes bytes in this charset
@@ -361,7 +384,14 @@ package java.nio.charset
 		*/
 		public function decode( buffer:ByteBuffer ):CharBuffer
 		{
-			return null;
+			var output:CharBuffer = CharBuffer.allocate( 0 );
+			_decoder = newDecoder();
+			var pos:int = buffer.position();
+			buffer.position( 0 );
+			_decoder.decode( buffer, output, true );
+			buffer.position( pos );
+			_decoder = null;
+			return output;
 		}
 		
 		/**

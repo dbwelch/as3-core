@@ -1,5 +1,6 @@
 package java.nio
 {
+	import flash.utils.ByteArray;
 	
 	/**
 	* 	A byte buffer.
@@ -58,6 +59,13 @@ package java.nio
 		public static function allocate( capacity:uint ):ByteBuffer
 		{
 			return new ByteBuffer( capacity );
+		}
+		
+		public static function wrap( bytes:ByteArray ):ByteBuffer
+		{
+			var output:ByteBuffer = allocate( bytes == null ? 0 : bytes.length );
+			output.setArray( bytes );
+			return output;
 		}
 	}
 }

@@ -24,6 +24,10 @@ package java.nio.charset
 		* 	UCS-4, big-endian machine (1234 order).
 		* 
 		* 	<pre>0x00 0x00 0xFE 0xFF</pre>
+		* 
+		* 	The character set that this BOM declares is not supported
+		* 	by the virtual machine but is declared if this BOM requires
+		* 	detection as unsupported.
 		*/
 		public static const UCS_4_BIG_ENDIAN:ByteOrderMark = new ByteOrderMark(
 			"UCS-4-BE",
@@ -34,6 +38,10 @@ package java.nio.charset
 		* 	UCS-4, little-endian machine (4321 order).
 		* 
 		* 	<pre>0xFF 0xFE 0x00 0x00</pre>
+		* 
+		* 	The character set that this BOM declares is not supported
+		* 	by the virtual machine but is declared if this BOM requires
+		* 	detection as unsupported.
 		*/
 		public static const UCS_4_LITTLE_ENDIAN:ByteOrderMark = new ByteOrderMark(
 			"UCS-4-LE",
@@ -91,13 +99,17 @@ package java.nio.charset
 		*/
 		public function ByteOrderMark(
 			name:String,
-			endian:ByteOrder, ... bytes )
+			endian:ByteOrder,
+			... bytes )
 		{
 			super();
 			_name = name;
 			_endian = endian;
 			_bytes = new ByteArray();
-			
+			if( endian != null )
+			{
+				_bytes.endian = endian.toString();
+			}
 			for( var i:int = 0;i < bytes.length;i++ )
 			{
 				if( bytes[ i ] is int )
@@ -105,7 +117,6 @@ package java.nio.charset
 					_bytes.writeByte( bytes[ i ] as int );
 				}
 			}
-			
 			_bytes.position = 0;
 		}
 		
@@ -174,6 +185,28 @@ package java.nio.charset
 			}
 			candidate.position = pos;
 			return true;
+		}
+		
+		/**
+		* 	Concatenates the byte sequence of this byte order mark
+		* 	with the target array of bytes into a new byte array.
+		* 
+		* 	@param target The target byte array to concatenate
+		* 	with this byte order mark.
+		* 
+		* 	@return The new concatenated byte array.
+		*/
+		public function concat( target:ByteArray ):ByteArray
+		{
+			var output:ByteArray = target;
+			if( target != null )
+			{
+				output = new ByteArray();
+				output.writeBytes( bytes, 0, bytes.length );
+				output.writeBytes( target, 0, target.length );
+			}
+			output.position = 0;
+			return output;
 		}
 		
 		/**

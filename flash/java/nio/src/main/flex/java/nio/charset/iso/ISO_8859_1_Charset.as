@@ -12,7 +12,18 @@ package java.nio.charset.iso
 		*/
 		public function ISO_8859_1_Charset()
 		{
-			super( "iso-8859-1", "cp819", "csISO", "Latin1", "ibm819", "iso_8859-1", "iso_8859-1:1987", "iso8859-1", "iso-ir-100", "l1", "latin1" );
+			super(
+				"iso-8859-1",
+				"cp819",
+				"csISO",
+				"Latin1",
+				"ibm819",
+				"iso_8859-1",
+				"iso_8859-1:1987",
+				"iso8859-1",
+				"iso-ir-100",
+				"l1",
+				"latin1" );
 		}
 	}
 }

@@ -31,7 +31,7 @@ package java.nio.charset
 			while( it.hasNext() )
 			{
 				value = it.next();
-				trace("CharsetConversionTest::testCharsets()", value );
+				trace("CharsetConversionTest::charset ", value );
 				Assert.assertTrue( value is Charset );
 				Assert.assertNotNull( Charset( value ).name() );
 			}
@@ -40,12 +40,127 @@ package java.nio.charset
 		/**
 		* 	@private
 		*/
-		protected function getCandidateCharBuffer():CharBuffer
+		protected function getCandidateString(
+			charset:Charset = null ):String
 		{
-			var s:String = '<?xml version="1.0" charset="utf-8" standalone="no" ?>\n<root></root>';
-			return CharBuffer.wrap( s );
+			if( charset == null )
+			{
+				charset = CharacterSets.UTF8;
+			}
+			return '<?xml version="1.0" charset="' + charset.name() + '" standalone="no" ?>\n<root></root>';
 		}
 		
+		/**
+		* 	@private
+		*/
+		protected function getCandidateCharBuffer( charset:Charset = null ):CharBuffer
+		{
+			return CharBuffer.wrap(
+				getCandidateString( charset ) );
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function getEncodedCandidate( charset:Charset ):ByteBuffer
+		{
+			//an internal 16-bit code unit string
+			var candidate:CharBuffer = getCandidateCharBuffer();
+			//get the byte buffer representation
+			var buffer:ByteBuffer =
+				charset.encode( candidate );
+			return buffer;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function getDecodedCandidate( charset:Charset, buffer:ByteBuffer ):CharBuffer
+		{
+			//decode back to a charbuffer
+			var decoded:CharBuffer = charset.decode( buffer );
+			return decoded;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assertEncodedCandidate( buffer:ByteBuffer ):void
+		{
+			//assert on each byte in the byte buffer
+			Assert.assertEquals( 0x3C, buffer.array().readByte() );
+			Assert.assertEquals( 0x3F, buffer.array().readByte() );
+			Assert.assertEquals( 0x78, buffer.array().readByte() );
+			Assert.assertEquals( 0x6D, buffer.array().readByte() );
+			Assert.assertEquals( 0x6C, buffer.array().readByte() );
+			Assert.assertEquals( 0x20, buffer.array().readByte() );
+			Assert.assertEquals( 0x76, buffer.array().readByte() );
+			Assert.assertEquals( 0x65, buffer.array().readByte() );
+			Assert.assertEquals( 0x72, buffer.array().readByte() );
+			Assert.assertEquals( 0x73, buffer.array().readByte() );
+			Assert.assertEquals( 0x69, buffer.array().readByte() );
+			Assert.assertEquals( 0x6F, buffer.array().readByte() );
+			Assert.assertEquals( 0x6E, buffer.array().readByte() );
+			Assert.assertEquals( 0x3D, buffer.array().readByte() );
+			Assert.assertEquals( 0x22, buffer.array().readByte() );
+			Assert.assertEquals( 0x31, buffer.array().readByte() );
+			Assert.assertEquals( 0x2E, buffer.array().readByte() );
+			Assert.assertEquals( 0x30, buffer.array().readByte() );
+			Assert.assertEquals( 0x22, buffer.array().readByte() );
+			Assert.assertEquals( 0x20, buffer.array().readByte() );
+			Assert.assertEquals( 0x63, buffer.array().readByte() );
+			Assert.assertEquals( 0x68, buffer.array().readByte() );
+			Assert.assertEquals( 0x61, buffer.array().readByte() );
+			Assert.assertEquals( 0x72, buffer.array().readByte() );
+			Assert.assertEquals( 0x73, buffer.array().readByte() );
+			Assert.assertEquals( 0x65, buffer.array().readByte() );
+			Assert.assertEquals( 0x74, buffer.array().readByte() );
+			Assert.assertEquals( 0x3D, buffer.array().readByte() );
+			Assert.assertEquals( 0x22, buffer.array().readByte() );
+			Assert.assertEquals( 0x75, buffer.array().readByte() );
+			Assert.assertEquals( 0x74, buffer.array().readByte() );
+			Assert.assertEquals( 0x66, buffer.array().readByte() );
+			Assert.assertEquals( 0x2D, buffer.array().readByte() );
+			Assert.assertEquals( 0x38, buffer.array().readByte() );
+			Assert.assertEquals( 0x22, buffer.array().readByte() );
+			Assert.assertEquals( 0x20, buffer.array().readByte() );
+			Assert.assertEquals( 0x73, buffer.array().readByte() );
+			Assert.assertEquals( 0x74, buffer.array().readByte() );
+			Assert.assertEquals( 0x61, buffer.array().readByte() );
+			Assert.assertEquals( 0x6E, buffer.array().readByte() );
+			Assert.assertEquals( 0x64, buffer.array().readByte() );
+			Assert.assertEquals( 0x61, buffer.array().readByte() );
+			Assert.assertEquals( 0x6C, buffer.array().readByte() );
+			Assert.assertEquals( 0x6F, buffer.array().readByte() );
+			Assert.assertEquals( 0x6E, buffer.array().readByte() );
+			Assert.assertEquals( 0x65, buffer.array().readByte() );
+			Assert.assertEquals( 0x3D, buffer.array().readByte() );
+			Assert.assertEquals( 0x22, buffer.array().readByte() );
+			Assert.assertEquals( 0x6E, buffer.array().readByte() );
+			Assert.assertEquals( 0x6F, buffer.array().readByte() );
+			Assert.assertEquals( 0x22, buffer.array().readByte() );
+			Assert.assertEquals( 0x20, buffer.array().readByte() );
+			Assert.assertEquals( 0x3F, buffer.array().readByte() );
+			Assert.assertEquals( 0x3E, buffer.array().readByte() );
+			Assert.assertEquals( 0x0A, buffer.array().readByte() );
+			Assert.assertEquals( 0x3C, buffer.array().readByte() );
+			Assert.assertEquals( 0x72, buffer.array().readByte() );
+			Assert.assertEquals( 0x6F, buffer.array().readByte() );
+			Assert.assertEquals( 0x6F, buffer.array().readByte() );
+			Assert.assertEquals( 0x74, buffer.array().readByte() );
+			Assert.assertEquals( 0x3E, buffer.array().readByte() );
+			Assert.assertEquals( 0x3C, buffer.array().readByte() );
+			Assert.assertEquals( 0x2F, buffer.array().readByte() );
+			Assert.assertEquals( 0x72, buffer.array().readByte() );
+			Assert.assertEquals( 0x6F, buffer.array().readByte() );
+			Assert.assertEquals( 0x6F, buffer.array().readByte() );
+			Assert.assertEquals( 0x74, buffer.array().readByte() );
+			Assert.assertEquals( 0x3E, buffer.array().readByte() );			
+		}
+		
+		/**
+		* 	@private
+		*/
 		protected function assertDecodedCandidate( candidate:String ):void
 		{
 			//assert on each character
@@ -122,96 +237,27 @@ package java.nio.charset
 		[Test]
 		public function testUTF8Conversion():void
 		{
-			//an internal 16-bit code unit string
 			var candidate:CharBuffer = getCandidateCharBuffer();
 			
 			//get the byte buffer representation
-			var buffer:ByteBuffer =
-				CharacterSets.UTF8.encode( candidate );
+			var buffer:ByteBuffer = getEncodedCandidate(
+				CharacterSets.UTF8 );
 				
 			//the char buffer should be twice the length of the byte buffer
 			//as we are dealing with internal vm 16-bit per character strings
 			Assert.assertEquals(
 				candidate.capacity() * 2, buffer.capacity() );
 				
-			//assert on each byte in the byte buffer
-			Assert.assertEquals( 0x3C, buffer.array().readByte() );
-			Assert.assertEquals( 0x3F, buffer.array().readByte() );
-			Assert.assertEquals( 0x78, buffer.array().readByte() );
-			Assert.assertEquals( 0x6D, buffer.array().readByte() );
-			Assert.assertEquals( 0x6C, buffer.array().readByte() );
-			Assert.assertEquals( 0x20, buffer.array().readByte() );
-			Assert.assertEquals( 0x76, buffer.array().readByte() );
-			Assert.assertEquals( 0x65, buffer.array().readByte() );
-			Assert.assertEquals( 0x72, buffer.array().readByte() );
-			Assert.assertEquals( 0x73, buffer.array().readByte() );
-			Assert.assertEquals( 0x69, buffer.array().readByte() );
-			Assert.assertEquals( 0x6F, buffer.array().readByte() );
-			Assert.assertEquals( 0x6E, buffer.array().readByte() );
-			Assert.assertEquals( 0x3D, buffer.array().readByte() );
-			Assert.assertEquals( 0x22, buffer.array().readByte() );
-			Assert.assertEquals( 0x31, buffer.array().readByte() );
-			Assert.assertEquals( 0x2E, buffer.array().readByte() );
-			Assert.assertEquals( 0x30, buffer.array().readByte() );
-			Assert.assertEquals( 0x22, buffer.array().readByte() );
-			Assert.assertEquals( 0x20, buffer.array().readByte() );
-			Assert.assertEquals( 0x63, buffer.array().readByte() );
-			Assert.assertEquals( 0x68, buffer.array().readByte() );
-			Assert.assertEquals( 0x61, buffer.array().readByte() );
-			Assert.assertEquals( 0x72, buffer.array().readByte() );
-			Assert.assertEquals( 0x73, buffer.array().readByte() );
-			Assert.assertEquals( 0x65, buffer.array().readByte() );
-			Assert.assertEquals( 0x74, buffer.array().readByte() );
-			Assert.assertEquals( 0x3D, buffer.array().readByte() );
-			Assert.assertEquals( 0x22, buffer.array().readByte() );
-			Assert.assertEquals( 0x75, buffer.array().readByte() );
-			Assert.assertEquals( 0x74, buffer.array().readByte() );
-			Assert.assertEquals( 0x66, buffer.array().readByte() );
-			Assert.assertEquals( 0x2D, buffer.array().readByte() );
-			Assert.assertEquals( 0x38, buffer.array().readByte() );
-			Assert.assertEquals( 0x22, buffer.array().readByte() );
-			Assert.assertEquals( 0x20, buffer.array().readByte() );
-			Assert.assertEquals( 0x73, buffer.array().readByte() );
-			Assert.assertEquals( 0x74, buffer.array().readByte() );
-			Assert.assertEquals( 0x61, buffer.array().readByte() );
-			Assert.assertEquals( 0x6E, buffer.array().readByte() );
-			Assert.assertEquals( 0x64, buffer.array().readByte() );
-			Assert.assertEquals( 0x61, buffer.array().readByte() );
-			Assert.assertEquals( 0x6C, buffer.array().readByte() );
-			Assert.assertEquals( 0x6F, buffer.array().readByte() );
-			Assert.assertEquals( 0x6E, buffer.array().readByte() );
-			Assert.assertEquals( 0x65, buffer.array().readByte() );
-			Assert.assertEquals( 0x3D, buffer.array().readByte() );
-			Assert.assertEquals( 0x22, buffer.array().readByte() );
-			Assert.assertEquals( 0x6E, buffer.array().readByte() );
-			Assert.assertEquals( 0x6F, buffer.array().readByte() );
-			Assert.assertEquals( 0x22, buffer.array().readByte() );
-			Assert.assertEquals( 0x20, buffer.array().readByte() );
-			Assert.assertEquals( 0x3F, buffer.array().readByte() );
-			Assert.assertEquals( 0x3E, buffer.array().readByte() );
-			Assert.assertEquals( 0x0A, buffer.array().readByte() );
-			Assert.assertEquals( 0x3C, buffer.array().readByte() );
-			Assert.assertEquals( 0x72, buffer.array().readByte() );
-			Assert.assertEquals( 0x6F, buffer.array().readByte() );
-			Assert.assertEquals( 0x6F, buffer.array().readByte() );
-			Assert.assertEquals( 0x74, buffer.array().readByte() );
-			Assert.assertEquals( 0x3E, buffer.array().readByte() );
-			Assert.assertEquals( 0x3C, buffer.array().readByte() );
-			Assert.assertEquals( 0x2F, buffer.array().readByte() );
-			Assert.assertEquals( 0x72, buffer.array().readByte() );
-			Assert.assertEquals( 0x6F, buffer.array().readByte() );
-			Assert.assertEquals( 0x6F, buffer.array().readByte() );
-			Assert.assertEquals( 0x74, buffer.array().readByte() );
-			Assert.assertEquals( 0x3E, buffer.array().readByte() );
+			assertEncodedCandidate( buffer );
 			
 			//reset the position
 			buffer.position( 0 );
 			Assert.assertEquals( 0, buffer.position() );
 			
-			//decode back to a charbuffer
-			var decoded:CharBuffer = CharacterSets.UTF8.decode( buffer );
+			var decoded:CharBuffer = getDecodedCandidate(
+				CharacterSets.UTF8, buffer );
 			
-			//convert the char buffer to a string
+			//convert the charbuffer to a string
 			var chars:String = decoded.toString();
 			
 			//assert each character is correct
@@ -220,5 +266,105 @@ package java.nio.charset
 			//compare complete candidate and decoded strings
 			Assert.assertEquals( candidate.toString(), chars );
 		}
+		
+		[Test]
+		public function testUTF8ConversionBOM():void
+		{
+			var candidate:CharBuffer = getCandidateCharBuffer();
+			
+			//get the byte buffer representation
+			var buffer:ByteBuffer = getEncodedCandidate(
+				CharacterSets.UTF8 );
+				
+			assertEncodedCandidate( buffer );
+				
+			//the char buffer should be twice the length of the byte buffer
+			//as we are dealing with internal vm 16-bit per character strings
+			Assert.assertEquals(
+				candidate.capacity() * 2, buffer.capacity() );
+				
+			//the BOM should not match yet
+			Assert.assertFalse( ByteOrderMark.UTF_8.test( buffer.array() ) );
+				
+			trace("CharsetConversionTest::testUTF8ConversionBOM()",
+				buffer.array().length,
+				ByteOrderMark.UTF_8.bytes.length,
+				ByteOrderMark.UTF_8.test( buffer.array() ) );
+			
+			
+			//concatenate the BOM with the UTF8 encoded bytes
+			var bomBytes:ByteArray =
+				ByteOrderMark.UTF_8.concat( buffer.array() );
+				
+			//verify the BOM is present in the concatenated output
+			Assert.assertTrue( ByteOrderMark.UTF_8.test( bomBytes ) );
+			
+			//simple test on byte lengths after concat()
+			Assert.assertEquals(
+				ByteOrderMark.UTF_8.bytes.length + buffer.array().length, bomBytes.length );
+				
+			//wrap the concatenated bytes back in a buffer
+			var bom:ByteBuffer =
+				ByteBuffer.wrap( bomBytes );
+			
+			//lengths of buffer and concatenated BOM bytes should be equal	
+			Assert.assertEquals(
+				bomBytes.length, bom.capacity() );
+			
+			/*	
+			assertEncodedCandidate( buffer );
+			
+			//reset the position
+			buffer.position( 0 );
+			Assert.assertEquals( 0, buffer.position() );
+			
+			var decoded:CharBuffer = getDecodedCandidate(
+				CharacterSets.UTF8, buffer );
+			
+			//convert the charbuffer to a string
+			var chars:String = decoded.toString();
+			
+			//assert each character is correct
+			assertDecodedCandidate( chars );
+			
+			//compare complete candidate and decoded strings
+			Assert.assertEquals( candidate.toString(), chars );
+			*/
+		}		
+		
+		/*
+		[Test]
+		public function testISO_8859_1Conversion():void
+		{
+			var candidate:CharBuffer = getCandidateCharBuffer();
+			
+			//get the byte buffer representation
+			var buffer:ByteBuffer = getEncodedCandidate(
+				CharacterSets.ISO_8859_1 );
+				
+			//the char buffer should be twice the length of the byte buffer
+			//as we are dealing with internal vm 16-bit per character strings
+			Assert.assertEquals(
+				candidate.capacity() * 2, buffer.capacity() );
+				
+			assertEncodedCandidate( buffer );
+			
+			//reset the position
+			buffer.position( 0 );
+			Assert.assertEquals( 0, buffer.position() );
+			
+			var decoded:CharBuffer = getDecodedCandidate(
+				CharacterSets.ISO_8859_1, buffer );
+			
+			//convert the charbuffer to a string
+			var chars:String = decoded.toString();
+			
+			//assert each character is correct
+			assertDecodedCandidate( chars );
+			
+			//compare complete candidate and decoded strings
+			Assert.assertEquals( candidate.toString(), chars );
+		}	
+		*/	
 	}
 }

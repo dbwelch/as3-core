@@ -147,6 +147,14 @@ package java.nio
 		}
 		
 		/**
+		* 	@private
+		*/
+		internal function setArray( array:ByteArray ):void
+		{
+			_array = array;
+		}
+		
+		/**
 		* 	Returns the offset within this buffer's backing array
 		* 	of the first element of the buffer (optional operation).
 		* 
@@ -206,6 +214,12 @@ package java.nio
 		*/
 		public function capacity():uint
 		{
+			/*
+			if( hasArray() && array().length > _capacity )
+			{
+				return array().length;
+			}
+			*/
 			return _capacity;
 		}
 		
