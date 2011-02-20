@@ -1,5 +1,9 @@
 package java.nio.charset
 {
+	import flash.errors.EOFError;
+	import flash.utils.ByteArray;
+	
+	import java.nio.*;	
 	
 	/**
 	* 	An engine that can transform a sequence of bytes
@@ -70,6 +74,10 @@ package java.nio.charset
 	*/
 	public class CharsetDecoder extends Object
 	{		
+		private var _cs:Charset;
+		private var _averageCharsPerByte:Number;
+		private var _maxCharsPerByte:Number;
+		
 		/**
 		* 	Initializes a new decoder.
 		* 
@@ -88,6 +96,33 @@ package java.nio.charset
 			cs:Charset, averageCharsPerByte:Number, maxCharsPerByte:Number )
 		{
 			super();
+			_cs = cs;
+			_averageCharsPerByte = averageCharsPerByte;
+			_maxCharsPerByte = maxCharsPerByte;
+		}
+		
+		public function charset():Charset
+		{
+			return _cs;
+		}
+		
+		public function decode(
+			input:ByteBuffer, out:CharBuffer, endOfInput:Boolean ):CoderResult
+		{
+			var result:CoderResult = null;
+			var pos:int = input.position();
+			while( input.hasRemaining() )
+			{
+				try
+				{
+					out.put( input.array().readMultiByte( 2, charset().name() ) );
+				}catch( e:EOFError )
+				{
+					//reached the end of file
+					break;
+				}
+			}
+			return result;
 		}
 	}
 }

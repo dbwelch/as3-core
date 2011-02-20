@@ -312,6 +312,16 @@ package java.nio.charset
 		}
 		
 		/**
+		* 	Constructs a new decoder for this charset.
+		* 
+		* 	@return A new decoder for this charset.
+		*/
+		public function newDecoder():CharsetDecoder
+		{
+			return null;
+		}
+		
+		/**
 		* 	Convenience method that encodes Unicode characters
 		* 	into bytes in this charset.
 		* 
@@ -324,6 +334,32 @@ package java.nio.charset
 		*     .encode(bb);</pre>
 		*/
 		public function encode( buffer:CharBuffer ):ByteBuffer
+		{
+			return null;
+		}
+		
+		/**
+		* 	Convenience method that decodes bytes in this charset
+		* 	into Unicode characters.
+		* 
+		* 	An invocation of this method upon a charset cs returns
+		* 	the same result as the expression:
+		* 
+		* 	<pre>cs.newDecoder()
+		*	  .onMalformedInput(CodingErrorAction.REPLACE)
+		*	  .onUnmappableCharacter(CodingErrorAction.REPLACE)
+		*	  .decode(bb);</pre>
+		* 
+		* 	Except that it is potentially more efficient because it
+		* 	can cache decoders between successive invocations.
+		* 
+		* 	This method always replaces malformed-input and
+		* 	unmappable-character sequences with this charset's
+		* 	default replacement byte array. In order to detect
+		* 	such sequences, use the CharsetDecoder.decode(java.nio.ByteBuffer)
+		* 	method directly.
+		*/
+		public function decode( buffer:ByteBuffer ):CharBuffer
 		{
 			return null;
 		}

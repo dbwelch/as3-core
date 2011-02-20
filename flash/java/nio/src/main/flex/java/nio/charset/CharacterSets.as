@@ -12,6 +12,11 @@ package java.nio.charset
 	public final class CharacterSets extends SortedMap
 	{
 		/**
+		* 	The <code>utf-16</code> character set.
+		*/
+		public static const UNICODE:Charset = new UnicodeCharset();
+		
+		/**
 		* 	The <code>utf-8</code> character set.
 		*/
 		public static const UTF8:Charset = new UTF_8_Charset();

@@ -204,27 +204,13 @@ package java.nio
 		* 
 		* 	@return The capacity of this buffer.
 		*/
-		public function get capacity():uint
+		public function capacity():uint
 		{
 			return _capacity;
 		}
 		
 		/**
-		* 	Returns this buffer's position.
-		* 
-		* 	@return The position of this buffer.
-		*/
-		public function get position():uint
-		{
-			if( hasArray() )
-			{
-				return _array.position;
-			}			
-			return 0;
-		}
-		
-		/**
-		* 	Sets this buffer's position.
+		* 	Sets and retrieves this buffer's position.
 		* 
 		* 	If the mark is defined and larger than
 		* 	the new position then it is discarded.
@@ -232,12 +218,13 @@ package java.nio
 		* 	@param value The new position value; must be
 		* 	non-negative and no larger than the current limit.
 		*/
-		public function set position( value:uint ):void
+		public function position( value:int = -1 ):uint
 		{
-			if( hasArray() )
+			if( hasArray() && value >= 0 )
 			{
 				_array.position = value;
-			}			
+			}
+			return _array.position;
 		}
 		
 		public function get limit():uint
@@ -356,10 +343,10 @@ package java.nio
 		* 	
 		* 	@return The number of elements remaining in this buffer.
 		*/
-		public function get remaining():uint
+		public function remaining():uint
 		{
 			//TODO			
-			return 0;
+			return capacity() - position();
 		}
 		
 		/**
@@ -369,10 +356,10 @@ package java.nio
 		* 	@return true if, and only if, there is at least one
 		* 	element remaining in this buffer.
 		*/
-		public function get hasRemaining():Boolean
+		public function hasRemaining():Boolean
 		{
 			//TODO
-			return false;
+			return remaining() > 0;
 		}
 		
 		/**

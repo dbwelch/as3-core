@@ -77,7 +77,15 @@ package java.nio.charset
 	*/
 	public class CharsetEncoder extends Object
 	{
-		private var _charset:Charset;
+		/**
+		* 	The number of bytes used by the virtual machine
+		* 	to represent a character.
+		*/
+		public static const BYTES_PER_CHARACTER:uint = 2;
+		
+		private var _cs:Charset;
+		private var _averageBytesPerChar:Number;
+		private var _maxBytesPerChar:Number;
 		
 		/**
 		* 	Creates a <code>CharsetEncoder</code> instance.
@@ -102,7 +110,9 @@ package java.nio.charset
 			replacement:ByteArray )
 		{
 			super();
-			_charset = cs;
+			_cs = cs;
+			_averageBytesPerChar = averageBytesPerChar;
+			_maxBytesPerChar = maxBytesPerChar;
 		}
 		
 		public function onUnmappableCharacter( newAction:CodingErrorAction ):CharsetEncoder
@@ -120,12 +130,13 @@ package java.nio.charset
 		public function encode(
 			input:CharBuffer, out:ByteBuffer, endOfInput:Boolean ):CoderResult
 		{
+			out.array().writeMultiByte( input.toString(), charset().name() );
 			return null;
 		}
 		
-		public function get charset():Charset
+		public function charset():Charset
 		{
-			return _charset;
+			return _cs;
 		}
 		
 		public function reset():CharsetEncoder

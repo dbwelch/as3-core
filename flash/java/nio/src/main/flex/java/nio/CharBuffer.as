@@ -1,7 +1,10 @@
 package java.nio
 {
+	import flash.utils.ByteArray;
+	
 	import java.lang.Character;
 	import java.lang.CharSequence;
+	import java.lang.MemoryAddress;
 	import java.lang.Readable;
 	
 	/**
@@ -56,6 +59,14 @@ package java.nio
 	{
 		/**
 		* 	@private
+		* 
+		* 	The name of the character set used internally
+		* 	by the virtual machine.
+		*/
+		private static const CHARSET_NAME:String = "unicode";
+		
+		/**
+		* 	@private
 		* 	
 		* 	Creates a <code>CharBuffer</code> instance.
 		* 
@@ -78,9 +89,23 @@ package java.nio
 		/**
 		* 	@inheritDoc
 		*/
+		override public function capacity():uint
+		{
+			var cap:uint = super.capacity();
+			if( hasArray()
+				&& array().length > cap )
+			{
+				return array().length / 2;		//two-bytes per character for vm strings
+			}
+			return cap;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function length():int
 		{
-			return capacity;
+			return capacity();
 		}
 		
 		/**
@@ -106,8 +131,25 @@ package java.nio
 		*/
 		public function toString():String
 		{
-			//TODO			
-			return null;			
+			var bytes:ByteArray = array();
+			if( bytes != null && bytes.length > 0 )
+			{
+				var pos:uint = position();
+				position( 0 );
+				var s:String = bytes.readMultiByte( bytes.length, CHARSET_NAME );
+				position( pos );
+				return s;
+			}
+			return MemoryAddress.id( this );
+		}
+		
+		public function put( value:Object ):CharBuffer
+		{
+			if( value is String )
+			{
+				array().writeMultiByte( value as String, CHARSET_NAME );
+			}
+			return this;
 		}
 		
 		/**
@@ -127,6 +169,19 @@ package java.nio
 		public static function allocate( capacity:uint ):CharBuffer
 		{
 			return new CharBuffer( capacity );
+		}
+		
+		public static function wrap( target:String ):CharBuffer
+		{
+			if( target != null )
+			{
+				var cb:CharBuffer = allocate( target.length );
+				var bytes:ByteArray = cb.array();
+				bytes.writeMultiByte( target, CHARSET_NAME );
+				bytes.position = 0;
+				return cb;
+			}
+			return null;
 		}
 	}
 }
