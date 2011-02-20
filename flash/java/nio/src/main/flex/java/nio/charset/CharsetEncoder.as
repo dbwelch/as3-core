@@ -2,6 +2,8 @@ package java.nio.charset
 {
 	import flash.utils.ByteArray;
 	
+	import java.nio.*;
+	
 	/**
 	* 	An engine that can transform a sequence of sixteen-bit
 	* 	Unicode characters into a sequence of bytes in a
@@ -101,6 +103,24 @@ package java.nio.charset
 		{
 			super();
 			_charset = cs;
+		}
+		
+		public function onUnmappableCharacter( newAction:CodingErrorAction ):CharsetEncoder
+		{
+			//TODO
+			return this;
+		}
+		
+		public function onMalformedInput( newAction:CodingErrorAction ):CharsetEncoder
+		{
+			//TODO
+			return this;
+		}
+		
+		public function encode(
+			input:CharBuffer, out:ByteBuffer, endOfInput:Boolean ):CoderResult
+		{
+			return null;
 		}
 		
 		public function get charset():Charset

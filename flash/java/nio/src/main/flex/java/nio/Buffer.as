@@ -118,12 +118,13 @@ package java.nio
 		/**
 		* 	Creates a <code>Buffer</code> instance.
 		* 
-		* 	@param capacity
+		* 	@param capacity The capacity of the buffer.
 		*/
 		public function Buffer( capacity:uint )
 		{
 			super();
 			_capacity = capacity;
+			_array = new ByteArray();
 		}
 		
 		/**
@@ -140,7 +141,7 @@ package java.nio
 		* 
 		* 	@return The array that backs this buffer.
 		*/
-		public function get array():ByteArray
+		public function array():ByteArray
 		{
 			return _array;
 		}
@@ -152,9 +153,9 @@ package java.nio
 		* 	If this buffer is backed by an array then buffer position
 		* 	p corresponds to array index p + arrayOffset().
 		*/
-		public function get arrayOffset():uint
+		public function arrayOffset():uint
 		{
-			return 0;
+			return _array.position;
 		}
 		
 		/**
@@ -193,7 +194,7 @@ package java.nio
 		/**
 		* 	
 		*/
-		public function get hasArray():Boolean
+		public function hasArray():Boolean
 		{
 			return _array != null;
 		}
@@ -215,7 +216,7 @@ package java.nio
 		*/
 		public function get position():uint
 		{
-			if( hasArray )
+			if( hasArray() )
 			{
 				return _array.position;
 			}			
@@ -233,7 +234,7 @@ package java.nio
 		*/
 		public function set position( value:uint ):void
 		{
-			if( hasArray )
+			if( hasArray() )
 			{
 				_array.position = value;
 			}			
@@ -382,6 +383,14 @@ package java.nio
 		public function get isReadOnly():Boolean
 		{
 			return _isReadOnly;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setReadOnly( value:Boolean ):void
+		{
+			_isReadOnly = value;
 		}
 		
 		/**

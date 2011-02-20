@@ -27,6 +27,13 @@ package java.nio.charset
 
 			trace("CharsetConversionTest::testCharacterSetConversion()",
 				charsets );
+				
+			var it:Iterator = charsets.iterator();
+			
+			while( it.hasNext() )
+			{
+				trace("CharsetConversionTest::testCharacterSetConversion()", it.next() );
+			}
 		}
 	}
 }

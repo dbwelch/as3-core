@@ -109,9 +109,6 @@ package java.lang
 			if( _class == null )
 			{	
 				var path:String = getQualifiedClassName( target );
-				
-				trace("[PATH] T::getClass()", path );
-				
 				_class = getDefinitionByName( path ) as Class;
 				
 				//classes are dynamic so cache our path and name

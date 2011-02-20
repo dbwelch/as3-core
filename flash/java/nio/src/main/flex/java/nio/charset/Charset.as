@@ -1,5 +1,7 @@
 package java.nio.charset
 {
+	import java.lang.*;
+	import java.nio.*;
 	import java.util.*;
 	
 	/*
@@ -175,25 +177,24 @@ package java.nio.charset
 	* 	code units and sequences of bytes.</p>
 	*/
 	public class Charset extends Object
-	{
-		/**
-		* 	@private
-		*/
-		static private var _availableCharsets:Object = 
-		{
-			"unicode": new Charset( "unicode", "utf-16" )
-		};
-		
+	{	
+		static private var _charsets:SortedMap = null;
+			
 		/**
 		* 	@private
 		*/
 		protected var _name:String;
 		
 		/**
+		* 	@private
+		*/
+		protected var _aliases:Array;
+		
+		/**
 		* 	Creates a <code>Charset</code> instance.
 		* 
-		* 	@param canonicalName 
-		* 	@param aliases 
+		* 	@param canonicalName The name of the character set.
+		* 	@param aliases A list of alias names for the charset.
 		*/
 		public function Charset(
 			canonicalName:String = null, ... aliases )
@@ -202,6 +203,12 @@ package java.nio.charset
 			_name = canonicalName;
 			
 			var alias:String = null;
+			
+			if( aliases.length > 0 )
+			{
+				_aliases = new Array();
+			}
+			
 			for( var i:int = 0;i < aliases.length;i++ )
 			{
 				alias = aliases[ i ];
@@ -211,7 +218,7 @@ package java.nio.charset
 				if( alias is String
 					&& !/^\s*$/.test( alias ) )
 				{
-					//TODO: add the alias
+					_aliases.push( alias );
 				}
 			}
 		}
@@ -246,8 +253,11 @@ package java.nio.charset
 		*/
 		public static function get availableCharsets():SortedMap
 		{
-			var output:SortedMap = new SortedMap();
-			return output;
+			if( _charsets == null )
+			{
+				_charsets = new CharacterSets();
+			}
+			return _charsets;
 		}
 		
 		/**
@@ -258,6 +268,76 @@ package java.nio.charset
 		public function get aliases():Set
 		{
 			return null;
+		}
+		
+		/**
+		* 	Returns this charset's canonical name.
+		* 
+		* 	@return The canonical name of this charset;
+		*/
+		public function name():String
+		{
+			return _name;
+		}
+		
+		/**
+		* 	Tells whether or not this charset supports encoding.
+		* 
+		* 	Nearly all charsets support encoding. The primary
+		* 	exceptions are special-purpose auto-detect charsets whose
+		* 	decoders can determine which of several possible encoding
+		* 	schemes is in use by examining the input byte sequence. Such
+		* 	charsets do not support encoding because there is no way to
+		* 	determine which encoding should be used on output.
+		* 	Implementations of such charsets should override this
+		* 	method to return false.
+		*
+		*	@return true if, and only if, this charset supports encoding.
+		*/
+		public function canEncode():Boolean
+		{
+			return true;
+		}
+		
+		/**
+		* 	Constructs a new encoder for this charset.
+		* 
+		* 	@throws UnsupportedOperationException If this charset does not support encoding.
+		* 
+		* 	@return A new encoder for this charset.
+		*/
+		public function newEncoder():CharsetEncoder
+		{
+			return null;
+		}
+		
+		/**
+		* 	Convenience method that encodes Unicode characters
+		* 	into bytes in this charset.
+		* 
+		* 	An invocation of this method upon a charset cs returns
+		* 	the same result as the expression:
+		* 
+		* 	<pre>cs.newEncoder()
+		*     .onMalformedInput(CodingErrorAction.REPLACE)
+		*     .onUnmappableCharacter(CodingErrorAction.REPLACE)
+		*     .encode(bb);</pre>
+		*/
+		public function encode( buffer:CharBuffer ):ByteBuffer
+		{
+			return null;
+		}
+		
+		/**
+		* 	Returns a string representation of this object.
+		* 
+		* 	@return A string representation of this object.
+		*/
+		public function toString():String
+		{
+			var nm:String = MemoryAddress.id( this );
+			var output:String = nm + " [" + name() + "]";
+			return output;
 		}
 	}
 }

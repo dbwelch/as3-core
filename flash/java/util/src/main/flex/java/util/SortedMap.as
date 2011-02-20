@@ -10,17 +10,20 @@ package java.util
 	public class SortedMap extends Object
 		implements Map
 	{
-		private var _dictionary:Dictionary = new Dictionary();
+		private var _dictionary:Array = new Array();
 		
 		private var _keyType:K = null;
 		private var _valueType:V = null;
+		private var _hashCode:int = -1;
 		
 		/**
-		* 	
+		* 	Creates a <code>SortedMap</code> instance.
 		*/
-		public function SortedMap()
+		public function SortedMap( k:K = null, v:V = null )
 		{
 			super();
+			this.keyType = k;
+			this.valueType = v;
 		}
 		
 		/**
@@ -54,7 +57,7 @@ package java.util
 		*/
 		public function clear():void
 		{
-			
+			_dictionary = new Array();
 		}
 		
 		/**
@@ -62,7 +65,7 @@ package java.util
 		*/
 		public function containsKey( key:Object ):Boolean
 		{
-			return false;
+			return indexOf( key ) > -1;
 		}
 		
 		/**
@@ -70,23 +73,7 @@ package java.util
 		*/
 		public function containsValue( value:Object ):Boolean
 		{
-			return false;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function entrySet():Set
-		{
-			return null;
-		}
-		
-		/**
-		*	@inheritDoc
-		*/
-		public function equals( o:Object ):Boolean
-		{
-			return false;
+			return indexOfValue( value ) > -1;
 		}
 		
 		/**
@@ -94,23 +81,27 @@ package java.util
 		*/
 		public function item( key:Object ):Object
 		{
+			var entry:MapEntry = _dictionary[ key ];
+			if( entry != null )
+			{
+				return entry.value;
+			}
 			return null;
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Retrieves a value at the specified index.
+		* 
+		* 	@param index The index of the value.
 		*/
-		public function hashCode():int
+		public function index( index:uint ):Object
 		{
-			return -1;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function isEmpty():Boolean
-		{
-			return true;
+			var value:Object = _dictionary[ index ];
+			if( value is MapEntry )
+			{
+				value = MapEntry( value ).value;
+			}
+			return value;
 		}
 		
 		/**
@@ -124,23 +115,7 @@ package java.util
 		/**
 		*	@inheritDoc
 		*/
-		public function put( key:Object, value:Object ):Object
-		{
-			return null;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function putAll( m:Map ):void
-		{
-			
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function remove( key:Object ):Object
+		public function entrySet():Set
 		{
 			return null;
 		}
@@ -148,9 +123,103 @@ package java.util
 		/**
 		*	@inheritDoc
 		*/
+		public function put( key:Object, value:Object ):Object
+		{
+			if( key == null )
+			{
+				throw new ArgumentError( "The key for a map may not be null." );
+			}
+			
+			if( this.keyType != null && !( key is keyType.type ) )
+			{
+				throw new ArgumentError( "The map key must be a '" + keyType.type + "' type." );
+			}
+			
+			var entry:MapEntry = null;
+			var index:int = indexOf( key );
+			
+			if( index == -1 )
+			{
+				index = size();
+				entry = new MapEntry( key, value, index );
+			}else{
+				entry = _dictionary[ index ] as MapEntry;
+			}
+			
+			entry.key = key;
+			entry.value = value;
+			
+			_dictionary[ index ] = entry;
+			_dictionary[ key ] = value;
+			
+			return value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function remove( key:Object ):Object
+		{
+			var entry:MapEntry = null;
+			var index:int = indexOf( key );
+			if( index > -1 )
+			{
+				entry = _dictionary[ index ] as MapEntry;
+				var key:Object = entry.key;
+				var value:Object = entry.value;
+				entry.key = null;
+				entry.value = null;
+				//remove the entry
+				_dictionary.splice( index, 1 );
+				delete _dictionary[ key ];
+				return value;
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function hashCode():int
+		{
+			if( _hashCode == -1 )
+			{
+				_hashCode = MemoryAddress.valueOf( this );
+			}
+			return _hashCode;
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
+		public function equals( o:Object ):Boolean
+		{
+			//TODO
+			return false;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function putAll( m:Map ):void
+		{
+			//TODO
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function isEmpty():Boolean
+		{
+			return ( size() === 0 );
+		}
+		
+		/**
+		*	@inheritDoc
+		*/
 		public function size():int
 		{
-			return 0;
+			return _dictionary.length;
 		}
 		
 		/**
@@ -164,9 +233,124 @@ package java.util
 		/**
 		* 	@inheritDoc
 		*/
-		public function get iterator():Iterator
+		public function iterator():Iterator
 		{
-			return null;
+			return new SortedMapIterator( this );
 		}
+		
+		/**
+		* 	@private
+		*/
+		protected function indexOf( key:Object ):int
+		{
+			var entry:MapEntry = null;
+			for( var i:int = 0;i < _dictionary.length;i++ )
+			{
+				entry = _dictionary[ i ] as MapEntry;
+				if( entry != null
+				 	&& entry.key === key )
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function indexOfValue( value:Object ):int
+		{
+			var entry:MapEntry = null;
+			for( var i:int = 0;i < _dictionary.length;i++ )
+			{
+				entry = _dictionary[ i ] as MapEntry;
+				if( entry != null
+				 	&& entry.value === value )
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+	}
+}
+
+import java.util.Iterator;
+import java.util.SortedMap;
+
+class SortedMapIterator implements Iterator {
+	
+	private var _map:SortedMap;
+	private var _index:uint = 0;
+	
+	/**
+	* 	Creates a <code>SortedMapIterator</code> instance.
+	*/
+	public function SortedMapIterator( map:SortedMap )
+	{
+		super();
+		_map = map;
+	}
+	
+	/**
+	* 	@inheritDoc
+	*/
+	public function hasNext():Boolean
+	{
+		return ( _index < _map.size() );
+	}
+	
+	/**
+	* 	@inheritDoc
+	*/
+	public function next():*
+	{
+		var value:* = _map.index( _index );
+		_index++;
+		return value;
+	}
+	
+	/**
+	* 	@inheritDoc
+	*/
+	public function remove():void
+	{
+		//TODO
+	}
+}
+
+/**
+*	@private
+*/
+class MapEntry {
+	
+	/**
+	* 	The key for the map entry.
+	*/
+	public var key:Object;
+	
+	/**
+	* 	The value for the map entry.
+	*/
+	public var value:Object;
+	
+	/**
+	* 	The index of the entry.
+	*/
+	public var index:uint;
+	
+	/**
+	* 	Creates a <code>MapEntry</code> instance.
+	* 
+	* 	@param key The key for the map entry.
+	* 	@param value The value for the map entry.
+	* 	@param index The index of the entry.
+	*/
+	public function MapEntry( key:Object, value:Object, index:uint )
+	{
+		this.key = key;
+		this.value = value;		
+		this.index = index;
 	}
 }

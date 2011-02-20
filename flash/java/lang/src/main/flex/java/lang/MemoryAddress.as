@@ -18,6 +18,12 @@ package java.lang
 		* 	hexadecimal string representation of the memory address.
 		*/
 		public static const MEMORY_ADDRESS:RegExp = /@([0-9a-fA-F]{8}) /;
+		
+		/**
+		* 	The delimiter used between class names and a memory address
+		* 	value.
+		*/
+		public static const DELIMITER:String = "@";
 	
 		/**
 		* 	Retrieves the memory address of target as a hexadecimal value.
@@ -50,6 +56,21 @@ package java.lang
 			}
 			
 			return null;
+		}
+		
+		/**
+		* 	Retrieves an identifier for a target in the form:
+		* 	
+		* 	<pre>className + '[AT]' + address</pre>
+		* 
+		* 	@param target The target to retrieve an identifier for.
+		* 
+		* 	@return A string identifier for a target.
+		*/
+		static public function id( target:Object ):String
+		{
+			var t:T = T.getInstance( target );
+			return t.name + DELIMITER + toString( target );
 		}
 		
 		/**

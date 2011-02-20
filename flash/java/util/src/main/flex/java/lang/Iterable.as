@@ -10,6 +10,6 @@ package java.lang
 		/**
 		* 	
 		*/
-		function get iterator():Iterator;
+		function iterator():Iterator;
 	}
 }
