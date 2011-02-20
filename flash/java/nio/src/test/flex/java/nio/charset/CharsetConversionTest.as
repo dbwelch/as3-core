@@ -285,12 +285,13 @@ package java.nio.charset
 				
 			//the BOM should not match yet
 			Assert.assertFalse( ByteOrderMark.UTF_8.test( buffer.array() ) );
-				
+			
+			/*	
 			trace("CharsetConversionTest::testUTF8ConversionBOM()",
 				buffer.array().length,
 				ByteOrderMark.UTF_8.bytes.length,
 				ByteOrderMark.UTF_8.test( buffer.array() ) );
-			
+			*/
 			
 			//concatenate the BOM with the UTF8 encoded bytes
 			var bomBytes:ByteArray =
