@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<h3 id="page-package-heading">
+			<styles>package-heading</styles>
+			<identifier>imagecontainer.package</identifier>
+		</h3>
+
+		<vbox>
+			<p>
+				<identifier>assets.examples.images.injected</identifier>
+			</p>
+			<image-container>
+				<id>injected-images</id>
+				<filters>image-display-filter</filters>
+			</image-container>
+		</vbox>
+		
+		<!-- <hrule /> -->
+		
+		<!--
+		<image-container>
+			<id>injected-images-interactive</id>
+		</image-container>
+		-->
+	</vbox>
+</document>

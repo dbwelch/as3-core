@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<h3 id="page-package-heading">
+			<styles>package-heading</styles>
+			<identifier>scrollbars.package</identifier>
+		</h3>
+		
+		<hbox>
+			<container>
+				<container>
+					<id>mask-target</id>
+					<mask>
+						<width>100</width>
+						<height>100</height>
+						<target>
+							<id>mask-target</id>
+						</target>
+					</mask>
+					<square-graphic>
+						<width>200</width>
+						<height>200</height>
+						<fill>
+							<style>default-gradient-fill</style>
+						</fill>
+					</square-graphic>
+				</container>
+			</container>
+		
+			<hbox>
+				<square-graphic>
+					<id>vscroll-target</id>
+					<width>100</width>
+					<height>200</height>
+					<fill>
+						<style>default-gradient-fill</style>
+					</fill>
+				</square-graphic>
+				<vscroll>
+					<target>
+						<id>vscroll-target</id>
+					</target>
+					<scroll-down-button />
+					<scroll-up-button />
+				</vscroll>
+			</hbox>
+			
+			<vbox>
+				<square-graphic>
+					<id>hscroll-target</id>
+					<width>200</width>
+					<height>100</height>
+					<fill>
+						<style>default-gradient-fill</style>
+					</fill>
+				</square-graphic>
+				<hscroll>
+					<width>150</width>
+					<target>
+						<id>hscroll-target</id>
+					</target>
+					<scroll-left-button />
+					<scroll-right-button />
+				</hscroll>
+			</vbox>
+		</hbox>
+	</vbox>
+</document>

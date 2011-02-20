@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<h3 id="page-package-heading">
+			<styles>package-heading</styles>
+			<identifier>text.package</identifier>
+		</h3>
+		
+		<hbox>
+			<spacing>25</spacing>
+			<vbox>
+				<label>
+					<styles>element</styles>
+					<identifier>elements.heading</identifier>
+				</label>
+				
+				<hbox>
+					<heading>
+						<identifier>text.examples.heading</identifier>
+					</heading>
+					<heading>
+						<styles>uppercase</styles>
+						<identifier>uppercase</identifier>
+					</heading>
+					<heading>
+						<styles>lowercase</styles>
+						<identifier>lowercase</identifier>
+					</heading>
+					<heading>
+						<styles>underline</styles>
+						<identifier>underline</identifier>
+					</heading>
+				</hbox>
+				
+				<hrule />
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.subheading</identifier>
+				</label>				
+				
+				<hbox>
+					<h3>
+						<identifier>text.examples.subheading</identifier>
+					</h3>
+			
+					<h3>
+						<styles>uppercase</styles>
+						<identifier>uppercase</identifier>
+					</h3>
+					<h3>
+						<styles>lowercase</styles>
+						<identifier>lowercase</identifier>
+					</h3>
+					<h3>
+						<styles>underline</styles>
+						<identifier>underline</identifier>
+					</h3>									
+				</hbox>
+				
+				<hrule />
+					
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label</identifier>
+				</label>
+								
+				<hbox>
+					<label>
+						<identifier>text.examples.label</identifier>
+					</label>			
+					<label>
+						<styles>uppercase</styles>
+						<identifier>uppercase</identifier>
+					</label>
+					<label>
+						<styles>lowercase</styles>
+						<identifier>lowercase</identifier>
+					</label>
+					<label>
+						<styles>underline</styles>
+						<identifier>underline</identifier>
+					</label>			
+				</hbox>
+				
+				
+				<label>
+					<identifier>text.label.constrain</identifier>
+					<max-width>160</max-width>
+				</label>
+				
+				<hrule />
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.textinput</identifier>
+				</label>				
+		
+				<text-input>
+					<identifier>text.label.constrain</identifier>
+				</text-input>
+				
+				<hrule />
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.textarea</identifier>
+				</label>				
+		
+				<text-area>
+					<identifier>text.label.constrain</identifier>
+				</text-area>
+			</vbox>	
+		
+			<vbox>
+				<label>
+					<styles>element</styles>
+					<identifier>elements.paragraph</identifier>
+				</label>				
+				
+				<paragraph>
+					<identifier>text.examples.paragraph</identifier>
+				</paragraph>
+				
+				<hrule />
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.subparagraph</identifier>
+				</label>
+						
+				<p>
+					<identifier>text.examples.subparagraph</identifier>
+				</p>
+				
+				<hrule />				
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label.html</identifier>
+				</label>
+				
+				<label>
+					<identifier>text.examples.subparagraph.html</identifier>
+					<html>true</html>
+					<max-width>260</max-width>
+				</label>
+				
+				<hrule />
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label.border.padding</identifier>
+				</label>
+				
+				<h3>
+					<styles>h3-border-example</styles>
+					<identifier>text.examples.subheading.border.example</identifier>
+					<max-width>260</max-width>
+				</h3>
+				
+				<hrule />				
+				
+				<label>
+					<styles>element</styles>
+					<identifier>elements.label.leftborder</identifier>
+				</label>
+				
+				<h3>
+					<styles>h3-border-left</styles>
+					<identifier>text.examples.subheading.border.left</identifier>
+				</h3>
+			</vbox>		
+		
+		</hbox>				
+	</vbox>
+</document>

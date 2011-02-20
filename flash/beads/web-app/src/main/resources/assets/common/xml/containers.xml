@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+<document>
+	<vbox>
+		<styles>page-heading</styles>
+		<h3 id="page-package-heading">
+			<styles>package-heading</styles>
+			<identifier>containers.package</identifier>
+		</h3>
+		
+		<container>
+			<id>container-stretch-width</id>
+			<styles>box-example-container</styles>
+		</container>
+		
+		<hbox>
+		
+		<vbox>
+			<styles>example-group</styles>
+			
+			<label>
+				<styles>element</styles>
+				<identifier>elements.hbox</identifier>
+			</label>
+			<p>
+				<identifier>containers.examples.hbox.copy</identifier>
+			</p>			
+			<hbox>
+				<id>example-hbox</id>
+				<styles>example-hbox</styles>
+				<box-model>
+					<target>
+						<id>example-hbox</id>
+					</target>
+				</box-model>				
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container example-middle</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+			</hbox>
+		
+			<label>
+				<styles>element</styles>
+				<identifier>elements.vbox</identifier>
+			</label>
+			<p>
+				<identifier>containers.examples.vbox.copy</identifier>
+			</p>			
+			<vbox>
+				<id>example-vbox</id>
+				<styles>example-vbox</styles>
+				<box-model>
+					<target>
+						<id>example-vbox</id>
+					</target>
+				</box-model>				
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+				<container>
+					<styles>box-example-container example-middle</styles>
+				</container>
+				<container>
+					<styles>box-example-container</styles>
+				</container>
+			</vbox>	
+								
+			<label>
+				<styles>element</styles>
+				<identifier>elements.container</identifier>
+			</label>			
+			
+			<hbox>
+				<vbox>
+					<styles>example-group</styles>
+					<hbox>
+						<container>
+							<styles>container-example container-border-example</styles>
+						</container>
+						<label>
+							<id>fte-position</id>
+							<fte>true</fte>
+							<styles>note</styles>
+							<identifier>container.border.example</identifier>
+							<max-width>220</max-width>
+							<box-model>
+								<target>
+									<id>fte-position</id>
+								</target>
+							</box-model>
+						</label>			
+					</hbox>
+			
+					<hbox>
+						<container>
+							<styles>container-example container-border-example container-border-background-example</styles>
+						</container>
+						<label>
+							<fte>true</fte>
+							<styles>note</styles>
+							<identifier>container.border.background.example</identifier>
+							<max-width>220</max-width>
+						</label>
+					</hbox>
+
+				</vbox>
+			
+				<vbox>
+					<hbox>
+						<container>
+							<styles>container-example container-border-background-example</styles>
+						</container>
+						<label>
+							<fte>true</fte>
+							<styles>note</styles>
+							<identifier>container.background.example</identifier>
+							<max-width>220</max-width>
+						</label>
+					</hbox>					
+					
+					<hbox>
+						<container>
+							<id>box-model-example-target</id>
+						</container>
+						<label>
+							<id>EXAMPLE-FTE</id>
+							<fte>true</fte>
+							<styles>note</styles>
+							<identifier>container.boxmodel.example</identifier>
+							<max-width>220</max-width>
+						</label>
+					</hbox>
+				</vbox>
+			</hbox>
+
+			
+			<hbox>
+				<container>
+					<id>outer-container</id>
+					<styles>container-border-example outer-container</styles>
+					<width>100</width>
+					<height>50</height>
+					<container>
+						<id>inner-container</id>
+						<styles>inner-container</styles>
+					</container>				
+				</container>
+			</hbox>			
+			
+			<hbox>
+				<container>
+					<id>outer-container</id>
+					<styles>container-border-example outer-container</styles>
+					<width>100</width>
+					<height>50</height>
+					<container>
+						<id>inner-container</id>
+						<styles>inner-container</styles>
+					</container>
+					<container>
+						<id>inner-container</id>
+						<styles>inner-container</styles>
+					</container>					
+				</container>
+			</hbox>
+		</vbox>	
+		
+		<vbox>	
+			
+			<vbox>
+			<label>
+				<styles>element</styles>
+				<identifier>elements.links</identifier>
+			</label>					
+			
+			<p>
+				<identifier>containers.examples.textlinks.copy</identifier>
+			</p>
+			<hbox>
+				<links>
+					<id>example-text-links</id>
+					<text-button>
+						<identifier>fruit.apples</identifier>
+						<custom-data>text</custom-data>
+					</text-button>
+					<text-button>
+						<identifier>fruit.oranges</identifier>
+						<custom-data>buttons</custom-data>					
+					</text-button>
+					<text-button>
+						<identifier>fruit.pears</identifier>
+						<custom-data>graphics</custom-data>
+					</text-button>
+				</links>
+				<label>
+					<id>example-text-links-result</id>
+				</label>
+			</hbox>
+			</vbox>
+		
+			<vbox>
+				<styles>example-group</styles>
+				<p>
+					<identifier>containers.examples.links.copy</identifier>
+				</p>
+				<hbox>					
+					<links>
+						<id>example-links</id>
+						<link-button>
+							<identifier>fruit.apples</identifier>
+							<custom-data>text</custom-data>
+						</link-button>
+						<link-button>
+							<identifier>fruit.oranges</identifier>
+							<custom-data>buttons</custom-data>					
+						</link-button>
+						<link-button>
+							<identifier>fruit.pears</identifier>
+							<custom-data>graphics</custom-data>
+						</link-button>
+					</links>
+					<label>
+						<id>example-links-result</id>
+					</label>
+				</hbox>			
+			</vbox>	
+		
+			<label>
+				<styles>element</styles>
+				<identifier>elements.tabs</identifier>
+			</label>			
+		
+			<vbox>
+				<styles>example-group</styles>
+				<p>
+					<identifier>containers.examples.tabs.copy</identifier>
+				</p>
+				<hbox>
+					<tabs>
+						<id>example-tabs</id>
+						<tab-button>
+							<identifier>fruit.apples</identifier>
+							<custom-data>text</custom-data>
+						</tab-button>
+						<tab-button>
+							<identifier>fruit.oranges</identifier>
+							<custom-data>buttons</custom-data>					
+						</tab-button>
+						<tab-button>
+							<identifier>fruit.pears</identifier>
+							<custom-data>graphics</custom-data>
+						</tab-button>
+					</tabs>
+					<label>
+						<id>example-tabs-result</id>
+					</label>
+				</hbox>	
+			</vbox>
+		
+		</vbox>
+		
+	</hbox>
+	</vbox>
+</document>

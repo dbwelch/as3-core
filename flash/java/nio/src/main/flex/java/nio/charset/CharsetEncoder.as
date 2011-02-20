@@ -1,5 +1,7 @@
 package java.nio.charset
 {
+	import flash.utils.ByteArray;
+	
 	/**
 	* 	An engine that can transform a sequence of sixteen-bit
 	* 	Unicode characters into a sequence of bytes in a
@@ -73,12 +75,42 @@ package java.nio.charset
 	*/
 	public class CharsetEncoder extends Object
 	{
+		private var _charset:Charset;
+		
 		/**
-		* 	
+		* 	Creates a <code>CharsetEncoder</code> instance.
+		* 
+		* 	The new encoder will have the given bytes-per-char
+		* 	and replacement values.
+		* 
+		* 	@param cs The target character set.
+		* 	@param averageBytesPerChar A positive float value indicating
+		* 	the expected number of bytes that will be produced for
+		* 	each input character.
+		* 	@param maxBytesPerChar A positive float value indicating the
+		* 	maximum number of bytes that will be produced for each input character.
+		* 	@param replacement The initial replacement; must not be null, must
+		* 	have non-zero length, must not be longer than maxBytesPerChar,
+		* 	and must be legal.
 		*/
-		public function CharsetEncoder()
+		public function CharsetEncoder(
+			cs:Charset,
+			averageBytesPerChar:uint,
+			maxBytesPerChar:uint,
+			replacement:ByteArray )
 		{
 			super();
+			_charset = cs;
+		}
+		
+		public function get charset():Charset
+		{
+			return _charset;
+		}
+		
+		public function reset():CharsetEncoder
+		{
+			return this;
 		}
 	}
 }
