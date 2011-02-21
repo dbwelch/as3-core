@@ -20,12 +20,34 @@ package org.xml.sax.helpers
 					ErrorHandler,
 					XMLFilter
 	{
+		
+		private var _parent:XMLReader;
+		
 		/**
 		* 	Creates an <code>XMLFilterImpl</code> instance.
+		* 
+		* 	@param parent 
 		*/
-		public function XMLFilterImpl()
+		public function XMLFilterImpl( parent:XMLReader = null )
 		{
 			super();
+			setParent( parent );
+		}
+		
+		/**
+		* 	
+		*/
+		public function getParent():XMLReader
+		{
+			return _parent;
+		}
+		
+		/**
+		* 	
+		*/
+		public function setParent( parent:XMLReader ):void
+		{
+			_parent = parent;
 		}
 		
 		/**

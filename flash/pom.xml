@@ -34,6 +34,7 @@
 		<module>fluid</module>
 		<module>io</module>
 		<module>ioc</module>
+		<module>java</module>
 		<module>net</module>
 		<!-- <module>pattern</module> -->
 		<module>scanner</module>
