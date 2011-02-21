@@ -1,4 +1,4 @@
-package org.w3c.xml
+package javax.xml
 {
 	import flash.events.*;
 	import flash.net.*;

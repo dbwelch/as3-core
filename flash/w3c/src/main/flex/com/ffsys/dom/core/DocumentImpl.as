@@ -4,8 +4,8 @@ package com.ffsys.dom.core
 	
 	import com.ffsys.ioc.*;
 	
+	import javax.xml.*;
 	import org.w3c.dom.*;
-	import org.w3c.xml.*;
 	
 	import com.ffsys.dom.ioc.*;
 	

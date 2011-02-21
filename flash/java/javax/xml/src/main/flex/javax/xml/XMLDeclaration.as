@@ -1,4 +1,4 @@
-package org.w3c.xml
+package javax.xml
 {
 
 	public class XMLDeclaration extends Object

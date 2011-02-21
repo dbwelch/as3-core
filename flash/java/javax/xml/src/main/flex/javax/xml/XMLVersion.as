@@ -1,4 +1,4 @@
-package org.w3c.xml
+package javax.xml
 {
 	/**
 	* 	Represents an XML (Extensible Markup Language) version.
