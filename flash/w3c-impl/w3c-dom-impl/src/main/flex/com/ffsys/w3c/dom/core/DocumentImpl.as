@@ -354,9 +354,10 @@ package com.ffsys.w3c.dom.core
 			
 			if( !XMLGrammar.isValidXMLName( tagName ) )
 			{
-				throw new DOMExceptionImpl(
-					DOMExceptionImpl.INVALID_CHARACTER_ERR,
-					DOMExceptionImpl.INVALID_XML_NAME_MSG,
+				throw new DOMException(
+					DOMException.INVALID_XML_NAME_MSG,
+					null,
+					DOMException.INVALID_CHARACTER_ERR,
 					[ tagName ] );
 			}
 			
@@ -401,17 +402,19 @@ package com.ffsys.w3c.dom.core
 			if( implementation != null
 				&& !implementation.hasFeature( DOMFeature.XML_MODULE, null ) )
 			{
-				throw new DOMExceptionImpl(
-					DOMExceptionImpl.NOT_SUPPORTED_ERR,
-					DOMExceptionImpl.UNSUPPORTED_FEATURE_MODULE_MSG,
+				throw new DOMException(
+					DOMException.UNSUPPORTED_FEATURE_MODULE_MSG,
+					null,
+					DOMException.NOT_SUPPORTED_ERR,
 					[ DOMFeature.XML_MODULE ] );
 			}
 			
 			if( !XMLGrammar.isValidXMLName( qualifiedName ) )
 			{
-				throw new DOMExceptionImpl(
-					DOMExceptionImpl.INVALID_CHARACTER_ERR,
-					DOMExceptionImpl.INVALID_XML_NAME_MSG,
+				throw new DOMException(
+					DOMException.INVALID_XML_NAME_MSG,
+					null,
+					DOMException.INVALID_CHARACTER_ERR,
 					[ qualifiedName ] );
 			}
 			

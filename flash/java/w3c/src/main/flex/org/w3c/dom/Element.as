@@ -1,6 +1,6 @@
 /**
-	<p>A collection of interfaces for the !Document Object Model (DOM)
-	core level 3 specification.</p>
+	<p>Provides the interfaces for the !Document Object Model
+	(DOM) which is a component API of the Java API for XML Processing.</p>
 */
 package org.w3c.dom
 {

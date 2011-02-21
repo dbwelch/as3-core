@@ -9,6 +9,7 @@ package com.ffsys.w3c.dom
 	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.core.*;
 	import org.w3c.dom.*;
+	import org.w3c.dom.DOMException;
 	import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 	
 	/**
@@ -73,7 +74,7 @@ package com.ffsys.w3c.dom
 		* 	Test for the error thrown when attempting to call
 		* 	createElementNS() with an invalid qualified name.
 		*/
-		[Test(expects="com.ffsys.w3c.dom.core.DOMExceptionImpl")]
+		[Test(expects="org.w3c.dom.DOMException")]
 		public function testInvalidXmlElementNameCreateElementNS():void
 		{
 			var doc:Document = getDocument();	
@@ -86,7 +87,7 @@ package com.ffsys.w3c.dom
 		* 	Test for the error thrown when attempting to call
 		* 	createElement() with an invalid tag name.
 		*/
-		[Test(expects="com.ffsys.w3c.dom.core.DOMExceptionImpl")]
+		[Test(expects="org.w3c.dom.DOMException")]
 		public function testInvalidXmlElementNameCreateElement():void
 		{
 			var doc:Document = getDocument();	

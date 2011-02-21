@@ -1,13 +1,12 @@
-package java.lang
+package org.w3c.dom.ls
 {
-	/**
-	* 
-	*/
-	public class Exception extends Throwable
+	import java.lang.RuntimeException;
+	import java.lang.Throwable;
+
+	public class LSException extends RuntimeException
 	{
-		
 		/**
-		* 	Creates an <code>Exception</code> instance.
+		* 	Creates an <code>LSException</code> instance.
 		* 
 		* 	@param message The detail message.
 		* 	@param couse The cause, a null value is permitted,
@@ -16,10 +15,10 @@ package java.lang
 		* 	@param replacements Values to replace within
 		* 	the detail message.
 		*/
-		public function Exception(
+		public function LSException(
 			message:String = null,
 			cause:Throwable = null,
-			id:int = -1,
+			id:int = 0,
 			replacements:Array = null )
 		{
 			super( message, cause, id, replacements );

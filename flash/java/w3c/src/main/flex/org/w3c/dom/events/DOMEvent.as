@@ -1,3 +1,6 @@
+/**
+	<p>Defines the interfaces for the DOM events module.</p>
+*/
 package org.w3c.dom.events
 {
 	

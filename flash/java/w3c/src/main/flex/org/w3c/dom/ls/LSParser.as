@@ -1,0 +1,9 @@
+package org.w3c.dom.ls
+{
+	
+	
+	public interface LSParser
+	{
+	
+	}
+}

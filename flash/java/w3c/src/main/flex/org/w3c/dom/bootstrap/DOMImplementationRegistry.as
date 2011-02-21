@@ -1,3 +1,7 @@
+/**
+	<p>Defines the interface that allows a bootstrap process
+	to examine available DOM implementations.</p>
+*/
 package org.w3c.dom.bootstrap
 {
 	import org.w3c.dom.*;

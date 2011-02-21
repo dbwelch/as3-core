@@ -1,5 +1,6 @@
 package java.lang
 {
+	import com.ffsys.utils.string.StringSubstitutor;
 	
 	/**
 	* 	The Throwable class is the superclass of all errors
@@ -71,12 +72,19 @@ package java.lang
 		* 	@param couse The cause, a null value is permitted,
 		* 	and indicates that the cause is nonexistent or unknown.
 		* 	@param id An identifier for the exception.
+		* 	@param replacements Values to replace within
+		* 	the detail message.
 		*/
 		public function Throwable(
 			message:String = null,
 			cause:Throwable = null,
-			id:int = 0 )
+			id:int = -1,
+			replacements:Array = null )
 		{
+			if( replacements != null && replacements.length > 0 )
+			{
+				message = getExceptionMessage( message, replacements );
+			}
 			super( message, id );
 			this.cause = cause;
 		}
@@ -112,16 +120,18 @@ package java.lang
 		}
 		
 		/**
-		* 	Sets a message with replacement values '%s'
+		* 	Retrieves a message with placeholder '%s' values
 		* 	replaced with each entry from the replacements
 		* 	array.
 		* 
-		* 	@param message The message.
+		* 	@param message The detail message.
 		* 	@param replacments The array of replacement values.
 		*/
-		public function setMessage( message:String, ... replacements ):void
+		public static function getExceptionMessage( message:String, replacements:Array ):String
 		{
-			//TODO
+			var substitutor:StringSubstitutor = 
+				new StringSubstitutor();
+			return substitutor.replace( message, replacements );
 		}
 	}
 }
