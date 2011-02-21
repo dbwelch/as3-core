@@ -4,9 +4,7 @@ package org.w3c.dom.traversal
 	
 	public interface DocumentTraversal
 	{
-		
 		/*
-		
 		Object DocumentTraversal
 		
 		The DocumentTraversal object has the following methods:
@@ -27,9 +25,7 @@ package org.w3c.dom.traversal
 		The filter parameter is a NodeFilter object.
 		The entityReferenceExpansion parameter is of type Boolean.
 		
-		This method can raise a DOMException object.		
-		
-		
+		This method can raise a DOMException object.
 		*/
 	}
 }

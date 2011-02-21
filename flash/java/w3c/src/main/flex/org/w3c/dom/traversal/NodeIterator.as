@@ -7,6 +7,7 @@ package org.w3c.dom.traversal
 		/*
 		
 		The NodeIterator object has the following properties:
+		
 		root
 		This read-only property is a Node object.
 		whatToShow
@@ -20,6 +21,7 @@ package org.w3c.dom.traversal
 		
 		
 		The NodeIterator object has the following methods:
+		
 		nextNode()
 		This method returns a Node object.
 		This method can raise a DOMException object.

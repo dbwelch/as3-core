@@ -18,7 +18,7 @@ package org.w3c.dom.events
 	* 	the newly created copy the user must
 	* 	add them manually.
 	*/
-	public interface DOMEventListener
+	public interface EventListener
 	{
 		/**
 		* 	This method is called whenever an event 
