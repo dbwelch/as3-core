@@ -46,6 +46,45 @@ package org.w3c.dom.ls
 	*/
 	public interface LSInput
 	{
-		//
+		
+		
+		/*
+		
+		String	getBaseURI() 
+		          The base URI to be used (see section 5.1.4 in [IETF RFC 2396]) for resolving a relative systemId to an absolute URI.
+		 InputStream	getByteStream() 
+		          An attribute of a language and binding dependent type that represents a stream of bytes.
+		 boolean	getCertifiedText() 
+		          If set to true, assume that the input is certified (see section 2.13 in [XML 1.1]) when parsing [XML 1.1].
+		 Reader	getCharacterStream() 
+		          An attribute of a language and binding dependent type that represents a stream of 16-bit units.
+		 String	getEncoding() 
+		          The character encoding, if known.
+		 String	getPublicId() 
+		          The public identifier for this input source.
+		 String	getStringData() 
+		          String data to parse.
+		 String	getSystemId() 
+		          The system identifier, a URI reference [IETF RFC 2396], for this input source.
+		 void	setBaseURI(String baseURI) 
+		          The base URI to be used (see section 5.1.4 in [IETF RFC 2396]) for resolving a relative systemId to an absolute URI.
+		 void	setByteStream(InputStream byteStream) 
+		          An attribute of a language and binding dependent type that represents a stream of bytes.
+		 void	setCertifiedText(boolean certifiedText) 
+		          If set to true, assume that the input is certified (see section 2.13 in [XML 1.1]) when parsing [XML 1.1].
+		 void	setCharacterStream(Reader characterStream) 
+		          An attribute of a language and binding dependent type that represents a stream of 16-bit units.
+		 void	setEncoding(String encoding) 
+		          The character encoding, if known.
+		 void	setPublicId(String publicId) 
+		          The public identifier for this input source.
+		 void	setStringData(String stringData) 
+		          String data to parse.
+		 void	setSystemId(String systemId) 
+		          The system identifier, a URI reference [IETF RFC 2396], for this input source.		
+		
+		
+		*/
+		
 	}
 }

@@ -1,7 +1,7 @@
 package org.w3c.dom.ls
 {
-	import java.lang.RuntimeException;
 	import java.lang.Throwable;
+	import org.w3c.dom.DOMException;
 	
 	/**
 	* 	Parser or write operations may throw an LSException
@@ -16,7 +16,7 @@ package org.w3c.dom.ls
 	* 	after a fatal error, but the resulting DOM tree is then
 	* 	implementation dependent.
 	*/
-	public class LSException extends RuntimeException
+	public class LSException extends DOMException
 	{
 		/**
 		* 	If an attempt was made to load a document,
@@ -32,7 +32,7 @@ package org.w3c.dom.ls
 		public static const SERIALIZE_ERR:int = 82;
 		
 		/**
-		* 	Creates an <code>LSException</code> instance.
+		* 	Creates a <code>LSException</code> instance.
 		* 
 		* 	@param message The detail message.
 		* 	@param couse The cause, a null value is permitted,
