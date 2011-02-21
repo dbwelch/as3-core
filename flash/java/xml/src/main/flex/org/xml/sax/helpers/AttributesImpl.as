@@ -30,6 +30,11 @@ package org.xml.sax.helpers
 			return -1;
 		}
 		
+		public function getIndexNS( uri:String, localName:String ):int
+		{
+			return -1;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
@@ -69,6 +74,14 @@ package org.xml.sax.helpers
 		/**
 		* 	@inheritDoc
 		*/
+		public function getTypeNS( uri:String, localName:String ):String
+		{
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getURI( index:int ):String
 		{
 			//TODO			
@@ -78,7 +91,25 @@ package org.xml.sax.helpers
 		/**
 		* 	@inheritDoc
 		*/
+		public function getValueByIndex( index:int ):String
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getValue( qname:String ):String
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getValueNS( uri:String, localName:String ):String
 		{
 			//TODO
 			return null;
