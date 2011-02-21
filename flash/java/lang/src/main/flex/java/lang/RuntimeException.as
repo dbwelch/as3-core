@@ -22,7 +22,7 @@ package java.lang
 			id:int = 0,
 			replacements:Array = null )
 		{
-			super(message, cause, id, replacements );
+			super( message, cause, id, replacements );
 		}
 	}
 }
