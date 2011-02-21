@@ -38,30 +38,62 @@ package org.xml.sax
 	{
 		//
 		
+		function getIndex( qname:String ):int;
+		
+		//int	getIndex(String uri, String localName)
+		
+		function getLength():int;
+		
+		function getLocalName( index:int ):String;
+		
+		function getQName( index:int ):String;
+		
+		function getType( index:int ):String;
+		
+		
+		function getURI( index:int ):String;
+		
+		//String	getValue(int index) 
+		
+		function getValue( qname:String ):String;
+		
+		//String	getValue(String uri, String localName)	
+		
+		//String	getType(String uri, String localName) 
+		
 		/*
 		
 			int	getIndex(String qName) 
 		          Look up the index of an attribute by XML qualified (prefixed) name.
+		
 		 int	getIndex(String uri, String localName) 
 		          Look up the index of an attribute by Namespace name.
+		
 		 int	getLength() 
 		          Return the number of attributes in the list.
+		
 		 String	getLocalName(int index) 
 		          Look up an attribute's local name by index.
+		
 		 String	getQName(int index) 
 		          Look up an attribute's XML qualified (prefixed) name by index.
+		
 		 String	getType(int index) 
 		          Look up an attribute's type by index.
 		 String	getType(String qName) 
 		          Look up an attribute's type by XML qualified (prefixed) name.
 		 String	getType(String uri, String localName) 
 		          Look up an attribute's type by Namespace name.
+		
 		 String	getURI(int index) 
 		          Look up an attribute's Namespace URI by index.
+		
 		 String	getValue(int index) 
 		          Look up an attribute's value by index.
+		
 		 String	getValue(String qName) 
 		          Look up an attribute's value by XML qualified (prefixed) name.
+		
 		 String	getValue(String uri, String localName)		
 		
 		*/
