@@ -768,7 +768,9 @@
 					</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="$input" />
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="$input" />
+					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
@@ -2094,7 +2096,11 @@
 			<xsl:choose>			
 				<!-- class inheritance -->
 				<xsl:when test="not(apiClassifierDetail/apiClassifierDef/apiInterface)">
-					<xsl:value-of select="apiName" />
+					
+					<xsl:call-template name="escape">
+						<xsl:with-param name="input" select="apiName" />
+					</xsl:call-template>
+					
 					<xsl:call-template name="inheritance">
 						<xsl:with-param name="input" select="apiClassifierDetail/apiClassifierDef/apiBaseClassifier" />
 					</xsl:call-template>

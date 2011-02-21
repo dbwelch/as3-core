@@ -1,6 +1,13 @@
 package org.xml.sax.helpers
 {
-	import org.xml.sax.*;
+	import org.xml.sax.Attributes;	
+	import org.xml.sax.ContentHandler;
+	import org.xml.sax.DTDHandler;
+	import org.xml.sax.EntityResolver;		
+	import org.xml.sax.ErrorHandler;
+	import org.xml.sax.Locator;	
+	import org.xml.sax.XMLFilter;
+	import org.xml.sax.XMLReader;
 	
 	/**
 	* 	Base class for deriving an XML filter.

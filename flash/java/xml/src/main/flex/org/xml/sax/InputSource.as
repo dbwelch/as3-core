@@ -11,6 +11,6 @@ package org.xml.sax
 		public function InputSource()
 		{
 			super();
-		}	
+		}
 	}
 }
