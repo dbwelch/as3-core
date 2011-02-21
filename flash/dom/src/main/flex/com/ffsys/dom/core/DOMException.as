@@ -2,7 +2,7 @@ package com.ffsys.dom.core
 {
 	import com.ffsys.errors.AbstractError;
 
-	public class DomException extends AbstractError
+	public class DOMException extends AbstractError
 	{
 		
 		
@@ -88,14 +88,14 @@ package com.ffsys.dom.core
 		static public const	TYPE_MISMATCH_ERR:uint = 17;
 		
 		/**
-		* 	Creates a <code>DomException</code> instance.
+		* 	Creates a <code>DOMException</code> instance.
 		* 
 		* 	@param code The exception code.
 		* 	@param message The exception message.
 		* 	@param substitutions Optional substitutions
 		* 	for the error message.
 		*/
-		public function DomException(
+		public function DOMException(
 			code:uint = 0,
 			message:String = "",
 			substitutions:Array = null )

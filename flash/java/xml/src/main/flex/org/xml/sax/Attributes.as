@@ -1,4 +1,4 @@
-package org.w3c.xml.sax
+package org.xml.sax
 {
 	
 	/**
@@ -37,5 +37,33 @@ package org.w3c.xml.sax
 	public interface Attributes
 	{
 		//
+		
+		/*
+		
+			int	getIndex(String qName) 
+		          Look up the index of an attribute by XML qualified (prefixed) name.
+		 int	getIndex(String uri, String localName) 
+		          Look up the index of an attribute by Namespace name.
+		 int	getLength() 
+		          Return the number of attributes in the list.
+		 String	getLocalName(int index) 
+		          Look up an attribute's local name by index.
+		 String	getQName(int index) 
+		          Look up an attribute's XML qualified (prefixed) name by index.
+		 String	getType(int index) 
+		          Look up an attribute's type by index.
+		 String	getType(String qName) 
+		          Look up an attribute's type by XML qualified (prefixed) name.
+		 String	getType(String uri, String localName) 
+		          Look up an attribute's type by Namespace name.
+		 String	getURI(int index) 
+		          Look up an attribute's Namespace URI by index.
+		 String	getValue(int index) 
+		          Look up an attribute's value by index.
+		 String	getValue(String qName) 
+		          Look up an attribute's value by XML qualified (prefixed) name.
+		 String	getValue(String uri, String localName)		
+		
+		*/
 	}
 }

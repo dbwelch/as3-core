@@ -17,5 +17,6 @@
 		<module>io</module>
 		<module>nio</module>
 		<module>util</module>
+		<module>xml</module>
 	</modules>
 </project>
