@@ -5,7 +5,27 @@ package org.xml.sax.helpers
 	import org.xml.sax.Attributes;
 	
 	/**
-	* 	
+	* 	Default implementation of the Attributes interface.
+	* 
+	* 	<p>This class provides a default implementation of the
+	* 	SAX2 Attributes interface, with the addition of
+	* 	manipulators so that the list can be modified or reused.</p>
+	* 
+	* 	<p>There are two typical uses of this class:</p>
+	* 
+	* 	<ol>
+	* 		<li>to take a persistent snapshot of an Attributes
+	* 		object in a startElement event; or</li>
+	* 		<li>to construct or modify an Attributes object in
+	* 		a SAX2 driver or filter.</li>
+	* 	</ol>
+	* 
+	* 	<p>This class replaces the now-deprecated SAX1
+	* 	AttributeListImpl class; in addition to supporting the
+	* 	updated Attributes interface rather than the deprecated
+	* 	AttributeList interface, it also includes a much more
+	* 	efficient implementation using a single array rather
+	* 	than a set of Vectors.</p>
 	*/
 	public class AttributesImpl extends Object
 		implements Attributes
