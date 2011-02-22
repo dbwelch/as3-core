@@ -156,15 +156,6 @@
 				<configuration>
 					<doCheck>true</doCheck>
 					<doUpdate>true</doUpdate>
-					<!-- <getRevisionOnlyOnce>true</getRevisionOnlyOnce> -->
-					
-					<useLastCommittedRevision>true</useLastCommittedRevision>
-					<buildNumberPropertiesFileLocation>${project.build.directory}/build.properties</buildNumberPropertiesFileLocation>
-					<format>{0,number} - {1,date,yyyy-MM-dd HH:mm:ss}</format>
-					<items>
-						<item>buildNumber0</item>
-						<item>timestamp</item>
-					</items>
 				</configuration>
 			</plugin>
 			<plugin>
