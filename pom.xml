@@ -26,6 +26,8 @@
 		
 		<api.docs.title>Actionscript Documentation</api.docs.title>
 		
+		<api.docs.build.number>${buildNumber}</api.docs.build.number>
+		
 		<!-- empty by default but can be specified at the package level -->
 		<api.docs.sub.title></api.docs.sub.title>
 		<api.docs.author>Mischa Williamson</api.docs.author>
@@ -152,11 +154,17 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>false</doCheck>
+					<doCheck>true</doCheck>
 					<doUpdate>false</doUpdate>
 					<getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+					<buildNumberPropertiesFileLocation>${project.build.directory}/build.properties</buildNumberPropertiesFileLocation>
+					<format>{0,number} - {1,date,yyyy-MM-dd HH:mm:ss}</format>
+					<items>
+						<item>buildNumber</item>
+						<item>timestamp</item>
+					</items>
 				</configuration>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<groupId>org.sonatype.flexmojos</groupId>
 				<artifactId>flexmojos-maven-plugin</artifactId>
