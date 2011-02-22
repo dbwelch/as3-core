@@ -220,16 +220,16 @@ package com.ffsys.w3c.dom.core
 			feature:String, version:String ):Object
 		{
 			trace("DOMImplementationImpl::getFeature()",
-				feature, version, supported );
+				feature, version, supported, this.document );
 				
 			var bean:Object = null;
 			
 			try
 			{
-				this.document.getBean( feature );
+				bean = this.document.getBean( feature );
 			}catch( e:Error )
 			{
-				//could be a null bean document is not
+				//could be a null bean document if not
 				//instantiated via IoC
 			}
 			

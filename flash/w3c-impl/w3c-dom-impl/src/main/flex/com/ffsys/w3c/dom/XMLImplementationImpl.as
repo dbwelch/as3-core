@@ -18,14 +18,6 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
-		* 	Configures the supported features for this implementation.
-		*/
-		override protected function configureSupportedFeatures():void
-		{
-			this.supported.push( DOMFeature.XML_FEATURE );
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		override public function createDocument(
@@ -42,7 +34,7 @@ package com.ffsys.w3c.dom
 			{
 				NodeImpl( document ).namespaceDeclarations.push(
 					new Namespace( namespaceURI ) );
-			}			
+			}
 			
 			var e:Element = document.createElement( qualifiedName );
 			document.setDocumentElement( e );

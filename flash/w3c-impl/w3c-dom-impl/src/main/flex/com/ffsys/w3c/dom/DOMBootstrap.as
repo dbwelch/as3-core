@@ -4,6 +4,8 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.core.*;
 	
 	import com.ffsys.w3c.dom.bootstrap.DOMImplementationRegistryImpl;
+	
+	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 
 	/**
 	*	A bean document used to implementations
@@ -99,11 +101,31 @@ package com.ffsys.w3c.dom
 			descriptor = new BeanDescriptor(
 				XML_DOCUMENT );
 			descriptor.instanceClass = XMLDocumentImpl;
-			impls.addBeanDescriptor( descriptor );			
+			impls.addBeanDescriptor( descriptor );	
 			
-			trace("DOMBootstrap::DOMBootstrap()",
-				descriptor, descriptor.id );
-				
+			descriptor = new BeanDescriptor(
+				DOMFeature.EVENTS_MODULE );
+			descriptor.instanceClass = DocumentEventImpl;
+			descriptor.singleton = true;
+			descriptor.names = new Vector.<String>();
+			descriptor.names.push( DOMFeature.UI_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.MOUSE_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.TEXT_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.KEYBOARD_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.MUTATION_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.WHEEL_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.COMPOSITION_EVENTS_MODULE );
+			descriptor.names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
+			impls.addBeanDescriptor( descriptor );
+			
+			/*	//TODO: add bean descriptors for specific event interfaces
+			descriptor = new BeanDescriptor(
+				DOMFeature.EVENTS_MODULE );
+			descriptor.instanceClass = DocumentEventImpl;
+			impls.addBeanDescriptor( descriptor );
+			*/
+			
 			//add the implementations as an xref
 			xrefs.push( impls );
 		}

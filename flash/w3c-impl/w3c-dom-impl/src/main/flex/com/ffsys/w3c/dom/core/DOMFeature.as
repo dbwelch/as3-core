@@ -32,6 +32,21 @@ package com.ffsys.w3c.dom.core
 		public static const MOUSE_EVENTS_MODULE:String = "MouseEvents";
 		
 		/**
+		* 	Represents the wheel events module.
+		*/
+		public static const WHEEL_EVENTS_MODULE:String = "WheelEvents";
+		
+		/**
+		* 	Represents the composition events module.
+		*/
+		public static const COMPOSITION_EVENTS_MODULE:String = "CompositionEvents";
+		
+		/**
+		* 	Represents the custom events module.
+		*/
+		public static const CUSTOM_EVENTS_MODULE:String = "CustomEvents";
+		
+		/**
 		* 	Represents the text events module.
 		*/
 		public static const TEXT_EVENTS_MODULE:String = "TextEvents";
@@ -50,11 +65,6 @@ package com.ffsys.w3c.dom.core
 		* 	Represents the mutation name events module.
 		*/
 		public static const MUTATION_NAME_EVENTS_MODULE:String = "MutationNameEvents";
-		
-		/**
-		* 	Represents the html events module.
-		*/
-		public static const HTML_EVENTS_MODULE:String = "HTMLEvents";
 		
 		/**
 		* 	Represents the load and save module.
@@ -213,7 +223,9 @@ package com.ffsys.w3c.dom.core
 					|| feature == KEYBOARD_EVENTS_MODULE.toLowerCase()
 					|| feature == MUTATION_EVENTS_MODULE.toLowerCase()
 					|| feature == MUTATION_NAME_EVENTS_MODULE.toLowerCase()
-					|| feature == HTML_EVENTS_MODULE.toLowerCase()
+					|| feature == WHEEL_EVENTS_MODULE.toLowerCase()
+					|| feature == CUSTOM_EVENTS_MODULE.toLowerCase()					
+					|| feature == COMPOSITION_EVENTS_MODULE.toLowerCase()
 					|| feature == LS_MODULE.toLowerCase()
 					|| feature == LS_ASYNC_MODULE.toLowerCase()
 					|| feature == VALIDATION_MODULE.toLowerCase()
