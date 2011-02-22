@@ -1785,7 +1785,13 @@
 	
 	<xsl:template name="nameref">
 		<xsl:param name="input" select="''" />
-		<xsl:variable name="input" select="replace($input,'/',':')" />
+		
+		<xsl:if test="count( $input ) &gt; 1">
+			<xsl:value-of select="concat( 'GOT BAD NAMEREF INPUT ', $input/node()[0] )" />
+		</xsl:if>
+		
+		<!-- <xsl:variable name="input" select="replace($input,'/',':')" /> -->
+		
 		<xsl:text>\nameref{</xsl:text>
 		<xsl:call-template name="escape-label">
 			<xsl:with-param name="input" select="$input"/>

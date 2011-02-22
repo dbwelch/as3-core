@@ -281,6 +281,9 @@ package com.ffsys.ui.core
 			
 			//measure the dimensions and re-assign
 			//the calculated values
+			
+			//STACK UNDERFLOW!?!!?!?!
+			
 			this.dimensions = measure();
 			
 			//trace("UIComponent::finalized()", this, this.id );
