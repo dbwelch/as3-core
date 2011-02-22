@@ -109,9 +109,18 @@ package com.ffsys.w3c.dom.events
 					[ eventInterface ] );
 			}
 			
-			//TODO: instantiate the event from the bean document this impl was created from
+			var bean:Object = null;
 			
-			return null;
+			try
+			{
+				bean = document.getBean( eventInterface );
+			}catch( e:Error )
+			{
+				//document could be null if not instantiated
+				//via IoC - requires custom exception
+			}
+			
+			return DOMEvent( bean );
 		}
 	}
 }

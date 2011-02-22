@@ -71,7 +71,12 @@ package org.w3c.dom.events
 	public interface DOMEvent
 	{
 		/**
-		* 	Initializes an event.
+		* 	Initializes this event.
+		* 
+		* 	@param type The type for the event.
+		* 	@param bubbles Whether the event bubbles.
+		* 	@param cancelable Whether the event is
+		* 	cancelable.
 		*/
 		function initEvent(
 			type:String,

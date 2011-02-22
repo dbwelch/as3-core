@@ -6,6 +6,8 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.bootstrap.DOMImplementationRegistryImpl;
 	
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;
+	import com.ffsys.w3c.dom.events.EventImpl;
+	import com.ffsys.w3c.dom.events.UIEventImpl;
 
 	/**
 	*	A bean document used to implementations
@@ -119,12 +121,17 @@ package com.ffsys.w3c.dom
 			descriptor.names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
 			impls.addBeanDescriptor( descriptor );
 			
-			/*	//TODO: add bean descriptors for specific event interfaces
+			//DOM Event
 			descriptor = new BeanDescriptor(
-				DOMFeature.EVENTS_MODULE );
-			descriptor.instanceClass = DocumentEventImpl;
+				DocumentEventImpl.EVENT_INTERFACE );
+			descriptor.instanceClass = EventImpl;
 			impls.addBeanDescriptor( descriptor );
-			*/
+			
+			//DOM UI Event
+			descriptor = new BeanDescriptor(
+				DocumentEventImpl.UI_EVENT_INTERFACE );
+			descriptor.instanceClass = UIEventImpl;
+			impls.addBeanDescriptor( descriptor );
 			
 			//add the implementations as an xref
 			xrefs.push( impls );

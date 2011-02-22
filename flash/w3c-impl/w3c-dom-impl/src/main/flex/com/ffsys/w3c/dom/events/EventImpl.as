@@ -40,6 +40,31 @@ package com.ffsys.w3c.dom.events
 		*/
 		public static const BUBBLING_PHASE:uint = EventPhase.BUBBLING_PHASE;
 		
+		/**
+		* 	An error event type.
+		*/
+		public static const ERROR:String = "error";
+		
+		/**
+		* 	An unload event type.
+		*/
+		public static const UNLOAD:String = "unload";
+		
+		/**
+		* 	An load event type.
+		*/
+		public static const LOAD:String = "load";
+		
+		/**
+		* 	A select event type.
+		*/
+		public static const SELECT:String = "select";
+		
+		/**
+		* 	An abort event type.
+		*/
+		public static const ABORT:String = "abort";
+		
 		private var _target:EventTarget;
 		private var _currentTarget:EventTarget;
 		private var _eventPhase:uint;
@@ -57,7 +82,7 @@ package com.ffsys.w3c.dom.events
 		* 	@param cancelable Whether the event is cancelable.
 		*/
 		public function EventImpl(
-			type:String,
+			type:String = null,
 			bubbles:Boolean = false,
 			cancelable:Boolean = false ):void
 		{
@@ -114,7 +139,7 @@ package com.ffsys.w3c.dom.events
 		/**
 		*	@private
 		*/
-		internal function setBubbles( type:Boolean ):void
+		internal function setBubbles( bubbles:Boolean ):void
 		{
 			_bubbles = bubbles;
 		}
