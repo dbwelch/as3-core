@@ -144,6 +144,12 @@ package org.w3c.dom
 		*/
 		static public const UNSUPPORTED_FEATURE_MODULE_MSG:String
 			= "The feature '%s' is not supported.";	
+			
+		/**
+		* 	A message for when an event interface is not supported.
+		*/
+		static public const UNSUPPORTED_EVENT_INTERFACE_MSG:String
+			= "The event interface '%s' is not supported.";
 		
 		/**
 		* 	Creates an <code>DOMException</code> instance.

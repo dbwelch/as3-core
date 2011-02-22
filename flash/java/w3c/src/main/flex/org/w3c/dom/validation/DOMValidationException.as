@@ -1,6 +1,6 @@
 package org.w3c.dom.validation
 {
-	import java.lang.Throwable;	
+	import java.lang.Throwable;
 	import org.w3c.dom.DOMException;
 	
 	/**

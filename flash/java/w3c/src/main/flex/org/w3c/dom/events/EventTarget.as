@@ -17,5 +17,21 @@ package org.w3c.dom.events
 	public interface EventTarget extends IEventDispatcher
 	{
 		//
+		
+		/*
+		
+		void               addEventListener(in DOMString type, 
+		                                      in EventListener listener, 
+		                                      in boolean useCapture);
+		  void               removeEventListener(in DOMString type, 
+		                                         in EventListener listener, 
+		                                         in boolean useCapture);
+		  // Modified in DOM Level 3:
+		  boolean            dispatchEvent(in Event evt)
+		                                   raises(EventException, 
+		                                   DOMException);
+		
+		
+		*/
 	}
 }

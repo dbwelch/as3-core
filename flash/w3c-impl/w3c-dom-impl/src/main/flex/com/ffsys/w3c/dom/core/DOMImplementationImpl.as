@@ -47,7 +47,7 @@ package com.ffsys.w3c.dom.core
 		}
 		
 		/**
-		* 	A convenience method for implementations to generat
+		* 	A convenience method for implementations to generate
 		* 	an identifier consisting of a feature name optionally
 		* 	concatenated with a version.
 		* 
@@ -196,8 +196,19 @@ package com.ffsys.w3c.dom.core
 			if( _supported == null )
 			{
 				_supported = new Vector.<DOMFeature>();
-				//always add the core feature as supported
 				_supported.push( DOMFeature.CORE_FEATURE );
+				_supported.push( DOMFeature.XML_FEATURE );
+				
+				_supported.push( DOMFeature.EVENTS_FEATURE );
+				_supported.push( DOMFeature.UI_EVENTS_FEATURE );
+				_supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
+				_supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
+				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );
+				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
+				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
+				
+				_supported.push( DOMFeature.LS_FEATURE );
+				_supported.push( DOMFeature.LS_ASYNC_FEATURE );
 			}
 			return _supported;
 		}
@@ -210,8 +221,19 @@ package com.ffsys.w3c.dom.core
 		{
 			trace("DOMImplementationImpl::getFeature()",
 				feature, version, supported );
+				
+			var bean:Object = null;
 			
-			return null;
+			try
+			{
+				this.document.getBean( feature );
+			}catch( e:Error )
+			{
+				//could be a null bean document is not
+				//instantiated via IoC
+			}
+			
+			return bean;
 		}
 		
 		/**

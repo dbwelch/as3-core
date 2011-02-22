@@ -7,21 +7,22 @@ package com.ffsys.w3c.dom.events
 	import flash.events.EventPhase;
 	
 	import org.w3c.dom.events.DOMEvent;
+	import org.w3c.dom.events.EventTarget;
 	
 	/**
-	* 	The DOMEventImpl interface is used to provide contextual
+	* 	The EventImpl interface is used to provide contextual
 	* 	information about an event to the handler processing
-	* 	the event. An object which implements the DOMEventImpl
+	* 	the event. An object which implements the EventImpl
 	* 	interface is generally passed as the first parameter
 	* 	to an event handler. More specific context information
 	* 	is passed to event handlers by deriving additional
-	* 	interfaces from DOMEventImpl which contain information
+	* 	interfaces from EventImpl which contain information
 	* 	directly relating to the type of event they accompany.
 	* 
 	* 	These derived interfaces are also implemented by the
 	* 	object passed to the event listener.
 	*/
-	public class DOMEventImpl extends Event
+	public class EventImpl extends Object
 		implements DOMEvent
 	{
 		/**
@@ -39,23 +40,30 @@ package com.ffsys.w3c.dom.events
 		*/
 		public static const BUBBLING_PHASE:uint = EventPhase.BUBBLING_PHASE;
 		
+		private var _target:EventTarget;
+		private var _currentTarget:EventTarget;
+		private var _eventPhase:uint;
 		private var _timestamp:Date;
 		private var _trusted:Boolean;
+		private var _type:String;
+		private var _bubbles:Boolean;
+		private var _cancelable:Boolean;
 		
 		/**
-		* 	Creates a <code>DOMEventImpl</code> instance.
+		* 	Creates a <code>EventImpl</code> instance.
 		* 
 		* 	@param type The type of the event.
 		* 	@param bubbles Whether the event bubbles.
 		* 	@param cancelable Whether the event is cancelable.
 		*/
-		public function DOMEventImpl(
+		public function EventImpl(
 			type:String,
 			bubbles:Boolean = false,
 			cancelable:Boolean = false ):void
 		{
 			_timestamp = new Date();
-			super( type, bubble, cancelable );
+			super();
+			initEvent( type, bubbles, cancelable );
 		}
 		
 		/**
@@ -66,23 +74,81 @@ package com.ffsys.w3c.dom.events
 			bubbles:Boolean,
 			cancelable:Boolean ):void
 		{
-			
+			setType( type );
+			setBubbles( bubbles );
+			setCancelable( cancelable );			
+		}
+		
+		/**
+		* 	The event phase.
+		*/
+		public function get eventPhase():uint
+		{
+			return _eventPhase;
+		}
+		
+		/**
+		* 	The type of this event.
+		*/
+		public function get type():String
+		{
+			return _type;
+		}
+		
+		/**
+		*	@private
+		*/
+		internal function setType( type:String ):void
+		{
+			_type = type;
+		}
+		
+		/**
+		* 	Determines whether this event bubbles.
+		*/
+		public function get bubbles():Boolean
+		{
+			return _bubbles;
+		}
+		
+		/**
+		*	@private
+		*/
+		internal function setBubbles( type:Boolean ):void
+		{
+			_bubbles = bubbles;
+		}
+		
+		/**
+		* 	Determines wheter this event is cancelable.
+		*/
+		public function get cancelable():Boolean
+		{
+			return _cancelable;
+		}
+		
+		/**
+		*	@private
+		*/
+		internal function setCancelable( cancelable:Boolean ):void
+		{
+			_cancelable = cancelable;
 		}
 		
 		/**
 		* 	The target for the event.
 		*/
-		public function getTarget():EventTarget
+		public function get target():EventTarget
 		{
-			return EventTarget( this.target );
+			return _target;
 		}
 		
 		/**
 		* 	The current target for the event.
 		*/
-		public function getCurrentTarget():EventTarget
+		public function get currentTarget():EventTarget
 		{
-			return EventTarget( this.currentTarget );
+			return _currentTarget;
 		}
 		
 		/**
@@ -97,17 +163,17 @@ package com.ffsys.w3c.dom.events
 		/**
 		* 	Stops propagation of this event.
 		*/
-		override public function stopPropagation():void
+		public function stopPropagation():void
 		{
-			super.stopPropagation();
+			//
 		}
 		
 		/**
 		* 	Stops propagation of this event immediately.
 		*/
-		override public function stopImmediatePropagation():void
+		public function stopImmediatePropagation():void
 		{
-			super.stopImmediatePropagation();
+			//
 		}
 		
 		/**
@@ -116,15 +182,7 @@ package com.ffsys.w3c.dom.events
 		*/
 		public function get defaultPrevented():Boolean
 		{
-			return isDefaultPrevented();
-		}
-		
-		/**
-		* 	Prevents the default behaviour of this event.
-		*/
-		override public function preventDefault():void
-		{
-			super.preventDefault();
+			return false;
 		}
 		
 		/**

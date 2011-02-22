@@ -17,6 +17,10 @@ package org.w3c.dom.events
 	* 	the same EventListeners to be added to
 	* 	the newly created copy the user must
 	* 	add them manually.
+	* 
+	*	Moving a Node, with methods Document.adoptNode,
+	* 	Node.appendChild, or Range.extractContents,
+	* 	shall not affect the event listeners attached to it.
 	*/
 	public interface EventListener
 	{

@@ -2,7 +2,7 @@ package org.w3c.dom.validation
 {
 	
 	/**
-	* 
+	* 	
 	*/
 	public interface ElementEditValidator extends NodeEditValidator
 	{

@@ -81,12 +81,12 @@ package org.w3c.dom.events
 		/**
 		* 	The target for the event.
 		*/
-		function getTarget():EventTarget;
+		function get target():EventTarget;
 		
 		/**
 		* 	The current target for the event.
 		*/
-		function getCurrentTarget():EventTarget;
+		function get currentTarget():EventTarget;
 		
 		/**
 		* 	The type of the event.
@@ -129,11 +129,6 @@ package org.w3c.dom.events
 		* 	prevented.
 		*/
 		function get defaultPrevented():Boolean;
-		
-		/**
-		* 	Prevents the default behaviour of this event.
-		*/
-		function preventDefault():void;
 		
 		/**
 		* 	Determines whether this event is trusted.

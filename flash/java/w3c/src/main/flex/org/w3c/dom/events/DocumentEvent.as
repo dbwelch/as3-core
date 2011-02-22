@@ -1,7 +1,5 @@
 package org.w3c.dom.events
 {
-	import flash.events.Event;
-	
 	/**
 	* 	The DocumentEvent interface provides a mechanism
 	* 	by which the user can create an Event object of a
@@ -58,6 +56,6 @@ package org.w3c.dom.events
 		* 
 		* 	@return The newly created Event.
 		*/
-		function createEvent( eventInterface:String ):Event;
+		function createEvent( eventInterface:String ):DOMEvent;
 	}
 }

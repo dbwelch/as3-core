@@ -114,6 +114,69 @@ package com.ffsys.w3c.dom.core
 		*/
 		public static const XML_FEATURE:DOMFeature =
 			new DOMFeature( XML_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Events feature.
+		*/
+		public static const EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( EVENTS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM UI Events feature.
+		*/
+		public static const UI_EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( UI_EVENTS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Mouse Events feature.
+		*/
+		public static const MOUSE_EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( MOUSE_EVENTS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Text Events feature.
+		*/
+		public static const TEXT_EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( TEXT_EVENTS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Keyboard Events feature.
+		*/
+		public static const KEYBOARD_EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( KEYBOARD_EVENTS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Mutation Events feature.
+		*/
+		public static const MUTATION_EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( MUTATION_EVENTS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Mutation Events feature.
+		*/
+		public static const MUTATION_NAME_EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( MUTATION_NAME_EVENTS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM LS feature.
+		*/
+		public static const LS_FEATURE:DOMFeature =
+			new DOMFeature( LS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM LS Async feature.
+		*/
+		public static const LS_ASYNC_FEATURE:DOMFeature =
+			new DOMFeature( LS_ASYNC_MODULE, LEVEL_3 );
 		
 		private var _feature:String;
 		private var _version:String;
