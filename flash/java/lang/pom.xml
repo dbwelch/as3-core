@@ -19,13 +19,7 @@
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
-	</dependencies>
-	<properties>
-		<api.docs.author><![CDATA[Mischa Williamson \\
-\small{Thanks to the \nameref{fluid:term:w3c}}\thanks{Contributors to the w3 specifications}\small{ and the Java and ECMAScript contributors}\thanks{Contributors to the Java and ECMAScript language specifications}]]></api.docs.author>
-		<api.docs.title>java.lang -- ${buildNumber}</api.docs.title>
-		<api.docs.sub.title><![CDATA["Empty your mind, be formless. Shapeless, like water. If you put water into a cup, it becomes the cup. You put water into a bottle it becomes the bottle. You put it in a teapot, it becomes the teapot. Now, water can flow or it can crash. Be water, my friend." -- Bruce Lee]]></api.docs.sub.title>
-	</properties>	
+	</dependencies>	
 	<profiles>
 		<profile>
 			<id>asdoc</id>

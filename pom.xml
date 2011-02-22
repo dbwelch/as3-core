@@ -23,10 +23,23 @@
 		
 		<git.ignore>.gitignore</git.ignore>
 		
+		<!--
+			Hidden build number file that *is not included* in the scm,
+			this is not stored in the target directory so it increments
+			across cleans - this is user specific as it is not shared
+			in the scm.
+			-->
+		<build.number.file>${basedir}/.build.properties</build.number.file>
 		
-		<api.docs.title>Actionscript Documentation</api.docs.title>
+		<api.docs.title>${project.groupId}</api.docs.title>
 		
-		<api.docs.build.number>${buildNumber}</api.docs.build.number>
+		<api.docs.scm.revision>${scm.revision}</api.docs.scm.revision>
+		<api.docs.build.number>${build.number}</api.docs.build.number>
+		
+		<api.docs.build.product>${project.build.finalName}.${project.packaging}</api.docs.build.product>
+		<api.docs.build.date>${build.date}</api.docs.build.date>
+		<api.docs.build.timestamp>${timestamp}</api.docs.build.timestamp>
+		<api.docs.link.report.path>../${project.build.finalName}-link-report.xml</api.docs.link.report.path>
 		
 		<!-- empty by default but can be specified at the package level -->
 		<api.docs.sub.title></api.docs.sub.title>
@@ -38,7 +51,9 @@
 		<asdoc.classifier>api-docs</asdoc.classifier>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
 		<asdoc.dir>${project.build.directory}/asdoc</asdoc.dir>
-		<api.docs.packaging>pdf</api.docs.packaging>	
+		
+		<api.docs.packaging>pdf</api.docs.packaging>
+		
 		<xslt.packaging>xsl</xslt.packaging>
 		<latex.xslt>latex-asdoc-xslt</latex.xslt>
 		<latex.xslt.dir>${latex.xslt}-${project.version}</latex.xslt.dir>
@@ -147,27 +162,52 @@
 			<version>1.0-beta-5-SNAPSHOT</version>
 				<executions>
 					<execution>
-					<phase>validate</phase>
-					<goals>
-						<goal>create</goal>
-					</goals>
+						<id>get-scm-revision</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<configuration>
+							<doCheck>false</doCheck>
+							<doUpdate>false</doUpdate>
+							<getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+							<buildNumberPropertyName>scm.revision</buildNumberPropertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>get-build-number</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<configuration>
+							<doCheck>false</doCheck>
+							<doUpdate>false</doUpdate>
+							<buildNumberPropertyName>build.number</buildNumberPropertyName>							
+		<buildNumberPropertiesFileLocation>${build.number.file}</buildNumberPropertiesFileLocation>
+							<format>{0,number}</format>
+							<items>
+								<item>buildNumber</item>
+							</items>
+						</configuration>
+					</execution>
+					<execution>
+						<id>get-build-date</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+						<configuration>
+							<doCheck>false</doCheck>
+							<doUpdate>false</doUpdate>
+							<buildNumberPropertyName>build.date</buildNumberPropertyName>
+							<format>{0,date,dd-MM-yyyy HH:mm:ss}</format>
+							<items>
+								<item>timestamp</item>
+							</items>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<doCheck>false</doCheck>
-					<doUpdate>false</doUpdate>
-					<getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-					
-					<!-- <useLastCommittedRevision>true</useLastCommittedRevision> -->
-					
-<buildNumberPropertiesFileLocation>${project.build.directory}/build.properties</buildNumberPropertiesFileLocation>
-					
-					<format>{0,string} - {1,date,yyyy-MM-dd HH:mm:ss}</format>
-					<items>
-						<item>buildNumber</item>
-						<item>timestamp</item>
-					</items>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.sonatype.flexmojos</groupId>

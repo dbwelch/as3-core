@@ -203,17 +203,39 @@
 												<name>page-header-right</name>
 												<value>Actionscript API</value>
 											</parameter>
+											
+											<parameter>
+												<name>api-docs-scm-revision</name>
+												<value>${api.docs.scm.revision}</value>
+											</parameter>
+											
+											<parameter>
+												<name>api-docs-build-number</name>
+												<value>${api.docs.build.number}</value>
+											</parameter>
+											
+											<parameter>
+												<name>build-product</name>
+												<value>${api.docs.build.product}</value>
+											</parameter>											
+											
+											<parameter>
+												<name>build-date</name>
+												<value>${api.docs.build.date}</value>
+											</parameter>
+											
+											<parameter>
+												<name>build-timestamp</name>
+												<value>${api.docs.build.timestamp}</value>
+											</parameter>																							
+											
 											<parameter>
 												<name>link-report-path</name>
-												<value>../${project.build.finalName}-link-report.xml</value>
+												<value>${api.docs.link.report.path}</value>
 											</parameter>
 											<parameter>
 												<name>link-source-directory</name>
 												<value>${api.docs.link.source.directory}</value>
-											</parameter>
-											<parameter>
-												<name>build-product</name>
-												<value>${project.build.finalName}.${project.packaging}</value>
 											</parameter>
 										</parameters>
 									</transformationSet>

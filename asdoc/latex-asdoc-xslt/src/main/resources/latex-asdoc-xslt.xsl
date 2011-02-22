@@ -41,8 +41,15 @@
 	<xsl:param name="link-report-path" select="''" />
 	<xsl:param name="link-source-directory" select="''" />
 	<xsl:param name="link-report" select="document($link-report-path)" />
+	
 	<xsl:param name="build-product" select="''" />
+	<xsl:param name="build-date" select="''" />
+	<xsl:param name="build-timestamp" select="''" />
+	
 	<xsl:param name="end-tag" select="'}'" />
+	
+	<xsl:param name="api-docs-scm-revision" select="''" />
+	<xsl:param name="api-docs-build-number" select="''" />
 	
 	<xsl:variable name="packages" select="document($packages-map-path)" />
 	<xsl:variable name="toplevel" select="document($toplevel-path)" />
@@ -516,12 +523,36 @@
 			<xsl:call-template name="start-itemize" />
 			
 			<xsl:if test="$build-product != ''">
-				<xsl:text>\item Build Product: </xsl:text>
+				<xsl:text>\item Build product: </xsl:text>
 				<xsl:value-of select="$build-product" />
 				<xsl:value-of select="$newline" />
 			</xsl:if>
 			
-			<xsl:text>\item Total Files: </xsl:text>
+			<xsl:if test="$build-date != ''">
+				<xsl:text>\item Build date: </xsl:text>
+				<xsl:value-of select="$build-date" />
+				<xsl:value-of select="$newline" />
+			</xsl:if>
+			
+			<xsl:if test="$build-timestamp != ''">
+				<xsl:text>\item Build timestamp: </xsl:text>
+				<xsl:value-of select="$build-timestamp" />
+				<xsl:value-of select="$newline" />
+			</xsl:if>
+			
+			<xsl:if test="$api-docs-scm-revision != ''">
+				<xsl:text>\item Revision: </xsl:text>
+				<xsl:value-of select="$api-docs-scm-revision" />
+				<xsl:value-of select="$newline" />
+			</xsl:if>
+			
+			<xsl:if test="$api-docs-build-number != ''">
+				<xsl:text>\item Build number: </xsl:text>
+				<xsl:value-of select="$api-docs-build-number" />
+				<xsl:value-of select="$newline" />
+			</xsl:if>
+			
+			<xsl:text>\item Total files: </xsl:text>
 			<xsl:value-of select="count($scripts)" />
 			<xsl:value-of select="$newline" />
 			<xsl:text>\item Packages: </xsl:text>
