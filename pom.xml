@@ -162,13 +162,11 @@
 					
 <buildNumberPropertiesFileLocation>${project.build.directory}/build.properties</buildNumberPropertiesFileLocation>
 					
-					<!--
-					<format>{0,number} - {1,date,yyyy-MM-dd HH:mm:ss}</format>
+					<format>{0,string} - {1,date,yyyy-MM-dd HH:mm:ss}</format>
 					<items>
-						<item>buildNumber0</item>
+						<item>buildNumber</item>
 						<item>timestamp</item>
 					</items>
-					-->
 				</configuration>
 			</plugin>
 			<plugin>
