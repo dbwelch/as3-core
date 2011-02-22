@@ -155,7 +155,7 @@
 				</executions>
 				<configuration>
 					<doCheck>true</doCheck>
-					<doUpdate>false</doUpdate>
+					<doUpdate>true</doUpdate>
 					<getRevisionOnlyOnce>true</getRevisionOnlyOnce>
 					<buildNumberPropertiesFileLocation>${project.build.directory}/build.properties</buildNumberPropertiesFileLocation>
 					<format>{0,number} - {1,date,yyyy-MM-dd HH:mm:ss}</format>
