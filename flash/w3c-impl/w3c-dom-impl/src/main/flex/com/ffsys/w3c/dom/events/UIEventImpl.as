@@ -19,11 +19,6 @@ package com.ffsys.w3c.dom.events
 		*/
 		public static const SCROLL:String = "scroll";
 		
-		/**
-		* 	A DOM activate event type.
-		*/
-		public static const DOM_ACTIVATE:String = "DOMActivate";
-		
 		private var _view:VisualResource;
 		private var _detail:int = -1;
 		
