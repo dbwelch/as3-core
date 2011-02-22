@@ -7,6 +7,7 @@ package com.ffsys.w3c.dom
 	
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 	import com.ffsys.w3c.dom.events.EventImpl;
+	import com.ffsys.w3c.dom.events.FocusEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
 
 	/**
@@ -131,6 +132,12 @@ package com.ffsys.w3c.dom
 			descriptor = new BeanDescriptor(
 				DocumentEventImpl.UI_EVENT_INTERFACE );
 			descriptor.instanceClass = UIEventImpl;
+			impls.addBeanDescriptor( descriptor );
+			
+			//DOM Focus Event
+			descriptor = new BeanDescriptor(
+				DocumentEventImpl.FOCUS_EVENT_INTERFACE );
+			descriptor.instanceClass = FocusEventImpl;
 			impls.addBeanDescriptor( descriptor );
 			
 			//add the implementations as an xref

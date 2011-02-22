@@ -8,6 +8,7 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.*;
 	import org.w3c.dom.events.DocumentEvent;
 	import org.w3c.dom.events.DOMEvent;
+	import org.w3c.dom.events.FocusEvent;
 	import org.w3c.dom.events.UIEvent;
 	
 	import com.ffsys.w3c.dom.core.DOMFeature;
@@ -43,6 +44,27 @@ package com.ffsys.w3c.dom.events
 		}
 		
 		[Test]
+		public function testCreateFocusEvent():void
+		{
+			var docEvents:DocumentEvent = getDocumentEvent();
+			
+			//create a DOM event
+			var evt:FocusEvent = FocusEvent( docEvents.createEvent(
+				DocumentEventImpl.FOCUS_EVENT_INTERFACE ) );
+			Assert.assertNotNull( evt );
+			
+			evt.initFocusEvent(
+				FocusEventImpl.BLUR, false, false, null, -1, null );
+			
+			Assert.assertEquals( FocusEventImpl.BLUR, evt.type );
+			Assert.assertFalse( evt.bubbles );
+			Assert.assertFalse( evt.cancelable );
+			Assert.assertNull( evt.view );
+			Assert.assertEquals( -1, evt.detail );
+			Assert.assertNull( evt.relatedTarget );
+		}
+		
+		[Test]
 		public function testCreateUIEvent():void
 		{
 			var docEvents:DocumentEvent = getDocumentEvent();
@@ -60,9 +82,6 @@ package com.ffsys.w3c.dom.events
 			Assert.assertFalse( evt.cancelable );
 			Assert.assertNull( evt.view );
 			Assert.assertEquals( -1, evt.detail );
-			
-			trace("[DOCUMENT UI EVENTS IMPL] DomEventCreationTest::testCreateElement()",
-				evt, evt.type, evt.bubbles, evt.cancelable );
 		}
 		
 		[Test]
