@@ -9,17 +9,7 @@ package com.ffsys.w3c.dom.events
 	*/
 	public class FocusEventImpl extends UIEventImpl
 		implements FocusEvent
-	{	
-		/**
-		* 	A DOM focus in event type.
-		*/
-		public static const DOM_FOCUS_IN:String = "DOMFocusIn";
-		
-		/**
-		* 	A DOM focus out event type.
-		*/
-		public static const DOM_FOCUS_OUT:String = "DOMFocusOut";
-		
+	{		
 		/**
 		* 	A focus event type.
 		*/

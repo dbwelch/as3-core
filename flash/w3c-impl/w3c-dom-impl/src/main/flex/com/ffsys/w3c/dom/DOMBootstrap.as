@@ -8,6 +8,7 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 	import com.ffsys.w3c.dom.events.EventImpl;
 	import com.ffsys.w3c.dom.events.FocusEventImpl;
+	import com.ffsys.w3c.dom.events.MutationEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
 
 	/**
@@ -128,6 +129,12 @@ package com.ffsys.w3c.dom
 			descriptor.instanceClass = EventImpl;
 			impls.addBeanDescriptor( descriptor );
 			
+			//DOM Mutation Event
+			descriptor = new BeanDescriptor(
+				DocumentEventImpl.MUTATION_EVENT_INTERFACE );
+			descriptor.instanceClass = MutationEventImpl;
+			impls.addBeanDescriptor( descriptor );
+			
 			//DOM UI Event
 			descriptor = new BeanDescriptor(
 				DocumentEventImpl.UI_EVENT_INTERFACE );
@@ -139,6 +146,8 @@ package com.ffsys.w3c.dom
 				DocumentEventImpl.FOCUS_EVENT_INTERFACE );
 			descriptor.instanceClass = FocusEventImpl;
 			impls.addBeanDescriptor( descriptor );
+			
+			//MUTATION_EVENT_INTERFACE
 			
 			//add the implementations as an xref
 			xrefs.push( impls );

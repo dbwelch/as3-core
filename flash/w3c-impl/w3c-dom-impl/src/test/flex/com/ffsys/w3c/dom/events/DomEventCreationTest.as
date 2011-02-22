@@ -9,6 +9,7 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.events.DocumentEvent;
 	import org.w3c.dom.events.DOMEvent;
 	import org.w3c.dom.events.FocusEvent;
+	import org.w3c.dom.events.MutationEvent;
 	import org.w3c.dom.events.UIEvent;
 	
 	import com.ffsys.w3c.dom.core.DOMFeature;
@@ -42,6 +43,32 @@ package com.ffsys.w3c.dom.events
 			
 			return docEvents;			
 		}
+		
+		[Test]
+		public function testCreateMutationEvent():void
+		{
+			var docEvents:DocumentEvent = getDocumentEvent();
+			
+			//create a DOM event
+			var evt:MutationEvent = MutationEvent( docEvents.createEvent(
+				DocumentEventImpl.MUTATION_EVENT_INTERFACE ) );
+			Assert.assertNotNull( evt );
+			
+			evt.initMutationEvent(
+				MutationEventImpl.DOM_ATTR_MODIFIED,
+				false, false,
+				null,
+				"a previous value",
+				"a new value",
+				"attrname",
+				1 );
+			
+			Assert.assertEquals( MutationEventImpl.DOM_ATTR_MODIFIED, evt.type );
+			Assert.assertFalse( evt.bubbles );
+			Assert.assertFalse( evt.cancelable );
+			Assert.assertNull( evt.relatedNode );
+			Assert.assertEquals( "a previous value", evt.prevValue );
+		}		
 		
 		[Test]
 		public function testCreateFocusEvent():void
