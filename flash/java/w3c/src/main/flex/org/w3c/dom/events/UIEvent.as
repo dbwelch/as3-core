@@ -1,11 +1,13 @@
 package org.w3c.dom.events
 {
-	import org.w3c.dom.views.VisualResource;
+	import org.w3c.dom.views.AbstractView;
 	
 	/**
-	* 	The UIEvent interface provides specific 
-	* 	contextual information associated with
-	* 	User Interface events.
+	* 	This module defines the feature UIEvents 3.0
+	* 	and depends on the features Events 3.0 and Views 2.0.
+	* 
+	* 	The User Interface event module contains basic event
+	* 	types associated with user interfaces and document manipulation.
 	*/
 	public interface UIEvent extends DOMEvent
 	{
@@ -24,13 +26,13 @@ package org.w3c.dom.events
 			type:String,
 			bubbles:Boolean,
 			cancelable:Boolean,
-			view:VisualResource,
+			view:AbstractView,
 			detail:int ):void;
 		
 		/**
 		* 	A view associated with this event.
 		*/
-		function get view():VisualResource;
+		function get view():AbstractView;
 		
 		/**
 		* 	The detail for this event.

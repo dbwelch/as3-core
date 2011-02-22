@@ -56,17 +56,17 @@ package org.w3c.dom.events
 	*/
 	
 	/**
-	* 	The DOMEvent interface is used to provide contextual
-	* 	information about an event to the handler processing
-	* 	the event. An object which implements the DOMEvent
-	* 	interface is generally passed as the first parameter
-	* 	to an event handler. More specific context information
-	* 	is passed to event handlers by deriving additional
-	* 	interfaces from DOMEvent which contain information
-	* 	directly relating to the type of event they accompany.
+	* 	The Event interface is used to provide contextual information
+	* 	about an event to the listener processing the event.
 	* 
-	* 	These derived interfaces are also implemented by the
-	* 	object passed to the event listener.
+	* 	An object which implements the Event interface shall be passed
+	* 	as the parameter to an EventListener. The object passed to the
+	* 	event listener may also implement derived interfaces that
+	* 	provide access to information directly relating to the type of
+	* 	event they represent.
+	*
+	* 	To create an instance of the Event interface, use the
+	* 	DocumentEvent.createEvent("Event") method call.
 	*/
 	public interface DOMEvent
 	{

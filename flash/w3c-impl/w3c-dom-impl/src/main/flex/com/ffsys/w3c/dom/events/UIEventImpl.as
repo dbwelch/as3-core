@@ -1,7 +1,7 @@
 package com.ffsys.w3c.dom.events
 {
 	import org.w3c.dom.events.UIEvent;
-	import org.w3c.dom.views.VisualResource;
+	import org.w3c.dom.views.AbstractView;
 	
 	/**
 	* 	Represents a user interface event.
@@ -19,7 +19,7 @@ package com.ffsys.w3c.dom.events
 		*/
 		public static const SCROLL:String = "scroll";
 		
-		private var _view:VisualResource;
+		private var _view:AbstractView;
 		private var _detail:int = -1;
 		
 		/**
@@ -40,7 +40,7 @@ package com.ffsys.w3c.dom.events
 		/**
 		* 	@inheritDoc
 		*/
-		public function get view():VisualResource
+		public function get view():AbstractView
 		{
 			return _view;
 		}
@@ -60,7 +60,7 @@ package com.ffsys.w3c.dom.events
 			type:String,
 			bubbles:Boolean,
 			cancelable:Boolean,
-			view:VisualResource,
+			view:AbstractView,
 			detail:int ):void
 		{
 			initEvent( type, bubbles, cancelable );

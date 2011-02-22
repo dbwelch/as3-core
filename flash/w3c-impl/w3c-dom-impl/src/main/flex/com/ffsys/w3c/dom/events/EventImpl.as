@@ -4,7 +4,6 @@
 package com.ffsys.w3c.dom.events
 {
 	import flash.events.Event;
-	import flash.events.EventPhase;
 	
 	import org.w3c.dom.events.DOMEvent;
 	import org.w3c.dom.events.EventTarget;
@@ -24,22 +23,7 @@ package com.ffsys.w3c.dom.events
 	*/
 	public class EventImpl extends Object
 		implements DOMEvent
-	{
-		/**
-		* 	Represents the capturing phase.
-		*/
-		public static const CAPTURING_PHASE:uint = EventPhase.CAPTURING_PHASE;
-		
-		/**
-		* 	Represents the at target phase.
-		*/
-		public static const AT_TARGET:uint = EventPhase.AT_TARGET;
-		
-		/**
-		* 	Represents the bubbling phase.
-		*/
-		public static const BUBBLING_PHASE:uint = EventPhase.BUBBLING_PHASE;
-		
+	{		
 		/**
 		* 	An error event type.
 		*/

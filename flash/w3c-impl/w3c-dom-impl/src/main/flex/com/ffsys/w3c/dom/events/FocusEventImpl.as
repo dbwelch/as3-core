@@ -2,7 +2,7 @@ package com.ffsys.w3c.dom.events
 {
 	import org.w3c.dom.events.EventTarget;
 	import org.w3c.dom.events.FocusEvent;
-	import org.w3c.dom.views.VisualResource;
+	import org.w3c.dom.views.AbstractView;
 	
 	/**
 	* 	Represents a user interface focus event.
@@ -62,7 +62,7 @@ package com.ffsys.w3c.dom.events
 			type:String,
 			bubbles:Boolean,
 			cancelable:Boolean,
-			view:VisualResource,
+			view:AbstractView,
 			detail:int,
 			relatedTarget:EventTarget ):void
 		{

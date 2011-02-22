@@ -209,6 +209,8 @@ package com.ffsys.w3c.dom.core
 				
 				_supported.push( DOMFeature.LS_FEATURE );
 				_supported.push( DOMFeature.LS_ASYNC_FEATURE );
+				
+				_supported.push( DOMFeature.VIEWS_FEATURE );
 			}
 			return _supported;
 		}

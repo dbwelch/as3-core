@@ -187,6 +187,13 @@ package com.ffsys.w3c.dom.core
 		*/
 		public static const LS_ASYNC_FEATURE:DOMFeature =
 			new DOMFeature( LS_ASYNC_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Views feature.
+		*/
+		public static const VIEWS_FEATURE:DOMFeature =
+			new DOMFeature( VIEWS_MODULE, LEVEL_3 );
 		
 		private var _feature:String;
 		private var _version:String;

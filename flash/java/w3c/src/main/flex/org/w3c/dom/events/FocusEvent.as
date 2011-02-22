@@ -1,6 +1,6 @@
 package org.w3c.dom.events
 {
-	import org.w3c.dom.views.VisualResource;	
+	import org.w3c.dom.views.AbstractView;	
 	
 	/**
 	* 	Focus related events.
@@ -28,7 +28,7 @@ package org.w3c.dom.events
 			type:String,
 			bubbles:Boolean,
 			cancelable:Boolean, 
-			view:VisualResource,
+			view:AbstractView,
 			detail:int,
 			relatedTarget:EventTarget ):void;
 	}
