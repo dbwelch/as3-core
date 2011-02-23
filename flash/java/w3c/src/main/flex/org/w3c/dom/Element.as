@@ -23,8 +23,8 @@ package org.w3c.dom
 	* 	can safely be used as a convenience.
 	*/
 	public interface Element
-		extends Node//,
-				//ElementTraversal
+		extends Node,
+				ElementTraversal
 	{
 		/**
 		* 	The name of the element
