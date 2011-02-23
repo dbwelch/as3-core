@@ -73,46 +73,6 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
-		* 	The document title.
-		*/
-		
-		/*
-		override public function get title():String
-		{
-			if( this.head != null )
-			{
-				var titles:NodeList = this.head.getElementsByTagName(
-					DomCoreBeanDocument.TITLE );				
-				var element:Element = titles[ 0 ] as Element;
-				return element != null ? element.text() as String : super.title;
-			}
-			return super.title;
-		}
-		
-		override public function set title( value:String ):void
-		{
-			if( this.head == null )
-			{
-				var head:Element = createElement( DomCoreBeanDocument.HEAD );
-				var title:Element = createElement( DomCoreBeanDocument.TITLE );
-				title.appendChild( createTextNode( value ) );
-				head.appendChild( title );
-				appendChild( head );
-			}else if( this.head != null )
-			{
-				var titles:NodeList = this.head.getElementsByTagName(
-					DomCoreBeanDocument.TITLE );				
-				var element:Element = titles[ 0 ] as Element;
-				if( element != null )
-				{
-					element.text( value );
-				}
-			}
-			super.title = value;
-		}
-		*/
-		
-		/**
 		* 	Ensures that the elements for a document
 		* 	are created from a fresh list.
 		*/

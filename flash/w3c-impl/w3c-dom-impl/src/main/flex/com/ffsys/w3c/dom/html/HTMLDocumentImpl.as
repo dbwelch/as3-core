@@ -42,6 +42,13 @@ package com.ffsys.w3c.dom.html
 		*/
 		public function get head():HTMLHeadElement
 		{
+			if( _head == null
+				&& this.documentElement != null )
+			{
+				//TODO: test whether the document element already has a head
+				_head = HTMLHeadElement( createElement( HTMLHeadElementImpl.NAME ) );
+				this.documentElement.appendChild( _head );
+			}
 			return _head;
 		}
 		
@@ -68,29 +75,35 @@ package com.ffsys.w3c.dom.html
 		*/
 		public function get title():String
 		{
-			return _title;
+			if( this.head != null )
+			{
+				var titles:NodeList = this.head.getElementsByTagName(
+					HTMLTitleElementImpl.NAME );				
+				var element:HTMLTitleElementImpl = titles[ 0 ] as HTMLTitleElementImpl;
+				return element != null ? element.text : _title;
+			}
+			return _title == null ? "" : _title;
 		}
 		
-		public function set title( title:String ):void
+		public function set title( value:String ):void
 		{
-			if( title == null )
-			{
-				//TODO : remove the title element from the document head
-			}else
-			{
-				//TODO: check that a head exists
-				//TODO: check if a title element exists and just update the text
+			var title:Element;
 			
-				var el:HTMLTitleElementImpl = 
-					HTMLTitleElementImpl(
-						createElement( HTMLTitleElementImpl.NAME ) );
-					
-				this.head.appendChild( el );
-			
-				el.text = title;
+			if( value != null )
+			{
+				var titles:NodeList = this.head.getElementsByTagName(
+					HTMLTitleElementImpl.NAME );
+				var element:HTMLTitleElementImpl = titles[ 0 ] as HTMLTitleElementImpl;
+				if( element != null )
+				{
+					element.text = value;
+				}else{
+					title = createElement( HTMLTitleElementImpl.NAME );
+					title.appendChild( createTextNode( value ) );
+					this.head.appendChild( title );
+				}
 			}
-			
-			_title = title;
+			_title = value;
 		}
 		
 		/**

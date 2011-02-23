@@ -1,6 +1,5 @@
 package com.ffsys.w3c.dom.support
 {
-	
 	/**
 	*	Indicates that an element should only contain text nodes.
 	*
