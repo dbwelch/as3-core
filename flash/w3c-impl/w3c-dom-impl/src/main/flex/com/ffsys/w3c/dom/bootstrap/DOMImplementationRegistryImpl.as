@@ -1,9 +1,9 @@
 package com.ffsys.w3c.dom.bootstrap
-{	
-	import com.ffsys.w3c.dom.core.*;
-	import com.ffsys.w3c.dom.core.support.AbstractNodeProxyImpl;	
-	
+{
 	import com.ffsys.ioc.*;
+		
+	import com.ffsys.w3c.dom.DOMImplementationSourceImpl;	
+	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;	
 	
 	import org.w3c.dom.*;
 	import org.w3c.dom.bootstrap.DOMImplementationRegistry;

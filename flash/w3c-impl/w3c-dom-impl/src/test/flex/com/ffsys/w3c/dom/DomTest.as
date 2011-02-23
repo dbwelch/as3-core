@@ -7,7 +7,7 @@ package com.ffsys.w3c.dom
 	import org.flexunit.async.Async;
 	
 	import com.ffsys.ioc.*;
-	import com.ffsys.w3c.dom.core.*;
+	import com.ffsys.w3c.dom.*;
 	import org.w3c.dom.*;
 	import org.w3c.dom.DOMException;
 	import org.w3c.dom.bootstrap.DOMImplementationRegistry;

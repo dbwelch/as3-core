@@ -5,7 +5,7 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.events.DocumentEvent;
 	import org.w3c.dom.events.DOMEvent;
 	
-	import com.ffsys.w3c.dom.core.support.AbstractNodeProxyImpl;
+	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;
 	
 	/**
 	* 	The default implementation of the document

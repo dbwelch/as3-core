@@ -1,7 +1,7 @@
 package com.ffsys.w3c.dom.ioc
 {
 	import com.ffsys.ioc.*;
-	import com.ffsys.w3c.dom.core.*;
+	import com.ffsys.w3c.dom.*;
 
 	/**
 	*	Defines the core beans for <code>DOM</code> documents.

@@ -1,7 +1,6 @@
 package com.ffsys.w3c.dom
 {
 	import com.ffsys.ioc.*;
-	import com.ffsys.w3c.dom.core.*;
 	
 	import com.ffsys.w3c.dom.bootstrap.DOMImplementationRegistryImpl;
 	

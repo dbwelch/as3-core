@@ -12,7 +12,7 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.events.MutationEvent;
 	import org.w3c.dom.events.UIEvent;
 	
-	import com.ffsys.w3c.dom.core.DOMFeature;
+	import com.ffsys.w3c.dom.DOMFeature;
 	
 	/**
 	*	Unit tests for creating DOM events.

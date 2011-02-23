@@ -1,6 +1,5 @@
 package com.ffsys.w3c.dom
 {
-	import com.ffsys.w3c.dom.core.*;
 	import org.w3c.dom.*;	
 	
 	/**
