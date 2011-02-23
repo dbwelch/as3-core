@@ -39,7 +39,7 @@ package com.ffsys.w3c.dom.traversal
 		/**
 		* 	@inheritDoc
 		*/
-		public function createTreeWaker(
+		public function createTreeWalker(
 			root:Node,
 			whatToShow:uint,
 			filter:NodeFilter,

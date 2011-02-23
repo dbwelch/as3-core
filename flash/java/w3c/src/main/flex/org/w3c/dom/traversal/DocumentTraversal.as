@@ -40,7 +40,7 @@ package org.w3c.dom.traversal
 		* 	
 		* 	@return A node iterator.
 		*/
-		function createTreeWaker(
+		function createTreeWalker(
 			root:Node,
 			whatToShow:uint,
 			filter:NodeFilter,

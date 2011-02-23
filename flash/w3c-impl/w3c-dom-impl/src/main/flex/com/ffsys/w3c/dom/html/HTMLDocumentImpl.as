@@ -1,10 +1,12 @@
 package com.ffsys.w3c.dom.html
 {
 	import com.ffsys.w3c.dom.DocumentImpl;
+	
+	import org.w3c.dom.Element;
 	import org.w3c.dom.html.HTMLDocument;
 	
 	public class HTMLDocumentImpl extends DocumentImpl
-		//implements HTMLDocument
+		implements HTMLDocument
 	{
 		/**
 		* 	@private
@@ -23,7 +25,5 @@ package com.ffsys.w3c.dom.html
 		{
 			_documentElement = element;
 		}
-		
-		
 	}
 }
