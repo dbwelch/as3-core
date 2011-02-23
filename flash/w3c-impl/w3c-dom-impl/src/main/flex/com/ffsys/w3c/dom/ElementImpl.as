@@ -325,7 +325,7 @@ package com.ffsys.w3c.dom
 		* 	or the cumulative text contents when retrieving
 		* 	text values.
 		*/
-		public function text( value:String = null ):Object
+		public function setText( value:String = null ):Object
 		{
 			if( ownerDocument == null
 				|| ownerDocument.implementation == null )

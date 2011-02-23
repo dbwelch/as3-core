@@ -1,20 +1,15 @@
 package org.w3c.dom.html
 {
-
+	/**
+	* 	Defines the contract for HTML document head
+	* 	implementations.
+	*/
 	public interface HTMLHeadElement extends HTMLElement
 	{
-		
-		/*
-		
-		Objects that implement the HTMLHeadElement interface:
-		Objects that implement the HTMLHeadElement interface have all properties and functions of the HTMLElement interface as well as the properties and functions defined below.
-		Properties of objects that implement the HTMLHeadElement interface:
-		
-		profile
-		This property is a String.		
-		
+		/**
+		* 	A profile for the document head.
 		*/
+		function get profile():String;
+		function set profile( profile:String ):void;
 	}
-
 }
-

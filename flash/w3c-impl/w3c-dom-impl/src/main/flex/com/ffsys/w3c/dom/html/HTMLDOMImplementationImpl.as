@@ -70,6 +70,9 @@ package com.ffsys.w3c.dom.html
 					
 			trace("[CREATE HTML ELEMENT] HTMLDOMImplementationImpl::createHTMLDocument()",
 				html, head, body );
+				
+			//assign a reference to the body
+			document.body = body;
 			
 			setImplementation( document, null );
 			

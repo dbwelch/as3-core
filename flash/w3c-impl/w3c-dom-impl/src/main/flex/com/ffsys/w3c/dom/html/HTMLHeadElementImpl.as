@@ -14,7 +14,7 @@ package com.ffsys.w3c.dom.html
 		public static const NAME:String = "head";
 		
 		/**
-		* 	The profile attribute name.
+		* 	The <code>profile</code> attribute name.
 		*/
 		public static const PROFILE_ATTR_NAME:String = "profile";
 		
