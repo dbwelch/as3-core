@@ -2,12 +2,10 @@ package com.ffsys.w3c.dom
 {	
 	import flash.display.*;
 	
-	import com.ffsys.ioc.*;
-	
 	import javax.xml.*;
 	import org.w3c.dom.*;
 	
-	import com.ffsys.w3c.dom.ioc.*;
+	import com.ffsys.ioc.*;
 	
 	/**
 	*	An abstract implementation of a <code>DOM</code>
@@ -413,7 +411,7 @@ package com.ffsys.w3c.dom
 		public function createDocumentFragment():DocumentFragment
 		{
 			var fragment:DocumentFragment = DocumentFragment( getDomBean(
-				DomCoreBeanDocument.DOCUMENT_FRAGMENT ) );
+				DocumentFragmentImpl.NAME ) );
 			return fragment;
 		}
 		
@@ -433,7 +431,7 @@ package com.ffsys.w3c.dom
 		public function createComment( data:String ):Comment
 		{
 			var comment:Comment = Comment( getDomBean(
-				DomCoreBeanDocument.COMMENT, { data: data } ) );
+				CommentImpl.NAME, { data: data } ) );
 			return comment;
 		}
 		
@@ -443,7 +441,7 @@ package com.ffsys.w3c.dom
 		public function createCDATASection( data:String ):CDATASection
 		{
 			var cdata:CDATASection = CDATASection( getDomBean(
-				DomCoreBeanDocument.CDATA_SECTION, { data: data } ) );
+				CDATASectionImpl.NAME, { data: data } ) );
 			return cdata;
 		}
 		
@@ -455,7 +453,7 @@ package com.ffsys.w3c.dom
 		{
 			var instruction:ProcessingInstructionImpl = ProcessingInstructionImpl(
 				getDomBean(
-					DomCoreBeanDocument.PROCESSING_INSTRUCTION, { data: data } ) );
+					ProcessingInstructionImpl.NAME, { data: data } ) );
 			instruction.setTarget( target );
 			return instruction;
 		}
@@ -466,10 +464,11 @@ package com.ffsys.w3c.dom
 		public function createAttribute( name:String ):Attr
 		{
 			var attr:Attr = Attr( getDomBean(
-				DomCoreBeanDocument.ATTR,
+				AttrImpl.NAME,
 					{ name: name } ) );
 			
 			//trace("Document::createAttribute()", attr, attr.name );
+			
 			return attr;
 		}
 		
@@ -480,7 +479,7 @@ package com.ffsys.w3c.dom
 			namespaceURI:String, qualifiedName:String ):Attr
 		{
 			var attr:Attr = Attr( getDomBean(
-				DomCoreBeanDocument.ATTR,
+				AttrImpl.NAME,
 					{ name: qualifiedName, uri: namespaceURI } ) );
 			
 			//trace("Document::createAttributeNS()", attr );
@@ -495,7 +494,8 @@ package com.ffsys.w3c.dom
 			//TODO: check this
 			//{ name: name }
 			var ref:EntityReference = EntityReference( getDomBean(
-				DomCoreBeanDocument.ENTITY_REFERENCE, { name: name } ) );
+				EntityReferenceImpl.NAME, { name: name } ) );
+			
 			return ref;
 		}
 		

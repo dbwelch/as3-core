@@ -1,13 +1,11 @@
 package com.ffsys.w3c.dom.support
 {
+	import org.w3c.dom.*;
+		
 	import com.ffsys.net.asax.*;
 	import com.ffsys.ioc.support.xml.BeanSaxParser;
-
 	import com.ffsys.ioc.*;	
-	
 	import com.ffsys.w3c.dom.*;
-	import com.ffsys.w3c.dom.ioc.*;
-	import org.w3c.dom.*;
 	
 	public class DomSaxParser extends BeanSaxParser
 	{
@@ -99,9 +97,9 @@ package com.ffsys.w3c.dom.support
 			
 			if( this.document == null
 				&& value is DocumentTypeImpl
-				&& DocumentTypeImpl( value ).beans != null )
+				&& DocumentTypeImpl( value ).document != null )
 			{
-				this.document = DocumentTypeImpl( value ).beans;
+				this.document = DocumentTypeImpl( value ).document;
 			}
 		}
 		
@@ -546,7 +544,7 @@ package com.ffsys.w3c.dom.support
 					//we must use the document level identifier not
 					//the node name
 					document = implementation.createDocument(
-						namespaceURI, DomCoreBeanDocument.DOCUMENT, type );	
+						namespaceURI, null, type );	
 					
 					//update the qualified name so that we can verify	
 					qualifiedName = name;

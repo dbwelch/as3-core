@@ -54,6 +54,11 @@ package com.ffsys.w3c.dom.bootstrap
 		public static const DOM_IMPL_LIST:String = "dom-impl-list";
 		
 		/**
+		* 	The name for the <code>DOM</code> implementation bean document.
+		*/
+		public static const DOM_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;		
+		
+		/**
 		* 	The name for the <code>DOM</code> XML implementation bean document.
 		*/
 		public static const XML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;

@@ -2,8 +2,6 @@ package com.ffsys.w3c.dom
 {
 	import com.ffsys.ioc.*;
 	import org.w3c.dom.*;
-	
-	import com.ffsys.w3c.dom.ioc.DomCoreBeanDocument;
 		
 	/**
 	*	Represents the type of a document.
@@ -50,8 +48,6 @@ package com.ffsys.w3c.dom
 		
 		*/
 		
-			
-		private var _beans:IBeanDocument;
 		private var _components:IBeanDocument;		
 		
 		private var _name:String;
@@ -92,25 +88,6 @@ package com.ffsys.w3c.dom
 		override public function get nodeType():Number
 		{
 			return NodeImpl.DOCUMENT_TYPE_NODE;
-		}
-		
-		/**
-		* 	The primary bean document that defines the
-		* 	DOM elements.
-		*/
-		public function get beans():IBeanDocument
-		{
-			if( _beans == null )
-			{
-				//TODO: generate from a factory
-				_beans = new DomCoreBeanDocument();
-			}
-			return _beans;
-		}	
-		
-		public function set beans( value:IBeanDocument ):void
-		{
-			_beans = value;
 		}
 		
 		/**

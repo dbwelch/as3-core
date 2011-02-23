@@ -1,10 +1,10 @@
 package com.ffsys.w3c.dom
 {
 	import flash.net.URLRequest;
-	import com.ffsys.ioc.*;
 	
+	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.support.*;
-	import com.ffsys.w3c.dom.ioc.*;
+	
 	import org.w3c.dom.*;
 	
 	/**
@@ -271,19 +271,8 @@ package com.ffsys.w3c.dom
 			qualifiedName:String,
 			doctype:DocumentType ):Document
 		{
-			//trace("DOMImplementationImpl::getDefaultDocumentType()", qualifiedName );
-			
-			//This method can raise a DomException object.
-			var document:Document = Document(
-				DocumentTypeImpl( doctype ).beans.getBean(
-					qualifiedName ) );
-			if( namespaceURI != null )
-			{
-				NodeImpl( document ).namespaceDeclarations.push(
-					new Namespace( namespaceURI ) );
-			}
-			setImplementation( document, doctype );
-			return document;
+			throw new Error(
+				"The document must be created by a derived DOM implementation." );
 		}
 		
 		/**
