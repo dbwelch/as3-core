@@ -22,7 +22,9 @@ package org.w3c.dom
 	* 	methods to directly access an attribute value
 	* 	can safely be used as a convenience.
 	*/
-	public interface Element extends Node
+	public interface Element
+		extends Node//,
+				//ElementTraversal
 	{
 		/**
 		* 	The name of the element

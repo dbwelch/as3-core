@@ -3,9 +3,8 @@ package org.w3c.dom.xpath
 
 	public interface XPathEvaluator
 	{
-		
 		/*
-		
+			
 		Objects that implement the XPathEvaluator interface:
 		Functions of objects that implement the XPathEvaluator interface:
 		
@@ -27,9 +26,6 @@ package org.w3c.dom.xpath
 		The type parameter is a Number. 
 		The result parameter is an object that implements the Object interface. 
 		This function can raise an object that implements the XPathException interface or the DOMException interface.
-		
 		*/
 	}
-
 }
-
