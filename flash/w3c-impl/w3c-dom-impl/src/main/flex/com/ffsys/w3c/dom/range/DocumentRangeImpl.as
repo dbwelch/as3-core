@@ -3,7 +3,7 @@ package com.ffsys.w3c.dom.range
 	import org.w3c.dom.range.DocumentRange;
 	import org.w3c.dom.range.Range;
 	
-	import com.ffsys.w3c.dom.DOMBootstrap;
+	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;
 
 	public class DocumentRangeImpl extends AbstractNodeProxyImpl

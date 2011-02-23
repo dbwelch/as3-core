@@ -8,6 +8,7 @@ package com.ffsys.w3c.dom
 	
 	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.*;
+	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 	
 	import org.w3c.dom.*;
 	import org.w3c.dom.DOMException;

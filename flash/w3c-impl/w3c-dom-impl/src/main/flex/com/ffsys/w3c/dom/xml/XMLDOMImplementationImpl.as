@@ -2,10 +2,11 @@ package com.ffsys.w3c.dom.xml
 {
 	import org.w3c.dom.*;
 	
-	import com.ffsys.w3c.dom.DOMBootstrap;
 	import com.ffsys.w3c.dom.DOMFeature;
 	import com.ffsys.w3c.dom.DOMImplementationImpl;
 	import com.ffsys.w3c.dom.NodeImpl;
+	
+	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;	
 	
 	/**
 	* 	Represents a DOM implementation for the

@@ -1,8 +1,10 @@
-package com.ffsys.w3c.dom
+package com.ffsys.w3c.dom.bootstrap
 {
 	import com.ffsys.ioc.*;
 	
-	import com.ffsys.w3c.dom.bootstrap.DOMImplementationRegistryImpl;
+	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.DOMImplementationSourceImpl;
+	import com.ffsys.w3c.dom.DOMImplementationListImpl;	
 	
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 	import com.ffsys.w3c.dom.events.EventImpl;
