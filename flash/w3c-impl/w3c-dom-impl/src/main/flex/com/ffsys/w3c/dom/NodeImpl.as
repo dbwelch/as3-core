@@ -353,12 +353,12 @@ package com.ffsys.w3c.dom
 		{
 			if( _namespaceDeclarations == null )
 			{
-				if( !( ownerDocument is DocumentImpl ) || ( ownerDocument == this ) )
+				if( !( ownerDocument is CoreDocumentImpl ) || ( ownerDocument == this ) )
 				{
 					_namespaceDeclarations = new Array();
 				}else
 				{
-					_namespaceDeclarations = DocumentImpl( ownerDocument ).namespaceDeclarations.slice();
+					_namespaceDeclarations = CoreDocumentImpl( ownerDocument ).namespaceDeclarations.slice();
 				}
 			}
 			return _namespaceDeclarations;
@@ -598,9 +598,9 @@ package com.ffsys.w3c.dom
 				
 				NodeListImpl( childNodes ).concat( n );
 				
-				if( _ownerDocument is DocumentImpl && ( n is Element ) )
+				if( _ownerDocument is CoreDocumentImpl && ( n is Element ) )
 				{	
-					DocumentImpl( _ownerDocument ).registerElement( Element( n ) );
+					CoreDocumentImpl( _ownerDocument ).registerElement( Element( n ) );
 				}
 				
 				this.xml.appendChild( n.xml );

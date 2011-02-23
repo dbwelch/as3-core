@@ -14,6 +14,8 @@ package com.ffsys.w3c.dom.traversal
 		implements DocumentTraversal
 	{
 		/**
+		* 	@private
+		* 	
 		* 	Creates a <code>DocumentTraversalImpl</code> instance.
 		*/
 		public function DocumentTraversalImpl()

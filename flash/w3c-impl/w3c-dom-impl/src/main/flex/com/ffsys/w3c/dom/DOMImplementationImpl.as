@@ -197,20 +197,13 @@ package com.ffsys.w3c.dom
 			{
 				_supported = new Vector.<DOMFeature>();
 				_supported.push( DOMFeature.CORE_FEATURE );
-				_supported.push( DOMFeature.XML_FEATURE );
-				
-				_supported.push( DOMFeature.EVENTS_FEATURE );
-				_supported.push( DOMFeature.UI_EVENTS_FEATURE );
-				_supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
-				_supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
-				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );
-				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
-				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
 				
 				_supported.push( DOMFeature.LS_FEATURE );
 				_supported.push( DOMFeature.LS_ASYNC_FEATURE );
 				
-				_supported.push( DOMFeature.VIEWS_FEATURE );
+				_supported.push( DOMFeature.EVENTS_FEATURE );				
+				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
+				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
 			}
 			return _supported;
 		}
@@ -298,8 +291,8 @@ package com.ffsys.w3c.dom
 		*/
 		protected function setImplementation( document:Document, doctype:DocumentType ):void
 		{
-			DocumentImpl( document ).setDocumentType( doctype );
-			DocumentImpl( document ).setImplementation( this );
+			CoreDocumentImpl( document ).setDocumentType( doctype );
+			CoreDocumentImpl( document ).setImplementation( this );
 		}
 	}
 }

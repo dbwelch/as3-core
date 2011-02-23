@@ -17,6 +17,11 @@ package com.ffsys.w3c.dom
 		public static const XML_MODULE:String = "XML";
 		
 		/**
+		* 	Represents the HTML module.
+		*/
+		public static const HTML_MODULE:String = "HTML";		
+		
+		/**
 		* 	Represents the events module.
 		*/
 		public static const EVENTS_MODULE:String = "Events";
@@ -97,11 +102,6 @@ package com.ffsys.w3c.dom
 		public static const TRAVERSAL_MODULE:String = "Traversal";
 		
 		/**
-		* 	Represents the HTML module.
-		*/
-		public static const HTML_MODULE:String = "HTML";
-		
-		/**
 		* 	Represents the Views module.
 		*/
 		public static const VIEWS_MODULE:String = "Views";
@@ -134,6 +134,48 @@ package com.ffsys.w3c.dom
 		*/
 		public static const XML_FEATURE:DOMFeature =
 			new DOMFeature( XML_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM HTML feature.
+		*/
+		public static const HTML_FEATURE:DOMFeature =
+			new DOMFeature( HTML_MODULE, LEVEL_3 );
+					
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM LS feature.
+		*/
+		public static const LS_FEATURE:DOMFeature =
+			new DOMFeature( LS_MODULE, LEVEL_3 );
+
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM LS Async feature.
+		*/
+		public static const LS_ASYNC_FEATURE:DOMFeature =
+			new DOMFeature( LS_ASYNC_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Validation feature.
+		*/
+		public static const VALIDATION_FEATURE:DOMFeature =
+			new DOMFeature( VALIDATION_MODULE, LEVEL_3 );
+
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Range feature.
+		*/
+		public static const RANGE_FEATURE:DOMFeature =
+			new DOMFeature( RANGE_MODULE, LEVEL_3 );
+
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Traversal feature.
+		*/
+		public static const TRAVERSAL_FEATURE:DOMFeature =
+			new DOMFeature( TRAVERSAL_MODULE, LEVEL_3 );
 			
 		/**
 		* 	A feature implementation to represent
@@ -186,45 +228,10 @@ package com.ffsys.w3c.dom
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM LS feature.
-		*/
-		public static const LS_FEATURE:DOMFeature =
-			new DOMFeature( LS_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM LS Async feature.
-		*/
-		public static const LS_ASYNC_FEATURE:DOMFeature =
-			new DOMFeature( LS_ASYNC_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
 		* 	the DOM Views feature.
 		*/
 		public static const VIEWS_FEATURE:DOMFeature =
 			new DOMFeature( VIEWS_MODULE, LEVEL_3 );
-				
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM Validation feature.
-		*/
-		public static const VALIDATION_FEATURE:DOMFeature =
-			new DOMFeature( VALIDATION_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM Range feature.
-		*/
-		public static const RANGE_FEATURE:DOMFeature =
-			new DOMFeature( RANGE_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM Traversal feature.
-		*/
-		public static const TRAVERSAL_FEATURE:DOMFeature =
-			new DOMFeature( TRAVERSAL_MODULE, LEVEL_3 );
 		
 		private var _feature:String;
 		private var _version:String;
@@ -254,6 +261,13 @@ package com.ffsys.w3c.dom
 				feature = feature.toLowerCase();
 				return feature == CORE_MODULE.toLowerCase()
 					|| feature == XML_MODULE.toLowerCase()
+					|| feature == HTML_MODULE.toLowerCase()
+					|| feature == LS_MODULE.toLowerCase()
+					|| feature == LS_ASYNC_MODULE.toLowerCase()					
+					|| feature == VALIDATION_MODULE.toLowerCase()
+					|| feature == RANGE_MODULE.toLowerCase()
+					|| feature == TRAVERSAL_MODULE.toLowerCase()
+					|| feature == XPATH_MODULE.toLowerCase()							
 					|| feature == EVENTS_MODULE.toLowerCase()
 					|| feature == UI_EVENTS_MODULE.toLowerCase()
 					|| feature == MOUSE_EVENTS_MODULE.toLowerCase()
@@ -264,13 +278,6 @@ package com.ffsys.w3c.dom
 					|| feature == WHEEL_EVENTS_MODULE.toLowerCase()
 					|| feature == CUSTOM_EVENTS_MODULE.toLowerCase()					
 					|| feature == COMPOSITION_EVENTS_MODULE.toLowerCase()
-					|| feature == LS_MODULE.toLowerCase()
-					|| feature == LS_ASYNC_MODULE.toLowerCase()
-					|| feature == VALIDATION_MODULE.toLowerCase()
-					|| feature == RANGE_MODULE.toLowerCase()
-					|| feature == TRAVERSAL_MODULE.toLowerCase()
-					|| feature == XPATH_MODULE.toLowerCase()
-					|| feature == HTML_MODULE.toLowerCase()
 					|| feature == VIEWS_MODULE.toLowerCase();																																																																											
 			}
 			

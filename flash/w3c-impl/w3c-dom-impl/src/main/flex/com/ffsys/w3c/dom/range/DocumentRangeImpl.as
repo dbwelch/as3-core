@@ -10,6 +10,8 @@ package com.ffsys.w3c.dom.range
 		implements DocumentRange
 	{
 		/**
+		* 	@private
+		* 	
 		* 	Creates a <code>DocumentRangeImpl</code> instance.
 		*/
 		public function DocumentRangeImpl()

@@ -212,10 +212,10 @@ package com.ffsys.w3c.dom
 			//attempt to retrieve a default language
 			//at the document level
 			if( attr == null
-				&& ( ownerDocument is DocumentImpl )
+				&& ( ownerDocument is CoreDocumentImpl )
 				&& ownerDocument != this )
 			{
-				return DocumentImpl( ownerDocument ).lang;
+				return CoreDocumentImpl( ownerDocument ).lang;
 			}
 			
 			return attr != null ? attr.value : null;
@@ -273,10 +273,10 @@ package com.ffsys.w3c.dom
 			//attempt to retrieve a default xsi
 			//at the document level
 			if( attr == null
-				&& ownerDocument is DocumentImpl
+				&& ownerDocument is CoreDocumentImpl
 				&& ( ownerDocument != this ) )
 			{
-				return DocumentImpl( ownerDocument ).xsi;
+				return CoreDocumentImpl( ownerDocument ).xsi;
 			}
 			return attr != null ? attr.value : null;
 		}

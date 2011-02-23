@@ -1,17 +1,22 @@
-package com.ffsys.w3c.dom
+package com.ffsys.w3c.dom.xml
 {
-	import org.w3c.dom.*;	
+	import org.w3c.dom.*;
+	
+	import com.ffsys.w3c.dom.DOMBootstrap;
+	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.DOMImplementationImpl;
+	import com.ffsys.w3c.dom.NodeImpl;
 	
 	/**
 	* 	Represents a DOM implementation for the
 	* 	"XML" feature.
 	*/
-	public class XMLImplementationImpl extends DOMImplementationImpl
+	public class XMLDOMImplementationImpl extends DOMImplementationImpl
 	{	
 		/**
-		* 	Creates an <code>XMLImplementationImpl</code> instance.
+		* 	Creates an <code>XMLDOMImplementationImpl</code> instance.
 		*/
-		public function XMLImplementationImpl()
+		public function XMLDOMImplementationImpl()
 		{
 			super();
 		}

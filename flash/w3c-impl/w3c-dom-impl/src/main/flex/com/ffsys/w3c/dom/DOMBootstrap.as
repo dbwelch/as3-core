@@ -15,6 +15,9 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.range.RangeImpl;
 	
 	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;
+	
+	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;
+	import com.ffsys.w3c.dom.xml.XMLDOMImplementationImpl;
 
 	/**
 	*	A bean document used to implementations
@@ -109,7 +112,7 @@ package com.ffsys.w3c.dom
 			
 			descriptor = new BeanDescriptor(
 				XML_IMPLEMENTATION );
-			descriptor.instanceClass = XMLImplementationImpl;
+			descriptor.instanceClass = XMLDOMImplementationImpl;
 			impls.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
