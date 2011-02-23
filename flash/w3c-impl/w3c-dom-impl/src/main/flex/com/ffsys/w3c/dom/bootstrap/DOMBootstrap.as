@@ -12,8 +12,7 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.events.MutationEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
 	
-	import com.ffsys.w3c.dom.html.HTMLDocumentImpl;
-	import com.ffsys.w3c.dom.html.HTMLDOMImplementationImpl;
+	import com.ffsys.w3c.dom.html.*;
 	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
@@ -216,6 +215,8 @@ package com.ffsys.w3c.dom.bootstrap
 
 			addCommonFeatures( impls );
 			
+			addHTMLElements( impls );
+			
 			return impls;		
 		}
 		
@@ -279,6 +280,29 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.instanceClass = DocumentTraversalImpl;
 			descriptor.singleton = true;
 			impls.addBeanDescriptor( descriptor );			
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function addHTMLElements( impls:IBeanDocument ):void
+		{
+			var descriptor:IBeanDescriptor = null;
+			
+			descriptor = new BeanDescriptor(
+				 HTMLHtmlElementImpl.NAME );
+			descriptor.instanceClass = HTMLHtmlElementImpl;
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				 HTMLHeadElementImpl.NAME );
+			descriptor.instanceClass = HTMLHeadElementImpl;
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				 HTMLBodyElementImpl.NAME );
+			descriptor.instanceClass = HTMLBodyElementImpl;
+			impls.addBeanDescriptor( descriptor );					
 		}
 	}
 }

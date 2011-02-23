@@ -373,8 +373,11 @@ package com.ffsys.w3c.dom
 				//no stress we'll create an element finally
 			}finally
 			{
-				//TODO: extract namespace uri based on any tag name prefix	
-				element = new ElementImpl( this, tagName );
+				if( element == null )
+				{
+					//TODO: extract namespace uri based on any tag name prefix	
+					element = new ElementImpl( this, tagName );
+				}
 			}
 			return element;
 		}
