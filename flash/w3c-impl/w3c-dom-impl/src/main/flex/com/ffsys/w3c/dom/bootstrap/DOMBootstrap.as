@@ -58,32 +58,32 @@ package com.ffsys.w3c.dom.bootstrap
 		public static const DOM_IMPL_LIST:String = "dom-impl-list";
 		
 		/**
-		* 	The name for a <code>DOM</code> XML implementation bean document.
+		* 	The name for the <code>DOM</code> XML implementation bean document.
 		*/
 		public static const XML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;
 		
 		/**
-		* 	The name for a <code>DOM</code> HTML implementation bean document.
+		* 	The name for the <code>DOM</code> HTML implementation bean document.
 		*/
 		public static const HTML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.HTML_MODULE;
 		
 		/**
-		* 	An implementation for the "XML" feature.
+		* 	The bean name for the implementation of the "XML" feature.
 		*/
 		public static const XML_IMPLEMENTATION:String = "dom-xml-impl";
 		
 		/**
-		* 	An implementation for the "XML" feature.
+		* 	The bean name for a XML document.
 		*/
 		public static const XML_DOCUMENT:String = "dom-xml-doc";
 		
 		/**
-		* 	An implementation for the "HTML" feature.
+		* 	The bean name for the implementation of the "HTML" feature.
 		*/
 		public static const HTML_IMPLEMENTATION:String = "dom-html-impl";
 		
 		/**
-		* 	An implementation for the "HTML" feature.
+		* 	The bean name for an HTML document.
 		*/
 		public static const HTML_DOCUMENT:String = "dom-html-doc";
 		
@@ -157,44 +157,11 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.instanceClass = DocumentEventImpl;
 			descriptor.singleton = true;
 			descriptor.names = new Vector.<String>();
-			descriptor.names.push( DOMFeature.MUTATION_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );			
-			
-			descriptor.names.push( DOMFeature.UI_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.MOUSE_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.TEXT_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.KEYBOARD_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.WHEEL_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.COMPOSITION_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
+			addCommonEventAliases( descriptor.names );
 			impls.addBeanDescriptor( descriptor );
 			
-			//DOM Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.EVENT_INTERFACE );
-			descriptor.instanceClass = EventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			//DOM Mutation Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.MUTATION_EVENT_INTERFACE );
-			descriptor.instanceClass = MutationEventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			//DOM UI Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.UI_EVENT_INTERFACE );
-			descriptor.instanceClass = UIEventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			//DOM Focus Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.FOCUS_EVENT_INTERFACE );
-			descriptor.instanceClass = FocusEventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
+			addCommonEvents( impls );
 			addCommonFeatures( impls );
-			
 			return impls;		
 		}
 		
@@ -222,8 +189,7 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.instanceClass = DocumentEventImpl;
 			descriptor.singleton = true;
 			descriptor.names = new Vector.<String>();
-			descriptor.names.push( DOMFeature.MUTATION_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );		
+			addCommonEventAliases( descriptor.names );	
 			
 			descriptor.names.push( DOMFeature.UI_EVENTS_MODULE );
 			descriptor.names.push( DOMFeature.MOUSE_EVENTS_MODULE );
@@ -234,19 +200,7 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
 			impls.addBeanDescriptor( descriptor );
 			
-			//DOM Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.EVENT_INTERFACE );
-			descriptor.instanceClass = EventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			//DOM Mutation Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.MUTATION_EVENT_INTERFACE );
-			descriptor.instanceClass = MutationEventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			
+			addCommonEvents( impls );
 			
 			//DOM UI Event
 			descriptor = new BeanDescriptor(
@@ -263,6 +217,35 @@ package com.ffsys.w3c.dom.bootstrap
 			addCommonFeatures( impls );
 			
 			return impls;		
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function addCommonEventAliases( names:Vector.<String> ):void
+		{
+			names.push( DOMFeature.MUTATION_EVENTS_MODULE );
+			names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );		
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function addCommonEvents( impls:IBeanDocument ):void
+		{
+			var descriptor:IBeanDescriptor = null;
+						
+			//DOM Event
+			descriptor = new BeanDescriptor(
+				DocumentEventImpl.EVENT_INTERFACE );
+			descriptor.instanceClass = EventImpl;
+			impls.addBeanDescriptor( descriptor );
+			
+			//DOM Mutation Event
+			descriptor = new BeanDescriptor(
+				DocumentEventImpl.MUTATION_EVENT_INTERFACE );
+			descriptor.instanceClass = MutationEventImpl;
+			impls.addBeanDescriptor( descriptor );
 		}
 		
 		/**
