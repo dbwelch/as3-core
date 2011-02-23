@@ -13,6 +13,8 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
 	import com.ffsys.w3c.dom.range.RangeImpl;
+	
+	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;
 
 	/**
 	*	A bean document used to implementations
@@ -175,7 +177,11 @@ package com.ffsys.w3c.dom
 			descriptor.instanceClass = RangeImpl;
 			impls.addBeanDescriptor( descriptor );
 			
-			//MUTATION_EVENT_INTERFACE
+			descriptor = new BeanDescriptor(
+				DOMFeature.TRAVERSAL_MODULE );
+			descriptor.instanceClass = DocumentTraversalImpl;
+			descriptor.singleton = true;
+			impls.addBeanDescriptor( descriptor );
 			
 			//add the implementations as an xref
 			xrefs.push( impls );

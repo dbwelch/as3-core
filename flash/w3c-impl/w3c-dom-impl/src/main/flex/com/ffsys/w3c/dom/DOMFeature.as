@@ -204,6 +204,27 @@ package com.ffsys.w3c.dom
 		*/
 		public static const VIEWS_FEATURE:DOMFeature =
 			new DOMFeature( VIEWS_MODULE, LEVEL_3 );
+				
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Validation feature.
+		*/
+		public static const VALIDATION_FEATURE:DOMFeature =
+			new DOMFeature( VALIDATION_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Range feature.
+		*/
+		public static const RANGE_FEATURE:DOMFeature =
+			new DOMFeature( RANGE_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Traversal feature.
+		*/
+		public static const TRAVERSAL_FEATURE:DOMFeature =
+			new DOMFeature( TRAVERSAL_MODULE, LEVEL_3 );
 		
 		private var _feature:String;
 		private var _version:String;
@@ -246,6 +267,8 @@ package com.ffsys.w3c.dom
 					|| feature == LS_MODULE.toLowerCase()
 					|| feature == LS_ASYNC_MODULE.toLowerCase()
 					|| feature == VALIDATION_MODULE.toLowerCase()
+					|| feature == RANGE_MODULE.toLowerCase()
+					|| feature == TRAVERSAL_MODULE.toLowerCase()
 					|| feature == XPATH_MODULE.toLowerCase()
 					|| feature == HTML_MODULE.toLowerCase()
 					|| feature == VIEWS_MODULE.toLowerCase();																																																																											
