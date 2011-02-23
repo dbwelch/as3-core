@@ -10,6 +10,8 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.events.FocusEventImpl;
 	import com.ffsys.w3c.dom.events.MutationEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
+	
+	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 
 	/**
 	*	A bean document used to implementations
@@ -145,6 +147,15 @@ package com.ffsys.w3c.dom
 			descriptor = new BeanDescriptor(
 				DocumentEventImpl.FOCUS_EVENT_INTERFACE );
 			descriptor.instanceClass = FocusEventImpl;
+			impls.addBeanDescriptor( descriptor );
+			
+			//
+			descriptor = new BeanDescriptor(
+				DOMFeature.LS_MODULE );
+			descriptor.instanceClass = DOMImplementationLSImpl;
+			descriptor.singleton = true;
+			descriptor.names = new Vector.<String>();
+			descriptor.names.push( DOMFeature.LS_ASYNC_MODULE );
 			impls.addBeanDescriptor( descriptor );
 			
 			//MUTATION_EVENT_INTERFACE
