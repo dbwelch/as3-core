@@ -27,8 +27,8 @@ package javax.xml.namespace
 	*/
 	public class QualifiedName extends Object
 	{
-		
-		private var _qname:QName;
+		private var _namespaceURI:String;
+		private var _localPart:String;
 		private var _prefix:String;
 		
 		/**
@@ -68,28 +68,55 @@ package javax.xml.namespace
 			prefix:String )
 		{
 			super();
+			_namespaceURI = namespaceURI;
+			_localPart = localPart;
+			_prefix = prefix;
+		}
+		
+		public function getLocalPart():String
+		{
+			return _localPart;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function setLocalPart( value:String ):void
+		{
+			_localPart = value;
+		}
+		
+		public function getNamespaceURI():String
+		{
+			return _namespaceURI;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function setNamespaceURI( value:String ):void
+		{
+			_namespaceURI = value;
+		}
+		
+		public function getPrefix():String
+		{
+			return _prefix;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function setPrefix( value:String ):void
+		{
+			_prefix = value;
 		}
 		
 		public function equals( other:Object ):Boolean
 		{
 			//TODO
 			return false;
-		}
-		
-		public function getLocalPart():String
-		{
-			return null;
-		}
-		
-		public function getNamespaceURI():String
-		{
-			return null;
-		}
-		
-		public function getPrefix():String
-		{
-			return null;
-		}
+		}		
 		
 		public function hashCode():int
 		{
@@ -103,6 +130,7 @@ package javax.xml.namespace
 		
 		public static function valueOf( qname:String ):QualifiedName
 		{
+			//TODO: parse qname
 			return null;
 		}
 	}
