@@ -137,10 +137,13 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	Creates a <code>NodeImpl</code> instance.
+		* 
+		* 	@param owner The owner of the node.	
 		*/
-		public function NodeImpl()
+		public function NodeImpl( owner:CoreDocumentImpl = null )
 		{
 			super();
+			setOwnerDocument( owner );
 		}
 		
 		/**

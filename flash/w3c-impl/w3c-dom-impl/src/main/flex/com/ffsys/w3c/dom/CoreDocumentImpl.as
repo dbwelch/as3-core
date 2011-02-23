@@ -374,7 +374,7 @@ package com.ffsys.w3c.dom
 			}finally
 			{
 				//TODO: extract namespace uri based on any tag name prefix	
-				element = new ElementImpl( new QName( tagName ) );
+				element = new ElementImpl( this, tagName );
 			}
 			return element;
 		}
@@ -427,7 +427,10 @@ package com.ffsys.w3c.dom
 				//no specific bean declared for the element
 			}finally{
 				element = new ElementImpl(
-					new QName( namespaceURI, qualifiedName ) );
+					this,					
+					qualifiedName );
+					//TODO: extract prefix from namespaceURI
+					//new QName( namespaceURI, qualifiedName ) );
 			}
 			
 			NodeImpl( element ).setNamespaceURI( namespaceURI );

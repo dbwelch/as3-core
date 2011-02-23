@@ -26,21 +26,21 @@ package com.ffsys.w3c.dom
 		*	@private	 
 		*/
 		protected var _elements:Vector.<Element>;
-		private var _qualifiedName:QName;		
+		
+		private var _tagName:String;		
 		
 		/**
 		* 	Creates an <code>ElementImpl</code> instance.
 		* 
-		* 	@param qualifiedName The qualified name for
-		* 	the element.
+		* 	@param owner The owner document.
+		* 	@param name The element name.
 		*/
-		public function ElementImpl( qualifiedName:QName = null )
+		public function ElementImpl(
+			owner:CoreDocumentImpl = null,
+			name:String = null )
 		{
-			super();
-			if( qualifiedName != null )
-			{
-				setQualifiedName( qualifiedName );
-			}
+			super( owner );
+			setTagName( name );
 		}
 		
 		/**
@@ -49,9 +49,9 @@ package com.ffsys.w3c.dom
 		* 	Invoked by the parser so that this node knows
 		* 	about any associated namespace.
 		*/
-		internal function setQualifiedName( qname:QName ):void
+		internal function setTagName( tagName:String ):void
 		{
-			_qualifiedName = qname;
+			_tagName = tagName;
 		}		
 		
 		/**
@@ -476,12 +476,11 @@ package com.ffsys.w3c.dom
 		*/
 		public function get tagName():String
 		{
-			if( _qualifiedName != null )
+			if( _tagName != null )
 			{
-				return _qualifiedName.localName;
+				return _tagName;
 			}
-			
-			return beanName;
+			return null;
 		}
 		
 		/**

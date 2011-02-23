@@ -70,12 +70,15 @@ package com.ffsys.w3c.dom.bootstrap
 					source = src[ i ];
 					impl = source.getDOMImplementation( features );
 					
-					trace("DOMImplementationRegistryImpl::getDOMImplementation()", impl );
+					//trace("DOMImplementationRegistryImpl::getDOMImplementation()", impl );
 					
 					if( impl != null )
 					{
+						/*
 						trace("[FOUND IMPLEMENTATION] DOMImplementationRegistryImpl::getDOMImplementation()",
 							features, beanName, document, src, impl );
+						*/
+							
 						return impl;
 					}
 				}			
