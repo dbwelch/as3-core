@@ -86,7 +86,7 @@ package com.ffsys.w3c.dom
 			
 			for( i= 0;i < this.document.xrefs.length;i++ )
 			{
-				if( this.document.xrefs[ i ].id == DOMBootstrap.IMPLEMENTATIONS_NAME )
+				if( this.document.xrefs[ i ].id == DOMBootstrap.XML_IMPLEMENTATION_DOC_NAME )
 				{
 					impls = this.document.xrefs[ i ];
 					break;
