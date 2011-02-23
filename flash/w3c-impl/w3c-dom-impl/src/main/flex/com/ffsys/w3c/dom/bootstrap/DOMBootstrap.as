@@ -60,12 +60,12 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	The name for a <code>DOM</code> XML implementation bean document.
 		*/
-		public static const XML_IMPLEMENTATION_DOC_NAME:String = "dom-xml-implementation";
+		public static const XML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;
 		
 		/**
 		* 	The name for a <code>DOM</code> HTML implementation bean document.
 		*/
-		public static const HTML_IMPLEMENTATION_DOC_NAME:String = "dom-html-implementation";
+		public static const HTML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.HTML_MODULE;
 		
 		/**
 		* 	An implementation for the "XML" feature.

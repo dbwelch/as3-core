@@ -29,7 +29,7 @@ package com.ffsys.w3c.dom.traversal
 		*/
 		protected function getDocumentTraversal():DocumentTraversal
 		{
-			var doc:Document = getDocument();
+			var doc:Document = getXMLDocument();
 			
 			var docTraversal:DocumentTraversal =
 				DocumentTraversal( doc.implementation.getFeature(

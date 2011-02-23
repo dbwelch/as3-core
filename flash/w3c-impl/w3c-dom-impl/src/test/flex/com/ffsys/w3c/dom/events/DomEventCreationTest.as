@@ -33,7 +33,7 @@ package com.ffsys.w3c.dom.events
 		*/
 		protected function getDocumentEvent():DocumentEvent
 		{
-			var doc:Document = getDocument();
+			var doc:Document = getHTMLDocument();
 			
 			var docEvents:DocumentEvent =
 				DocumentEvent( doc.implementation.getFeature(

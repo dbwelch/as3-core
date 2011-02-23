@@ -1,11 +1,12 @@
 package com.ffsys.w3c.dom.html
 {
+	import org.w3c.dom.Element;	
 	import org.w3c.dom.html.HTMLDOMImplementation;
 	import org.w3c.dom.html.HTMLDocument;
 	
 	import com.ffsys.w3c.dom.DOMFeature;
 	import com.ffsys.w3c.dom.DOMImplementationImpl;
-
+	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 	
 	public class HTMLDOMImplementationImpl extends DOMImplementationImpl
 		implements HTMLDOMImplementation
@@ -39,8 +40,19 @@ package com.ffsys.w3c.dom.html
 		*/
 		public function createHTMLDocument( title:String ):HTMLDocument
 		{
-			//TODO
-			return null;
+			var document:HTMLDocumentImpl = HTMLDocumentImpl(
+				this.document.getBean( DOMBootstrap.HTML_DOCUMENT ) );
+			
+			//TODO: change to head
+			var e:Element = document.createElement( "html" );
+			document.setDocumentElement( e );
+			
+			//TOOD: handle inspecting the doctype and 
+			//retrieving more specialized implementations where appropriate
+			
+			setImplementation( document, null );
+			
+			return document;
 		}
 	}
 }

@@ -49,6 +49,8 @@ package com.ffsys.w3c.dom
 			}			
 			
 			var i:uint = 0;
+			var j:uint = 0;
+			
 			var nm:String;			
 			
 			var list:DOMImplementationList = DOMImplementationList(
@@ -82,23 +84,45 @@ package com.ffsys.w3c.dom
 			
 			//trace("[GOT SPECIFIED FEATURES LIST] DOMImplementationSourceImpl::init()", specified );
 			
-			var impls:IBeanDocument = null;
-			
-			for( i= 0;i < this.document.xrefs.length;i++ )
+			//extract the implementation document xrefs
+			var impls:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
+			for( i = 0;i < this.document.xrefs.length;i++ )
 			{
-				if( this.document.xrefs[ i ].id == DOMBootstrap.XML_IMPLEMENTATION_DOC_NAME )
+				if( this.document.xrefs[ i ].id == DOMBootstrap.XML_IMPLEMENTATION_DOC_NAME
+				 	|| this.document.xrefs[ i ].id == DOMBootstrap.HTML_IMPLEMENTATION_DOC_NAME )
 				{
-					impls = this.document.xrefs[ i ];
-					break;
+					impls.push( this.document.xrefs[ i ] );
 				}
 			}
 			
-			if( impls == null )
+			if( impls.length == 0 )
 			{
-				throw new Error( "No DOM implementation IoC container could be located." );
+				throw new Error( "No DOM implementations could be located." );
 			}
 			
-			var names:Array = impls.beanNames;
+			var targetImpl:IBeanDocument = null;
+			var testImpl:IBeanDocument = null;
+
+			//find the preferred target implementation - XML or HTML
+			//the first match is returned, ie: "XML Core HTML" retrieves
+			//an "XML" implementation, while "HTML Core XML" retrieves
+			//an "HTML" implementation
+			for( i = 0;i < impls.length;i++ )
+			{
+				testImpl = impls[ i ];
+				for( j = 0;j < specified.length;j++ )
+				{
+					ft = specified[ j ];
+					if( ft.feature.toLowerCase() == testImpl.id.toLowerCase() )
+					{
+						targetImpl = testImpl;
+						i = impls.length;
+						break;
+					}
+				}
+			}
+			
+			var names:Array = targetImpl.beanNames;
 			if( names != null )
 			{
 				var k:uint = 0;
@@ -108,7 +132,7 @@ package com.ffsys.w3c.dom
 				for( i = 0;i < names.length;i++ )
 				{
 					nm = names[ i ];
-					bean = impls.getBean( nm );
+					bean = targetImpl.getBean( nm );
 					if( bean is DOMImplementation )
 					{
 						impl = DOMImplementation( bean );

@@ -33,7 +33,7 @@ package com.ffsys.w3c.dom
 		[Test(expects="org.w3c.dom.DOMException")]
 		public function testInvalidXmlElementNameCreateElementNS():void
 		{
-			var doc:Document = getDocument();	
+			var doc:Document = getXMLDocument();	
 			var elem:Element = doc.createElementNS(
 				null, "fluid:button"
 					+ String.fromCharCode( 0x037E ) );
@@ -46,7 +46,7 @@ package com.ffsys.w3c.dom
 		[Test(expects="org.w3c.dom.DOMException")]
 		public function testInvalidXmlElementNameCreateElement():void
 		{
-			var doc:Document = getDocument();	
+			var doc:Document = getXMLDocument();	
 			var elem:Element = doc.createElement(
 				"button" + String.fromCharCode( 0x037E ) );
 		}
@@ -54,7 +54,7 @@ package com.ffsys.w3c.dom
 		[Test]
 		public function testCreateElement():void
 		{
-			var doc:Document = getDocument();	
+			var doc:Document = getXMLDocument();	
 			
 			//create an element
 			var elem:Element = doc.createElement( "head" );

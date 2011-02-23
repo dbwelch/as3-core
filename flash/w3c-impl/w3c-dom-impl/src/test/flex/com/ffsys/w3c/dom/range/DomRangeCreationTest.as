@@ -30,7 +30,7 @@ package com.ffsys.w3c.dom.range
 		*/
 		protected function getDocumentRange():DocumentRange
 		{
-			var doc:Document = getDocument();
+			var doc:Document = getXMLDocument();
 			
 			var docRange:DocumentRange =
 				DocumentRange( doc.implementation.getFeature(
