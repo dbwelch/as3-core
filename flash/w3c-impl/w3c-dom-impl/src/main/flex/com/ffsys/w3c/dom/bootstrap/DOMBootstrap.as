@@ -2,17 +2,14 @@ package com.ffsys.w3c.dom.bootstrap
 {
 	import com.ffsys.ioc.*;
 	
-	import com.ffsys.w3c.dom.DOMFeature;
-	import com.ffsys.w3c.dom.DOMImplementationSourceImpl;
-	import com.ffsys.w3c.dom.DOMImplementationListImpl;	
+	import com.ffsys.w3c.dom.*;
+	import com.ffsys.w3c.dom.html.*;
 	
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 	import com.ffsys.w3c.dom.events.EventImpl;
 	import com.ffsys.w3c.dom.events.FocusEventImpl;
 	import com.ffsys.w3c.dom.events.MutationEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
-	
-	import com.ffsys.w3c.dom.html.*;
 	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
@@ -151,6 +148,8 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.instanceClass = XMLDocumentImpl;
 			impls.addBeanDescriptor( descriptor );
 			
+			addDOMNodes( impls );			
+			
 			descriptor = new BeanDescriptor(
 				DOMFeature.EVENTS_MODULE );
 			descriptor.instanceClass = DocumentEventImpl;
@@ -182,6 +181,8 @@ package com.ffsys.w3c.dom.bootstrap
 				HTML_DOCUMENT );
 			descriptor.instanceClass = HTMLDocumentImpl;
 			impls.addBeanDescriptor( descriptor );
+			
+			addDOMNodes( impls );			
 			
 			descriptor = new BeanDescriptor(
 				DOMFeature.EVENTS_MODULE );
@@ -281,6 +282,51 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.singleton = true;
 			impls.addBeanDescriptor( descriptor );			
 		}
+
+		/**
+		* 	@private
+		*/
+		private function addDOMNodes( impls:IBeanDocument ):void
+		{
+			var descriptor:IBeanDescriptor = null;
+
+			descriptor = new BeanDescriptor(
+				ElementImpl.NAME );
+			descriptor.instanceClass = ElementImpl;
+			impls.addBeanDescriptor( descriptor );			
+			descriptor = new BeanDescriptor(
+				AttrImpl.NAME );
+			descriptor.instanceClass = AttrImpl;
+			impls.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				TextImpl.NAME );
+			descriptor.instanceClass = TextImpl;
+			impls.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				DocumentFragmentImpl.NAME );
+			descriptor.instanceClass = DocumentFragmentImpl;
+			impls.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ProcessingInstructionImpl.NAME );
+			descriptor.instanceClass = ProcessingInstructionImpl;
+			impls.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				CommentImpl.NAME );
+			descriptor.instanceClass = CommentImpl;
+			impls.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				CDATASectionImpl.NAME );
+			descriptor.instanceClass = CDATASectionImpl;
+			impls.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				EntityImpl.NAME );
+			descriptor.instanceClass = EntityImpl;
+			impls.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				EntityReferenceImpl.NAME );
+			descriptor.instanceClass = EntityReferenceImpl;
+			impls.addBeanDescriptor( descriptor );		
+		}
 		
 		/**
 		* 	@private
@@ -302,7 +348,12 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor = new BeanDescriptor(
 				 HTMLBodyElementImpl.NAME );
 			descriptor.instanceClass = HTMLBodyElementImpl;
-			impls.addBeanDescriptor( descriptor );					
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				 HTMLTitleElementImpl.NAME );
+			descriptor.instanceClass = HTMLTitleElementImpl;
+			impls.addBeanDescriptor( descriptor );		
 		}
 	}
 }

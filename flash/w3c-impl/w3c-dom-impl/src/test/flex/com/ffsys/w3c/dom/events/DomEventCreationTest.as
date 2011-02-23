@@ -13,6 +13,7 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.events.UIEvent;
 	
 	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.html.HTMLDocumentImpl;
 	
 	/**
 	*	Unit tests for creating DOM events.
@@ -34,6 +35,8 @@ package com.ffsys.w3c.dom.events
 		protected function getDocumentEvent():DocumentEvent
 		{
 			var doc:Document = getHTMLDocument();
+			
+			trace("DomEventCreationTest::getDocumentEvent()", HTMLDocumentImpl( doc ).xml.toXMLString() );
 			
 			var docEvents:DocumentEvent =
 				DocumentEvent( doc.implementation.getFeature(

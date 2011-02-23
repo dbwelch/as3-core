@@ -15,6 +15,11 @@ package com.ffsys.w3c.dom
 		implements CDATASection
 	{
 		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "CDATASection";
+		
+		/**
 		* 	The node name for CDATA section nodes.
 		*/
 		public static const NODE_NAME:String = "#cdata-section";

@@ -15,6 +15,11 @@ package com.ffsys.w3c.dom
 	public class ProcessingInstructionImpl extends NodeImpl
 		implements ProcessingInstruction
 	{
+		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "ProcessingInstruction";
+		
 		private var _target:String;
 		private var _data:String;
 		

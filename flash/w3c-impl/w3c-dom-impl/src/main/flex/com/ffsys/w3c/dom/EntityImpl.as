@@ -8,6 +8,11 @@ package com.ffsys.w3c.dom
 	public class EntityImpl extends NodeImpl
 		implements Entity
 	{
+		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "Entity";
+		
 		private var _publicId:String;
 		private var _systemId:String;
 		private var _notationName:String;

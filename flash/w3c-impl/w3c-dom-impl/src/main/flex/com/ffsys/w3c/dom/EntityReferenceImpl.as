@@ -15,6 +15,11 @@ package com.ffsys.w3c.dom
 		implements EntityReference
 	{
 		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "EntityReference";
+				
+		/**
 		* 	Creates an <code>EntityReferenceImpl</code> instance.
 		*/
 		public function EntityReferenceImpl()

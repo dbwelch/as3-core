@@ -15,6 +15,11 @@ package com.ffsys.w3c.dom
 		implements Comment
 	{
 		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "Comment";
+		
+		/**
 		* 	The node name for comment nodes.
 		*/
 		public static const NODE_NAME:String = "#comment";		

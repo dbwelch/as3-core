@@ -21,6 +21,11 @@ package com.ffsys.w3c.dom
 		implements Attr
 	{
 		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "Attr";
+		
+		/**
 		* 	The delimiter used to delimit <code>XML</code>
 		* 	namespace prefixes and the local name of the node.
 		*/

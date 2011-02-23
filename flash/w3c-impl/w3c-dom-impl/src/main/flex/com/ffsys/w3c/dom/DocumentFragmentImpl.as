@@ -15,6 +15,11 @@ package com.ffsys.w3c.dom
 		implements DocumentFragment
 	{
 		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "DocumentFragment";
+		
+		/**
 		* 	The node name for document fragment nodes.
 		*/
 		public static const NODE_NAME:String = "#document-fragment";

@@ -1,20 +1,15 @@
 package org.w3c.dom.html
 {
-
+	/**
+	* 	Defines the contract for HTML document title
+	* 	implementations.
+	*/
 	public interface HTMLTitleElement extends HTMLElement
-	{
-		/*
-	
-		Objects that implement the HTMLTitleElement interface:
-		Objects that implement the HTMLTitleElement interface have all properties and functions of the HTMLElement interface as well as the properties and functions defined below.
-		
-		Properties of objects that implement the HTMLTitleElement interface:
-		
-		text
-		This property is a String.	
-	
+	{		
+		/**
+		* 	The text for this title.
 		*/
+		function get text():String;
+		function set text( text:String ):void;
 	}
-
 }
-

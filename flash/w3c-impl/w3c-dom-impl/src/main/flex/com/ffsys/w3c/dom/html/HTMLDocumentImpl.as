@@ -6,9 +6,10 @@ package com.ffsys.w3c.dom.html
 	import org.w3c.dom.NodeList;
 	import org.w3c.dom.html.HTMLDocument;
 	import org.w3c.dom.html.HTMLBodyElement;
+	import org.w3c.dom.html.HTMLHeadElement;
 	import org.w3c.dom.html.HTMLCollection;
 	
-	public class HTMLDocumentImpl extends DocumentImpl
+	dynamic public class HTMLDocumentImpl extends DocumentImpl
 		implements HTMLDocument
 	{
 		private var _title:String;
@@ -16,7 +17,8 @@ package com.ffsys.w3c.dom.html
 		private var _domain:String;
 		private var _url:String;
 		private var _cookie:String;
-		
+
+		private var _head:HTMLHeadElement;
 		private var _body:HTMLBodyElement;
 		
 		private var _images:HTMLCollection;
@@ -36,6 +38,32 @@ package com.ffsys.w3c.dom.html
 		}
 		
 		/**
+		* 	The document head.
+		*/
+		public function get head():HTMLHeadElement
+		{
+			return _head;
+		}
+		
+		public function set head( head:HTMLHeadElement ):void
+		{
+			_head = head;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get body():HTMLBodyElement
+		{
+			return _body;
+		}
+		
+		public function set body( body:HTMLBodyElement ):void
+		{
+			_body = body;
+		}		
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function get title():String
@@ -45,6 +73,23 @@ package com.ffsys.w3c.dom.html
 		
 		public function set title( title:String ):void
 		{
+			if( title == null )
+			{
+				//TODO : remove the title element from the document head
+			}else
+			{
+				//TODO: check that a head exists
+				//TODO: check if a title element exists and just update the text
+			
+				var el:HTMLTitleElementImpl = 
+					HTMLTitleElementImpl(
+						createElement( HTMLTitleElementImpl.NAME ) );
+					
+				this.head.appendChild( el );
+			
+				el.text = title;
+			}
+			
 			_title = title;
 		}
 		
@@ -70,19 +115,6 @@ package com.ffsys.w3c.dom.html
 		public function get url():String
 		{
 			return _url;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get body():HTMLBodyElement
-		{
-			return _body;
-		}
-		
-		public function set body( body:HTMLBodyElement ):void
-		{
-			_body = body;
 		}
 		
 		//This property is a String and can raise an object that implements DOMException interface on setting.

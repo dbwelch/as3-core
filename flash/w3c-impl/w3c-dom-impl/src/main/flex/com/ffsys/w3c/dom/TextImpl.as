@@ -9,6 +9,11 @@ package com.ffsys.w3c.dom
 		implements Text
 	{
 		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "Text";
+		
+		/**
 		* 	The node name for text nodes.
 		*/
 		public static const NODE_NAME:String = "#text";

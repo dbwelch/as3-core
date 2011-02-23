@@ -43,6 +43,9 @@ package com.ffsys.w3c.dom
 		
 		private var _elements:Vector.<Element>;
 		
+		/**
+		* 	@private
+		*/
 		protected var _documentElement:Element;
 		
 		/**
@@ -129,6 +132,10 @@ package com.ffsys.w3c.dom
 		override public function get xml():XML
 		{
 			var x:XML = super.xml;
+			if( documentElement is NodeImpl )
+			{
+				x = NodeImpl( this.documentElement ).xml;
+			}
 			addNamespaceAttributes( x );
 			return x;
 		}
@@ -456,7 +463,7 @@ package com.ffsys.w3c.dom
 		public function createTextNode( data:String ):Text
 		{
 			var text:Text = Text( getDomBean(
-				DomCoreBeanDocument.TEXT, { data: data } ) );
+				TextImpl.NAME, { data: data } ) );
 			return text;
 		}
 		

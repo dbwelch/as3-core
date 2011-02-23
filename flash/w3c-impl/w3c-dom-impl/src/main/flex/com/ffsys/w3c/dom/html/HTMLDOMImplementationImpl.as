@@ -40,12 +40,14 @@ package com.ffsys.w3c.dom.html
 		*/
 		public function createHTMLDocument( title:String ):HTMLDocument
 		{
+			//null titles become the empty string
+			if( title == null )
+			{
+				title = "";
+			}
+			
 			var document:HTMLDocumentImpl = HTMLDocumentImpl(
 				this.document.getBean( DOMBootstrap.HTML_DOCUMENT ) );
-			
-			//TODO: change to head
-			//var e:Element = document.createElement( "html" );
-			//document.setDocumentElement( e );
 			
 			//TOOD: handle inspecting the doctype and 
 			//retrieving more specialized implementations where appropriate
@@ -70,11 +72,16 @@ package com.ffsys.w3c.dom.html
 					
 			trace("[CREATE HTML ELEMENT] HTMLDOMImplementationImpl::createHTMLDocument()",
 				html, head, body );
-				
-			//assign a reference to the body
-			document.body = body;
+			
+			document.setDocumentElement( html );
 			
 			setImplementation( document, null );
+			
+			//assign a reference to the head and body
+			document.head = head;
+			document.body = body;
+
+			document.title = title;			
 			
 			return document;
 		}

@@ -54,6 +54,8 @@ package com.ffsys.w3c.dom
 				return _htmlDocument;
 			}
 			
+			var title:String = "this is a document title";
+			
 			var registry:DOMImplementationRegistry = getRegistry();
 			
 			//retrieve an implementation for "HTML 3.0 Core"
@@ -66,7 +68,9 @@ package com.ffsys.w3c.dom
 			
 			//create a plain xml document implementation
 			var doc:HTMLDocument = HTMLDOMImplementation( impl ).createHTMLDocument(
-				"this is a document title" );
+				title );
+			Assert.assertNotNull( doc );
+			Assert.assertEquals( title, doc.title );
 				
 			/*
 			Assert.assertNotNull( doc );

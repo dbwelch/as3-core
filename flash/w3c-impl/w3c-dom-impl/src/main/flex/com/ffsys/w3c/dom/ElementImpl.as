@@ -20,6 +20,11 @@ package com.ffsys.w3c.dom
 	dynamic public class ElementImpl extends NodeImpl
 		implements Element
 	{
+		/**
+		* 	The bean name for this node.
+		*/
+		public static const NAME:String = "Element";
+		
 		private var _title:String;
 		
 		/**
@@ -316,6 +321,8 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	@private
+		* 	
 		* 	Sets or retrieves the text of this element.
 		* 
 		* 	@param value A value to assign to the text
@@ -325,7 +332,7 @@ package com.ffsys.w3c.dom
 		* 	or the cumulative text contents when retrieving
 		* 	text values.
 		*/
-		public function setText( value:String = null ):Object
+		protected function setText( value:String = null ):Object
 		{
 			if( ownerDocument == null
 				|| ownerDocument.implementation == null )
