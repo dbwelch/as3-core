@@ -4,6 +4,7 @@ package org.w3c.dom.traversal
 	public interface TreeWalker
 	{
 		
+		
 		/*
 		
 		The TreeWalker object has the following properties:

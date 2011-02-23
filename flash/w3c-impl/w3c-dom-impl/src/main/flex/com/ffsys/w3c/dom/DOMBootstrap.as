@@ -11,6 +11,8 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.events.UIEventImpl;
 	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
+	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
+	import com.ffsys.w3c.dom.range.RangeImpl;
 
 	/**
 	*	A bean document used to implementations
@@ -58,6 +60,11 @@ package com.ffsys.w3c.dom
 		* 	An implementation for the "XML" feature.
 		*/
 		public static const XML_DOCUMENT:String = "dom-xml-doc";
+		
+		/**
+		* 	A bean name for a range implementation.
+		*/
+		public static const RANGE_IMPL:String = "range-impl";
 			
 		/**
 		* 	Creates a <code>DOMBootstrap</code> instance.
@@ -155,6 +162,17 @@ package com.ffsys.w3c.dom
 			descriptor.singleton = true;
 			descriptor.names = new Vector.<String>();
 			descriptor.names.push( DOMFeature.LS_ASYNC_MODULE );
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DOMFeature.RANGE_MODULE );
+			descriptor.instanceClass = DocumentRangeImpl;
+			descriptor.singleton = true;
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				RANGE_IMPL );
+			descriptor.instanceClass = RangeImpl;
 			impls.addBeanDescriptor( descriptor );
 			
 			//MUTATION_EVENT_INTERFACE

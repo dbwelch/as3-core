@@ -87,6 +87,16 @@ package com.ffsys.w3c.dom
 		public static const XPATH_MODULE:String = "XPath";
 		
 		/**
+		* 	Represents the Range module.
+		*/
+		public static const RANGE_MODULE:String = "Range";
+		
+		/**
+		* 	Represents the Traversal module.
+		*/
+		public static const TRAVERSAL_MODULE:String = "Traversal";
+		
+		/**
 		* 	Represents the HTML module.
 		*/
 		public static const HTML_MODULE:String = "HTML";
