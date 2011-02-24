@@ -318,5 +318,25 @@ package java.lang
 			}
 			return v;
 		}
+		
+		/**
+		* 	@private
+		*/
+		private static function __initialize():Boolean
+		{
+			/*
+			//if( !( Object( Class ).hasOwnProperty( "forName" ) ) )
+			//{
+				Object( Class ).forName = function( fqn:String ):Object
+				{
+					return getDefinitionByName( fqn );
+				}
+			//}
+			trace("[T INIT] T::__initialize()", T );
+			*/
+			return true;
+		}
+		
+		private static var _initialized:Boolean = __initialize();
 	}
 }
