@@ -90,17 +90,13 @@ package com.ffsys.w3c.dom
 		override public function get xml():XML
 		{
 			var x:XML = super.xml;
-			/*
-			if( documentElement is NodeImpl )
+			if( documentElement != null )
 			{
 				x = NodeImpl( this.documentElement ).xml;
+				trace("[GET XML] CoreDocumentImpl::get xml()", documentElement );				
 			}
-			*/
 			
 			addNamespaceAttributes( x );
-			
-			//ignore the abstract document (this)
-			//by returning the first child
 			return x;
 		}
 		
@@ -149,14 +145,13 @@ package com.ffsys.w3c.dom
 		{
 			//var output:NodeList =  _tags[ tagName ] as NodeList;
 			
-			var output:NodeList =  new NodeListImpl();			
+			var output:NodeListImpl =  new NodeListImpl();
 
 			//retrieve all descendant elements
 			var elements:NodeList = getElements( true );
 			
-			trace("[ELEMENTS BY TAG NAME] CoreDocumentImpl::getElementsByTagName()", elements );
+			//trace("[ELEMENTS BY TAG NAME] CoreDocumentImpl::getElementsByTagName()", elements );
 			
-			/*
 			var el:Element = null;
 			for( var i:int = 0;i < elements.length;i++ )
 			{
@@ -166,7 +161,6 @@ package com.ffsys.w3c.dom
 					output.concat( el );
 				}
 			}
-			*/
 			return output;
 		}
 		
@@ -630,19 +624,26 @@ package com.ffsys.w3c.dom
 			bean.finalized();
 			return bean;
 		}
-
+		
 		/**
 		* 	@inheritDoc
 		*/	
 		override public function appendChild( child:Node ):Node
 		{
 			trace("[APPEND] CoreDocumentImpl::appendChild()", this, child, this === child );
-			super.appendChild( child );
+
 			if( child is NodeImpl )
 			{
 				NodeImpl( child ).setOwnerDocument( this );
 			}
-			return child;
+			var el:Element = this.documentElement;
+			
+			if( el != null )
+			{
+				return el.appendChild( child );
+			}
+			
+			return super.appendChild( child );
 		}
 		
 		override protected function propertyMissing( name:* ):*

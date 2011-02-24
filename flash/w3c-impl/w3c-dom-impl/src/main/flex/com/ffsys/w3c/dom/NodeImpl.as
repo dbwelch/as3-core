@@ -599,14 +599,17 @@ package com.ffsys.w3c.dom
 				n.setChildIndex( childNodes.length );
 				n.setOwnerDocument( _ownerDocument );
 				
+				//xml must be modified before actually
+				//appending the child node to prevent
+				//a cyclical loop with top-level document elements
+				this.xml.appendChild( n.xml );
+				
 				NodeListImpl( childNodes ).concat( n );
 				
 				if( _ownerDocument is CoreDocumentImpl && ( n is Element ) )
 				{	
 					CoreDocumentImpl( _ownerDocument ).registerElement( Element( n ) );
 				}
-				
-				this.xml.appendChild( n.xml );
 				
 				//TODO: property name camel case conversion
 				var name:String = n.nodeName;

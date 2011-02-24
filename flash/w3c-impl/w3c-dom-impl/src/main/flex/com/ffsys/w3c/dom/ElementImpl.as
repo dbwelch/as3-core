@@ -56,8 +56,14 @@ package com.ffsys.w3c.dom
 		*/
 		internal function setTagName( tagName:String ):void
 		{
+			if( tagName != null
+				&& tagName.length > 0
+				&& !/^\s+$/.test( tagName ) )
+			{
+				_xml = new XML( "<" + tagName + " />" );			
+			}
 			_tagName = tagName;
-		}		
+		}
 		
 		/**
 		* 	@inheritDoc

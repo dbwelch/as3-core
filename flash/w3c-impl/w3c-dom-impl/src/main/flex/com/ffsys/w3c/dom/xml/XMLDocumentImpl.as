@@ -14,7 +14,7 @@ package com.ffsys.w3c.dom.xml
 		public function XMLDocumentImpl()
 		{
 			super();
-		}
+		}	
 		
 		/**
 		* 	@inheritDoc
