@@ -9,6 +9,7 @@ package com.ffsys.w3c.dom
 	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.*;
 	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
+	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;	
 	
 	import org.w3c.dom.*;
 	import org.w3c.dom.DOMException;
@@ -110,14 +111,22 @@ package com.ffsys.w3c.dom
 			Assert.assertNotNull( doctype );
 			
 			//create a plain xml document implementation
-			var doc:Document = impl.createDocument( null, "html", doctype );
+			var doc:Document = impl.createDocument( null, "xml-root", doctype );
 			Assert.assertNotNull( doc );
+			
+			trace("AbstractDomUnit::getXMLDocument()", doc.documentElement, doc.childNodes.length, XMLDocumentImpl( doc ).xml.toXMLString() );
+			
+			/*
 			Assert.assertTrue( doc.documentElement is Element );
 
-			Assert.assertEquals( "html", doc.documentElement.tagName );
+			Assert.assertEquals( "xml-root", doc.documentElement.tagName );
 			Assert.assertNull( doc.documentElement.localName );
 			Assert.assertNull( doc.documentElement.namespaceURI );
 			Assert.assertNull( doc.documentElement.prefix );
+			
+			*/
+			
+			
 			_document = doc;
 			return _document;
 		}

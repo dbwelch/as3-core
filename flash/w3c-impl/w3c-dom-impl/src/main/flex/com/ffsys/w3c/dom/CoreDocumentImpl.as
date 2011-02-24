@@ -90,11 +90,17 @@ package com.ffsys.w3c.dom
 		override public function get xml():XML
 		{
 			var x:XML = super.xml;
+			/*
 			if( documentElement is NodeImpl )
 			{
 				x = NodeImpl( this.documentElement ).xml;
 			}
+			*/
+			
 			addNamespaceAttributes( x );
+			
+			//ignore the abstract document (this)
+			//by returning the first child
 			return x;
 		}
 		
@@ -125,16 +131,11 @@ package com.ffsys.w3c.dom
 		*/
 		public function get documentElement():Element
 		{
-			return _documentElement;
+			return null;
 		}
 		
 		/**
-		* 	Ensures that access by identifier at the document
-		* 	level applies to all elements in the document.
-		* 
-		* 	@param id The identifier of the element to retrieve.
-		* 
-		* 	@return The retrieved element if it exists otherwise <code>null</code>.
+		* 	@inheritDoc
 		*/
 		public function getElementById( id:String ):Element
 		{
@@ -142,19 +143,31 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
-		* 	Ensures that a document attempts to retrieve
-		* 	tag elements from both the head and the body
-		* 	of the document.
-		* 
-		* 	@param tagName The name of the tag to retrieve.
-		* 
-		* 	@return A list of child elements that are the
-		* 	specified tag.
+		* 	@inheritDoc
 		*/
 		public function getElementsByTagName( tagName:String ):NodeList
 		{
-			//trace("Document::getElementsByTagName()", tagName, _tags[ tagName ] );
-			return _tags[ tagName ];
+			//var output:NodeList =  _tags[ tagName ] as NodeList;
+			
+			var output:NodeList =  new NodeListImpl();			
+
+			//retrieve all descendant elements
+			var elements:NodeList = getElements( true );
+			
+			trace("[ELEMENTS BY TAG NAME] CoreDocumentImpl::getElementsByTagName()", elements );
+			
+			/*
+			var el:Element = null;
+			for( var i:int = 0;i < elements.length;i++ )
+			{
+				el = Element( elements.item( i ) );
+				if( tagName == "*" || el.tagName === tagName )
+				{
+					output.concat( el );
+				}
+			}
+			*/
+			return output;
 		}
 		
 		public function getChildrenByTagName( tagName:String ):NodeList
@@ -623,6 +636,7 @@ package com.ffsys.w3c.dom
 		*/	
 		override public function appendChild( child:Node ):Node
 		{
+			trace("[APPEND] CoreDocumentImpl::appendChild()", this, child, this === child );
 			super.appendChild( child );
 			if( child is NodeImpl )
 			{

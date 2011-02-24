@@ -155,7 +155,10 @@ package com.ffsys.w3c.dom
 						if( k == specified.length )
 						{
 							list[ c++ ] = impl;
+							
+							/*
 							trace("[ADDING IMPLEMENTATION] DOMImplementationSourceImpl::DOMImplementationSourceImpl()", impl, c, list.length );
+							*/
 						}
 					}
 				}

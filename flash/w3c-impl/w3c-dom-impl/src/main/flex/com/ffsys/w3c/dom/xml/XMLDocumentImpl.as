@@ -1,6 +1,7 @@
 package com.ffsys.w3c.dom.xml
 {
 	import org.w3c.dom.Element;
+	import org.w3c.dom.NodeList;
 	
 	import com.ffsys.w3c.dom.CoreDocumentImpl;
 	
@@ -16,11 +17,29 @@ package com.ffsys.w3c.dom.xml
 		}
 		
 		/**
-		* 	@private
+		* 	@inheritDoc
 		*/
-		internal function setDocumentElement( element:Element ):void
+		override public function get documentElement():Element
 		{
-			_documentElement = element;
+			var el:Element = null;
+			var elements:NodeList = this.getElements();
+			
+			if( elements.length > 1 )
+			{
+				//TODO: handle this potential error case (multiple top-level XML elements), 
+				//when appending child nodes not here
+			}
+			
+			trace("[LIST] XMLDocumentImpl::get documentElement()", elements );
+			
+			if( elements.length >= 1 )
+			{
+				el = elements[ 0 ];
+			}
+			
+			trace("[ELEM] XMLDocumentImpl::get documentElement()", el );
+			
+			return el;
 		}
 	}
 }

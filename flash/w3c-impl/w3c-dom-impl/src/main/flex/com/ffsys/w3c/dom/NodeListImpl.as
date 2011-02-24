@@ -25,7 +25,7 @@ package com.ffsys.w3c.dom
 			super();
 			
 			//update our proxy source to the child vector
-			setProxySource( children );
+			setProxySource( this.children );
 		}
 		
 		/**
@@ -42,6 +42,49 @@ package com.ffsys.w3c.dom
 		public function item( index:uint ):Node
 		{
 			return children[ index ];
+		}
+		
+		
+		/**
+		* 	Retrieves a list of all nodes of the specified
+		* 	type.
+		* 
+		* 	The output list will include this node if it is of
+		* 	the specified and any direct descendant nodes that
+		* 	are of the correct type. If the deep parameter is true
+		* 	recursion is performed to retrieve all descendant nodes
+		* 	of the specified type.
+		* 
+		* 	@param type The node type.
+		* 	@param deep Whether to retrieve all descendant
+		* 	
+		* 	@return A list of all child nodes of the specified type.
+		*/
+		public function getNodesOfType(
+			type:uint,
+			deep:Boolean = false,
+			output:NodeListImpl = null ):NodeList
+		{
+			if( output == null )
+			{
+				output = new NodeListImpl();
+			}
+			
+			var node:Node = null;
+			for( var i:int = 0;i < length;i++ )
+			{
+				node = item( i );
+				if( node.nodeType == type )
+				{
+					output.children.push( node );
+				}
+				if( deep && node.hasChildNodes() )
+				{
+					NodeListImpl( node.childNodes ).getNodesOfType(
+						type, deep, output );
+				}
+			}
+			return output;
 		}
 		
 		/**

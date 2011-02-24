@@ -214,8 +214,10 @@ package com.ffsys.w3c.dom
 		public function getFeature(
 			feature:String, version:String ):Object
 		{
+			/*
 			trace("DOMImplementationImpl::getFeature()",
 				feature, version, supported, this.document );
+			*/
 				
 			var bean:Object = null;
 			

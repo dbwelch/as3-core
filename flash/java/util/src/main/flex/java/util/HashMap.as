@@ -1,6 +1,7 @@
 package java.util
 {
-	import java.lang.*;	
+	import java.lang.K;	
+	import java.lang.V;
 
 	public class HashMap extends AbstractMap
 	{

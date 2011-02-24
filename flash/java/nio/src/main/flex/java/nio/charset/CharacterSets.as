@@ -1,7 +1,7 @@
 package java.nio.charset
 {
 	
-	import java.util.SortedMap;
+	import java.util.TreeMap;
 
 	import java.nio.charset.iso.*;
 	import java.nio.charset.utf.*;
@@ -9,7 +9,7 @@ package java.nio.charset
 	/**
 	* 	A map of the available character sets.
 	*/
-	public final class CharacterSets extends SortedMap
+	public final class CharacterSets extends TreeMap
 	{
 		/**
 		* 	The <code>utf-16</code> character set.

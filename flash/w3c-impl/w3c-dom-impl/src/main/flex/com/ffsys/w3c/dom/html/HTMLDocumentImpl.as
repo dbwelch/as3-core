@@ -1,6 +1,7 @@
 package com.ffsys.w3c.dom.html
 {
 	import com.ffsys.w3c.dom.DocumentImpl;
+	import com.ffsys.w3c.dom.html.HTMLHtmlElementImpl;	
 	
 	import org.w3c.dom.Element;
 	import org.w3c.dom.NodeList;
@@ -223,14 +224,18 @@ package com.ffsys.w3c.dom.html
 		{
 			//TODO
 			return null;
-		}		
+		}
 		
 		/**
-		* 	@private
+		* 	@inheritDoc
 		*/
-		internal function setDocumentElement( element:Element ):void
+		override public function get documentElement():Element
 		{
-			_documentElement = element;
+			//find the first declared element
+			//with an "html" tag name
+			var el:Element = getElementsByTagName(
+				HTMLHtmlElementImpl.NAME )[ 0 ] as Element;
+			return el;
 		}
 	}
 }

@@ -710,7 +710,19 @@ package com.ffsys.w3c.dom
 			return null;
 		}
 		
+		public function getElements( deep:Boolean = false ):NodeList
+		{
+			if( hasChildNodes() )
+			{
+				return NodeListImpl( childNodes ).getNodesOfType(
+					ELEMENT_NODE, deep );
+			}
+			return new NodeListImpl();
+		}
+		
 		/**
+		* 	@deprecated See getElements()
+		* 	
 		* 	Retrieves a list of child nodes that are elements.
 		*/
 		public function get elements():Vector.<Element>
@@ -725,7 +737,7 @@ package com.ffsys.w3c.dom
 				}
 			}
 			return elements;
-		}		
+		}	
 		
 		/**
 		* 	@private
