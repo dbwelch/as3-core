@@ -1,5 +1,6 @@
 package org.xml.sax
 {
+	import java.lang.Throwable;	
 	
 	/**
 	* 	Encapsulate an XML parse error or warning.

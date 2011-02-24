@@ -35,6 +35,8 @@ package org.xml.sax
 	public interface ContentHandler
 	{
 		/**
+		* 	Receive notification of character data.
+		* 
 		* 	
 		*/
 		function characters( ch:String, start:int, length:int ):void;

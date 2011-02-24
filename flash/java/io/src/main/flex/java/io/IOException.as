@@ -1,13 +1,15 @@
-package java.lang
+package java.io
 {
+	import java.lang.Throwable;		
+	import java.lang.Exception;	
+	
 	/**
-	* 	Encapsulates a generic exception.
+	* 	Encapsulates an input or output exception.
 	*/
-	public class Exception extends Throwable
+	public class IOException extends Exception
 	{
-		
 		/**
-		* 	Creates an <code>Exception</code> instance.
+		* 	Creates an <code>IOException</code> instance.
 		* 
 		* 	@param message The detail message.
 		* 	@param couse The cause, a null value is permitted,
@@ -16,7 +18,7 @@ package java.lang
 		* 	@param replacements Values to replace within
 		* 	the detail message.
 		*/
-		public function Exception(
+		public function IOException(
 			message:String = null,
 			cause:Throwable = null,
 			id:int = -1,

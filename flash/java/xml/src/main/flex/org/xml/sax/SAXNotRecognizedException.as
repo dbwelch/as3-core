@@ -1,5 +1,6 @@
 package org.xml.sax
 {
+	import java.lang.Throwable;	
 	
 	/**
 	* 	Exception class for an unrecognized identifier.

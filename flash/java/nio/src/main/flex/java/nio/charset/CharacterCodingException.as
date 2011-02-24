@@ -1,13 +1,15 @@
-package java.lang
+package java.nio.charset
 {
+	import java.lang.Throwable;
+	import java.io.IOException;
+	
 	/**
-	* 	Encapsulates a generic exception.
-	*/
-	public class Exception extends Throwable
+	* 	Encapsulates a character encoding exception.
+	*/	
+	public class CharacterCodingException extends IOException
 	{
-		
 		/**
-		* 	Creates an <code>Exception</code> instance.
+		* 	Creates a <code>CharacterCodingException</code> instance.
 		* 
 		* 	@param message The detail message.
 		* 	@param couse The cause, a null value is permitted,
@@ -16,7 +18,7 @@ package java.lang
 		* 	@param replacements Values to replace within
 		* 	the detail message.
 		*/
-		public function Exception(
+		public function CharacterCodingException(	
 			message:String = null,
 			cause:Throwable = null,
 			id:int = -1,
