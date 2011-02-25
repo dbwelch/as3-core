@@ -29,9 +29,18 @@ package com.ffsys.w3c.dom
 		{
 			var doc:Document = getXMLDocument();
 			var el:Element = doc.documentElement;
+			Assert.assertNotNull( el );
+			
+			var nm:String = "graphics";
 			
 			//rename the root element
-			doc.renameNode( el, null, "graphics" );
+			doc.renameNode( el, null, nm );
+			
+			Assert.assertEquals( nm, el.tagName );
+			Assert.assertEquals( nm, el.nodeName );
+			
+			//now try to rename to a fully qualified name
+			doc.renameNode( el, "http://example.org/graphics", "example:graphics" );
 			
 			trace("[DOM BUILD TEST] DomBuildTest::testBuildDom()", el, el.tagName );
 			trace( NodeImpl( doc ).xml.toXMLString() );

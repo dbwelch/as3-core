@@ -239,9 +239,88 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@private
 		*/
-		internal function setNodeName( name:String ):void
+		internal function setNodeName( name:String, uri:String = null ):Namespace
 		{
 			this.beanName = name;
+			
+			var ns:Namespace = null;
+			if( name != null )
+			{
+				
+				var index:int = name.indexOf( ":" );
+				var prefixSpecified:Boolean = index > -1;
+				var specified:String = null;
+				var prefix:String = lookupPrefix( uri );
+				
+				if( prefix != null )
+				{
+					ns = lookupNamespace( prefix );
+				}
+				
+				if( prefixSpecified )
+				{
+					specified = name.substr( 0, index );
+				}
+				
+				if( uri != null && uri.length > 0 )
+				{
+					//specified a namespace URI but no existing
+					//prefix could be located for the URI so we define
+					//a new namespace in this scope
+					if( prefix == null )
+					{
+						if( prefixSpecified )
+						{
+							trace("[SET NAME] NodeImpl::setNodeName()", specified, uri );
+								
+							if( ns == null )
+							{		
+								ns = new Namespace( specified, uri );
+								namespaceDeclarations.push( ns );
+							}
+							
+							//prefix = specified;
+							
+							//extract the local part of the name
+							name = name.substr( index + 1 );
+							
+						}else{
+							//the prefix must be valid as we have a namespaceURI
+							//specified and an unqualified name
+							if( prefix == null )
+							{
+								throw new DOMException(
+									DOMException.INVALID_NAMESPACE_URI_MSG,
+									null,
+									DOMException.NAMESPACE_ERR,
+									[ uri ] );
+							}							
+						}
+					}
+				}else if( uri == null )
+				{
+					if( prefixSpecified )
+					{
+						//try to find a ns uri for the specified prefix
+						uri = lookupNamespaceURI( specified );
+						if( uri == null )
+						{
+							throw new DOMException(
+								DOMException.INVALID_NAMESPACE_PREFIX_MSG,
+								null,
+								DOMException.NAMESPACE_ERR,
+								[ specified ] );
+						}
+					}
+				}
+				
+				//update the internal XML representation of the element name
+				xml.setName( new QName( uri, name ) );
+			}
+			
+			trace("[RENAME NODE -- NS ] NodeImpl::setNodeName()", ns  );
+			
+			return ns;
 		}
 		
 		/**
@@ -353,9 +432,35 @@ package com.ffsys.w3c.dom
 		*/
 		public function lookupNamespaceURI( prefix:String ):String
 		{
-			//TODO
+			var ns:Namespace = lookupNamespace( prefix );
+			if( ns != null )
+			{
+				return ns.uri;
+			}
 			return null;
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function lookupNamespace( prefix:String ):Namespace
+		{
+			if( prefix != null )
+			{
+				var child:Namespace = null;
+				for each( child in namespaceDeclarations )
+				{
+					if( child
+						&& child.prefix != null
+						&& child.prefix.length > 0
+						&& prefix == child.prefix )
+					{
+						return child;
+					}
+				}
+			}
+			return null;
+		}		
 		
 		/**
 		* 	The namespace declarations for this node.

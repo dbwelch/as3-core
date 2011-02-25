@@ -543,6 +543,11 @@ package com.ffsys.w3c.dom
 			trace("[RENAME NODE] CoreDocumentImpl::renameNode()",
 				n, namespaceURI, qualifiedName );
 				
+			if( n == null )
+			{
+				//TODO: throw exception attempting to rename a null node
+			}
+				
 			//non-qualified rename
 			if( namespaceURI == null || namespaceURI == "" )
 			{
@@ -550,11 +555,14 @@ package com.ffsys.w3c.dom
 				//does not contain a prefix when
 				//no namespaceURI has been specified
 				
-				NodeImpl( n ).setNodeName( qualifiedName );
+				NodeImpl( n ).setNodeName(
+					qualifiedName, null );
+			}else{
+				
+				NodeImpl( n ).setNodeName(
+					qualifiedName, namespaceURI );
 			}
-			
-			//TODO: rename with namespace specified
-			
+
 			return n;
 		}
 		

@@ -154,11 +154,6 @@ package com.ffsys.w3c.dom.support
 		public function set beanName( value:String ):void
 		{
 			_beanName = value;
-			if( value != null )
-			{
-				xml.setName( new QName( null, value ) );
-				//trace("[SETTING XML ELEMENT NAME] XmlAwareDomElement::set beanName()", xml.toXMLString() );
-			}
 		}
 		
 		/**

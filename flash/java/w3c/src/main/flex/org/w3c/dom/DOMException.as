@@ -149,7 +149,19 @@ package org.w3c.dom
 		* 	A message for when an event interface is not supported.
 		*/
 		static public const UNSUPPORTED_EVENT_INTERFACE_MSG:String
-			= "The event interface '%s' is not supported.";		
+			= "The event interface '%s' is not supported.";	
+			
+		/**
+		* 	A message for when a namespace URI is not bound.
+		*/
+		static public const INVALID_NAMESPACE_URI_MSG:String
+			= "The namespace URI '%s' is not bound.";
+			
+		/**
+		* 	A message for when a namespace URI is not bound.
+		*/
+		static public const INVALID_NAMESPACE_PREFIX_MSG:String
+			= "The namespace prefix '%s' is not bound.";
 		
 		/**
 		* 	Creates an <code>DOMException</code> instance.

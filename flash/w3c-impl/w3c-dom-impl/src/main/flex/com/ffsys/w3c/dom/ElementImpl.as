@@ -50,28 +50,22 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	@private
-		* 
-		* 	Invoked by the parser so that this node knows
-		* 	about any associated namespace.
 		*/
-		internal function setTagName( tagName:String ):void
+		override internal function setNodeName( name:String, uri:String = null ):Namespace
 		{
-			if( tagName != null
-				&& tagName.length > 0
-				&& !/^\s+$/.test( tagName ) )
+			var ns:Namespace = null
+			try
 			{
-				_xml = new XML( "<" + tagName + " />" );			
+				//ensure that errors are caught
+				//when calling super.setNodeName() so that invalid
+				//names are not passed to setTagName()
+				ns = super.setNodeName( name, uri );
+				setTagName( name, ns );
+			}catch( e:Error )
+			{
+				throw e;
 			}
-			_tagName = tagName;
-		}
-		
-		/**
-		* 	@private
-		*/
-		override internal function setNodeName( name:String ):void
-		{
-			super.setNodeName( name );
-			setTagName( name );
+			return ns;
 		}
 		
 		/**
@@ -969,6 +963,30 @@ package com.ffsys.w3c.dom
 		protected function doWithMissingProperty( name:String, value:String ):void
 		{
 			//
-		}			
+		}
+		
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked by the parser so that this node knows
+		* 	about any associated namespace.
+		*/
+		internal function setTagName( tagName:String, ns:Namespace = null ):void
+		{
+			if( tagName != null
+				&& tagName.length > 0
+				&& !/^\s+$/.test( tagName ) )
+			{
+				trace("[NS] ElementImpl::setTagName()", ns );
+				var nsAttr:String = null;
+				if( ns != null )
+				{
+					nsAttr = " xmlns:" + ns.prefix + "=\"" + ns.uri + "\"";
+				}
+				_xml = new XML( "<" + tagName + nsAttr + " />" );
+			}
+			_tagName = tagName;
+		}
 	}
 }
