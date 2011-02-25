@@ -294,7 +294,7 @@ package com.ffsys.w3c.dom
 									null,
 									DOMException.NAMESPACE_ERR,
 									[ uri ] );
-							}							
+							}
 						}
 					}
 				}else if( uri == null )

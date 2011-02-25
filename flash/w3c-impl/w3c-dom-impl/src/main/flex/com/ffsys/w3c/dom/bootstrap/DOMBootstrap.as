@@ -39,21 +39,6 @@ package com.ffsys.w3c.dom.bootstrap
 		public static const NAME:String = "dom-bootstrap";
 		
 		/**
-		* 	The bean name for a DOM registry.
-		*/
-		public static const DOM_REGISTRY:String = "dom-registry";
-		
-		/**
-		* 	The bean name for the main DOM implementation source.
-		*/
-		public static const DOM_IMPL_SOURCE:String = "dom-impl-source";
-		
-		/**
-		* 	The bean name for the main DOM implementation list.
-		*/
-		public static const DOM_IMPL_LIST:String = "dom-impl-list";
-		
-		/**
 		* 	The name for the <code>DOM</code> implementation bean document.
 		*/
 		public static const DOM_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;		
@@ -116,17 +101,20 @@ package com.ffsys.w3c.dom.bootstrap
 			var data:Object = null;
 			
 			//CORE DOM ELEMENTS
-			var descriptor:IBeanDescriptor = new BeanDescriptor( DOM_REGISTRY );			
+			var descriptor:IBeanDescriptor = new BeanDescriptor(
+				DOMImplementationRegistry.NAME );
 			descriptor.instanceClass = DOMImplementationRegistry;
 			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 			
-			descriptor = new BeanDescriptor( DOM_IMPL_SOURCE );
+			descriptor = new BeanDescriptor(
+				DOMImplementationSourceImpl.NAME );
 			descriptor.instanceClass = DOMImplementationSourceImpl;
 			descriptor.singleton = true;			
 			beans.addBeanDescriptor( descriptor );
 			
-			descriptor = new BeanDescriptor( DOM_IMPL_LIST );
+			descriptor = new BeanDescriptor( 
+			 	DOMImplementationListImpl.NAME );
 			descriptor.instanceClass = DOMImplementationListImpl;
 			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );

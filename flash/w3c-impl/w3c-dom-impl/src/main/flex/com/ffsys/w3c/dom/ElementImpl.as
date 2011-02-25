@@ -978,8 +978,9 @@ package com.ffsys.w3c.dom
 				&& tagName.length > 0
 				&& !/^\s+$/.test( tagName ) )
 			{
-				trace("[NS] ElementImpl::setTagName()", ns );
-				var nsAttr:String = null;
+				//trace("[NS] ElementImpl::setTagName()", ns );
+				
+				var nsAttr:String = "";
 				if( ns != null )
 				{
 					nsAttr = " xmlns:" + ns.prefix + "=\"" + ns.uri + "\"";

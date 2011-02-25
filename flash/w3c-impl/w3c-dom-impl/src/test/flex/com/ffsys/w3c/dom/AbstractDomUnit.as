@@ -6,9 +6,7 @@ package com.ffsys.w3c.dom
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.*;
-	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 	import com.ffsys.w3c.dom.bootstrap.DOMImplementationRegistry;
 	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;	
 	
@@ -36,13 +34,11 @@ package com.ffsys.w3c.dom
 		
 		protected function getRegistry():DOMImplementationRegistry
 		{
-			//create the bean document for bootstrap
-			var beans:IBeanDocument = new DOMBootstrap();	
 			//get the DOM registry
-			var registry:DOMImplementationRegistry = DOMImplementationRegistry(
-				beans.getBean( DOMBootstrap.DOM_REGISTRY ) );
+			var registry:DOMImplementationRegistry =
+				DOMImplementationRegistry.newInstance();
 			Assert.assertNotNull( registry );
-			return registry;			
+			return registry;
 		}
 		
 		/**

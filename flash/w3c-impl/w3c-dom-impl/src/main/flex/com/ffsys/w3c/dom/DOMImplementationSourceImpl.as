@@ -9,6 +9,11 @@ package com.ffsys.w3c.dom
 		implements DOMImplementationSource
 	{
 		/**
+		* 	The bean name for the main DOM implementation source.
+		*/
+		public static const NAME:String = "dom-impl-source";
+		
+		/**
 		* 	Creates a <code>DOMImplementationSourceImpl</code> instance.
 		*/
 		public function DOMImplementationSourceImpl()
@@ -54,8 +59,7 @@ package com.ffsys.w3c.dom
 			var nm:String;			
 			
 			var list:DOMImplementationList = DOMImplementationList(
-				this.document.getBean(
-					DOMBootstrap.DOM_IMPL_LIST ) );
+				this.document.getBean( DOMImplementationListImpl.NAME ) );
 			
 			//TODO: handle searching for multiple features
 			var parts:Array = features.split(
