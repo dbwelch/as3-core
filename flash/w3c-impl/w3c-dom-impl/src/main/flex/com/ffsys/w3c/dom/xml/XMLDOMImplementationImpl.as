@@ -52,8 +52,6 @@ package com.ffsys.w3c.dom.xml
 			var e:Element = document.createElement( qualifiedName );
 			document.appendChild( e );
 			
-			trace("[XML DOC] XMLDOMImplementationImpl::createDocument()", document, e, document.childNodes.length, document.childNodes[ 0 ] );
-			
 			//TOOD: handle inspecting the doctype and 
 			//retrieving more specialized implementations where appropriate
 			

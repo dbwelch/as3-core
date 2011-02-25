@@ -1,10 +1,10 @@
 package java.nio
 {
 	import flash.utils.ByteArray;
-	
+
+	import java.lang.T;
 	import java.lang.Character;
 	import java.lang.CharSequence;
-	import java.lang.MemoryAddress;
 	import java.lang.Readable;
 	
 	/**
@@ -140,7 +140,7 @@ package java.nio
 				position( pos );
 				return s;
 			}
-			return MemoryAddress.id( this );
+			return T.id( this );
 		}
 		
 		public function put( value:Object ):CharBuffer

@@ -66,6 +66,15 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	@private
+		*/
+		override internal function setNodeName( name:String ):void
+		{
+			super.setNodeName( name );
+			setTagName( name );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		override public function get nodeType():Number

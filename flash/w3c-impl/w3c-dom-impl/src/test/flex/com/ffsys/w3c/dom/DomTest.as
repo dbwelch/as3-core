@@ -6,20 +6,16 @@ package com.ffsys.w3c.dom
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import java.lang.T;
-	
 	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.*;
 	import org.w3c.dom.*;
 	import org.w3c.dom.DOMException;
-	import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 	
 	/**
 	*	Unit tests for the DOM implementation.
 	*/ 
 	public class DomTest extends AbstractDomUnit
 	{
-		private static var __t:T;
 		
 		/**
 		*	Creates a <code>DomTest</code> instance.

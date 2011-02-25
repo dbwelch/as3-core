@@ -6,20 +6,20 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;	
 	
 	import org.w3c.dom.*;
-	import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+	import org.w3c.dom.DOMImplementationSource;
 	
 	/**
 	* 	@inheritDoc
 	*/
-	public class DOMImplementationRegistryImpl extends AbstractNodeProxyImpl
-		implements DOMImplementationRegistry
+	public class DOMImplementationRegistry extends AbstractNodeProxyImpl
+		implements DOMImplementationSource
 	{
 		static private var __sources:Vector.<DOMImplementationSource>;
 		
 		/**
-		* 	Creates a <code>DOMImplementationRegistryImpl</code> instance.
+		* 	Creates a <code>DOMImplementationRegistry</code> instance.
 		*/
-		public function DOMImplementationRegistryImpl()
+		public function DOMImplementationRegistry()
 		{
 			super();
 		}
@@ -70,12 +70,12 @@ package com.ffsys.w3c.dom.bootstrap
 					source = src[ i ];
 					impl = source.getDOMImplementation( features );
 					
-					//trace("DOMImplementationRegistryImpl::getDOMImplementation()", impl );
+					//trace("DOMImplementationRegistry::getDOMImplementation()", impl );
 					
 					if( impl != null )
 					{
 						/*
-						trace("[FOUND IMPLEMENTATION] DOMImplementationRegistryImpl::getDOMImplementation()",
+						trace("[FOUND IMPLEMENTATION] DOMImplementationRegistry::getDOMImplementation()",
 							features, beanName, document, src, impl );
 						*/
 							

@@ -149,7 +149,7 @@ package org.w3c.dom
 		* 	A message for when an event interface is not supported.
 		*/
 		static public const UNSUPPORTED_EVENT_INTERFACE_MSG:String
-			= "The event interface '%s' is not supported.";
+			= "The event interface '%s' is not supported.";		
 		
 		/**
 		* 	Creates an <code>DOMException</code> instance.

@@ -116,17 +116,19 @@ package com.ffsys.w3c.dom.bootstrap
 			var data:Object = null;
 			
 			//CORE DOM ELEMENTS
-			var descriptor:IBeanDescriptor = new BeanDescriptor( DOM_REGISTRY );
-			descriptor.instanceClass = DOMImplementationRegistryImpl;
+			var descriptor:IBeanDescriptor = new BeanDescriptor( DOM_REGISTRY );			
+			descriptor.instanceClass = DOMImplementationRegistry;
 			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor( DOM_IMPL_SOURCE );
 			descriptor.instanceClass = DOMImplementationSourceImpl;
+			descriptor.singleton = true;			
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor( DOM_IMPL_LIST );
 			descriptor.instanceClass = DOMImplementationListImpl;
+			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 			
 			//add the implementations as an xref

@@ -30,15 +30,10 @@ package com.ffsys.w3c.dom.xml
 				//when appending child nodes not here
 			}
 			
-			trace("[LIST] XMLDocumentImpl::get documentElement()", elements );
-			
 			if( elements.length >= 1 )
 			{
 				el = elements[ 0 ];
 			}
-			
-			trace("[ELEM] XMLDocumentImpl::get documentElement()", el );
-			
 			return el;
 		}
 	}

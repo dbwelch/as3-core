@@ -401,7 +401,7 @@ package java.nio.charset
 		*/
 		public function toString():String
 		{
-			var nm:String = MemoryAddress.id( this );
+			var nm:String = T.id( this );
 			var output:String = nm + " [" + name() + "]";
 			return output;
 		}

@@ -59,21 +59,6 @@ package java.lang
 		}
 		
 		/**
-		* 	Retrieves an identifier for a target in the form:
-		* 	
-		* 	<pre>className + '[AT]' + address</pre>
-		* 
-		* 	@param target The target to retrieve an identifier for.
-		* 
-		* 	@return A string identifier for a target.
-		*/
-		static public function id( target:Object ):String
-		{
-			var t:T = T.getInstance( target );
-			return t.name + DELIMITER + toString( target );
-		}
-		
-		/**
 		* 	Retrieves the memory address of an object
 		* 	as a 32-bit unsigned integer.
 		* 

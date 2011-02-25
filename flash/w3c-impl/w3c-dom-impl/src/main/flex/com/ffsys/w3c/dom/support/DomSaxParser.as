@@ -37,7 +37,7 @@ package com.ffsys.w3c.dom.support
 		private var _namespaceURI:String;
 		private var _qualifiedName:String;
 		private var _type:DocumentType;
-		private var _existing:Boolean;			 
+		private var _existing:Boolean;
 		
 		/**
 		* 	Creates a <code>DomSaxParser</code> instance.

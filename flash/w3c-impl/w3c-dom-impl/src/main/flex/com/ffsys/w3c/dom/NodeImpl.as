@@ -237,6 +237,14 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	@private
+		*/
+		internal function setNodeName( name:String ):void
+		{
+			this.beanName = name;
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function get localName():String

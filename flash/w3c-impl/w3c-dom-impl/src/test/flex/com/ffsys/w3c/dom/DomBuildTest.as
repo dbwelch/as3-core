@@ -10,7 +10,6 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.*;
 	import org.w3c.dom.*;
 	import org.w3c.dom.DOMException;
-	import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 	
 	/**
 	*	Unit tests for manually constructing DOM hierarchies.
@@ -28,15 +27,14 @@ package com.ffsys.w3c.dom
 		[Test]
 		public function testBuildDom():void
 		{
-			var doc:Document = getHTMLDocument();
-			
+			var doc:Document = getXMLDocument();
 			var el:Element = doc.documentElement;
 			
-			trace("[DOM BUILD TEST] DomBuildTest::testBuildDom()", el );
+			//rename the root element
+			doc.renameNode( el, null, "graphics" );
 			
-			//create an element
-			//var elem:Element = doc.createElement( "head" );
-			//doc.documentElement.appendChild( elem );
+			trace("[DOM BUILD TEST] DomBuildTest::testBuildDom()", el, el.tagName );
+			trace( NodeImpl( doc ).xml.toXMLString() );
 		}
 	}
 }

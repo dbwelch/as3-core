@@ -56,8 +56,6 @@ package com.ffsys.w3c.dom
 			var list:DOMImplementationList = DOMImplementationList(
 				this.document.getBean(
 					DOMBootstrap.DOM_IMPL_LIST ) );
-				
-			trace("DOMImplementationSourceImpl::DOMImplementationSourceImpl()", list, list.length );
 			
 			//TODO: handle searching for multiple features
 			var parts:Array = features.split(
@@ -155,10 +153,6 @@ package com.ffsys.w3c.dom
 						if( k == specified.length )
 						{
 							list[ c++ ] = impl;
-							
-							/*
-							trace("[ADDING IMPLEMENTATION] DOMImplementationSourceImpl::DOMImplementationSourceImpl()", impl, c, list.length );
-							*/
 						}
 					}
 				}

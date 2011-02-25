@@ -1,5 +1,8 @@
 package org.w3c.dom.ls
 {
+	import org.w3c.dom.Document;	
+	import org.w3c.dom.DOMConfiguration;
+	import org.w3c.dom.Node;
 	
 	/**
 	* 	An interface to an object that is able to build, or augment,
@@ -102,20 +105,75 @@ package org.w3c.dom.ls
 	*/
 	public interface LSParser
 	{
-		/*
-		
-		static short	ACTION_APPEND_AS_CHILDREN 
-		          Append the result of the parse operation as children of the context node.
-		static short	ACTION_INSERT_AFTER 
-		          Insert the result of the parse operation as the immediately following sibling of the context node.
-		static short	ACTION_INSERT_BEFORE 
-		          Insert the result of the parse operation as the immediately preceding sibling of the context node.
-		static short	ACTION_REPLACE 
-		          Replace the context node with the result of the parse operation.
-		static short	ACTION_REPLACE_CHILDREN 
-		          Replace all the children of the context node with the result of the parse operation.		
-		
+		/**
+		* 	Abort the loading of the document that is currently
+		* 	being loaded by the LSParser.
 		*/
+		function abort():void;
+		
+		/**
+		* 	Whether this parser is asynchronous;
+		* 	true if the LSParser is asynchronous,
+		* 	false if it is synchronous.
+		*/
+		function get async():Boolean;
+		
+		/**
+		* 	Determines if this parser is busy
+		* 	loading a document.
+		*/	
+		function get busy():Boolean;
+		
+		/**
+		* 	The DOMConfiguration object used
+		* 	when parsing an input source.
+		*/
+		function get domConfig():DOMConfiguration;
+		
+		/**
+		*	When a filter is provided, the implementation
+		* 	will call out to the filter as it is constructing
+		* 	the DOM tree structure.
+		*/
+		function get filter():LSParserFilter;
+		function set filter( filter:LSParserFilter ):void;
+		
+		/**
+		* 	Parse an XML document from a resource
+		* 	identified by a LSInput.
+		* 
+		* 	@param input The source input.
+		* 
+		* 	@return A Document implementation.
+		*/
+		function parse( input:LSInput ):Document;
+		
+		/**
+		* 	Parse an XML document from a location
+		* 	identified by a URI reference [IETF RFC 2396].
+		* 
+		* 	@param uri The URI for the document.
+		* 
+		* 	@return A Document implementation.
+		*/
+		function parseURI( uri:String ):Document;
+		
+		/**
+		* 	Parse an XML fragment from a resource
+		* 	identified by a LSInput and insert the
+		* 	content into an existing document at the
+		* 	position specified with the context and
+		* 	action arguments.
+		* 
+		* 	@param iput The source input.
+		* 	@param context The context node.
+		* 	@param action The action to take
+		* 	with the parsed node in the specified
+		* 	context.
+		* 
+		* 	@return A Node implementation.
+		*/
+		function parseWithContext( input:LSInput, context:Node, action:uint ):Node;
 		
 		/*
 		

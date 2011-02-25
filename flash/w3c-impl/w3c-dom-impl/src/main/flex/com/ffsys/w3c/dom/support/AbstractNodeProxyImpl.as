@@ -1,5 +1,7 @@
 package com.ffsys.w3c.dom.support
 {
+	import java.lang.T;
+	
 	import flash.display.Sprite;
 	import flash.events.*;	
 	import flash.utils.getDefinitionByName;
@@ -609,16 +611,11 @@ package com.ffsys.w3c.dom.support
 		*/
 		public function toString():String
 		{
-			var nm:String = "[object ";
-			nm += getClassName();
-			
-			//trace("XmlAwareDomElement::toString()", this.id );
-			
+			var nm:String = T.id( this );
 			if( this.id != null )
 			{
 				nm += "#" + this.id;
 			}
-			nm += "]";
 			return nm;
 		}
 	}

@@ -540,9 +540,23 @@ package com.ffsys.w3c.dom
 			namespaceURI:String,
 			qualifiedName:String ):Node
 		{
-			//TODO
-			return null;
-		}		
+			trace("[RENAME NODE] CoreDocumentImpl::renameNode()",
+				n, namespaceURI, qualifiedName );
+				
+			//non-qualified rename
+			if( namespaceURI == null || namespaceURI == "" )
+			{
+				//TODO validate qualified name
+				//does not contain a prefix when
+				//no namespaceURI has been specified
+				
+				NodeImpl( n ).setNodeName( qualifiedName );
+			}
+			
+			//TODO: rename with namespace specified
+			
+			return n;
+		}
 		
 		//TODO: implement and change return type to display object
 		public function getComponent( name:String ):Object
@@ -630,8 +644,6 @@ package com.ffsys.w3c.dom
 		*/	
 		override public function appendChild( child:Node ):Node
 		{
-			trace("[APPEND] CoreDocumentImpl::appendChild()", this, child, this === child );
-
 			if( child is NodeImpl )
 			{
 				NodeImpl( child ).setOwnerDocument( this );

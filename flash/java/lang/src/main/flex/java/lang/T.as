@@ -191,6 +191,23 @@ package java.lang
 		}
 		
 		/**
+		* 	Retrieves an identifier for a target in the form:
+		* 	
+		* 	<pre>className + '[AT]' + hexMemoryAddress</pre>
+		* 
+		* 	@param target The target to retrieve an identifier for.
+		* 
+		* 	@return A string identifier for a target.
+		*/
+		static public function id( target:Object ):String
+		{
+			var t:T = getInstance( target );
+			return t.name
+				+ MemoryAddress.DELIMITER
+				+ MemoryAddress.toString( target );
+		}
+		
+		/**
 		* 	Retrieves class definition information
 		* 	for a type.
 		* 
@@ -318,25 +335,5 @@ package java.lang
 			}
 			return v;
 		}
-		
-		/**
-		* 	@private
-		*/
-		private static function __initialize():Boolean
-		{
-			/*
-			//if( !( Object( Class ).hasOwnProperty( "forName" ) ) )
-			//{
-				Object( Class ).forName = function( fqn:String ):Object
-				{
-					return getDefinitionByName( fqn );
-				}
-			//}
-			trace("[T INIT] T::__initialize()", T );
-			*/
-			return true;
-		}
-		
-		private static var _initialized:Boolean = __initialize();
 	}
 }

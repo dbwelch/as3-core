@@ -235,9 +235,6 @@ package com.ffsys.w3c.dom.html
 			//with an "html" tag name
 			var el:Element = getElementsByTagName(
 				HTMLHtmlElementImpl.NAME )[ 0 ] as Element;
-			
-			trace("[HTML DOCUMENT ELEMENT] HTMLDocumentImpl::get documentElement()", el );	
-			
 			return el;
 		}
 	}
