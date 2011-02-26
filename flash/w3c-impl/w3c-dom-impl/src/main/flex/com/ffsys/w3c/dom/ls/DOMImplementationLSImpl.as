@@ -1,13 +1,14 @@
 package com.ffsys.w3c.dom.ls
-{
-	import com.ffsys.w3c.dom.DOMImplementationImpl;
-	
+{	
 	import org.w3c.dom.ls.DOMImplementationLS;
 	import org.w3c.dom.ls.LSInput;	
 	import org.w3c.dom.ls.LSOutput;
 	import org.w3c.dom.ls.LSSerializer;
 	import org.w3c.dom.ls.LSParser;
+
+	import com.ffsys.w3c.dom.DOMImplementationImpl;	
 	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
+	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;
 
 	public class DOMImplementationLSImpl extends DOMImplementationImpl
 		implements DOMImplementationLS
@@ -53,7 +54,12 @@ package com.ffsys.w3c.dom.ls
 		public function createLSParser(
 			mode:int, schemaType:String = null ):LSParser
 		{
-			return null;
+			var parser:LSParser = this.document.getBean(
+				DOMParserImpl.NAME ) as LSParser;
+				
+			//TODO: handle mode & schemaType
+				
+			return parser;
 		}
 	}
 }

@@ -9,6 +9,8 @@ package com.ffsys.w3c.dom.ls.serialize
 	import com.ffsys.w3c.dom.AbstractDomUnit;
 	import com.ffsys.w3c.dom.DOMFeature;
 	
+	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;
+	
 	/**
 	*	Unit tests for serializing DOM documents
 	* 	and DOM nodes.
@@ -55,7 +57,16 @@ package com.ffsys.w3c.dom.ls.serialize
 			
 			//check serializer/parser access
 			var serializer:LSSerializer = DOMImplementationLS( impl ).createLSSerializer();
-			Assert.assertNotNull( serializer );			
+			Assert.assertNotNull( serializer );
+			
+			var parser:LSParser = DOMImplementationLS( impl ).createLSParser(
+				DOMParserImpl.MODE_SYNCHRONOUS );
+			Assert.assertNotNull( parser );
+			
+			var async:LSParser = DOMImplementationLS( impl ).createLSParser(
+				DOMParserImpl.MODE_ASYNCHRONOUS );
+			Assert.assertNotNull( async );
+				
 		}
 	}
 }
