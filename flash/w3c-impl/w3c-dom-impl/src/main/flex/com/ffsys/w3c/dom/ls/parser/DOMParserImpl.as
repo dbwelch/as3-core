@@ -3,12 +3,19 @@ package com.ffsys.w3c.dom.ls.parser
 	import org.w3c.dom.DOMConfiguration;
 	import org.w3c.dom.ls.LSParser;
 	
+	import com.ffsys.w3c.dom.DOMConfigurationImpl;	
+	
 	/**
 	* 	
 	*/
-	public class DOMParserImpl extends Object
+	public class DOMParserImpl extends DOMConfigurationImpl
 		//implements LSParser, DOMConfiguration
 	{
+		/**
+		* 	The bean name for this parser implementation.
+		*/
+		public static const NAME:String = "dom-ls-parser";
+		
 		/**
 		* 	Append the result of the parse operation
 		* 	as children of the context node.

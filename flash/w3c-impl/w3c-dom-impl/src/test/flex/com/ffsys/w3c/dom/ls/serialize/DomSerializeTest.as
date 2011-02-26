@@ -24,8 +24,26 @@ package com.ffsys.w3c.dom.ls.serialize
 		[Test]
 		public function testGetLSImpl():void
 		{
-			var impl:DOMImplementation = getRegistry().getDOMImplementation(
+			var impl:DOMImplementation =
+				getRegistry().getDOMImplementation(
 					DOMFeature.LS_MODULE );
+			assertOnLsImplementation( impl );
+		}
+		
+		[Test]
+		public function testGetLSAsyncImpl():void
+		{
+			var impl:DOMImplementation =
+				getRegistry().getDOMImplementation(
+					DOMFeature.LS_ASYNC_MODULE );
+			assertOnLsImplementation( impl );				
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function assertOnLsImplementation( impl:DOMImplementation ):void
+		{
 			Assert.assertNotNull( impl );
 			Assert.assertTrue( impl is DOMImplementationLS );
 			
@@ -34,21 +52,10 @@ package com.ffsys.w3c.dom.ls.serialize
 			Assert.assertNotNull( input );
 			var output:LSOutput = DOMImplementationLS( impl ).createLSOutput();
 			Assert.assertNotNull( output );
-		}
-		
-		[Test]
-		public function testGetLSAsyncImpl():void
-		{
-			var impl:DOMImplementation = getRegistry().getDOMImplementation(
-					DOMFeature.LS_ASYNC_MODULE );
-			Assert.assertNotNull( impl );
-			Assert.assertTrue( impl is DOMImplementationLS );
 			
-			//verify input/output creation
-			var input:LSInput = DOMImplementationLS( impl ).createLSInput();
-			Assert.assertNotNull( input );
-			var output:LSOutput = DOMImplementationLS( impl ).createLSOutput();
-			Assert.assertNotNull( output );			
+			//check serializer/parser access
+			var serializer:LSSerializer = DOMImplementationLS( impl ).createLSSerializer();
+			Assert.assertNotNull( serializer );			
 		}
 	}
 }

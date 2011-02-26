@@ -7,6 +7,7 @@ package com.ffsys.w3c.dom.ls
 	import org.w3c.dom.ls.LSOutput;
 	import org.w3c.dom.ls.LSSerializer;
 	import org.w3c.dom.ls.LSParser;
+	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
 
 	public class DOMImplementationLSImpl extends DOMImplementationImpl
 		implements DOMImplementationLS
@@ -42,7 +43,8 @@ package com.ffsys.w3c.dom.ls
 		*/
 		public function createLSSerializer():LSSerializer
 		{
-			return null;
+			return this.document.getBean(
+				DOMSerializerImpl.NAME ) as LSSerializer;
 		}
 		
 		/**

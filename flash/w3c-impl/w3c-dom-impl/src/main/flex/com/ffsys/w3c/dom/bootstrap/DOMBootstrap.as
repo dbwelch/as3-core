@@ -11,11 +11,11 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.events.MutationEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
 	
-
-	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 	import com.ffsys.w3c.dom.ls.LSInputImpl;
 	import com.ffsys.w3c.dom.ls.LSOutputImpl;
+	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
+	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;	
 		
 	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
 	import com.ffsys.w3c.dom.range.RangeImpl;
@@ -230,7 +230,7 @@ package com.ffsys.w3c.dom.bootstrap
 			
 			addHTMLElements( impls );
 			
-			return impls;		
+			return impls;
 		}
 		
 		/**
@@ -316,8 +316,18 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor = new BeanDescriptor(
 				LSOutputImpl.NAME );
 			descriptor.instanceClass = LSOutputImpl;
-			impls.addBeanDescriptor( descriptor );			
-		}			
+			impls.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				DOMSerializerImpl.NAME );
+			descriptor.instanceClass = DOMSerializerImpl;
+			impls.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
+				DOMParserImpl.NAME );
+			descriptor.instanceClass = DOMParserImpl;
+			impls.addBeanDescriptor( descriptor );
+		}
 		
 		/**
 		* 	@private
