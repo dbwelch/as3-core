@@ -4,24 +4,27 @@ package com.ffsys.w3c.dom
 		
 	/**
 	*	Represents character data.
-	*
-	*	@langversion ActionScript 3.0
-	*	@playerversion Flash 9.0
-	*
-	*	@author Mischa Williamson
-	*	@since  09.01.2011
 	*/
-	dynamic public class CharacterDataImpl extends NodeImpl
+	dynamic public class CharacterDataImpl extends ChildNode
 		implements CharacterData
 	{
 		private var _data:String;
 		
 		/**
 		* 	Creates a <code>CharacterDataImpl</code> instance.
+		* 	
+		* 	@param owner The owner document.
+		* 	@param data The character data as a string.
 		*/
-		public function CharacterDataImpl()
+		public function CharacterDataImpl(
+			owner:CoreDocumentImpl = null,
+			data:String = null )
 		{
-			super();
+			super( owner );
+			if( data != null )
+			{
+				this.data = data;
+			}
 		}
 		
 		/**
