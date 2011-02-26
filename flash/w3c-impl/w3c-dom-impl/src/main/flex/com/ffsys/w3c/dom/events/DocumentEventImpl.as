@@ -5,13 +5,13 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.events.DocumentEvent;
 	import org.w3c.dom.events.DOMEvent;
 	
-	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;
+	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;
 	
 	/**
 	* 	The default implementation of the document
 	* 	event interface for the DOM events module.
 	*/
-	public class DocumentEventImpl extends AbstractNodeProxyImpl
+	public class DocumentEventImpl extends DocumentTraversalImpl
 		implements DocumentEvent
 	{
 		/**

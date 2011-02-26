@@ -5,12 +5,13 @@ package com.ffsys.w3c.dom.ls
 	import org.w3c.dom.ls.LSOutput;
 	import org.w3c.dom.ls.LSSerializer;
 	import org.w3c.dom.ls.LSParser;
+	
+	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 
-	import com.ffsys.w3c.dom.DOMImplementationImpl;	
 	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
 	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;
-
-	public class DOMImplementationLSImpl extends DOMImplementationImpl
+	
+	public class DOMImplementationLSImpl extends DocumentEventImpl
 		implements DOMImplementationLS
 	{
 		/**

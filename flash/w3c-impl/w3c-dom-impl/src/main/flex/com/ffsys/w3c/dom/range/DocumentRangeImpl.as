@@ -4,9 +4,10 @@ package com.ffsys.w3c.dom.range
 	import org.w3c.dom.range.Range;
 	
 	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
-	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;
 
-	public class DocumentRangeImpl extends AbstractNodeProxyImpl
+	import com.ffsys.w3c.dom.DOMImplementationImpl;
+
+	public class DocumentRangeImpl extends DOMImplementationImpl
 		implements DocumentRange
 	{
 		/**
@@ -33,6 +34,7 @@ package com.ffsys.w3c.dom.range
 			{
 				//no bean document assigned most likely
 				//not instantiated via IoC
+				bean = new RangeImpl();
 			}
 			return Range( bean );
 		}

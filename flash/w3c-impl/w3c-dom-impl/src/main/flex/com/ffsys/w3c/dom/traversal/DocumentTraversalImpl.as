@@ -7,10 +7,12 @@ package com.ffsys.w3c.dom.traversal
 	import org.w3c.dom.traversal.NodeIterator;
 	import org.w3c.dom.traversal.TreeWalker;
 	
+	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
+	
 	/**
 	* 	An implementation for document traversal.
 	*/
-	public class DocumentTraversalImpl extends Object
+	public class DocumentTraversalImpl extends DocumentRangeImpl
 		implements DocumentTraversal
 	{
 		/**

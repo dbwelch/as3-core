@@ -26,7 +26,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	The node name for document nodes.
 		*/
-		public static const NODE_NAME:String = "#document";		
+		public static const NODE_NAME:String = "#document";
 		
 		private var _identifiers:Object = new Object();
 		private var _tags:Object = new Object();
