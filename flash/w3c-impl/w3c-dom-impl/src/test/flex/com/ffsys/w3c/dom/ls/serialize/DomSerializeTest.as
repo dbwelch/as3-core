@@ -1,10 +1,18 @@
 package com.ffsys.w3c.dom.ls.serialize
 {
 	import org.flexunit.Assert;
-	import org.flexunit.async.Async;	
+	import org.flexunit.async.Async;
+	
+	import org.w3c.dom.*;
+	import org.w3c.dom.ls.*;
 	
 	import com.ffsys.w3c.dom.AbstractDomUnit;
-
+	import com.ffsys.w3c.dom.DOMFeature;
+	
+	/**
+	*	Unit tests for serializing DOM documents
+	* 	and DOM nodes.
+	*/
 	public class DomSerializeTest extends AbstractDomUnit
 	{
 	
@@ -14,9 +22,21 @@ package com.ffsys.w3c.dom.ls.serialize
 		}
 		
 		[Test]
-		public function testSerializeDocument():void
+		public function testGetLSImpl():void
 		{
-			//
+			var impl:DOMImplementation = getRegistry().getDOMImplementation(
+					DOMFeature.LS_MODULE );
+			Assert.assertNotNull( impl );
+			Assert.assertTrue( impl is DOMImplementationLS );
+		}
+		
+		[Test]
+		public function testGetLSAsyncImpl():void
+		{
+			var impl:DOMImplementation = getRegistry().getDOMImplementation(
+					DOMFeature.LS_ASYNC_MODULE );
+			Assert.assertNotNull( impl );
+			Assert.assertTrue( impl is DOMImplementationLS );
 		}
 	}
 }

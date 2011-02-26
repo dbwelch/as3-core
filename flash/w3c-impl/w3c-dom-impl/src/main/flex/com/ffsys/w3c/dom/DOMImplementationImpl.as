@@ -2,10 +2,15 @@ package com.ffsys.w3c.dom
 {
 	import flash.net.URLRequest;
 	
-	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.support.*;
 	
 	import org.w3c.dom.*;
+	
+	import org.w3c.dom.ls.DOMImplementationLS;
+	import org.w3c.dom.ls.LSInput;	
+	import org.w3c.dom.ls.LSOutput;
+	import org.w3c.dom.ls.LSSerializer;
+	import org.w3c.dom.ls.LSParser;	
 	
 	/**
 	*	Represents the <code>DOM</code> implementation.
@@ -23,7 +28,7 @@ package com.ffsys.w3c.dom
 		* 	The optional character that may appear
 		* 	at the beginning of a feature name.
 		*/
-		public static const PLUS:String = "+";		
+		public static const PLUS:String = "+";
 		
 		/**
 		* 	The delimiter between a feature name
@@ -35,12 +40,8 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	Creates a <code>DOMImplementationImpl</code> instance.
-		* 
-		* 	@param manager A specific bean manager to use for
-		* 	element instantiation.
 		*/
-		public function DOMImplementationImpl(
-			manager:IBeanManager = null )
+		public function DOMImplementationImpl()
 		{
 			super();
 			configureSupportedFeatures();

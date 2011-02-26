@@ -5,10 +5,11 @@ package com.ffsys.w3c.dom.html
 	import org.w3c.dom.html.HTMLDocument;
 	
 	import com.ffsys.w3c.dom.DOMFeature;
-	import com.ffsys.w3c.dom.DOMImplementationImpl;
 	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 	
-	public class HTMLDOMImplementationImpl extends DOMImplementationImpl
+	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;	
+	
+	public class HTMLDOMImplementationImpl extends DOMImplementationLSImpl
 		implements HTMLDOMImplementation
 	{
 		/**

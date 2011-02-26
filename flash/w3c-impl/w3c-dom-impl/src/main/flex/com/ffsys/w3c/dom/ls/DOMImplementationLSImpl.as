@@ -1,16 +1,16 @@
 package com.ffsys.w3c.dom.ls
 {
-	import org.w3c.dom.ls.DOMImplementationLS;
+	import com.ffsys.w3c.dom.DOMImplementationImpl;
 	
+	import org.w3c.dom.ls.DOMImplementationLS;
 	import org.w3c.dom.ls.LSInput;	
 	import org.w3c.dom.ls.LSOutput;
 	import org.w3c.dom.ls.LSSerializer;
 	import org.w3c.dom.ls.LSParser;
 
-	public class DOMImplementationLSImpl extends Object
+	public class DOMImplementationLSImpl extends DOMImplementationImpl
 		implements DOMImplementationLS
 	{
-		
 		/**
 		* 	Creates a <code>DOMImplementationLSImpl</code> instance.
 		*/

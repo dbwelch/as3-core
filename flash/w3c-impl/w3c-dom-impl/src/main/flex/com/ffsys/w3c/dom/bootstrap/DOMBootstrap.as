@@ -54,6 +54,16 @@ package com.ffsys.w3c.dom.bootstrap
 		public static const HTML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.HTML_MODULE;
 		
 		/**
+		* 	The name for the <code>DOM</code> LS implementation bean document.
+		*/
+		public static const LS_IMPLEMENTATION_DOC_NAME:String = DOMFeature.LS_MODULE;
+		
+		/**
+		* 	The name for the <code>DOM</code> LS Async implementation bean document.
+		*/
+		public static const LS_ASYNC_IMPLEMENTATION_DOC_NAME:String = DOMFeature.LS_ASYNC_MODULE;
+		
+		/**
 		* 	The bean name for the implementation of the "XML" feature.
 		*/
 		public static const XML_IMPLEMENTATION:String = "dom-xml-impl";
@@ -122,6 +132,8 @@ package com.ffsys.w3c.dom.bootstrap
 			//add the implementations as an xref
 			xrefs.push( getXMLImplBeans() );
 			xrefs.push( getHTMLImplBeans() );
+			xrefs.push( getLSFeatureDocument() );
+			xrefs.push( getLSAsyncFeatureDocument() );
 		}
 		
 		/**
@@ -248,18 +260,48 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		private function addCommonFeatures( impls:IBeanDocument ):void
+		private function getLSFeatureDocument():IBeanDocument
 		{
 			var descriptor:IBeanDescriptor = null;
+			
+			var ls:IBeanDocument = new BeanDocument(
+				LS_IMPLEMENTATION_DOC_NAME );
 			
 			descriptor = new BeanDescriptor(
 				DOMFeature.LS_MODULE );
 			descriptor.instanceClass = DOMImplementationLSImpl;
 			descriptor.singleton = true;
-			descriptor.names = new Vector.<String>();
-			descriptor.names.push( DOMFeature.LS_ASYNC_MODULE );
-			impls.addBeanDescriptor( descriptor );
+			ls.addBeanDescriptor( descriptor );
 			
+			return ls;			
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function getLSAsyncFeatureDocument():IBeanDocument
+		{
+			var descriptor:IBeanDescriptor = null;
+			
+			var lsAsync:IBeanDocument = new BeanDocument(
+				LS_ASYNC_IMPLEMENTATION_DOC_NAME );
+			
+			descriptor = new BeanDescriptor(
+				DOMFeature.LS_ASYNC_MODULE );
+			descriptor.instanceClass = DOMImplementationLSImpl;
+			descriptor.singleton = true;
+			lsAsync.addBeanDescriptor( descriptor );
+			
+			return lsAsync;			
+		}				
+		
+		/**
+		* 	@private
+		*/
+		private function addCommonFeatures( impls:IBeanDocument ):void
+		{
+			var descriptor:IBeanDescriptor = null;
+
 			descriptor = new BeanDescriptor(
 				DOMFeature.RANGE_MODULE );
 			descriptor.instanceClass = DocumentRangeImpl;

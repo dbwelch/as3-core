@@ -87,15 +87,19 @@ package com.ffsys.w3c.dom
 			//trace("[GOT SPECIFIED FEATURES LIST] DOMImplementationSourceImpl::init()", specified );
 			
 			//extract the implementation document xrefs
-			var impls:Vector.<IBeanDocument> = new Vector.<IBeanDocument>();
+			var impls:Vector.<IBeanDocument> = this.document.xrefs;
+			
+			/*
 			for( i = 0;i < this.document.xrefs.length;i++ )
 			{
-				if( this.document.xrefs[ i ].id == DOMBootstrap.XML_IMPLEMENTATION_DOC_NAME
-				 	|| this.document.xrefs[ i ].id == DOMBootstrap.HTML_IMPLEMENTATION_DOC_NAME )
+				nm = this.document.xrefs[ i ].id;
+				if( nm == DOMBootstrap.XML_IMPLEMENTATION_DOC_NAME
+				 	|| nm == DOMBootstrap.HTML_IMPLEMENTATION_DOC_NAME )
 				{
 					impls.push( this.document.xrefs[ i ] );
 				}
 			}
+			*/
 			
 			if( impls.length == 0 )
 			{
