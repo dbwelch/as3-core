@@ -1,5 +1,8 @@
 package com.ffsys.w3c.dom
 { 
+	import java.lang.Cloneable;
+	import java.io.Serializable;
+	
 	import org.w3c.dom.*;
 	import org.w3c.dom.events.DOMEvent;
 	import org.w3c.dom.events.EventListener;	
@@ -19,7 +22,7 @@ package com.ffsys.w3c.dom
 	*	@since  09.01.2011
 	*/
 	dynamic public class NodeImpl extends AbstractNodeProxyImpl
-		implements Node, EventTarget
+		implements Node, NodeList, EventTarget, Cloneable, Serializable
 	{
 		/**
 		* 	@private
@@ -226,12 +229,19 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
-		* 	The number of child nodes encapsulated
-		* 	by this node.
+		* 	@inheritDoc
 		*/
 		override public function get length():uint
 		{
 			return childNodes.length;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function item( index:uint ):Node
+		{
+			return childNodes.item( index );
 		}
 		
 		/**

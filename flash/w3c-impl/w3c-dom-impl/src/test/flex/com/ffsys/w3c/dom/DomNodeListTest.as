@@ -45,6 +45,28 @@ package com.ffsys.w3c.dom
 			
 			Assert.assertEquals( 3, list.length );
 			Assert.assertEquals( 3, el.childNodes.length );
+			
+			var n:Node;
+			var ln:Node;
+			for( var i:int = 0;i < list.length;i++ )
+			{
+				n = el.childNodes[ i ];
+				ln = list.item( i );
+				Assert.assertNotNull( n );
+				Assert.assertNotNull( ln );
+				Assert.assertEquals( n, ln );
+			}
+			
+			Assert.assertEquals( 3, i );
+			
+			//iterate over the node list with no specific order
+			var c:int = 0;
+			for each( n in list )
+			{
+				Assert.assertNotNull( n );
+				c++;
+			}
+			Assert.assertEquals( 3, c );
 		}
 	}
 }
