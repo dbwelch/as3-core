@@ -82,24 +82,6 @@ package org.w3c.dom.events
 		* 	listeners which handled the event called preventDefault. If preventDefault
 		* 	was called the value is false, else the value is true.
 		*/
-	    function dispatchEvent( event:DOMEvent ):Boolean;		
-		
-		//
-		
-		/*
-		
-		void               addEventListener(in DOMString type, 
-		                                      in EventListener listener, 
-		                                      in boolean useCapture);
-		  void               removeEventListener(in DOMString type, 
-		                                         in EventListener listener, 
-		                                         in boolean useCapture);
-		  // Modified in DOM Level 3:
-		  boolean            dispatchEvent(in Event evt)
-		                                   raises(EventException, 
-		                                   DOMException);
-		
-		
-		*/
+	    function dispatchEvent( event:DOMEvent ):Boolean;
 	}
 }

@@ -124,8 +124,12 @@ package com.ffsys.w3c.dom
 		*/
 		public static const DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC:Number = 0x20;
 		
+		/**
+		* 	@private
+		*/
+		protected var ownerNode:Node;
+		
 		private var _nodeValue:String;
-		private var _parentNode:Node;
 		private var _ownerDocument:Document;
 		private var _childNodes:NodeList;
 		private var _attributes:NamedNodeMap;
@@ -140,6 +144,61 @@ package com.ffsys.w3c.dom
 		* 	@private
 		*/
 		protected var _prefix:String;
+		
+		/**
+		* 	@private
+		*/
+		protected var flags:uint;
+		
+		/**
+		* 	@private
+		*/
+	    protected static const READONLY:uint     	= 0x1<<0;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const SYNCDATA:uint     	= 0x1<<1;
+		
+		/**
+		* 	@private
+		*/
+	    protected static const SYNCCHILDREN:uint 	= 0x1<<2;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const OWNED:uint        	= 0x1<<3;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const FIRSTCHILD:uint   	= 0x1<<4;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const SPECIFIED:uint    	= 0x1<<5;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const IGNORABLEWS:uint  	= 0x1<<6;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const HASSTRING:uint    	= 0x1<<7;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const NORMALIZED:uint 		= 0x1<<8;
+	
+		/**
+		* 	@private
+		*/
+	    protected static const ID:uint           	= 0x1<<9;
 		
 		/**
 		* 	Creates a <code>NodeImpl</code> instance.
@@ -677,7 +736,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function get parentNode():Node
 		{
-			return _parentNode;
+			return ownerNode;
 		}
 		
 		/**
@@ -685,7 +744,7 @@ package com.ffsys.w3c.dom
 		*/
 		internal function setParentNode( parent:Node ):void
 		{
-			_parentNode = parent;
+			ownerNode = parent;
 		}
 		
 		/**
@@ -950,5 +1009,161 @@ package com.ffsys.w3c.dom
 			}
 			return x;
 		}
+		
+
+	    /*
+		*	Flags setters and getters, reproduced from the xerces-j
+		*	implementation.
+		*/
+		
+		/**
+		* 	@private
+		* 	
+		* 	Determines whether this node is read only.
+		*/
+		public function isReadOnly():Boolean
+		{
+			return ( flags & READONLY ) != 0;
+	    }
+		
+		/*
+	    final void isReadOnly(boolean value) {
+	        flags = (short) (value ? flags | READONLY : flags & ~READONLY);
+	    }
+		*/
+		
+		/**
+		* 	@private
+		*/
+		public function needsSyncData():Boolean
+		{
+			return ( flags & SYNCDATA ) != 0;
+		}
+		
+		/*
+	    final void needsSyncData(boolean value) {
+	        flags = (short) (value ? flags | SYNCDATA : flags & ~SYNCDATA);
+	    }
+		*/
+		
+		/**
+		* 	@private
+		*/
+		public function needsSyncChildren():Boolean
+		{
+			return ( flags & SYNCCHILDREN ) != 0;
+		}
+		
+		/*
+	    public final void needsSyncChildren(boolean value) {
+	        flags = (short) (value ? flags | SYNCCHILDREN : flags & ~SYNCCHILDREN);
+	    }
+		*/
+
+		/**
+		* 	@private
+		* 	
+		* 	Determines whether this node is owned.
+		*/
+	    public function isOwned():Boolean
+		{
+			return ( flags & OWNED ) != 0;
+	    }
+
+		/*
+	    final void isOwned(boolean value) {
+	        flags = (short) (value ? flags | OWNED : flags & ~OWNED);
+	    }
+	*/
+		
+		/**
+		* 	@private
+		*/
+		public function isFirstChild():Boolean
+		{
+			return ( flags & FIRSTCHILD ) != 0;
+		}
+		
+		/*
+	    final void isFirstChild(boolean value) {
+	        flags = (short) (value ? flags | FIRSTCHILD : flags & ~FIRSTCHILD);
+	    }
+		*/
+
+		/**
+		* 	@private
+		*/
+		public function isSpecified():Boolean
+		{
+			return ( flags & SPECIFIED ) != 0;
+		}
+		
+		/*
+	    final void isSpecified(boolean value) {
+	        flags = (short) (value ? flags | SPECIFIED : flags & ~SPECIFIED);
+	    }
+		*/
+
+		/**
+		* 	@private
+		* 	
+		* 	Inconsistent name to avoid clash with public method on TextImpl.
+		*/
+		public function internalIsIgnorableWhitespace():Boolean
+		{
+	        return ( flags & IGNORABLEWS ) != 0;
+	    }
+		
+		/*
+	    final void isIgnorableWhitespace(boolean value) {
+	        flags = (short) (value ? flags | IGNORABLEWS : flags & ~IGNORABLEWS);
+	    }
+		*/
+		
+		/**
+		* 	@private
+		*/
+		public function hasStringValue():Boolean
+		{
+	        return (flags & HASSTRING) != 0;
+	    }
+		
+		/*
+	    final void hasStringValue(boolean value) {
+	        flags = (short) (value ? flags | HASSTRING : flags & ~HASSTRING);
+	    }
+		*/
+		
+		/**
+		* 	@private
+		*/
+		public function isNormalized():Boolean
+		{
+			return ( flags & NORMALIZED ) != 0;
+		}
+		
+		/*
+	    final void isNormalized(boolean value) {
+	        // See if flag should propagate to parent.
+	        if (!value && isNormalized() && ownerNode != null) {
+	            ownerNode.isNormalized(false);
+	        }
+	        flags = (short) (value ?  flags | NORMALIZED : flags & ~NORMALIZED);
+	    }
+		*/
+
+		/**
+		* 	@private
+		*/
+		public function isIdAttribute():Boolean
+		{
+			return ( flags & ID ) != 0;
+		}
+		
+		/*
+	    final void isIdAttribute(boolean value) {
+	        flags = (short) (value ? flags | ID : flags & ~ID);
+	    }
+		*/	
 	}
 }
