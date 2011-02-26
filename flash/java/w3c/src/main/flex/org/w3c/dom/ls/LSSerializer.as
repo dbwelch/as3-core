@@ -258,8 +258,6 @@ package org.w3c.dom.ls
 		* 	of those allowed by XML 1.0 or XML 1.1, depending on the serialized
 		* 	content. Setting this attribute to null will reset its value to
 		* 	the default value.
-		* 
-		* 	
 		*/
 		function get newLine():String;
 		function set newLine( value:String ):void;

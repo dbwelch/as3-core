@@ -35,17 +35,11 @@ package com.ffsys.w3c.dom.support
 		/**
 		* 	@private
 		*/
-		protected var _xml:XML;	
+		protected var _xml:XML;
 		
 		private var _id:String;
 		private var _beanName:String;
 		private var _document:IBeanDocument;
-		private var _parser:Object;
-		private var _class:Class;
-		
-		//TODO: move to correct sub-classes
-		private var _href:String;		
-		private var _title:String;
 		
 		/**
 		* 	@private
@@ -83,22 +77,6 @@ package com.ffsys.w3c.dom.support
 		{
 			return null;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		
-		/*
-		public function get title():String
-		{
-			return _title;
-		}
-		
-		public function set title( value:String ):void
-		{
-			_title = value;
-		}
-		*/
 		
 		/**
 		* 	The primary source object containing enumerable properties
@@ -178,22 +156,6 @@ package com.ffsys.w3c.dom.support
 		{
 			_id = id;
 		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		
-		/*
-		public function get href():String
-		{
-			return _href;
-		}
-		
-		public function set href( value:String ):void
-		{
-			_href = value;
-		}
-		*/
 		
 		/**
 		* 	@inheritDoc
@@ -287,55 +249,10 @@ package com.ffsys.w3c.dom.support
 		/**
 		*	@inheritDoc 
 		*/
-		public function getClass( target:Object = null ):Class
-		{
-			if( target is Class )
-			{
-				return target as Class;
-			}
-			
-			if( target == null )
-			{
-				target = this;
-			}
-			
-			if( _class == null )
-			{	
-				var path:String = getQualifiedClassName( target );
-				if( _descriptor != null )
-				{
-					_class = _descriptor.instanceClass;
-				}else
-				{
-					_class = getDefinitionByName( path ) as Class;
-				}
-				
-				//classes are dynamic so cache our path and name
-				if( _class != null )
-				{
-					Object( _class ).path = path;
-
-					var classPath:String = path;
-					var className:String = classPath;
-					var index:int = classPath.indexOf( "::" );
-					if( index > -1 )
-					{
-						className = classPath.substr( index + 2 );
-					}
-					Object( _class ).name = className;
-				}				
-			}
-			
-			return _class;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
 		public function getClassPath( target:Object = null ):String
 		{
-			var clazz:Class = getClass();
-			return String( clazz.path );
+			var t:T = T.getInstance( this );
+			return t.path;
 		}
 		
 		/**
@@ -343,8 +260,8 @@ package com.ffsys.w3c.dom.support
 		*/
 		public function getClassName( target:Object = null ):String
 		{
-			var clazz:Class = getClass();
-			return String( clazz.name );
+			var t:T = T.getInstance( this );
+			return t.name;			
 		}
 		
 		/**
@@ -360,12 +277,9 @@ package com.ffsys.w3c.dom.support
 		{
 			_id = null;
 			_beanName = null;
-			_href = null;
 			_xml = null;
 			_document = null;
 			_descriptor = null;
-			_parser = null;
-			_class = null;
 		}
 		
 		/**

@@ -19,13 +19,17 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	Creates a <code>NodeListImpl</code> instance.
+		* 
+		* 	@param contents Any Node or NodeList implementations
+		* 	to add to this node list, when a NodeList is encountered
+		* 	the contents of the NodeList are added to this implementation.
 		*/
-		public function NodeListImpl()
+		public function NodeListImpl( ...contents )
 		{
 			super();
-			
 			//update our proxy source to the child vector
 			setProxySource( this.children );
+			this.concat.apply( this, contents );
 		}
 		
 		/**

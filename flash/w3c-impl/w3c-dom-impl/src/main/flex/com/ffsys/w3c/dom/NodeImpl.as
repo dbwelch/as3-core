@@ -1,10 +1,13 @@
 package com.ffsys.w3c.dom
 { 
-	import com.ffsys.utils.string.PropertyNameConverter;
+	import org.w3c.dom.*;
+	import org.w3c.dom.events.DOMEvent;
+	import org.w3c.dom.events.EventListener;	
+	import org.w3c.dom.events.EventTarget;
 	
 	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;
 	
-	import org.w3c.dom.*;
+	import com.ffsys.utils.string.PropertyNameConverter;
 	
 	/**
 	*	Represents a <code>DOM</code> node.
@@ -16,7 +19,7 @@ package com.ffsys.w3c.dom
 	*	@since  09.01.2011
 	*/
 	dynamic public class NodeImpl extends AbstractNodeProxyImpl
-		implements Node
+		implements Node, EventTarget
 	{
 		/**
 		* 	@private
@@ -841,6 +844,37 @@ package com.ffsys.w3c.dom
 			//TODO
 			return null;
 		}
+		
+	    //
+	    // EventTarget support
+	    //
+		
+		/**
+		* 	@inheritDoc
+		*/
+	    public function addEventListener(
+			type:String, listener:EventListener, useCapture:Boolean ):void
+		{
+	        CoreDocumentImpl( ownerDocument ).addNodeEventListener( this, type, listener, useCapture );
+	    }
+		
+		/**
+		* 	@inheritDoc
+		*/
+	    public function removeEventListener(
+			type:String, listener:EventListener, useCapture:Boolean ):void
+		{
+	        CoreDocumentImpl( ownerDocument ).removeNodeEventListener(
+				this, type, listener, useCapture );
+	    }
+
+		/**
+		* 	@inheritDoc
+		*/
+	    public function dispatchEvent( event:DOMEvent ):Boolean
+		{
+	        return CoreDocumentImpl( ownerDocument ).dispatchNodeEvent( this, event );
+	    }		
 		
 		public function getElements( deep:Boolean = false ):NodeList
 		{

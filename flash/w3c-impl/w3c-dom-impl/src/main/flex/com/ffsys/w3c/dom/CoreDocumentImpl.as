@@ -5,6 +5,9 @@ package com.ffsys.w3c.dom
 	import javax.xml.*;
 	import org.w3c.dom.*;
 	
+	import org.w3c.dom.events.DOMEvent;
+	import org.w3c.dom.events.EventListener;	
+	
 	import com.ffsys.ioc.*;
 	
 	/**
@@ -565,6 +568,35 @@ package com.ffsys.w3c.dom
 
 			return n;
 		}
+		
+		/**
+		* 	@private
+		*/
+	    public function addNodeEventListener(
+			node:Node, type:String,
+			listener:EventListener, useCapture:Boolean ):void
+		{
+	        //
+	    }
+		
+		/**
+		* 	@private
+		*/
+	    public function removeNodeEventListener(
+			node:Node, type:String,
+			listener:EventListener, useCapture:Boolean ):void
+		{
+	        //
+	    }
+
+		/**
+		* 	@private
+		*/
+	    public function dispatchNodeEvent(
+			node:Node, event:DOMEvent ):Boolean
+		{
+	        return false;
+	    }
 		
 		//TODO: implement and change return type to display object
 		public function getComponent( name:String ):Object
