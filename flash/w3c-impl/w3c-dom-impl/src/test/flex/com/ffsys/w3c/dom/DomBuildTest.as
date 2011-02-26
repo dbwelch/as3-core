@@ -152,6 +152,8 @@ package com.ffsys.w3c.dom
 			Assert.assertEquals( rect, circle.previousElementSibling );
 			Assert.assertEquals( ellipse, circle.nextElementSibling );
 			
+			//create a serializer
+			
 			trace( NodeImpl( doc ).xml.toXMLString() );
 		}
 	}

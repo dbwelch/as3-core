@@ -162,6 +162,8 @@ package com.ffsys.w3c.dom.bootstrap
 			
 			addDOMNodes( impls );			
 			
+			addLoadSaveImplementations( impls );
+			
 			descriptor = new BeanDescriptor(
 				DOMFeature.EVENTS_MODULE );
 			descriptor.instanceClass = DocumentEventImpl;
@@ -194,7 +196,9 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.instanceClass = HTMLDocumentImpl;
 			impls.addBeanDescriptor( descriptor );
 			
-			addDOMNodes( impls );			
+			addDOMNodes( impls );
+			
+			addLoadSaveImplementations( impls );					
 			
 			descriptor = new BeanDescriptor(
 				DOMFeature.EVENTS_MODULE );

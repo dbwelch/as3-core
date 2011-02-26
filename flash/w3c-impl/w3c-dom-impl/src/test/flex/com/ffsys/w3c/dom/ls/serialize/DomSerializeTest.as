@@ -41,6 +41,20 @@ package com.ffsys.w3c.dom.ls.serialize
 			assertOnLsImplementation( impl );				
 		}
 		
+		[Test]
+		public function testXMLImpl():void
+		{
+			var impl:DOMImplementation = getXMLImplementation();
+			assertOnLsImplementation( impl );
+		}
+		
+		[Test]
+		public function testHTMLImpl():void
+		{
+			var impl:DOMImplementation = getHTMLImplementation();
+			assertOnLsImplementation( impl );
+		}
+		
 		/**
 		* 	@private
 		*/

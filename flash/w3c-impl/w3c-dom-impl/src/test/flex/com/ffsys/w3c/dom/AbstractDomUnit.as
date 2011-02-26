@@ -9,6 +9,7 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.*;
 	import com.ffsys.w3c.dom.bootstrap.DOMImplementationRegistry;
 	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;	
+	import com.ffsys.w3c.dom.xml.XMLDOMImplementationImpl;
 	
 	import org.w3c.dom.*;
 	import org.w3c.dom.DOMException;
@@ -32,6 +33,11 @@ package com.ffsys.w3c.dom
 			super();
 		}
 		
+		/**
+		* 	@private
+		* 
+		* 	Retrieve the main DOM implementation registry.
+		*/
 		protected function getRegistry():DOMImplementationRegistry
 		{
 			//get the DOM registry
@@ -39,6 +45,44 @@ package com.ffsys.w3c.dom
 				DOMImplementationRegistry.newInstance();
 			Assert.assertNotNull( registry );
 			return registry;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Retrieve an XML DOM implementation.
+		* 
+		* 	@return An XML implementation.
+		*/
+		protected function getXMLImplementation():DOMImplementation
+		{
+			//get the DOM registry
+			var registry:DOMImplementationRegistry = getRegistry();
+			//retrieve an implementation for "XML 3.0 Core"
+			var impl:DOMImplementation = registry.getDOMImplementation(
+				DOMFeature.XML_MODULE
+				+ " " + DOMFeature.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
+			Assert.assertNotNull( impl );			
+			return impl;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Retrieve an HTML DOM implementation.
+		* 
+		* 	@return An HTML implementation.
+		*/
+		protected function getHTMLImplementation():DOMImplementation
+		{
+			//get the DOM registry
+			var registry:DOMImplementationRegistry = getRegistry();
+			//retrieve an implementation for "HTML 3.0 Core"
+			var impl:DOMImplementation = registry.getDOMImplementation(
+				DOMFeature.HTML_MODULE
+				+ " " + DOMFeature.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
+			Assert.assertNotNull( impl );		
+			return impl;
 		}
 		
 		/**
@@ -53,14 +97,7 @@ package com.ffsys.w3c.dom
 			
 			var title:String = "this is a document title";
 			
-			var registry:DOMImplementationRegistry = getRegistry();
-			
-			//retrieve an implementation for "HTML 3.0 Core"
-			var impl:DOMImplementation = registry.getDOMImplementation(
-				DOMFeature.HTML_MODULE
-				+ " " + DOMFeature.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
-			
-			Assert.assertNotNull( impl );
+			var impl:DOMImplementation = getHTMLImplementation();
 			Assert.assertTrue( impl is HTMLDOMImplementation );
 			
 			//create a plain xml document implementation
@@ -84,7 +121,7 @@ package com.ffsys.w3c.dom
 		}		
 		
 		/**
-		* 	Creates a XML document.
+		* 	Creates an XML document.
 		*/
 		protected function getXMLDocument():Document
 		{
@@ -92,14 +129,10 @@ package com.ffsys.w3c.dom
 			{
 				return _document;
 			}
-
-			var registry:DOMImplementationRegistry = getRegistry();
 			
 			//retrieve an implementation for "XML 3.0 Core"
-			var impl:DOMImplementation = registry.getDOMImplementation(
-				DOMFeature.XML_MODULE
-				+ " " + DOMFeature.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
-			Assert.assertNotNull( impl );
+			var impl:DOMImplementation = getXMLImplementation();
+			Assert.assertTrue( impl is XMLDOMImplementationImpl );
 			
 			//create a null doctype
 			var doctype:DocumentType = impl.createDocumentType(
