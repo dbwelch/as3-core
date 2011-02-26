@@ -33,6 +33,20 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	An <code>XML</code> representation of this node.
+		*/
+		override public function get xml():XML
+		{
+			if( _xml == null || _xml.toString() != data )
+			{
+				_xml = new XML( "<!--" + data + "-->" );
+				
+				trace("[GET COMMENT XML] CommentImpl::get xml()", _xml.toXMLString() );
+			}
+			return _xml;
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		override public function get nodeName():String

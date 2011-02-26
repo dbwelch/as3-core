@@ -842,39 +842,63 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
-		* 	The first child that is an element.
+		* 	The first child node that is an element.
 		*/
 		public function get firstElementChild():Element
 		{
-			//TODO
-			return null;			
+			var elems:Vector.<Element> = this.elements;
+			if( elems.length > 0 )
+			{
+				return elems[ 0 ];
+			}
+			return null;
 		}
 		
 		/**
-		* 	The last child that is an element.
+		* 	The last child node that is an element.
 		*/
 		public function get lastElementChild():Element
 		{
-			//TODO
+			var elems:Vector.<Element> = this.elements;
+			if( elems.length > 0 )
+			{
+				return elems[ elems.length - 1 ];
+			}
 			return null;			
 		}
 		
 		/**
-		* 	The previous sibling that is an element.
+		* 	The previous sibling node that is an element.
 		*/
 		public function get previousElementSibling():Element
 		{
-			//TODO
-			return null;			
+			if( parentNode != null
+				&& childIndex > 0 )
+			{
+				var elems:Vector.<Element> = NodeImpl( parentNode ).elements;
+				if( elems.length >= childIndex )
+				{
+					return elems[ childIndex - 1 ];
+				}
+			}
+			return null;
 		}
 		
 		/**
-		* 	The next sibling that is an element.
+		* 	The next sibling node that is an element.
 		*/
 		public function get nextElementSibling():Element
 		{
-			//TODO
-			return null;			
+			if( parentNode != null
+				&& childIndex < ( parentNode.childNodes.length - 1 ) )
+			{
+				var elems:Vector.<Element> = NodeImpl( parentNode ).elements;
+				if( elems.length > childIndex )
+				{
+					return elems[ childIndex + 1 ];
+				}
+			}
+			return null;
 		}
 		
 		/**
@@ -882,8 +906,8 @@ package com.ffsys.w3c.dom
 		*/
 		public function get childElementCount():uint
 		{
-			//TODO
-			return 0;
+			var elems:Vector.<Element> = this.elements;
+			return elems.length;
 		}
 		
 		/**
