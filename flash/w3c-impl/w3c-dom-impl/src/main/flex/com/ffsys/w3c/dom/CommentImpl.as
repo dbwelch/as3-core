@@ -40,8 +40,6 @@ package com.ffsys.w3c.dom
 			if( _xml == null || _xml.toString() != data )
 			{
 				_xml = new XML( "<!--" + data + "-->" );
-				
-				trace("[GET COMMENT XML] CommentImpl::get xml()", _xml.toXMLString() );
 			}
 			return _xml;
 		}

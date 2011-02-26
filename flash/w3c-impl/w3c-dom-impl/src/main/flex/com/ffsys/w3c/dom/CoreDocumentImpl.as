@@ -93,9 +93,7 @@ package com.ffsys.w3c.dom
 			if( documentElement != null )
 			{
 				x = NodeImpl( this.documentElement ).xml;
-				trace("[GET XML] CoreDocumentImpl::get xml()", documentElement );				
 			}
-			
 			addNamespaceAttributes( x );
 			return x;
 		}
@@ -540,8 +538,10 @@ package com.ffsys.w3c.dom
 			namespaceURI:String,
 			qualifiedName:String ):Node
 		{
+			/*
 			trace("[RENAME NODE] CoreDocumentImpl::renameNode()",
 				n, namespaceURI, qualifiedName );
+			*/
 				
 			if( n == null )
 			{

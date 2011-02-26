@@ -12,7 +12,7 @@ package com.ffsys.w3c.dom
 	import org.w3c.dom.DOMException;
 	
 	/**
-	*	Unit tests for manually constructing DOM hierarchies.
+	*	Unit tests for manually constructing DOM documents.
 	*/ 
 	public class DomBuildTest extends AbstractDomUnit
 	{
@@ -33,9 +33,12 @@ package com.ffsys.w3c.dom
 			XML.ignoreWhitespace = false;
 			
 			var i:int = 0;
+			var namespaceURI:String = "http://graphicsx.org/graphics";
+			
 			var doc:Document = getXMLDocument();
 			var el:Element = doc.documentElement;
 			Assert.assertNotNull( el );
+			Assert.assertEquals( doc, el.ownerDocument );
 			
 			var nm:String = "graphics";
 			
@@ -48,8 +51,8 @@ package com.ffsys.w3c.dom
 			//now rename to a fully qualified name
 			doc.renameNode(
 				el,
-				"http://example.org/graphics",
-				"example:graphics" );
+				namespaceURI,
+				"g:graphics" );
 				
 			Assert.assertFalse( el.hasChildNodes() );
 			//with no children we can still retrieve an
@@ -61,6 +64,7 @@ package com.ffsys.w3c.dom
 			rect.setAttribute( "width", "20" );
 			rect.setAttribute( "height", "20" );
 			el.appendChild( rect );
+			Assert.assertEquals( doc, rect.ownerDocument );
 			
 			Assert.assertTrue( el.hasChildNodes() );
 			Assert.assertEquals( 1, el.childNodes.length );
@@ -75,6 +79,7 @@ package com.ffsys.w3c.dom
 			var circle:Element = doc.createElement( "circle" );
 			circle.setAttribute( "radius", "10" );
 			el.appendChild( circle );
+			Assert.assertEquals( doc, circle.ownerDocument );
 			Assert.assertEquals( 2, el.childNodes.length );
 			Assert.assertEquals( "circle", circle.tagName );
 			Assert.assertEquals( "circle", circle.nodeName );
@@ -85,18 +90,21 @@ package com.ffsys.w3c.dom
 			
 			var cdata:CDATASection = doc.createCDATASection( "This is a cdata section." );
 			el.appendChild( cdata );
+			Assert.assertEquals( doc, cdata.ownerDocument );
 			Assert.assertEquals( 3, el.childNodes.length );
 			Assert.assertEquals( cdata, el.lastChild );
 			Assert.assertEquals( "This is a cdata section.", cdata.data );
 			
 			var comment:Comment = doc.createComment( "This is a comment." );
 			el.appendChild( comment );
+			Assert.assertEquals( doc, comment.ownerDocument );
 			Assert.assertEquals( 4, el.childNodes.length );			
 			Assert.assertEquals( comment, el.lastChild );
 			Assert.assertEquals( "This is a comment.", comment.data );			
 			
 			var txt:Text = doc.createTextNode( "This is a plain text node." );
 			el.appendChild( txt );
+			Assert.assertEquals( doc, txt.ownerDocument );
 			Assert.assertEquals( 5, el.childNodes.length );
 			Assert.assertEquals( txt, el.lastChild );
 			Assert.assertEquals( "This is a plain text node.", txt.data );
@@ -105,10 +113,25 @@ package com.ffsys.w3c.dom
 			ellipse.setAttribute( "width", "10" );
 			ellipse.setAttribute( "height", "20" );
 			el.appendChild( ellipse );
+			Assert.assertEquals( doc, ellipse.ownerDocument );
 			Assert.assertEquals( 6, el.childNodes.length );
+			
+			Assert.assertTrue( ellipse.getAttributeNode( "width" ) is Node );
+			Assert.assertTrue( ellipse.getAttributeNode( "height" ) is Node );
+			Assert.assertEquals( "10", ellipse.getAttribute( "width" ) );
+			Assert.assertEquals( "20", ellipse.getAttribute( "height" ) );
 
 			Assert.assertEquals( "ellipse", ellipse.tagName );
-			Assert.assertEquals( "ellipse", ellipse.nodeName );	
+			Assert.assertEquals( "ellipse", ellipse.nodeName );
+			
+			//set a qualified attribute in an in-scope namespace
+			ellipse.setAttributeNS( namespaceURI, "g:type", "ellipse" );
+			
+			/*
+			trace("[OWNER DOCUMENT] DomBuildTest::testBuildDom()",
+				el, ellipse,
+				el.ownerDocument, ellipse.ownerDocument );
+			*/
 			
 			//now test the element traversal methods with intermediary
 			//non-element nodes - ElementTraveral implementation
@@ -130,7 +153,6 @@ package com.ffsys.w3c.dom
 			Assert.assertEquals( ellipse, circle.nextElementSibling );
 			
 			trace( NodeImpl( doc ).xml.toXMLString() );
-			
 		}
 	}
 }

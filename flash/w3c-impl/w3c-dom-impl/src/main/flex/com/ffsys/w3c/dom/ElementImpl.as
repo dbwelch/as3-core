@@ -568,11 +568,18 @@ package com.ffsys.w3c.dom
 		* 	@inheritDoc
 		*/
 		public function setAttributeNS(
-			namespaceURI:String, qualifiedName:String, value:String ):void
+			namespaceURI:String,
+			qualifiedName:String,
+			value:String ):void
 		{
+			trace("ElementImpl::setAttributeNS()", ownerDocument );
+			
 			//This method can raise a DomException object.
 			var attr:Attr = ownerDocument.createAttributeNS(
 				namespaceURI, qualifiedName );
+			
+			//trace("[SET ATTR NS] ElementImpl::setAttributeNS()", ownerDocument, attr );
+				
 			attr.value = value;	
 			
 			//trace("Element::setAttributeNS()", attr.name, attr.value, attr.uri );

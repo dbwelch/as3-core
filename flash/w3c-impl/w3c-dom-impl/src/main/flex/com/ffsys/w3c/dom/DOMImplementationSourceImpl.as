@@ -33,7 +33,7 @@ package com.ffsys.w3c.dom
 			}
 			var list:DOMImplementationList = getDOMImplementationList( features );
 			
-			trace("DOMImplementationSourceImpl::getDOMImplementation()", list, list.length );
+			//trace("DOMImplementationSourceImpl::getDOMImplementation()", list, list.length );
 			
 			if( list != null && list.length > 0 )
 			{

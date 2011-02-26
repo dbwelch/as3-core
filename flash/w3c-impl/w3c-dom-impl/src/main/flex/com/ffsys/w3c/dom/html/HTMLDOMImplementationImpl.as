@@ -69,9 +69,11 @@ package com.ffsys.w3c.dom.html
 				HTMLBodyElementImpl(
 					document.createElement( HTMLBodyElementImpl.NAME ) );
 			html.appendChild( body );
-					
+			
+			/*	
 			trace("[CREATE HTML ELEMENT] HTMLDOMImplementationImpl::createHTMLDocument()",
 				html, head, body );
+			*/
 			
 			setImplementation( document, null );
 			

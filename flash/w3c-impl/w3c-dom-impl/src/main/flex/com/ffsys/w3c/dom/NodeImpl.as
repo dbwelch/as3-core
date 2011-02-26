@@ -143,7 +143,10 @@ package com.ffsys.w3c.dom
 		public function NodeImpl( owner:CoreDocumentImpl = null )
 		{
 			super();
-			setOwnerDocument( owner );
+			if( owner != null )
+			{
+				setOwnerDocument( owner );
+			}
 		}
 		
 		/**
@@ -271,7 +274,7 @@ package com.ffsys.w3c.dom
 					{
 						if( prefixSpecified )
 						{
-							trace("[SET NAME] NodeImpl::setNodeName()", specified, uri );
+							//trace("[SET NAME] NodeImpl::setNodeName()", specified, uri );
 								
 							if( ns == null )
 							{		
@@ -318,7 +321,9 @@ package com.ffsys.w3c.dom
 				xml.setName( new QName( uri, name ) );
 			}
 			
+			/*
 			trace("[RENAME NODE -- NS ] NodeImpl::setNodeName()", ns  );
+			*/
 			
 			return ns;
 		}
@@ -687,6 +692,8 @@ package com.ffsys.w3c.dom
 		*/
 		public function get ownerDocument():Document
 		{
+			//trace("[GET OWNER DOCUMENT] NodeImpl::get ownerDocument()", _ownerDocument );
+			
 			return _ownerDocument;
 		}
 		
@@ -696,6 +703,11 @@ package com.ffsys.w3c.dom
 		internal function setOwnerDocument( owner:Document ):void
 		{
 			_ownerDocument = owner;
+			
+			/*
+			trace("[SET OWNER] NodeImpl::setOwnerDocument()",
+				_ownerDocument );
+			*/
 		}
 		
 		/**
@@ -710,7 +722,11 @@ package com.ffsys.w3c.dom
 				var n:NodeImpl = NodeImpl( child );				
 				n.setParentNode( this );
 				n.setChildIndex( childNodes.length );
-				n.setOwnerDocument( _ownerDocument );
+				
+				if( _ownerDocument != null )
+				{
+					n.setOwnerDocument( _ownerDocument );
+				}
 				
 				//xml must be modified before actually
 				//appending the child node to prevent
