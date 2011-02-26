@@ -5,7 +5,7 @@ package com.ffsys.w3c.dom.ls
 	/**
 	* 	
 	*/
-	public class LSInputImpl extends Object
+	public class LSInputImpl extends LSInputOutputImpl
 		implements LSInput
 	{
 		/**

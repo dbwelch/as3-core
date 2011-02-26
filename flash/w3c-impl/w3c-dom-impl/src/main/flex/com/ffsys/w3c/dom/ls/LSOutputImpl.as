@@ -5,13 +5,13 @@ package com.ffsys.w3c.dom.ls
 	/**
 	* 	
 	*/
-	public class LSOutputImpl extends Object
+	public class LSOutputImpl extends LSInputOutputImpl
 		implements LSOutput
 	{
 		/**
 		* 	The bean name for this output implementation.
 		*/
-		public static const NAME:String = "dom-ls-output";		
+		public static const NAME:String = "dom-ls-output";
 		
 		/*
         protected Writer fCharStream = null;
