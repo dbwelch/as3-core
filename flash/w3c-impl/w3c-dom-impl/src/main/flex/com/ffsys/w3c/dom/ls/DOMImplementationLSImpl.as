@@ -24,7 +24,8 @@ package com.ffsys.w3c.dom.ls
 		*/
 		public function createLSInput():LSInput
 		{
-			return null;
+			return this.document.getBean(
+				LSInputImpl.NAME ) as LSInput;
 		}
 		
 		/**
@@ -32,7 +33,8 @@ package com.ffsys.w3c.dom.ls
 		*/
 		public function createLSOutput():LSOutput
 		{
-			return null;
+			return this.document.getBean(
+				LSOutputImpl.NAME ) as LSOutput;
 		}
 		
 		/**

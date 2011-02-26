@@ -28,6 +28,12 @@ package com.ffsys.w3c.dom.ls.serialize
 					DOMFeature.LS_MODULE );
 			Assert.assertNotNull( impl );
 			Assert.assertTrue( impl is DOMImplementationLS );
+			
+			//verify input/output creation			
+			var input:LSInput = DOMImplementationLS( impl ).createLSInput();
+			Assert.assertNotNull( input );
+			var output:LSOutput = DOMImplementationLS( impl ).createLSOutput();
+			Assert.assertNotNull( output );
 		}
 		
 		[Test]
@@ -37,6 +43,12 @@ package com.ffsys.w3c.dom.ls.serialize
 					DOMFeature.LS_ASYNC_MODULE );
 			Assert.assertNotNull( impl );
 			Assert.assertTrue( impl is DOMImplementationLS );
+			
+			//verify input/output creation
+			var input:LSInput = DOMImplementationLS( impl ).createLSInput();
+			Assert.assertNotNull( input );
+			var output:LSOutput = DOMImplementationLS( impl ).createLSOutput();
+			Assert.assertNotNull( output );			
 		}
 	}
 }

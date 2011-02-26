@@ -11,7 +11,12 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.events.MutationEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
 	
+
+	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
+	import com.ffsys.w3c.dom.ls.LSInputImpl;
+	import com.ffsys.w3c.dom.ls.LSOutputImpl;
+		
 	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
 	import com.ffsys.w3c.dom.range.RangeImpl;
 	
@@ -273,6 +278,8 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.singleton = true;
 			ls.addBeanDescriptor( descriptor );
 			
+			addLoadSaveImplementations( ls );
+			
 			return ls;			
 		}
 		
@@ -292,8 +299,25 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.singleton = true;
 			lsAsync.addBeanDescriptor( descriptor );
 			
+			addLoadSaveImplementations( lsAsync );
+			
 			return lsAsync;			
-		}				
+		}
+		
+		private function addLoadSaveImplementations( impls:IBeanDocument ):void
+		{
+			var descriptor:IBeanDescriptor = null;
+			
+			descriptor = new BeanDescriptor(
+				LSInputImpl.NAME );
+			descriptor.instanceClass = LSInputImpl;
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				LSOutputImpl.NAME );
+			descriptor.instanceClass = LSOutputImpl;
+			impls.addBeanDescriptor( descriptor );			
+		}			
 		
 		/**
 		* 	@private
