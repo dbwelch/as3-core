@@ -203,7 +203,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	Creates a <code>NodeImpl</code> instance.
 		* 
-		* 	@param owner The owner of the node.	
+		* 	@param owner The owner of the node.
 		*/
 		public function NodeImpl( owner:CoreDocumentImpl = null )
 		{
@@ -1026,11 +1026,13 @@ package com.ffsys.w3c.dom
 			return ( flags & READONLY ) != 0;
 	    }
 		
-		/*
-	    final void isReadOnly(boolean value) {
-	        flags = (short) (value ? flags | READONLY : flags & ~READONLY);
-	    }
+		/**
+		* 	@private
 		*/
+	    internal function setReadOnly( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | READONLY : flags & ~READONLY ) );
+	    }
 		
 		/**
 		* 	@private
@@ -1040,11 +1042,13 @@ package com.ffsys.w3c.dom
 			return ( flags & SYNCDATA ) != 0;
 		}
 		
-		/*
-	    final void needsSyncData(boolean value) {
-	        flags = (short) (value ? flags | SYNCDATA : flags & ~SYNCDATA);
-	    }
+		/**
+		* 	@private
 		*/
+	    internal function setNeedsSyncData( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | SYNCDATA : flags & ~SYNCDATA ) );
+	    }
 		
 		/**
 		* 	@private
@@ -1054,27 +1058,29 @@ package com.ffsys.w3c.dom
 			return ( flags & SYNCCHILDREN ) != 0;
 		}
 		
-		/*
-	    public final void needsSyncChildren(boolean value) {
-	        flags = (short) (value ? flags | SYNCCHILDREN : flags & ~SYNCCHILDREN);
-	    }
+		/**
+		* 	@private
 		*/
+	    internal function setNeedsSyncChildren( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | SYNCCHILDREN : flags & ~SYNCCHILDREN ) );
+	    }
 
 		/**
 		* 	@private
-		* 	
-		* 	Determines whether this node is owned.
 		*/
 	    public function isOwned():Boolean
 		{
 			return ( flags & OWNED ) != 0;
 	    }
-
-		/*
-	    final void isOwned(boolean value) {
-	        flags = (short) (value ? flags | OWNED : flags & ~OWNED);
+	
+		/**
+		* 	@private
+		*/
+	    internal function setOwned( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | OWNED : flags & ~OWNED ) );
 	    }
-	*/
 		
 		/**
 		* 	@private
@@ -1084,11 +1090,13 @@ package com.ffsys.w3c.dom
 			return ( flags & FIRSTCHILD ) != 0;
 		}
 		
-		/*
-	    final void isFirstChild(boolean value) {
-	        flags = (short) (value ? flags | FIRSTCHILD : flags & ~FIRSTCHILD);
-	    }
+		/**
+		* 	@private
 		*/
+	    internal function setFirstChild( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | FIRSTCHILD : flags & ~FIRSTCHILD ) );
+	    }
 
 		/**
 		* 	@private
@@ -1098,11 +1106,13 @@ package com.ffsys.w3c.dom
 			return ( flags & SPECIFIED ) != 0;
 		}
 		
-		/*
-	    final void isSpecified(boolean value) {
-	        flags = (short) (value ? flags | SPECIFIED : flags & ~SPECIFIED);
-	    }
+		/**
+		* 	@private
 		*/
+	    internal function setIsSpecified( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | SPECIFIED : flags & ~SPECIFIED ) );
+	    }
 
 		/**
 		* 	@private
@@ -1113,26 +1123,30 @@ package com.ffsys.w3c.dom
 		{
 	        return ( flags & IGNORABLEWS ) != 0;
 	    }
-		
-		/*
-	    final void isIgnorableWhitespace(boolean value) {
-	        flags = (short) (value ? flags | IGNORABLEWS : flags & ~IGNORABLEWS);
-	    }
+	
+		/**
+		* 	@private
 		*/
+	    internal function setInternalIsIgnorableWhitespace( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | IGNORABLEWS : flags & ~IGNORABLEWS ) );
+	    }
 		
 		/**
 		* 	@private
 		*/
 		public function hasStringValue():Boolean
 		{
-	        return (flags & HASSTRING) != 0;
+	        return ( flags & HASSTRING ) != 0;
 	    }
-		
-		/*
-	    final void hasStringValue(boolean value) {
-	        flags = (short) (value ? flags | HASSTRING : flags & ~HASSTRING);
-	    }
+	
+		/**
+		* 	@private
 		*/
+	    internal function setHasStringValue( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | HASSTRING : flags & ~HASSTRING ) );
+	    }
 		
 		/**
 		* 	@private
@@ -1142,15 +1156,21 @@ package com.ffsys.w3c.dom
 			return ( flags & NORMALIZED ) != 0;
 		}
 		
-		/*
-	    final void isNormalized(boolean value) {
-	        // See if flag should propagate to parent.
-	        if (!value && isNormalized() && ownerNode != null) {
-	            ownerNode.isNormalized(false);
-	        }
-	        flags = (short) (value ?  flags | NORMALIZED : flags & ~NORMALIZED);
-	    }
+		/**
+		* 	@private
 		*/
+	    internal function setNormalized( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | HASSTRING : flags & ~HASSTRING ) );
+	
+	        // See if flag should propagate to parent.
+			var o:NodeImpl = ownerNode as NodeImpl;
+	        if( !value && isNormalized() && o != null )
+			{
+				o.setNormalized( false );
+	        }
+	        flags = uint( ( value ?  flags | NORMALIZED : flags & ~NORMALIZED ) );
+	    }
 
 		/**
 		* 	@private
@@ -1160,10 +1180,12 @@ package com.ffsys.w3c.dom
 			return ( flags & ID ) != 0;
 		}
 		
-		/*
-	    final void isIdAttribute(boolean value) {
-	        flags = (short) (value ? flags | ID : flags & ~ID);
-	    }
-		*/	
+		/**
+		* 	@private
+		*/
+	    internal function setIsIdAttribute( value:Boolean ):void
+		{
+	        flags = uint( ( value ? flags | ID : flags & ~ID ) );
+	    }	
 	}
 }

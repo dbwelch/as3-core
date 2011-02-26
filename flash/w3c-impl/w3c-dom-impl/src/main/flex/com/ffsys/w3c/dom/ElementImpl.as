@@ -17,8 +17,8 @@ package com.ffsys.w3c.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	dynamic public class ElementImpl extends NodeImpl
-		implements Element
+	dynamic public class ElementImpl extends ParentNode
+		implements Element, ElementTraversal
 	{
 		/**
 		* 	The bean name for this node.

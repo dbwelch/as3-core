@@ -12,7 +12,7 @@ package com.ffsys.w3c.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	public class DocumentTypeImpl extends NodeImpl
+	public class DocumentTypeImpl extends ParentNode
 		implements DocumentType
 	{
 		/**
@@ -26,6 +26,7 @@ package com.ffsys.w3c.dom
 		* 	Represents an <code>XHTML</code> 1.0 strict document type.
 		*/
 		public static const XHTML_1_STRICT:DocumentType = new DocumentTypeImpl(
+			null,
 			"html",
 			"-//W3C//DTD XHTML 1.0 Strict//EN",
 			"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" );
@@ -34,10 +35,10 @@ package com.ffsys.w3c.dom
 		* 	Represents an <code>XHTML</code> 1.1 document type.
 		*/
 		public static const XHTML_1_1:DocumentType = new DocumentTypeImpl(
+			null,
 			"html",
 			"-//W3C//DTD XHTML 1.1//EN",
 			"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" );
-			
 		
 		/*
 		
@@ -85,11 +86,12 @@ package com.ffsys.w3c.dom
 		* 	@param publicId The public identifier.
 		*/
 		public function DocumentTypeImpl(
+			owner:CoreDocumentImpl = null,
 			name:String = null,
 			systemId:String = null,
 			publicId:String = null )
 		{
-			super();
+			super( owner );
 			
 			if( name == null || publicId == null || systemId == null )
 			{

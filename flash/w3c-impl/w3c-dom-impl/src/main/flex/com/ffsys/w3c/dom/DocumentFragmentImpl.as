@@ -11,7 +11,7 @@ package com.ffsys.w3c.dom
 	*	@author Mischa Williamson
 	*	@since  09.01.2011
 	*/
-	public class DocumentFragmentImpl extends NodeImpl
+	public class DocumentFragmentImpl extends ParentNode
 		implements DocumentFragment
 	{
 		/**
@@ -26,10 +26,13 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	Creates a <code>DocumentFragmentImpl</code> instance.
+		* 
+		* 	@param owner The owner document.
 		*/
-		public function DocumentFragmentImpl()
+		public function DocumentFragmentImpl(
+			owner:CoreDocumentImpl = null )
 		{
-			super();
+			super( owner );
 		}
 		
 		/**

@@ -262,7 +262,10 @@ package com.ffsys.w3c.dom
 		{
 			//This method can raise a DomException object.
 			var docType:DocumentType = new DocumentTypeImpl(
-				qualifiedName, systemId, publicId );
+				null,
+				qualifiedName,
+				systemId,
+				publicId );
 			return docType;
 		}
 		
