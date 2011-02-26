@@ -8,7 +8,13 @@ package com.ffsys.w3c.dom
 
 	import com.ffsys.ioc.*;
 	import com.ffsys.w3c.dom.*;
+	
+	import com.ffsys.w3c.dom.ls.LSOutputImpl;
+	
 	import org.w3c.dom.*;
+	import org.w3c.dom.ls.LSOutput;
+	import org.w3c.dom.ls.LSSerializer;
+	import org.w3c.dom.ls.DOMImplementationLS;
 	import org.w3c.dom.DOMException;
 	
 	/**
@@ -152,7 +158,31 @@ package com.ffsys.w3c.dom
 			Assert.assertEquals( rect, circle.previousElementSibling );
 			Assert.assertEquals( ellipse, circle.nextElementSibling );
 			
+			var impl:DOMImplementationLS = DOMImplementationLS( doc.implementation );
+			Assert.assertNotNull( impl );				
+			
 			//create a serializer
+			var serializer:LSSerializer = impl.createLSSerializer();
+			Assert.assertNotNull( serializer );
+			
+			var config:DOMConfiguration = serializer as DOMConfiguration;
+			config.setParameter( "xml-declaration", false );
+			Assert.assertNotNull( config );
+			
+			var output:LSOutput = impl.createLSOutput();
+			Assert.assertNotNull( output );
+			
+			var x:XML = new XML();
+			LSOutputImpl( output ).e4x = x;
+			
+			serializer.write( doc, output );
+			
+			/*
+			var x:XML = new XML( "<r>this is &lt; &gt; &amp; &apos; &quot; &#35; &unknownentity; clearly less than</r>" );
+			
+			trace("DomBuildTest::testBuildDom()",
+				"" + x.text(), x.text().toXMLString() );
+			*/
 			
 			trace( NodeImpl( doc ).xml.toXMLString() );
 		}

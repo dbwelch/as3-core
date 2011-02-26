@@ -1,7 +1,11 @@
 package com.ffsys.w3c.dom.ls.serialize
 {
 	import org.w3c.dom.DOMConfiguration;
+	import org.w3c.dom.Node;
+	
+	import org.w3c.dom.ls.LSOutput;	
 	import org.w3c.dom.ls.LSSerializer;
+	import org.w3c.dom.ls.LSSerializerFilter;
 	
 	import com.ffsys.w3c.dom.DOMConfigurationImpl;
 	
@@ -14,7 +18,10 @@ package com.ffsys.w3c.dom.ls.serialize
 		/**
 		* 	The bean name for this serializer implementation.
 		*/
-		public static const NAME:String = "dom-ls-serializer";		
+		public static const NAME:String = "dom-ls-serializer";	
+		
+		private var _newLine:String;
+		private var _filter:LSSerializerFilter;	
 		
 		/**
 		* 	Creates <code>DOMSerializerImpl</code> instance.
@@ -22,6 +29,64 @@ package com.ffsys.w3c.dom.ls.serialize
 		public function DOMSerializerImpl()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get domConfig():DOMConfiguration
+		{
+			return this;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get newLine():String
+		{
+			return _newLine;
+		}
+		
+		public function set newLine( value:String ):void
+		{
+			_newLine = value;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get filter():LSSerializerFilter
+		{
+			return _filter;
+		}
+		
+		public function set filter( filter:LSSerializerFilter ):void
+		{
+			_filter = filter;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function write( node:Node, destination:LSOutput ):Boolean
+		{
+			return false;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function writeToString( node:Node ):String
+		{
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function writeToURI( node:Node, uri:String ):Boolean
+		{
+			return false;
 		}
 	}
 }

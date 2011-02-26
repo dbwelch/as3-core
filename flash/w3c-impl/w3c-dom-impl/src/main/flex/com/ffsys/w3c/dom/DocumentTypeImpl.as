@@ -48,6 +48,26 @@ package com.ffsys.w3c.dom
 		
 		*/
 		
+		/*
+		
+		
+		
+		<!ENTITY lt     "&#38;#60;">
+		<!ENTITY gt     "&#62;">
+		<!ENTITY amp    "&#38;#38;">
+		<!ENTITY apos   "&#39;">
+		<!ENTITY quot   "&#34;">
+		
+		<!DOCTYPE dtd [ <!ENTITY unknownentity   "UNKNOWN"> ]>
+		
+		*/
+		
+		/*
+		
+		<!DOCTYPE greeting [ <!ELEMENT greeting (#PCDATA)> ]>		
+		
+		*/
+		
 		private var _components:IBeanDocument;		
 		
 		private var _name:String;

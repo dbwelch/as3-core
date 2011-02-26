@@ -34,6 +34,8 @@ package com.ffsys.w3c.dom.bootstrap
 	*
 	*	@author Mischa Williamson
 	*	@since  14.01.2011
+	* 
+	* 	@todo Ensure that shared bean descriptors are the same instance.
 	*/
 	public class DOMBootstrap extends BeanDocument
 	{
