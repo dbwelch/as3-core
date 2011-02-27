@@ -127,7 +127,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@private
 		*/
-		protected var ownerNode:Node;
+		protected var __ownerNode:Node;
 		
 		private var _nodeValue:String;
 		private var _ownerDocument:Document;
@@ -736,7 +736,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function get parentNode():Node
 		{
-			return ownerNode;
+			return __ownerNode;
 		}
 		
 		/**
@@ -744,7 +744,7 @@ package com.ffsys.w3c.dom
 		*/
 		internal function setParentNode( parent:Node ):void
 		{
-			ownerNode = parent;
+			__ownerNode = parent;
 		}
 		
 		/**
@@ -1164,7 +1164,7 @@ package com.ffsys.w3c.dom
 	        flags = uint( ( value ? flags | HASSTRING : flags & ~HASSTRING ) );
 	
 	        // See if flag should propagate to parent.
-			var o:NodeImpl = ownerNode as NodeImpl;
+			var o:NodeImpl = __ownerNode as NodeImpl;
 	        if( !value && isNormalized() && o != null )
 			{
 				o.setNormalized( false );

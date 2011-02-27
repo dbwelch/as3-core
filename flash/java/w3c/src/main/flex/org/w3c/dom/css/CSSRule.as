@@ -16,6 +16,22 @@ package org.w3c.dom.css
 	*/
 	public interface CSSRule
 	{
+		
+		/**
+		* 
+		*/
+		function get type():uint;
+		
+		/**
+		* 	
+		*/
+		function get cssText():String;
+		function set cssText( text:String ):void;
+		
+		function get parentStyleSheet():CSSStyleSheet;
+		
+		function get parentRule():CSSRule;
+		
 		/*
 		
 		Interface CSSRule (introduced in DOM Level 2)

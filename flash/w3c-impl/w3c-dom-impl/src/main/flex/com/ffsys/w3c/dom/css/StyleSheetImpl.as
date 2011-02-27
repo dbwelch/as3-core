@@ -4,10 +4,12 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.MediaList;
 	import org.w3c.dom.css.StyleSheet;
 	
+	import com.ffsys.w3c.dom.ElementImpl;	
+	
 	/**
 	* 	Abstract super class for all style sheet implementations.
 	*/
-	public class StyleSheetImpl extends Object
+	public class StyleSheetImpl extends ElementImpl
 		implements StyleSheet
 	{
 		private var _type:String;

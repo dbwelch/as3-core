@@ -79,6 +79,8 @@ package com.ffsys.w3c.dom
 		/**
 		* 	A title for the element.
 		*/
+		
+		/*
 		public function get title():String
 		{
 			return _title;
@@ -88,6 +90,7 @@ package com.ffsys.w3c.dom
 		{
 			_title = value;
 		}
+		*/
 		
 		/**
 		* 	Attempts to retrieve a namespace prefix from
