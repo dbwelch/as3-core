@@ -5,6 +5,8 @@ package org.w3c.dom.css
 	* 	The CSSStyleSheet interface is a concrete interface
 	* 	used to represent a CSS style sheet i.e., a style
 	* 	sheet whose content type is "text/css".
+	* 
+	*	@see http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
 	*/
 	public interface CSSStyleSheet extends StyleSheet
 	{

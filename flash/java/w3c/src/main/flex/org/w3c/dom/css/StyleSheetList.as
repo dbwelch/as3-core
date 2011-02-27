@@ -7,6 +7,8 @@ package org.w3c.dom.css
 	*
 	*	The items in the StyleSheetList are accessible
 	* 	via an integral index, starting from 0.
+	* 
+	* 	@see http://www.w3.org/TR/DOM-Level-2-Style/stylesheets.html
 	*/
 	public interface StyleSheetList
 	{

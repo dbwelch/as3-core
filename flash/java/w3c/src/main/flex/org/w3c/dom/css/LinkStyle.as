@@ -9,6 +9,8 @@ package org.w3c.dom.css
 	* 	obtained using binding-specific casting methods
 	* 	on an instance of a linking node (HTMLLinkElement,
 	* 	HTMLStyleElement or ProcessingInstruction in DOM Level 2).
+	* 
+	* 	@see http://www.w3.org/TR/DOM-Level-2-Style/stylesheets.html
 	*/
 	public interface LinkStyle
 	{

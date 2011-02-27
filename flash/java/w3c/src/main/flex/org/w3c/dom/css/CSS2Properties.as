@@ -1,6 +1,18 @@
 package org.w3c.dom.css
 {
-
+	
+	/**
+	* 	The CSS2Properties interface represents a convenience mechanism
+	* 	for retrieving and setting properties within a CSSStyleDeclaration.
+	* 
+	* 	The attributes of this interface correspond to all the properties
+	* 	specified in CSS2. Getting an attribute of this interface is
+	* 	equivalent to calling the getPropertyValue method of the CSSStyleDeclaration
+	* 	interface. Setting an attribute of this interface is equivalent to
+	* 	calling the setProperty method of the CSSStyleDeclaration interface.
+	* 
+	*	@see http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
+	*/
 	public interface CSS2Properties
 	{
 		/*

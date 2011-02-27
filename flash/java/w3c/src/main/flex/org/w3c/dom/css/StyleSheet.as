@@ -13,6 +13,8 @@ package org.w3c.dom.css
 	* 	element. In XML, this interface represents an
 	* 	external style sheet, included via a style sheet
 	* 	processing instruction.
+	* 
+	* 	@see http://www.w3.org/TR/DOM-Level-2-Style/stylesheets.html
 	*/
 	public interface StyleSheet
 	{

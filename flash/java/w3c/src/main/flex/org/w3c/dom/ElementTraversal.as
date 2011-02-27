@@ -30,6 +30,8 @@ package org.w3c.dom
 	* 	The ElementTraversal interface has a similar attribute, childElementCount,
 	* 	that reports only the number of Element nodes, which is often what
 	* 	is desired for such operations.
+	* 
+	* 	@see http://www.w3.org/TR/2008/REC-ElementTraversal-20081222/index.html
 	*/
 	public interface ElementTraversal
 	{

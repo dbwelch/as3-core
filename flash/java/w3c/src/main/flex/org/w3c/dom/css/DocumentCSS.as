@@ -1,9 +1,12 @@
 package org.w3c.dom.css
 {
-
-	public interface DocumentCSS
+	
+	/**
+	* 
+	*	@see http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
+	*/
+	public interface DocumentCSS extends DocumentStyle
 	{
-		
 		/*
 		
 		Interface DocumentCSS (introduced in DOM Level 2)

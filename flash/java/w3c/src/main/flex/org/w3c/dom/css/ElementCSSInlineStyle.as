@@ -1,6 +1,10 @@
 package org.w3c.dom.css
 {
-
+	
+	/**
+	* 
+	*	@see http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
+	*/
 	public interface ElementCSSInlineStyle
 	{
 		/*

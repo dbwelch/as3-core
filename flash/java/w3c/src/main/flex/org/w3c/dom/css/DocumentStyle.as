@@ -8,6 +8,8 @@ package org.w3c.dom.css
 	* 	The expectation is that an instance of the DocumentStyle
 	* 	interface can be obtained by using binding-specific casting
 	* 	methods on an instance of the Document interface.
+	* 
+	* 	@see http://www.w3.org/TR/DOM-Level-2-Style/stylesheets.html
 	*/
 	public interface DocumentStyle
 	{
