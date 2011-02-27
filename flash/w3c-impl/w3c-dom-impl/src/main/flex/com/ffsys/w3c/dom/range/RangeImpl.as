@@ -10,7 +10,12 @@ package com.ffsys.w3c.dom.range
 	*/
 	public class RangeImpl extends AbstractNodeProxyImpl
 		implements Range
-	{	
+	{
+		/**
+		* 	A bean name for this range implementation.
+		*/
+		public static const NAME:String = "dom-range-impl";
+			
 		private var _startContainer:Node;
 		private var _endContainer:Node;
 		private var _commonAncestorContainer:Node;

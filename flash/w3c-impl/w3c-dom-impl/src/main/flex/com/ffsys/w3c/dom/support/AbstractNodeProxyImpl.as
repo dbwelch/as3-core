@@ -247,21 +247,21 @@ package com.ffsys.w3c.dom.support
 		}
 		
 		/**
-		*	@inheritDoc 
+		*	@private
 		*/
-		public function getClassPath( target:Object = null ):String
+		protected function getClassPath( target:Object = null ):String
 		{
 			var t:T = T.getInstance( this );
 			return t.path;
 		}
 		
 		/**
-		*	@inheritDoc 
+		*	@private 
 		*/
-		public function getClassName( target:Object = null ):String
+		protected function getClassName( target:Object = null ):String
 		{
 			var t:T = T.getInstance( this );
-			return t.name;			
+			return t.name;
 		}
 		
 		/**

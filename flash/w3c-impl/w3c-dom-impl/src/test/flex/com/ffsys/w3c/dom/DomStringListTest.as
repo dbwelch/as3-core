@@ -42,6 +42,30 @@ package com.ffsys.w3c.dom
 			Assert.assertEquals( "a", list[ 0 ] );
 			Assert.assertEquals( "b", list[ 1 ] );
 			Assert.assertEquals( "c", list[ 2 ] );
+			
+			var c:uint = 0;
+			
+			//verify key indices iteration
+			var k:String = null;
+			for( k in list )
+			{
+				Assert.assertNotNull( k );
+				Assert.assertTrue( uint( k ) is uint );
+				c++;
+			}
+			
+			Assert.assertEquals( 3, c );
+			
+			//verify value iteration			
+			c = 0;
+			for each( k in list )
+			{
+				Assert.assertNotNull( k );
+				Assert.assertTrue( list.contains( k ) );
+				c++;
+			}
+			
+			Assert.assertEquals( 3, c );
 		}
 	}
 }

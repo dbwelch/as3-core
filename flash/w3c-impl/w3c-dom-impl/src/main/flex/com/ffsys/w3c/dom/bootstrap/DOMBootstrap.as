@@ -21,6 +21,8 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.range.RangeImpl;
 	
 	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;
+	import com.ffsys.w3c.dom.traversal.NodeIteratorImpl;
+	import com.ffsys.w3c.dom.traversal.TreeWalkerImpl;
 	
 	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;
 	import com.ffsys.w3c.dom.xml.XMLDOMImplementationImpl;
@@ -89,11 +91,6 @@ package com.ffsys.w3c.dom.bootstrap
 		* 	The bean name for an HTML document.
 		*/
 		public static const HTML_DOCUMENT:String = "dom-html-doc";
-		
-		/**
-		* 	A bean name for a range implementation.
-		*/
-		public static const RANGE_IMPL:String = "range-impl";
 			
 		/**
 		* 	Creates a <code>DOMBootstrap</code> instance.
@@ -349,7 +346,7 @@ package com.ffsys.w3c.dom.bootstrap
 			impls.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
-				RANGE_IMPL );
+				RangeImpl.NAME );
 			descriptor.instanceClass = RangeImpl;
 			impls.addBeanDescriptor( descriptor );
 			
@@ -357,7 +354,17 @@ package com.ffsys.w3c.dom.bootstrap
 				DOMFeature.TRAVERSAL_MODULE );
 			descriptor.instanceClass = DocumentTraversalImpl;
 			descriptor.singleton = true;
-			impls.addBeanDescriptor( descriptor );			
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				NodeIteratorImpl.NAME );
+			descriptor.instanceClass = NodeIteratorImpl;
+			impls.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				TreeWalkerImpl.NAME );
+			descriptor.instanceClass = TreeWalkerImpl;
+			impls.addBeanDescriptor( descriptor );							
 		}
 
 		/**

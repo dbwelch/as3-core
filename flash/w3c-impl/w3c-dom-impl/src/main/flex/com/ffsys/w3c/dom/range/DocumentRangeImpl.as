@@ -29,7 +29,7 @@ package com.ffsys.w3c.dom.range
 			try
 			{
 				bean = this.document.getBean(
-					DOMBootstrap.RANGE_IMPL );
+					RangeImpl.NAME );
 			}catch( e:Error )
 			{
 				//no bean document assigned most likely

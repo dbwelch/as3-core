@@ -71,5 +71,21 @@ package com.ffsys.w3c.dom
 		{
 			return list.length;
 		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function getNextName( index:int ):String
+		{
+			return ( index + 1 ).toString();
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function getNextValue( index:int ):*
+		{
+			return list[ index - 1 ];
+		}
 	}
 }

@@ -8,10 +8,10 @@ package com.ffsys.w3c.dom.traversal
 	import com.ffsys.w3c.dom.AbstractDomUnit;
 	
 	import org.w3c.dom.*;
-	import org.w3c.dom.traversal.DocumentTraversal;
+	import org.w3c.dom.traversal.*;
 	
 	/**
-	*	Unit tests for creating DOM traversal iterators/walkers.
+	*	Unit tests for instantiating DOM traversal iterators/walkers.
 	*/ 
 	public class DocumentTraversalCreationTest extends AbstractDomUnit
 	{
@@ -40,15 +40,29 @@ package com.ffsys.w3c.dom.traversal
 		}
 		
 		[Test]
-		public function testCreateRange():void
+		public function testCreateIterator():void
 		{
+			//first check by extracting an implementation for the "Traversal 3.0" feature
 			var docTraversal:DocumentTraversal = getDocumentTraversal();
+			var iterator:NodeIterator = docTraversal.createNodeIterator(
+				null, 0, null, false );			
+				
+			Assert.assertNotNull( iterator );
 			
-			/*
-			var range:Range = docTraversal.createRange();
-			Assert.assertNotNull( range );
-			Assert.assertTrue( range is RangeImpl );
-			*/
+			//we should also be able to operate on the XML document
+			//implementation
+			var doc:Document = getXMLDocument();
+			iterator = DocumentTraversal( doc ).createNodeIterator(
+				null, 0, null, false );
+				
+			Assert.assertNotNull( iterator );
+			
+			//and an HTML document implementation
+			doc = getHTMLDocument();
+			iterator = DocumentTraversal( doc ).createNodeIterator(
+				null, 0, null, false );
+				
+			Assert.assertNotNull( iterator );
 		}
 	}
 }

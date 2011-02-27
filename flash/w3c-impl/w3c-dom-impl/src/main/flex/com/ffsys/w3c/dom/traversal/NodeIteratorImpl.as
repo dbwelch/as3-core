@@ -21,7 +21,12 @@ package com.ffsys.w3c.dom.traversal
 	*/
 	public class NodeIteratorImpl extends Object
 		implements NodeIterator
-	{	
+	{
+		/**
+		* 	A bean name for this node iterator implementation.
+		*/
+		public static const NAME:String = "dom-node-iterator-impl";
+			
 	    private var fDocument:DocumentImpl;
 	    private var fRoot:Node;
 	    private var fWhatToShow:uint = NodeFilterImpl.SHOW_ALL;
