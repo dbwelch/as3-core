@@ -1,8 +1,5 @@
 package com.ffsys.w3c.dom
 {
-	import flash.events.*;
-	import flash.net.*;
-	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
