@@ -18,7 +18,7 @@ package org.w3c.dom.css
 	{
 		
 		/**
-		* 
+		* 	
 		*/
 		function get type():uint;
 		
@@ -28,8 +28,14 @@ package org.w3c.dom.css
 		function get cssText():String;
 		function set cssText( text:String ):void;
 		
+		/**
+		* 
+		*/
 		function get parentStyleSheet():CSSStyleSheet;
 		
+		/**
+		* 	
+		*/
 		function get parentRule():CSSRule;
 		
 		/*
