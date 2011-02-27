@@ -24,7 +24,7 @@ package com.ffsys.w3c.dom
 			var node:Node = null;
 			for each( node in this )
 			{
-				if( node.localName == name )
+				if( node.nodeName == name )
 				{
 					return node;
 				}
@@ -94,7 +94,7 @@ package com.ffsys.w3c.dom
 				for( var i:int = 0;i < length;i++ )
 				{
 					child = item( i );
-					if( child.localName == name )
+					if( child.nodeName == name )
 					{
 						children.splice( i, 1 );
 						return child;
