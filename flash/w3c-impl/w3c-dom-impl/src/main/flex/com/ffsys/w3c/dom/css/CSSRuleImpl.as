@@ -3,12 +3,10 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSStyleSheet;
 	
-	import com.ffsys.w3c.dom.ElementImpl;
-	
 	/**
 	* 	Abstract super class for CSS rules.
 	*/
-	public class CSSRuleImpl extends ElementImpl
+	public class CSSRuleImpl extends AbstractCSSDOMElement
 		implements CSSRule
 	{
 		/**

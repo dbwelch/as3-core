@@ -1,8 +1,10 @@
 package com.ffsys.w3c.dom.css
 {
+	import org.w3c.dom.Node;
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSRuleList;
 	import org.w3c.dom.css.CSSStyleSheet;
+	import org.w3c.dom.css.StyleSheet;	
 		
 	/**
 	* 	Represents a CSS style sheet.
@@ -15,10 +17,15 @@ package com.ffsys.w3c.dom.css
 				
 		/**
 		* 	Creates a <code>CSSStyleSheetImpl</code> instance.
+		* 
+		* 	@param parent A parent style sheet implementation.
+		* 	@param owner The node that owns this style sheet.
 		*/
-		public function CSSStyleSheetImpl()
+		public function CSSStyleSheetImpl(
+			parent:StyleSheet = null,
+			owner:Node = null )
 		{
-			super();
+			super( parent, owner );
 		}
 		
 		/**

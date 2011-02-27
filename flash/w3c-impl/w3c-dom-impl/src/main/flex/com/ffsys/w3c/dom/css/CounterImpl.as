@@ -2,12 +2,10 @@ package com.ffsys.w3c.dom.css
 {
 	import org.w3c.dom.css.Counter;
 	
-	import com.ffsys.w3c.dom.ElementImpl;
-	
 	/**
 	* 	A counter implementation.
 	*/
-	public class CounterImpl extends ElementImpl
+	public class CounterImpl extends Object
 		implements Counter
 	{
 		private var _identifier:String;
