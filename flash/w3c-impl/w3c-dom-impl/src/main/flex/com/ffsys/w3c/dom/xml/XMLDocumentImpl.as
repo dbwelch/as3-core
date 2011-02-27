@@ -3,10 +3,9 @@ package com.ffsys.w3c.dom.xml
 	import org.w3c.dom.Element;
 	import org.w3c.dom.NodeList;
 	
-	import com.ffsys.w3c.dom.CoreDocumentImpl;
+	import com.ffsys.w3c.dom.DocumentImpl;
 	
-	
-	public class XMLDocumentImpl extends CoreDocumentImpl
+	public class XMLDocumentImpl extends DocumentImpl
 	{	
 		/**
 		* 	Creates an <code>XMLDocumentImpl</code> instance.
