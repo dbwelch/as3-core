@@ -2,6 +2,15 @@ package org.w3c.dom.css
 {
 	
 	/**
+	* 	The CSSRule interface is the abstract base
+	* 	interface for any type of CSS statement.
+	* 
+	* 	This includes both rule sets and at-rules.
+	* 	An implementation is expected to preserve all
+	* 	rules specified in a CSS style sheet, even if
+	* 	the rule is not recognized by the parser.
+	* 	Unrecognized rules are represented using the
+	* 	CSSUnknownRule interface.
 	* 
 	*	@see http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
 	*/
