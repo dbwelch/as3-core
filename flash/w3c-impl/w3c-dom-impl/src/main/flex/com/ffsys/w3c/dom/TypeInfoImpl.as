@@ -3,7 +3,7 @@ package com.ffsys.w3c.dom
 	import org.w3c.dom.*;	
 	
 	/**
-	* 	TODO
+	* 	A concrete information of the TypeInfo contract.
 	*/
 	public class TypeInfoImpl extends Object
 		implements TypeInfo

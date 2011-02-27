@@ -2,7 +2,8 @@ package com.ffsys.w3c.dom
 {
 	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;
 	import org.w3c.dom.*;	
-
+	
+	
 	dynamic public class NameListImpl extends AbstractNodeProxyImpl
 		implements NameList
 	{

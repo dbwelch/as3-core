@@ -22,8 +22,6 @@ package com.ffsys.w3c.dom.traversal
 	public class NodeIteratorImpl extends Object
 		implements NodeIterator
 	{	
-		
-		
 	    private var fDocument:DocumentImpl;
 	    private var fRoot:Node;
 	    private var fWhatToShow:uint = NodeFilterImpl.SHOW_ALL;
