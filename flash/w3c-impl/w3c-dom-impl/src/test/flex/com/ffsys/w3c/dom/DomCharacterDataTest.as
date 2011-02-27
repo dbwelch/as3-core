@@ -29,7 +29,6 @@ package com.ffsys.w3c.dom
 			var doc:Document = getXMLDocument();
 			var cdata:CDATASection = doc.createCDATASection( "ac" );
 			Assert.assertNotNull( cdata );
-			Assert.assertEquals( "ac", cdata.data );
 			assertCharacterDataManipulation( cdata );
 		}
 		
@@ -39,7 +38,6 @@ package com.ffsys.w3c.dom
 			var doc:Document = getXMLDocument();
 			var comment:Comment = doc.createComment( "ac" );
 			Assert.assertNotNull( comment );
-			Assert.assertEquals( "ac", comment.data );
 			assertCharacterDataManipulation( comment );			
 		}
 		
@@ -49,14 +47,58 @@ package com.ffsys.w3c.dom
 			var doc:Document = getXMLDocument();
 			var txt:Text = doc.createTextNode( "ac" );
 			Assert.assertNotNull( txt );
-			Assert.assertEquals( "ac", txt.data );
 			assertCharacterDataManipulation( txt );
 		}
 		
 		private function assertCharacterDataManipulation(
 			charData:CharacterData ):void
 		{
-			//TODO
+			Assert.assertEquals( "ac", charData.data );
+			
+			//insert a "b"
+			charData.insertData( 1, "b" );
+			Assert.assertEquals( 3, charData.length );
+			
+			//delete the "c"
+			charData.deleteData( 2, 1 );
+			Assert.assertEquals( 2, charData.length );
+			
+			//append the "c" back on
+			charData.appendData( "c" );
+			Assert.assertEquals( 3, charData.length );
+			
+			//replace "ab" with "i"
+			charData.replaceData( 0, 2, "i" );
+			Assert.assertEquals( 2, charData.length );
+
+			//now should be "icu"
+			charData.appendData( "u" );
+			Assert.assertEquals( 3, charData.length );
+			Assert.assertEquals( "icu", charData.data );
+			
+			//iterate over each character
+			var c:uint = 0;
+			var char:String = null;
+			for( char in charData )
+			{
+				Assert.assertEquals(
+					charData.substringData( c, 1 ), char );
+				c++;
+			}
+			
+			Assert.assertEquals( c, charData.length );
+			
+			//iterate over the 16-bit unicode code points
+			c = 0;
+			var code:uint = NaN;
+			for each( code in charData )
+			{
+				Assert.assertEquals(
+					charData.substringData( c, 1 ), String.fromCharCode( code ) );
+				c++;
+			}
+			
+			Assert.assertEquals( c, charData.length );
 		}
 	}
 }
