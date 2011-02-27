@@ -13,38 +13,8 @@ package org.w3c.dom
 	* 	behaviors regarding the data it associates
 	* 	to the DOM nodes. This interface defines that handler.
 	*/
-	public class UserDataHandler
-	{
-		/**
-		*	The node is cloned, using Node.cloneNode().
-		*/
-		public static const NODE_CLONED:Number = 1;
-		
-		/**
-		* 	The node is imported, using Document.importNode().
-		*/
-		public static const NODE_IMPORTED:Number = 2;
-		
-		/**
-		* 	The node is deleted.
-		* 
-		*	Note: This may not be supported or may not be
-		* 	reliable in certain environments, such as Java,
-		* 	where the implementation has no real control
-		* 	over when objects are actually deleted.
-		*/
-		public static const NODE_DELETED:Number = 3;			
-		
-		/**
-		* 	The node is renamed, using Document.renameNode().
-		*/
-		public static const NODE_RENAMED:Number = 4;
-		
-		/**
-		* 	The node is adopted, using Document.adoptNode().
-		*/
-		public static const NODE_ADOPTED:Number = 5;
-		
+	public interface UserDataHandler
+	{		
 		/**
 		* 	Handles a user data operation.
 		* 
@@ -65,14 +35,11 @@ package org.w3c.dom
 		* 	or renamed. This is null when the node is being deleted.
 		* 	@param dst Specifies the node newly created if any, or null.
 		*/
-		public function handle(
+		function handle(
 			operation:Number,
 			key:String, 
 			data:*,
 			src:Node,
-			dst:Node ):void
-		{
-			//
-		}
+			dst:Node ):void;
 	}
 }

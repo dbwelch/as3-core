@@ -9,7 +9,7 @@ package org.w3c.dom
 	* 	or when doing some other processing (e.g. validating a document).</p>
 	* 
 	* 	<p>A !DOMErrorHandler object can be attached to a
-	* 	Document using the "error-handler" on th
+	* 	Document using the "error-handler" on the
 	* 	DOMConfiguration interface. If more than one error
 	* 	needs to be reported during an operation,
 	* 	the sequence and numbers of the errors passed

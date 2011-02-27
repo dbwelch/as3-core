@@ -1,5 +1,6 @@
 package org.w3c.dom.traversal
 {
+	import org.w3c.dom.Node;
 	
 	/**
 	*	Describes the contract for implementations
