@@ -1,11 +1,14 @@
 package com.ffsys.w3c.dom.css
 {
+	import org.w3c.dom.css.CSSStyleSheet;
 	import org.w3c.dom.css.DOMImplementationCSS;
 	
+	import com.ffsys.w3c.dom.DOMImplementationImpl;
+	
 	/**
-	* 	
+	* 	Represents a CSS DOM implementation.
 	*/
-	public class DOMImplementationCSSImpl extends Object
+	public class DOMImplementationCSSImpl extends DOMImplementationImpl
 		implements DOMImplementationCSS
 	{
 		/**
@@ -14,6 +17,16 @@ package com.ffsys.w3c.dom.css
 		public function DOMImplementationCSSImpl()
 		{
 			super();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function createCSSStyleSheet(
+			title:String, media:String ):CSSStyleSheet
+		{
+			//TODO
+			return null;
 		}
 	}
 }

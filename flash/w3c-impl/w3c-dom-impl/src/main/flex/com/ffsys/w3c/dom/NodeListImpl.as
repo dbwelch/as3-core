@@ -9,8 +9,6 @@ package com.ffsys.w3c.dom
 	dynamic public class NodeListImpl extends AbstractListImpl
 		implements NodeList
 	{
-		private var _children:Vector.<Node>;
-		
 		/**
 		* 	Creates a <code>NodeListImpl</code> instance.
 		* 
@@ -30,7 +28,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function item( index:uint ):Node
 		{
-			return children[ index ];
+			return _children[ index ];
 		}
 	}
 }

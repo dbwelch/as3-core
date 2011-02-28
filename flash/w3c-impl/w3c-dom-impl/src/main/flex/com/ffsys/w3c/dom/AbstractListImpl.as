@@ -20,7 +20,10 @@ package com.ffsys.w3c.dom
 	*/
 	dynamic public class AbstractListImpl extends AbstractNodeProxyImpl
 	{
-		private var _children:Vector.<Node>;
+		/**
+		* 	@private
+		*/
+		protected var _children:Vector.<Node>;
 		
 		/**
 		* 	Creates a <code>AbstractListImpl</code> instance.

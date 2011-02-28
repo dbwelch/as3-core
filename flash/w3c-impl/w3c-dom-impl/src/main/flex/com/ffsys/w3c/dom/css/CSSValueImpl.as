@@ -11,30 +11,11 @@ package com.ffsys.w3c.dom.css
 		implements CSSValue
 	{
 		/**
-		* 	The value is inherited and the cssText contains "inherit".
+		* 	@private
 		*/
-		public static const CSS_INHERIT:uint                    = 0;
+		protected var __cssValueType:uint;
 		
-		/**
-		* 	The value is a primitive value and an instance of the
-		* 	CSSPrimitiveValue interface can be obtained by using
-		* 	binding-specific casting methods on this instance of
-		* 	the CSSValue interface.
-		*/
-		public static const CSS_PRIMITIVE_VALUE:uint            = 1;
-		
-		/**
-		* 	The value is a CSSValue list and an instance of the
-		* 	CSSValueList interface can be obtained by using
-		* 	binding-specific casting methods on this instance
-		* 	of the CSSValue interface.
-		*/
-		public static const CSS_VALUE_LIST:uint                 = 2;
-		
-		/**
-		* 	The value is a custom value.
-		*/
-		public static const CSS_CUSTOM:uint                     = 3;		
+		private var _cssText:String;
 		
 		/**
 		* 	Creates a <code>CSSValueImpl</code> instance.
@@ -42,6 +23,27 @@ package com.ffsys.w3c.dom.css
 		public function CSSValueImpl()
 		{
 			super();
-		}	
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get cssText():String
+		{
+			return _cssText;
+		}
+		
+		public function set cssText( text:String ):void
+		{
+			_cssText = text;
+		}
+		
+		/**
+		* 	A code defining the type of the value.
+		*/
+		public function get cssValueType():uint
+		{
+			return __cssValueType;
+		}		
 	}
 }

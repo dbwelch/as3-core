@@ -22,7 +22,7 @@ package com.ffsys.w3c.dom
 	*	@since  09.01.2011
 	*/
 	dynamic public class NodeImpl extends AbstractNodeProxyImpl
-		implements Node, NodeList, EventTarget, Cloneable, Serializable
+		implements Node, EventTarget, Cloneable, Serializable
 	{
 		/**
 		* 	@private
@@ -293,14 +293,6 @@ package com.ffsys.w3c.dom
 		override public function get length():uint
 		{
 			return childNodes.length;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function item( index:uint ):Node
-		{
-			return childNodes.item( index );
 		}
 		
 		/**
