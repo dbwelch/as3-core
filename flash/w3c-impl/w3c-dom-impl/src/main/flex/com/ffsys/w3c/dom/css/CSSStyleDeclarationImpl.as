@@ -2,10 +2,12 @@ package com.ffsys.w3c.dom.css
 {
 	import org.w3c.dom.css.CSSStyleDeclaration;
 	
+	import com.ffsys.w3c.dom.ElementImpl;
+	
 	/**
 	* 	Represents a CSS style declaration.
 	*/
-	public class CSSStyleDeclarationImpl extends AbstractCSSDOMElement
+	public class CSSStyleDeclarationImpl extends ElementImpl
 		implements CSSStyleDeclaration
 	{
 		/**
