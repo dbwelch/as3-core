@@ -38,7 +38,7 @@ package com.ffsys.w3c.dom.ls.serialize
 			var impl:DOMImplementation =
 				getRegistry().getDOMImplementation(
 					DOMFeature.LS_ASYNC_MODULE );
-			assertOnLsImplementation( impl );				
+			assertOnLsImplementation( impl );		
 		}
 		
 		[Test]
@@ -61,6 +61,9 @@ package com.ffsys.w3c.dom.ls.serialize
 		private function assertOnLsImplementation( impl:DOMImplementation ):void
 		{
 			Assert.assertNotNull( impl );
+			
+			trace("[GOT DOM LS IMPLEMENTATION VALUE] DomSerializeTest::assertOnLsImplementation()", impl );
+			
 			Assert.assertTrue( impl is DOMImplementationLS );
 			
 			//verify input/output creation			

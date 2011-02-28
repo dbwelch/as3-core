@@ -6,8 +6,9 @@ package com.ffsys.w3c.dom.bootstrap
 	
 	import com.ffsys.w3c.dom.DOMFeature;
 	
+	import com.ffsys.w3c.dom.events.DocumentEventImpl;	
 	import com.ffsys.w3c.dom.events.FocusEventImpl;
-	import com.ffsys.w3c.dom.events.UIEventImpl;	
+	import com.ffsys.w3c.dom.events.UIEventImpl;
 	
 	import com.ffsys.w3c.dom.html.HTMLDocumentImpl;
 	import com.ffsys.w3c.dom.html.HTMLDOMImplementationImpl;
@@ -17,13 +18,10 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.html.HTMLBodyElementImpl;
 	import com.ffsys.w3c.dom.html.HTMLTitleElementImpl;
 	
-	//
-	import com.ffsys.w3c.dom.events.DocumentEventImpl;
-	
 	/**
 	* 	A boostrap document for the DOM HTML implementation.
 	*/
-	public class DOMHTMLBootstrap extends DOMCoreBootstrap
+	public class DOMHTMLBootstrap extends DOMLSAsyncBootstrap
 	{
 		/**
 		* 	The name for the <code>DOM</code> HTML implementation bean document.
@@ -53,7 +51,6 @@ package com.ffsys.w3c.dom.bootstrap
 			super.doWithBeans( beans );			
 			
 			var descriptor:IBeanDescriptor = null;
-			
 			descriptor = new BeanDescriptor(
 				HTMLDOMImplementationImpl.NAME );
 			descriptor.instanceClass = HTMLDOMImplementationImpl;
@@ -63,26 +60,6 @@ package com.ffsys.w3c.dom.bootstrap
 				HTMLDocumentImpl.NAME );
 			descriptor.instanceClass = HTMLDocumentImpl;
 			beans.addBeanDescriptor( descriptor );
-			
-			addLoadSaveImplementations( beans );					
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.EVENTS_MODULE );
-			descriptor.instanceClass = DocumentEventImpl;
-			descriptor.singleton = true;
-			descriptor.names = new Vector.<String>();
-			addCommonEventAliases( descriptor.names );	
-			
-			descriptor.names.push( DOMFeature.UI_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.MOUSE_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.TEXT_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.KEYBOARD_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.WHEEL_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.COMPOSITION_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
-			beans.addBeanDescriptor( descriptor );
-			
-			addCommonEvents( beans );
 			
 			//DOM UI Event
 			descriptor = new BeanDescriptor(
@@ -94,12 +71,36 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor = new BeanDescriptor(
 				DocumentEventImpl.FOCUS_EVENT_INTERFACE );
 			descriptor.instanceClass = FocusEventImpl;
-			beans.addBeanDescriptor( descriptor );
-
-			addCommonFeatures( beans );
+			beans.addBeanDescriptor( descriptor );			
 			
 			addHTMLElements( beans );		
 		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function getSupportedFeatures():Vector.<DOMFeature>
+		{
+			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
+			output.push( DOMFeature.HTML_FEATURE );
+			output.push( DOMFeature.HTML_3_FEATURE );
+			return output;
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function addCommonEventAliases( names:Vector.<String> ):void
+		{
+			super.addCommonEventAliases( names );
+			names.push( DOMFeature.UI_EVENTS_MODULE );
+			names.push( DOMFeature.MOUSE_EVENTS_MODULE );
+			names.push( DOMFeature.TEXT_EVENTS_MODULE );
+			names.push( DOMFeature.KEYBOARD_EVENTS_MODULE );
+			names.push( DOMFeature.WHEEL_EVENTS_MODULE );
+			names.push( DOMFeature.COMPOSITION_EVENTS_MODULE );
+			names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
+		}		
 		
 		/**
 		* 	@private

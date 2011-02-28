@@ -10,21 +10,12 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.events.MutationEventImpl;
 	import com.ffsys.w3c.dom.events.UIEventImpl;
 	
-	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
-	import com.ffsys.w3c.dom.ls.LSInputImpl;
-	import com.ffsys.w3c.dom.ls.LSOutputImpl;
-	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
-	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;
-		
-	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
-	import com.ffsys.w3c.dom.range.RangeImpl;
-	
-	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;
-	import com.ffsys.w3c.dom.traversal.NodeIteratorImpl;
-	import com.ffsys.w3c.dom.traversal.TreeWalkerImpl;
-	
 	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;
 	import com.ffsys.w3c.dom.xml.XMLDOMImplementationImpl;
+	
+	import org.w3c.dom.DOMImplementation;
+	import org.w3c.dom.DOMImplementationList;
+	import org.w3c.dom.DOMImplementationSource;
 
 	/**
 	*	A bean document used to implementations
@@ -39,31 +30,12 @@ package com.ffsys.w3c.dom.bootstrap
 	* 	@todo Ensure that shared bean descriptors are the same instance.
 	*/
 	public class DOMBootstrap extends BeanDocument
+		implements DOMImplementationSource
 	{
 		/**
 		* 	The name for a <code>DOM</code> bootstrap bean document.
 		*/
 		public static const NAME:String = "dom-bootstrap";
-		
-		/**
-		* 	The name for the <code>DOM</code> implementation bean document.
-		*/
-		public static const DOM_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;
-		
-		/**
-		* 	The name for the <code>DOM</code> HTML implementation bean document.
-		*/
-		public static const HTML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.HTML_MODULE;
-		
-		/**
-		* 	The name for the <code>DOM</code> LS implementation bean document.
-		*/
-		public static const LS_IMPLEMENTATION_DOC_NAME:String = DOMFeature.LS_MODULE;
-		
-		/**
-		* 	The name for the <code>DOM</code> LS Async implementation bean document.
-		*/
-		public static const LS_ASYNC_IMPLEMENTATION_DOC_NAME:String = DOMFeature.LS_ASYNC_MODULE;
 			
 		/**
 		* 	Creates a <code>DOMBootstrap</code> instance.
@@ -86,13 +58,151 @@ package com.ffsys.w3c.dom.bootstrap
 			beans:IBeanDocument ):void
 		{
 			addImplementationRegistry( beans );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getDOMImplementation(
+			features:String ):DOMImplementation
+		{
+			if( features == null )
+			{
+				return null;
+			}
+			var list:DOMImplementationList = getDOMImplementationList( features );
+			if( list != null && list.length > 0 )
+			{
+				return list[ 0 ];
+			}
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getDOMImplementationList(
+			features:String ):DOMImplementationList
+		{
+			var list:DOMImplementationListImpl = DOMImplementationListImpl(
+				getBean(
+					DOMImplementationListImpl.NAME ) );
+				
+			var specified:Vector.<DOMFeature> = getSpecifiedFeatures( features );
+			getDOMImplementationFromFeatures( list, specified );
+			return list;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function getDOMImplementationFromFeatures(
+			list:DOMImplementationListImpl,
+			specified:Vector.<DOMFeature> ):DOMImplementation
+		{
+			//TODO: look in xrefs for alternative
+			//(potentially more lightweight) implementations			
 			
-			//add the implementations as an xref
-			xrefs.push( new DOMXMLBootstrap() );
-			xrefs.push( new DOMHTMLBootstrap() );
+			var supported:Vector.<String> = getFeatures();	
+			var ft:DOMFeature = null;
 			
-			xrefs.push( getLSFeatureDocument() );
-			xrefs.push( getLSAsyncFeatureDocument() );
+			var valid:Boolean = false;
+			for( var i:int = 0;i < specified.length;i++ )
+			{
+				ft = specified[ i ];
+				valid = supported.indexOf( ft.toString() ) > -1;
+				if( !valid )
+				{
+					break;
+				}
+			}
+			
+			//all matched so add the implementation
+			if( i == specified.length )
+			{
+				//list.implementations.push( );
+			}
+			return null;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Converts a candidate string into a list
+		* 	of candidate features to test for support.
+		* 
+		* 	@param features The raw feature string.
+		* 
+		* 	@return A list of candidate feature implementations.
+		*/
+		protected function getSpecifiedFeatures( features:String ):Vector.<DOMFeature>
+		{
+			var nm:String =  null;
+			var parts:Array = features.split(
+				DOMFeature.DELIMITER );			
+			
+			//represent the string as a list of features
+			var specified:Vector.<DOMFeature> = new Vector.<DOMFeature>();
+			var ft:DOMFeature = null;
+			for( var i:uint = 0;i < parts.length;i++ )
+			{
+				nm = parts[ i ];
+				//got alpha-numeric character
+				if( DOMFeature.MODULE_EXPRESSION.test( nm ) )
+				{
+					ft = new DOMFeature( nm );
+					specified.push( ft );
+				}else if(
+					ft != null
+					&& DOMFeature.VERSION_EXPRESSION.test( nm ) )
+				{
+					ft.version = nm;
+				}
+			}
+			return specified;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Builds a list of all features supported by this
+		* 	DOM implementation context.
+		* 
+		* 	Derived implementations <strong>must</strong> modify
+		* 	the output of this method to indicate the exact
+		* 	features supported by this implementation source.
+		* 
+		* 	@return A list of features supported by this
+		* 	implementation source.
+		*/
+		protected function getSupportedFeatures():Vector.<DOMFeature>
+		{
+			var output:Vector.<DOMFeature> = new Vector.<DOMFeature>();
+			return output;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Builds a list of all feature names supported by this
+		* 	DOM implementation context.
+		* 
+		* 	@return A list of feature names supported by this
+		* 	implementation source.
+		*/
+		protected function getFeatures():Vector.<String>
+		{
+			var features:Vector.<String> = new Vector.<String>();
+			var supported:Vector.<DOMFeature> = getSupportedFeatures();
+			for( var i:int = 0;i < supported.length;i++ )
+			{
+				//derived implementations should never add
+				//a null supported feature, if they do so it is a programming
+				//error and will be caught as a null pointer exception
+				//on this toString() call
+				features.push( supported[ i ].toString() );
+			}
+			return features;
 		}
 		
 		/**
@@ -101,90 +211,11 @@ package com.ffsys.w3c.dom.bootstrap
 		protected function addImplementationRegistry( beans:IBeanDocument ):void
 		{
 			//CORE DOM IMPLEMENTATION ACCESS ELEMENTS
-			var descriptor:IBeanDescriptor = new BeanDescriptor(
-				DOMImplementationRegistry.NAME );
-			descriptor.instanceClass = DOMImplementationRegistry;
-			descriptor.singleton = true;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DOMImplementationSourceImpl.NAME );
-			descriptor.instanceClass = DOMImplementationSourceImpl;
-			descriptor.singleton = true;
-			beans.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor( 
+			var descriptor:IBeanDescriptor = new BeanDescriptor( 
 			 	DOMImplementationListImpl.NAME );
 			descriptor.instanceClass = DOMImplementationListImpl;
 			descriptor.singleton = true;
-			beans.addBeanDescriptor( descriptor );			
-		}
-		
-		/**
-		* 	@private
-		*/
-		protected function getLSFeatureDocument():IBeanDocument
-		{
-			var descriptor:IBeanDescriptor = null;
-			
-			var ls:IBeanDocument = new BeanDocument(
-				LS_IMPLEMENTATION_DOC_NAME );
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.LS_MODULE );
-			descriptor.instanceClass = DOMImplementationLSImpl;
-			descriptor.singleton = true;
-			ls.addBeanDescriptor( descriptor );
-			
-			addLoadSaveImplementations( ls );
-			
-			return ls;			
-		}
-		
-		/**
-		* 	@private
-		*/
-		protected function getLSAsyncFeatureDocument():IBeanDocument
-		{
-			var descriptor:IBeanDescriptor = null;
-			
-			var lsAsync:IBeanDocument = new BeanDocument(
-				LS_ASYNC_IMPLEMENTATION_DOC_NAME );
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.LS_ASYNC_MODULE );
-			descriptor.instanceClass = DOMImplementationLSImpl;
-			descriptor.singleton = true;
-			lsAsync.addBeanDescriptor( descriptor );
-			
-			addLoadSaveImplementations( lsAsync );
-			
-			return lsAsync;			
-		}
-		
-		protected function addLoadSaveImplementations( impls:IBeanDocument ):void
-		{
-			var descriptor:IBeanDescriptor = null;
-			
-			descriptor = new BeanDescriptor(
-				LSInputImpl.NAME );
-			descriptor.instanceClass = LSInputImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				LSOutputImpl.NAME );
-			descriptor.instanceClass = LSOutputImpl;
-			impls.addBeanDescriptor( descriptor );	
-			
-			descriptor = new BeanDescriptor(
-				DOMSerializerImpl.NAME );
-			descriptor.instanceClass = DOMSerializerImpl;
-			impls.addBeanDescriptor( descriptor );		
-			
-			descriptor = new BeanDescriptor(
-				DOMParserImpl.NAME );
-			descriptor.instanceClass = DOMParserImpl;
-			impls.addBeanDescriptor( descriptor );
+			beans.addBeanDescriptor( descriptor );
 		}
 	}
 }

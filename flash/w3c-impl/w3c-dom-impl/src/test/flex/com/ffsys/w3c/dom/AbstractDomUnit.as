@@ -62,7 +62,7 @@ package com.ffsys.w3c.dom
 			var impl:DOMImplementation = registry.getDOMImplementation(
 				DOMFeature.XML_MODULE
 				+ " " + DOMFeature.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
-			Assert.assertNotNull( impl );			
+			Assert.assertNotNull( impl );
 			return impl;
 		}
 		

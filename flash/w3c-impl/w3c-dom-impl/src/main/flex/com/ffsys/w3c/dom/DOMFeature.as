@@ -7,6 +7,30 @@ package com.ffsys.w3c.dom
 	public class DOMFeature extends Object
 	{
 		/**
+		* 	The delimiter between a feature name
+		* 	and a version number -- a single space character.
+		*/
+		public static const DELIMITER:String = " ";
+		
+		/**
+		* 	The expression used to determine if a candidate
+		* 	feature part is a module.
+		*/
+		public static const MODULE_EXPRESSION:RegExp = /[a-zA-Z]+/;
+		
+		/**
+		* 	The expression used to determine if a candidate
+		* 	feature part is a version number.
+		*/
+		public static const VERSION_EXPRESSION:RegExp = /^([0-9]+)?\.?([0-9]+)/;
+		
+		/**
+		* 	The optional character that may appear
+		* 	at the beginning of a feature name.
+		*/
+		public static const PLUS:String = "+";
+		
+		/**
 		* 	Represents the core module.
 		*/
 		public static const CORE_MODULE:String = "Core";
@@ -126,13 +150,27 @@ package com.ffsys.w3c.dom
 		* 	the DOM Core feature.
 		*/
 		public static const CORE_FEATURE:DOMFeature =
+			new DOMFeature( CORE_MODULE );
+
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Core level 3.0 feature.
+		*/
+		public static const CORE_3_FEATURE:DOMFeature =
 			new DOMFeature( CORE_MODULE, LEVEL_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Core feature.
+		* 	the DOM XML feature.
 		*/
 		public static const XML_FEATURE:DOMFeature =
+			new DOMFeature( XML_MODULE );			
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM XML level 3.0 feature.
+		*/
+		public static const XML_3_FEATURE:DOMFeature =
 			new DOMFeature( XML_MODULE, LEVEL_3 );
 			
 		/**
@@ -140,20 +178,41 @@ package com.ffsys.w3c.dom
 		* 	the DOM HTML feature.
 		*/
 		public static const HTML_FEATURE:DOMFeature =
+			new DOMFeature( HTML_MODULE );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM HTML level 3.0 feature.
+		*/
+		public static const HTML_3_FEATURE:DOMFeature =
 			new DOMFeature( HTML_MODULE, LEVEL_3 );
-					
+			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM LS feature.
 		*/
 		public static const LS_FEATURE:DOMFeature =
+			new DOMFeature( LS_MODULE );
+					
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM LS level 3.0 feature.
+		*/
+		public static const LS_3_FEATURE:DOMFeature =
 			new DOMFeature( LS_MODULE, LEVEL_3 );
-
+			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM LS Async feature.
 		*/
 		public static const LS_ASYNC_FEATURE:DOMFeature =
+			new DOMFeature( LS_ASYNC_MODULE );			
+
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM LS Async level 3.0 feature.
+		*/
+		public static const LS_ASYNC_3_FEATURE:DOMFeature =
 			new DOMFeature( LS_ASYNC_MODULE, LEVEL_3 );
 			
 		/**
@@ -162,19 +221,33 @@ package com.ffsys.w3c.dom
 		*/
 		public static const VALIDATION_FEATURE:DOMFeature =
 			new DOMFeature( VALIDATION_MODULE, LEVEL_3 );
-
+			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Range feature.
 		*/
 		public static const RANGE_FEATURE:DOMFeature =
-			new DOMFeature( RANGE_MODULE, LEVEL_3 );
+			new DOMFeature( RANGE_MODULE );
 
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Range level 3.0 feature.
+		*/
+		public static const RANGE_3_FEATURE:DOMFeature =
+			new DOMFeature( RANGE_MODULE, LEVEL_3 );
+			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Traversal feature.
 		*/
 		public static const TRAVERSAL_FEATURE:DOMFeature =
+			new DOMFeature( TRAVERSAL_MODULE );
+
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Traversal level 3.0 feature.
+		*/
+		public static const TRAVERSAL_3_FEATURE:DOMFeature =
 			new DOMFeature( TRAVERSAL_MODULE, LEVEL_3 );
 			
 		/**
@@ -182,6 +255,13 @@ package com.ffsys.w3c.dom
 		* 	the DOM Events feature.
 		*/
 		public static const EVENTS_FEATURE:DOMFeature =
+			new DOMFeature( EVENTS_MODULE );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Events level 3.0 feature.
+		*/
+		public static const EVENTS_3_FEATURE:DOMFeature =
 			new DOMFeature( EVENTS_MODULE, LEVEL_3 );
 			
 		/**
@@ -243,11 +323,12 @@ package com.ffsys.w3c.dom
 		* 	@param version The DOM feature version.
 		*/
 		public function DOMFeature(
-			feature:String = null, version:String = null )
+			feature:String = null,
+			version:String = null )
 		{
 			super();
-			this.feature = feature;
-			this.version = version;
+			_feature = feature;
+			_version = version;
 		}
 		
 		/**
@@ -333,6 +414,43 @@ package com.ffsys.w3c.dom
 		public function set version( value:String ):void
 		{
 			_version = value;
+		}
+		
+		/**
+		* 	The full representation of this feature
+		* 	including version information when available.
+		* 
+		* 	@return A string representation of this feature.
+		*/
+		public function toString():String
+		{
+			if( this.version == null )
+			{
+				return this.feature;
+			}
+			return this.feature + DELIMITER + this.version;
+		}
+		
+		/**
+		* 	A convenience method for implementations to generate
+		* 	an identifier consisting of a feature name optionally
+		* 	concatenated with a version.
+		* 
+		* 	@param feature The DOM feature.
+		* 	@param version The version number.
+		* 
+		* 	@return A full feature and version string
+		* 	delimited with whitespace.
+		*/
+		static public function getQualifiedFeatureName(
+			feature:String, version:String = null ):String
+		{
+			var nm:String = feature;
+			if( version != null )
+			{
+				nm += DOMFeature.DELIMITER + version;
+			}
+			return nm;
 		}
 	}
 }

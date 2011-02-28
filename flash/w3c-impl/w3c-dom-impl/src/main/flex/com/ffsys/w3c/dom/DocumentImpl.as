@@ -18,6 +18,11 @@ package com.ffsys.w3c.dom
 		implements DocumentTraversal, DocumentEvent, DocumentRange
 	{
 		/**
+		* 	The bean name for a Core document.
+		*/
+		public static const NAME:String = "dom-core-doc";
+		
+		/**
 		* 	@private
 		* 
 		* 	Creates a <code>DocumentImpl</code> instance.

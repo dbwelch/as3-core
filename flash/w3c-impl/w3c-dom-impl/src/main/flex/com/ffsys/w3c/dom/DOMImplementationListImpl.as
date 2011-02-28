@@ -6,11 +6,10 @@ package com.ffsys.w3c.dom
 	dynamic public class DOMImplementationListImpl extends AbstractNodeProxyImpl
 		implements DOMImplementationList
 	{
-		
 		/**
 		* 	The bean name for the main DOM implementation list.
 		*/
-		public static const NAME:String = "dom-impl-list";		
+		public static const NAME:String = "dom-impl-list";
 		
 		private var _implementations:Vector.<DOMImplementation>;
 	
@@ -41,7 +40,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function item( index:int ):DOMImplementation
 		{
-			return this[ index ] as DOMImplementation;
+			return this.implementations[ index ] as DOMImplementation;
 		}
 		
 		/**

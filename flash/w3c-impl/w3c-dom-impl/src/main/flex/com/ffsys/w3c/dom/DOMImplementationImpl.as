@@ -23,19 +23,7 @@ package com.ffsys.w3c.dom
 	*/
 	public class DOMImplementationImpl extends AbstractNodeProxyImpl
 		implements DOMImplementation
-	{
-		/**
-		* 	The optional character that may appear
-		* 	at the beginning of a feature name.
-		*/
-		public static const PLUS:String = "+";
-		
-		/**
-		* 	The delimiter between a feature name
-		* 	and the optional associated version.
-		*/
-		public static const MODULE_VERSION_DELIMITER:String = " ";
-				
+	{				
 		private var _supported:Vector.<DOMFeature>;
 		
 		/**
@@ -45,28 +33,6 @@ package com.ffsys.w3c.dom
 		{
 			super();
 			configureSupportedFeatures();
-		}
-		
-		/**
-		* 	A convenience method for implementations to generate
-		* 	an identifier consisting of a feature name optionally
-		* 	concatenated with a version.
-		* 
-		* 	@param feature The DOM feature.
-		* 	@param version The version number.
-		* 
-		* 	@return A full feature and version string
-		* 	delimited with whitespace.
-		*/
-		static public function getQualifiedFeatureName(
-			feature:String, version:String = null ):String
-		{
-			var nm:String = feature;
-			if( version != null )
-			{
-				nm += MODULE_VERSION_DELIMITER + version;
-			}
-			return nm;
 		}
 		
 		/*

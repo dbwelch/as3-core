@@ -15,7 +15,7 @@ package com.ffsys.w3c.dom.bootstrap
 	/**
 	* 	A boostrap document for the DOM XML implementation.
 	*/
-	public class DOMXMLBootstrap extends DOMCoreBootstrap
+	public class DOMXMLBootstrap extends DOMLSAsyncBootstrap
 	{
 		/**
 		* 	The name for the <code>DOM</code> XML implementation bean document.
@@ -37,6 +37,17 @@ package com.ffsys.w3c.dom.bootstrap
 		}
 		
 		/**
+		* 	@private
+		*/
+		override protected function getSupportedFeatures():Vector.<DOMFeature>
+		{
+			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
+			output.push( DOMFeature.XML_FEATURE );
+			output.push( DOMFeature.XML_3_FEATURE );
+			return output;
+		}		
+		
+		/**
 		* 	Initialies the components beans on the specified document.
 		* 
 		* 	@param beans The document to initialize with the bean definitions.
@@ -47,7 +58,6 @@ package com.ffsys.w3c.dom.bootstrap
 			super.doWithBeans( beans );
 			
 			var descriptor:IBeanDescriptor = null;
-			
 			descriptor = new BeanDescriptor(
 				XMLDOMImplementationImpl.NAME );
 			descriptor.instanceClass = XMLDOMImplementationImpl;
@@ -57,19 +67,6 @@ package com.ffsys.w3c.dom.bootstrap
 				XMLDocumentImpl.NAME );
 			descriptor.instanceClass = XMLDocumentImpl;
 			beans.addBeanDescriptor( descriptor );
-			
-			addLoadSaveImplementations( beans );
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.EVENTS_MODULE );
-			descriptor.instanceClass = DocumentEventImpl;
-			descriptor.singleton = true;
-			descriptor.names = new Vector.<String>();
-			addCommonEventAliases( descriptor.names );
-			beans.addBeanDescriptor( descriptor );
-			
-			addCommonEvents( beans );
-			addCommonFeatures( beans );
 		}
 	}
 }

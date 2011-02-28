@@ -6,6 +6,8 @@ package com.ffsys.w3c.dom.ls
 	import org.w3c.dom.ls.LSSerializer;
 	import org.w3c.dom.ls.LSParser;
 	
+	import com.ffsys.w3c.dom.DOMFeature;
+	
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 
 	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
@@ -17,7 +19,12 @@ package com.ffsys.w3c.dom.ls
 		/**
 		* 	The name for the <code>DOM</code> LS implementation bean document.
 		*/
-		public static const LS_IMPLEMENTATION_DOC_NAME:String = DOMFeature.LS_MODULE;	
+		public static const NAME:String = DOMFeature.LS_MODULE;
+		
+		/**
+		* 	The name for the <code>DOM</code> LS-Async implementation bean document.
+		*/
+		public static const ASYNC_NAME:String = DOMFeature.LS_ASYNC_MODULE;
 		
 		/**
 		* 	Creates a <code>DOMImplementationLSImpl</code> instance.

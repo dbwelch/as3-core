@@ -15,6 +15,11 @@ package com.ffsys.w3c.dom.css
 		implements DocumentCSS
 	{
 		/**
+		* 	The bean name for a CSS document.
+		*/
+		public static const NAME:String = "dom-css-doc";
+		
+		/**
 		* 	Creates a <code>DocumentCSSImpl</code> instance.
 		*/
 		public function DocumentCSSImpl()

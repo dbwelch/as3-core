@@ -2,7 +2,6 @@ package com.ffsys.w3c.dom.bootstrap
 {
 	import com.ffsys.ioc.*;
 		
-	import com.ffsys.w3c.dom.DOMImplementationSourceImpl;	
 	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;	
 	
 	import org.w3c.dom.*;
@@ -22,18 +21,17 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		static private var _bootstrap:DOMBootstrap;
-		
-		/**
-		* 	@private
-		*/
 		static private var __sources:Vector.<DOMImplementationSource> =
 			new Vector.<DOMImplementationSource>();
 		
 		/**
+		* 	@private
+		* 	
 		* 	Creates a <code>DOMImplementationRegistry</code> instance.
+		* 
+		* 	@param enforcer A reference to the private singleton enforcer class.
 		*/
-		public function DOMImplementationRegistry()
+		public function DOMImplementationRegistry( enforcer:Class )
 		{
 			super();
 		}
@@ -57,28 +55,16 @@ package com.ffsys.w3c.dom.bootstrap
 		*/
 		public function getDOMImplementation( features:String ):DOMImplementation
 		{
-			var src:Vector.<DOMImplementationSource> = __sources;
-			if( src != null )
+			var source:DOMImplementationSource = null;
+			var impl:DOMImplementation = null;
+			for( var i:int = 0;i < __sources.length;i++ )
 			{
-				var source:DOMImplementationSource = null;
-				var impl:DOMImplementation = null;
-				for( var i:int = 0;i < src.length;i++ )
-				{
-					source = src[ i ];
-					impl = source.getDOMImplementation( features );
-					
-					//trace("DOMImplementationRegistry::getDOMImplementation()", impl );
-					
-					if( impl != null )
-					{
-						/*
-						trace("[FOUND IMPLEMENTATION] DOMImplementationRegistry::getDOMImplementation()",
-							features, beanName, document, src, impl );
-						*/
-							
-						return impl;
-					}
-				}			
+				source = __sources[ i ];
+				impl = source.getDOMImplementation( features );
+				if( impl != null )
+				{	
+					return impl;
+				}
 			}
 			return null;
 		}
@@ -88,29 +74,18 @@ package com.ffsys.w3c.dom.bootstrap
 		*/
 		public function getDOMImplementationList( features:String ):DOMImplementationList
 		{
-			var output:DOMImplementationList = null;
-			return output;
-		}
-		
-		/**
-		* 	Retrieves the bootstrap bean document.
-		* 	
-		* 	Upon retrieval, if no bootstrap bean document
-		* 	has been explicitly set, a default document
-		* 	is created and cached.
-		*/
-		public static function get bootstrap():DOMBootstrap
-		{
-			if( _bootstrap == null )
+			var source:DOMImplementationSource = null;
+			var impl:DOMImplementationList = null;
+			for( var i:int = 0;i < __sources.length;i++ )
 			{
-				_bootstrap = new DOMBootstrap();
+				source = __sources[ i ];
+				impl = source.getDOMImplementationList( features );
+				if( impl != null )
+				{	
+					return impl;
+				}
 			}
-			return _bootstrap;
-		}
-		
-		public static function set bootstrap( value:DOMBootstrap ):void
-		{
-			_bootstrap = value;
+			return null;			
 		}
 		
 		/**
@@ -135,17 +110,16 @@ package com.ffsys.w3c.dom.bootstrap
 		*/
 		public static function newInstance():DOMImplementationRegistry
 		{
-			var bean:Object = bootstrap.getBean( NAME );
-				
+			var bean:Object = new DOMImplementationRegistry( SingletonEnforcer );
 			var registry:DOMImplementationRegistry = DOMImplementationRegistry( bean );
-			
-			//TODO: add source(s) dynamically from system properties etc.
-				
-			var source:DOMImplementationSource = DOMImplementationSource( bootstrap.getBean(
-				DOMImplementationSourceImpl.NAME ) );
-			registry.addSource( source );
-			
+			registry.addSource( new DOMCoreBootstrap() );
+			registry.addSource( new DOMEventsBootstrap() );
+			registry.addSource( new DOMLSBootstrap() );
+			registry.addSource( new DOMLSAsyncBootstrap() );
+			registry.addSource( new DOMXMLBootstrap() );
+			registry.addSource( new DOMHTMLBootstrap() );
 			return registry;
 		}
 	}
 }
+class SingletonEnforcer{};
