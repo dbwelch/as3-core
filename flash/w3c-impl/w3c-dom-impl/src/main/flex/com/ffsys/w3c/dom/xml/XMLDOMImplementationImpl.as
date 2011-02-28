@@ -16,7 +16,12 @@ package com.ffsys.w3c.dom.xml
 	* 	"XML" feature.
 	*/
 	public class XMLDOMImplementationImpl extends DOMImplementationLSImpl
-	{	
+	{
+		/**
+		* 	The bean name for the implementation of the "XML" feature.
+		*/
+		public static const NAME:String = "dom-xml-impl";
+		
 		/**
 		* 	Creates an <code>XMLDOMImplementationImpl</code> instance.
 		*/
@@ -44,7 +49,7 @@ package com.ffsys.w3c.dom.xml
 			//trace("DOMImplementationImpl::getDefaultDocumentType()", qualifiedName );
 			
 			var document:XMLDocumentImpl = XMLDocumentImpl(
-				this.document.getBean( DOMBootstrap.XML_DOCUMENT ) );
+				this.document.getBean( XMLDocumentImpl.NAME ) );
 			
 			if( namespaceURI != null )
 			{

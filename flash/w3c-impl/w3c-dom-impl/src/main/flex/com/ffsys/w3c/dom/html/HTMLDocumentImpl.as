@@ -10,9 +10,17 @@ package com.ffsys.w3c.dom.html
 	import org.w3c.dom.html.HTMLHeadElement;
 	import org.w3c.dom.html.HTMLCollection;
 	
+	/**
+	* 	Represents a HTML DOM document.
+	*/
 	dynamic public class HTMLDocumentImpl extends DocumentImpl
 		implements HTMLDocument
 	{
+		/**
+		* 	The bean name for an HTML document.
+		*/
+		public static const NAME:String = "dom-html-doc";
+		
 		private var _title:String;
 		private var _referrer:String;
 		private var _domain:String;

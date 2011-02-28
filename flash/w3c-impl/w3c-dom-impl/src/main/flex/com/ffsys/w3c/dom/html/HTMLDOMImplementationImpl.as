@@ -9,9 +9,17 @@ package com.ffsys.w3c.dom.html
 	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;	
 	
+	/**
+	* 	Represents a HTML DOM implementation.
+	*/
 	public class HTMLDOMImplementationImpl extends DOMImplementationLSImpl
 		implements HTMLDOMImplementation
 	{
+		/**
+		* 	The bean name for the implementation of the "HTML" feature.
+		*/
+		public static const NAME:String = "dom-html-impl";
+		
 		/**
 		* 	@private
 		* 	
@@ -48,7 +56,7 @@ package com.ffsys.w3c.dom.html
 			}
 			
 			var document:HTMLDocumentImpl = HTMLDocumentImpl(
-				this.document.getBean( DOMBootstrap.HTML_DOCUMENT ) );
+				this.document.getBean( HTMLDocumentImpl.NAME ) );
 			
 			//TOOD: handle inspecting the doctype and 
 			//retrieving more specialized implementations where appropriate

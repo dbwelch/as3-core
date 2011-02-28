@@ -5,8 +5,16 @@ package com.ffsys.w3c.dom.xml
 	
 	import com.ffsys.w3c.dom.DocumentImpl;
 	
+	/**
+	* 	Represents an XML DOM document.
+	*/
 	public class XMLDocumentImpl extends DocumentImpl
-	{	
+	{
+		/**
+		* 	The bean name for an XML document.
+		*/
+		public static const NAME:String = "dom-xml-doc";		
+			
 		/**
 		* 	Creates an <code>XMLDocumentImpl</code> instance.
 		*/

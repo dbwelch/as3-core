@@ -3,7 +3,6 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.ioc.*;
 	
 	import com.ffsys.w3c.dom.*;
-	import com.ffsys.w3c.dom.html.*;
 	
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;
 	import com.ffsys.w3c.dom.events.EventImpl;
@@ -41,7 +40,6 @@ package com.ffsys.w3c.dom.bootstrap
 	*/
 	public class DOMBootstrap extends BeanDocument
 	{
-		
 		/**
 		* 	The name for a <code>DOM</code> bootstrap bean document.
 		*/
@@ -50,12 +48,7 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	The name for the <code>DOM</code> implementation bean document.
 		*/
-		public static const DOM_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;		
-		
-		/**
-		* 	The name for the <code>DOM</code> XML implementation bean document.
-		*/
-		public static const XML_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;
+		public static const DOM_IMPLEMENTATION_DOC_NAME:String = DOMFeature.XML_MODULE;
 		
 		/**
 		* 	The name for the <code>DOM</code> HTML implementation bean document.
@@ -71,50 +64,43 @@ package com.ffsys.w3c.dom.bootstrap
 		* 	The name for the <code>DOM</code> LS Async implementation bean document.
 		*/
 		public static const LS_ASYNC_IMPLEMENTATION_DOC_NAME:String = DOMFeature.LS_ASYNC_MODULE;
-		
-		/**
-		* 	The bean name for the implementation of the "XML" feature.
-		*/
-		public static const XML_IMPLEMENTATION:String = "dom-xml-impl";
-		
-		/**
-		* 	The bean name for a XML document.
-		*/
-		public static const XML_DOCUMENT:String = "dom-xml-doc";
-		
-		/**
-		* 	The bean name for the implementation of the "HTML" feature.
-		*/
-		public static const HTML_IMPLEMENTATION:String = "dom-html-impl";
-		
-		/**
-		* 	The bean name for an HTML document.
-		*/
-		public static const HTML_DOCUMENT:String = "dom-html-doc";
 			
 		/**
 		* 	Creates a <code>DOMBootstrap</code> instance.
 		* 
-		* 	@param id A specific id to use for this document.
+		* 	@param identifier A specific id to use for this document.
 		*/
-		public function DOMBootstrap( id:String = null )
+		public function DOMBootstrap( identifier:String = null )
 		{
-			this.id  = id != null ? id : NAME;
-			super();
+			super( identifier );
 			doWithBeans( this );
 		}
 		
 		/**
-		* 	Initialies the components beans on the specified document.
+		* 	Initializes the beans on the specified document.
 		* 
-		* 	@param beans The document to initialize with the bean definitions.
+		* 	@param beans The document to initialize with the
+		* 	bean definitions.
 		*/
 		public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
-			var data:Object = null;
+			addImplementationRegistry( beans );
 			
-			//CORE DOM ELEMENTS
+			//add the implementations as an xref
+			xrefs.push( new DOMXMLBootstrap() );
+			xrefs.push( new DOMHTMLBootstrap() );
+			
+			xrefs.push( getLSFeatureDocument() );
+			xrefs.push( getLSAsyncFeatureDocument() );
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function addImplementationRegistry( beans:IBeanDocument ):void
+		{
+			//CORE DOM IMPLEMENTATION ACCESS ELEMENTS
 			var descriptor:IBeanDescriptor = new BeanDescriptor(
 				DOMImplementationRegistry.NAME );
 			descriptor.instanceClass = DOMImplementationRegistry;
@@ -124,122 +110,20 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor = new BeanDescriptor(
 				DOMImplementationSourceImpl.NAME );
 			descriptor.instanceClass = DOMImplementationSourceImpl;
-			descriptor.singleton = true;			
+			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor( 
 			 	DOMImplementationListImpl.NAME );
 			descriptor.instanceClass = DOMImplementationListImpl;
 			descriptor.singleton = true;
-			beans.addBeanDescriptor( descriptor );
-			
-			//add the implementations as an xref
-			xrefs.push( getXMLImplBeans() );
-			xrefs.push( getHTMLImplBeans() );
-			xrefs.push( getLSFeatureDocument() );
-			xrefs.push( getLSAsyncFeatureDocument() );
+			beans.addBeanDescriptor( descriptor );			
 		}
 		
 		/**
 		* 	@private
 		*/
-		private function getXMLImplBeans():IBeanDocument
-		{
-			var descriptor:IBeanDescriptor = null;
-			//create a document to store all implementations
-			var impls:IBeanDocument = new BeanDocument( XML_IMPLEMENTATION_DOC_NAME );
-			
-			descriptor = new BeanDescriptor(
-				XML_IMPLEMENTATION );
-			descriptor.instanceClass = XMLDOMImplementationImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				XML_DOCUMENT );
-			descriptor.instanceClass = XMLDocumentImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			addDOMNodes( impls );			
-			
-			addLoadSaveImplementations( impls );
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.EVENTS_MODULE );
-			descriptor.instanceClass = DocumentEventImpl;
-			descriptor.singleton = true;
-			descriptor.names = new Vector.<String>();
-			addCommonEventAliases( descriptor.names );
-			impls.addBeanDescriptor( descriptor );
-			
-			addCommonEvents( impls );
-			addCommonFeatures( impls );
-			return impls;		
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function getHTMLImplBeans():IBeanDocument
-		{
-			var descriptor:IBeanDescriptor = null;
-			//create a document to store all implementations
-			var impls:IBeanDocument = new BeanDocument( HTML_IMPLEMENTATION_DOC_NAME );
-			
-			descriptor = new BeanDescriptor(
-				HTML_IMPLEMENTATION );
-			descriptor.instanceClass = HTMLDOMImplementationImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				HTML_DOCUMENT );
-			descriptor.instanceClass = HTMLDocumentImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			addDOMNodes( impls );
-			
-			addLoadSaveImplementations( impls );					
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.EVENTS_MODULE );
-			descriptor.instanceClass = DocumentEventImpl;
-			descriptor.singleton = true;
-			descriptor.names = new Vector.<String>();
-			addCommonEventAliases( descriptor.names );	
-			
-			descriptor.names.push( DOMFeature.UI_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.MOUSE_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.TEXT_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.KEYBOARD_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.WHEEL_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.COMPOSITION_EVENTS_MODULE );
-			descriptor.names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
-			impls.addBeanDescriptor( descriptor );
-			
-			addCommonEvents( impls );
-			
-			//DOM UI Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.UI_EVENT_INTERFACE );
-			descriptor.instanceClass = UIEventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			//DOM Focus Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.FOCUS_EVENT_INTERFACE );
-			descriptor.instanceClass = FocusEventImpl;
-			impls.addBeanDescriptor( descriptor );
-
-			addCommonFeatures( impls );
-			
-			addHTMLElements( impls );
-			
-			return impls;
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function addCommonEventAliases( names:Vector.<String> ):void
+		protected function addCommonEventAliases( names:Vector.<String> ):void
 		{
 			names.push( DOMFeature.MUTATION_EVENTS_MODULE );
 			names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );		
@@ -248,7 +132,7 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		private function addCommonEvents( impls:IBeanDocument ):void
+		protected function addCommonEvents( impls:IBeanDocument ):void
 		{
 			var descriptor:IBeanDescriptor = null;
 						
@@ -268,7 +152,7 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		private function getLSFeatureDocument():IBeanDocument
+		protected function getLSFeatureDocument():IBeanDocument
 		{
 			var descriptor:IBeanDescriptor = null;
 			
@@ -289,7 +173,7 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		private function getLSAsyncFeatureDocument():IBeanDocument
+		protected function getLSAsyncFeatureDocument():IBeanDocument
 		{
 			var descriptor:IBeanDescriptor = null;
 			
@@ -307,7 +191,7 @@ package com.ffsys.w3c.dom.bootstrap
 			return lsAsync;			
 		}
 		
-		private function addLoadSaveImplementations( impls:IBeanDocument ):void
+		protected function addLoadSaveImplementations( impls:IBeanDocument ):void
 		{
 			var descriptor:IBeanDescriptor = null;
 			
@@ -335,7 +219,7 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		private function addCommonFeatures( impls:IBeanDocument ):void
+		protected function addCommonFeatures( impls:IBeanDocument ):void
 		{
 			var descriptor:IBeanDescriptor = null;
 
@@ -370,7 +254,7 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		private function addDOMNodes( impls:IBeanDocument ):void
+		protected function addDOMNodes( impls:IBeanDocument ):void
 		{
 			var descriptor:IBeanDescriptor = null;
 
@@ -409,34 +293,6 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor = new BeanDescriptor(
 				EntityReferenceImpl.NAME );
 			descriptor.instanceClass = EntityReferenceImpl;
-			impls.addBeanDescriptor( descriptor );		
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function addHTMLElements( impls:IBeanDocument ):void
-		{
-			var descriptor:IBeanDescriptor = null;
-			
-			descriptor = new BeanDescriptor(
-				 HTMLHtmlElementImpl.NAME );
-			descriptor.instanceClass = HTMLHtmlElementImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				 HTMLHeadElementImpl.NAME );
-			descriptor.instanceClass = HTMLHeadElementImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				 HTMLBodyElementImpl.NAME );
-			descriptor.instanceClass = HTMLBodyElementImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				 HTMLTitleElementImpl.NAME );
-			descriptor.instanceClass = HTMLTitleElementImpl;
 			impls.addBeanDescriptor( descriptor );		
 		}
 	}
