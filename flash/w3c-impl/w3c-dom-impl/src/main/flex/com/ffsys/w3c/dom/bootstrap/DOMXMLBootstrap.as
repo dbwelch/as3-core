@@ -15,7 +15,7 @@ package com.ffsys.w3c.dom.bootstrap
 	/**
 	* 	A boostrap document for the DOM XML implementation.
 	*/
-	public class DOMXMLBootstrap extends DOMBootstrap
+	public class DOMXMLBootstrap extends DOMCoreBootstrap
 	{
 		/**
 		* 	The name for the <code>DOM</code> XML implementation bean document.
@@ -24,10 +24,16 @@ package com.ffsys.w3c.dom.bootstrap
 		
 		/**
 		* 	Creates a <code>DOMXMLBootstrap</code> instance.
+		* 
+		* 	@param identifier An identifier for this document.
 		*/
-		public function DOMXMLBootstrap()
+		public function DOMXMLBootstrap( identifier:String = null )
 		{
-			super( NAME );
+			if( identifier == null )
+			{
+				identifier = NAME;
+			}
+			super( identifier );
 		}
 		
 		/**
@@ -38,6 +44,8 @@ package com.ffsys.w3c.dom.bootstrap
 		override public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
+			super.doWithBeans( beans );
+			
 			var descriptor:IBeanDescriptor = null;
 			
 			descriptor = new BeanDescriptor(
@@ -50,7 +58,6 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor.instanceClass = XMLDocumentImpl;
 			beans.addBeanDescriptor( descriptor );
 			
-			addDOMNodes( beans );
 			addLoadSaveImplementations( beans );
 			
 			descriptor = new BeanDescriptor(

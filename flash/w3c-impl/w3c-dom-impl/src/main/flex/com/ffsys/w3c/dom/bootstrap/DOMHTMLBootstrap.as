@@ -23,7 +23,7 @@ package com.ffsys.w3c.dom.bootstrap
 	/**
 	* 	A boostrap document for the DOM HTML implementation.
 	*/
-	public class DOMHTMLBootstrap extends DOMBootstrap
+	public class DOMHTMLBootstrap extends DOMCoreBootstrap
 	{
 		/**
 		* 	The name for the <code>DOM</code> HTML implementation bean document.
@@ -32,10 +32,16 @@ package com.ffsys.w3c.dom.bootstrap
 		
 		/**
 		* 	Creates a <code>DOMHTMLBootstrap</code> instance.
+		* 
+		* 	@param identifier An identifier for this document.
 		*/
-		public function DOMHTMLBootstrap()
+		public function DOMHTMLBootstrap( identifier:String = null )
 		{
-			super( NAME );
+			if( identifier == null )
+			{
+				identifier = NAME;
+			}
+			super( identifier );
 		}
 		
 		/**
@@ -44,6 +50,8 @@ package com.ffsys.w3c.dom.bootstrap
 		override public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
+			super.doWithBeans( beans );			
+			
 			var descriptor:IBeanDescriptor = null;
 			
 			descriptor = new BeanDescriptor(
@@ -55,8 +63,6 @@ package com.ffsys.w3c.dom.bootstrap
 				HTMLDocumentImpl.NAME );
 			descriptor.instanceClass = HTMLDocumentImpl;
 			beans.addBeanDescriptor( descriptor );
-			
-			addDOMNodes( beans );
 			
 			addLoadSaveImplementations( beans );					
 			

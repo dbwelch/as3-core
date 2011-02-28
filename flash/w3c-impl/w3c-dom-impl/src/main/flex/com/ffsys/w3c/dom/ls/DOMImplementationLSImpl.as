@@ -15,6 +15,11 @@ package com.ffsys.w3c.dom.ls
 		implements DOMImplementationLS
 	{
 		/**
+		* 	The name for the <code>DOM</code> LS implementation bean document.
+		*/
+		public static const LS_IMPLEMENTATION_DOC_NAME:String = DOMFeature.LS_MODULE;	
+		
+		/**
 		* 	Creates a <code>DOMImplementationLSImpl</code> instance.
 		*/
 		public function DOMImplementationLSImpl()

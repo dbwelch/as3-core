@@ -14,7 +14,7 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.ls.LSInputImpl;
 	import com.ffsys.w3c.dom.ls.LSOutputImpl;
 	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
-	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;	
+	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;
 		
 	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
 	import com.ffsys.w3c.dom.range.RangeImpl;
@@ -123,35 +123,6 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		protected function addCommonEventAliases( names:Vector.<String> ):void
-		{
-			names.push( DOMFeature.MUTATION_EVENTS_MODULE );
-			names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );		
-		}
-		
-		/**
-		* 	@private
-		*/
-		protected function addCommonEvents( impls:IBeanDocument ):void
-		{
-			var descriptor:IBeanDescriptor = null;
-						
-			//DOM Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.EVENT_INTERFACE );
-			descriptor.instanceClass = EventImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			//DOM Mutation Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.MUTATION_EVENT_INTERFACE );
-			descriptor.instanceClass = MutationEventImpl;
-			impls.addBeanDescriptor( descriptor );
-		}
-		
-		/**
-		* 	@private
-		*/
 		protected function getLSFeatureDocument():IBeanDocument
 		{
 			var descriptor:IBeanDescriptor = null;
@@ -214,86 +185,6 @@ package com.ffsys.w3c.dom.bootstrap
 				DOMParserImpl.NAME );
 			descriptor.instanceClass = DOMParserImpl;
 			impls.addBeanDescriptor( descriptor );
-		}
-		
-		/**
-		* 	@private
-		*/
-		protected function addCommonFeatures( impls:IBeanDocument ):void
-		{
-			var descriptor:IBeanDescriptor = null;
-
-			descriptor = new BeanDescriptor(
-				DOMFeature.RANGE_MODULE );
-			descriptor.instanceClass = DocumentRangeImpl;
-			descriptor.singleton = true;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				RangeImpl.NAME );
-			descriptor.instanceClass = RangeImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.TRAVERSAL_MODULE );
-			descriptor.instanceClass = DocumentTraversalImpl;
-			descriptor.singleton = true;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				NodeIteratorImpl.NAME );
-			descriptor.instanceClass = NodeIteratorImpl;
-			impls.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				TreeWalkerImpl.NAME );
-			descriptor.instanceClass = TreeWalkerImpl;
-			impls.addBeanDescriptor( descriptor );							
-		}
-
-		/**
-		* 	@private
-		*/
-		protected function addDOMNodes( impls:IBeanDocument ):void
-		{
-			var descriptor:IBeanDescriptor = null;
-
-			descriptor = new BeanDescriptor(
-				ElementImpl.NAME );
-			descriptor.instanceClass = ElementImpl;
-			impls.addBeanDescriptor( descriptor );			
-			descriptor = new BeanDescriptor(
-				AttrImpl.NAME );
-			descriptor.instanceClass = AttrImpl;
-			impls.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				TextImpl.NAME );
-			descriptor.instanceClass = TextImpl;
-			impls.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				DocumentFragmentImpl.NAME );
-			descriptor.instanceClass = DocumentFragmentImpl;
-			impls.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				ProcessingInstructionImpl.NAME );
-			descriptor.instanceClass = ProcessingInstructionImpl;
-			impls.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				CommentImpl.NAME );
-			descriptor.instanceClass = CommentImpl;
-			impls.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				CDATASectionImpl.NAME );
-			descriptor.instanceClass = CDATASectionImpl;
-			impls.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				EntityImpl.NAME );
-			descriptor.instanceClass = EntityImpl;
-			impls.addBeanDescriptor( descriptor );
-			descriptor = new BeanDescriptor(
-				EntityReferenceImpl.NAME );
-			descriptor.instanceClass = EntityReferenceImpl;
-			impls.addBeanDescriptor( descriptor );		
 		}
 	}
 }
