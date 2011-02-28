@@ -57,7 +57,7 @@ package com.ffsys.w3c.dom
 		*/
 		override public function get nodeType():Number
 		{
-			return NodeImpl.COMMENT_NODE;
+			return NodeType.COMMENT_NODE;
 		}
 	}
 }

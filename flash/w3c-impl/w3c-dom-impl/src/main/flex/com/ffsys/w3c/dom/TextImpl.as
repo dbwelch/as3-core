@@ -76,7 +76,7 @@ package com.ffsys.w3c.dom
 		*/
 		override public function get nodeType():Number
 		{
-			return NodeImpl.TEXT_NODE;
+			return NodeType.TEXT_NODE;
 		}
 	}
 }

@@ -73,7 +73,7 @@ package com.ffsys.w3c.dom
 		*/
 		override public function get nodeType():Number
 		{
-			return NodeImpl.PROCESSING_INSTRUCTION_NODE;
+			return NodeType.PROCESSING_INSTRUCTION_NODE;
 		}
 		
 		/**

@@ -28,101 +28,7 @@ package com.ffsys.w3c.dom
 		* 	@private
 		*/
 		static private var _converter:PropertyNameConverter =
-			new PropertyNameConverter();		
-		
-		/**
-		* 	The node is an Element.
-		*/
-		public static const ELEMENT_NODE:Number = 1;
-		
-		/**
-		* 	The node is an Attr.
-		*/
-		public static const ATTRIBUTE_NODE:Number = 2;
-		
-		/**
-		* 	The node is a Text node.
-		*/
-		public static const TEXT_NODE:Number = 3;
-		
-		/**
-		* 	The node is a CDATASection.
-		*/
-		public static const CDATA_SECTION_NODE:Number = 4;
-		
-		/**
-		* 	The node is an EntityReference.
-		*/
-		public static const ENTITY_REFERENCE_NODE:Number = 5;
-		
-		/**
-		* 	The node is an Entity.
-		*/
-		public static const ENTITY_NODE:Number = 6;
-		
-		/**
-		* 	The node is a ProcessingInstruction.
-		*/
-		public static const PROCESSING_INSTRUCTION_NODE:Number = 7;
-		
-		/**
-		* 	The node is a Comment.
-		*/
-		public static const COMMENT_NODE:Number = 8;
-		
-		/**
-		* 	The node is a Document.
-		*/
-		public static const DOCUMENT_NODE:Number = 9;
-		
-		/**
-		* 	The node is a DocumentType.
-		*/
-		public static const DOCUMENT_TYPE_NODE:Number = 10;
-		
-		/**
-		* 	The node is a DocumentFragment.
-		*/
-		public static const DOCUMENT_FRAGMENT_NODE:Number = 11;
-		
-		/**
-		* 	The node is a Notation.
-		*/
-		public static const NOTATION_NODE:Number = 12;
-		
-		/**
-		* 	The two nodes are disconnected. Order between
-		* 	disconnected nodes is always implementation-specific.
-		*/
-		public static const DOCUMENT_POSITION_DISCONNECTED:Number = 0x01;
-		
-		/**
-		* 	The second node precedes the reference node.	
-		*/
-		public static const DOCUMENT_POSITION_PRECEDING:Number = 0x02;
-		
-		/**
-		* 	The node follows the reference node.
-		*/
-		public static const DOCUMENT_POSITION_FOLLOWING:Number = 0x04;
-		
-		/**
-		* 	The node contains the reference node.
-		* 	A node which contains is always preceding, too.
-		*/
-		public static const DOCUMENT_POSITION_CONTAINS:Number = 0x08;
-		
-		/**
-		* 	The node is contained by the reference node.
-		* 	A node which is contained is always following, too.
-		*/
-		public static const DOCUMENT_POSITION_CONTAINED_BY:Number = 0x10;
-		
-		/**
-		* 	The determination of preceding versus
-		* 	following is implementation-specific.
-		*/
-		public static const DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC:Number = 0x20;
+			new PropertyNameConverter();
 		
 		/**
 		* 	@private
@@ -942,7 +848,7 @@ package com.ffsys.w3c.dom
 			if( hasChildNodes() )
 			{
 				return NodeListImpl( childNodes ).getNodesOfType(
-					ELEMENT_NODE, deep );
+					NodeType.ELEMENT_NODE, deep );
 			}
 			return new NodeListImpl();
 		}

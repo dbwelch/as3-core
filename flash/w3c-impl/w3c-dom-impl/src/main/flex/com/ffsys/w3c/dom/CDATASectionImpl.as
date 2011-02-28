@@ -45,7 +45,7 @@ package com.ffsys.w3c.dom
 		*/
 		override public function get nodeType():Number
 		{
-			return NodeImpl.CDATA_SECTION_NODE;
+			return NodeType.CDATA_SECTION_NODE;
 		}
 		
 		/**

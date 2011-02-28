@@ -109,7 +109,7 @@ package com.ffsys.w3c.dom
 		*/
 		override public function get nodeType():Number
 		{
-			return NodeImpl.DOCUMENT_TYPE_NODE;
+			return NodeType.DOCUMENT_TYPE_NODE;
 		}
 		
 		/**

@@ -46,7 +46,7 @@ package com.ffsys.w3c.dom
 		*/
 		override public function get nodeType():Number
 		{
-			return NodeImpl.NOTATION_NODE;
+			return NodeType.NOTATION_NODE;
 		}
 	}
 }

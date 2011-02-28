@@ -48,7 +48,7 @@ package com.ffsys.w3c.dom
 		*/
 		override public function get nodeType():Number
 		{
-			return NodeImpl.DOCUMENT_FRAGMENT_NODE;
+			return NodeType.DOCUMENT_FRAGMENT_NODE;
 		}
 	}
 }
