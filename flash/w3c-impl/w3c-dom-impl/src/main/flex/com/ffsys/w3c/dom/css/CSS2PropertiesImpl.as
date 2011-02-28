@@ -17,6 +17,31 @@ package com.ffsys.w3c.dom.css
 			super();
 		}
 		
+		/**
+		* 	
+		*/
+		public function get azimuth():String
+		{
+			
+		}
+		
+		public function set azimuth( value:String ):void
+		{
+			
+		}
+		
+		/**
+		* 	
+		*/
+		function get background():String;
+		function set background( value:String ):void;
+		
+		/**
+		* 	
+		*/
+		function get backgroundAttachment():String;
+		function set backgroundAttachment( value:String ):void;		
+		
 		//TOOD: declare all CSS2 properties
 	}
 }

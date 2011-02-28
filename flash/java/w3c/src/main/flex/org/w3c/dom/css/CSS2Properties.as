@@ -64,6 +64,39 @@ package org.w3c.dom.css
 	*/
 	public interface CSS2Properties extends CSSStyleDeclaration
 	{
+		/**
+		* 	See the <code>azimuth</code> property definition in CSS2.
+		* 
+		* 	@throws DOMException.SYNTAX_ERR: Raised if the new value
+		* 	has a syntax error and is unparsable.
+		*	@throws DOMException.NO_MODIFICATION_ALLOWED_ERR: Raised
+		* 	if this property is readonly.
+		*/
+		function get azimuth():String;
+		function set azimuth( value:String ):void;
+		
+		/**
+		* 	See the <code>background</code> property definition in CSS2.
+		* 
+		* 	@throws DOMException.SYNTAX_ERR: Raised if the new value
+		* 	has a syntax error and is unparsable.
+		*	@throws DOMException.NO_MODIFICATION_ALLOWED_ERR: Raised
+		* 	if this property is readonly.
+		*/
+		function get background():String;
+		function set background( value:String ):void;
+		
+		/**
+		* 	See the <code>background-attachment</code> property definition in CSS2.
+		* 
+		* 	@throws DOMException.SYNTAX_ERR: Raised if the new value
+		* 	has a syntax error and is unparsable.
+		*	@throws DOMException.NO_MODIFICATION_ALLOWED_ERR: Raised
+		* 	if this property is readonly.
+		*/
+		function get backgroundAttachment():String;
+		function set backgroundAttachment( value:String ):void;
+		
 		/*
 		
 		2.3. CSS2 Extended Interface
@@ -73,15 +106,6 @@ package org.w3c.dom.css
 		IDL Definition
 		// Introduced in DOM Level 2:
 		interface CSS2Properties {
-		           attribute DOMString        azimuth;
-		                                        // raises(DOMException) on setting
-
-		           attribute DOMString        background;
-		                                        // raises(DOMException) on setting
-
-		           attribute DOMString        backgroundAttachment;
-		                                        // raises(DOMException) on setting
-
 		           attribute DOMString        backgroundColor;
 		                                        // raises(DOMException) on setting
 
@@ -442,15 +466,7 @@ package org.w3c.dom.css
 		};
 
 		Attributes
-		azimuth of type DOMString
-		See the azimuth property definition in CSS2.
-		Exceptions on setting
-		DOMException
-
-		SYNTAX_ERR: Raised if the new value has a syntax error and is unparsable.
-
-		NO_MODIFICATION_ALLOWED_ERR: Raised if this property is readonly.
-
+		
 		background of type DOMString
 		See the background property definition in CSS2.
 		Exceptions on setting
