@@ -3,6 +3,7 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSPageRule;
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSStyleSheet;
+	import org.w3c.dom.css.RuleType;	
 	
 	/**
 	*	 Represents a &#64;page CSS rule.
@@ -20,7 +21,7 @@ package com.ffsys.w3c.dom.css
 			sheet:CSSStyleSheet = null,
 			parent:CSSRule = null )
 		{
-			__cssRuleType = PAGE_RULE;
+			__cssRuleType = RuleType.PAGE_RULE;
 			super( sheet, parent );
 		}
 	}

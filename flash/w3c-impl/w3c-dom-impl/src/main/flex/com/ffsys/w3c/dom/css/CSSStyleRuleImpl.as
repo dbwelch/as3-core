@@ -4,6 +4,7 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSStyleDeclaration;
 	import org.w3c.dom.css.CSSStyleSheet;	
+	import org.w3c.dom.css.RuleType;
 	
 	/**
 	* 	Represents a single rule set in a CSS style sheet.
@@ -24,7 +25,7 @@ package com.ffsys.w3c.dom.css
 			sheet:CSSStyleSheet = null,
 			parent:CSSRule = null )
 		{
-			__cssRuleType = STYLE_RULE;
+			__cssRuleType = RuleType.STYLE_RULE;
 			super( sheet, parent );
 		}
 		

@@ -1,6 +1,5 @@
 package org.w3c.dom.css
 {
-	
 	/**
 	* 	The CSS2Properties interface represents a convenience mechanism
 	* 	for retrieving and setting properties within a CSSStyleDeclaration.
@@ -11,34 +10,66 @@ package org.w3c.dom.css
 	* 	interface. Setting an attribute of this interface is equivalent to
 	* 	calling the setProperty method of the CSSStyleDeclaration interface.
 	* 
+	* 	<p><strong>Note:</strong> The interface found within this section are not mandatory.
+	* 	A DOM application may use the hasFeature(feature, version) method of
+	* 	the DOMImplementation interface with parameter values "CSS2" and "2.0"
+	* 	(respectively) to determine whether or not this module is supported by
+	* 	the implementation. In order to fully support this module, an
+	* 	implementation must also support the "CSS" feature defined defined in
+	* 	CSS Fundamental Interfaces. Please refer to additional information
+	* 	about conformance in the DOM Level 2 Core specification [DOM Level 2 Core].</p>
+	* 
+	* 	A conformant implementation of the CSS module is not required to
+	* 	implement the CSS2Properties interface. If an implementation does implement
+	* 	this interface, the expectation is that language-specific methods can be
+	* 	used to cast from an instance of the CSSStyleDeclaration interface to the
+	* 	CSS2Properties interface.
+	* 
+	* 	If an implementation does implement this interface, it is expected
+	* 	to understand the specific syntax of the shorthand properties,
+	* 	and apply their semantics; when the margin property is set,
+	* 	for example, the marginTop, marginRight, marginBottom and marginLeft
+	* 	properties are actually being set by the underlying implementation.
+	* 
+	* 	When dealing with CSS "shorthand" properties, the shorthand properties
+	* 	should be decomposed into their component longhand properties as appropriate,
+	* 	and when querying for their value, the form returned should be the shortest
+	* 	form exactly equivalent to the declarations made in the ruleset. However, if
+	* 	there is no shorthand declaration that could be added to the ruleset without
+	* 	changing in any way the rules already declared in the ruleset (i.e., by
+	* 	adding longhand rules that were previously not declared in the ruleset),
+	* 	then the empty string should be returned for the shorthand property.
+	* 
+	* 	For example, querying for the font property should not return
+	* 	"normal normal normal 14pt/normal Arial, sans-serif", when
+	* 	"14pt Arial, sans-serif" suffices. (The normals are initial values,
+	* 	and are implied by use of the longhand property.)
+	* 
+	* 	If the values for all the longhand properties that compose a
+	* 	particular string are the initial values, then a string consisting
+	* 	of all the initial values should be returned (e.g. a border-width
+	* 	value of "medium" should be returned as such, not as "").
+	* 
+	* 	For some shorthand properties that take missing values from
+	* 	other sides, such as the margin, padding, and border-[width|style|color]
+	* 	properties, the minimum number of sides possible should be used;
+	* 	i.e., "0px 10px" will be returned instead of "0px 10px 0px 10px".
+	* 
+	* 	If the value of a shorthand property can not be decomposed into
+	* 	its component longhand properties, as is the case for the font
+	* 	property with a value of "menu", querying for the values of the
+	* 	component longhand properties should return the empty string.
+	* 
 	*	@see http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
 	*/
-	public interface CSS2Properties
+	public interface CSS2Properties extends CSSStyleDeclaration
 	{
 		/*
 		
 		2.3. CSS2 Extended Interface
 
-		The interface found within this section are not mandatory. A DOM application may use the hasFeature(feature, version) method of the DOMImplementation interface with parameter values "CSS2" and "2.0" (respectively) to determine whether or not this module is supported by the implementation. In order to fully support this module, an implementation must also support the "CSS" feature defined defined in CSS Fundamental Interfaces. Please refer to additional information about conformance in the DOM Level 2 Core specification [DOM Level 2 Core].
-
 		Interface CSS2Properties (introduced in DOM Level 2)
-		The CSS2Properties interface represents a convenience mechanism for retrieving and setting properties within a CSSStyleDeclaration. The attributes of this interface correspond to all the properties specified in CSS2. Getting an attribute of this interface is equivalent to calling the getPropertyValue method of the CSSStyleDeclaration interface. Setting an attribute of this interface is equivalent to calling the setProperty method of the CSSStyleDeclaration interface.
-
-		A conformant implementation of the CSS module is not required to implement the CSS2Properties interface. If an implementation does implement this interface, the expectation is that language-specific methods can be used to cast from an instance of the CSSStyleDeclaration interface to the CSS2Properties interface.
-
-		If an implementation does implement this interface, it is expected to understand the specific syntax of the shorthand properties, and apply their semantics; when the margin property is set, for example, the marginTop, marginRight, marginBottom and marginLeft properties are actually being set by the underlying implementation.
-
-		When dealing with CSS "shorthand" properties, the shorthand properties should be decomposed into their component longhand properties as appropriate, and when querying for their value, the form returned should be the shortest form exactly equivalent to the declarations made in the ruleset. However, if there is no shorthand declaration that could be added to the ruleset without changing in any way the rules already declared in the ruleset (i.e., by adding longhand rules that were previously not declared in the ruleset), then the empty string should be returned for the shorthand property.
-
-		For example, querying for the font property should not return "normal normal normal 14pt/normal Arial, sans-serif", when "14pt Arial, sans-serif" suffices. (The normals are initial values, and are implied by use of the longhand property.)
-
-		If the values for all the longhand properties that compose a particular string are the initial values, then a string consisting of all the initial values should be returned (e.g. a border-width value of "medium" should be returned as such, not as "").
-
-		For some shorthand properties that take missing values from other sides, such as the margin, padding, and border-[width|style|color] properties, the minimum number of sides possible should be used; i.e., "0px 10px" will be returned instead of "0px 10px 0px 10px".
-
-		If the value of a shorthand property can not be decomposed into its component longhand properties, as is the case for the font property with a value of "menu", querying for the values of the component longhand properties should return the empty string.
-
-
+		
 		IDL Definition
 		// Introduced in DOM Level 2:
 		interface CSS2Properties {

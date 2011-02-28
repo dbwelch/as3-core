@@ -4,6 +4,7 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSRule;	
 	import org.w3c.dom.css.CSSStyleDeclaration;
 	import org.w3c.dom.css.CSSStyleSheet;	
+	import org.w3c.dom.css.RuleType;	
 	
 	/**
 	*	 Represents a &#64;font-face CSS rule.
@@ -23,7 +24,7 @@ package com.ffsys.w3c.dom.css
 			sheet:CSSStyleSheet = null,
 			parent:CSSRule = null )
 		{
-			__cssRuleType = FONT_FACE_RULE;
+			__cssRuleType = RuleType.FONT_FACE_RULE;
 			super( sheet, parent );
 		}
 		

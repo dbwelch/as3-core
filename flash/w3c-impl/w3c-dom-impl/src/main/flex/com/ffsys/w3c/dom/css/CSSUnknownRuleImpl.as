@@ -3,7 +3,8 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSUnknownRule;
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSStyleDeclaration;
-	import org.w3c.dom.css.CSSStyleSheet;	
+	import org.w3c.dom.css.CSSStyleSheet;
+	import org.w3c.dom.css.RuleType;	
 	
 	/**
 	* 	Represents an unknown at-rule.
@@ -21,7 +22,7 @@ package com.ffsys.w3c.dom.css
 			sheet:CSSStyleSheet = null,
 			parent:CSSRule = null )
 		{
-			__cssRuleType = UNKNOWN_RULE;
+			__cssRuleType = RuleType.UNKNOWN_RULE;
 			super( sheet, parent );
 		}
 	}

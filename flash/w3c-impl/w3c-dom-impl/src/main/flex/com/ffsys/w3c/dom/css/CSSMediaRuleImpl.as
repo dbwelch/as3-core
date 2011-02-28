@@ -5,6 +5,7 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSRuleList;
 	import org.w3c.dom.css.CSSStyleSheet;
 	import org.w3c.dom.css.MediaList;
+	import org.w3c.dom.css.RuleType;	
 	
 	/**
 	*	 Represents a &#64;media CSS rule.
@@ -25,7 +26,7 @@ package com.ffsys.w3c.dom.css
 			sheet:CSSStyleSheet = null,
 			parent:CSSRule = null )
 		{
-			__cssRuleType = MEDIA_RULE;
+			__cssRuleType = RuleType.MEDIA_RULE;
 			super( sheet, parent );
 		}
 		

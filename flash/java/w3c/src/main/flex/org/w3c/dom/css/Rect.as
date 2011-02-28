@@ -1,37 +1,42 @@
 package org.w3c.dom.css
 {
-	
 	/**
+	* 	The Rect interface is used to represent any rect value.
+	* 	
+	* 	This interface reflects the values in the underlying
+	* 	style property. Hence, modifications made to the CSSPrimitiveValue
+	* 	objects modify the style property.
 	* 
 	*	@see http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113/css.html
 	*/
 	public interface Rect
 	{
-		/*
-		
-		Interface Rect (introduced in DOM Level 2)
-		The Rect interface is used to represent any rect value. This interface reflects the values in the underlying style property. Hence, modifications made to the CSSPrimitiveValue objects modify the style property.
-
-
-		IDL Definition
-		// Introduced in DOM Level 2:
-		interface Rect {
-		  readonly attribute CSSPrimitiveValue  top;
-		  readonly attribute CSSPrimitiveValue  right;
-		  readonly attribute CSSPrimitiveValue  bottom;
-		  readonly attribute CSSPrimitiveValue  left;
-		};
-
-		Attributes
-		bottom of type CSSPrimitiveValue, readonly
-		This attribute is used for the bottom of the rect.
-		left of type CSSPrimitiveValue, readonly
-		This attribute is used for the left of the rect.
-		right of type CSSPrimitiveValue, readonly
-		This attribute is used for the right of the rect.
-		top of type CSSPrimitiveValue, readonly
-		This attribute is used for the top of the rect.		
-		
+		/**
+		* 	The top of the rectangle.
+		* 
+		* 	This attribute is used for the top of the rect.
 		*/
+		function get top():CSSPrimitiveValue;
+		
+		/**
+		* 	The right of the rectangle.
+		* 
+		* 	This attribute is used for the right of the rect.
+		*/
+		function get right():CSSPrimitiveValue;
+		
+		/**
+		* 	The bottom of the rectangle.
+		* 
+		* 	This attribute is used for the bottom of the rect.
+		*/
+		function get bottom():CSSPrimitiveValue;
+		
+		/**
+		* 	The left of the rectangle.
+		* 
+		* 	This attribute is used for the left of the rect.
+		*/
+		function get left():CSSPrimitiveValue;
 	}
 }
