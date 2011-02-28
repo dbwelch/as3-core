@@ -24,17 +24,12 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	Creates a <code>AbstractListImpl</code> instance.
-		* 
-		* 	@param contents Any Node or NodeList implementations
-		* 	to add to this node list, when a NodeList is encountered
-		* 	the contents of the NodeList are added to this implementation.
 		*/
-		public function AbstractListImpl( ...contents )
+		public function AbstractListImpl()
 		{
 			super();
 			//update our proxy source to the child vector
 			setProxySource( this.children );
-			this.concat.apply( this, contents );
 		}
 		
 		/**
