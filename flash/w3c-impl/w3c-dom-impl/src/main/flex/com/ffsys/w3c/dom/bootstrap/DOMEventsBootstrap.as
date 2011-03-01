@@ -84,6 +84,7 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			names.push( DOMFeature.MUTATION_EVENTS_MODULE );
 			names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );
+			names.push( DOMFeature.CUSTOM_EVENTS_MODULE );		
 		}
 		
 		/**

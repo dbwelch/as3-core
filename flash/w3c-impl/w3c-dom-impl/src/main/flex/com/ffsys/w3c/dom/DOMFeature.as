@@ -345,6 +345,13 @@ package com.ffsys.w3c.dom
 		* 	the DOM Views feature.
 		*/
 		public static const VIEWS_FEATURE:DOMFeature =
+			new DOMFeature( VIEWS_MODULE );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Views level 3.0 feature.
+		*/
+		public static const VIEWS_3_FEATURE:DOMFeature =
 			new DOMFeature( VIEWS_MODULE, LEVEL_3 );
 			
 		/**
@@ -359,6 +366,13 @@ package com.ffsys.w3c.dom
 		* 	the DOM CSS feature.
 		*/
 		public static const CSS_FEATURE:DOMFeature =
+			new DOMFeature( CSS_MODULE );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM CSS level 3.0 feature.
+		*/
+		public static const CSS_3_FEATURE:DOMFeature =
 			new DOMFeature( CSS_MODULE, LEVEL_3 );
 			
 		/**
@@ -366,6 +380,13 @@ package com.ffsys.w3c.dom
 		* 	the DOM CSS2 feature.
 		*/
 		public static const CSS2_FEATURE:DOMFeature =
+			new DOMFeature( CSS2_MODULE );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM CSS2 level 3.0 feature.
+		*/
+		public static const CSS2_3_FEATURE:DOMFeature =
 			new DOMFeature( CSS2_MODULE, LEVEL_3 );
 
 		private var _feature:String;

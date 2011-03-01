@@ -116,6 +116,8 @@ package com.ffsys.w3c.dom.bootstrap
 				_registry.addSource( new DOMEventsBootstrap() );
 				_registry.addSource( new DOMLSBootstrap() );
 				_registry.addSource( new DOMLSAsyncBootstrap() );
+				_registry.addSource( new DOMViewsBootstrap() );
+				_registry.addSource( new DOMCSSBootstrap() );
 				_registry.addSource( new DOMXMLBootstrap() );
 				_registry.addSource( new DOMHTMLBootstrap() );
 			}

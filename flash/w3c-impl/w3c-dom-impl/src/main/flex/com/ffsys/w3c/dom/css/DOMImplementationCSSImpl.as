@@ -21,7 +21,7 @@ package com.ffsys.w3c.dom.css
 		/**
 		* 	The bean name for the implementation of the "CSS" feature.
 		*/
-		public static const CSS_NAME:String = DOMFeature.CSS_MODULE;		
+		public static const CSS_NAME:String = DOMFeature.CSS_MODULE;	
 		
 		/**
 		* 	The bean name for the implementation of the "CSS2" feature.

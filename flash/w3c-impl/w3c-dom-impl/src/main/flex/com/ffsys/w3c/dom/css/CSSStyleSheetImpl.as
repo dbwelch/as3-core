@@ -11,6 +11,8 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSStyleDeclaration;
 	import org.w3c.dom.css.DocumentCSS;
 	import org.w3c.dom.css.StyleSheetList;	
+	
+	import com.ffsys.w3c.dom.DOMFeature;
 		
 	/**
 	* 	Represents a CSS style sheet.
@@ -18,6 +20,12 @@ package com.ffsys.w3c.dom.css
 	public class CSSStyleSheetImpl extends StyleSheetImpl
 		implements CSSStyleSheet, DocumentCSS
 	{
+		/**
+		* 	The bean name for the implementation of the
+		* 	"StyleSheets", "CSS" and "CSS2" features.
+		*/
+		public static const NAME:String = DOMFeature.STYLESHEETS_MODULE;
+		
 		private var _cssRules:CSSRuleList;
 		private var _ownerRule:CSSRule;
 				

@@ -23,7 +23,7 @@ package com.ffsys.w3c.dom.bootstrap
 	/**
 	* 	A boostrap document for the DOM HTML implementation.
 	*/
-	public class DOMHTMLBootstrap extends DOMLSAsyncBootstrap
+	public class DOMHTMLBootstrap extends DOMCSSBootstrap
 	{
 		/**
 		* 	The name for the <code>DOM</code> HTML implementation bean document.
@@ -74,19 +74,7 @@ package com.ffsys.w3c.dom.bootstrap
 			descriptor = new BeanDescriptor(
 				HTMLDocumentImpl.NAME );
 			descriptor.instanceClass = HTMLDocumentImpl;
-			beans.addBeanDescriptor( descriptor );
-			
-			//DOM UI Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.UI_EVENT_INTERFACE );
-			descriptor.instanceClass = UIEventImpl;
-			beans.addBeanDescriptor( descriptor );
-			
-			//DOM Focus Event
-			descriptor = new BeanDescriptor(
-				DocumentEventImpl.FOCUS_EVENT_INTERFACE );
-			descriptor.instanceClass = FocusEventImpl;
-			beans.addBeanDescriptor( descriptor );			
+			beans.addBeanDescriptor( descriptor );		
 			
 			addHTMLElements( beans );		
 		}
@@ -100,21 +88,6 @@ package com.ffsys.w3c.dom.bootstrap
 			output.push( DOMFeature.HTML_FEATURE );
 			output.push( DOMFeature.HTML_3_FEATURE );
 			return output;
-		}
-		
-		/**
-		* 	@private
-		*/
-		override protected function addCommonEventAliases( names:Vector.<String> ):void
-		{
-			super.addCommonEventAliases( names );
-			names.push( DOMFeature.UI_EVENTS_MODULE );
-			names.push( DOMFeature.MOUSE_EVENTS_MODULE );
-			names.push( DOMFeature.TEXT_EVENTS_MODULE );
-			names.push( DOMFeature.KEYBOARD_EVENTS_MODULE );
-			names.push( DOMFeature.WHEEL_EVENTS_MODULE );
-			names.push( DOMFeature.COMPOSITION_EVENTS_MODULE );
-			names.push( DOMFeature.CUSTOM_EVENTS_MODULE );
 		}		
 		
 		/**
