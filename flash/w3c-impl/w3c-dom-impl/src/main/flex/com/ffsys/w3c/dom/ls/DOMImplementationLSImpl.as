@@ -35,6 +35,22 @@ package com.ffsys.w3c.dom.ls
 		}
 		
 		/**
+		* 	@private
+		*/
+		override protected function get supported():Vector.<DOMFeature>
+		{
+			if( _supported == null )
+			{
+				_supported = super.supported;
+				_supported.push( DOMFeature.LS_FEATURE );
+				_supported.push( DOMFeature.LS_3_FEATURE );				
+				_supported.push( DOMFeature.LS_ASYNC_FEATURE );
+				_supported.push( DOMFeature.LS_ASYNC_3_FEATURE );
+			}
+			return _supported;
+		}		
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function createLSInput():LSInput

@@ -521,6 +521,9 @@ package com.ffsys.w3c.dom.support
 		public function toString():String
 		{
 			var nm:String = T.id( this );
+			
+			//trace("[STR] AbstractNodeProxyImpl::toString()", nm );
+			
 			if( this.id != null )
 			{
 				nm += "#" + this.id;

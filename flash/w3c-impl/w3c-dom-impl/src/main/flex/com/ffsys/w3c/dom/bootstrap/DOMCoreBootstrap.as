@@ -4,8 +4,11 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ioc.IBeanDescriptor;
 	
+	import org.w3c.dom.DOMImplementation;
+	
 	import com.ffsys.w3c.dom.DOMFeature;
-
+	
+	import com.ffsys.w3c.dom.DOMImplementationImpl;
 	import com.ffsys.w3c.dom.DocumentImpl;
 	import com.ffsys.w3c.dom.AttrImpl;
 	import com.ffsys.w3c.dom.ElementImpl;
@@ -17,10 +20,8 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.EntityImpl;
 	import com.ffsys.w3c.dom.EntityReferenceImpl;
 	
-	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
 	import com.ffsys.w3c.dom.range.RangeImpl;
 
-	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;
 	import com.ffsys.w3c.dom.traversal.NodeIteratorImpl;
 	import com.ffsys.w3c.dom.traversal.TreeWalkerImpl;
 	
@@ -140,19 +141,13 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			super.doWithImplementationFactories( factories );
 			
-			var descriptor:IBeanDescriptor = null;
-
-			descriptor = new BeanDescriptor(
-				DOMFeature.RANGE_MODULE );
-			descriptor.instanceClass = DocumentRangeImpl;
-			descriptor.singleton = true;
-			factories.addBeanDescriptor( descriptor );
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.TRAVERSAL_MODULE );
-			descriptor.instanceClass = DocumentTraversalImpl;
-			descriptor.singleton = true;
-			factories.addBeanDescriptor( descriptor );
+			var impl:DOMImplementation =
+				new DOMImplementationImpl();
+			createImplementationFactory(
+				factories,
+				DOMImplementationImpl.NAME,
+				DOMImplementationImpl,
+				impl );
 		}
 		
 		/**
@@ -162,26 +157,10 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			var descriptor:IBeanDescriptor = null;
 			
-			/*
-			descriptor = new BeanDescriptor(
-				DOMFeature.RANGE_MODULE );
-			descriptor.instanceClass = DocumentRangeImpl;
-			descriptor.singleton = true;
-			impls.addBeanDescriptor( descriptor );
-			*/
-			
 			descriptor = new BeanDescriptor(
 				RangeImpl.NAME );
 			descriptor.instanceClass = RangeImpl;
 			impls.addBeanDescriptor( descriptor );
-			
-			/*
-			descriptor = new BeanDescriptor(
-				DOMFeature.TRAVERSAL_MODULE );
-			descriptor.instanceClass = DocumentTraversalImpl;
-			descriptor.singleton = true;
-			impls.addBeanDescriptor( descriptor );
-			*/
 			
 			descriptor = new BeanDescriptor(
 				NodeIteratorImpl.NAME );

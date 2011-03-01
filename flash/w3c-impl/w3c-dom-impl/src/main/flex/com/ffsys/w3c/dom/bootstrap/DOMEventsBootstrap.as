@@ -4,6 +4,8 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ioc.IBeanDescriptor;
 	
+	import org.w3c.dom.DOMImplementation;
+	
 	import com.ffsys.w3c.dom.DOMFeature;
 	
 	import com.ffsys.w3c.dom.events.DocumentEventImpl;	
@@ -40,18 +42,7 @@ package com.ffsys.w3c.dom.bootstrap
 		override public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
-			super.doWithBeans( beans );
-			
-			var descriptor:IBeanDescriptor = null;
-			
-			descriptor = new BeanDescriptor(
-				DOMFeature.EVENTS_MODULE );
-			descriptor.instanceClass = DocumentEventImpl;
-			descriptor.singleton = true;
-			descriptor.names = new Vector.<String>();
-			addCommonEventAliases( descriptor.names );
-			
-			beans.addBeanDescriptor( descriptor );	
+			super.doWithBeans( beans );			
 			addCommonEvents( beans );
 		}
 		
@@ -69,11 +60,31 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
+		override protected function doWithImplementationFactories(
+			factories:IBeanDocument ):void
+		{
+			super.doWithImplementationFactories( factories );
+			
+			var impl:DOMImplementation = new DocumentEventImpl();
+			
+			var descriptor:IBeanDescriptor = createImplementationFactory(
+				factories,
+				DocumentEventImpl.NAME, 
+				DocumentEventImpl,
+				impl );
+
+			descriptor.names = new Vector.<String>();
+			addCommonEventAliases( descriptor.names );
+		}
+		
+		/**
+		* 	@private
+		*/
 		protected function addCommonEventAliases( names:Vector.<String> ):void
 		{
 			names.push( DOMFeature.MUTATION_EVENTS_MODULE );
 			names.push( DOMFeature.MUTATION_NAME_EVENTS_MODULE );
-		}		
+		}
 		
 		/**
 		* 	@private

@@ -49,12 +49,14 @@ package java.lang
 			}catch( e:Error )
 			{
 				var results:Array = MEMORY_ADDRESS.exec( e.message );
-				if( results != null && results[ 1 ] is String )
+				
+				//trace("MemoryAddress::toString()", e.message, results );
+				
+				if( results != null && ( results[ 1 ] is String ) )
 				{
 					return results[ 1 ] as String;
 				}
 			}
-			
 			return null;
 		}
 		

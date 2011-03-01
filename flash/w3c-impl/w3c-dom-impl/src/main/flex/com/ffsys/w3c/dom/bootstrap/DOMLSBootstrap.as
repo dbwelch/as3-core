@@ -3,6 +3,7 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.ioc.BeanDescriptor;
 	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ioc.IBeanDescriptor;
+	import com.ffsys.ioc.InjectedBeanDescriptor;
 	
 	import com.ffsys.w3c.dom.DOMFeature;
 	
@@ -17,6 +18,11 @@ package com.ffsys.w3c.dom.bootstrap
 	*/
 	public class DOMLSBootstrap extends DOMEventsBootstrap
 	{
+		/**
+		* 	@private
+		*/
+		static protected var __singleton:DOMImplementationLSImpl;
+		
 		/**
 		* 	The name for the <code>DOM</code> LS implementation bean document.
 		*/
@@ -60,11 +66,19 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		protected function getLSImplementationBeanDescriptor():IBeanDescriptor
+		override protected function doWithImplementationFactories(
+			factories:IBeanDocument ):void
 		{
-			var descriptor:IBeanDescriptor = new BeanDescriptor(
-				DOMImplementationLSImpl.NAME );
-			return descriptor;
+			super.doWithImplementationFactories( factories );
+			if( __singleton == null )
+			{
+				__singleton = new DOMImplementationLSImpl();
+			}
+			createImplementationFactory(
+				factories,
+				DOMImplementationLSImpl.NAME,
+				DOMImplementationLSImpl,
+				__singleton );
 		}
 		
 		/**
@@ -73,10 +87,7 @@ package com.ffsys.w3c.dom.bootstrap
 		protected function addLoadSaveImplementations( impls:IBeanDocument ):void
 		{
 			
-			var descriptor:IBeanDescriptor = getLSImplementationBeanDescriptor();
-			descriptor.instanceClass = DOMImplementationLSImpl;
-			descriptor.singleton = true;
-			impls.addBeanDescriptor( descriptor );
+			var descriptor:IBeanDescriptor = null;
 			
 			descriptor = new BeanDescriptor(
 				LSInputImpl.NAME );

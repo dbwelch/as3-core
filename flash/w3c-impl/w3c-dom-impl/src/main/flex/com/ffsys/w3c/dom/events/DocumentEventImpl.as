@@ -16,6 +16,12 @@ package com.ffsys.w3c.dom.events
 	public class DocumentEventImpl extends DOMImplementationImpl
 		implements DocumentEvent
 	{
+		
+		/**
+		* 	The bean name for the DOM Events implementation.
+		*/
+		public static const NAME:String = DOMFeature.EVENTS_MODULE;
+		
 		/**
 		* 	Represents the DOM event interface.
 		*/
@@ -82,7 +88,7 @@ package com.ffsys.w3c.dom.events
 			if( _supported == null )
 			{
 				_supported = super.supported;
-				_supported.push( DOMFeature.EVENTS_FEATURE );		
+				_supported.push( DOMFeature.EVENTS_FEATURE );
 				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
 				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
 			}

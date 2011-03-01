@@ -4,7 +4,6 @@ package com.ffsys.w3c.dom.traversal
 	import org.flexunit.async.Async;
 	
 	import com.ffsys.w3c.dom.DOMFeature;
-	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;	
 	import com.ffsys.w3c.dom.AbstractDomUnit;
 	
 	import org.w3c.dom.*;
@@ -34,8 +33,11 @@ package com.ffsys.w3c.dom.traversal
 			var docTraversal:DocumentTraversal =
 				DocumentTraversal( doc.implementation.getFeature(
 					DOMFeature.TRAVERSAL_MODULE, DOMFeature.LEVEL_3 ) );
+					
+			trace("[TRAVERSAL] DocumentTraversalCreationTest::getDocumentTraversal()", docTraversal );
+					
 			Assert.assertNotNull( docTraversal );
-			Assert.assertTrue( docTraversal is DocumentTraversalImpl );
+			Assert.assertTrue( docTraversal is DocumentTraversal );
 			return docTraversal;
 		}
 		

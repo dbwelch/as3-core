@@ -36,7 +36,7 @@ package com.ffsys.w3c.dom.range
 				DocumentRange( doc.implementation.getFeature(
 					DOMFeature.RANGE_MODULE, DOMFeature.LEVEL_3 ) );
 			Assert.assertNotNull( docRange );
-			Assert.assertTrue( docRange is DocumentRangeImpl );
+			Assert.assertTrue( docRange is DocumentRange );
 			return docRange;			
 		}
 		

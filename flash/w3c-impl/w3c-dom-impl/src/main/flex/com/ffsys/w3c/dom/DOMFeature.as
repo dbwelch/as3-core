@@ -16,7 +16,7 @@ package com.ffsys.w3c.dom
 		* 	The expression used to determine if a candidate
 		* 	feature part is a module.
 		*/
-		public static const MODULE_EXPRESSION:RegExp = /[a-zA-Z]+/;
+		public static const MODULE_EXPRESSION:RegExp = /\+?[a-zA-Z]+/;
 		
 		/**
 		* 	The expression used to determine if a candidate
@@ -368,7 +368,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@inheritDoc
 		*/
-		public function hasFeature(
+		public function equals(
 			feature:String, version:String ):Boolean
 		{
 			if( feature == null

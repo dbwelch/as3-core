@@ -38,7 +38,10 @@ package com.ffsys.w3c.dom.html
 			if( _supported == null )
 			{
 				_supported = super.supported;
-				_supported.push( DOMFeature.XML_FEATURE );
+				
+				//xml+html should be supported by an XHTML implementation
+				//_supported.push( DOMFeature.XML_FEATURE );
+				
 				_supported.push( DOMFeature.HTML_FEATURE );
 				_supported.push( DOMFeature.VIEWS_FEATURE );
 				_supported.push( DOMFeature.UI_EVENTS_FEATURE );

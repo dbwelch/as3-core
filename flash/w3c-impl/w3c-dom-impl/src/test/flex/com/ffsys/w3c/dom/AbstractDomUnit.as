@@ -135,6 +135,9 @@ package com.ffsys.w3c.dom
 			
 			//retrieve an implementation for "XML 3.0 Core"
 			var impl:DOMImplementation = getXMLImplementation();
+			
+			
+			
 			Assert.assertTrue( impl is XMLDOMImplementationImpl );
 			
 			//create a null doctype

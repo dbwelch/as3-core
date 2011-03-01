@@ -3,6 +3,7 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.ioc.BeanDescriptor;
 	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ioc.IBeanDescriptor;
+	import com.ffsys.ioc.InjectedBeanDescriptor;	
 	
 	import com.ffsys.w3c.dom.DOMFeature;
 	
@@ -35,22 +36,26 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
+		override protected function doWithImplementationFactories(
+			factories:IBeanDocument ):void
+		{
+			super.doWithImplementationFactories( factories );
+			createImplementationFactory(
+				factories,
+				DOMImplementationLSImpl.ASYNC_NAME, 
+				DOMImplementationLSImpl,
+				__singleton );
+		}
+		
+		/**
+		* 	@private
+		*/
 		override protected function getSupportedFeatures():Vector.<DOMFeature>
 		{
 			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
 			output.push( DOMFeature.LS_ASYNC_FEATURE );
 			output.push( DOMFeature.LS_ASYNC_3_FEATURE );
 			return output;
-		}		
-		
-		/**
-		* 	@private
-		*/
-		override protected function getLSImplementationBeanDescriptor():IBeanDescriptor
-		{
-			var descriptor:IBeanDescriptor = new BeanDescriptor(
-				DOMImplementationLSImpl.ASYNC_NAME );
-			return descriptor;
 		}
 	}
 }

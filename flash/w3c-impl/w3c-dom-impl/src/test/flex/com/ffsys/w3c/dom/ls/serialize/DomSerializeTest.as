@@ -3,6 +3,8 @@ package com.ffsys.w3c.dom.ls.serialize
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
+	import java.lang.T;
+	
 	import org.w3c.dom.*;
 	import org.w3c.dom.ls.*;
 	
@@ -62,7 +64,7 @@ package com.ffsys.w3c.dom.ls.serialize
 		{
 			Assert.assertNotNull( impl );
 			
-			trace("[GOT LS IMPL] DomSerializeTest::assertOnLsImplementation()", impl );
+			trace("[GOT LS IMPL] DomSerializeTest::assertOnLsImplementation()", impl, T.id( impl ) );
 			
 			Assert.assertTrue( impl is DOMImplementationLS );
 			

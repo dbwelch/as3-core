@@ -4,6 +4,8 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.ioc.IBeanDocument;
 	import com.ffsys.ioc.IBeanDescriptor;	
 	
+	import org.w3c.dom.DOMImplementation;
+	
 	import com.ffsys.w3c.dom.DOMFeature;
 	
 	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;
@@ -44,12 +46,13 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			super.doWithImplementationFactories( factories );
 			
-			var descriptor:IBeanDescriptor = null;
-			descriptor = new BeanDescriptor(
-				XMLDOMImplementationImpl.NAME );
-			descriptor.instanceClass = XMLDOMImplementationImpl;
-			descriptor.singleton = true;
-			factories.addBeanDescriptor( descriptor );
+			var impl:DOMImplementation =
+				new XMLDOMImplementationImpl();
+			createImplementationFactory(
+				factories,
+				XMLDOMImplementationImpl.NAME,
+				XMLDOMImplementationImpl,
+				impl );
 		}
 		
 		/**
@@ -70,9 +73,7 @@ package com.ffsys.w3c.dom.bootstrap
 			beans:IBeanDocument ):void
 		{
 			super.doWithBeans( beans );
-			
 			var descriptor:IBeanDescriptor = null;
-			
 			descriptor = new BeanDescriptor(
 				XMLDocumentImpl.NAME );
 			descriptor.instanceClass = XMLDocumentImpl;

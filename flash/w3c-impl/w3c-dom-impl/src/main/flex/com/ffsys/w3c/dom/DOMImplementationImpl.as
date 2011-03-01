@@ -12,6 +12,18 @@ package com.ffsys.w3c.dom
 	import org.w3c.dom.ls.LSSerializer;
 	import org.w3c.dom.ls.LSParser;	
 	
+	import org.w3c.dom.range.DocumentRange;
+	import org.w3c.dom.range.Range;	
+	
+	import org.w3c.dom.traversal.DocumentTraversal;
+	import org.w3c.dom.traversal.NodeFilter;
+	import org.w3c.dom.traversal.NodeIterator;
+	import org.w3c.dom.traversal.TreeWalker;	
+	
+	import com.ffsys.w3c.dom.range.RangeImpl;
+	import com.ffsys.w3c.dom.traversal.NodeIteratorImpl;
+	
+	
 	/**
 	*	Represents the <code>DOM</code> implementation.
 	*
@@ -22,8 +34,14 @@ package com.ffsys.w3c.dom
 	*	@since  09.01.2011
 	*/
 	public class DOMImplementationImpl extends AbstractNodeProxyImpl
-		implements DOMImplementation
+		implements DOMImplementation, DocumentTraversal, DocumentRange
 	{			
+		
+		/**
+		* 	The bean name for the DOM Core implementation.
+		*/
+		public static const NAME:String = DOMFeature.CORE_MODULE;
+		
 		/**
 		* 	@private
 		*/	
@@ -154,12 +172,21 @@ package com.ffsys.w3c.dom
 				_supported = new Vector.<DOMFeature>();
 				_supported.push( DOMFeature.CORE_FEATURE );
 				
+				_supported.push( DOMFeature.RANGE_FEATURE );
+				_supported.push( DOMFeature.RANGE_3_FEATURE );				
+				
+				_supported.push( DOMFeature.TRAVERSAL_FEATURE );
+				_supported.push( DOMFeature.TRAVERSAL_3_FEATURE );
+				
+				
+				/*
 				_supported.push( DOMFeature.LS_FEATURE );
 				_supported.push( DOMFeature.LS_ASYNC_FEATURE );
 				
 				_supported.push( DOMFeature.EVENTS_FEATURE );				
 				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
 				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
+				*/
 			}
 			return _supported;
 		}
@@ -170,6 +197,12 @@ package com.ffsys.w3c.dom
 		public function getFeature(
 			feature:String, version:String ):Object
 		{
+			var self:Object = isFeature( feature, version );
+			if( self != null )
+			{
+				return self;
+			}
+			
 			/*
 			trace("DOMImplementationImpl::getFeature()",
 				feature, version, supported, this.document );
@@ -190,16 +223,38 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	@private
+		*/
+		protected function isFeature(
+			feature:String, version:String ):Object
+		{
+			for( var i:int = 0;i < supported.length;i++ )
+			{
+				if( supported[ i ].equals( feature, version ) )
+				{
+					return this;
+				}
+			}
+			return null;
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function hasFeature(
 			feature:String, version:String ):Boolean
 		{
+			var self:Object = isFeature( feature, version );
+			if( self === this )
+			{
+				return true;
+			}
+			
 			var ft:DOMFeature = null;
 			for( var i:int = 0;i < supported.length;i++ )
 			{
 				ft = supported[ i ];
-				if( ft.hasFeature( feature, version ) )
+				if( ft.equals( feature, version ) )
 				{
 					return true;
 				}
@@ -235,6 +290,66 @@ package com.ffsys.w3c.dom
 			throw new Error(
 				"The document must be created by a derived DOM implementation." );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function createRange():Range
+		{
+			var bean:Object = null;
+			try
+			{
+				bean = this.document.getBean(
+					RangeImpl.NAME );
+			}catch( e:Error )
+			{
+				//no bean document assigned most likely
+				//not instantiated via IoC
+				bean = new RangeImpl();
+			}
+			return Range( bean );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function createNodeIterator(
+			root:Node,
+			whatToShow:uint,
+			filter:NodeFilter,
+			entityReferenceExpansion:Boolean ):NodeIterator
+		{
+			var bean:Object = null;
+			try
+			{
+				bean = this.document.getBean(
+					NodeIteratorImpl.NAME );
+			}catch( e:Error )
+			{
+				//no bean document assigned most likely
+				//not instantiated via IoC
+				bean = new NodeIteratorImpl();
+			}
+			
+			var iterator:NodeIterator = NodeIterator( bean );
+			
+			//TODO: set all the iterator properties
+			
+			return iterator;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function createTreeWalker(
+			root:Node,
+			whatToShow:uint,
+			filter:NodeFilter,
+			entityReferenceExpansion:Boolean ):TreeWalker
+		{
+			//TODO
+			return null;
+		}		
 		
 		/**
 		* 	@private
