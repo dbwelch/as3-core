@@ -63,9 +63,6 @@ package com.ffsys.w3c.dom.ls.serialize
 		private function assertOnLsImplementation( impl:DOMImplementation ):void
 		{
 			Assert.assertNotNull( impl );
-			
-			trace("[GOT LS IMPL] DomSerializeTest::assertOnLsImplementation()", impl, T.id( impl ) );
-			
 			Assert.assertTrue( impl is DOMImplementationLS );
 			
 			//verify input/output creation			

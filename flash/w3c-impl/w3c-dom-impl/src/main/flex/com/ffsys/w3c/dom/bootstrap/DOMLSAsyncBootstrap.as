@@ -53,7 +53,6 @@ package com.ffsys.w3c.dom.bootstrap
 		override protected function getSupportedFeatures():Vector.<DOMFeature>
 		{
 			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
-			output.push( DOMFeature.LS_ASYNC_FEATURE );
 			output.push( DOMFeature.LS_ASYNC_3_FEATURE );
 			return output;
 		}

@@ -164,27 +164,13 @@ package com.ffsys.w3c.dom
 		* 	Represents the DOM level 3 version number.
 		*/
 		public static const LEVEL_3:String = "3.0";
-		
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM Core feature.
-		*/
-		public static const CORE_FEATURE:DOMFeature =
-			new DOMFeature( CORE_MODULE );
 
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Core level 3.0 feature.
 		*/
 		public static const CORE_3_FEATURE:DOMFeature =
-			new DOMFeature( CORE_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM XML feature.
-		*/
-		public static const XML_FEATURE:DOMFeature =
-			new DOMFeature( XML_MODULE );			
+			new DOMFeature( CORE_MODULE, LEVEL_3 );			
 			
 		/**
 		* 	A feature implementation to represent
@@ -192,41 +178,19 @@ package com.ffsys.w3c.dom
 		*/
 		public static const XML_3_FEATURE:DOMFeature =
 			new DOMFeature( XML_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM HTML feature.
-		*/
-		public static const HTML_FEATURE:DOMFeature =
-			new DOMFeature( HTML_MODULE );
-			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM HTML level 3.0 feature.
 		*/
 		public static const HTML_3_FEATURE:DOMFeature =
 			new DOMFeature( HTML_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM LS feature.
-		*/
-		public static const LS_FEATURE:DOMFeature =
-			new DOMFeature( LS_MODULE );
 					
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM LS level 3.0 feature.
 		*/
 		public static const LS_3_FEATURE:DOMFeature =
-			new DOMFeature( LS_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM LS Async feature.
-		*/
-		public static const LS_ASYNC_FEATURE:DOMFeature =
-			new DOMFeature( LS_ASYNC_MODULE );			
+			new DOMFeature( LS_MODULE, LEVEL_3 );		
 
 		/**
 		* 	A feature implementation to represent
@@ -239,15 +203,8 @@ package com.ffsys.w3c.dom
 		* 	A feature implementation to represent
 		* 	the DOM Validation feature.
 		*/
-		public static const VALIDATION_FEATURE:DOMFeature =
+		public static const VALIDATION_3_FEATURE:DOMFeature =
 			new DOMFeature( VALIDATION_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM Range feature.
-		*/
-		public static const RANGE_FEATURE:DOMFeature =
-			new DOMFeature( RANGE_MODULE );
 
 		/**
 		* 	A feature implementation to represent
@@ -255,13 +212,6 @@ package com.ffsys.w3c.dom
 		*/
 		public static const RANGE_3_FEATURE:DOMFeature =
 			new DOMFeature( RANGE_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM Traversal feature.
-		*/
-		public static const TRAVERSAL_FEATURE:DOMFeature =
-			new DOMFeature( TRAVERSAL_MODULE );
 
 		/**
 		* 	A feature implementation to represent
@@ -269,13 +219,6 @@ package com.ffsys.w3c.dom
 		*/
 		public static const TRAVERSAL_3_FEATURE:DOMFeature =
 			new DOMFeature( TRAVERSAL_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM ElementTraversal feature.
-		*/
-		public static const ELEMENT_TRAVERSAL_FEATURE:DOMFeature =
-			new DOMFeature( ELEMENT_TRAVERSAL_MODULE );
 
 		/**
 		* 	A feature implementation to represent
@@ -286,13 +229,6 @@ package com.ffsys.w3c.dom
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Events feature.
-		*/
-		public static const EVENTS_FEATURE:DOMFeature =
-			new DOMFeature( EVENTS_MODULE );
-			
-		/**
-		* 	A feature implementation to represent
 		* 	the DOM Events level 3.0 feature.
 		*/
 		public static const EVENTS_3_FEATURE:DOMFeature =
@@ -300,52 +236,45 @@ package com.ffsys.w3c.dom
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM UI Events feature.
+		* 	the DOM UI Events level 3.0 feature.
 		*/
-		public static const UI_EVENTS_FEATURE:DOMFeature =
+		public static const UI_EVENTS_3_FEATURE:DOMFeature =
 			new DOMFeature( UI_EVENTS_MODULE, LEVEL_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Mouse Events feature.
+		* 	the DOM Mouse Events level 3.0 feature.
 		*/
-		public static const MOUSE_EVENTS_FEATURE:DOMFeature =
+		public static const MOUSE_EVENTS_3_FEATURE:DOMFeature =
 			new DOMFeature( MOUSE_EVENTS_MODULE, LEVEL_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Text Events feature.
+		* 	the DOM Text Events level 3.0 feature.
 		*/
-		public static const TEXT_EVENTS_FEATURE:DOMFeature =
+		public static const TEXT_EVENTS_3_FEATURE:DOMFeature =
 			new DOMFeature( TEXT_EVENTS_MODULE, LEVEL_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Keyboard Events feature.
+		* 	the DOM Keyboard Events level 3.0 feature.
 		*/
-		public static const KEYBOARD_EVENTS_FEATURE:DOMFeature =
+		public static const KEYBOARD_EVENTS_3_FEATURE:DOMFeature =
 			new DOMFeature( KEYBOARD_EVENTS_MODULE, LEVEL_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Mutation Events feature.
+		* 	the DOM Mutation Events level 3.0 feature.
 		*/
-		public static const MUTATION_EVENTS_FEATURE:DOMFeature =
+		public static const MUTATION_EVENTS_3_FEATURE:DOMFeature =
 			new DOMFeature( MUTATION_EVENTS_MODULE, LEVEL_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Mutation Events feature.
+		* 	the DOM Mutation Events level 3.0 feature.
 		*/
-		public static const MUTATION_NAME_EVENTS_FEATURE:DOMFeature =
+		public static const MUTATION_NAME_EVENTS_3_FEATURE:DOMFeature =
 			new DOMFeature( MUTATION_NAME_EVENTS_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM Views feature.
-		*/
-		public static const VIEWS_FEATURE:DOMFeature =
-			new DOMFeature( VIEWS_MODULE );
 			
 		/**
 		* 	A feature implementation to represent
@@ -356,17 +285,10 @@ package com.ffsys.w3c.dom
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM StyleSheets feature.
+		* 	the DOM StyleSheets level 3.0 feature.
 		*/
-		public static const STYLESHEETS_FEATURE:DOMFeature =
+		public static const STYLESHEETS_3_FEATURE:DOMFeature =
 			new DOMFeature( STYLESHEETS_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM CSS feature.
-		*/
-		public static const CSS_FEATURE:DOMFeature =
-			new DOMFeature( CSS_MODULE );
 			
 		/**
 		* 	A feature implementation to represent
@@ -374,13 +296,6 @@ package com.ffsys.w3c.dom
 		*/
 		public static const CSS_3_FEATURE:DOMFeature =
 			new DOMFeature( CSS_MODULE, LEVEL_3 );
-			
-		/**
-		* 	A feature implementation to represent
-		* 	the DOM CSS2 feature.
-		*/
-		public static const CSS2_FEATURE:DOMFeature =
-			new DOMFeature( CSS2_MODULE );
 			
 		/**
 		* 	A feature implementation to represent
@@ -448,25 +363,27 @@ package com.ffsys.w3c.dom
 		* 	@inheritDoc
 		*/
 		public function equals(
-			feature:String, version:String ):Boolean
+			name:String, level:String ):Boolean
 		{
-			if( feature == null
-				|| this.feature == null
-				|| feature != this.feature )
+			if( name == null
+				|| this.feature == null )
 			{
 				return false;
 			}
-			feature = feature.toLowerCase();
-			if( version != null && this.version != null )
+			
+			if( level == "4.0" )
 			{
-				var target:Number = Number( version );
-				var limit:Number = Number( this.version );
-				if( isNaN( target ) || target > limit )
-				{
-					return false;
-				}
+				trace("[4.0] DOMFeature::equals()", name, level, this.version );
 			}
-			return ( feature == this.feature.toLowerCase() );
+			
+			name = name.toLowerCase();
+			if( this.version != null
+				&& ( level != null && level != "" ) )
+			{
+				return ( this.version === level )
+					&& ( name === this.feature.toLowerCase() );
+			}
+			return ( name === this.feature.toLowerCase() );
 		}
 		
 		/**

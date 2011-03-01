@@ -49,7 +49,7 @@ package com.ffsys.w3c.dom.xml
 			if( _supported == null )
 			{
 				_supported = super.supported;
-				_supported.push( DOMFeature.XML_FEATURE );
+				_supported.push( DOMFeature.XML_3_FEATURE );
 			}
 			return _supported;
 		}		

@@ -179,13 +179,9 @@ package com.ffsys.w3c.dom
 			if( _supported == null )
 			{
 				_supported = new Vector.<DOMFeature>();
-				_supported.push( DOMFeature.CORE_FEATURE );
 				_supported.push( DOMFeature.CORE_3_FEATURE );
-				_supported.push( DOMFeature.RANGE_FEATURE );
 				_supported.push( DOMFeature.RANGE_3_FEATURE );
-				_supported.push( DOMFeature.TRAVERSAL_FEATURE );
 				_supported.push( DOMFeature.TRAVERSAL_3_FEATURE );
-				_supported.push( DOMFeature.ELEMENT_TRAVERSAL_FEATURE );
 				_supported.push( DOMFeature.ELEMENT_TRAVERSAL_3_FEATURE );
 			}
 			return _supported;

@@ -124,11 +124,8 @@ package com.ffsys.w3c.dom.bootstrap
 		override protected function getSupportedFeatures():Vector.<DOMFeature>
 		{
 			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
-			output.push( DOMFeature.CORE_FEATURE );
 			output.push( DOMFeature.CORE_3_FEATURE );
-			output.push( DOMFeature.RANGE_FEATURE );
 			output.push( DOMFeature.RANGE_3_FEATURE );
-			output.push( DOMFeature.TRAVERSAL_FEATURE );
 			output.push( DOMFeature.TRAVERSAL_3_FEATURE );
 			return output;
 		}

@@ -58,9 +58,7 @@ package com.ffsys.w3c.dom.ls
 			if( _supported == null )
 			{
 				_supported = super.supported;
-				_supported.push( DOMFeature.LS_FEATURE );
-				_supported.push( DOMFeature.LS_3_FEATURE );				
-				_supported.push( DOMFeature.LS_ASYNC_FEATURE );
+				_supported.push( DOMFeature.LS_3_FEATURE );
 				_supported.push( DOMFeature.LS_ASYNC_3_FEATURE );
 			}
 			return _supported;

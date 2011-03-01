@@ -62,6 +62,18 @@ package com.ffsys.w3c.dom.bootstrap
 			new Vector.<DOMImplementation>();
 			
 		/**
+		* 	@private
+		* 
+		* 	Used internally in the unit tests to purge cached implementations.
+		*/
+		static internal function clearCachedImplementations():void
+		{
+			_factories = new Dictionary( true );
+			__implementations =
+				new Vector.<DOMImplementation>();			
+		}
+			
+		/**
 		* 	Creates a <code>DOMBootstrap</code> instance.
 		* 
 		* 	@param identifier A specific id to use for this document.
@@ -155,7 +167,7 @@ package com.ffsys.w3c.dom.bootstrap
 				return null;
 			}
 			
-			//trace("[GET DOM IMPL] DOMBootstrap::getDOMImplementation()", features, __implementations );
+			//trace("[GET DOM IMPL] DOMBootstrap::getDOMImplementation()", features );
 			
 			var list:DOMImplementationList = getDOMImplementationList( features );
 			
@@ -214,30 +226,6 @@ package com.ffsys.w3c.dom.bootstrap
 				}
 			}
 			
-			return list;
-		}
-		
-		/**
-		* 	@private
-		* 
-		* 	Converts the mapping of factories to a list
-		* 	of implementations.
-		* 
-		* 	@return A list of pre-instantiated DOM implementation
-		* 	singleton factories.
-		*/
-		protected function getFactoryImplementations():Vector.<DOMImplementation>
-		{
-			var list:Vector.<DOMImplementation> =
-				new Vector.<DOMImplementation>();
-			var o:Object = null;
-			for each( o in _factories )
-			{
-				if( o is DOMImplementation )
-				{
-					list.push( DOMImplementation( o ) );
-				}
-			}
 			return list;
 		}
 		

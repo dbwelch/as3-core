@@ -52,7 +52,6 @@ package com.ffsys.w3c.dom.bootstrap
 		override protected function getSupportedFeatures():Vector.<DOMFeature>
 		{
 			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
-			output.push( DOMFeature.EVENTS_FEATURE );
 			output.push( DOMFeature.EVENTS_3_FEATURE );
 			return output;
 		}

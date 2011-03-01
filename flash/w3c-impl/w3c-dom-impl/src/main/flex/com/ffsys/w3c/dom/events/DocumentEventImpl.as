@@ -100,9 +100,9 @@ package com.ffsys.w3c.dom.events
 			if( _supported == null )
 			{
 				_supported = super.supported;
-				_supported.push( DOMFeature.EVENTS_FEATURE );
-				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
-				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
+				_supported.push( DOMFeature.EVENTS_3_FEATURE );
+				_supported.push( DOMFeature.MUTATION_EVENTS_3_FEATURE );
+				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_3_FEATURE );
 			}
 			return _supported;
 		}

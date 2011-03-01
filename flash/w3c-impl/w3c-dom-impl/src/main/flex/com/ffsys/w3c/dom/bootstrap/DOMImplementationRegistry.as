@@ -18,7 +18,7 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
-		static private var __sources:Vector.<DOMImplementationSource> =
+		private var _sources:Vector.<DOMImplementationSource> =
 			new Vector.<DOMImplementationSource>();
 		
 		/**
@@ -34,6 +34,14 @@ package com.ffsys.w3c.dom.bootstrap
 		}
 		
 		/**
+		* 	Removes all registered sources.
+		*/
+		public function clear():void
+		{
+			_sources = new Vector.<DOMImplementationSource>();
+		}
+		
+		/**
 		* 	Register an implementation.
 		* 
 		* 	@param source The source to be registered, may not be null.
@@ -41,10 +49,22 @@ package com.ffsys.w3c.dom.bootstrap
 		public function addSource( source:DOMImplementationSource ):void
 		{
 			if( source != null
-				&& __sources.indexOf( source ) == -1 )
+				&& _sources.indexOf( source ) == -1 )
 			{
-				__sources.push( source );
+				_sources.push( source );
 			}
+		}
+		
+		/**
+		* 	Retrieves the underlying collection of implementation
+		* 	sources.
+		* 
+		* 	Modifying this collection will modify the sources represented
+		* 	by this implementation registry and vice versa.
+		*/
+		public function get sources():Vector.<DOMImplementationSource>
+		{
+			return _sources;
 		}
 	
 		/**
@@ -54,9 +74,9 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			var source:DOMImplementationSource = null;
 			var impl:DOMImplementation = null;
-			for( var i:int = 0;i < __sources.length;i++ )
+			for( var i:int = 0;i < _sources.length;i++ )
 			{
-				source = __sources[ i ];
+				source = _sources[ i ];
 				impl = source.getDOMImplementation( features );
 				if( impl != null )
 				{	
@@ -73,9 +93,9 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			var source:DOMImplementationSource = null;
 			var impl:DOMImplementationList = null;
-			for( var i:int = 0;i < __sources.length;i++ )
+			for( var i:int = 0;i < _sources.length;i++ )
 			{
-				source = __sources[ i ];
+				source = _sources[ i ];
 				impl = source.getDOMImplementationList( features );
 				if( impl != null )
 				{	
@@ -110,16 +130,6 @@ package com.ffsys.w3c.dom.bootstrap
 			if( _registry == null )
 			{
 				_registry = new DOMImplementationRegistry( SingletonEnforcer );
-				
-				//TODO: move these defaults to be runtime system properties
-				_registry.addSource( new DOMCoreBootstrap() );
-				_registry.addSource( new DOMEventsBootstrap() );
-				_registry.addSource( new DOMLSBootstrap() );
-				_registry.addSource( new DOMLSAsyncBootstrap() );
-				_registry.addSource( new DOMViewsBootstrap() );
-				_registry.addSource( new DOMCSSBootstrap() );
-				_registry.addSource( new DOMXMLBootstrap() );
-				_registry.addSource( new DOMHTMLBootstrap() );
 			}
 			return _registry;
 		}

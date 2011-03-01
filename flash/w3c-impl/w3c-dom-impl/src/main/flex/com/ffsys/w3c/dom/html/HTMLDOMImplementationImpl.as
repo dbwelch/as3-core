@@ -4,13 +4,10 @@ package com.ffsys.w3c.dom.html
 	import org.w3c.dom.html.HTMLDOMImplementation;
 	import org.w3c.dom.html.HTMLDocument;
 	
-	import org.w3c.dom.css.CSSStyleSheet;
-	import org.w3c.dom.css.DOMImplementationCSS;	
-	
 	import com.ffsys.w3c.dom.DOMFeature;
 	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 	
-	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;	
+	import com.ffsys.w3c.dom.css.DOMImplementationCSSImpl;
 	
 	/**
 	* 	Extends the load and save features support with the "HTML" feature.
@@ -38,8 +35,8 @@ package com.ffsys.w3c.dom.html
 	* 		<li><code>HTML</code></li>
 	* 	</ol>
 	*/
-	public class HTMLDOMImplementationImpl extends DOMImplementationLSImpl
-		implements HTMLDOMImplementation, DOMImplementationCSS
+	public class HTMLDOMImplementationImpl extends DOMImplementationCSSImpl
+		implements HTMLDOMImplementation
 	{
 		/**
 		* 	The bean name for the implementation of the "HTML" feature.
@@ -54,16 +51,6 @@ package com.ffsys.w3c.dom.html
 		public function HTMLDOMImplementationImpl()
 		{
 			super();
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function createCSSStyleSheet(
-			title:String, media:String ):CSSStyleSheet
-		{
-			//TODO
-			return null;
 		}		
 		
 		/**
@@ -78,17 +65,17 @@ package com.ffsys.w3c.dom.html
 				//xml+html should be supported by an XHTML implementation
 				//_supported.push( DOMFeature.XML_FEATURE );
 				
-				_supported.push( DOMFeature.UI_EVENTS_FEATURE );
-				_supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
-				_supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
-				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );
+				_supported.push( DOMFeature.UI_EVENTS_3_FEATURE );
+				_supported.push( DOMFeature.MOUSE_EVENTS_3_FEATURE );
+				_supported.push( DOMFeature.TEXT_EVENTS_3_FEATURE );
+				_supported.push( DOMFeature.KEYBOARD_EVENTS_3_FEATURE );
 							
-				_supported.push( DOMFeature.VIEWS_FEATURE );
-				_supported.push( DOMFeature.STYLESHEETS_FEATURE );				
-				_supported.push( DOMFeature.CSS_FEATURE );
-				_supported.push( DOMFeature.CSS2_FEATURE );
+				_supported.push( DOMFeature.VIEWS_3_FEATURE );
+				_supported.push( DOMFeature.STYLESHEETS_3_FEATURE );				
+				_supported.push( DOMFeature.CSS_3_FEATURE );
+				_supported.push( DOMFeature.CSS2_3_FEATURE );
 				
-				_supported.push( DOMFeature.HTML_FEATURE );				
+				_supported.push( DOMFeature.HTML_3_FEATURE );
 			}
 			return _supported;
 		}
