@@ -1,16 +1,22 @@
 package com.ffsys.w3c.dom.css
 {
 	import org.w3c.dom.Node;
+	import org.w3c.dom.Element;
+	
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSRuleList;
 	import org.w3c.dom.css.CSSStyleSheet;
-	import org.w3c.dom.css.StyleSheet;	
+	import org.w3c.dom.css.StyleSheet;
+	
+	import org.w3c.dom.css.CSSStyleDeclaration;
+	import org.w3c.dom.css.DocumentCSS;
+	import org.w3c.dom.css.StyleSheetList;	
 		
 	/**
 	* 	Represents a CSS style sheet.
 	*/
 	public class CSSStyleSheetImpl extends StyleSheetImpl
-		implements CSSStyleSheet
+		implements CSSStyleSheet, DocumentCSS
 	{
 		private var _cssRules:CSSRuleList;
 		private var _ownerRule:CSSRule;
@@ -27,6 +33,25 @@ package com.ffsys.w3c.dom.css
 		{
 			super( parent, owner );
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get styleSheets():StyleSheetList
+		{
+			//TODO
+			return null;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function getOverrideStyle(
+			element:Element, pseudo:String = null ):CSSStyleDeclaration
+		{
+			//TODO
+			return null;
+		}		
 		
 		/**
 		* 	@inheritDoc

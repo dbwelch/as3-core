@@ -81,7 +81,8 @@ package com.ffsys.w3c.dom.html
 				_supported.push( DOMFeature.UI_EVENTS_FEATURE );
 				_supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
 				_supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
-				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );				
+				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );
+							
 				_supported.push( DOMFeature.VIEWS_FEATURE );
 				_supported.push( DOMFeature.STYLESHEETS_FEATURE );				
 				_supported.push( DOMFeature.CSS_FEATURE );

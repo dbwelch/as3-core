@@ -5,6 +5,8 @@ package com.ffsys.w3c.dom.css
 	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 	
+	import com.ffsys.w3c.dom.DOMFeature;
+	
 	/**
 	* 	Represents a CSS DOM implementation.
 	*/
@@ -12,9 +14,19 @@ package com.ffsys.w3c.dom.css
 		implements DOMImplementationCSS
 	{
 		/**
-		* 	The bean name for the implementation of the "HTML" feature.
+		* 	The bean name for the implementation of the "StyleSheets" feature.
 		*/
-		public static const NAME:String = "dom-css-impl";
+		public static const NAME:String = DOMFeature.STYLESHEETS_MODULE;
+		
+		/**
+		* 	The bean name for the implementation of the "CSS" feature.
+		*/
+		public static const CSS_NAME:String = DOMFeature.CSS_MODULE;		
+		
+		/**
+		* 	The bean name for the implementation of the "CSS2" feature.
+		*/
+		public static const CSS2_NAME:String = DOMFeature.CSS2_MODULE;
 		
 		/**
 		* 	Creates a <code>DOMImplementationCSSImpl</code> instance.
