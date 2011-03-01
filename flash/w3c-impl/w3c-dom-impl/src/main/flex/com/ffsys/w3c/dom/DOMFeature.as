@@ -371,11 +371,19 @@ package com.ffsys.w3c.dom
 				return false;
 			}
 			
-			if( level == "4.0" )
+			var targetVersion:DOMVersion = null;
+			//explicit version number found
+			if( level != null && level != "" )
 			{
-				trace("[4.0] DOMFeature::equals()", name, level, this.version );
+				targetVersion = new DOMVersion( level );
+				
+				//invalid version number
+				if( !targetVersion.isValid() )
+				{
+					return false;
+				}
 			}
-			
+
 			name = name.toLowerCase();
 			if( this.version != null
 				&& ( level != null && level != "" ) )
