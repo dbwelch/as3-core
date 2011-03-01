@@ -1,22 +1,19 @@
 package com.ffsys.w3c.dom.bootstrap
 {
-	import com.ffsys.ioc.*;
-		
-	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;	
-	
-	import org.w3c.dom.*;
+	import org.w3c.dom.DOMImplementation;
+	import org.w3c.dom.DOMImplementationList;
 	import org.w3c.dom.DOMImplementationSource;
 	
 	/**
-	* 	@inheritDoc
+	* 	A registry for DOM implementations.
 	*/
-	public class DOMImplementationRegistry extends AbstractNodeProxyImpl
+	public class DOMImplementationRegistry extends Object
 		implements DOMImplementationSource
 	{
 		/**
-		* 	The bean name for a DOM registry.
+		* 	The implementation registry singleton.
 		*/
-		public static const NAME:String = "dom-registry";
+		static private var _registry:DOMImplementationRegistry;
 		
 		/**
 		* 	@private
@@ -110,15 +107,19 @@ package com.ffsys.w3c.dom.bootstrap
 		*/
 		public static function newInstance():DOMImplementationRegistry
 		{
-			var bean:Object = new DOMImplementationRegistry( SingletonEnforcer );
-			var registry:DOMImplementationRegistry = DOMImplementationRegistry( bean );
-			registry.addSource( new DOMCoreBootstrap() );
-			registry.addSource( new DOMEventsBootstrap() );
-			registry.addSource( new DOMLSBootstrap() );
-			registry.addSource( new DOMLSAsyncBootstrap() );
-			registry.addSource( new DOMXMLBootstrap() );
-			registry.addSource( new DOMHTMLBootstrap() );
-			return registry;
+			if( _registry == null )
+			{
+				_registry = new DOMImplementationRegistry( SingletonEnforcer );
+				
+				//TODO: move these defaults to be runtime system properties
+				_registry.addSource( new DOMCoreBootstrap() );
+				_registry.addSource( new DOMEventsBootstrap() );
+				_registry.addSource( new DOMLSBootstrap() );
+				_registry.addSource( new DOMLSAsyncBootstrap() );
+				_registry.addSource( new DOMXMLBootstrap() );
+				_registry.addSource( new DOMHTMLBootstrap() );
+			}
+			return _registry;
 		}
 	}
 }

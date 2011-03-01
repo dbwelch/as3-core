@@ -1,5 +1,7 @@
 package com.ffsys.w3c.dom.bootstrap
 {
+	import flash.utils.Dictionary;
+	
 	import com.ffsys.ioc.*;
 	
 	import com.ffsys.w3c.dom.*;
@@ -36,6 +38,25 @@ package com.ffsys.w3c.dom.bootstrap
 		* 	The name for a <code>DOM</code> bootstrap bean document.
 		*/
 		public static const NAME:String = "dom-bootstrap";
+		
+		/**
+ 		* 	The name for a bean document used to store
+ 		* 	various DOM implementations.
+ 		* 
+ 		* 	This bean document is always added to the xrefs
+ 		* 	of this document and is used to store any more
+ 		* 	lightweight DOM implementations
+		*/
+		public static const IMPLEMENTATION_FACTORIES:String = "dom-implementations";
+		
+		/**
+		* 	@private
+		* 
+		* 	A dictionary of cached DOM implementation factories
+		* 	the key is the concrete class of the implementation
+		* 	while the value is the DOMImplementation singleton instance.
+		*/
+		static private var _factories:Dictionary = new Dictionary( true );
 			
 		/**
 		* 	Creates a <code>DOMBootstrap</code> instance.
@@ -46,6 +67,80 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			super( identifier );
 			doWithBeans( this );
+			createImplementationFactoryDocument();
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function createImplementationFactoryDocument():void
+		{
+			var factories:IBeanDocument = new BeanDocument(
+				IMPLEMENTATION_FACTORIES );
+			doWithImplementationFactories( factories );
+			preinstantiateImplementationFactoryBeans( factories );
+			this.xrefs.push( factories );
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Allows derived implementations to add more lightweight
+		* 	factories as accessible via a bean document xref.
+		* 
+		* 	@param factories The DOM implementation factories document.
+		*/
+		protected function doWithImplementationFactories(
+			factories:IBeanDocument ):void
+		{
+			//
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	After the implementation factory beans hav been
+		* 	prepared this method is invoked to preinstantiate
+		* 	all singleton beans in the implementation factory
+		* 	document and update the reference used to instantiate
+		* 	any beans from (ie, the creation document) to this
+		* 	document.
+		* 
+		* 	Configuring in this manner prevents a duplication
+		* 	of bean descriptors across multiple documents.
+		* 
+		* 	@param factories The DOM implementation factories document.
+		*/
+		protected function preinstantiateImplementationFactoryBeans(
+			factories:IBeanDocument ):void
+		{
+			var names:Array = factories.beanNames;
+			
+			trace("[PREPARE] DOMBootstrap::createImplementationFactoryDocument()", names );
+			
+			var nm:String = null;
+			var d:IBeanDescriptor = null;
+			var bean:Object = null;
+			for( var i:int = 0;i < names.length;i++ )
+			{
+				nm = names[ i ];
+				d = factories.getBeanDescriptor( nm );
+				if( d.singleton )
+				{
+					//instantiate and cache the singleton
+					bean = factories.getBean( nm );
+					if( bean is IBeanDocumentAware )
+					{
+						//ensure the factory instantiates in the scope
+						//of this document
+						IBeanDocumentAware( bean ).document = this;
+					}
+					if( bean is DOMImplementation )
+					{
+						_factories[ d.instanceClass ] = DOMImplementation( bean );
+					}
+				}
+			}
 		}
 		
 		/**
@@ -70,9 +165,14 @@ package com.ffsys.w3c.dom.bootstrap
 			{
 				return null;
 			}
+			
+			trace("[GET DOM IMPL] DOMBootstrap::getDOMImplementation()", features );
+			
 			var list:DOMImplementationList = getDOMImplementationList( features );
+			
 			if( list != null && list.length > 0 )
 			{
+				trace("[GOT DOM IMPLEMENTATION] DOMBootstrap::getDOMImplementation()", list.length, list[ 0 ] );
 				return list[ 0 ];
 			}
 			return null;
@@ -87,42 +187,64 @@ package com.ffsys.w3c.dom.bootstrap
 			var list:DOMImplementationListImpl = DOMImplementationListImpl(
 				getBean(
 					DOMImplementationListImpl.NAME ) );
-				
+			
+			var impls:Vector.<DOMImplementation> = getFactoryImplementations();
+			
+			//TODO: add this instance if it implements DOMImplementation
+			
+			var i:int = 0;
+			var ft:DOMFeature = null;
+			var impl:DOMImplementation = null;
 			var specified:Vector.<DOMFeature> = getSpecifiedFeatures( features );
-			getDOMImplementationFromFeatures( list, specified );
+			for( var j:uint = 0;j < impls.length;j++ )
+			{
+				impl = impls[ j ];
+				for( i = 0;i < specified.length;i++ )
+				{
+					ft = specified[ i ];
+					
+					/*
+					trace("[FEATURE] DOMBootstrap::getDOMImplementationList()",
+						ft, impl, impl.hasFeature( ft.feature, ft.version ) );
+					*/
+										
+					if( !impl.hasFeature( ft.feature, ft.version ) )
+					{
+						break;
+					}
+				}
+				
+				if( i == specified.length )
+				{
+					list.implementations.push( impl );
+				}
+			}
+			
 			return list;
 		}
 		
 		/**
 		* 	@private
+		* 
+		* 	Converts the mapping of factories to a list
+		* 	of implementations.
+		* 
+		* 	@return A list of pre-instantiated DOM implementation
+		* 	singleton factories.
 		*/
-		protected function getDOMImplementationFromFeatures(
-			list:DOMImplementationListImpl,
-			specified:Vector.<DOMFeature> ):DOMImplementation
+		protected function getFactoryImplementations():Vector.<DOMImplementation>
 		{
-			//TODO: look in xrefs for alternative
-			//(potentially more lightweight) implementations			
-			
-			var supported:Vector.<String> = getFeatures();	
-			var ft:DOMFeature = null;
-			
-			var valid:Boolean = false;
-			for( var i:int = 0;i < specified.length;i++ )
+			var list:Vector.<DOMImplementation> =
+				new Vector.<DOMImplementation>();
+			var o:Object = null;
+			for each( o in _factories )
 			{
-				ft = specified[ i ];
-				valid = supported.indexOf( ft.toString() ) > -1;
-				if( !valid )
+				if( o is DOMImplementation )
 				{
-					break;
+					list.push( DOMImplementation( o ) );
 				}
 			}
-			
-			//all matched so add the implementation
-			if( i == specified.length )
-			{
-				//list.implementations.push( );
-			}
-			return null;
+			return list;
 		}
 		
 		/**
@@ -214,7 +336,6 @@ package com.ffsys.w3c.dom.bootstrap
 			var descriptor:IBeanDescriptor = new BeanDescriptor( 
 			 	DOMImplementationListImpl.NAME );
 			descriptor.instanceClass = DOMImplementationListImpl;
-			descriptor.singleton = true;
 			beans.addBeanDescriptor( descriptor );
 		}
 	}

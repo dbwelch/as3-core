@@ -7,12 +7,13 @@ package com.ffsys.w3c.dom.traversal
 	import org.w3c.dom.traversal.NodeIterator;
 	import org.w3c.dom.traversal.TreeWalker;
 	
-	import com.ffsys.w3c.dom.range.DocumentRangeImpl;
+	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.DOMImplementationImpl;
 	
 	/**
 	* 	An implementation for document traversal.
 	*/
-	public class DocumentTraversalImpl extends DocumentRangeImpl
+	public class DocumentTraversalImpl extends DOMImplementationImpl
 		implements DocumentTraversal
 	{
 		/**
@@ -23,6 +24,19 @@ package com.ffsys.w3c.dom.traversal
 		public function DocumentTraversalImpl()
 		{
 			super();
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function get supported():Vector.<DOMFeature>
+		{
+			if( _supported == null )
+			{
+				_supported = super.supported;
+				_supported.push( DOMFeature.TRAVERSAL_FEATURE );
+			}
+			return _supported;
 		}
 		
 		/**

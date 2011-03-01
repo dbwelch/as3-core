@@ -39,18 +39,32 @@ package com.ffsys.w3c.dom.bootstrap
 		/**
 		* 	@private
 		*/
+		override protected function doWithImplementationFactories(
+			factories:IBeanDocument ):void
+		{
+			super.doWithImplementationFactories( factories );
+			
+			var descriptor:IBeanDescriptor = null;
+			descriptor = new BeanDescriptor(
+				XMLDOMImplementationImpl.NAME );
+			descriptor.instanceClass = XMLDOMImplementationImpl;
+			descriptor.singleton = true;
+			factories.addBeanDescriptor( descriptor );
+		}
+		
+		/**
+		* 	@private
+		*/
 		override protected function getSupportedFeatures():Vector.<DOMFeature>
 		{
 			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
 			output.push( DOMFeature.XML_FEATURE );
 			output.push( DOMFeature.XML_3_FEATURE );
 			return output;
-		}		
+		}
 		
 		/**
-		* 	Initialies the components beans on the specified document.
-		* 
-		* 	@param beans The document to initialize with the bean definitions.
+		* 	@inheritDoc
 		*/
 		override public function doWithBeans(
 			beans:IBeanDocument ):void
@@ -58,10 +72,6 @@ package com.ffsys.w3c.dom.bootstrap
 			super.doWithBeans( beans );
 			
 			var descriptor:IBeanDescriptor = null;
-			descriptor = new BeanDescriptor(
-				XMLDOMImplementationImpl.NAME );
-			descriptor.instanceClass = XMLDOMImplementationImpl;
-			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				XMLDocumentImpl.NAME );

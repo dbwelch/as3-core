@@ -21,6 +21,7 @@ package com.ffsys.w3c.dom
 	*/ 
 	public class AbstractDomUnit extends Object
 	{
+		static private var _registry:DOMImplementationRegistry;		
 		
 		private var _document:Document;
 		private var _htmlDocument:HTMLDocument;
@@ -41,10 +42,12 @@ package com.ffsys.w3c.dom
 		protected function getRegistry():DOMImplementationRegistry
 		{
 			//get the DOM registry
-			var registry:DOMImplementationRegistry =
-				DOMImplementationRegistry.newInstance();
-			Assert.assertNotNull( registry );
-			return registry;
+			if( _registry == null )
+			{
+				_registry = DOMImplementationRegistry.newInstance();
+				Assert.assertNotNull( _registry );
+			}
+			return _registry;
 		}
 		
 		/**

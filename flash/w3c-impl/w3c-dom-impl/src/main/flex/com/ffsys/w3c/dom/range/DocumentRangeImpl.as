@@ -6,6 +6,7 @@ package com.ffsys.w3c.dom.range
 	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 
 	import com.ffsys.w3c.dom.DOMImplementationImpl;
+	import com.ffsys.w3c.dom.DOMFeature;
 
 	public class DocumentRangeImpl extends DOMImplementationImpl
 		implements DocumentRange
@@ -19,6 +20,19 @@ package com.ffsys.w3c.dom.range
 		{
 			super();
 		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override protected function get supported():Vector.<DOMFeature>
+		{
+			if( _supported == null )
+			{
+				_supported = super.supported;
+				_supported.push( DOMFeature.RANGE_FEATURE );
+			}
+			return _supported;
+		}		
 	
 		/**
 		* 	@inheritDoc

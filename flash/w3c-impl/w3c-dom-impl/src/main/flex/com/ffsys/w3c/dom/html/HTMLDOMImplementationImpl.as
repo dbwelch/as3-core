@@ -18,7 +18,7 @@ package com.ffsys.w3c.dom.html
 		/**
 		* 	The bean name for the implementation of the "HTML" feature.
 		*/
-		public static const NAME:String = "dom-html-impl";
+		public static const NAME:String = DOMFeature.HTML_MODULE;
 		
 		/**
 		* 	@private
@@ -31,18 +31,23 @@ package com.ffsys.w3c.dom.html
 		}
 		
 		/**
-		* 	Configures the supported features for this implementation.
+		* 	@private
 		*/
-		override protected function configureSupportedFeatures():void
+		override protected function get supported():Vector.<DOMFeature>
 		{
-			this.supported.push( DOMFeature.HTML_FEATURE );
-			this.supported.push( DOMFeature.VIEWS_FEATURE );
-			
-			this.supported.push( DOMFeature.UI_EVENTS_FEATURE );
-			this.supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
-			this.supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
-			this.supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );
-		}
+			if( _supported == null )
+			{
+				_supported = super.supported;
+				_supported.push( DOMFeature.XML_FEATURE );
+				_supported.push( DOMFeature.HTML_FEATURE );
+				_supported.push( DOMFeature.VIEWS_FEATURE );
+				_supported.push( DOMFeature.UI_EVENTS_FEATURE );
+				_supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
+				_supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
+				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );				
+			}
+			return _supported;
+		}		
 		
 		/**
 		* 	@inheritDoc

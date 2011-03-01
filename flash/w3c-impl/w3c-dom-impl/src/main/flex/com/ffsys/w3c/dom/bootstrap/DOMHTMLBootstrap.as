@@ -43,6 +43,22 @@ package com.ffsys.w3c.dom.bootstrap
 		}
 		
 		/**
+		* 	@private
+		*/
+		override protected function doWithImplementationFactories(
+			factories:IBeanDocument ):void
+		{
+			super.doWithImplementationFactories( factories );
+			
+			var descriptor:IBeanDescriptor = null;
+			descriptor = new BeanDescriptor(
+				HTMLDOMImplementationImpl.NAME );
+			descriptor.instanceClass = HTMLDOMImplementationImpl;
+			descriptor.singleton = true;
+			factories.addBeanDescriptor( descriptor );
+		}		
+		
+		/**
 		* 	@inheritDoc
 		*/
 		override public function doWithBeans(
@@ -51,10 +67,6 @@ package com.ffsys.w3c.dom.bootstrap
 			super.doWithBeans( beans );			
 			
 			var descriptor:IBeanDescriptor = null;
-			descriptor = new BeanDescriptor(
-				HTMLDOMImplementationImpl.NAME );
-			descriptor.instanceClass = HTMLDOMImplementationImpl;
-			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
 				HTMLDocumentImpl.NAME );

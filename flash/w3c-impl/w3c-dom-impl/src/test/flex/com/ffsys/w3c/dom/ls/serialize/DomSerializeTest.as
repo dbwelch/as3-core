@@ -62,7 +62,7 @@ package com.ffsys.w3c.dom.ls.serialize
 		{
 			Assert.assertNotNull( impl );
 			
-			trace("[GOT DOM LS IMPLEMENTATION VALUE] DomSerializeTest::assertOnLsImplementation()", impl );
+			trace("[GOT LS IMPL] DomSerializeTest::assertOnLsImplementation()", impl );
 			
 			Assert.assertTrue( impl is DOMImplementationLS );
 			

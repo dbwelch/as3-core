@@ -23,8 +23,11 @@ package com.ffsys.w3c.dom
 	*/
 	public class DOMImplementationImpl extends AbstractNodeProxyImpl
 		implements DOMImplementation
-	{				
-		private var _supported:Vector.<DOMFeature>;
+	{			
+		/**
+		* 	@private
+		*/	
+		protected var _supported:Vector.<DOMFeature>;
 		
 		/**
 		* 	Creates a <code>DOMImplementationImpl</code> instance.
@@ -32,7 +35,6 @@ package com.ffsys.w3c.dom
 		public function DOMImplementationImpl()
 		{
 			super();
-			configureSupportedFeatures();
 		}
 		
 		/*
@@ -136,21 +138,8 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
-		* 	Invoked when an implementation is instantiated
-		* 	to configure the features supported by this
-		* 	implementation.
-		* 
-		* 	This method does nothing by default, derived
-		* 	implementations should override this method
-		* 	and configure the features that are supported
-		* 	by the implementation.
-		*/
-		protected function configureSupportedFeatures():void
-		{
-			//
-		}
-		
-		/**
+		* 	@private
+		* 	
 		* 	A list of features supported by this implementation.
 		* 
 		* 	If no supported features have been configured (the first
@@ -158,7 +147,7 @@ package com.ffsys.w3c.dom
 		* 	containing the <code>DOMFeature.CORE_FEATURE</code>
 		* 	feature which is required for every implementation.
 		*/
-		public function get supported():Vector.<DOMFeature>
+		protected function get supported():Vector.<DOMFeature>
 		{
 			if( _supported == null )
 			{

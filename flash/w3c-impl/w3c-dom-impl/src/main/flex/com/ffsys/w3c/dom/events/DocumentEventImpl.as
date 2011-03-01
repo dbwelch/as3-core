@@ -5,13 +5,15 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.events.DocumentEvent;
 	import org.w3c.dom.events.DOMEvent;
 	
-	import com.ffsys.w3c.dom.traversal.DocumentTraversalImpl;
+	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.DOMImplementationImpl;
+	
 	
 	/**
 	* 	The default implementation of the document
 	* 	event interface for the DOM events module.
 	*/
-	public class DocumentEventImpl extends DocumentTraversalImpl
+	public class DocumentEventImpl extends DOMImplementationImpl
 		implements DocumentEvent
 	{
 		/**
@@ -70,6 +72,21 @@ package com.ffsys.w3c.dom.events
 		public function DocumentEventImpl()
 		{
 			super();
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function get supported():Vector.<DOMFeature>
+		{
+			if( _supported == null )
+			{
+				_supported = super.supported;
+				_supported.push( DOMFeature.EVENTS_FEATURE );		
+				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
+				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
+			}
+			return _supported;
 		}
 		
 		/**

@@ -20,7 +20,7 @@ package com.ffsys.w3c.dom.xml
 		/**
 		* 	The bean name for the implementation of the "XML" feature.
 		*/
-		public static const NAME:String = "dom-xml-impl";
+		public static const NAME:String = DOMFeature.XML_MODULE;
 		
 		/**
 		* 	Creates an <code>XMLDOMImplementationImpl</code> instance.
@@ -31,12 +31,17 @@ package com.ffsys.w3c.dom.xml
 		}
 		
 		/**
-		* 	Configures the supported features for this implementation.
+		* 	@private
 		*/
-		override protected function configureSupportedFeatures():void
+		override protected function get supported():Vector.<DOMFeature>
 		{
-			this.supported.push( DOMFeature.XML_FEATURE );
-		}
+			if( _supported == null )
+			{
+				_supported = super.supported;
+				_supported.push( DOMFeature.XML_FEATURE );
+			}
+			return _supported;
+		}		
 		
 		/**
 		* 	@inheritDoc

@@ -54,6 +54,7 @@ package com.ffsys.w3c.dom.bootstrap
 		override public function doWithBeans(
 			beans:IBeanDocument ):void
 		{
+			super.doWithBeans( beans );
 			addDOMNodes( beans );
 			addCommonFeatures( beans );
 		}
@@ -127,8 +128,31 @@ package com.ffsys.w3c.dom.bootstrap
 			output.push( DOMFeature.RANGE_FEATURE );
 			output.push( DOMFeature.RANGE_3_FEATURE );
 			output.push( DOMFeature.TRAVERSAL_FEATURE );
-			output.push( DOMFeature.TRAVERSAL_3_FEATURE );	
+			output.push( DOMFeature.TRAVERSAL_3_FEATURE );
 			return output;
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function doWithImplementationFactories(
+			factories:IBeanDocument ):void
+		{
+			super.doWithImplementationFactories( factories );
+			
+			var descriptor:IBeanDescriptor = null;
+
+			descriptor = new BeanDescriptor(
+				DOMFeature.RANGE_MODULE );
+			descriptor.instanceClass = DocumentRangeImpl;
+			descriptor.singleton = true;
+			factories.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				DOMFeature.TRAVERSAL_MODULE );
+			descriptor.instanceClass = DocumentTraversalImpl;
+			descriptor.singleton = true;
+			factories.addBeanDescriptor( descriptor );
 		}
 		
 		/**
@@ -137,23 +161,27 @@ package com.ffsys.w3c.dom.bootstrap
 		protected function addCommonFeatures( impls:IBeanDocument ):void
 		{
 			var descriptor:IBeanDescriptor = null;
-
+			
+			/*
 			descriptor = new BeanDescriptor(
 				DOMFeature.RANGE_MODULE );
 			descriptor.instanceClass = DocumentRangeImpl;
 			descriptor.singleton = true;
 			impls.addBeanDescriptor( descriptor );
+			*/
 			
 			descriptor = new BeanDescriptor(
 				RangeImpl.NAME );
 			descriptor.instanceClass = RangeImpl;
 			impls.addBeanDescriptor( descriptor );
 			
+			/*
 			descriptor = new BeanDescriptor(
 				DOMFeature.TRAVERSAL_MODULE );
 			descriptor.instanceClass = DocumentTraversalImpl;
 			descriptor.singleton = true;
 			impls.addBeanDescriptor( descriptor );
+			*/
 			
 			descriptor = new BeanDescriptor(
 				NodeIteratorImpl.NAME );
