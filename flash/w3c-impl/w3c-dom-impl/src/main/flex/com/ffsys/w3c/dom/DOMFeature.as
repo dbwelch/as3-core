@@ -131,6 +131,21 @@ package com.ffsys.w3c.dom
 		public static const VIEWS_MODULE:String = "Views";
 		
 		/**
+		* 	Represents the StyleSheets module.
+		*/
+		public static const STYLESHEETS_MODULE:String = "StyleSheets";
+		
+		/**
+		* 	Represents the CSS module.
+		*/
+		public static const CSS_MODULE:String = "CSS";
+		
+		/**
+		* 	Represents the CSS2 module.
+		*/
+		public static const CSS2_MODULE:String = "CSS2";
+		
+		/**
 		* 	Represents the ElementTraversal module.
 		*/
 		public static const ELEMENT_TRAVERSAL_MODULE:String = "ElementTraversal";
@@ -331,7 +346,28 @@ package com.ffsys.w3c.dom
 		*/
 		public static const VIEWS_FEATURE:DOMFeature =
 			new DOMFeature( VIEWS_MODULE, LEVEL_3 );
-		
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM StyleSheets feature.
+		*/
+		public static const STYLESHEETS_FEATURE:DOMFeature =
+			new DOMFeature( STYLESHEETS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM CSS feature.
+		*/
+		public static const CSS_FEATURE:DOMFeature =
+			new DOMFeature( CSS_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM CSS2 feature.
+		*/
+		public static const CSS2_FEATURE:DOMFeature =
+			new DOMFeature( CSS2_MODULE, LEVEL_3 );
+
 		private var _feature:String;
 		private var _version:String;
 		
@@ -365,8 +401,9 @@ package com.ffsys.w3c.dom
 					|| feature == LS_MODULE.toLowerCase()
 					|| feature == LS_ASYNC_MODULE.toLowerCase()					
 					|| feature == VALIDATION_MODULE.toLowerCase()
+					|| feature == ELEMENT_TRAVERSAL_MODULE.toLowerCase()
 					|| feature == RANGE_MODULE.toLowerCase()
-					|| feature == TRAVERSAL_MODULE.toLowerCase()
+					|| feature == TRAVERSAL_MODULE.toLowerCase()					
 					|| feature == XPATH_MODULE.toLowerCase()							
 					|| feature == EVENTS_MODULE.toLowerCase()
 					|| feature == UI_EVENTS_MODULE.toLowerCase()
@@ -378,7 +415,9 @@ package com.ffsys.w3c.dom
 					|| feature == WHEEL_EVENTS_MODULE.toLowerCase()
 					|| feature == CUSTOM_EVENTS_MODULE.toLowerCase()					
 					|| feature == COMPOSITION_EVENTS_MODULE.toLowerCase()
-					|| feature == VIEWS_MODULE.toLowerCase();																																																																											
+					|| feature == VIEWS_MODULE.toLowerCase()
+					|| feature == CSS_MODULE.toLowerCase()
+					|| feature == CSS2_MODULE.toLowerCase();
 			}
 			
 			return false;

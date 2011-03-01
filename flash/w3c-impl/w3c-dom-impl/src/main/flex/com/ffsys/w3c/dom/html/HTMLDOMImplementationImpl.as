@@ -4,6 +4,9 @@ package com.ffsys.w3c.dom.html
 	import org.w3c.dom.html.HTMLDOMImplementation;
 	import org.w3c.dom.html.HTMLDocument;
 	
+	import org.w3c.dom.css.CSSStyleSheet;
+	import org.w3c.dom.css.DOMImplementationCSS;	
+	
 	import com.ffsys.w3c.dom.DOMFeature;
 	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
 	
@@ -23,6 +26,9 @@ package com.ffsys.w3c.dom.html
 	* 		<li><code>LS</code></li>
 	* 		<li><code>LS-Async</code></li>
 	* 		<li><code>Views</code></li>
+	* 		<li><code>StyleSheets</code></li>
+	* 		<li><code>CSS</code></li>
+	* 		<li><code>CSS2</code></li>
 	* 	
 	* 		<li><code>UIEvents</code></li>
 	* 		<li><code>MouseEvents</code></li>
@@ -33,7 +39,7 @@ package com.ffsys.w3c.dom.html
 	* 	</ol>
 	*/
 	public class HTMLDOMImplementationImpl extends DOMImplementationLSImpl
-		implements HTMLDOMImplementation
+		implements HTMLDOMImplementation, DOMImplementationCSS
 	{
 		/**
 		* 	The bean name for the implementation of the "HTML" feature.
@@ -51,6 +57,16 @@ package com.ffsys.w3c.dom.html
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		public function createCSSStyleSheet(
+			title:String, media:String ):CSSStyleSheet
+		{
+			//TODO
+			return null;
+		}		
+		
+		/**
 		* 	@private
 		*/
 		override protected function get supported():Vector.<DOMFeature>
@@ -66,8 +82,12 @@ package com.ffsys.w3c.dom.html
 				_supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
 				_supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
 				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );				
-				_supported.push( DOMFeature.VIEWS_FEATURE );				
-				_supported.push( DOMFeature.HTML_FEATURE );
+				_supported.push( DOMFeature.VIEWS_FEATURE );
+				_supported.push( DOMFeature.STYLESHEETS_FEATURE );				
+				_supported.push( DOMFeature.CSS_FEATURE );
+				_supported.push( DOMFeature.CSS2_FEATURE );
+				
+				_supported.push( DOMFeature.HTML_FEATURE );				
 			}
 			return _supported;
 		}
@@ -117,9 +137,7 @@ package com.ffsys.w3c.dom.html
 			//assign a reference to the head and body
 			document.head = head;
 			document.body = body;
-
-			document.title = title;			
-			
+			document.title = title;
 			return document;
 		}
 	}
