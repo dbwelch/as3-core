@@ -10,8 +10,18 @@ package com.ffsys.w3c.dom.events
 	
 	
 	/**
-	* 	The default implementation of the document
-	* 	event interface for the DOM events module.
+	* 	Extends the core supported features with the
+	* 	Events, MutationEvents and MutationNameEvents features.
+	* 
+	* 	<ol>
+	* 		<li><code>Core</code></li>
+	* 		<li><code>ElementTraversal</code></li>
+	* 		<li><code>Range</code></li>
+	* 		<li><code>Traversal</code></li>
+	* 		<li><code>Events</code></li>
+	* 		<li><code>MutationEvents</code></li>
+	* 		<li><code>MutationNameEvents</code></li>
+	* 	</ol>
 	*/
 	public class DocumentEventImpl extends DOMImplementationImpl
 		implements DocumentEvent
@@ -21,6 +31,8 @@ package com.ffsys.w3c.dom.events
 		* 	The bean name for the DOM Events implementation.
 		*/
 		public static const NAME:String = DOMFeature.EVENTS_MODULE;
+		
+		//TODO: move to org.w3c.events.EventInterfaceType constants
 		
 		/**
 		* 	Represents the DOM event interface.

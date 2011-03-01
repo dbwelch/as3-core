@@ -10,7 +10,27 @@ package com.ffsys.w3c.dom.html
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;	
 	
 	/**
-	* 	Represents a HTML DOM implementation.
+	* 	Extends the load and save features support with the "HTML" feature.
+	* 
+	* 	<ol>
+	* 		<li><code>Core</code></li>
+	* 		<li><code>ElementTraversal</code></li>
+	* 		<li><code>Range</code></li>
+	* 		<li><code>Traversal</code></li>
+	* 		<li><code>Events</code></li>
+	* 		<li><code>MutationEvents</code></li>
+	* 		<li><code>MutationNameEvents</code></li>
+	* 		<li><code>LS</code></li>
+	* 		<li><code>LS-Async</code></li>
+	* 		<li><code>Views</code></li>
+	* 	
+	* 		<li><code>UIEvents</code></li>
+	* 		<li><code>MouseEvents</code></li>
+	* 		<li><code>TextEvents</code></li>
+	* 		<li><code>KeyboardEvents</code></li>
+	* 
+	* 		<li><code>HTML</code></li>
+	* 	</ol>
 	*/
 	public class HTMLDOMImplementationImpl extends DOMImplementationLSImpl
 		implements HTMLDOMImplementation
@@ -42,15 +62,15 @@ package com.ffsys.w3c.dom.html
 				//xml+html should be supported by an XHTML implementation
 				//_supported.push( DOMFeature.XML_FEATURE );
 				
-				_supported.push( DOMFeature.HTML_FEATURE );
-				_supported.push( DOMFeature.VIEWS_FEATURE );
 				_supported.push( DOMFeature.UI_EVENTS_FEATURE );
 				_supported.push( DOMFeature.MOUSE_EVENTS_FEATURE );
 				_supported.push( DOMFeature.TEXT_EVENTS_FEATURE );
 				_supported.push( DOMFeature.KEYBOARD_EVENTS_FEATURE );				
+				_supported.push( DOMFeature.VIEWS_FEATURE );				
+				_supported.push( DOMFeature.HTML_FEATURE );
 			}
 			return _supported;
-		}		
+		}
 		
 		/**
 		* 	@inheritDoc

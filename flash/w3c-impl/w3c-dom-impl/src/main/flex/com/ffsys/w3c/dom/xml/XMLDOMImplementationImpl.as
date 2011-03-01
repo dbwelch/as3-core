@@ -10,10 +10,21 @@ package com.ffsys.w3c.dom.xml
 	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 	
-	
 	/**
-	* 	Represents a DOM implementation for the
-	* 	"XML" feature.
+	* 	Extends the load and save features support with the "XML" feature.
+	* 
+	* 	<ol>
+	* 		<li><code>Core</code></li>
+	* 		<li><code>ElementTraversal</code></li>
+	* 		<li><code>Range</code></li>
+	* 		<li><code>Traversal</code></li>
+	* 		<li><code>Events</code></li>
+	* 		<li><code>MutationEvents</code></li>
+	* 		<li><code>MutationNameEvents</code></li>
+	* 		<li><code>LS</code></li>
+	* 		<li><code>LS-Async</code></li>
+	* 		<li><code>XML</code></li>
+	* 	</ol>
 	*/
 	public class XMLDOMImplementationImpl extends DOMImplementationLSImpl
 	{

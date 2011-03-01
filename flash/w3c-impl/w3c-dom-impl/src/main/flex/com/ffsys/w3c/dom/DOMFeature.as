@@ -131,6 +131,11 @@ package com.ffsys.w3c.dom
 		public static const VIEWS_MODULE:String = "Views";
 		
 		/**
+		* 	Represents the ElementTraversal module.
+		*/
+		public static const ELEMENT_TRAVERSAL_MODULE:String = "ElementTraversal";
+		
+		/**
 		* 	Represents the DOM level 1 version number.
 		*/
 		public static const LEVEL_1:String = "1.0";
@@ -249,6 +254,20 @@ package com.ffsys.w3c.dom
 		*/
 		public static const TRAVERSAL_3_FEATURE:DOMFeature =
 			new DOMFeature( TRAVERSAL_MODULE, LEVEL_3 );
+			
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM ElementTraversal feature.
+		*/
+		public static const ELEMENT_TRAVERSAL_FEATURE:DOMFeature =
+			new DOMFeature( ELEMENT_TRAVERSAL_MODULE );
+
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM ElementTraversal level 3.0 feature.
+		*/
+		public static const ELEMENT_TRAVERSAL_3_FEATURE:DOMFeature =
+			new DOMFeature( ELEMENT_TRAVERSAL_MODULE, LEVEL_3 );			
 			
 		/**
 		* 	A feature implementation to represent

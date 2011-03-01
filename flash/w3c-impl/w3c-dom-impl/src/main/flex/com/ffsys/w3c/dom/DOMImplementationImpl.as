@@ -25,7 +25,16 @@ package com.ffsys.w3c.dom
 	
 	
 	/**
-	*	Represents the <code>DOM</code> implementation.
+	*	Encapsulates the core <code>DOM</code> implementation features.
+	* 
+	* 	<p>Supported DOM features:</p>
+	* 
+	* 	<ol>
+	* 		<li><code>Core</code></li>
+	* 		<li><code>ElementTraversal</code></li>
+	* 		<li><code>Range</code></li>
+	* 		<li><code>Traversal</code></li>
+	* 	</ol>
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0
@@ -171,22 +180,13 @@ package com.ffsys.w3c.dom
 			{
 				_supported = new Vector.<DOMFeature>();
 				_supported.push( DOMFeature.CORE_FEATURE );
-				
+				_supported.push( DOMFeature.CORE_3_FEATURE );
 				_supported.push( DOMFeature.RANGE_FEATURE );
-				_supported.push( DOMFeature.RANGE_3_FEATURE );				
-				
+				_supported.push( DOMFeature.RANGE_3_FEATURE );
 				_supported.push( DOMFeature.TRAVERSAL_FEATURE );
 				_supported.push( DOMFeature.TRAVERSAL_3_FEATURE );
-				
-				
-				/*
-				_supported.push( DOMFeature.LS_FEATURE );
-				_supported.push( DOMFeature.LS_ASYNC_FEATURE );
-				
-				_supported.push( DOMFeature.EVENTS_FEATURE );				
-				_supported.push( DOMFeature.MUTATION_EVENTS_FEATURE );
-				_supported.push( DOMFeature.MUTATION_NAME_EVENTS_FEATURE );
-				*/
+				_supported.push( DOMFeature.ELEMENT_TRAVERSAL_FEATURE );
+				_supported.push( DOMFeature.ELEMENT_TRAVERSAL_3_FEATURE );
 			}
 			return _supported;
 		}

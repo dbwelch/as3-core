@@ -13,6 +13,22 @@ package com.ffsys.w3c.dom.ls
 	import com.ffsys.w3c.dom.ls.serialize.DOMSerializerImpl;
 	import com.ffsys.w3c.dom.ls.parser.DOMParserImpl;
 	
+	/**
+	* 	Extends the events features support with the LS and
+	* 	LS-Async features.
+	* 
+	* 	<ol>
+	* 		<li><code>Core</code></li>
+	* 		<li><code>ElementTraversal</code></li>
+	* 		<li><code>Range</code></li>
+	* 		<li><code>Traversal</code></li>
+	* 		<li><code>Events</code></li>
+	* 		<li><code>MutationEvents</code></li>
+	* 		<li><code>MutationNameEvents</code></li>
+	* 		<li><code>LS</code></li>
+	* 		<li><code>LS-Async</code></li>
+	* 	</ol>
+	*/	
 	public class DOMImplementationLSImpl extends DocumentEventImpl
 		implements DOMImplementationLS
 	{
