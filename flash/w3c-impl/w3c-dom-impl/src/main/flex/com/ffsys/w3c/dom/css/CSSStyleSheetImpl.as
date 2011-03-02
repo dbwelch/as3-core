@@ -26,6 +26,8 @@ package com.ffsys.w3c.dom.css
 		*/
 		public static const NAME:String = DOMFeature.STYLESHEETS_MODULE;
 		
+		private var _styleSheets:StyleSheetList;
+		
 		private var _cssRules:CSSRuleList;
 		private var _ownerRule:CSSRule;
 				
@@ -47,8 +49,13 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function get styleSheets():StyleSheetList
 		{
-			//TODO
-			return null;
+			if( _styleSheets == null )
+			{
+				//initial list just contains this stylesheet
+				_styleSheets = new StyleSheetListImpl();
+				_styleSheets[ 0 ] = this;
+			}
+			return _styleSheets;
 		}
 		
 		/**
@@ -57,7 +64,6 @@ package com.ffsys.w3c.dom.css
 		public function getOverrideStyle(
 			element:Element, pseudo:String = null ):CSSStyleDeclaration
 		{
-			//TODO
 			return null;
 		}		
 		

@@ -54,8 +54,6 @@ package com.ffsys.w3c.dom
 			//nodeName and tagName are equivalent for elements
 			Assert.assertEquals(
 				c, map.getNamedItem( c.tagName ) );	
-				
-			
 		}
 	}
 }

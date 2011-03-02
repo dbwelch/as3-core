@@ -33,10 +33,7 @@ package com.ffsys.w3c.dom.traversal
 			
 			var docTraversal:DocumentTraversal =
 				DocumentTraversal( doc.implementation.getFeature(
-					DOMFeature.TRAVERSAL_MODULE, DOMVersion.LEVEL_2 ) );
-					
-			trace("[TRAVERSAL] DocumentTraversalCreationTest::getDocumentTraversal()", docTraversal );
-					
+					DOMFeature.TRAVERSAL_MODULE, null ) );
 			Assert.assertNotNull( docTraversal );
 			Assert.assertTrue( docTraversal is DocumentTraversal );
 			return docTraversal;

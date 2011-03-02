@@ -42,8 +42,9 @@ package com.ffsys.w3c.dom.css
 		public function createCSSStyleSheet(
 			title:String, media:String ):CSSStyleSheet
 		{
-			//TODO
-			return null;
+			var styles:CSSStyleSheet =
+				CSSStyleSheet( getDomBean( CSSStyleSheetImpl.NAME ) );
+			return styles;
 		}
 	}
 }

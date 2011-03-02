@@ -41,7 +41,7 @@ package com.ffsys.w3c.dom.events
 			
 			var docEvents:DocumentEvent =
 				DocumentEvent( doc.implementation.getFeature(
-					DOMFeature.EVENTS_MODULE, DOMVersion.LEVEL_3 ) );
+					DOMFeature.EVENTS_MODULE, null ) );
 			Assert.assertNotNull( docEvents );
 			Assert.assertTrue( docEvents is DocumentEventImpl );
 			

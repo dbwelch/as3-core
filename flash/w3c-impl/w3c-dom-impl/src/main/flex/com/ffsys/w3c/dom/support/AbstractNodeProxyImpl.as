@@ -207,7 +207,7 @@ package com.ffsys.w3c.dom.support
 			descriptor:IBeanDescriptor ):void
 		{
 			_descriptor = descriptor;
-			//trace("XmlAwareDomElement::afterConstructed()", this, descriptor, descriptor.id );
+			//trace("AbstractNodeProxyImpl::afterConstructed()", this, descriptor, descriptor.id );
 		}
 		
 		/**
@@ -216,7 +216,7 @@ package com.ffsys.w3c.dom.support
 		public function afterInjection(
 			descriptor:IBeanDescriptor ):void
 		{	
-			//trace("XmlAwareDomElement::afterInjection()", this, descriptor );
+			//trace("AbstractNodeProxyImpl::afterInjection()", this, descriptor );
 		}		
 		
 		/**
@@ -225,7 +225,7 @@ package com.ffsys.w3c.dom.support
 		public function afterProperties(
 			descriptor:IBeanDescriptor ):void
 		{
-			//trace("XmlAwareDomElement::afterProperties()", this, descriptor );
+			//trace("AbstractNodeProxyImpl::afterProperties()", this, descriptor );
 		}
 		
 		/**
@@ -235,7 +235,7 @@ package com.ffsys.w3c.dom.support
 			descriptor:IBeanDescriptor,
 			queue:ILoaderQueue = null ):void
 		{
-			//trace("XmlAwareDomElement::afterResources()", this, descriptor, queue );
+			//trace("AbstractNodeProxyImpl::afterResources()", this, descriptor, queue );
 		}
 		
 		/**
@@ -243,7 +243,7 @@ package com.ffsys.w3c.dom.support
 		*/
 		public function finalized():void
 		{
-			//trace("XmlAwareDomElement::finalized()", this );
+			//trace("AbstractNodeProxyImpl::finalized()", this );
 		}
 		
 		/**
@@ -309,6 +309,14 @@ package com.ffsys.w3c.dom.support
 
 			return propertyMissing( name );
 	    }
+		
+		/**
+		* 	@private
+		*/
+		protected function get mutatePropertyToList():Boolean
+		{
+			return true;
+		}
 
 		/**
 		*	@private	
@@ -320,7 +328,7 @@ package com.ffsys.w3c.dom.support
 				return;
 			}
 			
-			//trace("[SET PROP] XmlAwareDomElement::setProperty() this/name/value: ", this, name, value );
+			//trace("[SET PROP] AbstractNodeProxyImpl::setProperty() this/name/value: ", this, name, value );
 			
 			var hasProp:Boolean = false;
 			
@@ -336,19 +344,24 @@ package com.ffsys.w3c.dom.support
 			}
 			
 			//mutate the property to a list for most nodes
-			if( value is Node )
-				//&& !( value is Head ) && !( value is Body ) )
+			
+			//TODO: refactor how this is handled
+			if( mutatePropertyToList )
 			{
-				var node:Node = Node( value );
-				if( !hasProp )
+				if( value is Node )
+					//&& !( value is Head ) && !( value is Body ) )
 				{
-					value = new NodeListImpl();
-					value.children.push( node );
-				}else{
-					value = NodeList( this.proxy[ name ] );
-					value.children.push( node );
+					var node:Node = Node( value );
+					if( !hasProp )
+					{
+						value = new NodeListImpl();
+						value.children.push( node );
+					}else{
+						value = NodeList( this.proxy[ name ] );
+						value.children.push( node );
 					
-					//trace("[ADDING TO EXISTING TAG LIST] XmlAwareDomElement::setProperty() this/node: ", this, node );
+						//trace("[ADDING TO EXISTING TAG LIST] AbstractNodeProxyImpl::setProperty() this/node: ", this, node );
+					}
 				}
 			}
 
@@ -370,9 +383,9 @@ package com.ffsys.w3c.dom.support
 				}
 			}
 
+			//trace("[AbstractNodeProxyImpl SET PROPERTY]", this, hasProp, name, value );
+			
 			this.proxy[ name ] = value;
-
-			//trace("[XmlAwareDomElement SET PROPERTY]", this, hasProp, name, value );
 	    }
 		
 		/**
@@ -400,7 +413,7 @@ package com.ffsys.w3c.dom.support
 		*/
 		protected function methodMissing( methodName:*, parameters:Array ):*
 		{
-			trace("XmlAwareDomElement::methodMissing()", methodName, parameters );
+			trace("AbstractNodeProxyImpl::methodMissing()", methodName, parameters );
 		}
 		
 		protected function propertyMissing( name:* ):*
@@ -414,7 +427,7 @@ package com.ffsys.w3c.dom.support
 		override flash_proxy function callProperty( methodName:*, ...parameters ):*
 		{
 			
-			//trace("XmlAwareDomElement::callProperty()", this, methodName, parameters, __proxy );
+			//trace("AbstractNodeProxyImpl::callProperty()", this, methodName, parameters, __proxy );
 			
 			//handle event proxying
 			if( Object( eventProxy ) != null

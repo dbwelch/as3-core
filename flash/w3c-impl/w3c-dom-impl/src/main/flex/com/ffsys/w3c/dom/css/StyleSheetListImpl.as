@@ -8,7 +8,7 @@ package com.ffsys.w3c.dom.css
 	/**
 	* 	Represents a list of style sheets.
 	*/
-	public class StyleSheetListImpl extends AbstractListImpl
+	dynamic public class StyleSheetListImpl extends AbstractListImpl
 		implements StyleSheetList
 	{
 		/**
@@ -20,11 +20,19 @@ package com.ffsys.w3c.dom.css
 		}
 		
 		/**
+		* 	@private
+		*/
+		override protected function get mutatePropertyToList():Boolean
+		{
+			return false;
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function item( index:uint ):StyleSheet
 		{
-			return null;
+			return children[ index ] as StyleSheet;
 		}
 	}
 }

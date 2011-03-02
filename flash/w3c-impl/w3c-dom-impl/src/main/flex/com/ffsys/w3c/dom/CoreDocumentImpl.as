@@ -609,7 +609,10 @@ package com.ffsys.w3c.dom
 			return null;
 		}
 		
-		private function getDomBean(
+		/**
+		* 	@private
+		*/
+		protected function getDomBean(
 			beanName:String,
 			properties:Object = null,
 			namespaceURI:String = null ):Object

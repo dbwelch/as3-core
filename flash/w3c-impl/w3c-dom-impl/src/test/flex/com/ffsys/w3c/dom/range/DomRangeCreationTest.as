@@ -35,7 +35,7 @@ package com.ffsys.w3c.dom.range
 			
 			var docRange:DocumentRange =
 				DocumentRange( doc.implementation.getFeature(
-					DOMFeature.RANGE_MODULE, DOMVersion.LEVEL_2 ) );
+					DOMFeature.RANGE_MODULE, null ) );
 			Assert.assertNotNull( docRange );
 			Assert.assertTrue( docRange is DocumentRange );
 			return docRange;			

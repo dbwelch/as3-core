@@ -8,6 +8,9 @@ package com.ffsys.w3c.dom.css
 	import com.ffsys.w3c.dom.DOMVersion;	
 	
 	import org.w3c.dom.Document;
+	
+	import org.w3c.dom.css.CSSStyleSheet;
+	import org.w3c.dom.css.DocumentCSS;
 	import org.w3c.dom.css.DOMImplementationCSS;
 	
 	/**
@@ -30,10 +33,30 @@ package com.ffsys.w3c.dom.css
 		{
 			var doc:Document = getHTMLDocument();
 			var cssImpl:DOMImplementationCSS =
-				DOMImplementationCSS( doc.implementation.getFeature( name, "" ) );
+				DOMImplementationCSS( doc.implementation.getFeature( name, null ) );
 			Assert.assertNotNull( cssImpl );
 			Assert.assertTrue( cssImpl is DOMImplementationCSS );
 			return cssImpl;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function assertOnStyleSheetImplementation( impl:DOMImplementationCSS ):void
+		{
+			var doc:CSSStyleSheet = impl.createCSSStyleSheet(
+				"A style sheet", "screen, print" );
+				
+			Assert.assertTrue( doc is DocumentCSS );
+			var docCss:DocumentCSS = doc as DocumentCSS; 
+
+			//the document should be the first style sheet
+			//in the list by default
+			Assert.assertEquals( doc, Object( docCss.styleSheets )[ 0 ] );
+
+			trace("[CSS DOC] DomCssCreationTest::testCreateStyleSheetsImplementation()",
+				impl, doc,
+				docCss.styleSheets, docCss.styleSheets.length );			
 		}
 		
 		[Test]
@@ -41,6 +64,7 @@ package com.ffsys.w3c.dom.css
 		{
 			var cssImpl:DOMImplementationCSS = getDOMImplementationCSS(
 				DOMFeature.STYLESHEETS_MODULE );
+			assertOnStyleSheetImplementation( cssImpl );
 		}
 		
 		[Test]
@@ -48,6 +72,7 @@ package com.ffsys.w3c.dom.css
 		{
 			var cssImpl:DOMImplementationCSS = getDOMImplementationCSS(
 				DOMFeature.CSS_MODULE );
+			assertOnStyleSheetImplementation( cssImpl );				
 		}
 		
 		[Test]
@@ -55,6 +80,7 @@ package com.ffsys.w3c.dom.css
 		{
 			var cssImpl:DOMImplementationCSS = getDOMImplementationCSS(
 				DOMFeature.CSS2_MODULE );
+			assertOnStyleSheetImplementation( cssImpl );				
 		}				
 	}
 }

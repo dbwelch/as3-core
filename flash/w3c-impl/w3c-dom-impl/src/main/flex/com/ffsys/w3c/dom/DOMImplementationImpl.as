@@ -325,6 +325,27 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	@private
+		*/
+		protected function getDomBean(
+			beanName:String,
+			properties:Object = null,
+			namespaceURI:String = null ):Object
+		{
+			var bean:Object = null;
+			
+			try
+			{
+				bean = this.document.getBean( beanName );
+			}catch( e:Error )
+			{
+				throw e;
+			}
+			
+			return bean;		
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function createTreeWalker(
