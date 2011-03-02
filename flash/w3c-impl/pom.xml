@@ -14,7 +14,7 @@
 	<url>http://as3.freeformsystems.com</url>
 	<modules>
 		<module>bootstrap-impl</module>
-		<module>dom-impl</module>
+		<module>dom-core-impl</module>
 		<module>xml-impl</module>
 		<module>css-impl</module>
 		<module>views-impl</module>

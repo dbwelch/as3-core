@@ -16,9 +16,11 @@ package com.ffsys.w3c.dom.html
 		/**
 		* 	Creates an <code>HTMLTitleElementImpl</code> instance.
 		*/
-		public function HTMLTitleElementImpl()
+		public function HTMLTitleElementImpl(
+			owner:HTMLDocumentImpl = null,
+			name:String = NAME )
 		{
-			super();
+			super( owner, name );
 		}
 		
 		/**
