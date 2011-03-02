@@ -2,7 +2,6 @@ package com.ffsys.w3c.dom.css
 {
 	import org.w3c.dom.css.CSSMediaRule;
 	import org.w3c.dom.css.CSSRule;	
-	import org.w3c.dom.css.CSSRuleList;
 	import org.w3c.dom.css.CSSStyleSheet;
 	import org.w3c.dom.css.MediaList;
 	import org.w3c.dom.css.RuleType;	
@@ -18,8 +17,14 @@ package com.ffsys.w3c.dom.css
 		*/
 		public static const NAME:String = "media";
 		
+		/**
+		* 	The name of the <code>type</code> attribute
+		* 	used to store the comma-delimited list of media
+		* 	types.
+		*/
+		public static const MEDIA_TYPE_ATTR:String = "types";
+		
 		private var _media:MediaList;
-		private var _cssRules:CSSRuleList;
 		
 		/**
 		* 	Creates a <code>CSSMediaRuleImpl</code> instance.
@@ -45,29 +50,12 @@ package com.ffsys.w3c.dom.css
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	@private
 		*/
-		public function get cssRules():CSSRuleList
+		internal function setMedia( value:String ):void
 		{
-			//
-			return _cssRules;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function insertRule( rule:String, index:uint ):uint
-		{
-			//TODO
-			return 0;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function deleteRule( index:uint ):void
-		{
-			//TODO
+			_media = new MediaListImpl( value );
+			setAttribute( MEDIA_TYPE_ATTR, _media.mediaText );
 		}
 	}
 }

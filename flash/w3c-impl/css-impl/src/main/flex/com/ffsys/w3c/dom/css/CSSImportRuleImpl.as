@@ -67,9 +67,9 @@ package com.ffsys.w3c.dom.css
 		/**
 		* 	@private
 		*/
-		internal function parseMedia( value:String ):void
+		internal function setMedia( value:String ):void
 		{
-			//TODO
+			_media = new MediaListImpl( value );
 		}
 		
 		/**

@@ -80,6 +80,8 @@ package com.ffsys.w3c.dom.css
 				
 			var rule:CSSRule = null;
 			
+			//TODO: use insertRule() not appendChild() !!!!!!
+			
 			rule = doc.createCharsetRule( "utf-8" );
 			Assert.assertTrue( rule is CSSCharsetRuleImpl );
 			Assert.assertEquals( "utf-8", CSSCharsetRuleImpl( rule ).encoding );
@@ -89,8 +91,14 @@ package com.ffsys.w3c.dom.css
 			Assert.assertTrue( rule is CSSImportRuleImpl );
 			Assert.assertEquals( "assets/css/shared.css", CSSImportRuleImpl( rule ).href );
 			doc.appendChild( Node( rule ) );
+			
+			//null and the empty string become the "all" media type
+			rule = doc.createMediaRule( null );
+			Assert.assertEquals( "all", CSSMediaRuleImpl( rule ).media.mediaText );
+			rule = doc.createMediaRule( "" );
+			Assert.assertEquals( "all", CSSMediaRuleImpl( rule ).media.mediaText );
 						
-			rule = doc.createMediaRule( "all" );
+			rule = doc.createMediaRule( "print, screen, speech" );
 			Assert.assertTrue( rule is CSSMediaRuleImpl );
 			//TODO: assert on media list data
 			doc.appendChild( Node( rule ) );

@@ -2,6 +2,7 @@ package com.ffsys.w3c.dom.css
 {
 	import org.w3c.dom.Document;
 	import org.w3c.dom.css.CSSRule;
+	import org.w3c.dom.css.CSSRuleList;	
 	import org.w3c.dom.css.CSSStyleSheet;
 	
 	import com.ffsys.w3c.dom.CoreDocumentImpl;	
@@ -9,6 +10,19 @@ package com.ffsys.w3c.dom.css
 	
 	/**
 	* 	Abstract super class for CSS rules.
+	* 
+	* 	Note that the CSS specification does not explicitly
+	* 	indicate that all rules may contain nested rules
+	* 	(for example, the "charset" and "import" rules do not
+	* 	contain child rules).
+	* 
+	* 	Regardless, this implementation is structured in a way
+	* 	as to allow any rule to contain any number of child
+	* 	rules.
+	* 
+	* 	Derived implementations may choose to restrict access
+	* 	to the methods used to add child rules by throwing an
+	* 	exception where appropriate.
 	*/
 	public class CSSRuleImpl extends ElementImpl
 		implements CSSRule
@@ -25,6 +39,7 @@ package com.ffsys.w3c.dom.css
 		*/
 		protected var __cssRuleType:uint;
 		
+		private var _cssRules:CSSRuleList;		
 		private var _cssText:String;
 		private var _parentRule:CSSRule;
 		
@@ -86,6 +101,32 @@ package com.ffsys.w3c.dom.css
 		public function get parentRule():CSSRule
 		{
 			return _parentRule;
-		}	
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get cssRules():CSSRuleList
+		{
+			//
+			return _cssRules;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function insertRule( rule:String, index:uint ):uint
+		{
+			//TODO
+			return 0;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function deleteRule( index:uint ):void
+		{
+			//TODO
+		}		
 	}
 }

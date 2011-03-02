@@ -196,9 +196,7 @@ package com.ffsys.w3c.dom.css
 			var rule:CSSImportRuleImpl = CSSImportRuleImpl(
 				createCSSRule( RuleType.IMPORT_RULE ) );
 			rule.setHref( href );
-			
-			//rule.parseMedia( media );
-			
+			rule.setMedia( media );
 			return rule;
 		}
 		
@@ -213,8 +211,7 @@ package com.ffsys.w3c.dom.css
 		{
 			var rule:CSSMediaRuleImpl = CSSMediaRuleImpl(
 				createCSSRule( RuleType.MEDIA_RULE ) );
-
-			//rule.parseMedia( media );
+			rule.setMedia( media );
 			return rule;
 		}
 		
