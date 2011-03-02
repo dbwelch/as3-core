@@ -12,6 +12,11 @@ package com.ffsys.w3c.dom.css
 	public class CSSImportRuleImpl extends CSSRuleImpl
 		implements CSSImportRule
 	{
+		/**
+		* 	The bean name for an import at-rule.
+		*/
+		public static const NAME:String = "import";
+		
 		private var _href:String;
 		private var _media:MediaList;
 		private var _styleSheet:CSSStyleSheet;
@@ -24,10 +29,11 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSImportRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
 			__cssRuleType = RuleType.IMPORT_RULE;
-			super( sheet, parent );
+			super( sheet, parent, name );
 		}
 		
 		/**

@@ -38,6 +38,26 @@ package org.w3c.dom.css
 		/**
 		* 	The rule is a CSSPageRule.
 		*/
-		public static const PAGE_RULE:uint                      = 6;		
+		public static const PAGE_RULE:uint                      = 6;	
+		
+		/**
+		* 	Determines whether a candidate
+		* 	rule type is value.
+		* 
+		* 	@param type The candidate rule type.
+		* 
+		* 	@return Whether the type is a recognised
+		* 	rule type.
+		*/
+		static public function isValid( type:uint ):Boolean
+		{
+			return type === UNKNOWN_RULE
+				|| type === STYLE_RULE
+				|| type === CHARSET_RULE
+				|| type === IMPORT_RULE
+				|| type === MEDIA_RULE
+				|| type === FONT_FACE_RULE
+				|| type === PAGE_RULE;
+		}	
 	}
 }

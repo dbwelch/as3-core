@@ -162,6 +162,12 @@ package org.w3c.dom
 		*/
 		static public const INVALID_NAMESPACE_PREFIX_MSG:String
 			= "The namespace prefix '%s' is not bound.";
+			
+		/**
+		* 	A message for when a CSS rule type is invalid.
+		*/
+		static public const INVALID_CSS_RULE_TYPE:String
+			= "The CSS rule type '%s' is not valid.";
 		
 		/**
 		* 	Creates an <code>DOMException</code> instance.

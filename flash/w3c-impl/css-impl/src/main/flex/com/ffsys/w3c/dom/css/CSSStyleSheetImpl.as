@@ -1,19 +1,18 @@
 package com.ffsys.w3c.dom.css
 {
 	import org.w3c.dom.Node;
-	import org.w3c.dom.Element;
+	import org.w3c.dom.DOMException;
+	import org.w3c.dom.Element;	
 	
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSRuleList;
-	import org.w3c.dom.css.CSSStyleSheet;
-	import org.w3c.dom.css.StyleSheet;
-	
 	import org.w3c.dom.css.CSSStyleDeclaration;
+	import org.w3c.dom.css.CSSStyleSheet;
+	import org.w3c.dom.css.RuleType;	
+	import org.w3c.dom.css.StyleSheet;
 	import org.w3c.dom.css.DocumentCSS;
-	import org.w3c.dom.css.StyleSheetList;	
-	
-	import org.w3c.dom.DOMFeature;
-		
+	import org.w3c.dom.css.StyleSheetList;
+			
 	/**
 	* 	Represents a CSS style sheet.
 	*/
@@ -24,7 +23,7 @@ package com.ffsys.w3c.dom.css
 		* 	The bean name for the implementation of the
 		* 	"StyleSheets", "CSS" and "CSS2" features.
 		*/
-		public static const NAME:String = DOMFeature.STYLESHEETS_MODULE;
+		public static const NAME:String = "css";
 		
 		private var _styleSheets:StyleSheetList;
 		
@@ -105,8 +104,7 @@ package com.ffsys.w3c.dom.css
 		
 		*/
 		public function insertRule( rule:String, index:uint ):uint
-		{
-			
+		{			
 			return 0;
 		}
 	
@@ -116,6 +114,56 @@ package com.ffsys.w3c.dom.css
 		public function deleteRule( index:uint ):void
 		{
 			//TODO
-		}	
+		}
+		
+		/**
+		* 	Creates a <code>CSSRule</code> instance.
+		* 
+		* 	@param type The type of rule to create.
+		* 
+		* 	@throws DOMException.TYPE_MISMATCH_ERR: 
+		* 	If the specified type is not a valid CSS
+		* 	rule type identifier.
+		* 
+		* 	@return A CSS rule of the specified type.
+		*/
+		public function createCSSRule( type:uint ):CSSRule
+		{
+			if( !RuleType.isValid( type ) )
+			{
+				throw new DOMException(
+					DOMException.INVALID_CSS_RULE_TYPE,
+					null,
+					DOMException.TYPE_MISMATCH_ERR,
+					[ type ] );
+			}
+			
+			var rule:CSSRuleImpl = null;
+			rule = CSSRuleImpl( getDomBean(
+				__cssRuleImplementations[ type ] ) );
+			rule.setParentStyleSheet( this );
+			return rule;
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Provides a mapping between CSS rule type unsigned
+		* 	integers and the bean names for the corresponding
+		* 	implementations.
+		* 
+		* 	Declaration order is important as it is the index
+		* 	that matches the type unsigned integer.
+		*/
+		private static var __cssRuleImplementations:Array
+			= [
+				CSSUnknownRuleImpl.NAME,
+				CSSStyleRuleImpl.NAME,
+				CSSCharsetRuleImpl.NAME,
+				CSSImportRuleImpl.NAME,
+				CSSMediaRuleImpl.NAME,
+				CSSFontFaceRuleImpl.NAME,
+				CSSPageRuleImpl.NAME
+			];
 	}
 }

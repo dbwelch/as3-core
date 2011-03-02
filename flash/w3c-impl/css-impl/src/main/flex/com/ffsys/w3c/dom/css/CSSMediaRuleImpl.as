@@ -13,6 +13,11 @@ package com.ffsys.w3c.dom.css
 	public class CSSMediaRuleImpl extends CSSRuleImpl
 		implements CSSMediaRule
 	{
+		/**
+		* 	The bean name for a media at-rule.
+		*/
+		public static const NAME:String = "media";
+		
 		private var _media:MediaList;
 		private var _cssRules:CSSRuleList;
 		
@@ -24,10 +29,11 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSMediaRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
 			__cssRuleType = RuleType.MEDIA_RULE;
-			super( sheet, parent );
+			super( sheet, parent, name );
 		}
 		
 		/**

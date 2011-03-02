@@ -11,7 +11,12 @@ package com.ffsys.w3c.dom.css
 	*/
 	public class CSSUnknownRuleImpl extends CSSRuleImpl
 		implements CSSUnknownRule
-	{
+	{		
+		/**
+		* 	The bean name for an unknown at-rule.
+		*/
+		public static const NAME:String = "unknown";
+		
 		/**
 		* 	Creates a <code>CSSUnknownRuleImpl</code> instance.
 		* 
@@ -20,7 +25,8 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSUnknownRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
 			__cssRuleType = RuleType.UNKNOWN_RULE;
 			super( sheet, parent );

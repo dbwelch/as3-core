@@ -35,8 +35,12 @@ package com.ffsys.w3c.dom
 		*/
 		protected var __ownerNode:Node;
 		
+		/**
+		* 	@private
+		*/
+		protected var _ownerDocument:Document;
+		
 		private var _nodeValue:String;
-		private var _ownerDocument:Document;
 		private var _childNodes:NodeList;
 		private var _attributes:NamedNodeMap;
 		private var _propertyName:String;

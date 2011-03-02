@@ -8,8 +8,16 @@ package com.ffsys.w3c.dom.bootstrap
 	
 	import org.w3c.dom.DOMFeature;
 	
-	import com.ffsys.w3c.dom.css.DOMImplementationCSSImpl;
-	import com.ffsys.w3c.dom.css.CSSStyleSheetImpl;
+	import com.ffsys.w3c.dom.css.CSSStyleSheetImpl;	
+	import com.ffsys.w3c.dom.css.CSSCharsetRuleImpl;
+	import com.ffsys.w3c.dom.css.CSSFontFaceRuleImpl;
+	import com.ffsys.w3c.dom.css.CSSImportRuleImpl;
+	import com.ffsys.w3c.dom.css.CSSMediaRuleImpl;
+	import com.ffsys.w3c.dom.css.CSSPageRuleImpl;
+	import com.ffsys.w3c.dom.css.CSSStyleRuleImpl;
+	import com.ffsys.w3c.dom.css.CSSUnknownRuleImpl;
+	import com.ffsys.w3c.dom.css.DOMImplementationCSSImpl;	
+	
 	
 	/**
 	* 	A boostrap document for the DOM CSS implementation.
@@ -72,10 +80,45 @@ package com.ffsys.w3c.dom.bootstrap
 			beans:IBeanDocument ):void
 		{
 			super.doWithBeans( beans );
-			var descriptor:IBeanDescriptor = null;
-			descriptor = new BeanDescriptor(
-				CSSStyleSheetImpl.NAME );
+			
+			var descriptor:IBeanDescriptor =
+				new BeanDescriptor( CSSStyleSheetImpl.NAME );
 			descriptor.instanceClass = CSSStyleSheetImpl;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSCharsetRuleImpl.NAME );
+			descriptor.instanceClass = CSSCharsetRuleImpl;
+			beans.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
+				CSSFontFaceRuleImpl.NAME );
+			descriptor.instanceClass = CSSFontFaceRuleImpl;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSImportRuleImpl.NAME );
+			descriptor.instanceClass = CSSImportRuleImpl;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSMediaRuleImpl.NAME );
+			descriptor.instanceClass = CSSMediaRuleImpl;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSPageRuleImpl.NAME );
+			descriptor.instanceClass = CSSPageRuleImpl;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSStyleRuleImpl.NAME );
+			descriptor.instanceClass = CSSStyleRuleImpl;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSUnknownRuleImpl.NAME );
+			descriptor.instanceClass = CSSUnknownRuleImpl;
 			beans.addBeanDescriptor( descriptor );
 		}
 		

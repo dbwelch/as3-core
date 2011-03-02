@@ -12,6 +12,11 @@ package com.ffsys.w3c.dom.css
 	public class CSSStyleRuleImpl extends CSSRuleImpl
 		implements CSSStyleRule
 	{
+		/**
+		* 	The bean name for a style at-rule.
+		*/
+		public static const NAME:String = "style";
+		
 		private var _style:CSSStyleDeclaration;
 		private var _selectorText:String;
 				
@@ -23,10 +28,11 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSStyleRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
 			__cssRuleType = RuleType.STYLE_RULE;
-			super( sheet, parent );
+			super( sheet, parent, name );
 		}
 		
 		/**

@@ -1,9 +1,11 @@
 package com.ffsys.w3c.dom.css
 {
+	import org.w3c.dom.Document;
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSStyleSheet;
 	
 	import com.ffsys.w3c.dom.ElementImpl;
+	import com.ffsys.w3c.dom.CoreDocumentImpl;	
 	
 	/**
 	* 	Abstract super class for CSS rules.
@@ -12,6 +14,11 @@ package com.ffsys.w3c.dom.css
 		implements CSSRule
 	{		
 		/**
+		* 	The bean name for CSS rule implementations.
+		*/
+		public static const NAME:String = "at-rule";
+		
+		/**
 		* 	@private
 		* 	
 		* 	Stores the type of this rule.
@@ -19,7 +26,6 @@ package com.ffsys.w3c.dom.css
 		protected var __cssRuleType:uint;
 		
 		private var _cssText:String;
-		private var _parentStyleSheet:CSSStyleSheet;
 		private var _parentRule:CSSRule;
 		
 		/**
@@ -30,10 +36,10 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
-			super();
-			_parentStyleSheet = sheet;
+			super( CoreDocumentImpl( sheet ), name );
 			_parentRule = parent;
 		}
 		
@@ -63,7 +69,15 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function get parentStyleSheet():CSSStyleSheet
 		{
-			return _parentStyleSheet;
+			return ownerDocument as CSSStyleSheet;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setParentStyleSheet( parent:CSSStyleSheet ):void
+		{
+			_ownerDocument = Document( parent );
 		}
 		
 		/**

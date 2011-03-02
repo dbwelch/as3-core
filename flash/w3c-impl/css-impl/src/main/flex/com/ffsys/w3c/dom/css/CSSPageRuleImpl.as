@@ -12,6 +12,11 @@ package com.ffsys.w3c.dom.css
 		implements CSSPageRule
 	{		
 		/**
+		* 	The bean name for a page at-rule.
+		*/
+		public static const NAME:String = "page";
+		
+		/**
 		* 	Creates a <code>CSSPageRuleImpl</code> instance.
 		* 
 		* 	@param sheet The parent style sheet.
@@ -19,10 +24,11 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSPageRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
 			__cssRuleType = RuleType.PAGE_RULE;
-			super( sheet, parent );
+			super( sheet, parent, name );
 		}
 	}
 }

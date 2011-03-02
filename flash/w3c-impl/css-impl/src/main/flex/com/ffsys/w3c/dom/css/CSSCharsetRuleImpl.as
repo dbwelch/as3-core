@@ -11,6 +11,11 @@ package com.ffsys.w3c.dom.css
 	public class CSSCharsetRuleImpl extends CSSRuleImpl
 		implements CSSCharsetRule
 	{
+		/**
+		* 	The bean name for an charset at-rule.
+		*/
+		public static const NAME:String = "charset";
+		
 		private var _encoding:String;
 		
 		/**
@@ -21,10 +26,11 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSCharsetRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
 			__cssRuleType = RuleType.CHARSET_RULE;
-			super( sheet, parent );
+			super( sheet, parent, name );
 		}
 		
 		/**

@@ -9,10 +9,15 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.Document;
 	
 	import org.w3c.dom.css.CSSStyleSheet;
+	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.DocumentCSS;
+	import org.w3c.dom.css.RuleType;
 	import org.w3c.dom.css.DOMImplementationCSS;
 	
 	import com.ffsys.w3c.dom.AbstractDomUnit;
+	
+	import com.ffsys.w3c.dom.css.CSSStyleSheetImpl;
+	
 	
 	/**
 	*	Unit tests for creating DOM CSS implementations.
@@ -43,7 +48,7 @@ package com.ffsys.w3c.dom.css
 		/**
 		* 	@private
 		*/
-		protected function assertOnStyleSheetImplementation( impl:DOMImplementationCSS ):void
+		protected function assertOnStyleSheetImplementation( impl:DOMImplementationCSS ):CSSStyleSheet
 		{
 			var doc:CSSStyleSheet = impl.createCSSStyleSheet(
 				"A style sheet", "screen, print" );
@@ -54,10 +59,16 @@ package com.ffsys.w3c.dom.css
 			//the document should be the first style sheet
 			//in the list by default
 			Assert.assertEquals( doc, Object( docCss.styleSheets )[ 0 ] );
-
+			
+			/*
 			trace("[CSS DOC] DomCssCreationTest::testCreateStyleSheetsImplementation()",
 				impl, doc,
-				docCss.styleSheets, docCss.styleSheets.length );			
+				docCss.styleSheets, docCss.styleSheets.length );	
+			*/
+				
+			Assert.assertTrue( docCss is CSSStyleSheetImpl );
+			
+			return docCss as CSSStyleSheet;
 		}
 		
 		[Test]
@@ -65,7 +76,14 @@ package com.ffsys.w3c.dom.css
 		{
 			var cssImpl:DOMImplementationCSS = getDOMImplementationCSS(
 				DOMFeature.STYLESHEETS_MODULE );
-			assertOnStyleSheetImplementation( cssImpl );
+			
+			var sheet:CSSStyleSheet = assertOnStyleSheetImplementation( cssImpl );
+			var rule:CSSRule = CSSStyleSheetImpl( sheet ).createCSSRule( RuleType.UNKNOWN_RULE );
+			
+			
+			//TODO
+			
+			//trace("[CSS RULE] DomCssCreationTest::testCreateStyleSheetsImplementation()", rule );
 		}
 		
 		[Test]
@@ -73,7 +91,7 @@ package com.ffsys.w3c.dom.css
 		{
 			var cssImpl:DOMImplementationCSS = getDOMImplementationCSS(
 				DOMFeature.CSS_MODULE );
-			assertOnStyleSheetImplementation( cssImpl );				
+			var sheet:CSSStyleSheet = assertOnStyleSheetImplementation( cssImpl );
 		}
 		
 		[Test]
@@ -81,7 +99,7 @@ package com.ffsys.w3c.dom.css
 		{
 			var cssImpl:DOMImplementationCSS = getDOMImplementationCSS(
 				DOMFeature.CSS2_MODULE );
-			assertOnStyleSheetImplementation( cssImpl );				
+			var sheet:CSSStyleSheet = assertOnStyleSheetImplementation( cssImpl );		
 		}				
 	}
 }

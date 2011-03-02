@@ -12,6 +12,11 @@ package com.ffsys.w3c.dom.css
 	public class CSSFontFaceRuleImpl extends CSSRuleImpl
 		implements CSSFontFaceRule
 	{
+		/**
+		* 	The bean name for a font-face at-rule.
+		*/
+		public static const NAME:String = "font-face";
+		
 		private var _style:CSSStyleDeclaration;
 		
 		/**
@@ -22,10 +27,11 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function CSSFontFaceRuleImpl(
 			sheet:CSSStyleSheet = null,
-			parent:CSSRule = null )
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
 			__cssRuleType = RuleType.FONT_FACE_RULE;
-			super( sheet, parent );
+			super( sheet, parent, name );
 		}
 		
 		/**

@@ -1,5 +1,6 @@
 package com.ffsys.w3c.dom.css
 {
+	import org.w3c.dom.DOMFeature;
 	import org.w3c.dom.Node;	
 	import org.w3c.dom.css.MediaList;
 	import org.w3c.dom.css.StyleSheet;
