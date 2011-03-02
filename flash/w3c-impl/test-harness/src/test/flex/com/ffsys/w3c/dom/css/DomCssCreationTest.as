@@ -28,7 +28,7 @@ package com.ffsys.w3c.dom.css
 		public function DomCssCreationTest()
 		{
 			super();
-		}
+		}	
 		
 		/**
 		* 	@private
@@ -76,11 +76,40 @@ package com.ffsys.w3c.dom.css
 				DOMFeature.STYLESHEETS_MODULE );
 			
 			var sheet:CSSStyleSheet = assertOnStyleSheetImplementation( cssImpl );
-			var doc:CSSStyleSheetImpl = CSSStyleSheetImpl( sheet );			
-			var rule:CSSRule = doc.createCSSRule( RuleType.UNKNOWN_RULE );
+			var doc:CSSStyleSheetImpl = CSSStyleSheetImpl( sheet );
+				
+			var rule:CSSRule = null;
 			
+			rule = doc.createCharsetRule( "utf-8" );
+			Assert.assertTrue( rule is CSSCharsetRuleImpl );
+			Assert.assertEquals( "utf-8", CSSCharsetRuleImpl( rule ).encoding );
+			doc.appendChild( Node( rule ) );
+						
+			rule = doc.createImportRule( "assets/css/shared.css", "print, screen" );
+			Assert.assertTrue( rule is CSSImportRuleImpl );
+			Assert.assertEquals( "assets/css/shared.css", CSSImportRuleImpl( rule ).href );
+			doc.appendChild( Node( rule ) );
+						
+			rule = doc.createMediaRule( "all" );
+			Assert.assertTrue( rule is CSSMediaRuleImpl );
+			//TODO: assert on media list data
+			doc.appendChild( Node( rule ) );
+						
+			rule = doc.createFontFaceRule();
+			Assert.assertTrue( rule is CSSFontFaceRuleImpl );
+			//TODO: assert on font face style declaration
+			doc.appendChild( Node( rule ) );
+						
+			rule = doc.createPageRule();
+			Assert.assertTrue( rule is CSSPageRuleImpl );
+			doc.appendChild( Node( rule ) );
+			
+			rule = doc.createStyleRule();
+			Assert.assertTrue( rule is CSSStyleRuleImpl );
+			doc.appendChild( Node( rule ) );
+			
+			rule = doc.createUnknownRule();
 			Assert.assertTrue( rule is CSSUnknownRuleImpl );
-			
 			doc.appendChild( Node( rule ) );
 			
 			//trace("[CSS RULE] DomCssCreationTest::testCreateStyleSheetsImplementation()", rule );

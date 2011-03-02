@@ -49,6 +49,7 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function get cssRules():CSSRuleList
 		{
+			//
 			return _cssRules;
 		}
 		

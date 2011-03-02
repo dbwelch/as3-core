@@ -17,7 +17,11 @@ package com.ffsys.w3c.dom.css
 		*/
 		public static const NAME:String = "import";
 		
-		private var _href:String;
+		/**
+		* 	The name of the <code>href</code> attribute.
+		*/
+		public static const HREF_ATTR:String = "href";
+		
 		private var _media:MediaList;
 		private var _styleSheet:CSSStyleSheet;
 		
@@ -41,7 +45,15 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function get href():String
 		{
-			return _href;
+			return getAttribute( HREF_ATTR );
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setHref( value:String ):void
+		{
+			setAttribute( HREF_ATTR, value );
 		}
 		
 		/**
@@ -53,11 +65,27 @@ package com.ffsys.w3c.dom.css
 		}
 		
 		/**
+		* 	@private
+		*/
+		internal function parseMedia( value:String ):void
+		{
+			//TODO
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function get styleSheet():CSSStyleSheet
 		{
 			return _styleSheet;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setStyleSheet( sheet:CSSStyleSheet ):void
+		{
+			_styleSheet = sheet;
 		}
 	}
 }

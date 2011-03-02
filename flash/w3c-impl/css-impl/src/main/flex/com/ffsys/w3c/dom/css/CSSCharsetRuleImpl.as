@@ -12,11 +12,16 @@ package com.ffsys.w3c.dom.css
 		implements CSSCharsetRule
 	{
 		/**
-		* 	The bean name for an charset at-rule.
+		* 	The bean name for a charset at-rule.
 		*/
 		public static const NAME:String = "charset";
 		
-		private var _encoding:String;
+		/**
+		* 	The name of the <code>encoding</code> attribute.
+		*/
+		public static const ENCODING_ATTR:String = "encoding";
+		
+		private var _encoding:String;		
 		
 		/**
 		* 	Creates a <code>CSSCharsetRuleImpl</code> instance.
@@ -38,12 +43,12 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function get encoding():String
 		{
-			return _encoding;
+			return getAttribute( ENCODING_ATTR );
 		}
 		
 		public function set encoding( value:String ):void
 		{
-			_encoding = value;
+			setAttribute( ENCODING_ATTR, value )
 		}
 	}
 }

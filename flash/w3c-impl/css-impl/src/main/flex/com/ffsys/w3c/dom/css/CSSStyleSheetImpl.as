@@ -5,6 +5,14 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.DOMFeature;
 	import org.w3c.dom.Element;	
 	
+	import org.w3c.dom.css.CSSCharsetRule;
+	import org.w3c.dom.css.CSSImportRule;
+	import org.w3c.dom.css.CSSMediaRule;
+	import org.w3c.dom.css.CSSFontFaceRule;
+	import org.w3c.dom.css.CSSPageRule;
+	import org.w3c.dom.css.CSSStyleRule;
+	import org.w3c.dom.css.CSSUnknownRule;
+	
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSRuleList;
 	import org.w3c.dom.css.CSSStyleDeclaration;
@@ -27,7 +35,6 @@ package com.ffsys.w3c.dom.css
 		public static const NAME:String = DOMFeature.CSS_MODULE;
 		
 		private var _styleSheets:StyleSheetList;
-		
 		private var _cssRules:CSSRuleList;
 		private var _ownerRule:CSSRule;
 				
@@ -157,6 +164,120 @@ package com.ffsys.w3c.dom.css
 			rule = CSSRuleImpl( getDomBean(
 				__cssRuleImplementations[ type ] ) );
 			rule.setParentStyleSheet( this );
+			return rule;
+		}
+		
+		/**
+		* 	Creates a charset at-rule.
+		* 
+		* 	@param encoding The encoding for the character
+		* 	set rule.
+		* 
+		* 	@return A charset rule implementation.
+		*/
+		public function createCharsetRule( encoding:String ):CSSCharsetRule
+		{
+			var rule:CSSCharsetRuleImpl = CSSCharsetRuleImpl(
+				createCSSRule( RuleType.CHARSET_RULE ) );
+			rule.encoding = encoding;
+			return rule;
+		}
+		
+		/**
+		* 	Creates an import at-rule.
+		* 
+		* 	@param href The URI for the document to import.
+		* 	@param media A comma-delimited list of mediums.
+		* 
+		* 	@return An import rule implementation.
+		*/
+		public function createImportRule( href:String, media:String = null ):CSSImportRule
+		{
+			var rule:CSSImportRuleImpl = CSSImportRuleImpl(
+				createCSSRule( RuleType.IMPORT_RULE ) );
+			rule.setHref( href );
+			
+			//rule.parseMedia( media );
+			
+			return rule;
+		}
+		
+		/**
+		* 	Creates a media at-rule.
+		*
+		* 	@param media A comma-delimited list of mediums.
+		* 
+		* 	@return A media rule implementation.
+		*/
+		public function createMediaRule( media:String = null ):CSSMediaRule
+		{
+			var rule:CSSMediaRuleImpl = CSSMediaRuleImpl(
+				createCSSRule( RuleType.MEDIA_RULE ) );
+
+			//rule.parseMedia( media );
+			return rule;
+		}
+		
+		/**
+		* 	Creates a font-face at-rule.
+		*
+		* 	@param style A style declaration for the rule.
+		* 
+		* 	@return A font-face rule implementation.
+		*/
+		public function createFontFaceRule( style:CSSStyleDeclaration = null ):CSSFontFaceRule
+		{
+			var rule:CSSFontFaceRuleImpl = CSSFontFaceRuleImpl(
+				createCSSRule( RuleType.FONT_FACE_RULE ) );
+			//TOOD: set the declaration where necessary
+			return rule;
+		}
+		
+		/**
+		* 	Creates a page at-rule.
+		*
+		* 	@param selectorText The CSS text for the page rule selector
+		* 	and declaration.
+		* 
+		* 	@return A page rule implementation.
+		*/
+		public function createPageRule( selectorText:String = null ):CSSPageRule
+		{
+			var rule:CSSPageRuleImpl = CSSPageRuleImpl(
+				createCSSRule( RuleType.PAGE_RULE ) );
+			//TOOD: set the selectorText where necessary
+			return rule;	
+		}
+		
+		/**
+		* 	Creates a style at-rule.
+		*
+		* 	@param selectorText The CSS text for the style rule selector
+		* 	and declaration.
+		* 
+		* 	@return A style rule implementation.
+		*/
+		public function createStyleRule( selectorText:String = null ):CSSStyleRule
+		{
+			var rule:CSSStyleRuleImpl = CSSStyleRuleImpl(
+				createCSSRule( RuleType.STYLE_RULE ) );
+			//TOOD: set the selectorText where necessary
+			return rule;
+		}	
+		
+		/**
+		* 	Creates an unknown at-rule.
+		*
+		* 	@param cssText The CSS text for the entire rule declaration
+		* 	including the at-rule.
+		* 
+		* 	@return An unknown rule implementation.
+		*/
+		public function createUnknownRule( cssText:String = null ):CSSUnknownRule
+		{
+			var rule:CSSUnknownRuleImpl = CSSUnknownRuleImpl(
+				createCSSRule( RuleType.UNKNOWN_RULE ) );
+			//TOOD: set the cssText where necessary
 			return rule;
 		}
 		
