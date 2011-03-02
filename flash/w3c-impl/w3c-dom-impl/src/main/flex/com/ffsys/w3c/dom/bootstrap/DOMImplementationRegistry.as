@@ -28,7 +28,7 @@ package com.ffsys.w3c.dom.bootstrap
 		* 
 		* 	@param enforcer A reference to the private singleton enforcer class.
 		*/
-		public function DOMImplementationRegistry( enforcer:Class )
+		public function DOMImplementationRegistry( enforcer:SingletonEnforcer )
 		{
 			super();
 		}
@@ -106,7 +106,7 @@ package com.ffsys.w3c.dom.bootstrap
 		}
 		
 		/**
-		*	 Obtain a new instance of a DOMImplementationRegistry.
+		*	Obtain a new instance of a DOMImplementationRegistry.
 		* 
 		* 	The DOMImplementationRegistry is initialized by the application
 		* 	or the implementation, depending on the context, by first
@@ -129,7 +129,7 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			if( _registry == null )
 			{
-				_registry = new DOMImplementationRegistry( SingletonEnforcer );
+				_registry = new DOMImplementationRegistry( new SingletonEnforcer() );
 			}
 			return _registry;
 		}

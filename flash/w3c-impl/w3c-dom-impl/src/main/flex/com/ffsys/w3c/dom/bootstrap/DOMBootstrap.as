@@ -213,7 +213,7 @@ package com.ffsys.w3c.dom.bootstrap
 						ft, impl, impl.hasFeature( ft.feature, ft.version ) );
 					*/
 										
-					if( !impl.hasFeature( ft.feature, ft.version ) )
+					if( !impl.hasFeature( ft.feature, "" + ft.version ) )
 					{
 						break;
 					}
@@ -221,7 +221,6 @@ package com.ffsys.w3c.dom.bootstrap
 				
 				if( i == specified.length )
 				{
-					//trace("[ADD IMPL] DOMBootstrap::getDOMImplementationList()", impl );
 					list.implementations.push( impl );
 				}
 			}
@@ -260,7 +259,7 @@ package com.ffsys.w3c.dom.bootstrap
 					ft != null
 					&& DOMFeature.VERSION_EXPRESSION.test( nm ) )
 				{
-					ft.version = nm;
+					ft.version = new DOMVersion( nm );
 				}
 			}
 			return specified;

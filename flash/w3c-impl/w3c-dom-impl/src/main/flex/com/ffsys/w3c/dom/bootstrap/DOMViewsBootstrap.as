@@ -92,7 +92,7 @@ package com.ffsys.w3c.dom.bootstrap
 		override protected function getSupportedFeatures():Vector.<DOMFeature>
 		{
 			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
-			output.push( DOMFeature.VIEWS_3_FEATURE );
+			output.push( DOMFeature.VIEWS_2_FEATURE );
 			return output;
 		}
 		

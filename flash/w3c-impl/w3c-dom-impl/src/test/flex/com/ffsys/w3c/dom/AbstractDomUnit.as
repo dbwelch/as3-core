@@ -123,7 +123,7 @@ package com.ffsys.w3c.dom
 			//retrieve an implementation for "XML 3.0 Core"
 			var impl:DOMImplementation = registry.getDOMImplementation(
 				DOMFeature.XML_MODULE
-				+ " " + DOMFeature.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
+				+ " " + DOMVersion.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
 			Assert.assertNotNull( impl );
 			return impl;
 		}
@@ -142,8 +142,8 @@ package com.ffsys.w3c.dom
 			//retrieve an implementation for "HTML 3.0 Core"
 			var impl:DOMImplementation = registry.getDOMImplementation(
 				DOMFeature.HTML_MODULE
-				+ " " + DOMFeature.LEVEL_3 + " " + DOMFeature.CORE_MODULE );
-			Assert.assertNotNull( impl );		
+				+ " " + DOMVersion.LEVEL_2 + " " + DOMFeature.CORE_MODULE );
+			Assert.assertNotNull( impl );
 			return impl;
 		}
 		

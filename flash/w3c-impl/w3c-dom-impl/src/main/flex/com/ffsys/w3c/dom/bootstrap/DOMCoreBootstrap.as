@@ -125,8 +125,8 @@ package com.ffsys.w3c.dom.bootstrap
 		{
 			var output:Vector.<DOMFeature> = super.getSupportedFeatures();
 			output.push( DOMFeature.CORE_3_FEATURE );
-			output.push( DOMFeature.RANGE_3_FEATURE );
-			output.push( DOMFeature.TRAVERSAL_3_FEATURE );
+			output.push( DOMFeature.RANGE_2_FEATURE );
+			output.push( DOMFeature.TRAVERSAL_2_FEATURE );
 			return output;
 		}
 		

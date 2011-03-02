@@ -180,8 +180,8 @@ package com.ffsys.w3c.dom
 			{
 				_supported = new Vector.<DOMFeature>();
 				_supported.push( DOMFeature.CORE_3_FEATURE );
-				_supported.push( DOMFeature.RANGE_3_FEATURE );
-				_supported.push( DOMFeature.TRAVERSAL_3_FEATURE );
+				_supported.push( DOMFeature.RANGE_2_FEATURE );
+				_supported.push( DOMFeature.TRAVERSAL_2_FEATURE );
 				_supported.push( DOMFeature.ELEMENT_TRAVERSAL_3_FEATURE );
 			}
 			return _supported;
@@ -244,16 +244,6 @@ package com.ffsys.w3c.dom
 			if( self === this )
 			{
 				return true;
-			}
-			
-			var ft:DOMFeature = null;
-			for( var i:int = 0;i < supported.length;i++ )
-			{
-				ft = supported[ i ];
-				if( ft.equals( feature, version ) )
-				{
-					return true;
-				}
 			}
 			return false;
 		}

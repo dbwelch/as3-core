@@ -3,6 +3,8 @@ package com.ffsys.w3c.dom
 	/**
 	* 	Encapsulates constants that represent the various
 	* 	DOM modules and corresponding feature names.
+	* 
+	* 	@see http://www.w3.org/TR/2010/WD-domcore-20101007/index.html#dom-features
 	*/	
 	public class DOMFeature extends Object
 	{
@@ -151,161 +153,204 @@ package com.ffsys.w3c.dom
 		public static const ELEMENT_TRAVERSAL_MODULE:String = "ElementTraversal";
 		
 		/**
-		* 	Represents the DOM level 1 version number.
+		* 	A list of all possible backward compatible
+		* 	version numbers.
 		*/
-		public static const LEVEL_1:String = "1.0";
-		
-		/**
-		* 	Represents the DOM level 2 version number.
-		*/
-		public static const LEVEL_2:String = "2.0";
-		
-		/**
-		* 	Represents the DOM level 3 version number.
-		*/
-		public static const LEVEL_3:String = "3.0";
+		public static const COMPATIBILITY_VERSIONS:Array = [
+			DOMVersion.LEVEL_2,
+			DOMVersion.LEVEL_1
+		];
 
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Core level 3.0 feature.
+		* 
+		* 	This representation is also backwards compatible
+		* 	with the "2.0" and "1.0" version numbers.
 		*/
 		public static const CORE_3_FEATURE:DOMFeature =
-			new DOMFeature( CORE_MODULE, LEVEL_3 );			
+			new DOMFeature(
+				CORE_MODULE,
+				DOMVersion.VERSION_3.clone( COMPATIBILITY_VERSIONS )
+			);
 			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM XML level 3.0 feature.
+		* 
+		* 	This representation is also backwards compatible
+		* 	with the "2.0" and "1.0" version numbers.
 		*/
 		public static const XML_3_FEATURE:DOMFeature =
-			new DOMFeature( XML_MODULE, LEVEL_3 );
+			new DOMFeature(
+				XML_MODULE,
+				DOMVersion.VERSION_3.clone( COMPATIBILITY_VERSIONS )
+			);
+					
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM HTML level 3.0 feature.
+		* 	the DOM HTML level 2.0 feature.
+		* 
+		* 	This representation is also backwards compatible
+		* 	with the "1.0" version number.
 		*/
-		public static const HTML_3_FEATURE:DOMFeature =
-			new DOMFeature( HTML_MODULE, LEVEL_3 );
+		public static const HTML_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				HTML_MODULE, 
+				DOMVersion.VERSION_2.clone(
+					[
+						DOMVersion.LEVEL_1
+					] )
+				);
 					
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM LS level 3.0 feature.
 		*/
 		public static const LS_3_FEATURE:DOMFeature =
-			new DOMFeature( LS_MODULE, LEVEL_3 );		
+			new DOMFeature(
+				LS_MODULE, DOMVersion.VERSION_3 );
 
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM LS Async level 3.0 feature.
 		*/
 		public static const LS_ASYNC_3_FEATURE:DOMFeature =
-			new DOMFeature( LS_ASYNC_MODULE, LEVEL_3 );
+			new DOMFeature(
+				LS_ASYNC_MODULE, DOMVersion.VERSION_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Validation feature.
+		* 	the DOM Validation level 3.0 feature.
 		*/
 		public static const VALIDATION_3_FEATURE:DOMFeature =
-			new DOMFeature( VALIDATION_MODULE, LEVEL_3 );
+			new DOMFeature(
+				VALIDATION_MODULE, DOMVersion.VERSION_3 );
 
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Range level 3.0 feature.
+		* 	the DOM Range level 2.0 feature.
 		*/
-		public static const RANGE_3_FEATURE:DOMFeature =
-			new DOMFeature( RANGE_MODULE, LEVEL_3 );
+		public static const RANGE_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				RANGE_MODULE, DOMVersion.VERSION_2 );
 
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Traversal level 3.0 feature.
+		* 	the DOM Traversal level 2.0 feature.
 		*/
-		public static const TRAVERSAL_3_FEATURE:DOMFeature =
-			new DOMFeature( TRAVERSAL_MODULE, LEVEL_3 );
+		public static const TRAVERSAL_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				TRAVERSAL_MODULE, DOMVersion.VERSION_2 );
 
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM ElementTraversal level 3.0 feature.
+		* 
+		* 	This representation is also backwards compatible
+		* 	with the "2.0" and "1.0" version numbers.
 		*/
 		public static const ELEMENT_TRAVERSAL_3_FEATURE:DOMFeature =
-			new DOMFeature( ELEMENT_TRAVERSAL_MODULE, LEVEL_3 );			
-			
+			new DOMFeature(
+				ELEMENT_TRAVERSAL_MODULE, 
+				DOMVersion.VERSION_3.clone(
+					COMPATIBILITY_VERSIONS )
+			);
+		
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Events level 3.0 feature.
+		* 
+		* 	This representation is also backwards compatible
+		* 	with the "2.0" and "1.0" version numbers.
 		*/
 		public static const EVENTS_3_FEATURE:DOMFeature =
-			new DOMFeature( EVENTS_MODULE, LEVEL_3 );
+			new DOMFeature(
+				EVENTS_MODULE,
+				DOMVersion.VERSION_3.clone( COMPATIBILITY_VERSIONS ) );
 			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM UI Events level 3.0 feature.
 		*/
 		public static const UI_EVENTS_3_FEATURE:DOMFeature =
-			new DOMFeature( UI_EVENTS_MODULE, LEVEL_3 );
+			new DOMFeature(
+				UI_EVENTS_MODULE, DOMVersion.VERSION_3 );
 			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Mouse Events level 3.0 feature.
 		*/
 		public static const MOUSE_EVENTS_3_FEATURE:DOMFeature =
-			new DOMFeature( MOUSE_EVENTS_MODULE, LEVEL_3 );
+			new DOMFeature(
+				MOUSE_EVENTS_MODULE, DOMVersion.VERSION_3 );
 			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Text Events level 3.0 feature.
 		*/
 		public static const TEXT_EVENTS_3_FEATURE:DOMFeature =
-			new DOMFeature( TEXT_EVENTS_MODULE, LEVEL_3 );
+			new DOMFeature(
+				TEXT_EVENTS_MODULE, DOMVersion.VERSION_3 );
 			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Keyboard Events level 3.0 feature.
 		*/
 		public static const KEYBOARD_EVENTS_3_FEATURE:DOMFeature =
-			new DOMFeature( KEYBOARD_EVENTS_MODULE, LEVEL_3 );
+			new DOMFeature(
+				KEYBOARD_EVENTS_MODULE, DOMVersion.VERSION_3 );
 			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Mutation Events level 3.0 feature.
 		*/
 		public static const MUTATION_EVENTS_3_FEATURE:DOMFeature =
-			new DOMFeature( MUTATION_EVENTS_MODULE, LEVEL_3 );
+			new DOMFeature(
+				MUTATION_EVENTS_MODULE, DOMVersion.VERSION_3 );
 			
 		/**
 		* 	A feature implementation to represent
 		* 	the DOM Mutation Events level 3.0 feature.
 		*/
 		public static const MUTATION_NAME_EVENTS_3_FEATURE:DOMFeature =
-			new DOMFeature( MUTATION_NAME_EVENTS_MODULE, LEVEL_3 );
+			new DOMFeature(
+				MUTATION_NAME_EVENTS_MODULE, DOMVersion.VERSION_3 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM Views level 3.0 feature.
+		* 	the DOM Views level 2.0 feature.
 		*/
-		public static const VIEWS_3_FEATURE:DOMFeature =
-			new DOMFeature( VIEWS_MODULE, LEVEL_3 );
+		public static const VIEWS_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				VIEWS_MODULE, DOMVersion.VERSION_2 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM StyleSheets level 3.0 feature.
+		* 	the DOM StyleSheets level 2.0 feature.
 		*/
-		public static const STYLESHEETS_3_FEATURE:DOMFeature =
-			new DOMFeature( STYLESHEETS_MODULE, LEVEL_3 );
+		public static const STYLESHEETS_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				STYLESHEETS_MODULE, DOMVersion.VERSION_2 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM CSS level 3.0 feature.
+		* 	the DOM CSS level 2.0 feature.
 		*/
-		public static const CSS_3_FEATURE:DOMFeature =
-			new DOMFeature( CSS_MODULE, LEVEL_3 );
+		public static const CSS_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				CSS_MODULE, DOMVersion.VERSION_2 );
 			
 		/**
 		* 	A feature implementation to represent
-		* 	the DOM CSS2 level 3.0 feature.
+		* 	the DOM CSS2 level 2.0 feature.
 		*/
-		public static const CSS2_3_FEATURE:DOMFeature =
-			new DOMFeature( CSS2_MODULE, LEVEL_3 );
+		public static const CSS2_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				CSS2_MODULE, DOMVersion.VERSION_2 );
 
 		private var _feature:String;
-		private var _version:String;
+		private var _version:DOMVersion;
 		
 		/**
 		* 	Creates a <code>DOMFeature</code> instance.
@@ -315,11 +360,18 @@ package com.ffsys.w3c.dom
 		*/
 		public function DOMFeature(
 			feature:String = null,
-			version:String = null )
+			version:Object = null )
 		{
 			super();
 			_feature = feature;
-			_version = version;
+			
+			var v:DOMVersion = version as DOMVersion;
+			if( v == null )
+			{
+				v = new DOMVersion( "" + version );
+			}
+
+			_version = v;
 		}
 		
 		/**
@@ -371,6 +423,9 @@ package com.ffsys.w3c.dom
 				return false;
 			}
 			
+			var valid:Boolean = false;
+			
+			/*
 			var targetVersion:DOMVersion = null;
 			//explicit version number found
 			if( level != null && level != "" )
@@ -383,15 +438,24 @@ package com.ffsys.w3c.dom
 					return false;
 				}
 			}
-
+			*/
+			
+			//trace("[FT EQUALS] DOMFeature::equals()", name, level, toString() );
+			
+			//feature names are case-insensitive
+			var ft:String = this.feature.toLowerCase();
 			name = name.toLowerCase();
+			
 			if( this.version != null
-				&& ( level != null && level != "" ) )
+				&& ( level != null && level != "" && level != ( "" + null ) ) )
 			{
-				return ( this.version === level )
-					&& ( name === this.feature.toLowerCase() );
+				valid = ( this.version.test( level ) )
+					&& ( name === ft );
+			}else
+			{
+				valid = ( name === ft );
 			}
-			return ( name === this.feature.toLowerCase() );
+			return valid;
 		}
 		
 		/**
@@ -410,12 +474,16 @@ package com.ffsys.w3c.dom
 		/**
 		* 	The DOM feature version.
 		*/
-		public function get version():String
+		public function get version():DOMVersion
 		{
+			if( _version == null )
+			{
+				return new DOMVersion();
+			}
 			return _version;
 		}
 
-		public function set version( value:String ):void
+		public function set version( value:DOMVersion ):void
 		{
 			_version = value;
 		}

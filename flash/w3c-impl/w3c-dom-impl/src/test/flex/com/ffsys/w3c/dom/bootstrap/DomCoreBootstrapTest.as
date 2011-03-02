@@ -53,20 +53,24 @@ package com.ffsys.w3c.dom.bootstrap
 			Assert.assertEquals( impl, source.getDOMImplementation( "ElementTraversal 3.0" ) );			
 			
 			Assert.assertNotNull( source.getDOMImplementation( "Traversal" ) );
-			Assert.assertNotNull( source.getDOMImplementation( "Traversal 3.0" ) );
+			Assert.assertNotNull( source.getDOMImplementation( "Traversal 2.0" ) );
 			Assert.assertEquals( impl, source.getDOMImplementation( "Traversal" ) );
-			Assert.assertEquals( impl, source.getDOMImplementation( "Traversal 3.0" ) );
+			Assert.assertEquals( impl, source.getDOMImplementation( "Traversal 2.0" ) );
 			
 			Assert.assertNotNull( source.getDOMImplementation( "Range" ) );
-			Assert.assertNotNull( source.getDOMImplementation( "Range 3.0" ) );
+			Assert.assertNotNull( source.getDOMImplementation( "Range 2.0" ) );
 			Assert.assertEquals( impl, source.getDOMImplementation( "Range" ) );
-			Assert.assertEquals( impl, source.getDOMImplementation( "Range 3.0" ) );
+			Assert.assertEquals( impl, source.getDOMImplementation( "Range 2.0" ) );
 			
 			//no 4.0 level yet
 			Assert.assertNull( source.getDOMImplementation( "Core 4.0" ) );
 			
 			//no intermediary version either
 			Assert.assertNull( source.getDOMImplementation( "Core 2.5" ) );
+			
+			//but we are backward compatible with older *valid* version numbers
+			Assert.assertNotNull( source.getDOMImplementation( "Core 2.0" ) );
+			Assert.assertNotNull( source.getDOMImplementation( "Core 1.0" ) );
 			
 			//this implementation source does not support the "Events" feature
 			Assert.assertNull( source.getDOMImplementation( "Events" ) );

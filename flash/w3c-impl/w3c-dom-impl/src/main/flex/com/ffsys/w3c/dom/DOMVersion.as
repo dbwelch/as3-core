@@ -39,31 +39,33 @@ package com.ffsys.w3c.dom
 		public static const VERSION_3:DOMVersion = new DOMVersion( LEVEL_3 );
 		
 		private var _primary:String;
-		private var _alternatives:Vector.<DOMVersion>;
+		private var _compatibilties:Vector.<DOMVersion>;
 
 		/**
 		* 	Creates a <code>DOMVersion</code> instance.
 		* 
 		* 	@param primary A primary version number.
-		* 	@param alternatives Alternative <code>valid</code>
+		* 	@param compatibilties Alternative <code>valid</code>
 		* 	version number string values.
 		*/
-		public function DOMVersion( primary:String = null, ...alternatives )
+		public function DOMVersion(
+			primary:String = null,
+			compatibilties:Array = null )
 		{
 			super();
 			_primary = primary;
 			
-			if( alternatives != null
-				&& alternatives.length > 0 )
+			if( compatibilties != null
+				&& compatibilties.length > 0 )
 			{
-				_alternatives = new Vector.<DOMVersion>();
+				_compatibilties = new Vector.<DOMVersion>();
 				var o:Object = null;
-				for( var i:int = 0;i < alternatives.length;i++ )
+				for( var i:int = 0;i < compatibilties.length;i++ )
 				{
-					o = alternatives[ i ];
+					o = compatibilties[ i ];
 					if( o !== primary && ( o === LEVEL_1 || o === LEVEL_2 || o === LEVEL_3 ) )
 					{
-						_alternatives.push( new DOMVersion( "" + o ) );
+						_compatibilties.push( new DOMVersion( "" + o ) );
 					}
 				}
 			}
@@ -89,6 +91,19 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	Tests a candidate string against this version.
+		* 
+		* 	@param candidate The candidate.
+		* 
+		* 	@return Whether this version is considered to be
+		* 	equal to the candidate.
+		*/
+		public function test( candidate:String ):Boolean
+		{
+			return equals( new DOMVersion( candidate ) );
+		}
+		
+		/**
 		* 	Determines whether the versions are equals.
 		*/
 		public function equals( candidate:DOMVersion ):Boolean
@@ -96,12 +111,14 @@ package com.ffsys.w3c.dom
 			var valid:Boolean = candidate != null
 				&& candidate.primary === this.primary;
 				
+			//trace("[EQUALS] DOMVersion::equals()", candidate, valid );
+				
 			if( !valid
-				&& _alternatives != null && _alternatives.length > 0 )
+				&& _compatibilties != null && _compatibilties.length > 0 )
 			{
-				for( var i:int = 0;i < _alternatives.length;i++ )
+				for( var i:int = 0;i < _compatibilties.length;i++ )
 				{
-					if( _alternatives[ i ].equals( candidate ) )
+					if( _compatibilties[ i ].equals( candidate ) )
 					{
 						valid = true;
 						break;
@@ -110,6 +127,33 @@ package com.ffsys.w3c.dom
 			}
 			
 			return valid;
+		}
+		
+		/**
+		* 	Creates a lone of this version.
+		* 
+		* 	The cloned version has the same primary version
+		* 	number and will also support any version numbers
+		* 	specified in the compatibilties array.
+		* 
+		* 	@param compatibilties A list of string version numbers
+		* 	that this version is also compatible with.
+		* 
+		* 	@return The cloned version.
+		*/
+		public function clone( compatibilties:Array = null ):DOMVersion
+		{
+			return new DOMVersion( this.primary, compatibilties );
+		}
+		
+		/**
+		* 	A string representation of this version.
+		* 
+		* 	@return A version string.
+		*/
+		public function toString():String
+		{
+			return this.primary != null ? this.primary : "";
 		}
 	}
 }

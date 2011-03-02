@@ -70,12 +70,12 @@ package com.ffsys.w3c.dom.html
 				_supported.push( DOMFeature.TEXT_EVENTS_3_FEATURE );
 				_supported.push( DOMFeature.KEYBOARD_EVENTS_3_FEATURE );
 							
-				_supported.push( DOMFeature.VIEWS_3_FEATURE );
-				_supported.push( DOMFeature.STYLESHEETS_3_FEATURE );				
-				_supported.push( DOMFeature.CSS_3_FEATURE );
-				_supported.push( DOMFeature.CSS2_3_FEATURE );
+				_supported.push( DOMFeature.VIEWS_2_FEATURE );
+				_supported.push( DOMFeature.STYLESHEETS_2_FEATURE );				
+				_supported.push( DOMFeature.CSS_2_FEATURE );
+				_supported.push( DOMFeature.CSS2_2_FEATURE );
 				
-				_supported.push( DOMFeature.HTML_3_FEATURE );
+				_supported.push( DOMFeature.HTML_2_FEATURE );
 			}
 			return _supported;
 		}

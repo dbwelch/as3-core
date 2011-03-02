@@ -10,6 +10,7 @@ package com.ffsys.w3c.dom.range
 	import org.w3c.dom.range.Range;
 
 	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.DOMVersion;
 	
 	/**
 	*	Unit tests for creating a DOM range.
@@ -34,7 +35,7 @@ package com.ffsys.w3c.dom.range
 			
 			var docRange:DocumentRange =
 				DocumentRange( doc.implementation.getFeature(
-					DOMFeature.RANGE_MODULE, DOMFeature.LEVEL_3 ) );
+					DOMFeature.RANGE_MODULE, DOMVersion.LEVEL_2 ) );
 			Assert.assertNotNull( docRange );
 			Assert.assertTrue( docRange is DocumentRange );
 			return docRange;			

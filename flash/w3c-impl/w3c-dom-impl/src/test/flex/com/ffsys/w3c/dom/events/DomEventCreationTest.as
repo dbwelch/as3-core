@@ -13,6 +13,7 @@ package com.ffsys.w3c.dom.events
 	import org.w3c.dom.events.UIEvent;
 	
 	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.DOMVersion;
 	import com.ffsys.w3c.dom.html.HTMLDocumentImpl;
 	
 	/**
@@ -40,7 +41,7 @@ package com.ffsys.w3c.dom.events
 			
 			var docEvents:DocumentEvent =
 				DocumentEvent( doc.implementation.getFeature(
-					DOMFeature.EVENTS_MODULE, DOMFeature.LEVEL_3 ) );
+					DOMFeature.EVENTS_MODULE, DOMVersion.LEVEL_3 ) );
 			Assert.assertNotNull( docEvents );
 			Assert.assertTrue( docEvents is DocumentEventImpl );
 			

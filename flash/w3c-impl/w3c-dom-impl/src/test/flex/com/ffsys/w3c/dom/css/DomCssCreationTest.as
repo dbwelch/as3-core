@@ -5,6 +5,7 @@ package com.ffsys.w3c.dom.css
 	
 	import com.ffsys.w3c.dom.AbstractDomUnit;
 	import com.ffsys.w3c.dom.DOMFeature;
+	import com.ffsys.w3c.dom.DOMVersion;	
 	
 	import org.w3c.dom.Document;
 	import org.w3c.dom.css.DOMImplementationCSS;
@@ -29,8 +30,7 @@ package com.ffsys.w3c.dom.css
 		{
 			var doc:Document = getHTMLDocument();
 			var cssImpl:DOMImplementationCSS =
-				DOMImplementationCSS( doc.implementation.getFeature(
-					name, DOMFeature.LEVEL_3 ) );
+				DOMImplementationCSS( doc.implementation.getFeature( name, "" ) );
 			Assert.assertNotNull( cssImpl );
 			Assert.assertTrue( cssImpl is DOMImplementationCSS );
 			return cssImpl;
