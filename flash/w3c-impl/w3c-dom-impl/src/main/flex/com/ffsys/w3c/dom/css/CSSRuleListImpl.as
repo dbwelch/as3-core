@@ -24,7 +24,7 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function item( index:uint ):CSSRule
 		{
-			return null;
+			return children[ index ] as CSSRule;
 		}
 	}
 }

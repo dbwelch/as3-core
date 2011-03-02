@@ -1,4 +1,4 @@
-package com.ffsys.w3c.css
+package com.ffsys.w3c.dom.css.support
 {
 	import com.ffsys.scanner.*;
 	

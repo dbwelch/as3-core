@@ -72,6 +72,10 @@ package com.ffsys.w3c.dom.css
 		*/
 		public function get cssRules():CSSRuleList
 		{
+			if( _cssRules == null )
+			{
+				_cssRules = new CSSRuleListImpl();
+			}
 			return _cssRules;
 		}
 		
@@ -86,9 +90,23 @@ package com.ffsys.w3c.dom.css
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
+		
+		* 	@throws DOMException.HIERARCHY_REQUEST_ERR: Raised if the rule cannot
+		* 	be inserted at the specified index, e.g., if an @import rule is inserted
+		* 	after a standard rule set or other at-rule.
+		*	@throws DOMException.INDEX_SIZE_ERR: Raised if the specified index is
+		* 	not a valid insertion point.
+		*	@throws DOMException.NO_MODIFICATION_ALLOWED_ERR: Raised if this style
+		* 	sheet is readonly.
+		*	@throws DOMException.SYNTAX_ERR: Raised if the specified rule has a
+		* 	syntax error and is unparsable.		
+		
+		*/
 		public function insertRule( rule:String, index:uint ):uint
 		{
-			//TODO
+			
 			return 0;
 		}
 	
