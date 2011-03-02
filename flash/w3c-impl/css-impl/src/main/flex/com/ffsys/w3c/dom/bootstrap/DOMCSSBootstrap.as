@@ -8,6 +8,8 @@ package com.ffsys.w3c.dom.bootstrap
 	
 	import org.w3c.dom.DOMFeature;
 	
+	import com.ffsys.w3c.dom.css.CSSDocumentElementImpl;
+	
 	import com.ffsys.w3c.dom.css.CSSStyleSheetImpl;	
 	import com.ffsys.w3c.dom.css.CSSCharsetRuleImpl;
 	import com.ffsys.w3c.dom.css.CSSFontFaceRuleImpl;
@@ -84,6 +86,11 @@ package com.ffsys.w3c.dom.bootstrap
 			var descriptor:IBeanDescriptor =
 				new BeanDescriptor( CSSStyleSheetImpl.NAME );
 			descriptor.instanceClass = CSSStyleSheetImpl;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSDocumentElementImpl.NAME );
+			descriptor.instanceClass = CSSDocumentElementImpl;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(

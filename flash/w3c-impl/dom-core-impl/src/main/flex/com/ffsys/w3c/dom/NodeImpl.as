@@ -702,10 +702,13 @@ package com.ffsys.w3c.dom
 					n.setOwnerDocument( _ownerDocument );
 				}
 				
-				//xml must be modified before actually
-				//appending the child node to prevent
-				//a cyclical loop with top-level document elements
-				this.xml.appendChild( n.xml );
+				if( this.xml != n.xml )
+				{
+					//xml must be modified before actually
+					//appending the child node to prevent
+					//a cyclical loop with top-level document elements
+					this.xml.appendChild( n.xml );
+				}
 				
 				NodeListImpl( childNodes ).concat( n );
 				

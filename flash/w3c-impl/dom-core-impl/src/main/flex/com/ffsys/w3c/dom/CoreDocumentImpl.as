@@ -128,7 +128,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function get documentElement():Element
 		{
-			return null;
+			return _documentElement;
 		}
 		
 		/**

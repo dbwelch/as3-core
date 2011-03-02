@@ -2,6 +2,7 @@ package com.ffsys.w3c.dom.css
 {
 	import org.w3c.dom.Node;
 	import org.w3c.dom.DOMException;
+	import org.w3c.dom.DOMFeature;
 	import org.w3c.dom.Element;	
 	
 	import org.w3c.dom.css.CSSRule;
@@ -23,7 +24,7 @@ package com.ffsys.w3c.dom.css
 		* 	The bean name for the implementation of the
 		* 	"StyleSheets", "CSS" and "CSS2" features.
 		*/
-		public static const NAME:String = "css";
+		public static const NAME:String = DOMFeature.CSS_MODULE;
 		
 		private var _styleSheets:StyleSheetList;
 		
@@ -41,6 +42,20 @@ package com.ffsys.w3c.dom.css
 			owner:Node = null )
 		{
 			super( parent, owner );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get documentElement():Element
+		{
+			if( _documentElement == null )
+			{
+				//create a top-level document element when needed
+				_documentElement = createElement(
+					CSSDocumentElementImpl.NAME );
+			}
+			return _documentElement;
 		}
 		
 		/**

@@ -5,6 +5,7 @@ package com.ffsys.w3c.dom.css
 	
 	import org.w3c.dom.DOMFeature;
 	import org.w3c.dom.DOMVersion;	
+	import org.w3c.dom.Node;
 	
 	import org.w3c.dom.Document;
 	
@@ -15,9 +16,6 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.DOMImplementationCSS;
 	
 	import com.ffsys.w3c.dom.AbstractDomUnit;
-	
-	import com.ffsys.w3c.dom.css.CSSStyleSheetImpl;
-	
 	
 	/**
 	*	Unit tests for creating DOM CSS implementations.
@@ -65,9 +63,9 @@ package com.ffsys.w3c.dom.css
 				impl, doc,
 				docCss.styleSheets, docCss.styleSheets.length );	
 			*/
-				
-			Assert.assertTrue( docCss is CSSStyleSheetImpl );
 			
+			Assert.assertTrue( docCss is CSSStyleSheetImpl );
+
 			return docCss as CSSStyleSheet;
 		}
 		
@@ -78,12 +76,18 @@ package com.ffsys.w3c.dom.css
 				DOMFeature.STYLESHEETS_MODULE );
 			
 			var sheet:CSSStyleSheet = assertOnStyleSheetImplementation( cssImpl );
-			var rule:CSSRule = CSSStyleSheetImpl( sheet ).createCSSRule( RuleType.UNKNOWN_RULE );
+			var doc:CSSStyleSheetImpl = CSSStyleSheetImpl( sheet );			
+			var rule:CSSRule = doc.createCSSRule( RuleType.UNKNOWN_RULE );
 			
+			Assert.assertTrue( rule is CSSUnknownRuleImpl );
 			
-			//TODO
+			doc.appendChild( Node( rule ) );
 			
 			//trace("[CSS RULE] DomCssCreationTest::testCreateStyleSheetsImplementation()", rule );
+			
+			trace("[CSS XML] DomCssCreationTest::assertOnStyleSheetImplementation()",
+				doc.xml.toXMLString() );
+			
 		}
 		
 		[Test]

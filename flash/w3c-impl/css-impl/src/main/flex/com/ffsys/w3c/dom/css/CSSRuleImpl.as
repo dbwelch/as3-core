@@ -4,8 +4,8 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSSRule;
 	import org.w3c.dom.css.CSSStyleSheet;
 	
-	import com.ffsys.w3c.dom.ElementImpl;
 	import com.ffsys.w3c.dom.CoreDocumentImpl;	
+	import com.ffsys.w3c.dom.ElementImpl;
 	
 	/**
 	* 	Abstract super class for CSS rules.

@@ -42,8 +42,13 @@ package com.ffsys.w3c.dom.css
 		public function createCSSStyleSheet(
 			title:String, media:String ):CSSStyleSheet
 		{
-			var styles:CSSStyleSheet =
-				CSSStyleSheet( getDomBean( CSSStyleSheetImpl.NAME ) );
+			var styles:CSSStyleSheetImpl =
+				CSSStyleSheetImpl( getDomBean( CSSStyleSheetImpl.NAME ) );
+				
+			//append the document element property to
+			//instantiate the default top-level element
+			styles.appendChild( styles.documentElement );
+			
 			return styles;
 		}
 	}
