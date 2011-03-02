@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.ffsys.w3c</groupId>
-		<artifactId>w3c-impl</artifactId>
+		<artifactId>impl</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.w3c.impl</groupId>
@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.ffsys.w3c.impl</groupId>
-			<artifactId>w3c-dom-impl</artifactId>
+			<artifactId>dom-core-impl</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
