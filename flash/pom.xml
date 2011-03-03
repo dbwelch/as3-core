@@ -29,7 +29,7 @@
 	<modules>
 		<module>asdoc-utils</module>
 		<module>core</module>
-		<!-- <module>dom</module> -->
+		<!-- <module>ecma</module> -->
 		<module>effects</module>
 		<module>fluid</module>
 		<module>io</module>
@@ -39,7 +39,8 @@
 		
 		<!-- <module>pattern</module> -->
 		
-		<module>scanner</module>
+		<!-- <module>scanner</module> -->
+		
 		<module>swat</module>
 		<module>ui</module>
 		<module>utils</module>

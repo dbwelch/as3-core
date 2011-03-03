@@ -13,17 +13,9 @@
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
-		
 		<dependency>
 			<groupId>org.w3c</groupId>
 			<artifactId>dom</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.ffsys.javax</groupId>
-			<artifactId>javax-xml</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
@@ -40,7 +32,21 @@
 			<artifactId>java-io</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>		
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ffsys.javax</groupId>
+			<artifactId>javax-script</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ffsys.javax</groupId>
+			<artifactId>javax-xml</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>swc</type>
+		</dependency>						
 		
 		<dependency>
 			<groupId>com.ffsys</groupId>
@@ -51,12 +57,6 @@
 		<dependency>
 			<groupId>com.ffsys</groupId>
 			<artifactId>ioc</artifactId>
-			<version>1.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>scanner</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>

@@ -1,9 +1,16 @@
 package javax.script
 {
-
-	public class SimpleScriptContext extends Object
-	{
 	
+	/**
+	* 	Simple implementation of ScriptContext.
+	*/
+	public class SimpleScriptContext extends Object
+		implements ScriptContext
+	{
+		
+		/**
+		* 	Creates a <code>SimpleScriptContext</code> instance.
+		*/
 		public function SimpleScriptContext()
 		{
 			super();

@@ -1,6 +1,6 @@
 package javax.xml
 {
-	import com.ffsys.scanner.*;
+	import javax.script.scanner.*;
 	
 	/**
 	*	A grammar definition for <code>XML</code> text.

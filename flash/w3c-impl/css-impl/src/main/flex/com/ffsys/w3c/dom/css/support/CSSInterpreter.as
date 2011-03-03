@@ -2,7 +2,7 @@ package com.ffsys.w3c.dom.css.support
 {
 	import com.ffsys.w3c.dom.css.CSSStyleSheetImpl;
 	
-	import com.ffsys.scanner.Token;
+	import javax.script.scanner.Token;
 	
 	/**
 	* 	Responsible for interpreting scan tokens into

@@ -1,7 +1,7 @@
 package com.ffsys.w3c.dom.css.support
 {
-	import com.ffsys.scanner.Grammar;
-	import com.ffsys.scanner.Scanner;
+	import javax.script.scanner.Grammar;
+	import javax.script.scanner.Scanner;
 	
 	/**
 	* 	Creates a <code>CSSScanner</code> instance.

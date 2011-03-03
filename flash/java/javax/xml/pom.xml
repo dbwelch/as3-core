@@ -33,11 +33,11 @@
 		</dependency>		
 			
 		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>scanner</artifactId>
+			<groupId>com.ffsys.javax</groupId>
+			<artifactId>javax-script</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>				
+		</dependency>	
 	</dependencies>
 	<profiles>
 		<profile>

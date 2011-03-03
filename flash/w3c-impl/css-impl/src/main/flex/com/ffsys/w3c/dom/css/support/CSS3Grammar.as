@@ -1,6 +1,6 @@
 package com.ffsys.w3c.dom.css.support
 {
-	import com.ffsys.scanner.*;
+	import javax.script.scanner.*;
 	
 	/**
 	*	A grammar definition for <code>CSS3</code> text.

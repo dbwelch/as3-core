@@ -6,7 +6,7 @@ package com.ffsys.w3c.dom.css.support
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.scanner.*;	
+	import javax.script.scanner.*;	
 	
 	/**
 	*	Unit tests for tokenizing css documents.

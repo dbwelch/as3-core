@@ -2,7 +2,9 @@ package javax.script
 {
 	import java.lang.Exception;
 	
-	
+	/**
+	* 	
+	*/
 	public class ScriptException extends Exception
 	{
 		/**
