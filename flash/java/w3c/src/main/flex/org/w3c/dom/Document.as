@@ -3,7 +3,9 @@ package org.w3c.dom
 	/**
 	* 	Represents a document.
 	*/
-	public interface Document extends Node
+	public interface Document
+		extends Node,
+				NodeSelector
 	{
 		/**
 		* 	The document type for this document.

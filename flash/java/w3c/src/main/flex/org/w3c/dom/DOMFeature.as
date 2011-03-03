@@ -153,6 +153,11 @@ package org.w3c.dom
 		public static const ELEMENT_TRAVERSAL_MODULE:String = "ElementTraversal";
 		
 		/**
+		* 	Represents the Selectors-API module.
+		*/
+		public static const SELECTORS_API_MODULE:String = "Selectors-API";
+		
+		/**
 		* 	A list of all possible backward compatible
 		* 	version numbers.
 		*/
@@ -348,6 +353,22 @@ package org.w3c.dom
 		public static const CSS2_2_FEATURE:DOMFeature =
 			new DOMFeature(
 				CSS2_MODULE, DOMVersion.VERSION_2 );
+				
+		/**
+		* 	A feature implementation to represent
+		* 	the DOM Selectors-API level 2.0 feature.
+		* 
+		* 	This representation is also backwards compatible
+		* 	with the "1.0" version number.
+		*/
+		public static const SELECTORS_API_2_FEATURE:DOMFeature =
+			new DOMFeature(
+				SELECTORS_API_MODULE, 
+				DOMVersion.VERSION_2.clone(
+					[
+						DOMVersion.LEVEL_1
+					] )
+				);
 
 		private var _feature:String;
 		private var _version:DOMVersion;

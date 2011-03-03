@@ -851,6 +851,10 @@ package com.ffsys.w3c.dom
 			return output;
 		}
 		
+		/*
+		*	ElementTraversal
+		*/
+		
 		/**
 		* 	The first child node that is an element.
 		*/
@@ -918,6 +922,21 @@ package com.ffsys.w3c.dom
 		{
 			var elems:Vector.<Element> = this.elements;
 			return elems.length;
+		}
+		
+		/*
+		*	Selector-API
+		*/
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function matchesSelector(
+			selectors:String,
+			...referenceNodes ):Boolean
+		{
+			//TODO
+			return false;
 		}
 		
 		/**

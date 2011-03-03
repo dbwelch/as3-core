@@ -24,7 +24,8 @@ package org.w3c.dom
 	*/
 	public interface Element
 		extends Node,
-				ElementTraversal
+				ElementTraversal,
+				NodeSelector
 	{
 		/**
 		* 	The name of the element
@@ -463,5 +464,21 @@ package org.w3c.dom
 		*/
 		function setIdAttributeNode(
 			idAttr:Attr, isId:Boolean ):void;
+			
+		/**
+		* 	A supplemental method defined by the
+		* 	<code>Selectors-API Level 2.0</code>
+		* 	that allows an Element implementation to determine
+		* 	whether it matches a selector (or multiple selectors).
+		* 
+		* 	@param selectors The selectors.
+		* 	@param referenceNodes An optional collection of reference
+		* 	nodes.
+		* 
+		* 	@return Whether any of the selectors matches this element.
+		* 
+		* 	@see http://www.w3.org/TR/2010/WD-selectors-api2-20100119/index.html
+		*/
+		function matchesSelector( selectors:String, ...referenceNodes ):Boolean;
 	}
 }
