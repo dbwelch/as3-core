@@ -7,6 +7,15 @@ package javax.script
 	*/
 	public interface Compilable
 	{
-		//
+		/*
+		
+		
+		CompiledScript	compile(Reader script) 
+		          Compiles the script (source read from Reader) for later execution.
+		 CompiledScript	compile(String script) 
+		          Compiles the script (source represented as a String) for later execution.
+		
+		
+		*/
 	}
 }

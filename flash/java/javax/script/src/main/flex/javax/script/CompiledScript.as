@@ -16,11 +16,26 @@ package javax.script
 	*/
 	public class CompiledScript extends Object
 	{
-	
+		/**
+		* 	Creates a <code>CompiledScript</code> instance.
+		*/
 		public function CompiledScript()
 		{
 			super();
 		}
+		
+		/*
+		
+		 Object	eval() 
+		          Executes the program stored in the CompiledScript object.
+		 Object	eval(Bindings bindings) 
+		          Executes the program stored in the CompiledScript object using the supplied Bindings of attributes as the ENGINE_SCOPE of the associated ScriptEngine during script execution.
+		abstract  Object	eval(ScriptContext context) 
+		          Executes the program stored in this CompiledScript object.
+		abstract  ScriptEngine	getEngine() 
+		          Returns the ScriptEngine wbose compile method created this CompiledScript.		
+		
+		*/
 	
 	}
 }

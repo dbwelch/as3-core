@@ -3,9 +3,6 @@ package java.io
 	
 	/*
 	
-	
-	abstract  void	close() 
-	          Closes the stream and releases any system resources associated with it.
 	 void	mark(int readAheadLimit) 
 	          Marks the present position in the stream.
 	 boolean	markSupported() 
@@ -29,6 +26,7 @@ package java.io
 	*/
 
 	public class Reader extends Object
+		implements Closeable
 	{
 	
 		/**
@@ -38,5 +36,14 @@ package java.io
 		{
 			super();
 		}
+		
+		/**
+		* 	Closes the stream and releases any system
+		* 	resources associated with it.
+		*/
+		public function close():void
+		{
+			//TODO
+		}		
 	}
 }
