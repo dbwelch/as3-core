@@ -40,7 +40,7 @@ package com.ffsys.w3c.dom
 		{
 			return __nodeSelectorImpl.querySelectorAll.apply(
 				__nodeSelectorImpl,
-				[ selectors ].concat( referenceNodes ) );			
+				[ selectors ].concat( referenceNodes ) );
 		}
 			
 		/**
@@ -63,6 +63,6 @@ package com.ffsys.w3c.dom
 			return __nodeSelectorImpl.queryScopedSelectorAll.apply(
 				__nodeSelectorImpl,
 				[ selectors ] );
-		}		
+		}
 	}
 }

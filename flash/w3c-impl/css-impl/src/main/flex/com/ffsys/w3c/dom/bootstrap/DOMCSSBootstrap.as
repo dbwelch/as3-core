@@ -20,6 +20,9 @@ package com.ffsys.w3c.dom.bootstrap
 	import com.ffsys.w3c.dom.css.CSSUnknownRuleImpl;
 	import com.ffsys.w3c.dom.css.DOMImplementationCSSImpl;	
 	
+	import com.ffsys.w3c.dom.css.CSS3PropertiesImpl;
+	import com.ffsys.w3c.dom.css.CSSStyleDeclarationImpl;
+	
 	
 	/**
 	* 	A boostrap document for the DOM CSS implementation.
@@ -127,6 +130,11 @@ package com.ffsys.w3c.dom.bootstrap
 				CSSUnknownRuleImpl.NAME );
 			descriptor.instanceClass = CSSUnknownRuleImpl;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				CSSStyleDeclarationImpl.NAME );
+			descriptor.instanceClass = CSS3PropertiesImpl;
+			beans.addBeanDescriptor( descriptor );			
 		}
 		
 		/**

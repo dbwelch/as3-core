@@ -102,8 +102,12 @@ package com.ffsys.w3c.dom.css
 			Assert.assertTrue( rule is CSSMediaRuleImpl );
 			//TODO: assert on media list data
 			doc.appendChild( Node( rule ) );
+			
+			var fontDecl:CSS3PropertiesImpl = CSS3PropertiesImpl(
+				doc.createCSSStyleDeclaration(
+					"font-family: CustomFont; src: url(http://example.org/custom.ttf);" ) );
 						
-			rule = doc.createFontFaceRule();
+			rule = doc.createFontFaceRule( fontDecl );
 			Assert.assertTrue( rule is CSSFontFaceRuleImpl );
 			//TODO: assert on font face style declaration
 			doc.appendChild( Node( rule ) );

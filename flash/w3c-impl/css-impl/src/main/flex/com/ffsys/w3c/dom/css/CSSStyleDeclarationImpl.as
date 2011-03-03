@@ -4,9 +4,14 @@ package com.ffsys.w3c.dom.css
 	
 	import org.w3c.dom.css.CSSRule;	
 	import org.w3c.dom.css.CSSStyleDeclaration;
+	import org.w3c.dom.css.CSSStyleSheet;	
 	import org.w3c.dom.css.CSSValue;
 	
+	import com.ffsys.w3c.dom.CoreDocumentImpl;	
 	import com.ffsys.w3c.dom.ElementImpl;
+	
+	import com.ffsys.w3c.dom.css.support.CSSInterpreter;
+	
 	
 	/**
 	* 	Represents a CSS style declaration.
@@ -14,6 +19,11 @@ package com.ffsys.w3c.dom.css
 	public class CSSStyleDeclarationImpl extends ElementImpl
 		implements CSSStyleDeclaration
 	{
+		/**
+		* 	The bean name for a style declaration implementation.
+		*/
+		public static const NAME:String = "decl";
+		
 		private var _cssText:String;
 		private var _parentRule:CSSRule;
 		
@@ -23,9 +33,11 @@ package com.ffsys.w3c.dom.css
 		* 	@param parent A parent rule for this declaration.
 		*/
 		public function CSSStyleDeclarationImpl(
-			parent:CSSRule = null )
+			sheet:CSSStyleSheet = null,
+			parent:CSSRule = null,
+			name:String = NAME )
 		{
-			super();
+			super( CoreDocumentImpl( sheet ), name );
 			_parentRule = parent;
 		}
 		
@@ -39,7 +51,17 @@ package com.ffsys.w3c.dom.css
 		
 		public function set cssText( text:String ):void
 		{
-			_cssText = text;
+			trace("CSSStyleDeclarationImpl::set cssText()", text, ownerDocument );
+			
+			var interpreter:CSSInterpreter = CSSInterpreter.newInstance(
+				CSSStyleSheetImpl( ownerDocument ) );
+				
+			var result:Object = interpreter.interpret( text );
+			
+			trace("[GOT INTERPRETER RESULT] CSSStyleDeclarationImpl::set cssText()",
+				result );
+				
+			_cssText = text;				
 		}
 		
 		/**

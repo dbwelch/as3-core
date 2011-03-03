@@ -21,6 +21,8 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.StyleSheet;
 	import org.w3c.dom.css.DocumentCSS;
 	import org.w3c.dom.css.StyleSheetList;
+	
+	import org.w3c.dom.css.CSSStyleDeclaration;
 			
 	/**
 	* 	Represents a CSS style sheet.
@@ -276,6 +278,24 @@ package com.ffsys.w3c.dom.css
 				createCSSRule( RuleType.UNKNOWN_RULE ) );
 			//TOOD: set the cssText where necessary
 			return rule;
+		}
+		
+		/**
+		* 	Creates a CSS style declaration.
+		* 
+		* 	@param cssText The text for the style declaration.
+		* 
+		* 	@return A CSS style declaration implementation.
+		*/
+		public function createCSSStyleDeclaration( cssText:String = null ):CSSStyleDeclaration
+		{
+			var decl:CSS3PropertiesImpl = CSS3PropertiesImpl(
+				getDomBean( CSSStyleDeclarationImpl.NAME ) );	
+			if( cssText != null )
+			{
+				decl.cssText = cssText;
+			}
+			return decl;
 		}
 		
 		/**

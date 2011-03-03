@@ -3,7 +3,7 @@ package com.ffsys.w3c.dom.css
 	import org.w3c.dom.css.CSS2Properties;
 	
 	/**
-	* 	Encapsulates all CSS2 properties.
+	* 	Represents all the style properties available to CSS2.
 	*/
 	public class CSS2PropertiesImpl extends CSSStyleDeclarationImpl
 		implements CSS2Properties

@@ -27,17 +27,17 @@ package com.ffsys.scanner
 		* 	Used to indicate the expected number
 		* 	of bytes per text character.
 		* 
-		* 	The default assumption is that <code>utf-8</code>
+		* 	The default assumption is that the default internal <code>utf-16</code>
 		* 	is used therefore there is one byte per character.
 		* 
-		* 	For larger character byte representations (<code>utf-16</code> etc.)
-		* 	this value should be set to correspond to the
-		* 	byte per character count in order for the
+		* 	For smaller (or larger) character byte representations
+		* 	(<code>utf-8</code> etc.) this value should be set to
+		* 	correspond to the byte per character count in order for the
 		* 	<code>bytesTotal</code> and <code>bytesLoaded</code>
 		* 	to be a true representation of the number of bytes
 		* 	represented by the character stream.
 		*/
-		public static var bytesPerCharacter:uint = 1;
+		public static var bytesPerCharacter:uint = 2;
 		
 		private var _results:Vector.<Token>;
 		private var _counts:Object;
