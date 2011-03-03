@@ -507,6 +507,8 @@ package com.ffsys.w3c.dom.css.support
 		private var _comments:Boolean = false;
 
 		/**
+		* 	@private
+		* 
 		* 	Creates a <code>CSS3Grammar</code> instance.
 		*/
 		public function CSS3Grammar()
@@ -1554,5 +1556,21 @@ package com.ffsys.w3c.dom.css.support
 			
 			return grammar;
 		}
+		
+		/**
+		* 	Retrieves a <code>CSS3Grammar</code> instance.
+		* 
+		* 	@return A <code>CSS3Grammar</code> instance.
+		*/
+		public static function newInstance():CSS3Grammar
+		{
+			if( __grammar == null )
+			{
+				__grammar = new CSS3Grammar();
+			}
+			return __grammar;
+		}
+		
+		private static var __grammar:CSS3Grammar;
 	}
 }

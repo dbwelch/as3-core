@@ -284,17 +284,21 @@ package com.ffsys.w3c.dom.css.support
 		[Test]
 		public function css3GrammarScanTest():void
 		{	
-			var scanner:Scanner = new Scanner();
+			var scanner:Scanner = new CSSScanner( false, false );
+			
+			/*
 			var grammar:CSS3Grammar = new CSS3Grammar();
 			grammar.whitespace = false;
 			grammar.comments = false;
 			scanner.grammar = grammar;
+			*/
+			
 			var results:Vector.<Token> = scanner.scan( sample );
 			
 			trace("[RESULTS] CssGrammarTest::css3GrammarScanTest()",
 				results.length, scanner.source );
 			
-			if( results.length > 0 )  
+			if( results.length > 0 )
 			{
 				var last:Token = results[ results.length - 1 ];
 				trace("CssGrammarTest::css3GrammarScanTest()", last );
