@@ -1,7 +1,7 @@
-package com.ffsys.pattern
+package java.util.regex
 {
-	import com.ffsys.dom.core.*;
-	import org.w3c.dom.*;
+	import com.ffsys.w3c.dom.ElementImpl;
+	import org.w3c.dom.Node;
 	
 	/**
 	* 	Represents a collection of patterns.
@@ -211,13 +211,6 @@ package com.ffsys.pattern
 		
 		/**
 		* 	@private
-		* 	
-		*	The child patterns for this pattern.
-		*/
-		private var _patterns:Vector.<Pattern>;
-		
-		/**
-		* 	@private
 		*/
 		internal var _regex:RegExp;
 		
@@ -273,36 +266,6 @@ package com.ffsys.pattern
 		{
 			_index = index;
 		}
-		
-		/**
-		* 	The first part of this pattern.
-		*/
-		
-		/*
-		public function get firstChild():Pattern
-		{
-			if( patterns.length > 0 )
-			{
-				return patterns[ 0 ];
-			}
-			return null;
-		}
-		*/
-		
-		/**
-		* 	The last part of this pattern.
-		*/
-		
-		/*
-		public function get lastChild():Pattern
-		{
-			if( patterns.length > 0 )
-			{
-				return patterns[ patterns.length - 1 ];
-			}
-			return null;
-		}
-		*/
 		
 		/**
 		* 	Determines whether this pattern
@@ -467,7 +430,14 @@ package com.ffsys.pattern
 			if( _list == null )
 			{
 				_list = new PatternList();
-				_list._patterns = this.patterns;
+				var node:Node = null;
+				for each( node in childNodes )
+				{
+					if( node is Pattern )
+					{
+						_list.appendChild( node );
+					}
+				}
 			}
 			return _list;
 		}
@@ -495,6 +465,55 @@ package com.ffsys.pattern
 			return null;
 		}
 		*/
+		
+		/**
+		* 	The first child that is a pattern.
+		*/
+		public function get firstPatternChild():Pattern
+		{
+			return firstElementChild as Pattern;
+		}
+
+		/**
+		* 	The last child that is a pattern.
+		*/
+		public function get lastPatternChild():Pattern
+		{
+			return lastElementChild as Pattern;
+		}
+
+		/**
+		* 	The previous sibling that is a pattern.
+		*/
+		public function get previousPatternSibling():Pattern
+		{
+			return previousElementSibling as Pattern;
+		}
+
+		/**
+		* 	The next sibling that is a pattern.
+		*/
+		public function get nextPatternSibling():Pattern
+		{
+			return nextElementSibling as Pattern;
+		}
+
+		/**
+		* 	The number of child nodes that are patterns.
+		*/
+		public function get childPatternCount():uint
+		{
+			var c:uint = 0;
+			var node:Node = null;
+			for each( node in childNodes )
+			{
+				if( node is Pattern )
+				{
+					c++;
+				}
+			}
+			return c;
+		}
 		
 		/**
 		* 	A regular expression representation

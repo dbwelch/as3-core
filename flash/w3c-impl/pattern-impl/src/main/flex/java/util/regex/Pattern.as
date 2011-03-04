@@ -892,7 +892,7 @@
 *	more efficient if these #ptnlib:term:group;(s) are always declared in the #ptnlib:term:source:expression;,
 *	see <a href="#ptnlib:usage:notes" />.</p>
 */
-package com.ffsys.pattern
+package java.util.regex
 {
 	/**
 	* 	Represents a regular expression pattern.
@@ -1204,7 +1204,6 @@ package com.ffsys.pattern
 			new Pattern( RPAREN );
 		
 		//
-		private var _patterns:Vector.<Pattern>;
 		private var _parts:Pattern;
 		private var _position:uint = 0;
 		private var _source:* = NaN;
@@ -1321,10 +1320,10 @@ package com.ffsys.pattern
 					_max = 1;
 				}
 				
-				if( nextSibling != null
-					&& nextSibling.quantifier )
+				if( nextPatternSibling != null
+					&& nextPatternSibling.quantifier )
 				{
-					_min = nextSibling.minimum;
+					_min = nextPatternSibling.minimum;
 				}
 			}
 			return _min;
@@ -1349,10 +1348,10 @@ package com.ffsys.pattern
 					_min = 1;
 					_max = 1;
 				}
-				if( nextSibling != null
-					&& nextSibling.quantifier )
+				if( nextPatternSibling != null
+					&& nextPatternSibling.quantifier )
 				{
-					_max = nextSibling.maximum;
+					_max = nextPatternSibling.maximum;
 				}
 			}		
 			return _max;
@@ -1469,16 +1468,16 @@ package com.ffsys.pattern
 		*/
 		public function get lazy():Boolean
 		{
-			if( nextSibling != null
-				&& nextSibling.quantifier )
+			if( nextPatternSibling != null
+				&& nextPatternSibling.quantifier )
 			{
-				return nextSibling.lazy;
+				return nextPatternSibling.lazy;
 			}
 			return quantifier
 				&& source != QUESTION_MARK
 				&& ( ( source.indexOf( QUESTION_MARK ) == source.length - 1 )
-				|| ( nextSibling != null
-					&& nextSibling.source == QUESTION_MARK ) );
+				|| ( nextPatternSibling != null
+					&& nextPatternSibling.source == QUESTION_MARK ) );
 		}
 		
 		/**
@@ -1587,7 +1586,7 @@ package com.ffsys.pattern
 		*/
 		public function get begins():Boolean
 		{
-			return 	( rule && !empty && firstChild.source == CARET )
+			return 	( rule && !empty && firstPatternChild.source == CARET )
 				||	( owner != null
 					&& owner.rule
 					&& source == CARET
@@ -1604,7 +1603,7 @@ package com.ffsys.pattern
 		*/
 		public function get ends():Boolean
 		{
-			return 	( rule && !empty && lastChild.source == DOLLAR )
+			return 	( rule && !empty && lastPatternChild.source == DOLLAR )
 				||	( owner != null
 					&& owner.rule
 					&& source == DOLLAR
@@ -1818,7 +1817,7 @@ package com.ffsys.pattern
 		public function get grouping():Boolean
 		{
 			return length > 0
-				&& __group.test( firstChild.toString() );
+				&& __group.test( firstPatternChild.toString() );
 		}
 		
 		/**
@@ -1855,7 +1854,7 @@ package com.ffsys.pattern
 		*/
 		public function get group():Boolean
 		{
-			return this.grouping && ( firstChild.toString() == LPAREN );
+			return this.grouping && ( firstPatternChild.toString() == LPAREN );
 		}
 		
 		/**
@@ -1894,9 +1893,9 @@ package com.ffsys.pattern
 		*/
 		public function get cancelled():Boolean
 		{
-			if( previousSibling != null )
+			if( previousPatternSibling != null )
 			{
-				if( previousSibling.cancels )
+				if( previousPatternSibling.cancels )
 				{
 					return true;
 				}
@@ -1948,7 +1947,7 @@ package com.ffsys.pattern
 		public function get range():Boolean
 		{
 			return ( source != null && source == LBRACKET )
-				|| this.grouping && ( firstChild.toString() == LBRACKET );
+				|| this.grouping && ( firstPatternChild.toString() == LBRACKET );
 		}
 		
 		/**
@@ -1958,9 +1957,9 @@ package com.ffsys.pattern
 		public function get negated():Boolean
 		{
 			return range
-				&& firstChild != null
-				&& firstChild.nextSibling != null
-				&& firstChild.nextSibling.source == CARET;
+				&& firstPatternChild != null
+				&& firstPatternChild.nextPatternSibling != null
+				&& firstPatternChild.nextPatternSibling.source == CARET;
 		}
 		
 		/**
@@ -2069,7 +2068,7 @@ package com.ffsys.pattern
 			//the group is not quantified reports
 			//a count of one
 			if( !quantifier
-				&& nextSibling != null && nextSibling.quantifier )
+				&& nextPatternSibling != null && nextPatternSibling.quantifier )
 			{
 				x.@lazy = this.lazy;
 				//single quantifier occurence amount
@@ -2401,8 +2400,8 @@ package com.ffsys.pattern
 						//group - <propertyName>
 						if( parentTarget.grouping
 							&& parentTarget.owner is Pattern
-							&& parentTarget.firstChild != null
-							&& parentTarget.firstChild.toString() == LESS_THAN )
+							&& parentTarget.firstPatternChild != null
+							&& parentTarget.firstPatternChild.toString() == LESS_THAN )
 						{	
 							//assign the named property field to
 							//the parent group
@@ -2475,9 +2474,9 @@ package com.ffsys.pattern
 			{
 				//fold into any previous character matching data
 				//if we can
-				if( ptn.previousSibling.data )
+				if( ptn.previousPatternSibling.data )
 				{
-					ptn.previousSibling.source += ptn.source;
+					ptn.previousPatternSibling.source += ptn.source;
 					return _compiled;
 				}else{
 					//TODO?
@@ -2703,11 +2702,11 @@ package com.ffsys.pattern
 				if( ptns.length == 1 )
 				{
 					//single group contents
-					if( ptns.firstChild.group )
+					if( ptns.firstPatternChild.group )
 					{
 						return false;
 					//single chunk contents
-					}else if( ptns.firstChild.data )
+					}else if( ptns.firstPatternChild.data )
 					{
 						return false;
 					}

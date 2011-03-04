@@ -1,4 +1,4 @@
-package com.ffsys.pattern
+package java.util.regex
 {
 	
 	/**

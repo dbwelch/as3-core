@@ -1,4 +1,4 @@
-package com.ffsys.pattern
+package java.util.regex
 {
 	import flash.events.*;
 	import flash.net.*;

@@ -1,12 +1,10 @@
-package com.ffsys.pattern
+package java.util.regex
 {
 	import flash.events.*;
 	import flash.net.*;
 	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
-	
-	import com.ffsys.pattern.*;
 	
 	/**
 	*	Unit tests for patterns.
@@ -25,8 +23,6 @@ package com.ffsys.pattern
 		public function addressValidationTest():void
 		{
 			default xml namespace = Pattern.NAMESPACE;
-			
-			var re:RegExp = /    (\d{2})    (\s*\w{2}\s*)    (\d{2})    /x;
 			
 			var address_1:Object =
 			{

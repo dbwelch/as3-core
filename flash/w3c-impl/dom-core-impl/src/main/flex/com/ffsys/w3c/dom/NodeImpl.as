@@ -58,7 +58,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@private
 		*/
-		protected var flags:uint;
+		protected var __flags:uint;
 		
 		/**
 		* 	@private
@@ -928,7 +928,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function isReadOnly():Boolean
 		{
-			return ( flags & READONLY ) != 0;
+			return ( __flags & READONLY ) != 0;
 	    }
 		
 		/**
@@ -936,7 +936,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setReadOnly( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | READONLY : flags & ~READONLY ) );
+	        __flags = uint( ( value ? __flags | READONLY : __flags & ~READONLY ) );
 	    }
 		
 		/**
@@ -944,7 +944,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function needsSyncData():Boolean
 		{
-			return ( flags & SYNCDATA ) != 0;
+			return ( __flags & SYNCDATA ) != 0;
 		}
 		
 		/**
@@ -952,7 +952,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setNeedsSyncData( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | SYNCDATA : flags & ~SYNCDATA ) );
+	        __flags = uint( ( value ? __flags | SYNCDATA : __flags & ~SYNCDATA ) );
 	    }
 		
 		/**
@@ -960,7 +960,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function needsSyncChildren():Boolean
 		{
-			return ( flags & SYNCCHILDREN ) != 0;
+			return ( __flags & SYNCCHILDREN ) != 0;
 		}
 		
 		/**
@@ -968,7 +968,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setNeedsSyncChildren( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | SYNCCHILDREN : flags & ~SYNCCHILDREN ) );
+	        __flags = uint( ( value ? __flags | SYNCCHILDREN : __flags & ~SYNCCHILDREN ) );
 	    }
 
 		/**
@@ -976,7 +976,7 @@ package com.ffsys.w3c.dom
 		*/
 	    public function isOwned():Boolean
 		{
-			return ( flags & OWNED ) != 0;
+			return ( __flags & OWNED ) != 0;
 	    }
 	
 		/**
@@ -984,7 +984,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setOwned( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | OWNED : flags & ~OWNED ) );
+	        __flags = uint( ( value ? __flags | OWNED : __flags & ~OWNED ) );
 	    }
 		
 		/**
@@ -992,7 +992,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function isFirstChild():Boolean
 		{
-			return ( flags & FIRSTCHILD ) != 0;
+			return ( __flags & FIRSTCHILD ) != 0;
 		}
 		
 		/**
@@ -1000,7 +1000,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setFirstChild( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | FIRSTCHILD : flags & ~FIRSTCHILD ) );
+	        __flags = uint( ( value ? __flags | FIRSTCHILD : __flags & ~FIRSTCHILD ) );
 	    }
 
 		/**
@@ -1008,7 +1008,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function isSpecified():Boolean
 		{
-			return ( flags & SPECIFIED ) != 0;
+			return ( __flags & SPECIFIED ) != 0;
 		}
 		
 		/**
@@ -1016,7 +1016,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setIsSpecified( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | SPECIFIED : flags & ~SPECIFIED ) );
+	        __flags = uint( ( value ? __flags | SPECIFIED : __flags & ~SPECIFIED ) );
 	    }
 
 		/**
@@ -1026,7 +1026,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function internalIsIgnorableWhitespace():Boolean
 		{
-	        return ( flags & IGNORABLEWS ) != 0;
+	        return ( __flags & IGNORABLEWS ) != 0;
 	    }
 	
 		/**
@@ -1034,7 +1034,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setInternalIsIgnorableWhitespace( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | IGNORABLEWS : flags & ~IGNORABLEWS ) );
+	        __flags = uint( ( value ? __flags | IGNORABLEWS : __flags & ~IGNORABLEWS ) );
 	    }
 		
 		/**
@@ -1042,7 +1042,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function hasStringValue():Boolean
 		{
-	        return ( flags & HASSTRING ) != 0;
+	        return ( __flags & HASSTRING ) != 0;
 	    }
 	
 		/**
@@ -1050,7 +1050,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setHasStringValue( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | HASSTRING : flags & ~HASSTRING ) );
+	        __flags = uint( ( value ? __flags | HASSTRING : __flags & ~HASSTRING ) );
 	    }
 		
 		/**
@@ -1058,7 +1058,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function isNormalized():Boolean
 		{
-			return ( flags & NORMALIZED ) != 0;
+			return ( __flags & NORMALIZED ) != 0;
 		}
 		
 		/**
@@ -1066,7 +1066,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setNormalized( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | HASSTRING : flags & ~HASSTRING ) );
+	        __flags = uint( ( value ? __flags | HASSTRING : __flags & ~HASSTRING ) );
 	
 	        // See if flag should propagate to parent.
 			var o:NodeImpl = __ownerNode as NodeImpl;
@@ -1074,7 +1074,7 @@ package com.ffsys.w3c.dom
 			{
 				o.setNormalized( false );
 	        }
-	        flags = uint( ( value ?  flags | NORMALIZED : flags & ~NORMALIZED ) );
+	        __flags = uint( ( value ?  __flags | NORMALIZED : __flags & ~NORMALIZED ) );
 	    }
 
 		/**
@@ -1082,7 +1082,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function isIdAttribute():Boolean
 		{
-			return ( flags & ID ) != 0;
+			return ( __flags & ID ) != 0;
 		}
 		
 		/**
@@ -1090,7 +1090,7 @@ package com.ffsys.w3c.dom
 		*/
 	    internal function setIsIdAttribute( value:Boolean ):void
 		{
-	        flags = uint( ( value ? flags | ID : flags & ~ID ) );
+	        __flags = uint( ( value ? __flags | ID : __flags & ~ID ) );
 	    }	
 	}
 }

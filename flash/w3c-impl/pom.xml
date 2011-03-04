@@ -19,6 +19,7 @@
 		<module>css-impl</module>
 		<module>views-impl</module>
 		<module>html-impl</module>
+		<module>pattern-impl</module>
 		
 		<module>test-harness</module>
 	</modules>

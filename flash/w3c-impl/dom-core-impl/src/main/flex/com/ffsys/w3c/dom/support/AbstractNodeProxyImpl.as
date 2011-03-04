@@ -506,6 +506,10 @@ package com.ffsys.w3c.dom.support
 		*/
 		protected function getNextValue( index:int ):*
 		{
+			if( mappings.length == 0 )
+			{
+				return null;
+			}
 			return ElementMap( mappings[ index - 1 ] ).value;
 		}
 

@@ -1,4 +1,4 @@
-package com.ffsys.pattern
+package java.util.regex
 {
 	/**
 	* 	Represents a #ptnlib:term:rule;; a <em>rule</em>
