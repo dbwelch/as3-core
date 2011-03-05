@@ -36,7 +36,12 @@ package com.ffsys.w3c.dom
 	{
 		static private var _registry:DOMImplementationRegistry;		
 		
-		private var _document:Document;
+		/**
+		* 	@private
+		*/
+		protected var _document:Document;
+		
+		//TODO: remove this
 		private var _htmlDocument:HTMLDocument;
 		
 		/**
@@ -65,14 +70,7 @@ package com.ffsys.w3c.dom
 				//no specific types to bootstrap
 				if( impls == null )
 				{
-					_registry.addSource( new DOMCoreBootstrap() );
-					_registry.addSource( new DOMEventsBootstrap() );
-					_registry.addSource( new DOMLSBootstrap() );
-					_registry.addSource( new DOMLSAsyncBootstrap() );
-					_registry.addSource( new DOMViewsBootstrap() );
-					_registry.addSource( new DOMCSSBootstrap() );
-					_registry.addSource( new DOMXMLBootstrap() );
-					_registry.addSource( new DOMHTMLBootstrap() );
+					addDefaultRegistryImplementationSources( _registry );
 				}else{
 					for( var i:int = 0;i < impls.length;i++ )
 					{
@@ -83,6 +81,22 @@ package com.ffsys.w3c.dom
 				Assert.assertNotNull( _registry );
 			//}
 			return _registry;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function addDefaultRegistryImplementationSources(
+			registry:DOMImplementationRegistry ):void
+		{
+			registry.addSource( new DOMCoreBootstrap() );
+			registry.addSource( new DOMEventsBootstrap() );
+			registry.addSource( new DOMLSBootstrap() );
+			registry.addSource( new DOMLSAsyncBootstrap() );
+			registry.addSource( new DOMViewsBootstrap() );
+			registry.addSource( new DOMCSSBootstrap() );
+			registry.addSource( new DOMXMLBootstrap() );
+			registry.addSource( new DOMHTMLBootstrap() );
 		}
 		
 		/**

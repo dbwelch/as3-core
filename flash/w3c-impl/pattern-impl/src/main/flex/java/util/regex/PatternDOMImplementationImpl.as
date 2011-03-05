@@ -2,6 +2,8 @@ package java.util.regex
 {
 	import org.w3c.dom.Document;
 	import org.w3c.dom.DocumentType;
+	import org.w3c.dom.DOMFeature;	
+	import org.w3c.dom.DOMVersion;
 	import org.w3c.dom.Element;	
 	
 	import com.ffsys.w3c.dom.NodeImpl;
@@ -19,11 +21,30 @@ package java.util.regex
 		public static const NAME:String = "Pattern";
 		
 		/**
+		* 	The representation of a "Pattern 3.0" feature.
+		*/
+		public static const FEATURE:DOMFeature = new DOMFeature(
+			NAME, DOMVersion.VERSION_3 );
+		
+		/**
 		* 	Creates a <code>PatternDOMImplementationImpl</code> instance.
 		*/
 		public function PatternDOMImplementationImpl()
 		{
 			super();
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function get supported():Vector.<DOMFeature>
+		{
+			if( _supported == null )
+			{
+				_supported = super.supported;
+				_supported.push( FEATURE );
+			}
+			return _supported;
 		}
 		
 		/**
@@ -51,6 +72,7 @@ package java.util.regex
 			
 			var e:Element = document.createElement( qualifiedName );
 			document.appendChild( e );
+			
 			setImplementation( document, doctype );
 			return document;
 		}

@@ -5,13 +5,20 @@ package java.util.regex
 	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
-	
+
+	import org.w3c.dom.Document;
+	import org.w3c.dom.DOMImplementation;
 	import org.w3c.dom.Node;
+	
+	import com.ffsys.w3c.dom.AbstractDomUnit;
+	import com.ffsys.w3c.dom.bootstrap.DOMImplementationRegistry;
+	
+	import java.util.regex.bootstrap.DOMPatternBootstrap;
 	
 	/**
 	*	Unit tests for patterns.
 	*/ 
-	public class PatternTest extends Object
+	public class PatternTest extends AbstractDomUnit
 	{
 		/**
 		*	Creates a <code>PatternTest</code> instance.
@@ -19,6 +26,53 @@ package java.util.regex
 		public function PatternTest()
 		{
 			super();
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function getPatternDocument():PatternDocumentImpl
+		{
+			if( _document != null )
+			{
+				return _document as PatternDocumentImpl;
+			}
+			
+			var impl:DOMImplementation = getPatternImplementation();
+			Assert.assertTrue( impl is PatternDOMImplementationImpl );
+			
+			//create a plain xml document implementation
+			var doc:Document = impl.createDocument( null, null, null );
+			
+			Assert.assertNotNull( doc );
+			_document = doc;
+			return _document as PatternDocumentImpl;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function getPatternImplementation():DOMImplementation
+		{
+			//get the DOM registry
+			var registry:DOMImplementationRegistry = getRegistry();
+			
+			trace("PatternTest::getPatternImplementation()", registry.sources.length );
+			
+			//retrieve an implementation for "Pattern"
+			var impl:DOMImplementation = registry.getDOMImplementation(
+				"Pattern 3.0" );
+			Assert.assertNotNull( impl );
+			return impl;
+		}
+		
+		/**
+		* 	@private
+		*/
+		override protected function addDefaultRegistryImplementationSources(
+			registry:DOMImplementationRegistry ):void
+		{
+			registry.addSource( new DOMPatternBootstrap() );
 		}
 		
 		//[Test]
@@ -104,6 +158,17 @@ package java.util.regex
 			Assert.assertTrue( ptn.test( .5 ) );
 			Assert.assertTrue( ptn.test( 1.67 ) );
 			Assert.assertFalse( ptn.test( 16 ) );			
+		}
+		
+		/**
+		* 	Tests manually constructing a Pattern
+		* 	DOM document.
+		*/
+		[Test]
+		public function patternDOMTest():void
+		{
+			var doc:PatternDocumentImpl = getPatternDocument();
+			trace("PatternTest::patternDOMTest()", doc.xml.toXMLString() );
 		}
 		
 		[Test]

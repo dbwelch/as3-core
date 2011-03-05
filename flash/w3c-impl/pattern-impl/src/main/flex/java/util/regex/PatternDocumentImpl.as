@@ -46,9 +46,10 @@ package java.util.regex
 		*/
 		public function createPattern(
 			pattern:String,
-			comment:String = null ):void
+			comment:String = null ):Pattern
 		{
 			//
+			return null;
 		}
 	}
 }
