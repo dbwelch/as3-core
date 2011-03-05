@@ -155,7 +155,12 @@ package java.util.regex
 		static public function encode(
 			pattern:Pattern,
 			compression:uint = COMPRESSION_NONE ):PatternFile
-		{
+		{	
+			if( !pattern is Rule )
+			{
+				//TODO: convert a plain pattern to a rule
+			}
+			
 			var file:PatternFile = new PatternFile();
 			file.compression = compression;
 			file.writeFileHeader();

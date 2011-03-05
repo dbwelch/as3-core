@@ -6,8 +6,6 @@ package com.ffsys.w3c.dom.xml
 	
 	import com.ffsys.w3c.dom.NodeImpl;
 	
-	import com.ffsys.w3c.dom.bootstrap.DOMBootstrap;
-	
 	import com.ffsys.w3c.dom.ls.DOMImplementationLSImpl;
 	
 	/**
