@@ -125,6 +125,10 @@ package java.util.regex
 			
 			trace("PatternTest::patternCompileTest()", ptn.xml.toXMLString() );
 			
+			var file:PatternFile = PatternFile.encode( ptn );
+			
+			trace("[FILE] PatternTest::patternCompileTest()", file );
+			
 			//var ptn:Pattern = new Pattern( new RegExp( "^(?P<id>[0-9]+|false)$" ), true );
 			
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
