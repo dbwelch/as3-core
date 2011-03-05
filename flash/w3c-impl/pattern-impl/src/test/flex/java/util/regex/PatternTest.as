@@ -6,6 +6,8 @@ package java.util.regex
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
+	import org.w3c.dom.Node;
+	
 	/**
 	*	Unit tests for patterns.
 	*/ 
@@ -19,7 +21,7 @@ package java.util.regex
 			super();
 		}
 		
-		[Test]
+		//[Test]
 		public function addressValidationTest():void
 		{
 			default xml namespace = Pattern.NAMESPACE;
@@ -51,7 +53,7 @@ package java.util.regex
 			trace("PatternTest::addressValidationTest()", ptn.xml.toXMLString() );
 		}
 		
-		[Test]
+		//[Test]
 		public function mobileNumberTest():void
 		{
 			default xml namespace = Pattern.NAMESPACE;			
@@ -74,7 +76,7 @@ package java.util.regex
 			Assert.assertTrue( ptn.test( 07900123456 ) );			
 		}
 		
-		[Test]
+		//[Test]
 		public function numericValidationTest():void
 		{
 			default xml namespace = Pattern.NAMESPACE;
@@ -111,22 +113,37 @@ package java.util.regex
 			
 			var candidates:Array = [ 201, 505 ];
 			
+			var ptn:Pattern = new Pattern( new RegExp( "^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{10,)?(alpha+numeri(c|k)?)+)$" ), true );	
+			
+			trace("[LENGTH] PatternTest::patternCompileTest()", ptn.length, ptn.childPatternCount );
+			
+			var node:Node = null;
+			for each( node in ptn.childNodes )
+			{
+				trace("PatternTest::patternCompileTest()", node );
+			}
+			
+			trace("PatternTest::patternCompileTest()", ptn.xml.toXMLString() );
+			
+			//var ptn:Pattern = new Pattern( new RegExp( "^(?P<id>[0-9]+|false)$" ), true );
+			
 			//	"^(?P<abc>100|201|404)25?[1-25]*$"
 			
+			/*
 			var ptn:Pattern = new Pattern( new RegExp( "^((?P<id>[0-9]+|false)|(^(?:100|201|404(505)+?3000[0-1]+4000)(?P<property>myName)25?[^1-25]*[a-z]{10,)?(alpha+numeri(c|k)?)+)$" ), true );
 			
 			XML.prettyPrinting = true;
 			XML.prettyIndent = 2;
 			
-			trace("[STRING TEST] PatternTest::cssTokenizeTest()",
+			trace("[STRING TEST] PatternTest::patternCompileTest()",
 				"303", ptn.test( "303" ) );
-			trace("[INT TEST] PatternTest::cssTokenizeTest()",
+			trace("[INT TEST] PatternTest::patternCompileTest()",
 				"303", ptn.test( 303 ) );
-			trace("[BOOLEAN TEST] PatternTest::cssTokenizeTest()",
+			trace("[BOOLEAN TEST] PatternTest::patternCompileTest()",
 				"true", ptn.test( true ) );
-			trace("[BOOLEAN TEST] PatternTest::cssTokenizeTest()",
+			trace("[BOOLEAN TEST] PatternTest::patternCompileTest()",
 				"false", ptn.test( false ) );
-			trace("[OBJECT PROPERTY TEST] PatternTest::cssTokenizeTest()",
+			trace("[OBJECT PROPERTY TEST] PatternTest::patternCompileTest()",
 				"{ id: 303 }", ptn.test( { id: 303 } ) );
 
 			trace("[PATTERN] PatternTest::pattern()", ptn );
@@ -137,6 +154,7 @@ package java.util.regex
 			trace("[POSITIONS] PatternTest::pattern()", ptn.positions );
 			//trace("[RESULTS] PatternTest::pattern()", ptn.results );
 			//trace("[XML] PatternTest::pattern()", ptn.xml.toXMLString() );
+			*/
 		}
 	}
 }

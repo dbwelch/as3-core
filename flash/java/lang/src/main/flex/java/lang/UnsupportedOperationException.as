@@ -1,18 +1,18 @@
 package java.lang
 {
-	
 	/**
-	*	RuntimeException is the superclass of those exceptions that
-	* 	can be thrown during the normal operation of the Java Virtual Machine.
-	*
-	*	A method is not required to declare in its throws clause any subclasses
-	* 	of RuntimeException that might be thrown during the execution of the
-	* 	method but not caught.
+	* 	Thrown to indicate that the requested operation is not supported.
 	*/
-	public class RuntimeException extends Exception
+	public class UnsupportedOperationException extends RuntimeException
 	{
+		
 		/**
-		* 	Creates a <code>RuntimeException</code> instance.
+		* 	A default exception message.
+		*/
+		public static const MESSAGE:String = "The operation is not supported.";
+		
+		/**
+		* 	Creates an <code>UnsupportedOperationException</code> instance.
 		* 
 		* 	@param message The detail message.
 		* 	@param couse The cause, a null value is permitted,
@@ -21,12 +21,16 @@ package java.lang
 		* 	@param replacements Values to replace within
 		* 	the detail message.
 		*/
-		public function RuntimeException(
+		public function UnsupportedOperationException(
 			message:String = null,
 			cause:Throwable = null,
 			id:int = 0,
 			replacements:Array = null )
 		{
+			if( message == null )
+			{
+				message = MESSAGE;
+			}
 			super( message, cause, id, replacements );
 		}
 	}

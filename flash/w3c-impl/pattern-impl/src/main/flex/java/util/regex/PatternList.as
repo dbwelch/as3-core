@@ -411,7 +411,7 @@ package java.util.regex
 		{
 			var output:Vector.<Pattern> = new Vector.<Pattern>();
 			var node:Node =  null;
-			for each( node in this )
+			for each( node in childNodes )
 			{
 				if( node is Pattern )
 				{
