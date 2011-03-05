@@ -1204,6 +1204,7 @@ package java.util.regex
 			new Pattern( RPAREN );
 		
 		//
+		private var _comment:String;
 		private var _parts:Pattern;
 		private var _position:uint = 0;
 		private var _source:* = NaN;
@@ -1243,6 +1244,19 @@ package java.util.regex
 			}else{
 				this.source = source;
 			}
+		}
+		
+		/**
+		* 	A comment about this pattern.
+		*/
+		public function get comment():String
+		{
+			return _comment;
+		}
+		
+		public function set comment( value:String ):void
+		{
+			_comment = value;
 		}
 		
 		/**

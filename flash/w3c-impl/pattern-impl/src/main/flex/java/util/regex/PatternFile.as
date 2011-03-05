@@ -2,6 +2,8 @@ package java.util.regex
 {
 	import flash.utils.ByteArray;
 	
+	import java.util.BitSet;
+	
 	/**
 	* 	Represents a pattern as a binary file.
 	*/
@@ -13,6 +15,26 @@ package java.util.regex
 		internal var _bytes:ByteArray;
 		
 		/**
+		* 	@private
+		*/
+		internal var _flags:BitSet;
+		
+		/**
+		* 	@private
+		*/
+		internal var _compression:uint = 0;
+		
+		/**
+		* 	@private
+		*/
+		internal var _version:Number = VERSION;
+		
+		/**
+		* 	The current file version.
+		*/
+		public static const VERSION:Number = 1.0;
+		
+		/**
 		*	Represents no compression method.
 		*/
 		public static const COMPRESSION_NONE:int = 0;
@@ -21,6 +43,11 @@ package java.util.regex
 		* 	Represents the deflated ccompression method.
 		*/
 		public static const COMPRESSION_DEFLATED:int = 8;
+		
+		/**
+		* 	The file signature.
+		*/
+		public static const SIG_FILE:Number = 4.01321737981647e+78;
 		
 		/**
 		* 	The rule signature.
@@ -41,6 +68,30 @@ package java.util.regex
 		}
 		
 		/**
+		* 	A compression method in use by this file.
+		*/
+		public function get compression():uint
+		{
+			return _compression;
+		}
+		
+		public function set compression( value:uint ):void
+		{
+			_compression = value;
+		}
+		
+		/**
+		* 	The version of this file.
+		* 
+		* 	When a file is encoded it will always use
+		* 	the current default version.
+		*/
+		public function get version():Number
+		{
+			return _version;
+		}
+		
+		/**
 		* 	The bytes for this file.
 		*/
 		public function get bytes():ByteArray
@@ -53,27 +104,43 @@ package java.util.regex
 		}
 		
 		/**
-		* 	@private
-		* 	
-		* 	Writes the pattern file signature to this
-		* 	pattern file.
+		* 	The general purpose bit flags for this file,
+		* 	as a 16-bit set.
+		* 
+		* 	@return The general purpose file flags.
 		*/
-		internal function writeSignature():void
+		public function get flags():BitSet
 		{
-			trace("[SIG] PatternFile::writeSignature()", this );
+			if( _flags == null )
+			{
+				_flags = new BitSet( 16 );
+			}
+			return _flags;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function writeFileHeader(
+			compressed:uint = 0, uncompressed:uint = 0 ):void
+		{
+			//clear any underlying data
+			_bytes = new ByteArray();
 			
-			var b:ByteArray = this.bytes;
-			b.writeUTFBytes( "R" );
-			b.writeUTFBytes( "U" );
-			b.writeUTFBytes( "L" );
-			b.writeUTFBytes( "E" );
+			//write out the 24 byte header
+			this.bytes.writeDouble( SIG_FILE );
+			this.bytes.writeFloat( VERSION );
 			
-			b.position = 0;
+			//write the general purpose bit flags
+			var b:ByteArray = flags.toByteArray();
+			this.bytes.writeBytes( b, 0, b.length );
 			
-			//
-			//0x50544E00 - pattern
+			//write compression method
+			this.bytes.writeShort( this.compression );
 			
-			trace("PatternFile::writeSignature()", b.length, b.readUnsignedInt() );
+			//the compressed and uncompressed sizes
+			this.bytes.writeUnsignedInt( compressed );
+			this.bytes.writeUnsignedInt( uncompressed );
 		}
 		
 		/**
@@ -87,12 +154,13 @@ package java.util.regex
 		*/
 		static public function encode(
 			pattern:Pattern,
-			compression:uint = COMPRESSION_DEFLATED ):PatternFile
+			compression:uint = COMPRESSION_NONE ):PatternFile
 		{
 			var file:PatternFile = new PatternFile();
-			trace("[ENCODE] PatternFile::encode()", pattern, compression );
+			file.compression = compression;
+			file.writeFileHeader();
 			
-			file.writeSignature();
+			trace("[ENCODE] PatternFile::encode()", pattern, compression, file.bytes.length );
 			
 			return file;
 		}

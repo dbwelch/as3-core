@@ -12,6 +12,8 @@ package java.util.regex
 	*/
 	public class Rule extends Pattern
 	{
+		private var _description:String;
+		
 		/**
 		* 	Creates a <code>Rule</code> instance.
 		* 
@@ -27,6 +29,19 @@ package java.util.regex
 		{
 			super( source, compile );
 			this.flags = flags;
+		}
+		
+		/**
+		* 	A description of this rule.
+		*/
+		public function get description():String
+		{
+			return _description;
+		}
+		
+		public function set description( value:String ):void
+		{
+			_description = value;
 		}
 		
 		/**

@@ -26,7 +26,7 @@ package java.util
 		/**
 		* 	@private
 		*/
-		internal var bytes:ByteArray;
+		internal var _bytes:ByteArray;
 		
 		/**
 		* 	Creates a <code>BitSet</code> instance.
@@ -39,7 +39,7 @@ package java.util
 		* 
 		* 	@param nbits The initial size of the bit set.
 		*/
-		public function BitSet( nbits:int = 0 )
+		public function BitSet( nbits:uint = 0 )
 		{
 			super();
 			//TODO: throw NegativeArraySizeException
@@ -67,6 +67,37 @@ package java.util
 		
 		/**
 		* 	@private
+		*/
+		protected function get bytes():ByteArray
+		{
+			if( _bytes == null )
+			{
+				_bytes = new ByteArray();
+			}
+			return _bytes;
+		}
+		
+		/**
+		* 	Retreives a copy of the bytes represented
+		* 	by this bit set as a new byte array.
+		* 
+		* 	@return A new byte array with a copy of the
+		* 	current state of this bit set and it's position
+		* 	reset to zero ready to read.
+		*/
+		public function toByteArray():ByteArray
+		{
+			//store current position
+			var c:uint = bytes.position;
+			bytes.position = 0;
+			var copy:ByteArray = new ByteArray();
+			copy.writeBytes( bytes, 0, bytes.length );
+			bytes.position = c;
+			return copy;
+		}
+		
+		/**
+		* 	@private
 		* 
 		* 	Allocates the bytes necessary to represent
 		* 	the number of requested bits.
@@ -75,13 +106,13 @@ package java.util
 		*/
 		protected function allocate( nbits:uint = 0 ):void
 		{
-			bytes = new ByteArray();
-			bytes.endian = Endian.BIG_ENDIAN;
+			_bytes = new ByteArray();
+			_bytes.endian = Endian.BIG_ENDIAN;
 			var n:uint = Math.ceil( nbits / 8 );
 			while( n > 0 )
 			{
 				//write the initial null (zero) bytes
-				bytes.writeByte( 0 );
+				_bytes.writeByte( 0 );
 				n--;
 			}
 		}
@@ -95,10 +126,6 @@ package java.util
 		*/
 		public function size():int
 		{
-			if( bytes == null )
-			{
-				return 0;
-			}
 			//bytes to bit length
 			return bytes.length * 8;
 		}
