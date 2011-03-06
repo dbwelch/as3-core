@@ -6,6 +6,8 @@ package java.util.regex
 	import org.w3c.dom.DOMVersion;
 	import org.w3c.dom.Element;	
 	
+	import javax.xml.namespace.QualifiedName;
+	
 	import com.ffsys.w3c.dom.NodeImpl;
 	
 	import com.ffsys.w3c.dom.xml.XMLDOMImplementationImpl;
@@ -59,18 +61,17 @@ package java.util.regex
 				getDomBean( PatternDocumentImpl.NAME ) );
 			
 			//TEMP
-			if( namespaceURI != null )
-			{
-				NodeImpl( document ).namespaceDeclarations.push(
-					new Namespace( namespaceURI ) );
-			}
+			NodeImpl( document ).namespaceDeclarations.push(
+				Pattern.NAMESPACE );
 			
 			if( qualifiedName ==  null )
 			{
 				qualifiedName = "pattern";
 			}
 			
-			var e:Element = document.createElement( qualifiedName );
+			var e:Element = document.createElementNS(
+				Pattern.NAMESPACE_URI, QualifiedName.toName(
+					Pattern.NAMESPACE_PREFIX, qualifiedName ) );
 			document.appendChild( e );
 			
 			setImplementation( document, doctype );

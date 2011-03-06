@@ -908,6 +908,11 @@ package java.util.regex
 	*/
 	dynamic public class Pattern extends PatternList
 	{	
+		/**
+		* 	The bean name for a rule.
+		*/
+		public static const NAME:String = "rule";		
+		
 		/*
 		*	TYPE CONSTANTS (uint)
 		*/

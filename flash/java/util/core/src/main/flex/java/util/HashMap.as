@@ -5,7 +5,6 @@ package java.util
 
 	public class HashMap extends AbstractMap
 	{
-		
 		/**
 		* 	Creates a <code>HashMap</code> instance.
 		* 
@@ -16,6 +15,5 @@ package java.util
 		{
 			super( k, v );
 		}
-		
 	}
 }

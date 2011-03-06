@@ -230,7 +230,17 @@ package java.util
 		*/
 		public function values():Collection
 		{
-			return null;
+			var output:Collection = new ArrayList();
+			var entry:MapEntry = null;
+			for( var i:int = 0;i < _dictionary.length;i++ )
+			{
+				entry = MapEntry( _dictionary[ i ] );
+				
+				trace("[ADDING MAP ENTRY VALUE] AbstractMap::values()", entry.value );
+				
+				output.add( entry.value );
+			}
+			return output;
 		}
 		
 		/**

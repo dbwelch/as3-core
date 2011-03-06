@@ -12,6 +12,11 @@ package java.lang
 		private var _type:Class;
 		
 		/**
+		* 	Represents the <code>Object</code> value type.
+		*/
+		public static const OBJECT:V = new V( Object );
+		
+		/**
 		* 	Creates a <code>V</code> instance.
 		* 
 		* 	@param type The type that this value represents.
@@ -34,6 +39,16 @@ package java.lang
 		public function get type():Class
 		{
 			return _type;
+		}
+		
+		/**
+		* 	A list of all types supported by this value.
+		*/
+		public function get types():Vector.<Class>
+		{
+			var v:Vector.<Class> = new Vector.<Class>();
+			v.push( type );
+			return v;
 		}
 
 		/**

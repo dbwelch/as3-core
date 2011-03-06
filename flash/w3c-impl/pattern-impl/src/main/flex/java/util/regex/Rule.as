@@ -13,6 +13,11 @@ package java.util.regex
 	public class Rule extends Pattern
 	{
 		/**
+		* 	The bean name for a rule.
+		*/
+		public static const NAME:String = "rule";
+		
+		/**
 		* 	Creates a <code>Rule</code> instance.
 		* 
 		* 	@param source The source for the rule.

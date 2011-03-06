@@ -26,7 +26,7 @@ package java.nio.charset
 		public function testCharsets():void
 		{
 			var charsets:SortedMap = Charset.availableCharsets;	
-			var it:Iterator = charsets.iterator();
+			var it:Iterator = charsets.values().iterator();
 			var value:* = null;
 			while( it.hasNext() )
 			{

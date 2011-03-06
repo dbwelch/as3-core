@@ -9,6 +9,8 @@ package com.ffsys.w3c.dom.ls.serialize
 	
 	import com.ffsys.w3c.dom.DOMConfigurationImpl;
 	
+	import com.ffsys.w3c.dom.ls.LSOutputImpl;
+	
 	/**
 	* 	TODO
 	*/
@@ -68,8 +70,14 @@ package com.ffsys.w3c.dom.ls.serialize
 		/**
 		* 	@inheritDoc
 		*/
-		public function write( node:Node, destination:LSOutput ):Boolean
+		public function write(
+			node:Node, destination:LSOutput ):Boolean
 		{
+			if( destination is LSOutputImpl && ( LSOutputImpl( destination ).e4x is XML ) )
+			{
+				var serializer:NativeXMLSerializer = new NativeXMLSerializer();
+				return serializer.write( node, destination );
+			}
 			return false;
 		}
 		

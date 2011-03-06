@@ -172,7 +172,7 @@ package com.ffsys.w3c.dom
 			var x:XML = new XML();
 			LSOutputImpl( output ).e4x = x;
 			
-			serializer.write( doc, output );
+			//serializer.write( doc, output );
 			
 			/*
 			var x:XML = new XML( "<r>this is &lt; &gt; &amp; &apos; &quot; &#35; &unknownentity; clearly less than</r>" );

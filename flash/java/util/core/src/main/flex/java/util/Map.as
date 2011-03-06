@@ -75,7 +75,7 @@ package java.util
 	* 	interfaces are free to take advantage of the specified behavior of
 	* 	underlying Object methods wherever the implementor deems it appropriate.
 	*/
-	public interface Map extends Collection
+	public interface Map
 	{
 		/**
 		*	Removes all of the mappings from this

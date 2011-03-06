@@ -393,7 +393,7 @@ package com.ffsys.w3c.dom
 						return child.prefix;
 					}
 				}
-			}		
+			}
 			return null;
 		}
 		

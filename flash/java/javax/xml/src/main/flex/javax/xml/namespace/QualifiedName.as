@@ -1,5 +1,7 @@
 package javax.xml.namespace
 {
+	import java.util.Map;
+	
 	/**
 	* 	QualifiedName represents a qualified name as defined
 	* 	in the XML specifications: XML Schema Part2:
@@ -26,7 +28,9 @@ package javax.xml.namespace
 	* 	QualifiedName is immutable.
 	*/
 	public class QualifiedName extends Object
-	{
+	{	
+		private static const DELIMITER:String = ":";
+		
 		private var _namespaceURI:String;
 		private var _localPart:String;
 		private var _prefix:String;
@@ -126,6 +130,57 @@ package javax.xml.namespace
 		public function toString():String
 		{
 			return null;
+		}
+		
+		/**
+		* 	Retrieves a qualfied name from a prefix
+		* 	and local name.
+		* 
+		* 	@param prefix The namespace prefix.
+		* 	@param localName The local name for the qualified name.
+		* 
+		* 	@return A fully qualified name.
+		*/
+		public static function toName( prefix:String, localName:String ):String
+		{
+			if( prefix == null )
+			{
+				return localName;
+			}
+			return prefix + DELIMITER + localName;
+		}
+		
+		/**
+		* 	Retrives a qualfied name wrapped as a self-closing
+		* 	XML element.
+		* 
+		* 	@param prefix The namespace prefix.
+		* 	@param localName The local name for the qualified name.
+		* 
+		* 	@return A fully qualified name wrapped in a self-closing
+		* 	tag.
+		*/
+		public static function toXMLName(
+			prefix:String,
+			localName:String,
+			attributes:Map = null ):String
+		{
+			var output:String = "<" + toName( prefix, localName );
+			if( attributes != null )
+			{
+				var keys:Array = attributes.keySet().toArray();
+				
+				trace("[GOT ATTRIBUTES KEYS] QualifiedName::toXMLName()", keys );
+				
+				var key:String = null;
+				for( var i:int = 0;i < keys.length;i++ )
+				{
+					key = String( keys[ i ] );
+					output += " " + key  + "=\"" + attributes.item( key ) + "\"";
+				}
+			}
+			output += "/>";
+			return output;
 		}
 		
 		public static function valueOf( qname:String ):QualifiedName
