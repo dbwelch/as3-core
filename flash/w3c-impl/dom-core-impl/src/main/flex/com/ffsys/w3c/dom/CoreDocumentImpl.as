@@ -87,21 +87,6 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
-		* 	Ensures namespace declarations for the document
-		* 	are included in the <code>XML</code> document.
-		*/
-		override public function get xml():XML
-		{
-			var x:XML = super.xml;
-			if( documentElement != null )
-			{
-				x = NodeImpl( this.documentElement ).xml;
-			}
-			addNamespaceAttributes( x );
-			return x;
-		}
-		
-		/**
 		* 	@inheritDoc
 		*/
 		public function onload():void

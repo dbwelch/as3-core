@@ -2,21 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>as3-core</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.flashx</groupId>
+		<artifactId>flashx-parent</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.fluid</groupId>
-	<artifactId>fluid-parent</artifactId>
+	<groupId>com.ffsys.net</groupId>
+	<artifactId>net-parent</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>fluid-parent</name>
+	<name>net-parent</name>
 	<packaging>pom</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<modules>
-		<module>swc</module>
-		<!--
-		<module>swf</module>
-		<module>web-app</module>
-		-->
+		<module>asax</module>
+		<!-- <module>beads</module> -->
 	</modules>
 </project>

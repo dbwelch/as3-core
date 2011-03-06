@@ -637,19 +637,18 @@ package com.ffsys.w3c.dom
 					}
 					
 					//update the XML representation of the attribute
-					this.xml.@[ attr.nodeName ] = attr.value;
+					//this.xml.@[ attr.nodeName ] = attr.value;
 					
 					return existing;
 				}
 				
 				attributes.setNamedItem( attr );
 				
-				this.xml.@[ attr.nodeName ] = attr.value;
+				//this.xml.@[ attr.nodeName ] = attr.value;
 								
 				//trace("[ATTR] Element::setAttributeNode()", this, attr, attr.nodeName, hasAttribute( attr.nodeName ), attr.isQualified(), attr.name, attr.value, attr.uri, attributes.length );
 								
-				if( xml != null
-					&& attr.name != null
+				if( attr.name != null
 				 	&& attr.value != null )
 				{
 					attributeSet( attr );
@@ -669,7 +668,6 @@ package com.ffsys.w3c.dom
 				child = attributes.item( i ) as Attr;
 				if( child.nodeName == attr.nodeName )
 				{
-					delete xml.@[ attr.nodeName ];
 					attributes.removeNamedItem( attr.nodeName );
 					break;
 				}
@@ -1018,7 +1016,6 @@ package com.ffsys.w3c.dom
 			//
 		}
 		
-		
 		/**
 		* 	@private
 		* 
@@ -1027,19 +1024,6 @@ package com.ffsys.w3c.dom
 		*/
 		internal function setTagName( tagName:String, ns:Namespace = null ):void
 		{
-			if( tagName != null
-				&& tagName.length > 0
-				&& !/^\s+$/.test( tagName ) )
-			{
-				//trace("[NS] ElementImpl::setTagName()", ns );
-				
-				var nsAttr:String = "";
-				if( ns != null )
-				{
-					nsAttr = " xmlns:" + ns.prefix + "=\"" + ns.uri + "\"";
-				}
-				_xml = new XML( "<" + tagName + nsAttr + " />" );
-			}
 			_tagName = tagName;
 		}
 	}

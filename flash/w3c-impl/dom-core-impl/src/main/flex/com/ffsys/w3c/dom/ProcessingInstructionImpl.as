@@ -75,18 +75,5 @@ package com.ffsys.w3c.dom
 		{
 			return NodeType.PROCESSING_INSTRUCTION_NODE;
 		}
-		
-		/**
-		* 	Ensures that the representation of
-		* 	a processing instruction is correct.
-		*/
-		override public function get xml():XML
-		{
-			if( _xml == null || _xml.name().localName != data )
-			{
-				_xml = new XML( "<?" + data + " ?>" );
-			}
-			return _xml;
-		}
 	}
 }

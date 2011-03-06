@@ -126,9 +126,10 @@ package com.ffsys.w3c.dom.css
 			
 			//trace("[CSS RULE] DomCssCreationTest::testCreateStyleSheetsImplementation()", rule );
 			
+			/*
 			trace("[CSS XML] DomCssCreationTest::assertOnStyleSheetImplementation()",
 				doc.xml.toXMLString() );
-			
+			*/
 		}
 		
 		[Test]

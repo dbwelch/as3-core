@@ -28,14 +28,10 @@
 	</dependencies>
 	<modules>
 		<module>asdoc-utils</module>
-		<module>fluid</module>
+		<!-- <module>ecma</module>		 -->
+		<module>flashx</module>
 		<module>ioc</module>
 		<module>java</module>
-		<module>net</module>
-		
-		<!-- <module>pattern</module> -->
-		
-		<module>flashx</module>
 		<module>w3c-impl</module>
 	</modules>
 	<build>

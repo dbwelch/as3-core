@@ -16,6 +16,8 @@
 		<module>core</module>
 		<module>effects</module>
 		<module>io</module>
+		<module>net</module>
+		<!-- <module>swat</module> -->
 		<module>ui</module>
 		<module>utils</module>
 	</modules>

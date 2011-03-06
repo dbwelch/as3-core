@@ -47,17 +47,5 @@ package com.ffsys.w3c.dom
 		{
 			return NodeType.CDATA_SECTION_NODE;
 		}
-		
-		/**
-		* 	An <code>XML</code> representation of this node.
-		*/
-		override public function get xml():XML
-		{
-			if( _xml == null || _xml.toString() != data )
-			{
-				_xml = new XML( "<![CDATA[" + data + "]]>" );
-			}
-			return _xml;
-		}
 	}
 }

@@ -41,12 +41,6 @@ package com.ffsys.w3c.dom
 		
 		public function set data( value:String ):void
 		{
-			if( value != _data )
-			{
-				//invalidate the xml
-				_xml = null;
-			}
-			
 			_data = value;
 			
 			if( value != null )
@@ -167,35 +161,5 @@ package com.ffsys.w3c.dom
 		{
 			return data.charCodeAt( index - 1 );
 		}
-		
-		/**
-		* 	Updates the underlying data
-		* 	as the XML fragment changes.
-		*/
-		override public function set xml( value:XML ):void
-		{
-			super.xml = value;
-			
-			if( value != null )
-			{
-				if( value.nodeKind() != "text"
-					&& value.nodeKind() != "comment" )
-				{
-					throw new Error( "Invalid node type '" + value.nodeKind() + "' for character data." );
-				}
-				
-				_data = value.toString();
-				//trace("CharacterData::set xml()", value.toXMLString(), _data );
-			}
-		}
-		
-		override public function get xml():XML
-		{
-			if( _xml == null )
-			{
-				_xml = new XML( data );
-			}
-			return _xml;
-		}		
 	}
 }

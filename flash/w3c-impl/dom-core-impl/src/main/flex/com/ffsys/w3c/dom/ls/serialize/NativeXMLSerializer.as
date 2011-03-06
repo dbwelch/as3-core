@@ -94,5 +94,111 @@ package com.ffsys.w3c.dom.ls.serialize
 			
 			return x;
 		}
+		
+		
+		//update the internal XML representation of the element name
+		//xml.setName( new QName( uri, name ) );
+		
+		
+		/*
+		* 	An <code>XML</code> representation of this node.
+		*/
+		
+		/*
+		override public function get xml():XML
+		{
+			if( _xml == null || _xml.toString() != data )
+			{
+				_xml = new XML( "<![CDATA[" + data + "]]>" );
+			}
+			return _xml;
+		}
+		*/
+		
+		
+		/*
+		* 	An <code>XML</code> representation of this node.
+		*/
+		/*
+		override public function get xml():XML
+		{
+			if( _xml == null || _xml.toString() != data )
+			{
+				_xml = new XML( "<!--" + data + "-->" );
+			}
+			return _xml;
+		}
+		*/
+		
+		
+		/*
+		* 	An <code>XML</code> representation of the this document type.
+		*/
+		
+		/*
+		override public function get xml():XML
+		{
+			var x:XML = new XML( "<doctype><![CDATA[<!DOCTYPE "
+				+ name
+				+ " PUBLIC \""
+				+ systemId
+				+ "\" \""
+				+ publicId + "\">]]></doctype>" );
+			return x;
+		}
+		*/
+		
+		
+		/**
+		* 	Ensures that the representation of
+		* 	a processing instruction is correct.
+		*/
+		
+		/*
+		override public function get xml():XML
+		{
+			if( _xml == null || _xml.name().localName != data )
+			{
+				_xml = new XML( "<?" + data + " ?>" );
+			}
+			return _xml;
+		}
+		*/
+		
+		//delete xml.@[ attr.nodeName ];
+		
+		/*
+		if( tagName != null
+			&& tagName.length > 0
+			&& !/^\s+$/.test( tagName ) )
+		{
+			//trace("[NS] ElementImpl::setTagName()", ns );
+			
+			var nsAttr:String = "";
+			if( ns != null )
+			{
+				nsAttr = " xmlns:" + ns.prefix + "=\"" + ns.uri + "\"";
+			}
+			_xml = new XML( "<" + tagName + nsAttr + " />" );
+		}
+		*/
+		
+		/*
+		* 	Ensures the xml representation is in sync
+		* 	with the attribute definitions for this node.
+		*/
+		
+		/*
+		override public function get xml():XML
+		{
+			var x:XML = super.xml;
+			//
+			if( x != null && !( this is Document ) )
+			{
+				x.removeNamespace( x.@xmlns );
+			}
+			return x;
+		}
+		*/
 	}
 }

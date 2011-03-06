@@ -290,9 +290,6 @@ package com.ffsys.w3c.dom
 						}
 					}
 				}
-				
-				//update the internal XML representation of the element name
-				xml.setName( new QName( uri, name ) );
 			}
 			
 			/*
@@ -701,15 +698,7 @@ package com.ffsys.w3c.dom
 				{
 					n.setOwnerDocument( _ownerDocument );
 				}
-				
-				if( this.xml != n.xml )
-				{
-					//xml must be modified before actually
-					//appending the child node to prevent
-					//a cyclical loop with top-level document elements
-					this.xml.appendChild( n.xml );
-				}
-				
+
 				NodeListImpl( childNodes ).concat( n );
 				
 				if( _ownerDocument is CoreDocumentImpl && ( n is Element ) )
@@ -748,26 +737,6 @@ package com.ffsys.w3c.dom
 				n.setChildIndex( -1 );
 				
 				//trace("Node::removeChild()", this, child );
-				
-				if( n.xml != null )
-				{
-					var index:int = n.xml.childIndex();
-					if( this.xml && index > -1 )
-					{
-						delete this.xml.children()[ index ];
-					}else{
-						n.xml = null;
-						var x:XML = null;
-						for( var i:int = 0;i < this.xml.children().length();i++ )
-						{
-							x = this.xml.children()[ i ];
-							if( x.toString() == n.xml.toString() )
-							{
-								delete this.xml.children()[ i ];
-							}
-						}
-					}
-				}
 			}
 			return child;
 		}
@@ -899,22 +868,6 @@ package com.ffsys.w3c.dom
 		{
 			//
 		}
-		
-		/**
-		* 	Ensures the xml representation is in sync
-		* 	with the attribute definitions for this node.
-		*/
-		override public function get xml():XML
-		{
-			var x:XML = super.xml;
-			//
-			if( x != null && !( this is Document ) )
-			{
-				x.removeNamespace( x.@xmlns );
-			}
-			return x;
-		}
-		
 
 	    /*
 		*	Flags setters and getters, reproduced from the xerces-j

@@ -129,20 +129,6 @@ package com.ffsys.w3c.dom
 		public function set components( value:IBeanDocument ):void
 		{
 			_components = value;
-		}		
-		
-		/**
-		* 	An <code>XML</code> representation of the this document type.
-		*/
-		override public function get xml():XML
-		{
-			var x:XML = new XML( "<doctype><![CDATA[<!DOCTYPE "
-				+ name
-				+ " PUBLIC \""
-				+ systemId
-				+ "\" \""
-				+ publicId + "\">]]></doctype>" );
-			return x;
 		}
 		
 		/**

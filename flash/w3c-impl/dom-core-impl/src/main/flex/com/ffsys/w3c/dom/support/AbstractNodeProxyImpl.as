@@ -17,25 +17,14 @@ package com.ffsys.w3c.dom.support
 	import org.w3c.dom.*;
 	
 	/**
-	*	Represents a <code>DOM</code> element that is aware
-	* 	of an xml definition.
-	*
-	*	@langversion ActionScript 3.0
-	*	@playerversion Flash 9.0
-	*
-	*	@author Mischa Williamson
-	*	@since  09.01.2011
+	*	An abstract super class for DOM implementations
+	* 	that provides core enumeration and proxy functionality.
 	*/
 	public class AbstractNodeProxyImpl extends Proxy
 		implements 	IBeanNameAware,
 					IBeanDocumentAware
 	{
 		private static const ID:String = "id";
-		
-		/**
-		* 	@private
-		*/
-		protected var _xml:XML;
 		
 		private var _id:String;
 		private var _beanName:String;
@@ -58,16 +47,10 @@ package com.ffsys.w3c.dom.support
 	
 		/**
 		* 	Creates an <code>AbstractNodeProxyImpl</code> instance.
-		* 
-		* 	@param xml The <code>XML</code> that describe this element.
 		*/
-		public function AbstractNodeProxyImpl( xml:XML = null )
+		public function AbstractNodeProxyImpl()
 		{
 			super();
-			if( xml != null )
-			{
-				this.xml = xml;
-			}
 		}
 		
 		/**
@@ -155,25 +138,6 @@ package com.ffsys.w3c.dom.support
 		public function set id( id:String ):void
 		{
 			_id = id;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function get xml():XML
-		{
-			if( _xml == null )
-			{
-				_xml = new XML( "<node />" );
-			}
-			return _xml;
-		}
-		
-		public function set xml( value:XML ):void
-		{
-			_xml = value;
-			
-			//TODO: run this through the SAX parser to create child elements???
 		}
 		
 		/**
@@ -277,7 +241,6 @@ package com.ffsys.w3c.dom.support
 		{
 			_id = null;
 			_beanName = null;
-			_xml = null;
 			_document = null;
 			_descriptor = null;
 		}

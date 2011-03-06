@@ -181,7 +181,7 @@ package com.ffsys.w3c.dom
 				"" + x.text(), x.text().toXMLString() );
 			*/
 			
-			trace( NodeImpl( doc ).xml.toXMLString() );
+			//trace( NodeImpl( doc ).xml.toXMLString() );
 		}
 	}
 }

@@ -93,10 +93,13 @@ package java.util.regex
 		/**
 		* 	An xml representation of this match.
 		*/
+		
+		/*
 		override public function get xml():XML
 		{
 			return getXml( false );
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc

@@ -168,7 +168,7 @@ package java.util.regex
 		public function patternDOMTest():void
 		{
 			var doc:PatternDocumentImpl = getPatternDocument();
-			trace("PatternTest::patternDOMTest()", doc.xml.toXMLString() );
+			//trace("PatternTest::patternDOMTest()", doc.xml.toXMLString() );
 		}
 		
 		[Test]
@@ -187,8 +187,6 @@ package java.util.regex
 			{
 				trace("PatternTest::patternCompileTest()", node );
 			}
-			
-			trace("PatternTest::patternCompileTest()", ptn.xml.toXMLString() );
 			
 			var file:PatternFile = PatternFile.encode( ptn );
 			

@@ -37,8 +37,6 @@ package com.ffsys.w3c.dom.events
 		{
 			var doc:Document = getHTMLDocument();
 			
-			trace("DomEventCreationTest::getDocumentEvent()", HTMLDocumentImpl( doc ).xml.toXMLString() );
-			
 			var docEvents:DocumentEvent =
 				DocumentEvent( doc.implementation.getFeature(
 					DOMFeature.EVENTS_MODULE, null ) );
