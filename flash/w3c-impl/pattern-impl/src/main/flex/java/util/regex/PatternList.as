@@ -240,6 +240,32 @@ package java.util.regex
 		}
 		
 		/**
+		* 	Retrieves the owner document as a pattern
+		* 	document.
+		*/
+		public function get patternDocument():PatternDocument
+		{
+			return ownerDocument as PatternDocument;
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function createPattern(
+			pattern:String = null,
+			comment:String = null ):Pattern
+		{
+			var ptn:Pattern = null;
+			
+			if( patternDocument )
+			{
+				ptn = patternDocument.createPattern(
+					pattern, comment );
+			}
+			return ptn;
+		}
+		
+		/**
 		* 	@private
 		*/
 		

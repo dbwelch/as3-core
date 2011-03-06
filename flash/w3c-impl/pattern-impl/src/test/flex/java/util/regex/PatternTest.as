@@ -168,7 +168,9 @@ package java.util.regex
 			
 			//var rule:Rule = doc.createRule( "^([0-9]+)$" );
 			
-			var rule:Rule = doc.createRule( "" );
+			var rule:Rule = doc.createRule( "^([0-9]+)$" );
+			
+			trace("PatternTest::patternDOMTest()", rule );
 			
 			rule.flags = "gi";
 			doc.appendChild( rule );
@@ -179,7 +181,7 @@ package java.util.regex
 			trace("PatternTest::patternDOMTest()", x.toXMLString() );
 		}
 		
-		[Test]
+		//[Test]
 		public function patternCompileTest():void
 		{	
 			default xml namespace = Pattern.NAMESPACE;

@@ -44,22 +44,29 @@ package java.util.regex
 		{
 			var nm:String = QualifiedName.toName(
 				Pattern.NAMESPACE_PREFIX, Rule.NAME );
+				
+			trace("[RULE NAME] PatternDocumentImpl::createRule()", nm );
+				
 			var bean:Object = createElementNS(
 				Pattern.NAMESPACE_URI, nm );
-					
-			trace("[CREATE RULE] PatternDocumentImpl::PatternDocumentImpl()", nm, bean is Rule );
-					
+				
+			trace("[GOT BEAN] PatternDocumentImpl::createRule()", bean, rule );				
+		
 			var rule:Rule = bean as Rule;
+			
+			trace("[CREATED RULE] PatternDocumentImpl::createRule()", bean, rule );
+			
 			if( rule != null )
 			{
-				trace("[RULE NODE NAME] PatternDocumentImpl::PatternDocumentImpl()",
-					rule.nodeName );
-				
 				if( pattern != null && pattern != "" )
 				{
 					rule.compile( pattern );
 				}
-				rule.comment = comment;
+				
+				if( comment != null && comment != "" )
+				{
+					rule.comment = comment;
+				}
 			}
 			return rule;
 		}
@@ -68,14 +75,31 @@ package java.util.regex
 		* 	
 		*/
 		public function createPattern(
-			pattern:String,
+			pattern:String = null,
 			comment:String = null ):Pattern
-		{
+		{	
+			var nm:String = QualifiedName.toName(
+				Pattern.NAMESPACE_PREFIX, Pattern.NAME );
+			var bean:Object = createElementNS(
+				Pattern.NAMESPACE_URI, nm );	
+						
 			//TODO: throw exception if pattern is null or the empty string
 			
-			var ptn:Pattern = Pattern( getDomBean( Pattern.NAME ) );
-			ptn.source = pattern;
-			ptn.comment = comment;
+			var ptn:Pattern = bean as Pattern;
+			
+			trace("[PTN] PatternDocumentImpl::createPattern()", ptn );
+			
+			if( ptn != null )
+			{
+				if( pattern != null && pattern != "" )
+				{
+					ptn.source = pattern;
+				}
+				if( comment != null && comment != "" )
+				{
+					ptn.comment = comment;
+				}
+			}
 			return ptn;
 		}
 	}

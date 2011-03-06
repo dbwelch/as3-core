@@ -3,6 +3,10 @@
 */
 package java.util.regex
 {
+	import org.w3c.dom.Element;
+	
+	import javax.xml.namespace.QualifiedName;
+	
 	/**
 	* 	Represents a regular expression pattern.
 	* 
@@ -85,7 +89,7 @@ package java.util.regex
 		* 	The pattern namespace <code>URI</code>.
 		*/
 		public static const NAMESPACE_URI:String = 
-			"http://ns.wav.co.uk/pattern";
+			"http://ns.wav.co.uk/ptn";
 		
 		/**
 		* 	The namespace used when creating <code>XML</code>
@@ -301,22 +305,6 @@ package java.util.regex
 		*/
 		public static const IGNORE_CASE_FLAG:String = "i";
 		
-		/**
-		* 	A pattern representing the opening of a group.
-		*/
-		public static const OPEN_GROUP:Pattern =
-			new Pattern( LPAREN );
-			
-		/*
-		*	META SEQUENCE CONSTANTS (Pattern)
-		*/
-			
-		/**
-		* 	A pattern representing the closing of a group.
-		*/
-		public static const CLOSE_GROUP:Pattern =
-			new Pattern( RPAREN );
-		
 		//
 		private var _comment:String;
 		private var _parts:Pattern;
@@ -352,12 +340,15 @@ package java.util.regex
 			source:* = null, compile:Boolean = false )
 		{
 			super();
+			
+			/*
 			if( compile === true )
 			{
 				this.compile( extractSource( source ) );
 			}else{
 				this.source = source;
 			}
+			*/
 		}
 		
 		/**
@@ -366,8 +357,139 @@ package java.util.regex
 		override public function get nodeName():String
 		{
 			//TODO: mutate localName on pattern type
+			var nm:String = super.nodeName;
+			if( nm == null )
+			{			
+				//default node name
+				nm = QualifiedName.toName(
+					Pattern.NAMESPACE_PREFIX,
+					Pattern.NAME );
+			}
 			
-			return super.nodeName;
+			
+			/*
+			var i:int = 0;
+			var name:String = this.name;
+			var x:XML = getXmlElement();
+			
+			if( !rule && !group )
+			{	
+				if( range || meta || data )
+				{
+					x = getXmlElement( null, toString() );
+				}
+				if( range )
+				{
+					x.@negated = this.negated;
+				}
+			}
+			*/
+			
+			//handle the output of pattern occurences.
+			//groups proxy the corresponding value
+			//for any subsequent quantifier or if
+			//the group is not quantified reports
+			//a count of one
+			
+			/*
+			if( !quantifier
+				&& nextPatternSibling != null && nextPatternSibling.quantifier )
+			{
+				x.@lazy = this.lazy;
+				//single quantifier occurence amount
+				if( this.minimum > -1
+					&& this.maximum > -1
+					&& this.minimum == this.maximum )
+				{
+					x.@count = this.minimum;
+				}else
+				{
+					if( this.minimum > -1 )
+					{
+						x.@min = this.minimum;
+					}
+					if( this.maximum > -1 )
+					{
+						x.@max = this.maximum;
+					}
+				}
+			}
+			
+			if( cancelled )
+			{
+				x.@cancelled = cancelled;
+			}
+			
+			//shortcut out for simple types
+			if( !rule && !group )
+			{	
+				if( range || meta || data )
+				{
+					return x;
+				}
+			}	
+			*/		
+			
+			//handle complex types
+			
+			/*
+			var ptns:Vector.<Pattern> = this.patterns;
+			var isGrouped:Boolean = !rule && group;
+			if( isGrouped )
+			{
+				ptns = children.patterns;
+			}
+			
+			if( isGrouped )
+			{
+				x.@qualified = this.qualified;
+				if( field != null )
+				{
+					x.@field = this.field;
+				}
+			}
+			
+			if( rule || source == CARET || source == DOLLAR )
+			{
+				x.@begins = begins;
+				x.@ends = ends;
+			}
+			*/
+			
+			/*
+			if( ptns != null && ptns.length > 0 )
+			{
+				var children:XML = getXmlElement( PATTERNS );
+				x.appendChild( children );
+				var ptn:Pattern = null;
+				var child:XML = null;
+				var previous:XML = null;
+				for( i = 0;i < ptns.length;i++ )
+				{
+					ptn = ptns[ i ];
+					child = ptn.xml;
+					
+					//skip quantifier elements as
+					//their values should be represented
+					//by the preceding pattern they apply to
+					if( !ptn.quantifier )
+					{
+						children.appendChild( child );
+					}
+					
+					//apply the quantifier source as an
+					//attribute of the preceding element
+					if( ptn.quantifier
+						&& previous != null )
+					{
+						previous.@quantifier = ptn.source;
+					}
+					previous = child;
+				}
+			}			
+			*/
+			
+			return nm;
 		}
 		
 		/**
@@ -684,7 +806,41 @@ package java.util.regex
 				_regex = value as RegExp;
 				//trace("Pattern::set source()", "[EXTRACTED REGEX SOURCE]", value );
 			}
+
 			return "" + value;
+		}
+		
+		/**
+		* 	@private
+		*/
+		override public function finalized():void
+		{
+			super.finalized();
+			
+			trace("Pattern::finalized()", this, this.source );
+			
+			if( range )
+			{
+				setAttribute( "ptn:negated", "" + this.negated );
+			}
+			
+			/*
+			var src:Element = ownerDocument.createElementNS(
+				NAMESPACE_URI, QualifiedName.toName(
+					NAMESPACE_PREFIX, SOURCE ) );
+					
+			trace("[GOT SOURCE ELEMENT] Pattern::extractSource()", src );
+			
+			appendChild( src );
+			
+			if( rule )
+			{			
+				//appendChild( getXmlElement( SOURCE, this.source ) );
+			}else
+			{
+				//appendChild( getXmlElement( SOURCE, toString() ) );
+			}	
+			*/		
 		}
 		
 		/**
@@ -708,7 +864,7 @@ package java.util.regex
 		{
 			if( _parts == null )
 			{
-				_parts = new Pattern();
+				_parts = createPattern();
 				_parts.name = PARTS;
 			}
 			return _parts;
@@ -973,8 +1129,8 @@ package java.util.regex
 			contents:Pattern = null,
 			close:Boolean = false ):Pattern
 		{
-			var grp:Pattern = new Pattern();
-			grp.appendChild( OPEN_GROUP );
+			var grp:Pattern = createPattern();
+			grp.appendChild( createPattern( LPAREN ) );
 			if( contents != null )
 			{
 				//TODO
@@ -982,7 +1138,7 @@ package java.util.regex
 			}
 			if( close === true )
 			{
-				grp.appendChild( CLOSE_GROUP );
+				grp.appendChild( createPattern( RPAREN ) );
 			}
 			return grp;
 		}
@@ -1057,7 +1213,7 @@ package java.util.regex
 		{
 			if( group )
 			{
-				var output:Pattern = new Pattern();
+				var output:Pattern = createPattern();
 				var ptns:Vector.<Pattern> = this.patterns;
 				var ptn:Pattern = null;
 				for( var i:int = 0;i < ptns.length;i++ )
@@ -1420,7 +1576,7 @@ package java.util.regex
 				//no regex special character match
 				if( results == null )
 				{
-					ptn = new Pattern( _compiled );
+					ptn = createPattern( _compiled );
 					parentTarget.appendChild( ptn );
 					parts.appendChild( ptn );
 					return target;
@@ -1459,7 +1615,7 @@ package java.util.regex
 						//add the opening meta group character
 						//to a pattern used to represent the entire
 						//group contents
-						current = new Pattern( ptn.source );
+						current = createPattern( ptn.source );
 						current.appendChild( ptn );
 						current.setOpen( true );
 						ptn = current;
@@ -1534,7 +1690,7 @@ package java.util.regex
 							}
 						}
 
-						ptn = new Pattern( data );
+						ptn = createPattern( data );
 						
 						//trace("[COMPILE] Pattern::compile()", "[ADDING CHUNK]", data );
 						
@@ -1565,7 +1721,7 @@ package java.util.regex
 						position = results.index;
 						if( results[ 1 ] as String != null )
 						{
-							ptn = new Pattern(
+							ptn = createPattern(
 								results[ 1 ] as String );
 						}
 					}
@@ -1597,7 +1753,7 @@ package java.util.regex
 		internal function getCompilationPattern(
 			data:String ):Pattern
 		{
-			return new Pattern( data );
+			return createPattern( data );
 		}
 		
 		/**
@@ -1889,7 +2045,7 @@ package java.util.regex
 		{
 			if( output == null )
 			{
-				output = new Pattern();
+				output = createPattern();
 			}
 			
 			if( targets == null )
@@ -1912,8 +2068,8 @@ package java.util.regex
 					if( ptn.meta || ptn.data )
 					{
 						//convert plain patterns to groups
-						grp = new Pattern();
-						grp.appendChild( new Pattern( LPAREN ) );	
+						grp = createPattern();
+						grp.appendChild( createPattern( LPAREN ) );	
 						grp.appendChild( ptn );
 						
 						//look ahead and swallow non-group patterns
@@ -1930,8 +2086,8 @@ package java.util.regex
 							if( next.range )
 							{
 								//trace("[FOUND RANGE ADD TO PREVIOUS] Pattern::explode()", next, ptn, group );
-								grp.appendChild( new Pattern( RPAREN ) );
-								grp.appendChild( new Pattern( LPAREN ) );
+								grp.appendChild( createPattern( RPAREN ) );
+								grp.appendChild( createPattern( LPAREN ) );
 								grp.appendChild( next );					
 							}else
 							{
@@ -1939,7 +2095,7 @@ package java.util.regex
 								//trace("[FOUND QUANTIFIER/CHUNK ADD TO PREVIOUS] Pattern::explode()", next, ptn, grp );								
 							}
 						}
-						grp.appendChild( new Pattern( RPAREN ) );
+						grp.appendChild( createPattern( RPAREN ) );
 						output.appendChild( grp );
 					}
 				}
@@ -1976,16 +2132,16 @@ package java.util.regex
 				
 				if( requiresGroup )
 				{
-					output.appendChild( new Pattern( LPAREN ) );
+					output.appendChild( createPattern( LPAREN ) );
 				}
 				
 				//create a group to encapsulate
 				//each extracted group
-				var tmp:Pattern = new Pattern();
+				var tmp:Pattern = createPattern();
 				
 				//double the opening group so we maintain
 				//the original grouping
-				tmp.appendChild( new Pattern( LPAREN ) );
+				tmp.appendChild( createPattern( LPAREN ) );
 				
 				//add the positional group to the output
 				output.appendChild( tmp );
@@ -2045,7 +2201,7 @@ package java.util.regex
 			}
 			
 			//close the temp group
-			tmp.appendChild( new Pattern( RPAREN ) );
+			tmp.appendChild( createPattern( RPAREN ) );
 					
 			if( i < ( l - 1 ) )
 			{
@@ -2069,7 +2225,7 @@ package java.util.regex
 			
 			if( requiresGroup )
 			{
-				output.appendChild( new Pattern( RPAREN ) );
+				output.appendChild( createPattern( RPAREN ) );
 			}
 			return tmp;
 		}				

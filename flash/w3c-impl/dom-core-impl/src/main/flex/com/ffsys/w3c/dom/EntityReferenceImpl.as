@@ -57,7 +57,6 @@ package com.ffsys.w3c.dom
 	public class EntityReferenceImpl extends ParentNode
 		implements EntityReference
 	{
-		private var _name:String;
 		private var _baseURI:String;
 		
 		/**
@@ -76,9 +75,17 @@ package com.ffsys.w3c.dom
 			name:String = null )
 		{
 			super( owner );
-			_name = name;
+			setInternalNodeName( name );
 			setReadOnly( true );
 			setNeedsSyncChildren( true );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get name():String
+		{
+			return nodeName;
 		}
 		
 		/**

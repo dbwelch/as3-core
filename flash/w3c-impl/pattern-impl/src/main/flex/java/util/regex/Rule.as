@@ -45,6 +45,16 @@ package java.util.regex
 		}
 		
 		/**
+		* 	@private
+		*/
+		override public function get nodeName():String
+		{		
+			return QualifiedName.toName(
+				Pattern.NAMESPACE_PREFIX,
+				NAME );
+		}
+		
+		/**
 		* 	The modifiers for this rule.
 		* 
 		* 	These can include the following:

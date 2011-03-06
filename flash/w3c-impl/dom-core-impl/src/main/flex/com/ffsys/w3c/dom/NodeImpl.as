@@ -222,6 +222,17 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	@private
+		* 
+		* 	Allows derived implementations to set the
+		* 	node name.
+		*/
+		protected function setInternalNodeName( name:String, uri:String = null ):void
+		{
+			setNodeName( name, uri );
+		}
+		
+		/**
+		* 	@private
 		*/
 		internal function setNodeName( name:String, uri:String = null ):Namespace
 		{

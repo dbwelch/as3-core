@@ -22,7 +22,7 @@ package java.util.regex
 		* 	
 		*/
 		function createPattern(
-			pattern:String,
+			pattern:String = null,
 			comment:String = null ):Pattern;		
 	}
 }
