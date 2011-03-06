@@ -2,27 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>io</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.java.beans</groupId>
+		<artifactId>java-beans-parent</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.io</groupId>
-	<artifactId>log</artifactId>
+		<groupId>com.ffsys.java.beans</groupId>
+	<artifactId>java-beans</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>log</name>
+	<name>java-beans</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>inspector</artifactId>
+			<groupId>com.ffsys.java</groupId>
+			<artifactId>java-lang</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>
+		</dependency>	
 	</dependencies>
-	<properties>
-		<compiler.debug>true</compiler.debug>
-	</properties>
 	<profiles>
 		<profile>
 			<id>asdoc</id>
@@ -52,11 +49,23 @@
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>latex-maven-plugin</artifactId>
 						<version>1.0</version>
-					</plugin>
+					</plugin>					
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>1.3</version>
+					</plugin>
+					
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-install-plugin</artifactId>
+						<version>2.3.1</version>
+					</plugin>
+					
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<version>2.5</version>
 					</plugin>					
 				</plugins>		
 			</build>

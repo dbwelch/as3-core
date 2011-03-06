@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>utils</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.flashx.util</groupId>
+		<artifactId>flashx-util</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.utils</groupId>
+	<groupId>com.ffsys.flashx.util</groupId>
 	<artifactId>properties</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>properties</name>
@@ -20,25 +20,25 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>collections</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>primitives</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>locale</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>substitution</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

@@ -6,10 +6,10 @@
 		<artifactId>flashx-parent</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys</groupId>
-	<artifactId>utils</artifactId>
+	<groupId>com.ffsys.flashx.util</groupId>
+	<artifactId>flashx-util</artifactId>
 	<version>1.1-SNAPSHOT</version>
-	<name>utils</name>
+	<name>flashx-util</name>
 	<packaging>pom</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<modules>

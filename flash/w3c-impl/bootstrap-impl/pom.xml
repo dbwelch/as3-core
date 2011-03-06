@@ -21,8 +21,8 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys</groupId>
-			<artifactId>ioc</artifactId>
+			<groupId>com.ffsys.java.beans</groupId>
+			<artifactId>java-beans-ioc</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		

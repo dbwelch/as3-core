@@ -2,14 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>as3-core</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.java.beans</groupId>
+		<artifactId>java-beans-parent</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
+	
+	<groupId>com.ffsys.java.beans</groupId>
+	<artifactId>java-beans-ioc</artifactId>	
+	
+	<!--
 	<groupId>com.ffsys</groupId>
 	<artifactId>ioc</artifactId>
+	-->
+	
 	<version>1.1-SNAPSHOT</version>
-	<name>ioc</name>
+	<name>java-beans-ioc</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<properties>
@@ -41,25 +48,25 @@
 			<type>swc</type>
 		</dependency>	
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>primitives</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>properties</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>substitution</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

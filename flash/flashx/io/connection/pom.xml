@@ -21,21 +21,21 @@
 		</dependency>	
 		
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>identifier</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 		
 		<dependency>
-			<groupId>com.ffsys.utils</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>inspector</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
