@@ -7,7 +7,7 @@ package java.util
 	/**
 	* 	
 	*/
-	public class AbstractMap extends Object
+	public class AbstractMap extends JavaObject
 		implements Map
 	{
 		private var _dictionary:Array = new Array();
@@ -127,7 +127,14 @@ package java.util
 		*/
 		public function entrySet():Set
 		{
-			return null;
+			var output:Set = new HashSet();
+			var entry:MapEntry = null;
+			for( var i:int = 0;i < _dictionary.length;i++ )
+			{
+				entry = MapEntry( _dictionary[ i ] );
+				output.add( entry );
+			}
+			return output;
 		}
 		
 		/**
@@ -160,7 +167,7 @@ package java.util
 			entry.value = value;
 			
 			_dictionary[ index ] = entry;
-			_dictionary[ key ] = value;
+			_dictionary[ key ] = entry;
 			
 			return value;
 		}
@@ -188,21 +195,9 @@ package java.util
 		}
 		
 		/**
-		* 	@inheritDoc
-		*/
-		public function hashCode():int
-		{
-			if( _hashCode == -1 )
-			{
-				_hashCode = MemoryAddress.valueOf( this );
-			}
-			return _hashCode;
-		}
-		
-		/**
 		*	@inheritDoc
 		*/
-		public function equals( o:Object ):Boolean
+		override public function equals( o:Object ):Boolean
 		{
 			//TODO
 			return false;
@@ -337,40 +332,5 @@ class AbstractMapIterator implements Iterator {
 	public function remove():void
 	{
 		//TODO
-	}
-}
-
-/**
-*	@private
-*/
-class MapEntry {
-	
-	/**
-	* 	The key for the map entry.
-	*/
-	public var key:Object;
-	
-	/**
-	* 	The value for the map entry.
-	*/
-	public var value:Object;
-	
-	/**
-	* 	The index of the entry.
-	*/
-	public var index:uint;
-	
-	/**
-	* 	Creates a <code>MapEntry</code> instance.
-	* 
-	* 	@param key The key for the map entry.
-	* 	@param value The value for the map entry.
-	* 	@param index The index of the entry.
-	*/
-	public function MapEntry( key:Object, value:Object, index:uint )
-	{
-		this.key = key;
-		this.value = value;		
-		this.index = index;
 	}
 }

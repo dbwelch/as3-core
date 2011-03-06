@@ -45,12 +45,19 @@ package com.ffsys.w3c.dom
 			name:String = null )
 		{
 			super( owner );
-			setTagName( name );
+			if( name != null )
+			{
+				setNodeName( name );
+			}
 		}
 		
 		/**
 		* 	@private
+		* 
+		* 	Required so the 
 		*/
+		
+		/*
 		override internal function setNodeName( name:String, uri:String = null ):Namespace
 		{
 			var ns:Namespace = null
@@ -67,6 +74,7 @@ package com.ffsys.w3c.dom
 			}
 			return ns;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
@@ -75,22 +83,6 @@ package com.ffsys.w3c.dom
 		{
 			return NodeType.ELEMENT_NODE;
 		}
-		
-		/**
-		* 	A title for the element.
-		*/
-		
-		/*
-		public function get title():String
-		{
-			return _title;
-		}
-		
-		public function set title( value:String ):void
-		{
-			_title = value;
-		}
-		*/
 		
 		/**
 		* 	Attempts to retrieve a namespace prefix from
@@ -485,21 +477,29 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@inheritDoc
 		*/
+		
+		/*
 		override public function get nodeName():String
 		{
+			trace("[ELEM GET NODE NAME] ElementImpl::get nodeName()", tagName );
 			return tagName;
 		}
+		*/
 		
 		/**
 		* 	@inheritDoc
 		*/
 		public function get tagName():String
 		{
+			return nodeName;
+			
+			/*
 			if( _tagName != null )
 			{
 				return _tagName;
 			}
-			return null;
+			return this.beanName;
+			*/
 		}
 		
 		/**
@@ -595,6 +595,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function getAttributeNode( localName:String ):Attr
 		{
+			/*
 			var attr:Node = null;
 			for each( attr in attributes )
 			{
@@ -604,7 +605,8 @@ package com.ffsys.w3c.dom
 					return attr as Attr;
 				}
 			}
-			return null;
+			*/
+			return attributes.getNamedItem( localName ) as Attr;
 		}
 		
 		/**
@@ -662,15 +664,9 @@ package com.ffsys.w3c.dom
 		*/
 		public function removeAttributeNode( attr:Attr ):Attr
 		{
-			var child:Attr = null;
-			for( var i:int = 0;i < attributes.length;i++ )
+			if( attr != null )
 			{
-				child = attributes.item( i ) as Attr;
-				if( child.nodeName == attr.nodeName )
-				{
-					attributes.removeNamedItem( attr.nodeName );
-					break;
-				}
+				attributes.removeNamedItem( attr.nodeName );
 			}
 			return attr;
 		}
@@ -1018,13 +1014,18 @@ package com.ffsys.w3c.dom
 		
 		/**
 		* 	@private
-		* 
-		* 	Invoked by the parser so that this node knows
-		* 	about any associated namespace.
 		*/
+		
+		/*
 		internal function setTagName( tagName:String, ns:Namespace = null ):void
 		{
+			if( tagName == null )
+			{
+				return;
+			}
+			trace("[SET TAG NAME] ElementImpl::setTagName()", tagName );
 			_tagName = tagName;
 		}
+		*/
 	}
 }

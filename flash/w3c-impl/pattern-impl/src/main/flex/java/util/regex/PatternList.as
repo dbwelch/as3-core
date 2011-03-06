@@ -277,25 +277,6 @@ package java.util.regex
 		}
 		
 		/**
-		* 	Adds a pattern part to test against.
-		* 	
-		* 	@param part The pattern part to add.
-		* 
-		* 	@return Whether the part was added.
-		*/
-		override public function appendChild( part:Node ):Node
-		{
-			if( part != null )
-			{
-				//part.setOwner( this as Pattern );
-				//part.setIndex( patterns.length );
-				//patterns.push( part );
-				//return true;
-			}
-			return super.appendChild( part );
-		}
-		
-		/**
 		*	Removes pattern(s) from this pattern.
 		* 
 		* 	@param start The index to start removing

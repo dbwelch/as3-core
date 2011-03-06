@@ -15,11 +15,18 @@ package java.util.regex.bootstrap
 	import java.util.regex.Rule;
 	import java.util.regex.RuleList;
 	
+	import javax.xml.namespace.QualifiedName;
+	
 	/**
 	* 	A boostrap document for the DOM Pattern implementation.
 	*/
 	public class DOMPatternBootstrap extends DOMXMLBootstrap
 	{
+		/**
+		* 	The name of the pattern bootstrap bean document.
+		*/
+		public static const NAME:String = "Pattern";
+		
 		/**
 		* 	Creates a <code>DOMPatternBootstrap</code> instance.
 		* 
@@ -68,6 +75,9 @@ package java.util.regex.bootstrap
 			beans:IBeanDocument ):void
 		{
 			super.doWithBeans( beans );
+			
+			trace("[ADDING PATTERN BEANS TO] DOMPatternBootstrap::doWithBeans()", beans, beans.id );
+			
 			var descriptor:IBeanDescriptor = null;
 			descriptor = new BeanDescriptor(
 				PatternDocumentImpl.NAME );
@@ -75,17 +85,20 @@ package java.util.regex.bootstrap
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
-				RuleList.NAME );
+				QualifiedName.toName(
+					Pattern.NAMESPACE_PREFIX, RuleList.NAME ) );
 			descriptor.instanceClass = RuleList;
 			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
-				Rule.NAME );
+				QualifiedName.toName(
+					Pattern.NAMESPACE_PREFIX, Rule.NAME ) );
 			descriptor.instanceClass = Rule;
-			beans.addBeanDescriptor( descriptor );			
+			beans.addBeanDescriptor( descriptor );
 			
 			descriptor = new BeanDescriptor(
-				Pattern.NAME );
+				QualifiedName.toName(
+					Pattern.NAMESPACE_PREFIX, Pattern.NAME ) );
 			descriptor.instanceClass = Pattern;
 			beans.addBeanDescriptor( descriptor );			
 		}		

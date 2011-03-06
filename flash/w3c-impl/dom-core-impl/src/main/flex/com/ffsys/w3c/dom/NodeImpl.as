@@ -12,6 +12,8 @@ package com.ffsys.w3c.dom
 	
 	import com.ffsys.utils.string.PropertyNameConverter;
 	
+	import javax.xml.namespace.QualifiedName;
+	
 	/**
 	*	Represents a <code>DOM</code> node.
 	*
@@ -40,6 +42,7 @@ package com.ffsys.w3c.dom
 		*/
 		protected var _ownerDocument:Document;
 		
+		private var _nodeName:String;
 		private var _nodeValue:String;
 		private var _childNodes:NodeList;
 		private var _attributes:NamedNodeMap;
@@ -210,7 +213,11 @@ package com.ffsys.w3c.dom
 		*/
 		public function get nodeName():String
 		{
-			return beanName;
+			if( _nodeName != null )
+			{
+				return _nodeName;
+			}
+			return this.beanName;
 		}
 		
 		/**
@@ -218,12 +225,14 @@ package com.ffsys.w3c.dom
 		*/
 		internal function setNodeName( name:String, uri:String = null ):Namespace
 		{
-			this.beanName = name;
-			
 			var ns:Namespace = null;
 			if( name != null )
 			{
+				_nodeName = name;
 				
+				trace("[SETTING NODE NAME] NodeImpl::setNodeName()", this, name );
+				
+				//TOOD: check if all this is necessary?
 				var index:int = name.indexOf( ":" );
 				var prefixSpecified:Boolean = index > -1;
 				var specified:String = null;
@@ -264,6 +273,8 @@ package com.ffsys.w3c.dom
 						}else{
 							//the prefix must be valid as we have a namespaceURI
 							//specified and an unqualified name
+							
+							/*
 							if( prefix == null )
 							{
 								throw new DOMException(
@@ -272,10 +283,13 @@ package com.ffsys.w3c.dom
 									DOMException.NAMESPACE_ERR,
 									[ uri ] );
 							}
+							*/
 						}
 					}
 				}else if( uri == null )
 				{
+					
+					/*
 					if( prefixSpecified )
 					{
 						//try to find a ns uri for the specified prefix
@@ -289,6 +303,7 @@ package com.ffsys.w3c.dom
 								[ specified ] );
 						}
 					}
+					*/
 				}
 			}
 			
@@ -304,6 +319,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function get localName():String
 		{
+			//TODO
 			return beanName;
 		}
 		
@@ -707,10 +723,12 @@ package com.ffsys.w3c.dom
 				}
 				
 				//TODO: property name camel case conversion
-				var name:String = n.nodeName;
+				
+				//var name:String = n.nodeName;
 					
 				//also assign a reference by property name
-				this[ name ] = n;
+				
+				//this[ name ] = n;
 				
 				n.added();
 			}

@@ -119,6 +119,9 @@ package com.ffsys.w3c.dom
 			Assert.assertEquals( doc, ellipse.ownerDocument );
 			Assert.assertEquals( 6, el.childNodes.length );
 			
+			trace("[DOM BUILD TEST REETRIEVE ATTRIBUTE] DomBuildTest::testBuildDom()",
+				ellipse.getAttributeNode( "width" ) );
+			
 			Assert.assertTrue( ellipse.getAttributeNode( "width" ) is Node );
 			Assert.assertTrue( ellipse.getAttributeNode( "height" ) is Node );
 			Assert.assertEquals( "10", ellipse.getAttribute( "width" ) );

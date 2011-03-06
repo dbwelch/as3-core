@@ -2,18 +2,52 @@ package com.ffsys.w3c.dom
 {
 	import org.w3c.dom.*;	
 	
+	import java.lang.JavaObject;
+	import java.util.Collection;
+	import java.util.Map;
+	import java.util.TreeMap;
+	
 	/**
 	* 	@inheritDoc
 	*/
-	dynamic public class NamedNodeMapImpl extends NodeListImpl
+	dynamic public class NamedNodeMapImpl extends JavaObject
 		implements NamedNodeMap
 	{
+		private var _backing:Map;
+		
 		/**
 		* 	Creates a <code>NamedNodeMapImpl</code> instance.
 		*/
 		public function NamedNodeMapImpl()
 		{
 			super();
+			_backing = new TreeMap();
+		}
+		
+		/**
+		* 	Retrieves the underlying map that backs this
+		* 	named node map.
+		*/
+		public function map():Map
+		{
+			return _backing;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function get length():uint
+		{
+			return _backing.size();
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function item( index:uint ):Node
+		{
+			var values:Collection = _backing.values();
+			return values[ index ] as Node;
 		}
 		
 		/**
@@ -21,6 +55,8 @@ package com.ffsys.w3c.dom
 		*/
 		public function getNamedItem( name:String ):Node
 		{
+			
+			/*
 			var node:Node = null;
 			for each( node in this )
 			{
@@ -30,6 +66,9 @@ package com.ffsys.w3c.dom
 				}
 			}
 			return null;
+			*/
+			
+			return _backing.item( name ) as Node;
 		}
 		
 		/**
@@ -43,6 +82,8 @@ package com.ffsys.w3c.dom
 		*/
 		public function hasNamedItem( item:Node ):Boolean
 		{
+			
+			/*
 			var node:Node = null;
 			for each( node in this )
 			{
@@ -52,6 +93,9 @@ package com.ffsys.w3c.dom
 				}
 			}
 			return false;
+			*/
+			
+			return _backing.containsValue( item );
 		}
 		
 		/**
@@ -61,6 +105,7 @@ package com.ffsys.w3c.dom
 		{
 			if( item != null && item.nodeName != null )
 			{
+				/*
 				var existing:Node = getNamedItem( item.nodeName );
 				
 				//trace("NamedNodeMap::setNamedItem() [BEFORE]", item, item.localName, existing, length );
@@ -74,6 +119,9 @@ package com.ffsys.w3c.dom
 				}
 				
 				//trace("NamedNodeMap::setNamedItem() [AFTER]", item, length );
+				*/
+				
+				_backing.put( item.nodeName, item );
 			}
 			return item;
 		}
@@ -90,6 +138,8 @@ package com.ffsys.w3c.dom
 		{
 			if( name != null )
 			{
+				
+				/*
 				var child:Node = null;
 				for( var i:int = 0;i < length;i++ )
 				{
@@ -100,6 +150,9 @@ package com.ffsys.w3c.dom
 						return child;
 					}
 				}
+				*/
+				
+				_backing.remove( name );				
 			}
 			return null;
 		}

@@ -1,13 +1,17 @@
 package javax.xml.namespace
 {
+	import java.lang.JavaObject;
 	import java.util.Map;
 	import java.util.HashMap;
+	
+	import javax.xml.XMLConstants;
 	
 	/**
 	* 	QualifiedName represents a qualified name as defined
 	* 	in the XML specifications: XML Schema Part2:
 	* 	Datatypes specification, Namespaces in XML,
 	* 	Namespaces in XML Errata.
+	* 
 	* 
 	* 	<strong>Note:</strong> This class name could not match
 	* 	the Java equivalent <code>QName</code> due to the top-level Actionscript
@@ -28,7 +32,7 @@ package javax.xml.namespace
 	* 
 	* 	QualifiedName is immutable.
 	*/
-	public class QualifiedName extends Object
+	public class QualifiedName extends JavaObject
 	{	
 		private static const XMLNS:String = "xmlns";
 		private static const DELIMITER:String = ":";
@@ -47,13 +51,13 @@ package javax.xml.namespace
 		* 	XMLConstants.NULL_NS_URI. This value represents no
 		* 	explicitly defined Namespace as defined by the
 		* 	Namespaces in XML specification. This action preserves
-		* 	compatible behavior with QName 1.0. Explicitly
+		* 	compatible behavior with QualifiedName 1.0. Explicitly
 		* 	providing the XMLConstants.NULL_NS_URI value is
 		* 	the preferred coding style.
 		* 
 		* 	If the local part is null an IllegalArgumentException
 		* 	is thrown. A local part of "" is allowed to preserve
-		* 	compatible behavior with QName 1.0.
+		* 	compatible behavior with QualifiedName 1.0.
 		* 
 		* 	If the prefix is null, an IllegalArgumentException
 		* 	is thrown. Use XMLConstants.DEFAULT_NS_PREFIX to
@@ -118,20 +122,39 @@ package javax.xml.namespace
 			_prefix = value;
 		}
 		
-		public function equals( other:Object ):Boolean
+		override public function equals( other:Object ):Boolean
 		{
 			//TODO
 			return false;
 		}		
 		
-		public function hashCode():int
+		/**
+		* 	String representation of this QualifiedName.
+		* 
+		* 	The commonly accepted way of representing a QualifiedName as a
+		* 	String was defined by James Clark. Although this is not a
+		* 	standard specification, it is in common use, e.g.
+		* 	Transformer.setParameter(String name, Object value). This implementation
+		* 	represents a QualifiedName as: "{" + Namespace URI + "}" + local part.
+		* 
+		* 	If the Namespace URI .equals(XMLConstants.NULL_NS_URI), only the local
+		* 	part is returned. An appropriate use of this method is for debugging
+		* 	or logging for human consumption.
+		*
+		*	Note the prefix value is NOT returned as part of the String representation.
+		*
+		*	This method satisfies the general contract of Object.toString().
+		* 
+		* 	@return A string representation of this qualified name.
+		*/
+		override public function toString():String
 		{
-			return -1;
-		}
-		
-		public function toString():String
-		{
-			return null;
+			if( _namespaceURI == null
+				|| _namespaceURI == XMLConstants.NULL_NS_URI )
+			{
+				return _localPart;
+			}
+			return "{" + _namespaceURI + "}" + _localPart;
 		}
 		
 		/**

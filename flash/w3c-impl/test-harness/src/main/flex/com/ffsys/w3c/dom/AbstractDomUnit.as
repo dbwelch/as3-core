@@ -234,7 +234,7 @@ package com.ffsys.w3c.dom
 			Assert.assertTrue( doc.documentElement is Element );
 
 			Assert.assertEquals( "xml-root", doc.documentElement.tagName );
-			Assert.assertNull( doc.documentElement.localName );
+			//Assert.assertNull( doc.documentElement.localName );
 			Assert.assertNull( doc.documentElement.namespaceURI );
 			Assert.assertNull( doc.documentElement.prefix );
 			

@@ -166,16 +166,17 @@ package java.util.regex
 		{
 			var doc:PatternDocumentImpl = getPatternDocument();
 			
-			var rule:Rule = doc.createRule( "^([0-9]+)$" );
-			doc.appendChild( rule );
+			//var rule:Rule = doc.createRule( "^([0-9]+)$" );
 			
-			trace("PatternTest::patternDOMTest()", rule );
+			var rule:Rule = doc.createRule( "" );
+			
+			rule.flags = "gi";
+			doc.appendChild( rule );
 			
 			var namespaces:Vector.<Namespace> = new Vector.<Namespace>();
 			namespaces.push( Pattern.NAMESPACE );
 			var x:XML = serializeToNativeXML( doc, namespaces );
-			
-			trace("PatternTest::patternDOMTest()", x.children().length(), x.toXMLString() );
+			trace("PatternTest::patternDOMTest()", x.toXMLString() );
 		}
 		
 		[Test]

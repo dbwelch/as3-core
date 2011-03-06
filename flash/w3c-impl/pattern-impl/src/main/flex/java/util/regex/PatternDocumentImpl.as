@@ -1,7 +1,9 @@
 package java.util.regex
 {
 	import com.ffsys.w3c.dom.CoreDocumentImpl;
-	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;	
+	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;
+	
+	import javax.xml.namespace.QualifiedName;
 	
 	/**
 	* 	Represents a document of #ptnlib:term:rule;(s).
@@ -40,12 +42,25 @@ package java.util.regex
 			pattern:String = "",
 			comment:String = null ):Rule
 		{
-			var rule:Rule = Rule( getDomBean( Rule.NAME ) );
-			if( pattern != null && pattern != "" )
+			var nm:String = QualifiedName.toName(
+				Pattern.NAMESPACE_PREFIX, Rule.NAME );
+			var bean:Object = createElementNS(
+				Pattern.NAMESPACE_URI, nm );
+					
+			trace("[CREATE RULE] PatternDocumentImpl::PatternDocumentImpl()", nm, bean is Rule );
+					
+			var rule:Rule = bean as Rule;
+			if( rule != null )
 			{
-				rule.compile( pattern );
+				trace("[RULE NODE NAME] PatternDocumentImpl::PatternDocumentImpl()",
+					rule.nodeName );
+				
+				if( pattern != null && pattern != "" )
+				{
+					rule.compile( pattern );
+				}
+				rule.comment = comment;
 			}
-			rule.comment = comment;
 			return rule;
 		}
 		
@@ -56,7 +71,10 @@ package java.util.regex
 			pattern:String,
 			comment:String = null ):Pattern
 		{
+			//TODO: throw exception if pattern is null or the empty string
+			
 			var ptn:Pattern = Pattern( getDomBean( Pattern.NAME ) );
+			ptn.source = pattern;
 			ptn.comment = comment;
 			return ptn;
 		}

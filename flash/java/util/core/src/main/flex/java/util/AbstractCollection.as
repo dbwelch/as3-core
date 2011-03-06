@@ -156,12 +156,15 @@ package java.util
 		}
 		
 		/**
-		* 	
+		* 	@inheritDoc
 		*/
 		public function toArray():Array
 		{
 			var output:Array = new Array();
-			//TODO
+			for( var i:int = 0;i < items.length;i++ )
+			{
+				output.push( items[ i ] );
+			}
 			return output;
 		}
 		

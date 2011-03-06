@@ -1,14 +1,18 @@
 package com.ffsys.w3c.dom.ls.serialize
 {
-	import java.util.HashMap;
+	import java.util.TreeMap;	
+	import java.util.Map;	
 	
 	import javax.xml.namespace.QualifiedName;
-	
+
+	import org.w3c.dom.Attr;
 	import org.w3c.dom.Document;
 	import org.w3c.dom.Element;
+	import org.w3c.dom.NamedNodeMap;
 	import org.w3c.dom.Node;
 	import org.w3c.dom.ls.LSOutput;
 	
+	import com.ffsys.w3c.dom.NamedNodeMapImpl;
 	import com.ffsys.w3c.dom.ls.LSOutputImpl;
 	
 	/**
@@ -70,12 +74,31 @@ package com.ffsys.w3c.dom.ls.serialize
 				return null;
 			}
 			
-			//trace("NativeXMLSerializer::getXMLNode()", parent );
+			var i:int = 0;
+			var attributes:Map = new TreeMap();
 			
-			var attributes:HashMap = new HashMap();
+			if( node.attributes.length > 0 )
+			{
+				var mapping:NamedNodeMapImpl = NamedNodeMapImpl( node.attributes );
+				var map:Map = mapping.map();
+				var keys:Array = map.keySet().toArray();
+				var key:Object = null;
+				var attr:Attr = null;
+				for( i = 0;i < keys.length;i++ )
+				{
+					key = keys[ i ];
+					attr = Attr( map.item( key ) );
+					attributes.put( attr.name, attr.value );
+				}
+			}
 			
 			var nm:String = QualifiedName.toXMLName(
-				null, node.nodeName, attributes, getParameter( "xml-namespaces" ) );
+				null,
+				node.nodeName,
+				attributes,
+				getParameter( "xml-namespaces" ) );
+				
+			trace("NativeXMLSerializer::getXMLNode()", "GOT XML", node.nodeName, nm );
 			
 			var x:XML = new XML( nm );
 			
@@ -86,7 +109,7 @@ package com.ffsys.w3c.dom.ls.serialize
 			
 			if( node.childNodes.length > 0 )
 			{
-				for( var i:int = 0;i < node.childNodes.length;i++ )
+				for( i = 0;i < node.childNodes.length;i++ )
 				{
 					getXMLNode( node.childNodes[ i ], x );
 				}

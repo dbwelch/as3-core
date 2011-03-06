@@ -337,6 +337,10 @@ package com.ffsys.w3c.dom
 					element = new ElementImpl( this, tagName );
 				}
 			}
+			if( element != null )
+			{
+				NodeImpl( element ).setNodeName( tagName );
+			}
 			return element;
 		}
 		
@@ -387,14 +391,21 @@ package com.ffsys.w3c.dom
 			{
 				//no specific bean declared for the element
 			}finally{
-				element = new ElementImpl(
-					this,					
-					qualifiedName );
-					//TODO: extract prefix from namespaceURI
-					//new QName( namespaceURI, qualifiedName ) );
+				if( element == null )
+				{
+					element = new ElementImpl(
+						this,
+						qualifiedName );
+						//TODO: extract prefix from namespaceURI
+						//new QName( namespaceURI, qualifiedName ) );
+				}
 			}
 			
-			NodeImpl( element ).setNamespaceURI( namespaceURI );
+			if( element != null )
+			{
+				NodeImpl( element ).setNamespaceURI( namespaceURI );
+				NodeImpl( element ).setNodeName( qualifiedName );
+			}
 			return element;
 		}
 		
@@ -610,6 +621,7 @@ package com.ffsys.w3c.dom
 			
 			var doc:IBeanDocument = this.document;
 			
+			/*
 			if( namespaceURI != null
 				&& doc.id != namespaceURI )
 			{
@@ -623,9 +635,14 @@ package com.ffsys.w3c.dom
 					}
 				}
 			}
+			*/
+			
+			trace("CoreDocumentImpl::getComponentBean()", namespaceURI, doc, doc.id, beanName );
 			
 			var descriptor:IBeanDescriptor = doc.getBeanDescriptor(
 				beanName );
+				
+			trace("[DESCRIPTOR] CoreDocumentImpl::getComponentBean()", beanName, descriptor );
 				
 			if( descriptor == null )
 			{
@@ -635,7 +652,7 @@ package com.ffsys.w3c.dom
 			
 			var bean:Object = descriptor.getBean( true, false );
 			
-			//trace("Document::getDomBean()", descriptor, bean );
+			trace("[CREATED DOCUMENT BEAN] Document::getDomBean()", descriptor, bean );
 			
 			if( bean != null
 				&& properties != null )

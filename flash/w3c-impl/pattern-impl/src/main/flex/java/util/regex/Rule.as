@@ -1,5 +1,7 @@
 package java.util.regex
 {
+	import javax.xml.namespace.QualifiedName;	
+	
 	/**
 	* 	Represents a #ptnlib:term:rule;; a <em>rule</em>
 	* 	is synonymous with the entire pattern of a regular expression.
@@ -18,6 +20,11 @@ package java.util.regex
 		public static const NAME:String = "rule";
 		
 		/**
+		* 	The attribute name for the rule flags.
+		*/
+		public static const FLAGS_ATTR_NAME:String = "flags";
+		
+		/**
 		* 	Creates a <code>Rule</code> instance.
 		* 
 		* 	@param source The source for the rule.
@@ -27,19 +34,14 @@ package java.util.regex
 		*/
 		public function Rule(
 			source:* = null,
-			flags:String = "",
+			flags:String = null,
 			compile:Boolean = true )
 		{
 			super( source, compile );
-			this.flags = flags;
-		}
-		
-		/**
-		* 	@private
-		*/
-		override public function get nodeName():String
-		{
-			return NAME;
+			if( flags != null )
+			{
+				this.flags = flags;
+			}
 		}
 		
 		/**
@@ -98,8 +100,16 @@ package java.util.regex
 				value = "";
 			}
 			value = value.replace( /[^xmigs]/g, "" );
+			
 			//regex is invalidated on flag change
 			_regex = new RegExp( this.regex.source, value );
+			
+			setAttributeNS(
+				Pattern.NAMESPACE_URI,
+					QualifiedName.toName(
+						Pattern.NAMESPACE_PREFIX,
+						FLAGS_ATTR_NAME ),
+				flags );
 		}
 	}
 }

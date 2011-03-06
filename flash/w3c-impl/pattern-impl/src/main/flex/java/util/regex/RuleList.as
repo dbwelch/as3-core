@@ -20,14 +20,6 @@ package java.util.regex
 		public function RuleList()
 		{
 			super();
-		}
-		
-		/**
-		* 	@private
-		*/
-		override public function get nodeName():String
-		{
-			return NAME;
-		}		
+		}	
 	}
 }

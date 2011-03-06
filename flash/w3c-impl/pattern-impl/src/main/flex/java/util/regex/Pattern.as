@@ -365,7 +365,9 @@ package java.util.regex
 		*/
 		override public function get nodeName():String
 		{
-			return NAME;
+			//TODO: mutate localName on pattern type
+			
+			return super.nodeName;
 		}
 		
 		/**
@@ -1336,6 +1338,10 @@ package java.util.regex
 			if( name == PARTS )
 			{
 				delimiter = ",";
+			}
+			if( patterns.length == 0 && _source == null )
+			{
+				return super.toString();
 			}
 			return patterns.length > 0 ? patterns.join( delimiter ) : _source;
 		}
