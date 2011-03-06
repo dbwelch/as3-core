@@ -667,7 +667,7 @@
 		<xsl:call-template name="todo-appendix" />
 		<xsl:call-template name="bug-appendix" />
 		<xsl:call-template name="process-link-report" />
-		<xsl:call-template name="undocumented-types" />
+		<!-- <xsl:call-template name="undocumented-types" /> -->
 		
 		<!-- CUSTOM APPENDICES FIRST -->
 		

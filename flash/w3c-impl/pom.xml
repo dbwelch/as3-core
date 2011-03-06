@@ -21,6 +21,7 @@
 		<module>views-impl</module>
 		<module>html-impl</module>
 		<module>pattern-impl</module>
+		<module>pattern-spec</module>
 		
 		<module>test-harness</module>
 	</modules>
