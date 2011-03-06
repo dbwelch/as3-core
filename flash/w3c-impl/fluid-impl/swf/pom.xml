@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.fluid</groupId>
+		<groupId>com.ffsys.flash.fluid</groupId>
 		<artifactId>fluid-parent</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.fluid</groupId>
+	<groupId>com.ffsys.flash.fluid</groupId>
 	<artifactId>fluid-application</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>fluid-application</name>
@@ -14,49 +14,49 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>dom</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>net</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.java.beans</groupId>
+			<groupId>com.ffsys.flash.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>swat</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>buttons</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>css</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

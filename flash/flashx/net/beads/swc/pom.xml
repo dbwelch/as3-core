@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>beads-parent</artifactId>
-		<groupId>com.ffsys.beads</groupId>
+		<groupId>com.ffsys.flash.beads</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.beads</groupId>
+	<groupId>com.ffsys.flash.beads</groupId>
 	<artifactId>beads-swc</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>beads-swc</name>

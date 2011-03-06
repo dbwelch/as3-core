@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>net-parent</artifactId>
-		<groupId>com.ffsys.net</groupId>
+		<groupId>com.ffsys.flash.net</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.net</groupId>
+	<groupId>com.ffsys.flash.net</groupId>
 	<artifactId>asax</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>net-asax</name>
@@ -14,7 +14,7 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
+			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

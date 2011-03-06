@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>swat-parent</artifactId>
-		<groupId>com.ffsys.swat</groupId>
+		<groupId>com.ffsys.flash.swat</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys</groupId>
+	<groupId>com.ffsys.flash</groupId>
 	<artifactId>swat</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>swat-swc</name>
@@ -14,31 +14,31 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.java.beans</groupId>
+			<groupId>com.ffsys.flash.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>utils</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.io</groupId>
+			<groupId>com.ffsys.flash.io</groupId>
 			<artifactId>xml</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>css</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

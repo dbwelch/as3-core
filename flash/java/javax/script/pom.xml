@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>javax-parent</artifactId>
-		<groupId>com.ffsys.javax</groupId>
+		<groupId>com.ffsys.flash.javax</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.javax</groupId>
+	<groupId>com.ffsys.flash.javax</groupId>
 	<artifactId>javax-script</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>javax-script</name>
@@ -14,13 +14,13 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.java</groupId>
+			<groupId>com.ffsys.flash.java</groupId>
 			<artifactId>java-lang</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.java.util</groupId>
+			<groupId>com.ffsys.flash.java.util</groupId>
 			<artifactId>java-util</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

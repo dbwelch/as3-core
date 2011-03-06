@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>ui</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.flash</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.ui</groupId>
+	<groupId>com.ffsys.flash.ui</groupId>
 	<artifactId>css</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>css</name>
@@ -14,61 +14,61 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.java.beans</groupId>
+			<groupId>com.ffsys.flash.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>effects</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
+			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>primitives</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
+			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>properties</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
+			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>string</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
+			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>substitution</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>common</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>layout</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.io</groupId>
+			<groupId>com.ffsys.flash.io</groupId>
 			<artifactId>loaders</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

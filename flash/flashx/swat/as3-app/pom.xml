@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>swat-parent</artifactId>
-		<groupId>com.ffsys.swat</groupId>
+		<groupId>com.ffsys.flash.swat</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.swat</groupId>
+	<groupId>com.ffsys.flash.swat</groupId>
 	<version>1.1-SNAPSHOT</version>
 	<artifactId>swat-as3-app</artifactId>
 	<packaging>swf</packaging>
@@ -20,68 +20,68 @@
 			<scope>external</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.java.beans</groupId>
+			<groupId>com.ffsys.flash.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>swat</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>effects</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.swat</groupId>
+			<groupId>com.ffsys.flash.swat</groupId>
 			<artifactId>swat-js</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>pom</type>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>buttons</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>controls</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>runtime</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>					
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>text</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.ui</groupId>
+			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>text-core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
@@ -179,7 +179,7 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.ffsys.swat</groupId>
+									<groupId>com.ffsys.flash.swat</groupId>
 									<artifactId>swat-js</artifactId>
 									<version>1.1-SNAPSHOT</version>
 									<type>jar</type>

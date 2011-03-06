@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>as3-core</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.flash</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.w3c</groupId>
+	<groupId>com.ffsys.flash.w3c</groupId>
 	<artifactId>impl</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>impl</name>

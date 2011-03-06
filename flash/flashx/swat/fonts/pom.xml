@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>swat-parent</artifactId>
-		<groupId>com.ffsys.swat</groupId>
+		<groupId>com.ffsys.flash.swat</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.swat</groupId>
+	<groupId>com.ffsys.flash.swat</groupId>
 	<artifactId>swat-fonts</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>swat-fonts</name>

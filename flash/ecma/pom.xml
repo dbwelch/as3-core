@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>as3-core</artifactId>
-		<groupId>com.ffsys</groupId>
+		<groupId>com.ffsys.flash</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.ecma</groupId>
+	<groupId>com.ffsys.flash.ecma</groupId>
 	<artifactId>ecma-parent</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>ecma-parent</name>

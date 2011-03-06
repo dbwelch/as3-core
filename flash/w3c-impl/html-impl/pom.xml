@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.w3c</groupId>
+		<groupId>com.ffsys.flash.w3c</groupId>
 		<artifactId>impl</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.w3c.impl</groupId>
+	<groupId>com.ffsys.flash.w3c.impl</groupId>
 	<artifactId>w3c-html-impl</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>w3c-html-impl</name>
@@ -14,13 +14,13 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>		
 		<dependency>
-			<groupId>com.ffsys.w3c.impl</groupId>
+			<groupId>com.ffsys.flash.w3c.impl</groupId>
 			<artifactId>w3c-css-impl</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.w3c.impl</groupId>
+			<groupId>com.ffsys.flash.w3c.impl</groupId>
 			<artifactId>w3c-bootstrap-impl</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>

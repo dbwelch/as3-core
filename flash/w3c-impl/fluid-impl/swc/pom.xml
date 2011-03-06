@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>fluid-parent</artifactId>
-		<groupId>com.ffsys.fluid</groupId>
+		<groupId>com.ffsys.flash.fluid</groupId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.fluid</groupId>
+	<groupId>com.ffsys.flash.fluid</groupId>
 	<artifactId>fluid-swc</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<name>fluid-swc</name>
@@ -20,21 +20,21 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys</groupId>
+			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.w3c.impl</groupId>
+			<groupId>com.ffsys.flash.w3c.impl</groupId>
 			<artifactId>dom-core-impl</artifactId>
 			<version>1.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.asdoc</groupId>
+			<groupId>com.ffsys.flash.asdoc</groupId>
 			<artifactId>latex-asdoc-xslt</artifactId>
 			<type>pom</type>
 			<version>1.1-SNAPSHOT</version>			
