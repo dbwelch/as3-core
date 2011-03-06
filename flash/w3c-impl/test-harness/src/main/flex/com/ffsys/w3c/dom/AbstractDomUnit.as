@@ -8,14 +8,21 @@ package com.ffsys.w3c.dom
 	import com.ffsys.w3c.dom.xml.XMLDocumentImpl;	
 	import com.ffsys.w3c.dom.xml.XMLDOMImplementationImpl;
 	
+	import com.ffsys.w3c.dom.ls.LSOutputImpl;	
+	
 	import org.w3c.dom.Document;
 	import org.w3c.dom.DocumentType;
 	import org.w3c.dom.Element;
+	import org.w3c.dom.DOMConfiguration;
 	import org.w3c.dom.DOMException;
 	import org.w3c.dom.DOMFeature;
 	import org.w3c.dom.DOMImplementation;
 	import org.w3c.dom.DOMImplementationSource;
 	import org.w3c.dom.DOMVersion;
+	
+	import org.w3c.dom.ls.LSSerializer;	
+	import org.w3c.dom.ls.LSOutput;
+	import org.w3c.dom.ls.DOMImplementationLS;
 	
 	import org.w3c.dom.html.HTMLDocument;
 	import org.w3c.dom.html.HTMLDOMImplementation;
@@ -233,6 +240,37 @@ package com.ffsys.w3c.dom
 			
 			_document = doc;
 			return _document;
+		}
+		
+		
+		/**
+		* 	@private
+		*/
+		protected function serializeToNativeXML(
+			doc:Document, namespaces:Vector.<Namespace> = null ):XML
+		{
+			Assert.assertNotNull( doc );
+			
+			var impl:DOMImplementationLS = DOMImplementationLS( doc.implementation );
+			Assert.assertNotNull( impl );
+			
+			//create a serializer
+			var serializer:LSSerializer = impl.createLSSerializer();
+			Assert.assertNotNull( serializer );	
+			
+			var config:DOMConfiguration = serializer as DOMConfiguration;
+			config.setParameter( "xml-declaration", false );
+			
+			//TODO: check for an existing defined parameter
+			config.setParameter( "xml-namespaces", namespaces );
+			Assert.assertNotNull( config );
+			
+			var output:LSOutput = impl.createLSOutput();
+			Assert.assertNotNull( output );
+		
+			LSOutputImpl( output ).e4x = new XML();
+			serializer.write( doc, output );
+			return LSOutputImpl( output ).e4x;
 		}
 	}
 }

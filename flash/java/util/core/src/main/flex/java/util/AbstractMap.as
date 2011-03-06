@@ -112,7 +112,14 @@ package java.util
 		*/
 		public function keySet():Set
 		{
-			return null;
+			var output:Set = new HashSet();
+			var entry:MapEntry = null;
+			for( var i:int = 0;i < _dictionary.length;i++ )
+			{
+				entry = MapEntry( _dictionary[ i ] );
+				output.add( entry.key );
+			}
+			return output;
 		}
 		
 		/**

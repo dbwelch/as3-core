@@ -34,6 +34,23 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	Adds a string to this list.
+		* 
+		* 	@param s The string to add.
+		* 
+		* 	@return Whether the string was added.
+		*/
+		public function add( s:String ):Boolean
+		{
+			if( s != null )
+			{
+				this.list.push( s );
+				return true;
+			}
+			return false;
+		}
+		
+		/**
 		* 	The encapsulated list of string values.
 		* 
 		* 	Operating on this <code>Vector</code> will

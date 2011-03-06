@@ -56,9 +56,6 @@ package java.util.regex
 		{
 			//get the DOM registry
 			var registry:DOMImplementationRegistry = getRegistry();
-			
-			trace("PatternTest::getPatternImplementation()", registry.sources.length );
-			
 			//retrieve an implementation for "Pattern"
 			var impl:DOMImplementation = registry.getDOMImplementation(
 				"Pattern 3.0" );
@@ -168,7 +165,17 @@ package java.util.regex
 		public function patternDOMTest():void
 		{
 			var doc:PatternDocumentImpl = getPatternDocument();
-			//trace("PatternTest::patternDOMTest()", doc.xml.toXMLString() );
+			
+			var rule:Rule = doc.createRule( "^([0-9]+)$" );
+			doc.appendChild( rule );
+			
+			trace("PatternTest::patternDOMTest()", rule );
+			
+			var namespaces:Vector.<Namespace> = new Vector.<Namespace>();
+			namespaces.push( Pattern.NAMESPACE );
+			var x:XML = serializeToNativeXML( doc, namespaces );
+			
+			trace("PatternTest::patternDOMTest()", x.children().length(), x.toXMLString() );
 		}
 		
 		[Test]

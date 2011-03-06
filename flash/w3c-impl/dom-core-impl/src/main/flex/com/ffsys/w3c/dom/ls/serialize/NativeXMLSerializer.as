@@ -1,5 +1,7 @@
 package com.ffsys.w3c.dom.ls.serialize
 {
+	import java.util.HashMap;
+	
 	import javax.xml.namespace.QualifiedName;
 	
 	import org.w3c.dom.Document;
@@ -39,11 +41,9 @@ package com.ffsys.w3c.dom.ls.serialize
 				return false;
 			}
 			
-			var x:XML = LSOutputImpl( destination ).e4x;
-			var child:XML = getXMLNode( node, x );
-
-			trace("NativeXMLSerializer::write()", node, x.toXMLString() );
-			
+			var x:XML = getXMLNode( node, null );
+			LSOutputImpl( destination ).e4x = x;
+			//trace("[WRITTEN XML] NativeXMLSerializer::write()", node, x.toXMLString() );
 			return true;
 		}
 		
@@ -64,23 +64,23 @@ package com.ffsys.w3c.dom.ls.serialize
 				node = Document( node ).documentElement;
 			}
 			
-			//the node must be an: element | text | comment | processing instruction
+			//the node must be an: element | text | comment | cdata | processing instruction
 			if( !( node is Element ) )
 			{
 				return null;
 			}
 			
-			var prefix:String = node.lookupPrefix(
-				node.namespaceURI );
-			var nm:String = QualifiedName.toXMLName(
-				prefix, node.nodeName );
+			//trace("NativeXMLSerializer::getXMLNode()", parent );
 			
-			trace("NativeXMLSerializer::getXMLNode()", node, node.nodeName, nm );
+			var attributes:HashMap = new HashMap();
+			
+			var nm:String = QualifiedName.toXMLName(
+				null, node.nodeName, attributes, getParameter( "xml-namespaces" ) );
 			
 			var x:XML = new XML( nm );
+			
 			if( parent != null )
 			{
-				trace("NativeXMLSerializer::getXMLNode()", "APPENDING CHILD" );
 				parent.appendChild( x );
 			}
 			

@@ -1,6 +1,7 @@
 package javax.xml.namespace
 {
 	import java.util.Map;
+	import java.util.HashMap;
 	
 	/**
 	* 	QualifiedName represents a qualified name as defined
@@ -29,6 +30,7 @@ package javax.xml.namespace
 	*/
 	public class QualifiedName extends Object
 	{	
+		private static const XMLNS:String = "xmlns";
 		private static const DELIMITER:String = ":";
 		
 		private var _namespaceURI:String;
@@ -156,24 +158,36 @@ package javax.xml.namespace
 		* 
 		* 	@param prefix The namespace prefix.
 		* 	@param localName The local name for the qualified name.
+		* 	@param attributes A map of attributes.
+		* 	@param namespaces A list of namespaces to add as attributes.
 		* 
-		* 	@return A fully qualified name wrapped in a self-closing
+		* 	@return A fully qualified element wrapped in a self-closing
 		* 	tag.
 		*/
 		public static function toXMLName(
 			prefix:String,
 			localName:String,
-			attributes:Map = null ):String
+			attributes:Map = null,
+			namespaces:Vector.<Namespace> = null ):String
 		{
+			var i:int = 0;
 			var output:String = "<" + toName( prefix, localName );
+
+			if( namespaces != null )
+			{
+				var ns:Namespace = null;
+				for( i = 0;i < namespaces.length;i++ )
+				{
+					ns = namespaces[ i ];
+					output += " " + toName( XMLNS, ns.prefix )  + "=\"" + ns.uri + "\"";
+				}
+			}
+			
 			if( attributes != null )
 			{
-				var keys:Array = attributes.keySet().toArray();
-				
-				trace("[GOT ATTRIBUTES KEYS] QualifiedName::toXMLName()", keys );
-				
+				var keys:Array = attributes.keySet().toArray();				
 				var key:String = null;
-				for( var i:int = 0;i < keys.length;i++ )
+				for( i = 0;i < keys.length;i++ )
 				{
 					key = String( keys[ i ] );
 					output += " " + key  + "=\"" + attributes.item( key ) + "\"";

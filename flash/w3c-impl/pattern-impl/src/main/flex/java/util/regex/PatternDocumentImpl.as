@@ -13,6 +13,7 @@ package java.util.regex
 	*	@since  07.03.2011
 	*/
 	public class PatternDocumentImpl extends XMLDocumentImpl
+		implements PatternDocument
 	{
 		/**
 		* 	The bean name for a pattern document.
@@ -32,13 +33,20 @@ package java.util.regex
 		* 
 		* 	@param pattern The source pattern.
 		* 	@param comment An optional comment for the rule.
+		* 
+		* 	@return The created rule.
 		*/
 		public function createRule(
 			pattern:String = "",
 			comment:String = null ):Rule
 		{
-			//TODO
-			return null;
+			var rule:Rule = Rule( getDomBean( Rule.NAME ) );
+			if( pattern != null && pattern != "" )
+			{
+				rule.compile( pattern );
+			}
+			rule.comment = comment;
+			return rule;
 		}
 		
 		/**
@@ -48,8 +56,9 @@ package java.util.regex
 			pattern:String,
 			comment:String = null ):Pattern
 		{
-			//
-			return null;
+			var ptn:Pattern = Pattern( getDomBean( Pattern.NAME ) );
+			ptn.comment = comment;
+			return ptn;
 		}
 	}
 }

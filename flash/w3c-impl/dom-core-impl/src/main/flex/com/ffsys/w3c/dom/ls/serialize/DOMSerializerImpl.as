@@ -76,6 +76,8 @@ package com.ffsys.w3c.dom.ls.serialize
 			if( destination is LSOutputImpl && ( LSOutputImpl( destination ).e4x is XML ) )
 			{
 				var serializer:NativeXMLSerializer = new NativeXMLSerializer();
+				//copy over the configuration
+				copy( serializer );
 				return serializer.write( node, destination );
 			}
 			return false;

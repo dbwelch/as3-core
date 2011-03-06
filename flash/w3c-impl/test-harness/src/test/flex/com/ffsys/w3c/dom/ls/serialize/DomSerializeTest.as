@@ -58,35 +58,9 @@ package com.ffsys.w3c.dom.ls.serialize
 			assertOnLsImplementation( impl );
 			
 			var doc:Document = getHTMLDocument();
-			serializeToNativeXML( doc );
-		}
-		
-		/**
-		* 	@private
-		*/
-		protected function serializeToNativeXML( doc:Document ):XML
-		{
-			Assert.assertNotNull( doc );
+			var x:XML = serializeToNativeXML( doc );
 			
-			var impl:DOMImplementationLS = DOMImplementationLS( doc.implementation );
-			Assert.assertNotNull( impl );
-			
-			
-			//create a serializer
-			var serializer:LSSerializer = impl.createLSSerializer();
-			Assert.assertNotNull( serializer );	
-			
-			var config:DOMConfiguration = serializer as DOMConfiguration;
-			config.setParameter( "xml-declaration", false );
-			Assert.assertNotNull( config );
-			
-			var output:LSOutput = impl.createLSOutput();
-			Assert.assertNotNull( output );
-		
-			var x:XML = new XML();
-			LSOutputImpl( output ).e4x = x;
-			serializer.write( doc, output );
-			return x;				
+			trace("DomSerializeTest::testHTMLImpl()", x.toXMLString() );
 		}
 		
 		/**

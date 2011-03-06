@@ -909,9 +909,9 @@ package java.util.regex
 	dynamic public class Pattern extends PatternList
 	{	
 		/**
-		* 	The bean name for a rule.
+		* 	The bean name for a pattern.
 		*/
-		public static const NAME:String = "rule";		
+		public static const NAME:String = "pattern";		
 		
 		/*
 		*	TYPE CONSTANTS (uint)
@@ -976,7 +976,7 @@ package java.util.regex
 		* 	The pattern namespace <code>URI</code>.
 		*/
 		public static const NAMESPACE_URI:String = 
-			"http://pattern.freeformsystems.com";
+			"http://ns.wav.co.uk/pattern";
 		
 		/**
 		* 	The namespace used when creating <code>XML</code>
@@ -1249,6 +1249,14 @@ package java.util.regex
 			}else{
 				this.source = source;
 			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		override public function get nodeName():String
+		{
+			return NAME;
 		}
 		
 		/**

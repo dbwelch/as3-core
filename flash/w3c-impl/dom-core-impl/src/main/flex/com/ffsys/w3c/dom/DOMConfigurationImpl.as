@@ -9,11 +9,38 @@ package com.ffsys.w3c.dom
 		implements DOMConfiguration
 	{
 		/**
+		* 	@private
+		*/
+		protected var parameters:Object = new Object();
+		
+		/**
 		* 	Creates a <code>DOMConfigurationImpl</code> instance.
 		*/
 		public function DOMConfigurationImpl()
 		{
 			super();
+		}
+		
+		/**
+		* 	Copies this configuration into another configuration.
+		* 
+		* 	@param config The configuration to copy into.
+		* 
+		* 	@return The configuration being copied into.
+		*/
+		public function copy( config:DOMConfiguration ):DOMConfiguration
+		{
+			if( config != null )
+			{
+				var names:DOMStringList = parameterNames;
+				var nm:String = null;
+				for( var i:int = 0;i < names.length;i++ )
+				{
+					nm = names[ i ];
+					config.setParameter( nm, getParameter( nm ) );
+				}
+			}
+			return config;
 		}
 	
 		/**
@@ -21,8 +48,12 @@ package com.ffsys.w3c.dom
 		*/
 		public function get parameterNames():DOMStringList
 		{
-			//TODO
-			return null;
+			var list:DOMStringListImpl = new DOMStringListImpl();
+			for( var z:String in parameters )
+			{
+				list.add( z );
+			}
+			return list;
 		}
 		
 		/**
@@ -30,7 +61,10 @@ package com.ffsys.w3c.dom
 		*/
 		public function setParameter( name:String, value:* ):void
 		{
-			//TODO
+			if( canSetParameter( name, value ) )
+			{
+				parameters[ name ] = value;
+			}
 		}
 		
 		/**
@@ -38,8 +72,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function getParameter( name:String ):*
 		{
-			//TODO
-			return null;
+			return parameters[ name ];
 		}
 		
 		/**
@@ -47,8 +80,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function canSetParameter( name:String, value:* ):Boolean
 		{
-			//TODO
-			return false;
+			return true;
 		}
 	}
 }

@@ -236,7 +236,7 @@ package java.util.regex
 		*/
 		public function get owner():PatternList
 		{
-			return PatternList( parentNode );
+			return parentNode as PatternList;
 		}
 		
 		/**

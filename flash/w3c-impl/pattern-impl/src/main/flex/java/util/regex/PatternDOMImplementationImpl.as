@@ -49,6 +49,12 @@ package java.util.regex
 			return _supported;
 		}
 		
+		public function createPatternDocument():PatternDocument
+		{
+			//TODO
+			return null;
+		}
+		
 		/**
 		* 	@inheritDoc
 		*/
@@ -66,7 +72,7 @@ package java.util.regex
 			
 			if( qualifiedName ==  null )
 			{
-				qualifiedName = "pattern";
+				qualifiedName = RuleList.NAME;
 			}
 			
 			var e:Element = document.createElementNS(

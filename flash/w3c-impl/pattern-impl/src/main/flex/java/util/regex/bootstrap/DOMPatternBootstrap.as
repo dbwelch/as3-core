@@ -13,7 +13,7 @@ package java.util.regex.bootstrap
 	import java.util.regex.PatternDocumentImpl;
 	import java.util.regex.PatternDOMImplementationImpl;
 	import java.util.regex.Rule;
-	
+	import java.util.regex.RuleList;
 	
 	/**
 	* 	A boostrap document for the DOM Pattern implementation.
@@ -73,6 +73,21 @@ package java.util.regex.bootstrap
 				PatternDocumentImpl.NAME );
 			descriptor.instanceClass = PatternDocumentImpl;
 			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				RuleList.NAME );
+			descriptor.instanceClass = RuleList;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				Rule.NAME );
+			descriptor.instanceClass = Rule;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				Pattern.NAME );
+			descriptor.instanceClass = Pattern;
+			beans.addBeanDescriptor( descriptor );			
 		}		
 	}
 }
