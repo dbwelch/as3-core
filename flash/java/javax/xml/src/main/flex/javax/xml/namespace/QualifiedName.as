@@ -34,8 +34,16 @@ package javax.xml.namespace
 	*/
 	public class QualifiedName extends JavaObject
 	{	
-		private static const XMLNS:String = "xmlns";
-		private static const DELIMITER:String = ":";
+		
+		/**
+		* 	The XMLNS namespace prefix.
+		*/
+		public static const XMLNS:String = "xmlns";
+		
+		/**
+		* 	The delimiter between a prefix and the local name.
+		*/
+		public static const DELIMITER:String = ":";
 		
 		private var _namespaceURI:String;
 		private var _localPart:String;

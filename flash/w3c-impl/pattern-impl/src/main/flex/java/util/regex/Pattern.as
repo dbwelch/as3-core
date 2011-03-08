@@ -43,37 +43,37 @@ package java.util.regex
 		/**
 		* 	Represents a #ptnlib:term:group; type.
 		*/
-		public static const GROUP_TYPE:uint = 4;
+		public static const GROUP_TYPE:uint = 3;
 		
 		/**
 		* 	Represents a #ptnlib:term:range; type.
 		*/
-		public static const RANGE_TYPE:uint = 8;
+		public static const RANGE_TYPE:uint = 4;
 		
 		/**
 		* 	Represents a #ptnlib:term:character:class; type.
 		*/
-		public static const CHARACTER_CLASS_TYPE:uint = 16;
+		public static const CHARACTER_CLASS_TYPE:uint = 5;
 		
 		/**
 		* 	Represents a #ptnlib:term:quantifier type.
 		*/
-		public static const QUANTIFIER_TYPE:uint = 32;
+		public static const QUANTIFIER_TYPE:uint = 6;
 		
 		/**
 		* 	Represents character data type.
 		*/
-		public static const DATA_TYPE:uint = 64;
+		public static const DATA_TYPE:uint = 7;
 		
 		/**
 		* 	Represents a #ptnlib:term:modifier; type.
 		*/
-		public static const MODIFIER_TYPE:uint = 128;
+		public static const MODIFIER_TYPE:uint = 8;
 		
 		/**
 		* 	Represents any other #ptnlib:term:meta:character; or #ptnlib:term:meta:sequence; type.
 		*/
-		public static const META_TYPE:uint = 256;
+		public static const META_TYPE:uint = 9;
 		
 		/*
 		*	NAMESPACE CONSTANTS (String/Namespace)
@@ -306,7 +306,6 @@ package java.util.regex
 		public static const IGNORE_CASE_FLAG:String = "i";
 		
 		//
-		private var _comment:String;
 		private var _parts:Pattern;
 		private var _position:uint = 0;
 		private var _source:* = NaN;
@@ -328,6 +327,11 @@ package java.util.regex
 		* 	A maximum number of occurences for this pattern.
 		*/
 		internal var _max:Number = -1;
+		
+		/**
+		* 	@private
+		*/
+		internal var _patternType:uint = NaN;
 		
 		/**
 		* 	Creates a <code>Pattern</code> instance.
@@ -352,6 +356,14 @@ package java.util.regex
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function get patternType():uint
+		{
+			return _patternType;
+		}
+		
+		/**
 		* 	@private
 		*/
 		override public function get nodeName():String
@@ -361,11 +373,27 @@ package java.util.regex
 			if( nm == null )
 			{			
 				//default node name
-				nm = QualifiedName.toName(
-					Pattern.NAMESPACE_PREFIX,
-					Pattern.NAME );
+				nm = Pattern.NAME;
 			}
 			
+			if( !isNaN( _patternType ) )
+			{
+				if( _patternType == GROUP_TYPE )
+				{
+					nm = GROUP_NAME;
+				}else if( _patternType == RANGE_TYPE )
+				{
+					nm = RANGE_NAME;
+				}else if( _patternType == META_TYPE )
+				{
+					nm = META_NAME;				
+				}
+			}
+			
+			if( group )
+			{
+				nm = GROUP_NAME;
+			}
 			
 			/*
 			var i:int = 0;
@@ -489,20 +517,15 @@ package java.util.regex
 			}			
 			*/
 			
+			if( nm.indexOf( QualifiedName.DELIMITER ) == -1 )
+			{
+				//convert to a fully qualified name
+				nm = QualifiedName.toName(
+					Pattern.NAMESPACE_PREFIX,
+					nm );			
+			}
+			
 			return nm;
-		}
-		
-		/**
-		* 	A comment about this pattern.
-		*/
-		public function get comment():String
-		{
-			return _comment;
-		}
-		
-		public function set comment( value:String ):void
-		{
-			_comment = value;
 		}
 		
 		/**
@@ -796,6 +819,22 @@ package java.util.regex
 		{
 			extractSource( value );
 			_source = value;
+			if( group )
+			{
+				_patternType = GROUP_TYPE;
+			}else if( range )
+			{
+				_patternType = RANGE_TYPE;
+			}else if( meta )
+			{
+				_patternType = META_TYPE;
+			}
+			
+			if( _source != null && _source != "" )
+			{
+				trace("[APPENDING CHILD SOURCE ELEMENT] Pattern::set source()", this );
+				appendChild( ownerDocument.createCDATASection( _source ) );
+			}
 		}
 		
 		private function extractSource( value:* ):String
@@ -1111,6 +1150,7 @@ package java.util.regex
 		public function get grouping():Boolean
 		{
 			return length > 0
+				&& firstPatternChild != null
 				&& __group.test( firstPatternChild.toString() );
 		}
 		
@@ -1540,7 +1580,10 @@ package java.util.regex
 			
 			if( candidate != null )
 			{
-				clear();
+				//clear();
+				
+				//TODO: remove all child elements but keep Comment
+				
 				//copy the candidate to our source
 				_source = candidate.substr();
 				_compiled = candidate.substr();

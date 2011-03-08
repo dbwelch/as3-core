@@ -6,10 +6,14 @@ package com.ffsys.w3c.dom.ls.serialize
 	import javax.xml.namespace.QualifiedName;
 
 	import org.w3c.dom.Attr;
+	import org.w3c.dom.CDATASection;
+	import org.w3c.dom.Comment;	
 	import org.w3c.dom.Document;
 	import org.w3c.dom.Element;
 	import org.w3c.dom.NamedNodeMap;
 	import org.w3c.dom.Node;
+	import org.w3c.dom.ProcessingInstruction;
+	import org.w3c.dom.Text;	
 	import org.w3c.dom.ls.LSOutput;
 	
 	import com.ffsys.w3c.dom.NamedNodeMapImpl;
@@ -45,9 +49,17 @@ package com.ffsys.w3c.dom.ls.serialize
 				return false;
 			}
 			
+			var settings:Object = XML.settings();
+			
+			XML.ignoreComments = false;
+			XML.ignoreProcessingInstructions = false;
+			
 			var x:XML = getXMLNode( node, null );
 			LSOutputImpl( destination ).e4x = x;
 			//trace("[WRITTEN XML] NativeXMLSerializer::write()", node, x.toXMLString() );
+			
+			//XML.setSettings( settings );
+			
 			return true;
 		}
 		
@@ -69,9 +81,39 @@ package com.ffsys.w3c.dom.ls.serialize
 			}
 			
 			//the node must be an: element | text | comment | cdata | processing instruction
-			if( !( node is Element ) )
+			if( !( node is Element )
+				&& !( node is Text )
+				&& !( node is Comment )
+				&& !( node is CDATASection )
+				&& !( node is ProcessingInstruction ) )
 			{
 				return null;
+			}
+			
+			var x:XML = null;
+			
+			if( node is CDATASection )
+			{
+				x = new XML( "<![CDATA[" + CDATASection( node ).data  + "]]>" );
+				parent.appendChild( x );
+				return x;
+			}else if( node is Comment )
+			{
+				trace("[FOUND COMMENT NODE] NativeXMLSerializer::getXMLNode()", Comment( node ).data );
+				
+				x = new XML( "<!--" + Comment( node ).data  + "-->" );
+				parent.appendChild( x );
+				return x;
+			}else if( node is ProcessingInstruction )
+			{
+				x = new XML( "<?" + ProcessingInstruction( node ).target + " ?>" );
+				parent.appendChild( x );
+				return x;
+			}else if( node is Text )
+			{
+				x = new XML( Text( node ).data );
+				parent.appendChild( x );
+				return x;
 			}
 			
 			var i:int = 0;
@@ -100,7 +142,7 @@ package com.ffsys.w3c.dom.ls.serialize
 				
 			trace("NativeXMLSerializer::getXMLNode()", "GOT XML", node.nodeName, nm );
 			
-			var x:XML = new XML( nm );
+			x = new XML( nm );
 			
 			if( parent != null )
 			{

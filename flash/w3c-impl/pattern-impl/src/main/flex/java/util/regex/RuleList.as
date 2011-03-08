@@ -20,6 +20,14 @@ package java.util.regex
 		public function RuleList()
 		{
 			super();
-		}	
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function get patternType():uint
+		{
+			return Pattern.RULE_LIST_TYPE;
+		}
 	}
 }

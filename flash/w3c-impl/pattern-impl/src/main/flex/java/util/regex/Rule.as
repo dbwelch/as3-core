@@ -45,6 +45,14 @@ package java.util.regex
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function get patternType():uint
+		{
+			return Pattern.RULE_TYPE;
+		}
+		
+		/**
 		* 	@private
 		*/
 		override public function get nodeName():String

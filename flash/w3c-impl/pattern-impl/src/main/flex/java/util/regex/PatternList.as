@@ -1,7 +1,9 @@
 package java.util.regex
 {
-	import com.ffsys.w3c.dom.ElementImpl;
+	import org.w3c.dom.Comment;	
 	import org.w3c.dom.Node;
+	
+	import com.ffsys.w3c.dom.ElementImpl;
 	
 	/**
 	* 	Represents a collection of patterns.
@@ -219,6 +221,7 @@ package java.util.regex
 		*/
 		protected var _list:PatternList;
 		
+		private var _comment:String;		
 		private var _owner:PatternList;
 		private var _name:String;
 		private var _index:int = -1;
@@ -232,11 +235,46 @@ package java.util.regex
 		}
 		
 		/**
+		* 	A comment about this pattern.
+		*/
+		public function get comment():String
+		{
+			//TODO
+			return _comment;
+		}
+		
+		public function set comment( value:String ):void
+		{
+			_comment = value;
+			
+			trace("[SET COMMENT] PatternList::set comment()", value, ownerDocument );
+			
+			if( ownerDocument )
+			{
+				var c:Comment = ownerDocument.createComment( value );
+					
+				trace("PatternList::set comment()", "CREATING COMMENT WITH VALUE: ",
+					value, c, c.data );
+				
+				//TODO: update any existing comment node
+				appendChild( c );
+			}
+		}
+		
+		/**
 		* 	An owner for this pattern.
 		*/
 		public function get owner():PatternList
 		{
 			return parentNode as PatternList;
+		}
+		
+		/**
+		* 	The type of this pattern.
+		*/
+		public function get patternType():uint
+		{
+			return NaN;
 		}
 		
 		/**

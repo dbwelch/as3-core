@@ -168,7 +168,7 @@ package java.util.regex
 			
 			//var rule:Rule = doc.createRule( "^([0-9]+)$" );
 			
-			var rule:Rule = doc.createRule( "^([0-9]+)$" );
+			var rule:Rule = doc.createRule( "^([0-9]+)$", "This is a comment about the rule." );
 			
 			trace("PatternTest::patternDOMTest()", rule );
 			
