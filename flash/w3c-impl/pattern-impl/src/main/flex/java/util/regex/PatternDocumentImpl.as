@@ -31,22 +31,14 @@ package java.util.regex
 		}
 		
 		/**
-		* 	Creates a Rule from the specified pattern.
-		* 
-		* 	@param pattern The source pattern.
-		* 	@param comment An optional comment for the rule.
-		* 
-		* 	@return The created rule.
+		* 	@inheritDoc
 		*/
 		public function createRule(
 			pattern:String = "",
 			comment:String = null ):Rule
 		{
 			var nm:String = QualifiedName.toName(
-				Pattern.NAMESPACE_PREFIX, Rule.NAME );
-				
-			trace("[RULE NAME] PatternDocumentImpl::createRule()", nm, comment );
-				
+				Pattern.NAMESPACE_PREFIX, Rule.NAME );	
 			var bean:Object = createElementNS(
 				Pattern.NAMESPACE_URI, nm );
 			var rule:Rule = bean as Rule;
@@ -65,7 +57,7 @@ package java.util.regex
 		}
 		
 		/**
-		* 	
+		* 	@inheritDoc
 		*/
 		public function createPattern(
 			pattern:String = null,
@@ -74,10 +66,7 @@ package java.util.regex
 			var nm:String = QualifiedName.toName(
 				Pattern.NAMESPACE_PREFIX, Pattern.NAME );
 			var bean:Object = createElementNS(
-				Pattern.NAMESPACE_URI, nm );	
-						
-			//TODO: throw exception if pattern is null or the empty string?
-			
+				Pattern.NAMESPACE_URI, nm );
 			var ptn:Pattern = bean as Pattern;
 			if( ptn != null )
 			{
@@ -85,7 +74,6 @@ package java.util.regex
 				{
 					ptn.comment = comment;
 				}
-								
 				if( pattern != null && pattern != "" )
 				{
 					ptn.source = pattern;

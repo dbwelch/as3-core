@@ -241,7 +241,7 @@ package com.ffsys.w3c.dom
 			{
 				_nodeName = name;
 				
-				trace("[SETTING NODE NAME] NodeImpl::setNodeName()", this, name );
+				//trace("[SETTING NODE NAME] NodeImpl::setNodeName()", this, name );
 				
 				//TOOD: check if all this is necessary?
 				var index:int = name.indexOf( ":" );
@@ -602,7 +602,14 @@ package com.ffsys.w3c.dom
 		*/
 		public function get firstChild():Node
 		{
-			return childNodes.item( 0 );
+			try
+			{
+				return childNodes.item( 0 );
+			}catch( e:Error )
+			{
+				//no child nodes
+			}
+			return null;
 		}
 		
 		/**
@@ -610,7 +617,14 @@ package com.ffsys.w3c.dom
 		*/
 		public function get lastChild():Node
 		{
-			return childNodes.item( childNodes.length - 1 );
+			try
+			{
+				return childNodes.item( childNodes.length - 1 );
+			}catch( e:Error )
+			{
+				//no child nodes
+			}
+			return null;
 		}
 		
 		/**
@@ -711,10 +725,36 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@inheritDoc
 		*/
+		public function removeChild( child:Node ):Node
+		{
+			//This method can raise a DomException object.
+			
+			var n:NodeImpl = child as NodeImpl;
+			if( n != null )
+			{
+				NodeListImpl( childNodes ).remove( child );
+				
+				//inform of the removal
+				n.removed();
+				
+				//no parent as the node is now detached from the DOM
+				n.setParentNode( null );
+				n.setChildIndex( -1 );
+				
+				//trace("Node::removeChild()", this, child );
+			}
+			return child;
+		}
+		
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function appendChild( child:Node ):Node
 		{
 			//This method can raise a DomException object.	
 			
+			/*
 			if( child is NodeImpl )
 			{
 				var n:NodeImpl = NodeImpl( child );				
@@ -743,32 +783,11 @@ package com.ffsys.w3c.dom
 				
 				n.added();
 			}
-			return child;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function removeChild( child:Node ):Node
-		{
-			//This method can raise a DomException object.
 			
-			var n:NodeImpl = child as NodeImpl;
-			if( n != null )
-			{
-				NodeListImpl( childNodes ).remove( child );
-				
-				//inform of the removal
-				n.removed();
-				
-				//no parent as the node is now detached from the DOM
-				n.setParentNode( null );
-				n.setChildIndex( -1 );
-				
-				//trace("Node::removeChild()", this, child );
-			}
-			return child;
-		}
+			*/
+			
+			return insertBefore( child, null );
+		}		
 		
 		/**
 		* 	@inheritDoc

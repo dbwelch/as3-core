@@ -49,10 +49,14 @@ package java.util.regex
 			return _supported;
 		}
 		
+		/**
+		* 	Creates a new pattern document.
+		* 
+		* 	@return A pattern document.
+		*/
 		public function createPatternDocument():PatternDocument
 		{
-			//TODO
-			return null;
+			return createDocument( null, null, null ) as PatternDocument;
 		}
 		
 		/**

@@ -4,6 +4,7 @@
 package java.util.regex
 {
 	import org.w3c.dom.Element;
+	import org.w3c.dom.Node;
 	
 	import javax.xml.namespace.QualifiedName;
 	
@@ -24,7 +25,7 @@ package java.util.regex
 		/**
 		* 	The bean name for a pattern.
 		*/
-		public static const NAME:String = "pattern";
+		public static const NAME:String = "ptn";
 		
 		/*
 		*	TYPE CONSTANTS (uint)
@@ -74,6 +75,42 @@ package java.util.regex
 		* 	Represents any other #ptnlib:term:meta:character; or #ptnlib:term:meta:sequence; type.
 		*/
 		public static const META_TYPE:uint = 9;
+		
+		/**
+		* 	The attribute name used to indicate
+		* 	if a range is negated.
+		*/
+		public static const NEGATED_ATTR_NAME:String = "negated";
+		
+		/**
+		* 	The attribute name used to indicate
+		* 	if a quantifier is lazy.
+		*/
+		public static const LAZY_ATTR_NAME:String = "lazy";
+		
+		/**
+		* 	The attribute name used to indicate
+		* 	if a group has a field.
+		*/
+		public static const FIELD_ATTR_NAME:String = "field";
+		
+		/**
+		* 	The attribute name used to indicate
+		* 	an occurence count.
+		*/
+		public static const COUNT_ATTR_NAME:String = "count";
+		
+		/**
+		* 	The attribute name used to indicate
+		* 	a minimum occurence.
+		*/
+		public static const MIN_ATTR_NAME:String = "min";
+		
+		/**
+		* 	The attribute name used to indicate
+		* 	a maximum occurence.
+		*/
+		public static const MAX_ATTR_NAME:String = "max";
 		
 		/*
 		*	NAMESPACE CONSTANTS (String/Namespace)
@@ -305,12 +342,9 @@ package java.util.regex
 		*/
 		public static const IGNORE_CASE_FLAG:String = "i";
 		
-		//
-		private var _parts:Pattern;
 		private var _position:uint = 0;
 		private var _field:String;
 		private var _open:Boolean = false;
-		private var _type:uint;
 		
 		/**
 		* 	@private
@@ -349,7 +383,7 @@ package java.util.regex
 		public function Pattern(
 			src:* = null )
 		{
-			super();			
+			super();
 			if( src != null )
 			{
 				this.source = src;
@@ -385,6 +419,15 @@ package java.util.regex
 				}else if( _patternType == RANGE_TYPE )
 				{
 					nm = RANGE_NAME;
+				}else if( _patternType == QUANTIFIER_TYPE )
+				{
+					nm = QUANTIFIER_NAME;
+				}else if( _patternType == MODIFIER_TYPE )
+				{
+					nm = MODIFIER_NAME;
+				}else if( _patternType == DATA_TYPE )
+				{
+					nm = DATA_NAME;
 				}else if( _patternType == META_TYPE )
 				{
 					nm = META_NAME;				
@@ -396,128 +439,6 @@ package java.util.regex
 				nm = GROUP_NAME;
 			}
 			
-			/*
-			var i:int = 0;
-			var name:String = this.name;
-			var x:XML = getXmlElement();
-			
-			if( !rule && !group )
-			{	
-				if( range || meta || data )
-				{
-					x = getXmlElement( null, toString() );
-				}
-				if( range )
-				{
-					x.@negated = this.negated;
-				}
-			}
-			*/
-			
-			//handle the output of pattern occurences.
-			//groups proxy the corresponding value
-			//for any subsequent quantifier or if
-			//the group is not quantified reports
-			//a count of one
-			
-			/*
-			if( !quantifier
-				&& nextPatternSibling != null && nextPatternSibling.quantifier )
-			{
-				x.@lazy = this.lazy;
-				//single quantifier occurence amount
-				if( this.minimum > -1
-					&& this.maximum > -1
-					&& this.minimum == this.maximum )
-				{
-					x.@count = this.minimum;
-				}else
-				{
-					if( this.minimum > -1 )
-					{
-						x.@min = this.minimum;
-					}
-					if( this.maximum > -1 )
-					{
-						x.@max = this.maximum;
-					}
-				}
-			}
-			
-			if( cancelled )
-			{
-				x.@cancelled = cancelled;
-			}
-			
-			//shortcut out for simple types
-			if( !rule && !group )
-			{	
-				if( range || meta || data )
-				{
-					return x;
-				}
-			}	
-			*/		
-			
-			//handle complex types
-			
-			/*
-			var ptns:Vector.<Pattern> = this.patterns;
-			var isGrouped:Boolean = !rule && group;
-			if( isGrouped )
-			{
-				ptns = children.patterns;
-			}
-			
-			if( isGrouped )
-			{
-				x.@qualified = this.qualified;
-				if( field != null )
-				{
-					x.@field = this.field;
-				}
-			}
-			
-			if( rule || source == CARET || source == DOLLAR )
-			{
-				x.@begins = begins;
-				x.@ends = ends;
-			}
-			*/
-			
-			/*
-			if( ptns != null && ptns.length > 0 )
-			{
-				var children:XML = getXmlElement( PATTERNS );
-				x.appendChild( children );
-				var ptn:Pattern = null;
-				var child:XML = null;
-				var previous:XML = null;
-				for( i = 0;i < ptns.length;i++ )
-				{
-					ptn = ptns[ i ];
-					child = ptn.xml;
-					
-					//skip quantifier elements as
-					//their values should be represented
-					//by the preceding pattern they apply to
-					if( !ptn.quantifier )
-					{
-						children.appendChild( child );
-					}
-					
-					//apply the quantifier source as an
-					//attribute of the preceding element
-					if( ptn.quantifier
-						&& previous != null )
-					{
-						previous.@quantifier = ptn.source;
-					}
-					previous = child;
-				}
-			}			
-			*/
-			
 			if( nm.indexOf( QualifiedName.DELIMITER ) == -1 )
 			{
 				//convert to a fully qualified name
@@ -527,61 +448,6 @@ package java.util.regex
 			}
 			
 			return nm;
-		}
-		
-		/**
-		* 	Specifies whether the <code>g</code> flag is set.
-		* 
-		* 	Specifies whether to use global matching
-		* 	for the regular expression.
-		*/
-		public function get global():Boolean
-		{
-			return this.regex.global;
-		}
-		
-		/**
-		* 	Specifies whether the <code>s</code> flag is set.
-		* 	
-		* 	When present indicates that the dot character (<code>.</code>)
-		* 	in a regular expression pattern matches new-line characters.
-		*/
-		public function get dotall():Boolean
-		{
-			return this.regex.dotall;
-		}
-		
-		/**
-		* 	Specifies whether the <code>x</code> flag is set.
-		* 
-		* 	When present the regular expression will use extended mode.
-		*/
-		public function get extended():Boolean
-		{
-			return this.regex.extended;
-		}
-		
-		/**
-		* 	Specifies whether the <code>m</code> flag is set.
-		* 	
-		* 	If it is set, the caret (<code>^</code>) and dollar
-		* 	sign (<code>$</code>) in a regular expression match
-		* 	before and after new lines.
-		*/
-		public function get multiline():Boolean
-		{
-			return this.regex.multiline;
-		}
-		
-		/**
-		* 	Specifies whether the <code>i</code> flag is set.
-		* 
-		* 	When present the regular expression
-		* 	ignores case sensitivity.
-		*/
-		public function get ignoreCase():Boolean
-		{
-			return this.regex.ignoreCase;
 		}
 		
 		/**
@@ -820,21 +686,20 @@ package java.util.regex
 		{
 			extractSource( value );
 			_source = value;
+			
+			//update the pattern type
 			if( group )
 			{
 				_patternType = GROUP_TYPE;
 			}else if( range )
 			{
 				_patternType = RANGE_TYPE;
+			}else if( quantifier )
+			{
+				_patternType = QUANTIFIER_TYPE;
 			}else if( meta )
 			{
 				_patternType = META_TYPE;
-			}
-			
-			if( _source != null && _source != "" )
-			{
-				trace("[APPENDING CHILD SOURCE ELEMENT] Pattern::set source()", this );
-				appendChild( ownerDocument.createCDATASection( _source ) );
 			}
 		}
 		
@@ -851,39 +716,6 @@ package java.util.regex
 		}
 		
 		/**
-		* 	@private
-		*/
-		override public function finalized():void
-		{
-			super.finalized();
-			
-			trace("Pattern::finalized()", this, this.source );
-			
-			if( range )
-			{
-				setAttribute( "ptn:negated", "" + this.negated );
-			}
-			
-			/*
-			var src:Element = ownerDocument.createElementNS(
-				NAMESPACE_URI, QualifiedName.toName(
-					NAMESPACE_PREFIX, SOURCE ) );
-					
-			trace("[GOT SOURCE ELEMENT] Pattern::extractSource()", src );
-			
-			appendChild( src );
-			
-			if( rule )
-			{			
-				//appendChild( getXmlElement( SOURCE, this.source ) );
-			}else
-			{
-				//appendChild( getXmlElement( SOURCE, toString() ) );
-			}	
-			*/		
-		}
-		
-		/**
 		* 	The target property name when matching
 		* 	pattern parts against complex objects.
 		*/
@@ -895,19 +727,6 @@ package java.util.regex
 		public function set field( value:String ):void
 		{
 			_field = value;
-		}
-		
-		/**
-		* 	All pattern parts as a flat list.
-		*/
-		public function get parts():Pattern
-		{
-			if( _parts == null )
-			{
-				_parts = createPattern();
-				_parts.name = PARTS;
-			}
-			return _parts;
 		}
 		
 		/**
@@ -952,7 +771,6 @@ package java.util.regex
 			super.clear();
 			_source = "";
 			_compiled =  null;
-			_parts = null;
 		}
 		
 		/**
@@ -1152,7 +970,7 @@ package java.util.regex
 		{
 			return length > 0
 				&& firstPatternChild != null
-				&& __group.test( firstPatternChild.toString() );
+				&& __group.test( "" + firstPatternChild.source );
 		}
 		
 		/**
@@ -1182,6 +1000,37 @@ package java.util.regex
 				grp.appendChild( createPattern( RPAREN ) );
 			}
 			return grp;
+		}
+		
+		/**
+		* 	Creates a matcher that will match the given
+		* 	input against this pattern.
+		* 
+		* 	@param input The input to use for matching.
+		* 
+		* 	@return A new matcher for this pattern.
+		*/
+		public function matcher( input:* ):Matcher
+		{
+			return new Matcher( this, input );
+		}
+		
+		/**
+		* 	Returns the number of capturing groups in this pattern.
+		* 
+		* 	Group zero denotes the entire pattern by convention.
+		* 	It is not included in this count.
+		* 
+		* 	Any non-negative integer smaller than or equal to the
+		* 	value returned by this method is guaranteed to be a
+		* 	valid group index for this pattern.
+		* 
+		* 	@return The number of capturing groups in this pattern.
+		*/
+		public function groupCount():int
+		{
+			//TODO
+			return 0;
 		}
 		
 		/**
@@ -1248,34 +1097,6 @@ package java.util.regex
 		}
 		
 		/**
-		* 	@private
-		*/
-		override public function get children():PatternList
-		{
-			if( group )
-			{
-				var output:Pattern = createPattern();
-				var ptns:Vector.<Pattern> = this.patterns;
-				var ptn:Pattern = null;
-				for( var i:int = 0;i < ptns.length;i++ )
-				{
-					ptn = ptns[ i ];
-					//remove all capture group qualifiers and open and close
-					//patterns to get to the child patterns
-					if( ( ptn.source == LPAREN && i == 0 )
-						|| ( ptn.source == RPAREN && i == ptns.length - 1 )
-						|| ptn.qualifier != null )
-					{
-						continue;
-					}
-					output.appendChild( ptn );
-				}
-				return output;
-			}
-			return super.children;
-		}
-		
-		/**
 		* 	Determines whether this pattern is a range
 		* 	(character class), <code>[0-9]</code>.
 		*/
@@ -1316,214 +1137,11 @@ package java.util.regex
 		}
 		
 		/**
-		* 	The type for the pattern.
-		*/
-		public function get type():uint
-		{
-			return _type;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function setType( value:uint ):void
-		{
-			_type = value;
-		}
-		
-		/**
-		* 	@private
-		*/
-		override public function get name():String
-		{
-			var nm:String = super.name;
-			if( rule )
-			{
-				nm = RULE;
-			}
-			if( nm == null )
-			{
-				switch( source )
-				{
-					case PIPE:
-						nm = ALTERNATOR_NAME;
-						break;
-				}
-				if( nm == null )
-				{
-					if( group )
-					{
-						nm = GROUP_NAME;
-					}else if( range )
-					{
-						nm = RANGE_NAME;
-					}else if( quantifier )
-					{
-						nm = QUANTIFIER_NAME;
-					}else if( meta )
-					{
-						nm = META_NAME;
-					}else if( data )
-					{
-						nm = DATA_NAME;
-					}
-				}
-			}
-			return nm == null ? PATTERN : nm;
-		}
-		
-		/**
-		* 	@private
-		*/
-		
-		/*
-		override public function get xml():XML
-		{
-			//TODO: stash this XML and invalidate
-			
-			var i:int = 0;
-			var name:String = this.name;
-			var x:XML = getXmlElement();
-			
-			if( !rule && !group )
-			{	
-				if( range || meta || data )
-				{
-					x = getXmlElement( null, toString() );
-				}
-				if( range )
-				{
-					x.@negated = this.negated;
-				}
-			}
-			
-			//handle the output of pattern occurences.
-			//groups proxy the corresponding value
-			//for any subsequent quantifier or if
-			//the group is not quantified reports
-			//a count of one
-			if( !quantifier
-				&& nextPatternSibling != null && nextPatternSibling.quantifier )
-			{
-				x.@lazy = this.lazy;
-				//single quantifier occurence amount
-				if( this.minimum > -1
-					&& this.maximum > -1
-					&& this.minimum == this.maximum )
-				{
-					x.@count = this.minimum;
-				}else
-				{
-					if( this.minimum > -1 )
-					{
-						x.@min = this.minimum;
-					}
-					if( this.maximum > -1 )
-					{
-						x.@max = this.maximum;
-					}
-				}
-			}
-			
-			if( cancelled )
-			{
-				x.@cancelled = cancelled;
-			}
-			
-			//shortcut out for simple types
-			if( !rule && !group )
-			{	
-				if( range || meta || data )
-				{
-					return x;
-				}
-			}			
-			
-			//handle complex types
-			var ptns:Vector.<Pattern> = this.patterns;
-			var isGrouped:Boolean = !rule && group;
-			if( isGrouped )
-			{
-				ptns = children.patterns;
-			}
-			
-			if( isGrouped )
-			{
-				x.@qualified = this.qualified;
-				if( field != null )
-				{
-					x.@field = this.field;
-				}
-			}
-			
-			if( rule || source == CARET || source == DOLLAR )
-			{
-				x.@begins = begins;
-				x.@ends = ends;
-			}
-			
-			if( rule )
-			{			
-				x.appendChild( getXmlElement( SOURCE, this.source ) );
-				
-				if( length > 0 )
-				{
-					var results:XML = getXmlElement( RESULTS );
-					var match:PatternMatch = null;
-					for( i = 0;i < length;i++ )
-					{
-						match = this[ i ] as PatternMatch;
-						results.appendChild( match.xml );
-					}
-					x.appendChild( results );
-				}
-			}else
-			{
-				x.appendChild( getXmlElement( SOURCE, toString() ) );
-			}
-			
-			if( ptns != null && ptns.length > 0 )
-			{
-				var children:XML = getXmlElement( PATTERNS );
-				x.appendChild( children );
-				var ptn:Pattern = null;
-				var child:XML = null;
-				var previous:XML = null;
-				for( i = 0;i < ptns.length;i++ )
-				{
-					ptn = ptns[ i ];
-					child = ptn.xml;
-					
-					//skip quantifier elements as
-					//their values should be represented
-					//by the preceding pattern they apply to
-					if( !ptn.quantifier )
-					{
-						children.appendChild( child );
-					}
-					
-					//apply the quantifier source as an
-					//attribute of the preceding element
-					if( ptn.quantifier
-						&& previous != null )
-					{
-						previous.@quantifier = ptn.source;
-					}
-					previous = child;
-				}
-			}
-			
-			return x;
-		}
-		*/
-		
-		/**
 		* 	@private
 		*/
 		override public function toPatternLiteral():String
 		{
-			var prefix:String = rule ? PATTERN : PTN;
-			return prefix + ":" + DELIMITER + toString() + DELIMITER;
+			return NAME + ":" + DELIMITER + this.source + DELIMITER;
 		}
 		
 		/**
@@ -1531,16 +1149,7 @@ package java.util.regex
 		*/
 		override public function toString():String
 		{
-			var delimiter:String = "";
-			if( name == PARTS )
-			{
-				delimiter = ",";
-			}
-			if( patterns.length == 0 && _source == null )
-			{
-				return super.toString();
-			}
-			return patterns.length > 0 ? patterns.join( delimiter ) : _source;
+			return _source;
 		}
 		
 		/*
@@ -1976,6 +1585,137 @@ package java.util.regex
 		/*
 		*	INTERNALS
 		*/
+		
+		protected function notifyChildPatternsComplete():void
+		{
+			if( hasChildNodes() )
+			{
+				var n:Node = null;
+				var p:Pattern = null;
+				for( var i:int  = 0;i < childNodes.length;i++)
+				{
+					n = childNodes.item( i );
+					if( n is Pattern )
+					{
+						p = n as Pattern;
+						p.completed();
+					}
+				}
+			}			
+		}
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked once a compilation pass has completed
+		* 	on a rule.
+		* 
+		* 	This allows the rule to inspect the DOM structure
+		* 	and manipulate the DOM values to correctly reflect
+		* 	the compiled pattern data.
+		*/
+		internal function completed():void
+		{
+			//trace("[COMPILE COMPLETE PATTERN] Pattern::completed()", this, minimum, maximum );
+			
+			if( _source != null
+				&& _source != "" )
+			{
+				insertBefore( ownerDocument.createCDATASection( _source ), firstChild );
+			}
+			
+			notifyChildPatternsComplete();
+			
+			if( this.group )
+			{
+				if( this.field != null )
+				{
+					setAttributeNS(
+						Pattern.NAMESPACE_URI,
+							QualifiedName.toName(
+								Pattern.NAMESPACE_PREFIX,
+								FIELD_ATTR_NAME ),
+						this.field );	
+				}
+				
+				if( firstPatternChild != null
+					&& firstPatternChild.source == LPAREN )
+				{
+					removeChild( firstPatternChild );
+				}
+				
+				if( lastPatternChild != null
+					&& lastPatternChild.source == RPAREN )
+				{
+					removeChild( lastPatternChild );
+				}
+				
+			}else if( this.range )
+			{
+				setAttributeNS(
+					Pattern.NAMESPACE_URI,
+						QualifiedName.toName(
+							Pattern.NAMESPACE_PREFIX,
+							NEGATED_ATTR_NAME ),
+					"" + this.negated );
+			}
+			
+			if( !quantifier
+				&& nextPatternSibling != null
+				&& nextPatternSibling.quantifier )
+			{
+				setAttributeNS(
+					Pattern.NAMESPACE_URI,
+						QualifiedName.toName(
+							Pattern.NAMESPACE_PREFIX,
+							LAZY_ATTR_NAME ),
+					"" + this.lazy );
+				
+				//single quantifier occurence amount
+				if( this.minimum > -1
+					&& this.maximum > -1
+					&& this.minimum == this.maximum )
+				{
+					setAttributeNS(
+						Pattern.NAMESPACE_URI,
+							QualifiedName.toName(
+								Pattern.NAMESPACE_PREFIX,
+								COUNT_ATTR_NAME ),
+						"" + this.minimum );					
+				}else
+				{
+					if( this.minimum > -1 )
+					{
+						setAttributeNS(
+							Pattern.NAMESPACE_URI,
+								QualifiedName.toName(
+									Pattern.NAMESPACE_PREFIX,
+									MIN_ATTR_NAME ),
+							"" + this.minimum );
+					}
+					if( this.maximum > -1 )
+					{
+						setAttributeNS(
+							Pattern.NAMESPACE_URI,
+								QualifiedName.toName(
+									Pattern.NAMESPACE_PREFIX,
+									MAX_ATTR_NAME ),
+							"" + this.maximum );
+					}
+				}
+				
+				//reference the quantifier as an attribute
+				setAttributeNS(
+					Pattern.NAMESPACE_URI,
+						QualifiedName.toName(
+							Pattern.NAMESPACE_PREFIX,
+							"quantifier" ),
+					"" + nextPatternSibling.source );		
+				
+				//remove the quantifier
+				parentNode.removeChild( nextPatternSibling );
+			}
+		}
 		
 		/**
 		* 	@private

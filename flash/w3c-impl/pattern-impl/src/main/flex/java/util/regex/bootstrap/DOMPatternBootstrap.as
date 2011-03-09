@@ -76,7 +76,7 @@ package java.util.regex.bootstrap
 		{
 			super.doWithBeans( beans );
 			
-			trace("[ADDING PATTERN BEANS TO] DOMPatternBootstrap::doWithBeans()", beans, beans.id );
+			//trace("[ADDING PATTERN BEANS TO] DOMPatternBootstrap::doWithBeans()", beans, beans.id );
 			
 			var descriptor:IBeanDescriptor = null;
 			descriptor = new BeanDescriptor(

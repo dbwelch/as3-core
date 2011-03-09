@@ -575,7 +575,7 @@ package com.ffsys.w3c.dom
 			qualifiedName:String,
 			value:String ):void
 		{
-			trace("ElementImpl::setAttributeNS()", ownerDocument );
+			//trace("ElementImpl::setAttributeNS()", ownerDocument );
 			
 			//This method can raise a DomException object.
 			var attr:Attr = ownerDocument.createAttributeNS(
@@ -885,8 +885,14 @@ package com.ffsys.w3c.dom
 			{
 				var elems:Vector.<Element> = NodeImpl( parentNode ).elements;
 				if( elems.length >= childIndex )
-				{
-					return elems[ childIndex - 1 ];
+				{					
+					try
+					{
+						return elems[ childIndex - 1 ];
+					}catch( e:Error )
+					{
+						//ignore the index out of bounds exception for the moment
+					}
 				}
 			}
 			return null;
@@ -903,7 +909,13 @@ package com.ffsys.w3c.dom
 				var elems:Vector.<Element> = NodeImpl( parentNode ).elements;
 				if( elems.length > childIndex )
 				{
-					return elems[ childIndex + 1 ];
+					try
+					{
+						return elems[ childIndex + 1 ];
+					}catch( e:Error )
+					{
+						//ignore the index out of bounds exception for the moment
+					}
 				}
 			}
 			return null;
@@ -999,7 +1011,14 @@ package com.ffsys.w3c.dom
 		protected function doWithProperty( name:String, value:String ):void
 		{
 			//TODO: check for exception
-			this[ name ] = value;	
+			
+			try
+			{
+				this[ name ] = value;	
+			}catch( e:Error )
+			{
+				//fail silently when we can't assign the property
+			}
 			
 			//trace("Element::doWithProperty() AFTER SETTING THE PROPERTY: ", this, name, this[ name ] );		
 		}

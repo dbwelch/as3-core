@@ -385,7 +385,8 @@ package com.ffsys.w3c.dom
 			
 			try
 			{
-				trace("[ATTEPTING BEAN CREATION] CoreDocumentImpl::createElementNS()", qualifiedName );
+				//trace("[ATTEPTING BEAN CREATION] CoreDocumentImpl::createElementNS()", qualifiedName );
+				
 				element = Element( getDomBean(
 					qualifiedName, null, namespaceURI ) );
 			}catch( e:Error )
@@ -394,7 +395,8 @@ package com.ffsys.w3c.dom
 			}finally{
 				if( element == null )
 				{
-					trace("[CREATING DEFAULT NON-BEAN ELEMENT] CoreDocumentImpl::createElementNS()" );
+					//trace("[CREATING DEFAULT NON-BEAN ELEMENT] CoreDocumentImpl::createElementNS()" );
+					
 					element = new ElementImpl(
 						this,
 						qualifiedName );
@@ -639,12 +641,12 @@ package com.ffsys.w3c.dom
 			}
 			*/
 			
-			trace("CoreDocumentImpl::getDomBean()", namespaceURI, doc, doc.id, beanName );
+			//trace("CoreDocumentImpl::getDomBean()", namespaceURI, doc, doc.id, beanName );
 			
 			var descriptor:IBeanDescriptor = doc.getBeanDescriptor(
 				beanName );
 				
-			trace("[DESCRIPTOR] CoreDocumentImpl::getComponentBean()", beanName, descriptor );
+			//trace("[DESCRIPTOR] CoreDocumentImpl::getComponentBean()", beanName, descriptor );
 				
 			if( descriptor == null )
 			{
@@ -654,7 +656,7 @@ package com.ffsys.w3c.dom
 			
 			var bean:Object = descriptor.getBean( true, false );
 			
-			trace("[CREATED DOCUMENT BEAN] Document::getDomBean()", descriptor, bean );
+			//trace("[CREATED DOCUMENT BEAN] Document::getDomBean()", descriptor, bean );
 			
 			if( bean != null
 				&& properties != null )

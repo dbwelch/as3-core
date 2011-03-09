@@ -1,6 +1,6 @@
 package java.util.regex
 {
-	import javax.xml.namespace.QualifiedName;	
+	import javax.xml.namespace.QualifiedName;
 	
 	/**
 	* 	Represents a #ptnlib:term:rule;; a <em>rule</em>
@@ -25,6 +25,19 @@ package java.util.regex
 		public static const FLAGS_ATTR_NAME:String = "flags";
 		
 		/**
+		* 	The attribute name that determines whether a rule
+		*	should match from the beginning.
+		*/
+		public static const BEGINS_ATTR_NAME:String = "begins";
+		
+		/**
+		* 	The attribute name that determines whether a rule
+		*	must match the until the end.
+		*/
+		public static const ENDS_ATTR_NAME:String = "ends";
+		
+		
+		/**
 		* 	Creates a <code>Rule</code> instance.
 		* 
 		* 	@param source The source for the rule.
@@ -42,21 +55,58 @@ package java.util.regex
 		}
 		
 		/**
-		* 	@inheritDoc
+		* 	Specifies whether the <code>g</code> flag is set.
+		* 
+		* 	Specifies whether to use global matching
+		* 	for the regular expression.
 		*/
-		override public function get patternType():uint
+		public function get global():Boolean
 		{
-			return Pattern.RULE_TYPE;
+			return this.regex.global;
 		}
 		
 		/**
-		* 	@private
+		* 	Specifies whether the <code>s</code> flag is set.
+		* 	
+		* 	When present indicates that the dot character (<code>.</code>)
+		* 	in a regular expression pattern matches new-line characters.
 		*/
-		override public function get nodeName():String
-		{		
-			return QualifiedName.toName(
-				Pattern.NAMESPACE_PREFIX,
-				NAME );
+		public function get dotall():Boolean
+		{
+			return this.regex.dotall;
+		}
+		
+		/**
+		* 	Specifies whether the <code>x</code> flag is set.
+		* 
+		* 	When present the regular expression will use extended mode.
+		*/
+		public function get extended():Boolean
+		{
+			return this.regex.extended;
+		}
+		
+		/**
+		* 	Specifies whether the <code>m</code> flag is set.
+		* 	
+		* 	If it is set, the caret (<code>^</code>) and dollar
+		* 	sign (<code>$</code>) in a regular expression match
+		* 	before and after new lines.
+		*/
+		public function get multiline():Boolean
+		{
+			return this.regex.multiline;
+		}
+		
+		/**
+		* 	Specifies whether the <code>i</code> flag is set.
+		* 
+		* 	When present the regular expression
+		* 	ignores case sensitivity.
+		*/
+		public function get ignoreCase():Boolean
+		{
+			return this.regex.ignoreCase;
 		}
 		
 		/**
@@ -128,6 +178,79 @@ package java.util.regex
 		}
 		
 		/**
+		* 	@inheritDoc
+		*/
+		override public function get patternType():uint
+		{
+			return Pattern.RULE_TYPE;
+		}
+		
+		/**
+		* 	@private
+		*/
+		override public function get nodeName():String
+		{		
+			return QualifiedName.toName(
+				Pattern.NAMESPACE_PREFIX,
+				NAME );
+		}		
+		
+		/**
+		* 	@private
+		* 
+		* 	Invoked once a compilation pass has completed
+		* 	on a rule.
+		* 
+		* 	This allows the rule to inspect the DOM structure
+		* 	and manipulate the DOM values to correctly reflect
+		* 	the compiled pattern data.
+		*/
+		override internal function completed():void
+		{
+			trace("[COMPILE COMPLETE RULE] Rule::completed()", this, hasChildNodes() );
+
+			notifyChildPatternsComplete();
+			
+			if( firstPatternChild != null
+				&& ( firstPatternChild.source == CARET ) )
+			{
+				setAttributeNS(
+					Pattern.NAMESPACE_URI,
+						QualifiedName.toName(
+							Pattern.NAMESPACE_PREFIX,
+							BEGINS_ATTR_NAME ),
+					"" + true );
+					
+				removeChild( firstPatternChild );
+			}
+			
+			if( lastPatternChild != null
+				&& ( lastPatternChild.source == DOLLAR ) )
+			{
+				setAttributeNS(
+					Pattern.NAMESPACE_URI,
+						QualifiedName.toName(
+							Pattern.NAMESPACE_PREFIX,
+							ENDS_ATTR_NAME ),
+					"" + true );
+					
+				removeChild( lastPatternChild );
+			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		override public function toPatternLiteral():String
+		{
+			return NAME + ":"
+				+ DELIMITER
+				+ this.source
+				+ DELIMITER
+				+ this.flags;
+		}
+		
+		/**
 		* 	Compiles a source string into this pattern.
 		* 
 		* 	@param source The source string to compile.
@@ -165,6 +288,8 @@ package java.util.regex
 			
 			if( candidate != null )
 			{
+				target.source = candidate;
+				
 				//clear();
 				
 				//TODO: remove all child elements but keep Comment
@@ -206,7 +331,7 @@ package java.util.regex
 				{
 					ptn = createPattern( _compiled );
 					parentTarget.appendChild( ptn );
-					parts.appendChild( ptn );
+					appendChild( ptn );
 					return target;
 				}
 				
@@ -226,7 +351,7 @@ package java.util.regex
 				{
 					ptn = getCompilationPattern( results[ 1 ] );
 				}
-
+				
 				while( ptn != null )
 				{
 					opens = ptn.opens();
@@ -237,7 +362,7 @@ package java.util.regex
 					{
 						if( !( ptn.source == LESS_THAN ) )
 						{
-							addCompilationPart( ptn );
+							//addCompilationPart( ptn );
 						}
 
 						//add the opening meta group character
@@ -252,7 +377,7 @@ package java.util.regex
 						if( ptn.qualifier == null
 							&& !( ptn.source == GREATER_THAN ) )
 						{
-							addCompilationPart( ptn );
+							//addCompilationPart( ptn );
 						}
 					}
 					
@@ -334,7 +459,7 @@ package java.util.regex
 							Pattern( parentTarget.owner ).field = data;
 						}else
 						{
-							addCompilationPart( ptn );
+							//addCompilationPart( ptn );
 						}
 						
 						//add the chunk pattern
@@ -355,6 +480,7 @@ package java.util.regex
 					}
 				}
 			}
+			target.completed();
 			return target;
 		}
 		
@@ -409,23 +535,8 @@ package java.util.regex
 					trace("Pattern::get compiled()", "[FOUND ESCAPED META SEQUENCE WITH NO PREVIOUS CHARACTER MATCH]", ptn );
 				}
 			}
-			
 			parent.appendChild( ptn );
-			if( part )
-			{
-				addCompilationPart( ptn );
-			}
 			return _compiled;
 		}
-		
-		/**
-		* 	@private
-		*/
-		internal function addCompilationPart(
-			ptn:Pattern ):Pattern
-		{
-			parts.appendChild( ptn );
-			return parts;
-		}		
 	}
 }

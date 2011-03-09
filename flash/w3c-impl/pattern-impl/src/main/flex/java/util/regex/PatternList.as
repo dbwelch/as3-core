@@ -89,6 +89,11 @@ package java.util.regex
 		public static const QUANTIFIER_NAME:String = "quantifier";
 		
 		/**
+		* 	The name for a modifier.
+		*/
+		public static const MODIFIER_NAME:String = "modifier";
+		
+		/**
 		* 	The name for a meta character or sequence.
 		*/
 		public static const META_NAME:String = "meta";
@@ -216,14 +221,8 @@ package java.util.regex
 		*/
 		internal var _regex:RegExp;
 		
-		/**
-		* 	@private
-		*/
-		protected var _list:PatternList;
-		
 		private var _comment:String;		
 		private var _owner:PatternList;
-		private var _name:String;
 		private var _index:int = -1;
 		
 		/**
@@ -465,51 +464,6 @@ package java.util.regex
 			}
 			return output;
 		}
-		
-		/**
-		* 	The patterns belonging to this pattern
-		* 	as a pattern list.
-		*/
-		public function get children():PatternList
-		{
-			if( _list == null )
-			{
-				_list = new PatternList();
-				var node:Node = null;
-				for each( node in childNodes )
-				{
-					if( node is Pattern )
-					{
-						_list.appendChild( node );
-					}
-				}
-			}
-			return _list;
-		}
-		
-		/**
-		* 	A name for this pattern.
-		*/
-		public function get name():String
-		{
-			return _name;
-		}
-		
-		public function set name( value:String ):void
-		{
-			_name = value;
-		}
-		
-		/**
-		* 	An <code>XML</code> representation of this pattern.
-		*/
-		
-		/*
-		public function get xml():XML
-		{
-			return null;
-		}
-		*/
 		
 		/**
 		* 	The first child that is a pattern.

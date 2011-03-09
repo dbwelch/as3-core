@@ -42,7 +42,7 @@ package java.util.regex
 			Assert.assertTrue( impl is PatternDOMImplementationImpl );
 			
 			//create a plain xml document implementation
-			var doc:Document = impl.createDocument( null, null, null );
+			var doc:Document = PatternDOMImplementationImpl( impl ).createPatternDocument();
 			
 			Assert.assertNotNull( doc );
 			_document = doc;
@@ -173,7 +173,7 @@ package java.util.regex
 			
 			//var rule:Rule = doc.createRule( "^([0-9]+)$" );
 			
-			var rule:Rule = doc.createRule( "^([0-9]+)$", "This is a comment about the rule." );
+			var rule:Rule = doc.createRule( "^(?P<id>[^0-9]+?)$", "This is a comment about the rule." );
 			
 			trace("PatternTest::patternDOMTest()", rule );
 			

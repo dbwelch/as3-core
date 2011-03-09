@@ -1,6 +1,7 @@
 package com.ffsys.w3c.dom
 {
 	import org.w3c.dom.Element;
+	import org.w3c.dom.Node;
 	import org.w3c.dom.NodeList;	
 	
 	/**
@@ -63,6 +64,53 @@ package com.ffsys.w3c.dom
 			return __nodeSelectorImpl.queryScopedSelectorAll.apply(
 				__nodeSelectorImpl,
 				[ selectors ] );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function insertBefore( child:Node, before:Node ):Node
+		{
+			//This method can raise a DomException object.			
+			return internalInsertBefore( child, before, false );
+		}
+		
+		/**
+		* 	@private
+		*/
+		protected function internalInsertBefore(
+			newChild:Node, refChild:Node, replace:Boolean ):Node
+		{
+			if( newChild is NodeImpl )
+			{
+				var n:NodeImpl = NodeImpl( newChild );				
+				n.setParentNode( this );
+				n.setChildIndex( childNodes.length );
+				
+				if( _ownerDocument != null )
+				{
+					n.setOwnerDocument( _ownerDocument );
+				}
+
+				NodeListImpl( childNodes ).concat( n );
+				
+				if( _ownerDocument is CoreDocumentImpl && ( n is Element ) )
+				{	
+					CoreDocumentImpl( _ownerDocument ).registerElement( Element( n ) );
+				}
+				
+				//TODO: property name camel case conversion
+				
+				//var name:String = n.nodeName;
+					
+				//also assign a reference by property name
+				
+				//this[ name ] = n;
+				
+				n.added();
+			}
+			
+			return newChild;			
 		}
 	}
 }
