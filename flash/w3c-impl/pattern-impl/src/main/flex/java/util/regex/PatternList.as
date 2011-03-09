@@ -221,9 +221,7 @@ package java.util.regex
 		*/
 		internal var _regex:RegExp;
 		
-		private var _comment:String;		
-		private var _owner:PatternList;
-		private var _index:int = -1;
+		private var _comment:String;
 		
 		/**
 		* 	Creates a <code>PatternList</code> instance.
@@ -288,7 +286,7 @@ package java.util.regex
 		/**
 		* 	@private
 		*/
-		protected function createPattern(
+		internal function createPattern(
 			pattern:String = null,
 			comment:String = null ):Pattern
 		{
@@ -303,137 +301,12 @@ package java.util.regex
 		}
 		
 		/**
-		* 	@private
-		*/
-		
-		/*
-		internal function setOwner( owner:PatternList ):void
-		{
-			_owner = owner;
-		}
-		*/
-		
-		/**
-		* 	The index of this pattern in the context
-		* 	of an owner pattern.
-		*/
-		public function get index():int
-		{
-			return _index;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function setIndex( index:int ):void
-		{
-			_index = index;
-		}
-		
-		/**
 		* 	Determines whether this pattern
 		* 	has any patterns.
 		*/
 		public function get empty():Boolean
 		{
-			return length == 0;
-		}
-		
-		/**
-		*	Removes pattern(s) from this pattern.
-		* 
-		* 	@param start The index to start removing
-		* 	from.
-		* 	@param end The end index to stop removing from.
-		* 
-		* 	@return A pattern or <code>null</code> if the start
-		* 	index is out of range.
-		*/
-		public function remove( start:int = -1, end:int = -1 ):Pattern
-		{
-			//behave like pop() by default
-			if( start == -1 && patterns.length > 0 )
-			{
-				start = ( patterns.length == 1 ) ? 0 : patterns.length - 2;
-			}
-			if( start >= 0 && start < patterns.length )
-			{
-				if( end == -1 )
-				{
-					end = start + 1;
-				}
-				if( end <= start )
-				{
-					end = start + 1;
-				}
-				var count:uint = uint( end - start );
-				patterns.splice( start, count );
-			}
-			return null;
-		}
-		
-		/**
-		* 	Retrieves a child pattern at the specified
-		* 	index.
-		* 
-		* 	@param index The index for the child pattern.
-		*
-		* 	@return The pattern at the specified index
-		* 	or <code>null</code> if the index is out of
-		* 	bounds.
-		*/
-		public function getPatternAt( index:int ):Pattern
-		{
-			if( index < 0 || index >= patterns.length )
-			{
-				return null;
-			}
-			return patterns[ index ];
-		}
-		
-		/**
-		* 	Retrieves a copy of the last pattern
-		* 	match results.
-		*/
-		public function get results():Array
-		{
-			//TODO: move to composite vector
-			//return slice();
-			return null;
-		}
-		
-		/**
-		* 	Retrieves a list of the matches
-		* 	that failed during the last pattern
-		* 	match.
-		*/
-		public function get failures():Vector.<PatternMatch>
-		{
-			var output:Vector.<PatternMatch> =
-				new Vector.<PatternMatch>();
-			var match:PatternMatch = null;
-			for( var i:int = 0;i < results.length;i++ )
-			{
-				match = PatternMatch( results[ i ] );
-				if( !match.result )
-				{
-					output.push( match );
-				}
-			}
-			return output;
-		}
-		
-		/**
-		* 	Tests whether the pattern matches
-		* 	a value.
-		* 
-		* 	@param value The value to compare this pattern against.
-		* 
-		* 	@return Whether the pattern matches the value.
-		*/
-		public function test( value:* ):Boolean
-		{
-			return false;
+			return childNodes.length == 0;
 		}
 		
 		/**
@@ -444,13 +317,15 @@ package java.util.regex
 		*/
 		public function get rule():Boolean
 		{
-			return ( owner == null );
+			return ( this is Rule );
 		}
 		
 		/**
 		* 	The patterns belonging to this pattern
 		* 	as a vector.
 		*/
+		
+		/*
 		public function get patterns():Vector.<Pattern>
 		{
 			var output:Vector.<Pattern> = new Vector.<Pattern>();
@@ -464,6 +339,7 @@ package java.util.regex
 			}
 			return output;
 		}
+		*/
 		
 		/**
 		* 	The first child that is a pattern.
@@ -515,15 +391,6 @@ package java.util.regex
 		}
 		
 		/**
-		* 	A regular expression representation
-		* 	of this pattern.
-		*/
-		public function get regex():RegExp
-		{		
-			return _regex;
-		}
-		
-		/**
 		* 	Gets a string representation of this pattern
 		* 	that indicates it is a pattern as opposed to
 		* 	a string or regular expression.
@@ -549,40 +416,6 @@ package java.util.regex
 		override public function toString():String
 		{
 			return super.toString();
-		}
-		
-		/*
-		*	XML INTERNALS
-		*/
-		
-		/**
-		* 	@private
-		* 
-		* 	Creates an <code>XML</code> element within the namespace
-		* 	for pattern <code>XML</code>.
-		* 
-		* 	@param nm The name for the <code>XML</code> element.
-		* 	@param cdata Some CDATA text to add as
-		* 	a child of the new element.
-		* 
-		* 	@return The <code>XML</code> element.
-		*/
-		protected function getXmlElement(
-			nm:String = null,
-			cdata:String = null ):XML
-		{
-			if( nm == null )
-			{
-				nm = this.name;
-			}
-			var x:XML = new XML( "<node />" );
-			x.setNamespace( Pattern.NAMESPACE );
-			x.setName( new QName( Pattern.NAMESPACE, nm ) );
-			if( cdata != null )
-			{
-				x.appendChild( new XML( "<![CDATA[" + cdata + "]]>" ) );
-			}
-			return x;
 		}
 		
 		/*

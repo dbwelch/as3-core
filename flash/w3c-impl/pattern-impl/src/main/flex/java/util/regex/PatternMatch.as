@@ -89,49 +89,5 @@ package java.util.regex
 		{
 			_target = value;
 		}
-		
-		/**
-		* 	An xml representation of this match.
-		*/
-		
-		/*
-		override public function get xml():XML
-		{
-			return getXml( false );
-		}
-		*/
-		
-		/**
-		* 	@inheritDoc
-		*/
-		override public function toString():String
-		{
-			return getXml( false ).toXMLString();
-		}
-		
-		/**
-		* 	@private
-		*/
-		private function getXml( simple:Boolean = true ):XML
-		{
-			var x:XML = getXmlElement( MATCH );
-			x.@position = position;			
-			x.@result = result;
-			if( !simple )
-			{
-				if( target != null )
-				{
-					var src:XML = getXmlElement( TARGET, target );
-					src.@type = getQualifiedClassName( target );
-					x.appendChild( src );
-				}
-				if( pattern != null )
-				{
-					x.appendChild( getXmlElement(
-						PATTERN, pattern.toPatternLiteral() ) );
-				}
-			}
-			return x;
-		}
 	}
 }
