@@ -97,16 +97,17 @@ package java.util.regex
 				+ "(?P<county>\\w+(alpha+ \\\\w+)\\\\+)"
 				+ "(?P<postcode>)[a-zA-Z]{1,2}[0-9a-zA-Z]{1,2}( [0-9]{1,2}[a-zA-Z]{1,2})?";			
 				
-			var ptn:Pattern = new Pattern( source, true );
+			//var ptn:Pattern = new Pattern( source, true );
 			
-			var matched:Boolean = ptn.test( address_1 );
+			//var matched:Boolean = ptn.test( address_1 );
 			
-			trace("PatternTest::addressValidationTest()", ptn.xml.toXMLString() );
+			//trace("PatternTest::addressValidationTest()", ptn.xml.toXMLString() );
 		}
 		
 		//[Test]
 		public function mobileNumberTest():void
 		{
+			/*
 			default xml namespace = Pattern.NAMESPACE;			
 			
 			//pattern to match a UK mobile number
@@ -125,11 +126,13 @@ package java.util.regex
 			Assert.assertTrue( ptn.test( "07900123456" ) );
 			//uint validation
 			Assert.assertTrue( ptn.test( 07900123456 ) );			
+			*/
 		}
 		
 		//[Test]
 		public function numericValidationTest():void
 		{
+			/*
 			default xml namespace = Pattern.NAMESPACE;
 			
 			var ptn:Pattern = new Pattern( /^[0-9]+$/, true );
@@ -154,7 +157,9 @@ package java.util.regex
 			ptn = new Pattern( /^([0-9]+)?\.[0-9]+$/, true );
 			Assert.assertTrue( ptn.test( .5 ) );
 			Assert.assertTrue( ptn.test( 1.67 ) );
-			Assert.assertFalse( ptn.test( 16 ) );			
+			Assert.assertFalse( ptn.test( 16 ) );	
+			*/
+					
 		}
 		
 		/**
@@ -184,6 +189,8 @@ package java.util.regex
 		//[Test]
 		public function patternCompileTest():void
 		{	
+			
+			/*
 			default xml namespace = Pattern.NAMESPACE;
 			
 			var candidates:Array = [ 201, 505 ];
@@ -201,6 +208,7 @@ package java.util.regex
 			var file:PatternFile = PatternFile.encode( ptn );
 			
 			trace("[FILE] PatternTest::patternCompileTest()", file );
+			*/
 			
 			//var ptn:Pattern = new Pattern( new RegExp( "^(?P<id>[0-9]+|false)$" ), true );
 			

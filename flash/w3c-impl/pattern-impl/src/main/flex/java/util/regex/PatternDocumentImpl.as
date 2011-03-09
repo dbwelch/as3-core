@@ -59,7 +59,7 @@ package java.util.regex
 				if( pattern != null && pattern != "" )
 				{
 					rule.compile( pattern );
-				}			
+				}
 			}
 			return rule;
 		}

@@ -308,11 +308,19 @@ package java.util.regex
 		//
 		private var _parts:Pattern;
 		private var _position:uint = 0;
-		private var _source:* = NaN;
 		private var _field:String;
-		private var _compiled:String;
 		private var _open:Boolean = false;
 		private var _type:uint;
+		
+		/**
+		* 	@private
+		*/
+		protected var _compiled:String;
+		
+		/**
+		* 	@private
+		*/
+ 		protected var _source:* = NaN;
 		
 		/**
 		* 	@private
@@ -336,23 +344,16 @@ package java.util.regex
 		/**
 		* 	Creates a <code>Pattern</code> instance.
 		* 
-		* 	@param source The source for the pattern.
-		* 	@param compile Whether the source should
-		* 	be compiled.
+		* 	@param src The source for the pattern.
 		*/
 		public function Pattern(
-			source:* = null, compile:Boolean = false )
+			src:* = null )
 		{
-			super();
-			
-			/*
-			if( compile === true )
+			super();			
+			if( src != null )
 			{
-				this.compile( extractSource( source ) );
-			}else{
-				this.source = source;
+				this.source = src;
 			}
-			*/
 		}
 		
 		/**
@@ -1542,307 +1543,6 @@ package java.util.regex
 			return patterns.length > 0 ? patterns.join( delimiter ) : _source;
 		}
 		
-		/**
-		* 	Compiles a source string into this pattern.
-		* 
-		* 	@param source The source string to compile.
-		*/
-		public function compile( source:String ):void
-		{
-			__compile( source );
-		}
-		
-		/**
-		* 	@private
-		* 	
-		* 	Compiles a string to a pattern.
-		* 
-		* 	Any existing patterns belonging to this pattern
-		* 	are removed before attempting to compile.
-		* 
-		* 	@param candidate The string candidate to compile.
-		* 	@param list Whether this pattern should be treated
-		* 	as a tree rather than a list structure.
-		* 	@param target An optional target to compile into,
-		* 	if not specified the pattern is compiled into this
-		* 	pattern.
-		* 
-		* 	@return A compiled pattern.
-		*/
-		private function __compile(
-			candidate:String,
-			target:Pattern = null ):Pattern
-		{
-			if( target == null )
-			{
-				target = this;
-			}
-			
-			if( candidate != null )
-			{
-				//clear();
-				
-				//TODO: remove all child elements but keep Comment
-				
-				//copy the candidate to our source
-				_source = candidate.substr();
-				_compiled = candidate.substr();
-				
-				if( isMetaSequence( _compiled ) )
-				{
-					//nothing to build for meta character sequences
-					return target;
-				}
-				
-				var parentTarget:Pattern = target;
-				var opens:Boolean = false;
-				var closes:Boolean = false;
-				var meta:String = null;
-				var ptn:Pattern = null;
-				var data:String = null;
-				var tmp:Pattern = null;
-
-				var current:Pattern = null;				
-						
-				trace("[COMPILE] PatternBuilder::compile()", _compiled );
-
-				//candidate for valid actionscript property names
-				var prop:String = "(?:[a-zA-Z_\\$]{1}[a-zA-Z0-9_\\$]*)";
-				
-				//meta sequences '\b', '\n' etc, etc
-				
-				var expr:String = "(?:" + __sequence + "|\\?!|\\?:|\\?=|\\?P|\\[|\\]|[()|^\\$<>]){1}";
-
-				var re:RegExp = new RegExp( "(" + expr + ")" );
-				var results:Array = re.exec( _compiled );
-				
-				//no regex special character match
-				if( results == null )
-				{
-					ptn = createPattern( _compiled );
-					parentTarget.appendChild( ptn );
-					parts.appendChild( ptn );
-					return target;
-				}
-				
-				var position:int = results.index;				
-				
-				//grab any inital non-meta chunk
-				if( position > 0 )
-				{
-					data = _compiled.substr( 0, results.index );
-					ptn = getCompilationPattern( data );
-					addCompilationPattern(
-						parentTarget, ptn, true );
-				}
-				
-				//grab the first pattern match
-				if( results[ 1 ] is String )
-				{
-					ptn = getCompilationPattern( results[ 1 ] );
-				}
-
-				while( ptn != null )
-				{
-					opens = ptn.opens();
-					closes = ptn.closes();
-					
-					if( opens
-						&& parentTarget != null )
-					{
-						if( !( ptn.source == LESS_THAN ) )
-						{
-							addCompilationPart( ptn );
-						}
-
-						//add the opening meta group character
-						//to a pattern used to represent the entire
-						//group contents
-						current = createPattern( ptn.source );
-						current.appendChild( ptn );
-						current.setOpen( true );
-						ptn = current;
-					}else
-					{
-						if( ptn.qualifier == null
-							&& !( ptn.source == GREATER_THAN ) )
-						{
-							addCompilationPart( ptn );
-						}
-					}
-					
-					//
-					addCompilationPattern( parentTarget, ptn );
-					
-					if( opens )
-					{
-						//opening a group update the parent target *after* adding the group
-						parentTarget = current;
-					}
-					
-					//close an open group
-					if(	closes
-						&& current != null )
-					{
-						current.setOpen( false );
-						parentTarget = Pattern( current.owner );
-						current = parentTarget;
-					}
-
-					//look for the next meta character sequence
-					//to extract any intermediary chunk
-					var next:int = _compiled.search( re );
-					if( next > 0 )
-					{
-						//extract the non-meta character chunk
-						data = _compiled.substr( 0, next );
-					
-						if( __quantity.test( data ) )
-						{
-							results = __quantity.exec( data );
-							var c:String = results[ 1 ] as String;
-							var just:Boolean = __justquantity.test( data );
-							
-							//trace("Pattern::compile()", "[FOUND QUANTITY CHUNK]", data, results, c, just, ptn );
-							
-							//quantifier with chunk data after
-							//a group or character class so
-							//split into quantifier and remaining
-							//chunk
-							if( c != null
-								&& results.index == 0
-								&& !just
-								&& (
-									closes
-									&& ptn.source == RPAREN
-									|| ptn.source == RBRACKET ) )
-							{
-								//trace("Pattern::compile()", "[FOUND MIXED QUANTITY CHUNK]" );
-								
-								//add the quantifier part
-								addCompilationPattern(
-									parentTarget,
-									getCompilationPattern( data.substr( 0, c.length ) ),
-									true );
-								
-								//re-assign the current chunk value
-								data = data.substr( c.length );
-							}else if( just && c != null )
-							{
-								data = c;
-							}
-						}
-
-						ptn = createPattern( data );
-						
-						//trace("[COMPILE] Pattern::compile()", "[ADDING CHUNK]", data );
-						
-						//adding a chunk to a named property
-						//group - <propertyName>
-						if( parentTarget.grouping
-							&& parentTarget.owner is Pattern
-							&& parentTarget.firstPatternChild != null
-							&& parentTarget.firstPatternChild.toString() == LESS_THAN )
-						{	
-							//assign the named property field to
-							//the parent group
-							Pattern( parentTarget.owner ).field = data;
-						}else
-						{
-							addCompilationPart( ptn );
-						}
-						
-						//add the chunk pattern
-						addCompilationPattern( parentTarget, ptn );
-					}
-					
-					//test for more meta sequences
-					results = re.exec( _compiled );					
-					ptn = null;
-					if( results != null )
-					{
-						position = results.index;
-						if( results[ 1 ] as String != null )
-						{
-							ptn = createPattern(
-								results[ 1 ] as String );
-						}
-					}
-				}
-			}
-			return target;
-		}
-		
-		/*
-		*	COMPILATION INTERNALS
-		*/
-		
-		/**
-		* 	@private
-		* 	
-		* 	Determines whether the last attempt
-		* 	to compile a pattern completed successfully.
-		*/
-		internal function get compiled():Boolean
-		{
-			return _compiled != null
-				&& _source != null
-				&& _compiled == "";
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function getCompilationPattern(
-			data:String ):Pattern
-		{
-			return createPattern( data );
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function addCompilationPattern(
-			parent:Pattern,
-			ptn:Pattern,
-			part:Boolean = false ):String
-		{
-			//chomp the matched string
-			_compiled = _compiled.substr( ptn.source.length );
-						
-			//a cancelled meta character/sequence
-			if( ptn.cancelled )
-			{
-				//fold into any previous character matching data
-				//if we can
-				if( ptn.previousPatternSibling.data )
-				{
-					ptn.previousPatternSibling.source += ptn.source;
-					return _compiled;
-				}else{
-					//TODO?
-					trace("Pattern::get compiled()", "[FOUND ESCAPED META SEQUENCE WITH NO PREVIOUS CHARACTER MATCH]", ptn );
-				}
-			}
-			
-			parent.appendChild( ptn );
-			if( part )
-			{
-				addCompilationPart( ptn );
-			}
-			return _compiled;
-		}
-		
-		/**
-		* 	@private
-		*/
-		internal function addCompilationPart(
-			ptn:Pattern ):Pattern
-		{
-			parts.appendChild( ptn );
-			return parts;
-		}
-		
 		/*
 		*	GROUPING INTERNALS
 		*/
@@ -2288,7 +1988,7 @@ package java.util.regex
 		* 	@return Whether the value is a meta character
 		* 	or meta sequence.
 		*/
-		private function isMetaSequence( char:String ):Boolean
+		protected function isMetaSequence( char:String ):Boolean
 		{
 			return char == POSITIVE_LOOKAHEAD_SEQUENCE
 				|| char == NEGATIVE_LOOKAHEAD_SEQUENCE
