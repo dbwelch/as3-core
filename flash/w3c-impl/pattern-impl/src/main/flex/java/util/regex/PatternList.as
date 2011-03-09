@@ -301,6 +301,23 @@ package java.util.regex
 		}
 		
 		/**
+		* 	@private
+		*/
+		internal function internalCreateGroupPattern(
+			comment:String = null ):Pattern
+		{
+			var ptn:Pattern = null;
+			
+			if( patternDocument )
+			{
+				ptn = patternDocument.createPattern(
+					null, comment );
+				ptn.setPatternType( Pattern.GROUP_TYPE );
+			}
+			return ptn;
+		}		
+		
+		/**
 		* 	Determines whether this pattern
 		* 	has any patterns.
 		*/
@@ -319,27 +336,6 @@ package java.util.regex
 		{
 			return ( this is Rule );
 		}
-		
-		/**
-		* 	The patterns belonging to this pattern
-		* 	as a vector.
-		*/
-		
-		/*
-		public function get patterns():Vector.<Pattern>
-		{
-			var output:Vector.<Pattern> = new Vector.<Pattern>();
-			var node:Node =  null;
-			for each( node in childNodes )
-			{
-				if( node is Pattern )
-				{
-					output.push( Pattern( node ) );
-				}
-			}
-			return output;
-		}
-		*/
 		
 		/**
 		* 	The first child that is a pattern.

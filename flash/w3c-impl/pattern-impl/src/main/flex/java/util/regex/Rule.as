@@ -510,6 +510,12 @@ package java.util.regex
 			return createPattern( data );
 		}
 		
+		internal function chomp( ptn:Pattern ):void
+		{
+			//chomp the matched string
+			_compiled = _compiled.substr( ptn.source.length );			
+		}
+		
 		/**
 		* 	@private
 		*/
@@ -518,8 +524,7 @@ package java.util.regex
 			ptn:Pattern,
 			part:Boolean = false ):String
 		{
-			//chomp the matched string
-			_compiled = _compiled.substr( ptn.source.length );
+			chomp( ptn );
 						
 			//a cancelled meta character/sequence
 			if( ptn.cancelled )
@@ -535,6 +540,7 @@ package java.util.regex
 					trace("Pattern::get compiled()", "[FOUND ESCAPED META SEQUENCE WITH NO PREVIOUS CHARACTER MATCH]", ptn );
 				}
 			}
+
 			parent.appendChild( ptn );
 			return _compiled;
 		}

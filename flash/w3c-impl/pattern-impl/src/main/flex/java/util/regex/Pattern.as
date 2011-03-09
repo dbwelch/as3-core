@@ -401,6 +401,14 @@ package java.util.regex
 		/**
 		* 	@private
 		*/
+		internal function setPatternType( type:uint ):void
+		{
+			_patternType = type;
+		}
+		
+		/**
+		* 	@private
+		*/
 		override public function get nodeName():String
 		{
 			//TODO: mutate localName on pattern type
@@ -434,7 +442,9 @@ package java.util.regex
 				}
 			}
 			
-			if( group )
+			trace("[GROUP] Pattern::get nodeName()", this.group, _source );
+			
+			if( this.group )
 			{
 				nm = GROUP_NAME;
 			}
@@ -790,35 +800,6 @@ package java.util.regex
 		}
 		
 		/**
-		* 	Retrieves a group pattern.
-		* 
-		* 	@param name A name for the group.
-		* 	@param contents A pattern containing patterns
-		* 	to add as the contents of the group.
-		* 	@param close Whether to close the group.
-		* 
-		* 	@return A group pattern.
-		*/
-		public function getGroup(
-			name:String = null,
-			contents:Pattern = null,
-			close:Boolean = false ):Pattern
-		{
-			var grp:Pattern = createPattern();
-			grp.appendChild( createPattern( LPAREN ) );
-			if( contents != null )
-			{
-				//TODO
-				//grp.concat( contents );
-			}
-			if( close === true )
-			{
-				grp.appendChild( createPattern( RPAREN ) );
-			}
-			return grp;
-		}
-		
-		/**
 		* 	Creates a matcher that will match the given
 		* 	input against this pattern.
 		* 
@@ -854,7 +835,14 @@ package java.util.regex
 		*/
 		public function get group():Boolean
 		{
-			return this.grouping && ( firstPatternChild.toString() == LPAREN );
+			if( _patternType === GROUP_TYPE )
+			{
+				return true;
+			}
+			
+			return _source === LPAREN ||
+				( this.grouping
+				&& ( firstPatternChild.toString() == LPAREN ) );
 		}
 		
 		/**
@@ -1146,18 +1134,18 @@ package java.util.regex
 		* 
 		* 	This allows the rule to inspect the DOM structure
 		* 	and manipulate the DOM values to correctly reflect
-		* 	the compiled pattern data.
+		* 	the compiled pattern data in a compact manner.
 		*/
 		internal function completed():void
 		{
-			//trace("[COMPILE COMPLETE PATTERN] Pattern::completed()", this, minimum, maximum );
-			
+			trace("[COMPILE COMPLETE PATTERN] Pattern::completed()", this, field );			
+
 			if( _source != null
 				&& _source != "" )
 			{
 				insertBefore( ownerDocument.createCDATASection( _source ), firstChild );
 			}
-			
+		
 			notifyChildPatternsComplete();
 			
 			if( this.group )
@@ -1192,6 +1180,18 @@ package java.util.regex
 							Pattern.NAMESPACE_PREFIX,
 							NEGATED_ATTR_NAME ),
 					"" + this.negated );
+					
+				if( firstPatternChild != null
+					&& firstPatternChild.source == LBRACKET )
+				{
+					removeChild( firstPatternChild );
+				}
+				
+				if( lastPatternChild != null
+					&& lastPatternChild.source == RBRACKET )
+				{
+					removeChild( lastPatternChild );
+				}
 			}
 			
 			if( !quantifier
