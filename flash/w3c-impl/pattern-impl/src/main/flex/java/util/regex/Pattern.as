@@ -354,7 +354,7 @@ package java.util.regex
 		/**
 		* 	@private
 		*/
- 		protected var _source:* = NaN;
+ 		protected var _source:String = null;
 		
 		/**
 		* 	@private
@@ -685,14 +685,15 @@ package java.util.regex
 		/**
 		* 	The source for this pattern.
 		*/
-		public function get source():*
+		public function get source():String
 		{
 			return _source;
 		}
 		
-		public function set source( value:* ):void
+		public function set source( value:String ):void
 		{
-			extractSource( value );
+			//extractSource( value );
+			
 			_source = value;
 			
 			//update the pattern type
