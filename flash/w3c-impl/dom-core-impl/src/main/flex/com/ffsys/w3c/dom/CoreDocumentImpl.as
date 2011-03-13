@@ -28,6 +28,47 @@ package com.ffsys.w3c.dom
 		*/
 		public static const NODE_NAME:String = "#document";
 		
+		/**
+		* 	@private
+		* 
+		* 	Reproduced from the xerces-j documentation.
+		* 
+		*	Number of alterations made to this document since its creation.
+		*	Serves as a "dirty bit" so that live objects such as NodeList can
+		*	recognize when an alteration has been made and discard its cached
+		*	state information.
+		* 
+		*	<p>Any method that alters the tree structure MUST cause or be
+		*	accompanied by a call to changed(), to inform it that any outstanding
+		*	NodeLists may have to be updated.</p>
+		* 
+		*	<p>(Required because NodeList is simultaneously "live" and integer-
+		*	indexed -- a bad decision in the DOM's design.)</p>
+		* 
+		*	<p>Note that changes which do not affect the tree's structure -- changing
+		*	the node's name, for example -- do _not_ have to call changed().</p>
+		* 
+		*	<p>Alternative implementation would be to use a cryptographic
+		*	Digest value rather than a count. This would have the advantage that
+		*	"harmless" changes (those producing equal() trees) would not force
+		*	NodeList to resynchronize. Disadvantage is that it's slightly more prone
+		*	to "false negatives", though that's the difference between "wildly
+		*	unlikely" and "absurdly unlikely". IF we start maintaining digests,
+		*	we should consider taking advantage of them.</p>
+		*	
+		*	<p>Note: This used to be done a node basis, so that we knew what
+		*	subtree changed. But since only DeepNodeList really use this today,
+		*	the gain appears to be really small compared to the cost of having
+		*	an int on every (parent) node plus having to walk up the tree all the
+		*	way to the root to mark the branch as changed everytime a node is
+		*	changed.</p>
+		* 
+		*	<p>So we now have a single counter global to the document. It means that
+		*	some objects may flush their cache more often than necessary, but this
+		*	makes nodes smaller and only the document needs to be marked as changed.</p>
+		*/
+		protected var __changes:int = 0;
+		
 		private var _identifiers:Object = new Object();
 		private var _tags:Object = new Object();
 		
@@ -49,6 +90,8 @@ package com.ffsys.w3c.dom
 		*/
 		protected var _documentElement:Element;
 		
+		private var _errorChecking:Boolean = true;
+		
 		/**
 		* 	Creates a <code>CoreDocumentImpl</code> instance.
 		*/
@@ -56,6 +99,14 @@ package com.ffsys.w3c.dom
 		{
 			super();
 		}
+			
+		/**
+		* 	
+		*/
+		public function get errorChecking():Boolean
+		{
+			return _errorChecking;
+		}		
 		
 		/**
 		* 	@inheritDoc
@@ -699,7 +750,7 @@ package com.ffsys.w3c.dom
 			}
 			var el:Element = this.documentElement;
 			
-			if( el != null )
+			if( el != null && child != el )
 			{
 				return el.appendChild( child );
 			}
@@ -756,6 +807,196 @@ package com.ffsys.w3c.dom
 					//trace("[REGISTER ELEMENT] Document::registerElement()", element, element.id, nm, _tags[ nm ].length );					
 				}
 			}
+		}
+
+		/**
+		* 	@private
+		* 	
+		*	Denotes that this node has changed.
+		*/
+		override protected function changed():void
+		{
+			__changes++;
+		}
+
+		/**
+		* 	@private
+		* 	
+		*	Returns the number of changes to this node.
+		*/
+		override protected function changes():int
+		{
+			return __changes;
+		}
+		
+		// Notification methods overidden in subclasses
+
+	    /**
+	    *	A method to be called when some text was changed in a text node,
+	    *	so that live objects can be notified.
+	    */
+		internal function replacedText( node:CharacterDataImpl ):void
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when some text was deleted from a text node,
+		*	so that live objects can be notified.
+		*/
+		internal function deletedText(
+			node:CharacterDataImpl, offset:int, count:int ):void
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when some text was inserted into a text node,
+		*	so that live objects can be notified.
+		*/
+		internal function insertedText(
+			node:CharacterDataImpl, offset:int, count:int ):void
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when a character data node is about to be modified.
+		*/
+		internal function modifyingCharacterData( node:NodeImpl, replace:Boolean ):void 
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when a character data node has been modified.
+		*/
+		internal function modifiedCharacterData(
+			node:NodeImpl,
+			oldvalue:String,
+			value:String,
+			replace:Boolean ):void
+		{
+			//
+		}
+
+		
+		/**
+	    *	A method to be called when a node is about to be inserted in the tree.
+	    */
+	    internal function insertingNode( node:NodeImpl, replace:Boolean ):void
+		{
+			//TODO
+	    }
+
+		/**
+		*	A method to be called when a node has been inserted in the tree.
+		*/
+		internal function insertedNode(
+			node:NodeImpl,
+			newInternal:NodeImpl,
+			replace:Boolean ):void
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when a node is about to be removed from the tree.
+		*/
+		internal function removingNode(
+			node:NodeImpl,
+			oldChild:NodeImpl,
+			replace:Boolean ):void
+		{
+			
+		}
+
+		/**
+		*	A method to be called when a node has been removed from the tree.
+		*/
+		internal function removedNode( node:NodeImpl, replace:Boolean ):void
+		{
+			
+		}
+
+		/**
+		*	A method to be called when a node is about to be replaced in the tree.
+		*/
+		internal function replacingNode( node:NodeImpl ):void
+		{
+			
+		}
+
+		/**
+		*	A method to be called when a node has been replaced in the tree.
+		*/
+		internal function replacedNode( node:NodeImpl ):void
+		{
+			
+		}
+
+		/**
+		*	A method to be called when a character data node is about to be replaced
+		*/
+		internal function replacingData( node:NodeImpl ):void
+		{
+			
+		}
+
+		/**
+		* 	A method to be called when a character data node has been replaced.
+		*/
+		internal function replacedCharacterData(
+			node:NodeImpl,
+			oldvalue:String,
+			value:String):void
+		{
+		}
+
+
+		/**
+		*	A method to be called when an attribute value has been modified.
+		*/
+		internal function modifiedAttrValue(
+			attr:AttrImpl, oldvalue:String ):void
+		{
+			
+		}
+
+		/**
+		*	A method to be called when an attribute node has been set
+		*/
+		internal function setAttrNode(
+			attr:AttrImpl, previous:AttrImpl ):void
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when an attribute node has been removed.
+		*/
+		internal function removedAttrNode(
+			attr:AttrImpl,
+			oldOwner:NodeImpl,
+			name:String ):void
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when an attribute node has been renamed.
+		*/
+		internal function renamedAttrNode( oldAt:Attr, newAt:Attr ):void
+		{
+			//
+		}
+
+		/**
+		*	A method to be called when an element has been renamed.
+		*/
+		internal function renamedElement( oldEl:Element, newEl:Element ):void
+		{
+			//
 		}
 	}
 }

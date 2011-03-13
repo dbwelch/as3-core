@@ -140,6 +140,30 @@ package org.w3c.dom
 			= "The XML name '%s' is invalid.";
 			
 		/**
+		* 	A message for when a modification is invalid.
+		*/
+		static public const NO_MODIFICATION_ALLOWED_MSG:String = 
+			"Invalid modification, the node may be read-only.";
+			
+		/**
+		* 	A message for when a node is not found.
+		*/
+		static public const NOT_FOUND_MSG:String = 
+			"The specified node was not found.";
+			
+		/**
+		* 	A message for when a hierarchy request is invalid.
+		*/
+		static public const HIERARCHY_REQUEST_MSG:String = 
+			"Invalid hierarchy request.";
+			
+		/**
+		* 	A message for when a wrong document error is encountered.
+		*/
+		static public const WRONG_DOCUMENT_MSG:String = 
+			"Wrong document tree, try adopting the node first.";
+			
+		/**
 		* 	A message for when a feature is not supported.
 		*/
 		static public const UNSUPPORTED_FEATURE_MODULE_MSG:String

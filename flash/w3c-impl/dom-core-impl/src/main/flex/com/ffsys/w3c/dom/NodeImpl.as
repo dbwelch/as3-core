@@ -836,6 +836,44 @@ package com.ffsys.w3c.dom
 			return null;
 		}
 		
+		/**
+		* 	@private
+		* 	
+		*	Denotes that this node has changed.
+		*/
+		protected function changed():void
+		{
+			// we do not actually store this information on every node, we only
+			// have a global indicator on the Document. Doing otherwise cost us too
+			// much for little gain.
+			CoreDocumentImpl( ownerDocument ).changed();
+		}
+
+		/**
+		* 	@private
+		* 	
+		*	Returns the number of changes to this node.
+		*/
+		protected function changes():int
+		{
+			// we do not actually store this information on every node, we only
+			// have a global indicator on the Document. Doing otherwise cost us too
+			// much for little gain.
+			return CoreDocumentImpl( ownerDocument ).changes();
+		}
+
+		/**
+		* 	@private
+		* 	
+		*	Override this method in subclass to hook in efficient
+		*	internal data structure.
+		*/
+		protected function synchronizeData():void
+		{
+			// By default just change the flag to avoid calling this method again
+			setNeedsSyncData( false );
+		}
+		
 	    //
 	    // EventTarget support
 	    //
