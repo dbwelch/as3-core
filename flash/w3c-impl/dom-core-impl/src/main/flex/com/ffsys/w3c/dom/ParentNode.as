@@ -136,15 +136,14 @@ package com.ffsys.w3c.dom
 	        }
 			*/
 			
-			/*
-	        if (newChild == refChild) {
-	            // stupid case that must be handled as a no-op triggering events...
-	            refChild = refChild.getNextSibling();
-	            removeChild(newChild);
-	            insertBefore(newChild, refChild);
-	            return newChild;
-	        }
-			*/
+			if( newChild == refChild )
+			{
+				// stupid case that must be handled as a no-op triggering events...
+				refChild = refChild.nextSibling;
+				removeChild( newChild );
+				insertBefore( newChild, refChild );
+				return newChild;
+			}
 			
 			if( needsSyncChildren() )
 			{
@@ -192,59 +191,40 @@ package com.ffsys.w3c.dom
 				// newChild cannot be ancestor of this Node,
 				// and actually cannot be this
 				var treeSafe:Boolean = true;
-				var a:Node = this;
-				while( treeSafe && a != null )
+				for( var a:Node = this; treeSafe && a != null; a = a.parentNode )
 				{
-					if( newChild == a )
-					{
-						trace("[FOUND PARENT THAT MATCHES CHILD] ParentNode::internalInsertBefore()", newChild, a );
-						treeSafe = false;
-						break;
-					}
-					a = a.parentNode;
+					treeSafe = newChild != a;
 				}
-				
-				/*
-				for( var a:Node = this; treeSafe && a != null; )
-				{
-					treeSafe = ( newChild != a ) && a != null;
-					a = a.parentNode;
-				}
-				*/
-				
-				trace("ParentNode::internalInsertBefore()", treeSafe );
-				
 				if( !treeSafe )
 				{
-					//throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, 
-					//	DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "HIERARCHY_REQUEST_ERR", null));
-					
 					throw new DOMException(
 						DOMException.HIERARCHY_REQUEST_MSG,
 						null,
-						DOMException.HIERARCHY_REQUEST_ERR );					
+						DOMException.HIERARCHY_REQUEST_ERR );		
 				}
 			}
 
 	        // notify document
 	        owner.insertingNode( this, replace );
 	
-	        // Convert to internal type, to avoid repeated casting
-	        var newInternal:ChildNode = ChildNode( newChild );	
+			// Convert to internal type, to avoid repeated casting
+			var newInternal:ChildNode = ChildNode( newChild );
+
+			//remove from any existing parent node
+			var oldparent:Node = newInternal.parentNode;
+			if( oldparent != null )
+			{
+				oldparent.removeChild( newInternal );
+			}
+
+			// Convert to internal type, to avoid repeated casting
+			var refInternal:ChildNode = ChildNode( refChild );
+
+			// Attach up
+			newInternal.setOwnerNode( this );
+			newInternal.setIsOwned( true );
 			
 			/*
-
-	        Node oldparent = newInternal.parentNode();
-	        if (oldparent != null) {
-	            oldparent.removeChild(newInternal);
-	        }
-
-	        // Convert to internal type, to avoid repeated casting
-	        ChildNode refInternal = (ChildNode)refChild;
-
-	        // Attach up
-	        newInternal.ownerNode = this;
-	        newInternal.isOwned(true);
 
 	        // Attach before and after
 	        // Note: firstChild.previousSibling == lastChild!!
@@ -312,12 +292,14 @@ package com.ffsys.w3c.dom
 				var n:NodeImpl = NodeImpl( newChild );				
 				n.setParentNode( this );
 				n.setChildIndex( childNodes.length );
-
+				
+				/*
 				if( _ownerDocument != null )
 				{
 					n.setOwnerDocument( _ownerDocument );
 				}
-
+				*/
+				
 				NodeListImpl( childNodes ).concat( n );
 
 				if( _ownerDocument is CoreDocumentImpl && ( n is Element ) )
@@ -339,6 +321,7 @@ package com.ffsys.w3c.dom
 	        // notify document
 	        owner.insertedNode( this, newInternal, replace );
 
+			//TODO
 	        //checkNormalizationAfterInsert(newInternal);
 			
 			return newChild;			

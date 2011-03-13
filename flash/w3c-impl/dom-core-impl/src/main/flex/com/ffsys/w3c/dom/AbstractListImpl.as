@@ -21,6 +21,11 @@ package com.ffsys.w3c.dom
 	dynamic public class AbstractListImpl extends AbstractNodeProxyImpl
 	{
 		/**
+		* 	The owner of this list.
+		*/
+		protected var _ownerNode:Node;
+		
+		/**
 		* 	@private
 		*/
 		protected var _children:Vector.<Node>;
@@ -33,6 +38,14 @@ package com.ffsys.w3c.dom
 			super();
 			//update our proxy source to the child vector
 			setProxySource( this.children );
+		}
+		
+		/**
+		* 	@private
+		*/
+		public function setOwnerNode( n:Node ):void
+		{
+			_ownerNode = n;
 		}
 		
 		/**

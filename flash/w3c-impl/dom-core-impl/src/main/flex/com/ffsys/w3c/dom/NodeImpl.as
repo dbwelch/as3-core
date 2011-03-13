@@ -44,7 +44,7 @@ package com.ffsys.w3c.dom
 		
 		private var _nodeName:String;
 		private var _nodeValue:String;
-		private var _childNodes:NodeList;
+		private var _childNodes:NodeListImpl;
 		private var _attributes:NamedNodeMap;
 		private var _propertyName:String;
 		private var _childIndex:int;
@@ -125,6 +125,14 @@ package com.ffsys.w3c.dom
 			{
 				setOwnerDocument( owner );
 			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setOwnerNode( n:Node ):void
+		{
+			__ownerNode = n;
 		}
 		
 		/**
@@ -396,8 +404,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function isSameNode( other:Node ):Boolean
 		{
-			//TODO
-			return false;
+			return ( this == other );
 		}
 		
 		/**
@@ -524,8 +531,74 @@ package com.ffsys.w3c.dom
 		*/
 		public function isEqualNode( arg:Node ):Boolean
 		{
-			//TODO
-			return false;
+			if( arg == this )
+			{
+				return true;
+			}
+			
+			if( arg.nodeType != nodeType )
+			{
+				return false;
+			}
+			
+			// in theory nodeName can't be null but better be careful
+			// who knows what other implementations may be doing?...
+			if( nodeName == null )
+			{
+				if( arg.nodeName != null )
+				{
+					return false;
+				}
+			}else if( nodeName != arg.nodeName )
+			{
+				return false;
+			}
+
+			if( localName == null )
+			{
+				if( arg.localName != null )
+				{
+					return false;
+				}
+			}else if( localName != arg.localName )
+			{
+				return false;
+			}
+
+			if( namespaceURI == null )
+			{
+				if( arg.namespaceURI != null )
+				{
+					return false;
+				}
+			}else if( namespaceURI != arg.namespaceURI )
+			{
+				return false;
+			}
+
+			if( prefix == null )
+			{
+				if ( arg.prefix != null )
+				{
+					return false;
+				}
+			}else if( prefix != arg.prefix )
+			{
+				return false;
+			}
+
+			if( nodeValue == null )
+			{
+				if( arg.nodeValue != null )
+				{
+					return false;
+				}
+			}else if( nodeValue != arg.nodeValue )
+			{
+				return false;
+			}
+
+			return true;			
 		}
 		
 		/**
@@ -564,6 +637,7 @@ package com.ffsys.w3c.dom
 			if( _childNodes == null )
 			{
 				_childNodes = new NodeListImpl();
+				_childNodes.setOwnerNode( this );
 			}
 			return _childNodes;
 		}
@@ -752,40 +826,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function appendChild( child:Node ):Node
 		{
-			//This method can raise a DomException object.	
-			
-			/*
-			if( child is NodeImpl )
-			{
-				var n:NodeImpl = NodeImpl( child );				
-				n.setParentNode( this );
-				n.setChildIndex( childNodes.length );
-				
-				if( _ownerDocument != null )
-				{
-					n.setOwnerDocument( _ownerDocument );
-				}
-
-				NodeListImpl( childNodes ).concat( n );
-				
-				if( _ownerDocument is CoreDocumentImpl && ( n is Element ) )
-				{	
-					CoreDocumentImpl( _ownerDocument ).registerElement( Element( n ) );
-				}
-				
-				//TODO: property name camel case conversion
-				
-				//var name:String = n.nodeName;
-					
-				//also assign a reference by property name
-				
-				//this[ name ] = n;
-				
-				n.added();
-			}
-			
-			*/
-			
+			//This method can raise a DomException object.
 			return insertBefore( child, null );
 		}		
 		
@@ -794,7 +835,6 @@ package com.ffsys.w3c.dom
 		*/
 		public function insertBefore( child:Node, before:Node ):Node
 		{
-			//TODO
 			//This method can raise a DomException object.			
 			return child;
 		}
@@ -804,9 +844,8 @@ package com.ffsys.w3c.dom
 		*/
 		public function replaceChild( child:Node, existing:Node ):Node
 		{
-			//TODO
 			//This method can raise a DomException object.			
-			return child;	
+			return child;
 		}
 		
 		/**
@@ -1021,7 +1060,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@private
 		*/
-	    internal function setOwned( value:Boolean ):void
+	    internal function setIsOwned( value:Boolean ):void
 		{
 	        __flags = uint( ( value ? __flags | OWNED : __flags & ~OWNED ) );
 	    }
