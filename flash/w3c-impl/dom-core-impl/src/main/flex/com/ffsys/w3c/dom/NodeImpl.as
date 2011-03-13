@@ -402,14 +402,6 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@inheritDoc
 		*/
-		public function isSameNode( other:Node ):Boolean
-		{
-			return ( this == other );
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
 		public function lookupPrefix( namespaceURI:String ):String
 		{
 			if( namespaceURI != null )
@@ -527,6 +519,37 @@ package com.ffsys.w3c.dom
 		}
 		
 		/**
+		* 	@private
+		* 
+		* 	Finds the first ancestor that is an element.
+		* 
+		* 	@param currentNode The node to search from.
+		* 
+		* 	@return The first ancestor that is an element.
+		*/
+	    protected function getElementAncestor( currentNode:Node ):Element
+		{
+	        var parent:Node = currentNode.parentNode;
+	        while( parent != null )
+			{
+	            if( parent.nodeType == NodeType.ELEMENT_NODE )
+				{
+	                return Element( parent );
+	            }
+	            parent = parent.parentNode;
+	        }
+	        return null;
+	    }
+		
+		/**
+		* 	@inheritDoc
+		*/
+		public function isSameNode( other:Node ):Boolean
+		{
+			return ( this == other );
+		}
+		
+		/**
 		* 	@inheritDoc
 		*/
 		public function isEqualNode( arg:Node ):Boolean
@@ -604,11 +627,20 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@inheritDoc
 		*/
+		public function isSupported(
+			feature:String = null, version:String = null ):Boolean
+		{
+			return ownerDocument.implementation.hasFeature( feature, version );
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		public function getFeature(
 			feature:String, version:String ):Object
 		{
-			//TODO
-			return null;
+			//REVISIT: should this return the feature from the implementation if supported?
+			return isSupported( feature, version ) ? this : null;
 		}
 		
 		/**
@@ -846,16 +878,6 @@ package com.ffsys.w3c.dom
 		{
 			//This method can raise a DomException object.			
 			return child;
-		}
-		
-		/**
-		* 	@inheritDoc
-		*/
-		public function isSupported(
-			feature:String = null, version:String = null ):Boolean
-		{
-			//TODO
-			return false;
 		}
 		
 		/**
