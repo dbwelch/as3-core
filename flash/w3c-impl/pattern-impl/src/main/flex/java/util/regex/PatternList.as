@@ -267,14 +267,6 @@ package java.util.regex
 		}
 		
 		/**
-		* 	The type of this pattern.
-		*/
-		public function get patternType():uint
-		{
-			return NaN;
-		}
-		
-		/**
 		* 	Retrieves the owner document as a pattern
 		* 	document.
 		*/
@@ -315,15 +307,6 @@ package java.util.regex
 				ptn.setPatternType( Pattern.GROUP_TYPE );
 			}
 			return ptn;
-		}		
-		
-		/**
-		* 	Determines whether this pattern
-		* 	has any patterns.
-		*/
-		public function get empty():Boolean
-		{
-			return childNodes.length == 0;
 		}
 		
 		/**

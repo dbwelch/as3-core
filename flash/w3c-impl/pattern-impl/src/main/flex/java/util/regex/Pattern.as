@@ -748,11 +748,8 @@ package java.util.regex
 		*/
 		public function get begins():Boolean
 		{
-			return 	( rule && !empty && firstPatternChild.source == CARET )
-				||	( owner != null
-					&& owner.rule
-					&& source == CARET
-					&& childIndex == 0 );
+			return ( rule && firstPatternChild != null
+				&& firstPatternChild.source == CARET );
 		}
 		
 		/**
@@ -765,11 +762,8 @@ package java.util.regex
 		*/
 		public function get ends():Boolean
 		{
-			return 	( rule && !empty && lastPatternChild.source == DOLLAR )
-				||	( owner != null
-					&& owner.rule
-					&& source == DOLLAR
-					&& ( childIndex == owner.childNodes.length - 1 ) );
+			return ( rule && lastPatternChild != null
+				&& lastPatternChild.source == DOLLAR );
 		}
 		
 		/**
