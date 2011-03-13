@@ -76,7 +76,7 @@ package com.ffsys.w3c.dom
 		{
 			super( owner );
 			setInternalNodeName( name );
-			setReadOnly( true );
+			setReadOnly( true, false );
 			setNeedsSyncChildren( true );
 		}
 		

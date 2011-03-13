@@ -1029,7 +1029,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@private
 		*/
-	    internal function setReadOnly( value:Boolean ):void
+	    internal function setReadOnly( value:Boolean, deep:Boolean ):void
 		{
 	        __flags = uint( ( value ? __flags | READONLY : __flags & ~READONLY ) );
 	    }

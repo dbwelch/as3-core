@@ -1,6 +1,7 @@
 package com.ffsys.w3c.dom
 {
 	import org.w3c.dom.Attr;
+	import org.w3c.dom.Document;
 	import org.w3c.dom.DOMException;
 	import org.w3c.dom.Element;
 	import org.w3c.dom.Node;
@@ -421,6 +422,58 @@ package com.ffsys.w3c.dom
 	            return false;
 	        }
 	        return true;
+	    }
+	
+		/**
+		* 	@private
+		*/
+		override internal function setOwnerDocument( owner:Document ):void
+		{
+			if( needsSyncChildren() )
+			{
+				synchronizeChildren();
+			}
+			
+			super.setOwnerDocument( owner );
+			
+			//also update child nodes
+			var child:ChildNode = firstChild as ChildNode;
+	        while( child != null )
+			{
+	            child.setOwnerDocument( owner );
+				child = child.nextSibling as ChildNode;
+	        }
+		}	
+	
+		/**
+		* 	@private
+		* 	
+		* 	Override default behavior so that if deep is true, children are also
+		*	toggled.
+		*
+		*	Note: this will not change the state of an EntityReference or its
+		*	children, which are always read-only.
+		*/
+	    override internal function setReadOnly( readOnly:Boolean, deep:Boolean ):void
+		{
+	        super.setReadOnly( readOnly, deep );
+	        if( deep )
+			{
+	            if( needsSyncChildren() )
+				{
+	                synchronizeChildren();
+	            }
+				var mykid:ChildNode = firstChild as ChildNode;
+	            // Recursively set kids
+	            while( mykid != null )
+				{
+	                if( mykid.nodeType != NodeType.ENTITY_REFERENCE_NODE )
+					{
+	                    mykid.setReadOnly( readOnly, true );
+	                }
+					mykid = mykid.nextSibling as ChildNode;
+	            }
+	        }
 	    }
 		
 		/**
