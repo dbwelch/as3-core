@@ -232,6 +232,14 @@ package java.util.regex
 		}
 		
 		/**
+		* 	The type of this pattern.
+		*/
+		public function get patternType():uint
+		{
+			return NaN;
+		}		
+		
+		/**
 		* 	A comment about this pattern.
 		*/
 		public function get comment():String
