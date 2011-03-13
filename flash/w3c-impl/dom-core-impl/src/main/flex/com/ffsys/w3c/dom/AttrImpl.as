@@ -225,7 +225,6 @@ package com.ffsys.w3c.dom
 		*/
 	    override public function normalize():void
 		{
-
 	        // No need to normalize if already normalized or
 	        // if value is kept as a String.
 	        if( isNormalized() || hasStringValue() )
@@ -246,7 +245,7 @@ package com.ffsys.w3c.dom
 	            //   1) There is an adjacent text node
 	            //   2) There is no adjacent text node, but kid is
 	            //      an empty text node.
-	            if ( kid.nodeType == NodeType.TEXT_NODE )
+	            if( kid.nodeType == NodeType.TEXT_NODE )
 	            {
 	                // If an adjacent text node, merge it with kid
 	                if( next != null
@@ -267,6 +266,6 @@ package com.ffsys.w3c.dom
 	        }
 
 	        setIsNormalized( true );
-	    } // normalize()	
+	    }	
 	}
 }

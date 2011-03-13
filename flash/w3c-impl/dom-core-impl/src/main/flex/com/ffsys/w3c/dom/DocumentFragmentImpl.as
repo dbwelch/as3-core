@@ -101,7 +101,7 @@ package com.ffsys.w3c.dom
 	            kid.normalize();
 	        }
 
-	       setIsNormalized( true );
+			setIsNormalized( true );
 	    }		
 	}
 }

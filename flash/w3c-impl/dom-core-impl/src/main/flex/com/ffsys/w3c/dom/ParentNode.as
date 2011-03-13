@@ -5,6 +5,7 @@ package com.ffsys.w3c.dom
 	import org.w3c.dom.Element;
 	import org.w3c.dom.Node;
 	import org.w3c.dom.NodeList;	
+	import org.w3c.dom.NodeType;
 	
 	/**
 	* 	Abstract super class for nodes that may have
@@ -337,11 +338,90 @@ package com.ffsys.w3c.dom
 	        // notify document
 	        owner.insertedNode( this, newInternal, replace );
 
-			//TODO
-	        //checkNormalizationAfterInsert(newInternal);
-			
-			return newChild;			
+	        checkNormalizationAfterInsert( newInternal );
+			return newChild;
 		}
+		
+		/**
+		* 	@private
+		* 
+		*	Checks the normalized state of this node after inserting a child.
+		* 
+		*	<p>If the inserted child causes this node to be unnormalized, then this
+		*	node is flagged accordingly.</p>
+		* 
+		* 	<p>The conditions for changing the normalized state are:</p>
+		* 
+		* 	<ul>
+		* 		<li>The inserted child is a text node and one of its adjacent siblings
+		* is also a text node.</li>
+		* 		<li>The inserted child is is itself unnormalized.</li>
+		*	</ul>
+		*
+		* 	@param insertedChild the child node that was inserted into this node.
+		*
+		*	@throws NullPointerException if the inserted child is <code>null</code>.
+		*/
+		protected function checkNormalizationAfterInsert( insertedChild:ChildNode ):void
+		{
+	        // See if insertion caused this node to be unnormalized.
+	        if( insertedChild.nodeType == NodeType.TEXT_NODE )
+			{
+	            var prev:Node = insertedChild.previousSibling;
+	            var next:Node = insertedChild.nextSibling;
+	
+	            // If an adjacent sibling of the new child is a text node,
+	            // flag this node as unnormalized.
+	            if( ( prev != null && prev.nodeType == NodeType.TEXT_NODE )
+					|| ( next != null && next.nodeType == NodeType.TEXT_NODE ) )
+				{
+	                setIsNormalized( false );
+	            }
+	        }
+	        else {
+	            // If the new child is not normalized,
+	            // then this node is inherently not normalized.
+	            if( !insertedChild.isNormalized() )
+				{
+	                setIsNormalized( false );
+	            }
+	        }
+	    }
+		
+		/**
+		* 	@private
+		* 	
+		* 	DOM Level 3 WD- Experimental.
+		*	Override inherited behavior from NodeImpl to support deep equal.
+		*/
+	    override public function isEqualNode( arg:Node ):Boolean
+		{
+	        if( !super.isEqualNode( arg ) )
+			{
+	            return false;
+	        }
+	
+	        // there are many ways to do this test, and there isn't any way
+	        // better than another. Performance may vary greatly depending on
+	        // the implementations involved. This one should work fine for us.
+	        var child1:Node = firstChild;
+	        var child2:Node = arg.firstChild;
+	        while( child1 != null && child2 != null )
+			{
+	            if( !child1.isEqualNode( child2 ) )
+				{
+	                return false;
+	            }
+	            child1 = child1.nextSibling;
+	            child2 = child2.nextSibling;
+	        }
+	
+	        if( child1 != child2 )
+			{
+	            return false;
+	        }
+	        return true;
+	    }
 		
 		/**
 		* 	@private
