@@ -32,7 +32,8 @@ package com.ffsys.w3c.dom
 		*/
 		protected var _elements:Vector.<Element>;
 		
-		private var _tagName:String;		
+		private var _attributes:NamedNodeMap;		
+		private var _tagName:String;
 		
 		/**
 		* 	Creates an <code>ElementImpl</code> instance.
@@ -509,6 +510,18 @@ package com.ffsys.w3c.dom
 		{
 			//TODO
 			return null;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		override public function get attributes():NamedNodeMap
+		{
+			if( _attributes == null )
+			{
+				_attributes = new NamedNodeMapImpl();
+			}
+			return _attributes;
 		}
 		
 		/**
@@ -1046,5 +1059,87 @@ package com.ffsys.w3c.dom
 			_tagName = tagName;
 		}
 		*/
+		
+	    /**
+	    * 	@private
+	    * 	
+		*	In "normal form" (as read from a source file), there will never be two
+		*	Text children in succession. But DOM users may create successive Text
+		*	nodes in the course of manipulating the document. Normalize walks the
+		*	sub-tree and merges adjacent Texts, as if the DOM had been written out
+		*	and read back in again. This simplifies implementation of higher-level
+		*	functions that may want to assume that the document is in standard form.
+		* 
+		*	<p>To normalize a Document, normalize its top-level Element child.</p>
+		* 
+		*	<p>As of PR-DOM-Level-1-19980818, CDATA -- despite being a subclass of
+		*	Text -- is considered "markup" and will _not_ be merged either with
+		*	normal Text or with other CDATASections.</p>
+		*/
+	    override public function normalize():void
+		{
+	        // No need to normalize if already normalized.
+	        if( isNormalized() )
+			{
+	            return;
+	        }
+	        if( needsSyncChildren() )
+			{
+	            synchronizeChildren();
+	        }
+	
+	        var kid:Node
+			var next:Node;
+	        for( kid = firstChild; kid != null; kid = next )
+			{
+	            next = kid.nextSibling;
+	            // If kid is a text node, we need to check for one of two
+	            // conditions:
+	            //   1) There is an adjacent text node
+	            //   2) There is no adjacent text node, but kid is
+	            //      an empty text node.
+	            if ( kid.nodeType == NodeType.TEXT_NODE )
+	            {
+	                // If an adjacent text node, merge it with kid
+	                if ( next != null
+						&& next.nodeType == NodeType.TEXT_NODE )
+	                {
+	                    ( Text( kid ) ).appendData( next.nodeValue );
+	                    removeChild( next );
+	                    next = kid; // Don't advance; there might be another.
+	                }
+	                else
+	                {
+	                    // If kid is empty, remove it
+	                    if( kid.nodeValue == null
+							|| kid.nodeValue.length == 0 )
+						{
+	                        removeChild( kid );
+	                    }
+	                }
+	            }
+	            // Otherwise it might be an Element, which is handled recursively
+	            else if( kid.nodeType == NodeType.ELEMENT_NODE )
+				{
+	                kid.normalize();
+	            }
+	        }
+
+	        // We must also normalize all of the attributes
+	        if ( attributes != null )
+	        {
+				var attr:Node = null;
+	            for( var i:int = 0;i < attributes.length; i++ )
+	            {
+	                attr = attributes.item( i );
+	                attr.normalize();
+	            }
+	        }
+
+	    	// changed() will have occurred when the removeChild() was done,
+	    	// so does not have to be reissued.
+
+	        setIsNormalized(true);
+	    } // normalize()
 	}
 }

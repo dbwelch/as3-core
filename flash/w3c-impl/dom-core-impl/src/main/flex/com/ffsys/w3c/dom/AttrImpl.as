@@ -219,5 +219,54 @@ package com.ffsys.w3c.dom
 		{
 			return "[object Attr@" + name + "=\"" + value + "\"]";
 		}
+		
+		/**
+		* 	@private
+		*/
+	    override public function normalize():void
+		{
+
+	        // No need to normalize if already normalized or
+	        // if value is kept as a String.
+	        if( isNormalized() || hasStringValue() )
+			{
+	            return;
+			}
+
+	        var kid:Node
+			var next:Node;
+			
+			//TODO: verify this works as expected
+	        for( kid = firstChild; kid != null; kid = next )
+			{
+	            next = kid.nextSibling;
+
+	            // If kid is a text node, we need to check for one of two
+	            // conditions:
+	            //   1) There is an adjacent text node
+	            //   2) There is no adjacent text node, but kid is
+	            //      an empty text node.
+	            if ( kid.nodeType == NodeType.TEXT_NODE )
+	            {
+	                // If an adjacent text node, merge it with kid
+	                if( next != null
+						&& next.nodeType == NodeType.TEXT_NODE )
+	                {
+	                    ( Text( kid ) ).appendData( next.nodeValue );
+	                    removeChild( next );
+	                    next = kid; // Don't advance; there might be another.
+	                }else
+	                {
+	                    // If kid is empty, remove it
+	                    if(	kid.nodeValue == null
+							|| kid.nodeValue.length == 0 ) {
+	                        removeChild( kid );
+	                    }
+	                }
+	            }
+	        }
+
+	        setIsNormalized( true );
+	    } // normalize()	
 	}
 }

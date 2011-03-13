@@ -71,6 +71,22 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@inheritDoc
 		*/
+		override public function hasChildNodes():Boolean
+		{
+			return childNodes.length > 0;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
+		override public function hasAttributes():Boolean
+		{
+			return attributes.length  > 0;
+		}
+		
+		/**
+		* 	@inheritDoc
+		*/
 		override public function insertBefore( child:Node, before:Node ):Node
 		{
 			//This method can raise a DomException object.			
@@ -325,6 +341,32 @@ package com.ffsys.w3c.dom
 	        //checkNormalizationAfterInsert(newInternal);
 			
 			return newChild;			
+		}
+		
+		/**
+		* 	@private
+		* 	
+		*	Override default behavior to call normalize() on this Node's
+		*	children. It is up to implementors or Node to override normalize()
+		*	to take action.
+		*/
+		override public function normalize():void
+		{	
+			// No need to normalize if already normalized.
+			if( isNormalized() )
+			{
+				return;
+			}
+			if( needsSyncChildren() )
+			{
+				synchronizeChildren();
+			}
+			var kid:Node;
+			for( kid = firstChild; kid != null; kid = kid.nextSibling )
+			{
+				kid.normalize();
+			}
+			setIsNormalized( true );
 		}
 	}
 }

@@ -45,7 +45,6 @@ package com.ffsys.w3c.dom
 		private var _nodeName:String;
 		private var _nodeValue:String;
 		private var _childNodes:NodeListImpl;
-		private var _attributes:NamedNodeMap;
 		private var _propertyName:String;
 		private var _childIndex:int;
 		private var _namespaceURI:String;
@@ -198,14 +197,12 @@ package com.ffsys.w3c.dom
 		*/
 		public function get textContent():String
 		{
-			//TODO
-			return null;
+			return nodeValue;  // overriden in some subclasses
 		}
 		
 		public function set textContent( value:String ):void
 		{
-			//TODO
-			//_textContent = value;
+			this.nodeValue = value;
 		}
 		
 		/**
@@ -234,7 +231,8 @@ package com.ffsys.w3c.dom
 		* 	Allows derived implementations to set the
 		* 	node name.
 		*/
-		protected function setInternalNodeName( name:String, uri:String = null ):void
+		protected function setInternalNodeName(
+			name:String, uri:String = null ):void
 		{
 			setNodeName( name, uri );
 		}
@@ -387,7 +385,15 @@ package com.ffsys.w3c.dom
 		*/
 		public function hasAttributes():Boolean
 		{
-			return attributes.length  > 0;
+			return false;
+		}
+		
+		/**
+		*	@inheritDoc 
+		*/
+		public function get attributes():NamedNodeMap
+		{
+			return null;
 		}
 		
 		/**
@@ -700,7 +706,7 @@ package com.ffsys.w3c.dom
 		*/
 		public function hasChildNodes():Boolean
 		{
-			return childNodes.length > 0;
+			return false;
 		}
 		
 		/**
@@ -725,7 +731,8 @@ package com.ffsys.w3c.dom
 		{
 			try
 			{
-				return childNodes.item( childNodes.length - 1 );
+				return childNodes.item(
+					childNodes.length - 1 );
 			}catch( e:Error )
 			{
 				//no child nodes
@@ -791,18 +798,6 @@ package com.ffsys.w3c.dom
 		internal function setParentNode( parent:Node ):void
 		{
 			__ownerNode = parent;
-		}
-		
-		/**
-		*	@inheritDoc 
-		*/
-		public function get attributes():NamedNodeMap
-		{
-			if( _attributes == null )
-			{
-				_attributes = new NamedNodeMapImpl();
-			}
-			return _attributes;
 		}
 		
 		/**
@@ -1164,7 +1159,7 @@ package com.ffsys.w3c.dom
 		/**
 		* 	@private
 		*/
-	    internal function setNormalized( value:Boolean ):void
+	    internal function setIsNormalized( value:Boolean ):void
 		{
 	        __flags = uint( ( value ? __flags | HASSTRING : __flags & ~HASSTRING ) );
 	
