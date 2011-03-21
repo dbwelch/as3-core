@@ -1,4 +1,4 @@
-package com.ffsys.io.xml
+package org.flashx.io.xml
 {
 	import flash.events.Event;
 	import flash.net.URLRequest;
@@ -6,9 +6,9 @@ package com.ffsys.io.xml
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.io.loaders.events.LoadEvent;
+	import org.flashx.io.loaders.events.LoadEvent;
 	
-	import com.ffsys.io.loaders.types.ParserAwareXmlLoader;
+	import org.flashx.io.loaders.types.ParserAwareXmlLoader;
 	
 	
 	/**

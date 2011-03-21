@@ -1,13 +1,13 @@
-package com.ffsys.io.xml
+package org.flashx.io.xml
 {
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
 	import flash.utils.getQualifiedClassName;
 	
-	import com.ffsys.io.loaders.events.LoadEvent;
-	import com.ffsys.io.loaders.resources.ObjectResource;
-	import com.ffsys.io.xml.parsers.PrimitiveParser;
+	import org.flashx.io.loaders.events.LoadEvent;
+	import org.flashx.io.loaders.resources.ObjectResource;
+	import org.flashx.io.xml.parsers.PrimitiveParser;
 	
 	/**
 	*	Unit tests for loading and deserializing an XML document

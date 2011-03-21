@@ -1,7 +1,7 @@
-package com.ffsys.io.xml.parsers {
+package org.flashx.io.xml.parsers {
 	
-	import com.ffsys.io.xml.DeserializationMode;
-	import com.ffsys.io.xml.Parser;
+	import org.flashx.io.xml.DeserializationMode;
+	import org.flashx.io.xml.Parser;
 
 	/**
 	*	A parser implementation for testing primtive data type deserialization.

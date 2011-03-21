@@ -1,10 +1,10 @@
-package com.ffsys.ui.runtime
+package org.flashx.ui.runtime
 {
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.io.loaders.events.*;
-	import com.ffsys.io.loaders.resources.*;
+	import org.flashx.io.loaders.events.*;
+	import org.flashx.io.loaders.resources.*;
 
 	/**
 	*	Unit tests for verifying runtime view documents.

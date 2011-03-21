@@ -1,0 +1,237 @@
+package org.flashx.swat
+{
+	import flash.events.Event;
+	import flash.net.URLRequest;
+	
+	import org.flexunit.Assert;
+	import org.flexunit.async.Async;
+
+	import org.flashx.ioc.*;
+	import org.flashx.ioc.support.xml.*;
+
+	import org.flashx.effects.tween.*;
+	import org.flashx.ui.graphics.*;
+	
+	import org.flashx.io.loaders.core.*;	
+	import org.flashx.io.loaders.events.*;
+	import org.flashx.io.xml.*;	
+	
+	import org.flashx.utils.locale.ILocale;
+	import org.flashx.utils.locale.Locale;
+	
+	import org.flashx.swat.configuration.*;
+	import org.flashx.swat.core.*;	
+	import org.flashx.swat.events.*;
+	import org.flashx.swat.view.*;
+	
+	import org.flashx.swat.mock.*;
+	import org.flashx.swat.mock.model.*;
+	
+	/**
+	*	Abstract super class for unit tests.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  09.06.2010
+	*/
+	public class AbstractUnit extends Object
+	{	
+		public static const TIMEOUT:Number = 60000;
+		
+		public static const TEST_XML_PATH:String =
+			"mock-configuration.xml";
+		
+		private var _bootstrapLoader:BootstrapLoader;
+		
+		/**
+		* 	@private
+		*/
+		protected var _queue:ILoaderQueue;
+		
+		/**
+		* 	@private
+		*/
+		protected var _framework:IBeanDocument;
+		
+		/**
+		* 	Creates an <code>AbstractUnit</code> instance.
+		*/
+		public function AbstractUnit()
+		{
+			super();
+		}
+		
+		/**
+		* 	The bootstrap loader.
+		*/
+		public function get bootstrap():BootstrapLoader
+		{
+			return _bootstrapLoader;
+		}
+		
+		private function getLinkedClasses():Array
+		{
+			var output:Array = new Array();
+			output.push( MockApplicationController );
+			output.push( MockFileLoaderBean );
+			output.push( MockApplicationModel );
+			
+			output.push( RectangleGraphic );
+			output.push( SolidFill );
+			output.push( Stroke );	
+			
+			output.push( Tween );
+			output.push( TweenGroup );	
+			output.push( TweenSequence );											
+			return output;
+		}
+		
+		public function get framework():IBeanDocument
+		{
+			return _framework;
+		}
+		
+		[Before( async )]
+     	public function setUp():void
+		{
+			var flashvars:DefaultFlashVariables = new DefaultFlashVariables();
+			flashvars.configuration = TEST_XML_PATH;
+			
+			var document:IBeanDocument = BeanDocumentFactory.create();
+			_framework = BeanDocumentFactory.create();
+			
+			var beanConfiguration:IBeanConfiguration = new FrameworkBeanConfiguration();
+			beanConfiguration.doWithBeans( this.framework );
+			
+			//set up the injected flash variables bean
+			var descriptor:IBeanDescriptor = new InjectedBeanDescriptor(
+				DefaultBeanIdentifiers.FLASH_VARIABLES, flashvars );
+			this.framework.addBeanDescriptor( descriptor );
+
+			//configuration type injector
+			this.framework.types.push( new BeanTypeInjector(
+				DefaultBeanIdentifiers.FLASH_VARIABLES,
+				DefaultBeanIdentifiers.FLASH_VARIABLES,
+				IFlashVariablesAware,
+				descriptor ) );
+			
+			var parser:IParser = new ConfigurationParser( this.framework );
+			
+			//trace("AbstractUnit::setUp()", parser, parser.interpreter );
+			
+			_bootstrapLoader = this.framework.getBean(
+				DefaultBeanIdentifiers.BOOTSTRAP_LOADER ) as BootstrapLoader;
+			_bootstrapLoader.parser = parser;
+				
+			//var configuration:BeanConfiguration = new BeanConfiguration();
+			//configuration.doWithBeans( document );			
+				
+			_bootstrapLoader.view = new DefaultApplicationPreloadView( false );
+			
+			_bootstrapLoader.addEventListener(
+				ConfigurationEvent.CONFIGURATION_LOAD_COMPLETE,
+				Async.asyncHandler( this, assertLoadedConfiguration, TIMEOUT, null, fail ) );
+			
+			_bootstrapLoader.addEventListener(
+				RslEvent.RESOURCE_NOT_FOUND,
+				resourceNotFound );	
+			
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOAD_START,
+				loadStart );		
+				
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOAD_PROGRESS,
+				loadProgress );
+				
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOADED,
+				loaded );	
+
+			_bootstrapLoader.addEventListener(
+				RslEvent.LOAD_COMPLETE,
+				Async.asyncHandler( this, assertBootstrapData, TIMEOUT, null, fail ) );
+				
+			_queue = _bootstrapLoader.load();					
+		}
+		
+		[After]
+     	public function tearDown():void
+		{
+			_bootstrapLoader = null;
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function loadStart(
+			event:RslEvent ):void
+		{
+			//trace("AbstractUnit::loadStart()", event, event.type, event.uri );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function loadProgress(
+			event:RslEvent ):void
+		{
+			//trace("AbstractUnit::loadProgress()", event, event.type, event.uri );
+		}
+		
+		/**
+		*	@private
+		*/
+		protected function loaded(
+			event:RslEvent ):void
+		{
+			//trace("AbstractUnit::loaded()", event, event.type, event.uri );
+		}		
+		
+		/**
+		*	@private
+		*/
+		protected function resourceNotFound(
+			event:RslEvent ):void
+		{
+			//trace("AbstractUnit::resourceNotFound()", event, event.type, event.uri );
+		}		
+		
+		/**
+		*	Performs assertions once the configuration data has been
+		*	loaded.
+		*/
+		protected function assertLoadedConfiguration(
+			event:ConfigurationEvent,
+			passThroughData:Object ):void
+		{
+			var configuration:IConfiguration = IConfiguration( event.configuration );
+			
+			//update the stylesheet xrefs
+			var beans:IBeanDocument = configuration.resources.document;
+			beans.xrefs.push( configuration.stylesheet );
+			
+			Assert.assertNotNull( configuration );
+			var locale:ILocale = Locale.EN_GB;
+			configuration.locales.lang = locale.getLanguage();
+		}
+		
+		/**
+		*	Performs assertions once the configuration data has been
+		*	loaded.
+		*/
+		protected function assertBootstrapData(
+			event:RslEvent,
+			passThroughData:Object ):void
+		{
+			
+		}		
+		
+		protected function fail( event:Event ):void
+		{
+			throw new Error( "An asynchronous test case failed." );
+		}
+	}
+}

@@ -1,0 +1,493 @@
+package org.flashx.ui.runtime
+{
+	import org.flashx.ioc.*;
+	
+	import org.flashx.ui.buttons.*;
+	import org.flashx.ui.common.*;	
+	import org.flashx.ui.containers.*;
+	import org.flashx.ui.controls.*;
+	import org.flashx.ui.core.*;
+	import org.flashx.ui.display.*;
+	import org.flashx.ui.dom.*;
+	import org.flashx.ui.graphics.*;
+	import org.flashx.ui.layout.*;
+	import org.flashx.ui.scrollbars.*;
+	import org.flashx.ui.text.*;
+	
+	import org.flashx.utils.string.PropertyNameConverter;	
+
+	/**
+	*	Defines the default bean components for runtime xml documents.
+	*
+	*	@langversion ActionScript 3.0
+	*	@playerversion Flash 9.0
+	*
+	*	@author Mischa Williamson
+	*	@since  28.12.2010
+	*/
+	public class ComponentBeanDocument extends BeanDocument
+	{
+		/**
+		* 	The default name for component bean documents.
+		*/
+		public static const NAME:String = "ui";
+		
+		/**
+		* 	Creates a <code>ComponentBeanDocument</code> instance.
+		*/
+		public function ComponentBeanDocument()
+		{
+			super();
+			this.id  = NAME;
+			this.locked = false;
+			this.policy = BeanCreationPolicy.MERGE;			
+			doWithBeans( this );
+		}
+		
+		/**
+		* 	Initialies the components beans on the specified document.
+		* 
+		* 	@param beans The document to initialize with runtime component
+		* 	beans.
+		*/
+		public function doWithBeans(
+			beans:IBeanDocument ):void
+		{
+			var data:Object = null;
+			var converter:PropertyNameConverter = new PropertyNameConverter();			
+			
+			var descriptor:IBeanDescriptor = new BeanDescriptor(
+				ComponentIdentifiers.DOCUMENT );
+			descriptor.instanceClass = Document;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CANVAS );
+			descriptor.instanceClass = Canvas;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CONTAINER );
+			descriptor.instanceClass = Container;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CELL );
+			descriptor.instanceClass = Cell;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HBOX );
+			descriptor.instanceClass = HorizontalBox;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.VBOX );
+			descriptor.instanceClass = VerticalBox;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.LIST );
+			descriptor.instanceClass = List;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.LINKS );
+			descriptor.instanceClass = LinkContainer;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TABS );
+			descriptor.instanceClass = TabContainer;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.GRAPHIC );
+			descriptor.instanceClass = Graphic;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.FILL );
+			descriptor.instanceClass = RuntimeStyleReference;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.STROKE );
+			descriptor.instanceClass = RuntimeStyleReference;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.RUNTIME_ASSET );
+			descriptor.instanceClass = RuntimeAsset;
+			beans.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.ASSET );
+			descriptor.instanceClass = RuntimeStyleReference;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.GRADIENT );
+			descriptor.instanceClass = Gradient;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TOP_LEFT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TOP_RIGHT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BOTTOM_LEFT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BOTTOM_RIGHT_CORNER );
+			descriptor.instanceClass = Corner;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.fte = true;
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.LABEL, data );
+			descriptor.instanceClass = Label;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TEXT_INPUT );
+			descriptor.instanceClass = TextInput;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TEXT_AREA );
+			descriptor.instanceClass = TextArea;
+			beans.addBeanDescriptor( descriptor );					
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HEADING );
+			descriptor.instanceClass = Heading;
+			beans.addBeanDescriptor( descriptor );						
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.PARAGRAPH );
+			descriptor.instanceClass = Paragraph;
+			beans.addBeanDescriptor( descriptor );					
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BUTTON );
+			descriptor.instanceClass = Button;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.GRAPHIC_BUTTON );
+			descriptor.instanceClass = GraphicButton;
+			beans.addBeanDescriptor( descriptor );			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TOGGLE_BUTTON );
+			descriptor.instanceClass = ToggleButton;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.RADIO_BUTTON );
+			descriptor.instanceClass = RadioButton;
+			beans.addBeanDescriptor( descriptor );						
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CHECK_BOX );
+			descriptor.instanceClass = CheckBox;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.ICON_BUTTON );
+			descriptor.instanceClass = IconButton;
+			beans.addBeanDescriptor( descriptor );	
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.ICON_TEXT_BUTTON );
+			descriptor.instanceClass = IconTextButton;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TEXT_BUTTON );
+			descriptor.instanceClass = TextButton;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.LINK_BUTTON );
+			descriptor.instanceClass = LinkButton;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TAB_BUTTON );
+			descriptor.instanceClass = TabButton;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.GROUP_MANAGER );
+			descriptor.instanceClass = RuntimeDocumentReference;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.TARGET );
+			descriptor.instanceClass = RuntimeDocumentReference;
+			beans.addBeanDescriptor( descriptor );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.RADIO_BUTTON_GROUP );
+			descriptor.instanceClass = RadioButtonGroup;
+			beans.addBeanDescriptor( descriptor );
+			
+			//CONTENT AREA			
+			data = new Object();
+			data.fill = new SolidFill( 0x999999, .6 );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER, data );
+			descriptor.instanceClass = Border;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.border = new BeanReference(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL,
+				null,
+				ComponentIdentifiers.COMPONENT_BOX_MODEL_BORDER );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.COMPONENT_BOX_MODEL, data );
+			descriptor.instanceClass = RectangleGraphic;
+			beans.addBeanDescriptor( descriptor );
+			//
+			
+			//PADDING DISPLAY AREA
+			data = new Object();
+			data.color = 0x00ff00;
+			data.alpha = .6;
+			data.top = 1;
+			data.right = 1;
+			data.bottom = 1;
+			data.left = 1;			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CONTENT_BOX_MODEL_BORDER, data );
+			descriptor.instanceClass = Border;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.border = new BeanReference(
+				ComponentIdentifiers.CONTENT_BOX_MODEL,
+				null,
+				ComponentIdentifiers.CONTENT_BOX_MODEL_BORDER );			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CONTENT_BOX_MODEL, data );
+			descriptor.instanceClass = BorderGraphic;
+			beans.addBeanDescriptor( descriptor );
+			//						
+			
+			//MARGIN DISPLAY AREA
+			data = new Object();
+			data.color = 0x0000ff;
+			data.alpha = .6;
+			data.top = 1;
+			data.right = 1;
+			data.bottom = 1;
+			data.left = 1;			
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.MARGIN_BOX_MODEL_BORDER, data );
+			descriptor.instanceClass = Border;
+			descriptor.singleton = true;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.border = new BeanReference(
+				ComponentIdentifiers.MARGIN_BOX_MODEL,
+				null,
+				ComponentIdentifiers.MARGIN_BOX_MODEL_BORDER );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.MARGIN_BOX_MODEL, data );
+			descriptor.instanceClass = BorderGraphic;
+			beans.addBeanDescriptor( descriptor );
+			//
+			
+			////			
+			data = new Object();
+			data.content = new BeanReference(
+				ComponentIdentifiers.BOX_MODEL,
+				null,
+				ComponentIdentifiers.CONTENT_BOX_MODEL );
+			data.component = new BeanReference(
+				ComponentIdentifiers.BOX_MODEL,
+				null,
+				ComponentIdentifiers.COMPONENT_BOX_MODEL );
+			data.outer = new BeanReference(
+				ComponentIdentifiers.BOX_MODEL,
+				null,
+				ComponentIdentifiers.MARGIN_BOX_MODEL );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.BOX_MODEL, data );
+			descriptor.instanceClass = BoxModelComponent;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.LAYOUT );
+			descriptor.instanceClass = Layout;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HORIZONTAL_LAYOUT );
+			descriptor.instanceClass = HorizontalLayout;
+			beans.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.VERTICAL_LAYOUT );
+			descriptor.instanceClass = VerticalLayout;
+			beans.addBeanDescriptor( descriptor );	
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLLER );
+			descriptor.instanceClass = Scroller;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_TRACK );
+			descriptor.instanceClass = ScrollTrack;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_DRAG );
+			descriptor.instanceClass = ScrollDrag;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_UP_BUTTON );
+			descriptor.instanceClass = ScrollUpButton;
+			beans.addBeanDescriptor( descriptor );									
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_DOWN_BUTTON );
+			descriptor.instanceClass = ScrollDownButton;
+			beans.addBeanDescriptor( descriptor );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_LEFT_BUTTON );
+			descriptor.instanceClass = ScrollLeftButton;
+			beans.addBeanDescriptor( descriptor );									
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.SCROLL_RIGHT_BUTTON );
+			descriptor.instanceClass = ScrollRightButton;
+			beans.addBeanDescriptor( descriptor );			
+			
+			data = new Object();
+			data.scrollTrack = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_TRACK ),
+				ComponentIdentifiers.SCROLL_TRACK );
+			data.scrollDrag = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_DRAG ),
+				ComponentIdentifiers.SCROLL_DRAG );
+				
+			/*
+			data.negativeScrollButton = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_LEFT_BUTTON );	
+			data.positiveScrollButton = new BeanReference(
+				ComponentIdentifiers.HSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_RIGHT_BUTTON );							
+			*/
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HSCROLL, data );
+			descriptor.instanceClass = HorizontalScrollBar;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.scrollTrack = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_TRACK ),
+				ComponentIdentifiers.SCROLL_TRACK );
+			data.scrollDrag = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				converter.convert( ComponentIdentifiers.SCROLL_DRAG ),
+				ComponentIdentifiers.SCROLL_DRAG );
+				
+			/*
+			data.negativeScrollButton = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_DOWN_BUTTON );
+			data.positiveScrollButton = new BeanReference(
+				ComponentIdentifiers.VSCROLL,
+				null,
+				ComponentIdentifiers.SCROLL_UP_BUTTON );					
+			*/
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.VSCROLL, data );
+			descriptor.instanceClass = VerticalScrollBar;
+			beans.addBeanDescriptor( descriptor );
+
+			/*
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.CUSTOM_DATA );
+			descriptor.instanceClass = Object;
+			beans.addBeanDescriptor( descriptor );			
+			*/
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.IMAGE_DISPLAY );
+			descriptor.instanceClass = ImageDisplay;
+			beans.addBeanDescriptor( descriptor );							
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.IMAGE_CONTAINER );
+			descriptor.instanceClass = ImageContainer;
+			beans.addBeanDescriptor( descriptor );		
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.MASK );
+			descriptor.instanceClass = MaskComponent;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.color = 0xa9a9a9;
+			data.alpha = 1;
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.DEFAULT_FILL, data );
+			descriptor.instanceClass = SolidFill;
+			beans.addBeanDescriptor( descriptor );
+			
+			data = new Object();
+			data.fill = new BeanReference(
+				ComponentIdentifiers.DIVIDER_GRAPHIC,
+				null,
+				ComponentIdentifiers.DEFAULT_FILL );
+			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.DIVIDER_GRAPHIC, data );
+			descriptor.instanceClass = BorderGraphic;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.DIVIDER );
+			descriptor.instanceClass = Divider;
+			beans.addBeanDescriptor( descriptor );			
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.HRULE );
+			descriptor.instanceClass = HorizontalRule;
+			beans.addBeanDescriptor( descriptor );
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.VRULE );
+			descriptor.instanceClass = VerticalRule;
+			beans.addBeanDescriptor( descriptor );
+			
+			//
+			descriptor = new BeanDescriptor(
+				ComponentIdentifiers.ITERATOR );
+			descriptor.instanceClass = RuntimeEachLoop;
+			beans.addBeanDescriptor( descriptor );
+		}
+	}
+}

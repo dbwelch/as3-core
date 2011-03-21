@@ -1,4 +1,4 @@
-package com.ffsys.ui.runtime
+package org.flashx.ui.runtime
 {
 	import flash.events.Event;
 	import flash.net.URLRequest;
@@ -6,11 +6,11 @@ package com.ffsys.ui.runtime
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 
-	import com.ffsys.ui.graphics.*;
+	import org.flashx.ui.graphics.*;
 	
-	import com.ffsys.io.loaders.core.*;	
-	import com.ffsys.io.loaders.events.*;
-	import com.ffsys.io.xml.*;
+	import org.flashx.io.loaders.core.*;	
+	import org.flashx.io.loaders.events.*;
+	import org.flashx.io.xml.*;
 	
 	/**
 	*	Abstract super class for unit tests.
