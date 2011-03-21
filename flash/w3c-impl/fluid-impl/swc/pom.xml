@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>fluid-parent</artifactId>
 		<groupId>com.ffsys.flash.fluid</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.fluid</groupId>
 	<artifactId>fluid-swc</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>fluid-swc</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
@@ -22,14 +22,14 @@
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.ffsys.flash.w3c.impl</groupId>
 			<artifactId>dom-core-impl</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
@@ -37,7 +37,7 @@
 			<groupId>com.ffsys.flash.asdoc</groupId>
 			<artifactId>latex-asdoc-xslt</artifactId>
 			<type>pom</type>
-			<version>1.1-SNAPSHOT</version>			
+			<version>0.1-SNAPSHOT</version>			
 		</dependency>
 	</dependencies>
 	<profiles>

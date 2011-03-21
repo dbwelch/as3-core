@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>io</artifactId>
 		<groupId>com.ffsys.flash</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.io</groupId>
 	<artifactId>xml</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>xml</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
@@ -16,56 +16,56 @@
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.ffsys.flash.io</groupId>
 			<artifactId>loaders</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>object</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>string</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>substitution</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>array</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>boolean</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>xml</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>merge</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 	</dependencies>

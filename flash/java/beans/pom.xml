@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.ffsys.flash.java</groupId>
 		<artifactId>java-parent</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.java.beans</groupId>
 	<artifactId>java-beans-parent</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>java-beans-parent</name>
 	<packaging>pom</packaging>
 	<url>http://as3.freeformsystems.com</url>

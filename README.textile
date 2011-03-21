@@ -51,7 +51,7 @@ Then you can declare dependencies in your *POM* as per normal:
 bc. <dependency>
 	<groupId>com.ffsys.flash</groupId>
 	<artifactId>core</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<type>swc</type>
 </dependency>
 

@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.ffsys.flash.flashx</groupId>
 		<artifactId>flashx-parent</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash</groupId>
 	<artifactId>io</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>io</name>
 	<packaging>pom</packaging>
 	<url>http://as3.freeformsystems.com</url>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 	</dependencies>

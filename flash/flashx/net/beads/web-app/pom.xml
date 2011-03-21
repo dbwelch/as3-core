@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.ffsys.flash.beads</groupId>
 		<artifactId>beads-parent</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.beads</groupId>
 	<artifactId>beads-web-app</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>beads-web-app</name>
 	<packaging>swf</packaging>
 	<url>http://as3.freeformsystems.com</url>
@@ -16,13 +16,13 @@
 		<dependency>
 			<groupId>com.ffsys.flash.swat</groupId>
 			<artifactId>swat-js</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>		
 		<dependency>
 			<groupId>com.ffsys.flash.beads</groupId>
 			<artifactId>beads-application</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swf</type>
 		</dependency>
 	</dependencies>
@@ -48,7 +48,7 @@
 								<artifactItem>
 									<groupId>com.ffsys.flash.beads</groupId>
 									<artifactId>beads-application</artifactId>
-									<version>1.1-SNAPSHOT</version>
+									<version>0.1-SNAPSHOT</version>
 									<type>swf</type>
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}/classes</outputDirectory>
@@ -71,7 +71,7 @@
 								<artifactItem>
 									<groupId>com.ffsys.flash.swat</groupId>
 									<artifactId>swat-js</artifactId>
-									<version>1.1-SNAPSHOT</version>
+									<version>0.1-SNAPSHOT</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}/classes/assets/common/js</outputDirectory>

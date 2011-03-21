@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>ui</artifactId>
 		<groupId>com.ffsys.flash</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.ui</groupId>
 	<artifactId>scrollbars</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>scrollbars</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
@@ -16,25 +16,25 @@
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>buttons</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>common</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>ui-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>				
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>display</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 	</dependencies>	

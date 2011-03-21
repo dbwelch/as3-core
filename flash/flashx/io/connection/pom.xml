@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>io</artifactId>
 		<groupId>com.ffsys.flash</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.io</groupId>
 	<artifactId>connection</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>connection</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
@@ -16,35 +16,35 @@
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 		
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>identifier</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>string</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 		
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>inspector</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.ffsys.flash.io</groupId>
 			<artifactId>io-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>				
 	</dependencies>

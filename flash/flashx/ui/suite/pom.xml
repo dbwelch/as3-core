@@ -4,10 +4,10 @@
 	<parent>
 		<artifactId>ui</artifactId>
 		<groupId>com.ffsys.flash</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.ui</groupId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<artifactId>ui-components-suite</artifactId>
 	<packaging>swf</packaging>
 	<name>ui-components-suite</name>
@@ -53,37 +53,37 @@
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>loaders</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>runtime</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>tooltips</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>display</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>								
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>text-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.flashx.util</groupId>
 			<artifactId>random</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 	</dependencies>

@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>beads-parent</artifactId>
 		<groupId>com.ffsys.flash.beads</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.beads</groupId>
 	<artifactId>beads-swc</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>beads-swc</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>

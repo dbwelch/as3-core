@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.ffsys.flash.beads</groupId>
 		<artifactId>beads-parent</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.beads</groupId>
 	<artifactId>beads-application</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>beads-application</name>
 	<packaging>swf</packaging>
 	<url>http://as3.freeformsystems.com</url>
@@ -17,14 +17,14 @@
 		<dependency>
 			<groupId>com.ffsys.flash.beads</groupId>
 			<artifactId>beads-swc</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>dom</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		-->
@@ -40,37 +40,37 @@
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>net</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash</groupId>
 			<artifactId>swat</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>buttons</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>ui-core</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flash.ui</groupId>
 			<artifactId>css</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 	</dependencies>

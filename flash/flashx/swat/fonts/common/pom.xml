@@ -4,10 +4,10 @@
 	<parent>
 		<artifactId>swat-fonts</artifactId>
 		<groupId>com.ffsys.flash.swat</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.swat</groupId>
-	<version>1.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<artifactId>swat-fonts-common</artifactId>
 	<packaging>swf</packaging>
 	<name>swat-fonts-common</name>
