@@ -15,7 +15,7 @@
 		<wagon.version>1.0-beta-6</wagon.version>
 		<!-- <flex.version>4.5.0.17855</flex.version> -->
 		<flex.version>4.1.0.16248</flex.version>
-		<flexmojos.version>4.0-beta-3</flexmojos.version>
+		<flexmojos.version>4.0-beta-5</flexmojos.version>
 		<flexunit.version>4.0-rc-1</flexunit.version>
 		<ffsys.lib.version>1.1-SNAPSHOT</ffsys.lib.version>
 		<target.player>10.1</target.player>
