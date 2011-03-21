@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>ui</artifactId>
-		<groupId>com.ffsys.flash</groupId>
+		<groupId>com.ffsys.flash.flashx</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.ui</groupId>
@@ -39,13 +39,13 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>effects</artifactId>
 			<version>${ffsys.lib.version}</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>swat</artifactId>
 			<version>${ffsys.lib.version}</version>
 			<type>swc</type>

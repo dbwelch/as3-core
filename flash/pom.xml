@@ -14,20 +14,19 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash.asdoc</groupId>
+			<groupId>${asdoc.group}</groupId>
 			<artifactId>as3-doc-template</artifactId>
 			<type>pom</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.asdoc</groupId>
+			<groupId>${asdoc.group}</groupId>
 			<artifactId>latex-asdoc-xslt</artifactId>
 			<type>xsl</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>asdoc-utils</module>
 		<!-- <module>ecma</module>		 -->
 		<module>flashx</module>
 		<module>java</module>
@@ -119,7 +118,7 @@
 										<stripVersion>true</stripVersion>
 										<artifactItems>
 											<artifactItem>
-												<groupId>com.ffsys.flash.asdoc</groupId>
+												<groupId>${asdoc.group}</groupId>
 												<artifactId>${latex.xslt}</artifactId>
 												<version>0.1-SNAPSHOT</version>
 												<type>${xslt.packaging}</type>

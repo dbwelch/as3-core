@@ -8,13 +8,7 @@
 	</parent>
 	
 	<groupId>com.ffsys.flash.java.beans</groupId>
-	<artifactId>java-beans-ioc</artifactId>	
-	
-	<!--
-	<groupId>com.ffsys.flash</groupId>
-	<artifactId>ioc</artifactId>
-	-->
-	
+	<artifactId>java-beans-ioc</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>java-beans-ioc</name>
 	<packaging>swc</packaging>
@@ -24,13 +18,13 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>effects</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

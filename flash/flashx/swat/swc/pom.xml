@@ -6,7 +6,7 @@
 		<groupId>com.ffsys.flash.swat</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash</groupId>
+	<groupId>com.ffsys.flash.flashx</groupId>
 	<artifactId>swat</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>swat-swc</name>
@@ -26,7 +26,7 @@
 			<type>swc</type>
 		</dependency>	
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>utils</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>pom</type>

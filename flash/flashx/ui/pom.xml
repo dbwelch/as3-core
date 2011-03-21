@@ -6,7 +6,7 @@
 		<artifactId>flashx-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash</groupId>
+	<groupId>com.ffsys.flash.flashx</groupId>
 	<artifactId>ui</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>ui</name>

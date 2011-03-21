@@ -20,7 +20,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
@@ -34,10 +34,10 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.asdoc</groupId>
+			<groupId>com.ffsys.docutil.asdoc</groupId>
 			<artifactId>latex-asdoc-xslt</artifactId>
 			<type>pom</type>
-			<version>0.1-SNAPSHOT</version>			
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<profiles>

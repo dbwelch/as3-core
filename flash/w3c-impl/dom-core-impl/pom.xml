@@ -49,7 +49,7 @@
 		</dependency>						
 		
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
