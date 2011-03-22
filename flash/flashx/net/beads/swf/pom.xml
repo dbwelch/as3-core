@@ -56,19 +56,19 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>buttons</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>css</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

@@ -30,7 +30,7 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.net</groupId>
+			<groupId>com.ffsys.flash.flashx.net</groupId>
 			<artifactId>asax</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

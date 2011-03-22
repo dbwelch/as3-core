@@ -6,7 +6,7 @@
 		<artifactId>flashx-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.swat</groupId>
+	<groupId>com.ffsys.flash.flashx.swat</groupId>
 	<artifactId>swat-parent</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>swat-parent</name>

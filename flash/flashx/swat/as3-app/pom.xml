@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>swat-parent</artifactId>
-		<groupId>com.ffsys.flash.swat</groupId>
+		<groupId>com.ffsys.flash.flashx.swat</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.swat</groupId>
+	<groupId>com.ffsys.flash.flashx.swat</groupId>
 	<version>0.1-SNAPSHOT</version>
 	<artifactId>swat-as3-app</artifactId>
 	<packaging>swf</packaging>
@@ -38,7 +38,7 @@
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flash.swat</groupId>
+			<groupId>com.ffsys.flash.flashx.swat</groupId>
 			<artifactId>swat-js</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>jar</type>
@@ -51,37 +51,37 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>buttons</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>controls</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>runtime</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>					
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>text</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>text-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
@@ -179,7 +179,7 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.ffsys.flash.swat</groupId>
+									<groupId>com.ffsys.flash.flashx.swat</groupId>
 									<artifactId>swat-js</artifactId>
 									<version>0.1-SNAPSHOT</version>
 									<type>jar</type>

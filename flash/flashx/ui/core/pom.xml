@@ -6,7 +6,7 @@
 		<groupId>com.ffsys.flash.flashx</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.ui</groupId>
+	<groupId>com.ffsys.flash.flashx.ui</groupId>
 	<artifactId>ui-core</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>ui-core</name>
@@ -20,31 +20,31 @@
 			<type>swc</type>
 		</dependency>	
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>common</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>events</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>layout</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>text-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>css</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

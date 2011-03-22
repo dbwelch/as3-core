@@ -284,7 +284,7 @@ package org.flashx.ui.core
 			
 			//STACK UNDERFLOW!?!!?!?!
 			
-			this.dimensions = measure();
+			//this.dimensions = measure();
 			
 			//trace("UIComponent::finalized()", this, this.id );
 			

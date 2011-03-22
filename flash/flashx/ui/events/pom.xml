@@ -6,7 +6,7 @@
 		<groupId>com.ffsys.flash.flashx</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.ui</groupId>
+	<groupId>com.ffsys.flash.flashx.ui</groupId>
 	<artifactId>events</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>events</name>

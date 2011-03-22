@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>swat-parent</artifactId>
-		<groupId>com.ffsys.flash.swat</groupId>
+		<groupId>com.ffsys.flash.flashx.swat</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.flashx</groupId>
@@ -20,7 +20,7 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
@@ -38,7 +38,7 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>css</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

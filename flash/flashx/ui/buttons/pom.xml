@@ -6,7 +6,7 @@
 		<groupId>com.ffsys.flash.flashx</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.ui</groupId>
+	<groupId>com.ffsys.flash.flashx.ui</groupId>
 	<artifactId>buttons</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>buttons</name>
@@ -14,13 +14,13 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.ui</groupId>
+			<groupId>com.ffsys.flash.flashx.ui</groupId>
 			<artifactId>text</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

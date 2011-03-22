@@ -6,7 +6,7 @@
 		<artifactId>flashx-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.net</groupId>
+	<groupId>com.ffsys.flash.flashx.net</groupId>
 	<artifactId>net-parent</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>net-parent</name>
