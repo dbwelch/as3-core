@@ -6,7 +6,7 @@
 		<artifactId>flash-core-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.asdoc</groupId>
+	<groupId>com.ffsys.flash.flashx</groupId>
 	<artifactId>flash-all</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>

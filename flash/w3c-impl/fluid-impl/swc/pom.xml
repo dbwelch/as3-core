@@ -6,7 +6,7 @@
 		<artifactId>fluid-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.fluid</groupId>
+	<groupId>com.ffsys.flash.w3c.impl</groupId>
 	<artifactId>fluid-swc</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>fluid-swc</name>
