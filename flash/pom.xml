@@ -182,13 +182,12 @@
 											</parameter>																
 											<parameter>
 												<name>page-header-left</name>
-												<value>Freeform Core</value>
+												<value>${api.docs.page.title.left}</value>
 											</parameter>
 											<parameter>
 												<name>page-header-right</name>
-												<value>Actionscript API</value>
+												<value>${api.docs.page.title.right}</value>
 											</parameter>
-											
 											<parameter>
 												<name>api-docs-scm-revision</name>
 												<value>${api.docs.scm.revision}</value>

@@ -39,6 +39,8 @@
 		<api.docs.build.date>${build.date}</api.docs.build.date>
 		<api.docs.build.timestamp>${timestamp}</api.docs.build.timestamp>
 		<api.docs.link.report.path>../${project.build.finalName}-link-report.xml</api.docs.link.report.path>
+		<api.docs.page.title.left>Freeform Core</api.docs.page.title.left>
+		<api.docs.page.title.right>Actionscript API</api.docs.page.title.right>
 		
 		<!-- empty by default but can be specified at the package level -->
 		<api.docs.sub.title></api.docs.sub.title>
