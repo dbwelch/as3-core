@@ -8,114 +8,114 @@ graphic-cell {
 }
 
 default-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	instance-class: class( org.flashx.ui.graphics.SolidFill );
 	color: #ff0000;
 	alpha: 0.5;
 }
 
 default-gradient-fill {
-	instance-class: class( com.ffsys.ui.graphics.GradientFill );
+	instance-class: class( org.flashx.ui.graphics.GradientFill );
 	gradient: ref( default-gradient );
 }
 
 default-bitmap-fill {
-	instance-class: class( com.ffsys.ui.graphics.BitmapFill );
+	instance-class: class( org.flashx.ui.graphics.BitmapFill );
 	bitmap: img( assets/common/images/default-tile.png );
 }
 
 default-gradient {
-	instance-class: class( com.ffsys.ui.graphics.Gradient );
+	instance-class: class( org.flashx.ui.graphics.Gradient );
 	colors: array( #ff0000, #000000 );
 }
 
 default-stroke {
-	instance-class: class( com.ffsys.ui.graphics.Stroke );
+	instance-class: class( org.flashx.ui.graphics.Stroke );
 	thickness: 0;
 	color: #ff0000;
 	alpha: 1;
 }
 
 composite-fill {
-	instance-class: class( com.ffsys.ui.graphics.CompositeFill );
+	instance-class: class( org.flashx.ui.graphics.CompositeFill );
 	solid: ref( composite-solid );
 	gradient: ref( composite-gradient );	
 	bitmap: ref( default-bitmap-fill );
 }
 
 complex-composite-fill {
-	instance-class: class( com.ffsys.ui.graphics.CompositeFill );
+	instance-class: class( org.flashx.ui.graphics.CompositeFill );
 	composites: array( ref( composite-solid ), ref( composite-gradient-overlay ), ref( default-bitmap-fill ), ref( composite-gradient-overlay ) );
 }
 
 composite-solid {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );	
+	instance-class: class( org.flashx.ui.graphics.SolidFill );	
 	color: #626262;
 }
 
 composite-gradient {
-	instance-class: class( com.ffsys.ui.graphics.GradientFill );
+	instance-class: class( org.flashx.ui.graphics.GradientFill );
 	gradient: ref( composite-gradient-definition );
 }
 
 composite-gradient-definition {
-	instance-class: class( com.ffsys.ui.graphics.Gradient );
+	instance-class: class( org.flashx.ui.graphics.Gradient );
 	colors: array( #4e4e4e, #1a1a1a );	
 	alphas: array( 0, .75 );
 }
 
 composite-gradient-overlay {
-	instance-class: class( com.ffsys.ui.graphics.GradientFill );
+	instance-class: class( org.flashx.ui.graphics.GradientFill );
 	gradient: ref( composite-gradient-overlay-definition );
 }
 
 composite-gradient-overlay-definition {
-	instance-class: class( com.ffsys.ui.graphics.Gradient );
+	instance-class: class( org.flashx.ui.graphics.Gradient );
 	colors: array( #1a1a1a, #4e4e4e );
 	alphas: array( 0, .75 );
 }
 
 pointer {
-	instance-class: class( com.ffsys.ui.graphics.ArrowPointer );
+	instance-class: class( org.flashx.ui.graphics.ArrowPointer );
 }
 
 square-graphic {
-	instance-class: class( com.ffsys.ui.graphics.SquareGraphic );
+	instance-class: class( org.flashx.ui.graphics.SquareGraphic );
 	width: 32;
 	height: 32;
 }
 
 rectangle {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	width: 32;
 	height: 32;
 }
 
 rounded-rectangle {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	width: 32;
 	height: 32;
 }
 
 bevel-rectangle {
-	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.BevelRectangleGraphic );
 	width: 32;
 	height: 32;
 }
 
 circle-graphic {
-	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
+	instance-class: class( org.flashx.ui.graphics.CircleGraphic );
 	width: 32;
 	height: 32;
 }
 
 ellipse-graphic {
-	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
+	instance-class: class( org.flashx.ui.graphics.CircleGraphic );
 	width: 32;
 	height: 16;
 }
 
 arrow-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	width: 16;
 	height: 16;
 }

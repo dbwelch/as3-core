@@ -47,14 +47,14 @@ element {
 }
 
 test-css-xml-namespace-bean {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #ffffff, 1 );
 	width: 25;
 	height: 25;	
 }
 
 element-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #ffffff, 1 );
 }
 
@@ -83,11 +83,11 @@ default-icon:over, default-icon:down {
 }
 
 default-icon-graphic {
-	instance-class: class( com.ffsys.ui.suite.DefaultIcon );
+	instance-class: class( org.flashx.ui.suite.DefaultIcon );
 }
 
 default-icon-graphic-over {
-	instance-class: class( com.ffsys.ui.suite.DefaultIconOver );
+	instance-class: class( org.flashx.ui.suite.DefaultIconOver );
 }
 
 interactive-runtime-asset {
@@ -139,7 +139,7 @@ container-border-example {
 }
 
 example-divider {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #ffffff, .5 );
 	width: 2;
 	height: 10;
@@ -179,7 +179,7 @@ container-border-background-example {
 }
 
 container-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #ffffff, .5 );
 }
 

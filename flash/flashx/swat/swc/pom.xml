@@ -32,7 +32,7 @@
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.io</groupId>
+			<groupId>com.ffsys.flash.flashx.io</groupId>
 			<artifactId>xml</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

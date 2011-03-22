@@ -68,7 +68,7 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.io</groupId>
+			<groupId>com.ffsys.flash.flashx.io</groupId>
 			<artifactId>loaders</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

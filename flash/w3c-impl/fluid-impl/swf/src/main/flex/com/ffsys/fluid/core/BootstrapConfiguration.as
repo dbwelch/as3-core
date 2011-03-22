@@ -1,6 +1,6 @@
 package com.ffsys.fluid.core
 {
-	import com.ffsys.swat.configuration.ClassPathConfiguration;
+	import org.flashx.swat.configuration.ClassPathConfiguration;
 	
 	/**
 	*	Configures the bootstrap class paths.

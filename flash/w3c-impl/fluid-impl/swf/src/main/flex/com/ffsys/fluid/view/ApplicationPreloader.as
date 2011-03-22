@@ -1,9 +1,9 @@
 package com.ffsys.fluid.view
 {
-	import com.ffsys.swat.view.DefaultApplicationPreloader;	
+	import org.flashx.swat.view.DefaultApplicationPreloader;	
 	
-	import com.ffsys.fluid.core.ApplicationFlashVariables;
-	import com.ffsys.fluid.core.BootstrapConfiguration;
+	import org.flashx.fluid.core.ApplicationFlashVariables;
+	import org.flashx.fluid.core.BootstrapConfiguration;
 	
 	/**
 	*	The entry point for the application.

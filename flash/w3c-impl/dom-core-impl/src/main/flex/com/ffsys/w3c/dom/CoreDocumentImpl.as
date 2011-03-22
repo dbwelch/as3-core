@@ -8,7 +8,7 @@ package com.ffsys.w3c.dom
 	import org.w3c.dom.events.DOMEvent;
 	import org.w3c.dom.events.EventListener;	
 	
-	import com.ffsys.ioc.*;
+	import org.flashx.ioc.*;
 	
 	/**
 	*	An abstract implementation of a <code>DOM</code>

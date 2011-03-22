@@ -19,21 +19,21 @@ package org.flashx.ui.css
 			(<![CDATA[
 			
 			quad {
-				static-class: class( com.ffsys.effects.easing.Quad );
+				static-class: class( org.flashx.effects.easing.Quad );
 			}
 		
 			quad-ease-in {
-				static-class: class( com.ffsys.effects.easing.Quad );
+				static-class: class( org.flashx.effects.easing.Quad );
 				method: method( easeIn );
 			}
 		
 			tween {
-				instance-class: class( com.ffsys.effects.tween.Tween );
+				instance-class: class( org.flashx.effects.tween.Tween );
 				parameters: ref( alpha-tween );
 			}
 		
 			alpha-tween {
-				instance-class: class( com.ffsys.effects.tween.TweenParameters );
+				instance-class: class( org.flashx.effects.tween.TweenParameters );
 				properties: array( alpha );
 				easing: array( ref( quad-ease-in ) );
 				start-values: array( 0 );

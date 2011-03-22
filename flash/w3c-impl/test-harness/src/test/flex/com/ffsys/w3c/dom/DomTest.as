@@ -3,7 +3,7 @@ package com.ffsys.w3c.dom
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.ioc.*;
+	import org.flashx.ioc.*;
 	import com.ffsys.w3c.dom.*;
 	import org.w3c.dom.*;
 	import org.w3c.dom.DOMException;

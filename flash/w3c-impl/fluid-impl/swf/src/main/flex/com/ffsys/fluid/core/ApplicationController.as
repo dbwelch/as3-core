@@ -6,26 +6,26 @@ package com.ffsys.fluid.core {
 	import flash.display.Sprite;
 	import flash.events.*;
 	
-	import com.ffsys.color.*;
+	import org.flashx.color.*;
 	
-	import com.ffsys.swat.core.IBootstrapLoader;
-	import com.ffsys.swat.core.IApplicationMainController;
-	import com.ffsys.swat.view.IApplication;
-	import com.ffsys.swat.view.IApplicationPreloader;
-	import com.ffsys.swat.view.IApplicationPreloadView;
+	import org.flashx.swat.core.IBootstrapLoader;
+	import org.flashx.swat.core.IApplicationMainController;
+	import org.flashx.swat.view.IApplication;
+	import org.flashx.swat.view.IApplicationPreloader;
+	import org.flashx.swat.view.IApplicationPreloadView;
 	
 	/*
-	import com.ffsys.ui.buttons.*;	
-	import com.ffsys.ui.common.*;	
-	import com.ffsys.ui.containers.*;
-	import com.ffsys.ui.core.*;
-	import com.ffsys.ui.css.*;
-	import com.ffsys.ui.display.*;
-	import com.ffsys.ui.dom.*;
-	import com.ffsys.ui.graphics.*;
-	import com.ffsys.ui.runtime.*;
-	import com.ffsys.ui.text.*;	
-	import com.ffsys.ui.tooltips.*;
+	import org.flashx.ui.buttons.*;	
+	import org.flashx.ui.common.*;	
+	import org.flashx.ui.containers.*;
+	import org.flashx.ui.core.*;
+	import org.flashx.ui.css.*;
+	import org.flashx.ui.display.*;
+	import org.flashx.ui.dom.*;
+	import org.flashx.ui.graphics.*;
+	import org.flashx.ui.runtime.*;
+	import org.flashx.ui.text.*;	
+	import org.flashx.ui.tooltips.*;
 	*/
 	
 	/**

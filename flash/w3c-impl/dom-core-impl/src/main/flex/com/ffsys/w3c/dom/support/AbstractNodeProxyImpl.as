@@ -10,9 +10,9 @@ package com.ffsys.w3c.dom.support
 	import flash.utils.flash_proxy;	
 
 	import com.ffsys.w3c.dom.*;
-	import com.ffsys.ioc.*;
+	import org.flashx.ioc.*;
 	
-	import com.ffsys.io.loaders.core.ILoaderQueue;
+	import org.flashx.io.loaders.core.ILoaderQueue;
 	
 	import org.w3c.dom.*;
 	

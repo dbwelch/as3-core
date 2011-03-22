@@ -191,7 +191,7 @@ package org.flashx.utils.string {
 			str = StringUtils.parsePackageName( str );
 			trace( "'" + str + "'" );
 			
-			Assert.assertEquals( "com.ffsys.utils.string", str );
+			Assert.assertEquals( "org.flashx.utils.string", str );
 		}				
 		
 		[Test]

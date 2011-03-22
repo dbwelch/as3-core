@@ -1,6 +1,6 @@
 package java.lang
 {
-	import com.ffsys.utils.string.StringSubstitutor;
+	import org.flashx.utils.string.StringSubstitutor;
 	
 	/**
 	* 	The Throwable class is the superclass of all errors

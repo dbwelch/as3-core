@@ -25,7 +25,7 @@ Button {
 }
 
 rectangle {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: ref( default-fill );
 	stroke: ref( default-stroke );
 	preferred-width: 20;
@@ -33,13 +33,13 @@ rectangle {
 }
 
 default-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	instance-class: class( org.flashx.ui.graphics.SolidFill );
 	color: #00ff00;
 	alpha: 0.5;
 }
 
 default-stroke {
-	instance-class: class( com.ffsys.ui.graphics.Stroke );
+	instance-class: class( org.flashx.ui.graphics.Stroke );
 	thickness: 1;
 	color: #ff0000;
 	alpha: 0.5;

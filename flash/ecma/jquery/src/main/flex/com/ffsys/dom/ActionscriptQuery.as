@@ -3,9 +3,9 @@ package com.ffsys.dom
 	import flash.events.*;
 	import flash.utils.Dictionary;
 	
-	//import com.ffsys.css.Selector;
+	//import org.flashx.css.Selector;
 	
-	import com.ffsys.dom.NodeListImpl;
+	import org.flashx.dom.NodeListImpl;
 	
 	/**
 	*	Represents dynamic <code>DOM</code> queries

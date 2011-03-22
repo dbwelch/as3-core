@@ -46,7 +46,7 @@ di-dependencies {
 }
 
 bean-dependencies {
-	instance-class: class( com.ffsys.ioc.mock.MockFileLoaderBean );
+	instance-class: class( org.flashx.ioc.mock.MockFileLoaderBean );
 	file-policy: bean;
 	property-bitmap: img( assets/mock-di-image.jpg );
 	property-sound: sound( assets/mock-di-sound.mp3 );

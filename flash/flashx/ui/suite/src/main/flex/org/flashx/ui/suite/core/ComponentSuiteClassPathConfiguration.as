@@ -26,7 +26,7 @@ package org.flashx.ui.suite.core
 		*/
 		override public function getPreloadViewClassPath():String
 		{
-			return "com.ffsys.ui.suite.view.ComponentSuitePreloadView";
+			return "org.flashx.ui.suite.view.ComponentSuitePreloadView";
 		}
 	}
 }

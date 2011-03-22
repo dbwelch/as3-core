@@ -1,6 +1,6 @@
 package com.ffsys.w3c.dom
 {
-	import com.ffsys.ioc.*;
+	import org.flashx.ioc.*;
 	import org.w3c.dom.*;
 		
 	/**

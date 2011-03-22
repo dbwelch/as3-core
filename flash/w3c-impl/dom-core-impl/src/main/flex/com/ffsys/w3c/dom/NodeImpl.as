@@ -10,7 +10,7 @@ package com.ffsys.w3c.dom
 	
 	import com.ffsys.w3c.dom.support.AbstractNodeProxyImpl;
 	
-	import com.ffsys.utils.string.PropertyNameConverter;
+	import org.flashx.utils.string.PropertyNameConverter;
 	
 	import javax.xml.namespace.QualifiedName;
 	

@@ -2,7 +2,7 @@ package com.ffsys.w3c.dom
 {
 	import org.w3c.dom.*;
 		
-	import com.ffsys.utils.primitives.PrimitiveParser;
+	import org.flashx.utils.primitives.PrimitiveParser;
 	
 	/**
 	*	Represents an attribute.

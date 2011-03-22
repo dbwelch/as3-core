@@ -6,10 +6,10 @@ package com.ffsys.dom
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
 	
-	import com.ffsys.net.asax.*;
+	import org.flashx.net.asax.*;
 
-	import com.ffsys.dom.core.*;
-	import com.ffsys.dom.xhtml.*;	
+	import org.flashx.dom.core.*;
+	import org.flashx.dom.xhtml.*;	
 	
 	/**
 	*	Abstract super class for DOM unit tests.

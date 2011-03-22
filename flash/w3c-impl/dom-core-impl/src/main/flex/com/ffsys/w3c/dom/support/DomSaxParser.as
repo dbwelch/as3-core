@@ -2,9 +2,9 @@ package com.ffsys.w3c.dom.support
 {
 	import org.w3c.dom.*;
 		
-	import com.ffsys.net.asax.*;
-	import com.ffsys.ioc.support.xml.BeanSaxParser;
-	import com.ffsys.ioc.*;	
+	import org.flashx.net.asax.*;
+	import org.flashx.ioc.support.xml.BeanSaxParser;
+	import org.flashx.ioc.*;	
 	import com.ffsys.w3c.dom.*;
 	
 	public class DomSaxParser extends BeanSaxParser

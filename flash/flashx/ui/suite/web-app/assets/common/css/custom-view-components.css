@@ -1,4 +1,4 @@
 page-header {
-	instance-class: class( com.ffsys.ui.suite.view.PageHeader );
+	instance-class: class( org.flashx.ui.suite.view.PageHeader );
 	configuration: ref( configuration );
 }

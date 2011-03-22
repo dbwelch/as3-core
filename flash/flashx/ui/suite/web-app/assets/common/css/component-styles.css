@@ -87,7 +87,7 @@ TextArea {
 }
 
 text-input-background-main {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #efefef, .8 );
 	stroke: stroke( 1, #666666, 1, true, normal, null, null, 3 );
 	corner-width: 5;
@@ -111,7 +111,7 @@ VerticalRule {
 }
 
 rule-graphic {
-	instance-class: class( com.ffsys.ui.graphics.BorderGraphic );
+	instance-class: class( org.flashx.ui.graphics.BorderGraphic );
 	fill: fill( #333333, .75 );
 }
 
@@ -164,35 +164,35 @@ ToggleButton:selected:over, ToggleButton:selected:down {
 }
 
 button-background-main {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #333333, .75 );
 	corner-width: 5;
 	corner-height: 5;
 }
 
 button-background-over {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #a9a9a9, .75 );
 	corner-width: 5;
 	corner-height: 5;
 }
 
 button-background-selected {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #696969, 1 );
 	corner-width: 5;
 	corner-height: 5;
 }
 
 button-background-selected-over {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #a9a9a9, 1 );
 	corner-width: 5;
 	corner-height: 5;
 }
 
 button-background-disabled {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #666666, .25 );
 	corner-width: 5;
 	corner-height: 5;
@@ -218,17 +218,17 @@ LinkButton:over {
 }
 
 link-button-background-main {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #333333, 1 );
 }
 
 link-button-background-over {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #a9a9a9, .75 );
 }
 
 link-button-background-disabled {
-	instance-class: class( com.ffsys.ui.graphics.RoundedRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RoundedRectangleGraphic );
 	fill: fill( #666666, .25 );
 }
 
@@ -266,37 +266,37 @@ TabButton:selected:over, TabButton:selected:down {
 }
 
 tab-button-background-main {
-	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.BevelRectangleGraphic );
 	fill: fill( #333333, 1 );
 	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-selected {
-	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.BevelRectangleGraphic );
 	fill: fill( #696969, 1 );
 	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-selected-over {
-	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.BevelRectangleGraphic );
 	fill: fill( #a9a9a9, 1 );
 	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-over {
-	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.BevelRectangleGraphic );
 	fill: fill( #a9a9a9, .75 );
 	top-right-corner: ref( tab-top-right-corner );
 }
 
 tab-button-background-disabled {
-	instance-class: class( com.ffsys.ui.graphics.BevelRectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.BevelRectangleGraphic );
 	fill: fill( #666666, .25 );
 	top-right-corner: ref( tab-top-right-corner );	
 }
 
 tab-top-right-corner {
-	instance-class: class( com.ffsys.ui.graphics.Corner );
+	instance-class: class( org.flashx.ui.graphics.Corner );
 	width: 6;
 	height: 6;	
 }
@@ -308,12 +308,12 @@ ImageDisplay {
 }
 
 image-display-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: ref( image-display-background-fill );
 }
 
 image-display-background-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	instance-class: class( org.flashx.ui.graphics.SolidFill );
 	color: #000000;
 	alpha: .65;
 }
@@ -353,23 +353,23 @@ RadioButton:selected:disabled {
 }
 
 radio-button-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( radio-button-background ) );
 }
 
 radio-button-icon-selected {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( radio-button-background ), ref( radio-button-foreground ) );
 }
 
 radio-button-background {
-	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
+	instance-class: class( org.flashx.ui.graphics.CircleGraphic );
 	fill: fill( #a9a9a9, 1 );
 	radius: 5;
 }
 
 radio-button-foreground {
-	instance-class: class( com.ffsys.ui.graphics.CircleGraphic );
+	instance-class: class( org.flashx.ui.graphics.CircleGraphic );
 	fill: fill( #333333, 1 );
 	radius: 3;
 	x: 2;
@@ -411,24 +411,24 @@ CheckBox:selected:disabled {
 }
 
 check-box-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( check-box-background ) );
 }
 
 check-box-icon-selected {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( check-box-background ), ref( check-box-foreground ) );
 }
 
 check-box-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #a9a9a9, 1 );
 	width: 9;
 	height: 9;
 }
 
 check-box-foreground {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #333333, 1 );
 	width: 5;
 	height: 5;
@@ -441,7 +441,7 @@ MaskComponent {
 }
 
 mask-background-graphic {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #ff0000, .75 );
 }
 

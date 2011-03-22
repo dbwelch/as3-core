@@ -51,77 +51,77 @@ right-button:over, right-button:down {
 }
 
 image-display-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: ref( graphic-button-background-fill );
 }
 
 image-display-background-over {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: ref( graphic-button-background-fill-over );
 }
 
 graphic-button-background-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	instance-class: class( org.flashx.ui.graphics.SolidFill );
 	color: #333333;
 	alpha: 0.75;
 }
 
 graphic-button-background-fill-over {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	instance-class: class( org.flashx.ui.graphics.SolidFill );
 	color: #a9a9a9;
 	alpha: 0.75;
 }
 
 up-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( up-arrow-icon-graphic ) );
 	alpha: .5;	
 }
 
 up-arrow-icon-over {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( up-arrow-icon-graphic ) );
 	alpha: 1;	
 }
 
 down-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( down-arrow-icon-graphic ) );
 	alpha: .5;		
 }
 
 down-arrow-icon-over {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( down-arrow-icon-graphic ) );
 	alpha: 1;	
 }
 
 left-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( left-arrow-icon-graphic ) );
 	alpha: .5;		
 }
 
 left-arrow-icon-over {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( left-arrow-icon-graphic ) );
 	alpha: 1;	
 }
 
 right-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( right-arrow-icon-graphic ) );
 	alpha: .5;		
 }
 
 right-arrow-icon-over {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( right-arrow-icon-graphic ) );
 	alpha: 1;	
 }
 
 up-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: top;
 	width: 8;
@@ -129,7 +129,7 @@ up-arrow-icon-graphic {
 }
 
 down-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: bottom;
 	width: 8;
@@ -137,7 +137,7 @@ down-arrow-icon-graphic {
 }
 
 left-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: left;
 	width: 8;
@@ -145,7 +145,7 @@ left-arrow-icon-graphic {
 }
 
 right-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( graphic-icon-fill );
 	orientation: right;
 	width: 8;
@@ -153,7 +153,7 @@ right-arrow-icon-graphic {
 }
 
 graphic-icon-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	instance-class: class( org.flashx.ui.graphics.SolidFill );
 	color: #a9a9a9;
 	alpha: 1;
 }

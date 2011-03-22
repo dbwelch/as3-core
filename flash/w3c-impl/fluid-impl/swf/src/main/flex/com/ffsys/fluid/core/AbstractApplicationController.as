@@ -1,6 +1,6 @@
 package com.ffsys.fluid.core
 {
-	import com.ffsys.swat.core.DefaultController;	
+	import org.flashx.swat.core.DefaultController;	
 	
 	/**
 	*	An abstract super class for all

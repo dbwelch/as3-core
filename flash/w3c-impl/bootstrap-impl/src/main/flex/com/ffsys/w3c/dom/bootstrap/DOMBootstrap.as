@@ -2,12 +2,12 @@ package com.ffsys.w3c.dom.bootstrap
 {
 	import flash.utils.Dictionary;
 	
-	import com.ffsys.ioc.BeanDocument;
-	import com.ffsys.ioc.BeanDescriptor;
-	import com.ffsys.ioc.IBeanDocument;	
-	import com.ffsys.ioc.IBeanDocumentAware;		
-	import com.ffsys.ioc.IBeanDescriptor; 
-	import com.ffsys.ioc.InjectedBeanDescriptor;
+	import org.flashx.ioc.BeanDocument;
+	import org.flashx.ioc.BeanDescriptor;
+	import org.flashx.ioc.IBeanDocument;	
+	import org.flashx.ioc.IBeanDocumentAware;		
+	import org.flashx.ioc.IBeanDescriptor; 
+	import org.flashx.ioc.InjectedBeanDescriptor;
 	
 	import org.w3c.dom.DOMFeature;
 	import org.w3c.dom.DOMImplementation;

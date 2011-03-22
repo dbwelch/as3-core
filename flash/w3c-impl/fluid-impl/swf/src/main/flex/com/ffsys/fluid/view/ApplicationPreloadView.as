@@ -2,10 +2,10 @@ package com.ffsys.fluid.view {
 	
 	import flash.text.*;
 	
-	import com.ffsys.ui.text.core.MultiLineTextField;	
+	import org.flashx.ui.text.core.MultiLineTextField;	
 	
-	import com.ffsys.swat.events.RslEvent;
-	import com.ffsys.swat.view.DefaultApplicationPreloadView;
+	import org.flashx.swat.events.RslEvent;
+	import org.flashx.swat.view.DefaultApplicationPreloadView;
 	
 	/**
 	*	The main application preload view.

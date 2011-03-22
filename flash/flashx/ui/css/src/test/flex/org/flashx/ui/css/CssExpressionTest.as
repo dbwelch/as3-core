@@ -14,14 +14,14 @@ package org.flashx.ui.css
 			(<![CDATA[
 			
 			constants {
-				constant-class: class( com.ffsys.ui.css.CssStyleAware );
+				constant-class: class( org.flashx.ui.css.CssStyleAware );
 				red: #ff0000;
 				string: hello world;
 				stylable: ref( stylable );
 			}
 
 			expressions {
-				class-expression: class( com.ffsys.ui.css.CssStyleAware );
+				class-expression: class( org.flashx.ui.css.CssStyleAware );
 				url-expression: url( http://google.com );
 				red: constant( red );
 				constant-class: constant( constant-class );
@@ -33,7 +33,7 @@ package org.flashx.ui.css
 			
 			stylable {
 				singleton: true;
-				instance-class: class( com.ffsys.ui.css.CssStyleAware );
+				instance-class: class( org.flashx.ui.css.CssStyleAware );
 			}
 
 			]]>).toString();

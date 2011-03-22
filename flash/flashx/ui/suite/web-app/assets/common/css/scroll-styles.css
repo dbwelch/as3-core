@@ -47,62 +47,62 @@ ScrollUpButton:over, ScrollDownButton:over, ScrollUpButton:down, ScrollDownButto
 }
 
 scroll-bar-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #a9a9a9, .75 );
 }
 
 scroll-track-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #2a2a2a, .5 );
 }
 
 scroll-drag-background {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #363636, .75 );
 }
 
 scroll-button-background-main {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #333333, .75 );
 }
 
 scroll-button-background-over {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #a9a9a9, .75 );
 }
 
 scroll-button-background-selected {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #696969, 1 );
 }
 
 scroll-button-background-disabled {
-	instance-class: class( com.ffsys.ui.graphics.RectangleGraphic );
+	instance-class: class( org.flashx.ui.graphics.RectangleGraphic );
 	fill: fill( #666666, .25 );
 }
 
 scroll-up-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( scroll-up-arrow-icon-graphic ) );
 }
 
 scroll-down-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( scroll-down-arrow-icon-graphic ) );
 }
 
 scroll-left-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( scroll-left-arrow-icon-graphic ) );
 }
 
 scroll-right-arrow-icon {
-	instance-class: class( com.ffsys.ui.core.UIComponent );
+	instance-class: class( org.flashx.ui.core.UIComponent );
 	layers: array( ref( scroll-right-arrow-icon-graphic ) );
 }
 
 scroll-up-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( scroll-icon-fill );
 	orientation: top;
 	width: 6;
@@ -110,7 +110,7 @@ scroll-up-arrow-icon-graphic {
 }
 
 scroll-down-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( scroll-icon-fill );
 	orientation: bottom;
 	width: 6;
@@ -118,7 +118,7 @@ scroll-down-arrow-icon-graphic {
 }
 
 scroll-left-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( scroll-icon-fill );
 	orientation: left;
 	width: 4;
@@ -126,7 +126,7 @@ scroll-left-arrow-icon-graphic {
 }
 
 scroll-right-arrow-icon-graphic {
-	instance-class: class( com.ffsys.ui.graphics.ArrowGraphic );
+	instance-class: class( org.flashx.ui.graphics.ArrowGraphic );
 	fill: ref( scroll-icon-fill );
 	orientation: right;
 	width: 4;
@@ -134,7 +134,7 @@ scroll-right-arrow-icon-graphic {
 }
 
 scroll-icon-fill {
-	instance-class: class( com.ffsys.ui.graphics.SolidFill );
+	instance-class: class( org.flashx.ui.graphics.SolidFill );
 	color: #a9a9a9;
 	alpha: 1;
 }

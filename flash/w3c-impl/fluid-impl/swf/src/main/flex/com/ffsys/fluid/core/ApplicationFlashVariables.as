@@ -1,7 +1,7 @@
 package com.ffsys.fluid.core {
 	
 	import flash.display.DisplayObject;
-	import com.ffsys.swat.core.DefaultFlashVariables;
+	import org.flashx.swat.core.DefaultFlashVariables;
 	
 	/**
 	*	Encapsulates the data passed in via flash variables

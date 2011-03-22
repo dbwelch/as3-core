@@ -99,22 +99,22 @@
 
 								<className>com.ffsys.fluid.core.ApplicationController</className>
 								
-								<className>com.ffsys.ui.graphics.RectangleGraphic</className>
-								<className>com.ffsys.ui.graphics.SquareGraphic</className>
-								<className>com.ffsys.ui.graphics.CircleGraphic</className>								
-								<className>com.ffsys.ui.graphics.EllipseGraphic</className>															
-								<className>com.ffsys.ui.graphics.ArrowGraphic</className>
-								<className>com.ffsys.ui.graphics.BevelRectangleGraphic</className>								
-								<className>com.ffsys.ui.graphics.RoundedRectangleGraphic</className>
-								<className>com.ffsys.ui.graphics.BorderGraphic</className>
+								<className>org.flashx.ui.graphics.RectangleGraphic</className>
+								<className>org.flashx.ui.graphics.SquareGraphic</className>
+								<className>org.flashx.ui.graphics.CircleGraphic</className>								
+								<className>org.flashx.ui.graphics.EllipseGraphic</className>															
+								<className>org.flashx.ui.graphics.ArrowGraphic</className>
+								<className>org.flashx.ui.graphics.BevelRectangleGraphic</className>								
+								<className>org.flashx.ui.graphics.RoundedRectangleGraphic</className>
+								<className>org.flashx.ui.graphics.BorderGraphic</className>
 								
-								<className>com.ffsys.ui.graphics.ArrowPointer</className>
-								<className>com.ffsys.ui.graphics.SolidFill</className>								
-								<className>com.ffsys.ui.graphics.BitmapFill</className>																
-								<className>com.ffsys.ui.graphics.GradientFill</className>
-								<className>com.ffsys.ui.graphics.CompositeFill</className>
-								<className>com.ffsys.ui.graphics.Gradient</className>
-								<className>com.ffsys.ui.graphics.Stroke</className>
+								<className>org.flashx.ui.graphics.ArrowPointer</className>
+								<className>org.flashx.ui.graphics.SolidFill</className>								
+								<className>org.flashx.ui.graphics.BitmapFill</className>																
+								<className>org.flashx.ui.graphics.GradientFill</className>
+								<className>org.flashx.ui.graphics.CompositeFill</className>
+								<className>org.flashx.ui.graphics.Gradient</className>
+								<className>org.flashx.ui.graphics.Stroke</className>
 							</classNames>
 						</frame>
 					</frames>

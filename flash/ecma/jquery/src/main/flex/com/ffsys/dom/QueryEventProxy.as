@@ -2,7 +2,7 @@ package com.ffsys.dom
 {
 	import flash.events.*;
 	
-	import com.ffsys.dom.core.*;
+	import org.flashx.dom.core.*;
 	
 	public class QueryEventProxy extends Object {
 		

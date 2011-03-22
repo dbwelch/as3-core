@@ -14,7 +14,7 @@ package org.flashx.ui.css
 			(<![CDATA[
 
 			style-aware {
-				instance-class: class( com.ffsys.ui.css.CssStyleAware );
+				instance-class: class( org.flashx.ui.css.CssStyleAware );
 				id: stylable-identifier;
 				styles: stylable-test;
 			}

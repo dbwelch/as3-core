@@ -1,8 +1,8 @@
 package com.ffsys.w3c.dom.bootstrap
 {
-	import com.ffsys.ioc.BeanDescriptor;
-	import com.ffsys.ioc.IBeanDocument;
-	import com.ffsys.ioc.IBeanDescriptor;
+	import org.flashx.ioc.BeanDescriptor;
+	import org.flashx.ioc.IBeanDocument;
+	import org.flashx.ioc.IBeanDescriptor;
 	
 	import org.w3c.dom.DOMImplementation;
 	

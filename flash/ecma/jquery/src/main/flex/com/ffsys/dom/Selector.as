@@ -1,6 +1,6 @@
 package com.ffsys.dom
 {
-	import com.ffsys.dom.ElementImpl;
+	import org.flashx.dom.ElementImpl;
 	
 	/**
 	* 	Represents a <code>CSS</code> selector.

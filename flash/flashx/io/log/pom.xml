@@ -6,7 +6,7 @@
 		<groupId>com.ffsys.flash.flashx</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.io</groupId>
+	<groupId>com.ffsys.flash.flashx.io</groupId>
 	<artifactId>log</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>log</name>

@@ -29,32 +29,32 @@
 		
 		<!-- io -->
 		<dependency>
-			<groupId>com.ffsys.flash.io</groupId>
+			<groupId>com.ffsys.flash.flashx.io</groupId>
 			<artifactId>connection</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.io</groupId>
+			<groupId>com.ffsys.flash.flashx.io</groupId>
 			<artifactId>io-core</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>				
 		<dependency>
-			<groupId>com.ffsys.flash.io</groupId>
+			<groupId>com.ffsys.flash.flashx.io</groupId>
 			<artifactId>loaders</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.io</groupId>
+			<groupId>com.ffsys.flash.flashx.io</groupId>
 			<artifactId>log</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.io</groupId>
+			<groupId>com.ffsys.flash.flashx.io</groupId>
 			<artifactId>xml</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>

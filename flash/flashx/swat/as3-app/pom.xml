@@ -116,10 +116,10 @@
 							<label>main</label>
 							<classNames>
 								<className>com.ffsys.swat.as3.view.ApplicationController</className>
-								<className>com.ffsys.effects.tween.Tween</className>
-								<className>com.ffsys.effects.tween.TweenGroup</className>
-								<className>com.ffsys.effects.tween.TweenSequence</className>
-								<className>com.ffsys.effects.easing.Quad</className>
+								<className>org.flashx.effects.tween.Tween</className>
+								<className>org.flashx.effects.tween.TweenGroup</className>
+								<className>org.flashx.effects.tween.TweenSequence</className>
+								<className>org.flashx.effects.easing.Quad</className>
 							</classNames>
 							
 							<!--

@@ -21,7 +21,7 @@
 				<identifier>assets.examples.classpath.ref</identifier>
 			</p>
 			<runtime-asset>
-				<class-path>com.ffsys.ui.suite.DefaultIconOver</class-path>
+				<class-path>org.flashx.ui.suite.DefaultIconOver</class-path>
 			</runtime-asset>
 		
 			<p>
