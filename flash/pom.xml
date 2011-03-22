@@ -2,15 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>as3-core-library</artifactId>
+		<artifactId>flash-parent</artifactId>
 		<groupId>com.ffsys.flash</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash</groupId>
-	<artifactId>as3-core</artifactId>
+	<artifactId>flash-core-parent</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>
-	<name>as3-core</name>
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
@@ -58,7 +57,7 @@
 				</property>
 			</activation>
 			<modules>
-				<module>asdoc-all</module>
+				<module>flash-all</module>
 			</modules>
 			<build>
 				<pluginManagement>

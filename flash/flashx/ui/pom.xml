@@ -20,6 +20,7 @@
 		<module>css</module>
 		<module>display</module>
 		<module>events</module>
+		<module>graphics</module>		
 		<module>layout</module>
 		<module>loaders</module>
 		<module>runtime</module>

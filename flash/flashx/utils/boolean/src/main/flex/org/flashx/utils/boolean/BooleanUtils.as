@@ -66,8 +66,6 @@ package org.flashx.utils.boolean {
 		*	
 		*	@return <code>true</code> if the <code>source</code> equals
 		*	<code>true</code> otherwise <code>false</code>.
-		*	
-		*	@see com.ffsys.utils.boolean.BooleanUtils#stringIsBoolean
 		*/
 		static public function stringToBoolean( source:String ):Boolean
 		{

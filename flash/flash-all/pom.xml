@@ -2,26 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>as3-core</artifactId>
 		<groupId>com.ffsys.flash</groupId>
+		<artifactId>flash-core-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ffsys.flash.asdoc</groupId>
-	<artifactId>as3-doc-all</artifactId>
+	<artifactId>flash-all</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>
-	<name>as3-doc-all</name>
+	<name>flash-all</name>
 	<url>http://as3.freeformsystems.com</url>
+	<properties>
+		<!--
+			Must be empty as we have no link report.
+		-->
+		<api.docs.link.report.path></api.docs.link.report.path>
+	</properties>
 	<dependencies>
-		
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>core</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>effects</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
@@ -59,13 +64,15 @@
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
-						
+				
+		<!--		
 		<dependency>
-			<groupId>com.ffsys.flash</groupId>
+			<groupId>com.ffsys.flash.flashx</groupId>
 			<artifactId>swat</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
+		-->
 		
 		<!-- utils -->
 		<dependency>
