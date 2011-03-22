@@ -1,92 +1,13 @@
-h1. Freeform Systems -- Core Actionscript 3 Libraries
+h1. Actionscript 3 Libraries
 
-These are the core Actionscript 3 libraries by Freeform Systems.
+These are the Actionscript 3 libraries by Freeform Systems, this source tree uses "maven":http://maven.apache.org for the build process.
 
-All source code is distributed with a "Creative Commons attribution and share-alike license":http://creativecommons.org/licenses/by-sa/2.0/uk/.
-
-h2. Using the libraries
+h2. Maven Builds
 
 If you just want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on repository configuration and declaring the dependencies.
 
-You need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved. An example maven settings file:
+You need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved. An example maven settings file is available in the "mvn-settings repository":https://github.com/freeformsystems/mvn-settings
 
-bc. <?xml version="1.0"?>
-<settings>
-	<profiles>
-		<profile>
-			<id>ffsys</id>
-			<repositories>
-				<repository>
-					<id>ffsys</id>
-					<url>http://mvn.freeformsystems.com/content/groups/ffsys</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>ffsys</id>
-					<url>http://mvn.freeformsystems.com/content/groups/ffsys</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
-	</profiles>
-	<activeProfiles>
-		<activeProfile>ffsys</activeProfile>
-	</activeProfiles>
-</settings>
+h2. License
 
-Then you can declare dependencies in your *POM* as per normal:
-
-bc. <dependency>
-	<groupId>com.ffsys.flash</groupId>
-	<artifactId>core</artifactId>
-	<version>0.1-SNAPSHOT</version>
-	<type>swc</type>
-</dependency>
-
-h2. Forking
-
-For those that wish to fork the source tree some information on getting the source and compiling it is below.
-
-h3. Prerequisites
-
-You will need "maven":http://maven.apache.org installed. The project was built using version 2.2.1, your mileage may vary on earlier versions. The compiling and asdoc generation is handled by "flexmojos":http://flexmojos.sonatype.org/ we recommend reading the "flexmojos wiki":https://docs.sonatype.org/display/FLEXMOJOS/Home if you are not familiar with "flexmojos":http://flexmojos.sonatype.org/.
-
-Note that "maven":http://maven.apache.org will handle the "flexmojos":http://flexmojos.sonatype.org/ dependencies automatically so you should just need "maven":http://maven.apache.org installed in order to compile the project.
-
-h3. Getting the code
-
-Create a clone of the repository:
-
-bc. git clone git@github.com:freeformsystems/as3-core.git
-
-h3. Compiling the code
-
-To compile all the modules for the project, change into the directory, for example:
-
-bc. cd ~/git/as3-core
-
-And run maven:
-
-bc. mvn install
-
-This will also go through the process of resolving all the project's dependencies and creating and installing the artifacts in your local repository.
-
-h3. Releasing the code
-
-We use:
-
-bc. mvn release:prepare && mvn release:perform
-
-To tag the source tree, create a release version and increment to the next snapshot, if you wish to do the same you will need to modify the POM to suit your release infrastructure and requirements.
+All source code is distributed with a "Creative Commons attribution and share-alike license":http://creativecommons.org/licenses/by-sa/2.0/uk/.
