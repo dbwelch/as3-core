@@ -107,7 +107,7 @@ package java.util
 		protected function allocate( nbits:uint = 0 ):void
 		{
 			_bytes = new ByteArray();
-			_bytes.endian = Endian.BIG_ENDIAN;
+			//_bytes.endian = Endian.BIG_ENDIAN;
 			var n:uint = Math.ceil( nbits / 8 );
 			while( n > 0 )
 			{

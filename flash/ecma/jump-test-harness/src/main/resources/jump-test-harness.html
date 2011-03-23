@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC
+	"-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en">
+	<head>
+		<title>jump - test harness</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="swfobject.js"></script>
+		<script type="text/javascript">
+		
+			/////
+			function evaluate( js )
+			{
+				var result = eval( js );
+				//alert( "evaluate: " + js + " || " + result );
+				return result;
+			}
+			/////		
+		
+			var aString = "A string value";
+			
+			//alert( eval( "aString" ) );
+		
+			function func()
+			{
+				alert( "top-level function" );
+			}
+		
+			var o = {
+				func: function()
+				{
+					alert( "function declared on object" );
+				}
+			}
+		
+			function init()
+			{	
+				var config = {
+					id: "flash",
+					url: "${project.name}-${project.version}.${project.packaging}",
+					width: "100%",
+					height: "100%",
+					version: "10",
+					express: null,
+					flashvars: {},
+					params: {
+						bgcolor: "#000000"
+					}
+				}
+				
+				swfobject.embedSWF(
+					config.url, config.id, config.width, config.height,
+					config.version, config.express, config.flashvars,
+					config.params, config.attributes );
+			}
+		</script>
+	</head>
+	<body onload="init();">
+		<div id="wrapper">
+			<div id="header">
+				<h1>jump - test harness</h1>
+				<p class="note">Built for Flash Player <strong>10.0</strong> and later player versions using Actionscript 3.</p>
+			</div>
+			<div id="flash">
+				<p>
+					<a href="http://www.adobe.com/go/getflashplayer">
+						<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+					</a>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

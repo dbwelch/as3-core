@@ -13,6 +13,8 @@
 	<packaging>pom</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<modules>
-		<module>jquery</module>
+		<!-- <module>jquery</module> -->
+		<module>jump</module>
+		<module>jump-test-harness</module>
 	</modules>
 </project>
