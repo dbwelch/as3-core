@@ -11,10 +11,10 @@ package org.ecma
 	* 	Represents a bridge between Actionscript and
 	* 	Javascript.
 	*/
-	dynamic public class JavaScript extends Proxy
+	dynamic internal class JavaScript extends Proxy
 	{
-		private var _parent:JavaScript;
-		private var _name:String;
+		private var _parent:JavaScript = null;
+		private var _name:String = null;
 		
 		/**
 		* 	Creates a <code>JavaScript</code> instance.
@@ -27,11 +27,89 @@ package org.ecma
 			_name = name;
 		}
 		
+		/**
+		* 	The value of the javascript equivalent to this
+		* 	action representation.
+		* 
+		* 	@return The value of the corresponding javascript object.
+		*/
+		public function valueOf():*
+		{
+			return getVariable( this );
+		}
+		
+		/**
+		* 	The name of this Javascript.
+		*/
+		public function get name():String
+		{
+			return _name;
+		}
+		
+		/**
+		* 	The parent of this Javascript.
+		*/
+		public function get parent():JavaScript
+		{
+			return _parent;
+		}
+		
+		/**
+		* 	Evaluates a Javascript string.
+		* 
+		* 	@param js The Javascript to evaluate.
+		* 
+		* 	@return The evaluated value.
+		*/
 		public function eval( js:String ):*
 		{
 			return invoke( "evaluate", [ js ] );
 		}
 		
+		/**
+		* 	Retrieves the value of a Javascript variable.
+		* 
+		* 	@param The Javascript representation of the variable name.
+		* 
+		* 	@return The value of the variable.
+		*/
+		public function getVariable( js:JavaScript ):*
+		{
+			if( js != null )
+			{
+				return eval( js.toString() );
+			}
+		}
+		
+		/**
+		* 	Sets the value of a Javascript variable.
+		* 
+		* 	@param The Javascript representation of the variable name.
+		* 	@param value The new value for the variable.
+		*/
+		public function setVariable( js:JavaScript, value:* ):void
+		{
+			if( js != null )
+			{
+				eval( js.toString() + "=" + quote( value ) );
+			}
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function quote( value:* ):*
+		{
+			if( value is String )
+			{
+				return "\"" + value + "\"";
+			}
+			return value;
+		}
+		
+		/**
+		* 	@private
+		*/
 		private function invoke( method:String, args:Array = null ):*
 		{
 			if( ExternalInterface.available )
@@ -41,9 +119,7 @@ package org.ecma
 					args = [];
 				}
 				args.unshift( method );
-				
-				trace("JavaScript::invoke()", args );
-				
+				//trace("JavaScript::invoke()", args );
 				return ExternalInterface.call.apply( null, args );
 			}
 		}
@@ -96,8 +172,8 @@ package org.ecma
 		*	@private	
 		*/
 	    override flash_proxy function setProperty( name:*, value:* ):void
-		{	
-			//
+		{
+			setVariable( new JavaScript( _parent, name ), value );
 	    }
 		
 		/**
@@ -105,8 +181,40 @@ package org.ecma
 		*/
 		override flash_proxy function callProperty( methodName:*, ...args ):*
 		{
-			trace("JavaScript::setProperty()", methodName, args );
-			return invoke( methodName, args );
+			//no parent - top level function
+			if( _parent == null )
+			{
+				return invoke( methodName, args );
+			}else{
+				//TODO
+			}
+		}
+		
+		/**
+		* 	A string representation of this Javascript
+		* 	object.
+		* 
+		* 	@return A string representation of the object.
+		*/
+		public function toString():String
+		{
+			var names:Array = [];
+			var p:JavaScript = _parent;
+			if( _name != null )
+			{
+				names.push( _name );
+			}			
+			while( p != null )
+			{
+				if( p.name != null )
+				{
+					names.push( p.name );
+				}
+				p = p.parent;
+			}
+			names.reverse();
+			var output:String = names.join( "." );
+			return output;
 		}
 	}
 }
