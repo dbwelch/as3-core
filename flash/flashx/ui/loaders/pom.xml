@@ -50,14 +50,7 @@
 			<artifactId>effects</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
-		</dependency>		
-		
-		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>inspector</artifactId>
-			<version>0.1-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>		
+		</dependency>	
 	</dependencies>
 	<profiles>
 		<profile>

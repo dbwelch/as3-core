@@ -16,8 +16,6 @@ package org.flashx.io.loaders.core {
 	import org.flashx.io.loaders.resources.IResource;
 	import org.flashx.io.loaders.resources.IResourceList;
 	
-	import org.flashx.utils.identifier.IdentifierUtils;	
-	
 	/**
 	*	Abstract super class for loader implementations.
 	*
@@ -383,7 +381,7 @@ package org.flashx.io.loaders.core {
 		{
 			if( this.uri )
 			{
-				return IdentifierUtils.getFileNameId( this.uri );
+				return this.uri;
 			}
 			return null;
 		}

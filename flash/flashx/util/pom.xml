@@ -19,8 +19,6 @@
 		<module>collections</module>
 		<module>geo</module>
 		<module>history</module>
-		<module>identifier</module>
-		<module>inspector</module>
 		<module>locale</module>
 		<module>number</module>
 		<module>object</module>

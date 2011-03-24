@@ -244,6 +244,9 @@
 					<excludeClasses>
 						<class>TestRunner</class>
 					</excludeClasses>
+					<defines> 
+						<CONFIG::debug>${CONFIG::debug}</CONFIG::debug> 
+					</defines>
 				</configuration>
 			</plugin>
 		</plugins>

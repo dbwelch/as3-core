@@ -45,12 +45,6 @@
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flashx.io</groupId>
-			<artifactId>log</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
 		
 		<!-- utils -->
 		<dependency>
@@ -92,18 +86,6 @@
 		<dependency>
 			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>history</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>identifier</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>inspector</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
