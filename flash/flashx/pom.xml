@@ -19,6 +19,6 @@
 		<module>net</module>
 		<!-- <module>swat</module> -->
 		<module>ui</module>
-		<module>utils</module>
+		<module>util</module>
 	</modules>
 </project>

@@ -223,15 +223,6 @@
 						<version>${flex.version}</version>
 						<type>pom</type>
 					</dependency>
-					<!--		
-					<dependency>
-						<groupId>com.adobe.flex.compiler</groupId>
-						<artifactId>asdoc</artifactId>
-						<version>${flex.version}</version>
-						<classifier>template</classifier>
-						<type>zip</type>
-					</dependency>
-					-->
 				</dependencies>
 				<extensions>true</extensions>
 				<configuration>
@@ -252,27 +243,7 @@
 					<excludeClasses>
 						<class>TestRunner</class>
 					</excludeClasses>
-					<packageDescriptions>
-						<package>
-							<name>com.ffsys.core</name>
-							<value>Common interfaces used by other packages</value>
-						</package>
-					</packageDescriptions>
 				</configuration>
-				<!--
-				<executions>
-					<execution>
-						<id>default-dita-asdoc</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>dita-asdoc</goal>
-						</goals>
-						<configuration>
-							<templatePath>${project.build.directory}/abcdef</templatePath>
-						</configuration>
-					</execution>
-				</executions>
-				-->
 			</plugin>
 		</plugins>
 	</build>
