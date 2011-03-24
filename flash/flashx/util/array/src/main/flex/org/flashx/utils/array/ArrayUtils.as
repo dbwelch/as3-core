@@ -42,6 +42,8 @@ package org.flashx.utils.array {
 			length:int,
 			multiply:Boolean = false ):Array
 		{
+			//CONFIG::debug { trace("We are running in DEBUG mode"); }
+			
 			var output:Array = new Array();
 			var i:int = 0;
 			var val:Object;
