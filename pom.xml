@@ -232,6 +232,7 @@
 					<locales>
 						<locale>en_US</locale>
 					</locales>
+					<coverage>true</coverage>
 					<headlessServer>true</headlessServer>
 					<incremental>true</incremental>
 					<linkReport>true</linkReport>

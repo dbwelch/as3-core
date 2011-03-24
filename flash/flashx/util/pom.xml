@@ -17,7 +17,6 @@
 		<module>boolean</module>
 		<module>byte</module>	
 		<module>collections</module>
-		<module>display</module>
 		<module>geo</module>
 		<module>history</module>
 		<module>identifier</module>
@@ -32,6 +31,5 @@
 		<module>regex</module>
 		<module>string</module>
 		<module>substitution</module>
-		<module>xml</module>
 	</modules>	
 </project>

@@ -85,12 +85,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>display</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>geo</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
@@ -172,13 +166,7 @@
 			<artifactId>substitution</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>xml</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>																																									
+		</dependency>																																								
 	</dependencies>
 	<build>
 		<plugins>
