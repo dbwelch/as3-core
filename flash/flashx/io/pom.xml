@@ -20,7 +20,6 @@
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>connection</module>
 		<module>core</module>
 		<module>loaders</module>
 		<module>log</module>

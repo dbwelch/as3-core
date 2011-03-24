@@ -5,7 +5,7 @@ package org.flashx.io.loaders.core {
 	import org.flashx.core.IDestroy;	
 	import org.flashx.core.IStringIdentifier;
 	
-	import org.flashx.io.connection.IConnection;
+	import org.flashx.io.core.IClose;	
 	
 	import org.flashx.io.loaders.resources.IResourceElement;	
 	
@@ -20,8 +20,8 @@ package org.flashx.io.loaders.core {
 	*	@since  03.09.2007
 	*/
 	public interface ILoaderElement
-		extends IConnection,
-				IStringIdentifier,				
+		extends IClose,
+				IStringIdentifier,
 				IDestroy,
 				IEventDispatcher {	
 					
