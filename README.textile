@@ -4,9 +4,18 @@ These are the Actionscript 3 libraries by Freeform Systems, this source tree use
 
 h2. Maven Builds
 
-If you just want to use the libraries in your "flexmojos":http://flexmojos.sonatype.org/ project this is some information on repository configuration and declaring the dependencies.
+If you are using "maven":http://maven.apache.org and "flexmojos":http://flexmojos.sonatype.org/ for your project this is some information on repository configuration and declaring the dependencies.
 
-You need to declare a repository that points to our public repository, so that the library artifact dependencies can be resolved. An example maven settings file is available in the "mvn-settings repository":https://github.com/freeformsystems/mvn-settings
+You need to configure your maven settings to point to our public repository so that the dependencies can be resolved. An example maven settings file is available in the "mvn-settings repository":https://github.com/freeformsystems/mvn-settings.
+
+You can then simply declare a dependency in your POM on any of the artifacts in this repository. For example:
+
+bc. <dependency>
+	<groupId>com.ffsys.flash.flashx</groupId>
+	<artifactId>core</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<type>swc</type>
+</dependency>
 
 h2. License
 

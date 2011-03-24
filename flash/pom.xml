@@ -252,6 +252,7 @@
 										<tasks>
 											<mkdir dir="${latex.source.dir}/${project.build.finalName}" />
 											<copy
+												failonerror="false"
 												file="${asdoc.xslt.output}/${project.build.finalName}.tex"
 												toDir="${latex.source.dir}/${project.build.finalName}"
 												overwrite="true" verbose="true"/>
