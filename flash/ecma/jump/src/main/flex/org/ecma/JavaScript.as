@@ -8,7 +8,7 @@ package org.ecma
 	* 	Represents a bridge between Actionscript and
 	* 	Javascript.
 	*/
-	dynamic internal class JavaScript extends Proxy
+	dynamic public class JavaScript extends Proxy
 	{
 		private var _parent:JavaScript = null;
 		private var _name:String = null;

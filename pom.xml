@@ -19,9 +19,7 @@
 		<ffsys.lib.version>0.1-SNAPSHOT</ffsys.lib.version>
 		<target.player>10.1</target.player>
 		<compiler.debug>false</compiler.debug>
-		
 		<git.ignore>.gitignore</git.ignore>
-		
 		<!--
 			Hidden build number file that *is not included* in the scm,
 			this is not stored in the target directory so it increments
@@ -29,43 +27,35 @@
 			in the scm.
 			-->
 		<build.number.file>${basedir}/.build.properties</build.number.file>
-		
 		<api.docs.title>${project.groupId}</api.docs.title>
-		
 		<api.docs.scm.revision>${scm.revision}</api.docs.scm.revision>
 		<api.docs.build.number>${build.number}</api.docs.build.number>
-		
 		<api.docs.build.product>${project.build.finalName}.${project.packaging}</api.docs.build.product>
 		<api.docs.build.date>${build.date}</api.docs.build.date>
 		<api.docs.build.timestamp>${timestamp}</api.docs.build.timestamp>
 		<api.docs.link.report.path>../${project.build.finalName}-link-report.xml</api.docs.link.report.path>
 		<api.docs.page.title.left>Freeform Core</api.docs.page.title.left>
 		<api.docs.page.title.right>Actionscript API</api.docs.page.title.right>
-		
 		<!-- empty by default but can be specified at the package level -->
-		<api.docs.sub.title></api.docs.sub.title>
+		<api.docs.sub.title/>
 		<api.docs.author>Mischa Williamson</api.docs.author>
 		<api.docs.link.source.directory>${project.build.sourceDirectory}</api.docs.link.source.directory>
-				
 		<asdoc.group>com.ffsys.docutil.asdoc</asdoc.group>
 		<asdoc.artifact>as3-doc-template</asdoc.artifact>
 		<asdoc.classifier>api-docs</asdoc.classifier>
 		<asdoc.template.name>${asdoc.artifact}-${project.version}</asdoc.template.name>
 		<asdoc.dir>${project.build.directory}/asdoc</asdoc.dir>
-		
 		<api.docs.packaging>pdf</api.docs.packaging>
-		
 		<xslt.packaging>xsl</xslt.packaging>
 		<latex.xslt>latex-asdoc-xslt</latex.xslt>
 		<latex.xslt.dir>${latex.xslt}-${project.version}</latex.xslt.dir>
 		<latex.source.dir>src/main/latex</latex.source.dir>
 		<asdoc.xslt.output>${project.build.directory}/generated-resources/xml/xslt</asdoc.xslt.output>
 	</properties>
-	
 	<dependencies>
 		<dependency>
-			<groupId>net.ju-n.maven.plugins</groupId> 
-			<artifactId>maven-checksum-plugin</artifactId> 
+			<groupId>net.ju-n.maven.plugins</groupId>
+			<artifactId>maven-checksum-plugin</artifactId>
 			<version>1.0-alpha-2</version>
 		</dependency>
 		<dependency>
@@ -80,9 +70,7 @@
 			<version>${flex.version}</version>
 			<type>pom</type>
 		</dependency>
-		
 		<!-- declared to prevent compiler style warnings when compiling unit tests -->
-		
 		<!--
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
@@ -92,9 +80,7 @@
 			<scope>external</scope>
 		</dependency>
 		-->
-			
 	</dependencies>
-	
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ffsys-mvn</id>
@@ -106,7 +92,7 @@
 		<repository>
 			<id>ffsys-mvn</id>
 			<name>Freeform Systems Repository</name>
-			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>			
+			<url>scp://freeformsystems.com/usr/local/sonatype-work/nexus/storage/releases</url>
 		</repository>
 	</distributionManagement>
 	<scm>
@@ -162,9 +148,31 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>buildnumber-maven-plugin</artifactId>
-			<version>1.0-beta-5-SNAPSHOT</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<id>clean-latex-sources</id>
+						<phase>pre-clean</phase>
+						<configuration>
+							<tasks>
+								<delete failonerror="false" includeemptydirs="true" verbose="true">
+									<fileset dir="src/main/latex" excludes="${git.ignore}"/>
+								</delete>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.0-beta-5</version>
 				<executions>
 					<execution>
 						<id>get-scm-revision</id>
@@ -188,8 +196,8 @@
 						<configuration>
 							<doCheck>false</doCheck>
 							<doUpdate>false</doUpdate>
-							<buildNumberPropertyName>build.number</buildNumberPropertyName>							
-		<buildNumberPropertiesFileLocation>${build.number.file}</buildNumberPropertiesFileLocation>
+							<buildNumberPropertyName>build.number</buildNumberPropertyName>
+							<buildNumberPropertiesFileLocation>${build.number.file}</buildNumberPropertiesFileLocation>
 							<format>{0,number}</format>
 							<items>
 								<item>buildNumber</item>
@@ -225,7 +233,6 @@
 						<version>${flex.version}</version>
 						<type>pom</type>
 					</dependency>
-					
 					<!--		
 					<dependency>
 						<groupId>com.adobe.flex.compiler</groupId>
@@ -235,7 +242,6 @@
 						<type>zip</type>
 					</dependency>
 					-->
-					
 				</dependencies>
 				<extensions>true</extensions>
 				<configuration>
@@ -251,22 +257,18 @@
 					<configurationReport>true</configurationReport>
 					<sizeReportAttach>true</sizeReportAttach>
 					<generateAbstractSyntaxTree>true</generateAbstractSyntaxTree>
-					
 					<mainTitle>Freeform Core</mainTitle>
 					<windowTitle>Freeform Core</windowTitle>
 					<excludeClasses>
 						<class>TestRunner</class>
-					</excludeClasses>				
-					
+					</excludeClasses>
 					<packageDescriptions>
 						<package>
 							<name>com.ffsys.core</name>
 							<value>Common interfaces used by other packages</value>
 						</package>
 					</packageDescriptions>
-					
 				</configuration>
-				
 				<!--
 				<executions>
 					<execution>
@@ -281,7 +283,6 @@
 					</execution>
 				</executions>
 				-->
-							
 			</plugin>
 		</plugins>
 	</build>
@@ -292,13 +293,29 @@
 				<property>
 					<name>asdoc</name>
 				</property>
-	            <file>
-	                <exists>${project.build.sourceDirectory}</exists>
-	            </file>
-			</activation>			
+				<file>
+					<exists>${project.build.sourceDirectory}</exists>
+				</file>
+			</activation>
 			<modules>
 				<module>api-docs</module>
 			</modules>
 		</profile>
-	</profiles>	
+	</profiles>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changes-plugin</artifactId>
+				<version>2.1</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>changes-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
