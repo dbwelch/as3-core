@@ -18,7 +18,7 @@
 			}
 			/////	
 
-			var aString = "A string value";
+			var message = "A string value";
 		
 			function mult( a, b )
 			{
@@ -26,11 +26,25 @@
 			}
 		
 			var o = {
-				func: function()
+				point: function( x, y )
 				{
-					alert( "function declared on object" );
+					return "function declared on object " + x + " || " + y;
 				}
 			}
+			
+			var f = function()
+			{
+				this.a = function()
+				{
+					return "a";
+				}	
+				this.b = function()
+				{
+					return "b";
+				}
+			}
+			
+			var x = new f();
 		
 			function init()
 			{	

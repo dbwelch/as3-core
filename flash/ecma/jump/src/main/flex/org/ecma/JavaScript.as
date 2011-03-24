@@ -4,9 +4,6 @@ package org.ecma
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;	
 	
-	import flash.net.navigateToURL;
-	import flash.net.URLRequest;
-	
 	/**
 	* 	Represents a bridge between Actionscript and
 	* 	Javascript.
@@ -15,6 +12,9 @@ package org.ecma
 	{
 		private var _parent:JavaScript = null;
 		private var _name:String = null;
+		
+		private var _methodName:String;
+		private var _methodArgs:Array;
 		
 		/**
 		* 	Creates a <code>JavaScript</code> instance.
@@ -35,7 +35,27 @@ package org.ecma
 		*/
 		public function valueOf():*
 		{
-			return getVariable( this );
+			if( _methodName != null )
+			{
+				if( _parent == null )
+				{
+					return invoke( _methodName, _methodArgs );
+				}else
+				{				
+					var path:String = toString();
+					var js:String = path + "." + _methodName
+						+ "("
+						+ quoteArgs( _methodArgs )
+						+ ");"
+						
+					trace("JavaScript::()call nested: ", js );
+						
+					return eval( js );
+				}
+			}else
+			{
+				return getVariable( this );
+			}
 		}
 		
 		/**
@@ -98,6 +118,22 @@ package org.ecma
 		/**
 		* 	@private
 		*/
+		internal function setMethodName( name:String ):void
+		{
+			_methodName = name;
+		}
+		
+		/**
+		* 	@private
+		*/
+		internal function setMethodArgs( args:Array ):void
+		{
+			_methodArgs = args;
+		}
+		
+		/**
+		* 	@private
+		*/
 		private function quote( value:* ):*
 		{
 			if( value is String )
@@ -105,6 +141,23 @@ package org.ecma
 				return "\"" + value + "\"";
 			}
 			return value;
+		}
+		
+		/**
+		* 	@private
+		*/
+		private function quoteArgs( args:Array ):String
+		{
+			var output:String = "";
+			for( var i:int = 0;i < args.length;i++ )
+			{
+				output += quote( args[ i ] );
+				if( i < ( args.length - 1 ) )
+				{
+					output += ", ";
+				}
+			}
+			return output;
 		}
 		
 		/**
@@ -119,7 +172,6 @@ package org.ecma
 					args = [];
 				}
 				args.unshift( method );
-				//trace("JavaScript::invoke()", args );
 				return ExternalInterface.call.apply( null, args );
 			}
 		}
@@ -133,6 +185,7 @@ package org.ecma
 		*/
 	    override flash_proxy function hasProperty( name:* ):Boolean
 		{
+			//TODO
 			return false;
 	    }
 		
@@ -181,13 +234,10 @@ package org.ecma
 		*/
 		override flash_proxy function callProperty( methodName:*, ...args ):*
 		{
-			//no parent - top level function
-			if( _parent == null )
-			{
-				return invoke( methodName, args );
-			}else{
-				//TODO
-			}
+			var js:JavaScript = new JavaScript( _parent, _name );
+			js.setMethodName( methodName );
+			js.setMethodArgs( args );
+			return js;
 		}
 		
 		/**

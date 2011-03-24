@@ -17,9 +17,9 @@ package org.ecma
 			super();
 			
 			//retrieve and set an existing custom variable
-			trace( "eval (aString:before): " + js.aString.valueOf() );
-			js.aString = "A new value";
-			trace( "eval (aString:after): " + js.aString.valueOf() );
+			trace( "js.message: " + js.message.valueOf() );
+			js.message = "A new value";
+			trace( "js.message: " + js.message.valueOf() );
 			
 			//retrieve a pre-defined variable
 			trace("document.location.href: ", js.document.location.href.valueOf() );
@@ -30,11 +30,18 @@ package org.ecma
 			trace( "eval (aNewVar:after): ", aNewVar, getQualifiedClassName( aNewVar ) );
 			
 			//invoke a top-level custom function
-			trace("mult(3,4):", js.mult( 3, 4 ) );
+			trace("mult( 3, 4 ):", js.mult( 3, 4 ).valueOf() );
 			
-			//js.alert( "wahoo" );
-			//js.func();
-			//js.o.func();
+			//invoke a nested function
+			trace( "js.o.point( 10, 10 ): ", js.o.point( 10, 10 ).valueOf() );
+			
+			trace("x.a(): ", js.x.a().valueOf() );
+			trace("x.b(): ", js.x.b().valueOf() );
+			
+			//trace("::::", js.document.getElementById( "wrapper" ).valueOf() );
+			
+			//show an alert
+			//js.alert( "This is an actionscript alert." ).valueOf();
 		}
 	}
 }
