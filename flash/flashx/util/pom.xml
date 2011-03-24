@@ -14,7 +14,6 @@
 	<url>http://as3.freeformsystems.com</url>
 	<modules>
 		<module>array</module>
-		<module>assert</module>
 		<module>boolean</module>
 		<module>byte</module>	
 		<module>collections</module>

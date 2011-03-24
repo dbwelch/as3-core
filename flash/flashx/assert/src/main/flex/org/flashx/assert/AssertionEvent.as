@@ -1,4 +1,4 @@
-package org.flashx.utils.assert {
+package org.flashx.assert {
 	
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;

@@ -1,4 +1,4 @@
-package org.flashx.utils.assert {
+package org.flashx.assert {
 	
 	import org.flashx.errors.AbstractError;
 	

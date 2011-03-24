@@ -1,4 +1,4 @@
-package org.flashx.utils.assert {
+package org.flashx.assert {
 	
 	/**
 	*	Common type for all elements of the

@@ -1,4 +1,4 @@
-package org.flashx.utils.assert {
+package org.flashx.assert {
 	
 	/**
 	*	Represents a pass for an individual assertion.

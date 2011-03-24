@@ -9,7 +9,7 @@
 *	<code>Assertion</code>. When using dependency injection you can configure the assertion instance
 *	to be a singleton instance otherwise you could declare the assertion as a static member.
 */
-package org.flashx.utils.assert {
+package org.flashx.assert {
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
