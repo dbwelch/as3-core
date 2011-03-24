@@ -23,7 +23,6 @@
 		<module>identifier</module>
 		<module>inspector</module>
 		<module>locale</module>
-		<module>merge</module>
 		<module>number</module>
 		<module>object</module>
 		<module>page</module>
