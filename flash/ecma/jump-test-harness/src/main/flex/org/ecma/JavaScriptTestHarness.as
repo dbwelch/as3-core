@@ -25,10 +25,11 @@ package org.ecma
 			var href:String = js.document.location.href.valueOf()
 			trace("document.location.href: ", href );
 			
-			//assign a new non-existent variable and retrieve the value
-			js.aNewVar = 123;
-			var aNewVar:* = js.aNewVar.valueOf();
-			trace( "eval (aNewVar:after): ", aNewVar, getQualifiedClassName( aNewVar ) );
+			//assign a new non-existent variable and retrieve the value			
+			js.integer = 10;
+			var integer:int = js.integer.valueOf();			
+			
+			trace( "js.integer: ", integer, getQualifiedClassName( integer ) );
 			
 			//invoke a top-level custom function
 			trace("mult( 3, 4 ):", js.mult( 3, 4 ).valueOf() );
