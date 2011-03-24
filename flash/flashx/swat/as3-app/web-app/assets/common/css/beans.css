@@ -1,6 +1,0 @@
-application {
-	instance-class: class( com.ffsys.swat.as3.view.ApplicationController );
-	singleton: true;
-	my-locale: ref( locales );
-	my-preloader-view: ref( preloader-view );
-}
