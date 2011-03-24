@@ -23,9 +23,7 @@
 		<module>graphics</module>		
 		<module>layout</module>
 		<module>loaders</module>
-		<module>runtime</module>
 		<module>scrollbars</module>
-		<!-- <module>suite</module> -->
 		<module>tooltips</module>
 		<module>text</module>
 		<module>text-core</module>

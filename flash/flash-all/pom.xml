@@ -52,22 +52,6 @@
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.ffsys.flashx.io</groupId>
-			<artifactId>xml</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-				
-		<!--		
-		<dependency>
-			<groupId>com.ffsys.flashx</groupId>
-			<artifactId>swat</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		-->
-		
 		<!-- utils -->
 		<dependency>
 			<groupId>com.ffsys.flashx.util</groupId>

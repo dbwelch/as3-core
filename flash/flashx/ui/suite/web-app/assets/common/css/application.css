@@ -1,5 +1,0 @@
-application {
-	instance-class: class( org.flashx.ui.suite.core.ComponentSuiteController );
-	singleton: true;
-	configuration: ref( configuration );
-}

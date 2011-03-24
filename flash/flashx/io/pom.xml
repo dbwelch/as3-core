@@ -23,6 +23,5 @@
 		<module>core</module>
 		<module>loaders</module>
 		<module>log</module>
-		<module>xml</module>
 	</modules>
 </project>

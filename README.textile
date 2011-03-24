@@ -1,6 +1,6 @@
 h1. Actionscript 3 Libraries
 
-These are the Actionscript 3 libraries by Freeform Systems, this source tree uses "maven":http://maven.apache.org for the build process.
+Actionscript 3 libraries by Freeform Systems, this source tree uses "maven":http://maven.apache.org for the build process.
 
 h2. Maven Builds
 
@@ -11,15 +11,15 @@ You need to configure your maven settings to point to our public repository so t
 You can then simply declare a dependency in your POM on any of the artifacts in this repository. For example:
 
 bc. <dependency>
-	<groupId>com.ffsys.flashx</groupId>
-	<artifactId>core</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<groupId>com.ffsys.flashx.ecma</groupId>
+	<artifactId>ecma-jump</artifactId>
+	<version>0.1</version>
 	<type>swc</type>
 </dependency>
 
 h2. Library Overview
 
-A brief list of some of the libraries available in this repository, this information is not considered normative but is a brief guide
+An overview of some of the libraries available in this repository, this information is not considered normative but is a brief guide
 to the source tree.
 
 h3. Jump
