@@ -1,7 +1,5 @@
 package org.flashx.ui.dom
 {
-	//import org.flashx.io.xml.IParser;
-
 	/**
 	*	Describes the contract for implementations that
 	* 	wish to be notified of the <code>XML</code> that defined

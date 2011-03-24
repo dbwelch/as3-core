@@ -9,7 +9,6 @@
 	<groupId>com.ffsys.flashx.io</groupId>
 	<artifactId>xml</artifactId>
 	<version>0.1-SNAPSHOT</version>
-	<name>xml</name>
 	<packaging>swc</packaging>
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>

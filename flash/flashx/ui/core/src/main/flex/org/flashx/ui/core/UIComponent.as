@@ -13,8 +13,6 @@ package org.flashx.ui.core
 	
 	import org.flashx.ioc.*;	
 	
-	import org.flashx.io.xml.IParser;
-	
 	import org.flashx.ui.common.*;
 	import org.flashx.ui.css.*;
 	import org.flashx.ui.dom.*;
