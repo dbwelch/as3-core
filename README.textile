@@ -42,7 +42,7 @@ h4. Accessing variables
 An example of retrieving a pre-defined variable:
 
 bc. import org.ecma.js;
-trace("document.location.href: ", js.document.location.href.valueOf() );
+var href:String = js.document.location.href.valueOf();
 
 h4. Invoke a nested function definition
 

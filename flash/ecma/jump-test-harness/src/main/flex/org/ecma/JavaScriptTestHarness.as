@@ -22,7 +22,8 @@ package org.ecma
 			trace( "js.message: " + js.message.valueOf() );
 			
 			//retrieve a pre-defined variable
-			trace("document.location.href: ", js.document.location.href.valueOf() );
+			var href:String = js.document.location.href.valueOf()
+			trace("document.location.href: ", href );
 			
 			//assign a new non-existent variable and retrieve the value
 			js.aNewVar = 123;
