@@ -16,7 +16,6 @@ package org.flashx.core {
 	*	method of the composite instance(s) should be invoked when
 	*	<code>destroy</code> is invoked.
 	*	
-	*	@see com.ffsys.core.Destroyer
 	*	@see com.ffsys.core.IDestroyListeners
 	*	@see com.ffsys.core.IDispose
 	*	@see com.ffsys.io.core.IClose

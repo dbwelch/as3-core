@@ -7,8 +7,6 @@ package org.flashx.core {
 	*	This allows the instance to become eligible for
 	*	garbage collection provided there are no other
 	*	references to the instance.
-	*	
-	*	@see com.ffsys.core.Destroyer
 	*
 	*	@langversion ActionScript 3.0
 	*	@playerversion Flash 9.0

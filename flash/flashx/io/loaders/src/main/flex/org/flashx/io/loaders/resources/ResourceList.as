@@ -1,7 +1,5 @@
 package org.flashx.io.loaders.resources {
 	
-	import org.flashx.core.Destroyer;
-	
 	/**
 	*	Encapsulates a list of available resources.
 	*

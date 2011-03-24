@@ -3,8 +3,7 @@ package org.flashx.core {
 	/**
 	*	Describes the contract for instances that can
 	*	dispose of encapsulated <code>BitmapData</code>.
-	*	
-	*	@see com.ffsys.core.Destroyer
+	*
 	*	@see com.ffsys.io.loaders.resources.ImageResource
 	*
 	*	@langversion ActionScript 3.0
