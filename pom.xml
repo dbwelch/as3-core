@@ -80,14 +80,19 @@
 			<version>${flex.version}</version>
 			<type>pom</type>
 		</dependency>
+		
 		<!-- declared to prevent compiler style warnings when compiling unit tests -->
+		
+		<!--
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>spark</artifactId>
 			<type>swc</type>
 			<version>${flex.version}</version>
 			<scope>external</scope>
-		</dependency>	
+		</dependency>
+		-->
+			
 	</dependencies>
 	
 	<distributionManagement>
@@ -280,7 +285,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 	<profiles>
 		<profile>
 			<id>asdoc</id>
@@ -288,7 +292,10 @@
 				<property>
 					<name>asdoc</name>
 				</property>
-			</activation>
+	            <file>
+	                <exists>${project.build.sourceDirectory}</exists>
+	            </file>
+			</activation>			
 			<modules>
 				<module>api-docs</module>
 			</modules>
