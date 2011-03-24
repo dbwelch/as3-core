@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.flash.beads</groupId>
+		<groupId>com.ffsys.flashx.beads</groupId>
 		<artifactId>beads-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.beads</groupId>
+	<groupId>com.ffsys.flashx.beads</groupId>
 	<artifactId>beads-application</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>beads-application</name>
@@ -15,14 +15,14 @@
 	<dependencies>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.beads</groupId>
+			<groupId>com.ffsys.flashx.beads</groupId>
 			<artifactId>beads-swc</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
@@ -30,7 +30,7 @@
 		
 		<!--
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>dom</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
@@ -38,37 +38,37 @@
 		-->
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>net</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.java.beans</groupId>
+			<groupId>com.ffsys.flashx.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>swat</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>buttons</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>css</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

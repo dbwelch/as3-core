@@ -11,11 +11,41 @@ You need to configure your maven settings to point to our public repository so t
 You can then simply declare a dependency in your POM on any of the artifacts in this repository. For example:
 
 bc. <dependency>
-	<groupId>com.ffsys.flash.flashx</groupId>
+	<groupId>com.ffsys.flashx</groupId>
 	<artifactId>core</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<type>swc</type>
 </dependency>
+
+h2. Library Overview
+
+A brief list of some of the libraries available in this repository, this information is not considered normative but is a brief guide
+to the source tree.
+
+h3. Jump
+
+A lightweight bridge for executing javascript from actionscript. The API is exposed via the top-level _js_ object, for example:
+
+bc. import org.ecma.js;
+trace("document.location.href: ", js.document.location.href.valueOf() );
+
+Supports accessing javascript variable values, setting existing (and defining new) javascript variables, invoking top-level function definitions and invoking functions on a nested object graph.
+
+h4. Invoke a nested function definition
+
+Given the javascript:
+
+bc. var o = {
+	point: function( x, y )
+	{
+		return "function declared on object " + x + " || " + y;
+	}
+}
+
+The _point_ method could be invoked from actionscript with:
+
+bc. import org.ecma.js;
+js.o.point( 10, 10 ).valueOf();
 
 h2. License
 

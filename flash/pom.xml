@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>flash-parent</artifactId>
-		<groupId>com.ffsys.flash</groupId>
+		<groupId>com.ffsys.flashx</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash</groupId>
+	<groupId>com.ffsys.flashx</groupId>
 	<artifactId>flash-core-parent</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>

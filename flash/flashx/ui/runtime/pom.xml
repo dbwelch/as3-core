@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>ui</artifactId>
-		<groupId>com.ffsys.flash.flashx</groupId>
+		<groupId>com.ffsys.flashx</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.flashx.ui</groupId>
+	<groupId>com.ffsys.flashx.ui</groupId>
 	<artifactId>runtime</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>runtime</name>
@@ -15,70 +15,70 @@
 	<dependencies>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.java.beans</groupId>
+			<groupId>com.ffsys.flashx.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>common</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>controls</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>			
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>ui-core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>css</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>text</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>	
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>scrollbars</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>			
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
+			<groupId>com.ffsys.flashx.io</groupId>
 			<artifactId>loaders</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
+			<groupId>com.ffsys.flashx.io</groupId>
 			<artifactId>xml</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

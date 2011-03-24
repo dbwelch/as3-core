@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.flash</groupId>
+		<groupId>com.ffsys.flashx</groupId>
 		<artifactId>flash-core-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.flashx</groupId>
+	<groupId>com.ffsys.flashx</groupId>
 	<artifactId>flash-all</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>
@@ -20,13 +20,13 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>core</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>effects</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
@@ -34,32 +34,26 @@
 		
 		<!-- io -->
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
-			<artifactId>connection</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
+			<groupId>com.ffsys.flashx.io</groupId>
 			<artifactId>io-core</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>				
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
+			<groupId>com.ffsys.flashx.io</groupId>
 			<artifactId>loaders</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
+			<groupId>com.ffsys.flashx.io</groupId>
 			<artifactId>log</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
+			<groupId>com.ffsys.flashx.io</groupId>
 			<artifactId>xml</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
@@ -67,7 +61,7 @@
 				
 		<!--		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>swat</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
@@ -76,127 +70,127 @@
 		
 		<!-- utils -->
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>array</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>assert</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>boolean</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>byte</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>collections</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>display</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>geo</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>history</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>identifier</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>inspector</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>locale</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>number</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>object</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>page</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>primitives</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>properties</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>random</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>regex</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>string</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>substitution</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>xml</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>

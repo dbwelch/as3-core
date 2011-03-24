@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.flash.w3c.impl</groupId>
+		<groupId>com.ffsys.flashx.w3c.impl</groupId>
 		<artifactId>fluid-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.w3c.impl</groupId>
+	<groupId>com.ffsys.flashx.w3c.impl</groupId>
 	<artifactId>fluid-swc</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>fluid-swc</name>
@@ -20,14 +20,14 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.ffsys.flash.w3c.impl</groupId>
+			<groupId>com.ffsys.flashx.w3c.impl</groupId>
 			<artifactId>dom-core-impl</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.flash.flashx</groupId>
+		<groupId>com.ffsys.flashx</groupId>
 		<artifactId>ui</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.flashx.ui</groupId>
+	<groupId>com.ffsys.flashx.ui</groupId>
 	<artifactId>css</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>css</name>
@@ -14,67 +14,67 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>core</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.java.beans</groupId>
+			<groupId>com.ffsys.flashx.java.beans</groupId>
 			<artifactId>java-beans-ioc</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx</groupId>
+			<groupId>com.ffsys.flashx</groupId>
 			<artifactId>effects</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>primitives</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>properties</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>string</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>substitution</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>common</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>graphics</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.ui</groupId>
+			<groupId>com.ffsys.flashx.ui</groupId>
 			<artifactId>layout</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.io</groupId>
+			<groupId>com.ffsys.flashx.io</groupId>
 			<artifactId>loaders</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>

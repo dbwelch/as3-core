@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.flash.flashx</groupId>
+		<groupId>com.ffsys.flashx</groupId>
 		<artifactId>flashx-parent</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.flashx.util</groupId>
+	<groupId>com.ffsys.flashx.util</groupId>
 	<artifactId>flashx-util</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>flashx-util</name>

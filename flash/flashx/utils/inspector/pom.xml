@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ffsys.flash.flashx.util</groupId>
+		<groupId>com.ffsys.flashx.util</groupId>
 		<artifactId>flashx-util</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.ffsys.flash.flashx.util</groupId>
+	<groupId>com.ffsys.flashx.util</groupId>
 	<artifactId>inspector</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>inspector</name>
@@ -14,25 +14,25 @@
 	<url>http://as3.freeformsystems.com</url>
 	<dependencies>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>array</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>object</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>		
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>string</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>com.ffsys.flash.flashx.util</groupId>
+			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>identifier</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<type>swc</type>
