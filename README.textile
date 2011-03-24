@@ -24,7 +24,7 @@ to the source tree.
 
 h3. Jump
 
-A lightweight bridge for executing javascript from actionscript.
+A "lightweight bridge":https://github.com/freeformsystems/as3-core/tree/dom/flash/ecma/jump for executing javascript from actionscript.
 
 Supports accessing javascript variable values, setting existing (and defining new) javascript variables, invoking top-level function definitions and invoking functions on a nested object graph.
 
