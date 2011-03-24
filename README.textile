@@ -24,7 +24,11 @@ to the source tree.
 
 h3. Jump
 
-A lightweight bridge for executing javascript from actionscript. The API is exposed via the top-level _js_ object, for example:
+A lightweight bridge for executing javascript from actionscript.
+
+h4. Accessing variables
+
+The API is exposed via the top-level _js_ object, for example:
 
 bc. import org.ecma.js;
 trace("document.location.href: ", js.document.location.href.valueOf() );
