@@ -42,8 +42,6 @@ package org.flashx.utils.array {
 			length:int,
 			multiply:Boolean = false ):Array
 		{
-			//CONFIG::debug { trace("We are running in DEBUG mode"); }
-			
 			var output:Array = new Array();
 			var i:int = 0;
 			var val:Object;
@@ -76,6 +74,8 @@ package org.flashx.utils.array {
 			source:Array, value:Object ):Boolean
 		{
 			//--> refactor to use Array.indexOf()
+			
+			//CONFIG::debug { trace("We are running in DEBUG mode"); }	
 			
 			if( source )
 			{			

@@ -243,7 +243,13 @@
 					<windowTitle>Freeform Core</windowTitle>
 					<excludeClasses>
 						<class>TestRunner</class>
-					</excludeClasses>					
+					</excludeClasses>
+					<defines> 
+						<property><name>CONFIG::debug</name><value>${compiler.debug}</value></property>
+						<property><name>BUILD::buildNumber</name><value>${buildNumber}</value></property> 
+						<property><name>BUILD::timestamp</name><value>${timestamp}</value></property> 
+						<property><name>BUILD::mavenVersion</name><value>"${project.version}"</value></property>
+					</defines>										
 				</configuration>
 			</plugin>
 		</plugins>
