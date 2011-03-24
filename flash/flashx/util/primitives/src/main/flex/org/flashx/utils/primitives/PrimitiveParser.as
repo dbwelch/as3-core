@@ -1,6 +1,5 @@
 package org.flashx.utils.primitives {
 	
-	import org.flashx.utils.boolean.BooleanUtils;
 	import org.flashx.utils.string.StringTrim;
 	
 	/**
@@ -76,9 +75,9 @@ package org.flashx.utils.primitives {
 			}else if( value == UNDEFINED )
 			{
 				return undefined;
-			}else if( BooleanUtils.stringIsBoolean( value ) )
+			}else if( value == "true" || value == "false"  )
 			{
-				return BooleanUtils.stringToBoolean( value );
+				return value == "true" ? true : false;
 			}
 			
 			var numericValue:Number = Number( value );

@@ -21,24 +21,6 @@ package org.flashx.utils.regex {
 			super();
 		}
 		
-		/*
-		public function testRegexContains():void
-		{
-			TestUtils.startOutput( this );
-			
-			var clean:String = "clean test string";
-			
-			Assert.assertTrue( RegexUtils.contains( "{}" ) );
-			Assert.assertFalse( RegexUtils.contains( clean ) );
-			
-			//if the character contains a preceeding blackslash
-			//the meta character is considered already escaped
-			Assert.assertFalse( RegexUtils.contains( "\\{" ) );
-			
-			TestUtils.endOutput( this );
-		}
-		*/
-		
 		[Test]
 		public function testRegexEscape():void
 		{

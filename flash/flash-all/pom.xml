@@ -46,22 +46,17 @@
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.ffsys.flashx</groupId>
+			<artifactId>assert</artifactId>
+			<type>swc</type>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>		
+		
 		<!-- utils -->
 		<dependency>
 			<groupId>com.ffsys.flashx.util</groupId>
 			<artifactId>array</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>assert</artifactId>
-			<type>swc</type>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ffsys.flashx.util</groupId>
-			<artifactId>boolean</artifactId>
 			<type>swc</type>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
