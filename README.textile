@@ -26,14 +26,23 @@ h3. Jump
 
 A lightweight bridge for executing javascript from actionscript.
 
+Supports accessing javascript variable values, setting existing (and defining new) javascript variables, invoking top-level function definitions and invoking functions on a nested object graph.
+
+The API is exposed via the top-level _js_ object and all execution is performed by appending a call to the _valueOf()_ method.
+
+Note that only references to simple types are possible, so attempting to access a complex object will fail, for example the following is invalid:
+
+bc. import org.ecma.js;
+var o:Object = js.document.getElementById( "wrapper" ).valueOf();
+
+As the return value will be _null_.
+
 h4. Accessing variables
 
-The API is exposed via the top-level _js_ object, for example:
+An example of retrieving a pre-defined variable:
 
 bc. import org.ecma.js;
 trace("document.location.href: ", js.document.location.href.valueOf() );
-
-Supports accessing javascript variable values, setting existing (and defining new) javascript variables, invoking top-level function definitions and invoking functions on a nested object graph.
 
 h4. Invoke a nested function definition
 
@@ -49,7 +58,14 @@ bc. var o = {
 The _point_ method could be invoked from actionscript with:
 
 bc. import org.ecma.js;
-js.o.point( 10, 10 ).valueOf();
+var result:String = js.o.point( 10, 10 ).valueOf();
+
+h4. Allocate variables
+
+bc. import org.ecma.js;
+//assign a new non-existent variable and retrieve the value
+js.integer = 10;
+var integer:int = js.integer.valueOf();
 
 h2. License
 
