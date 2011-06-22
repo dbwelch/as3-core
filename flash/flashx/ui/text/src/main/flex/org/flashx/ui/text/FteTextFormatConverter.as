@@ -9,13 +9,25 @@ package org.flashx.ui.text
 
 	public class FteTextFormatConverter extends Object
 	{
+		private var _embedFonts:Boolean;
 		
 		/**
 		* 	Creates a <code>FteTextFormatConverter</code> instance.
 		*/
-		public function FteTextFormatConverter()
+		public function FteTextFormatConverter( embedFonts:Boolean = false )
 		{
 			super();
+			this.embedFonts = embedFonts;
+		}
+		
+		public function get embedFonts():Boolean
+		{
+			return _embedFonts;
+		}
+		
+		public function set embedFonts( value:Boolean ):void
+		{
+			_embedFonts = value;
 		}
 		
 		private function displayTextBlock(
@@ -74,6 +86,12 @@ package org.flashx.ui.text
 			//font.fontName = "Arial";
 			
 			font.fontName = format.font;
+			
+			if( this.embedFonts )
+			{
+				trace("FteTextFormatConverter::getContent()", "ASSIGNING FONT LOOKUP" );
+				font.fontLookup = FontLookup.EMBEDDED_CFF;
+			}
 			
 			//TODO
 			//font.fontLookup = FontLookup.DEVICE;

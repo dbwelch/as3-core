@@ -53,8 +53,8 @@ package org.flashx.ui.text
 		public static const GUTTER_TOP:int = 3;
 		
 		//TODO: implement a common interface
-		private var _textfield:TextField;
-		private var _area:FteTextArea;
+		protected var _textfield:TextField;
+		protected var _area:FteTextArea;
 		
 		private var _textTransform:String;
 		private var _offsets:Point;
@@ -501,49 +501,7 @@ package org.flashx.ui.text
 				
 			if( fte )
 			{
-				//trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
-
-				var w:Number = 1000000;
-				
-				if( !isNaN( dimensions.preferredWidth ) )
-				{
-					w = dimensions.preferredWidth;
-				}
-				
-				if( dimensions.hasExplicitWidth() )
-				{
-					w = dimensions.innerWidth;
-				}
-				
-				//TODO :move to measure() and calculatedDimensions
-				if( dimensions.maxWidth > 0 )
-				{
-					w = dimensions.maxWidth;
-				}
-				
-				//trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
-				
-				try
-				{
-				
-					var converter:FteTextFormatConverter = new FteTextFormatConverter();
-					_area = converter.convert(
-						text,
-						getStyleCache().source.transform(),
-						w );
-				
-					//trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
-				
-					if( _area != null )
-					{
-						addChild( _area );
-					}
-				
-				}catch( e:Error )
-				{
-					// TODO
-				}
-
+				createFTETextField( text );
 			}else{			
 				if( textfield == null
 					&& text != null
@@ -582,6 +540,58 @@ package org.flashx.ui.text
 			//update the background
 			applyBackground();
 			position();		
+		}
+		
+		protected function createFTETextField( text:String ):void
+		{
+			//trace("TextComponent::set text() SET TEXT ON FTE TEXTFIELD: ", text );
+
+			var w:Number = 1000000;
+			
+			if( !isNaN( dimensions.preferredWidth ) )
+			{
+				w = dimensions.preferredWidth;
+			}
+			
+			if( dimensions.hasExplicitWidth() )
+			{
+				w = dimensions.innerWidth;
+			}
+			
+			//TODO :move to measure() and calculatedDimensions
+			if( dimensions.maxWidth > 0 )
+			{
+				w = dimensions.maxWidth;
+			}
+			
+			trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
+			
+			try
+			{
+				var tf:TextFormat = null;
+				if( getStyleCache() && getStyleCache().source )
+				{
+					tf = getStyleCache().source.transform();
+				}
+				
+				var converter:FteTextFormatConverter = new FteTextFormatConverter();
+				_area = converter.convert(
+					text,
+					tf,
+					w );
+			
+				trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
+			
+				if( _area != null )
+				{
+					addChild( _area );
+				}
+			
+			}catch( e:Error )
+			{
+				// TODO
+				throw e;
+			}
 		}
 		
 		/**
@@ -624,7 +634,6 @@ package org.flashx.ui.text
 				
 			if( _textfield is ITypedTextField )
 			{
-				
 				ITypedTextField( _textfield ).enabled = false;
 			}
 			
