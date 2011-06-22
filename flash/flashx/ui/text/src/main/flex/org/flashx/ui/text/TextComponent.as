@@ -60,6 +60,7 @@ package org.flashx.ui.text
 		private var _offsets:Point;
 		
 		private var _fte:Boolean = true;
+		private var _html:Boolean;		
 		private var _textProperties:Object = new Object();
 		
 		/**
@@ -564,7 +565,7 @@ package org.flashx.ui.text
 				w = dimensions.maxWidth;
 			}
 			
-			trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
+			//trace("TextComponent::set text()", "CREATINHG LINES WITH WIDTH: " , w );
 			
 			try
 			{
@@ -580,7 +581,7 @@ package org.flashx.ui.text
 					tf,
 					w );
 			
-				trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
+				//trace("TextComponent::set text() GOT FTE TEXT BLOCK: ", _area );
 			
 				if( _area != null )
 				{
@@ -737,7 +738,6 @@ package org.flashx.ui.text
 			}
 		}
 		
-		
 		/**
 		* 	@inheritDoc
 		*/
@@ -747,7 +747,7 @@ package org.flashx.ui.text
 			{
 				return ITypedTextField( _textfield ).html;
 			}
-			return false;
+			return _html;
 		}
 		
 		public function set html( value:Boolean ):void
@@ -766,7 +766,8 @@ package org.flashx.ui.text
 					useHandCursor = false;
 				}
 			}
-		}		
+			_html = value;
+		}
 		
 		public function get autoSize():String
 		{	
