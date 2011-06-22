@@ -13,6 +13,8 @@ package org.flashx.ui.text
 		
 		/**
 		* 	Creates a <code>FteTextFormatConverter</code> instance.
+		* 
+		* 	@param embedFonts Whether fonts are being embedded.
 		*/
 		public function FteTextFormatConverter( embedFonts:Boolean = false )
 		{
@@ -20,6 +22,9 @@ package org.flashx.ui.text
 			this.embedFonts = embedFonts;
 		}
 		
+		/**
+		* 	Whether fonts are being embedded.
+		*/
 		public function get embedFonts():Boolean
 		{
 			return _embedFonts;
@@ -89,7 +94,6 @@ package org.flashx.ui.text
 			
 			if( this.embedFonts )
 			{
-				trace("FteTextFormatConverter::getContent()", "ASSIGNING FONT LOOKUP" );
 				font.fontLookup = FontLookup.EMBEDDED_CFF;
 			}
 			
@@ -110,7 +114,7 @@ package org.flashx.ui.text
 				text, fteFormat );
 			
 			var content:Vector.<ContentElement> = new Vector.<ContentElement>();
-			content.push( txt );			
+			content.push( txt );
 			var block:TextBlock = createBlock( content );
 			return block;
 		}
