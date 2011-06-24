@@ -95,6 +95,7 @@ package org.flashx.ui.text
 			if( this.embedFonts )
 			{
 				font.fontLookup = FontLookup.EMBEDDED_CFF;
+				font.renderingMode = RenderingMode.CFF;
 			}
 			
 			//TODO
@@ -107,6 +108,14 @@ package org.flashx.ui.text
 			fteFormat.color = uint( format.color );
 			//if (!vertical) 
 			//fteFormat.textRotation = TextRotation.ROTATE_0;
+			
+			/*
+			trace("FteTextFormatConverter::getContent()",
+				fteFormat.fontDescription,
+				fteFormat.fontDescription.fontName,
+				fteFormat.fontDescription.fontLookup,
+				fteFormat.fontDescription.renderingMode );
+			*/
 			
 			//trace("FteTextFormatConverter::getContent() LINE BREAK OPPURTUNITY: ", fteFormat.breakOpportunity );
 			
